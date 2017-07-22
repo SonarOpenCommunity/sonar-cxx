@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -40,12 +41,13 @@ public class CxxValgrindSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxValgrindSensor(CxxLanguage language) {
-    super(language);
+  public CxxValgrindSensor(CxxLanguage language, Settings settings) {
+    super(language, settings);
   }
 
-  protected String reportPathKey() {
-    return REPORT_PATH_KEY;
+  @Override
+  public String getReportPathKey() {
+    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override

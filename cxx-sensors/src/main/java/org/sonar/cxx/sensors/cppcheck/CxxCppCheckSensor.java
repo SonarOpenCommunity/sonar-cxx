@@ -27,6 +27,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -48,15 +49,15 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxCppCheckSensor(CxxLanguage language) {
-    super(language);
+  public CxxCppCheckSensor(CxxLanguage language, Settings settings) {
+    super(language, settings);
     parsers.add(new CppcheckParserV2(this));
     parsers.add(new CppcheckParserV1(this));
   }
 
   @Override
-  protected String reportPathKey() {
-    return REPORT_PATH_KEY;
+  public String getReportPathKey() {
+    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override

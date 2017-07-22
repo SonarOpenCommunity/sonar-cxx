@@ -21,6 +21,7 @@
 package org.sonar.cxx.sensors.clangsa;
 
 import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
+import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import java.io.File;
 import static org.fest.assertions.Assertions.assertThat;
@@ -32,56 +33,60 @@ import static org.mockito.Mockito.when;
 
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.Settings;
 import org.sonar.cxx.CxxLanguage;
 
 public class CxxClangSASensorTest {
 
   private DefaultFileSystem fs;
+  private CxxLanguage language;
+  private Settings settings;
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-  }
+    settings = new Settings();
+    language = TestUtils.mockCxxLanguage();
+    when(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxClangSASensor.REPORT_PATH_KEY);
+    when(language.IsRecoveryEnabled()).thenReturn(true);
+    }
 
   @Test
   public void shouldIgnoreIssuesIfResourceNotFound() {
-    SensorContextTester context = SensorContextTester.create(new File("src/samples/SampleProject2"));
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxClangSASensor.REPORT_PATH_KEY))
-            .thenReturn(new String [] { fs.baseDir().getAbsolutePath() + "/clangsa-reports/clangsa-empty.plist" });
-    when(language.IsRecoveryEnabled()).thenReturn(true);
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
-    CxxClangSASensor sensor = new CxxClangSASensor(language);
+    settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY), "clangsa-reports/clangsa-empty.plist");
+    context.setSettings(settings);
+
+    CxxClangSASensor sensor = new CxxClangSASensor(language, settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
-    SensorContextTester context = SensorContextTester.create(new File("src/samples/SampleProject2"));
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxClangSASensor.REPORT_PATH_KEY))
-            .thenReturn(new String [] { fs.baseDir().getAbsolutePath() + "/clangsa-reports/clangsa-report.plist" });
-    when(language.IsRecoveryEnabled()).thenReturn(true);
+    settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY), "clangsa-reports/clangsa-report.plist");
+    context.setSettings(settings);
 
-    CxxClangSASensor sensor = new CxxClangSASensor(language);
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "src/lib/component1.cc").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+
+    CxxClangSASensor sensor = new CxxClangSASensor(language, settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(2);
   }
 
   @Test
   public void invalidReportReportsNoIssues() {
-    SensorContextTester context = SensorContextTester.create(new File("src/samples/SampleProject2"));
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxClangSASensor.REPORT_PATH_KEY))
-            .thenReturn(new String [] { fs.baseDir().getAbsolutePath() + "/clangsa-reports/clangsa-empty.plist" });
-    when(language.IsRecoveryEnabled()).thenReturn(true);
-
-    CxxClangSASensor sensor = new CxxClangSASensor(language);
+    settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY), "clangsa-reports/clangsa-reportXYZ.plist");
+    context.setSettings(settings);
+    
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "src/lib/component1.cc").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+
+    CxxClangSASensor sensor = new CxxClangSASensor(language, settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }

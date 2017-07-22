@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -52,9 +53,10 @@ public class CxxCompilerSensor extends CxxReportSensor {
 
   /**
    * {@inheritDoc}
+   * @param settings for report sensor
    */
-  public CxxCompilerSensor(CxxLanguage language) {
-    super(language);
+  public CxxCompilerSensor(CxxLanguage language, Settings settings) {
+    super(language, settings);
   
     addCompilerParser(new CxxCompilerVcParser());
     addCompilerParser(new CxxCompilerGccParser());
@@ -72,11 +74,13 @@ public class CxxCompilerSensor extends CxxReportSensor {
    * @return CompilerParser
    */
   protected CompilerParser getCompilerParser() {
-    String parserKey = this.language.getStringOption(PARSER_KEY_DEF);
-    CompilerParser parser = parsers.get(parserKey);
+    String parserValue = this.settings.getString(this.language.getPluginProperty(PARSER_KEY_DEF));
+    CompilerParser parser = parsers.get(parserValue);
     if (parser == null) {
-      parser = parsers.get(DEFAULT_PARSER_DEF);
+      parserValue = language.getPluginProperty(language.getPluginProperty(DEFAULT_PARSER_DEF));
+      parser = parsers.get(parserValue);
     }
+    LOG.info("C-Compiler parser: '{}'", parserValue);
     return parser;
   }
 
@@ -86,8 +90,8 @@ public class CxxCompilerSensor extends CxxReportSensor {
   }
   
   @Override
-  protected String reportPathKey() {
-    return REPORT_PATH_KEY;
+  public String getReportPathKey() {
+    return language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   /**
@@ -99,7 +103,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
    * @return Value of the property if set and not empty, else default value.
    */
   public String getParserStringProperty(String name, String def) {
-    String s = this.language.getStringOption(name);
+    String s = this.settings.getString(name);
     if (s == null || s.isEmpty()) {
       return def;
     }
@@ -110,8 +114,8 @@ public class CxxCompilerSensor extends CxxReportSensor {
   protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
     final CompilerParser parser = getCompilerParser();
-    final String reportCharset = getParserStringProperty(REPORT_CHARSET_DEF, parser.defaultCharset());
-    final String reportRegEx = getParserStringProperty(REPORT_REGEX_DEF, parser.defaultRegexp());
+    final String reportCharset = getParserStringProperty(this.language.getPluginProperty(REPORT_CHARSET_DEF), parser.defaultCharset());
+    final String reportRegEx = getParserStringProperty(this.language.getPluginProperty(REPORT_REGEX_DEF), parser.defaultRegexp());
     final List<CompilerParser.Warning> warnings = new LinkedList<>();
 
     // Iterate through the lines of the input file

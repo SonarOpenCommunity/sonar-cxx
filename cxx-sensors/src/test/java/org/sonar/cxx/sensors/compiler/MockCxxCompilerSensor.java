@@ -36,6 +36,7 @@ import org.mockito.stubbing.Answer;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.cxx.CxxLanguage;
 
 public class MockCxxCompilerSensor extends CxxCompilerSensor {
@@ -69,8 +70,8 @@ public class MockCxxCompilerSensor extends CxxCompilerSensor {
     return compileParser;
   }
 
-  public MockCxxCompilerSensor(CxxLanguage language, FileSystem fs, RulesProfile profile, List<CompilerParser.Warning> warningsToProcess) {
-    super(language);
+  public MockCxxCompilerSensor(CxxLanguage language, Settings settings, FileSystem fs, RulesProfile profile, List<CompilerParser.Warning> warningsToProcess) {
+    super(language, settings);
 
     warnings = warningsToProcess;
     savedWarnings = new LinkedList<>();

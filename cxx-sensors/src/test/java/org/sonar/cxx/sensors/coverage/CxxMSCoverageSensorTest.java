@@ -33,7 +33,7 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.coverage.CoverageType;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.utils.Version;
+import org.sonar.api.config.Settings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -47,23 +47,23 @@ public class CxxMSCoverageSensorTest {
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-
     language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(new String [] { "coverage-reports/MSCoverage/MSCoverage.xml" });
-    when(language.getStringArrayOption(CxxCoverageSensor.REPORT_PATHS_KEY)).thenReturn(new String [] { "coverage-reports/MSCoverage/MSCoverage.xml" });
-    when(language.getStringOption(CxxCoverageSensor.REPORT_PATHS_KEY)).thenReturn("coverage-reports/MSCoverage/MSCoverage.xml");
-    when(language.getStringOption(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn("coverage-reports/MSCoverage/MSCoverage.xml");
-    when(language.hasKey(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(true);
-    when(language.hasKey(CxxCoverageSensor.REPORT_PATHS_KEY)).thenReturn(true);
-    
-    context = SensorContextTester.create(fs.baseDir());
-    context.fileSystem().add(new DefaultInputFile("ProjectKey", "source/motorcontroller/motorcontroller.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-    context.fileSystem().add(new DefaultInputFile("ProjectKey", "source/rootfinder/rootfinder.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-    
+    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY)).thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
+    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
   }
 
  @Test
   public void shouldReportCorrectCoverage() {
+    context = SensorContextTester.create(fs.baseDir());
+
+    Settings settings = new Settings();
+    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
+    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
+    context.setSettings(settings);
+
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "source/motorcontroller/motorcontroller.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "source/rootfinder/rootfinder.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context, linesOfCodeByFile);
     assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", CoverageType.UNIT, 20)).isEqualTo(1);

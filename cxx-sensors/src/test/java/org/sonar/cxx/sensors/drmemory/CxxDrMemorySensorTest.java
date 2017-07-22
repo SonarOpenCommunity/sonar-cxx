@@ -28,26 +28,33 @@ import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.Settings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxDrMemorySensorTest {
 
   private DefaultFileSystem fs;
+  private CxxLanguage language;
+  private Settings settings;
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
+    settings = new Settings();
+    language = TestUtils.mockCxxLanguage();
+    when(language.getPluginProperty(CxxDrMemorySensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxDrMemorySensor.REPORT_PATH_KEY);
   }
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxDrMemorySensor.REPORT_PATH_KEY)).thenReturn(new String[] {"drmemory-reports/drmemory-result-SAMPLE-V1.txt"});    
-    
+
+    settings.setProperty(language.getPluginProperty(CxxDrMemorySensor.REPORT_PATH_KEY), "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
+    context.setSettings(settings);
+
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    CxxDrMemorySensor sensor = new CxxDrMemorySensor(language);
+    CxxDrMemorySensor sensor = new CxxDrMemorySensor(language, settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
   }

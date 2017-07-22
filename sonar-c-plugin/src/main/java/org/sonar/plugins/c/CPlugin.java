@@ -607,13 +607,13 @@ public final class CPlugin implements Plugin {
     
   public static class CxxRatsSensorImpl extends CxxRatsSensor {
     public CxxRatsSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
+      super(new CLanguage(settings), settings);      
     }
   }
   
   public static class CxxXunitSensorImpl extends CxxXunitSensor {
     public CxxXunitSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
+      super(new CLanguage(settings), settings);      
     }
   }
   
@@ -625,54 +625,54 @@ public final class CPlugin implements Plugin {
   
   public static class CxxCppCheckSensorImpl extends CxxCppCheckSensor {
     public CxxCppCheckSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
+      super(new CLanguage(settings), settings);      
     }
   } 
   
   public static class CxxPCLintSensorImpl extends CxxPCLintSensor {
     public CxxPCLintSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
+      super(new CLanguage(settings), settings);      
     }
   } 
   
   public static class CxxDrMemorySensorImpl extends CxxDrMemorySensor {
     public CxxDrMemorySensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
+      super(new CLanguage(settings), settings);      
     }
   } 
   
   public static class CxxCompilerSensorImpl extends CxxCompilerSensor {
     public CxxCompilerSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
+      super(new CLanguage(settings), settings);      
     }
   } 
   
   public static class CxxVeraxxSensorImpl extends CxxVeraxxSensor {
     public CxxVeraxxSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
+      super(new CLanguage(settings), settings);      
     }
   }  
 
   public static class CxxValgrindSensorImpl extends CxxValgrindSensor {
     public CxxValgrindSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
+      super(new CLanguage(settings), settings);      
     }
   }
             
   public static class CxxClangTidySensorImpl extends CxxClangTidySensor {
     public CxxClangTidySensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
+      super(new CLanguage(settings), settings);      
     }
   }  
 
   public static class CxxClangSASensorImpl extends CxxClangSASensor {
     public CxxClangSASensorImpl(Settings settings) {
-      super(new CLanguage(settings));
+      super(new CLanguage(settings), settings);
     }
   }
   public static class CxxExternalRulesSensorImpl extends CxxOtherSensor {
     public CxxExternalRulesSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
+      super(new CLanguage(settings), settings);      
     }
   } 
   public static class CxxUnitTestResultsImportSensorImpl extends CxxUnitTestResultsImportSensor {

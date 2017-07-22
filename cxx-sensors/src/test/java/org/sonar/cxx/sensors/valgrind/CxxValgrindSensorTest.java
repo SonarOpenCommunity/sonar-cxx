@@ -32,6 +32,7 @@ import org.junit.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.Settings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -39,12 +40,15 @@ public class CxxValgrindSensorTest {
 
   private CxxValgrindSensor sensor;
   private DefaultFileSystem fs;
+  private CxxLanguage language;
+  private Settings settings;
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    CxxLanguage language = TestUtils.mockCxxLanguage();    
-    sensor = new CxxValgrindSensor(language);
+    settings = new Settings();
+    language = TestUtils.mockCxxLanguage();
+    sensor = new CxxValgrindSensor(language, settings);
   }
 
   @Test

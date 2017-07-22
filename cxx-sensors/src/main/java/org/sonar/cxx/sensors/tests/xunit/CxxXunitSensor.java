@@ -36,6 +36,7 @@ import org.sonar.api.utils.ParsingUtils;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -57,13 +58,14 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(CxxLanguage language) {
-    super(language);    
+  public CxxXunitSensor(CxxLanguage language, Settings settings) {
+    super(language, settings);
     xsltURL = language.getStringOption(XSLT_URL_KEY);
   }
 
-  protected String reportPathKey() {
-    return REPORT_PATH_KEY;
+  @Override
+  public String getReportPathKey() {
+    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override
@@ -85,7 +87,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     LOG.debug("Root module imports test metrics: Module Key = '{}'", context.module());    
     
     try {
-      List<File> reports = getReports(this.language, context.fileSystem().baseDir(), REPORT_PATH_KEY);
+      List<File> reports = getReports(context.settings(), context.fileSystem().baseDir(), getReportPathKey());
       if (!reports.isEmpty()) {
         XunitReportParser parserHandler = parseReport(reports);
         List<TestCase> testcases = parserHandler.getTestCases();

@@ -28,23 +28,24 @@ import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-
+import org.sonar.api.config.Settings;
 import org.sonar.cxx.CxxLanguage;
 
 public class CxxReportSensorTest {
 
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
+  private final String VALID_REPORT_PATH_LIST = "cppcheck-reports/*V1.xml, cppcheck-reports/*V2.xml";
   private final String INVALID_REPORT_PATH = "something";
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
 
-  private CxxReportSensor sensor;
   private File baseDir;
   private static FileSystem fs;
+  private Settings settings;
 
   private class CxxReportSensorImpl extends CxxReportSensor {
 
-    public CxxReportSensorImpl(CxxLanguage language, FileSystem fs) {
-      super(language);
+    public CxxReportSensorImpl(CxxLanguage language, Settings settings) {
+      super(language, settings);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class CxxReportSensorTest {
     }
 
     @Override
-    protected String reportPathKey() {
+    public String getReportPathKey() {
       return "test.report";
     }
 
@@ -70,8 +71,7 @@ public class CxxReportSensorTest {
   @Before
   public void init() {
     fs = TestUtils.mockFileSystem();
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    sensor = new CxxReportSensorImpl(language, fs);
+    settings = new Settings();
     try {
       baseDir = new File(getClass().getResource("/org/sonar/cxx/sensors/reports-project/").toURI());
     } catch (java.net.URISyntaxException e) {
@@ -82,47 +82,49 @@ public class CxxReportSensorTest {
   @Test
   public void shouldntThrowWhenInstantiating() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    new CxxReportSensorImpl(language, fs);
+    
+    new CxxReportSensorImpl(language, settings);
   }
 
   @Test
   public void getReports_shouldFindNothingIfNoKey() {    
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_PROPERTY_KEY)).thenReturn(new String[] { INVALID_REPORT_PATH });
-    List<File> reports = CxxReportSensor.getReports(language, baseDir, "");
+    TestUtils.mockCxxLanguage();
+    settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
+
+    List<File> reports = CxxReportSensor.getReports(settings, baseDir, "");
     assertNotFound(reports);
   }
 
   @Test
   public void getReports_shouldFindNothingIfNoPath() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_PROPERTY_KEY)).thenReturn(new String[] { "" });    
-    List<File> reports = CxxReportSensor.getReports(language, baseDir, REPORT_PATH_PROPERTY_KEY);
+    TestUtils.mockCxxLanguage();
+    settings.setProperty(REPORT_PATH_PROPERTY_KEY, "");
+    List<File> reports = CxxReportSensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
     assertNotFound(reports);
   }
 
   @Test
   public void getReports_shouldFindNothingIfInvalidPath() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_PROPERTY_KEY)).thenReturn(new String[] { INVALID_REPORT_PATH });    
-    List<File> reports = CxxReportSensor.getReports(language, baseDir, REPORT_PATH_PROPERTY_KEY);
+    TestUtils.mockCxxLanguage();
+    settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
+    List<File> reports = CxxReportSensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
     assertNotFound(reports);
   }
 
   @Test
   public void getReports_shouldFindSomething() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_PROPERTY_KEY)).thenReturn(new String[] { VALID_REPORT_PATH });        
-    List<File> reports = CxxReportSensor.getReports(language, baseDir, REPORT_PATH_PROPERTY_KEY);
+    TestUtils.mockCxxLanguage();
+    settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
+    List<File> reports = CxxReportSensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
     assertFound(reports);
     assert (reports.size() == 6);
   }
 
   @Test
   public void getReports_shouldFindSomethingList() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_PROPERTY_KEY)).thenReturn(new String[] { "cppcheck-reports/*V1.xml", "cppcheck-reports/*V2.xml" });            
-    List<File> reports = CxxReportSensor.getReports(language, baseDir, REPORT_PATH_PROPERTY_KEY);
+    TestUtils.mockCxxLanguage();
+    settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH_LIST);
+    List<File> reports = CxxReportSensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
     assertFound(reports);
     assert (reports.size() == 5);
   }

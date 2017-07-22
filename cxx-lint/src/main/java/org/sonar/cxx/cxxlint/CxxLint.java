@@ -260,7 +260,7 @@ public class CxxLint {
                   char first = Character.toUpperCase(ruleProp.key().charAt(0));
                   Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{value});
                   try {
-                  stmt.execute();
+                    stmt.execute();
                   } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -277,7 +277,7 @@ public class CxxLint {
                   char first = Character.toUpperCase(ruleProp.key().charAt(0));
                   Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{cleanData});
                   try {
-                  stmt.execute();
+                    stmt.execute();
                   } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

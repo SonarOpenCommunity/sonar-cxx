@@ -872,7 +872,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         if (triviaToken != null) {
           String comment = triviaToken.getValue();
           if (LOG.isTraceEnabled()) {
-          LOG.trace("Doc: {}\n", comment);
+            LOG.trace("Doc: {}\n", comment);
           }
           if (isDoxygenCommentBlock(comment)
             && !isDoxygenInlineComment(comment)) {
