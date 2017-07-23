@@ -66,8 +66,17 @@ public class CxxMSCoverageSensorTest {
 
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context, linesOfCodeByFile);
-    assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", CoverageType.UNIT, 20)).isEqualTo(1);
-    assertThat(context.lineHits("ProjectKey:source/rootfinder/rootfinder.cpp", CoverageType.UNIT, 23)).isEqualTo(1);
+    
+    int[] oneHitlinesA = new int[] {12, 14, 16, 19, 20, 21, 23, 25, 26, 27, 28};
+    for (int oneHitline : oneHitlinesA) {
+      assertThat(context.lineHits("ProjectKey:source/rootfinder/rootfinder.cpp", CoverageType.UNIT, oneHitline)).isEqualTo(1);
+    }
+
+    int[] oneHitlinesB = new int[] {9, 10, 11, 14, 15, 16, 19, 20, 21, 24, 25, 26, 29, 30, 31};
+    for (int oneHitline : oneHitlinesB) {
+      assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", CoverageType.UNIT, oneHitline)).isEqualTo(1);
+    }
+
   }
 
 }

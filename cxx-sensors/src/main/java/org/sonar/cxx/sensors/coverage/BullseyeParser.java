@@ -31,6 +31,7 @@ import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.StaxParser;
@@ -233,10 +234,9 @@ public class BullseyeParser extends CxxCoverageParser {
   }
 
   private String ensureRefPathIsCorrect(@Nullable String refPath) {
-    if (refPath == null || refPath.isEmpty() || refPath.endsWith(File.separator)) {
+    if (refPath == null || refPath.isEmpty() || refPath.endsWith("\\") || refPath.endsWith("/")) {
       return refPath;
     }
-
     return refPath + File.separatorChar;
   }
 }

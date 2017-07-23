@@ -180,15 +180,30 @@ public class CxxCoverageSensorTest {
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY), true);
     context.setSettings(settings);
 
-    context.fileSystem().add(new DefaultInputFile("ProjectKey", "project1/source1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "project2/source1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "project2/source2.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
 
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context, linesOfCodeByFile);
 
-    assertThat(context.lineHits("ProjectKey:project1/source1.cpp", CoverageType.UNIT, 4)).isEqualTo(0);
-    assertThat(context.lineHits("ProjectKey:project2/source1.cpp", CoverageType.UNIT, 4)).isEqualTo(1);
-    assertThat(context.lineHits("ProjectKey:project2/source2.cpp", CoverageType.UNIT, 4)).isEqualTo(1);
+    
+    int[] oneHitlinesA = new int[] {4, 5, 6, 8, 13, 15, 16, 25};
+    int[] zeroHitlinesA = new int[] {9, 10, 22,23};
+    for (int zeroHitline : zeroHitlinesA) {
+      assertThat(context.lineHits("ProjectKey:project2/source1.cpp", CoverageType.UNIT, zeroHitline)).isEqualTo(0);
+    }
+    for (int oneHitline : oneHitlinesA) {
+      assertThat(context.lineHits("ProjectKey:project2/source1.cpp", CoverageType.UNIT, oneHitline)).isEqualTo(1);
+    }
+
+    int[] oneHitlinesB = new int[] {4, 5, 6, 8, 9, 10, 13, 21, 25};
+    int[] zeroHitlinesB = new int[] {15, 16, 22, 23};
+    for (int zeroHitline : zeroHitlinesB) {
+      assertThat(context.lineHits("ProjectKey:project2/source2.cpp", CoverageType.UNIT, zeroHitline)).isEqualTo(0);
+    }
+    for (int oneHitline : oneHitlinesB) {
+      assertThat(context.lineHits("ProjectKey:project2/source2.cpp", CoverageType.UNIT, oneHitline)).isEqualTo(1);
+    }
+
   }
 }
