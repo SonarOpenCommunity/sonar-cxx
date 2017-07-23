@@ -307,33 +307,39 @@ public class CxxCoverageSensor extends CxxReportSensor {
     CoverageType ctype) {
     for (Map.Entry<String, CoverageMeasures> entry : coverageMeasures.entrySet()) {
       String filePath = PathUtils.sanitize(entry.getKey());
-      InputFile cxxFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(filePath));
-      if (cxxFile != null) {
+      if (filePath!= null) {
+        InputFile cxxFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(filePath));
+        if (cxxFile != null) {
+          
+          NewCoverage newCoverage = context.newCoverage()
+                    .onFile(cxxFile)        
+                    .ofType(ctype);
         
-        NewCoverage newCoverage = context.newCoverage()
-                  .onFile(cxxFile)        
-                  .ofType(ctype);
-      
-        Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
-        }
-        for (CoverageMeasure measure : measures) {
-          checkLineCoverage(newCoverage, measure);
-          checkConditionCoverage(newCoverage, measure);
-        }
-
-        try {
-          newCoverage.save();
-        } catch(RuntimeException ex) {
-          LOG.error("Cannot save measure for file '{}' , ignoring measure. ", filePath, ex);
-          CxxUtils.validateRecovery(ex, this.language);
+          Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
+          }
+          for (CoverageMeasure measure : measures) {
+            checkLineCoverage(newCoverage, measure);
+            checkConditionCoverage(newCoverage, measure);
+          }
+  
+          try {
+            newCoverage.save();
+          } catch(RuntimeException ex) {
+            LOG.error("Cannot save measure for file '{}' , ignoring measure. ", filePath, ex);
+            CxxUtils.validateRecovery(ex, this.language);
+          }
+        } else {
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+          }
         }
       } else {
         if (LOG.isDebugEnabled()) {
-          LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+          LOG.debug("Cannot find the sanitize file path '{}'", entry.getKey());
         }
-      }       
+      }
     }
   }
 
