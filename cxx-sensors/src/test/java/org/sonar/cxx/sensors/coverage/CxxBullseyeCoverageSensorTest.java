@@ -53,8 +53,8 @@ public class CxxBullseyeCoverageSensorTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY))
-    .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
+//    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY))
+//    .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY))
     .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY))
@@ -63,6 +63,11 @@ public class CxxBullseyeCoverageSensorTest {
     .thenReturn("sonar.cxx." + CxxCoverageSensor.OVERALL_REPORT_PATH_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY))
     .thenReturn("sonar.cxx." + CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY);
+
+    //    when(language.hasKey(CxxCoverageSensor.REPORT_PATHS_KEY)).thenReturn(true);
+    when(language.hasKey(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(true);
+    when(language.hasKey(CxxCoverageSensor.IT_REPORT_PATH_KEY)).thenReturn(true);
+    when(language.hasKey(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY)).thenReturn(true);
   }
 
 //  @Test
@@ -74,9 +79,10 @@ public class CxxBullseyeCoverageSensorTest {
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY), coverageReport);
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY), coverageReport);
-    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), coverageReport);
-    context.setSettings(settings);
+//    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), coverageReport);
 
+    
+    context.setSettings(settings);
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "source_1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "src/testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
@@ -105,7 +111,7 @@ public class CxxBullseyeCoverageSensorTest {
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY), coverageReport);
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY), coverageReport);
-    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), coverageReport);
+//    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), coverageReport);
     context.setSettings(settings);
 
 
@@ -144,7 +150,7 @@ public class CxxBullseyeCoverageSensorTest {
 
     Settings settings = new Settings();
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
-    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), coverageReport);
+//    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), coverageReport);
     context.setSettings(settings);
 
     if (TestUtils.isWindows()) {

@@ -67,7 +67,11 @@ public class CxxCoverageSensor extends CxxReportSensor {
   // Configuration properties for SQ 6.2
   public static final Version SQ_6_2 = Version.create(6, 2);
   private boolean isSQ_6_2_or_newer;
-  public static final String REPORT_PATHS_KEY = "coverage.reportPaths";
+
+  // ToDo - cleanup reportPath properties 
+  // a) deprecate old feature ant style search 
+  // b) support comma separated list of coverage files
+  //public static final String REPORT_PATHS_KEY = "coverage.reportPaths";
 
   private final List<CoverageParser> parsers = new LinkedList<>();
   private final CxxCoverageCache cache;
@@ -422,9 +426,10 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
   @Override
   public String getReportPathKey() {
-    if (isSQ_6_2_or_newer) {
-      return this.language.getPluginProperty(REPORT_PATHS_KEY);
-    }
+// ToDo - Support new style
+//    if (isSQ_6_2_or_newer) {
+//      return this.language.getPluginProperty(REPORT_PATHS_KEY);
+//    }
     return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 

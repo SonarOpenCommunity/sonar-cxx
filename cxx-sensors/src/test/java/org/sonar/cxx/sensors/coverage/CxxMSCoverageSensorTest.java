@@ -48,7 +48,7 @@ public class CxxMSCoverageSensorTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY)).thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
+//    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY)).thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
   }
 
@@ -57,7 +57,7 @@ public class CxxMSCoverageSensorTest {
     context = SensorContextTester.create(fs.baseDir());
 
     Settings settings = new Settings();
-    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
+//    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
     context.setSettings(settings);
 

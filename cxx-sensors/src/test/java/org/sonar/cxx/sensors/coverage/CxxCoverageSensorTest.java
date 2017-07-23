@@ -62,8 +62,8 @@ public class CxxCoverageSensorTest {
   public void shouldReportCorrectCoverageForAllTypesOfCoverage() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY))
-    .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
+//    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY))
+//    .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY))
     .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY))
@@ -143,14 +143,14 @@ public class CxxCoverageSensorTest {
   public void shouldReportNoCoverageWhenInvalidFilesInvalid() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY))
-    .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
+//    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY))
+//    .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY))
     .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY))
     .thenReturn("sonar.cxx." + CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY);
 
-    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
+    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
     context.setSettings(settings);
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n"));
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
@@ -168,14 +168,14 @@ public class CxxCoverageSensorTest {
   public void shouldReportCoverageWhenVisualStudioCase() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY))
-    .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
+//    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY))
+//    .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY))
     .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY))
     .thenReturn("sonar.cxx." + CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY);
 
-    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio.xml");
+//    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio.xml");
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio.xml");
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY), true);
     context.setSettings(settings);

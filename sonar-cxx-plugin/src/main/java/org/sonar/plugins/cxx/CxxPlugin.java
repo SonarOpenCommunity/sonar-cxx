@@ -74,8 +74,10 @@ import com.google.common.collect.ImmutableList;
  * {@inheritDoc}
  */
 public final class CxxPlugin implements Plugin {
-  private static final String USE_ANT_STYLE_WILDCARDS = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
-  private static final String EXTENDING_THE_CODE_ANALYSIS = " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.";
+  private static final String USE_ANT_STYLE_WILDCARDS = 
+      " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
+  private static final String EXTENDING_THE_CODE_ANALYSIS = 
+      " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.";
   public static final String LANG_PROP_PREFIX = "sonar.cxx.";
   public static final String SOURCE_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.sources";
   public static final String HEADER_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.headers";
@@ -394,7 +396,7 @@ public final class CxxPlugin implements Plugin {
     ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
     if (sonarQubeVersion.isGreaterThanOrEqual(CxxCoverageSensor.SQ_6_2)) {
       properties.add(
-          PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.REPORT_PATHS_KEY)
+          PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.REPORT_PATH_KEY)
             .name("Unit test coverage report(s)")
             .description("List of paths to reports containing unit test coverage data, relative to projects root."
               + " The values are separated by commas."
