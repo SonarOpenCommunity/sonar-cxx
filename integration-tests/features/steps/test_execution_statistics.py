@@ -234,9 +234,9 @@ def _restApiGet(url):
         return response
     except requests.exceptions.RequestException as e:
         if response.text:
-            assert False, "error _restApiGet: %s -> %s, %s" % url % str(e) % response.text
+            assert False, "error _restApiGet: %s -> %s, %s" % (url, str(e), response.text)
         else:
-            assert False, "error _restApiGet: %s -> %s" % url % str(e)
+            assert False, "error _restApiGet: %s -> %s" % (url, str(e))
 
 def _restApiSet(url, payload):
     try:
@@ -245,15 +245,15 @@ def _restApiSet(url, payload):
         return response
     except requests.exceptions.RequestException as e:
         if response.text:
-            assert False, "error _restApiSet: %s -> %s, %s" % url % str(e) % response.text
+            assert False, "error _restApiSet: %s -> %s, %s" % (url, str(e), response.text)
         else:
-            assert False, "error _restApiSet: %s -> %s" % url % str(e)
+            assert False, "error _restApiSet: %s -> %s" % (url, str(e))
 
 def _getJson(response):
     try:
         return response.json()
     except ValueError as e:
-        assert False, "error _getJson: %s, %s" % str(e) % response.text
+        assert False, "error _getJson: %s, %s" % (str(e), response.text)
 
 def _expMeasuresToDict(measures):
     def convertvalue(value):

@@ -1,5 +1,7 @@
 language: java
 
+dist: precise
+
 jdk:
         - oraclejdk8
 
@@ -10,11 +12,12 @@ env:
         - SONARHOME=/tmp/sonarqube-6.2   SONARAPI=SqApi62
         - SONARHOME=/tmp/sonarqube-6.3.1 SONARAPI=SqApi62
         - SONARHOME=/tmp/sonarqube-6.4   SONARAPI=SqApi62
+        - SONARHOME=/tmp/sonarqube-6.5-RC1 SONARAPI=SqApi62
 
 matrix:
     fast_finish: true
-#    allow_failures:
-#        - env: SONARHOME=/tmp/sonarqube-6.4 SONARAPI=SqApi62
+    allow_failures:
+        - env: SONARHOME=/tmp/sonarqube-6.5-RC1 SONARAPI=SqApi62
 
 # shorten the VM hostname with the new workaround
 # https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913
@@ -51,6 +54,8 @@ install:
         - unzip -qq sonarqube-6.3.1.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.4.zip
         - unzip -qq sonarqube-6.4.zip
+        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.5-RC1.zip
+        - unzip -qq sonarqube-6.5-RC1.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.0.3.778.zip
         - unzip -qq sonar-scanner-cli-3.0.3.778.zip
         - /tmp/sonar-scanner-3.0.3.778/bin/sonar-scanner --version
