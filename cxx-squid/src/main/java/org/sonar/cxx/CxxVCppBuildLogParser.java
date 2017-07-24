@@ -93,6 +93,7 @@ public class CxxVCppBuildLogParser {
   * @param charsetName
   */
   public void parseVCppLog(File buildLog, String baseDir, String charsetName) {
+    boolean detectedPlatform = false;
     try (FileInputStream input = new FileInputStream(buildLog)) {
       BufferedReader br = new BufferedReader(new InputStreamReader(input, charsetName));
       String line;
@@ -133,7 +134,7 @@ public class CxxVCppBuildLogParser {
         }
         // match "bin\CL.exe", "bin\amd64\CL.exe", "bin\x86_amd64\CL.exe"
         if (line.matches("^.*\\\\bin\\\\.*CL.exe\\x20.*$")) {
-          setPlatformToolsetFromLine(line);
+          detectedPlatform= setPlatformToolsetFromLine(line);
           String[] allElems = line.split("\\s+");
           String data = allElems[allElems.length - 1];
           parseCLParameters(line, currentProjectPath, data);
@@ -143,39 +144,39 @@ public class CxxVCppBuildLogParser {
     } catch (IOException ex) {
       LOG.error("Cannot parse build log", ex);
     }
+    if (!detectedPlatform) {
+      LOG.info("Could not assign VS platform toolset - use default: {}", platformToolset);
+    }
   }
 
   /**
    * setPlatformToolsetFromLine
    * @param line - which contains "cl.exe" string
    */
-  private void setPlatformToolsetFromLine(String line) {
-    boolean detectedPlatform = false;
+  private boolean setPlatformToolsetFromLine(String line) {
     if (line.contains("\\V100\\Microsoft.CppBuild.targets") || 
         line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V100");
-      detectedPlatform = true;
+      return true;
     } else if (line.contains("\\V110\\Microsoft.CppBuild.targets") || 
                line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V110");
-      detectedPlatform = true;
+      return true;
     } else if (line.contains("\\V120\\Microsoft.CppBuild.targets") || 
                line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V120");
-      detectedPlatform = true;
+      return true;
     } else if (line.contains("\\V140\\Microsoft.CppBuild.targets") || 
                line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe") ||
                line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")) {
       setPlatformToolset("V140");
-      detectedPlatform = true;
+      return true;
     } else if (line.contains("\\V141\\Microsoft.CppBuild.targets") || 
                line.matches("^.*VC\\\\Tools\\\\MSVC\\\\14.10.*\\\\bin\\\\HostX..\\\\x..\\\\CL.exe.*$")) {
       setPlatformToolset("V141");
-      detectedPlatform = true;
+      return true;
     }
-    if (!detectedPlatform) {
-      LOG.error("Could not assign VS platform toolset - use default: {}", platformToolset);
-    }
+    return false;
   }
 
   /**

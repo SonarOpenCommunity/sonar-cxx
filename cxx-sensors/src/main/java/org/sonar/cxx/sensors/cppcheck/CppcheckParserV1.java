@@ -85,8 +85,7 @@ public class CppcheckParserV1 implements CppcheckParser {
             }
           }
         } catch (RuntimeException e) {
-          LOG.debug("processReport failed {}", e);
-          throw new XMLStreamException();
+          throw new XMLStreamException("processReport failed", e);
         }
       }
 

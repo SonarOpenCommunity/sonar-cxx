@@ -100,9 +100,9 @@ public class CxxPCLintSensor extends CxxReportSensor {
                 // have been created in the rule repository
                 if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008") 
                    || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
-                  id = mapMisraRulesToUniqueSonarRules(msg, false);
+                  id = mapMisraRulesToUniqueSonarRules(msg, Boolean.FALSE);
                 } else if (msg.contains("MISRA 2012 Rule")){
-                  id = mapMisraRulesToUniqueSonarRules(msg, true);
+                  id = mapMisraRulesToUniqueSonarRules(msg, Boolean.TRUE);
                 }
               }
               saveUniqueViolation(context, CxxPCLintRuleRepository.KEY,

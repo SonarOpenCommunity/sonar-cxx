@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.coverage;
 
 import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
-import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
 import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -31,9 +30,6 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.junit.Before;
-import org.junit.Test;
-
-
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;

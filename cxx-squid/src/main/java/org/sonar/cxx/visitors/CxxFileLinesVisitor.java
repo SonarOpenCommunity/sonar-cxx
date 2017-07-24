@@ -29,7 +29,6 @@ import com.sonar.sslr.api.Trivia;
 
 import static com.sonar.sslr.api.GenericTokenType.EOL;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,7 +38,6 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.api.measures.Metric;
 import org.sonar.api.utils.Version;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.SquidAstVisitor;

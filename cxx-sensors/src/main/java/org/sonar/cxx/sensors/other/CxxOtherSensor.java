@@ -141,7 +141,7 @@ public class CxxOtherSensor extends CxxReportSensor {
 
       if (goOn) {
         if (LOG.isDebugEnabled()) {
-          LOG.debug("Converting " + stylesheet + " with " + inputs.toString() + " to " + outputs.toString() + ".");
+          LOG.debug("Converting " + stylesheet + " with " + inputs + " to " + outputs + ".");
         }
         File stylesheetFile = new File(stylesheet);
         if (stylesheetFile.isAbsolute()) {
@@ -152,11 +152,6 @@ public class CxxOtherSensor extends CxxReportSensor {
   }
 
   private boolean checkInput(String inputKey, String outputKey, List<File> inputs, List<String> outputs) {
-    if (inputs.size() != outputs.size()) {
-      LOG.error("Number of source XML files is not equal to the the number of output files.");
-      return false;
-    } 
-
     if ((inputs == null) || (inputs.isEmpty())) {
       LOG.error(inputKey + " file is not defined.");
       return false;
@@ -166,6 +161,12 @@ public class CxxOtherSensor extends CxxReportSensor {
       LOG.error(outputKey + " is not defined.");
       return false;
       }
+
+    if (inputs.size() != outputs.size()) {
+      LOG.error("Number of source XML files is not equal to the the number of output files.");
+      return false;
+    } 
+
     return true;
   }
 
