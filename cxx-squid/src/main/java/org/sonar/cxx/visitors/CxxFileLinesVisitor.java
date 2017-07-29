@@ -87,9 +87,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       String[] tokenLines = token.getValue().split("\n", -1);
       for (int line = token.getLine(); line < token.getLine() + tokenLines.length; line++) {
         linesOfCode.add(line);
-//        if (!token.isGeneratedCode()) {
         executableLines.add(line);
-//        }
       }
     }
 
