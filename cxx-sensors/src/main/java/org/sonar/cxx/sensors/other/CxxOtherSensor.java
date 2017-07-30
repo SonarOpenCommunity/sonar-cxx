@@ -122,7 +122,7 @@ public class CxxOtherSensor extends CxxReportSensor {
       String outputKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY);
 
       if (stylesheetKey==null) {
-        LOG.error(stylesheetKey + " is not defined.");
+        LOG.error("'{}' is not defined.", OTHER_XSLT_KEY + i + STYLESHEET_KEY);
         break;
       }
       String stylesheet = resolveFilename(baseDir.getAbsolutePath(), context.settings().getString(stylesheetKey));
