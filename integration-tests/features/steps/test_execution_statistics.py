@@ -67,15 +67,48 @@ TEST_METRICS_ORDER = [
 def step_impl(context, project):
     assert os.path.isdir(os.path.join(TESTDATADIR, project))
     context.project = project
+    context.profile_key = None
+ 
+    url = (SONAR_URL + "/api/qualityprofiles/search")
+    response = _restApiGet(url)
+    profiles = _getJson(response)["profiles"]
+    data = _gotKeyFromQualityProfile(profiles)
+    default_profile_key = None
+    for key, name in data.iteritems():
+        if name == "Sonar way - c++":
+            default_profile_key = key
+
+    url = (SONAR_URL + "/api/qualityprofiles/set_default")
+    payload = {'profileKey': default_profile_key}
+    _restApiSet(url, payload)
+
+    copy_profile_key = None
+    for key, name in data.iteritems():
+        if name == "Sonar way copy - c++":
+            copy_profile_key = key
+
+    if copy_profile_key:      
+        url = (SONAR_URL + "/api/qualityprofiles/delete")
+        payload = {'profileKey': copy_profile_key}
+        _restApiSet(url, payload)
+    
+    url = (SONAR_URL + "/api/qualityprofiles/copy")
+    payload = {'fromKey': default_profile_key, 'toName': 'Sonar way copy'}
+    _restApiSet(url, payload)
+
     url = (SONAR_URL + "/api/qualityprofiles/search")
     response = _restApiGet(url)
     profiles = _getJson(response)["profiles"]
     data = _gotKeyFromQualityProfile(profiles)
     for key, name in data.iteritems():
-        if name == "Sonar way - c++":
+        if name == "Sonar way copy - c++":
             context.profile_key = key
 
+    url = (SONAR_URL + "/api/qualityprofiles/set_default")
+    payload = {'profileKey': context.profile_key}
+    _restApiSet(url, payload)
 
+    
 @given(u'platform is not "{plat}"')
 def step_impl(context, plat):
     if platform.system() == plat:
@@ -227,24 +260,26 @@ def step_impl(context):
 
 def _restApiGet(url):
     try:
-        response = requests.get(url, timeout=10, auth=HTTPBasicAuth('admin', 'admin'))
+        response = None
+        response = requests.get(url, timeout=60, auth=HTTPBasicAuth('admin', 'admin'))
         response.raise_for_status()
         if not response.text:
             assert False, "error _restApiGet: no response %s" % url
         return response
     except requests.exceptions.RequestException as e:
-        if response.text:
+        if response and response.text:
             assert False, "error _restApiGet: %s -> %s, %s" % (url, str(e), response.text)
         else:
             assert False, "error _restApiGet: %s -> %s" % (url, str(e))
 
 def _restApiSet(url, payload):
     try:
-        response = requests.post(url, payload, timeout=10, auth=HTTPBasicAuth('admin', 'admin'))
+        response = None
+        response = requests.post(url, payload, timeout=60, auth=HTTPBasicAuth('admin', 'admin'))
         response.raise_for_status()
         return response
     except requests.exceptions.RequestException as e:
-        if response.text:
+        if response and response.text:
             assert False, "error _restApiSet: %s -> %s, %s" % (url, str(e), response.text)
         else:
             assert False, "error _restApiSet: %s -> %s" % (url, str(e))
