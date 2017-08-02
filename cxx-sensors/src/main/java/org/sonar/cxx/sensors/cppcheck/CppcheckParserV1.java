@@ -57,7 +57,7 @@ public class CppcheckParserV1 implements CppcheckParser {
         try {
           rootCursor.advance(); // results
         } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
-          throw new EmptyReportException(); 
+          throw new EmptyReportException("Cannot read cppcheck report (format V1)", eofExc); 
         }
 
         try {
@@ -85,8 +85,7 @@ public class CppcheckParserV1 implements CppcheckParser {
             }
           }
         } catch (RuntimeException e) {
-          LOG.debug("processReport failed {}", e);
-          throw new XMLStreamException();
+          throw new XMLStreamException("processReport failed", e);
         }
       }
 

@@ -57,7 +57,8 @@ public class FileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAnd
     "{", "}", "(", ")", "[", "]"
   );
 
-  public FileLinesVisitor(FileLinesContextFactory fileLinesContextFactory, FileSystem fileSystem, Map<InputFile, Set<Integer>> linesOfCode) {
+  public FileLinesVisitor(FileLinesContextFactory fileLinesContextFactory, FileSystem fileSystem,
+                          Map<InputFile, Set<Integer>> linesOfCode) {
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.fileSystem = fileSystem;
     this.allLinesOfCode = linesOfCode;

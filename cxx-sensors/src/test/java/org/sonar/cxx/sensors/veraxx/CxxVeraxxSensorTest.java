@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.veraxx;
 
+import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
@@ -29,32 +30,39 @@ import static org.mockito.Mockito.when;
 
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.Settings;
 import org.sonar.cxx.CxxLanguage;
 
 public class CxxVeraxxSensorTest {
 
   private DefaultFileSystem fs;
+  private CxxLanguage language;
+  private Settings settings;
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-  }
+    settings = new Settings();
+    language = TestUtils.mockCxxLanguage();
+    when(language.getPluginProperty(CxxVeraxxSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxVeraxxSensor.REPORT_PATH_KEY);
+    when(language.IsRecoveryEnabled()).thenReturn(true);
+    }
 
   @Test
   public void shouldReportCorrectViolations() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxVeraxxSensor.REPORT_PATH_KEY))
-            .thenReturn(new String[] { "vera++-reports/vera++-result-*.xml" });    
-    when(language.IsRecoveryEnabled()).thenReturn(true);
-    CxxVeraxxSensor sensor = new CxxVeraxxSensor(language);
-    
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/tests/SAMPLE-test.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/tests/SAMPLE-test.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/tests/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+
+    settings.setProperty(language.getPluginProperty(CxxVeraxxSensor.REPORT_PATH_KEY), "vera++-reports/vera++-result-*.xml");
+    context.setSettings(settings);
+    
+    CxxVeraxxSensor sensor = new CxxVeraxxSensor(language, settings);
+    
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/tests/SAMPLE-test.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/tests/SAMPLE-test.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/tests/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(10);
   }

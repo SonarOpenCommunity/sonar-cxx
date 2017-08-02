@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.clangtidy;
 
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
-import java.io.File;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
@@ -31,56 +30,60 @@ import static org.mockito.Mockito.when;
 
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.Settings;
 import org.sonar.cxx.CxxLanguage;
 
 public class CxxClangTidySensorTest {
 
   private DefaultFileSystem fs;
+  private CxxLanguage language;
+  private Settings settings;
 
   @Before
   public void setUp() {
-    fs = TestUtils.mockFileSystem();    
-  }
+    fs = TestUtils.mockFileSystem();
+    settings = new Settings();
+    language = TestUtils.mockCxxLanguage();
+    when(language.getPluginProperty(CxxClangTidySensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxClangTidySensor.REPORT_PATH_KEY);
+    when(language.IsRecoveryEnabled()).thenReturn(true);
+    }
 
   @Test
   public void shouldIgnoreIssuesIfResourceNotFound() {
-    SensorContextTester context = SensorContextTester.create(new File("src/samples/SampleProject"));
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxClangTidySensor.REPORT_PATH_KEY))
-            .thenReturn(new String [] { fs.baseDir().getAbsolutePath() + "/clang-tidy-reports/cpd.report.txt" });
-    when(language.IsRecoveryEnabled()).thenReturn(true);        
-    
-    CxxClangTidySensor sensor = new CxxClangTidySensor(language);
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
+    settings.setProperty(language.getPluginProperty(CxxClangTidySensor.REPORT_PATH_KEY), "clang-tidy-reports/cpd.report.txt");
+    context.setSettings(settings);
+
+    CxxClangTidySensor sensor = new CxxClangTidySensor(language, settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }  
   
   @Test
   public void shouldReportCorrectViolations() {
-    SensorContextTester context = SensorContextTester.create(new File("src/samples/SampleProject"));
-    
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxClangTidySensor.REPORT_PATH_KEY))
-            .thenReturn(new String [] { fs.baseDir().getAbsolutePath() + "/clang-tidy-reports/cpd.report.txt" });
-    when(language.IsRecoveryEnabled()).thenReturn(true);
-    
-    CxxClangTidySensor sensor = new CxxClangTidySensor(language);
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
+    settings.setProperty(language.getPluginProperty(CxxClangTidySensor.REPORT_PATH_KEY), "clang-tidy-reports/cpd.report.txt");
+    context.setSettings(settings);
+
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+
+    CxxClangTidySensor sensor = new CxxClangTidySensor(language, settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
   }
 
   @Test
   public void invalidReportReportsNoIssues() {
-    SensorContextTester context = SensorContextTester.create(new File("src/samples/SampleProject"));
-    
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxClangTidySensor.REPORT_PATH_KEY))
-            .thenReturn(new String [] { fs.baseDir().getAbsolutePath() + "/clang-tidy-reports/cpd.report-empty.txt" });
-    when(language.IsRecoveryEnabled()).thenReturn(true);
-    
-    CxxClangTidySensor sensor = new CxxClangTidySensor(language);
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
+    settings.setProperty(language.getPluginProperty(CxxClangTidySensor.REPORT_PATH_KEY), "clang-tidy-reports/cpd.report-empty.txt");
+    context.setSettings(settings);
+
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+
+    CxxClangTidySensor sensor = new CxxClangTidySensor(language, settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }  

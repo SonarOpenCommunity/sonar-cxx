@@ -62,8 +62,7 @@ class ValgrindReportParser {
       try {
         rootCursor.advance();
       } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-        LOG.debug("Cannot read stream", eofExc);
-        throw new EmptyReportException();
+        throw new EmptyReportException("Cannot read Valgrind report", eofExc);
       }
 
       SMInputCursor errorCursor = rootCursor.childElementCursor("error");

@@ -1,4 +1,4 @@
-﻿Build started 09/13/2014 8:06:06 AM.
+Build started 09/13/2014 8:06:06 AM.
      1>Project "Server\Source\zip\zip.dll.vcxproj" on node 3 (Build target(s)).
      1>InitializeBuildStatus:
          Creating "..\..\..\bin\x86\Debug\zip\zip.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.

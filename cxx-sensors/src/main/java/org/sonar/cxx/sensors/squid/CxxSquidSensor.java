@@ -148,18 +148,18 @@ public class CxxSquidSensor implements Sensor {
    */
   @Override
   public void execute(SensorContext context) {       
-    Map<InputFile, Set<Integer>> linesOfCode = new HashMap<>();
+    Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
         
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     visitors.add(new CxxHighlighterVisitor(context));
-    visitors.add(new FileLinesVisitor(fileLinesContextFactory, context.fileSystem(), linesOfCode));
+    visitors.add(new FileLinesVisitor(fileLinesContextFactory, context.fileSystem(), linesOfCodeByFile));
     visitors.add(
             new CxxCpdVisitor(
                     context,
                     this.language.getBooleanOption(CPD_IGNORE_LITERALS_KEY),
                     this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY)));
     
-    CxxConfiguration cxxConf = createConfiguration(context.fileSystem());
+    CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     this.scanner = CxxAstScanner.create(this.language, cxxConf, context,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
@@ -178,14 +178,14 @@ public class CxxSquidSensor implements Sensor {
       }
     }
     scanner.scanFiles(files);
-    
-    (new CxxCoverageSensor(this.cache, this.language)).execute(context, linesOfCode);
-    
+
+    (new CxxCoverageSensor(this.cache, this.language, context)).execute(context, linesOfCodeByFile);
+
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles, context);
   }
 
-  private CxxConfiguration createConfiguration(FileSystem fs) {
+  private CxxConfiguration createConfiguration(FileSystem fs, SensorContext context) {
     CxxConfiguration cxxConf = new CxxConfiguration(fs, this.language);
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = this.language.getStringLinesOption(DEFINES_KEY);
@@ -209,7 +209,7 @@ public class CxxSquidSensor implements Sensor {
 
     String filePaths = this.language.getStringOption(CxxCompilerSensor.REPORT_PATH_KEY);
     if (filePaths != null && !"".equals(filePaths)) {
-      List<File> reports = CxxReportSensor.getReports(this.language, fs.baseDir(), CxxCompilerSensor.REPORT_PATH_KEY);
+      List<File> reports = CxxReportSensor.getReports(context.settings(), fs.baseDir(), this.language.getPluginProperty(CxxCompilerSensor.REPORT_PATH_KEY));
       cxxConf.setCompilationPropertiesWithBuildLog(reports,
         this.language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF),
         this.language.getStringOption(CxxCompilerSensor.REPORT_CHARSET_DEF));

@@ -20,6 +20,7 @@
 package org.sonar.cxx.sensors.utils;
 
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,18 +32,25 @@ import java.util.TreeSet;
 import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import static org.mockito.Mockito.when;
-import org.sonar.cxx.CxxLanguage;
+
+import org.sonar.api.config.Settings;
 
 public class CxxReportSensor_getReports_Test {
 
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
-
+  private Settings settings;
+  
   @Rule
   public TemporaryFolder base = new TemporaryFolder();
+
+  @Before
+  public void setUp() {
+    settings = new Settings();
+    }
 
   @Test
   public void getReports_patternMatching() throws java.io.IOException, java.lang.InterruptedException {
@@ -72,10 +80,9 @@ public class CxxReportSensor_getReports_Test {
       match = example[1];
       allpaths = String.join(",", Arrays.copyOfRange(example, 1, 3));
       setupExample(allpaths);
-      
-      CxxLanguage language = TestUtils.mockCxxLanguage();
-      when(language.getStringArrayOption(REPORT_PATH_KEY)).thenReturn(new String[] { pattern });
-      reports = CxxReportSensor.getReports(language, base.getRoot(), REPORT_PATH_KEY);
+
+      settings.setProperty(REPORT_PATH_KEY, pattern);
+      reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
       assertMatch(reports, match, example[0]);
       deleteExample(base.getRoot());
     }
@@ -118,10 +125,9 @@ public class CxxReportSensor_getReports_Test {
     File absReportFile = new File(base.getRoot(), "path/to/report.xml").getAbsoluteFile();
     FileUtils.touch(absReportFile);
 
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_KEY)).thenReturn(new String[] { absReportFile.toString() });
-      
-    List<File> reports = CxxReportSensor.getReports(language, base.getRoot(), REPORT_PATH_KEY);
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
+
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(1, reports.size());
   }
 
@@ -130,10 +136,9 @@ public class CxxReportSensor_getReports_Test {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
 
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_KEY)).thenReturn(new String[] { absReportFile.toString() });
-    
-    List<File> reports = CxxReportSensor.getReports(language, base.getRoot(), REPORT_PATH_KEY);
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
+
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(1, reports.size());
   }
 
@@ -142,10 +147,9 @@ public class CxxReportSensor_getReports_Test {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
 
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_KEY)).thenReturn(new String[] { absReportFile.toString() });
-    
-    List<File> reports = CxxReportSensor.getReports(language, base.getRoot(), REPORT_PATH_KEY);
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
+
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(2, reports.size());
   }
 
@@ -157,10 +161,9 @@ public class CxxReportSensor_getReports_Test {
     String relativeReport = "path/to/report.xml";
     FileUtils.touch(new File(base.getRoot(), relativeReport));
 
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_KEY)).thenReturn(new String[] { absReportFile.toString(), relativeReport });
-    
-    List<File> reports = CxxReportSensor.getReports(language, base.getRoot(), REPORT_PATH_KEY);
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + "," + relativeReport);
+
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(2, reports.size());
   }
 
@@ -177,10 +180,9 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.touch(new File(base.getRoot(), "some/reports/a"));
     FileUtils.touch(new File(base.getRoot(), "some/reports/b"));
 
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_KEY)).thenReturn(new String[] { absReportFile.toString(), "**/*.xml" });
-    
-    List<File> reports = CxxReportSensor.getReports(language, base.getRoot(), REPORT_PATH_KEY);
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",**/*.xml");
+
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(7, reports.size());
   }
 
@@ -196,10 +198,9 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.touch(new File(base.getRoot(), "some/reports/a.xml"));
     FileUtils.touch(new File(base.getRoot(), "some/reports/b.xml"));
 
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_KEY)).thenReturn(new String[] { absReportFile.toString(), "path/**/*.xml" });
-    
-    List<File> reports = CxxReportSensor.getReports(language, base.getRoot(), REPORT_PATH_KEY);
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",path/**/*.xml");
+
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(6, reports.size());
   }
 
@@ -210,10 +211,9 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/1.xml"));
     FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/2.xml"));
 
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(REPORT_PATH_KEY)).thenReturn(new String[] { "../" + base.getRoot().getName() + "/path/**/*.xml" });
-    
-    List<File> reports = CxxReportSensor.getReports(language, base.getRoot(), REPORT_PATH_KEY);
+    settings.setProperty(REPORT_PATH_KEY, "../" + base.getRoot().getName() + "/path/**/*.xml");
+
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(4, reports.size());
   }
 
@@ -221,14 +221,13 @@ public class CxxReportSensor_getReports_Test {
   public void testRelativeExcessiveBackticks() throws IOException {
     FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
 
-    CxxLanguage language = TestUtils.mockCxxLanguage();
     // Might be valid if java.io.tmpdir is nested excessively deep -- not likely    
-    when(language.getStringArrayOption(REPORT_PATH_KEY)).thenReturn(new String[] { "../../../../../../../../../../../../../../../../../../../../../../../../" +
+    settings.setProperty(REPORT_PATH_KEY, "../../../../../../../../../../../../../../../../../../../../../../../../" +
         "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../" +
         "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../" +
-        "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../*.xml" });
+        "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../*.xml");
     
-    List<File> reports = CxxReportSensor.getReports(language, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(0, reports.size());
   }
 }

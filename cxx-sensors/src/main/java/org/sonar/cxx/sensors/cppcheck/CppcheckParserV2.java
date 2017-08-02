@@ -60,7 +60,7 @@ public class CppcheckParserV2 implements CppcheckParser {
         try {
           rootCursor.advance();
         } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-          throw new EmptyReportException();
+          throw new EmptyReportException("Cannot read cppcheck report (format V2)", eofExc);
         }
 
         try {
@@ -104,8 +104,7 @@ public class CppcheckParserV2 implements CppcheckParser {
             }
           }
         } catch (RuntimeException e) {
-          LOG.debug("processReport failed {}", e);
-          throw new XMLStreamException();
+          throw new XMLStreamException("processReport failed", e);
         }
 
         if (!parsed) {

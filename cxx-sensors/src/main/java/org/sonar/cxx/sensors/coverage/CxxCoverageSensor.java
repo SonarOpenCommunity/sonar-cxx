@@ -20,6 +20,7 @@
 package org.sonar.cxx.sensors.coverage;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -36,33 +37,58 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.coverage.NewCoverage;
+import org.sonar.api.config.Settings;
 import org.sonar.api.batch.sensor.coverage.CoverageType;
+import org.sonar.api.utils.PathUtils;
+import org.sonar.api.utils.Version;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
+import org.sonar.cxx.sensors.utils.EmptyReportException;
 
 /**
  * {@inheritDoc}
  */
 public class CxxCoverageSensor extends CxxReportSensor {
   private static final Logger LOG = Loggers.get(CxxCoverageSensor.class);
+
+  // Configuration properties before SQ 6.2
+  @Deprecated
   public static final String REPORT_PATH_KEY = "coverage.reportPath";
+  @Deprecated
   public static final String IT_REPORT_PATH_KEY = "coverage.itReportPath";
+  @Deprecated
   public static final String OVERALL_REPORT_PATH_KEY = "coverage.overallReportPath";
+  @Deprecated
   public static final String FORCE_ZERO_COVERAGE_KEY = "coverage.forceZeroCoverage";
-  
+
+  // Configuration properties for SQ 6.2
+  public static final Version SQ_6_2 = Version.create(6, 2);
+  private boolean isSQ_6_2_or_newer;
+
+  // ToDo - cleanup reportPath properties 
+  // a) deprecate old feature ant style search 
+  // b) support comma separated list of coverage files
+  //public static final String REPORT_PATHS_KEY = "coverage.reportPaths";
+
   private final List<CoverageParser> parsers = new LinkedList<>();
   private final CxxCoverageCache cache;
   public static final String KEY = "Coverage";
 
   /**
    * {@inheritDoc}
+   * @param cache for all coverage data
+   * @param language for current analysis
+   * @param context for current file
    */
-  public CxxCoverageSensor(CxxCoverageCache cache, CxxLanguage language) {
-    super(language);
+  public CxxCoverageSensor(CxxCoverageCache cache, CxxLanguage language, SensorContext context) {
+    super(language, context.settings());
     this.cache = cache;
+    if (context.getSonarQubeVersion().isGreaterThanOrEqual(SQ_6_2)) {
+      isSQ_6_2_or_newer = true;
+    }
     parsers.add(new CoberturaParser());
     parsers.add(new BullseyeParser());
     parsers.add(new VisualStudioParser());
@@ -72,42 +98,70 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " CoverageSensor");
   }
-  
+
   /**
    * {@inheritDoc}
    */
-  public void execute(SensorContext context, Map<InputFile, Set<Integer>> linesOfCode) {
+  @Override
+  public void execute(SensorContext context) {
+    // do nothing
+  }
 
+  /**
+   * {@inheritDoc}
+   * @param context for coverage analysis
+   * @param linesOfCodeByFile use for FORCE_ZERO_COVERAGE_KEY feature 
+   */
+  public void execute(SensorContext context, Map<InputFile, Set<Integer>> linesOfCodeByFile) {
+    Settings settings = context.settings();
+    String[] reportsKey = settings.getStringArray(getReportPathKey());
+    LOG.info("Searching coverage reports by path with basedir '{}' and search prop '{}'", 
+        context.fileSystem().baseDir(), getReportPathKey());
+    LOG.info("Searching for coverage reports '{}'", Arrays.toString(reportsKey));
+    
     Map<String, CoverageMeasures> coverageMeasures = null;
     Map<String, CoverageMeasures> itCoverageMeasures = null;
     Map<String, CoverageMeasures> overallCoverageMeasures = null;
 
-    LOG.debug("Coverage BaseDir '{}' ", context.fileSystem().baseDir());    
-    
-    if (this.language.hasKey(REPORT_PATH_KEY)) {
-      LOG.debug("Parsing coverage reports");
-      List<File> reports = getReports(this.language, context.fileSystem().baseDir(), REPORT_PATH_KEY);
+    LOG.info("Coverage BaseDir '{}' ", context.fileSystem().baseDir());
+
+    if (context.settings().hasKey(getReportPathKey())) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Parsing unit test coverage reports");
+      }
+
+      List<File> reports = getReports(context.settings(), context.fileSystem().baseDir(), getReportPathKey());
       coverageMeasures = processReports(context, reports, this.cache.unitCoverageCache());
       saveMeasures(context, coverageMeasures, CoverageType.UNIT);
     }
 
-    if (this.language.hasKey(IT_REPORT_PATH_KEY)) {
-      LOG.debug("Parsing integration test coverage reports");
-      List<File> itReports = getReports(this.language, context.fileSystem().baseDir(), IT_REPORT_PATH_KEY);
+    if (settings.hasKey(getITReportPathKey())) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Parsing integration test coverage reports");
+      }
+      warnUsageOfDeprecatedProperty(settings, getITReportPathKey());
+      List<File> itReports = getReports(settings, context.fileSystem().baseDir(), getITReportPathKey());
       itCoverageMeasures = processReports(context, itReports, this.cache.integrationCoverageCache());
       saveMeasures(context, itCoverageMeasures, CoverageType.IT);
     }
 
-    if (this.language.hasKey(OVERALL_REPORT_PATH_KEY)) {
-      LOG.debug("Parsing overall test coverage reports");
-      List<File> overallReports = getReports(this.language, context.fileSystem().baseDir(), OVERALL_REPORT_PATH_KEY);
+    if (settings.hasKey(getOverallReportPathKey())) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Parsing overall test coverage reports");
+      }
+      warnUsageOfDeprecatedProperty(settings, getOverallReportPathKey());
+      List<File> overallReports = getReports(settings, 
+                                             context.fileSystem().baseDir(), getOverallReportPathKey());
       overallCoverageMeasures = processReports(context, overallReports, this.cache.overallCoverageCache());
       saveMeasures(context, overallCoverageMeasures, CoverageType.OVERALL);
     }
-    
-    if (this.language.getBooleanOption(FORCE_ZERO_COVERAGE_KEY)) {
-      LOG.debug("Zeroing coverage information for untouched files");
-      zeroMeasuresWithoutReports(context, coverageMeasures, itCoverageMeasures, overallCoverageMeasures, linesOfCode);
+
+    if (settings.getBoolean(getForceZeroCoverageKey())) {
+      LOG.info("Zeroing coverage information for untouched files");
+      zeroMeasuresWithoutReports(context, coverageMeasures,
+                                          itCoverageMeasures,
+                                          overallCoverageMeasures, 
+                                          linesOfCodeByFile);
     }
   }
 
@@ -118,6 +172,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     @Nullable Map<String, CoverageMeasures> overallCoverageMeasures,
     Map<InputFile, Set<Integer>> linesOfCode
   ) {
+
     FileSystem fileSystem = context.fileSystem();
     FilePredicates p = fileSystem.predicates();
     Iterable<InputFile> inputFiles = fileSystem.inputFiles(p.and(p.hasType(InputFile.Type.MAIN),
@@ -140,12 +195,13 @@ public class CxxCoverageSensor extends CxxReportSensor {
       }
     }
   }
-  
+
   private void saveZeroValueForResource(InputFile inputFile, SensorContext context, CoverageType ctype, 
                                         @Nullable Set<Integer> linesOfCode) {
     if (linesOfCode != null) {
-      LOG.debug("Zeroing {} coverage measures for file '{}'", ctype, inputFile.relativePath());
-
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Zeroing {} coverage measures for file '{}'", ctype, inputFile.relativePath());
+      }
       NewCoverage newCoverage = context.newCoverage()
         .onFile(inputFile)
         .ofType(ctype);
@@ -174,24 +230,29 @@ public class CxxCoverageSensor extends CxxReportSensor {
     Map<String, CoverageMeasures> measuresTotal = new HashMap<>();
 
     for (File report : reports) {
-      if (!cacheCov.containsKey(report.getAbsolutePath())) {      
-        for (CoverageParser parser : parsers) {
-          if (parseCoverageReport(parser, context, report, measuresTotal)) {
-            break;
-          }else{
-            LOG.error("Report {} cannot be parsed", report);
+      if (!cacheCov.containsKey(report.getAbsolutePath())) {
+        try {
+          for (CoverageParser parser : parsers) {
+            if (parseCoverageReport(parser, context, report, measuresTotal)) {
+              if (LOG.isDebugEnabled()) {
+                LOG.debug("cached measures for '{}' : current cache content data = '{}'", 
+                      report.getAbsolutePath(), cacheCov.size());
+              }
+              cacheCov.put(report.getAbsolutePath(), measuresTotal);
+              // Only use first coverage parser with handles the data correctly
+              break;
+            }
           }
+          measuresTotal.putAll(cacheCov.get(report.getAbsolutePath()));
+        } catch (EmptyReportException e) {
+          LOG.debug("Report is empty {}", e);
         }
-
-        LOG.debug("cached measures for '{}' : current cache content data = '{}'", 
-                                report.getAbsolutePath(), cacheCov.size());
-        cacheCov.put(report.getAbsolutePath(), measuresTotal);  
       } else {
-        LOG.debug("Processing report '{}' skipped - already in cache", report);
-        measuresTotal.putAll(cacheCov.get(report.getAbsolutePath()));
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Processing report '{}' skipped - already in cache", report);
+        }
       }
     }
-
     return measuresTotal;
   }
 
@@ -208,15 +269,16 @@ public class CxxCoverageSensor extends CxxReportSensor {
     try {
       parser.processReport(context, report, measuresForReport);
     } catch (XMLStreamException e) {
-      LOG.trace("Report {} cannot be parsed by {}", report, parser, e);
+      throw new EmptyReportException("Coverage report" + report + "cannot be parsed by" + parser, e); 
     }
 
     if (measuresForReport.isEmpty()) {
+      LOG.warn("Coverage report {} result is empty (parsed by {})", report, parser);
       return false;
     }
 
     measuresTotal.putAll(measuresForReport);
-    LOG.info("Added report '{}' (parsed by: {}) to the coverage data", report, parser);
+    LOG.info("Added coverage report '{}' (parsed by: {})", report, parser);
     return true;
   }
 
@@ -224,30 +286,40 @@ public class CxxCoverageSensor extends CxxReportSensor {
     Map<String, CoverageMeasures> coverageMeasures,
     CoverageType ctype) {
     for (Map.Entry<String, CoverageMeasures> entry : coverageMeasures.entrySet()) {
-      String filePath = entry.getKey();
-      InputFile cxxFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(filePath));
-      if (cxxFile != null) {
+      String filePath = PathUtils.sanitize(entry.getKey());
+      if (filePath!= null) {
+        InputFile cxxFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(filePath));
+        if (cxxFile != null) {
+          
+          NewCoverage newCoverage = context.newCoverage()
+                    .onFile(cxxFile)        
+                    .ofType(ctype);
         
-        NewCoverage newCoverage = context.newCoverage()
-                  .onFile(cxxFile)        
-                  .ofType(ctype);
-      
-        Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
-        LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
-        for (CoverageMeasure measure : measures) {
-          checkLineCoverage(newCoverage, measure);
-          checkConditionCoverage(newCoverage, measure);
-        }
-
-        try {
-          newCoverage.save();
-        } catch(RuntimeException ex) {
-          LOG.error("Cannot save measure for file '{}' , ignoring measure. ", filePath, ex);
-          CxxUtils.validateRecovery(ex, this.language);
+          Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
+          }
+          for (CoverageMeasure measure : measures) {
+            checkLineCoverage(newCoverage, measure);
+            checkConditionCoverage(newCoverage, measure);
+          }
+  
+          try {
+            newCoverage.save();
+          } catch(RuntimeException ex) {
+            LOG.error("Cannot save measure for file '{}' , ignoring measure. ", filePath, ex);
+            CxxUtils.validateRecovery(ex, this.language);
+          }
+        } else {
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+          }
         }
       } else {
-        LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
-      }       
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Cannot sanitize file path '{}'", entry.getKey());
+        }
+      }
     }
   }
 
@@ -282,13 +354,37 @@ public class CxxCoverageSensor extends CxxReportSensor {
       }
     }
   }  
+
+  private void warnUsageOfDeprecatedProperty(Settings settings, String reportPathProperty) {
+    if (isSQ_6_2_or_newer && !settings.hasKey(getReportPathKey())) {
+      LOG.warn("Property '{}' is deprecated. Please use '{}' instead.", reportPathProperty, getReportPathKey());
+    }
+  }
+  
   @Override
   protected String getSensorKey() {
     return KEY;
   }  
 
   @Override
-  protected String reportPathKey() {
-    return REPORT_PATH_KEY;
+  public String getReportPathKey() {
+// ToDo - Support new style
+//    if (isSQ_6_2_or_newer) {
+//      return this.language.getPluginProperty(REPORT_PATHS_KEY);
+//    }
+    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
+
+  protected String getITReportPathKey() {
+   return this.language.getPluginProperty(IT_REPORT_PATH_KEY);
+  }
+
+  protected String getOverallReportPathKey() {
+    return this.language.getPluginProperty(OVERALL_REPORT_PATH_KEY);
+   }
+
+  protected String getForceZeroCoverageKey() {
+    return this.language.getPluginProperty(FORCE_ZERO_COVERAGE_KEY);
+   }
+
 }

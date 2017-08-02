@@ -37,6 +37,8 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
+import org.sonar.api.config.Settings;
+import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -50,8 +52,9 @@ public abstract class CxxReportSensor implements Sensor {
   private final Set<String> notFoundFiles = new HashSet<>();
   private final Set<String> uniqueIssues = new HashSet<>();
   private int violationsCount;
+  protected final Settings settings;
   protected final CxxLanguage language;
-      
+  
   /**
    * Use this constructor if your sensor implementation saves violations aka
    * issues
@@ -62,7 +65,8 @@ public abstract class CxxReportSensor implements Sensor {
    * @param metric this metrics will be used to save a measure of the overall
    * issue count. Pass 'null' to skip this.
    */
-  protected CxxReportSensor(CxxLanguage language) {
+  protected CxxReportSensor(CxxLanguage language, Settings settings) {
+    this.settings = settings;
     this.language = language;
   }
 
@@ -73,8 +77,8 @@ public abstract class CxxReportSensor implements Sensor {
   public void execute(SensorContext context) {
     try {
       LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'", 
-                       context.fileSystem().baseDir(), reportPathKey());
-      List<File> reports = getReports(language, context.fileSystem().baseDir(), reportPathKey());
+                       context.fileSystem().baseDir(), getReportPathKey());
+      List<File> reports = getReports(context.settings(), context.fileSystem().baseDir(), getReportPathKey());
       violationsCount = 0;
       
       for (File report : reports) {
@@ -133,14 +137,6 @@ public abstract class CxxReportSensor implements Sensor {
     return getClass().getSimpleName();
   }
 
-  protected String getStringProperty(String name, String def) {
-    String value = this.language.getStringOption(name);
-    if (value == null) {
-      value = def;
-    }
-    return value;
-  }
-
   /**
    * resolveFilename
    * @param baseDir
@@ -173,9 +169,9 @@ public abstract class CxxReportSensor implements Sensor {
    * @param genericReportKeyData
    * @return File
    */
-  public static List<File> getReports(CxxLanguage language,
-          final File moduleBaseDir,
-          String genericReportKeyData) {
+  public static List<File> getReports(Settings settings,
+                                                final File moduleBaseDir,
+                                                String genericReportKeyData) {
 
     List<File> reports = new ArrayList<>();
     
@@ -183,22 +179,13 @@ public abstract class CxxReportSensor implements Sensor {
       return reports;
     }
     
-    String[] reportPathStrings = language.getStringArrayOption(genericReportKeyData);
+    String[] reportPathStrings = settings.getStringArray(genericReportKeyData);
     List<String> reportPaths = Arrays.asList((reportPathStrings != null) ? reportPathStrings : new String[] {});
-    if (!reportPaths.isEmpty()) {
-      List<String> includes = new ArrayList<>();
-      for (String reportPath : reportPaths) {
+    if (reportPaths.isEmpty()) {
+      LOG.info("Undefined report path value for key '{}'", genericReportKeyData);
+    } else {
 
-        String normalizedPath = resolveFilename(moduleBaseDir.getAbsolutePath(), reportPath);
-        if (normalizedPath != null) {
-          includes.add(normalizedPath);
-          continue;
-        }
-
-        LOG.debug("Not a valid report path '{}'", reportPath);
-      }
-
-      LOG.debug("Normalized report includes to '{}'", includes);
+      List<String> includes = normalizeReportPaths(moduleBaseDir, reportPaths);
 
       // Includes array cannot contain null elements
       DirectoryScanner directoryScanner = new DirectoryScanner();
@@ -216,11 +203,34 @@ public abstract class CxxReportSensor implements Sensor {
       } else {
         LOG.info("Parser will parse '{}' report files", reports.size());
       }
-    } else {
-      LOG.info("Undefined report path value for key '{}'", genericReportKeyData);
     }
 
     return reports;
+  }
+
+  /**
+   * @param moduleBaseDir
+   * @param reportPaths
+   * @return
+   */
+  private static List<String> normalizeReportPaths(final File moduleBaseDir, List<String> reportPaths) {
+    List<String> includes = new ArrayList<>();
+    for (String reportPath : reportPaths) {
+
+      String normalizedPath = resolveFilename(moduleBaseDir.getAbsolutePath(), reportPath);
+      if (normalizedPath != null) {
+        includes.add(normalizedPath);
+        continue;
+      }
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Not a valid report path '{}'", reportPath);
+      }
+    }
+
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Normalized report includes to '{}'", includes);
+    }
+    return includes;
   }
 
   /**
@@ -252,7 +262,7 @@ public abstract class CxxReportSensor implements Sensor {
     // handles file="" situation -- file level
     if ((filename != null) && (!filename.isEmpty())) {
       String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
-      String normalPath = CxxUtils.normalizePathFull(filename, root);
+      String normalPath = CxxUtils.normalizePathFull(PathUtils.sanitize(filename), root);
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
         InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem()
                                                         .predicates().hasAbsolutePath(normalPath));
@@ -324,7 +334,7 @@ public abstract class CxxReportSensor implements Sensor {
     throws Exception {
   }
 
-  protected abstract String reportPathKey();
+  public abstract String getReportPathKey();
   protected abstract String getSensorKey();
 }
 

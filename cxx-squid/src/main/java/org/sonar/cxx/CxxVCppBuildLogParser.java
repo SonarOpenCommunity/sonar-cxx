@@ -37,6 +37,9 @@ import java.util.regex.Pattern;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
+/**
+ * CxxVCppBuildLogParser
+ */
 public class CxxVCppBuildLogParser {
 
   private static final Logger LOG = Loggers.get(CxxVCppBuildLogParser.class);
@@ -49,6 +52,11 @@ public class CxxVCppBuildLogParser {
   private static final String CPPWINRTVERSION = "__cplusplus_winrt=201009";
   private static final String CPPVERSION = "__cplusplus=199711L";  
 
+  /**
+   * CxxVCppBuildLogParser (ctor)
+   * @param uniqueIncludesIn
+   * @param uniqueDefinesIn
+   */
   public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn, 
       HashMap<String, Set<String>> uniqueDefinesIn) { 
     uniqueIncludes = uniqueIncludesIn;
@@ -78,7 +86,14 @@ public class CxxVCppBuildLogParser {
     this.parseVCppCompilerCLLine(line, projectPath, compilationFile);
   }
   
+  /**
+  *
+  * @param buildLog
+  * @param baseDir
+  * @param charsetName
+  */
   public void parseVCppLog(File buildLog, String baseDir, String charsetName) {
+    boolean detectedPlatform = false;
     try (FileInputStream input = new FileInputStream(buildLog)) {
       BufferedReader br = new BufferedReader(new InputStreamReader(input, charsetName));
       String line;
@@ -109,31 +124,17 @@ public class CxxVCppBuildLogParser {
             currentProjectPath = Paths.get(baseDir);
           }
         }
-
-        if (line.contains("\\V100\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
-          platformToolset = "V100";
-        } else if (line.contains("\\V110\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
-          platformToolset = "V110";
-        } else if (line.contains("\\V120\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
-          platformToolset = "V120";
-        } else if (line.contains("\\V140\\Microsoft.CppBuild.targets") || 
-                   line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe") ||
-                   line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")) {
-          platformToolset = "V140";
-        } else if (line.contains("\\V141\\Microsoft.CppBuild.targets") || 
-                   line.matches("^.*VC\\\\Tools\\\\MSVC\\\\14.10.*\\\\bin\\\\HostX..\\\\x..\\\\CL.exe.*$")) {
-          platformToolset = "V141";
-        }
           // 1>Task "Message"
         // 1>  Configuration=Debug
         // 1>Done executing task "Message".
         // 1>Task "Message"
         //1>  Platform=Win32         
         if (line.trim().endsWith("Platform=x64") || line.trim().matches("Building solution configuration \".*\\|x64\".")) {
-          platform = "x64";
+          setPlatform("x64");
         }
         // match "bin\CL.exe", "bin\amd64\CL.exe", "bin\x86_amd64\CL.exe"
         if (line.matches("^.*\\\\bin\\\\.*CL.exe\\x20.*$")) {
+          detectedPlatform= setPlatformToolsetFromLine(line);
           String[] allElems = line.split("\\s+");
           String data = allElems[allElems.length - 1];
           parseCLParameters(line, currentProjectPath, data);
@@ -143,6 +144,39 @@ public class CxxVCppBuildLogParser {
     } catch (IOException ex) {
       LOG.error("Cannot parse build log", ex);
     }
+    if (!detectedPlatform) {
+      LOG.info("Could not assign VS platform toolset - use default: {}", platformToolset);
+    }
+  }
+
+  /**
+   * setPlatformToolsetFromLine
+   * @param line - which contains "cl.exe" string
+   */
+  private boolean setPlatformToolsetFromLine(String line) {
+    if (line.contains("\\V100\\Microsoft.CppBuild.targets") || 
+        line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
+      setPlatformToolset("V100");
+      return true;
+    } else if (line.contains("\\V110\\Microsoft.CppBuild.targets") || 
+               line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
+      setPlatformToolset("V110");
+      return true;
+    } else if (line.contains("\\V120\\Microsoft.CppBuild.targets") || 
+               line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
+      setPlatformToolset("V120");
+      return true;
+    } else if (line.contains("\\V140\\Microsoft.CppBuild.targets") || 
+               line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe") ||
+               line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")) {
+      setPlatformToolset("V140");
+      return true;
+    } else if (line.contains("\\V141\\Microsoft.CppBuild.targets") || 
+               line.matches("^.*VC\\\\Tools\\\\MSVC\\\\14.10.*\\\\bin\\\\HostX..\\\\x..\\\\CL.exe.*$")) {
+      setPlatformToolset("V141");
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -199,18 +233,18 @@ public class CxxVCppBuildLogParser {
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.110).aspx
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.120).aspx 
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.140).aspx
-    ParseCommonCompilerOptions(line, fileElement);
+    parseCommonCompilerOptions(line, fileElement);
 
     if ("V100".equals(platformToolset)) {
-      ParseV100CompilerOptions(line, fileElement);
+      parseV100CompilerOptions(line, fileElement);
     } else if ("V110".equals(platformToolset)) {
-      ParseV110CompilerOptions(line, fileElement);
+      parseV110CompilerOptions(line, fileElement);
     } else if ("V120".equals(platformToolset)) {
-      ParseV120CompilerOptions(line, fileElement);
+      parseV120CompilerOptions(line, fileElement);
     } else if ("V140".equals(platformToolset)) {
-      ParseV140CompilerOptions(line, fileElement);
+      parseV140CompilerOptions(line, fileElement);
     } else if ("V141".equals(platformToolset)) {
-      ParseV141CompilerOptions(line, fileElement);
+      parseV141CompilerOptions(line, fileElement);
     }
   }
 
@@ -244,9 +278,12 @@ public class CxxVCppBuildLogParser {
       if (!includesPerUnit.contains(includePath)) {
         includesPerUnit.add(includePath);
       }
-    } catch (java.io.IOException io) { 
-      LOG.error("Cannot parse include path using element '{}' : '{}'", element,
-        io.getMessage());
+    } catch (IOException io) { 
+      if (LOG.isDebugEnabled()) {
+        LOG.error("Cannot parse include path using element '{}' : '{}'", element, io);
+      } else {
+        LOG.error("Cannot parse include path using element '{}' : '{}'", element, io.getMessage());
+      }
     }
   }
 
@@ -266,23 +303,32 @@ public class CxxVCppBuildLogParser {
     return definesPerUnit.contains(macro);
   }
 
-  private void ParseCommonCompilerOptions(String line, String fileElement) {
+  private void parseCommonCompilerOptions(String line, String fileElement) {
     // Always Defined //
     //_INTEGRAL_MAX_BITS Reports the maximum size (in bits) for an integral type.    
     addMacro("_INTEGRAL_MAX_BITS=64", fileElement);
-    //_MSC_BUILD Evaluates to the revision number component of the compiler's version number. The revision number is the fourth component of the period-delimited version number. For example, if the version number of the Visual C++ compiler is 15.00.20706.01, the _MSC_BUILD macro evaluates to 1.
+    //_MSC_BUILD Evaluates to the revision number component of the compiler's version number. The revision number is
+    // the fourth component of the period-delimited version number. For example, if the version number of the
+    // Visual C++ compiler is 15.00.20706.01, the _MSC_BUILD macro evaluates to 1.
     addMacro("_MSC_BUILD=1", fileElement);
-    //__COUNTER__ Expands to an integer starting with 0 and incrementing by 1 every time it is used in a source file or included headers of the source file. __COUNTER__ remembers its state when you use precompiled headers.
+    //__COUNTER__ Expands to an integer starting with 0 and incrementing by 1 every time it is used in a source file
+    // or included headers of the source file. __COUNTER__ remembers its state when you use precompiled headers.
     addMacro("__COUNTER__=0", fileElement);
-    //__DATE__ The compilation date of the current source file. The date is a string literal of the form Mmm dd yyyy. The month name Mmm is the same as for dates generated by the library function asctime declared in TIME.H.
+    //__DATE__ The compilation date of the current source file. The date is a string literal of the form Mmm dd yyyy.
+    // The month name Mmm is the same as for dates generated by the library function asctime declared in TIME.H.
     addMacro("__DATE__=\"??? ?? ????\"", fileElement);
-    //__FILE__ The name of the current source file. __FILE__ expands to a string surrounded by double quotation marks. To ensure that the full path to the file is displayed, use /FC (Full Path of Source Code File in Diagnostics).
+    //__FILE__ The name of the current source file. __FILE__ expands to a string surrounded by double quotation marks.
+    // To ensure that the full path to the file is displayed, use /FC (Full Path of Source Code File in Diagnostics).
     addMacro("__FILE__=\"file\"", fileElement);
-    //__LINE__ The line number in the current source file. The line number is a decimal integer constant. It can be changed with a #line directive.
+    //__LINE__ The line number in the current source file. The line number is a decimal integer constant.
+    // It can be changed with a #line directive.
     addMacro("__LINE__=1", fileElement);
-    //__TIME__ The most recent compilation time of the current source file. The time is a string literal of the form hh:mm:ss.
+    //__TIME__ The most recent compilation time of the current source file.
+    // The time is a string literal of the form hh:mm:ss.
     addMacro("__TIME__=\"??:??:??\"", fileElement);
-    //__TIMESTAMP__ The date and time of the last modification of the current source file, expressed as a string literal in the form Ddd Mmm Date hh:mm:ss yyyy, where Ddd is the abbreviated day of the week and Date is an integer from 1 to 31.
+    //__TIMESTAMP__ The date and time of the last modification of the current source file, 
+    // expressed as a string literal in the form Ddd Mmm Date hh:mm:ss yyyy, where Ddd is 
+    // the abbreviated day of the week and Date is an integer from 1 to 31.
     addMacro("__TIMESTAMP__=\"??? ?? ???? ??:??:??\"", fileElement);
     // _M_IX86 
     //    /GB _M_IX86 = 600 Blend
@@ -306,7 +352,8 @@ public class CxxVCppBuildLogParser {
     //    0 if /arch was not used.
     //    1 if /arch:SSE was used.
     //    2 if /arch:SSE2 was used.
-    // Expands to an integer literal value indicating which /arch compiler option was used. The default value is '2' if /arch was not specified
+    // Expands to an integer literal value indicating which /arch compiler option was used. 
+    // The default value is '2' if /arch was not specified
     addMacro("_M_IX86_FP=2", fileElement);
     if (line.contains("/arch:IA32")) {
       addMacro("_M_IX86_FP=0", fileElement);
@@ -335,7 +382,8 @@ public class CxxVCppBuildLogParser {
       // In the range 40-49 if /arch:VFPv4 was used.
       addMacro("_M_ARM_FP", fileElement);
     }
-    //__STDC__ Indicates full conformance with the ANSI C standard. Defined as the integer constant 1 only if the /Za compiler option is given and you are not compiling C++ code; otherwise is undefined.
+    // __STDC__ Indicates full conformance with the ANSI C standard. Defined as the integer constant 1 only if 
+    // the /Za compiler option is given and you are not compiling C++ code; otherwise is undefined.
     if (line.contains("/Za ")) {
       addMacro("__STDC__=1", fileElement);
     }
@@ -362,8 +410,10 @@ public class CxxVCppBuildLogParser {
     if (line.contains("/clr:safe ")) {
       addMacro("_M_CEE_SAFE", fileElement);
     }
-    //__CLR_VER Defines the version of the common language runtime used when the application was compiled. The value returned will be in the following format:    
-    //__cplusplus_cli Defined when you compile with /clr, /clr:pure, or /clr:safe. Value of __cplusplus_cli is 200406. __cplusplus_cli is in effect throughout the translation unit.    
+    // __CLR_VER Defines the version of the common language runtime used when the application was compiled. 
+    // The value returned will be in the following format:
+    // __cplusplus_cli Defined when you compile with /clr, /clr:pure, or /clr:safe. Value of __cplusplus_cli is 200406. 
+    // __cplusplus_cli is in effect throughout the translation unit.    
     //_M_CEE Defined for a compilation that uses any form of /clr (/clr:oldSyntax, /clr:safe, for example).    
     if (line.contains("/clr")) {
 
@@ -405,7 +455,8 @@ public class CxxVCppBuildLogParser {
       addMacro("_MT", fileElement);
       addMacro("_DEBUG", fileElement);
     }
-    //_OPENMP Defined when compiling with /openmp, returns an integer representing the date of the OpenMP specification implemented by Visual C++.
+    //_OPENMP Defined when compiling with /openmp, returns an integer representing the date of the 
+    // OpenMP specification implemented by Visual C++.
     if (line.contains("/openmp ")) {
       addMacro("_OPENMP=200203", fileElement);
     }
@@ -466,7 +517,7 @@ public class CxxVCppBuildLogParser {
     }
   }
 
-  private void ParseV100CompilerOptions(String line, String fileElement) {
+  private void parseV100CompilerOptions(String line, String fileElement) {
     // VC++ V16.0 - VS2010 (V10.0)
     addMacro(CPPVERSION, fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
@@ -485,7 +536,7 @@ public class CxxVCppBuildLogParser {
     }
   }
 
-  private void ParseV110CompilerOptions(String line, String fileElement) {
+  private void parseV110CompilerOptions(String line, String fileElement) {
     // VC++ V17.0 - VS2012 (V11.0)
     addMacro(CPPVERSION, fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
@@ -500,7 +551,7 @@ public class CxxVCppBuildLogParser {
     addMacro("_ATL_VER=0x0B00", fileElement);
   }
 
-  private void ParseV120CompilerOptions(String line, String fileElement) {
+  private void parseV120CompilerOptions(String line, String fileElement) {
     // VC++ V18.0 - VS2013 (V12.0)
     addMacro(CPPVERSION, fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
@@ -515,7 +566,7 @@ public class CxxVCppBuildLogParser {
     addMacro("_ATL_VER=0x0C00", fileElement);
   }
 
-  private void ParseV140CompilerOptions(String line, String fileElement) {
+  private void parseV140CompilerOptions(String line, String fileElement) {
     // VC++ V19.0 - VS2015 (V14.0)
     addMacro(CPPVERSION, fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
@@ -530,7 +581,7 @@ public class CxxVCppBuildLogParser {
     addMacro("_ATL_VER=0x0E00", fileElement);
   }
 
-  private void ParseV141CompilerOptions(String line, String fileElement) {
+  private void parseV141CompilerOptions(String line, String fileElement) {
     // VC++ V19.1 - VS2017 (V15.0)
     addMacro(CPPVERSION, fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.

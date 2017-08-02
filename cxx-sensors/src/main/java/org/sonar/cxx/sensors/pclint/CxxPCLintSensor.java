@@ -30,6 +30,7 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -54,13 +55,13 @@ public class CxxPCLintSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxPCLintSensor(CxxLanguage language) {
-    super(language);
+  public CxxPCLintSensor(CxxLanguage language, Settings settings) {
+    super(language, settings);
   }
 
   @Override
-  protected String reportPathKey() {
-    return REPORT_PATH_KEY;
+  public String getReportPathKey() {
+    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override
@@ -82,7 +83,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
         try {
           rootCursor.advance();
         } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
-          throw new EmptyReportException(); 
+          throw new EmptyReportException("Cannot read PClint report", eofExc); 
         }
 
         SMInputCursor errorCursor = rootCursor.childElementCursor("issue");
@@ -99,9 +100,9 @@ public class CxxPCLintSensor extends CxxReportSensor {
                 // have been created in the rule repository
                 if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008") 
                    || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
-                  id = mapMisraRulesToUniqueSonarRules(msg, false);
+                  id = mapMisraRulesToUniqueSonarRules(msg, Boolean.FALSE);
                 } else if (msg.contains("MISRA 2012 Rule")){
-                  id = mapMisraRulesToUniqueSonarRules(msg, true);
+                  id = mapMisraRulesToUniqueSonarRules(msg, Boolean.TRUE);
                 }
               }
               saveUniqueViolation(context, CxxPCLintRuleRepository.KEY,

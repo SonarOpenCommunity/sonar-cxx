@@ -32,6 +32,7 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -52,19 +53,17 @@ public class CxxOtherSensor extends CxxReportSensor {
   public static final String STYLESHEET_KEY = ".stylesheet";
   public static final String INPUT_KEY = ".inputs";
   public static final String OUTPUT_KEY = ".outputs";
-  private final CxxLanguage cxxLanguage;
 
   /**
    * {@inheritDoc}
    */
-  public CxxOtherSensor(CxxLanguage language) {
-    super(language);
-    this.cxxLanguage = language;
+  public CxxOtherSensor(CxxLanguage language, Settings settings) {
+    super(language, settings);
   }
 
   @Override
-  protected String reportPathKey() {
-    return REPORT_PATH_KEY;
+  public String getReportPathKey() {
+    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override
@@ -77,7 +76,7 @@ public class CxxOtherSensor extends CxxReportSensor {
    */
   @Override
   public void execute(SensorContext context) {
-    transformFiles(context.fileSystem().baseDir());
+    transformFiles(context.fileSystem().baseDir(), context);
     super.execute(context);
   }
 
@@ -115,18 +114,22 @@ public class CxxOtherSensor extends CxxReportSensor {
     return KEY;
   }  
 
-  public void transformFiles(final File baseDir) {
+  public void transformFiles(final File baseDir, SensorContext context) {
     boolean goOn = true;
     for (int i = 1; (i < 10) && goOn; i++) {
-      String stylesheetKey = OTHER_XSLT_KEY + i + STYLESHEET_KEY;
-      String inputKey = OTHER_XSLT_KEY + i + INPUT_KEY;
-      String outputKey = OTHER_XSLT_KEY + i + OUTPUT_KEY;
+      String stylesheetKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + STYLESHEET_KEY);
+      String inputKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + INPUT_KEY);
+      String outputKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY);
 
-      String stylesheet = resolveFilename(baseDir.getAbsolutePath(), cxxLanguage.getStringOption(stylesheetKey));
+      if (stylesheetKey==null) {
+        LOG.error("'{}' is not defined.", OTHER_XSLT_KEY + i + STYLESHEET_KEY);
+        break;
+      }
+      String stylesheet = resolveFilename(baseDir.getAbsolutePath(), context.settings().getString(stylesheetKey));
 
 
-      List<File> inputs = getReports(cxxLanguage, baseDir, inputKey);
-      String[] outputStrings = language.getStringArrayOption(outputKey);
+      List<File> inputs = getReports(context.settings(), baseDir, inputKey);
+      String[] outputStrings = context.settings().getStringArray(outputKey);
       List<String> outputs = Arrays.asList((outputStrings != null) ? outputStrings : new String[] {});
 
       if (stylesheet == null) {
@@ -138,7 +141,7 @@ public class CxxOtherSensor extends CxxReportSensor {
 
       if (goOn) {
         if (LOG.isDebugEnabled()) {
-          LOG.debug("Converting " + stylesheet + " with " + inputs.toString() + " to " + outputs.toString() + ".");
+          LOG.debug("Converting " + stylesheet + " with " + inputs + " to " + outputs + ".");
         }
         File stylesheetFile = new File(stylesheet);
         if (stylesheetFile.isAbsolute()) {
@@ -149,11 +152,6 @@ public class CxxOtherSensor extends CxxReportSensor {
   }
 
   private boolean checkInput(String inputKey, String outputKey, List<File> inputs, List<String> outputs) {
-    if (inputs.size() != outputs.size()) {
-      LOG.error("Number of source XML files is not equal to the the number of output files.");
-      return false;
-    } 
-
     if ((inputs == null) || (inputs.isEmpty())) {
       LOG.error(inputKey + " file is not defined.");
       return false;
@@ -163,6 +161,12 @@ public class CxxOtherSensor extends CxxReportSensor {
       LOG.error(outputKey + " is not defined.");
       return false;
       }
+
+    if (inputs.size() != outputs.size()) {
+      LOG.error("Number of source XML files is not equal to the the number of output files.");
+      return false;
+    } 
+
     return true;
   }
 
@@ -178,7 +182,7 @@ public class CxxOtherSensor extends CxxReportSensor {
           .append("'")
           .toString();
         LOG.error(msg);
-        CxxUtils.validateRecovery(e, cxxLanguage);
+        CxxUtils.validateRecovery(e, this.language);
       }
     }
   }

@@ -28,6 +28,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
+
+import javax.annotation.CheckForNull;
+
 import java.util.Arrays;
 
 import org.apache.tools.ant.DirectoryScanner;
@@ -135,4 +138,31 @@ public class TestUtils {
       }
     }
   }
+
+
+  /**
+   * Search for a test resource in the classpath. For example getResource("org/sonar/MyClass/foo.txt");
+   *
+   * @param path the starting slash is optional
+   * @return the resource. Null if resource not found
+   */
+
+  @CheckForNull
+  public static File getResource(String path) {
+    String resourcePath = path;
+    if (!resourcePath.startsWith("/")) {
+      resourcePath = "/" + resourcePath;
+    }
+    URL url = TestUtils.class.getResource(resourcePath);
+    if (url != null) {
+      try {
+        return new File(url.toURI());
+      } catch (URISyntaxException e) {
+        return null;
+      }
+    }
+    return null;
 }
+ 
+}
+
