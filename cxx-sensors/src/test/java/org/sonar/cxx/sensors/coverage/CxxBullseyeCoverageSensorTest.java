@@ -30,6 +30,8 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.junit.Before;
+import org.junit.Test;
+
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
@@ -59,9 +61,9 @@ public class CxxBullseyeCoverageSensorTest {
     .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY))
     .thenReturn("sonar.cxx." + CxxCoverageSensor.IT_REPORT_PATH_KEY);
-    when(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY))
-    .thenReturn("sonar.cxx." + CxxCoverageSensor.OVERALL_REPORT_PATH_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY))
+    .thenReturn("sonar.cxx." + CxxCoverageSensor.OVERALL_REPORT_PATH_KEY);
+    when(language.getPluginProperty(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY))
     .thenReturn("sonar.cxx." + CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY);
 
     //    when(language.hasKey(CxxCoverageSensor.REPORT_PATHS_KEY)).thenReturn(true);
@@ -70,7 +72,7 @@ public class CxxBullseyeCoverageSensorTest {
     when(language.hasKey(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY)).thenReturn(true);
   }
 
-//  @Test
+  @Test
   public void shouldReportCorrectCoverage() {
     String coverageReport = "coverage-reports/bullseye/coverage-result-bullseye.xml";
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
@@ -81,7 +83,6 @@ public class CxxBullseyeCoverageSensorTest {
 //    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY), coverageReport);
 //    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), coverageReport);
 
-    
     context.setSettings(settings);
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "source_1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
@@ -184,3 +185,4 @@ public class CxxBullseyeCoverageSensorTest {
 //    verify(context, times(28)).newCoverage();
   }
 }
+
