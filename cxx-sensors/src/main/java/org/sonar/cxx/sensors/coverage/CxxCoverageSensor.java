@@ -288,7 +288,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
     Map<String, CoverageMeasures> coverageMeasures,
     CoverageType ctype) {
     for (Map.Entry<String, CoverageMeasures> entry : coverageMeasures.entrySet()) {
-      String filePath = PathUtils.sanitize(entry.getKey());
+      String filePath = CxxUtils.normalizePathFull(PathUtils.sanitize(entry.getKey()),  
+                                                  context.fileSystem().baseDir().getAbsolutePath());
       if (filePath!= null) {
         InputFile cxxFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(filePath));
         if (LOG.isDebugEnabled()) {

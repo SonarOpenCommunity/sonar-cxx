@@ -177,6 +177,11 @@ public class CxxSquidSensor implements Sensor {
         files.add(file.file());
       }
     }
+
+    if (LOG.isDebugEnabled() && !files.isEmpty()) {
+      LOG.debug("All source files (Type.MAIN): {}" , files);
+    }
+
     scanner.scanFiles(files);
 
     (new CxxCoverageSensor(this.cache, this.language, context)).execute(context, linesOfCodeByFile);
