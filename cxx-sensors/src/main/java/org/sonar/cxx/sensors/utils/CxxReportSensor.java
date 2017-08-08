@@ -262,7 +262,7 @@ public abstract class CxxReportSensor implements Sensor {
     // handles file="" situation -- file level
     if ((filename != null) && (!filename.isEmpty())) {
       String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
-      String normalPath = CxxUtils.normalizePathFull(PathUtils.sanitize(filename), root);
+      String normalPath = CxxUtils.normalizePathFull(filename, root);
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
         InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem()
                                                         .predicates().hasAbsolutePath(normalPath));
