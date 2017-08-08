@@ -30,6 +30,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import javax.xml.stream.XMLStreamException;
+
 import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.FileSystem;
 
@@ -239,7 +240,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
                       report.getAbsolutePath(), cacheCov.size());
               }
               cacheCov.put(report.getAbsolutePath(), measuresTotal);
-              // Only use first coverage parser with handles the data correctly
+              // Only use first coverage parser which handles the data correctly
               break;
             }
           }
@@ -248,6 +249,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
           LOG.debug("Report is empty {}", e);
         }
       } else {
+        measuresTotal = cacheCov.get(report.getAbsolutePath());
         if (LOG.isDebugEnabled()) {
           LOG.debug("Processing report '{}' skipped - already in cache", report);
         }
@@ -288,13 +290,17 @@ public class CxxCoverageSensor extends CxxReportSensor {
     for (Map.Entry<String, CoverageMeasures> entry : coverageMeasures.entrySet()) {
       String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath!= null) {
+        filePath = CxxUtils.normalizePathFull(filePath, context.fileSystem().baseDir().getAbsolutePath());
         InputFile cxxFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(filePath));
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("save coverage measure for file: '{}' cxxFile = '{}'", filePath, cxxFile);
+        }
         if (cxxFile != null) {
-          
+
           NewCoverage newCoverage = context.newCoverage()
                     .onFile(cxxFile)        
                     .ofType(ctype);
-        
+
           Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
           if (LOG.isDebugEnabled()) {
             LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
@@ -310,9 +316,12 @@ public class CxxCoverageSensor extends CxxReportSensor {
             LOG.error("Cannot save measure for file '{}' , ignoring measure. ", filePath, ex);
             CxxUtils.validateRecovery(ex, this.language);
           }
+          LOG.info("Saved '{}' coverage measures for file '{}'", measures.size(), filePath);
         } else {
           if (LOG.isDebugEnabled()) {
             LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+          } else if (filePath.startsWith(context.fileSystem().baseDir().getAbsolutePath())) {
+            LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);
           }
         }
       } else {
@@ -388,3 +397,4 @@ public class CxxCoverageSensor extends CxxReportSensor {
    }
 
 }
+
