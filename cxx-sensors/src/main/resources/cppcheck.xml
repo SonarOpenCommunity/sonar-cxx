@@ -4897,7 +4897,7 @@ The format string requires 'unsigned int *' but the argument type is 'DWORD * {a
   </rule>
   <rule>
     <key>invalidScanfArgType_float</key>
-    <name>Mismatch in string format: 'float *' vs Unknown.</name>
+    <name>Mismatch in string format: 'float *' vs Unknown</name>
     <description>
 <![CDATA[<p>
 %f in format string requires 'float *' but the argument type is Unknown.
@@ -4915,7 +4915,7 @@ The format string requires 'unsigned int *' but the argument type is 'DWORD * {a
   </rule>
   <rule>
     <key>invalidScanfArgType_s</key>
-    <name>Mismatch in string format: 'char *' vs Unknown.</name>
+    <name>Mismatch in string format: 'char *' vs Unknown</name>
     <description>
 <![CDATA[<p>
 %s in format string requires a 'char *' but the argument type is Unknown.
@@ -4946,10 +4946,10 @@ The format string requires 'unsigned int *' but the argument type is 'DWORD * {a
   </rule>
   <rule>
     <key>zerodivcond</key>
-    <name>Potential division by zero</name>
+    <name>Either the condition is redundant or there is division by zero</name>
     <description>
 <![CDATA[<p>
-Either the condition is useless or there is division by zero.
+Either the condition is redundant or there is division by zero.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=624" target="_blank">INT33-C. Ensure that division and remainder operations do not result in divide-by-zero errors</a></p>
 ]]>
@@ -5340,7 +5340,7 @@ Using "memfunc" on class that contains a reference.
   </rule>
   <rule>
     <key>selfInitialization</key>
-    <name>Member variable is initialized by itself.</name>
+    <name>Member variable is initialized by itself</name>
     <description>
 <![CDATA[
 <p>
@@ -5360,10 +5360,10 @@ Member variable 'var' is initialized by itself.
   </rule>
   <rule>
     <key>shiftTooManyBits</key>
-    <name>Shifting 32-bit value by 64 bits is undefined behaviour</name>
+    <name>Shifting 32-bit value by 40 bits is undefined behaviour</name>
     <description>
 <![CDATA[<p>
-Shifting 32-bit value by 64 bits is undefined behaviour.
+Shifting 32-bit value by 40 bits is undefined behaviour.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
@@ -6167,10 +6167,10 @@ Access of forwarded variable 'name'.
   </rule>
   <rule>
     <key>floatConversionOverflow</key>
-    <name>Undefined behaviour: float (1e+100) conversion overflow</name>
+    <name>Undefined behaviour: float (1e+100) to integer conversion overflow</name>
     <description>
 <![CDATA[<p>
-Undefined behaviour: float (1e+100) conversion overflow.
+Undefined behaviour: float (1e+100) to integer conversion overflow.
 </p><h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/190.html" target="_blank">CWE-190: Integer Overflow or Wraparound</a></p>
 ]]>
