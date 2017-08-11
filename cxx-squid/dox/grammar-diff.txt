@@ -82,11 +82,6 @@ postfix-expression:
    typeid ( expression )
    typeid ( type-id )
 
-labeled-statement:
-   attribute-specifier-seqopt identifier : statement
-   attribute-specifier-seqoptcase constant-expression : statement
-   attribute-specifier-seqoptdefault : statement
-
 iteration-statement:
    while ( condition ) statement
    do statement while ( expression ) ;
