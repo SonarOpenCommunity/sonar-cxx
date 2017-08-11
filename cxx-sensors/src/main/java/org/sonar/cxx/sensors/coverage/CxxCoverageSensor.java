@@ -307,7 +307,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
             LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
           }
           
-          measures.forEach((CoverageMeasure measure) -> checkCoverage(newCoverage, measure, measure.getType()));
+          measures.forEach((CoverageMeasure measure) -> checkCoverage(newCoverage, measure));
 
           try {
             newCoverage.save();
@@ -334,22 +334,17 @@ public class CxxCoverageSensor extends CxxReportSensor {
   /**
    * @param newCoverage
    * @param measure
-   * @param type
    */
-  private void checkCoverage(NewCoverage newCoverage, CoverageMeasure measure, CoverageMeasure.CoverageType type) {
+  private void checkCoverage(NewCoverage newCoverage, CoverageMeasure measure) {
     try {
-      if(type == CoverageMeasure.CoverageType.CONDITION) {
-        newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
-      } else {
-        newCoverage.lineHits(measure.getLine(), measure.getHits()); 
-      }
+      newCoverage.lineHits(measure.getLine(), measure.getHits());
+      newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
     } catch(RuntimeException ex) {
       LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ", 
                  measure.getLine(), ex);
       CxxUtils.validateRecovery(ex, this.language);
     }
   }
-
 
   private void warnUsageOfDeprecatedProperty(Settings settings, String reportPathProperty) {
     if (isSQ_6_2_or_newer && !settings.hasKey(getReportPathKey())) {

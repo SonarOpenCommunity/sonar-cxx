@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -33,8 +32,7 @@ import com.google.common.collect.Sets;
  * @author jocs
  */
 class CoverageMeasures {
-  private final Map<Integer, CoverageMeasure> measuresLines = new HashMap<>();
-  private final Map<Integer, CoverageMeasure> measuresConditions = new HashMap<>();
+  private final Map<Integer, CoverageMeasure> lineMeasures = new HashMap<>();
   
   private CoverageMeasures() {
     // empty
@@ -44,54 +42,41 @@ class CoverageMeasures {
     return new CoverageMeasures();
   }
 
-  void setHits(int lineId, int i) {
-    if (measuresLines.containsKey(lineId)) {
-      CoverageMeasure existentData = measuresLines.get(lineId);
-      existentData.setHits(lineId, i);      
-    } else {
-      CoverageMeasure newLineHit = new CoverageMeasure(CoverageMeasure.CoverageType.LINE, lineId);
-      newLineHit.setHits(lineId, i);
-      measuresLines.put(lineId, newLineHit);
-    }
+  void setHits(int lineId, int hits) {
+    lineMeasures.computeIfAbsent(lineId, v -> new CoverageMeasure(lineId));
+    CoverageMeasure coverageMeasure = lineMeasures.get(lineId);
+    coverageMeasure.setHits(hits);
   }
 
   void setConditions(int lineId, int totalConditions, int coveredConditions) {
-    if (measuresConditions.containsKey(lineId)) {
-      CoverageMeasure existentData = measuresConditions.get(lineId);
-      existentData.setConditions(totalConditions, coveredConditions);
-    } else {
-      CoverageMeasure newLineHit = new CoverageMeasure(CoverageMeasure.CoverageType.CONDITION, lineId);
-      newLineHit.setConditions(totalConditions, coveredConditions);
-      measuresConditions.put(lineId, newLineHit);
-    }
+    lineMeasures.computeIfAbsent(lineId, v -> new CoverageMeasure(lineId));
+    CoverageMeasure coverageMeasure = lineMeasures.get(lineId);
+    coverageMeasure.setConditions(totalConditions, coveredConditions);
   }
 
   Collection<CoverageMeasure> getCoverageMeasures() {
     Map<Integer, CoverageMeasure> measures = new HashMap<>();
-    measures.putAll(measuresLines);
-    measures.putAll(measuresConditions);
+    measures.putAll(lineMeasures);
     return measures.values();
   }  
   
-  public Set<Integer> getCoveredLines() {
+  Set<Integer> getCoveredLines() {
     Set<Integer> coveredLines = Sets.newHashSet();
-    measuresLines.entrySet().forEach(
-             (Entry<Integer, CoverageMeasure> line) -> {
-              if (line.getValue().getHits()!=0) {
-                coveredLines.add(line.getValue().getLine());
-             }
-            });
+    lineMeasures.forEach((key, value) -> {
+      if (value.getHits() != 0) {
+        coveredLines.add(value.getLine());
+      }
+    });
     return ImmutableSet.copyOf(coveredLines);
   }
   
-  public  Set<Integer> getCoveredConditions() {
+  Set<Integer> getCoveredConditions() {
     Set<Integer> coveredConditionLines = Sets.newHashSet();
-    measuresConditions.entrySet().forEach(
-            (Entry<Integer, CoverageMeasure> line) -> {
-             if (line.getValue().getCoveredConditions()!=0) {
-               coveredConditionLines.add(line.getValue().getLine());
-            }
-           });
+    lineMeasures.forEach((key, value) -> {
+      if (value.getCoveredConditions() != 0) {
+        coveredConditionLines.add(value.getLine());
+      }
+    });
     return ImmutableSet.copyOf(coveredConditionLines);
   }
 }

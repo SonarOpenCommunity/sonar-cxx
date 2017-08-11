@@ -25,21 +25,12 @@ package org.sonar.cxx.sensors.coverage;
  */
 class CoverageMeasure {
 
-  private int hits;
-
-  public enum CoverageType
-  {
-    LINE,
-    CONDITION
-  }
-  
-  private final CoverageType type;
   private final int line;
+  private int hits;
   private int conditions;  
   private int coveredConditions;
 
-  CoverageMeasure(CoverageType coverageType, int line) {
-    this.type = coverageType;
+  CoverageMeasure(int line) {
     this.line = line;
   }
 
@@ -55,17 +46,13 @@ class CoverageMeasure {
     return this.coveredConditions;
   }
 
-  void setHits(int lineId, int i) {
-    this.hits += i;
+  void setHits(int hits) {
+    this.hits += hits;
   }
 
   void setConditions(int totalConditions, int coveredConditions) {
     this.coveredConditions = coveredConditions;
     this.conditions = totalConditions;
-  }
-  
-  CoverageType getType() {
-    return this.type;
   }
   
   int getLine() {
