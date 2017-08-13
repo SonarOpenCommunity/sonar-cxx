@@ -144,10 +144,15 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
         break;
       case functionBody:
       case tryBlock:
+      case compoundStatement:
         executableLines.add(astNode.getTokenLine());
-        AstNode endblock = astNode.getFirstChild().getLastChild(CxxPunctuator.CURLBR_RIGHT);
-        if (endblock != null) {
-          executableLines.add(endblock.getTokenLine());
+        AstNode block = astNode.getFirstChild().getLastChild(CxxPunctuator.CURLBR_LEFT);
+        if (block != null) {
+          executableLines.add(block.getTokenLine());
+        }
+        block = astNode.getFirstChild().getLastChild(CxxPunctuator.CURLBR_RIGHT);
+        if (block != null) {
+          executableLines.add(block.getTokenLine());
         }
         break;
       default:
