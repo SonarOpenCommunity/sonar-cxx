@@ -34,6 +34,7 @@ import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.coverage.CoverageType;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.Settings;
+import org.sonar.api.utils.Version;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -43,6 +44,7 @@ public class CxxMSCoverageSensorTest {
   private SensorContextTester context;
   private CxxLanguage language;
   private Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
+  private static final Version SQ_6_2 = Version.create(6, 2);
 
   @Before
   public void setUp() {
@@ -50,6 +52,8 @@ public class CxxMSCoverageSensorTest {
     language = TestUtils.mockCxxLanguage();
 //    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY)).thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
+    when(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxCoverageSensor.IT_REPORT_PATH_KEY);
+    when(language.getPluginProperty(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY)).thenReturn("sonar.cxx." + CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY);
   }
 
  @Test
@@ -79,4 +83,35 @@ public class CxxMSCoverageSensorTest {
 
   }
 
+
+ @Test
+ public void shouldReportCorrectCoverageSQ62() {
+   context = SensorContextTester.create(fs.baseDir());
+   context.setSonarQubeVersion(SQ_6_2);
+
+   Settings settings = new Settings();
+//   settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
+   settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
+   settings.setProperty(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
+   settings.setProperty(language.getPluginProperty(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY), "True");
+   context.setSettings(settings);
+
+   context.fileSystem().add(new DefaultInputFile("ProjectKey", "source/motorcontroller/motorcontroller.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+   context.fileSystem().add(new DefaultInputFile("ProjectKey", "source/rootfinder/rootfinder.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+
+   sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+   sensor.execute(context, linesOfCodeByFile);
+   
+   int[] oneHitlinesA = new int[] {12, 14, 16, 19, 20, 21, 23, 25, 26, 27, 28};
+   for (int oneHitline : oneHitlinesA) {
+     assertThat(context.lineHits("ProjectKey:source/rootfinder/rootfinder.cpp", CoverageType.UNIT, oneHitline)).isEqualTo(1);
 }
+
+   int[] oneHitlinesB = new int[] {9, 10, 11, 14, 15, 16, 19, 20, 21, 24, 25, 26, 29, 30, 31};
+   for (int oneHitline : oneHitlinesB) {
+     assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", CoverageType.UNIT, oneHitline)).isEqualTo(1);
+   }
+
+ }
+}
+

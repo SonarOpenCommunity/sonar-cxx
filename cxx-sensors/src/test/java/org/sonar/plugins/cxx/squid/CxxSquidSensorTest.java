@@ -63,7 +63,6 @@ public class CxxSquidSensorTest {
             language,
             fileLinesContextFactory,
             checkFactory,
-            rules,
             null);    
   }
 
