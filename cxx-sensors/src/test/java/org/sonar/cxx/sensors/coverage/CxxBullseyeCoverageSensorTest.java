@@ -72,7 +72,7 @@ public class CxxBullseyeCoverageSensorTest {
     when(language.hasKey(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY)).thenReturn(true);
   }
 
-//  @Test
+  @Test
   public void shouldReportCorrectCoverage() {
     String coverageReport = "coverage-reports/bullseye/coverage-result-bullseye.xml";
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
@@ -155,14 +155,13 @@ public class CxxBullseyeCoverageSensorTest {
 
     Settings settings = new Settings();
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
-//    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), coverageReport);
     context.setSettings(settings);
 
     if (TestUtils.isWindows()) {
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("c:/main.c")).setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("c:/randomfoldernamethatihopeknowmachinehas/test.c")).setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("c:/randomfoldernamethatihopeknowmachinehas2/test2.c")).setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("c:/anotherincludeattop.h")).setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("C:\\main.c")).setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("C:\\randomfoldernamethatihopeknowmachinehas\\test.c")).setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("C:\\randomfoldernamethatihopeknowmachinehas2\\test2.c")).setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("C:\\anotherincludeattop.h")).setLanguage("cpp"));
     } else {
       context.fileSystem().add(new DefaultInputFile("ProjectKey", "/c/main.c").setLanguage("cpp"));
       context.fileSystem().add(new DefaultInputFile("ProjectKey", "/c/test/test.c").setLanguage("cpp"));

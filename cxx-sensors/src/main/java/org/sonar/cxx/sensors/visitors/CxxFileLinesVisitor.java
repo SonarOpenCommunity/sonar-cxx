@@ -67,8 +67,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   private final FileSystem fileSystem;
   private final Map<InputFile, Set<Integer>> allLinesOfCode;
   private int isWithinFunctionDefinition = 0;
-  private Set<CxxGrammarImpl> nodesToVisit = ImmutableSet.of(
+  private AstNodeType[] nodesToVisit = {
       CxxGrammarImpl.functionBody,
+      CxxGrammarImpl.functionTryBlock,
       CxxGrammarImpl.compoundStatement,
       CxxGrammarImpl.labeledStatement,
       CxxGrammarImpl.statement,
@@ -78,7 +79,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       CxxGrammarImpl.jumpStatement,
       CxxGrammarImpl.tryBlock,
       CxxGrammarImpl.assignmentExpression,
-      CxxGrammarImpl.lambdaExpression);
+      CxxGrammarImpl.lambdaExpression};
 
 
   /**
@@ -116,11 +117,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
     // ignore functional macros
     if (!token.getType().equals(EOL) && !token.isGeneratedCode()) {
-      // Handle all the lines of the token
-      String[] tokenLines = token.getValue().split("\n", -1);
-      for (int line = token.getLine(); line < token.getLine() + tokenLines.length; line++) {
-        linesOfCode.add(line);
-      }
+      linesOfCode.add(token.getLine());
     }
 
     List<Trivia> trivias = token.getTrivia();
@@ -138,28 +135,53 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     }
     switch ((CxxGrammarImpl) astNode.getType()) {
       case functionDefinition:
-        if (!isDefaultOrDeleteFunctionBody(astNode)) {
+        if (!isDefaultOrDeleteFunctionBody(astNode.getFirstChild(CxxGrammarImpl.functionBody))) {
           isWithinFunctionDefinition++;
         }
         break;
       case functionBody:
+      case functionTryBlock:
       case tryBlock:
       case compoundStatement:
+        visitBlock(astNode);
+        break;
+      case statement:
+      case labeledStatement:
+      case expressionStatement:
+      case selectionStatement:
+      case iterationStatement:
+      case jumpStatement:
+      case assignmentExpression:
+      case lambdaExpression:
         executableLines.add(astNode.getTokenLine());
-        AstNode block = astNode.getFirstChild().getLastChild(CxxPunctuator.CURLBR_LEFT);
-        if (block != null) {
-          executableLines.add(block.getTokenLine());
-        }
-        block = astNode.getFirstChild().getLastChild(CxxPunctuator.CURLBR_RIGHT);
-        if (block != null) {
-          executableLines.add(block.getTokenLine());
-        }
         break;
       default:
-        executableLines.add(astNode.getTokenLine());
+        // Do nothing particular
     }
   }
 
+  /**
+   * @param astNode
+   */
+  private void visitBlock(AstNode astNode) {
+//    List<AstNode> childrens = astNode.getChildren(nodesToVisit);
+//    for (AstNode children : childrens) {
+//      executableLines.add(children.getTokenLine());
+//    }
+    if (!isDefaultOrDeleteFunctionBody(astNode)) {
+      executableLines.add(astNode.getTokenLine());
+    }
+    AstNode block = astNode.getFirstChild(CxxPunctuator.CURLBR_LEFT);
+    if (block != null) {
+      executableLines.add(block.getTokenLine());
+      block = astNode.getLastChild(CxxPunctuator.CURLBR_RIGHT);
+      if (block != null) {
+        executableLines.add(block.getTokenLine());
+      }
+    }
+  }
+
+  
   @Override
   public void leaveNode(AstNode node) {
     if (!isDefaultOrDeleteFunctionBody(node)) {
@@ -167,13 +189,11 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     }
   }
 
-  private boolean isDefaultOrDeleteFunctionBody(AstNode functionDef) {
-    AstNode functionBodyNode = functionDef
-      .getFirstChild(CxxGrammarImpl.functionBody);
+  private boolean isDefaultOrDeleteFunctionBody(AstNode astNode) {
     boolean defaultOrDelete = false;
 
-    if (functionBodyNode != null) {
-      List<AstNode> functionBody = functionBodyNode.getChildren();
+    if ((astNode != null) && (astNode.is(CxxGrammarImpl.functionBody))){
+      List<AstNode> functionBody = astNode.getChildren();
 
       // look for exact sub AST
       if (functionBody.size() == 3) {

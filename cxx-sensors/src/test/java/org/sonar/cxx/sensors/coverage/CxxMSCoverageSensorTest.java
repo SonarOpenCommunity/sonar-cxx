@@ -59,10 +59,13 @@ public class CxxMSCoverageSensorTest {
  @Test
   public void shouldReportCorrectCoverage() {
     context = SensorContextTester.create(fs.baseDir());
+    context.setSonarQubeVersion(SQ_6_2);
 
     Settings settings = new Settings();
 //    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
+    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");    
+    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY), "true");
     context.setSettings(settings);
 
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "source/motorcontroller/motorcontroller.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
@@ -93,7 +96,7 @@ public class CxxMSCoverageSensorTest {
 //   settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
-   settings.setProperty(language.getPluginProperty(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY), "True");
+   settings.setProperty(language.getPluginProperty(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY), "true");
    context.setSettings(settings);
 
    context.fileSystem().add(new DefaultInputFile("ProjectKey", "source/motorcontroller/motorcontroller.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
