@@ -67,6 +67,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   private final FileSystem fileSystem;
   private final Map<InputFile, Set<Integer>> allLinesOfCode;
   private int isWithinFunctionDefinition = 0;
+  private final Set<String> ignoreToken = Sets.newHashSet("{", "}", "(", ")", "[", "]");
   private AstNodeType[] nodesToVisit = {
       CxxGrammarImpl.functionBody,
       CxxGrammarImpl.functionTryBlock,
@@ -115,10 +116,12 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       return;
     }
 
-    // ignore functional macros
-    if (!token.getType().equals(EOL) && !token.isGeneratedCode()) {
-      linesOfCode.add(token.getLine());
+    if (isWithinFunctionDefinition != 0) {
+      if (!ignoreToken.contains(token.getType().getValue())) {
+        linesOfCode.add(token.getLine());
+      }
     }
+
 
     List<Trivia> trivias = token.getTrivia();
     for (Trivia trivia : trivias) {
