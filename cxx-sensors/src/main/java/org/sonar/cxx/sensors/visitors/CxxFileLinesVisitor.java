@@ -67,7 +67,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   private final FileSystem fileSystem;
   private final Map<InputFile, Set<Integer>> allLinesOfCode;
   private int isWithinFunctionDefinition = 0;
-  private final Set<String> ignoreToken = Sets.newHashSet("{", "}", "(", ")", "[", "]");
+  private final Set<String> ignoreToken = Sets.newHashSet(";", "(", ")", "[", "]");
   private AstNodeType[] nodesToVisit = {
       CxxGrammarImpl.functionBody,
       CxxGrammarImpl.functionTryBlock,
@@ -186,15 +186,13 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
   
   @Override
-  public void leaveNode(AstNode node) {
-    if (!isDefaultOrDeleteFunctionBody(node)) {
+  public void leaveNode(AstNode astNode) {
+    if (!isDefaultOrDeleteFunctionBody(astNode.getFirstChild(CxxGrammarImpl.functionBody))) {
       isWithinFunctionDefinition--;
     }
   }
 
   private boolean isDefaultOrDeleteFunctionBody(AstNode astNode) {
-    boolean defaultOrDelete = false;
-
     if ((astNode != null) && (astNode.is(CxxGrammarImpl.functionBody))){
       List<AstNode> functionBody = astNode.getChildren();
 
@@ -207,13 +205,12 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
           if (bodyType.is(CxxKeyword.DELETE)
             || bodyType.is(CxxKeyword.DEFAULT)) {
-            defaultOrDelete = true;
+            return true;
           }
         }
       }
     }
-
-    return defaultOrDelete;
+    return false;
   }
 
   @Override

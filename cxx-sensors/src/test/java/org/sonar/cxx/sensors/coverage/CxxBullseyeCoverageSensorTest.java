@@ -77,6 +77,7 @@ public class CxxBullseyeCoverageSensorTest {
     String coverageReport = "coverage-reports/bullseye/coverage-result-bullseye.xml";
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
+    if (TestUtils.isWindows()) {
     Settings settings = new Settings();
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
 //    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY), coverageReport);
@@ -97,6 +98,7 @@ public class CxxBullseyeCoverageSensorTest {
     assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:main.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
+    }
   }
 
 //  @Test
