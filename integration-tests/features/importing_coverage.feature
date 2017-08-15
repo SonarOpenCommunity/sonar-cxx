@@ -83,14 +83,14 @@ Feature: Importing coverage data
               """
           AND the following metrics have following values:
               | metric                  | value |
-              | coverage                | 8.0   |
-              | line_coverage           | 4.3   |
+              | coverage                | 7.1   |
+              | line_coverage           | 3.8   |
               | branch_coverage         | 50    |
-              | it_coverage             | 18.2  |
-              | it_line_coverage        | 11.1  |
+              | it_coverage             | 16.9  |
+              | it_line_coverage        | 10.2  |
               | it_branch_coverage      | 50    |
-              | overall_coverage        | 25.0  |
-              | overall_line_coverage   | 16.7  |
+              | overall_coverage        | 19.2  |
+              | overall_line_coverage   | 11.9  |
               | overall_branch_coverage | 50    |
 
           
