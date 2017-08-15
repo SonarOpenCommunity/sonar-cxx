@@ -57,8 +57,8 @@ Feature: Importing coverage data
               """
           AND the following metrics have following values:
               | metric                  | value |
-              | coverage                | 28.6  |
-              | line_coverage           | 20.0  |
+              | coverage                | 24.1  |
+              | line_coverage           | 15.9  |
               | branch_coverage         | 50    |
 
               
@@ -115,8 +115,8 @@ Feature: Importing coverage data
               """
           AND the following metrics have following values:
               | metric                  | value |
-              | coverage                | 22.2  |
-              | line_coverage           | 14.3  |
+              | coverage                | 15.9  |
+              | line_coverage           | 9.5  |
               | branch_coverage         | 50    |
   
               

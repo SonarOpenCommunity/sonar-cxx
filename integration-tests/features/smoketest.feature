@@ -101,8 +101,8 @@ Feature: Smoketest
                # violations
                | violations               | 12    |
                # coverage statistics = with 5.6 there are plenty of differences because unit tests are not imported to the statistics. and the current coverage data does not match the files. todo create proper coverage data project
-               | coverage                 | 81.8  |
-               | line_coverage            | 100.0 |
+               | coverage                 | 39.1  |
+               | line_coverage            | 36.8  |
                | branch_coverage          | 50    |
                # test execution statistics
                #| test_success_density     | 50    | -> enable when this is restored in core

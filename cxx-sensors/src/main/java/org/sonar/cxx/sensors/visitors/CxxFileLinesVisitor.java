@@ -31,7 +31,6 @@ import com.sonar.sslr.api.Trivia;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import static com.sonar.sslr.api.GenericTokenType.EOL;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -51,10 +50,7 @@ import org.sonar.squidbridge.SquidAstVisitor;
  * Visitor that computes {@link CoreMetrics#NCLOC_DATA_KEY} and
  * {@link CoreMetrics#COMMENT_LINES_DATA_KEY} metrics used by the DevCockpit.
  */
-/**
- * @author bertk
- *
- */
+
 public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
   
   private static final Logger LOG = Loggers.get(CxxFileLinesVisitor.class);
@@ -116,10 +112,8 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       return;
     }
 
-    if (isWithinFunctionDefinition != 0) {
-      if (!ignoreToken.contains(token.getType().getValue())) {
-        linesOfCode.add(token.getLine());
-      }
+    if ((isWithinFunctionDefinition != 0) && !ignoreToken.contains(token.getType().getValue())) {
+      linesOfCode.add(token.getLine());
     }
 
 
@@ -133,9 +127,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
   @Override
   public void visitNode(AstNode astNode) {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("***** add executable lines for Node(s) : " + astNode);
-    }
+//    if (LOG.isDebugEnabled()) {
+//      LOG.debug("***** add executable lines for Node(s) : " + astNode);
+//    }
     switch ((CxxGrammarImpl) astNode.getType()) {
       case functionDefinition:
         if (!isDefaultOrDeleteFunctionBody(astNode.getFirstChild(CxxGrammarImpl.functionBody))) {
@@ -167,10 +161,6 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
    * @param astNode
    */
   private void visitBlock(AstNode astNode) {
-//    List<AstNode> childrens = astNode.getChildren(nodesToVisit);
-//    for (AstNode children : childrens) {
-//      executableLines.add(children.getTokenLine());
-//    }
     if (!isDefaultOrDeleteFunctionBody(astNode)) {
       executableLines.add(astNode.getTokenLine());
     }
@@ -192,21 +182,17 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     }
   }
 
-  private boolean isDefaultOrDeleteFunctionBody(AstNode astNode) {
+  private static boolean isDefaultOrDeleteFunctionBody(AstNode astNode) {
     if ((astNode != null) && (astNode.is(CxxGrammarImpl.functionBody))){
       List<AstNode> functionBody = astNode.getChildren();
 
       // look for exact sub AST
-      if (functionBody.size() == 3) {
-        if (functionBody.get(0).is(CxxPunctuator.ASSIGN)
-          && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
-
-          AstNode bodyType = functionBody.get(1);
-
-          if (bodyType.is(CxxKeyword.DELETE)
-            || bodyType.is(CxxKeyword.DEFAULT)) {
-            return true;
-          }
+      if ((functionBody.size() == 3) && functionBody.get(0).is(CxxPunctuator.ASSIGN)
+                                     && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
+        AstNode bodyType = functionBody.get(1);
+        if (bodyType.is(CxxKeyword.DELETE)
+          || bodyType.is(CxxKeyword.DEFAULT)) {
+          return true;
         }
       }
     }
