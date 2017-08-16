@@ -214,15 +214,13 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     }
     FileLinesContext fileLinesContext = fileLinesContextFactory.createFor(inputFile);
 
-    int fileLength = getContext().peekSourceCode().getInt(CxxMetric.LINES);
-    for (int line = 1; line <= fileLength; line++) {
-      fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, linesOfCode.contains(line) ? 1 : 0);
-      fileLinesContext.setIntValue(CoreMetrics.COMMENT_LINES_DATA_KEY, line, linesOfComments.contains(line) ? 1 : 0);
-      if(isSQ62orNewer) {
-        fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, line, 
-            executableLines.contains(line) ? 1 : 0);
-      }
+    linesOfCode.stream().forEach(line -> fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1));
+    linesOfComments.stream().forEach(line -> fileLinesContext.setIntValue(CoreMetrics.COMMENT_LINES_DATA_KEY, line, 1));
+    if(isSQ62orNewer) {
+      executableLines.stream().forEach(line -> fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, 
+                                                                            line, 1));
     }
+
     fileLinesContext.save();
     this.allLinesOfCode.put(inputFile, linesOfCode);
     
@@ -230,12 +228,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       LOG.debug("executableLines: '{}'", executableLines);
       LOG.debug("linesOfCode:     '{}'", linesOfCode);
       LOG.debug("linesOfComments: '{}'", linesOfComments);
-
     }
-    
-
   }
-  
+
   public Set<Integer> getLinesOfCode() {
     return ImmutableSet.copyOf(linesOfCode);
   }
