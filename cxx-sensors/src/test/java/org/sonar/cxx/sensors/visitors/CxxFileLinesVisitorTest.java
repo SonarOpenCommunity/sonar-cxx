@@ -68,12 +68,14 @@ public class CxxFileLinesVisitorTest {
 
     CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
 
-    assertThat(visitor.getLinesOfCode()).hasSize(32);
-    assertThat(visitor.getLinesOfCode()).containsOnly(64, 65, 66,  8,  9, 10, 11, 14, 15, 16, 17, 19, 21, 22, 23, 25, 26, 27, 31, 32,
-                                                      34, 35, 36, 37, 42, 43, 44, 45, 46, 60, 61, 63);
+    assertThat(visitor.getLinesOfCode()).hasSize(77);
+    assertThat(visitor.getLinesOfCode()).containsOnly( 8,  9, 10, 11, 14, 15, 16, 17, 19, 21, 22, 23, 25, 26, 27, 31, 32, 34, 35, 36, 
+                                                      37, 42, 43, 44, 45, 46, 51, 52, 53, 55, 56, 57, 58, 59, 60, 61, 63, 64, 65, 67,
+                                                      68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 79, 80, 82, 83, 84, 86, 87, 88, 89, 90,
+                                                      91, 93, 95, 96, 98, 99, 100, 101, 102, 103, 104, 115, 116, 118, 119, 120, 121);
 
-    assertThat(visitor.getLinesOfComments()).hasSize(9);
-    assertThat(visitor.getLinesOfComments()).containsOnly(48, 64, 1, 33, 35, 51, 7, 13, 62);
+    assertThat(visitor.getLinesOfComments()).hasSize(11);
+    assertThat(visitor.getLinesOfComments()).containsOnly(48, 1, 33, 97, 35, 117, 102, 7, 119, 106, 13);
 
   }
 
@@ -98,8 +100,11 @@ public class CxxFileLinesVisitorTest {
 
     CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
 
-    assertThat(visitor.getExecutableLines()).hasSize(23);
-    assertThat(visitor.getExecutableLines()).containsOnly(32, 64, 65, 34, 66, 35, 36, 37, 9, 10, 11, 43, 44, 45, 46, 15, 16, 19, 25, 26, 27, 61, 63);
+    assertThat(visitor.getExecutableLines()).hasSize(55);
+    assertThat(visitor.getExecutableLines()).containsOnly( 9, 10, 11, 15, 16, 19, 25, 26, 27, 32, 34, 35, 36, 37, 43, 44, 45, 46, 52, 53,
+                                                          55, 56, 57, 58, 59, 60, 61, 64, 67, 69, 70, 72, 73, 75, 76, 79, 80, 83, 86, 87,
+                                                          88, 90, 91, 93, 96, 98, 101, 102, 103, 104, 116, 118, 119, 120, 121);
   }
 
 }
+

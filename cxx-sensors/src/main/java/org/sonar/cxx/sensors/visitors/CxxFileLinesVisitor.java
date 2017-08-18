@@ -41,7 +41,6 @@ import org.sonar.api.utils.Version;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxKeyword;
-import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
@@ -68,13 +67,10 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       CxxGrammarImpl.functionBody,
       CxxGrammarImpl.functionTryBlock,
       CxxGrammarImpl.compoundStatement,
-      CxxGrammarImpl.labeledStatement,
       CxxGrammarImpl.statement,
       CxxGrammarImpl.expressionStatement,
-      CxxGrammarImpl.selectionStatement,
       CxxGrammarImpl.iterationStatement,
       CxxGrammarImpl.jumpStatement,
-      CxxGrammarImpl.tryBlock,
       CxxGrammarImpl.assignmentExpression,
       CxxGrammarImpl.lambdaExpression};
 
@@ -138,14 +134,13 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
         break;
       case functionBody:
       case functionTryBlock:
-      case tryBlock:
       case compoundStatement:
         visitBlock(astNode);
         break;
       case statement:
-      case labeledStatement:
+        visitStatement(astNode);
+        break;
       case expressionStatement:
-      case selectionStatement:
       case iterationStatement:
       case jumpStatement:
       case assignmentExpression:
@@ -160,17 +155,45 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   /**
    * @param astNode
    */
+  private void visitStatement(AstNode astNode) {
+    if (astNode.hasDirectChildren(CxxGrammarImpl.declarationStatement) 
+        && !astNode.hasDescendant(CxxGrammarImpl.initializer)) {
+      return;
+    }
+    if (!"case".equals(astNode.getTokenValue()) && !"default".equals(astNode.getTokenValue())) {
+      executableLines.add(astNode.getTokenLine());
+    }
+  }
+
+  /**
+   * @param astNode
+   */
   private void visitBlock(AstNode astNode) {
+    if (astNode.hasParent(CxxGrammarImpl.handler)) {
+      addBlockEndLine(astNode);
+      return;
+    }
     if (!isDefaultOrDeleteFunctionBody(astNode)) {
       executableLines.add(astNode.getTokenLine());
     }
-    AstNode block = astNode.getFirstChild(CxxPunctuator.CURLBR_LEFT);
-    if (block != null) {
-      executableLines.add(block.getTokenLine());
-      block = astNode.getLastChild(CxxPunctuator.CURLBR_RIGHT);
-      if (block != null) {
-        executableLines.add(block.getTokenLine());
-      }
+    AstNode node = astNode.getFirstChild(CxxGrammarImpl.statementSeq);
+    if (node != null && "case".equals(node.getTokenValue())) {
+      return;
+    }
+    node = astNode.getFirstChild(CxxPunctuator.CURLBR_LEFT);
+    if (node != null) {
+      executableLines.add(node.getTokenLine());
+      addBlockEndLine(astNode);
+    }
+  }
+
+  /**
+   * @param astNode
+   */
+  private void addBlockEndLine(AstNode astNode) {
+    AstNode node = astNode.getFirstChild(CxxPunctuator.CURLBR_RIGHT);
+    if (node != null) {
+      executableLines.add(node.getTokenLine());
     }
   }
 
@@ -244,4 +267,4 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   }
 
 }
-  
+
