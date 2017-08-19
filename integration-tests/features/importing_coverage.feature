@@ -57,8 +57,8 @@ Feature: Importing coverage data
               """
           AND the following metrics have following values:
               | metric                  | value |
-              | coverage                | 24.1  |
-              | line_coverage           | 15.9  |
+              | coverage                | 25.9  |
+              | line_coverage           | 17.5  |
               | branch_coverage         | 50    |
 
               
@@ -83,14 +83,14 @@ Feature: Importing coverage data
               """
           AND the following metrics have following values:
               | metric                  | value |
-              | coverage                | 7.1   |
-              | line_coverage           | 3.8   |
+              | coverage                | 9.1   |
+              | line_coverage           | 5.0   |
               | branch_coverage         | 50    |
-              | it_coverage             | 16.9  |
-              | it_line_coverage        | 10.2  |
+              | it_coverage             | 20.4  |
+              | it_line_coverage        | 12.8  |
               | it_branch_coverage      | 50    |
-              | overall_coverage        | 19.2  |
-              | overall_line_coverage   | 11.9  |
+              | overall_coverage        | 21.5  |
+              | overall_line_coverage   | 13.7  |
               | overall_branch_coverage | 50    |
 
           
@@ -115,8 +115,8 @@ Feature: Importing coverage data
               """
           AND the following metrics have following values:
               | metric                  | value |
-              | coverage                | 15.9  |
-              | line_coverage           | 9.5  |
+              | coverage                | 18.9  |
+              | line_coverage           | 11.7  |
               | branch_coverage         | 50    |
   
               
