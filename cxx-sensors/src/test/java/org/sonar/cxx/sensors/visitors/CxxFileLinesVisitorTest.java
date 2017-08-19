@@ -31,21 +31,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.utils.Version;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxFileLinesVisitorTest {
-    private static final Logger LOG = Loggers.get(CxxFileLinesVisitorTest.class);
     private static final Version SQ_6_2 = Version.create(6, 2);
     
   @Test
@@ -68,11 +63,10 @@ public class CxxFileLinesVisitorTest {
 
     CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
 
-    assertThat(visitor.getLinesOfCode()).hasSize(77);
-    assertThat(visitor.getLinesOfCode()).containsOnly( 8,  9, 10, 11, 14, 15, 16, 17, 19, 21, 22, 23, 25, 26, 27, 31, 32, 34, 35, 36, 
-                                                      37, 42, 43, 44, 45, 46, 51, 52, 53, 55, 56, 57, 58, 59, 60, 61, 63, 64, 65, 67,
-                                                      68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 79, 80, 82, 83, 84, 86, 87, 88, 89, 90,
-                                                      91, 93, 95, 96, 98, 99, 100, 101, 102, 103, 104, 115, 116, 118, 119, 120, 121);
+    assertThat(visitor.getLinesOfCode()).hasSize(48);
+    assertThat(visitor.getLinesOfCode()).containsOnly(8, 10, 14, 16, 17, 21, 22, 23, 26, 31, 34, 35, 42, 44, 45, 51, 53, 55, 56, 58,
+                                                      59, 63, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 79, 82, 84, 86, 87, 89, 90,
+                                                      95, 98, 99, 100, 102, 115, 118, 119);
 
     assertThat(visitor.getLinesOfComments()).hasSize(11);
     assertThat(visitor.getLinesOfComments()).containsOnly(48, 1, 33, 97, 35, 117, 102, 7, 119, 106, 13);
@@ -100,10 +94,9 @@ public class CxxFileLinesVisitorTest {
 
     CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
 
-    assertThat(visitor.getExecutableLines()).hasSize(55);
-    assertThat(visitor.getExecutableLines()).containsOnly( 9, 10, 11, 15, 16, 19, 25, 26, 27, 32, 34, 35, 36, 37, 43, 44, 45, 46, 52, 53,
-                                                          55, 56, 57, 58, 59, 60, 61, 64, 67, 69, 70, 72, 73, 75, 76, 79, 80, 83, 86, 87,
-                                                          88, 90, 91, 93, 96, 98, 101, 102, 103, 104, 116, 118, 119, 120, 121);
+    assertThat(visitor.getExecutableLines()).hasSize(26);
+    assertThat(visitor.getExecutableLines()).containsOnly(10, 16, 26, 34, 35, 44, 45, 53, 55, 56, 59, 67, 69, 70, 72, 73, 75,
+                                                          76, 79, 86, 87, 90, 98, 102, 118, 119);
   }
 
 }

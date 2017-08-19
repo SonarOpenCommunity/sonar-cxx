@@ -55,18 +55,15 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   private static final Logger LOG = Loggers.get(CxxFileLinesVisitor.class);
   private final FileLinesContextFactory fileLinesContextFactory;
   private static final Version SQ_6_2 = Version.create(6, 2);
-  private boolean isSQ62orNewer;
-  private Set<Integer> linesOfCode = Sets.newHashSet();
-  private Set<Integer> linesOfComments = Sets.newHashSet();
-  private Set<Integer> executableLines = Sets.newHashSet();
+  private static boolean isSQ62orNewer;
+  private static Set<Integer> linesOfCode = Sets.newHashSet();
+  private static Set<Integer> linesOfComments = Sets.newHashSet();
+  private static Set<Integer> executableLines = Sets.newHashSet();
   private final FileSystem fileSystem;
   private final Map<InputFile, Set<Integer>> allLinesOfCode;
-  private int isWithinFunctionDefinition = 0;
-  private final Set<String> ignoreToken = Sets.newHashSet(";", "(", ")", "[", "]");
-  private AstNodeType[] nodesToVisit = {
-      CxxGrammarImpl.functionBody,
-      CxxGrammarImpl.functionTryBlock,
-      CxxGrammarImpl.compoundStatement,
+  private static int isWithinFunctionDefinition;
+  private static final Set<String> ignoreToken = Sets.newHashSet(";", "{", "}", "(", ")", "[", "]");
+  private static AstNodeType[] nodesToVisit = {
       CxxGrammarImpl.statement,
       CxxGrammarImpl.expressionStatement,
       CxxGrammarImpl.iterationStatement,
@@ -112,7 +109,6 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       linesOfCode.add(token.getLine());
     }
 
-
     List<Trivia> trivias = token.getTrivia();
     for (Trivia trivia : trivias) {
       if (trivia.isComment()) {
@@ -128,14 +124,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 //    }
     switch ((CxxGrammarImpl) astNode.getType()) {
       case functionDefinition:
-        if (!isDefaultOrDeleteFunctionBody(astNode.getFirstChild(CxxGrammarImpl.functionBody))) {
+        if (!isDefaultOrDeleteFunctionBody(astNode)) {
           isWithinFunctionDefinition++;
         }
-        break;
-      case functionBody:
-      case functionTryBlock:
-      case compoundStatement:
-        visitBlock(astNode);
         break;
       case statement:
         visitStatement(astNode);
@@ -155,59 +146,28 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   /**
    * @param astNode
    */
-  private void visitStatement(AstNode astNode) {
+  private static void visitStatement(AstNode astNode) {
     if (astNode.hasDirectChildren(CxxGrammarImpl.declarationStatement) 
         && !astNode.hasDescendant(CxxGrammarImpl.initializer)) {
       return;
     }
-    if (!"case".equals(astNode.getTokenValue()) && !"default".equals(astNode.getTokenValue())) {
+    String value = astNode.getTokenValue();
+    if ( value != null && !"{".equals(value) && !"default".equals(value) && !"case".equals(value)) {
       executableLines.add(astNode.getTokenLine());
     }
   }
 
-  /**
-   * @param astNode
-   */
-  private void visitBlock(AstNode astNode) {
-    if (astNode.hasParent(CxxGrammarImpl.handler)) {
-      addBlockEndLine(astNode);
-      return;
-    }
-    if (!isDefaultOrDeleteFunctionBody(astNode)) {
-      executableLines.add(astNode.getTokenLine());
-    }
-    AstNode node = astNode.getFirstChild(CxxGrammarImpl.statementSeq);
-    if (node != null && "case".equals(node.getTokenValue())) {
-      return;
-    }
-    node = astNode.getFirstChild(CxxPunctuator.CURLBR_LEFT);
-    if (node != null) {
-      executableLines.add(node.getTokenLine());
-      addBlockEndLine(astNode);
-    }
-  }
-
-  /**
-   * @param astNode
-   */
-  private void addBlockEndLine(AstNode astNode) {
-    AstNode node = astNode.getFirstChild(CxxPunctuator.CURLBR_RIGHT);
-    if (node != null) {
-      executableLines.add(node.getTokenLine());
-    }
-  }
-
-  
   @Override
   public void leaveNode(AstNode astNode) {
-    if (!isDefaultOrDeleteFunctionBody(astNode.getFirstChild(CxxGrammarImpl.functionBody))) {
+    if (!isDefaultOrDeleteFunctionBody(astNode)) {
       isWithinFunctionDefinition--;
     }
   }
 
   private static boolean isDefaultOrDeleteFunctionBody(AstNode astNode) {
-    if ((astNode != null) && (astNode.is(CxxGrammarImpl.functionBody))){
-      List<AstNode> functionBody = astNode.getChildren();
+    AstNode node =astNode.getFirstChild(CxxGrammarImpl.functionBody);
+    if ((node != null) ){
+      List<AstNode> functionBody = node.getChildren();
 
       // look for exact sub AST
       if ((functionBody.size() == 3) && functionBody.get(0).is(CxxPunctuator.ASSIGN)
@@ -267,4 +227,5 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   }
 
 }
+
 
