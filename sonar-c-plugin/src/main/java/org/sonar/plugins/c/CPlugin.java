@@ -26,7 +26,6 @@ import org.sonar.api.Plugin;
 
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
-import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.config.PropertyDefinition;
@@ -599,9 +598,8 @@ public final class CPlugin implements Plugin {
     public CxxSquidSensorImpl(Settings settings,
             FileLinesContextFactory fileLinesContextFactory,
             CheckFactory checkFactory,
-            ActiveRules rules,
             CxxCoverageAggregator coverageCache) {
-      super(new CLanguage(settings), fileLinesContextFactory, checkFactory, rules, coverageCache);      
+      super(new CLanguage(settings), fileLinesContextFactory, checkFactory, coverageCache);      
     }
   }
     

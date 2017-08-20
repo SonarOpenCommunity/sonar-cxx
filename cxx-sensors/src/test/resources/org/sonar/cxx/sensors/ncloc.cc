@@ -48,6 +48,61 @@ void func5()
 // declaration
 void func6();
 
+void func7(bool flag)
+{
+    int iii = 0;
+
+    if (flag) {
+        iii = 1;
+    }
+    else {
+        iii = 0;
+    }
+}
+
+int func8(int p)
+{
+    int r;
+
+    switch (p) {
+    case 0:
+        r = 100;
+        break;
+    case 1:
+        r = 200;
+        break;
+    default:
+        r = 300;
+        break;
+    }
+
+    return r;
+}
+
+void func9()
+{
+    int *p;
+
+    try {
+        p = new int[10];
+    }
+    catch (...) {
+        p = nullptr;
+    }
+
+}
+
+void func10()
+{
+    // comment
+    for (int iii = 0;
+        iii < NUMBER;
+        ++iii)
+    {
+        h1 += iii; // comment
+    }
+}
+
 // inline
 class MyClass {
 public:

@@ -32,7 +32,6 @@ import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.CxxAstScanner;
@@ -70,7 +69,7 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
 import org.sonar.cxx.sensors.visitors.CxxCpdVisitor;
 import org.sonar.cxx.sensors.visitors.CxxHighlighterVisitor;
-import org.sonar.cxx.sensors.visitors.FileLinesVisitor;
+import org.sonar.cxx.sensors.visitors.CxxFileLinesVisitor;
 
 /**
  * {@inheritDoc}
@@ -98,7 +97,6 @@ public class CxxSquidSensor implements Sensor {
 
   private final FileLinesContextFactory fileLinesContextFactory;
   private final CxxChecks checks;
-  private ActiveRules rules;
 
   private AstScanner<Grammar> scanner;
   private final CxxLanguage language;
@@ -110,9 +108,8 @@ public class CxxSquidSensor implements Sensor {
   public CxxSquidSensor(CxxLanguage language,
           FileLinesContextFactory fileLinesContextFactory,
           CheckFactory checkFactory,
-          ActiveRules rules,
           @Nullable CxxCoverageCache coverageCache) {
-    this(language, fileLinesContextFactory, checkFactory, rules, null, coverageCache);    
+    this(language, fileLinesContextFactory, checkFactory, null, coverageCache);    
   }
   
   /**
@@ -121,14 +118,12 @@ public class CxxSquidSensor implements Sensor {
   public CxxSquidSensor(CxxLanguage language,
           FileLinesContextFactory fileLinesContextFactory,
           CheckFactory checkFactory,
-          ActiveRules rules,
           @Nullable CustomCxxRulesDefinition[] customRulesDefinition,
           @Nullable CxxCoverageCache coverageCache) {
     this.checks = CxxChecks.createCxxCheck(checkFactory)
       .addChecks(language.getRepositoryKey(), language.getChecks())
       .addCustomChecks(customRulesDefinition);
     this.fileLinesContextFactory = fileLinesContextFactory;
-    this.rules = rules;
     this.language = language;
            
     if (coverageCache == null) {
@@ -152,7 +147,7 @@ public class CxxSquidSensor implements Sensor {
         
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     visitors.add(new CxxHighlighterVisitor(context));
-    visitors.add(new FileLinesVisitor(fileLinesContextFactory, context.fileSystem(), linesOfCodeByFile));
+    visitors.add(new CxxFileLinesVisitor(fileLinesContextFactory, context, linesOfCodeByFile));
     visitors.add(
             new CxxCpdVisitor(
                     context,
