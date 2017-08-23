@@ -114,13 +114,13 @@ public class DeclaratorsTest extends ParserBaseTest {
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.cvQualifierSeq);
     mockRule(CxxGrammarImpl.refQualifier);
-    mockRule(CxxGrammarImpl.exceptionSpecification);
+    mockRule(CxxGrammarImpl.noexceptSpecifier);
 
     assertThat(p).matches("( parameterDeclarationClause )");
     assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq");
     assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq");
     assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier");
-    assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier exceptionSpecification");
+    assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier noexceptSpecifier");
   }
 
   @Test

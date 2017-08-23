@@ -45,7 +45,7 @@ public class ExceptionHandlingTest extends ParserBaseTest {
 
   @Test
   public void exceptionSpecification_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.exceptionSpecification));
+    p.setRootRule(g.rule(CxxGrammarImpl.noexceptSpecifier));
 
     assertThat(p).matches("throw()");
     assertThat(p).matches("throw(...)");
@@ -66,7 +66,7 @@ public class ExceptionHandlingTest extends ParserBaseTest {
 
   @Test
   public void noexceptSpecification() {
-    p.setRootRule(g.rule(CxxGrammarImpl.noexceptSpecification));
+    p.setRootRule(g.rule(CxxGrammarImpl.noexceptSpecifier));
 
     mockRule(CxxGrammarImpl.constantExpression);
 

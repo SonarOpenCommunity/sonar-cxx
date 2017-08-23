@@ -58,6 +58,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   captureDefault,
   captureList,
   capture,
+  simpleCapture,
+  initCapture,
   lambdaDeclarator,
   foldExpression,
   foldOperator,
@@ -320,10 +322,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   handler,
   exceptionDeclaration,
   throwExpression,
-  exceptionSpecification,
-  dynamicExceptionSpecification,
   typeIdList,
-  noexceptSpecification;
+  noexceptSpecifier;
 
   public static final Logger LOG = Loggers.get(CxxGrammarImpl.class);
 
@@ -456,25 +456,45 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(lambdaIntroducer).is("[", b.optional(lambdaCapture), "]"); // C++
 
     b.rule(lambdaCapture).is(
-      b.firstOf( // todo ok but wrong order?
-        b.sequence(captureDefault, ",", captureList), // C++
-        captureList, // C++
-        captureDefault // C++
+      b.firstOf(
+        b.sequence(captureDefault, b.optional(b.sequence(",", captureList))), // C++
+        captureList // C++
       )
     );
 
-    b.rule(captureDefault).is(b.firstOf("&", "=")); // C++
+    b.rule(captureDefault).is(
+      b.sequence(b.firstOf("&", "="), b.nextNot(capture)) // C++
+    ); 
 
-    b.rule(captureList).is(b.sequence(capture, b.optional("...")), b.zeroOrMore(",", b.sequence(capture, b.optional("...")))); // C++
+    b.rule(captureList).is(
+      b.sequence(capture, b.optional("...")), b.zeroOrMore(",", b.sequence(capture, b.optional("..."))) // C++
+    ); 
 
-    b.rule(capture).is( // todo simple-capture, init-capture
+    b.rule(capture).is(
       b.firstOf(
-        expression,
-        b.sequence("&", expression)
-      ));
+        b.sequence(simpleCapture, b.nextNot("=")), // C++
+        initCapture // C++
+      )
+    );
+    
+    b.rule(simpleCapture).is(
+      b.firstOf(
+        IDENTIFIER, // C++
+        b.sequence("&", IDENTIFIER), // C++
+        CxxKeyword.THIS, // C++
+        b.sequence("*", CxxKeyword.THIS) // C++
+      )
+    );
+
+    b.rule(initCapture).is(
+      b.firstOf(
+        b.sequence(IDENTIFIER, initializer), // C++
+        b.sequence("&", IDENTIFIER, initializer) // C++
+      )
+    );
 
     b.rule(lambdaDeclarator).is(
-      "(", parameterDeclarationClause, ")", b.optional(CxxKeyword.MUTABLE), b.optional(exceptionSpecification), b.optional(attributeSpecifierSeq), b.optional(trailingReturnType) // C++
+      "(", parameterDeclarationClause, ")", b.optional(declSpecifierSeq), b.optional(noexceptSpecifier), b.optional(attributeSpecifierSeq), b.optional(trailingReturnType) // C++
     );
 
     b.rule(foldExpression).is(
@@ -1119,12 +1139,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(parametersAndQualifiers).is(
       "(", parameterDeclarationClause, ")", // C++
-      b.optional(attributeSpecifierSeq), // C++ todo wrong position
-      b.optional(cvQualifierSeq), // C++
-      b.optional(cliFunctionModifiers), // C++/CLI
-      b.optional(refQualifier), // C++
-      b.optional(exceptionSpecification), // C++
-      b.optional(trailingReturnType) // todo wrong?
+         b.optional(attributeSpecifierSeq), // C++ todo wrong position
+         b.optional(cvQualifierSeq), // C++
+         b.optional(cliFunctionModifiers), // C++/CLI
+         b.optional(refQualifier), // C++
+         b.optional(noexceptSpecifier), // C++
+         b.optional(trailingReturnType) // todo wrong?
     );
 
     b.rule(trailingReturnType).is(
@@ -1756,14 +1776,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(exceptionSpecification).is(
+    b.rule(noexceptSpecifier).is(
       b.firstOf(
-        dynamicExceptionSpecification, // C++
-        noexceptSpecification // C++
+        b.sequence(CxxKeyword.NOEXCEPT, "(", constantExpression, ")"), // C++
+        CxxKeyword.NOEXCEPT, // C++
+        b.sequence(CxxKeyword.THROW, "(", b.optional(typeIdList), ")") // C++ / Microsoft: typeIdList
       )
     );
-
-    b.rule(dynamicExceptionSpecification).is(CxxKeyword.THROW, "(", b.optional(typeIdList), ")"); // C++
 
     b.rule(typeIdList).is(
         b.firstOf(
@@ -1771,13 +1790,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
           "..."// Microsoft extension
         )
       ); 
-
-    b.rule(noexceptSpecification).is(
-      b.firstOf(
-        b.sequence(CxxKeyword.NOEXCEPT, "(", constantExpression, ")"), // C++
-        CxxKeyword.NOEXCEPT // C++
-      )
-    );
 
   }
   
