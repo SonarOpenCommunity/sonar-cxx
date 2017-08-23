@@ -201,12 +201,12 @@ public class BullseyeParser extends CxxCoverageParser {
         totaldecisions += 1;
         setTotalCoveredDecisions(event);
         break;
-    case "condition":
+      case "condition":
         totalconditions += 2;
         totalcoveredconditions += 1;
         setTotalCoveredConditions(event);
         break;
-    case "function":
+      case "function":
         if ("full".equalsIgnoreCase(event)) {
           fileMeasuresBuilderIn.setHits(Integer.parseInt(line), 1);
         }
@@ -225,7 +225,9 @@ public class BullseyeParser extends CxxCoverageParser {
         totalcoveredconditions += 1;
         break;
       case "none":
-        totalcoveredconditions -= 1;
+        if (totalcoveredconditions > 1) {
+          totalcoveredconditions -= 1;
+        }
         break;
       default:
         // do nothing
@@ -240,6 +242,7 @@ public class BullseyeParser extends CxxCoverageParser {
       case "full":
         totalcovereddecisions = 2;
         break;
+      case "true":        
       case "false":
         totalcovereddecisions = 1;
         break;

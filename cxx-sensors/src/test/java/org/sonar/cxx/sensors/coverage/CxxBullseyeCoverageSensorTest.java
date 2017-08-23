@@ -98,11 +98,29 @@ public class CxxBullseyeCoverageSensorTest {
       assertThat(context.lineHits("ProjectKey:main.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
   
       int[] oneHitlinesA = new int[] { 7, 12, 17, 30};
-      for (int oneHitline : oneHitlinesA) {
-        LOG.debug("Check line: {}", oneHitline);
-        assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, oneHitline)).isEqualTo(1);
-        assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, oneHitline)).isEqualTo(1);
+      for (int line : oneHitlinesA) {
+        LOG.debug("Check line coverage: {}", line);
+        assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, line)).isEqualTo(1);
+        assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, line)).isEqualTo(1);
       }
+      int[] coveredCondition = new int [] { 34, 42, 43, 46};
+      // full covered condition
+      for (int line : coveredCondition) {
+        LOG.debug("Check conditions line: {}", line);
+        assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
+        assertThat(context.conditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
+        assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
+        assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
+      }
+      LOG.debug("partial covered condition - line: 19"); 
+      assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 19)).isEqualTo(2);
+      assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 19)).isEqualTo(1);
+      LOG.debug("multiple covered condition - line: 37"); 
+      // multiple covered condition
+      assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(4);
+      assertThat(context.conditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(4);
+      assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(4);
+      assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(4);
       // ToDo check total number of hits for each file
     }
   }
