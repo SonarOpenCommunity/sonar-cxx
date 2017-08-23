@@ -22,6 +22,11 @@ package org.sonar.cxx.sensors.coverage;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 /**
  *
@@ -32,12 +37,11 @@ class CoverageMeasures {
   private final Map<Integer, CoverageMeasure> measuresConditions = new HashMap<>();
   
   private CoverageMeasures() {
-    
+    // empty
   }
   
   static CoverageMeasures create() {
-    CoverageMeasures measures = new CoverageMeasures();
-    return measures;
+    return new CoverageMeasures();
   }
 
   void setHits(int lineId, int i) {
@@ -68,4 +72,26 @@ class CoverageMeasures {
     measures.putAll(measuresConditions);
     return measures.values();
   }  
+  
+  public Set<Integer> getCoveredLines() {
+    Set<Integer> coveredLines = Sets.newHashSet();
+    measuresLines.entrySet().forEach(
+             (Entry<Integer, CoverageMeasure> line) -> {
+              if (line.getValue().getHits()!=0) {
+                coveredLines.add(line.getValue().getLine());
+             }
+            });
+    return ImmutableSet.copyOf(coveredLines);
+  }
+  
+  public  Set<Integer> getCoveredConditions() {
+    Set<Integer> coveredConditionLines = Sets.newHashSet();
+    measuresConditions.entrySet().forEach(
+            (Entry<Integer, CoverageMeasure> line) -> {
+             if (line.getValue().getCoveredConditions()!=0) {
+               coveredConditionLines.add(line.getValue().getLine());
+            }
+           });
+    return ImmutableSet.copyOf(coveredConditionLines);
+  }
 }
