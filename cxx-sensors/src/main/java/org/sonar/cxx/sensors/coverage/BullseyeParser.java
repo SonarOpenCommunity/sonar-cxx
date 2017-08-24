@@ -178,9 +178,6 @@ public class BullseyeParser extends CxxCoverageParser {
 
   private static void saveConditions(CoverageMeasures fileMeasuresBuilderIn) {
     if (totaldecisions > 0 || totalconditions > 0) {
-      if (totalcovereddecisions > 0 || totalcoveredconditions > 0) {
-        fileMeasuresBuilderIn.setHits(Integer.parseInt(prevLine), 1);
-      } 
       if (totalconditions > 0) {
         fileMeasuresBuilderIn.setConditions(Integer.parseInt(prevLine), totalconditions, totalcoveredconditions);
       } else {
