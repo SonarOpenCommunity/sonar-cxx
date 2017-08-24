@@ -394,8 +394,7 @@ init-capture:
    & identifier initializer
 
 lambda-declarator:
-   ( parameter-declaration-clause ) decl-specifier-seqopt
-   noexcept-specifieropt attribute-specifier-seqopt trailing-return-typeopt
+   ( parameter-declaration-clause ) decl-specifier-seqopt noexcept-specifieropt attribute-specifier-seqopt trailing-return-typeopt
 
 fold-expression:
    ( cast-expression fold-operator ... )

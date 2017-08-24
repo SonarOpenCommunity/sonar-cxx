@@ -51,16 +51,6 @@ user-defined-floating-literal:
    hexadecimal-prefix hexadecimal-fractional-constant binary-exponent-part ud-suffix
    hexadecimal-prefix hexadecimal-digit-sequence binary-exponent-part ud-suffix
 
-simple-capture:
-   identifier
-   & identifier
-   this
-   * this
-
-lambda-declarator:
-   ( parameter-declaration-clause ) decl-specifier-seqopt
-   noexcept-specifieropt attribute-specifier-seqopt trailing-return-typeopt
-
 postfix-expression:
    primary-expression
    postfix-expression [ expr-or-braced-init-list ]
@@ -202,8 +192,7 @@ balanced-token:
    any token other than a parenthesis, a bracket, or a brace
 
 parameters-and-qualifiers:
-   ( parameter-declaration-clause ) cv-qualifier-seqopt
-   ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
+   ( parameter-declaration-clause ) cv-qualifier-seqopt ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
 
 trailing-return-type:
    -> type-id
@@ -227,11 +216,6 @@ member-declaration:
 
 deduction-guide:
    explicitopt template-name ( parameter-declaration-clause ) -> simple-template-id ;
-
-noexcept-specifier:
-   noexcept ( constant-expression )
-   noexcept
-   throw ( )
 
 group-part:
    if-section

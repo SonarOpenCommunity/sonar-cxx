@@ -272,7 +272,7 @@ public class CxxGrammar extends Grammar {
   public Rule handler;
   public Rule exceptionDeclaration;
   public Rule throwExpression;
-  public Rule exceptionSpecification;
+  public Rule noexceptSpecifier;
   public Rule dynamicExceptionSpecification;
   public Rule typeIdList;
   public Rule noexceptSpecification;
