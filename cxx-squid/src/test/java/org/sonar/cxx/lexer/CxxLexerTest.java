@@ -374,6 +374,14 @@ public class CxxLexerTest {
     assertThat(lexer.lex("3.14e-10L"), hasToken("3.14e-10L", CxxTokenType.NUMBER));
     assertThat(lexer.lex("3.14E-10L"), hasToken("3.14E-10L", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0e0L"), hasToken("0e0L", CxxTokenType.NUMBER));
+    
+    // c++17: hexadecimal floating literals
+    assertThat(lexer.lex("0x1ffp10"), hasToken("0x1ffp10", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("0X0p-1"), hasToken("0X0p-1", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("0x1.p0"), hasToken("0x1.p0", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("0xf.p-1"), hasToken("0xf.p-1", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("0x0.123p-1"), hasToken("0x0.123p-1", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("0xa.bp10l"), hasToken("0xa.bp10l", CxxTokenType.NUMBER));
   }
 
   /**
