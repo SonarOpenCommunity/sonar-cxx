@@ -201,7 +201,6 @@ public class BullseyeParser extends CxxCoverageParser {
         break;
       case "condition":
         totalconditions += 2;
-        totalcoveredconditions += 1;
         setTotalCoveredConditions(event);
         break;
       case "function":
@@ -225,12 +224,14 @@ public class BullseyeParser extends CxxCoverageParser {
   private static void setTotalCoveredConditions(String event) {
     switch (event.toLowerCase(Locale.ENGLISH)) {
       case "full":
+        totalcoveredconditions += 2;
+        break;
+      case "true":
+      case "false":
         totalcoveredconditions += 1;
         break;
       case "none":
-        if (totalcoveredconditions > 1) {
-          totalcoveredconditions -= 1;
-        }
+        // do nothing
         break;
       default:
         // do nothing
