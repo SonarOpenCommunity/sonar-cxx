@@ -147,6 +147,65 @@ public class CxxBullseyeCoverageSensorTest {
     }
   }
 
+  @Test
+  public void shouldReportAllProbes() {
+
+    String coverageReport = "coverage-reports/bullseye/bullseye-coverage-Linux-V8.9.60.xml";
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
+    if (TestUtils.isWindows()) {
+      Settings settings = new Settings();
+      settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
+
+      context.setSettings(settings);
+      String[] fileList = new String [] {
+          "covfile/import/cereal/archives/json.hpp",
+          "covfile/import/jpeg-compressor/src/jpgd.cpp",
+          "covfile/src/main/vr_io/src/ModalityLUTJson.cpp",
+          "covfile/src/test/vr_core/Image_unittest.cpp",
+          "covfile/import/cereal/external/base64.hpp",
+          "covfile/import/cereal/details/traits.hpp",
+          "covfile/import/jpeg-compressor/src/jpge.cpp",
+          "covfile/src/main/vr_io/src/RenderingParamJson.cpp",
+          "covfile/import/cereal/external/rapidjson/prettywriter.h",
+          "covfile/import/cereal/external/rapidjson/document.h",
+          "covfile/src/main/main/main.cpp",
+          "covfile/import/cereal/details/static_object.hpp"
+      };
+      
+      StringBuilder sourceContent = new StringBuilder();
+      sourceContent.append("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+      for (int i = 0; i<4000; i++) {
+        sourceContent.append('\n');
+      }
+      
+      for (String filepath: fileList) {
+        context.fileSystem().add(new DefaultInputFile("ProjectKey", filepath).setLanguage("cpp").initMetadata(sourceContent.toString()));
+      }
+      sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+      sensor.execute(context, linesOfCodeByFile);
+
+      int[] coveredCondition = new int [] { 496, 475, 524};
+
+      for (int line : coveredCondition) {
+        LOG.debug("Check conditions line: {}", line);
+        assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, line)).isEqualTo(2);
+        assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, line)).isEqualTo(2);
+      }
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 530)).isEqualTo(4);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 530)).isEqualTo(3);
+
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 483)).isEqualTo(4);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 483)).isEqualTo(2);
+
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 552)).isEqualTo(2);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 552)).isEqualTo(1);
+
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 495)).isEqualTo(2);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 495)).isEqualTo(1);
+
+    }
+  }
 
 }
 

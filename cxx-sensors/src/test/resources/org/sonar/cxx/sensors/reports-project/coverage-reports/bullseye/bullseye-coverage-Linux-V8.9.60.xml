@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- BullseyeCoverage 8.9.60 Linux x64 License 38630 -->
-<BullseyeCoverage name="covfile" dir="/home/lemaral/Perforce/pfh2_services_dev/services/vrrendering/vrrendering/" buildId="49a341c02015-08-02 18:35:28" version="4" xmlns="http://www.bullseye.com/covxml">
+<!-- BullseyeCoverage 8.9.60 Linux x64 License 38630 --> 
+<BullseyeCoverage name="covfile" dir="." buildId="49a341c02015-08-02 18:35:28" version="4" xmlns="http://www.bullseye.com/covxml">
   <folder name="covfile" fn_cov="320" fn_total="1536" cd_cov="592" cd_total="2920" d_cov="494" d_total="2144">
     <folder name="import" fn_cov="154" fn_total="1327" cd_cov="238" cd_total="2266" d_cov="187" d_total="1612">
       <folder name="cereal" fn_cov="94" fn_total="446" cd_cov="96" cd_total="622" d_cov="67" d_total="440">
