@@ -41,7 +41,6 @@ import java.util.Set;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.coverage.CoverageType;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxBullseyeCoverageSensorTest {
@@ -125,89 +124,29 @@ public class CxxBullseyeCoverageSensorTest {
     }
   }
 
-//  @Test
+  @Test
   public void shouldParseTopLevelFiles() {
-    String coverageReport;
-    if (TestUtils.isWindows()) {
-      coverageReport = "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-win.xml";
-    } else {
-      coverageReport = "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-linux.xml";
-    }
+    // read top level folder name from report file
+    String coverageReport = "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-win.xml";
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    
-    Settings settings = new Settings();
-    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
-//    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), coverageReport);
-    context.setSettings(settings);
-
-
     if (TestUtils.isWindows()) {
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("c:/randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h")).setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("c:/randomfoldernamethatihopeknowmachinehas/test/test.c")).setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("c:/randomfoldernamethatihopeknowmachinehas/test2/test2.c")).setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("c:/randomfoldernamethatihopeknowmachinehas/main.c")).setLanguage("cpp"));
-    } else {
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "/c/test/anotherincludeattop.h").setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "/c/test/test/test.c").setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "/c/test/test2/test2.c").setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "/c/test/main.c").setLanguage("cpp"));
+      Settings settings = new Settings();
+      settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
+
+      context.setSettings(settings);
+      context.fileSystem().add(new DefaultInputFile("ProjectKey", "randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+      context.fileSystem().add(new DefaultInputFile("ProjectKey", "randomfoldernamethatihopeknowmachinehas/test/test.c").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+      context.fileSystem().add(new DefaultInputFile("ProjectKey", "randomfoldernamethatihopeknowmachinehas/test2/test2.c").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+      context.fileSystem().add(new DefaultInputFile("ProjectKey", "randomfoldernamethatihopeknowmachinehas/main.c").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+
+      sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+      sensor.execute(context, linesOfCodeByFile);
+
+      assertThat(context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", CoverageType.UNIT, 4)).isEqualTo(1);
+      assertThat(context.conditions("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", CoverageType.UNIT, 7)).isEqualTo(2);
     }
-
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context, linesOfCodeByFile);
-
-  for (int i =1 ; i< 10; i++) {
-  LOG.debug("lineHit for line '{} is '{}'", i , context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h", CoverageType.UNIT, i));
-}
-    
-    if (TestUtils.isWindows()) {
-      assertThat(context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h", CoverageType.UNIT, 4)).isEqualTo(1);
-    } else {
-      assertThat(context.lineHits("ProjectKey:/c/test/anotherincludeattop.h", CoverageType.UNIT, 4)).isEqualTo(1);      
-    }
-
-//    verify(context, times(28)).newCoverage();
   }
 
-//  @Test
-  public void shouldCorrectlyHandleDriveLettersWithoutSlash() {
-    String coverageReport;
-    if (TestUtils.isWindows()) {
-      coverageReport = "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash-win.xml";
-    } else {
-      coverageReport = "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash-linux.xml";
-    }
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
-    Settings settings = new Settings();
-    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
-    context.setSettings(settings);
-
-    if (TestUtils.isWindows()) {
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("C:\\main.c")).setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("C:\\randomfoldernamethatihopeknowmachinehas\\test.c")).setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("C:\\randomfoldernamethatihopeknowmachinehas2\\test2.c")).setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", CxxUtils.normalizePath("C:\\anotherincludeattop.h")).setLanguage("cpp"));
-    } else {
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "/c/main.c").setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "/c/test/test.c").setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "/c/test2/test2.c").setLanguage("cpp"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "/c/anotherincludeattop.h").setLanguage("cpp"));
-    }
-
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context, linesOfCodeByFile);
-
-    for (int i =1 ; i< 10; i++) {
-      LOG.debug("lineHit for line '{} is '{}'", i , context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/test.c", CoverageType.UNIT, i));
-    }
-
-    if (TestUtils.isWindows()) {
-      assertThat(context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/test.c", CoverageType.UNIT, 4)).isEqualTo(1);
-    } else {
-      assertThat(context.lineHits("ProjectKey:/c/test/test.c", CoverageType.UNIT, 4)).isEqualTo(1);
-    }    
-//    verify(context, times(28)).newCoverage();
-  }
 }
 
