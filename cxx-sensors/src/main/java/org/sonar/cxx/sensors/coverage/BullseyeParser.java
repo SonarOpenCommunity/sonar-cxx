@@ -198,9 +198,12 @@ public class BullseyeParser extends CxxCoverageParser {
   private static void updateMeasures(String kind, String event, String line, CoverageMeasures fileMeasuresBuilderIn) {
 
     switch (kind.toLowerCase(Locale.ENGLISH)) {
-      case "for-range-body":
+      case "catch":
       case "decision":
-        totaldecisions += 1;
+      case "for-range-body":
+      case "switch-label":
+      case "try":
+        totaldecisions++;
         setTotalCoveredDecisions(event);
         break;
       case "condition":
@@ -212,10 +215,7 @@ public class BullseyeParser extends CxxCoverageParser {
           fileMeasuresBuilderIn.setHits(Integer.parseInt(line), 1);
         }
         break;
-      case "catch":
       case "constant":
-      case "switch-label":
-      case "try":
         break;
     default:
         LOG.warn("BullseyeParser unknown probe kind '{}'", kind);
@@ -232,7 +232,7 @@ public class BullseyeParser extends CxxCoverageParser {
         break;
       case "true":
       case "false":
-        totalcoveredconditions += 1;
+        totalcoveredconditions++;
         break;
       case "none":
         // do nothing
