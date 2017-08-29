@@ -158,11 +158,15 @@ public class CxxCoverageSensor extends CxxReportSensor {
     }
 
     if (settings.getBoolean(getForceZeroCoverageKey())) {
-      LOG.info("Zeroing coverage information for untouched files");
-      zeroMeasuresWithoutReports(context, coverageMeasures,
-                                          itCoverageMeasures,
-                                          overallCoverageMeasures, 
-                                          linesOfCodeByFile);
+      if (isSQ_6_2_or_newer) {
+        LOG.warn("Deprecated property '{}' ignored.", getForceZeroCoverageKey());
+      } else {
+        LOG.info("Zeroing coverage information for untouched files");
+        zeroMeasuresWithoutReports(context, coverageMeasures,
+                                            itCoverageMeasures,
+                                            overallCoverageMeasures, 
+                                            linesOfCodeByFile);
+      }
     }
   }
 
