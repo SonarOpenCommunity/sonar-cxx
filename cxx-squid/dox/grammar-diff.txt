@@ -40,7 +40,7 @@ jump-statement:
 
 declaration:
    block-declaration
-   nodeclspec-function-declaration
+   nodeclspec-function-declaration // todo
    function-definition
    template-declaration
    deduction-guide
@@ -156,17 +156,14 @@ expr-or-braced-init-list:
    braced-init-list
 
 member-declaration:
-   attribute-specifier-seqopt decl-specifier-seqopt member-declarator-listopt ;
-   function-definition
+   attribute-specifier-seqopt decl-specifier-seqopt member-declarator-listopt ; // todo
+   function-definition // todo
    using-declaration
    static_assert-declaration
    template-declaration
-   deduction-guide
+   deduction-guide // done
    alias-declaration
-   empty-declaration
-
-deduction-guide:
-   explicitopt template-name ( parameter-declaration-clause ) -> simple-template-id ;
+   empty-declaration // todo
 
 group-part:
    if-section

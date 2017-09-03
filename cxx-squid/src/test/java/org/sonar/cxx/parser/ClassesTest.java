@@ -109,6 +109,7 @@ public class ClassesTest extends ParserBaseTest {
     mockRule(CxxGrammarImpl.usingDeclaration);
     mockRule(CxxGrammarImpl.staticAssertDeclaration);
     mockRule(CxxGrammarImpl.templateDeclaration);
+    mockRule(CxxGrammarImpl.deductionGuide);
     mockRule(CxxGrammarImpl.aliasDeclaration);
     mockRule(CxxGrammarImpl.cliPropertyDefinition);
     mockRule(CxxGrammarImpl.cliEventDefinition);
@@ -127,6 +128,7 @@ public class ClassesTest extends ParserBaseTest {
     assertThat(p).matches("usingDeclaration");
     assertThat(p).matches("staticAssertDeclaration");
     assertThat(p).matches("templateDeclaration");
+    assertThat(p).matches("deductionGuide");
     assertThat(p).matches("aliasDeclaration");
 
     assertThat(p).matches("cliPropertyDefinition");

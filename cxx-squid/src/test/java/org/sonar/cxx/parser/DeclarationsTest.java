@@ -42,6 +42,7 @@ public class DeclarationsTest extends ParserBaseTest {
     mockRule(CxxGrammarImpl.blockDeclaration);
     mockRule(CxxGrammarImpl.functionDefinition);
     mockRule(CxxGrammarImpl.templateDeclaration);
+    mockRule(CxxGrammarImpl.deductionGuide);
     mockRule(CxxGrammarImpl.explicitInstantiation);
     mockRule(CxxGrammarImpl.explicitSpecialization);
     mockRule(CxxGrammarImpl.linkageSpecification);
@@ -52,6 +53,7 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("blockDeclaration");
     assertThat(p).matches("functionDefinition");
     assertThat(p).matches("templateDeclaration");
+    assertThat(p).matches("deductionGuide");
     assertThat(p).matches("explicitInstantiation");
     assertThat(p).matches("explicitSpecialization");
     assertThat(p).matches("linkageSpecification");
