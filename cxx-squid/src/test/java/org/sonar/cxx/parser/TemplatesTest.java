@@ -148,4 +148,17 @@ public class TemplatesTest extends ParserBaseTest {
     assertThat(p).matches("typename IDENTIFIER");
     assertThat(p).matches("IDENTIFIER");
   }
+
+  @Test
+  public void deductionGuide() {
+    p.setRootRule(g.rule(CxxGrammarImpl.deductionGuide));
+
+    mockRule(CxxGrammarImpl.templateName);
+    mockRule(CxxGrammarImpl.parameterDeclarationClause);
+    mockRule(CxxGrammarImpl.simpleTemplateId);
+
+    assertThat(p).matches("templateName ( parameterDeclarationClause ) -> simpleTemplateId ;");
+    assertThat(p).matches("extern templateName ( parameterDeclarationClause ) -> simpleTemplateId ;");
+  }
+
 }

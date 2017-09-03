@@ -314,6 +314,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   typenameSpecifier,
   explicitInstantiation,
   explicitSpecialization,
+  deductionGuide,
 
   // Exception handling
   tryBlock,
@@ -823,8 +824,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(declaration).is(
       b.firstOf(
         blockDeclaration, // C++
+        // todo nodeclspecFunctionDeclaration, // C++
         functionDefinition, // C++
         templateDeclaration, // C++
+        deductionGuide, // C++
         cliGenericDeclaration, // CLI
         explicitInstantiation, // C++
         explicitSpecialization, // C++
@@ -1386,10 +1389,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
           b.optional(CxxKeyword.TEMPLATE),
           unqualifiedId,
           emptyStatement),
-        usingDeclaration,
-        staticAssertDeclaration,
-        templateDeclaration,
-        aliasDeclaration,
+        usingDeclaration, // C++
+        staticAssertDeclaration, // C++
+        templateDeclaration, // C++
+        deductionGuide, // C++
+        aliasDeclaration, // C++
+        // empty-declaration //todo
         cliGenericDeclaration,
         cliDelegateSpecifier,
         cliEventDefinition,
@@ -1713,6 +1718,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(explicitInstantiation).is(b.optional(CxxKeyword.EXTERN), CxxKeyword.TEMPLATE, declaration); // C++
 
     b.rule(explicitSpecialization).is(CxxKeyword.TEMPLATE, "<", ">", declaration); // C++
+    
+    b.rule(deductionGuide).is(
+      b.optional(CxxKeyword.EXTERN), templateName, "(", parameterDeclarationClause, ")", "->" ,simpleTemplateId, ";"
+    );
   }
 
   private static void generics(LexerfulGrammarBuilder b) {
