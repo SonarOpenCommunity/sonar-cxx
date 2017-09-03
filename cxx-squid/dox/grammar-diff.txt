@@ -2,55 +2,6 @@ namespace-name:
    identifier
    namespace-alias
 
-pp-number:
-   digit
-   . digit
-   pp-number digit
-   pp-number identifier-nondigit
-   pp-number ’ digit
-   pp-number ’ nondigit
-   pp-number e sign
-   pp-number E sign
-   pp-number p sign
-   pp-number P sign
-   pp-number .
-
-hexadecimal-literal:
-   hexadecimal-prefix hexadecimal-digit-sequence
-
-hexadecimal-prefix: one of
-   0x 0X
-
-hexadecimal-digit-sequence:
-   hexadecimal-digit
-   hexadecimal-digit-sequence ’opt hexadecimal-digit
-
-floating-literal:
-   decimal-floating-literal
-   hexadecimal-floating-literal
-
-decimal-floating-literal:
-   fractional-constant exponent-partopt floating-suffixopt
-   digit-sequence exponent-part floating-suffixopt
-
-hexadecimal-floating-literal:
-   hexadecimal-prefix hexadecimal-fractional-constant binary-exponent-part floating-suffixopt
-   hexadecimal-prefix hexadecimal-digit-sequence binary-exponent-part floating-suffixopt
-
-hexadecimal-fractional-constant:
-   hexadecimal-digit-sequenceopt . hexadecimal-digit-sequence
-   hexadecimal-digit-sequence .
-
-binary-exponent-part:
-   p signopt digit-sequence
-   P signopt digit-sequence
-
-user-defined-floating-literal:
-   fractional-constant exponent-partopt ud-suffix
-   digit-sequence exponent-part ud-suffix
-   hexadecimal-prefix hexadecimal-fractional-constant binary-exponent-part ud-suffix
-   hexadecimal-prefix hexadecimal-digit-sequence binary-exponent-part ud-suffix
-
 postfix-expression:
    primary-expression
    postfix-expression [ expr-or-braced-init-list ]
