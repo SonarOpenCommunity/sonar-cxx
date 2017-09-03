@@ -238,7 +238,7 @@ public class BullseyeParser extends CxxCoverageParser {
         // do nothing
         break;
       default:
-        // do nothing
+        LOG.warn("BullseyeParser unknown probe event '{}'", event);
     }
   }
 

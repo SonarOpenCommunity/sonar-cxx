@@ -45,7 +45,6 @@ Feature: Importing coverage data
           -Dsonar.cxx.coverage.reportPath=ut-coverage.xml
           -Dsonar.cxx.coverage.itReportPath=it-coverage.xml
           -Dsonar.cxx.coverage.overallReportPath=overall-coverage.xml
-          -Dsonar.cxx.coverage.forceZeroCoverage=False
           """
 
       THEN the analysis finishes successfully
