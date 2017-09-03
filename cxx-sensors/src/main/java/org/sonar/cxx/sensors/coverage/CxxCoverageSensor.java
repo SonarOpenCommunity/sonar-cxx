@@ -158,11 +158,15 @@ public class CxxCoverageSensor extends CxxReportSensor {
     }
 
     if (settings.getBoolean(getForceZeroCoverageKey())) {
-      LOG.info("Zeroing coverage information for untouched files");
-      zeroMeasuresWithoutReports(context, coverageMeasures,
-                                          itCoverageMeasures,
-                                          overallCoverageMeasures, 
-                                          linesOfCodeByFile);
+      if (isSQ_6_2_or_newer) {
+        LOG.warn("Deprecated property '{}' ignored.", getForceZeroCoverageKey());
+      } else {
+        LOG.info("Zeroing coverage information for untouched files");
+        zeroMeasuresWithoutReports(context, coverageMeasures,
+                                            itCoverageMeasures,
+                                            overallCoverageMeasures, 
+                                            linesOfCodeByFile);
+      }
     }
   }
 
@@ -207,14 +211,12 @@ public class CxxCoverageSensor extends CxxReportSensor {
         .onFile(inputFile)
         .ofType(ctype);
 
-      for (Integer line : linesOfCode) {
-        try {
-          newCoverage.lineHits(line, 0);
-          } catch (RuntimeException ex) {
-          LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", 
-              inputFile.relativePath(), line, ex);
-          CxxUtils.validateRecovery(ex, this.language);
-        }
+      try {
+        linesOfCode.forEach((Integer line) -> newCoverage.lineHits(line, 0));
+        } catch (RuntimeException ex) {
+        LOG.error("Cannot save Line Hits for Line '{}' : '{}', ignoring measure", 
+            inputFile.relativePath(), ex);
+        CxxUtils.validateRecovery(ex, this.language);
       }
 
       try {
@@ -305,11 +307,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
           if (LOG.isDebugEnabled()) {
             LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
           }
-          for (CoverageMeasure measure : measures) {
-            checkLineCoverage(newCoverage, measure);
-            checkConditionCoverage(newCoverage, measure);
-          }
-  
+          
+          measures.forEach((CoverageMeasure measure) -> checkCoverage(newCoverage, measure, measure.getType()));
+
           try {
             newCoverage.save();
           } catch(RuntimeException ex) {
@@ -335,34 +335,22 @@ public class CxxCoverageSensor extends CxxReportSensor {
   /**
    * @param newCoverage
    * @param measure
+   * @param type
    */
-  private void checkConditionCoverage(NewCoverage newCoverage, CoverageMeasure measure) {
-    if(measure.getType() == CoverageMeasure.CoverageType.CONDITION) {
-      try {
+  private void checkCoverage(NewCoverage newCoverage, CoverageMeasure measure, CoverageMeasure.CoverageType type) {
+    try {
+      if(type == CoverageMeasure.CoverageType.CONDITION) {
         newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
-      } catch(RuntimeException ex) {
-        LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ", 
-                   measure.getLine(), ex);
-        CxxUtils.validateRecovery(ex, this.language);
+      } else {
+        newCoverage.lineHits(measure.getLine(), measure.getHits()); 
       }
+    } catch(RuntimeException ex) {
+      LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ", 
+                 measure.getLine(), ex);
+      CxxUtils.validateRecovery(ex, this.language);
     }
   }
 
-  /**
-   * @param newCoverage
-   * @param measure
-   */
-  private void checkLineCoverage(NewCoverage newCoverage, CoverageMeasure measure) {
-    if(measure.getType() == CoverageMeasure.CoverageType.LINE ) {
-      try { 
-        newCoverage.lineHits(measure.getLine(), measure.getHits());
-      } catch(RuntimeException ex) {
-        LOG.error("Cannot save Line Hits for Line '{}', ignoring measure. ", 
-                    measure.getLine(), ex);
-        CxxUtils.validateRecovery(ex, this.language);
-      }
-    }
-  }  
 
   private void warnUsageOfDeprecatedProperty(Settings settings, String reportPathProperty) {
     if (isSQ_6_2_or_newer && !settings.hasKey(getReportPathKey())) {

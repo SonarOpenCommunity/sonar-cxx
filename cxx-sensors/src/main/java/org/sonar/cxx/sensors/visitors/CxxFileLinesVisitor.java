@@ -64,7 +64,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   private static int isWithinFunctionDefinition;
   private static final Set<String> ignoreToken = Sets.newHashSet(";", "{", "}", "(", ")", "[", "]");
   private static AstNodeType[] nodesToVisit = {
-      CxxGrammarImpl.statement,
+      CxxGrammarImpl.labeledStatement,
       CxxGrammarImpl.expressionStatement,
       CxxGrammarImpl.iterationStatement,
       CxxGrammarImpl.jumpStatement,
@@ -128,15 +128,13 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
           isWithinFunctionDefinition++;
         }
         break;
-      case statement:
-        visitStatement(astNode);
-        break;
+      case labeledStatement:
       case expressionStatement:
       case iterationStatement:
       case jumpStatement:
       case assignmentExpression:
       case lambdaExpression:
-        executableLines.add(astNode.getTokenLine());
+        visitStatement(astNode);
         break;
       default:
         // Do nothing particular

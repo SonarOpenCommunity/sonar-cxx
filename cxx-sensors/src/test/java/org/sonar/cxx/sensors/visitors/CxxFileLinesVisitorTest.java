@@ -94,9 +94,9 @@ public class CxxFileLinesVisitorTest {
 
     CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
 
-    assertThat(visitor.getExecutableLines()).hasSize(26);
-    assertThat(visitor.getExecutableLines()).containsOnly(10, 16, 26, 34, 35, 44, 45, 53, 55, 56, 59, 67, 69, 70, 72, 73, 75,
-                                                          76, 79, 86, 87, 90, 98, 102, 118, 119);
+    assertThat(visitor.getExecutableLines()).hasSize(19);
+    assertThat(visitor.getExecutableLines()).containsOnly(10, 26, 34, 35, 56, 59, 69, 70, 72, 73,
+                                                          75, 76, 79, 87, 90, 98, 102, 118, 119);
   }
 
 }
