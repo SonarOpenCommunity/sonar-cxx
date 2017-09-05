@@ -67,28 +67,37 @@ public class SourceCodeProvider {
   public File getSourceCodeFile(String filename, String cwd, boolean quoted) {
     File result = null;
     File file = new File(filename);
+
+    // If the file name is fully specified for an include file that has a path that
+    // includes a colon (for example, F:\MSVC\SPECIAL\INCL\TEST.H), the preprocessor
+    // follows the path.
+      
     if (file.isAbsolute()) {
       if (file.isFile()) {
         result = file;
       }
     } else {
-      // This seems to be an established convention:
-      // The special behavior in the quoted case is to look up relative to the
-      // current directory.
       if (quoted) {
+        
+        // Quoted form: The preprocessor searches for include files in this order:
+        // 1) In the same directory as the file that contains the #include statement.
+        // 2) In the directories of the currently opened include files, in the reverse
+        // order in which they were opened. The search begins in the directory of the parent
+        // include file and continues upward through the directories of any grandparent include files.
+       
         File abspath = new File(new File(cwd), file.getPath());
         if (abspath.isFile()) {
           result = abspath;
-        }
-        else {
+        } else {
           // fall back to use include paths instead of local folder
           result = null;
         }
       }
 
-      // The standard behavior: lookup relative to to the include roots.
+      // Angle-bracket form: lookup relative to to the include roots.
       // The quoted case falls back to this, if its special handling wasn't
-      // successful (as forced by the Standard).
+      // successful.
+
       if (result == null) {
         for (File folder : includeRoots) {
           File abspath = new File(folder.getPath(), filename);

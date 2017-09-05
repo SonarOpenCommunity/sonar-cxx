@@ -84,6 +84,8 @@ public enum CppGrammar implements GrammarRuleKey {
   literal,
   definedExpression,
   functionlikeMacro,
+  hasIncludeExpression,
+  //hasIncludeBodyFreeform,
   functionlikeMacroDefinition,
   objectlikeMacroDefinition,
   elseLine,
@@ -284,6 +286,7 @@ public enum CppGrammar implements GrammarRuleKey {
         b.firstOf(
             literal,
             b.sequence("(", b.zeroOrMore(WS), expression, b.zeroOrMore(WS), ")"),
+            hasIncludeExpression,
             definedExpression,
             functionlikeMacro,
             IDENTIFIER
@@ -316,6 +319,18 @@ public enum CppGrammar implements GrammarRuleKey {
         )
         );
 
-    b.rule(functionlikeMacro).is(IDENTIFIER, b.zeroOrMore(WS), "(", b.zeroOrMore(WS), b.optional(b.nextNot(")"), argumentList), b.zeroOrMore(WS), ")");
+    b.rule(functionlikeMacro).is(
+      IDENTIFIER, b.zeroOrMore(WS), "(", b.zeroOrMore(WS), b.optional(b.nextNot(")"), argumentList), b.zeroOrMore(WS), ")"
+    );
+    
+    b.rule(hasIncludeExpression).is(
+      b.firstOf(
+        b.sequence("__has_include", "(", b.zeroOrMore(WS), includeBodyBracketed, b.zeroOrMore(WS), ")"),
+        b.sequence("__has_include", "(", b.zeroOrMore(WS), includeBodyQuoted, b.zeroOrMore(WS), ")")
+        //todo: b.sequence("__has_include", "(", hasIncludeBodyFreeform, )")
+      )
+    );
+
+    //todo: b.rule(hasIncludeBodyFreeform).is(b.oneOrMore(b.nextNot(")"), ppToken));    
   }
 }

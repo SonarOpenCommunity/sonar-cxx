@@ -48,6 +48,8 @@ public final class StandardDefinitions {
     source.put("__STDC__", "1");
     source.put("__STDC_HOSTED__", "1");
     source.put("__cplusplus", "201103L");
+    // __has_include support (C++17)
+    source.put("__has_include", "1");
     return source;
   }
 
