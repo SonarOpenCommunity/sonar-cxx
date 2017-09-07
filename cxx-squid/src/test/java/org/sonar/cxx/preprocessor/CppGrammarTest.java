@@ -516,10 +516,12 @@ public class CppGrammarTest {
 
     mockRule(CppGrammar.literal);
     mockRule(CppGrammar.expression);
+    mockRule(CppGrammar.hasIncludeExpression);
     mockRule(CppGrammar.definedExpression);
 
     assertThat(p).matches("literal");
     assertThat(p).matches("( expression )");
+    assertThat(p).matches("hasIncludeExpression");
     assertThat(p).matches("definedExpression");
     assertThat(p).matches("foo");
   }
@@ -555,6 +557,9 @@ public class CppGrammarTest {
     assertThat(p).matches("defined LALA");
     assertThat(p).matches("defined (LALA)");
     assertThat(p).matches("defined(LALA)");
+    
+    assertThat(p).matches("defined __has_include");
+    assertThat(p).matches("defined (__has_include)");
   }
 
   @Test
@@ -566,6 +571,25 @@ public class CppGrammarTest {
     assertThat(p).matches("__has_feature(argumentList)");
   }
 
+  @Test
+  public void hasIncludeExpression() {
+    p.setRootRule(g.rule(CppGrammar.hasIncludeExpression));
+
+    mockRule(CppGrammar.includeBodyBracketed);
+    mockRule(CppGrammar.includeBodyQuoted);
+
+    assertThat(p).matches("__has_include( includeBodyBracketed )");
+    assertThat(p).matches("__has_include( includeBodyQuoted )");
+  }
+
+  @Test
+  public void hasIncludeExpression_reallife() {
+    p.setRootRule(g.rule(CppGrammar.hasIncludeExpression));
+
+    assertThat(p).matches("__has_include( <optional> )");
+    assertThat(p).matches("__has_include( \"optional.hpp\" )");
+  }
+  
   @Test
   public void functionlikeMacro_reallife() {
     p.setRootRule(g.rule(CppGrammar.functionlikeMacro));

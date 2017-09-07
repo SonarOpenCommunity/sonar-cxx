@@ -151,6 +151,8 @@ public final class ExpressionEvaluator {
       return evalDefinedExpression(exprAst);
     } else if (nodeType.equals(CppGrammar.functionlikeMacro)) {
       return evalFunctionlikeMacro(exprAst);
+    } else if (nodeType.equals(CppGrammar.hasIncludeExpression)) {
+      return evalHasIncludeExpression(exprAst);      
     } else {
       LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '" 
                 + exprAst.getToken() + "', assuming 0");
@@ -461,6 +463,11 @@ public final class ExpressionEvaluator {
     }
 
     return evalToInt(value, exprAst);
+  }
+
+  private BigInteger evalHasIncludeExpression(AstNode exprAst) {
+    String macroName = exprAst.getFirstChild().getTokenValue();
+    return preprocessor.expandHasIncludeExpression(macroName, exprAst) ? BigInteger.ONE : BigInteger.ZERO;
   }
 
   public static BigInteger decode(String number) {
