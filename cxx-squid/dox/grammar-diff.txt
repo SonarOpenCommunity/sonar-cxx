@@ -23,21 +23,6 @@ postfix-expression:
    typeid ( expression )
    typeid ( type-id )
 
-iteration-statement:
-   while ( condition ) statement
-   do statement while ( expression ) ;
-   for ( init-statement conditionopt ; expressionopt ) statement
-   for ( for-range-declaration : for-range-initializer ) statement
- 
-for-range-initializer:
-   expr-or-braced-init-list
-
-jump-statement:
-   break ;
-   continue ;
-   return expr-or-braced-init-listopt ;
-   goto identifier ;
-
 declaration:
    block-declaration
    nodeclspec-function-declaration // todo
@@ -151,10 +136,6 @@ trailing-return-type:
 defining-type-id:
    defining-type-specifier-seq abstract-declaratoropt
 
-expr-or-braced-init-list:
-   expression
-   braced-init-list
-
 member-declaration:
    attribute-specifier-seqopt decl-specifier-seqopt member-declarator-listopt ; // todo
    function-definition // todo
@@ -164,12 +145,3 @@ member-declaration:
    deduction-guide // done
    alias-declaration
    empty-declaration // todo
-
-group-part:
-   if-section
-   control-line
-   text-line
-   # conditionally-supported-directive
-
-conditionally-supported-directive:
-   pp-tokens new-line

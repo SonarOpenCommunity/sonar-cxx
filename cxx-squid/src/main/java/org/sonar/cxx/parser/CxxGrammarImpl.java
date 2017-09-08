@@ -210,6 +210,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   initializerClause,
   initializerList,
   bracedInitList,
+  exprOrBracedInitList,
 
   // Classes
   className,
@@ -522,26 +523,29 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(simpleTypeSpecifier, bracedInitList),
         b.sequence(typenameSpecifier, b.optional(cudaKernel), "(", b.optional(expressionList), ")"),
         b.sequence(typenameSpecifier, bracedInitList),
-        primaryExpression,
-        b.sequence(CxxKeyword.DYNAMIC_CAST, typeIdEnclosed, "(", expression, ")"),
-        b.sequence(CxxKeyword.STATIC_CAST, typeIdEnclosed, "(", expression, ")"),
-        b.sequence(CxxKeyword.REINTERPRET_CAST, typeIdEnclosed, "(", expression, ")"),
-        b.sequence(CxxKeyword.CONST_CAST, typeIdEnclosed, "(", expression, ")"),
+        
+        primaryExpression, // C++
+        // should replace the left recursive stuff above
+        //   postfix-expression [ expr-or-braced-init-list ]
+        //   postfix-expression ( expression-listopt )
+        //   simple-type-specifier ( expression-listopt )
+        //   typename-specifier ( expression-listopt )
+        //   simple-type-specifier braced-init-list
+        //   typename-specifier braced-init-list
+        //   postfix-expression . templateopt id-expression
+        //   postfix-expression -> templateopt id-expression
+        //   postfix-expression . pseudo-destructor-name
+        //   postfix-expression -> pseudo-destructor-name
+        //   postfix-expression ++
+        //   postfix-expression --
+        b.sequence(CxxKeyword.DYNAMIC_CAST, typeIdEnclosed, "(", expression, ")"), // C++
+        b.sequence(CxxKeyword.STATIC_CAST, typeIdEnclosed, "(", expression, ")"), // C++
+        b.sequence(CxxKeyword.REINTERPRET_CAST, typeIdEnclosed, "(", expression, ")"), // C++
+        b.sequence(CxxKeyword.CONST_CAST, typeIdEnclosed, "(", expression, ")"), //C++
         b.sequence(CxxKeyword.TYPEID, "(", expression, ")"), // C++
         b.sequence(CxxKeyword.TYPEID, "(", typeId, ")") // C++
 
       ),
-      // postfixExpression [ expression ]
-      // postfixExpression [ bracedInitList ]
-      // postfixExpression ( expressionListopt )
-      // postfixExpression . template opt(idExpression)
-      // postfixExpression -> template opt(idExpression)
-      // postfixExpression . pseudoDestructorName
-      // postfixExpression -> pseudoDestructorName
-      // postfixExpression ++
-      // postfixExpression --
-
-      // should replace the left recursive stuff above
 
       b.zeroOrMore(
         b.firstOf(
@@ -777,7 +781,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(CxxKeyword.DO, statement, CxxKeyword.WHILE, "(", expression, ")", ";"), // C++
         b.sequence(CxxKeyword.FOR, "(", initStatement, b.optional(condition), ";", b.optional(expression), ")", statement), // C++
         b.sequence(CxxKeyword.FOR, "(", forRangeDeclaration, ":", forRangeInitializer, ")", statement), // C++
-        b.sequence(CxxKeyword.FOR, "each", "(", forRangeDeclaration, "in", forRangeInitializer, ")", statement) // ???
+        b.sequence(CxxKeyword.FOR, "each", "(", forRangeDeclaration, "in", forRangeInitializer, ")", statement) // C++/CLI
       )
     );
 
@@ -796,19 +800,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(forRangeInitializer).is(
-      b.firstOf(
-        expression, // C++
-        bracedInitList // C++
-      )
-    );
+    b.rule(forRangeInitializer).is(exprOrBracedInitList);
 
     b.rule(jumpStatement).is(
       b.firstOf(
         b.sequence(CxxKeyword.BREAK, ";"), // C++
         b.sequence(CxxKeyword.CONTINUE, ";"), // C++
-        b.sequence(CxxKeyword.RETURN, b.optional(expression), ";"), // C++
-        b.sequence(CxxKeyword.RETURN, bracedInitList, ";"), // C++
+        b.sequence(CxxKeyword.RETURN, b.optional(exprOrBracedInitList), ";"), // C++
         b.sequence(CxxKeyword.GOTO, IDENTIFIER, ";") // C++
       )
     );
@@ -1318,6 +1316,14 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence("{", "}") // C++
       )
     );
+
+    b.rule(exprOrBracedInitList).is(
+      b.firstOf(
+        expression,
+        bracedInitList
+      )
+    );
+
   }
 
   // A.8 Classes
