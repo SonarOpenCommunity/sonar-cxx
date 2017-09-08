@@ -259,16 +259,19 @@ public class DeclarationsTest extends ParserBaseTest {
   public void simpleTypeSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.simpleTypeSpecifier));
 
-    mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.typeName);
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.simpleTemplateId);
+    mockRule(CxxGrammarImpl.templateName);
     mockRule(CxxGrammarImpl.decltypeSpecifier);
 
     assertThat(p).matches("typeName");
     assertThat(p).matches("nestedNameSpecifier typeName");
-
     assertThat(p).matches("nestedNameSpecifier template simpleTemplateId");
-
+    assertThat(p).matches("nestedNameSpecifier template simpleTemplateId");
+    assertThat(p).matches("templateName");
+    assertThat(p).matches("nestedNameSpecifier templateName");
+  
     assertThat(p).matches("char");
     assertThat(p).matches("char16_t");
     assertThat(p).matches("char32_t");

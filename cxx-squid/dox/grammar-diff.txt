@@ -65,26 +65,6 @@ defining-type-specifier-seq:
    defining-type-specifier attribute-specifier-seqopt
    defining-type-specifier defining-type-specifier-seq
 
-simple-type-specifier:
-   nested-name-specifieropt type-name
-   nested-name-specifier template simple-template-id
-   nested-name-specifieropt template-name
-   char
-   char16_t
-   char32_t
-   wchar_t
-   bool
-   short
-   int
-   long
-   signed
-   unsigned
-   float
-   double
-   void
-   auto
-   decltype-specifier
-
 enum-head:
    enum-key attribute-specifier-seqopt enum-head-nameopt enum-baseopt
 
