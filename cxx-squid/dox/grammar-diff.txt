@@ -84,19 +84,6 @@ using-declarator-list:
 using-declarator:
    typenameopt nested-name-specifier unqualified-id
 
-attribute-specifier:
-   [ [ attribute-using-prefixopt attribute-list ] ]
-   alignment-specifier
-
-alignment-specifier:
-   alignas ( type-id ...opt )
-   alignas ( constant-expression ...opt )
-   attribute-using-prefix :
-   using attribute-namespace :
-
-attribute-argument-clause:
-   ( balanced-token-seqopt )
-
 parameters-and-qualifiers:
    ( parameter-declaration-clause ) cv-qualifier-seqopt ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
 

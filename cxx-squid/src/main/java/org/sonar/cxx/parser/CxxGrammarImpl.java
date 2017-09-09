@@ -170,6 +170,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   attributeSpecifierSeq,
   attributeSpecifier,
   alignmentSpecifier,
+  attributeUsingPrefix,
   attributeList,
   attribute,
   attributeToken,
@@ -1067,23 +1068,29 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(attributeSpecifier).is(
       b.firstOf(
-        b.sequence("[", "[", attributeList, "]", "]"), // C++
+        b.sequence("[", "[", b.optional(attributeUsingPrefix), attributeList, "]", "]"), // C++
         alignmentSpecifier // C++
       ));
 
     b.rule(alignmentSpecifier).is(
       b.firstOf(
         b.sequence(CxxKeyword.ALIGNAS, "(", typeId, b.optional("..."), ")"), // C++
-        b.sequence(CxxKeyword.ALIGNAS, "(", constantExpression, b.optional("..."), ")") // C++
+        b.sequence(CxxKeyword.ALIGNAS, "(", constantExpression, b.optional("..."), ")"), // C++
+        b.sequence(attributeUsingPrefix, ":"), // C++
+        b.sequence(CxxKeyword.USING, attributeNamespace, ":") // C++
       ));
 
-    b.rule(attributeList).is(b.optional(attribute), b.zeroOrMore(",", attribute)); // todo
+    b.rule(attributeUsingPrefix). is(CxxKeyword.USING, attributeNamespace, ":"); // C++
+
+    b.rule(attributeList).is(
+      b.optional(b.sequence(attribute, b.optional("..."))), b.zeroOrMore(",", b.optional(b.sequence(attribute, b.optional("...")))) // C++
+    );
 
     b.rule(attribute).is(attributeToken, b.optional(attributeArgumentClause)); // C++
 
     b.rule(attributeToken).is(
       b.firstOf(
-        IDENTIFIER, // C++
+        b.sequence(IDENTIFIER, b.nextNot("::")), // C++
         attributeScopedToken // C++
       )
     );
@@ -1092,9 +1099,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(attributeNamespace).is(IDENTIFIER); // C++
 
-    b.rule(attributeArgumentClause).is(balancedTokenSeq);
-//      "(", b.optional(balancedTokenSeq), ")" // C++
-//    );
+    b.rule(attributeArgumentClause).is("(", b.optional(balancedTokenSeq), ")" ); // C++
 
     b.rule(balancedTokenSeq).is(b.oneOrMore(balancedToken)); // C++
 

@@ -40,9 +40,11 @@ public class BalancedTokensTest extends ParserBaseTest {
   }
 
   @Test
-  public void attributeSpecifierSeqXXXX() {
+  public void attributeSpecifierSeq_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifierSeq));
 
+    assertThat(p).matches("[ [ using CC : opt ( 1 ), debug]]");
+    assertThat(p).matches("[ [ using CC : opt ( 1 ) ] ] [ [ CC :: debug ] ]");
     assertThat(p).matches("[ [ foo :: bar ( { foo }  [ bar ] ) ] ] [ [ foo :: bar ( { foo }  [ bar ] ) ] ]");
   }
 
@@ -50,14 +52,18 @@ public class BalancedTokensTest extends ParserBaseTest {
   public void attributeSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifier));
     mockRule(CxxGrammarImpl.attributeList);
+    mockRule(CxxGrammarImpl.attributeUsingPrefix);
+    mockRule(CxxGrammarImpl.alignmentSpecifier);
 
     assertThat(p).matches("[ [ attributeList ] ]");
+    assertThat(p).matches("[ [ attributeUsingPrefix attributeList ] ]");
+    assertThat(p).matches("alignmentSpecifier");
   }
 
   @Test
-  public void attributeSpecifierXXXX() {
+  public void attributeSpecifier_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifier));
-
+    
     assertThat(p).matches("[ [ foo :: bar ( { foo }  [ bar ] ) ] ]");
   }
 
@@ -65,37 +71,48 @@ public class BalancedTokensTest extends ParserBaseTest {
   public void alignmentSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.alignmentSpecifier));
     mockRule(CxxGrammarImpl.typeId);
-    mockRule(CxxGrammarImpl.assignmentExpression);
-
-    assertThat(p)
-      .matches("alignas ( typeId )")
-      .matches("alignas ( typeId ... )")
-      .matches("alignas ( assignmentExpression )")
-      .matches("alignas ( assignmentExpression ... )");
+    mockRule(CxxGrammarImpl.constantExpression);
+    mockRule(CxxGrammarImpl.attributeUsingPrefix);
+    mockRule(CxxGrammarImpl.attributeNamespace);
+    
+    assertThat(p).matches("alignas ( typeId )");
+    assertThat(p).matches("alignas ( typeId ... )");
+    assertThat(p).matches("alignas ( constantExpression )");
+    assertThat(p).matches("attributeUsingPrefix :");
+    assertThat(p).matches("using attributeNamespace :");
   }
 
+  @Test
+  public void attributeUsingPrefix() {
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeUsingPrefix));
+    mockRule(CxxGrammarImpl.attributeNamespace);
+    
+    assertThat(p).matches("using attributeNamespace :");   
+  }
+  
   @Test
   public void attributeList() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeList));
     mockRule(CxxGrammarImpl.attribute);
 
-    assertThat(p)
-      .matches("")
-      .matches("attribute")
-      .matches("attribute , attribute")
-      .matches("attribute , attribute , attribute");
+    assertThat(p).matches("");
+    assertThat(p).matches("attribute");
+    assertThat(p).matches("attribute ...");
+    assertThat(p).matches("attribute , attribute");
+    assertThat(p).matches("attribute ... , attribute");
+    assertThat(p).matches("attribute ... , attribute ...");
+    assertThat(p).matches("attribute , attribute , attribute");
   }
 
   @Test
-  public void attributeListXXXX() {
+  public void attributeList_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeList));
 
-    assertThat(p)
-      .matches("foo :: bar ( { foo }  [ bar ] )")
-      .matches("foo :: bar ( { foo }  [ bar ] ) , foo :: bar ( { foo }  [ bar ] )")
-      .matches("foo :: bar ( { foo }  [ bar ] ) , ")
-      .matches("foo :: bar ( { foo }  [ bar ] ) ...")
-      .matches("foo :: bar ( { foo }  [ bar ] ) ... , foo :: bar ( { foo }  [ bar ] ) ...");
+    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] )");
+    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] ) , foo :: bar ( { foo }  [ bar ] )");
+    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] ) , ");
+    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] ) ...");
+    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] ) ... , foo :: bar ( { foo }  [ bar ] ) ...");
   }
 
   @Test
@@ -104,15 +121,16 @@ public class BalancedTokensTest extends ParserBaseTest {
     mockRule(CxxGrammarImpl.attributeToken);
     mockRule(CxxGrammarImpl.attributeArgumentClause);
 
-    assertThat(p)
-      .matches("attributeToken attributeArgumentClause")
-      .matches("attributeToken");
+    assertThat(p).matches("attributeToken");
+    assertThat(p).matches("attributeToken attributeArgumentClause");
   }
 
   @Test
-  public void attributeXXXX() {
+  public void attribute_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.attribute));
 
+    assertThat(p).matches("foo");
+    assertThat(p).matches("foo :: bar");
     assertThat(p).matches("foo :: bar ( { foo }  [ bar ] )");
   }
 
@@ -121,9 +139,8 @@ public class BalancedTokensTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeToken));
     mockRule(CxxGrammarImpl.attributeScopedToken);
 
-    assertThat(p)
-      .matches("foo")
-      .matches("attributeScopedToken");
+    assertThat(p).matches("foo");
+    assertThat(p).matches("attributeScopedToken");
   }
 
   @Test
@@ -135,7 +152,7 @@ public class BalancedTokensTest extends ParserBaseTest {
   }
 
   @Test
-  public void attributeScopedTokenXXXX() {
+  public void attributeScopedToken_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeScopedToken));
 
     assertThat(p).matches("foo :: bar");
@@ -153,10 +170,11 @@ public class BalancedTokensTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeArgumentClause));
     mockRule(CxxGrammarImpl.balancedTokenSeq);
 
-    assertThat(p).matches("balancedTokenSeq");
+    assertThat(p).matches( "( balancedTokenSeq )");
   }
 
-  public void attributeArgumentClauseXXXX() {
+  @Test
+  public void attributeArgumentClause_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeArgumentClause));
 
     assertThat(p).matches("( foo )");
@@ -174,7 +192,7 @@ public class BalancedTokensTest extends ParserBaseTest {
   }
 
   @Test
-  public void balancedTokenSeqXXXX() {
+  public void balancedTokenSeq_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.balancedTokenSeq));
 
     assertThat(p).matches("[ ( foo ) { } ( bar ) ]");
@@ -192,7 +210,7 @@ public class BalancedTokensTest extends ParserBaseTest {
   }
 
   @Test
-  public void balancedTokenXXXX() {
+  public void balancedToken_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.balancedToken));
 
     assertThat(p).matches("[ foo ]")
