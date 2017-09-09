@@ -97,16 +97,6 @@ alignment-specifier:
 attribute-argument-clause:
    ( balanced-token-seqopt )
 
-balanced-token-seq:
-   balanced-token
-   balanced-token-seq balanced-token
-
-balanced-token:
-   ( balanced-token-seqopt )
-   [ balanced-token-seqopt ]
-   { balanced-token-seqopt }
-   any token other than a parenthesis, a bracket, or a brace
-
 parameters-and-qualifiers:
    ( parameter-declaration-clause ) cv-qualifier-seqopt ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
 

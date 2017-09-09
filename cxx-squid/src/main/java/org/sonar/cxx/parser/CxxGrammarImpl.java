@@ -1092,15 +1092,17 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(attributeNamespace).is(IDENTIFIER); // C++
 
-    b.rule(attributeArgumentClause).is(balancedTokenSeq); // todo (...) missing?
+    b.rule(attributeArgumentClause).is(balancedTokenSeq);
+//      "(", b.optional(balancedTokenSeq), ")" // C++
+//    );
 
-    b.rule(balancedTokenSeq).is(b.zeroOrMore(balancedToken)); // C++
+    b.rule(balancedTokenSeq).is(b.oneOrMore(balancedToken)); // C++
 
     b.rule(balancedToken).is(
       b.firstOf(
-        b.sequence("(", balancedTokenSeq, ")"), // C++
-        b.sequence("{", balancedTokenSeq, "}"), // C++
-        b.sequence("[", balancedTokenSeq, "]"), // C++
+        b.sequence("(", b.optional(balancedTokenSeq), ")"), // C++
+        b.sequence("{", b.optional(balancedTokenSeq), "}"), // C++
+        b.sequence("[", b.optional(balancedTokenSeq), "]"), // C++
         b.oneOrMore(b.nextNot(b.firstOf("(", ")", "{", "}", "[", "]", EOF)), b.anyToken()) // C++
       ));
   }
