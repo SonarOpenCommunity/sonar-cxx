@@ -40,32 +40,52 @@ public class DeclarationsTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.declaration));
 
     mockRule(CxxGrammarImpl.blockDeclaration);
+    mockRule(CxxGrammarImpl.nodeclspecFunctionDeclaration);
     mockRule(CxxGrammarImpl.functionDefinition);
     mockRule(CxxGrammarImpl.templateDeclaration);
     mockRule(CxxGrammarImpl.deductionGuide);
+    mockRule(CxxGrammarImpl.cliGenericDeclaration);
     mockRule(CxxGrammarImpl.explicitInstantiation);
     mockRule(CxxGrammarImpl.explicitSpecialization);
     mockRule(CxxGrammarImpl.linkageSpecification);
     mockRule(CxxGrammarImpl.namespaceDefinition);
     mockRule(CxxGrammarImpl.emptyDeclaration);
     mockRule(CxxGrammarImpl.attributeDeclaration);
+    mockRule(CxxGrammarImpl.vcAtlDeclaration);
 
     assertThat(p).matches("blockDeclaration");
+    assertThat(p).matches("nodeclspecFunctionDeclaration");
     assertThat(p).matches("functionDefinition");
     assertThat(p).matches("templateDeclaration");
     assertThat(p).matches("deductionGuide");
+    assertThat(p).matches("cliGenericDeclaration");
     assertThat(p).matches("explicitInstantiation");
     assertThat(p).matches("explicitSpecialization");
     assertThat(p).matches("linkageSpecification");
     assertThat(p).matches("namespaceDefinition");
     assertThat(p).matches("emptyDeclaration");
     assertThat(p).matches("attributeDeclaration");
+    assertThat(p).matches("vcAtlDeclaration");
   }
 
   @Test
   public void declaration_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.declaration));
 
+    assertThat(p).matches(";");
+    assertThat(p).matches("extern int a;");
+    assertThat(p).matches("extern const int c;");
+    assertThat(p).matches("int f(int);");
+    assertThat(p).matches("struct S;");
+    assertThat(p).matches("typedef int Int;");
+    assertThat(p).matches("extern X anotherX;");
+    assertThat(p).matches("[[noreturn]] void f [[noreturn]] ();");
+    assertThat(p).matches("using std::string;");
+    assertThat(p).matches("using namespace D;");
+    assertThat(p).matches("enum Color { red, green, blue };");
+    assertThat(p).matches("enum byte : unsigned char {};");
+    //todo assertThat(p).matches("enum class altitude: char { high='h', low='l', }");
+    assertThat(p).matches("static_assert(std::is_copy_constructible<T>::value, \"Swap requires copying\");");
     assertThat(p).matches("t* pt;");
     assertThat(p).matches("t* pt = nullptr;");
     assertThat(p).matches("t* pt {nullptr};");
@@ -74,22 +94,16 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("sometype foo();");
     assertThat(p).matches("sometype (*foo)(void);");
     assertThat(p).matches("aligned_storage<sizeof(result_type)> cache;");
-
-    // We cannot parse this, unfortunately. The reasons is an ambiguity between
-    // relational expressions and template parameter list syntax, which cannot be
-    // resolved without name lookup, at least according to the standard. Bad c++...
-    // assertThat(p).matches("mpl<N/M>();");
+    assertThat(p).matches("mpl<N/M>();");
     assertThat(p).matches("bool operator==<B>(A const&, A const&);");
     assertThat(p).matches("sometype foo(int& var1);");
     assertThat(p).matches("auto foo(int& var1) -> int;");
     assertThat(p).matches("auto fp11() -> void(*)(const std::string&);");
-
     assertThat(p).matches("t^ pt;");
     assertThat(p).matches("t% pt;");
     assertThat(p).matches("t^% pt;");
-
-//    assertThat(p).matches("int property;");
-//    assertThat(p).matches("int property = 0;");
+    assertThat(p).matches("int property;");
+    assertThat(p).matches("int property = 0;");
   }
 
   @Test

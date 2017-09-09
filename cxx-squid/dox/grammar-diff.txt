@@ -23,22 +23,6 @@ postfix-expression:
    typeid ( expression )
    typeid ( type-id )
 
-declaration:
-   block-declaration
-   nodeclspec-function-declaration // todo
-   function-definition
-   template-declaration
-   deduction-guide
-   explicit-instantiation
-   explicit-specialization
-   linkage-specification
-   namespace-definition
-   empty-declaration
-   attribute-declaration
-
-nodeclspec-function-declaration:
-   attribute-specifier-seqopt declarator ;
-
 alias-declaration:
    using identifier attribute-specifier-seqopt = defining-type-id ;
 

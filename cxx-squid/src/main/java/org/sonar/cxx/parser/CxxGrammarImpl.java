@@ -116,6 +116,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   declarationSeq,
   declaration,
   blockDeclaration,
+  nodeclspecFunctionDeclaration,
   aliasDeclaration,
   simpleDeclaration,
   staticAssertDeclaration,
@@ -823,7 +824,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(declaration).is(
       b.firstOf(
         blockDeclaration, // C++
-        // todo nodeclspecFunctionDeclaration, // C++
+        nodeclspecFunctionDeclaration, // C++
         functionDefinition, // C++
         templateDeclaration, // C++
         deductionGuide, // C++
@@ -851,6 +852,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
+    b.rule(nodeclspecFunctionDeclaration).is(
+      b.optional(attributeSpecifierSeq), declarator, ";"
+    );
+    
     b.rule(aliasDeclaration).is(CxxKeyword.USING, IDENTIFIER, b.optional(attributeSpecifierSeq), "=", typeId); // C++
 
     b.rule(simpleDeclaration).is(
