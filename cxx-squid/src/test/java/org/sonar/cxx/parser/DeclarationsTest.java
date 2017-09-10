@@ -456,12 +456,31 @@ public class DeclarationsTest extends ParserBaseTest {
   @Test
   public void usingDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.usingDeclaration));
+    mockRule(CxxGrammarImpl.usingDeclaratorList);
 
+    assertThat(p).matches("using usingDeclaratorList ;");
+  }
+
+  @Test
+  public void usingDeclaratorList() {
+    p.setRootRule(g.rule(CxxGrammarImpl.usingDeclaratorList));
+    mockRule(CxxGrammarImpl.usingDeclarator);
+
+    assertThat(p).matches("usingDeclarator");
+    assertThat(p).matches("usingDeclarator ...");
+    assertThat(p).matches("usingDeclarator , usingDeclarator");
+    assertThat(p).matches("usingDeclarator ... , usingDeclarator");
+    assertThat(p).matches("usingDeclarator ... , usingDeclarator ...");
+  }
+
+  @Test
+  public void usingDeclarator() {
+    p.setRootRule(g.rule(CxxGrammarImpl.usingDeclarator));
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.unqualifiedId);
 
-    assertThat(p).matches("using nestedNameSpecifier unqualifiedId ;");
-    assertThat(p).matches("using typename nestedNameSpecifier unqualifiedId ;");
+    assertThat(p).matches("nestedNameSpecifier unqualifiedId");
+    assertThat(p).matches("typename nestedNameSpecifier unqualifiedId");
   }
 
   @Test

@@ -165,6 +165,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   namespaceAliasDefinition,
   qualifiedNamespaceSpecifier,
   usingDeclaration,
+  usingDeclaratorList,
+  usingDeclarator,
   usingDirective,
   asmDefinition,
   linkageSpecification,
@@ -1042,9 +1044,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(qualifiedNamespaceSpecifier).is(b.optional(nestedNameSpecifier), namespaceName); // C++
 
-    b.rule(usingDeclaration).is(
-      CxxKeyword.USING, b.optional(CxxKeyword.TYPENAME), nestedNameSpecifier, unqualifiedId, ";"
-    );
+    b.rule(usingDeclaration).is(CxxKeyword.USING, usingDeclaratorList, ";");
+
+    b.rule(usingDeclaratorList).is(usingDeclarator, b.optional("..."), b.zeroOrMore(",", usingDeclarator, b.optional("...")));
+
+    b.rule(usingDeclarator).is(b.optional(CxxKeyword.TYPENAME), nestedNameSpecifier, unqualifiedId);
 
     b.rule(usingDirective).is(
       b.optional(attributeSpecifierSeq), CxxKeyword.USING, CxxKeyword.NAMESPACE, b.optional(nestedNameSpecifier), namespaceName, ";" // C++

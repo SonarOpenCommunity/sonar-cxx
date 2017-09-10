@@ -33,16 +33,6 @@ enum-head-name:
 opaque-enum-declaration:
    enum-key attribute-specifier-seqopt nested-name-specifieropt identifier enum-baseopt ;
 
-using-declaration:
-   using using-declarator-list ;
-
-using-declarator-list:
-   using-declarator ...opt
-   using-declarator-list , using-declarator ...opt
-
-using-declarator:
-   typenameopt nested-name-specifier unqualified-id
-
 parameters-and-qualifiers:
    ( parameter-declaration-clause ) cv-qualifier-seqopt ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
 
