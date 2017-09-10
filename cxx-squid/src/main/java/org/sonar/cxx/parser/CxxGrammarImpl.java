@@ -517,46 +517,36 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(postfixExpression).is( // todo
+    b.rule(postfixExpression).is(
       b.firstOf(
-        b.sequence(typenameSpecifier, "::", CxxKeyword.TYPEID),
-        b.sequence(simpleTypeSpecifier, "::", CxxKeyword.TYPEID),
-        b.sequence(simpleTypeSpecifier, b.optional(cudaKernel), "(", b.optional(expressionList), ")"),
-        b.sequence(simpleTypeSpecifier, bracedInitList),
-        b.sequence(typenameSpecifier, b.optional(cudaKernel), "(", b.optional(expressionList), ")"),
-        b.sequence(typenameSpecifier, bracedInitList),
-        
-        primaryExpression, // C++
-        // should replace the left recursive stuff above
-        //   postfix-expression [ expr-or-braced-init-list ]
-        //   postfix-expression ( expression-listopt )
-        //   simple-type-specifier ( expression-listopt )
-        //   typename-specifier ( expression-listopt )
-        //   simple-type-specifier braced-init-list
-        //   typename-specifier braced-init-list
-        //   postfix-expression . templateopt id-expression
-        //   postfix-expression -> templateopt id-expression
-        //   postfix-expression . pseudo-destructor-name
-        //   postfix-expression -> pseudo-destructor-name
-        //   postfix-expression ++
-        //   postfix-expression --
+        b.sequence(typenameSpecifier, "::", CxxKeyword.TYPEID), // CLI
+        b.sequence(simpleTypeSpecifier, "::", CxxKeyword.TYPEID), // CLI
+        b.sequence(simpleTypeSpecifier, b.optional(cudaKernel), "(", b.optional(expressionList), ")"), // C++
+        b.sequence(typenameSpecifier, b.optional(cudaKernel), "(", b.optional(expressionList), ")"), // C++
+        b.sequence(simpleTypeSpecifier, bracedInitList), // C++
+        b.sequence(typenameSpecifier, bracedInitList), // C++
+        primaryExpression, // C++ (todo: wrong order)
         b.sequence(CxxKeyword.DYNAMIC_CAST, typeIdEnclosed, "(", expression, ")"), // C++
         b.sequence(CxxKeyword.STATIC_CAST, typeIdEnclosed, "(", expression, ")"), // C++
         b.sequence(CxxKeyword.REINTERPRET_CAST, typeIdEnclosed, "(", expression, ")"), // C++
         b.sequence(CxxKeyword.CONST_CAST, typeIdEnclosed, "(", expression, ")"), //C++
         b.sequence(CxxKeyword.TYPEID, "(", expression, ")"), // C++
         b.sequence(CxxKeyword.TYPEID, "(", typeId, ")") // C++
-
       ),
-
       b.zeroOrMore(
         b.firstOf(
-          b.sequence("[", expression, "]"),
-          b.sequence("[", bracedInitList, "]"),
+          b.sequence("[", exprOrBracedInitList, "]"),
           b.sequence("(", b.optional(expressionList), ")"),
-          b.sequence(b.firstOf(".", "->"),
-            b.firstOf(b.sequence(b.optional(CxxKeyword.TEMPLATE), idExpression),
-              pseudoDestructorName)),
+          b.sequence(
+            b.firstOf(
+              ".",
+              "->"
+            ),
+            b.firstOf(
+              b.sequence(b.optional(CxxKeyword.TEMPLATE), idExpression),
+              pseudoDestructorName
+            )
+          ),
           "++",
           "--"
         )

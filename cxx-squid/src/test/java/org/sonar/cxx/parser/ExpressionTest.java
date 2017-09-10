@@ -153,25 +153,17 @@ public class ExpressionTest extends ParserBaseTest {
     mockRule(CxxGrammarImpl.expression);
     mockRule(CxxGrammarImpl.idExpression);
     mockRule(CxxGrammarImpl.typeId);
-    mockRule(CxxGrammarImpl.deleteExpression);
+    mockRule(CxxGrammarImpl.exprOrBracedInitList);
     mockRule(CxxGrammarImpl.pseudoDestructorName);
     mockRule(CxxGrammarImpl.cudaKernel);
 
     assertThat(p).matches("primaryExpression");
-    assertThat(p).matches("primaryExpression [ expression ]");
-    assertThat(p).matches("primaryExpression ( expressionList )");
+    assertThat(p).matches("simpleTypeSpecifier ( )");
     assertThat(p).matches("simpleTypeSpecifier ( expressionList )");
+    assertThat(p).matches("typenameSpecifier ( )");
     assertThat(p).matches("typenameSpecifier ( expressionList )");
     assertThat(p).matches("simpleTypeSpecifier bracedInitList");
     assertThat(p).matches("typenameSpecifier bracedInitList");
-    assertThat(p).matches("primaryExpression . template idExpression");
-    assertThat(p).matches("primaryExpression -> template idExpression");
-
-    assertThat(p).matches("primaryExpression . pseudoDestructorName");
-    assertThat(p).matches("primaryExpression -> pseudoDestructorName");
-
-    assertThat(p).matches("primaryExpression ++");
-    assertThat(p).matches("primaryExpression --");
     assertThat(p).matches("dynamic_cast < typeId > ( expression )");
     assertThat(p).matches("static_cast < typeId > ( expression )");
     assertThat(p).matches("reinterpret_cast < typeId > ( expression )");
@@ -179,9 +171,19 @@ public class ExpressionTest extends ParserBaseTest {
     assertThat(p).matches("typeid ( expression )");
     assertThat(p).matches("typeid ( typeId )");
 
-    assertThat(p).matches("simpleTypeSpecifier :: typeid");
-    assertThat(p).matches("typenameSpecifier :: typeid");
+    assertThat(p).matches("primaryExpression [ exprOrBracedInitList ]");
+    assertThat(p).matches("primaryExpression ( )");
+    assertThat(p).matches("primaryExpression ( expressionList )");
+    assertThat(p).matches("primaryExpression . idExpression");
+    assertThat(p).matches("primaryExpression . template idExpression");
+    assertThat(p).matches("primaryExpression . pseudoDestructorName");
+    assertThat(p).matches("primaryExpression -> idExpression");
+    assertThat(p).matches("primaryExpression -> template idExpression");
+    assertThat(p).matches("primaryExpression -> pseudoDestructorName");
+    assertThat(p).matches("primaryExpression ++");
+    assertThat(p).matches("primaryExpression --");
 
+    // CUDA
     assertThat(p).matches("simpleTypeSpecifier cudaKernel ( expressionList )");
   }
 
@@ -196,9 +198,11 @@ public class ExpressionTest extends ParserBaseTest {
     assertThat(p).matches("obj.foo<int>()");
     assertThat(p).matches("typeid(int)");
 
+    // C++/CLI
     assertThat(p).matches("G::typeid");
     assertThat(p).matches("int::typeid");
 
+    // CUDA
     assertThat(p).matches("kernel<<<gridDim,blockDim,0>>>(d_data, height, width)");
   }
 

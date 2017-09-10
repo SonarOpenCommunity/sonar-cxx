@@ -1,28 +1,3 @@
-namespace-name:
-   identifier
-   namespace-alias
-
-postfix-expression:
-   primary-expression
-   postfix-expression [ expr-or-braced-init-list ]
-   postfix-expression ( expression-listopt )
-   simple-type-specifier ( expression-listopt )
-   typename-specifier ( expression-listopt )
-   simple-type-specifier braced-init-list
-   typename-specifier braced-init-list
-   postfix-expression . templateopt id-expression
-   postfix-expression -> templateopt id-expression
-   postfix-expression . pseudo-destructor-name
-   postfix-expression -> pseudo-destructor-name
-   postfix-expression ++
-   postfix-expression --
-   dynamic_cast < type-id > ( expression )
-   static_cast < type-id > ( expression )
-   reinterpret_cast < type-id > ( expression )
-   const_cast < type-id > ( expression )
-   typeid ( expression )
-   typeid ( type-id )
-
 alias-declaration:
    using identifier attribute-specifier-seqopt = defining-type-id ;
 
