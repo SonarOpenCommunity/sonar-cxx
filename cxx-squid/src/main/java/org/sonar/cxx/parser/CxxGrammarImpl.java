@@ -148,6 +148,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   enumName,
   enumSpecifier,
   enumHead,
+  enumHeadName,
   opaqueEnumDeclaration,
   enumKey,
   enumBase,
@@ -991,9 +992,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(enumHead).is(b.optional(vcAtlAttribute), b.optional(cliTopLevelVisibility), enumKey, b.optional(attributeSpecifierSeq), b.firstOf(b.sequence(nestedNameSpecifier, IDENTIFIER), b.optional(IDENTIFIER)), b.optional(enumBase)); // C++
+    b.rule(enumHead).is(b.optional(vcAtlAttribute), b.optional(cliTopLevelVisibility), enumKey, b.optional(attributeSpecifierSeq), b.optional(enumHeadName), b.optional(enumBase)); // C++
 
-    b.rule(opaqueEnumDeclaration).is(enumKey, b.optional(attributeSpecifierSeq), IDENTIFIER, b.optional(enumBase), ";"); // C++
+    b.rule(enumHeadName).is(b.optional(nestedNameSpecifier), IDENTIFIER); // C++
+
+    b.rule(opaqueEnumDeclaration).is(enumKey, b.optional(attributeSpecifierSeq), b.optional(nestedNameSpecifier), IDENTIFIER, b.optional(enumBase), ";"); // C++
 
     b.rule(enumKey).is(CxxKeyword.ENUM, b.optional(b.firstOf(CxxKeyword.CLASS, CxxKeyword.STRUCT))); // C++
 

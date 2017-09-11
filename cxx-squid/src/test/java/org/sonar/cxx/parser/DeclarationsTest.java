@@ -84,7 +84,6 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("using namespace D;");
     assertThat(p).matches("enum Color { red, green, blue };");
     assertThat(p).matches("enum byte : unsigned char {};");
-    //todo assertThat(p).matches("enum class altitude: char { high='h', low='l', }");
     assertThat(p).matches("static_assert(std::is_copy_constructible<T>::value, \"Swap requires copying\");");
     assertThat(p).matches("t* pt;");
     assertThat(p).matches("t* pt = nullptr;");
@@ -377,7 +376,22 @@ public class DeclarationsTest extends ParserBaseTest {
   public void enumSpecifier_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.enumSpecifier));
 
+    assertThat(p).matches("enum Color { red, green, blue }");
+    assertThat(p).matches("enum Suit { Diamonds, Hearts, Clubs, Spades, }");
+    assertThat(p).matches("enum Foo { a, b, c = 10, d, e = 1, f, g = f + c }");
     assertThat(p).matches("enum foo { MONDAY=1 }");
+    assertThat(p).matches("enum class Color { red, green = 20, blue }");
+    assertThat(p).matches("enum struct Color { red, green = 20, blue }");
+    assertThat(p).matches("enum byte : unsigned char {}");
+
+    assertThat(p).matches("enum altitude { high, low }");
+    assertThat(p).matches("enum altitude { high, low, }");
+    assertThat(p).matches("enum altitude { high='h', low='l' }");
+    assertThat(p).matches("enum class altitude { high = 'h', low = 'l' }");
+    assertThat(p).matches("enum struct altitude { high = 'h', low = 'l' }");
+    assertThat(p).matches("enum altitude : char { high = 'h', low = 'l' }");
+    assertThat(p).matches("enum class altitude : char { high = 'h', low = 'l' }");
+    assertThat(p).matches("enum class altitude : char { high = 'h', low = 'l', }");
   }
 
   @Test
@@ -386,18 +400,59 @@ public class DeclarationsTest extends ParserBaseTest {
 
     mockRule(CxxGrammarImpl.enumKey);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.enumHeadName);
     mockRule(CxxGrammarImpl.enumBase);
-    mockRule(CxxGrammarImpl.nestedNameSpecifier);
-    mockRule(CxxGrammarImpl.cliAttribute);
 
     assertThat(p).matches("enumKey");
     assertThat(p).matches("enumKey attributeSpecifierSeq");
-    assertThat(p).matches("enumKey attributeSpecifierSeq foo");
-    assertThat(p).matches("enumKey attributeSpecifierSeq foo enumBase");
+    assertThat(p).matches("enumKey enumHeadName");
+    assertThat(p).matches("enumKey enumBase");
+    assertThat(p).matches("enumKey attributeSpecifierSeq enumHeadName");
+    assertThat(p).matches("enumKey enumHeadName enumBase");
+    assertThat(p).matches("enumKey attributeSpecifierSeq enumBase");
+    assertThat(p).matches("enumKey attributeSpecifierSeq enumHeadName enumBase");
+  }
 
-    assertThat(p).matches("enumKey nestedNameSpecifier foo");
-    assertThat(p).matches("enumKey attributeSpecifierSeq nestedNameSpecifier foo");
-    assertThat(p).matches("enumKey attributeSpecifierSeq nestedNameSpecifier foo enumBase");
+  @Test
+  public void enumHeadName() {
+    p.setRootRule(g.rule(CxxGrammarImpl.enumHeadName));
+
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
+
+    assertThat(p).matches("IDENTIFIER");
+    assertThat(p).matches("nestedNameSpecifier IDENTIFIER");
+  }
+
+  @Test
+  public void opaqueEnumDeclaration() {
+    p.setRootRule(g.rule(CxxGrammarImpl.opaqueEnumDeclaration));
+
+    mockRule(CxxGrammarImpl.enumKey);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
+    mockRule(CxxGrammarImpl.enumBase);
+
+    assertThat(p).matches("enumKey IDENTIFIER ;");
+    assertThat(p).matches("enumKey attributeSpecifierSeq IDENTIFIER ;");
+    assertThat(p).matches("enumKey attributeSpecifierSeq nestedNameSpecifier IDENTIFIER ;");
+    assertThat(p).matches("enumKey attributeSpecifierSeq nestedNameSpecifier IDENTIFIER enumBase ;");
+  }
+
+  @Test
+  public void enumKey() {
+    p.setRootRule(g.rule(CxxGrammarImpl.enumKey));
+
+    assertThat(p).matches("enum");
+    assertThat(p).matches("enum class");
+    assertThat(p).matches("enum struct");
+  }
+
+  @Test
+  public void enumBase() {
+    p.setRootRule(g.rule(CxxGrammarImpl.enumBase));
+    mockRule(CxxGrammarImpl.typeSpecifierSeq);
+
+    assertThat(p).matches(": typeSpecifierSeq");
   }
 
   @Test
@@ -419,6 +474,15 @@ public class DeclarationsTest extends ParserBaseTest {
 
     assertThat(p).matches("enumerator");
     assertThat(p).matches("enumerator = constantExpression");
+  }
+
+  @Test
+  public void enumerator() {
+    p.setRootRule(g.rule(CxxGrammarImpl.enumerator));
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+
+    assertThat(p).matches("IDENTIFIER");
+    assertThat(p).matches("IDENTIFIER attributeSpecifierSeq");
   }
 
   @Test

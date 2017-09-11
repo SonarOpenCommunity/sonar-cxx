@@ -24,15 +24,6 @@ defining-type-specifier-seq:
    defining-type-specifier attribute-specifier-seqopt
    defining-type-specifier defining-type-specifier-seq
 
-enum-head:
-   enum-key attribute-specifier-seqopt enum-head-nameopt enum-baseopt
-
-enum-head-name:
-   nested-name-specifieropt identifier
-
-opaque-enum-declaration:
-   enum-key attribute-specifier-seqopt nested-name-specifieropt identifier enum-baseopt ;
-
 parameters-and-qualifiers:
    ( parameter-declaration-clause ) cv-qualifier-seqopt ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
 
