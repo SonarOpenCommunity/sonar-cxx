@@ -142,7 +142,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   definingTypeSpecifier,
   definingTypeSpecifierSeq,
   trailingTypeSpecifier,
-  trailingTypeSpecifierSeq,
   simpleTypeSpecifier,
   typeName,
   decltypeSpecifier,
@@ -941,12 +940,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         typenameSpecifier, // C++
         cvQualifier, // C++
         cliDelegateSpecifier // CLI
-      )
-    );
-
-    b.rule(trailingTypeSpecifierSeq).is(
-      b.oneOrMore(
-        b.sequence(trailingTypeSpecifier, b.optional(attributeSpecifierSeq)) // C++
       )
     );
 
