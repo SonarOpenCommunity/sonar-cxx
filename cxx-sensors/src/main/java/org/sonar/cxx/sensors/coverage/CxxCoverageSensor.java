@@ -247,7 +247,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
             }
           }
           measuresTotal.putAll(cacheCov.get(report.getAbsolutePath()));
-        } catch (EmptyReportException e) {
+        } catch (EmptyReportException | NullPointerException e) {
           LOG.debug("Report is empty {}", e);
         }
       } else {
