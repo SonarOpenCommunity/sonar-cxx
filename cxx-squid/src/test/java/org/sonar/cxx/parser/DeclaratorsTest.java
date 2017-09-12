@@ -214,6 +214,17 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void typeId() {
     p.setRootRule(g.rule(CxxGrammarImpl.typeId));
 
+    mockRule(CxxGrammarImpl.typeSpecifierSeq);
+    mockRule(CxxGrammarImpl.abstractDeclarator);
+
+    assertThat(p).matches("typeSpecifierSeq");
+    assertThat(p).matches("typeSpecifierSeq abstractDeclarator");
+  }
+  
+  @Test
+  public void typeId_reallife() {
+    p.setRootRule(g.rule(CxxGrammarImpl.typeId));
+
     assertThat(p).matches("int");
     assertThat(p).matches("int *");
     assertThat(p).matches("int *[3]");
@@ -222,6 +233,17 @@ public class DeclaratorsTest extends ParserBaseTest {
     assertThat(p).matches("int (*)(double)");
   }
 
+  @Test
+  public void definingTypeId() {
+    p.setRootRule(g.rule(CxxGrammarImpl.definingTypeId));
+
+    mockRule(CxxGrammarImpl.definingTypeSpecifierSeq);
+    mockRule(CxxGrammarImpl.abstractDeclarator);
+
+    assertThat(p).matches("definingTypeSpecifierSeq");
+    assertThat(p).matches("definingTypeSpecifierSeq abstractDeclarator");
+  }
+  
   @Test
   public void abstractDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.abstractDeclarator));

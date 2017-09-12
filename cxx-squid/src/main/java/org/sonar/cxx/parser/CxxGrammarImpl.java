@@ -139,6 +139,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   typedefName,  
   typeSpecifier,
   typeSpecifierSeq,
+  definingTypeSpecifier,
+  definingTypeSpecifierSeq,
   trailingTypeSpecifier,
   trailingTypeSpecifierSeq,
   simpleTypeSpecifier,
@@ -199,6 +201,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   refQualifier,
   declaratorId,
   typeId,
+  definingTypeId,
   typeIdEnclosed,
   abstractDeclarator,
   ptrAbstractDeclarator,
@@ -849,7 +852,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.optional(attributeSpecifierSeq), declarator, ";"
     );
     
-    b.rule(aliasDeclaration).is(CxxKeyword.USING, IDENTIFIER, b.optional(attributeSpecifierSeq), "=", typeId); // C++
+    b.rule(aliasDeclaration).is(CxxKeyword.USING, IDENTIFIER, b.optional(attributeSpecifierSeq), "=", definingTypeId); // C++
 
     b.rule(simpleDeclaration).is(
       b.firstOf(
@@ -913,6 +916,25 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
+    b.rule(typeSpecifierSeq).is(
+      b.oneOrMore(
+        // todo: without sequence?
+        b.sequence(typeSpecifier, b.optional(attributeSpecifierSeq)) // C++
+      )
+    );
+
+    b.rule(definingTypeSpecifier).is(
+      b.firstOf(
+        typeSpecifier,
+        classSpecifier,
+        enumSpecifier
+      )
+    );
+
+    b.rule(definingTypeSpecifierSeq).is(
+      b.oneOrMore(definingTypeSpecifier, b.optional(attributeSpecifierSeq))
+    );
+
     b.rule(trailingTypeSpecifier).is(
       b.firstOf(
         simpleTypeSpecifier, // C++
@@ -920,12 +942,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         typenameSpecifier, // C++
         cvQualifier, // C++
         cliDelegateSpecifier // CLI
-      )
-    );
-
-    b.rule(typeSpecifierSeq).is(
-      b.oneOrMore(
-        b.sequence(typeSpecifier, b.optional(attributeSpecifierSeq)) // C++
       )
     );
 
@@ -1194,6 +1210,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(typeId).is(typeSpecifierSeq, b.optional(abstractDeclarator)); // C++
+
+    b.rule(definingTypeId).is(definingTypeSpecifierSeq, b.optional(abstractDeclarator)); // C++
 
     b.rule(abstractDeclarator).is(
       b.firstOf(

@@ -1,6 +1,3 @@
-alias-declaration:
-   using identifier attribute-specifier-seqopt = defining-type-id ;
-
 decl-specifier:
    storage-class-specifier
    defining-type-specifier
@@ -15,23 +12,11 @@ type-specifier:
    typename-specifier
    cv-qualifier
 
-defining-type-specifier:
-   type-specifier
-   class-specifier
-   enum-specifier
-
-defining-type-specifier-seq:
-   defining-type-specifier attribute-specifier-seqopt
-   defining-type-specifier defining-type-specifier-seq
-
 parameters-and-qualifiers:
    ( parameter-declaration-clause ) cv-qualifier-seqopt ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
 
 trailing-return-type:
    -> type-id
-
-defining-type-id:
-   defining-type-specifier-seq abstract-declaratoropt
 
 member-declaration:
    attribute-specifier-seqopt decl-specifier-seqopt member-declarator-listopt ; // todo

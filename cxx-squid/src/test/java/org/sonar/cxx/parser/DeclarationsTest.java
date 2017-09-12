@@ -110,10 +110,10 @@ public class DeclarationsTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.aliasDeclaration));
 
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
-    mockRule(CxxGrammarImpl.typeId);
+    mockRule(CxxGrammarImpl.definingTypeId);
 
-    assertThat(p).matches("using foo = typeId");
-    assertThat(p).matches("using foo attributeSpecifierSeq = typeId");
+    assertThat(p).matches("using foo = definingTypeId");
+    assertThat(p).matches("using foo attributeSpecifierSeq = definingTypeId");
   }
 
   @Test
@@ -268,6 +268,33 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("templatetype<T> int");
   }
 
+  @Test
+  public void definingTypeSpecifier() {
+    p.setRootRule(g.rule(CxxGrammarImpl.definingTypeSpecifier));
+
+    mockRule(CxxGrammarImpl.typeSpecifier);
+    mockRule(CxxGrammarImpl.classSpecifier);
+    mockRule(CxxGrammarImpl.enumSpecifier);
+
+    assertThat(p).matches("typeSpecifier");
+    assertThat(p).matches("classSpecifier");
+    assertThat(p).matches("enumSpecifier");
+  }
+
+  @Test
+  public void definingTypeSpecifierSeq() {
+    p.setRootRule(g.rule(CxxGrammarImpl.definingTypeSpecifierSeq));
+
+    mockRule(CxxGrammarImpl.definingTypeSpecifier);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+
+    assertThat(p).matches("definingTypeSpecifier");
+    assertThat(p).matches("definingTypeSpecifier attributeSpecifierSeq");
+    assertThat(p).matches("definingTypeSpecifier definingTypeSpecifier");
+    assertThat(p).matches("definingTypeSpecifier attributeSpecifierSeq definingTypeSpecifier");
+    assertThat(p).matches("definingTypeSpecifier attributeSpecifierSeq definingTypeSpecifier attributeSpecifierSeq");
+  }
+  
   @Test
   public void simpleTypeSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.simpleTypeSpecifier));
