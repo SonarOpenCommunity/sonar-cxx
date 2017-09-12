@@ -15,9 +15,6 @@ type-specifier:
 parameters-and-qualifiers:
    ( parameter-declaration-clause ) cv-qualifier-seqopt ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
 
-trailing-return-type:
-   -> type-id
-
 member-declaration:
    attribute-specifier-seqopt decl-specifier-seqopt member-declarator-listopt ; // todo
    function-definition // todo

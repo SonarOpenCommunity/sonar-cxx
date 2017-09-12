@@ -918,8 +918,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(typeSpecifierSeq).is(
       b.oneOrMore(
-        // todo: without sequence?
-        b.sequence(typeSpecifier, b.optional(attributeSpecifierSeq)) // C++
+        typeSpecifier, b.optional(attributeSpecifierSeq) // C++
       )
     );
 
@@ -1175,7 +1174,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(trailingReturnType).is(
-      "->", trailingTypeSpecifierSeq, b.optional(abstractDeclarator) // C++
+      "->", typeId // C++
     );
 
     b.rule(ptrOperator).is(
