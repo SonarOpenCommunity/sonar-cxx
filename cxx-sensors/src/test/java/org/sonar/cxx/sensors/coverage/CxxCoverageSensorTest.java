@@ -162,7 +162,7 @@ public class CxxCoverageSensorTest {
   }
 
   @Test
-  public void shouldReportNoCoverageWhenInvalidFilesInvalid() {
+  public void shouldReportNoCoverageWhenFilesInvalid() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
