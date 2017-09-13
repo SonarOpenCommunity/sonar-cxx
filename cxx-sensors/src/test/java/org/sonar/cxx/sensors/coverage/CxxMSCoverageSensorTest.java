@@ -114,7 +114,25 @@ public class CxxMSCoverageSensorTest {
    for (int oneHitline : oneHitlinesB) {
      assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", CoverageType.UNIT, oneHitline)).isEqualTo(1);
    }
+ }
+ 
+ //@Test(expected=NullPointerException.class)
+ @Test
+ public void shouldConsumeEmptyReport() {
+   context = SensorContextTester.create(fs.baseDir());
+   context.setSonarQubeVersion(SQ_6_2);
 
+   Settings settings = new Settings();
+   settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/MSCoverage/empty-report.xml");
+   context.setSettings(settings);
+  
+   context.setSettings(settings);
+  
+   context.fileSystem().add(new DefaultInputFile("ProjectKey", "source/motorcontroller/motorcontroller.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+   sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+   sensor.execute(context, linesOfCodeByFile);
+   assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", CoverageType.UNIT, 1)).isNull();
+ 
  }
 }
 

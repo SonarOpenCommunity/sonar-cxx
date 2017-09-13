@@ -234,21 +234,22 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
     for (File report : reports) {
       if (!cacheCov.containsKey(report.getAbsolutePath())) {
-        try {
-          for (CoverageParser parser : parsers) {
-            if (parseCoverageReport(parser, context, report, measuresTotal)) {
-              if (LOG.isDebugEnabled()) {
-                LOG.debug("cached measures for '{}' : current cache content data = '{}'", 
-                      report.getAbsolutePath(), cacheCov.size());
-              }
-              cacheCov.put(report.getAbsolutePath(), measuresTotal);
-              // Only use first coverage parser which handles the data correctly
-              break;
+        for (CoverageParser parser : parsers) {
+          try {
+            parseCoverageReport(parser, context, report, measuresTotal);
+            if (LOG.isDebugEnabled()) {
+              LOG.debug("cached measures for '{}' : current cache content data = '{}'", report.getAbsolutePath(),
+                  cacheCov.size());
             }
+            cacheCov.put(report.getAbsolutePath(), measuresTotal);
+            // Only use first coverage parser which handles the data correctly
+            break;
+          } catch (EmptyReportException e) {
+            LOG.debug("Report is empty {}", e);
           }
+        }
+        if (cacheCov.get(report.getAbsolutePath()) != null) {
           measuresTotal.putAll(cacheCov.get(report.getAbsolutePath()));
-        } catch (EmptyReportException e) {
-          LOG.debug("Report is empty {}", e);
         }
       } else {
         measuresTotal = cacheCov.get(report.getAbsolutePath());
@@ -267,7 +268,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * @param measuresTotal
    * @return true if report was parsed and results are available otherwise false
    */
-  private boolean parseCoverageReport(CoverageParser parser, final SensorContext context, File report,
+  private void parseCoverageReport(CoverageParser parser, final SensorContext context, File report,
                                       Map<String, CoverageMeasures> measuresTotal) {
     Map<String, CoverageMeasures> measuresForReport = new HashMap<>();
     try {
@@ -277,13 +278,11 @@ public class CxxCoverageSensor extends CxxReportSensor {
     }
 
     if (measuresForReport.isEmpty()) {
-      LOG.warn("Coverage report {} result is empty (parsed by {})", report, parser);
-      return false;
+      throw new EmptyReportException("Coverage report " + report + " result is empty (parsed by " + parser +")");
     }
 
     measuresTotal.putAll(measuresForReport);
     LOG.info("Added coverage report '{}' (parsed by: {})", report, parser);
-    return true;
   }
 
   private void saveMeasures(SensorContext context,
