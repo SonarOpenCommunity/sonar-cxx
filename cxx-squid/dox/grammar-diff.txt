@@ -1,11 +1,3 @@
-decl-specifier:
-   storage-class-specifier
-   defining-type-specifier
-   function-specifier
-   friend
-   typedef
-   constexpr
-
 type-specifier:
    simple-type-specifier
    elaborated-type-specifier

@@ -872,7 +872,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(declSpecifier).is(
       b.firstOf(
         storageClassSpecifier, // C++
-        typeSpecifier, // C++
+        definingTypeSpecifier, // C++
         functionSpecifier, // C++
         CxxKeyword.FRIEND, // C++
         CxxKeyword.TYPEDEF, // C++

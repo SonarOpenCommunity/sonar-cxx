@@ -202,6 +202,23 @@ public class DeclarationsTest extends ParserBaseTest {
   }
 
   @Test
+  public void declSpecifier() {
+    p.setRootRule(g.rule(CxxGrammarImpl.declSpecifier));
+
+    mockRule(CxxGrammarImpl.storageClassSpecifier);
+    mockRule(CxxGrammarImpl.definingTypeSpecifier);
+    mockRule(CxxGrammarImpl.functionSpecifier);
+
+    assertThat(p).matches("storageClassSpecifier");
+    assertThat(p).matches("definingTypeSpecifier");
+    assertThat(p).matches("functionSpecifier");
+    assertThat(p).matches("friend");
+    assertThat(p).matches("typedef");
+    assertThat(p).matches("constexpr");
+    assertThat(p).matches("inline");
+  }
+  
+  @Test
   public void declSpecifier_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.declSpecifier));
 
