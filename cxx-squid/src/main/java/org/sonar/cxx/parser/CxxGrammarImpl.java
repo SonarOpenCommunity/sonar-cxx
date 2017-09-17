@@ -1109,7 +1109,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(CxxKeyword.USING, attributeNamespace, ":") // C++
       ));
 
-    b.rule(attributeUsingPrefix). is(CxxKeyword.USING, attributeNamespace, ":"); // C++ //todo wrong position
+    b.rule(attributeUsingPrefix).is(
+      CxxKeyword.USING, attributeNamespace, ":" // C++
+    );
 
     b.rule(attributeList).is(
       b.optional(b.sequence(attribute, b.optional("..."))), b.zeroOrMore(",", b.optional(b.sequence(attribute, b.optional("...")))) // C++ //todo attribute optional
