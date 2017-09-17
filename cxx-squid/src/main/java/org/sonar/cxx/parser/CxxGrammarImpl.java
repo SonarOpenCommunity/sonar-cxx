@@ -1787,11 +1787,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   // A.13 Exception handling 
   //
   private static void exceptionHandling(LexerfulGrammarBuilder b) {
+
     b.rule(tryBlock).is(
-      b.firstOf(
-        b.sequence(CxxKeyword.TRY, compoundStatement, handlerSeq, cliFinallyClause), // C++/CLI
-        b.sequence(CxxKeyword.TRY, compoundStatement, handlerSeq), // C++ // todo wrong order?
-        b.sequence(CxxKeyword.TRY, compoundStatement, cliFinallyClause) // C++/CLI
+      b.sequence(CxxKeyword.TRY, compoundStatement, // C++
+        b.firstOf(
+          b.sequence(handlerSeq, b.optional(cliFinallyClause)), // // C++: handlerSeq; C++/CLI: cliFinallyClause
+          cliFinallyClause // C++/CLI
+        )
       )
     );
 
