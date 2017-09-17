@@ -936,7 +936,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(typeSpecifierSeq).is(
       b.oneOrMore(
-        typeSpecifier, b.optional(attributeSpecifierSeq) // C++ //todo wrong
+        typeSpecifier, b.optional(attributeSpecifierSeq) // C++
       )
     );
 
@@ -949,7 +949,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(definingTypeSpecifierSeq).is(
-      b.oneOrMore(definingTypeSpecifier, b.optional(attributeSpecifierSeq)) // C++ //todo wrong
+      b.oneOrMore(definingTypeSpecifier, b.optional(attributeSpecifierSeq)) // C++
     );
 
     b.rule(trailingTypeSpecifier).is( // todo wrong
