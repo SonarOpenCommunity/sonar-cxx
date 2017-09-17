@@ -444,9 +444,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         literalOperatorId, // C++
         b.sequence("~", className), // C++
         b.sequence("~", decltypeSpecifier), // C++
-        b.sequence("!", className), // todo ???
+
+        b.sequence("!", className), // C++/CLI
         cliGenericId, // C++/CLI
-        CxxKeyword.DEFAULT // todo: ???
+        CxxKeyword.DEFAULT // C++/CLI
       )
     );
 
