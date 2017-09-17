@@ -748,9 +748,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(condition).is( // todo C++17
+    b.rule(condition).is(
       b.firstOf(
-        b.sequence(b.optional(attributeSpecifierSeq), conditionDeclSpecifierSeq, declarator, b.firstOf(b.sequence("=", initializerClause), bracedInitList)), // C++: todo wrong
+        b.sequence(b.optional(attributeSpecifierSeq), conditionDeclSpecifierSeq, declarator, braceOrEqualInitializer), // C++
         expression // C++ todo: wrong order
       )
     );
