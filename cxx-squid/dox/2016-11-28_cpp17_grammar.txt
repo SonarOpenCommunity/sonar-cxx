@@ -453,8 +453,8 @@ unary-operator: one of
    * & + - ! ~
 
 new-expression:
-   ::optnew new-placementopt new-type-id new-initializeropt
-   ::optnew new-placementopt ( type-id ) new-initializeropt
+   ::opt new new-placementopt new-type-id new-initializeropt
+   ::opt new new-placementopt ( type-id ) new-initializeropt
 
 new-placement:
    ( expression-list )
@@ -475,8 +475,8 @@ new-initializer:
    braced-init-list
 
 delete-expression:
-   ::optdelete cast-expression
-   ::optdelete [ ] cast-expression
+   ::opt delete cast-expression
+   ::opt delete [ ] cast-expression
 
 noexcept-expression:
    noexcept ( expression )
@@ -582,8 +582,8 @@ condition:
 
 labeled-statement:
    attribute-specifier-seqopt identifier : statement
-   attribute-specifier-seqoptcase constant-expression : statement
-   attribute-specifier-seqoptdefault : statement
+   attribute-specifier-seqopt case constant-expression : statement
+   attribute-specifier-seqopt default : statement
 
 expression-statement:
    expressionopt ;
@@ -833,7 +833,7 @@ using-declarator:
    typenameopt nested-name-specifier unqualified-id
 
 using-directive:
-   attribute-specifier-seqoptusing namespace nested-name-specifieropt namespace-name ;
+   attribute-specifier-seqopt using namespace nested-name-specifieropt namespace-name ;
 
 asm-definition:
    asm ( string-literal ) ;
@@ -912,7 +912,7 @@ noptr-declarator:
 
 parameters-and-qualifiers:
    ( parameter-declaration-clause ) cv-qualifier-seqopt
-   ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
+        ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
 
 trailing-return-type:
    -> type-id
