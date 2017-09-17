@@ -364,21 +364,34 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
 
   private static void misc(LexerfulGrammarBuilder b) {
-    
-    b.rule(identifierList).is( // todo: part of preprocessor?
+
+    b.rule(identifierList).is(
       IDENTIFIER, b.zeroOrMore(b.sequence(",", IDENTIFIER)) //C++
     );
-        
-    // C++ Standard, Section 2.14.6 "Boolean literals"
-    b.rule(BOOL).is(b.firstOf(CxxKeyword.TRUE, CxxKeyword.FALSE));
-    b.rule(NULLPTR).is(CxxKeyword.NULLPTR);
+
+    // C++ Boolean literals [lex.bool]
+    b.rule(BOOL).is(
+      b.firstOf(
+        CxxKeyword.TRUE,
+        CxxKeyword.FALSE
+      )
+    );
+
+    // C++ Pointer literals [lex.nullptr]
+    b.rule(NULLPTR).is(
+      CxxKeyword.NULLPTR
+    );
+
+    // C++ Kinds of literals [lex.literal.kinds]
     b.rule(LITERAL).is(
       b.firstOf(
-        CHARACTER,
-        STRING,
-        NUMBER,
-        BOOL,
-        NULLPTR));
+        CHARACTER, // character-literal, including user-defined-literal
+        STRING, // string-literal, including user-defined-literal
+        NUMBER, // integer-literal, floating-literal, including user-defined-literal
+        BOOL, // boolean-literal
+        NULLPTR // pointer-literal
+      )
+    );
   }
 
   private static void vcAttributedAtl(LexerfulGrammarBuilder b) {
