@@ -1791,17 +1791,18 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(tryBlock).is(
       b.sequence(CxxKeyword.TRY, compoundStatement, // C++
         b.firstOf(
-          b.sequence(handlerSeq, b.optional(cliFinallyClause)), // // C++: handlerSeq; C++/CLI: cliFinallyClause
+          b.sequence(handlerSeq, b.optional(cliFinallyClause)), // C++: handlerSeq; C++/CLI: cliFinallyClause
           cliFinallyClause // C++/CLI
         )
       )
     );
 
     b.rule(functionTryBlock).is(
-      b.firstOf(
-        b.sequence(CxxKeyword.TRY, b.optional(ctorInitializer), compoundStatement, handlerSeq, cliFinallyClause), // C++/CLI
-        b.sequence(CxxKeyword.TRY, b.optional(ctorInitializer), compoundStatement, handlerSeq), // C++ // wrong order?
-        b.sequence(CxxKeyword.TRY, b.optional(ctorInitializer), compoundStatement, cliFinallyClause) // C++/CLI
+      b.sequence(CxxKeyword.TRY, b.optional(ctorInitializer), compoundStatement, // C++
+        b.firstOf(
+          b.sequence(handlerSeq, b.optional(cliFinallyClause)), // C++: handlerSeq; C++/CLI: cliFinallyClause
+          cliFinallyClause // C++/CLI
+        )
       )
     );
 
