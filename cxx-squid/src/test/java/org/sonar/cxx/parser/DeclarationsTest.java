@@ -112,8 +112,8 @@ public class DeclarationsTest extends ParserBaseTest {
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.definingTypeId);
 
-    assertThat(p).matches("using foo = definingTypeId");
-    assertThat(p).matches("using foo attributeSpecifierSeq = definingTypeId");
+    assertThat(p).matches("using foo = definingTypeId ;");
+    assertThat(p).matches("using foo attributeSpecifierSeq = definingTypeId ;");
   }
 
   @Test

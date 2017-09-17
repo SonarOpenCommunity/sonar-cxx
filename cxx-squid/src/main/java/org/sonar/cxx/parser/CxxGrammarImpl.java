@@ -864,7 +864,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.optional(attributeSpecifierSeq), declarator, ";" // C++
     );
     
-    b.rule(aliasDeclaration).is(CxxKeyword.USING, IDENTIFIER, b.optional(attributeSpecifierSeq), "=", definingTypeId); // C++ //todo wrong ; missing
+    b.rule(aliasDeclaration).is(CxxKeyword.USING, IDENTIFIER, b.optional(attributeSpecifierSeq), "=", definingTypeId, ";"); // C++
 
     b.rule(simpleDeclaration).is(
       b.firstOf(
