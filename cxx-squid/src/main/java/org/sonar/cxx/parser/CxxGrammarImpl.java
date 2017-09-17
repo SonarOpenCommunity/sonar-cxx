@@ -735,9 +735,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(b.optional(attributeSpecifierSeq), iterationStatement), // C++
         b.sequence(b.optional(attributeSpecifierSeq), jumpStatement), // C++
         declarationStatement, // C++
-        b.sequence(b.optional(attributeSpecifierSeq), tryBlock), // C++
-        emptyStatement // todo: not C++ => remove
-    )
+        b.sequence(b.optional(attributeSpecifierSeq), tryBlock) // C++
+      )
     );
 
     b.rule(emptyStatement).is(";"); // todo: not C++
