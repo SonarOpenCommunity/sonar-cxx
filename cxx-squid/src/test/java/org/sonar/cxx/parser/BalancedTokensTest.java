@@ -98,6 +98,8 @@ public class BalancedTokensTest extends ParserBaseTest {
     assertThat(p).matches("");
     assertThat(p).matches("attribute");
     assertThat(p).matches("attribute ...");
+    assertThat(p).matches(",");
+    assertThat(p).matches(", attribute");
     assertThat(p).matches("attribute , attribute");
     assertThat(p).matches("attribute ... , attribute");
     assertThat(p).matches("attribute ... , attribute ...");

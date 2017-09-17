@@ -1114,7 +1114,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(attributeList).is(
-      b.optional(b.sequence(attribute, b.optional("..."))), b.zeroOrMore(",", b.optional(b.sequence(attribute, b.optional("...")))) // C++ //todo attribute optional
+      b.optional(b.sequence(attribute, b.optional("..."))), // C++
+      b.zeroOrMore(
+        ",", b.optional(b.sequence(attribute, b.optional("..."))) // C++
+      )
     );
 
     b.rule(attribute).is(attributeToken, b.optional(attributeArgumentClause)); // C++
