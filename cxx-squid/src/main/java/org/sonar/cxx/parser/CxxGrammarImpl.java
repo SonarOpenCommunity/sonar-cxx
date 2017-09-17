@@ -480,7 +480,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(lambdaCapture).is(
       b.firstOf(
-        b.sequence(captureDefault, b.optional(b.sequence(",", captureList))), // C++ //todo wrong
+        b.sequence(captureDefault, b.optional(b.sequence(",", captureList))), // C++
         captureList // C++
       )
     );
