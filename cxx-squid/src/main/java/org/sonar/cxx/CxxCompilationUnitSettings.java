@@ -38,7 +38,7 @@ public class CxxCompilationUnitSettings {
   }
 
   public void setDefines(@Nullable Map<String, String> defines) {
-    if (includes != null) {
+    if (defines != null) {
       this.defines = defines;
   }
   }
