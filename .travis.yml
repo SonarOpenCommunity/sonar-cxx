@@ -1,6 +1,6 @@
 language: java
 
-dist: precise
+dist: trusty
 
 jdk:
         - oraclejdk8
@@ -36,9 +36,10 @@ cache:
 
 before_install:
         - cat /etc/hosts # optionally check the content
-        - travis_retry sudo apt-add-repository -y ppa:boost-latest/ppa
-        - travis_retry sudo apt-get -qq update
-        - travis_retry sudo apt-get -qq install boost1.55
+        # Boost 1.55 is pre-installed on Ubuntu Trusty
+        #- travis_retry sudo apt-add-repository -y ppa:boost-latest/ppa
+        #- travis_retry sudo apt-get -qq update
+        #- travis_retry sudo apt-get -qq install boost1.55
 
 install:
         - cd /tmp
