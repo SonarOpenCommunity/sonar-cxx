@@ -79,7 +79,7 @@ public class HardcodedIpCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (node.is(CxxGrammarImpl.LITERAL)) {
+    if (node.is(CxxGrammarImpl.LITERAL) && !node.isCopyBookOrGeneratedNode()) {
       IP.reset(node.getTokenOriginalValue());
       if (IP.find()) {
         String ip = IP.group(0).replaceAll("\"", "");
