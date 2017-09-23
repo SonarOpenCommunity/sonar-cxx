@@ -1,57 +1,49 @@
+@SqApi56 @SqApi62
 Feature: cpp-multimodule-project
-
   Test multimodule project with reports at root of the project
 
-  @SqApi56 @SqApi62
   Scenario: cpp-multimodule-project
-      GIVEN the project "cpp-multimodule-project"
-      WHEN I run "sonar-scanner -X"
-      THEN the analysis finishes successfully
-          AND the analysis in server has completed
-          AND the analysis log contains no error/warning messages except those matching:
-              """
-              .*WARN.*Unable to get a valid mac address, will use a dummy address
-              .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
-              .*WARN.*cannot find the sources for '#include <iostream>'
-              .*WARN-*Cannot find the file '.*', skipping violations
-              .*WARN.*to create a dependency with .*
-              .*WARN.*the include root '.*' doesn't exist
-              .*WARN.* cannot find the sources for .*
-              .*WARN.*SCM provider autodetection failed.*
-              .*WARN.*Cannot find a report for '.*'
-              .*WARN.*File access Failed '.*'
-              .*ERROR.*Invalid report baseDir '.*'
-              .*ERROR.*Using module base failed to find Path '.*'
-              """
-          AND the following metrics have following values:
-               | metric                   | value |
-               # size metrics
-               | ncloc                    | 56    |
-               | lines                    | 150   |
-               | statements               | 36    |
-               | classes                  | 1     |
-               | files                    | 8     |
-               | directories              | 4     |
-               | functions                | 5     |
-               # comments / documentation
-               | comment_lines_density    | 30    |
-               | comment_lines            | 24    |
-               # duplications
-               | duplicated_lines_density | 56.0  |
-               | duplicated_lines         | 84    |
-               | duplicated_blocks        | 2     |
-               | duplicated_files         | 2     |
-               # complexity
-               | complexity               | 7     |
-               | function_complexity      | 1.4   |
-               | file_complexity          | 0.9   |
-               | class_complexity         | 6     |
-               # violations
-               | violations               | 28    |
-               # test execution statistics
-               #| test_success_density     | 33.3  | -> enable when this is restored in core
-               | test_failures            | 2     |
-               | skipped_tests            | 1     |
-               | test_errors              | 0     |
-               | tests                    | 3     |
+    Given the project "cpp-multimodule-project"
+    When I run "sonar-scanner -X"
+    Then the analysis finishes successfully
+    And the analysis in server has completed
+    And the analysis log contains no error/warning messages except those matching:
+      """
+      .*WARN.*Unable to get a valid mac address, will use a dummy address
+      .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
+      .*WARN.*cannot find the sources for '#include <iostream>'
+      .*WARN-*Cannot find the file '.*', skipping violations
+      .*WARN.*to create a dependency with .*
+      .*WARN.*the include root '.*' doesn't exist
+      .*WARN.* cannot find the sources for .*
+      .*WARN.*SCM provider autodetection failed.*
+      .*WARN.*Cannot find a report for '.*'
+      .*WARN.*File access Failed '.*'
+      .*ERROR.*Invalid report baseDir '.*'
+      .*ERROR.*Using module base failed to find Path '.*'
+      """
+    And the following metrics have following values:
+      | metric                   | value |
+      | ncloc                    | 56    |
+      | lines                    | 150   |
+      | statements               | 36    |
+      | classes                  | 1     |
+      | files                    | 8     |
+      | directories              | 4     |
+      | functions                | 5     |
+      | comment_lines_density    | 30    |
+      | comment_lines            | 24    |
+      | duplicated_lines_density | 56.0  |
+      | duplicated_lines         | 84    |
+      | duplicated_blocks        | 2     |
+      | duplicated_files         | 2     |
+      | complexity               | 7     |
+      | function_complexity      | 1.4   |
+      | file_complexity          | 0.9   |
+      | class_complexity         | 6     |
+      | violations               | 28    |
+      | test_failures            | 2     |
+      | skipped_tests            | 1     |
+      | test_errors              | 0     |
+      | tests                    | 3     |
 

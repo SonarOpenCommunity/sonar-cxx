@@ -144,6 +144,7 @@
     <module>sonar-cxx-plugin</module>
     <module>sonar-c-plugin</module>    
     <module>sslr-cxx-toolkit</module>
+    <module>integration-tests</module>
   </modules>
 
   <scm>
@@ -171,7 +172,6 @@
     <sslr-squid-bridge.version>2.6.1</sslr-squid-bridge.version>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <sonar.language>java</sonar.language>
     <animal.sniffer.skip>true</animal.sniffer.skip>
   </properties>
 
