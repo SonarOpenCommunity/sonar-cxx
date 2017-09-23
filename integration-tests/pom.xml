@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
     <artifactId>cxx</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.9.8-SNAPSHOT</version>
   </parent>
 
   <artifactId>integration-tests</artifactId>
