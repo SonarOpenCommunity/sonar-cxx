@@ -38,13 +38,16 @@ public class AttributeTest extends ParserBaseTest {
     assertThat(p).matches("[[nmspc::attr]]");
     assertThat(p).matches("[[nmspc::attr(args)]]");
     assertThat(p).matches("[[attr1, attr2, attr3(args)]]");
-    assertThat(p).matches("[[db::id, db::auto, db::type(\"INT\")]]");
+    assertThat(p).matches("[[db::id, db::test, db::type(\"INT\")]]");
     assertThat(p).matches("[[omp::parallel(clause,clause)]]");
 
     assertThat(p).matches("[[noreturn]]");
     assertThat(p).matches("[[carries_dependency]]");
     assertThat(p).matches("[[deprecated]]");
     assertThat(p).matches("[[deprecated(\"reason\")]]");
+    assertThat(p).matches("[[fallthrough]]");
+    assertThat(p).matches("[[nodiscard]]");
+    assertThat(p).matches("[[maybe_unused]]");
 
     assertThat(p).matches("[[attr1]] [[attr2]] [[attr3]]");
   }

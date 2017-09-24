@@ -40,32 +40,51 @@ public class DeclarationsTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.declaration));
 
     mockRule(CxxGrammarImpl.blockDeclaration);
+    mockRule(CxxGrammarImpl.nodeclspecFunctionDeclaration);
     mockRule(CxxGrammarImpl.functionDefinition);
     mockRule(CxxGrammarImpl.templateDeclaration);
     mockRule(CxxGrammarImpl.deductionGuide);
+    mockRule(CxxGrammarImpl.cliGenericDeclaration);
     mockRule(CxxGrammarImpl.explicitInstantiation);
     mockRule(CxxGrammarImpl.explicitSpecialization);
     mockRule(CxxGrammarImpl.linkageSpecification);
     mockRule(CxxGrammarImpl.namespaceDefinition);
     mockRule(CxxGrammarImpl.emptyDeclaration);
     mockRule(CxxGrammarImpl.attributeDeclaration);
+    mockRule(CxxGrammarImpl.vcAtlDeclaration);
 
     assertThat(p).matches("blockDeclaration");
+    assertThat(p).matches("nodeclspecFunctionDeclaration");
     assertThat(p).matches("functionDefinition");
     assertThat(p).matches("templateDeclaration");
     assertThat(p).matches("deductionGuide");
+    assertThat(p).matches("cliGenericDeclaration");
     assertThat(p).matches("explicitInstantiation");
     assertThat(p).matches("explicitSpecialization");
     assertThat(p).matches("linkageSpecification");
     assertThat(p).matches("namespaceDefinition");
     assertThat(p).matches("emptyDeclaration");
     assertThat(p).matches("attributeDeclaration");
+    assertThat(p).matches("vcAtlDeclaration");
   }
 
   @Test
   public void declaration_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.declaration));
 
+    assertThat(p).matches(";");
+    assertThat(p).matches("extern int a;");
+    assertThat(p).matches("extern const int c;");
+    assertThat(p).matches("int f(int);");
+    assertThat(p).matches("struct S;");
+    assertThat(p).matches("typedef int Int;");
+    assertThat(p).matches("extern X anotherX;");
+    assertThat(p).matches("[[noreturn]] void f [[noreturn]] ();");
+    assertThat(p).matches("using std::string;");
+    assertThat(p).matches("using namespace D;");
+    assertThat(p).matches("enum Color { red, green, blue };");
+    assertThat(p).matches("enum byte : unsigned char {};");
+    assertThat(p).matches("static_assert(std::is_copy_constructible<T>::value, \"Swap requires copying\");");
     assertThat(p).matches("t* pt;");
     assertThat(p).matches("t* pt = nullptr;");
     assertThat(p).matches("t* pt {nullptr};");
@@ -74,22 +93,16 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("sometype foo();");
     assertThat(p).matches("sometype (*foo)(void);");
     assertThat(p).matches("aligned_storage<sizeof(result_type)> cache;");
-
-    // We cannot parse this, unfortunately. The reasons is an ambiguity between
-    // relational expressions and template parameter list syntax, which cannot be
-    // resolved without name lookup, at least according to the standard. Bad c++...
-    // assertThat(p).matches("mpl<N/M>();");
+    assertThat(p).matches("mpl<N/M>();");
     assertThat(p).matches("bool operator==<B>(A const&, A const&);");
     assertThat(p).matches("sometype foo(int& var1);");
     assertThat(p).matches("auto foo(int& var1) -> int;");
     assertThat(p).matches("auto fp11() -> void(*)(const std::string&);");
-
     assertThat(p).matches("t^ pt;");
     assertThat(p).matches("t% pt;");
     assertThat(p).matches("t^% pt;");
-
-//    assertThat(p).matches("int property;");
-//    assertThat(p).matches("int property = 0;");
+    assertThat(p).matches("int property;");
+    assertThat(p).matches("int property = 0;");
   }
 
   @Test
@@ -97,10 +110,10 @@ public class DeclarationsTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.aliasDeclaration));
 
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
-    mockRule(CxxGrammarImpl.typeId);
+    mockRule(CxxGrammarImpl.definingTypeId);
 
-    assertThat(p).matches("using foo = typeId");
-    assertThat(p).matches("using foo attributeSpecifierSeq = typeId");
+    assertThat(p).matches("using foo = definingTypeId ;");
+    assertThat(p).matches("using foo attributeSpecifierSeq = definingTypeId ;");
   }
 
   @Test
@@ -189,6 +202,23 @@ public class DeclarationsTest extends ParserBaseTest {
   }
 
   @Test
+  public void declSpecifier() {
+    p.setRootRule(g.rule(CxxGrammarImpl.declSpecifier));
+
+    mockRule(CxxGrammarImpl.storageClassSpecifier);
+    mockRule(CxxGrammarImpl.definingTypeSpecifier);
+    mockRule(CxxGrammarImpl.functionSpecifier);
+
+    assertThat(p).matches("storageClassSpecifier");
+    assertThat(p).matches("definingTypeSpecifier");
+    assertThat(p).matches("functionSpecifier");
+    assertThat(p).matches("friend");
+    assertThat(p).matches("typedef");
+    assertThat(p).matches("constexpr");
+    assertThat(p).matches("inline");
+  }
+  
+  @Test
   public void declSpecifier_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.declSpecifier));
 
@@ -256,19 +286,49 @@ public class DeclarationsTest extends ParserBaseTest {
   }
 
   @Test
+  public void definingTypeSpecifier() {
+    p.setRootRule(g.rule(CxxGrammarImpl.definingTypeSpecifier));
+
+    mockRule(CxxGrammarImpl.typeSpecifier);
+    mockRule(CxxGrammarImpl.classSpecifier);
+    mockRule(CxxGrammarImpl.enumSpecifier);
+
+    assertThat(p).matches("typeSpecifier");
+    assertThat(p).matches("classSpecifier");
+    assertThat(p).matches("enumSpecifier");
+  }
+
+  @Test
+  public void definingTypeSpecifierSeq() {
+    p.setRootRule(g.rule(CxxGrammarImpl.definingTypeSpecifierSeq));
+
+    mockRule(CxxGrammarImpl.definingTypeSpecifier);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+
+    assertThat(p).matches("definingTypeSpecifier");
+    assertThat(p).matches("definingTypeSpecifier attributeSpecifierSeq");
+    assertThat(p).matches("definingTypeSpecifier definingTypeSpecifier");
+    assertThat(p).matches("definingTypeSpecifier attributeSpecifierSeq definingTypeSpecifier");
+    assertThat(p).matches("definingTypeSpecifier attributeSpecifierSeq definingTypeSpecifier attributeSpecifierSeq");
+  }
+  
+  @Test
   public void simpleTypeSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.simpleTypeSpecifier));
 
-    mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.typeName);
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.simpleTemplateId);
+    mockRule(CxxGrammarImpl.templateName);
     mockRule(CxxGrammarImpl.decltypeSpecifier);
 
     assertThat(p).matches("typeName");
     assertThat(p).matches("nestedNameSpecifier typeName");
-
     assertThat(p).matches("nestedNameSpecifier template simpleTemplateId");
-
+    assertThat(p).matches("nestedNameSpecifier template simpleTemplateId");
+    assertThat(p).matches("templateName");
+    assertThat(p).matches("nestedNameSpecifier templateName");
+  
     assertThat(p).matches("char");
     assertThat(p).matches("char16_t");
     assertThat(p).matches("char32_t");
@@ -360,7 +420,22 @@ public class DeclarationsTest extends ParserBaseTest {
   public void enumSpecifier_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.enumSpecifier));
 
+    assertThat(p).matches("enum Color { red, green, blue }");
+    assertThat(p).matches("enum Suit { Diamonds, Hearts, Clubs, Spades, }");
+    assertThat(p).matches("enum Foo { a, b, c = 10, d, e = 1, f, g = f + c }");
     assertThat(p).matches("enum foo { MONDAY=1 }");
+    assertThat(p).matches("enum class Color { red, green = 20, blue }");
+    assertThat(p).matches("enum struct Color { red, green = 20, blue }");
+    assertThat(p).matches("enum byte : unsigned char {}");
+
+    assertThat(p).matches("enum altitude { high, low }");
+    assertThat(p).matches("enum altitude { high, low, }");
+    assertThat(p).matches("enum altitude { high='h', low='l' }");
+    assertThat(p).matches("enum class altitude { high = 'h', low = 'l' }");
+    assertThat(p).matches("enum struct altitude { high = 'h', low = 'l' }");
+    assertThat(p).matches("enum altitude : char { high = 'h', low = 'l' }");
+    assertThat(p).matches("enum class altitude : char { high = 'h', low = 'l' }");
+    assertThat(p).matches("enum class altitude : char { high = 'h', low = 'l', }");
   }
 
   @Test
@@ -369,18 +444,59 @@ public class DeclarationsTest extends ParserBaseTest {
 
     mockRule(CxxGrammarImpl.enumKey);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.enumHeadName);
     mockRule(CxxGrammarImpl.enumBase);
-    mockRule(CxxGrammarImpl.nestedNameSpecifier);
-    mockRule(CxxGrammarImpl.cliAttribute);
 
     assertThat(p).matches("enumKey");
     assertThat(p).matches("enumKey attributeSpecifierSeq");
-    assertThat(p).matches("enumKey attributeSpecifierSeq foo");
-    assertThat(p).matches("enumKey attributeSpecifierSeq foo enumBase");
+    assertThat(p).matches("enumKey enumHeadName");
+    assertThat(p).matches("enumKey enumBase");
+    assertThat(p).matches("enumKey attributeSpecifierSeq enumHeadName");
+    assertThat(p).matches("enumKey enumHeadName enumBase");
+    assertThat(p).matches("enumKey attributeSpecifierSeq enumBase");
+    assertThat(p).matches("enumKey attributeSpecifierSeq enumHeadName enumBase");
+  }
 
-    assertThat(p).matches("enumKey nestedNameSpecifier foo");
-    assertThat(p).matches("enumKey attributeSpecifierSeq nestedNameSpecifier foo");
-    assertThat(p).matches("enumKey attributeSpecifierSeq nestedNameSpecifier foo enumBase");
+  @Test
+  public void enumHeadName() {
+    p.setRootRule(g.rule(CxxGrammarImpl.enumHeadName));
+
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
+
+    assertThat(p).matches("IDENTIFIER");
+    assertThat(p).matches("nestedNameSpecifier IDENTIFIER");
+  }
+
+  @Test
+  public void opaqueEnumDeclaration() {
+    p.setRootRule(g.rule(CxxGrammarImpl.opaqueEnumDeclaration));
+
+    mockRule(CxxGrammarImpl.enumKey);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
+    mockRule(CxxGrammarImpl.enumBase);
+
+    assertThat(p).matches("enumKey IDENTIFIER ;");
+    assertThat(p).matches("enumKey attributeSpecifierSeq IDENTIFIER ;");
+    assertThat(p).matches("enumKey attributeSpecifierSeq nestedNameSpecifier IDENTIFIER ;");
+    assertThat(p).matches("enumKey attributeSpecifierSeq nestedNameSpecifier IDENTIFIER enumBase ;");
+  }
+
+  @Test
+  public void enumKey() {
+    p.setRootRule(g.rule(CxxGrammarImpl.enumKey));
+
+    assertThat(p).matches("enum");
+    assertThat(p).matches("enum class");
+    assertThat(p).matches("enum struct");
+  }
+
+  @Test
+  public void enumBase() {
+    p.setRootRule(g.rule(CxxGrammarImpl.enumBase));
+    mockRule(CxxGrammarImpl.typeSpecifierSeq);
+
+    assertThat(p).matches(": typeSpecifierSeq");
   }
 
   @Test
@@ -402,6 +518,15 @@ public class DeclarationsTest extends ParserBaseTest {
 
     assertThat(p).matches("enumerator");
     assertThat(p).matches("enumerator = constantExpression");
+  }
+
+  @Test
+  public void enumerator() {
+    p.setRootRule(g.rule(CxxGrammarImpl.enumerator));
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+
+    assertThat(p).matches("IDENTIFIER");
+    assertThat(p).matches("IDENTIFIER attributeSpecifierSeq");
   }
 
   @Test
@@ -439,12 +564,31 @@ public class DeclarationsTest extends ParserBaseTest {
   @Test
   public void usingDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.usingDeclaration));
+    mockRule(CxxGrammarImpl.usingDeclaratorList);
 
+    assertThat(p).matches("using usingDeclaratorList ;");
+  }
+
+  @Test
+  public void usingDeclaratorList() {
+    p.setRootRule(g.rule(CxxGrammarImpl.usingDeclaratorList));
+    mockRule(CxxGrammarImpl.usingDeclarator);
+
+    assertThat(p).matches("usingDeclarator");
+    assertThat(p).matches("usingDeclarator ...");
+    assertThat(p).matches("usingDeclarator , usingDeclarator");
+    assertThat(p).matches("usingDeclarator ... , usingDeclarator");
+    assertThat(p).matches("usingDeclarator ... , usingDeclarator ...");
+  }
+
+  @Test
+  public void usingDeclarator() {
+    p.setRootRule(g.rule(CxxGrammarImpl.usingDeclarator));
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.unqualifiedId);
 
-    assertThat(p).matches("using nestedNameSpecifier unqualifiedId ;");
-    assertThat(p).matches("using typename nestedNameSpecifier unqualifiedId ;");
+    assertThat(p).matches("nestedNameSpecifier unqualifiedId");
+    assertThat(p).matches("typename nestedNameSpecifier unqualifiedId");
   }
 
   @Test
