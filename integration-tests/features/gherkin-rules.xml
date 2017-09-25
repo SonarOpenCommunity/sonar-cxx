@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!-- this SQ quality profile can be used with https://github.com/racodond/sonar-gherkin-plugin -->
 <profile>
   <name>Bert Way</name>
   <language>gherkin</language>
@@ -63,7 +64,7 @@
       <parameters>
         <parameter>
           <key>allowedTags</key>
-          <value>wip;SqApi\d\d</value>
+          <value>wip,SqApi62,SqApi56</value>
         </parameter>
       </parameters>
     </rule>
