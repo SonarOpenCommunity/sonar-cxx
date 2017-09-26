@@ -87,8 +87,8 @@ Feature: Smoketest
       | file_complexity          | 0.9   |
       | class_complexity         | 6     |
       | violations               | 12    |
-      | coverage                 | 50    |
-      | line_coverage            | 50    |
+      | coverage                 | 53.8  |
+      | line_coverage            | 54.8  |
       | branch_coverage          | 50    |
       | test_failures            | 2     |
       | test_errors              | 0     |

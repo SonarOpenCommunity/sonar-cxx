@@ -50,8 +50,8 @@ Feature: Importing coverage data
       """
     And the following metrics have following values:
       | metric                  | value |
-      | coverage                | 25.9  |
-      | line_coverage           | 17.5  |
+      | coverage                | 31.0  |
+      | line_coverage           | 25.0  |
       | branch_coverage         | 50    |
 
   @SqApi56
