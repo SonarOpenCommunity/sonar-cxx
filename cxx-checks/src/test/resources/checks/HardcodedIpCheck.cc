@@ -1,5 +1,7 @@
 #include <string>
 
+#define VERSION_STR "1.2.3.4"
+
 using namespace std;
 class A {
     const string ip = "0.0.0.0"; // Non-compliant
@@ -12,5 +14,6 @@ class A {
     const string  notAnIp4 = ".0.0.0.0"; // Compliant
     char chBuffer[5120 * 4]; // Compliant
     const std::string  printerUID { "1.2.840.10008.5.1.1.16"}; // Compliant
+    const string version = VERSION_STR; // Compliant (generated code)
     };
 
