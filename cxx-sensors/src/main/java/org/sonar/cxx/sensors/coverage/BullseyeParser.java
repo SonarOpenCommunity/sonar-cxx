@@ -42,8 +42,6 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 public class BullseyeParser extends CxxCoverageParser {
   private static final Logger LOG = Loggers.get(BullseyeParser.class);
   private static volatile String prevLine;
-  private static int totaldecisions;
-  private static int totalcovereddecisions;
   private static int totalconditions;
   private static int totalcoveredconditions;
 
@@ -177,20 +175,14 @@ public class BullseyeParser extends CxxCoverageParser {
   }
 
   private static void saveConditions(CoverageMeasures fileMeasuresBuilderIn) {
-    if (totaldecisions > 0 || totalconditions > 0) {
-      if (totalcovereddecisions == 0 && totalcoveredconditions == 0) {
+    if (totalconditions > 0) {
+      if (totalcoveredconditions == 0) {
         fileMeasuresBuilderIn.setHits(Integer.parseInt(prevLine), 0);
       } else {
         fileMeasuresBuilderIn.setHits(Integer.parseInt(prevLine), 1);
       }
-      if (totalconditions > 0) {
-        fileMeasuresBuilderIn.setConditions(Integer.parseInt(prevLine), totalconditions, totalcoveredconditions);
-      } else {
-        fileMeasuresBuilderIn.setConditions(Integer.parseInt(prevLine), 2, totalcovereddecisions);
-      }
+      fileMeasuresBuilderIn.setConditions(Integer.parseInt(prevLine), totalconditions, totalcoveredconditions);
     }
-    totaldecisions = 0;
-    totalcovereddecisions = 0;
     totalconditions = 0;
     totalcoveredconditions = 0;
   }
@@ -198,17 +190,19 @@ public class BullseyeParser extends CxxCoverageParser {
   private static void updateMeasures(String kind, String event, String line, CoverageMeasures fileMeasuresBuilderIn) {
 
     switch (kind.toLowerCase(Locale.ENGLISH)) {
-      case "catch":
       case "decision":
-      case "for-range-body":
-      case "switch-label":
-      case "try":
-        totaldecisions++;
-        setTotalCoveredDecisions(event);
-        break;
       case "condition":
         totalconditions += 2;
         setTotalCoveredConditions(event);
+        break;
+      case "catch":
+      case "for-range-body":
+      case "switch-label":
+      case "try":
+        totalconditions++;
+        if ("full".equalsIgnoreCase(event)) {
+          totalcoveredconditions++;
+        }
         break;
       case "function":
         int lineHits = 0;
@@ -219,7 +213,7 @@ public class BullseyeParser extends CxxCoverageParser {
         break;
       case "constant":
         break;
-    default:
+      default:
         LOG.warn("BullseyeParser unknown probe kind '{}'", kind);
     }
   }
@@ -242,23 +236,6 @@ public class BullseyeParser extends CxxCoverageParser {
       default:
         LOG.warn("BullseyeParser unknown probe event '{}'", event);
     }
-  }
-
-  /**
-   * @param event
-   */
-  private static void setTotalCoveredDecisions(String event) {
-    switch (event.toLowerCase(Locale.ENGLISH)) {
-      case "full":
-        totalcovereddecisions = 2;
-        break;
-      case "true":        
-      case "false":
-        totalcovereddecisions = 1;
-        break;
-      default:
-        totalcovereddecisions = 0;
-      }
   }
 
   @Override
