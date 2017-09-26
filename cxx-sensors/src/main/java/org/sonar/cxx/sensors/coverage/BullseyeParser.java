@@ -211,9 +211,11 @@ public class BullseyeParser extends CxxCoverageParser {
         setTotalCoveredConditions(event);
         break;
       case "function":
+        int lineHits = 0;
         if ("full".equalsIgnoreCase(event)) {
-          fileMeasuresBuilderIn.setHits(Integer.parseInt(line), 1);
+          lineHits = 1;
         }
+        fileMeasuresBuilderIn.setHits(Integer.parseInt(line), lineHits);
         break;
       case "constant":
         break;
