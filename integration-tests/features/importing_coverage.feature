@@ -22,14 +22,14 @@ Feature: Importing coverage data
       """
     And the following metrics have following values:
       | metric                  | value |
-      | coverage                | 20.0  |
-      | line_coverage           | 12.5  |
+      | coverage                | 23.8  |
+      | line_coverage           | 17.6  |
       | branch_coverage         | 50    |
-      | it_coverage             | 34.5  |
-      | it_line_coverage        | 26.3  |
+      | it_coverage             | 40.6  |
+      | it_line_coverage        | 36.4  |
       | it_branch_coverage      | 50    |
-      | overall_coverage        | 28.6  |
-      | overall_line_coverage   | 20.0  |
+      | overall_coverage        | 34.0  |
+      | overall_line_coverage   | 28.2  |
       | overall_branch_coverage | 50.0  |
 
   @SqApi62
@@ -73,14 +73,14 @@ Feature: Importing coverage data
       """
     And the following metrics have following values:
       | metric                  | value |
-      | coverage                | 9.1   |
-      | line_coverage           | 5.0   |
+      | coverage                | 11.1  |
+      | line_coverage           | 7.3   |
       | branch_coverage         | 50    |
-      | it_coverage             | 20.4  |
-      | it_line_coverage        | 12.8  |
+      | it_coverage             | 25.0  |
+      | it_line_coverage        | 19.0  |
       | it_branch_coverage      | 50    |
-      | overall_coverage        | 21.5  |
-      | overall_line_coverage   | 13.7  |
+      | overall_coverage        | 26.1  |
+      | overall_line_coverage   | 20.0  |
       | overall_branch_coverage | 50    |
 
   @SqApi56
