@@ -95,6 +95,12 @@ public class CxxBullseyeCoverageSensorTest {
       sensor.execute(context, linesOfCodeByFile);
   
       assertThat(context.lineHits("ProjectKey:main.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
+
+      int[] zeroHitLines = new int[] { 5, 10, 15, 17, 28, 32, 35, 40, 41, 44};
+      for (int line : zeroHitLines) {
+        LOG.debug("Check zero line coverage: {}", line);
+        assertThat(context.lineHits("ProjectKey:source_1.cpp", CoverageType.UNIT, line)).isEqualTo(0);
+      }
   
       int[] oneHitlinesA = new int[] { 7, 12, 17, 30};
       for (int line : oneHitlinesA) {
@@ -102,25 +108,38 @@ public class CxxBullseyeCoverageSensorTest {
         assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, line)).isEqualTo(1);
         assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, line)).isEqualTo(1);
       }
-      int[] coveredCondition = new int [] { 34, 42, 43, 46};
-      // full covered condition
-      for (int line : coveredCondition) {
-        LOG.debug("Check conditions line: {}", line);
+      int[] fullCoveredTwoCondition = new int [] { 34, 43, 46};
+      for (int line : fullCoveredTwoCondition) {
+        LOG.debug("Check full covered two conditions - line: {}", line);
         assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
         assertThat(context.conditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
         assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
         assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
+        assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, line)).isEqualTo(1);
+        assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, line)).isEqualTo(1);
       }
-      LOG.debug("partial covered condition - line: 19"); 
+
+      LOG.debug("Check full covered four conditions - line: 42");
+      assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(4);
+      assertThat(context.conditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(4);
+      assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(4);
+      assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(4);
+      assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(1);
+      assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(1);
+
+      LOG.debug("Check partial covered two condition - line: 19");
       assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 19)).isEqualTo(2);
       assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 19)).isEqualTo(1);
-      LOG.debug("multiple covered condition - line: 37"); 
-      // multiple covered condition
-      assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(4);
-      assertThat(context.conditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(4);
-      assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(4);
-      assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(4);
-      // ToDo check total number of hits for each file
+      assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, 19)).isEqualTo(1);
+      assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 19)).isEqualTo(1);
+
+      LOG.debug("Check full covered six conditions - line: 37");
+      assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(6);
+      assertThat(context.conditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(6);
+      assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(6);
+      assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(6);
+      assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(1);
+      assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(1);
     }
   }
 
@@ -170,7 +189,8 @@ public class CxxBullseyeCoverageSensorTest {
           "covfile/import/cereal/external/rapidjson/prettywriter.h",
           "covfile/import/cereal/external/rapidjson/document.h",
           "covfile/src/main/main/main.cpp",
-          "covfile/import/cereal/details/static_object.hpp"
+          "covfile/import/cereal/details/static_object.hpp",
+          "covfile/src/main/vr_core/src/VR.cpp"
       };
       
       StringBuilder sourceContent = new StringBuilder();
@@ -185,18 +205,19 @@ public class CxxBullseyeCoverageSensorTest {
       sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
       sensor.execute(context, linesOfCodeByFile);
 
-      int[] coveredCondition = new int [] { 496, 475, 524};
+      int[] coveredCondition = new int [] { 496, 524};
 
       for (int line : coveredCondition) {
         LOG.debug("Check conditions line: {}", line);
         assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, line)).isEqualTo(2);
         assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, line)).isEqualTo(2);
       }
-      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 530)).isEqualTo(4);
-      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 530)).isEqualTo(3);
 
-      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 483)).isEqualTo(4);
-      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 483)).isEqualTo(2);
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 530)).isEqualTo(6);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 530)).isEqualTo(5);
+
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 483)).isEqualTo(6);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 483)).isEqualTo(3);
 
       assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 552)).isEqualTo(2);
       assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 552)).isEqualTo(1);
@@ -204,6 +225,18 @@ public class CxxBullseyeCoverageSensorTest {
       assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 495)).isEqualTo(2);
       assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 495)).isEqualTo(1);
 
+      LOG.debug("Switch-label probe");
+      assertThat(context.lineHits("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 474)).isEqualTo(0);
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 474)).isEqualTo(1);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 474)).isEqualTo(0);
+      assertThat(context.lineHits("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 475)).isEqualTo(1);
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 475)).isEqualTo(1);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 475)).isEqualTo(1);
+
+      LOG.debug("Try and catch probe on one line");
+      assertThat(context.lineHits("ProjectKey:covfile/src/main/vr_core/src/VR.cpp", CoverageType.UNIT, 39)).isEqualTo(1);
+      assertThat(context.conditions("ProjectKey:covfile/src/main/vr_core/src/VR.cpp", CoverageType.UNIT, 39)).isEqualTo(2);
+      assertThat(context.coveredConditions("ProjectKey:covfile/src/main/vr_core/src/VR.cpp", CoverageType.UNIT, 39)).isEqualTo(1);
     }
   }
 

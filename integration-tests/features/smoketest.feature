@@ -38,13 +38,13 @@ Feature: Smoketest
       | file_complexity          | 0.9   |
       | class_complexity         | 6     |
       | violations               | 12    |
-      | coverage                 | 81.8  |
+      | coverage                 | 84.0  |
       | line_coverage            | 100.0 |
       | branch_coverage          | 50    |
-      | it_coverage              | 81.8  |
+      | it_coverage              | 84.0  |
       | it_line_coverage         | 100.0 |
       | it_branch_coverage       | 50    |
-      | overall_coverage         | 81.8  |
+      | overall_coverage         | 84.0  |
       | overall_line_coverage    | 100.0 |
       | overall_branch_coverage  | 50    |
       | test_failures            | 2     |
@@ -87,8 +87,8 @@ Feature: Smoketest
       | file_complexity          | 0.9   |
       | class_complexity         | 6     |
       | violations               | 12    |
-      | coverage                 | 50    |
-      | line_coverage            | 50    |
+      | coverage                 | 53.8  |
+      | line_coverage            | 54.8  |
       | branch_coverage          | 50    |
       | test_failures            | 2     |
       | test_errors              | 0     |
