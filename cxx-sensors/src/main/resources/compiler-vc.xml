@@ -9883,16 +9883,203 @@ C26167 resembles C26117 except that the confidence level is lower. For example, 
   </rule>
   <rule>
     <key>C26400</key>
-    <name>C26400: Do not dereference an invalid pointer (lifetimes rule).</name>
+    <name>C26400: No raw pointer assignment.</name>
     <description><![CDATA[<p>
-Never dereference a null or invalid Pointer.
+No raw pointer assignment.
 
 see also:</p>
-<p><a href="https://blogs.msdn.microsoft.com/vcblog/2016/03/31/c-core-guidelines-checkers-preview-of-the-lifetime-safety-checker/" target="_blank">https://blogs.msdn.microsoft.com/vcblog/2016/03/31/c-core-guidelines-checkers-preview-of-the-lifetime-safety-checker/</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/docs/Lifetimes%20I%20and%20II%20-%20v0.9.1.pdf" target="_blank">Lifetimes I and II - v0.9.1.pdf</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
 ]]>
     </description>
     <internalKey>C26400</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26401</key>
+    <name>C26401: Don't delete none-owner.</name>
+    <description><![CDATA[<p>
+Don't delete none-owner.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26401</internalKey>
+    <tag>core-guideline</tag>
+    <severity>BLOCKER</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26402</key>
+    <name>C26402: Don't heap allocate moveable result.</name>
+    <description><![CDATA[<p>
+Don't heap allocate moveable result.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26402</internalKey>
+    <tag>core-guideline</tag>
+    <severity>BLOCKER</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26403</key>
+    <name>C26403: Reset or delete owner.</name>
+    <description><![CDATA[<p>
+Reset or delete owner.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26403</internalKey>
+    <tag>core-guideline</tag>
+    <severity>BLOCKER</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26404</key>
+    <name>C26404: Don't delete invalid owner.</name>
+    <description><![CDATA[<p>
+Don't delete invalid owner.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26404</internalKey>
+    <tag>core-guideline</tag>
+    <severity>BLOCKER</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26405</key>
+    <name>C26405: Don't assign to valid owner.</name>
+    <description><![CDATA[<p>
+Don't assign to valid owner.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26405</internalKey>
+    <tag>core-guideline</tag>
+    <severity>BLOCKER</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26406</key>
+    <name>C26406: Don't assign raw pointer to owner.</name>
+    <description><![CDATA[<p>
+Don't assign raw pointer to owner.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26406</internalKey>
+    <tag>core-guideline</tag>
+    <severity>BLOCKER</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26407</key>
+    <name>C26407: Don't heap allocate unnecessarily.</name>
+    <description><![CDATA[<p>
+Don't heap allocate unnecessarily.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26407</internalKey>
+    <tag>core-guideline</tag>
+    <severity>BLOCKER</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26408</key>
+    <name>C26408: No malloc or free.</name>
+    <description><![CDATA[<p>
+No malloc or free.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26408</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26409</key>
+    <name>C26409: No new or delete.</name>
+    <description><![CDATA[<p>
+Don't heap allocate moveable result.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26409</internalKey>
+    <tag>core-guideline</tag>
+    <severity>BLOCKER</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26410</key>
+    <name>C26410: No reference to const unique pointer.</name>
+    <description><![CDATA[<p>
+No reference to const unique pointer.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26410</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26411</key>
+    <name>C26411: No reference to unique pointer.</name>
+    <description><![CDATA[<p>
+No reference to unique pointer.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26401</internalKey>
+    <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -9900,7 +10087,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26461</key>
-    <name>C26461: By default, pass pointers and references to consts (const correctness).</name>
+    <name>C26461: Use const input arguments.</name>
     <description><![CDATA[<p>
 By default, pass pointers and references to consts
 <pre><code>
@@ -9925,41 +10112,190 @@ S0 f8(int *p, int *)
 }
 </code></pre>
 see also:</p>
-<p><a href="https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/" target="_blank">https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/docs/Lifetimes%20I%20and%20II%20-%20v0.9.1.pdf" target="_blank">Lifetimes I and II - v0.9.1.pdf</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
 ]]>
     </description>
     <internalKey>C26461</internalKey>
+    <tag>core-guideline</tag>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
-    <key>C26481</key>
-    <name>C26481: Don’t use pointer arithmetic. Use span instead.</name>
+    <key>C26470</key>
+    <name>C26470: No reinterpret_cast to void pointer.</name>
     <description><![CDATA[<p>
-Pointers should only refer to single objects, and pointer arithmetic is fragile and easy to get wrong. <i>span</i> is a bounds-checked, safe type for accessing arrays of data.
+No reinterpret_cast to void pointer.
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-bounds-arithmetic" target="_blank">Core Guideline - Bounds.1: Don't use pointer arithmetic. Use  span  instead</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
     </description>
-    <internalKey>C26481</internalKey>
+    <internalKey>C26470</internalKey>
+    <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
-    <key>C26494</key>
-    <name>C26494: Always initialize an object.</name>
+    <key>C26471</key>
+    <name>C26471: No reinterpret_cast from void pointer.</name>
     <description><![CDATA[<p>
-Before a variable has been initialized, it does not contain a deterministic valid value of its type. It could contain any arbitrary bit pattern, which could be different on each call.
+No reinterpret_cast from void pointer.
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-init" target="_blank">Core Guideline - Type.5: Don't use a variable before it has been initialized</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26471</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26481</key>
+    <name>C26481: No pointer arithmetic.</name>
+    <description><![CDATA[<p>
+Pointers should only refer to single objects, and pointer arithmetic is fragile and easy to get wrong. <i>span</i> is a bounds-checked, safe type for accessing arrays of data.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+<p><a href="http://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#probounds-bounds-safety-profile" target="_blank">Core Guideline - Pro.bounds: Bounds safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26481</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26482</key>
+    <name>C26482: No dynamic array indexing.</name>
+    <description><![CDATA[<p>
+No dynamic array indexing
+see also:</p>
+<p><a href="http://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#probounds-bounds-safety-profile" target="_blank">Core Guideline - Pro.bounds: Bounds safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26482</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26483</key>
+    <name>C26483: Static index out of range.</name>
+    <description><![CDATA[<p>
+No dynamic array indexing
+see also:</p>
+<p><a href="http://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#probounds-bounds-safety-profile" target="_blank">Core Guideline - Pro.bounds: Bounds safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26483</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26485</key>
+    <name>C26485: No array to pointer decay.</name>
+    <description><![CDATA[<p>
+No array to pointer decay.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+]]>
+    </description>
+    <internalKey>C26485</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26490</key>
+    <name>C26490: No reinterpret_cast.</name>
+    <description><![CDATA[<p>
+No reinterpret_cast.
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26490</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26491</key>
+    <name>C26491: No static downcast.</name>
+    <description><![CDATA[<p>
+No static downcast.
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26491</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26492</key>
+    <name>C26492: No const cast.</name>
+    <description><![CDATA[<p>
+No static downcast.
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26492</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26493</key>
+    <name>C26493: No C-style cast.</name>
+    <description><![CDATA[<p>
+No C-style cast.
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26493</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26494</key>
+    <name>C26494: Variable use before initialization.</name>
+    <description><![CDATA[<p>
+Variable use before initialization.
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26494</internalKey>
+    <tag>core-guideline</tag>
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -9967,22 +10303,24 @@ see also:</p>
   </rule>
   <rule>
     <key>C26495</key>
-    <name>C26495: No array to pointer decay.</name>
+    <name>C26495: Variable use before initialization.</name>
     <description><![CDATA[<p>
-Pointers should not be used as arrays. <i>span</i> is a bounds-checked, safe alternative to using pointers to access arrays.
+Variable use before initialization.
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-bounds-decay" target="_blank">Core Guideline - Bounds.3: No array-to-pointer decay</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26495</internalKey>
+    <tag>core-guideline</tag>
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
+
   <rule>
     <key>C26496</key>
-    <name>C26496: Use const to define objects with values that do not change after construction (const correctness).</name>
+    <name>C26496: Use const for variable.</name>
     <description><![CDATA[<p>
 Use const to define objects with values that do not change after construction
 <pre><code>
@@ -9996,8 +10334,7 @@ int f5()
     return a;
 }</code></pre>
 see also:</p>
-<p><a href="https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/" target="_blank">https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/docs/Lifetimes%20I%20and%20II%20-%20v0.9.1.pdf" target="_blank">Lifetimes I and II - v0.9.1.pdf</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
 ]]>
     </description>
     <internalKey>C26496</internalKey>
@@ -10008,7 +10345,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26497</key>
-    <name>C26497:  If a function may have to be evaluated at compile time, declare it constexpr (const correctness).</name>
+    <name>C26497: Use constexpr for function.</name>
     <description><![CDATA[<p>
  If a function may have to be evaluated at compile time, declare it constexpr
 <pre><code>
@@ -10033,10 +10370,27 @@ void f3()
 }
 }</code></pre>
 see also:</p>
-<p><a href="https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/" target="_blank">https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
 ]]>
     </description>
     <internalKey>C26497</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26498</key>
+    <name>C26498: Use constexpr for function call.</name>
+    <description><![CDATA[<p>
+Use constexpr for function call.
+
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
+]]>
+    </description>
+    <internalKey>C26498</internalKey>
+    <tag>core-guideline</tag>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -10133,6 +10487,22 @@ This rule can be used for other parameter types as well; see the function docume
 ]]>
     </description>
     <internalKey>C28039</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28101</key>
+    <name>C28101: The Drivers module has inferred that the current function is not the correct type of function</name>
+    <description><![CDATA[<p>
+Wrong function type. Check context and use annotations.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28101-wrong-function-type" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28101-wrong-function-type</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <internalKey>C28101</internalKey>
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -10247,6 +10617,36 @@ The program is holding a resource that should not be held when it is calling thi
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>C28110</key>
+    <name>C28110: Drivers must protect floating-point hardware state. See use of float</name>
+    <description><![CDATA[<p>
+The driver is attempting to use a variable or constant of a float type when the code is not protected by KeSaveFloatingPointState and KeRestoreFloatingPointState, or EngSaveFloatingPointState and EngRestoreFloatingPointState.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28110-floating-point-hardware-protect" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28110-floating-point-hardware-protect</a></p>
+]]>
+    </description>
+    <internalKey>C28110</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28111</key>
+    <name>C28111: The IRQL where the floating-point state was saved does not match the current IRQL</name>
+    <description><![CDATA[<p>
+The IRQL at which the driver is executing when it restores a floating-point state is different than the IRQL at which it was executing when it saved the floating-point state.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28111-floating-point-irql-mismatch" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28111-floating-point-irql-mismatch</a></p>
+]]>
+    </description>
+    <internalKey>C28111</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>C28112</key>
     <name>C28112: A variable which is accessed via an Interlocked function must always be accessed via an Interlocked function</name>
     <description><![CDATA[<p>
@@ -10279,6 +10679,96 @@ Although drivers are permitted to pass the address of a local variable to anothe
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>C28114</key>
+    <name>C28114: Copying a whole IRP stack entry leaves certain fields initialized that should be cleared or updated</name>
+    <description><![CDATA[<p>
+The driver is copying an IRP improperly. Improperly copying an IRP can cause serious problems with a driver, including loss of data and system crashes.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28114-improper-irp-stack-copy" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28114-improper-irp-stack-copy</a></p>
+]]>
+    </description>
+    <internalKey>C28114</internalKey>
+    <severity>BLOCKER</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28120</key>
+    <name>C28120: The function is not permitted to be called at the current IRQ level. The current level is too low</name>
+    <description><![CDATA[<p>
+The driver is executing at an IRQL that is too low for the function that it is calling.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28120-irql-execution-too-low" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28120-irql-execution-too-low</a></p>
+]]>
+    </description>
+    <internalKey>C28120</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28121</key>
+    <name>C28121: The function is not permitted to be called at the current IRQ level. The current level is too high</name>
+    <description><![CDATA[<p>
+The driver is executing at an IRQL that is too high for the function that it is calling.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28121-irq-execution-too-high" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28121-irq-execution-too-high</a></p>
+]]>
+    </description>
+    <internalKey>C28121</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>C28122</key>
+    <name>C28122: The function is not permitted to be called at a low IRQ level. Prior function calls are inconsistent with this constraint</name>
+    <description><![CDATA[<p>
+The driver is executing at an IRQL that is too low for the function that it is calling, and the highest permissible IRQL for prior calls in the current function is below the minimum IRQL that is required for this call.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28122-inconsistent-irq-level-calls-low" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28122-inconsistent-irq-level-calls-low</a></p>
+]]>
+    </description>
+    <internalKey>C28122</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>C28123</key>
+    <name>C28123: The function is not permitted to be called at a high IRQ level. Prior function calls are inconsistent with this constraint</name>
+    <description><![CDATA[<p>
+The driver is executing at an IRQL that is too high for the function that it is calling and the lowest permissible IRQL for prior calls within the function is greater than the maximum IRQL required for this call.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28123-inconsistent-irq-level-calls-high" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28123-inconsistent-irq-level-calls-high</a></p>
+]]>
+    </description>
+    <internalKey>C28123</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>C28124</key>
+    <name>C28124: The call to causes the IRQ Level to be set below the minimum acceptable for the function being analyzed</name>
+    <description><![CDATA[<p>
+The driver is calling a function that changes the IRQL to a level less than the minimum IRQL for the current function type.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28124-call-below-minimum-irq-level" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28124-call-below-minimum-irq-level</a></p>
+]]>
+    </description>
+    <internalKey>C28124</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>C28125</key>
     <name>C28125: The function must be called from within a try/except block</name>
     <description><![CDATA[<p>
@@ -10294,12 +10784,147 @@ The driver is calling a function that must be called from within a try/except bl
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>C28126</key>
+    <name>C28126: The AccessMode parameter to ObReferenceObject* should be IRP-&gt;RequestorMode</name>
+    <description><![CDATA[<p>
+This warning is intended for the top-level driver in the driver stack. You can ignore or suppress this warning for all other drivers.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28126-accessmode-param-incorrect" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28126-accessmode-param-incorrect</a></p>
+]]>
+    </description>
+    <internalKey>C28126</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28127</key>
+    <name>C28127: The function being used as a routine does not exactly match the type expected</name>
+    <description><![CDATA[<p>
+The driver is passing or assigning a function (pointer) of an unexpected type (that is, function signature).
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28127-function-routine-mismatch" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28127-function-routine-mismatch</a></p>
+]]>
+    </description>
+    <internalKey>C28127</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>C28128</key>
+    <name>C28128: An access to a field has been made directly. It should be made by a routine.</name>
+    <description><![CDATA[<p>
+The driver directly accessed a structure member that should be accessed only by using specialized functions.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28128-structure-member-directly-accessed" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28128-structure-member-directly-accessed</a></p>
+]]>
+    </description>
+    <internalKey>C28128</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>C28129</key>
+    <name>C28129: An assignment has been made to an operand, which should only be modified using bit sets and clears</name>
+    <description><![CDATA[<p>
+The driver is using an assignment to modify an operand.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28129-assignment-made-to-operand" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28129-assignment-made-to-operand</a></p>
+]]>
+    </description>
+    <internalKey>C28129</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>C28131</key>
+    <name>C28131: The DriverEntry routine should save a copy of the argument, not the pointer, because the I/O Manager frees the buffer</name>
+    <description><![CDATA[<p>
+The driver's DriverEntry routine is saving a copy of the pointer to the buffer instead of saving a copy of the buffer.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28131-driverentry-saving-pointer-to-buffer" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28131-driverentry-saving-pointer-to-buffer</a></p>
+]]>
+    </description>
+    <internalKey>C28131</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28132</key>
+    <name>C28132: Taking the size of pointer</name>
+    <description><![CDATA[<p>
+The driver is taking the size of a pointer variable, not the size of the value that is pointed to.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28132-driver-taking-the-size-of-pointer" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28132-driver-taking-the-size-of-pointer</a></p>
+]]>
+    </description>
+    <internalKey>C28132</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28133</key>
+    <name>C28133: IoInitializeTimer is best called from AddDevice</name>
+    <description><![CDATA[<p>
+The driver is calling IoInitializeTimer in a routine other than its AddDevice routine.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28133-ioinitializetimer-is-best-called-from-add-device" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28133-ioinitializetimer-is-best-called-from-add-device</a></p>
+]]>
+    </description>
+    <internalKey>C28133</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28134</key>
+    <name>C28134: The type of a pool tag should be integral, not a string or string pointer</name>
+    <description><![CDATA[<p>
+The driver is calling a function that assigns a pool tag, such as ExAllocatePoolWithTag, but it is using a value other than a literal in single quotation marks to specify the value of the pool tag. Do not use a quoted string in a pool tag.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28134-pool-tag-type-should-be-integral" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28134-pool-tag-type-should-be-integral</a></p>
+]]>
+    </description>
+    <internalKey>C28134</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28135</key>
+    <name>C28135: If the first argument to KeWaitForSingleObject is a local variable, the Mode parameter must be KernelMode</name>
+    <description><![CDATA[<p>
+The driver is waiting in user mode. As such, the kernel stack can be swapped out during the wait. If the driver attempts to pass parameters on the stack, a system crash can result.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28135-first-argument-to-kewaitforsingleobject" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28135-first-argument-to-kewaitforsingleobject</a></p>
+]]>
+    </description>
+    <internalKey>C28135</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>C28137</key>
     <name>C28137: The variable argument should instead be a (literal) constant</name>
     <description><![CDATA[<p>
 This warning is reported when a function call is missing a required (literal) constant. Consult the documentation for the function.
 </p><h2>MSDN Documentation</h2>
-<p><a href="https://msdn.microsoft.com/en-us/library/hh691803.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/hh691803.aspx</a></p>
+<p><a href="https://msdn.microsoft.com/en-us/library/34420007-6a73-4f09-bdf7-8d923eef9654(VS.110).aspx" target="_blank">https://msdn.microsoft.com/en-us/library/34420007-6a73-4f09-bdf7-8d923eef9654(VS.110).aspx</a></p>
 ]]>
     </description>
     <internalKey>C28137</internalKey>
@@ -10318,6 +10943,201 @@ This warning is reported in a function call that expects a variable or a non-con
 ]]>
     </description>
     <internalKey>C28138</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28141</key>
+    <name>C28141: The argument causes the IRQ Level to be set below the current IRQL, and this function cannot be used for that purpose</name>
+    <description><![CDATA[<p>
+A function call that lowers the IRQL at which a caller is executing is being used inappropriately.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28141-argument-lowers-irq-level" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28141-argument-lowers-irq-level</a></p>
+]]>
+    </description>
+    <internalKey>C28141</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28143</key>
+    <name>C28143: A dispatch routine that calls IoMarkIrpPending must also return STATUS_PENDING</name>
+    <description><![CDATA[<p>
+A dispatch routine that calls IoMarkIrpPending includes at least one path in which the driver returns a value other than STATUS_PENDING.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28143-iomarkirppending-must-return-statuspending" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28143-iomarkirppending-must-return-statuspending</a></p>
+]]>
+    </description>
+    <internalKey>C28143</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>C28144</key>
+    <name>C28144: Within a cancel routine, at the point of exit, the IRQL in Irp-&gt;CancelIrql should be the current IRQL</name>
+    <description><![CDATA[<p>
+Within a cancel routine, at the point of exit, the IRQL in Irp->CancelIrql should be the current IRQL.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28144-cancelirql-should-be-current-irql" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28144-cancelirql-should-be-current-irql</a></p>
+]]>
+    </description>
+    <internalKey>C28144</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>C28145</key>
+    <name>C28145: The opaque MDL structure should not be modified by a driver</name>
+    <description><![CDATA[<p>
+The driver code is changing a member of an MDL structure.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28145-opaque-mdl-structure-should-not-be-modified" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28145-opaque-mdl-structure-should-not-be-modified</a></p>
+]]>
+    </description>
+    <internalKey>C28145</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>C28146</key>
+    <name>C28146: Kernel mode drivers should use ntstrsafe.h instead of strsafe.h</name>
+    <description><![CDATA[<p>
+For information about Ntstrsafe.h and Strsafe.h, see Using Safe String Functions.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28146-kernel-mode-drivers-should-use-ntstrsafe" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28146-kernel-mode-drivers-should-use-ntstrsafe</a></p>
+]]>
+    </description>
+    <internalKey>C28146</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28147</key>
+    <name>C28147: The use of a default pool tag (' kdD' or ' mdW') for calls to this function defeats the purpose of pool tagging</name>
+    <description><![CDATA[<p>
+The driver is specifying a default pool tag.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28147-improper-use-of-default-pool-tag" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28147-improper-use-of-default-pool-tag</a></p>
+]]>
+    </description>
+    <internalKey>C28147</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28150</key>
+    <name>C28150: The function causes the IRQ Level to be set above the maximum acceptable for the function being analyzed</name>
+    <description><![CDATA[<p>
+The specified function has raised the IRQL above the maximum IRQL permitted for the current function call.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28150-function-causes-irq-level-to-be-set-above-max" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28150-function-causes-irq-level-to-be-set-above-max</a></p>
+]]>
+    </description>
+    <internalKey>C28150</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28151</key>
+    <name>C28151: The value is not a legal value for an IRQL</name>
+    <description><![CDATA[<p>
+The IRQL is not within the range of valid values for an IRQL (0-31).
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28151-illegal-irql-value" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28151-illegal-irql-value</a></p>
+]]>
+    </description>
+    <internalKey>C28151</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28152</key>
+    <name>C28152: The return from an AddDevice-like function unexpectedly DO_DEVICE_INITIALIZING</name>
+    <description><![CDATA[<p>
+The driver has returned from its AddDevice routine, or a similar utility routine, but the DO_DEVICE_INITIALIZING bit of the Flags word (DeviceObject->Flags) in the DeviceObject routine is not cleared.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28152-do-device-initializing-flag-not-cleared" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28152-do-device-initializing-flag-not-cleared</a></p>
+]]>
+    </description>
+    <internalKey>C28152</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28153</key>
+    <name>C28153: The value for an IRQL from annotation could not be evaluated in this context</name>
+    <description><![CDATA[<p>
+This warning indicates that the Code Analysis tool cannot interpret the function annotation because the annotation is not coded correctly.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28153-irql-annotation-eval-context" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28153-irql-annotation-eval-context</a></p>
+]]>
+    </description>
+    <internalKey>C28153</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28156</key>
+    <name>C28156: The actual IRQL is inconsistent with the required IRQL</name>
+    <description><![CDATA[<p>
+An _IRQL_requires_ annotation specifies that the driver should be executing at a particular IRQL when the function completes, but there is at least one path in which the driver is executing at a different IRQL when the function completes.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28156-irql-inconsistent-with-required-irq-value" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28156-irql-inconsistent-with-required-irq-value</a></p>
+]]>
+    </description>
+    <internalKey>C28156</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28157</key>
+    <name>C28157: The IRQL was never restored</name>
+    <description><![CDATA[<p>
+The current function has a _IRQL_restores_ annotation, which requires that when it completes, the driver should be executing at an IRQL that was restored from a previous IRQL value.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28157-function-irql-never-restored" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28157-function-irql-never-restored</a></p>
+]]>
+    </description>
+    <internalKey>C28157</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28158</key>
+    <name>C28158: No IRQL was saved</name>
+    <description><![CDATA[<p>
+A _IRQL_saves_ annotation specifies that the current function will save an IRQL value in the specified variable, but there is at least one path in which the IRQL value is not saved in that variable.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28158-no-irql-was-saved" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28158-no-irql-was-saved</a></p>
+]]>
+    </description>
+    <internalKey>C28158</internalKey>
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -10348,6 +11168,36 @@ This warning is reported when a __drv_error annotation has been encountered. Thi
 ]]>
     </description>
     <internalKey>C28160</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28161</key>
+    <name>C28161: Exiting without acquiring the right to use floating hardware</name>
+    <description><![CDATA[<p>
+The _Kernel_float_saved_ annotation was used to acquire the right to use floating point, but a path through the function was detected where no function known to perform that operation was successfully called.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28161-exiting-without-right-to-use-floating-hardware" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28161-exiting-without-right-to-use-floating-hardwared</a></p>
+]]>
+    </description>
+    <internalKey>C28161</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28162</key>
+    <name>C28162: Exiting while holding the right to use floating-point hardware</name>
+    <description><![CDATA[<p>
+The _Kernel_float_restored_ annotation was used to release the right to use floating point, but a path through the function was detected where no function known to perform that operation was successfully called.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28162-exiting-while-holding-right-to-use-floating-hardware" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28162-exiting-while-holding-right-to-use-floating-hardware</a></p>
+]]>
+    </description>
+    <internalKey>C28162</internalKey>
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -10385,6 +11235,172 @@ Some polymorphic functions (functions that can evaluate to, and be applied to, v
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
+  <rule>
+    <key>C28165</key>
+    <name>C28165: The function pointer of class does not match the function class</name>
+    <description><![CDATA[<p>
+A function pointer has a __drv_functionClass annotation that specifies that only functions of a particular functional class should be assigned to it.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28165-class-function-pointer-mismatch" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28165-class-function-pointer-mismatch</a></p>
+]]>
+    </description>
+    <internalKey>C28165</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28166</key>
+    <name>C28166: The function does not restore the IRQL to the value that was current at function entry and is required to do so.</name>
+    <description><![CDATA[<p>
+This warning indicates that a function has the _IRQL_requires_same_ annotation and there is at least one path through the function that does not.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28166-function-does-not-restore-irql-value" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28166-function-does-not-restore-irql-value</a></p>
+]]>
+    </description>
+    <internalKey>C28166</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28167</key>
+    <name>C28167: Changed IRQ is not restored before function exit</name>
+    <description><![CDATA[<p>
+The function changes the IRQL and does not restore the IRQL before it exits. It should be annotated to reflect the change or the IRQL should be restored.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28167-function-changes-irql-without-restore" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28167-function-changes-irql-without-restore</a></p>
+]]>
+    </description>
+    <internalKey>C28167</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28168</key>
+    <name>C28168: The dispatch function does not have a _Dispatch_type_ annotation matching this dispatch table entry</name>
+    <description><![CDATA[<p>
+This warning supports Static Driver Verifier by checking that each function assigned into the dispatch table is annotated with one or more _Dispatch_type_ annotations.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28168-dispatch-function-dispatch-annotation" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28168-dispatch-function-dispatch-annotation</a></p>
+]]>
+    </description>
+    <internalKey>C28168</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28169</key>
+    <name>C28169: The dispatch function does not have any _Dispatch_type_ annotations</name>
+    <description><![CDATA[<p>
+The warning can sometimes occur if the right-hand side has a cast that strips off the _Dispatch_type_ annotation.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28169-dispatch-function-does-not-have-proper-annotation" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28169-dispatch-function-does-not-have-proper-annotation</a></p>
+]]>
+    </description>
+    <internalKey>C28169</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28170</key>
+    <name>C28170: The function has been declared to be in a paged segment, but neither PAGED_CODE nor PAGED_CODE_LOCKED was found</name>
+    <description><![CDATA[<p>
+The Code Analysis tool reports this error when #pragma alloc_text or #pragma code_seg is used to move a function that does not contain a PAGED_CODE or PAGED_CODE_LOCKED macro into a pageable code section.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28170-pageable-code-macro-not-found" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28170-pageable-code-macro-not-found</a></p>
+]]>
+    </description>
+    <internalKey>C28170</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28171</key>
+    <name>C28171: The function has more than one instance of PAGED_CODE or PAGED_CODE_LOCKED</name>
+    <description><![CDATA[<p>
+This warning indicates that there is more than one instance of the PAGED_CODE or PAGED_CODE_LOCKED macro in a function.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28171-function-has-more-than-one-page-macro-instance" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28171-function-has-more-than-one-page-macro-instance</a></p>
+]]>
+    </description>
+    <internalKey>C28171</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28172</key>
+    <name>C28172: The function has PAGED_CODE or PAGED_CODE_LOCKED but is not declared to be in a paged segment</name>
+    <description><![CDATA[<p>
+A function that contains a PAGED_CODE or PAGED_CODE_LOCKED macro has not been placed in paged memory by using #pragma alloc_text or #pragma code_seg.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28172-function-macros-not-in-paged-segment" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28172-function-macros-not-in-paged-segment</a></p>
+]]>
+    </description>
+    <internalKey>C28172</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28173</key>
+    <name>C28173: The current function appears to incorrectly adapt to physical memory above 4 GB</name>
+    <description><![CDATA[<p>
+On systems that have more than 4 GB of memory, the IoGetDmaAdapter function might return fewer map registers than requested; this becomes more likely when the value requested becomes large (approaching 64).
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28173-function-incorrectly-adapts-to-memory-above-4gb" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28173-function-incorrectly-adapts-to-memory-above-4gb</a></p>
+]]>
+    </description>
+    <internalKey>C28173</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28175</key>
+    <name>C28175: The member of struct should not be accessed by a driver</name>
+    <description><![CDATA[<p>
+This warning indicates that a driver accessed an undocumented structure member that drivers should never access.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28175struct-member-should-not-be-accessed-by-driver" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28175struct-member-should-not-be-accessed-by-driver</a></p>
+]]>
+    </description>
+    <internalKey>C28175</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28176</key>
+    <name>C28176: The member of struct should not be accessed by a driver</name>
+    <description><![CDATA[<p>
+This warning indicates that a driver accessed an undocumented structure member that drivers should never access.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28175struct-member-should-not-be-accessed-by-driver" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28175struct-member-should-not-be-accessed-by-driver</a></p>
+]]>
+    </description>
+    <internalKey>C28176</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+
   <rule>
     <key>C28182</key>
     <name>C28182: Dereferencing NULL pointer.</name>
@@ -11288,6 +12304,21 @@ The C++ dynamic_cast operator cannot be used in annotations.
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>C28260</key>
+    <name>C28260: A syntax error in the annotations was found while parsing for a property inside a function</name>
+    <description><![CDATA[<p>
+This warning indicates an error in the annotations, not in the code that is being analyzed
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28260-syntax-error-in-function-property" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28260-syntax-error-in-function-property</a></p>
+]]>
+    </description>
+    <internalKey>C28260</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>C28262</key>
     <name>C28262: A syntax error in the annotation was found in function &lt;function&gt; for annotation &lt;name&gt;</name>
     <description><![CDATA[<p>
@@ -11314,6 +12345,21 @@ Typically, this indicates that more than one unconditional _Null_ or __drv_value
 ]]>
     </description>
     <internalKey>C28263</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28266</key>
+    <name>C28266: A syntax error in the annotations was found for the property in the function</name>
+    <description><![CDATA[<p>
+C28267: A syntax error in the annotations was found annotation &lt;name&gt; in the function &lt;function&gt;.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28266-function-property-syntax-error" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28266-function-property-syntax-error</a></p>
+]]>
+    </description>
+    <internalKey>C28266</internalKey>
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -11812,5 +12858,487 @@ The expression in the _When_ should evaluate to a constant. The _When_ is ignore
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
+  <rule>
+    <key>C28601</key>
+    <name>C28601: Avoid blocking on HWND_BROADCAST</name>
+    <description><![CDATA[<p>
+This warning indicates that the application called SendMessage with the HWND_BROADCAST flag, which blocks the thread until all the windows to which this message was broadcast respond
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28601-avoid-blocking-on-hwnd-broadcast" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28601-avoid-blocking-on-hwnd-broadcast</a></p>
+]]>
+    </description>
+    <internalKey>C28601</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28602</key>
+    <name>C28602: Avoid calling SendMessageTimeout with HWND_BROADCAST</name>
+    <description><![CDATA[<p>
+This warning when applications use SendMessageTimeout, even when the application requests a time-out period for the thread of only 10 seconds. The function does not return until each window has timed out.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28602-avoid-calling-sendmessagetimeout-with-hwnd-broadcast" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28602-avoid-calling-sendmessagetimeout-with-hwnd-broadcast</a></p>
+]]>
+    </description>
+    <internalKey>C28602</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28604</key>
+    <name>C28604: Avoid calling SendMessageTimeout with SMTO_ABORTIFHUNG with a timeout of 0</name>
+    <description><![CDATA[<p>
+This warning when applications call SendMessageTimeout with the SMTO_ABORTIFHUNG flag and a time-out period of zero
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28604-smto-abortifhung-with-0-timeout-" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28604-smto-abortifhung-with-0-timeout-</a></p>
+]]>
+    </description>
+    <internalKey>C28604</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28615</key>
+    <name>C28615: Must call _resetstkoflw in the __except() block when calling _alloca in the __try block</name>
+    <description><![CDATA[<p>
+Don't call _resetstkoflw from inside a catch() block.
+This warning when applications call the _resetstkoflw function within a catch block, or when applications call alloca in the try block without calling _resetstkoflw in the except block.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28615-must-call-resetstkoflw-in-except-block" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28615-must-call-resetstkoflw-in-except-block</a></p>
+]]>
+    </description>
+    <internalKey>C28615</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28616</key>
+    <name>C28616: Multithreaded AV condition</name>
+    <description><![CDATA[<p>
+In a multithreaded environment, it is impossible to know when a thread is preempted, with the consequence that the apparent effect of reducing the reference count of an object is that it is deleted without further action on the part of the current thread.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28616-multithreaded-av-condition" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28616-multithreaded-av-condition</a></p>
+]]>
+    </description>
+    <internalKey>C28616</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28617</key>
+    <name>C28617: Avoid using the return value of _beginthread(). Use _beginthreadex() instead</name>
+    <description><![CDATA[<p>
+It is safer to use _beginthreadex than _beginthread. If the thread spawned by _beginthread exits quickly, the handle returned to the caller of _beginthread may be invalid or, worse, point to another thread.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28617-avoid-using-the-return-value-of-beginthread" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28617-avoid-using-the-return-value-of-beginthread</a></p>
+]]>
+    </description>
+    <internalKey>C28617</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28623</key>
+    <name>C28623: Unsigned cast of GetMessagePos() coordinates. Use GET_X_LPARAM/GET_Y_LPARAM instead of LOWORD/HIWORD</name>
+    <description><![CDATA[<p>
+Systems with multiple monitors can have negative x-coordinates and y-coordinates.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28623-unsigned-cast-of-getmessagepos-coordinates" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28623-unsigned-cast-of-getmessagepos-coordinates</a></p>
+]]>
+    </description>
+    <internalKey>C28623</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28624</key>
+    <name>C28624: No call to Release() to match incremented refcount from LResultFromObject</name>
+    <description><![CDATA[<p>
+LresultFromObject increases the refcount on new IAccessible objects.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28624-no-release-call-to-match-incremented-refcount" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28624-no-release-call-to-match-incremented-refcount</a></p>
+]]>
+    </description>
+    <internalKey>C28624</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28625</key>
+    <name>C28625:Function call used to clear sensitive data will be optimized away</name>
+    <description><![CDATA[<p>
+The current function call might be optimized during compilation, which could make sensitive data stay in memory. Use the SecureZeroMemory or RtlSecureZeroMemory functions instead.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28625-sensitive-data-may-be-retained" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28625-sensitive-data-may-be-retained</a></p>
+]]>
+    </description>
+    <internalKey>C28625</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28636</key>
+    <name>C28636: Calling LocalFree on non-allocated pointer obtained from calls to GetSecurityDescriptorOwner/Group/Dacl/Sacl</name>
+    <description><![CDATA[<p>
+These functions do not allocate any memory—they set the pointer that is passed in. For this reason, it is wrong to free memory using that pointer.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28636-calling-localfree-on-non-allocated-pointer" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28636-calling-localfree-on-non-allocated-pointer</a></p>
+]]>
+    </description>
+    <internalKey>C28636</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28637</key>
+    <name>C28637: Calling the function in a global initializer is unsafe</name>
+    <description><![CDATA[<p>
+When you use a DLL, it is frequently the case that any static constructors are called from DllMain. There are a number of constraints that apply to call other functions from DllMain.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28637-calling-function-in-a-global-initializer-is-unsafe" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28637-calling-function-in-a-global-initializer-is-unsafe</a></p>
+]]>
+    </description>
+    <internalKey>C28637</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28638</key>
+    <name>C28638: function delayload stub is missing a matching declaration</name>
+    <description><![CDATA[<p>
+Many delay-load stubs can be implemented without including the header file where the functions are declared. A common mistake is to include the public header file while implementing delay-load stubs for both public and private ordinals (consequently omitting the private ones)
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28638-function-delayload-stub-is-missing-declaration-" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28638-function-delayload-stub-is-missing-declaration-</a></p>
+]]>
+    </description>
+    <internalKey>C28638</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28639</key>
+    <name>C28639: Calling close handle with string</name>
+    <description><![CDATA[<p>
+The function CloseHandle takes a void \* parameter. It is possible to cast (among other things) a string pointer to a void \* and pass it as an argument when the intention was to pass a handle opened using the string.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28639-calling-close-handle-with-string" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28639-calling-close-handle-with-string</a></p>
+]]>
+    </description>
+    <internalKey>C28639</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28640</key>
+    <name>C28640: function delayload stub should be a static function</name>
+    <description><![CDATA[<p>
+All delay-load libraries should be static; they should have no symbolic exports. This ensures that no unexpected software can link to delay-load stub functions.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28640-delayload-function-stub-should-be-a-static-function" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28640-delayload-function-stub-should-be-a-static-function</a></p>
+]]>
+    </description>
+    <internalKey>C28640</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28645</key>
+    <name>C28645: MessageBox was called using the question mark message symbol which is no longer recommended</name>
+    <description><![CDATA[<p>
+The use of the question mark message icon in a modal dialog box is no longer recommended because it does not clearly represent a specific type of message, and the phrasing of a message as a question could apply to any message type.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28645-messagebox-called-using-the-question-mark-symbol" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28645-messagebox-called-using-the-question-mark-symbol</a></p>
+]]>
+    </description>
+    <internalKey>C28645</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28648</key>
+    <name>C28648: PulseEvent is an unreliable function</name>
+    <description><![CDATA[<p>
+A thread waiting on a synchronization object can be momentarily removed from the wait state by a kernel-mode APC, and then returned to the wait state after the APC is complete. If the call to PulseEvent occurs during the period when the thread was removed from the wait state, the thread will not be released and will "hang" forever.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28648-pulseevent-is-an-unreliable-function" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28648-pulseevent-is-an-unreliable-function</a></p>
+]]>
+    </description>
+    <internalKey>C28648</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28649</key>
+    <name>C28649: Automatic or global stack arrays are never null</name>
+    <description><![CDATA[<p>
+Stack-based arrays can never be NULL. However, most of the time the intention is to check a particular element (mostly the first element) against NULL or for a nul character.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28649-automatic-or-global-stack-arrays-are-never-null" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28649-automatic-or-global-stack-arrays-are-never-null</a></p>
+]]>
+    </description>
+    <internalKey>C28649</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28650</key>
+    <name>C28650: The type for which !0 is being used does not treat it as failure case.</name>
+    <description><![CDATA[<p>
+Returning a status value such as !TRUE is not the same as returning a status value that indicates failure.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28650-generic-value-is-not-treated-as-failure" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28650-generic-value-is-not-treated-as-failure</a></p>
+]]>
+    </description>
+    <internalKey>C28650</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28714</key>
+    <name>C28714: Cast between semantically different integer types</name>
+    <description><![CDATA[<p>
+This warning indicates that an NTSTATUS value is being explicitly cast to a Boolean type. This is likely to give undesirable results
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28714-ntstatus-cast-between-semantically-different-integer-types" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28714-ntstatus-cast-between-semantically-different-integer-types</a></p>
+]]>
+    </description>
+    <internalKey>C28714</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28715</key>
+    <name>C28715:Cast between semantically different integer types</name>
+    <description><![CDATA[<p>
+This warning indicates that a Boolean is being cast to NTSTATUS. This is likely to give undesirable results. For example, the typical failure value for functions that return a Boolean (FALSE) is a success status when tested as an NTSTATUS.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28715-boolean-cast-between-semantically-different-integer-types" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28715-boolean-cast-between-semantically-different-integer-types</a></p>
+]]>
+    </description>
+    <internalKey>C28715</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28716</key>
+    <name>C28716: Compiler-inserted cast between semantically different integral types</name>
+    <description><![CDATA[<p>
+This warning indicates that a Boolean is being used as an NTSTATUS without being explicitly cast. This is likely to give undesirable results
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28716-compiler-inserted-cast-between-semantically-different-integral" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28716-compiler-inserted-cast-between-semantically-different-integral</a></p>
+]]>
+    </description>
+    <internalKey>C28716</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28717</key>
+    <name>C28717: Invalid VARIANT type</name>
+    <description><![CDATA[<p>
+The vt field of a VARIANT struct can take only certain values. Assigning any other value to it is an error.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28717-invalid-variant-type" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28717-invalid-variant-type</a></p>
+]]>
+    </description>
+    <internalKey>C28717</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28719</key>
+    <name>C28719: Banned API Usage</name>
+    <description><![CDATA[<p>
+This warning indicates that a function is being used that has been banned, and has a more robust and secure replacement.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28719-banned-api-usage-use-updated-function-replacement" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28719-banned-api-usage-use-updated-function-replacement</a></p>
+]]>
+    </description>
+    <internalKey>C28719</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28720</key>
+    <name>C28720: Banned API Usage</name>
+    <description><![CDATA[<p>
+This warning indicates that a function is being used that has been banned, and has a more robust and secure replacement.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28720-banned-api-usage-use-updated-function-replacement" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28720-banned-api-usage-use-updated-function-replacement</a></p>
+]]>
+    </description>
+    <internalKey>C28720</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28721</key>
+    <name>C28721: Deprecated performance counter architecture</name>
+    <description><![CDATA[<p>
+A deprecated performance counter architecture is used: <symptom>.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28721-deprecated-performance-counter-architecture" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28721-deprecated-performance-counter-architecture</a></p>
+]]>
+    </description>
+    <internalKey>C28721</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28726</key>
+    <name>C28726: Banned API Usage</name>
+    <description><![CDATA[<p>
+This warning indicates that a function is being used that has been banned or deprecated, and has a more robust and secure replacement.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28726-banned-api-usage-use-updated-function-replacement" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28726-banned-api-usage-use-updated-function-replacement</a></p>
+]]>
+    </description>
+    <internalKey>C28726</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28727</key>
+    <name>C28727: Banned API Usage</name>
+    <description><![CDATA[<p>
+This warning indicates that a function is being used that has been banned or deprecated, and has a more robust and secure replacement.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28727-banned-api-usage-use-updated-function-replacement" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28727-banned-api-usage-use-updated-function-replacement</a></p>
+]]>
+    </description>
+    <internalKey>C28727</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28730</key>
+    <name>C28730: Possible assignment of '\\0' directly to a pointer</name>
+    <description><![CDATA[<p>
+This warning indicates a probable typographical error: a nul character is being assigned to a pointer; it is probably the case that the character is intended as a string terminator and should be assigned to the memory where the pointer is pointing.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28730-possible-null-character-assignment" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28730-possible-null-character-assignment</a></p>
+]]>
+    </description>
+    <internalKey>C28730</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28735</key>
+    <name>C28735: Banned Crimson API Usage</name>
+    <description><![CDATA[<p>
+This warning indicates that a legacy Crimson API is being used. These APIs have been replaced by the Event Tracing for Windows (ETW) model, which improves both performance and security.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28735-banned-crimson-api-usage" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28735-banned-crimson-api-usage</a></p>
+]]>
+    </description>
+    <internalKey>C28735</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28736</key>
+    <name>C28736: Banned API Argument Usage</name>
+    <description><![CDATA[<p>
+This warning indicates that a legacy Crimson or Perflib consumer API with a banned argument is being used. 
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28736-legacy-crimson-or-perflib-banned-argument-used" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28736-legacy-crimson-or-perflib-banned-argument-used</a></p>
+]]>
+    </description>
+    <internalKey>C28736</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28750</key>
+    <name>C28750: Banned usage of lstrlen and its variants</name>
+    <description><![CDATA[<p>
+This warning indicates that a function is being used that has been banned, and has better replacements.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28750-banned-istrlen-usage" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28750-banned-istrlen-usage</a></p>
+]]>
+    </description>
+    <internalKey>C28750</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C28751</key>
+    <name>C28751: Banned usage of ExAllocatePool and its variants</name>
+    <description><![CDATA[<p>
+This warning indicates that a function is being used that has been banned, and has a more robust and secure replacement.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28751-banned-exallocatepool-usage" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28751-banned-exallocatepool-usage</a></p>
+]]>
+    </description>
+    <internalKey>C28751</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+
 </rules>
 
