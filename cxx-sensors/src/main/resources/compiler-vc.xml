@@ -1,6 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rules>
   <rule>
+    <key>C1252</key>
+    <name>C1252: Circular or missing dependency between plugins: requires GUID</name>
+    <description><![CDATA[<p>
+This warning appears for an internal error with plugin dependencies, not in the code being analyzed.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/C1252" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/C1252</a></p>
+]]>
+    </description>
+    <internalKey>C1252</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C1253</key>
+    <name>C1253: Unable to load model file</name>
+    <description><![CDATA[<p>
+This warning appears for an internal error in the model file, not in the code being analyzed.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c1253" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c1253</a></p>
+]]>
+    </description>
+    <internalKey>C1253</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C1254</key>
+    <name>C1254: Plugin version mismatch : version doesn't match the version of the PREfast driver</name>
+    <description><![CDATA[<p>
+This warning appears for an internal error with the plugin version, not in the code being analyzed.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c1254" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c1254</a></p>
+]]>
+    </description>
+    <internalKey>C1254</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C1255</key>
+    <name>C1255: PCH data for plugin has incorrect length</name>
+    <description><![CDATA[<p>
+This warning when there is an internal error with plugin dependencies, not in the code being analyzed.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c1255" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c1255</a></p>
+]]>
+    </description>
+    <internalKey>C1255</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C1256</key>
+    <name>C1256: PCH must be both written and read</name>
+    <description><![CDATA[<p>
+This warning when there is an internal error in the tool, not in the code being analyzed.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c1256" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c1256</a></p>
+]]>
+    </description>
+    <internalKey>C1256</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C1257</key>
+    <name>C1257: Circular or missing dependency between plugins: requires GUID </name>
+    <description><![CDATA[<p>
+This warning appears for an internal error in the plugin, not in the code being analyzed.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c1257" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c1257</a></p>
+]]>
+    </description>
+    <internalKey>C1257</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>CustomRuleTemplate"</key>
     <cardinality>MULTIPLE</cardinality>
     <name><![CDATA[Template for custom Custom rules]]></name>
@@ -10078,7 +10168,7 @@ see also:</p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
 ]]>
     </description>
-    <internalKey>C26401</internalKey>
+    <internalKey>C26411</internalKey>
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
