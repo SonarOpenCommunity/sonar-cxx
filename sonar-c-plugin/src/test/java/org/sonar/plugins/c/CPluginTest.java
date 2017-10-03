@@ -32,6 +32,6 @@ public class CPluginTest {
    Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
    CPlugin plugin = new CPlugin();
    plugin.define(context);
-   assertThat(context.getExtensions()).hasSize(74);
+   assertThat(context.getExtensions()).hasSize(75);
   }
 }

@@ -305,13 +305,21 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(13)
       .build(),
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_CHARSET_DEF)
+      .defaultValue(CxxClangTidySensor.DEFAULT_CHARSET_DEF)
+      .name("Encoding")
+      .description("The encoding to use when reading the clang-tidy report. Leave empty to use parser's default UTF-8.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(14)
+      .build(),      
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidyRuleRepository.CUSTOM_RULES_KEY)
       .name("Clang-Tidy custom rules")
       .description("XML definitions of custom Clang-Tidy rules, which aren't builtin into the plugin."
         + EXTENDING_THE_CODE_ANALYSIS)
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
-      .index(14)
+      .index(15)
       .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSASensor.REPORT_PATH_KEY)
       .name("Clang Static analyzer analyzer report(s)")
@@ -319,14 +327,14 @@ public final class CxxPlugin implements Plugin {
         + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(15)
+      .index(16)
       .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSARuleRepository.CUSTOM_RULES_KEY)
       .name("Clang-SA custom rules")
       .description("NO DESC")
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
-      .index(16)
+      .index(17)
       .build()
     ));
   }
@@ -356,7 +364,7 @@ public final class CxxPlugin implements Plugin {
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerSensor.REPORT_CHARSET_DEF)
       .defaultValue(CxxCompilerSensor.DEFAULT_CHARSET_DEF)
       .name("Encoding")
-      .description("The encoding to use when reading the compiler report. Leave empty to use parser's default.")
+      .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(3)
