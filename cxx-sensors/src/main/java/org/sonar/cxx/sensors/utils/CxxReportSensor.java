@@ -24,6 +24,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -50,7 +52,8 @@ public abstract class CxxReportSensor implements Sensor {
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
   private final Set<String> notFoundFiles = new HashSet<>();
   private final Set<String> uniqueIssues = new HashSet<>();
-  private int violationsCount;
+  private final Map<InputFile, Integer> violationsPerFileCount = new HashMap<>();
+  private int violationsPerModuleCount;
   protected final Settings settings;
   protected final CxxLanguage language;
   
@@ -78,25 +81,33 @@ public abstract class CxxReportSensor implements Sensor {
       LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'", 
                        context.fileSystem().baseDir(), getReportPathKey());
       List<File> reports = getReports(context.settings(), context.fileSystem().baseDir(), getReportPathKey());
-      violationsCount = 0;
+      violationsPerFileCount.clear();
+      violationsPerModuleCount = 0;
       
       for (File report : reports) {
-        int prevViolationsCount = violationsCount;
+        int prevViolationsCount = violationsPerModuleCount;
         LOG.info("Processing report '{}'", report);
         executeReport(context, report, prevViolationsCount);
       }
 
-      LOG.info("{} processed = {}", CxxMetrics.getKey(this.getSensorKey(), language), violationsCount);
+      LOG.info("{} processed = {}", CxxMetrics.getKey(this.getSensorKey(), language), violationsPerModuleCount);
           
       String metricKey = CxxMetrics.getKey(this.getSensorKey(), language);
       Metric<Integer> metric = this.language.getMetric(metricKey);
       
       if (metric != null) {
+        for (Map.Entry<InputFile, Integer> entry : violationsPerFileCount.entrySet()) {
+          context.<Integer>newMeasure()
+            .forMetric(metric)
+            .on(entry.getKey())
+            .withValue(entry.getValue())
+            .save();
+        }
         context.<Integer>newMeasure()
           .forMetric(metric)
           .on(context.module())
-          .withValue(violationsCount)
-          .save();               
+          .withValue(violationsPerModuleCount)
+          .save();
       }
     } catch (Exception e) {
       String msg = new StringBuilder()
@@ -120,7 +131,7 @@ public abstract class CxxReportSensor implements Sensor {
       processReport(context, report);
       if (LOG.isDebugEnabled()) {
         LOG.debug("{} processed = {}", CxxMetrics.getKey(this.getSensorKey(), language), 
-                                     violationsCount - prevViolationsCount);
+                                     violationsPerModuleCount - prevViolationsCount);
       }
     } catch (EmptyReportException e) {
       LOG.warn("The report '{}' seems to be empty, ignoring.", report);
@@ -280,7 +291,9 @@ public abstract class CxxReportSensor implements Sensor {
 
             newIssue.at(location);
             newIssue.save();
-            violationsCount++;
+
+            violationsPerFileCount.merge(inputFile, 1, Integer::sum);
+            violationsPerModuleCount++;
           } catch (RuntimeException ex) {
             LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
             CxxUtils.validateRecovery(ex, this.language);
@@ -301,7 +314,7 @@ public abstract class CxxReportSensor implements Sensor {
 
         newIssue.at(location);
         newIssue.save();
-        violationsCount++;
+        violationsPerModuleCount++;
       } catch (RuntimeException ex) {
         LOG.error("Could not add the issue '{}' for rule '{}:{}', skipping issue",
                                   ex.getMessage(), ruleRepoKey, ruleId);
