@@ -19,12 +19,10 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import java.io.File;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
