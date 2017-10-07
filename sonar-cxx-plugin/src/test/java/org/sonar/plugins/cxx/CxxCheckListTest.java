@@ -29,6 +29,6 @@ public class CxxCheckListTest {
   @Test
   public void count() {
     CppLanguage checks = new CppLanguage(new Settings());
-    assertThat(checks.getChecks().size()).isEqualTo(44);
+    assertThat(checks.getChecks().size()).isEqualTo(45);
   }
 }

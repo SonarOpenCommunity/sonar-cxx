@@ -45,7 +45,7 @@ import org.sonar.cxx.tag.Tag;
   effortToFixDescription = "per complexity point above the threshold")
 public class FunctionCognitiveComplexityCheck extends SquidCheck<Grammar> {
 
-  private static final int DEFAULT_MAX = 10;
+  private static final int DEFAULT_MAX = 15;
 
   @RuleProperty(
     key = "max",

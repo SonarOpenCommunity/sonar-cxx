@@ -78,40 +78,40 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
   }
 
   private static final AstNodeType[] DESCENDANT_TYPES = new AstNodeType[] {
-    CxxGrammarImpl.selectionStatement,
-    CxxGrammarImpl.iterationStatement,
     CxxGrammarImpl.handler,
+    CxxGrammarImpl.iterationStatement,
+    CxxGrammarImpl.lambdaExpression,
+    CxxGrammarImpl.logicalAndExpression,
+    CxxGrammarImpl.logicalOrExpression,
+    CxxGrammarImpl.selectionStatement,
     CxxKeyword.ELSE,
     CxxKeyword.GOTO,
-    CxxKeyword.BITOR,
-    CxxPunctuator.AND,
-    CxxPunctuator.OR,
     CxxPunctuator.QUEST
   };
 
   private static final AstNodeType[] INCREMENT_TYPES = new AstNodeType[] {
-    CxxGrammarImpl.iterationStatement,
-    CxxGrammarImpl.selectionStatement,
     CxxGrammarImpl.handler,
+    CxxGrammarImpl.iterationStatement,
+    CxxGrammarImpl.logicalAndExpression,
+    CxxGrammarImpl.logicalOrExpression,
+    CxxGrammarImpl.selectionStatement,
     CxxKeyword.ELSE,
     CxxKeyword.GOTO,
-    CxxKeyword.BITOR,
-    CxxPunctuator.AND,
-    CxxPunctuator.OR,
     CxxPunctuator.QUEST
   };
 
   private static final AstNodeType[] NESTING_LEVEL_TYPES = new AstNodeType[] {
-    CxxGrammarImpl.iterationStatement,
-    CxxGrammarImpl.selectionStatement,
     CxxGrammarImpl.handler,
+    CxxGrammarImpl.iterationStatement,
+    CxxGrammarImpl.lambdaExpression,
+    CxxGrammarImpl.selectionStatement,
     CxxPunctuator.QUEST
   };
 
   private static final AstNodeType[] NESTING_INCREMENTS_TYPES = new AstNodeType[] {
+    CxxGrammarImpl.handler,
     CxxGrammarImpl.iterationStatement,
     CxxGrammarImpl.selectionStatement,
-    CxxGrammarImpl.handler,
     CxxPunctuator.QUEST
   };
 
@@ -157,13 +157,13 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
 
     checkedNodes.addAll(watchedDescendants);
 
-    if (isElseIf(node)) return;
-
-    if (Arrays.asList(INCREMENT_TYPES).contains(node.getType())) {
+    if (Arrays.asList(INCREMENT_TYPES).contains(node.getType()) &&
+        !isElseIf(node)) {
       getContext().peekSourceCode().add(metric, 1);
     }
 
-    if (Arrays.asList(NESTING_INCREMENTS_TYPES).contains(node.getType())) {
+    if (Arrays.asList(NESTING_INCREMENTS_TYPES).contains(node.getType()) &&
+        !isElseIf(node)) {
       getContext().peekSourceCode().add(metric, nesting);
     }
   }

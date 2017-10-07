@@ -119,6 +119,21 @@ public class CxxCognitiveComplexityVisitorTest {
   }
 
   @Test
+  public void binary_logical_mixed() throws UnsupportedEncodingException, IOException {
+    testFile("src/test/resources/visitors/binary_logical_mixed.cc", 4);
+  }
+
+  @Test
+  public void binary_logical_not() throws UnsupportedEncodingException, IOException {
+    testFile("src/test/resources/visitors/binary_logical_not.cc", 3);
+  }
+
+  @Test
+  public void lambda() throws UnsupportedEncodingException, IOException {
+    testFile("src/test/resources/visitors/lambda.cc", 2);
+  }
+
+  @Test
   public void sum_of_primes() throws UnsupportedEncodingException, IOException {
     testFile("src/test/resources/visitors/sum_of_primes.cc", 7);
   }

@@ -30,6 +30,6 @@ public class CCheckListTest {
   @Test
   public void count() {
     CxxLanguage checks = new CLanguage(new Settings());    
-    assertThat(checks.getChecks().size()).isEqualTo(44);
+    assertThat(checks.getChecks().size()).isEqualTo(45);
   }
 }
