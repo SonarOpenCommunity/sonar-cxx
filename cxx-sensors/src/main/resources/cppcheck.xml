@@ -4283,6 +4283,26 @@ class 'name' does not have a copy constructor which is recommended since the cla
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>identicalConditionAfterEarlyExit</key>
+    <name>Identical condition &apos;x&apos;, second condition is always false</name>
+    <description>
+<![CDATA[
+<p>
+Identical condition &apos;x&apos;, second condition is always false.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>identicalConditionAfterEarlyExit</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
     <key>oppositeInnerCondition</key>
     <name>Opposite conditions in nested 'if' blocks lead to a dead code block</name>
     <description>
@@ -5374,6 +5394,26 @@ Shifting 32-bit value by 40 bits is undefined behaviour.
     <tag>cwe</tag>
     <internalKey>shiftTooManyBits</internalKey>
     <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>shiftTooManyBitsSigned</key>
+    <name>Shifting signed 32-bit value by 31 bits is undefined behaviour</name>
+    <description>
+<![CDATA[<p>
+Shifting signed 32-bit value by 31 bits is undefined behaviour.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>cwe</tag>
+    <internalKey>shiftTooManyBitsSigned</internalKey>
+    <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
