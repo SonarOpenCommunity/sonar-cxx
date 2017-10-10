@@ -20,14 +20,14 @@
 
 package org.sonar.cxx.visitors;
 
+import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
@@ -86,7 +86,8 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
     CxxGrammarImpl.selectionStatement,
     CxxKeyword.ELSE,
     CxxKeyword.GOTO,
-    CxxPunctuator.QUEST
+    CxxPunctuator.QUEST,
+    IDENTIFIER
   };
 
   private static final AstNodeType[] INCREMENT_TYPES = new AstNodeType[] {
@@ -117,6 +118,7 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
 
   private int nesting;
   private final Set<AstNode> checkedNodes;
+  private AstNode currentFunctionIdentifier;
 
   private CxxCognitiveComplexityVisitor(Builder<G> builder) {
     this.metric = builder.metric;
@@ -141,6 +143,8 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
     if (checkedNodes.contains(node)) return;
     checkedNodes.add(node);
 
+    if (node.is(CxxGrammarImpl.functionDefinition)) currentFunctionIdentifier = findFunctionIdentifier(node);
+
     List<AstNode> watchedDescendants = node.getDescendants(DESCENDANT_TYPES);
 
     if (Arrays.asList(NESTING_LEVEL_TYPES).contains(node.getType()) &&
@@ -157,6 +161,13 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
 
     checkedNodes.addAll(watchedDescendants);
 
+    // For the recursion increment, the token value must match the function token value
+    if ((node != currentFunctionIdentifier) &&
+        (node.getToken().getValue().equals(currentFunctionIdentifier.getToken().getValue()))) {
+      getContext().peekSourceCode().add(metric, 1);
+    }
+
+    // For any of the other increment types, just increment when they exist
     if (Arrays.asList(INCREMENT_TYPES).contains(node.getType()) &&
         !isElseIf(node)) {
       getContext().peekSourceCode().add(metric, 1);
@@ -178,5 +189,16 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
     return node.is(CxxGrammarImpl.selectionStatement) &&
       node.getToken().getType().equals(CxxKeyword.IF) &&
       node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
+  }
+
+  private AstNode findFunctionIdentifier(AstNode node) {
+    List<AstNode> identifiers = node.getDescendants(IDENTIFIER);
+    for (AstNode identifier : identifiers) {
+      if (identifier.hasAncestor(CxxGrammarImpl.functionDeclSpecifierSeq) ||
+          identifier.hasAncestor(CxxGrammarImpl.parametersAndQualifiers) ||
+          identifier.hasAncestor(CxxGrammarImpl.functionBody)) continue;
+      return identifier;
+    }
+    return currentFunctionIdentifier;
   }
 }

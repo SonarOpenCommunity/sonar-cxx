@@ -214,13 +214,9 @@ public final class CxxAstScanner {
       .subscribeTo(complexityAstNodeType)
       .build());
 
-    AstNodeType[] cognitiveComplexityAstNodeType = new AstNodeType[] {
-      CxxGrammarImpl.functionBody
-    };
-
     builder.withSquidAstVisitor(CxxCognitiveComplexityVisitor.<Grammar>builder()
       .setMetricDef(CxxMetric.COGNITIVE_COMPLEXITY)
-      .subscribeTo(cognitiveComplexityAstNodeType)
+      .subscribeTo(CxxGrammarImpl.functionDefinition)
       .build());
 
     // to emit a 'new file' event to the internals of the plugin
