@@ -27,6 +27,7 @@ import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
+import org.sonar.cxx.visitors.CxxCognitiveComplexityVisitor;
 import org.sonar.cxx.visitors.CxxFileVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeVisitor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
@@ -211,6 +212,11 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(ComplexityVisitor.<Grammar>builder()
       .setMetricDef(CxxMetric.COMPLEXITY)
       .subscribeTo(complexityAstNodeType)
+      .build());
+
+    builder.withSquidAstVisitor(CxxCognitiveComplexityVisitor.<Grammar>builder()
+      .setMetricDef(CxxMetric.COGNITIVE_COMPLEXITY)
+      .subscribeTo(CxxGrammarImpl.functionDefinition)
       .build());
 
     // to emit a 'new file' event to the internals of the plugin

@@ -17,19 +17,30 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.c;
+package org.sonar.cxx.checks;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
-import org.sonar.api.config.Settings;
-import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
-public class CCheckListTest {
+public class FunctionCognitiveComplexityCheckTest {
 
   @Test
-  public void count() {
-    CxxLanguage checks = new CLanguage(new Settings());    
-    assertThat(checks.getChecks().size()).isEqualTo(45);
+  public void check() throws UnsupportedEncodingException, IOException {
+    FunctionCognitiveComplexityCheck check = new FunctionCognitiveComplexityCheck();
+    check.setMax(18);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionCognitiveComplexity.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(13)
+      .next().atLine(33)
+      .next().atLine(51)
+      .next().atLine(72);
   }
+
 }

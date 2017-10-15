@@ -35,6 +35,7 @@ import org.sonar.cxx.checks.FileEncodingCheck;
 import org.sonar.cxx.checks.FileHeaderCheck;
 import org.sonar.cxx.checks.FileRegularExpressionCheck;
 import org.sonar.cxx.checks.FixmeTagPresenceCheck;
+import org.sonar.cxx.checks.FunctionCognitiveComplexityCheck;
 import org.sonar.cxx.checks.FunctionComplexityCheck;
 import org.sonar.cxx.checks.HardcodedAccountCheck;
 import org.sonar.cxx.checks.HardcodedIpCheck;
@@ -149,6 +150,7 @@ public class CppLanguage extends CxxLanguage {
       FileRegularExpressionCheck.class,
       LineRegularExpressionCheck.class,
       FixmeTagPresenceCheck.class,
+      FunctionCognitiveComplexityCheck.class,
       FunctionComplexityCheck.class,
       HardcodedAccountCheck.class,
       HardcodedIpCheck.class,
