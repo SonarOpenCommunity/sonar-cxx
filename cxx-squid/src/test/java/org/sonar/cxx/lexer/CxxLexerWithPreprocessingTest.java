@@ -45,7 +45,6 @@ import org.sonar.cxx.preprocessor.SourceCodeProvider;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 import com.sonar.sslr.api.GenericTokenType;
-//import org.sonar.cxx.api.CxxGrammar;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
