@@ -173,11 +173,24 @@
     <tag>alpha</tag>
   </rule>
   <rule>
-    <key>alpha.cplusplus.IteratorPastEnd</key>
-    <name>alpha.cplusplus.IteratorPastEnd</name>
+    <key>alpha.cplusplus.IteratorRange</key>
+    <name>alpha.cplusplus.IteratorRange</name>
     <description>
 <![CDATA[
-<p>Check iterators used past end
+<p>Check for iterators used outside their valid ranges
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.cplusplus.MisusedMovedObject</key>
+    <name>alpha.cplusplus.MisusedMovedObject</name>
+    <description>
+<![CDATA[
+<p>Method calls on a moved-from object and copying a moved-from object will be reported
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
@@ -425,45 +438,6 @@
     <description>
 <![CDATA[
 <p>Check for out-of-bounds access in string functions
-</p>
- <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
-]]>    </description>
-    <severity>MAJOR</severity>
-    <type>BUG</type>
-    <tag>alpha</tag>
-  </rule>
-  <rule>
-    <key>alpha.valist.CopyToSelf</key>
-    <name>alpha.valist.CopyToSelf</name>
-    <description>
-<![CDATA[
-<p>Check for va_lists which are copied onto itself.
-</p>
- <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
-]]>    </description>
-    <severity>MAJOR</severity>
-    <type>BUG</type>
-    <tag>alpha</tag>
-  </rule>
-  <rule>
-    <key>alpha.valist.Uninitialized</key>
-    <name>alpha.valist.Uninitialized</name>
-    <description>
-<![CDATA[
-<p>Check for usages of uninitialized (or already released) va_lists.
-</p>
- <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
-]]>    </description>
-    <severity>MAJOR</severity>
-    <type>BUG</type>
-    <tag>alpha</tag>
-  </rule>
-  <rule>
-    <key>alpha.valist.Unterminated</key>
-    <name>alpha.valist.Unterminated</name>
-    <description>
-<![CDATA[
-<p>Check for va_lists which are not released by a va_end call.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
@@ -867,6 +841,19 @@
     <description>
 <![CDATA[
 <p>Check for excessively padded structs.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>optin</tag>
+  </rule>
+  <rule>
+    <key>optin.portability.UnixAPI</key>
+    <name>optin.portability.UnixAPI</name>
+    <description>
+<![CDATA[
+<p>Finds implementation-defined behavior in UNIX/Posix functions
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
@@ -1419,5 +1406,44 @@
     <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>unix</tag>
+  </rule>
+  <rule>
+    <key>valist.CopyToSelf</key>
+    <name>valist.CopyToSelf</name>
+    <description>
+<![CDATA[
+<p>Check for va_lists which are copied onto itself.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>valist</tag>
+  </rule>
+  <rule>
+    <key>valist.Uninitialized</key>
+    <name>valist.Uninitialized</name>
+    <description>
+<![CDATA[
+<p>Check for usages of uninitialized (or already released) va_lists.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>valist</tag>
+  </rule>
+  <rule>
+    <key>valist.Unterminated</key>
+    <name>valist.Unterminated</name>
+    <description>
+<![CDATA[
+<p>Check for va_lists which are not released by a va_end call.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>valist</tag>
   </rule>
 </rules>
