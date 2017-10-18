@@ -29,7 +29,6 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.cxx.api.CxxKeyword;
-import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
@@ -44,7 +43,7 @@ import java.util.HashSet;
 public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends SquidAstVisitor<G> {
 
   private final MetricDef metric;
-  private Set<AstNodeType> astNodeTypes;
+  private final Set<AstNodeType> astNodeTypes;
 
   public static final class Builder<G extends Grammar> {
 
@@ -60,9 +59,7 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
     }
 
     public Builder<G> subscribeTo(AstNodeType... astNodeTypes) {
-      for (AstNodeType astNodeType : astNodeTypes) {
-        this.astNodeTypes.add(astNodeType);
-      }
+      this.astNodeTypes.addAll(Arrays.asList(astNodeTypes));
       return this;
     }
 
@@ -72,7 +69,7 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
     }
 
     public CxxCognitiveComplexityVisitor<G> build() {
-      return new CxxCognitiveComplexityVisitor<G>(this);
+      return new CxxCognitiveComplexityVisitor<>(this);
     }
 
   }
@@ -128,7 +125,7 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
   }
 
   public static <G extends Grammar> Builder<G> builder() {
-    return new Builder<G>();
+    return new Builder<>();
   }
 
   @Override
