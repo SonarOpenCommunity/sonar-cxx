@@ -1,5 +1,835 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <rules>
+<!-- #### add shijl#### -->
+  <rule>
+    <key>uninitvar</key>
+    <name>Uninitialized variable</name>
+    <description>
+变量未初始化。
+<![CDATA[<p>
+Uninitialized variable.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>cwe</tag>
+    <internalKey>uninitvar</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>assignIf</key>
+    <name>assignIf</name>
+    <description>不匹配的赋值或比较，导致结果永远为真或假</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>assignIf</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>NoFirstCase</key>
+    <name>NoFirstCase</name>
+    <description>case语句中缺少第一个case</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>NoFirstCase</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>RecursiveFunc</key>
+    <name>RecursiveFunc</name>
+    <description>函数递归，可能影响性能或出现死循环</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>RecursiveFunc</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>comparison</key>
+    <name>comparison</name>
+    <description>等号左右两边不匹配</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>comparison</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>multiCondition</key>
+    <name>'else if' condition matches previous condition</name>
+    <description>
+表达式总是false，因为else if匹配前一个条件。
+<![CDATA[
+<p>
+Expression is always false because 'else if' condition matches previous condition.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>multiCondition</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>DuplicateIf</key>
+    <name>Redundant 'if'-expressions</name>
+    <description>
+      if判断条件重复。Found duplicate if expressions.
+    </description>
+    <tag>cwe</tag>
+    <internalKey>DuplicateIf</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>DuplicateBranch</key>
+    <name>Redundant 'if' and 'else' branches</name>
+    <description>
+分支内容重复。
+<![CDATA[<p>
+Found duplicate branches for if and else.
+Finding the same code in an 'if' and related 'else' branch is suspicious and might indicate a cut and paste or logic error.
+Please examine this code carefully to determine if it is correct.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>DuplicateBranch</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>DuplicateExpression</key>
+    <name>Same expression on both sides of '&amp;&amp;'</name>
+    <description>
+      表达式重复如，比如一个if条件中的使用了相同的条件。Same expression on both sides of '&amp;&amp;'.
+<![CDATA[<p>
+Same expression on both sides of '&&' or '||'.
+Finding the same expression on both sides of an operator is suspicious and might 
+indicate a cut and paste or logic error. Please examine this code carefully to determine if it is correct.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>DuplicateExpression</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>clarifyCondition</key>
+    <name>Suspicious condition (assignment+comparison)</name>
+    <description>
+位运算与比较符号可能带来优先级错误，导致运算结果不正确，建议使用括号注明其正确的运算优先级。
+<![CDATA[
+<p>
+<ul>
+<li>Suspicious condition (assignment+comparison), it can be clarified with parentheses.</li
+<li>Suspicious expression. Boolean result is used in bitwise operation. The operator '!'
+and the comparison operators have higher precedence than bitwise operators.
+It is recommended that the expression is clarified with parentheses.</li
+<li>Suspicious condition (bitwise operator + comparison).
+Comparison operators have higher precedence than bitwise operators.
+Please clarify the condition with parentheses.</li
+</ul>
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>clarifyCondition</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>SwitchNoBreakUP</key>
+    <name>SwitchNoBreakUP</name>
+    <description>break高级检查，忽略最后一个case的break忽略连续写case的情况</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>SwitchNoBreakUP</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ComparisonOfBoolExpressionWithInt</key>
+    <name>ComparisonOfBoolExpressionWithInt</name>
+    <description>将布尔值与int类型值进行比较，如:if(!x==4)</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>ComparisonOfBoolExpressionWithInt</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>oppositeInnerCondition</key>
+    <name>Opposite conditions in nested 'if' blocks lead to a dead code block</name>
+    <description>
+相反的内部条件，导致代码不可达。
+<![CDATA[
+<p>
+Opposite conditions in nested 'if' blocks lead to a dead code block.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>oppositeInnerCondition</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>BitwiseOnBoolean</key>
+    <name>Boolean variable is used in bitwise operation</name>
+    <description>
+布尔值用在了位运算中。
+<![CDATA[
+<p>
+Boolean variable 'varname' is used in bitwise operation. Did you mean '&&' or '||'?
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>BitwiseOnBoolean</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>IncorrectLogicOperator</key>
+    <name>Suspicious use of the '&amp;&amp;' or '||' logic operator</name>
+    <description>
+错误的逻辑运算，如：总是真，或总是假。
+<![CDATA[
+<p>
+Logical disjunction always evaluates to true or false . Did you intend to use '&&' or '||' instead?
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>IncorrectLogicOperator</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ComparisonOfBoolWithInt</key>
+    <name>Suspicious comparison of a boolean with an integer</name>
+    <description>
+      将布尔值与int类型值进行比较，如:if(!x==4)。
+      Comparison of a boolean with an integer that is neither 1 nor 0.
+    </description>
+    <internalKey>ComparisonOfBoolWithInt</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ComparisonOfBoolWithBool</key>
+    <name>ComparisonOfBoolWithBool</name>
+    <description>bool类型变量间的比较，函数返回值是bool变量，却对该类函数使用关系运算符</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>ComparisonOfBoolWithBool</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>InvalidVarArgs</key>
+    <name>InvalidVarArgs</name>
+    <description>可变参数函数调用时，检查参数是否匹配</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>InvalidVarArgs</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>thisSubtraction</key>
+    <name>Suspicious pointer subtraction</name>
+    <description>
+this用于减法运算的表达式，如：手抖把this->写成了this-x
+<![CDATA[
+<p>
+Suspicious pointer subtraction. Did you intend to write '->'?
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>thisSubtraction</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>UnconditionalBreakinLoop</key>
+    <name>UnconditionalBreakinLoop</name>
+    <description>循环中没有任何条件的break，导致循环只执行一次</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>UnconditionalBreakinLoop</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>AssignmentInAssert</key>
+    <name>Assert statement modifies variable</name>
+    <description>
+在断言中对变量进行赋值，多半是写错位置了。（断言只在debug中有效的宏）
+      <![CDATA[
+<p>
+Variable 'varname' is modified insert assert statement.
+Assert statements are removed from release builds so the code inside
+assert statement is not executed. If the code is needed also in release
+builds, this is a bug.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>AssignmentInAssert</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>SuspiciousSemicolon</key>
+    <name>Suspicious use of ; at the end of 'if/for/while' statement</name>
+    <description>
+可疑的分号使用，在if for while语句后直接跟分号。
+<![CDATA[<p>
+Suspicious use of ; at the end of 'if/for/while' statement.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>SuspiciousSemicolon</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>AssignBoolToPointer</key>
+    <name>Assigning bool value to pointer (converting bool value to address)</name>
+    <description>
+将bool值赋值给指针，有可能是bool变量声明时多加了个*，如void foo(bool *p) {p = false;}。
+<![CDATA[
+<p>
+Boolean value assigned to pointer.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/587.html" target="_blank">CWE-587: Assignment of a Fixed Address to a Pointer</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>AssignBoolToPointer</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>IfCondition</key>
+    <name>IfCondition</name>
+    <description>if判断条件中含有可疑的=号</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>IfCondition</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule> 
+  <rule>
+    <key>strPlusChar</key>
+    <name>Unusual pointer arithmetic</name>
+    <description>
+字符串与字符变量相加，一般为错误使用单引号。字符串与字符变量相加，相当于字符串指针偏移N（N为字符变量的ASC码值，char相当于整数）。
+<![CDATA[
+<p>
+Unusual pointer arithmetic.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>strPlusChar</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>MemsetZeroBytes</key>
+    <name>Effectless memset() call</name>
+    <description>
+调用memset函数但只填充0字节，一般是第2和3个参数写反了。如：memset(p, sizeof(p), 0)，正确写法是memset(p,0,sizeof(p))。
+<![CDATA[<p>
+memset() called to fill 0 bytes.
+The second and third arguments might be inverted.
+The function memset ( void * ptr, int value, size_t num ) sets the first num bytes of the block of memory pointed by ptr to the specified value.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/687.html" target="_blank">CWE-687: Function Call With Incorrectly Specified Argument Value</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>MemsetZeroBytes</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>SuspiciousPriority</key>
+    <name>SuspiciousPriority</name>
+    <description>可疑的优先级</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>SuspiciousPriority</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule> 
+    <rule>
+    <key>suspiciousfor</key>
+    <name>suspiciousfor</name>
+    <description>可疑的for循环，可能是死循环</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>suspiciousfor</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule> 
+    <rule>
+    <key>autovar</key>
+    <name>autovar</name>
+    <description>自由变量，通常发生在错误的返回了局部变量</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>autovar</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>wrongvarinfor</key>
+    <name>wrongvarinfor</name>
+    <description>在for语句中变量使用错误，可能导致死循环</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>wrongvarinfor</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule> 
+    <rule>
+    <key>BoolFuncReturn</key>
+    <name>BoolFuncReturn</name>
+    <description>bool返回值类型的函数返回值超出bool类型的范围</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>BoolFuncReturn</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule> 
+    <rule>
+    <key>suspiciousArrayIndex</key>
+    <name>suspiciousArrayIndex</name>
+    <description>数组下标使用可能存在问题</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>suspiciousArrayIndex</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>invalidIterator</key>
+    <name>Invalid iterator</name>
+    <description>错误的使用迭代器，包括删除迭代器错误，使用错误的迭代器容器等。</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>invalidIterator</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>AssignAndCompute</key>
+    <name>AssignAndCompute</name>
+    <description>检查+=误写成=+的情况，一般为手抖写错，导致结果跟预期不一致</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>AssignAndCompute</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>UnsignedDivision</key>
+    <name>UnsignedDivision</name>
+    <description>除数和被除数分别是有符号和无符号类型</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>UnsignedDivision</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ModuloAlwaysTrueFalse</key>
+    <name>Comparison of modulo result is predetermined</name>
+    <description>
+取模结果的最大值小于被取模的值，导致表达式总是真或总是假。如if(var%4==4)，一般是手抖把边界值写错了。
+<![CDATA[
+<p>
+Comparison of modulo result is predetermined.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>ModuloAlwaysTrueFalse</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>ZeroDivision</key>
+    <name>ZeroDivision</name>
+    <description>除数为0</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>ZeroDivision</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>NegativeBitwiseShift</key>
+    <name>NegativeBitwiseShift</name>
+    <description>对负的右操作数进行位移运算</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>NegativeBitwiseShift</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule> 
+  <rule>
+    <key>IncrementBoolean</key>
+    <name>Suspicious use of the postfix '++' operator on a boolean</name>
+    <description>
+对bool变量使用自增，导致bool变量的值可能不符合预期。如：bool bValue = true;bValue++;
+<![CDATA[
+<p>
+The operand of a postfix increment operator may be of type bool but it is deprecated by C++ Standard (Annex D-1) 
+and the operand is always set to true. You should assign it the value 'true' instead.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>IncrementBoolean</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>SizeofForArrayParameter</key>
+    <name>SizeofForArrayParameter</name>
+    <description>数组作为函数参数时，对数组用sizeof计算</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>SizeofForArrayParameter</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>SizeofForNumericParameter</key>
+    <name>SizeofForNumericParameter</name>
+    <description>对一个数字常量使用sizeof</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>SizeofForNumericParameter</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>sizeofsizeof</key>
+    <name>Calling sizeof for 'sizeof'</name>
+    <description>
+sizeofsizeof，很可能是手抖多复制了一个，如  int i = sizeof sizeof char
+<![CDATA[<p>
+Calling sizeof for 'sizeof looks like a suspicious code and most likely there should be just one 'sizeof'.
+The current code is equivalent to 'sizeof(size_t)'
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>sizeofsizeof</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>SizeofForPointerSize</key>
+    <name>SizeofForPointerSize</name>
+    <description>对指针使用了sizeof，得到的不是实际数据的大小，而是指针大小（4字节）</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>SizeofForPointerSize</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule> 
+  <rule>
+    <key>Unsignedlessthanzero</key>
+    <name>Checking if unsigned variable is less than zero</name>
+    <description>
+无符号数在判断的时候，判断其值小于0，这可能是一个错误或者是无意义的代码。
+<![CDATA[<p>
+Checking if unsigned variable is less than zero.
+The unsigned variable 'varname' will never be negative so it is either pointless or an error to check if it is
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>Unsignedlessthanzero</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>dereferenceIfNull</key>
+    <name>dereferenceIfNull</name>
+    <description>if判断指针等于NULL成立时解引用，必然crash</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>dereferenceIfNull</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+    <rule>
+    <key>dereferenceBeforeCheck</key>
+    <name>dereferenceBeforeCheck</name>
+    <description>指针先解引用，再进行判空</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>dereferenceBeforeCheck</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule> 
+    <rule>
+    <key>nullPointerLinkedList</key>
+    <name>nullPointerLinkedList</name>
+    <description>链表循环内直接访问了link->Next</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>nullPointerLinkedList</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule> 
+    <rule>
+    <key>formatbufoverrun</key>
+    <name>formatbufoverrun</name>
+    <description>sprintf_s中越界错误</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>formatbufoverrun</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule> 
+  <rule>
+    <key>memleak</key>
+    <name>Memory leak</name>
+    <description>
+内存泄漏。
+<![CDATA[
+<p>
+Memory leak.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>memleak</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+<!-- #### add shijl#### -->
+  <rule>
+    <key>dereferenceBeforeNullCheck</key>
+    <name>dereferenceBeforeNullCheck</name>
+    <description>dereferenceBeforeNullCheck</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>dereferenceBeforeNullCheck</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>explicitNullDereferenced</key>
+    <name>explicitNullDereferenced</name>
+    <description>explicitNullDereferenced</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>explicitNullDereferenced</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>dereferenceAfterCheck</key>
+    <name>dereferenceAfterCheck</name>
+    <description>dereferenceAfterCheck</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>dereferenceAfterCheck</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>FuncRetNULL</key>
+    <name>FuncRetNULL</name>
+    <description>函数返回空值</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>FuncRetNULL</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>RedundantAssignmentInSwitch</key>
+    <name>RedundantAssignmentInSwitch</name>
+    <description>switch中重复赋值，可能是缺少break。</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>RedundantAssignmentInSwitch</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>  
+    <rule>
+    <key>unConditionalBreakinLoop</key>
+    <name>unConditionalBreakinLoop</name>
+    <description>循环中没有任何条件的break，导致循环只执行一次</description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>unConditionalBreakinLoop</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
   <rule>
     <key>CustomRuleTemplate</key>
     <cardinality>MULTIPLE</cardinality>
@@ -20,6 +850,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       ]]>
     </description>
     <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
   </rule>    
   <rule>
     <key>AssignmentAddressToInteger</key>
@@ -193,7 +1024,7 @@ Address of an auto-variable returned.
     <tag>bug</tag>
     <internalKey>autovarInvalidDeallocation</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -234,7 +1065,7 @@ Buffer is accessed out-of-bounds.
     <tag>bug</tag>
     <internalKey>bufferAccessOutOfBounds</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -254,7 +1085,7 @@ Index is out of bounds: Supplied size is larger than actual size.
     <tag>cwe</tag>
     <internalKey>outOfBounds</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -295,7 +1126,7 @@ Negative array index is always out of bounds.
     <tag>cwe</tag>
     <internalKey>negativeIndex</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -341,7 +1172,7 @@ From chapter 6.5.6 in the C specification:
     <tag>bug</tag>
     <internalKey>pointerOutOfBounds</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -383,27 +1214,7 @@ That may cause bugs or undefined behavior.
     <tag>bug</tag>
     <internalKey>noConstructor</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>uninitvar</key>
-    <name>Uninitialized variable</name>
-    <description>
-<![CDATA[<p>
-Uninitialized variable.
-</p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
-<p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a></p>
-]]>
-    </description>
-    <tag>bug</tag>
-    <tag>cert</tag>
-    <tag>cwe</tag>
-    <internalKey>uninitvar</internalKey>
-    <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -495,25 +1306,6 @@ For more details about this topic, see the book "Effective C++" by Scott Meyers.
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
-    <key>thisSubtraction</key>
-    <name>Suspicious pointer subtraction</name>
-    <description>
-<![CDATA[
-<p>
-Suspicious pointer subtraction. Did you intend to write '->'?
-</p>
-<h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
-]]>
-    </description>
-    <tag>cwe</tag>
-    <internalKey>thisSubtraction</internalKey>
-    <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
     <key>operatorEqRetRefThis</key>
     <name>'operator=' should return reference to self</name>
     <description>
@@ -560,7 +1352,7 @@ allocated memory is owned and managed by only one instance of the class.
     </description>
     <internalKey>exceptThrowInDestructor</internalKey>
     <severity>CRITICAL</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -572,7 +1364,7 @@ allocated memory is owned and managed by only one instance of the class.
     </description>
     <internalKey>exceptDeallocThrow</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -642,45 +1434,6 @@ In case of complex expression it might help to split it to separate expressions.
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
-    <key>multiCondition</key>
-    <name>'else if' condition matches previous condition</name>
-    <description>
-<![CDATA[
-<p>
-Expression is always false because 'else if' condition matches previous condition.
-</p>
-<h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
-]]>
-    </description>
-    <tag>cwe</tag>
-    <internalKey>multiCondition</internalKey>
-    <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>memleak</key>
-    <name>Memory leak</name>
-    <description>
-<![CDATA[
-<p>
-Memory leak.
-</p>
-<h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a></p>
-]]>
-    </description>
-    <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>memleak</internalKey>
-    <severity>MAJOR</severity>
-    <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
     <key>resourceLeak</key>
     <name>Resource leak</name>
     <description>
@@ -696,7 +1449,7 @@ Resource leak.
     <tag>bug</tag>
     <internalKey>resourceLeak</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -716,7 +1469,7 @@ Deallocating a deallocated pointer.
     <tag>bug</tag>
     <internalKey>deallocDealloc</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -736,7 +1489,7 @@ Dereferencing variable after it is deallocated / released.
     <tag>bug</tag>
     <internalKey>deallocuse</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -756,7 +1509,7 @@ The allocated size is not a multiple of the underlying type&apos;s size.
     <tag>bug</tag>
     <internalKey>mismatchSize</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -776,7 +1529,7 @@ Mismatching allocation and deallocation.
     <tag>bug</tag>
     <internalKey>mismatchAllocDealloc</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -796,7 +1549,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <tag>bug</tag>
     <internalKey>memleakOnRealloc</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1334,7 +2087,7 @@ Possible null pointer dereference.
     <tag>cert</tag>
     <tag>cwe</tag>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1691,7 +2444,7 @@ copying takes place between objects that overlap as a result of a call to sprint
     <tag>bug</tag>
     <internalKey>sprintfOverlappingData</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1723,7 +2476,7 @@ Unnecessary comparison of static strings.
     </description>
     <internalKey>udivError</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1743,7 +2496,7 @@ Division by zero.
     <tag>cwe</tag>
     <internalKey>zerodiv</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1867,7 +2620,7 @@ Using sizeof with a numeric constant as function argument might not be what you 
     </description>
     <internalKey>dangerousUsageStrtol</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1921,7 +2674,7 @@ Function parameter should be passed by reference.
     </description>
     <internalKey>charBitOp</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1932,43 +2685,6 @@ Function parameter should be passed by reference.
       The scope of the variable can be reduced.
     </description>
     <internalKey>variableScope</internalKey>
-    <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>strPlusChar</key>
-    <name>Unusual pointer arithmetic</name>
-    <description>
-<![CDATA[
-<p>
-Unusual pointer arithmetic.
-</p>
-<h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a></p>
-]]>
-    </description>
-    <tag>cwe</tag>
-    <internalKey>strPlusChar</internalKey>
-    <severity>MAJOR</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>sizeofsizeof</key>
-    <name>Calling sizeof for 'sizeof'</name>
-    <description>
-<![CDATA[<p>
-Calling sizeof for 'sizeof looks like a suspicious code and most likely there should be just one 'sizeof'.
-The current code is equivalent to 'sizeof(size_t)'
-</p><h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
-]]>
-      </description>
-    <tag>cwe</tag>
-    <internalKey>sizeofsizeof</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1987,7 +2703,7 @@ Found calculation inside sizeof().
     <tag>cwe</tag>
     <internalKey>sizeofCalculation</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1999,7 +2715,7 @@ Found calculation inside sizeof().
     </description>
     <internalKey>redundantAssignInSwitch</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2028,7 +2744,7 @@ Redundant assignment to itself.
     <tag>cwe</tag>
     <internalKey>selfAssignment</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2051,7 +2767,7 @@ builds, this is a bug.
     <tag>bug</tag>
     <internalKey>assignmentInAssert</internalKey>
     <severity>MAJOR</severity>
-    <type>CODE_SMELL</type>
+    <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2102,7 +2818,7 @@ The function memset ( void * ptr, int value, size_t num ) sets the first num byt
     <tag>cwe</tag>
     <internalKey>memsetZeroBytes</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
+    <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2119,33 +2835,6 @@ Suspicious calculation. Please use parentheses to clarify the code.
     </description>
     <tag>cwe</tag>
     <internalKey>clarifyCalculation</internalKey>
-    <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>clarifyCondition</key>
-    <name>Suspicious condition (assignment+comparison)</name>
-    <description>
-<![CDATA[
-<p>
-<ul>
-<li>Suspicious condition (assignment+comparison), it can be clarified with parentheses.</li
-<li>Suspicious expression. Boolean result is used in bitwise operation. The operator '!'
-and the comparison operators have higher precedence than bitwise operators.
-It is recommended that the expression is clarified with parentheses.</li
-<li>Suspicious condition (bitwise operator + comparison).
-Comparison operators have higher precedence than bitwise operators.
-Please clarify the condition with parentheses.</li
-</ul>
-</p>
-<h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
-]]>
-    </description>
-    <tag>cwe</tag>
-    <internalKey>clarifyCondition</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2184,7 +2873,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <tag>cwe</tag>
     <internalKey>incrementboolean</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
+    <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2196,7 +2885,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
     </description>
     <internalKey>comparisonOfBoolWithInt</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
+    <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2204,11 +2893,11 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <key>duplicateIf</key>
     <name>Redundant 'if'-expressions</name>
     <description>
-      Found duplicate if expressions.
+      if判断条件重复。Found duplicate if expressions.
     </description>
     <internalKey>duplicateIf</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
+    <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2227,7 +2916,7 @@ Please examine this code carefully to determine if it is correct.
     <tag>cwe</tag>
     <internalKey>duplicateBranch</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2340,7 +3029,7 @@ Same iterator is used with two different containers.
     <tag>bug</tag>
     <internalKey>iterators</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2360,7 +3049,7 @@ Iterators of different containers are used together
     <tag>bug</tag>
     <internalKey>mismatchingContainers</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2381,7 +3070,7 @@ Dereferencing or comparing it with another iterator is invalid operation.
     <tag>bug</tag>
     <internalKey>eraseDereference</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2401,7 +3090,7 @@ When <code>i==foo.size()</code> foo[i] or foo.at(i) is out of bounds.
     <tag>bug</tag>
     <internalKey>stlOutOfBounds</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2440,7 +3129,7 @@ Invalid pointer after push_back / push_front.
     <tag>cwe</tag>
     <internalKey>invalidPointer</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2625,7 +3314,7 @@ Dangerous usage of variable (strncpy doesn't always 0-terminate it).
     <tag>cwe</tag>
     <internalKey>uninitstring</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2645,7 +3334,7 @@ Data is allocated but not initialized.
     <tag>cwe</tag>
     <internalKey>uninitdata</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2953,7 +3642,7 @@ The source buffer is larger than or equal the destination buffer so there is the
     <tag>cwe</tag>
     <internalKey>possibleBufferAccessOutOfBounds</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2974,7 +3663,7 @@ function parameters are stored on the stack which is freed when the function exi
     <tag>bug</tag>
     <internalKey>returnAddressOfFunctionParameter</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3032,7 +3721,7 @@ BOOST_FOREACH caches the end() iterator. It's undefined behavior if you modify t
     <tag>bug</tag>
     <internalKey>boostForeachError</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3086,7 +3775,7 @@ A boolean comparison with the string literal is always true.
     <tag>cwe</tag>
     <internalKey>incorrectStringBooleanError</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3115,7 +3804,7 @@ Comparison of identical string variables.
     </description>
     <internalKey>stlcstrthrow</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3199,7 +3888,7 @@ Useless call of function 'substr' because it returns a copy of the object. Use o
     <tag>bug</tag>
     <internalKey>wrongcctypecall</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3213,7 +3902,7 @@ Useless call of function 'substr' because it returns a copy of the object. Use o
     </description>
     <internalKey>doubleCloseDir</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3233,7 +3922,7 @@ Memory or resource handle is freed twice.
     <tag>bug</tag>
     <internalKey>doubleFree</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3251,7 +3940,7 @@ Invalid printf argument type (character pointer required).
     <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_s</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3268,7 +3957,7 @@ Invalid printf argument type (integer pointer required).
     <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_n</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3285,7 +3974,7 @@ Invalid printf argument type (integer or pointer required).
     <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_p</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3302,7 +3991,7 @@ Invalid printf argument type (integer required).
     <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_int</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3319,7 +4008,7 @@ Invalid printf argument type (signed integer required).
     <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_sint</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3336,7 +4025,7 @@ Invalid printf argument type (floating point number required).
     <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_float</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3349,7 +4038,7 @@ Invalid printf argument type (floating point number required).
     </description>
     <internalKey>invalidScanfArgType</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3447,7 +4136,7 @@ Wrong number of parameters given to printf().
     <tag>bug</tag>
     <internalKey>wrongPrintfScanfArgNum</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3469,7 +4158,7 @@ Member variable is not initialized in the constructor.
     <tag>cwe</tag>
     <internalKey>uninitMemberVar</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3489,7 +4178,7 @@ Redundant condition: If <code>x > 11</code> the condition <code>x > 10</code> is
     <tag>bug</tag>
     <internalKey>redundantCondition</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3540,7 +4229,7 @@ Memory allocated inside the called function is not freed by the caller function.
     <tag>bug</tag>
     <internalKey>leakNoVarFunctionCall</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3670,7 +4359,7 @@ Boolean variable 'varname' is used in bitwise operation. Did you mean '&&' or '|
     <tag>cwe</tag>
     <internalKey>bitwiseOnBoolean</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
+    <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3691,7 +4380,7 @@ Assignment of function parameter has no effect outside the function.
     <tag>bug</tag>
     <internalKey>deallocret</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3711,7 +4400,7 @@ Width 'parameter' given in format string (no. 'symbol' ) doesn't match destinati
     <tag>bug</tag>
     <internalKey>invalidScanfFormatWidth</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3742,7 +4431,7 @@ Comparison of modulo result is predetermined.
     <tag>cwe</tag>
     <internalKey>moduloAlwaysTrueFalse</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
+    <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3820,7 +4509,7 @@ Suspicious use of ; at the end of 'if/for/while' statement.
     <tag>cwe</tag>
     <internalKey>suspiciousSemicolon</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
+    <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3840,7 +4529,7 @@ Used file that is not opened.
     <tag>bug</tag>
     <internalKey>useClosedFile</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3958,7 +4647,7 @@ Invalid printf argument type (unsigned integer required)
     <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_uint</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3976,7 +4665,7 @@ Char literal compared with pointer 'var'. Did you intend to dereference it?
     <tag>cwe</tag>
     <internalKey>literalWithCharPtrCompare</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3993,7 +4682,7 @@ A pointer can not be negative so it is either pointless or an error to check if 
     <tag>cwe</tag>
     <internalKey>pointerLessThanZero</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4010,7 +4699,7 @@ A pointer can not be negative so it is either pointless or an error to check if 
     <tag>cwe</tag>
     <internalKey>pointerPositive</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4042,7 +4731,7 @@ Shifting a negative value is undefined behaviour.
     <tag>cwe</tag>
     <internalKey>shiftNegative</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4169,7 +4858,7 @@ The variable 'expression' is of type 'bool' and comparing 'bool' value using rel
     <tag>bug</tag>
     <internalKey>comparisonOfBoolWithBoolError</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4190,7 +4879,7 @@ Comparing 'bool' value using relational (<, >, <= or >=) operator could cause un
     <tag>bug</tag>
     <internalKey>comparisonOfFuncReturningBoolError</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4211,7 +4900,7 @@ Comparing 'bool' value using relational (<, >, <= or >=) operator could cause un
     <tag>bug</tag>
     <internalKey>comparisonOfTwoFuncsReturningBoolError</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4242,7 +4931,7 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
     </description>
     <internalKey>invalidFree</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4259,7 +4948,7 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
     <tag>cwe</tag>
     <internalKey>invalidLengthModifierError</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4277,26 +4966,6 @@ class 'name' does not have a copy constructor which is recommended since the cla
     </description>
     <tag>cwe</tag>
     <internalKey>noCopyConstructor</internalKey>
-    <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>oppositeInnerCondition</key>
-    <name>Opposite conditions in nested 'if' blocks lead to a dead code block</name>
-    <description>
-<![CDATA[
-<p>
-Opposite conditions in nested 'if' blocks lead to a dead code block.
-</p>
-<h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
-]]>
-    </description>
-    <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>oppositeInnerCondition</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4382,7 +5051,7 @@ The array 'varname' is too small, the function 'functionName' expects a bigger o
     <tag>bug</tag>
     <internalKey>argumentSize</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4398,7 +5067,7 @@ The array 'varname' is too small, the function 'functionName' expects a bigger o
     </description>
     <internalKey>checkCastIntToCharAndBack</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4422,7 +5091,7 @@ This is unsafe, since no constructor is called and class members remain uninitia
     <tag>bug</tag>
     <internalKey>mallocOnClassError</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4527,7 +5196,7 @@ One should use 'operator!=' instead to compare iterators.
     </description>
     <internalKey>tooBigSleepTime</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4550,7 +5219,7 @@ Missing initialization for a struct member.
     <tag>cwe</tag>
     <internalKey>uninitStructMember</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4573,7 +5242,7 @@ Assignment of function parameter has no effect outside the function. Did you for
     <tag>bug</tag>
     <internalKey>uselessAssignmentPtrArg</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4633,7 +5302,7 @@ int main() {
     <tag>cwe</tag>
     <internalKey>varFuncNullUB</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4649,7 +5318,7 @@ int main() {
     <tag>bug</tag>
     <internalKey>writeOutsideBufferSize</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4671,7 +5340,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <tag>cwe</tag>
     <internalKey>wrongPipeParameterSize</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4729,7 +5398,7 @@ Arithmetic operations on 'void *' is a GNU C extension, which defines the 'sizeo
     <tag>cwe</tag>
     <internalKey>arithOperationsOnVoidPointer</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4775,7 +5444,7 @@ Using NaN/Inf in a computation.
     <tag>bug</tag>
     <internalKey>nanInArithmeticExpression</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4816,7 +5485,7 @@ A value for 'sizeof(void)' is defined only as part of a GNU C extension, which d
     <tag>bug</tag>
     <internalKey>sizeofVoid</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4836,7 +5505,7 @@ printf: referencing parameter 2 while 1 arguments given.
     <tag>bug</tag>
     <internalKey>wrongPrintfScanfParameterPositionError</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4891,7 +5560,7 @@ The format string requires 'unsigned int *' but the argument type is 'DWORD * {a
     <tag>cwe</tag>
     <internalKey>invalidScanfArgType_int</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4909,7 +5578,7 @@ The format string requires 'unsigned int *' but the argument type is 'DWORD * {a
     <tag>cwe</tag>
     <internalKey>invalidScanfArgType_float</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4958,7 +5627,7 @@ Either the condition is redundant or there is division by zero.
     <tag>cert</tag>
     <internalKey>zerodivcond</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4983,7 +5652,7 @@ builds, this is a bug.
     <tag>bug</tag>
     <internalKey>assertWithSideEffect</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5004,7 +5673,7 @@ and overflow is undefined behaviour. Probably a dereference is forgotten.
     <tag>bug</tag>
     <internalKey>pointerArithBool</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5043,7 +5712,7 @@ Invalid func_name() argument nr 1. The value is 0 or 1 (boolean) but the valid v
     <tag>cwe</tag>
     <internalKey>invalidFunctionArg</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5062,7 +5731,7 @@ A function gets passed an invalid argument. A non-boolean value is required.
     <tag>cwe</tag>
     <internalKey>invalidFunctionArgBool</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5085,7 +5754,7 @@ Negative allocation size has no specified behaviour.
     <tag>bug</tag>
     <internalKey>negativeMemoryAllocationSize</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5117,7 +5786,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     <tag>cwe</tag>
     <internalKey>memsetValueOutOfRange</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5131,7 +5800,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     </description>
     <internalKey>exceptThrowInNoexecptFunction</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5143,7 +5812,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     </description>
     <internalKey>exceptThrowInNoThrowFunction</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5155,7 +5824,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     </description>
     <internalKey>exceptThrowInAttributeNoThrowFunction</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5167,7 +5836,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     </description>
     <internalKey>exceptThrowInDeclspecNoThrowFunction</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5179,7 +5848,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     </description>
     <internalKey>seekOnAppendedFile</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5200,7 +5869,7 @@ The array access using this index may be out of bounds.
     <tag>cwe</tag>
     <internalKey>arrayIndexOutOfBoundsCond</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5217,7 +5886,7 @@ Char literal compared with a pointer. Did you intend to dereference it?
     <tag>cwe</tag>
     <internalKey>charLiteralWithCharPtrCompare</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5281,7 +5950,7 @@ Return value of function malloc() is not used.
     </description>
     <internalKey>integerOverflow</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5354,7 +6023,7 @@ Member variable 'var' is initialized by itself.
     <tag>bug</tag>
     <internalKey>selfInitialization</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5374,7 +6043,7 @@ Shifting 32-bit value by 40 bits is undefined behaviour.
     <tag>cwe</tag>
     <internalKey>shiftTooManyBits</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5425,7 +6094,7 @@ Expression '1 - erf(x)' can be replaced by 'erfc(x)' to avoid loss of precision.
     <tag>cwe</tag>
     <internalKey>unpreciseMathCall</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5445,7 +6114,7 @@ Assignment of function parameter has no effect outside the function.
     <tag>bug</tag>
     <internalKey>uselessAssignmentArg</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5465,7 +6134,7 @@ va_list 'vl' was opened but not closed by va_end().
     <tag>bug</tag>
     <internalKey>va_end_missing</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5504,7 +6173,7 @@ Using reference &apos;arg1&apos; as parameter for va_start() results in undefine
     <tag>bug</tag>
     <internalKey>va_start_referencePassed</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5524,7 +6193,7 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
     <tag>bug</tag>
     <internalKey>va_start_subsequentCalls</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5573,7 +6242,7 @@ Finding the same expression in both branches of ternary operator is suspicious a
     <tag>cwe</tag>
     <internalKey>duplicateExpressionTernary</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5670,7 +6339,7 @@ Redundant pointer operation on varname - it's already a pointer.
     </description>
     <internalKey>throwInNoexceptFunction</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5708,7 +6377,7 @@ Declaration of array &apos;identifier&apos; with negative size is undefined beha
     <tag>cwe</tag>
     <internalKey>negativeArraySize</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5726,7 +6395,7 @@ Result of operator '|' is always true if one operand is non-zero. Did you intend
     <tag>cwe</tag>
     <internalKey>badBitmaskCheck</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5745,7 +6414,7 @@ Condition 'x' is always true.
     <tag>cwe</tag>
     <internalKey>knownConditionTrueFalse</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5765,7 +6434,7 @@ Possible null pointer dereference if the default parameter value is used: pointe
     <tag>cert</tag>
     <internalKey>nullPointerDefaultArg</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5785,7 +6454,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <tag>cwe</tag>
     <internalKey>nullPointerRedundantCheck</internalKey>
     <severity>MINOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5846,7 +6515,7 @@ Modifying string literal directly or indirectly is undefined behaviour.
     <tag>cwe</tag>
     <internalKey>stringLiteralWrite</internalKey>
     <severity>CRITICAL</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5900,7 +6569,7 @@ Boolean value assigned to floating point variable.
     <tag>cwe</tag>
     <internalKey>assignBoolToFloat</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5917,7 +6586,7 @@ Invalid test for overflow 'x + u < x'. Condition is always false unless there is
     <tag>cwe</tag>
     <internalKey>invalidTestForOverflow</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6110,7 +6779,7 @@ Overflow in pointer arithmetic, NULL pointer is subtracted.
     <tag>cwe</tag>
     <internalKey>nullPointerArithmetic</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6127,7 +6796,7 @@ Shifting a negative value is technically undefined behavior.
     <tag>cwe</tag>
     <internalKey>shiftNegativeLHS</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6178,7 +6847,7 @@ Undefined behaviour: float (1e+100) to integer conversion overflow.
     <tag>cwe</tag>
     <internalKey>floatConversionOverflow</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6213,7 +6882,7 @@ Function 'function' argument order different: declaration '' definition ''.
     <tag>cwe</tag>
     <internalKey>funcArgOrderDifferent</internalKey>
     <severity>MAJOR</severity>
-    <type>BUG</type>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6396,4 +7065,3 @@ Internal Cppcheck tool error. Create an issue on the Cppcheck issue tracker.
 
 <!-- ########### Deprecated as of 1.64 ########### -->
 <!-- duplicateBranch -->
-
