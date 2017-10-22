@@ -161,7 +161,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     }
   }
 
-  private boolean compare(boolean invert, boolean condition) {
+  private static boolean compare(boolean invert, boolean condition) {
     return invert ? !condition : condition;
   }
 }

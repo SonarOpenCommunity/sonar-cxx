@@ -137,10 +137,14 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
 
   @Override
   public void visitNode(AstNode node) {
-    if (checkedNodes.contains(node)) return;
+    if (checkedNodes.contains(node)) {
+      return;
+    }
     checkedNodes.add(node);
 
-    if (node.is(CxxGrammarImpl.functionDefinition)) currentFunctionIdentifier = findFunctionIdentifier(node);
+    if (node.is(CxxGrammarImpl.functionDefinition)) {
+      currentFunctionIdentifier = findFunctionIdentifier(node);
+    }
 
     List<AstNode> watchedDescendants = node.getDescendants(DESCENDANT_TYPES);
 
@@ -182,7 +186,7 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
     }
   }
 
-  private boolean isElseIf(AstNode node) {
+  private static boolean isElseIf(AstNode node) {
     return node.is(CxxGrammarImpl.selectionStatement) &&
       node.getToken().getType().equals(CxxKeyword.IF) &&
       node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);

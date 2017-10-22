@@ -1298,7 +1298,7 @@ public class CxxPreprocessor extends Preprocessor {
     return currentFileState.includeUnderAnalysis;
   }
 
-  class PreprocessorRuntimeException extends RuntimeException {
+  static class PreprocessorRuntimeException extends RuntimeException {
     
     /**
      * 

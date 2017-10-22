@@ -35,6 +35,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,6 +52,8 @@ import org.apache.commons.cli.ParseException;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.CxxAstScanner;
@@ -67,6 +70,8 @@ import org.sonar.squidbridge.api.SourceFile;
  */
 public class CxxLint {
 
+  private static final Logger LOG = Loggers.get(CxxLint.class);
+  
   private static Options CreateCommandLineOptions() {
     Options options = new Options();
     options.addOption("s", true, "settings file");
@@ -97,7 +102,7 @@ public class CxxLint {
    * @throws InstantiationException 
    * @throws java.Exception
    */
-  public static void main(String[] args) throws UnsupportedEncodingException, IOException, InstantiationException, IllegalAccessException { 
+  public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException { 
 
     CommandLineParser commandlineParser = new DefaultParser();
     Options options = CreateCommandLineOptions();
@@ -142,7 +147,7 @@ public class CxxLint {
 
     CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile), new CppLanguage());
 
-    String content = new String(Files.readAllBytes(new File(fileToAnalyse).toPath()), encodingOfFile);
+    String content = new String(Files.readAllBytes(Paths.get(fileToAnalyse)), encodingOfFile);
     sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
     InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
     
@@ -163,8 +168,7 @@ public class CxxLint {
           String ruleId = data.get("ruleId").getAsString();
           
           String templateKey = "";
-          try
-          {
+          try {
             templateKey = data.get("templateKeyId").getAsString();
           } catch(Exception ex) { 
           }
@@ -211,7 +215,8 @@ public class CxxLint {
         }
       }
       
-      HandleVCppAdditionalOptions(platformToolset, platform, elementsOfAdditionalOptions + " ", projectFile, fileToAnalyse, configuration);
+      HandleVCppAdditionalOptions(platformToolset, platform, elementsOfAdditionalOptions + " ", 
+                                  projectFile, fileToAnalyse, configuration);
     }
 
     List<Class> checks = CxxCheckList.getChecks();
@@ -242,6 +247,9 @@ public class CxxLint {
               break;
             }            
           } catch (IllegalStateException ex) { 
+            if (LOG.isDebugEnabled()) {
+              LOG.debug("{}", ex);
+            }
             break;
           }
         }
@@ -258,12 +266,12 @@ public class CxxLint {
                   f.set(element, value);
                 } else {
                   char first = Character.toUpperCase(ruleProp.key().charAt(0));
-                  Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{value});
+                  Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), 
+                                                 new Object[]{value});
                   try {
                     stmt.execute();
-                  } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                  } catch (Exception ex) {
+                    LOG.error("{}", ex);
                   }
                 }
               }
@@ -275,12 +283,12 @@ public class CxxLint {
                   f.set(element, cleanData);
                 } else {
                   char first = Character.toUpperCase(ruleProp.key().charAt(0));
-                  Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{cleanData});
+                  Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1),
+                                                 new Object[]{cleanData});
                   try {
                     stmt.execute();
-                  } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                  } catch (Exception ex) {
+                    LOG.error("{}", ex);
                   }
                 }
               }
@@ -291,7 +299,7 @@ public class CxxLint {
       }    
     }
 
-    System.out.println("Analyse with : " + visitors.size() + " checks");
+    LOG.info("Analyse with : " + visitors.size() + " checks");
     
     SourceFile file = CxxAstScanner.scanSingleFileConfig(
             new CppLanguage(), 
@@ -310,7 +318,10 @@ public class CxxLint {
             key = rule.key();
             break;
           }           
-        } catch(Exception ex) { 
+        } catch(RuntimeException ex) { 
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("{}", ex);
+          }
         }
      }
         

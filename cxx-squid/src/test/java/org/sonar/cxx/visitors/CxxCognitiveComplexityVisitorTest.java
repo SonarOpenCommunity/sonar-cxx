@@ -37,7 +37,7 @@ import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxCognitiveComplexityVisitorTest {
 
-  private void testFile(String fileName, int expectedCognitiveComplexity) throws UnsupportedEncodingException, IOException {
+  private int testFile(String fileName) throws UnsupportedEncodingException, IOException {
     CxxCognitiveComplexityVisitor<Grammar> visitor = CxxCognitiveComplexityVisitor.<Grammar>builder()
       .setMetricDef(CxxMetric.COGNITIVE_COMPLEXITY)
       .build();
@@ -45,121 +45,121 @@ public class CxxCognitiveComplexityVisitorTest {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".");
     SourceFile sourceFile = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
 
-    assertThat(sourceFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY)).isEqualTo(expectedCognitiveComplexity);
+    return (sourceFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY));
   }
 
   @Test
   public void if_statement() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/if.cc", 1);
+    assertThat(testFile("src/test/resources/visitors/if.cc") == 1).isTrue();
   }
 
   @Test
   public void if_else() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/if_else.cc", 2);
+    assertThat(testFile("src/test/resources/visitors/if_else.cc") == 2).isTrue();
   }
 
   @Test
   public void if_else_if() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/if_else_if.cc", 2);
+    assertThat(testFile("src/test/resources/visitors/if_else_if.cc") == 2).isTrue();
   }
 
   @Test
   public void if_else_if_else() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/if_else_if_else.cc", 3);
+    assertThat(testFile("src/test/resources/visitors/if_else_if_else.cc") == 3).isTrue();
   }
 
   @Test
   public void ternary() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/ternary.cc", 1);
+    assertThat(testFile("src/test/resources/visitors/ternary.cc") == 1).isTrue();
   }
 
   @Test
   public void nesting() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/nesting.cc", 20);
+    assertThat(testFile("src/test/resources/visitors/nesting.cc") == 20).isTrue();
   }
 
   @Test
   public void switch_statement() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/switch.cc", 1);
+    assertThat(testFile("src/test/resources/visitors/switch.cc") == 1).isTrue();
   }
 
   @Test
   public void for_statement() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/for.cc", 1);
+    assertThat(testFile("src/test/resources/visitors/for.cc") == 1).isTrue();
   }
 
   @Test
   public void while_statement() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/while.cc", 1);
+    assertThat(testFile("src/test/resources/visitors/while.cc") == 1).isTrue();
   }
 
   @Test
   public void do_while() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/do_while.cc", 1);
+    assertThat(testFile("src/test/resources/visitors/do_while.cc") == 1).isTrue();
   }
 
   @Test
   public void catch_statement() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/catch.cc", 1);
+    assertThat(testFile("src/test/resources/visitors/catch.cc") == 1).isTrue();
   }
 
   @Test
   public void multiple_catch() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/multiple_catch.cc", 3);
+    assertThat(testFile("src/test/resources/visitors/multiple_catch.cc") == 3).isTrue();
   }
 
   @Test
   public void goto_statement() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/goto.cc", 1);
+    assertThat(testFile("src/test/resources/visitors/goto.cc") == 1).isTrue();
   }
 
   @Test
   public void binary_logical() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/binary_logical.cc", 2);
+    assertThat(testFile("src/test/resources/visitors/binary_logical.cc") == 2).isTrue();
   }
 
   @Test
   public void binary_logical_mixed() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/binary_logical_mixed.cc", 4);
+    assertThat(testFile("src/test/resources/visitors/binary_logical_mixed.cc") == 4).isTrue();
   }
 
   @Test
   public void binary_logical_not() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/binary_logical_not.cc", 3);
+    assertThat(testFile("src/test/resources/visitors/binary_logical_not.cc") == 3).isTrue();
   }
 
   @Test
   public void lambda() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/lambda.cc", 2);
+    assertThat(testFile("src/test/resources/visitors/lambda.cc") == 2).isTrue();
   }
 
   @Test
   public void fibonacci() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/fibonacci.cc", 5);
+    assertThat(testFile("src/test/resources/visitors/fibonacci.cc") == 5).isTrue();
   }
 
   @Test
   public void sum_of_primes() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/sum_of_primes.cc", 7);
+    assertThat(testFile("src/test/resources/visitors/sum_of_primes.cc") == 7).isTrue();
   }
 
   @Test
   public void get_words() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/get_words.cc", 1);
+    assertThat(testFile("src/test/resources/visitors/get_words.cc") == 1).isTrue();
   }
 
   @Test
   public void overridden_symbol_from() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/overridden_symbol_from.cc", 19);
+    assertThat(testFile("src/test/resources/visitors/overridden_symbol_from.cc") == 19).isTrue();
   }
 
   @Test
   public void add_version() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/add_version.cc", 35);
+    assertThat(testFile("src/test/resources/visitors/add_version.cc") == 35).isTrue();
   }
 
   @Test
   public void to_regexp() throws UnsupportedEncodingException, IOException {
-    testFile("src/test/resources/visitors/to_regexp.cc", 20);
+    assertThat(testFile("src/test/resources/visitors/to_regexp.cc") == 20).isTrue();
   }
 }
