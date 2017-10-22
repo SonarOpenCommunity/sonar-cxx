@@ -78,13 +78,14 @@ public class CommentContainsPatternChecker {
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
       String comment = trivia.getToken().getOriginalValue();
+      int line = trivia.getToken().getLine();
       if (indexOfIgnoreCase(comment) != -1) {
         String[] lines = comment.split("\r\n?|\n");
 
         for (int i = 0; i < lines.length; i++) {
           int start = indexOfIgnoreCase(lines[i]);
           if (start != -1 && !isLetterAround(lines[i], start)) {
-            check.getContext().createLineViolation(check, message, trivia.getToken().getLine() + i); 
+            check.getContext().createLineViolation(check, message, line + i); 
           }
         }
       }

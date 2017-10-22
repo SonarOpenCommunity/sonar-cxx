@@ -64,16 +64,24 @@ public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> {
     }
   }
 
+  /**
+   aggregates lines for child nodes
+   @param node with child nodes
+   @return number of lines
+   */
   public static int getNumberOfLine(AstNode node) {
-    List<AstNode> allChilds = node.getDescendants(CxxGrammarImpl.statement, CppPunctuator.CURLBR_LEFT, CppPunctuator.CURLBR_RIGHT);
+    List<AstNode> allChilds = node.getDescendants(CxxGrammarImpl.statement, CppPunctuator.CURLBR_LEFT,
+                                                                            CppPunctuator.CURLBR_RIGHT);
     int lines = 1;
     int firstLine = node.getTokenLine();
     if (allChilds != null && !allChilds.isEmpty()) {
       int previousLine = firstLine;
+      int currentLine = 0;
       for (AstNode child : allChilds) {
-        if (child.getTokenLine()!= previousLine ) {
+        currentLine = child.getTokenLine();
+        if (currentLine != previousLine ) {
           lines++;
-          previousLine = child.getTokenLine();
+          previousLine = currentLine;
         }
       }
     }

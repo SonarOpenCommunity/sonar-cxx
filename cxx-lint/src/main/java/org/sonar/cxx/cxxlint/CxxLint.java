@@ -35,6 +35,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -146,7 +147,7 @@ public class CxxLint {
 
     CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile), new CppLanguage());
 
-    String content = new String(Files.readAllBytes(new File(fileToAnalyse).toPath()), encodingOfFile);
+    String content = new String(Files.readAllBytes(Paths.get(fileToAnalyse)), encodingOfFile);
     sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
     InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
     
