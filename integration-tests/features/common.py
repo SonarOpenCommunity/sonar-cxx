@@ -42,10 +42,10 @@ INDENT = "    "
 
 SONAR_URL = "http://localhost:9000"
 
-def sonarlog(sonarhome):
+def get_sonar_log_path(sonarhome):
     return os.path.join(sonarhome, RELPATH_LOG)
 
-def ensureComputeEngineHasFinishedOk(logpath):
+def sonar_analysis_finished(logpath):
     urlForChecking = ""
 
     print(BRIGHT + "    Read Log : " + logpath + RESET_ALL)
@@ -53,7 +53,7 @@ def ensureComputeEngineHasFinishedOk(logpath):
     try:
         with open(logpath, "r") as log:
             lines = log.readlines()
-            urlForChecking = getUrlForChecking(lines)
+            urlForChecking = get_url_from_log(lines)
     except IOError, e:
         badlines.append(str(e) + "\n")
 
@@ -91,20 +91,20 @@ def ensureComputeEngineHasFinishedOk(logpath):
         
     return status
 
-def analyselog(logpath, toignore=None):
+def analyse_log(logpath, toignore=None):
     badlines = []
     errors = warnings = 0
 
     try:
         with open(logpath, "r") as log:
             lines = log.readlines()
-            badlines, errors, warnings = analyseloglines(lines, toignore)
+            badlines, errors, warnings = analyse_log_lines(lines, toignore)
     except IOError, e:
         badlines.append(str(e) + "\n")
 
     return badlines, errors, warnings
 
-def getUrlForChecking(lines):
+def get_url_from_log(lines):
     urlForChecking = ""
     for line in lines:
         if "INFO: More about the report processing at" in line:
@@ -115,15 +115,15 @@ def getUrlForChecking(lines):
 
     return urlForChecking
 
-def analyseloglines(lines, toignore=None):
+def analyse_log_lines(lines, toignore=None):
     badlines = []
     errors = warnings = 0
     toingore_re = None if toignore is None else re.compile(toignore)
     for line in lines:
-        if isSonarError(line, toingore_re):
+        if is_sonar_error(line, toingore_re):
             badlines.append(line)
             errors += 1
-        elif isSonarWarning(line, toingore_re):
+        elif is_sonar_warning(line, toingore_re):
             if "JOURNAL_FLUSHER" not in line and "high disk watermark" not in line and "shards will be relocated away from this node" not in line:
                 sys.stdout.write("found warning '%s'" % line)
                 badlines.append(line)
@@ -131,11 +131,11 @@ def analyseloglines(lines, toignore=None):
 
     return badlines, errors, warnings
 
-def isSonarError(line, toignore_re):
+def is_sonar_error(line, toignore_re):
     return (SONAR_ERROR_RE.match(line)
             and (toignore_re is None or not toignore_re.match(line)))
 
-def isSonarWarning(line, toignore_re):
+def is_sonar_warning(line, toignore_re):
     return (SONAR_WARN_RE.match(line)
             and not SONAR_WARN_TO_IGNORE_RE.match(line)
             and (toignore_re is None or not toignore_re.match(line)))
