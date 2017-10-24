@@ -31,7 +31,7 @@ import json
 from glob import glob
 from shutil import copyfile
 from subprocess import Popen, PIPE, check_call
-from common import analyselog, sonarlog
+from common import analyse_log, get_sonar_log_path
 
 from tempfile import mkstemp
 from shutil import move
@@ -40,12 +40,12 @@ from os import remove, close
 SONAR_URL = "http://localhost:9000"
 INDENT = "    "
 BASEDIR = os.path.dirname(os.path.realpath(__file__))
-JARPATTERN1 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHOT.jar")
-JARPATTERN2 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*RC?.jar")
-JARPATTERN3 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*-?.?.?.jar")
-JARCPATTERN1 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*SNAPSHOT.jar")
-JARCPATTERN2 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*RC?.jar")
-JARCPATTERN3 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*-?.?.?.jar")
+JAR_CXX_PATTERN1 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHOT.jar")
+JAR_CXX_PATTERN2 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*RC?.jar")
+JAR_CXX_PATTERN3 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*-?.?.?.jar")
+JAR_C_PATTERN1 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*SNAPSHOT.jar")
+JAR_C_PATTERN2 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*RC?.jar")
+JAR_C_PATTERN3 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*-?.?.?.jar")
 RELPATH_PLUGINS = "extensions/plugins"
 didstartsonar = False
 
@@ -76,36 +76,37 @@ def before_all(context):
     global didstartsonar
     print(BRIGHT + "\nSetting up the test environment" + RESET_ALL)
 
-    if not is_webui_up():
-        sonarhome = os.environ.get("SONARHOME", None)
-        if sonarhome is not None:
-            if os.path.exists(sonarhome):
-                cleanup(sonarhome)
-                if install_plugin(sonarhome):
-                    started = start_sonar(sonarhome)
-                    if not started:
-                        sys.stderr.write(INDENT + RED + "Cannot start SonarQube from '%s', exiting\n"
-                                         % sonarhome + RESET)
-                        sys.exit(-1)
-                    didstartsonar = True
-                    checklogs(sonarhome)
-                else:
-                    sys.exit(-1)
-            else:
-                sys.stderr.write(INDENT + RED + "The folder '%s' doesnt exist, exiting"
-                                 % sonarhome + RESET)
-                sys.exit(-1)
-        else:
-            sys.stderr.write(RED
-                             + INDENT + "Cannot find a SonarQube instance to integrate against.\n"
-                             + INDENT + "Make sure there is a SonarQube running on '%s'\n" % SONAR_URL
-                             + INDENT + "or pass a path to SonarQube using environment variable 'SONARHOME'\n"
-                             + RESET)
-            sys.exit(-1)
-    else:
+    if is_webui_up():
         print(INDENT + "using the SonarQube already running on '%s'\n\n" % SONAR_URL)
-
-
+        return
+      
+    sonarhome = os.environ.get("SONARHOME", None)
+    if sonarhome is None:
+        sys.stderr.write(RED
+                         + INDENT + "Cannot find a SonarQube instance to integrate against.\n"
+                         + INDENT + "Make sure there is a SonarQube running on '%s'\n" % SONAR_URL
+                         + INDENT + "or pass a path to SonarQube using environment variable 'SONARHOME'\n"
+                         + RESET)
+        sys.exit(-1) 
+    
+    if not os.path.exists(sonarhome):
+        sys.stderr.write(INDENT + RED + "The folder '%s' doesnt exist, exiting"
+                         % sonarhome + RESET)
+        sys.exit(-1)   
+    
+    cleanup_logs(sonarhome)
+    if not install_plugin(sonarhome):
+        sys.exit(-1)   
+    
+    started = start_sonar(sonarhome)
+    if not started:
+        sys.stderr.write(INDENT + RED + "Cannot start SonarQube from '%s', exiting\n"
+                         % sonarhome + RESET)
+        sys.exit(-1)
+        
+    didstartsonar = True
+    check_logs(sonarhome)
+ 
 def after_all(context):
     if didstartsonar:
         sonarhome = os.environ.get("SONARHOME", None)
@@ -115,11 +116,11 @@ def after_all(context):
 # -----------------------------------------------------------------------------
 # HELPERS:
 # -----------------------------------------------------------------------------
-def cleanup(sonarhome):
+def cleanup_logs(sonarhome):
     sys.stdout.write(INDENT + "cleaning logs ... ")
     sys.stdout.flush()
     try:
-        os.remove(sonarlog(sonarhome))
+        os.remove(get_sonar_log_path(sonarhome))
     except OSError:
         pass
     sys.stdout.write(GREEN + "OK\n" + RESET)
@@ -137,7 +138,7 @@ def install_plugin(sonarhome):
         os.remove(path)
     for path in glob(os.path.join(pluginspath, "sonar-c-plugin*.jar")):
         os.remove(path)
-    jpath = jarpath()
+    jpath = jar_cxx_path()
     if not jpath:
         sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n")
         sys.stderr.flush()
@@ -145,7 +146,7 @@ def install_plugin(sonarhome):
 
     copyfile(jpath, os.path.join(pluginspath, os.path.basename(jpath)))
 
-    jcpath = jarcpath()
+    jcpath = jar_c_path()
     if not jcpath:
         sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n")
         sys.stderr.flush()
@@ -157,26 +158,26 @@ def install_plugin(sonarhome):
     return True
 
 
-def jarpath():
-    jars = glob(JARPATTERN1)
+def jar_cxx_path():
+    jars = glob(JAR_CXX_PATTERN1)
     if jars:
         return os.path.normpath(jars[0])
-    jars = glob(JARPATTERN2)
+    jars = glob(JAR_CXX_PATTERN2)
     if jars:
         return os.path.normpath(jars[0])
-    jars = glob(JARPATTERN3)
+    jars = glob(JAR_CXX_PATTERN3)
     if jars:
         return os.path.normpath(jars[0])
     return None
 
-def jarcpath():
-    jars = glob(JARCPATTERN1)
+def jar_c_path():
+    jars = glob(JAR_C_PATTERN1)
     if jars:
         return os.path.normpath(jars[0])
-    jars = glob(JARCPATTERN2)
+    jars = glob(JAR_C_PATTERN2)
     if jars:
         return os.path.normpath(jars[0])
-    jars = glob(JARCPATTERN3)
+    jars = glob(JAR_C_PATTERN3)
     if jars:
         return os.path.normpath(jars[0])
     return None
@@ -198,14 +199,11 @@ def start_sonar(sonarhome):
 
 def stop_sonar(sonarhome):
     if platform.system() == "Windows":
-        if platform.machine() == "x86_64":
+        if platform.machine() == "x86_64" or platform.machine() == "AMD64":
             command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "UninstallNTService.bat")]
             check_call(command, stdout=PIPE, shell=os.name == "nt")
         elif platform.machine() == "i686":
             command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "UninstallNTService.bat")]
-            check_call(command, stdout=PIPE, shell=os.name == "nt")
-        elif platform.machine() == "AMD64":
-            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "UninstallNTService.bat")]
             check_call(command, stdout=PIPE, shell=os.name == "nt")
 
         if not wait_for_sonar(120, is_webui_down):
@@ -345,10 +343,10 @@ def is_webui_down():
         return True
 
 
-def checklogs(sonarhome):
+def check_logs(sonarhome):
     sys.stdout.write(INDENT + "logs check ... ")
     sys.stdout.flush()
-    badlines, errors, warnings = analyselog(sonarlog(sonarhome))
+    badlines, errors, warnings = analyse_log(get_sonar_log_path(sonarhome))
 
     reslabel = GREEN + "OK\n"
     if errors > 0 or (errors == 0 and warnings == 0 and len(badlines) > 0):
