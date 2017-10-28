@@ -1,3 +1,4 @@
+
 /*
  * Sonar C++ Plugin (Community)
  * Copyright (C) 2010-2017 SonarOpenCommunity
@@ -17,39 +18,11 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.cxxlint;
-
-import java.util.HashMap;
 
 /**
- *
- * @author jocs
+ * Package with sensor to evaluate Cppcheck specific report files.
  */
-public class CheckerData {
-  private String id = "";
-  private String templateId = "";
-  private boolean enabled = true;
-  public HashMap<String, String> parameterData = new HashMap<String, String>();
-  
-  public String getId() {
-    return id;
-  }
-  public void setId(String id) {
-    this.id = id;
-  }
+@ParametersAreNonnullByDefault
+package org.sonar.cxx.cxxlint;
 
-  public String getTemplateId() {
-    return templateId;
-  }
-  public void setTemplateId(String templateId) {
-    this.templateId = templateId;
-  }
-
-  public boolean isEnabled() {
-    return enabled;
-  }
-  public void setEnable(boolean active) {
-    this.enabled = active;
-  }
-}
-
+import javax.annotation.ParametersAreNonnullByDefault;

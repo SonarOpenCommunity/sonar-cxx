@@ -49,19 +49,16 @@ import org.sonar.cxx.tag.Tag;
 @SqaleConstantRemediation("5min")
 public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
 
-  public static final String regularExpression = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
-  public static final String message = "Use correct #include directives";
+  private static final String REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
   private Pattern pattern = null;
   private Charset charset  = Charset.forName("UTF-8");
 
   @Override
   public void init() {
-    if (null != regularExpression && !regularExpression.isEmpty()) {
-      try {
-        pattern = Pattern.compile(regularExpression, Pattern.DOTALL);
-      } catch (RuntimeException e) {
-        throw new IllegalStateException("Unable to compile regular expression: " + regularExpression, e);
-      }
+    try {
+      pattern = Pattern.compile(REGULAR_EXPRESSION, Pattern.DOTALL);
+    } catch (RuntimeException e) {
+      throw new IllegalStateException("Unable to compile regular expression: " + REGULAR_EXPRESSION, e);
     }
   }
 

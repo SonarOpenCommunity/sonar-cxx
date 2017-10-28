@@ -93,11 +93,10 @@ public class CxxPreprocessor extends Preprocessor {
 //@todo: deprecated Preprocessor
 
   static private class State {
-
-    public boolean skipPreprocessorDirectives;
-    public boolean conditionWasTrue;
-    public int conditionalInclusionCounter;
-    public File includeUnderAnalysis;
+    private boolean skipPreprocessorDirectives;
+    private boolean conditionWasTrue;
+    private int conditionalInclusionCounter;
+    private File includeUnderAnalysis;
 
     public State(@Nullable File includeUnderAnalysis) {
       this.skipPreprocessorDirectives = false;
@@ -132,10 +131,10 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   class Macro {
-    public String name;
-    public List<Token> params;
-    public List<Token> body;
-    public boolean isVariadic;
+    private final String name;
+    private final List<Token> params;
+    private final List<Token> body;
+    private final boolean isVariadic;
 
     public Macro(String name, @Nullable List<Token> params, @Nullable List<Token> body, boolean variadic) {
       this.name = name;

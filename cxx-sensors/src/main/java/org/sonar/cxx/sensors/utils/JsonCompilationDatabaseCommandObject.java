@@ -22,21 +22,57 @@ package org.sonar.cxx.sensors.utils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * JsonCompilationDatabaseCommandObject
  */
 public class JsonCompilationDatabaseCommandObject implements Serializable {
-  /**
-   * 
-   */
+
   private static final long serialVersionUID = -1274733574224184395L;
+  private String directory;
+  private String file;
+  private String command;
+  private String arguments;
+  private String output;
+
+  /**
+   * Extension to define defines
+   */
+  private HashMap<String,String> defines;
+
+  /**
+   * Extension to define include directories
+   */
+  private ArrayList<String> includes; 
+
+  /**
+   * Initialize members
+   */
+  public JsonCompilationDatabaseCommandObject() {
+    this.directory = "";
+    this.file = "";
+    this.command = "";
+    this.arguments = "";
+    this.output = "";
+    this.defines = new HashMap<>();
+    this.includes = new ArrayList<>();
+  }
+
 
   /**
    * The working directory of the compilation. All paths specified in the command 
    * or file fields must be either absolute or relative to this directory.
    */
-  public String directory;
+
+  public String getDirectory() {
+    return directory;
+  }
+
+  public void setDirectory(String directory) {
+    this.directory = directory;
+  }
 
   /**
    * The main translation unit source processed by this compilation step. This is 
@@ -44,7 +80,14 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
    * command objects for the same file, for example if the same source file is 
    * compiled with different configurations.
    */
-  public String file;
+
+  public String getFile() {
+    return file;
+  }
+
+  public void setFile(String file) {
+    this.file = file;
+  }
 
   /**
    * The compile command executed. After JSON unescaping, this must be a valid command 
@@ -52,26 +95,64 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
    * the build system uses. Parameters use shell quoting and shell escaping of quotes, 
    * with ‘"‘ and ‘\‘ being the only special characters. Shell expansion is not supported.
    */
-  public String command;
+
+  public String getCommand() {
+    return command;
+  }
+
+  public void setCommand(String command) {
+    this.command = command;
+  }
 
   /**
    * The compile command executed as list of strings. Either arguments or command is required.
    */
-  public String arguments;
+
+  public String getArguments() {
+    return arguments;
+  }
+
+  public void setArguments(String arguments) {
+    this.arguments = arguments;
+  }
 
   /**
    * The name of the output created by this compilation step. This field is optional. 
    * It can be used to distinguish different processing modes of the same input file.
    */
-  public String output;
+
+  public String getOutput() {
+    return output;
+  }
+
+  public void setOutput(String output) {
+    this.output = output;
+  }
 
   /**
    * Extension to define defines
    */
-  public HashMap<String,String> defines;
+
+  public Map<String, String> getDefines() {
+    return defines;
+  }
+
+
+  public void setDefines(Map<String, String> defines) {
+    this.defines = new HashMap<>(defines);
+  }
 
   /**
    * Extension to define include directories
    */
-  public ArrayList<String> includes; 
+
+  public List<String> getIncludes() {
+    return (ArrayList<String>) includes.clone();
+  }
+
+
+  public void setIncludes(List<String> includes) {
+    this.includes = new ArrayList<>(includes);
+  } 
+
 }

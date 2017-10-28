@@ -19,6 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
+import java.util.List;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -51,18 +53,21 @@ public class TooManyParametersCheck extends SquidCheck<Grammar> {
 
   @Override
   public void init() {
-    subscribeTo(CxxGrammarImpl.parameterDeclarationClause, CxxGrammarImpl.lambdaDeclarator, CxxGrammarImpl.cliParameterArray);
+    subscribeTo(CxxGrammarImpl.parameterDeclarationClause,
+                CxxGrammarImpl.lambdaDeclarator,
+                CxxGrammarImpl.cliParameterArray);
   }
 
   @Override
   public void visitNode(AstNode node) {
-    int nbParameters = node.select()
-      .children(CxxGrammarImpl.parameterDeclarationList)
-      .children(CxxGrammarImpl.parameterDeclaration)
-      .size();
-    if (nbParameters > max) {
-      String message = "parameter list has {0} parameters, which is greater than the {1} authorized.";
-      getContext().createLineViolation(this, message, node, nbParameters, max);
+    int nbParameters = 0;
+    AstNode parameterList = node.getFirstChild(CxxGrammarImpl.parameterDeclarationList);
+    if (parameterList != null) {
+      nbParameters = parameterList.getChildren(CxxGrammarImpl.parameterDeclaration).size();
+      if (nbParameters > max) {
+        String message = "parameter list has {0} parameters, which is greater than the {1} authorized.";
+        getContext().createLineViolation(this, message, node, nbParameters, max);
+      }
     }
   }
   

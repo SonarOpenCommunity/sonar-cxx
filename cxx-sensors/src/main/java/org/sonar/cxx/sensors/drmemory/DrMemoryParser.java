@@ -70,13 +70,39 @@ public class DrMemoryParser {
   public static class DrMemoryError {
 
     public static class Location {
-      public String file = "";
-      public Integer line;
+      private String file = "";
+      private Integer line;
+
+      public String getFile() {
+        return file;
+      }
+      public void setFile(String file) {
+        this.file = file;
+      }
+      public Integer getLine() {
+        return line;
+      }
+      public void setLine(Integer line) {
+        this.line = line;
+      }
     }
 
     public DrMemoryErrorType type = DrMemoryErrorType.UNRECOGNIZED;
-    public List<Location> stackTrace = new ArrayList<>();
-    public String message = "";
+    private List<Location> stackTrace = new ArrayList<>();
+    private String message = "";
+
+    public List<Location> getStackTrace() {
+      return (ArrayList<Location>) ((ArrayList<Location>) stackTrace).clone();
+    }
+    public void setStackTrace(List<Location> stackTrace) {
+      this.stackTrace = new ArrayList<>(stackTrace);
+    }
+    public String getMessage() {
+      return message;
+    }
+    public void setMessage(String message) {
+      this.message = message;
+    }
   }
 
   private DrMemoryParser() {
