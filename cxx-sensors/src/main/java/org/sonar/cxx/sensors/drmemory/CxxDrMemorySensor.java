@@ -78,16 +78,16 @@ public class CxxDrMemorySensor extends CxxReportSensor {
     LOG.debug("Parsing 'Dr Memory' format");
 
     for (DrMemoryError error : DrMemoryParser.parse(report, defaultCharset())) {
-      if (error.stackTrace.isEmpty()) {
+      if (error.getStackTrace().isEmpty()) {
         saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
                 null, null,
-                error.type.getId(), error.message);
+                error.type.getId(), error.getMessage());
       }
-      for (Location errorLocation : error.stackTrace) {
+      for (Location errorLocation : error.getStackTrace()) {
         if (isFileInAnalysis(context, errorLocation)) {
           saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
-                  errorLocation.file, errorLocation.line.toString(),
-                  error.type.getId(), error.message);
+                  errorLocation.getFile(), errorLocation.getLine().toString(),
+                  error.type.getId(), error.getMessage());
           break;
         }
       }
@@ -96,7 +96,7 @@ public class CxxDrMemorySensor extends CxxReportSensor {
 
   private boolean isFileInAnalysis(SensorContext context, Location errorLocation) {
     String root = context.fileSystem().baseDir().getAbsolutePath();
-    String normalPath = CxxUtils.normalizePathFull(errorLocation.file, root);
+    String normalPath = CxxUtils.normalizePathFull(errorLocation.getFile(), root);
     InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(new File(normalPath)));
     return inputFile != null;
   }

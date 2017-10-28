@@ -72,7 +72,7 @@ public class CxxLint {
 
   private static final Logger LOG = Loggers.get(CxxLint.class);
   
-  private static Options CreateCommandLineOptions() {
+  private static Options createCommandLineOptions() {
     Options options = new Options();
     options.addOption("s", true, "settings file");
     options.addOption("f", true, "file to analyse - required");
@@ -89,7 +89,10 @@ public class CxxLint {
       reader.read(chars);
       content = new String(chars);
       reader.close();
-    } catch (IOException e) { 
+    } catch (IOException ex) { 
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("CxxLint exception in readFile {}", ex);
+      }
     }
     return content;
   }
@@ -102,17 +105,18 @@ public class CxxLint {
    * @throws InstantiationException 
    * @throws java.Exception
    */
-  public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException { 
+  public static void main(String[] args) { 
 
     CommandLineParser commandlineParser = new DefaultParser();
-    Options options = CreateCommandLineOptions();
+    Options options = createCommandLineOptions();
     CommandLine parsedArgs = null;
     String settingsFile = "";
     String fileToAnalyse = "";
     String encodingOfFile = "UTF-8";
+    boolean isNotOptionS = true;
     
     try {
-      parsedArgs = commandlineParser.parse(CreateCommandLineOptions(), args);
+      parsedArgs = commandlineParser.parse(createCommandLineOptions(), args);
       if (!parsedArgs.hasOption("f")) {
         throw new ParseException("f option mandatory");
       } else {
@@ -124,6 +128,7 @@ public class CxxLint {
       }
 
       if (parsedArgs.hasOption("s")) {
+        isNotOptionS = false;
         settingsFile = parsedArgs.getOptionValue("s");
         File f = new File(settingsFile);
         if (!f.exists()) {
@@ -136,7 +141,7 @@ public class CxxLint {
       }
       
     } catch (ParseException exp) {
-      System.err.println("Parsing Command line Failed.  Reason: " + exp.getMessage());
+      LOG.error("Parsing Command line Failed.  Reason: " + exp);
       HelpFormatter formatter = new HelpFormatter();
       formatter.printHelp("java -jar CxxLint-<sersion>.jar -f filetoanalyse", options);
     }
@@ -147,190 +152,199 @@ public class CxxLint {
 
     CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile), new CppLanguage());
 
-    String content = new String(Files.readAllBytes(Paths.get(fileToAnalyse)), encodingOfFile);
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    List<CheckerData> rulesData = new ArrayList<>();
-    if (!"".equals(settingsFile)) {
-      JsonParser parser = new JsonParser();
-      String fileContent = readFile(settingsFile, Charset.forName(encodingOfFile));
+    try {
+      String content = new String(Files.readAllBytes(Paths.get(fileToAnalyse)), encodingOfFile);
+      sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+      InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
       
-      // get basic information
-      String platformToolset = GetJsonStringValue(parser, fileContent, "platformToolset");     
-      String platform = GetJsonStringValue(parser, fileContent, "platform");
-      String projectFile = GetJsonStringValue(parser, fileContent, "projectFile");       
-      
-      JsonElement rules = parser.parse(fileContent).getAsJsonObject().get("rules");
-      if (rules != null) {
-        for (JsonElement rule : rules.getAsJsonArray()) {
-          JsonObject data = rule.getAsJsonObject();
-          String ruleId = data.get("ruleId").getAsString();
-          
-          String templateKey = "";
-          try {
-            templateKey = data.get("templateKeyId").getAsString();
-          } catch(Exception ex) { 
-          }
-          
-          String enabled = data.get("status").getAsString();
-
-          CheckerData check = new CheckerData();
-          check.id = ruleId;
-          check.templateId = templateKey;
+      List<CheckerData> rulesData = new ArrayList<>();
+      if (!"".equals(settingsFile)) {
+        JsonParser parser = new JsonParser();
+        String fileContent = readFile(settingsFile, Charset.forName(encodingOfFile));
+        
+        // get basic information
+      String platformToolset = getJsonStringValue(parser, fileContent, "platformToolset");     
+      String platform = getJsonStringValue(parser, fileContent, "platform");
+      String projectFile = getJsonStringValue(parser, fileContent, "projectFile");       
+        
+        JsonElement rules = parser.parse(fileContent).getAsJsonObject().get("rules");
+        if (rules != null) {
+          for (JsonElement rule : rules.getAsJsonArray()) {
+            JsonObject data = rule.getAsJsonObject();
+            String ruleId = data.get("ruleId").getAsString();
             
-          check.enabled = "Enabled".equals(enabled);
-          JsonElement region = data.get("properties");
-          if (region != null) {
-            for (Entry<?, ?> parameter : region.getAsJsonObject().entrySet()) {
-              JsonElement elem = (JsonElement) parameter.getValue();
-              check.parameterData.put(parameter.getKey().toString(), elem.getAsString());
+            String templateKey = "";
+            try {
+              templateKey = data.get("templateKeyId").getAsString();
+            } catch(Exception ex) { 
+            if (LOG.isDebugEnabled()) {
+              LOG.debug("CxxLint exception in main {}", ex);
+            }
+            }
+            
+            String enabled = data.get("status").getAsString();
+  
+            CheckerData check = new CheckerData();
+            check.setId(ruleId);
+            check.setTemplateId(templateKey);
+              
+            check.setEnable("Enabled".equals(enabled));
+            JsonElement region = data.get("properties");
+            if (region != null) {
+              for (Entry<?, ?> parameter : region.getAsJsonObject().entrySet()) {
+                JsonElement elem = (JsonElement) parameter.getValue();
+                check.parameterData.put(parameter.getKey().toString(), elem.getAsString());
+              }
+            }
+  
+            rulesData.add(check);
+          }
+        }
+        
+        JsonElement includes = parser.parse(fileContent).getAsJsonObject().get("includes");
+        if (includes != null) {
+          for (JsonElement include : includes.getAsJsonArray()) {
+            configuration.addOverallIncludeDirectory(include.getAsString());
+          }
+        }
+  
+        JsonElement defines = parser.parse(fileContent).getAsJsonObject().get("defines");
+        if (defines != null) {
+          for (JsonElement define : defines.getAsJsonArray()) {
+            configuration.addOverallDefine(define.getAsString());
+          }
+        }
+        
+        JsonElement additionalOptions = parser.parse(fileContent).getAsJsonObject().get("additionalOptions");
+        StringBuilder elementsOfAdditionalOptions = new StringBuilder();
+        if (additionalOptions != null) {
+          for (JsonElement option : additionalOptions.getAsJsonArray()) {
+            elementsOfAdditionalOptions.append(' ');
+            elementsOfAdditionalOptions.append(option.getAsString());
+          }
+        }
+        
+      handleVCppAdditionalOptions(platformToolset, platform, elementsOfAdditionalOptions + " ", 
+                                    projectFile, fileToAnalyse, configuration);
+      }
+  
+  
+      List<Class> checks = CxxCheckList.getChecks();
+      List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>();
+      
+      if (isNotOptionS) {
+        for (Class<?> check : checks) {
+          SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
+          visitors.add(element);
+        }
+      } else {
+        for (CheckerData checkDefined : rulesData) {
+          
+          // get check from list
+        Class<?> check = getRuleFromChecks(checkDefined, checks);
+          if (check == null) {
+            continue;
+          }
+
+          // and update the key according with profile
+          // this ensures the template rules have correct key
+          SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
+          for (Annotation a : check.getAnnotations()) {
+            try {
+              Rule rule = (Rule) a;
+              if (rule != null) {
+                changeAnnotationValue(a, "key", checkDefined.getId());
+                break;
+              }            
+            } catch (IllegalStateException ex) { 
+              if (LOG.isDebugEnabled()) {
+                LOG.debug("{}", ex);
+              }
+              break;
             }
           }
 
-          rulesData.add(check);
-        }
-      }
-      
-      JsonElement includes = parser.parse(fileContent).getAsJsonObject().get("includes");
-      if (includes != null) {
-        for (JsonElement include : includes.getAsJsonArray()) {
-          configuration.addOverallIncludeDirectory(include.getAsString());
-        }
-      }
+          for (Field f : check.getDeclaredFields()) {
+            for (Annotation a : f.getAnnotations()) {
+              RuleProperty ruleProp = (RuleProperty) a;
+              if ((ruleProp != null) 
+                && (checkDefined.parameterData.containsKey(ruleProp.key()))) {
+                if (f.getType().equals(int.class)) {
+                  String cleanData = checkDefined.parameterData.get(ruleProp.key());
+                  int value = Integer.parseInt(cleanData);
+                  if (f.toString().startsWith("public ")) {
+                    f.set(element, value);
+                  } else {
+                    char first = Character.toUpperCase(ruleProp.key().charAt(0));
+                    Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), 
+                                                   new Object[]{value});
+                    try {
+                      stmt.execute();
+                    } catch (Exception ex) {
+                      LOG.error("{}", ex);
+                    }
+                  }
+                }
 
-      JsonElement defines = parser.parse(fileContent).getAsJsonObject().get("defines");
-      if (defines != null) {
-        for (JsonElement define : defines.getAsJsonArray()) {
-          configuration.addOverallDefine(define.getAsString());
-        }
-      }
-      
-      JsonElement additionalOptions = parser.parse(fileContent).getAsJsonObject().get("additionalOptions");
-      StringBuilder elementsOfAdditionalOptions = new StringBuilder();
-      if (additionalOptions != null) {
-        for (JsonElement option : additionalOptions.getAsJsonArray()) {
-          elementsOfAdditionalOptions.append(' ');
-          elementsOfAdditionalOptions.append(option.getAsString());
-        }
-      }
-      
-      HandleVCppAdditionalOptions(platformToolset, platform, elementsOfAdditionalOptions + " ", 
-                                  projectFile, fileToAnalyse, configuration);
-    }
+                if (f.getType().equals(String.class)) {
+                  String cleanData = checkDefined.parameterData.get(ruleProp.key());
 
-    List<Class> checks = CxxCheckList.getChecks();
-    List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>();
-    
-    if (!parsedArgs.hasOption("s")) {
-      for (Class<?> check : checks) {
-        SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
-        visitors.add(element);
-      }
-    } else {
-      for (CheckerData checkDefined : rulesData) {
-        
-        // get check from list
-        Class<?> check = GetRuleFromChecks(checkDefined, checks);
-        if (check == null) {
-          continue;
+                  if (f.toString().startsWith("public ")) {
+                    f.set(element, cleanData);
+                  } else {
+                    char first = Character.toUpperCase(ruleProp.key().charAt(0));
+                    Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1),
+                                                   new Object[]{cleanData});
+                    try {
+                      stmt.execute();
+                    } catch (Exception ex) {
+                      LOG.error("{}", ex);
+                    }
+                  }
+                }
+              }
+            }
+          }
+          visitors.add(element);
         }
-
-        // and update the key according with profile
-        // this ensures the template rules have correct key
-        SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
-        for (Annotation a : check.getAnnotations()) {
+      }
+      SourceFile file = CxxAstScanner.scanSingleFileConfig(
+              new CppLanguage(), 
+              cxxFile,
+              configuration,
+              sensorContext,
+              visitors.toArray(new SquidAstVisitor[visitors.size()]));
+      LOG.info("Analyse with : " + visitors.size() + " checks");
+  
+      for (CheckMessage message : file.getCheckMessages()) {
+        Object check = message.getCheck();
+        String key = "";      
+        for (Annotation a : check.getClass().getAnnotations()) {
           try {
             Rule rule = (Rule) a;
             if (rule != null) {
-              changeAnnotationValue(a, "key", checkDefined.id);
+              key = rule.key();
               break;
-            }            
-          } catch (IllegalStateException ex) { 
+            }           
+          } catch(RuntimeException ex) { 
             if (LOG.isDebugEnabled()) {
               LOG.debug("{}", ex);
             }
-            break;
           }
-        }
-        
-        for (Field f : check.getDeclaredFields()) {
-          for (Annotation a : f.getAnnotations()) {
-            RuleProperty ruleProp = (RuleProperty) a;
-            if ((ruleProp != null) 
-              && (checkDefined.parameterData.containsKey(ruleProp.key()))) {
-              if (f.getType().equals(int.class)) {
-                String cleanData = checkDefined.parameterData.get(ruleProp.key());
-                int value = Integer.parseInt(cleanData);
-                if (f.toString().startsWith("public ")) {
-                  f.set(element, value);
-                } else {
-                  char first = Character.toUpperCase(ruleProp.key().charAt(0));
-                  Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), 
-                                                 new Object[]{value});
-                  try {
-                    stmt.execute();
-                  } catch (Exception ex) {
-                    LOG.error("{}", ex);
-                  }
-                }
-              }
+       }
 
-              if (f.getType().equals(String.class)) {
-                String cleanData = checkDefined.parameterData.get(ruleProp.key());
-
-                if (f.toString().startsWith("public ")) {
-                  f.set(element, cleanData);
-                } else {
-                  char first = Character.toUpperCase(ruleProp.key().charAt(0));
-                  Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1),
-                                                 new Object[]{cleanData});
-                  try {
-                    stmt.execute();
-                  } catch (Exception ex) {
-                    LOG.error("{}", ex);
-                  }
-                }
-              }
-            }
-          }
-        }
-        visitors.add(element);
-      }    
-    }
-
-    LOG.info("Analyse with : " + visitors.size() + " checks");
-    
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(
-            new CppLanguage(), 
-            cxxFile,
-            configuration,
-            sensorContext,
-            visitors.toArray(new SquidAstVisitor[visitors.size()]));
-
-    for (CheckMessage message : file.getCheckMessages()) {
-      Object check = message.getCheck();
-      String key = "";      
-      for (Annotation a : check.getClass().getAnnotations()) {
-        try {
-          Rule rule = (Rule) a;
-          if (rule != null) {
-            key = rule.key();
-            break;
-          }           
-        } catch(RuntimeException ex) { 
-          if (LOG.isDebugEnabled()) {
-            LOG.debug("{}", ex);
-          }
-        }
-     }
-        
       // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, but is slow and can overflow buffers.  [runtime/printf-5] [1]
-      System.out.println(message.getSourceCode() + "(" + message.getLine() + "): Warning : " + message.formatDefaultMessage() + " [" + key + "]");
+      LOG.info(message.getSourceCode() + "(" + message.getLine() + "): Warning : " + 
+               message.formatDefaultMessage() + " [" + key + "]");
     }
     
-    System.out.println("LOC: " + file.getInt(CxxMetric.LINES_OF_CODE));
-    System.out.println("COMPLEXITY: " + file.getInt(CxxMetric.COMPLEXITY));
+    LOG.info("LOC: {}", file.getInt(CxxMetric.LINES_OF_CODE));
+    LOG.info("COMPLEXITY: {}", file.getInt(CxxMetric.COMPLEXITY));
+
+    } catch (IOException|InstantiationException|IllegalAccessException ex) {
+      LOG.error("{}", ex);
+    }
+    
   }
 
   /**
@@ -366,7 +380,7 @@ public class CxxLint {
     return oldValue;
   }
 
-  private static String GetJsonStringValue(JsonParser parser, String fileContent, String id) {
+  private static String getJsonStringValue(JsonParser parser, String fileContent, String id) {
     JsonElement element = parser.parse(fileContent).getAsJsonObject().get(id);
     if (element != null) {
       return element.getAsString();
@@ -374,7 +388,7 @@ public class CxxLint {
     return "";
   }
 
-  private static void HandleVCppAdditionalOptions(String platformToolset, String platform, 
+  private static void handleVCppAdditionalOptions(String platformToolset, String platform, 
                          String elementsOfAdditionalOptions, String project, String fileToAnalyse,
                          CxxConfiguration configuration) {
     if("V100".equals(platformToolset) 
@@ -396,14 +410,16 @@ public class CxxLint {
     }
   }
 
-  private static Class<?> GetRuleFromChecks(CheckerData checkDefined, List<Class> checks) {
+  private static Class<?> getRuleFromChecks(CheckerData checkDefined, List<Class> checks) {
     for (Class<?> check : checks) {
       Rule rule = check.getAnnotation(Rule.class);
       if (rule == null) {
         continue;
       }
 
-      if (checkDefined.id.equals(rule.key()) || checkDefined.templateId.equals(rule.key()) && checkDefined.enabled) {
+      if (checkDefined.getId().equals(rule.key())
+          || checkDefined.getTemplateId().equals(rule.key())
+          && checkDefined.isEnabled()) {
         return check;
       }
     }    

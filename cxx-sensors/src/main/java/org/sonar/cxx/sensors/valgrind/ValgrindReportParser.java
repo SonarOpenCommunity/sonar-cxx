@@ -25,14 +25,10 @@ import java.util.Set;
 
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 
 class ValgrindReportParser {
-
-  private static final Logger LOG = Loggers.get(ValgrindReportParser.class);
 
   public ValgrindReportParser() {
     // do nothing - just for reference
@@ -40,8 +36,9 @@ class ValgrindReportParser {
 
   /**
    * Parses given valgrind report
-   * @param report
+   * @param report full path of XML report
    * @return Set<ValgrindError>
+   * @exception XMLStreamException by XML parser
    */
   public Set<ValgrindError> processReport(File report)
     throws javax.xml.stream.XMLStreamException {
@@ -101,7 +98,7 @@ class ValgrindReportParser {
     return new ValgrindError(kind, text, stack);
   }
 
-  private ValgrindStack parseStackTag(SMInputCursor child)
+  private static ValgrindStack parseStackTag(SMInputCursor child)
     throws javax.xml.stream.XMLStreamException {
     ValgrindStack stack = new ValgrindStack();
     SMInputCursor frameCursor = child.childElementCursor("frame");

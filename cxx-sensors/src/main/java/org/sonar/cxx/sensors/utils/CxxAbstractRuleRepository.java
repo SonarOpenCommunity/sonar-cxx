@@ -29,6 +29,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nullable;
+
 import org.apache.commons.io.FileUtils;
 
 import org.sonar.api.platform.ServerFileSystem;
@@ -99,7 +102,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     repository.done();
   }
 
-  public List<File> getExtensions(String dirName, String... suffixes) {
+  public List<File> getExtensions(String dirName, @Nullable String... suffixes) {
     File dir = new File(fileSystem.getHomeDir(), "extensions/rules/" + dirName);
     List<File> files = new ArrayList<>();
     if (dir.exists() && dir.isDirectory()) {

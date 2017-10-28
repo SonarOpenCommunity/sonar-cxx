@@ -41,6 +41,9 @@ import org.sonar.squidbridge.api.SourceProject;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.annotation.Nullable;
+
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -66,16 +69,19 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
     Validators.booleanValidator());
 
   @VisibleForTesting
-  ConfigurationProperty defines = new ConfigurationProperty("Defines", DEFINES_PROPERTY_KEY + " (use \\n\\ as separator)",
-    getPropertyOrDefaultValue(DEFINES_PROPERTY_KEY, ""));
+  ConfigurationProperty defines = new ConfigurationProperty("Defines", DEFINES_PROPERTY_KEY + 
+                                  " (use \\n\\ as separator)",
+                                  getPropertyOrDefaultValue(DEFINES_PROPERTY_KEY, ""));
 
   @VisibleForTesting
-  ConfigurationProperty includeDirectories = new ConfigurationProperty("Include Directories", INCLUDE_DIRECTORIES_PROPERTY_KEY + " (use , as separator)",
-    getPropertyOrDefaultValue(INCLUDE_DIRECTORIES_PROPERTY_KEY, ""));
+  ConfigurationProperty includeDirectories = new ConfigurationProperty("Include Directories", 
+                                             INCLUDE_DIRECTORIES_PROPERTY_KEY + " (use , as separator)",
+                                             getPropertyOrDefaultValue(INCLUDE_DIRECTORIES_PROPERTY_KEY, ""));
 
   @VisibleForTesting
-  ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes", FORCE_INCLUDES_PROPERTY_KEY + " (use , as separator)",
-    getPropertyOrDefaultValue(FORCE_INCLUDES_PROPERTY_KEY, ""));
+  ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes", FORCE_INCLUDES_PROPERTY_KEY + 
+                                        " (use , as separator)", 
+                                        getPropertyOrDefaultValue(FORCE_INCLUDES_PROPERTY_KEY, ""));
 
   @Override
   public List<ConfigurationProperty> getProperties() {
@@ -129,14 +135,14 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
     }
   }
 
-  static String[] getStringLines(String value) {
+  static String[] getStringLines(@Nullable String value) {
     if (value == null || value.isEmpty()) {
       return new String[0];
     }
     return value.split("\\\\n\\\\", -1);
   }
 
-  static String[] getStringArray(String value) {
+  static String[] getStringArray(@Nullable String value) {
     if (value != null) {
       String[] strings = value.split(",");
       String[] result = new String[strings.length];

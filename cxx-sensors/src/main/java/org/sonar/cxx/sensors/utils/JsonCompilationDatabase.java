@@ -60,13 +60,13 @@ public class JsonCompilationDatabase {
 
       Path cwd = Paths.get(".");
 
-      if (commandObject.directory != null) {
-        cwd = Paths.get(commandObject.directory);
+      if (commandObject.getDirectory() != null) {
+        cwd = Paths.get(commandObject.getDirectory());
       }
 
-      Path absPath = cwd.resolve(commandObject.file);
+      Path absPath = cwd.resolve(commandObject.getFile());
 
-      if ("__global__".equals(commandObject.file)) {
+      if ("__global__".equals(commandObject.getFile())) {
         CxxCompilationUnitSettings globalSettings = new CxxCompilationUnitSettings();
 
         parseCommandObject(globalSettings, commandObject);
@@ -84,20 +84,20 @@ public class JsonCompilationDatabase {
 
   private void parseCommandObject(CxxCompilationUnitSettings settings,
       JsonCompilationDatabaseCommandObject commandObject) {
-    settings.setDefines(commandObject.defines);
-    settings.setIncludes(commandObject.includes);
+    settings.setDefines(commandObject.getDefines());
+    settings.setIncludes(commandObject.getIncludes());
 
     // No need to parse command lines as we have needed information
-    if (commandObject.defines != null || commandObject.includes != null) {
+    if (!commandObject.getDefines().isEmpty() || !commandObject.getIncludes().isEmpty()) {
       return;
     }
 
     String cmdLine;
 
-    if (commandObject.arguments != null) {
-      cmdLine = commandObject.arguments;
-    } else if (commandObject.command != null) {
-      cmdLine = commandObject.command;
+    if (!commandObject.getArguments().isEmpty()) {
+      cmdLine = commandObject.getArguments();
+    } else if (!commandObject.getCommand().isEmpty()) {
+      cmdLine = commandObject.getCommand();
     } else {
       return;
     }

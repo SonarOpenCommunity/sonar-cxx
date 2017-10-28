@@ -174,14 +174,14 @@ public abstract class CxxReportSensor implements Sensor {
 
   /**
    * getReports
-   * @param language
-   * @param moduleBaseDir
-   * @param genericReportKeyData
+   * @param settings of the C++ project
+   * @param moduleBaseDir location of sonar properties file
+   * @param genericReportKeyData full path of XML report
    * @return File
    */
   public static List<File> getReports(Settings settings,
-                                                final File moduleBaseDir,
-                                                String genericReportKeyData) {
+                                      final File moduleBaseDir,
+                                      @Nullable String genericReportKeyData) {
 
     List<File> reports = new ArrayList<>();
     
