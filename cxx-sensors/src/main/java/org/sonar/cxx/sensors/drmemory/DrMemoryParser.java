@@ -39,6 +39,10 @@ public class DrMemoryParser {
   public static final Pattern rx_file_finder = Pattern.compile("^.*\\[(.*):(\\d+)\\]$");
   public static final int TOP_COUNT = 4;
   
+  /**
+   * DrMemory supported error types
+   *
+   */
   public enum DrMemoryErrorType {
     UNADRESSABLE_ACCESS("UnadressableAccess", "UNADDRESSABLE ACCESS"),
     UNINITIALIZE_READ("UninitializedRead", "UNINITIALIZED READ"), 
@@ -87,9 +91,16 @@ public class DrMemoryParser {
       }
     }
 
-    public DrMemoryErrorType type = DrMemoryErrorType.UNRECOGNIZED;
+    private DrMemoryErrorType type = DrMemoryErrorType.UNRECOGNIZED;
     private List<Location> stackTrace = new ArrayList<>();
     private String message = "";
+
+    public DrMemoryErrorType getType() {
+      return type;
+    }
+    public void setType(DrMemoryErrorType type) {
+      this.type = type;
+    }
 
     public List<Location> getStackTrace() {
       return (ArrayList<Location>) ((ArrayList<Location>) stackTrace).clone();
@@ -108,6 +119,12 @@ public class DrMemoryParser {
   private DrMemoryParser() {
   }
 
+  /**
+   * DrMemory parser
+   * @param file with findings
+   * @param charset file encoding character set
+   * @return list of issues extracted from file
+   */
   public static List<DrMemoryError> parse(File file, String charset) {
 
     List<DrMemoryError> result = new ArrayList<>();
@@ -153,6 +170,12 @@ public class DrMemoryParser {
     return title.trim();
   }
 
+  /**
+   * get all DrMemory elements from file
+   * @param file with findings
+   * @param charset file encoding character set
+   * @return list of elements from report file
+   */
   public static List<String> getElements(File file, String charset) {
 
     List<String> list = new ArrayList<>();
@@ -180,7 +203,6 @@ public class DrMemoryParser {
       }
 
       br.close();
-      input.close();
     } catch (IOException e) {
       String msg = new StringBuilder().append("Cannot feed the data into sonar, details: '")
                                       .append(e)

@@ -51,9 +51,9 @@ public class CxxConfiguration extends SquidConfiguration {
   private boolean errorRecoveryEnabled = true;
   private List<String> cFilesPatterns = new ArrayList<>();
   private boolean missingIncludeWarningsEnabled = true;
-  private String jsonCompilationDatabaseFile = null;
-  private boolean scanOnlySpecifiedSources = false;
-  private CxxCompilationUnitSettings globalCompilationUnitSettings = null;
+  private String jsonCompilationDatabaseFile;
+  private boolean scanOnlySpecifiedSources;
+  private CxxCompilationUnitSettings globalCompilationUnitSettings;
   private HashMap<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
 
   private final CxxVCppBuildLogParser cxxVCppParser;

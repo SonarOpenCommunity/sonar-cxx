@@ -238,7 +238,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
   }
 
-  private boolean isTypedef(AstNode declaratorList) {
+  private static boolean isTypedef(AstNode declaratorList) {
     AstNode simpleDeclSpezifierSeq = declaratorList.getPreviousSibling();
     if (simpleDeclSpezifierSeq != null) {
       AstNode firstDeclSpecifier = simpleDeclSpezifierSeq.getFirstChild(CxxGrammarImpl.declSpecifier);
@@ -258,7 +258,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     return false;
   }
 
-  private boolean isFriendDeclarationList(AstNode declaratorList) {
+  private static boolean isFriendDeclarationList(AstNode declaratorList) {
     AstNode simpleDeclNode = declaratorList
       .getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
 
@@ -349,7 +349,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
   }
 
-  private AstNode getTypedefNode(AstNode classSpecifier) {
+  private static AstNode getTypedefNode(AstNode classSpecifier) {
     AstNode declSpecifier = classSpecifier.getFirstAncestor(CxxGrammarImpl.declSpecifier);
     if (declSpecifier != null) {
       declSpecifier = declSpecifier.getPreviousSibling();
@@ -459,7 +459,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
   }
 
-  private boolean isFriendMemberDeclaration(AstNode memberDeclaration) {
+  private static boolean isFriendMemberDeclaration(AstNode memberDeclaration) {
     AstNode simpleDeclNode = memberDeclaration
       .getFirstDescendant(CxxGrammarImpl.simpleDeclaration);
 
@@ -528,7 +528,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
   }
 
-  private boolean isDefaultOrDeleteFunctionBody(AstNode functionBodyNode) {
+  private static boolean isDefaultOrDeleteFunctionBody(AstNode functionBodyNode) {
     boolean defaultOrDelete = false;
     List<AstNode> functionBody = functionBodyNode.getChildren();
 
@@ -547,7 +547,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     return defaultOrDelete;
   }
 
-  private boolean isOverriddenMethod(AstNode memberDeclarator) {
+  private static boolean isOverriddenMethod(AstNode memberDeclarator) {
     List<AstNode> modifiers = memberDeclarator.getDescendants(CxxGrammarImpl.virtSpecifier);
 
     for (AstNode modifier : modifiers) {
@@ -741,7 +741,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
   }
 
   // XXX may go to a utility class
-  private String getOperatorId(AstNode operatorFunctionId) {
+  private static String getOperatorId(AstNode operatorFunctionId) {
 
     StringBuilder builder = new StringBuilder(
       operatorFunctionId.getTokenValue());

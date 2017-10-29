@@ -54,7 +54,7 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "WORD|BOOL|BYTE|FLOAT|NULL";
   private static final String DEFAULT_MESSAGE = "Use C++ types whenever possible";
-  private Pattern pattern = null;
+  private Pattern pattern;
   private final Map<String, Integer> firstOccurrence = new HashMap<>();
   private final Map<String, Integer> literalsOccurrences = new HashMap<>();
   /**

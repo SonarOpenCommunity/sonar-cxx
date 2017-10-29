@@ -100,7 +100,7 @@ public class CxxCompilerVcParser implements CompilerParser {
     scanner.close();
   }
 
-  private String removeMPPrefix(String fpath) {
+  private static String removeMPPrefix(String fpath) {
     // /MP (Build with Multiple Processes) will create a line prefix with the job number eg. '   42>'
     if (fpath.matches("^\\d+>.*$")) {
       return fpath.substring(fpath.indexOf('>')+1, fpath.length());

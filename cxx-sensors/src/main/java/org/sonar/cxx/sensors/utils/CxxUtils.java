@@ -40,11 +40,7 @@ import javax.xml.transform.stream.StreamSource;
 public final class CxxUtils {
 
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
-  
-  /**
-   * Default logger.
-   */
-  public static final Logger LOG = Loggers.get(CxxUtils.class);
+  private static final Logger LOG = Loggers.get(CxxUtils.class);
 
   private CxxUtils() {
     // only static methods

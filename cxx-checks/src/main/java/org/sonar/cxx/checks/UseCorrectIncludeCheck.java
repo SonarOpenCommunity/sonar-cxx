@@ -50,7 +50,7 @@ import org.sonar.cxx.tag.Tag;
 public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
 
   private static final String REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
-  private Pattern pattern = null;
+  private Pattern pattern;
   private Charset charset  = Charset.forName("UTF-8");
 
   @Override

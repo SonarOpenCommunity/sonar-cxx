@@ -193,7 +193,7 @@ public class CxxLint {
             if (region != null) {
               for (Entry<?, ?> parameter : region.getAsJsonObject().entrySet()) {
                 JsonElement elem = (JsonElement) parameter.getValue();
-                check.parameterData.put(parameter.getKey().toString(), elem.getAsString());
+                check.getParameterData().put(parameter.getKey().toString(), elem.getAsString());
               }
             }
   
@@ -241,7 +241,7 @@ public class CxxLint {
         for (CheckerData checkDefined : rulesData) {
           
           // get check from list
-        Class<?> check = getRuleFromChecks(checkDefined, checks);
+          Class<?> check = getRuleFromChecks(checkDefined, checks);
           if (check == null) {
             continue;
           }
@@ -268,9 +268,9 @@ public class CxxLint {
             for (Annotation a : f.getAnnotations()) {
               RuleProperty ruleProp = (RuleProperty) a;
               if ((ruleProp != null) 
-                && (checkDefined.parameterData.containsKey(ruleProp.key()))) {
+                && (checkDefined.getParameterData().containsKey(ruleProp.key()))) {
                 if (f.getType().equals(int.class)) {
-                  String cleanData = checkDefined.parameterData.get(ruleProp.key());
+                  String cleanData = checkDefined.getParameterData().get(ruleProp.key());
                   int value = Integer.parseInt(cleanData);
                   if (f.toString().startsWith("public ")) {
                     f.set(element, value);
@@ -287,7 +287,7 @@ public class CxxLint {
                 }
 
                 if (f.getType().equals(String.class)) {
-                  String cleanData = checkDefined.parameterData.get(ruleProp.key());
+                  String cleanData = checkDefined.getParameterData().get(ruleProp.key());
 
                   if (f.toString().startsWith("public ")) {
                     f.set(element, cleanData);

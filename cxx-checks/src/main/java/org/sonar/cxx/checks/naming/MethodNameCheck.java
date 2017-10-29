@@ -46,7 +46,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class MethodNameCheck extends SquidCheck<Grammar> { 
 
   private static final String DEFAULT = "^[A-Z][A-Za-z0-9]{2,30}$";
-  private Pattern pattern = null;
+  private Pattern pattern;
 
   /**
    * format
@@ -88,7 +88,7 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
     return result;
   }
 
-  private @Nullable AstNode getInsideMemberDeclaration(AstNode declId) {
+  private static @Nullable AstNode getInsideMemberDeclaration(AstNode declId) {
     AstNode result = null;
     if (declId.hasAncestor(CxxGrammarImpl.memberDeclaration)) {
       AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
@@ -111,7 +111,7 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
     return result;
   }
 
-  private @Nullable AstNode getOutsideMemberDeclaration(AstNode declId) {
+  private static @Nullable AstNode getOutsideMemberDeclaration(AstNode declId) {
     AstNode nestedNameSpecifier = declId.getFirstDescendant(CxxGrammarImpl.nestedNameSpecifier);
     AstNode result = null;
     if (nestedNameSpecifier != null) {

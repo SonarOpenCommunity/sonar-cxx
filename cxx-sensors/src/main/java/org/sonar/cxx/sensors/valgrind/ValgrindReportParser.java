@@ -70,7 +70,7 @@ class ValgrindReportParser {
     }
   }
 
-  private ValgrindError parseErrorTag(SMInputCursor error)
+  private static ValgrindError parseErrorTag(SMInputCursor error)
     throws javax.xml.stream.XMLStreamException {
     SMInputCursor child = error.childElementCursor();
 

@@ -69,7 +69,7 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
   public int max = DEFAULT_MAX;
 
   private final Set<AstNode> checkedNodes = new HashSet<>();
-  private int nestingLevel = 0;
+  private int nestingLevel;
 
   @Override
   public void init() {
@@ -117,7 +117,7 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
   /**
    * @return True if the given node is the 'if' in an 'else if' construct.
    */
-  private boolean isElseIf(AstNode node) {
+  private static boolean isElseIf(AstNode node) {
     return isIfStatement(node) && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
   }
 }

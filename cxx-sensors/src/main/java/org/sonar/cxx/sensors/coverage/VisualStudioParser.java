@@ -61,14 +61,14 @@ public class VisualStudioParser extends CxxCoverageParser {
     parser.parse(report);
   }
 
-  private void collectModuleMeasures(SMInputCursor module, Map<String, CoverageMeasures> coverageData)
+  private static void collectModuleMeasures(SMInputCursor module, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (module.getNext() != null) {
       handleModuleItems(module, coverageData);
     }
   }
 
-  private void handleModuleItems(SMInputCursor module, Map<String, CoverageMeasures> coverageData)
+  private static void handleModuleItems(SMInputCursor module, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     SMInputCursor child = module.childElementCursor();
     while (child.getNext() != null) {
@@ -81,7 +81,7 @@ public class VisualStudioParser extends CxxCoverageParser {
     }
   }
 
-  private void collectSourceFileMeasures(SMInputCursor sourceFiles, Map<String, CoverageMeasures> coverageData)
+  private static void collectSourceFileMeasures(SMInputCursor sourceFiles, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     SMInputCursor sourceFile = sourceFiles.childElementCursor("source_file");
     while (sourceFile.getNext() != null) {
@@ -92,7 +92,7 @@ public class VisualStudioParser extends CxxCoverageParser {
     }
   }
 
-  private void collectFunctionMeasures(SMInputCursor functions, Map<String, CoverageMeasures> coverageData)
+  private static void collectFunctionMeasures(SMInputCursor functions, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     SMInputCursor function = functions.childElementCursor("function");
     while (function.getNext() != null) {
@@ -102,7 +102,8 @@ public class VisualStudioParser extends CxxCoverageParser {
     }
   }
 
-  private void collectRangeMeasures(SMInputCursor function, Map<String, CoverageMeasures> coverageData, int conditions, int coveredConditions)
+  private static void collectRangeMeasures(SMInputCursor function, Map<String, CoverageMeasures> coverageData,
+                                           int conditions, int coveredConditions)
     throws XMLStreamException {
     SMInputCursor range = function.childElementCursor("ranges").advance().childElementCursor("range");
     CoverageMeasures builder = null;

@@ -60,7 +60,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
   private static final String DEFAULT_MESSAGE = "The regular expression matches this line";
 
   private Charset charset = Charset.forName("UTF-8");
-  private Pattern pattern = null;
+  private Pattern pattern;
 
   /**
    * matchFilePattern
@@ -148,7 +148,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return true;
   }
 
-  private boolean compare(boolean invert, boolean condition) {
+  private static boolean compare(boolean invert, boolean condition) {
     return invert ? !condition : condition;
   }
 }

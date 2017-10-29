@@ -77,7 +77,7 @@ public class CxxMetrics implements Metrics {
     return new ArrayList(this.language.getMetricsCache());
   }
 
-  private void buildMetric(String key, String description, CxxLanguage language) {
+  private static void buildMetric(String key, String description, CxxLanguage language) {
     String effectiveKey = CxxMetrics.getKey(key, language);
     Metric<?> metric = new Metric.Builder(effectiveKey, description, Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)

@@ -51,7 +51,7 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
   private static final String DEFAULT_REGULAR_EXPRESSION = "<Safetykey>.*</Safetykey>";
   private static final String DEFAULT_MESSAGE = "Source files implementing risk mitigations shall use special name suffix";
   private static final String DEFAULT_NAME_SUFFIX = "_SAFETY";
-  private Pattern pattern= null;
+  private Pattern pattern;
   /**
    * regularExpression
    */

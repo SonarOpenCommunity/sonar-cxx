@@ -56,7 +56,7 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
     }
   }
 
-  private boolean isHeader(String name) {
+  private static boolean isHeader(String name) {
     String[] suffixes = DEFAULT_NAME_SUFFIX.split(",");
     for (String suff : suffixes) {
       if (name.endsWith(suff)) {

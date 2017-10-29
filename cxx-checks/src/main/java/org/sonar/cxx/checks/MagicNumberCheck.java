@@ -35,6 +35,10 @@ import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.tag.Tag;
 
+/**
+ * Find  Magic numbers in source code
+ *
+ */
 @Rule(
   key = "MagicNumber",
   name = "Magic number should not be used",
@@ -79,7 +83,7 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
     }
   }
 
-  private boolean isConstexpr(AstNode node) {
+  private static boolean isConstexpr(AstNode node) {
     AstNode decl = null;
 
     if (node.hasAncestor(CxxGrammarImpl.initDeclarator)) {
@@ -95,7 +99,7 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
     }
   }
 
-  private boolean isConst(AstNode node) {
+  private static boolean isConst(AstNode node) {
     AstNode decl = null;
     if (node.hasAncestor(CxxGrammarImpl.initDeclarator)) {
       decl = node.getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
@@ -116,19 +120,19 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
     return exceptionsSet.contains(node.getTokenOriginalValue());
   }
 
-  private boolean isInEnum(AstNode node) {
+  private static boolean isInEnum(AstNode node) {
     return node.hasAncestor(CxxGrammarImpl.enumeratorList);
   }
 
-  private boolean isArrayInitializer(AstNode node) {
+  private static boolean isArrayInitializer(AstNode node) {
     return node.hasAncestor(CxxGrammarImpl.bracedInitList);
   }
 
-  private boolean isGenerated(AstNode node) {
+  private static boolean isGenerated(AstNode node) {
     return node.getToken().isGeneratedCode();
   }
   
-  private boolean isNullPtr(AstNode node) {
+  private static boolean isNullPtr(AstNode node) {
     return "nullptr".equals(node.getTokenValue());
   }
 

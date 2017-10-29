@@ -82,7 +82,7 @@ public class JoinStringsPreprocessor extends Preprocessor { //@todo deprecated P
     return PreprocessorAction.NO_OPERATION; //@todo deprecated PreprocessorAction
   }
 
-  private String stripQuotes(String str) {
+  private static String stripQuotes(String str) {
     return str.substring(str.indexOf('"') + 1, str.lastIndexOf('"'));
   }
 }

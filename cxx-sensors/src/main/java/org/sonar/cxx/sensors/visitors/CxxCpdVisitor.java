@@ -47,7 +47,7 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   private final Boolean ignoreIdentifiers;
   private InputFile inputFile;
   private NewCpdTokens cpdTokens;
-  private int isFunctionDefinition = 0;
+  private int isFunctionDefinition;
 
   public CxxCpdVisitor(SensorContext sensorContext, Boolean ignoreLiterals, Boolean ignoreIdentifiers) {
     this.sensorContext = sensorContext;

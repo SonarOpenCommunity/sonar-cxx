@@ -52,7 +52,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
     return true;
   }
 
-  private String read(CodeReader code) {
+  private static String read(CodeReader code) {
     StringBuilder sb = new StringBuilder();
     char ch;
 
