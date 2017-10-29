@@ -1,4 +1,4 @@
-int fibonacci(int n)  {
+int Series::fibonacci(int n)  {
     if (n == 0) {                 // +1
         return 0;
     }

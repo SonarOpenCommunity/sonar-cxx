@@ -196,6 +196,7 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
     List<AstNode> identifiers = node.getDescendants(IDENTIFIER);
     for (AstNode identifier : identifiers) {
       if (identifier.hasAncestor(CxxGrammarImpl.functionDeclSpecifierSeq) ||
+          identifier.hasAncestor(CxxGrammarImpl.nestedNameSpecifier) ||
           identifier.hasAncestor(CxxGrammarImpl.parametersAndQualifiers) ||
           identifier.hasAncestor(CxxGrammarImpl.functionBody)) continue;
       return identifier;
