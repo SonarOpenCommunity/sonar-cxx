@@ -92,8 +92,7 @@ public class CxxCompilerVcParser implements CompilerParser {
       String id = matchres.group(3);
       String msg = matchres.group(4);
       if (LOG.isDebugEnabled()) {
-        LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}",
-        new Object[]{filename, line, id, msg});
+        LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}", filename, line, id, msg);
       }
       warnings.add(new Warning(filename, line, id, msg));
     }

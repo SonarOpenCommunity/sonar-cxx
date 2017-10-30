@@ -44,7 +44,7 @@ public class CxxValgrindRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
-    assertEquals(repo.rules().size(), 16);
+    assertEquals(16, repo.rules().size());
   }
 
   @Test
@@ -60,7 +60,7 @@ public class CxxValgrindRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
-    assertEquals(repo.rules().size(), 18);
+    assertEquals(18, repo.rules().size());
   }
 
   @Test
@@ -76,7 +76,7 @@ public class CxxValgrindRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
-    assertEquals(repo.rules().size(), 17);
+    assertEquals(17, repo.rules().size());
   }
 
   @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
@@ -92,7 +92,7 @@ public class CxxValgrindRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
-    assertEquals(repo.rules().size(), 16);
+    assertEquals(16, repo.rules().size());
   }
 
   @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
@@ -108,6 +108,6 @@ public class CxxValgrindRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
-    assertEquals(repo.rules().size(), 16);
+    assertEquals(16, repo.rules().size());
   }
 }

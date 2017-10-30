@@ -100,7 +100,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     }
   }
 
-  private class PreprocessorDirectiveLocation extends TokenLocation {
+  private static class PreprocessorDirectiveLocation extends TokenLocation {
 
     PreprocessorDirectiveLocation(Token token) {
       super(token);

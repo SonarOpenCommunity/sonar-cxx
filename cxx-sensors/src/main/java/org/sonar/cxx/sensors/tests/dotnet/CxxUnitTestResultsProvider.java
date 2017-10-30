@@ -30,7 +30,7 @@ import org.sonar.plugins.dotnet.tests.UnitTestConfiguration;
 import org.sonar.plugins.dotnet.tests.UnitTestResultsAggregator;
 import org.sonar.plugins.dotnet.tests.UnitTestResultsImportSensor;
 
-public class CxxUnitTestResultsProvider {
+public final class CxxUnitTestResultsProvider {
 
   public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "vstest.reportsPaths";
   public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "nunit.reportsPaths";
@@ -53,7 +53,7 @@ public class CxxUnitTestResultsProvider {
 
   public static class CxxUnitTestResultsImportSensor extends UnitTestResultsImportSensor {
 
-    public static final Logger LOG = Loggers.get(CxxUnitTestResultsImportSensor.class);
+    private static final Logger LOG = Loggers.get(CxxUnitTestResultsImportSensor.class);
     private final CxxLanguage language;
 
     public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator, ProjectDefinition projectDef, CxxLanguage language) {

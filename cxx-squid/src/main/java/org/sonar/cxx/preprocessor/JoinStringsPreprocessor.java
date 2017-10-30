@@ -74,7 +74,7 @@ public class JoinStringsPreprocessor extends Preprocessor { //@todo deprecated P
             .setGeneratedCode(isGenerated)
             .build()
         );
-        return new PreprocessorAction(numberOfStrings, Collections.EMPTY_LIST, tokensToInject); //@todo deprecated PreprocessorAction
+        return new PreprocessorAction(numberOfStrings, Collections.emptyList(), tokensToInject); //@todo deprecated PreprocessorAction
       }
 
       return PreprocessorAction.NO_OPERATION; //@todo deprecated PreprocessorAction

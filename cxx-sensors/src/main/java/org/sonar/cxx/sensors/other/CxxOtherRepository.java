@@ -31,7 +31,7 @@ import org.sonar.cxx.CxxLanguage;
  * Loads the external rules configuration file.
  */
 public class CxxOtherRepository implements RulesDefinition {
-  public static final Logger LOG = Loggers.get(CxxOtherRepository.class);
+  private static final Logger LOG = Loggers.get(CxxOtherRepository.class);
   public static final String KEY = "other";
   public static final String RULES_KEY = "other.rules";
   private final RulesDefinitionXmlLoader xmlRuleLoader;

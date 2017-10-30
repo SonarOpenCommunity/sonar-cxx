@@ -522,7 +522,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
       if ((functionBodyNode != null) && (isDefaultOrDeleteFunctionBody(functionBodyNode))){
         return;
-	    }
+      }
 
       visitMemberDeclarator(functionDef);
     }
@@ -642,7 +642,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
     if (isPublicApiMember(aliasDeclNode)) {
       if (LOG.isDebugEnabled()) {
-      LOG.debug("AliasDeclaration");
+        LOG.debug("AliasDeclaration");
       }
 
       AstNode aliasDeclIdNode = aliasDeclNode

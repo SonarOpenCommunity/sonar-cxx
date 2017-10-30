@@ -44,7 +44,7 @@ public class ValgrindReportParserTest {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     File absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE.xml");    
     Set<ValgrindError> valgrindErrors = parser.processReport(absReportFile);
-    assertEquals(valgrindErrors.size(), 6);
+    assertEquals(6, valgrindErrors.size());
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)

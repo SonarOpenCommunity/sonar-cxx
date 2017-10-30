@@ -33,7 +33,7 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 
-public class DrMemoryParser {
+public final class DrMemoryParser {
   private static final Logger LOG = Loggers.get(DrMemoryParser.class);
   public static final Pattern rx_message_finder = Pattern.compile("^Error #\\d+:(.*)");
   public static final Pattern rx_file_finder = Pattern.compile("^.*\\[(.*):(\\d+)\\]$");

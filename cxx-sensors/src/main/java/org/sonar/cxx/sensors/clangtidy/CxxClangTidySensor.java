@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.clangtidy;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
@@ -39,7 +38,7 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
  */
 public class CxxClangTidySensor extends CxxReportSensor {
 
-  public static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
+  private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
   public static final String KEY = "Clang-Tidy";
   public static final String REPORT_PATH_KEY = "clangtidy.reportPath";
   public static final String REPORT_CHARSET_DEF = "clangtidy.charset";

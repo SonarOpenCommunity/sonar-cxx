@@ -25,8 +25,6 @@ import static org.sonar.cxx.api.CxxTokenType.CHARACTER;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
 
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.sslr.grammar.GrammarRuleKey;
@@ -354,8 +352,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   // CUDA extension
   cudaKernel;
 
-  public static final Logger LOG = Loggers.get(CxxGrammarImpl.class);
-
   public static Grammar create(CxxConfiguration conf) {
     LexerfulGrammarBuilder b = LexerfulGrammarBuilder.create();
 
@@ -425,7 +421,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   //
   private static void toplevel(LexerfulGrammarBuilder b, CxxConfiguration conf) {
 
-    if (conf.getErrorRecoveryEnabled() == true) {
+    if (conf.getErrorRecoveryEnabled()) {
       b.rule(translationUnit).is(
         b.zeroOrMore(
           b.firstOf(

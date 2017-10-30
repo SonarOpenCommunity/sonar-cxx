@@ -34,7 +34,7 @@ import com.sonar.sslr.api.Token;
  * @param <GRAMMAR>
  */
 public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar> 
-		extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
+    extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
   private final MetricDef metric;
   private int lastTokenLine;

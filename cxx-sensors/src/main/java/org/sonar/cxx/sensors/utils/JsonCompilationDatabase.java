@@ -82,7 +82,7 @@ public class JsonCompilationDatabase {
     }
   }
 
-  private void parseCommandObject(CxxCompilationUnitSettings settings,
+  private static void parseCommandObject(CxxCompilationUnitSettings settings,
       JsonCompilationDatabaseCommandObject commandObject) {
     settings.setDefines(commandObject.getDefines());
     settings.setIncludes(commandObject.getIncludes());

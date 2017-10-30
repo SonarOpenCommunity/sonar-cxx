@@ -177,9 +177,9 @@ public class CxxLint {
             try {
               templateKey = data.get("templateKeyId").getAsString();
             } catch(Exception ex) { 
-            if (LOG.isDebugEnabled()) {
-              LOG.debug("CxxLint exception in main {}", ex);
-            }
+              if (LOG.isDebugEnabled()) {
+                LOG.debug("CxxLint exception in main {}", ex);
+              }
             }
             
             String enabled = data.get("status").getAsString();
@@ -331,15 +331,15 @@ public class CxxLint {
               LOG.debug("{}", ex);
             }
           }
-       }
+        }
 
-      // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, but is slow and can overflow buffers.  [runtime/printf-5] [1]
-      LOG.info(message.getSourceCode() + "(" + message.getLine() + "): Warning : " + 
+        // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, but is slow and can overflow buffers.  [runtime/printf-5] [1]
+        LOG.info(message.getSourceCode() + "(" + message.getLine() + "): Warning : " + 
                message.formatDefaultMessage() + " [" + key + "]");
-    }
-    
-    LOG.info("LOC: {}", file.getInt(CxxMetric.LINES_OF_CODE));
-    LOG.info("COMPLEXITY: {}", file.getInt(CxxMetric.COMPLEXITY));
+      }
+
+      LOG.info("LOC: {}", file.getInt(CxxMetric.LINES_OF_CODE));
+      LOG.info("COMPLEXITY: {}", file.getInt(CxxMetric.COMPLEXITY));
 
     } catch (IOException|InstantiationException|IllegalAccessException ex) {
       LOG.error("{}", ex);

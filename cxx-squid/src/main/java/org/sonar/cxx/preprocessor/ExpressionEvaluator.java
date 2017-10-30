@@ -199,8 +199,8 @@ public final class ExpressionEvaluator {
     AstNode operand = exprAst.getFirstChild();
     boolean result = eval(operand);
 
-    while ((result != true) && ((operand = getNextOperand(operand)) != null)) {
-      result = result || eval(operand);
+    while (!result && ((operand = getNextOperand(operand)) != null)) {
+      result = eval(operand);
     }
 
     return result ? BigInteger.ONE : BigInteger.ZERO;
@@ -210,8 +210,8 @@ public final class ExpressionEvaluator {
     AstNode operand = exprAst.getFirstChild();
     boolean result = eval(operand);
 
-    while ((result != false) && ((operand = getNextOperand(operand)) != null)) {
-      result = result && eval(operand);
+    while (result && ((operand = getNextOperand(operand)) != null)) {
+      result = eval(operand);
     }
 
     return result ? BigInteger.ONE : BigInteger.ZERO;
@@ -466,8 +466,7 @@ public final class ExpressionEvaluator {
   }
 
   private BigInteger evalHasIncludeExpression(AstNode exprAst) {
-    String macroName = exprAst.getFirstChild().getTokenValue();
-    return preprocessor.expandHasIncludeExpression(macroName, exprAst) ? BigInteger.ONE : BigInteger.ZERO;
+    return preprocessor.expandHasIncludeExpression(exprAst) ? BigInteger.ONE : BigInteger.ZERO;
   }
 
   public static BigInteger decode(String number) {

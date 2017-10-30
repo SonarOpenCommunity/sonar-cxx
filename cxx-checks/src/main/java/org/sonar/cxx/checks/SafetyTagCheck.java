@@ -112,10 +112,8 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
         if (trivia.isComment()) {
           String comment = trivia.getToken().getOriginalValue();
           Matcher regexMatcher = pattern.matcher(comment);
-          if (regexMatcher.find()) {
-            if (!getContext().getFile().getName().contains(getSuffix())) {
-              getContext().createLineViolation(this, getMessage() + " : " + regexMatcher.group(0), trivia.getToken());
-            }
+          if (regexMatcher.find() && !getContext().getFile().getName().contains(getSuffix())) {
+            getContext().createLineViolation(this, getMessage() + " : " + regexMatcher.group(0), trivia.getToken());
           }
         }
       }

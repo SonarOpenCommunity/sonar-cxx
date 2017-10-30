@@ -119,8 +119,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
     final List<CompilerParser.Warning> warnings = new LinkedList<>();
 
     // Iterate through the lines of the input file
-    LOG.info("Scanner '{}' initialized with report '{}', CharSet= '{}'",
-      new Object[]{parser.key(), report, reportCharset});
+    LOG.info("Scanner '{}' initialized with report '{}', CharSet= '{}'", parser.key(), report, reportCharset);
     try {
       parser.processReport(context, report, reportCharset, reportRegEx, warnings);
       for (CompilerParser.Warning w : warnings) {

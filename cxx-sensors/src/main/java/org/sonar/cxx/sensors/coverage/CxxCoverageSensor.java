@@ -367,7 +367,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
 
   protected String getITReportPathKey() {
-   return this.language.getPluginProperty(IT_REPORT_PATH_KEY);
+    return this.language.getPluginProperty(IT_REPORT_PATH_KEY);
   }
 
   protected String getOverallReportPathKey() {

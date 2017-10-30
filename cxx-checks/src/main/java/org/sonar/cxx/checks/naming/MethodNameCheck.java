@@ -74,7 +74,7 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
     }
   }
 
-  private @Nullable AstNode getMethodName(AstNode functionDefinition) {
+  private static @Nullable AstNode getMethodName(AstNode functionDefinition) {
     AstNode declId = functionDefinition.getFirstDescendant(CxxGrammarImpl.declaratorId);
     AstNode result = null;
     if (declId != null) {
@@ -98,11 +98,9 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
           AstNode classHeadName = classSpecifier.getFirstDescendant(CxxGrammarImpl.classHeadName);
           if (classHeadName != null) {
             AstNode className = classHeadName.getLastChild(CxxGrammarImpl.className);
-            if (className != null) {
-              // if class name is equal to method name then it is a ctor or dtor
-              if (!className.getTokenValue().equals(idNode.getTokenValue())) {
-                result = idNode;
-              }
+            // if class name is equal to method name then it is a ctor or dtor
+            if ((className != null) && !className.getTokenValue().equals(idNode.getTokenValue())) {
+              result = idNode;
             }
           }
         }
@@ -118,11 +116,9 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
       AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
       if (idNode != null) {
         AstNode className = nestedNameSpecifier.getFirstDescendant(CxxGrammarImpl.className);
-        if (className != null) {
-          // if class name is equal to method name then it is a ctor or dtor
-          if (!className.getTokenValue().equals(idNode.getTokenValue())) {
-            result = idNode;
-          }
+        // if class name is equal to method name then it is a ctor or dtor
+        if ((className != null) && !className.getTokenValue().equals(idNode.getTokenValue())) {
+          result = idNode;
         }
       }
     }

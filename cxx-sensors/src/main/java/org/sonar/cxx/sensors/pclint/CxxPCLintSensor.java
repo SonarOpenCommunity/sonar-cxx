@@ -110,8 +110,9 @@ public class CxxPCLintSensor extends CxxReportSensor {
               
             } else {
               LOG.warn("PC-lint warning ignored: {}", msg);
-              LOG.debug("File: {}, Line: {}, ID: {}, msg: {}",
-                new Object[]{file, line, id, msg});
+              if (LOG.isDebugEnabled()) {
+                LOG.debug("File: {}, Line: {}, ID: {}, msg: {}", file, line, id, msg);
+              }
             }
           }
         } catch (com.ctc.wstx.exc.WstxUnexpectedCharException 

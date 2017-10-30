@@ -35,7 +35,7 @@ import org.sonar.squidbridge.SquidAstVisitor;
 import com.google.common.annotations.VisibleForTesting;
 import com.sonar.sslr.api.Grammar;
 
-public class CxxChecks {
+public final class CxxChecks {
 
   private final CheckFactory checkFactory;
   private final Set<Checks<SquidAstVisitor<Grammar>>> checksByRepository = new HashSet<>();
