@@ -136,7 +136,7 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  class Macro {
+  static final class Macro {
     private final String name;
     private final List<Token> params;
     private final List<Token> body;
@@ -144,16 +144,8 @@ public class CxxPreprocessor extends Preprocessor {
 
     public Macro(String name, @Nullable List<Token> params, @Nullable List<Token> body, boolean variadic) {
       this.name = name;
-      if (params != null) {
-        this.params = new ArrayList<>(params);
-      } else {
-        this.params = null;
-      }
-      if (body != null) {
-        this.body = new ArrayList<>(body);
-      } else {
-        this.body = null;
-      }
+      this.params = params;
+      this.body = body;
       this.isVariadic = variadic;
     }
 
@@ -515,14 +507,14 @@ public class CxxPreprocessor extends Preprocessor {
       currentFileState.conditionWasTrue = false;
       if (LOG.isTraceEnabled()) {
         LOG.trace("[{}:{}]: handling #if line '{}'",
-          new Object[]{filename, token.getLine(), token.getValue()});
+          filename, token.getLine(), token.getValue());
       }
       try {
         currentFileState.skipPreprocessorDirectives = false;
         currentFileState.skipPreprocessorDirectives = !ifExprEvaluator.eval(ast.getFirstDescendant(CppGrammar.constantExpression));
       } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
-          new Object[]{filename, token.getLine(), token.getValue()});
+          filename, token.getLine(), token.getValue());
         LOG.error("{}", e);
         currentFileState.skipPreprocessorDirectives = false;
       }
@@ -530,7 +522,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (currentFileState.skipPreprocessorDirectives) {
         if (LOG.isTraceEnabled()) {
           LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-            new Object[]{filename, token.getLine(), token.getValue()});
+            filename, token.getLine(), token.getValue());
         }
       } else {
         currentFileState.conditionWasTrue = true;
@@ -550,13 +542,13 @@ public class CxxPreprocessor extends Preprocessor {
         try {
           if (LOG.isTraceEnabled()) {
             LOG.trace("[{}:{}]: handling #elif line '{}'",
-              new Object[]{filename, token.getLine(), token.getValue()});
+              filename, token.getLine(), token.getValue());
           }
           currentFileState.skipPreprocessorDirectives = false;
           currentFileState.skipPreprocessorDirectives = !ifExprEvaluator.eval(ast.getFirstDescendant(CppGrammar.constantExpression));
         } catch (EvaluationException e) {
           LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
-            new Object[]{filename, token.getLine(), token.getValue()});
+            filename, token.getLine(), token.getValue());
           LOG.error("{}", e);
           currentFileState.skipPreprocessorDirectives = false;
         }
@@ -564,7 +556,7 @@ public class CxxPreprocessor extends Preprocessor {
         if (currentFileState.skipPreprocessorDirectives) {
           if (LOG.isTraceEnabled()) {
             LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-              new Object[]{filename, token.getLine(), token.getValue()});
+              filename, token.getLine(), token.getValue());
           }
         } else {
           currentFileState.conditionWasTrue = true;
@@ -588,7 +580,7 @@ public class CxxPreprocessor extends Preprocessor {
       if ((tokType.equals(IFDEF) && macro == null) || (tokType.equals(IFNDEF) && macro != null)) {
         if (LOG.isTraceEnabled()) {
           LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-            new Object[]{filename, token.getLine(), token.getValue()});
+            filename, token.getLine(), token.getValue());
         }
         currentFileState.skipPreprocessorDirectives = true;
       }
@@ -645,7 +637,7 @@ public class CxxPreprocessor extends Preprocessor {
 
     Macro macro = parseMacroDefinition(ast);
     if (LOG.isTraceEnabled()) {
-      LOG.trace("[{}:{}]: storing macro: '{}'", new Object[]{filename, token.getLine(), macro});
+      LOG.trace("[{}:{}]: storing macro: '{}'", filename, token.getLine(), macro);
     }
     getMacros().put(macro.name, macro);
 
@@ -688,7 +680,7 @@ public class CxxPreprocessor extends Preprocessor {
       analysedFiles.add(includedFile.getAbsoluteFile());
       if (LOG.isTraceEnabled()) {
         LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
-            new Object[]{filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
+            filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath());
       }
 
       globalStateStack.push(currentFileState);
@@ -825,7 +817,7 @@ public class CxxPreprocessor extends Preprocessor {
     return tokensConsumedMatchingArgs;
   }
 
-  public Boolean expandHasIncludeExpression(String macroName, AstNode exprAst) {
+  public Boolean expandHasIncludeExpression(AstNode exprAst) {
     File file = getFileUnderAnalysis();
     String filePath = file == null ? rootFilePath : file.getAbsolutePath();
     return findIncludedFile(exprAst, exprAst.getToken(), filePath) != null;
@@ -851,7 +843,7 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  private String serialize(List<Token> tokens) {
+  private static String serialize(List<Token> tokens) {
     return serialize(tokens, " ");
   }
 
@@ -863,7 +855,7 @@ public class CxxPreprocessor extends Preprocessor {
     return js.toString();
   }
 
-  private int matchArguments(List<Token> tokens, List<Token> arguments) {
+  private static int matchArguments(List<Token> tokens, List<Token> arguments) {
     List<Token> rest = new ArrayList<>(tokens);
     try {
       rest = match(rest, "(");
@@ -899,7 +891,7 @@ public class CxxPreprocessor extends Preprocessor {
     return tokens.subList(1, tokens.size());
   }
 
-  private List<Token> matchArgument(List<Token> tokens, List<Token> arguments) throws MismatchException {
+  private static List<Token> matchArgument(List<Token> tokens, List<Token> arguments) throws MismatchException {
     int nestingLevel = 0;
     int tokensConsumed = 0;
     int noTokens = tokens.size();
@@ -1057,7 +1049,7 @@ public class CxxPreprocessor extends Preprocessor {
     return newTokens;
   }
 
-  private List<Token> evaluateHashhashOperators(List<Token> tokens) {
+  private static List<Token> evaluateHashhashOperators(List<Token> tokens) {
     List<Token> newTokens = new ArrayList<>();
 
     Iterator<Token> it = tokens.iterator();
@@ -1196,7 +1188,7 @@ public class CxxPreprocessor extends Preprocessor {
       .getFirstDescendant(CppGrammar.defineLine));
   }
 
-  private Macro parseMacroDefinition(AstNode defineLineAst) {
+  private static Macro parseMacroDefinition(AstNode defineLineAst) {
     AstNode ast = defineLineAst.getFirstChild();
     AstNode nameNode = ast.getFirstDescendant(CppGrammar.ppToken);
     String macroName = nameNode.getTokenValue();
@@ -1278,7 +1270,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (parseError || ((includeBodyAst != null) 
           && includeBodyAst.getFirstDescendant(CppGrammar.includeBodyFreeform) != null)) {
         LOG.warn("[{}:{}]: cannot parse included filename: '{}'",
-          new Object[]{currFileName, token.getLine(), expandedIncludeBody});
+          currFileName, token.getLine(), expandedIncludeBody);
         if (LOG.isDebugEnabled()) {
           LOG.debug("Token : {}", token.toString());
         }
