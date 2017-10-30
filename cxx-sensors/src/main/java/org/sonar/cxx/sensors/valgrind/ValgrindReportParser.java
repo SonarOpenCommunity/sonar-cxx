@@ -47,9 +47,75 @@ class ValgrindReportParser {
     return streamHandler.valgrindErrors;
   }
 
-  private class ValgrindReportStreamHandler implements StaxParser.XmlStreamHandler {
+  private static class ValgrindReportStreamHandler implements StaxParser.XmlStreamHandler {
 
     private final Set<ValgrindError> valgrindErrors = new HashSet<>();
+
+    private static ValgrindStack parseStackTag(SMInputCursor child)
+      throws javax.xml.stream.XMLStreamException {
+      ValgrindStack stack = new ValgrindStack();
+      SMInputCursor frameCursor = child.childElementCursor("frame");
+      while (frameCursor.getNext() != null) {
+
+        SMInputCursor frameChild = frameCursor.childElementCursor();
+
+        String ip = null;
+        String obj = null;
+        String fn = null;
+        String dir = null;
+        String file = null;
+        String line = null;
+
+        while (frameChild.getNext() != null) {
+          String tagName = frameChild.getLocalName();
+
+          if ("ip".equalsIgnoreCase(tagName)) {
+            ip = frameChild.getElemStringValue();
+          } else if ("obj".equalsIgnoreCase(tagName)) {
+            obj = frameChild.getElemStringValue();
+          } else if ("fn".equalsIgnoreCase(tagName)) {
+            fn = frameChild.getElemStringValue();
+          } else if ("dir".equalsIgnoreCase(tagName)) {
+            dir = frameChild.getElemStringValue();
+          } else if ("file".equalsIgnoreCase(tagName)) {
+            file = frameChild.getElemStringValue();
+          } else if ("line".equalsIgnoreCase(tagName)) {
+            line = frameChild.getElemStringValue();
+          }
+        }
+        stack.addFrame(new ValgrindFrame(ip, obj, fn, dir, file, line));
+      }
+
+      return stack;
+    }
+
+    private static ValgrindError parseErrorTag(SMInputCursor error)
+      throws javax.xml.stream.XMLStreamException {
+      SMInputCursor child = error.childElementCursor();
+
+      String kind = null;
+      String text = null;
+      ValgrindStack stack = null;
+      while (child.getNext() != null) {
+        String tagName = child.getLocalName();
+        if ("kind".equalsIgnoreCase(tagName)) {
+          kind = child.getElemStringValue();
+        } else if ("xwhat".equalsIgnoreCase(tagName)) {
+          text = child.childElementCursor("text").advance().getElemStringValue();
+        } else if ("what".equalsIgnoreCase(tagName)) {
+          text = child.getElemStringValue();
+        } else if ("stack".equalsIgnoreCase(tagName)) {
+          stack = parseStackTag(child);
+        }
+      }
+
+      if (text == null || kind == null || stack == null) {
+        String msg = "Valgrind error is incomplete: we require all of 'kind', '*what.text' and 'stack'";
+        child.throwStreamException(msg);
+      }
+
+      return new ValgrindError(kind, text, stack);
+    }
 
     /**
      * {@inheritDoc}
@@ -68,71 +134,5 @@ class ValgrindReportParser {
         valgrindErrors.add(parseErrorTag(errorCursor));
       }
     }
-  }
-
-  private ValgrindError parseErrorTag(SMInputCursor error)
-    throws javax.xml.stream.XMLStreamException {
-    SMInputCursor child = error.childElementCursor();
-
-    String kind = null;
-    String text = null;
-    ValgrindStack stack = null;
-    while (child.getNext() != null) {
-      String tagName = child.getLocalName();
-      if ("kind".equalsIgnoreCase(tagName)) {
-        kind = child.getElemStringValue();
-      } else if ("xwhat".equalsIgnoreCase(tagName)) {
-        text = child.childElementCursor("text").advance().getElemStringValue();
-      } else if ("what".equalsIgnoreCase(tagName)) {
-        text = child.getElemStringValue();
-      } else if ("stack".equalsIgnoreCase(tagName)) {
-        stack = parseStackTag(child);
-      }
-    }
-
-    if (text == null || kind == null || stack == null) {
-      String msg = "Valgrind error is incomplete: we require all of 'kind', '*what.text' and 'stack'";
-      child.throwStreamException(msg);
-    }
-
-    return new ValgrindError(kind, text, stack);
-  }
-
-  private static ValgrindStack parseStackTag(SMInputCursor child)
-    throws javax.xml.stream.XMLStreamException {
-    ValgrindStack stack = new ValgrindStack();
-    SMInputCursor frameCursor = child.childElementCursor("frame");
-    while (frameCursor.getNext() != null) {
-
-      SMInputCursor frameChild = frameCursor.childElementCursor();
-
-      String ip = null;
-      String obj = null;
-      String fn = null;
-      String dir = null;
-      String file = null;
-      String line = null;
-
-      while (frameChild.getNext() != null) {
-        String tagName = frameChild.getLocalName();
-
-        if ("ip".equalsIgnoreCase(tagName)) {
-          ip = frameChild.getElemStringValue();
-        } else if ("obj".equalsIgnoreCase(tagName)) {
-          obj = frameChild.getElemStringValue();
-        } else if ("fn".equalsIgnoreCase(tagName)) {
-          fn = frameChild.getElemStringValue();
-        } else if ("dir".equalsIgnoreCase(tagName)) {
-          dir = frameChild.getElemStringValue();
-        } else if ("file".equalsIgnoreCase(tagName)) {
-          file = frameChild.getElemStringValue();
-        } else if ("line".equalsIgnoreCase(tagName)) {
-          line = frameChild.getElemStringValue();
-        }
-      }
-      stack.addFrame(new ValgrindFrame(ip, obj, fn, dir, file, line));
-    }
-
-    return stack;
   }
 }

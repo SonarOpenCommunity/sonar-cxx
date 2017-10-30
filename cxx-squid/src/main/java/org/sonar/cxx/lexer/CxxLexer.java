@@ -44,19 +44,19 @@ import org.sonar.cxx.CxxLanguage;
 
 public final class CxxLexer {
 
-  private CxxLexer() {
-  }
-
-  public static Lexer create(CxxLanguage language, Preprocessor... preprocessors) { //@todo deprecated Preprocessor
-    return create(new CxxConfiguration(language), preprocessors);
-  }
-
   private static final String EXPONENT = "([Ee][+-]?+[0-9_]([']?+[0-9_]++)*+)";
   private static final String BINARY_EXPONENT = "([pP][+-]?+[0-9]([']?+[0-9]++)*+)"; // since C++17
   //private static final String INTEGER_SUFFIX = "(((U|u)(i64|LL|ll|L|l)?)|((i64|LL|ll|L|l)(u|U)?))";  
   //private static final String FLOAT_SUFFIX = "(f|l|F|L)";
   private static final String UD_SUFFIX = "([_a-zA-Z]([_a-zA-Z0-9]*+))"; // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
   private static final String HEXDIGIT_SEQUENCE = "([0-9a-fA-F]([']?+[0-9a-fA-F]++)*+)";
+
+  private CxxLexer() {
+  }
+
+  public static Lexer create(CxxLanguage language, Preprocessor... preprocessors) { //@todo deprecated Preprocessor
+    return create(new CxxConfiguration(language), preprocessors);
+  }
 
   public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) { //@todo deprecated Preprocessor
     

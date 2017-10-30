@@ -474,7 +474,7 @@ public final class CPlugin implements Plugin {
     l.add(CRuleRepository.class);
 
     // reusable elements
-    l.addAll(GetSensorsImpl());
+    l.addAll(getSensorsImpl());
     
     // properties elements
     l.addAll(generalProperties());
@@ -486,7 +486,7 @@ public final class CPlugin implements Plugin {
     context.addExtensions(l);
   }
 
-  public List<Object> GetSensorsImpl() {
+  public List<Object> getSensorsImpl() {
     List<Object> l = new ArrayList<>();
 
     // utility classes

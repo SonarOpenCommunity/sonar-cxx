@@ -248,7 +248,7 @@ public class CxxVCppBuildLogParser {
     }
   }
 
-  private List<String> getMatches(Pattern pattern, String text) {
+  private static List<String> getMatches(Pattern pattern, String text) {
     List<String> matches = new ArrayList<>();
     Matcher m = pattern.matcher(text);
     while (m.find()) {

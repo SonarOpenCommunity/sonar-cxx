@@ -70,7 +70,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
    * Exclude subsequent generated nodes, if they are consecutive and on the same
    * line.
    */
-  private boolean isGeneratedNodeExcluded(AstNode astNode) {
+  private static boolean isGeneratedNodeExcluded(AstNode astNode) {
     AstNode prev = astNode.getPreviousAstNode();
     return prev != null
       && prev.getTokenLine() == astNode.getTokenLine()
@@ -103,7 +103,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
    * Exclude type alias definitions inside of blocks ( ... { using a = b; ... }
    * ... )
    */
-  private boolean isTypeAlias(AstNode astNode) {
+  private static boolean isTypeAlias(AstNode astNode) {
     return astNode.getFirstDescendant(CxxGrammarImpl.aliasDeclaration) != null;
   }
 

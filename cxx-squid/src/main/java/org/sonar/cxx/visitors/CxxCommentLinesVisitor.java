@@ -42,7 +42,7 @@ public class CxxCommentLinesVisitor<GRAMMAR extends Grammar> extends SquidAstVis
                                    implements AstAndTokenVisitor { 
 
   private final Set<Integer> comments = new HashSet<>();
-  private boolean seenFirstToken = false;
+  private boolean seenFirstToken;
 
   @Override
   public void init() {

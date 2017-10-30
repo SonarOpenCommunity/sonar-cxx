@@ -30,9 +30,9 @@ import org.sonar.api.batch.BatchSide;
 @BatchSide
 public class CxxCoverageCache {
 
-  private final static Map<String, Map<String, CoverageMeasures>> CACHE_UNIT = new HashMap<>();
-  private final static Map<String, Map<String, CoverageMeasures>> CACHE_IT = new HashMap<>();
-  private final static Map<String, Map<String, CoverageMeasures>> CACHE_OVERALL = new HashMap<>();
+  private static final Map<String, Map<String, CoverageMeasures>> CACHE_UNIT = new HashMap<>();
+  private static final Map<String, Map<String, CoverageMeasures>> CACHE_IT = new HashMap<>();
+  private static final Map<String, Map<String, CoverageMeasures>> CACHE_OVERALL = new HashMap<>();
   
   public CxxCoverageCache() {
   }

@@ -35,6 +35,8 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
+import com.sonar.sslr.api.Grammar;
+
 public class CxxParserTest extends ParserBaseTest {
 
   String errSources = "/parser/bad/error_recovery_declaration.cc";
@@ -96,7 +98,7 @@ public class CxxParserTest extends ParserBaseTest {
 
     File cfile = (File) listFiles(cCompatibilityFiles, new String[]{"c"}).toArray()[0];
 
-    SquidAstVisitorContext context = mock(SquidAstVisitorContext.class);
+    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(cfile);
 
     conf.setCFilesPatterns(new String[]{""});

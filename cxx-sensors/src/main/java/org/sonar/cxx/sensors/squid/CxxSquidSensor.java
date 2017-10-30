@@ -209,7 +209,8 @@ public class CxxSquidSensor implements Sensor {
 
     String filePaths = this.language.getStringOption(CxxCompilerSensor.REPORT_PATH_KEY);
     if (filePaths != null && !"".equals(filePaths)) {
-      List<File> reports = CxxReportSensor.getReports(context.settings(), fs.baseDir(), this.language.getPluginProperty(CxxCompilerSensor.REPORT_PATH_KEY));
+      List<File> reports = CxxReportSensor.getReports(context.settings(), fs.baseDir(),
+                           this.language.getPluginProperty(CxxCompilerSensor.REPORT_PATH_KEY));
       cxxConf.setCompilationPropertiesWithBuildLog(reports,
         this.language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF),
         this.language.getStringOption(CxxCompilerSensor.REPORT_CHARSET_DEF));
@@ -244,7 +245,7 @@ public class CxxSquidSensor implements Sensor {
     }
   }
 
-  private void saveMeasures(InputFile inputFile, SourceFile squidFile, SensorContext context) {
+  private static void saveMeasures(InputFile inputFile, SourceFile squidFile, SensorContext context) {
     context.<Integer>newMeasure().forMetric(CoreMetrics.FILES).on(inputFile).withValue(squidFile.getInt(CxxMetric.FILES)).save();
     context.<Integer>newMeasure().forMetric(CoreMetrics.NCLOC).on(inputFile).withValue(squidFile.getInt(CxxMetric.LINES_OF_CODE)).save();
     context.<Integer>newMeasure().forMetric(CoreMetrics.STATEMENTS).on(inputFile).withValue(squidFile.getInt(CxxMetric.STATEMENTS)).save();
@@ -283,7 +284,8 @@ public class CxxSquidSensor implements Sensor {
     context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY_IN_FUNCTIONS).on(inputFile).withValue(complexityInFunctions).save();
   }
 
-  private void saveFilesComplexityDistribution(InputFile inputFile, SourceFile squidFile, SensorContext context) {    
+  private static void saveFilesComplexityDistribution(InputFile inputFile, SourceFile squidFile, 
+                                                      SensorContext context) {    
     RangeDistributionBuilder fileComplexityDistribution = new RangeDistributionBuilder(LIMITS_COMPLEXITY_FILES);
     double complexity = squidFile.getDouble(CxxMetric.COMPLEXITY);
     fileComplexityDistribution.add(complexity);    

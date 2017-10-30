@@ -88,7 +88,7 @@ public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
     return cases;
   }
 
-  private void getSwitchCases(List<AstNode> result, AstNode node) {
+  private static void getSwitchCases(List<AstNode> result, AstNode node) {
     if (isSwitchStatement(node)) {
       return;
     }

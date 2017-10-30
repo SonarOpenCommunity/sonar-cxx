@@ -36,7 +36,7 @@ import org.sonar.cxx.CxxLanguage;
 
 public final class CxxParser {
 
-  private static volatile CxxPreprocessor cxxpp = null;
+  private static volatile CxxPreprocessor cxxpp;
 
   private CxxParser() {
   }

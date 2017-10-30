@@ -92,7 +92,7 @@ class ValgrindStack {
     return null;
   }
 
-  private boolean isInside(String path, String folder) {
+  private static boolean isInside(String path, String folder) {
     return (path == null || "".equals(path)) ? false : path.startsWith(folder);
   }
   

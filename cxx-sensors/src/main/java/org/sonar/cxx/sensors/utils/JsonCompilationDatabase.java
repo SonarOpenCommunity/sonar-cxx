@@ -82,7 +82,7 @@ public class JsonCompilationDatabase {
     }
   }
 
-  private void parseCommandObject(CxxCompilationUnitSettings settings,
+  private static void parseCommandObject(CxxCompilationUnitSettings settings,
       JsonCompilationDatabaseCommandObject commandObject) {
     settings.setDefines(commandObject.getDefines());
     settings.setIncludes(commandObject.getIncludes());
@@ -141,7 +141,7 @@ public class JsonCompilationDatabase {
     settings.setIncludes(includes);
   }
 
-  private String[] tokenizeCommandLine(String cmdLine) {
+  private static String[] tokenizeCommandLine(String cmdLine) {
     List<String> args = new ArrayList<>();
     boolean escape = false;
     char stringOpen = 0;

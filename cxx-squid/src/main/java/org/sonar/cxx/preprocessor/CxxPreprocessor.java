@@ -43,8 +43,8 @@ import org.sonar.api.utils.log.Loggers;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Preprocessor; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
-import com.sonar.sslr.api.PreprocessorAction; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+import com.sonar.sslr.api.Preprocessor; //@TODO: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+import com.sonar.sslr.api.PreprocessorAction; //@TODO: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
@@ -90,9 +90,12 @@ import static org.sonar.cxx.preprocessor.CppGrammar.undefLine;
 public class CxxPreprocessor extends Preprocessor { 
 
   private final CxxLanguage language;
-//@todo: deprecated Preprocessor
+  private File currentContextFile;
+  private String rootFilePath;
 
-  static private class State {
+//@TODO: deprecated Preprocessor
+
+  private static class State {
     private boolean skipPreprocessorDirectives;
     private boolean conditionWasTrue;
     private int conditionalInclusionCounter;
@@ -105,6 +108,9 @@ public class CxxPreprocessor extends Preprocessor {
       this.includeUnderAnalysis = includeUnderAnalysis;
     }
 
+    /**
+     * reset preprocessor state
+     */
     public final void reset() {
       skipPreprocessorDirectives = false;
       conditionWasTrue = false;
@@ -130,7 +136,7 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  class Macro {
+  static final class Macro {
     private final String name;
     private final List<Token> params;
     private final List<Token> body;
@@ -155,22 +161,20 @@ public class CxxPreprocessor extends Preprocessor {
         ? count >= params.size() - 1
         : count == params.size();
     }
-
-
   }
 
   private static final Logger LOG = Loggers.get(CxxPreprocessor.class);
   private Parser<Grammar> pplineParser;
   private final MapChain<String, Macro> fixedMacros = new MapChain<>();
-  private MapChain<String, Macro> unitMacros = null;
+  private MapChain<String, Macro> unitMacros;
   private final Set<File> analysedFiles = new HashSet<>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
-  private SourceCodeProvider unitCodeProvider = null;
+  private SourceCodeProvider unitCodeProvider;
   private SquidAstVisitorContext<Grammar> context;
   private ExpressionEvaluator ifExprEvaluator;
   private List<String> cFilesPatterns;
   private CxxConfiguration conf;
-  private CxxCompilationUnitSettings compilationUnitSettings = null;
+  private CxxCompilationUnitSettings compilationUnitSettings;
   private static final String VARIADICPARAMETER = "__VA_ARGS__";
 
   public static class Include {
@@ -231,25 +235,6 @@ public class CxxPreprocessor extends Preprocessor {
     this(context, conf, new SourceCodeProvider(), language);
   }
 
-  private void registerMacros(Map<String, String> standardMacros) {
-    for (Map.Entry<String, String> entry : standardMacros.entrySet()) {
-      Token bodyToken;
-      try {
-        bodyToken = Token.builder()
-          .setLine(1)
-          .setColumn(0)
-          .setURI(new java.net.URI(""))
-          .setValueAndOriginalValue(entry.getValue())
-          .setType(STRING)
-          .build();
-      } catch (java.net.URISyntaxException e) {
-        throw new PreprocessorRuntimeException("URI cannot be handled", e);
-      }
-
-      getMacros().put(entry.getKey(), new Macro(entry.getKey(), null, Collections.singletonList(bodyToken), false));
-    }
-  }
-
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context,
     CxxConfiguration conf,
     SourceCodeProvider sourceCodeProvider,
@@ -285,13 +270,34 @@ public class CxxPreprocessor extends Preprocessor {
       for (String include : conf.getForceIncludeFiles()) {
         LOG.debug("parsing force include: '{}'", include);
         if (!"".equals(include)) {
-          parseIncludeLine("#include \"" + include + "\"", "sonar." + this.language.getPropertiesKey() + ".forceIncludes", conf.getEncoding());
+          parseIncludeLine("#include \"" + include + "\"", "sonar." + this.language.getPropertiesKey()
+                           + ".forceIncludes", conf.getEncoding());
         }
       }
     } finally {
       getMacros().setHighPrio(false);
     }
   }
+
+  private void registerMacros(Map<String, String> standardMacros) {
+    for (Map.Entry<String, String> entry : standardMacros.entrySet()) {
+      Token bodyToken;
+      try {
+        bodyToken = Token.builder()
+          .setLine(1)
+          .setColumn(0)
+          .setURI(new java.net.URI(""))
+          .setValueAndOriginalValue(entry.getValue())
+          .setType(STRING)
+          .build();
+      } catch (java.net.URISyntaxException e) {
+        throw new PreprocessorRuntimeException("URI cannot be handled", e);
+      }
+
+      getMacros().put(entry.getKey(), new Macro(entry.getKey(), null, Collections.singletonList(bodyToken), false));
+    }
+  }
+
 
   public Collection<Include> getIncludedFiles(File file) {
     return includedFiles.get(file.getPath());
@@ -313,11 +319,8 @@ public class CxxPreprocessor extends Preprocessor {
     return false;
   }
 
-  private File currentContextFile;
-  private String rootFilePath;
-
   @Override
-  public PreprocessorAction process(List<Token> tokens) { //@todo: deprecated PreprocessorAction
+  public PreprocessorAction process(List<Token> tokens) { //TODO: deprecated PreprocessorAction
     Token token = tokens.get(0);
     TokenType ttype = token.getType();
 
@@ -374,7 +377,7 @@ public class CxxPreprocessor extends Preprocessor {
           for (String include : conf.getForceIncludeFiles()) {
             LOG.debug("parsing force include to unit: '{}'", include);
             if (!"".equals(include)) {
-              // todo -> this needs to come from language
+              // TODO -> this needs to come from language
               parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes", conf.getEncoding());
             }
           }
@@ -410,7 +413,8 @@ public class CxxPreprocessor extends Preprocessor {
       } catch (com.sonar.sslr.api.RecognitionException re) {
         LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
         LOG.debug("Parser exception: '{}'", re);
-        return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+        return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)),
+               new ArrayList<Token>()); //TODO: deprecated PreprocessorAction
       }
 
       AstNodeType lineKind = lineAst.getType();
@@ -428,7 +432,8 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       if (currentFileState.skipPreprocessorDirectives) {
-        return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+        return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)),
+               new ArrayList<Token>()); //TODO: deprecated PreprocessorAction
       }
 
       if (lineKind.equals(defineLine)) {
@@ -441,12 +446,14 @@ public class CxxPreprocessor extends Preprocessor {
 
       // Ignore all other preprocessor directives (which are not handled explicitly)
       // and strip them from the stream
-      return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+      return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)),
+             new ArrayList<Token>()); //TODO: deprecated PreprocessorAction
     }
 
     if (!ttype.equals(EOF)) {
       if (currentFileState.skipPreprocessorDirectives) {
-        return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+        return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)),
+               new ArrayList<Token>()); //TODO: deprecated PreprocessorAction
       }
 
       if (!ttype.equals(STRING) && !ttype.equals(NUMBER)) {
@@ -454,7 +461,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
     }
 
-    return PreprocessorAction.NO_OPERATION; //@todo: deprecated PreprocessorAction
+    return PreprocessorAction.NO_OPERATION; //TODO: deprecated PreprocessorAction
   }
 
   public void finishedPreprocessing(File file) {
@@ -495,19 +502,19 @@ public class CxxPreprocessor extends Preprocessor {
     return result;
   }
 
-  PreprocessorAction handleIfLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
+  PreprocessorAction handleIfLine(AstNode ast, Token token, String filename) { //TODO: deprecated PreprocessorAction
     if (!currentFileState.skipPreprocessorDirectives) {
       currentFileState.conditionWasTrue = false;
       if (LOG.isTraceEnabled()) {
         LOG.trace("[{}:{}]: handling #if line '{}'",
-          new Object[]{filename, token.getLine(), token.getValue()});
+          filename, token.getLine(), token.getValue());
       }
       try {
         currentFileState.skipPreprocessorDirectives = false;
         currentFileState.skipPreprocessorDirectives = !ifExprEvaluator.eval(ast.getFirstDescendant(CppGrammar.constantExpression));
       } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
-          new Object[]{filename, token.getLine(), token.getValue()});
+          filename, token.getLine(), token.getValue());
         LOG.error("{}", e);
         currentFileState.skipPreprocessorDirectives = false;
       }
@@ -515,7 +522,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (currentFileState.skipPreprocessorDirectives) {
         if (LOG.isTraceEnabled()) {
           LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-            new Object[]{filename, token.getLine(), token.getValue()});
+            filename, token.getLine(), token.getValue());
         }
       } else {
         currentFileState.conditionWasTrue = true;
@@ -524,23 +531,24 @@ public class CxxPreprocessor extends Preprocessor {
       currentFileState.conditionalInclusionCounter++;
     }
 
-    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), 
+           new ArrayList<Token>()); //TODO: deprecated PreprocessorAction
   }
 
-  PreprocessorAction handleElIfLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
+  PreprocessorAction handleElIfLine(AstNode ast, Token token, String filename) { //TODO: deprecated PreprocessorAction
     // Handling of an elif line is similar to handling of an if line but doesn't increase the nesting level
     if (currentFileState.conditionalInclusionCounter == 0) {
       if (currentFileState.skipPreprocessorDirectives && !currentFileState.conditionWasTrue) { //the preceding clauses had been evaluated to false
         try {
           if (LOG.isTraceEnabled()) {
             LOG.trace("[{}:{}]: handling #elif line '{}'",
-              new Object[]{filename, token.getLine(), token.getValue()});
+              filename, token.getLine(), token.getValue());
           }
           currentFileState.skipPreprocessorDirectives = false;
           currentFileState.skipPreprocessorDirectives = !ifExprEvaluator.eval(ast.getFirstDescendant(CppGrammar.constantExpression));
         } catch (EvaluationException e) {
           LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
-            new Object[]{filename, token.getLine(), token.getValue()});
+            filename, token.getLine(), token.getValue());
           LOG.error("{}", e);
           currentFileState.skipPreprocessorDirectives = false;
         }
@@ -548,7 +556,7 @@ public class CxxPreprocessor extends Preprocessor {
         if (currentFileState.skipPreprocessorDirectives) {
           if (LOG.isTraceEnabled()) {
             LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-              new Object[]{filename, token.getLine(), token.getValue()});
+              filename, token.getLine(), token.getValue());
           }
         } else {
           currentFileState.conditionWasTrue = true;
@@ -561,17 +569,18 @@ public class CxxPreprocessor extends Preprocessor {
       }
     }
 
-    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), 
+           new ArrayList<Token>()); //TODO: deprecated PreprocessorAction
   }
 
-  private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
+  private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) { //TODO: deprecated PreprocessorAction
     if (!currentFileState.skipPreprocessorDirectives) {
       Macro macro = getMacro(getMacroName(ast));
       TokenType tokType = ast.getToken().getType();
       if ((tokType.equals(IFDEF) && macro == null) || (tokType.equals(IFNDEF) && macro != null)) {
         if (LOG.isTraceEnabled()) {
           LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-            new Object[]{filename, token.getLine(), token.getValue()});
+            filename, token.getLine(), token.getValue());
         }
         currentFileState.skipPreprocessorDirectives = true;
       }
@@ -582,10 +591,11 @@ public class CxxPreprocessor extends Preprocessor {
       currentFileState.conditionalInclusionCounter++;
     }
 
-    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), 
+           new ArrayList<Token>()); //TODO: deprecated PreprocessorAction
   }
 
-  PreprocessorAction handleElseLine(Token token, String filename) { //@todo: deprecated PreprocessorAction
+  PreprocessorAction handleElseLine(Token token, String filename) { //TODO: deprecated PreprocessorAction
     if (currentFileState.conditionalInclusionCounter == 0) {
       if (currentFileState.skipPreprocessorDirectives && !currentFileState.conditionWasTrue) {
         if (LOG.isTraceEnabled()) {
@@ -601,10 +611,11 @@ public class CxxPreprocessor extends Preprocessor {
       }
     }
 
-    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)),
+           new ArrayList<Token>()); //TODO: deprecated PreprocessorAction
   }
 
-  PreprocessorAction handleEndifLine(Token token, String filename) { //@todo: deprecated PreprocessorAction
+  PreprocessorAction handleEndifLine(Token token, String filename) { //TODO: deprecated PreprocessorAction
     if (currentFileState.conditionalInclusionCounter > 0) {
       currentFileState.conditionalInclusionCounter--;
     } else {
@@ -617,19 +628,21 @@ public class CxxPreprocessor extends Preprocessor {
       currentFileState.conditionWasTrue = false;
     }
 
-    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)),
+           new ArrayList<Token>()); //TODO: deprecated PreprocessorAction
   }
 
-  PreprocessorAction handleDefineLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
+  PreprocessorAction handleDefineLine(AstNode ast, Token token, String filename) { //TODO: deprecated PreprocessorAction
     // Here we have a define directive. Parse it and store the result in a dictionary.
 
     Macro macro = parseMacroDefinition(ast);
     if (LOG.isTraceEnabled()) {
-      LOG.trace("[{}:{}]: storing macro: '{}'", new Object[]{filename, token.getLine(), macro});
+      LOG.trace("[{}:{}]: storing macro: '{}'", filename, token.getLine(), macro);
     }
     getMacros().put(macro.name, macro);
 
-    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), 
+           new ArrayList<Token>()); //@TODO: deprecated PreprocessorAction
   }
 
   private void parseIncludeLine(String includeLine, String filename, Charset charset) {
@@ -637,7 +650,7 @@ public class CxxPreprocessor extends Preprocessor {
     handleIncludeLine(includeAst, includeAst.getFirstDescendant(CppGrammar.includeBodyQuoted).getToken(), filename, charset);
   }
 
-  PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename, Charset charset) { //@todo: deprecated PreprocessorAction
+  PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename, Charset charset) { //TODO: deprecated PreprocessorAction
     //
     // Included files have to be scanned with the (only) goal of gathering macros.
     // This is done as follows:
@@ -667,7 +680,7 @@ public class CxxPreprocessor extends Preprocessor {
       analysedFiles.add(includedFile.getAbsoluteFile());
       if (LOG.isTraceEnabled()) {
         LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
-            new Object[]{filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
+            filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath());
       }
 
       globalStateStack.push(currentFileState);
@@ -685,23 +698,25 @@ public class CxxPreprocessor extends Preprocessor {
 //      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
 //    }
 
-    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)),
+           new ArrayList<Token>()); //@TODO: deprecated PreprocessorAction
   }
 
-  PreprocessorAction handleUndefLine(AstNode ast, Token token) { //@todo: deprecated PreprocessorAction
+  PreprocessorAction handleUndefLine(AstNode ast, Token token) { //@TODO: deprecated PreprocessorAction
     String macroName = ast.getFirstDescendant(IDENTIFIER).getTokenValue();
     getMacros().removeLowPrio(macroName);
-    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)),
+           new ArrayList<Token>()); //@TODO: deprecated PreprocessorAction
   }
 
-  PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) { //@todo: deprecated PreprocessorAction
+  PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) { //@TODO: deprecated PreprocessorAction
     //
     // Every identifier and every keyword can be a macro instance.
     // Pipe the resulting string through a lexer to create proper Tokens
     // and to expand recursively all macros which may be in there.
     //
 
-    PreprocessorAction ppaction = PreprocessorAction.NO_OPERATION; //@todo: deprecated PreprocessorAction
+    PreprocessorAction ppaction = PreprocessorAction.NO_OPERATION; //@TODO: deprecated PreprocessorAction
     Macro macro = getMacro(curr.getValue());
     if (macro != null) {
       List<Token> replTokens = new LinkedList<>();
@@ -726,13 +741,13 @@ public class CxxPreprocessor extends Preprocessor {
         getMacros().disable(macro.name);
         while (!replTokens.isEmpty()) {
           Token c = replTokens.get(0);
-          PreprocessorAction action = PreprocessorAction.NO_OPERATION; //@todo: deprecated PreprocessorAction
+          PreprocessorAction action = PreprocessorAction.NO_OPERATION; //@TODO: deprecated PreprocessorAction
           if (c.getType().equals(IDENTIFIER)) {
             List<Token> rest = new ArrayList(replTokens);
             rest.addAll(tokens.subList(tokensConsumed, tokens.size()));
             action = handleIdentifiersAndKeywords(rest, c, filename);
           }
-          if (action.equals(PreprocessorAction.NO_OPERATION)) { //@todo: deprecated PreprocessorAction
+          if (action.equals(PreprocessorAction.NO_OPERATION)) { //@TODO: deprecated PreprocessorAction
             replTokens.remove(0);
             outTokens.add(c);
           } else {
@@ -759,7 +774,7 @@ public class CxxPreprocessor extends Preprocessor {
             filename, curr.getLine());
         }
 
-        ppaction = new PreprocessorAction( //@todo: deprecated PreprocessorAction
+        ppaction = new PreprocessorAction( //@TODO: deprecated PreprocessorAction
           tokensConsumed,
            Collections.singletonList(Trivia.createSkippedText(tokens.subList(0, tokensConsumed))),
           replTokens);
@@ -802,7 +817,7 @@ public class CxxPreprocessor extends Preprocessor {
     return tokensConsumedMatchingArgs;
   }
 
-  public Boolean expandHasIncludeExpression(String macroName, AstNode exprAst) {
+  public Boolean expandHasIncludeExpression(AstNode exprAst) {
     File file = getFileUnderAnalysis();
     String filePath = file == null ? rootFilePath : file.getAbsolutePath();
     return findIncludedFile(exprAst, exprAst.getToken(), filePath) != null;
@@ -820,7 +835,7 @@ public class CxxPreprocessor extends Preprocessor {
     return tokens;
   }
 
-  private List<Token> stripEOF(List<Token> tokens) {
+  private static List<Token> stripEOF(List<Token> tokens) {
     if (tokens.get(tokens.size() - 1).getType().equals(EOF)) {
       return tokens.subList(0, tokens.size() - 1);
     } else {
@@ -828,11 +843,11 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  private String serialize(List<Token> tokens) {
+  private static String serialize(List<Token> tokens) {
     return serialize(tokens, " ");
   }
 
-  private String serialize(List<Token> tokens, String spacer) {
+  private static String serialize(List<Token> tokens, String spacer) {
     StringJoiner js = new StringJoiner(spacer);
     for (Token t : tokens) {
       js.add(t.getValue());
@@ -840,7 +855,7 @@ public class CxxPreprocessor extends Preprocessor {
     return js.toString();
   }
 
-  private int matchArguments(List<Token> tokens, List<Token> arguments) {
+  private static int matchArguments(List<Token> tokens, List<Token> arguments) {
     List<Token> rest = new ArrayList<>(tokens);
     try {
       rest = match(rest, "(");
@@ -867,7 +882,7 @@ public class CxxPreprocessor extends Preprocessor {
     return tokens.size() - rest.size();
   }
 
-  private List<Token> match(List<Token> tokens, String str) throws MismatchException {
+  private static List<Token> match(List<Token> tokens, String str) throws MismatchException {
     if (!tokens.get(0).getValue().equals(str)) {
       throw new MismatchException("Mismatch: expected '" + str + "' got: '"
           + tokens.get(0).getValue() + "'" + " [" + tokens.get(0).getURI() + "("
@@ -876,7 +891,7 @@ public class CxxPreprocessor extends Preprocessor {
     return tokens.subList(1, tokens.size());
   }
 
-  private List<Token> matchArgument(List<Token> tokens, List<Token> arguments) throws MismatchException {
+  private static List<Token> matchArgument(List<Token> tokens, List<Token> arguments) throws MismatchException {
     int nestingLevel = 0;
     int tokensConsumed = 0;
     int noTokens = tokens.size();
@@ -1015,7 +1030,8 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     // replace # with "" if sequence HASH BR occurs for body HASH __VA_ARGS__    
-    if (newTokens.size() > 3 && newTokens.get(newTokens.size() - 2).getType().equals(HASH) && newTokens.get(newTokens.size() - 1).getType().equals(BR_RIGHT)) {
+    if (newTokens.size() > 3 && newTokens.get(newTokens.size() - 2).getType().equals(HASH) 
+        && newTokens.get(newTokens.size() - 1).getType().equals(BR_RIGHT)) {
       for (int n = newTokens.size() - 2; n != 0; n--) {
         if (newTokens.get(n).getType().equals(WS)) {
           newTokens.remove(n);
@@ -1033,7 +1049,7 @@ public class CxxPreprocessor extends Preprocessor {
     return newTokens;
   }
 
-  private List<Token> evaluateHashhashOperators(List<Token> tokens) {
+  private static List<Token> evaluateHashhashOperators(List<Token> tokens) {
     List<Token> newTokens = new ArrayList<>();
 
     Iterator<Token> it = tokens.iterator();
@@ -1063,7 +1079,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   @Nullable
-  private Token predConcatToken(List<Token> tokens) {
+  private static Token predConcatToken(List<Token> tokens) {
     while (!tokens.isEmpty()) {
       Token last = tokens.remove(tokens.size() - 1);
       if (!last.getType().equals(WS)) {
@@ -1090,7 +1106,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   @Nullable
-  private Token succConcatToken(Iterator<Token> it) {
+  private static Token succConcatToken(Iterator<Token> it) {
     Token succ = null;
     while (it.hasNext()) {
       succ = it.next();
@@ -1101,7 +1117,7 @@ public class CxxPreprocessor extends Preprocessor {
     return succ;
   }
 
-  private String quote(String str) {
+  private static String quote(String str) {
     StringBuilder result = new StringBuilder(2 * str.length());
     boolean addBlank = false;
     boolean ignoreNextBlank = false;
@@ -1145,11 +1161,11 @@ public class CxxPreprocessor extends Preprocessor {
     return result.toString();
   }
 
-  private String encloseWithQuotes(String str) {
+  private static String encloseWithQuotes(String str) {
     return "\"" + str + "\"";
   }
 
-  private List<Token> reallocate(List<Token> tokens, Token token) {
+  private static List<Token> reallocate(List<Token> tokens, Token token) {
     List<Token> reallocated = new LinkedList<>();
     int currColumn = token.getColumn();
     for (Token t : tokens) {
@@ -1172,7 +1188,7 @@ public class CxxPreprocessor extends Preprocessor {
       .getFirstDescendant(CppGrammar.defineLine));
   }
 
-  private Macro parseMacroDefinition(AstNode defineLineAst) {
+  private static Macro parseMacroDefinition(AstNode defineLineAst) {
     AstNode ast = defineLineAst.getFirstChild();
     AstNode nameNode = ast.getFirstDescendant(CppGrammar.ppToken);
     String macroName = nameNode.getTokenValue();
@@ -1203,7 +1219,7 @@ public class CxxPreprocessor extends Preprocessor {
     return new Macro(macroName, macroParams, macroBody, vaargs != null);
   }
 
-  private List<Token> getParams(AstNode identListAst) {
+  private static List<Token> getParams(AstNode identListAst) {
     List<Token> params = new ArrayList<>();
     for (AstNode node : identListAst.getChildren(IDENTIFIER)) {
       params.add(node.getToken());
@@ -1254,7 +1270,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (parseError || ((includeBodyAst != null) 
           && includeBodyAst.getFirstDescendant(CppGrammar.includeBodyFreeform) != null)) {
         LOG.warn("[{}:{}]: cannot parse included filename: '{}'",
-          new Object[]{currFileName, token.getLine(), expandedIncludeBody});
+          currFileName, token.getLine(), expandedIncludeBody);
         if (LOG.isDebugEnabled()) {
           LOG.debug("Token : {}", token.toString());
         }
@@ -1282,11 +1298,11 @@ public class CxxPreprocessor extends Preprocessor {
     return includedFile;
   }
 
-  private String getMacroName(AstNode ast) {
+  private static String getMacroName(AstNode ast) {
     return ast.getFirstDescendant(IDENTIFIER).getTokenValue();
   }
 
-  private String stripQuotes(String str) {
+  private static String stripQuotes(String str) {
     return str.substring(1, str.length() - 1);
   }
 

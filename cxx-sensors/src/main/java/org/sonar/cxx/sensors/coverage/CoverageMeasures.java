@@ -31,7 +31,7 @@ import com.google.common.collect.Sets;
  *
  * @author jocs
  */
-class CoverageMeasures {
+final class CoverageMeasures {
   private final Map<Integer, CoverageMeasure> lineMeasures = new HashMap<>();
   
   private CoverageMeasures() {

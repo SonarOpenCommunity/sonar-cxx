@@ -71,7 +71,7 @@ public class CoberturaParser extends CxxCoverageParser {
     }
   }
 
-  private void collectFileMeasures(final SensorContext context, SMInputCursor clazz, Map<String, CoverageMeasures> coverageData)
+  private static void collectFileMeasures(final SensorContext context, SMInputCursor clazz, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (clazz.getNext() != null) {
       String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), context.fileSystem().baseDir().getAbsolutePath());
@@ -86,7 +86,7 @@ public class CoberturaParser extends CxxCoverageParser {
     }
   }
 
-  private void collectFileData(SMInputCursor clazz, CoverageMeasures builder) throws XMLStreamException {
+  private static void collectFileData(SMInputCursor clazz, CoverageMeasures builder) throws XMLStreamException {
     SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
     while (line.getNext() != null) {
       int lineId = Integer.parseInt(line.getAttrValue("number"));

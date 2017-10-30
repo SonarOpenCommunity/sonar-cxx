@@ -96,7 +96,7 @@ public class CxxRatsSensor extends CxxReportSensor {
     }
   }
 
-  private String getVulnerabilityType(@Nullable Element child) {
+  private static String getVulnerabilityType(@Nullable Element child) {
     if (child != null) {
       return child.getTextTrim();
     }

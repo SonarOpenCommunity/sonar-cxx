@@ -200,7 +200,7 @@ public class CppLanguage extends CxxLanguage {
     return PROPSKEY;
   }
 
-  private String[] createStringArray(String[] values, String defaultValues) {
+  private static String[] createStringArray(String[] values, String defaultValues) {
     if (values.length == 0) {
       return defaultValues.split(",");
     }

@@ -77,8 +77,8 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
   public boolean isRegularExpression;
 
   private Charset charset = Charset.forName("UTF-8");
-  private String[] expectedLines = null;
-  private Pattern searchPattern = null;
+  private String[] expectedLines;
+  private Pattern searchPattern;
 
   @Override
   public void setCharset(Charset charset) {

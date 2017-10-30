@@ -43,12 +43,12 @@ public class TestFileTest {
 
   @Test
   public void newBornTestFileShouldHaveVirginStatistics() {
-    assertEquals(testFile.getTests(), 0);
-    assertEquals(testFile.getErrors(), 0);
-    assertEquals(testFile.getFailures(), 0);
-    assertEquals(testFile.getSkipped(), 0);
-    assertEquals(testFile.getTime(), 0);
-    assertEquals(testFile.getDetails(), "<tests-details></tests-details>");
+    assertEquals(0, testFile.getTests());
+    assertEquals(0, testFile.getErrors());
+    assertEquals(0, testFile.getFailures());
+    assertEquals(0, testFile.getSkipped());
+    assertEquals(0, testFile.getTime());
+    assertEquals("<tests-details></tests-details>", testFile.getDetails());
   }
 
   @Test

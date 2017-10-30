@@ -102,7 +102,7 @@ public class ValgrindStackTest {
 
   @Test
   public void getLastOwnFrame_returnsNullOnEmptyStack() {
-    assertEquals(new ValgrindStack().getLastOwnFrame("somepath"), null);
+    assertEquals(null, new ValgrindStack().getLastOwnFrame("somepath"));
   }
 
   @Test
@@ -111,7 +111,7 @@ public class ValgrindStackTest {
     ValgrindStack stack = new ValgrindStack();
     stack.addFrame(frame);
 
-    assertEquals(new ValgrindStack().getLastOwnFrame("somepath"), null);
+    assertEquals(null, new ValgrindStack().getLastOwnFrame("somepath"));
   }
 
   @Test

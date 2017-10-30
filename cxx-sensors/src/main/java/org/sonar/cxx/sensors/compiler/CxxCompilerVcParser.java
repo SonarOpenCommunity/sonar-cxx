@@ -92,15 +92,14 @@ public class CxxCompilerVcParser implements CompilerParser {
       String id = matchres.group(3);
       String msg = matchres.group(4);
       if (LOG.isDebugEnabled()) {
-        LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}",
-        new Object[]{filename, line, id, msg});
+        LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}", filename, line, id, msg);
       }
       warnings.add(new Warning(filename, line, id, msg));
     }
     scanner.close();
   }
 
-  private String removeMPPrefix(String fpath) {
+  private static String removeMPPrefix(String fpath) {
     // /MP (Build with Multiple Processes) will create a line prefix with the job number eg. '   42>'
     if (fpath.matches("^\\d+>.*$")) {
       return fpath.substring(fpath.indexOf('>')+1, fpath.length());

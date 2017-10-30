@@ -91,8 +91,7 @@ public class CxxCompilerGccParser implements CompilerParser {
       String msg = matchres.group(3);
       String id = matchres.group(4).replaceAll("=$", "");
       if (LOG.isDebugEnabled()) {
-        LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}",
-        new Object[]{filename, line, id, msg});
+        LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}", filename, line, id, msg);
         }
       warnings.add(new Warning(filename, line, id, msg));
     }

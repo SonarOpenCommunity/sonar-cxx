@@ -1,4 +1,3 @@
-
 /*
  * Sonar C++ Plugin (Community)
  * Copyright (C) 2010-2017 SonarOpenCommunity

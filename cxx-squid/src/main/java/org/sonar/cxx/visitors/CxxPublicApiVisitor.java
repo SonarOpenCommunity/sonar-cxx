@@ -89,7 +89,7 @@ public class CxxPublicApiVisitor<GRAMMAR extends Grammar> extends
     boolean commented = !comments.isEmpty();
 
     LOG.debug("node: {} line: {} id: '{}' documented: {}",
-      new Object[]{node.getType(), node.getTokenLine(), id, commented});
+      node.getType(), node.getTokenLine(), id, commented);
 
     if (handler != null) {
       handler.onPublicApi(node, id, comments);

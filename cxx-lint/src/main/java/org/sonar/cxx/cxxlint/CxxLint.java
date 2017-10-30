@@ -177,9 +177,9 @@ public class CxxLint {
             try {
               templateKey = data.get("templateKeyId").getAsString();
             } catch(Exception ex) { 
-            if (LOG.isDebugEnabled()) {
-              LOG.debug("CxxLint exception in main {}", ex);
-            }
+              if (LOG.isDebugEnabled()) {
+                LOG.debug("CxxLint exception in main {}", ex);
+              }
             }
             
             String enabled = data.get("status").getAsString();
@@ -193,7 +193,7 @@ public class CxxLint {
             if (region != null) {
               for (Entry<?, ?> parameter : region.getAsJsonObject().entrySet()) {
                 JsonElement elem = (JsonElement) parameter.getValue();
-                check.parameterData.put(parameter.getKey().toString(), elem.getAsString());
+                check.getParameterData().put(parameter.getKey().toString(), elem.getAsString());
               }
             }
   
@@ -241,7 +241,7 @@ public class CxxLint {
         for (CheckerData checkDefined : rulesData) {
           
           // get check from list
-        Class<?> check = getRuleFromChecks(checkDefined, checks);
+          Class<?> check = getRuleFromChecks(checkDefined, checks);
           if (check == null) {
             continue;
           }
@@ -268,9 +268,9 @@ public class CxxLint {
             for (Annotation a : f.getAnnotations()) {
               RuleProperty ruleProp = (RuleProperty) a;
               if ((ruleProp != null) 
-                && (checkDefined.parameterData.containsKey(ruleProp.key()))) {
+                && (checkDefined.getParameterData().containsKey(ruleProp.key()))) {
                 if (f.getType().equals(int.class)) {
-                  String cleanData = checkDefined.parameterData.get(ruleProp.key());
+                  String cleanData = checkDefined.getParameterData().get(ruleProp.key());
                   int value = Integer.parseInt(cleanData);
                   if (f.toString().startsWith("public ")) {
                     f.set(element, value);
@@ -287,7 +287,7 @@ public class CxxLint {
                 }
 
                 if (f.getType().equals(String.class)) {
-                  String cleanData = checkDefined.parameterData.get(ruleProp.key());
+                  String cleanData = checkDefined.getParameterData().get(ruleProp.key());
 
                   if (f.toString().startsWith("public ")) {
                     f.set(element, cleanData);
@@ -331,15 +331,15 @@ public class CxxLint {
               LOG.debug("{}", ex);
             }
           }
-       }
+        }
 
-      // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, but is slow and can overflow buffers.  [runtime/printf-5] [1]
-      LOG.info(message.getSourceCode() + "(" + message.getLine() + "): Warning : " + 
+        // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, but is slow and can overflow buffers.  [runtime/printf-5] [1]
+        LOG.info(message.getSourceCode() + "(" + message.getLine() + "): Warning : " + 
                message.formatDefaultMessage() + " [" + key + "]");
-    }
-    
-    LOG.info("LOC: {}", file.getInt(CxxMetric.LINES_OF_CODE));
-    LOG.info("COMPLEXITY: {}", file.getInt(CxxMetric.COMPLEXITY));
+      }
+
+      LOG.info("LOC: {}", file.getInt(CxxMetric.LINES_OF_CODE));
+      LOG.info("COMPLEXITY: {}", file.getInt(CxxMetric.COMPLEXITY));
 
     } catch (IOException|InstantiationException|IllegalAccessException ex) {
       LOG.error("{}", ex);

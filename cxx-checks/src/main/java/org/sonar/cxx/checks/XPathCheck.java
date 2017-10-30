@@ -90,7 +90,7 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
     super.visitFile(fileNode);
   }
 
-  private boolean compare(boolean invert, boolean condition) {
+  private static boolean compare(boolean invert, boolean condition) {
     return invert ? !condition : condition;
   }
 }

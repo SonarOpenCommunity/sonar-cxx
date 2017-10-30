@@ -45,7 +45,7 @@ public class FileNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$";
   private static final String MESSAGE = "Rename this file to match this regular expression: \"%s\".";
-  private Pattern pattern = null;
+  private Pattern pattern;
 
   /**
    * pattern

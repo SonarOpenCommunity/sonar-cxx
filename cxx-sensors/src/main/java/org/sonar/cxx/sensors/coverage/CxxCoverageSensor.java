@@ -268,7 +268,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * @param measuresTotal
    * @return true if report was parsed and results are available otherwise false
    */
-  private void parseCoverageReport(CoverageParser parser, final SensorContext context, File report,
+  private static void parseCoverageReport(CoverageParser parser, final SensorContext context, File report,
                                       Map<String, CoverageMeasures> measuresTotal) {
     Map<String, CoverageMeasures> measuresForReport = new HashMap<>();
     try {
@@ -367,7 +367,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
 
   protected String getITReportPathKey() {
-   return this.language.getPluginProperty(IT_REPORT_PATH_KEY);
+    return this.language.getPluginProperty(IT_REPORT_PATH_KEY);
   }
 
   protected String getOverallReportPathKey() {

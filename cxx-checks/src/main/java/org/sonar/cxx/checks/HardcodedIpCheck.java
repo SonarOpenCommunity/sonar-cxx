@@ -50,7 +50,7 @@ public class HardcodedIpCheck extends SquidCheck<Grammar> {
 // IPv4 with port number
 //  (?:^|\s)([a-z]{3,6}(?=://))?(://)?((?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?))(?::(\d{2,5}))?(?:\s|$)
   private static final String DEFAULT_REGULAR_EXPRESSION = "^.*((?<![\\d|\\.])(?:\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b\\.){3}\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b(?!\\d|\\.)).*$";
-  private static volatile Matcher IP = null;
+  private static volatile Matcher IP;
 
   @RuleProperty(
     key = "regularExpression",

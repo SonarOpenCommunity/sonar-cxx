@@ -44,26 +44,26 @@ public class CxxMetrics implements Metrics {
 
   /**
   * CxxMetrics
-  * @param language
+  * @param language for metrics
   **/
   public CxxMetrics(CxxLanguage language) {
     this.language = language;
     
-    this.buildMetric(CxxCompilerSensor.COMPILER_KEY, "Compiler issues", language);
-    this.buildMetric(CxxCppCheckSensor.KEY, "CppCheck issues", language);
-    this.buildMetric(CxxOtherSensor.KEY, "Other tools issues", language);
-    this.buildMetric(CxxPCLintSensor.KEY, "PC-Lint issues", language);
-    this.buildMetric(CxxRatsSensor.KEY, "Rats issues", language);    
-    this.buildMetric(CxxSquidSensor.KEY, "Squid issues", language);      
-    this.buildMetric(CxxValgrindSensor.KEY, "Valgrind issues", language);    
-    this.buildMetric(CxxVeraxxSensor.KEY, "Vera issues", language);    
-    this.buildMetric(CxxDrMemorySensor.KEY, "DrMemory issues", language);  
+    buildMetric(CxxCompilerSensor.COMPILER_KEY, "Compiler issues", language);
+    buildMetric(CxxCppCheckSensor.KEY, "CppCheck issues", language);
+    buildMetric(CxxOtherSensor.KEY, "Other tools issues", language);
+    buildMetric(CxxPCLintSensor.KEY, "PC-Lint issues", language);
+    buildMetric(CxxRatsSensor.KEY, "Rats issues", language);    
+    buildMetric(CxxSquidSensor.KEY, "Squid issues", language);      
+    buildMetric(CxxValgrindSensor.KEY, "Valgrind issues", language);    
+    buildMetric(CxxVeraxxSensor.KEY, "Vera issues", language);    
+    buildMetric(CxxDrMemorySensor.KEY, "DrMemory issues", language);  
   }
 
   /**
   * GetKey
-  * @param key
-  * @param language
+  * @param key for language
+  * @param language for metrics
   * @return String
   **/
   public static String getKey(String key, CxxLanguage language) {
@@ -77,7 +77,7 @@ public class CxxMetrics implements Metrics {
     return new ArrayList(this.language.getMetricsCache());
   }
 
-  private void buildMetric(String key, String description, CxxLanguage language) {
+  private static void buildMetric(String key, String description, CxxLanguage language) {
     String effectiveKey = CxxMetrics.getKey(key, language);
     Metric<?> metric = new Metric.Builder(effectiveKey, description, Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
