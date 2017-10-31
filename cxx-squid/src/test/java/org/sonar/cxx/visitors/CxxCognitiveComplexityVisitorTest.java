@@ -134,11 +134,6 @@ public class CxxCognitiveComplexityVisitorTest {
   }
 
   @Test
-  public void fibonacci() throws UnsupportedEncodingException, IOException {
-    assertThat(testFile("src/test/resources/visitors/fibonacci.cc") == 5).isTrue();
-  }
-
-  @Test
   public void sum_of_primes() throws UnsupportedEncodingException, IOException {
     assertThat(testFile("src/test/resources/visitors/sum_of_primes.cc") == 7).isTrue();
   }
