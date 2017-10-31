@@ -46,7 +46,8 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   private final List<CppcheckParser> parsers = new LinkedList<>();
 
   /**
-   * {@inheritDoc}
+   * CxxCppCheckSensor for CppCheck Sensor 
+   * @param language defines settings C or C++
    */
   public CxxCppCheckSensor(CxxLanguage language) {
     super(language);

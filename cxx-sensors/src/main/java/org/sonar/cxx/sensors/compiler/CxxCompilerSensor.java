@@ -22,6 +22,7 @@ package org.sonar.cxx.sensors.compiler;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,7 +52,8 @@ public class CxxCompilerSensor extends CxxReportSensor {
   private final Map<String, CompilerParser> parsers = new HashMap<>();
 
   /**
-   * {@inheritDoc}
+   * CxxCompilerSensor for Visual Studio C++ Compiler Sensor 
+   * @param language defines settings C or C++
    */
   public CxxCompilerSensor(CxxLanguage language) {
     super(language);
@@ -72,11 +74,11 @@ public class CxxCompilerSensor extends CxxReportSensor {
    * @return CompilerParser
    */
   protected CompilerParser getCompilerParser(SensorContext context) {
-    String parserValue = context.settings().getString(this.language.getPluginProperty(PARSER_KEY_DEF));
-    CompilerParser parser = parsers.get(parserValue);
-    if (parser == null) {
-      parserValue = language.getPluginProperty(language.getPluginProperty(DEFAULT_PARSER_DEF));
-      parser = parsers.get(parserValue);
+    Optional<String> parserValue = context.config().get(this.language.getPluginProperty(PARSER_KEY_DEF));
+    String parserDefault = this.language.getPluginProperty(this.language.getPluginProperty(DEFAULT_PARSER_DEF));
+    CompilerParser parser = parsers.get(parserDefault);
+    if (parserValue.isPresent()) {
+      parser = parsers.get(parserValue.get());
     }
     LOG.info("C-Compiler parser: '{}'", parserValue);
     return parser;
@@ -96,8 +98,10 @@ public class CxxCompilerSensor extends CxxReportSensor {
   protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
     final CompilerParser parser = getCompilerParser(context);
-    final String reportCharset = getContextStringProperty(context, this.language.getPluginProperty(REPORT_CHARSET_DEF), parser.defaultCharset());
-    final String reportRegEx = getContextStringProperty(context, this.language.getPluginProperty(REPORT_REGEX_DEF), parser.defaultRegexp());
+    final String reportCharset = getContextStringProperty(context,
+        this.language.getPluginProperty(REPORT_CHARSET_DEF), parser.defaultCharset());
+    final String reportRegEx = getContextStringProperty(context,
+        this.language.getPluginProperty(REPORT_REGEX_DEF), parser.defaultRegexp());
     final List<CompilerParser.Warning> warnings = new LinkedList<>();
 
     // Iterate through the lines of the input file
@@ -125,3 +129,4 @@ public class CxxCompilerSensor extends CxxReportSensor {
     return KEY;
   }  
 }
+

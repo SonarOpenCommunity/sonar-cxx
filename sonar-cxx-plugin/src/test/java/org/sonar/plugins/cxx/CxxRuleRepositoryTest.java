@@ -21,16 +21,18 @@ package org.sonar.plugins.cxx;
 
 import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.server.rule.RulesDefinition;
 
 public class CxxRuleRepositoryTest {
 
+  private MapSettings settings = new MapSettings();
+  
   @Test
   public void rulesTest() {
     RulesDefinition.Context context = new RulesDefinition.Context();
     assertThat(context.repositories()).isEmpty();
-    CppLanguage checks = new CppLanguage(new Settings());
+    CppLanguage checks = new CppLanguage(settings.asConfig());
     new CxxRuleRepository(checks).define(context);
 
     assertThat(context.repositories()).hasSize(1);

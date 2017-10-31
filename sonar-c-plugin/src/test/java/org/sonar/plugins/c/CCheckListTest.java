@@ -22,14 +22,16 @@ package org.sonar.plugins.c;
 
 import org.junit.Test;
 import static org.fest.assertions.Assertions.assertThat;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 
 public class CCheckListTest {
 
+  private MapSettings settings = new MapSettings();
+
   @Test
   public void count() {
-    CxxLanguage checks = new CLanguage(new Settings());    
+    CxxLanguage checks = new CLanguage(settings.asConfig());    
     assertThat(checks.getChecks().size()).isEqualTo(45);
   }
 }

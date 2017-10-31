@@ -57,7 +57,8 @@ public class CxxOtherSensor extends CxxReportSensor {
   public static final String OUTPUT_KEY = ".outputs";
 
   /**
-   * {@inheritDoc}
+   * CxxOtherSensor for Other Sensor 
+   * @param language defines settings C or C++
    */
   public CxxOtherSensor(CxxLanguage language) {
     super(language);
@@ -116,6 +117,10 @@ public class CxxOtherSensor extends CxxReportSensor {
     return KEY;
   }  
 
+  /**
+   * @param baseDir
+   * @param context
+   */
   public void transformFiles(final File baseDir, SensorContext context) {
     boolean goOn = true;
     for (int i = 1; (i < MAX_STYLESHEETS) && goOn; i++) {
@@ -127,13 +132,15 @@ public class CxxOtherSensor extends CxxReportSensor {
         LOG.error("'{}' is not defined.", OTHER_XSLT_KEY + i + STYLESHEET_KEY);
         break;
       }
-      String stylesheet = resolveFilename(baseDir.getAbsolutePath(), context.settings().getString(stylesheetKey));
+      String stylesheet = resolveFilename(baseDir.getAbsolutePath(), context.config().get(stylesheetKey).orElse(null));
 
+      List<File> inputs = getReports(context.config(), baseDir, inputKey);
+      String[] outputStrings = null;
+      if (outputKey != null) {
+        outputStrings = context.config().getStringArray(outputKey);
+      }
 
-      List<File> inputs = getReports(context.settings(), baseDir, inputKey);
-      String[] outputStrings = context.settings().getStringArray(outputKey);
       List<String> outputs = Arrays.asList((outputStrings != null) ? outputStrings : new String[] {});
-
       if (stylesheet == null && inputKey==null && outputKey==null) {
         goOn = false;
       } else {

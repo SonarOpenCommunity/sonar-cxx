@@ -38,7 +38,8 @@ public class CxxValgrindSensor extends CxxReportSensor {
   public static final String KEY = "Valgrind";
 
   /**
-   * {@inheritDoc}
+   * CxxValgrindSensor for Valgrind Sensor 
+   * @param language defines settings C or C++
    */
   public CxxValgrindSensor(CxxLanguage language) {
     super(language);

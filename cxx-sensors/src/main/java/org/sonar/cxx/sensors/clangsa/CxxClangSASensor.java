@@ -45,7 +45,8 @@ public class CxxClangSASensor extends CxxReportSensor {
   public static final String KEY = "ClangSA";
 
   /**
-   * {@inheritDoc}
+   * CxxClangSASensor for Clang Static Analyzer Sensor 
+   * @param language defines settings C or C++
    */
   public CxxClangSASensor(CxxLanguage language) {
     super(language);

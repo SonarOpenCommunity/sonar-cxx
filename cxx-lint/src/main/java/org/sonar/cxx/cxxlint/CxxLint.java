@@ -51,6 +51,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -150,11 +151,12 @@ public class CxxLint {
     String fileName = new File(fileToAnalyse).getName();
     SensorContextTester sensorContext = SensorContextTester.create(new File(fileToAnalyse).getParentFile().toPath());
 
-    CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile), new CppLanguage());
+    CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile),
+                                     new CppLanguage(sensorContext.config()));
 
     try {
       String content = new String(Files.readAllBytes(Paths.get(fileToAnalyse)), encodingOfFile);
-      sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+      sensorContext.fileSystem().add(TestInputFileBuilder.create("ProjectKey", fileName).initMetadata(content).build());
       InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
       
       List<CheckerData> rulesData = new ArrayList<>();
@@ -309,7 +311,7 @@ public class CxxLint {
         }
       }
       SourceFile file = CxxAstScanner.scanSingleFileConfig(
-              new CppLanguage(), 
+              new CppLanguage(sensorContext.config()), 
               cxxFile,
               configuration,
               sensorContext,

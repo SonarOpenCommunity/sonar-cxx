@@ -22,6 +22,8 @@ package org.sonar.cxx.sensors.utils;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Optional;
+
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -84,6 +86,7 @@ public final class CxxUtils {
    * @param stylesheetFile  
    * @param input
    * @param output
+   * @exception TransformerException
    */
   public static void transformFile(Source stylesheetFile, File input, File output) throws TransformerException {
     TransformerFactory factory = TransformerFactory.newInstance();
@@ -113,9 +116,11 @@ public final class CxxUtils {
    * @param language
    */
   public static void validateRecovery(Exception ex, CxxLanguage language) {
-    if (!language.IsRecoveryEnabled()) {
+    Optional<Boolean> recovery = language.IsRecoveryEnabled();
+    if (recovery.isPresent() && recovery.get()) {
+      return;
+    }
       LOG.info("Recovery is disabled, failing analysis : '{}'", ex.toString());
       throw new IllegalStateException(ex.getMessage(), ex.getCause());
     }
   }
-}

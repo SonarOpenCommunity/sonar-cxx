@@ -26,7 +26,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.junit.Before;
@@ -38,8 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.sensor.coverage.CoverageType;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -49,26 +48,16 @@ public class CxxBullseyeCoverageSensorTest {
   private DefaultFileSystem fs;
   private Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
   private CxxLanguage language;
+  private MapSettings settings = new MapSettings();
   
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-//    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY))
-//    .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATHS_KEY);
     when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY))
     .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
-    when(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY))
-    .thenReturn("sonar.cxx." + CxxCoverageSensor.IT_REPORT_PATH_KEY);
-    when(language.getPluginProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY))
-    .thenReturn("sonar.cxx." + CxxCoverageSensor.OVERALL_REPORT_PATH_KEY);
-    when(language.getPluginProperty(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY))
-    .thenReturn("sonar.cxx." + CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY);
 
-    //    when(language.hasKey(CxxCoverageSensor.REPORT_PATHS_KEY)).thenReturn(true);
     when(language.hasKey(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(true);
-    when(language.hasKey(CxxCoverageSensor.IT_REPORT_PATH_KEY)).thenReturn(true);
-    when(language.hasKey(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY)).thenReturn(true);
   }
 
   @Test
@@ -77,69 +66,67 @@ public class CxxBullseyeCoverageSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
     if (TestUtils.isWindows()) {
-      Settings settings = new Settings();
       settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
-  //    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY), coverageReport);
-  //    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY), coverageReport);
-  //    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATHS_KEY), coverageReport);
   
       context.setSettings(settings);
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "source_1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "src/testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "src/testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "main.cpp")
+                               .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source_1.cpp")
+                               .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
   
       sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
       sensor.execute(context, linesOfCodeByFile);
   
-      assertThat(context.lineHits("ProjectKey:main.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
+      assertThat(context.lineHits("ProjectKey:main.cpp", 7)).isEqualTo(1);
 
       int[] zeroHitLines = new int[] { 5, 10, 15, 17, 28, 32, 35, 40, 41, 44};
       for (int line : zeroHitLines) {
         LOG.debug("Check zero line coverage: {}", line);
-        assertThat(context.lineHits("ProjectKey:source_1.cpp", CoverageType.UNIT, line)).isEqualTo(0);
+        assertThat(context.lineHits("ProjectKey:source_1.cpp", line)).isEqualTo(0);
       }
   
       int[] oneHitlinesA = new int[] { 7, 12, 17, 30};
       for (int line : oneHitlinesA) {
         LOG.debug("Check line coverage: {}", line);
-        assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, line)).isEqualTo(1);
-        assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, line)).isEqualTo(1);
+        assertThat(context.lineHits("ProjectKey:testclass.cpp", line)).isEqualTo(1);
+        assertThat(context.lineHits("ProjectKey:src/testclass.cpp", line)).isEqualTo(1);
       }
       int[] fullCoveredTwoCondition = new int [] { 34, 43, 46};
       for (int line : fullCoveredTwoCondition) {
         LOG.debug("Check full covered two conditions - line: {}", line);
-        assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
-        assertThat(context.conditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
-        assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
-        assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, line)).isEqualTo(2);
-        assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, line)).isEqualTo(1);
-        assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, line)).isEqualTo(1);
+        assertThat(context.conditions("ProjectKey:testclass.cpp", line)).isEqualTo(2);
+        assertThat(context.conditions("ProjectKey:src/testclass.cpp", line)).isEqualTo(2);
+        assertThat(context.coveredConditions("ProjectKey:testclass.cpp", line)).isEqualTo(2);
+        assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", line)).isEqualTo(2);
+        assertThat(context.lineHits("ProjectKey:testclass.cpp", line)).isEqualTo(1);
+        assertThat(context.lineHits("ProjectKey:src/testclass.cpp", line)).isEqualTo(1);
       }
 
       LOG.debug("Check full covered four conditions - line: 42");
-      assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(4);
-      assertThat(context.conditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(4);
-      assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(4);
-      assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(4);
-      assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(1);
-      assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 42)).isEqualTo(1);
+      assertThat(context.conditions("ProjectKey:testclass.cpp", 42)).isEqualTo(4);
+      assertThat(context.conditions("ProjectKey:src/testclass.cpp", 42)).isEqualTo(4);
+      assertThat(context.coveredConditions("ProjectKey:testclass.cpp", 42)).isEqualTo(4);
+      assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", 42)).isEqualTo(4);
+      assertThat(context.lineHits("ProjectKey:testclass.cpp", 42)).isEqualTo(1);
+      assertThat(context.lineHits("ProjectKey:src/testclass.cpp", 42)).isEqualTo(1);
 
       LOG.debug("Check partial covered two condition - line: 19");
-      assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 19)).isEqualTo(2);
-      assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 19)).isEqualTo(1);
-      assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, 19)).isEqualTo(1);
-      assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 19)).isEqualTo(1);
+      assertThat(context.conditions("ProjectKey:testclass.cpp", 19)).isEqualTo(2);
+      assertThat(context.coveredConditions("ProjectKey:testclass.cpp", 19)).isEqualTo(1);
+      assertThat(context.lineHits("ProjectKey:testclass.cpp", 19)).isEqualTo(1);
+      assertThat(context.lineHits("ProjectKey:src/testclass.cpp", 19)).isEqualTo(1);
 
       LOG.debug("Check full covered six conditions - line: 37");
-      assertThat(context.conditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(6);
-      assertThat(context.conditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(6);
-      assertThat(context.coveredConditions("ProjectKey:testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(6);
-      assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(6);
-      assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(1);
-      assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 37)).isEqualTo(1);
+      assertThat(context.conditions("ProjectKey:testclass.cpp", 37)).isEqualTo(6);
+      assertThat(context.conditions("ProjectKey:src/testclass.cpp", 37)).isEqualTo(6);
+      assertThat(context.coveredConditions("ProjectKey:testclass.cpp", 37)).isEqualTo(6);
+      assertThat(context.coveredConditions("ProjectKey:src/testclass.cpp", 37)).isEqualTo(6);
+      assertThat(context.lineHits("ProjectKey:testclass.cpp", 37)).isEqualTo(1);
+      assertThat(context.lineHits("ProjectKey:src/testclass.cpp", 37)).isEqualTo(1);
     }
   }
 
@@ -149,20 +136,23 @@ public class CxxBullseyeCoverageSensorTest {
     String coverageReport = "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-win.xml";
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     if (TestUtils.isWindows()) {
-      Settings settings = new Settings();
       settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
 
       context.setSettings(settings);
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "randomfoldernamethatihopeknowmachinehas/test/test.c").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "randomfoldernamethatihopeknowmachinehas/test2/test2.c").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-      context.fileSystem().add(new DefaultInputFile("ProjectKey", "randomfoldernamethatihopeknowmachinehas/main.c").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h")
+                               .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "randomfoldernamethatihopeknowmachinehas/test/test.c")
+                               .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "randomfoldernamethatihopeknowmachinehas/test2/test2.c")
+                               .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "randomfoldernamethatihopeknowmachinehas/main.c")
+                               .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
 
       sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
       sensor.execute(context, linesOfCodeByFile);
 
-      assertThat(context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", CoverageType.UNIT, 4)).isEqualTo(1);
-      assertThat(context.conditions("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", CoverageType.UNIT, 7)).isEqualTo(2);
+      assertThat(context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", 4)).isEqualTo(1);
+      assertThat(context.conditions("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", 7)).isEqualTo(2);
     }
   }
 
@@ -173,7 +163,6 @@ public class CxxBullseyeCoverageSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
     if (TestUtils.isWindows()) {
-      Settings settings = new Settings();
       settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), coverageReport);
 
       context.setSettings(settings);
@@ -200,7 +189,7 @@ public class CxxBullseyeCoverageSensorTest {
       }
       
       for (String filepath: fileList) {
-        context.fileSystem().add(new DefaultInputFile("ProjectKey", filepath).setLanguage("cpp").initMetadata(sourceContent.toString()));
+        context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", filepath).setLanguage("cpp").initMetadata(sourceContent.toString()).build());
       }
       sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
       sensor.execute(context, linesOfCodeByFile);
@@ -209,34 +198,34 @@ public class CxxBullseyeCoverageSensorTest {
 
       for (int line : coveredCondition) {
         LOG.debug("Check conditions line: {}", line);
-        assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, line)).isEqualTo(2);
-        assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, line)).isEqualTo(2);
+        assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", line)).isEqualTo(2);
+        assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", line)).isEqualTo(2);
       }
 
-      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 530)).isEqualTo(6);
-      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 530)).isEqualTo(5);
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 530)).isEqualTo(6);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 530)).isEqualTo(5);
 
-      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 483)).isEqualTo(6);
-      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 483)).isEqualTo(3);
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 483)).isEqualTo(6);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 483)).isEqualTo(3);
 
-      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 552)).isEqualTo(2);
-      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 552)).isEqualTo(1);
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 552)).isEqualTo(2);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 552)).isEqualTo(1);
 
-      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 495)).isEqualTo(2);
-      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 495)).isEqualTo(1);
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 495)).isEqualTo(2);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 495)).isEqualTo(1);
 
       LOG.debug("Switch-label probe");
-      assertThat(context.lineHits("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 474)).isEqualTo(0);
-      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 474)).isEqualTo(1);
-      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 474)).isEqualTo(0);
-      assertThat(context.lineHits("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 475)).isEqualTo(1);
-      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 475)).isEqualTo(1);
-      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", CoverageType.UNIT, 475)).isEqualTo(1);
+      assertThat(context.lineHits("ProjectKey:covfile/import/cereal/archives/json.hpp", 474)).isEqualTo(0);
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 474)).isEqualTo(1);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 474)).isEqualTo(0);
+      assertThat(context.lineHits("ProjectKey:covfile/import/cereal/archives/json.hpp", 475)).isEqualTo(1);
+      assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 475)).isEqualTo(1);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 475)).isEqualTo(1);
 
       LOG.debug("Try and catch probe on one line");
-      assertThat(context.lineHits("ProjectKey:covfile/src/main/vr_core/src/VR.cpp", CoverageType.UNIT, 39)).isEqualTo(1);
-      assertThat(context.conditions("ProjectKey:covfile/src/main/vr_core/src/VR.cpp", CoverageType.UNIT, 39)).isEqualTo(2);
-      assertThat(context.coveredConditions("ProjectKey:covfile/src/main/vr_core/src/VR.cpp", CoverageType.UNIT, 39)).isEqualTo(1);
+      assertThat(context.lineHits("ProjectKey:covfile/src/main/vr_core/src/VR.cpp", 39)).isEqualTo(1);
+      assertThat(context.conditions("ProjectKey:covfile/src/main/vr_core/src/VR.cpp", 39)).isEqualTo(2);
+      assertThat(context.coveredConditions("ProjectKey:covfile/src/main/vr_core/src/VR.cpp", 39)).isEqualTo(1);
     }
   }
 

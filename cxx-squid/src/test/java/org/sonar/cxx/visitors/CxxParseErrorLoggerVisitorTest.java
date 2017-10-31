@@ -21,12 +21,11 @@ package org.sonar.cxx.visitors;
 
 import java.io.File;
 import java.util.List;
-import org.apache.commons.io.Charsets;
 import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.fs.internal.FileMetadata;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.cxx.CxxAstScanner;
@@ -38,16 +37,13 @@ public class CxxParseErrorLoggerVisitorTest {
   public LogTester logTester = new LogTester();
   
   private SensorContextTester context;
-  private File file;
 
   @Before
   @SuppressWarnings("unchecked")
   public void scanFile() {    
     String dir = "src/test/resources/visitors";
 
-    file = new File(dir, "/syntaxerror.cc");
-    DefaultInputFile inputFile = new DefaultInputFile("moduleKey", file.getName())
-      .initMetadata(new FileMetadata().readMetadata(file, Charsets.UTF_8));
+    InputFile inputFile = TestInputFileBuilder.create("", dir + "/syntaxerror.cc").build();
 
     context = SensorContextTester.create(new File(dir));
     context.fileSystem().add(inputFile);

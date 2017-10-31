@@ -22,14 +22,16 @@ package org.sonar.plugins.c;
 import org.junit.Test;
 import org.sonar.api.server.rule.RulesDefinition;
 import static org.fest.assertions.Assertions.assertThat;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 
 public class CRuleRepositoryTest {
 
+  private MapSettings settings = new MapSettings();
+
   @Test
   public void rulesTest() {
-    CxxLanguage checks = new CLanguage(new Settings());
+    CxxLanguage checks = new CLanguage(settings.asConfig());
     RulesDefinition.Context context = new RulesDefinition.Context();
     assertThat(context.repositories()).isEmpty();
 

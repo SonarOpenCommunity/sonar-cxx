@@ -139,31 +139,21 @@ public class JsonCompilationDatabaseTest {
     assertThat(cus).isNull();
   }
 
-  @Test
+  @Test (expected = JsonMappingException.class)
   public void testInvalidJson() throws Exception {
     CxxConfiguration conf = new CxxConfiguration(TestUtils.mockCxxLanguage());
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/invalid.json");
 
-    try {
       new JsonCompilationDatabase(conf, file);
-      assertThat(true).isFalse();
-    } catch (JsonMappingException e) {
-      // Expect to get exception
-    }
   }
 
-  @Test
+  @Test (expected = FileNotFoundException.class)
   public void testFileNotFound() throws Exception {
     CxxConfiguration conf = new CxxConfiguration(TestUtils.mockCxxLanguage());
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/not-found.json");
 
-    try {
       new JsonCompilationDatabase(conf, file);
-      assertThat(true).isFalse();
-    } catch (FileNotFoundException e) {
-      // Expect to get exception
-    }
   }
 }

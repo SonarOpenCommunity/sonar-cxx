@@ -23,25 +23,29 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.AbstractLanguage;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.Configuration;
+import org.sonar.api.internal.apachecommons.lang.StringUtils;
+import org.sonar.api.internal.apachecommons.lang.builder.HashCodeBuilder;
 
 /**
  * {@inheritDoc}
  */
 public abstract class CxxLanguage extends AbstractLanguage {
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
-  private final Settings settings;
+  private final Configuration settings;
   private final Map<String, Metric> MetricsCache;
 
-  public CxxLanguage(String key, Settings settings) {
+  public CxxLanguage(String key, Configuration settings) {
     super(key);
     this.settings = settings;
     this.MetricsCache = new HashMap<>();
   }
   
-  public CxxLanguage(String key, String name, Settings settings) {
+  public CxxLanguage(String key, String name, Configuration settings) {
     super(key, name);
     this.settings = settings;
     this.MetricsCache = new HashMap<>();
@@ -67,9 +71,6 @@ public abstract class CxxLanguage extends AbstractLanguage {
   /**
    * {@inheritDoc}
    */
-//  @Override
-//  public abstract String[] getFileSuffixes();
-
   public abstract String[] getSourceFileSuffixes();
 
   public abstract String[] getHeaderFileSuffixes();
@@ -82,35 +83,39 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public String getRepositorySuffix() {
     return ""; 
   }
-  
+
   public String getPluginProperty(String key) {
     return "sonar." + getPropertiesKey() + "." + key;
   }
 
-  public boolean getBooleanOption(String key) {
+  public Optional<Boolean> getBooleanOption(String key) {
     return this.settings.getBoolean(getPluginProperty(key));
   }
-  
-  public String getStringOption(String key) {
-    return this.settings.getString(getPluginProperty(key));
+
+  public Optional<String> getStringOption(String key) {
+    return this.settings.get(getPluginProperty(key));
   }
-  
+
   public String[] getStringArrayOption(String key) {
     return this.settings.getStringArray(getPluginProperty(key));
   }  
-        
-  public boolean IsRecoveryEnabled() {
+
+  public Optional<Boolean> IsRecoveryEnabled() {
     return this.settings.getBoolean(getPluginProperty(ERROR_RECOVERY_KEY));
   }
-  
+
   public String[] getStringLinesOption(String key) {
-    return this.settings.getStringLines(getPluginProperty(key));
-  }    
-    
+    Optional<String> value = this.settings.get(getPluginProperty(key));
+    if (value.isPresent()) {
+      return value.get().split("\r?\n|\r", -1);
+    }
+    return new String[0];
+  }
+
   public boolean hasKey(String key) {
     return this.settings.hasKey(getPluginProperty(key));
   }
-  
+
   public boolean SaveMetric(Metric metric, String key) {
     if (!MetricsCache.containsKey(key)) {
       MetricsCache.put(key, metric);
@@ -118,8 +123,8 @@ public abstract class CxxLanguage extends AbstractLanguage {
     }
     return false;
   }
-  
-  public Collection<Metric> getMetricsCache() {
+
+  public Collection<?> getMetricsCache() {
     return this.MetricsCache.values();
   }
 

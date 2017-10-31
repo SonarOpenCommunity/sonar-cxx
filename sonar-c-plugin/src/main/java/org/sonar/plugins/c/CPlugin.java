@@ -28,8 +28,8 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.config.Settings;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Qualifiers;
@@ -379,31 +379,6 @@ public final class CPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(1)
       .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.IT_REPORT_PATH_KEY)
-      .name("Integration test coverage report(s)")
-      .description("Path to a report containing integration test coverage data, relative to projects root."
-        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(2)
-      .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.OVERALL_REPORT_PATH_KEY)
-      .name("Overall test coverage report(s)")
-      .description("Path to a report containing overall test coverage data (i.e. test coverage gained by all tests of all kinds), relative to projects root."
-        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(3)
-      .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY)
-      .defaultValue("False")
-      .name("Enable Force Zero Coverage")
-      .description("Set files without coverage reports to zero coverage. Default is 'False'.")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .type(PropertyType.BOOLEAN)
-      .index(4)
-      .build(),      
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.REPORT_PATH_KEY)
       .name("Unit test execution report(s)")
       .description("Path to unit test execution report(s), relative to projects root."
@@ -531,168 +506,171 @@ public final class CPlugin implements Plugin {
   }
   
   public static class CxxMetricsImp extends CxxMetrics {
-    public CxxMetricsImp(Settings settings) {
+    public CxxMetricsImp(Configuration settings) {
       super(new CLanguage(settings));
     }
   }
 
   public static class CxxRatsRuleRepositoryImpl extends CxxRatsRuleRepository {
-    public CxxRatsRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    public CxxRatsRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
       super(fileSystem, xmlRuleLoader, new CLanguage(settings));      
     }
   }
     
   public static class CxxCppCheckRuleRepositoryImpl extends CxxCppCheckRuleRepository {
-    public CxxCppCheckRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    public CxxCppCheckRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
       super(fileSystem, xmlRuleLoader, new CLanguage(settings));      
     }
   }
   
   public static class CxxPCLintRuleRepositoryImpl extends CxxPCLintRuleRepository {
-    public CxxPCLintRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    public CxxPCLintRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
       super(fileSystem, xmlRuleLoader, new CLanguage(settings));      
     }
   }
   
   public static class CxxDrMemoryRuleRepositoryImpl extends CxxDrMemoryRuleRepository {
-    public CxxDrMemoryRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    public CxxDrMemoryRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
       super(fileSystem, xmlRuleLoader, new CLanguage(settings));      
     }
   }
   
   public static class CxxCompilerVcRuleRepositoryImpl extends CxxCompilerVcRuleRepository {
-    public CxxCompilerVcRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    public CxxCompilerVcRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
       super(fileSystem, xmlRuleLoader, new CLanguage(settings));      
     }
   }
   
   public static class CxxCompilerGccRuleRepositoryImpl extends CxxCompilerGccRuleRepository {
-    public CxxCompilerGccRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    public CxxCompilerGccRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
       super(fileSystem, xmlRuleLoader, new CLanguage(settings));      
     }
   }
   
   public static class CxxVeraxxRuleRepositoryImpl extends CxxVeraxxRuleRepository {
-    public CxxVeraxxRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    public CxxVeraxxRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
       super(fileSystem, xmlRuleLoader, new CLanguage(settings));      
     }
   }
   
   public static class CxxValgrindRuleRepositoryImpl extends CxxValgrindRuleRepository {
-    public CxxValgrindRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    public CxxValgrindRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
       super(fileSystem, xmlRuleLoader, new CLanguage(settings));      
     }
   }
   
   public static class CxxExternalRuleRepositoryImpl extends CxxOtherRepository {
-    public CxxExternalRuleRepositoryImpl(RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    public CxxExternalRuleRepositoryImpl(RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
       super(xmlRuleLoader, new CLanguage(settings));      
     }
   }
   
   public static class CxxClangTidyRuleRepositoryImpl extends CxxClangTidyRuleRepository {
-    public CxxClangTidyRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    public CxxClangTidyRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
       super(fileSystem, xmlRuleLoader, new CLanguage(settings));      
     }
   }
   
   public static class CxxClangSARuleRepositoryImpl extends CxxClangSARuleRepository {
-    public CxxClangSARuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    public CxxClangSARuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
       super(fileSystem, xmlRuleLoader, new CLanguage(settings));      
     }
   }
   
   public static class CxxSquidSensorImpl extends CxxSquidSensor {
-    public CxxSquidSensorImpl(Settings settings,
+    public CxxSquidSensorImpl(Configuration settings,
             FileLinesContextFactory fileLinesContextFactory,
             CheckFactory checkFactory,
             CxxCoverageAggregator coverageCache) {
       super(new CLanguage(settings), fileLinesContextFactory, checkFactory, coverageCache);      
     }
   }
-    
+
   public static class CxxRatsSensorImpl extends CxxRatsSensor {
-    public CxxRatsSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
-    }
-  }
-  
-  public static class CxxXunitSensorImpl extends CxxXunitSensor {
-    public CxxXunitSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
-    }
-  }
-  
-  public static class CxxCoverageSensorImpl extends CxxCoverageSensor {
-    public CxxCoverageSensorImpl(Settings settings, CxxCoverageAggregator cache, SensorContext context) {
-      super(cache, new CLanguage(settings), context);      
-    }
-  } 
-  
-  public static class CxxCppCheckSensorImpl extends CxxCppCheckSensor {
-    public CxxCppCheckSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
-    }
-  } 
-  
-  public static class CxxPCLintSensorImpl extends CxxPCLintSensor {
-    public CxxPCLintSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
-    }
-  } 
-  
-  public static class CxxDrMemorySensorImpl extends CxxDrMemorySensor {
-    public CxxDrMemorySensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
-    }
-  } 
-  
-  public static class CxxCompilerSensorImpl extends CxxCompilerSensor {
-    public CxxCompilerSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
-    }
-  } 
-  
-  public static class CxxVeraxxSensorImpl extends CxxVeraxxSensor {
-    public CxxVeraxxSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
-    }
-  }  
-
-  public static class CxxValgrindSensorImpl extends CxxValgrindSensor {
-    public CxxValgrindSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
-    }
-  }
-            
-  public static class CxxClangTidySensorImpl extends CxxClangTidySensor {
-    public CxxClangTidySensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
-    }
-  }  
-
-  public static class CxxClangSASensorImpl extends CxxClangSASensor {
-    public CxxClangSASensorImpl(Settings settings) {
+    public CxxRatsSensorImpl(Configuration settings) {
       super(new CLanguage(settings));
     }
   }
-  public static class CxxExternalRulesSensorImpl extends CxxOtherSensor {
-    public CxxExternalRulesSensorImpl(Settings settings) {
-      super(new CLanguage(settings));      
+
+  public static class CxxXunitSensorImpl extends CxxXunitSensor {
+    public CxxXunitSensorImpl(Configuration settings) {
+      super(new CLanguage(settings));
+    }
+  }
+
+  public static class CxxCoverageSensorImpl extends CxxCoverageSensor {
+    public CxxCoverageSensorImpl(Configuration settings, CxxCoverageAggregator cache, SensorContext context) {
+      super(cache, new CLanguage(settings), context);      
     }
   } 
+
+  public static class CxxCppCheckSensorImpl extends CxxCppCheckSensor {
+    public CxxCppCheckSensorImpl(Configuration settings) {
+      super(new CLanguage(settings));
+    }
+  } 
+
+  public static class CxxPCLintSensorImpl extends CxxPCLintSensor {
+    public CxxPCLintSensorImpl(Configuration settings) {
+      super(new CLanguage(settings));
+
+    }
+  } 
+
+  public static class CxxDrMemorySensorImpl extends CxxDrMemorySensor {
+    public CxxDrMemorySensorImpl(Configuration settings) {
+      super(new CLanguage(settings));
+    }
+  } 
+
+  public static class CxxCompilerSensorImpl extends CxxCompilerSensor {
+    public CxxCompilerSensorImpl(Configuration settings) {
+      super(new CLanguage(settings));
+    }
+  } 
+
+  public static class CxxVeraxxSensorImpl extends CxxVeraxxSensor {
+    public CxxVeraxxSensorImpl(Configuration settings) {
+      super(new CLanguage(settings));
+    }
+  }
+
+  public static class CxxValgrindSensorImpl extends CxxValgrindSensor {
+    public CxxValgrindSensorImpl(Configuration settings) {
+      super(new CLanguage(settings));
+    }
+  }
+
+  public static class CxxClangTidySensorImpl extends CxxClangTidySensor {
+    public CxxClangTidySensorImpl(Configuration settings) {
+      super(new CLanguage(settings));
+    }
+  }
+
+  public static class CxxClangSASensorImpl extends CxxClangSASensor {
+    public CxxClangSASensorImpl(Configuration settings) {
+      super(new CLanguage(settings));
+    }
+  }
+
+  public static class CxxExternalRulesSensorImpl extends CxxOtherSensor {
+    public CxxExternalRulesSensorImpl(Configuration settings) {
+      super(new CLanguage(settings));
+    }
+  }
+
   public static class CxxUnitTestResultsImportSensorImpl extends CxxUnitTestResultsImportSensor {
-    public CxxUnitTestResultsImportSensorImpl(Settings settings, CxxUnitTestResultsAggregator unitTestResultsAggregator, ProjectDefinition projectDef) {
+    public CxxUnitTestResultsImportSensorImpl(Configuration settings, CxxUnitTestResultsAggregator unitTestResultsAggregator, ProjectDefinition projectDef) {
       super(unitTestResultsAggregator, projectDef, new CLanguage(settings));      
     }
-  }   
+  }
   
   public static class CxxCoverageAggregator extends CxxCoverageCache {
     public CxxCoverageAggregator() {                  
       super();
     }
   }
-    
+
   @Override
   public String toString() {
     return getClass().getSimpleName();

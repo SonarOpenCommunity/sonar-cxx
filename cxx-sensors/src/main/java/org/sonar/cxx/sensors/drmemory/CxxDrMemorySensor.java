@@ -49,7 +49,8 @@ public class CxxDrMemorySensor extends CxxReportSensor {
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
   /**
-   * {@inheritDoc}
+   * CxxDrMemorySensor for Doctor Memory Sensor 
+   * @param language defines settings C or C++
    */
   public CxxDrMemorySensor(CxxLanguage language) {
     super(language);

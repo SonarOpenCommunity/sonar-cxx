@@ -22,7 +22,9 @@ package org.sonar.plugins.cxx;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.sonar.api.config.Settings;
+
+import org.sonar.api.config.Configuration;
+import org.sonar.api.internal.apachecommons.lang.builder.HashCodeBuilder;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.checks.BooleanEqualityComparisonCheck;
 import org.sonar.cxx.checks.ClassComplexityCheck;
@@ -90,12 +92,12 @@ public class CppLanguage extends CxxLanguage {
   /**
    * @param settings
    */
-  public CppLanguage(Settings settings) {
+  public CppLanguage(Configuration settings) {
     super("c++", "c++", settings);
     
     sourceSuffixes = createStringArray(settings.getStringArray(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY), 
                                                                          DEFAULT_SOURCE_SUFFIXES);
-    headerSuffixes = createStringArray(settings.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY), 
+    headerSuffixes = createStringArray(settings.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY),
                                                                          DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);    
   }

@@ -43,7 +43,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   public static final String KEY = "Vera++";
   
   /**
-   * {@inheritDoc}
+   * CxxVeraxxSensor for C++ Vera Sensor 
+   * @param language defines settings C or C++
    */
   public CxxVeraxxSensor(CxxLanguage language) {
     super(language);

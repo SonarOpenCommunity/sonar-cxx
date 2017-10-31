@@ -93,7 +93,7 @@ public class CxxPublicApiVisitorTest {
     visitor.withHeaderFileSuffixes(Arrays
       .asList(getFileExtension(fileName)));
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".");
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(
             tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
 
@@ -110,7 +110,7 @@ public class CxxPublicApiVisitorTest {
   @SuppressWarnings("unchecked")
   @Test
   public void test_no_matching_suffix() throws IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".");
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(),
       new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
         CxxMetric.PUBLIC_UNDOCUMENTED_API)
@@ -178,7 +178,7 @@ public class CxxPublicApiVisitorTest {
 
     visitor.withHeaderFileSuffixes(Arrays.asList(".h"));
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/public_api.h", ".");
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/public_api.h", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor); //
 
     if (LOG.isDebugEnabled()) {

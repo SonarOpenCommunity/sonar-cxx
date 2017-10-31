@@ -40,10 +40,12 @@ import org.sonar.squidbridge.api.SourceProject;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -97,7 +99,8 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   public Parser<? extends Grammar> doGetParser() {
     SquidAstVisitorContext<Grammar> context
       = new SquidAstVisitorContextImpl<>(new SourceProject(""));
-    CppLanguage language = new CppLanguage();
+    Configuration settings = (Configuration) Collections.emptyMap();
+    CppLanguage language = new CppLanguage(settings);
     return CxxParser.create(context, getConfiguration(language), language);
   }
 

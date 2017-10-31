@@ -21,6 +21,7 @@ package org.sonar.cxx.sensors.tests.dotnet;
 
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -46,8 +47,8 @@ public final class CxxUnitTestResultsProvider {
 
   public static class CxxUnitTestResultsAggregator extends UnitTestResultsAggregator {
 
-    public CxxUnitTestResultsAggregator(Settings settings) {
-      super(UNIT_TEST_CONF, settings);
+    public CxxUnitTestResultsAggregator(Configuration settings) {
+      super(UNIT_TEST_CONF, (Settings) settings);
     }
   }
 

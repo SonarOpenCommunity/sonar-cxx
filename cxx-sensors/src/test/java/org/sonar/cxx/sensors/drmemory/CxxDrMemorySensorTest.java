@@ -24,10 +24,15 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
+
+import java.io.File;
+import java.nio.charset.Charset;
+
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -35,24 +40,26 @@ public class CxxDrMemorySensorTest {
 
   private DefaultFileSystem fs;
   private CxxLanguage language;
-  private Settings settings;
+  private MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    settings = new Settings();
     language = TestUtils.mockCxxLanguage();
     when(language.getPluginProperty(CxxDrMemorySensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxDrMemorySensor.REPORT_PATH_KEY);
   }
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
+
+    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
+        .initMetadata("asd\nasdas\nasda\n").setCharset(Charset.forName("UTF-8")).build();
+
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxDrMemorySensor.REPORT_PATH_KEY), "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
-    context.setSettings(settings);
-
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.settings().setProperty(language.getPluginProperty(CxxDrMemorySensor.REPORT_PATH_KEY),
+        "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
+    context.fileSystem().add(inputFile);
+    
     CxxDrMemorySensor sensor = new CxxDrMemorySensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);

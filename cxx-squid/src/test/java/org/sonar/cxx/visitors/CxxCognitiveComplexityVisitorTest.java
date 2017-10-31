@@ -42,7 +42,7 @@ public class CxxCognitiveComplexityVisitorTest {
       .setMetricDef(CxxMetric.COGNITIVE_COMPLEXITY)
       .build();
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".");
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
     SourceFile sourceFile = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
 
     return (sourceFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY));
