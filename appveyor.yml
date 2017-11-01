@@ -52,7 +52,7 @@ install:
   - cmd: SET SONARHOME=C:\sonarqube\sonarqube-5.6.7
   - cmd: SET TestDataFolder=C:\projects\sonar-cxx\integration-tests\testdata
   - cmd: SET SQ_PARAMETER=-Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken%
-  - cmd: SET SQ_PR_PARAMETER=%SQ_PARAMETER% -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.github.repository=%APPVEYOR_REPO_NAME% -Dsonar.github.oauth=%githubtoken%
+  - cmd: SET SQ_PR_PARAMETER=%SQ_PARAMETER% -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.github.repository=%APPVEYOR_REPO_NAME% -Dsonar.github.oauth=2ea24414f8fd16c3a4c27adaee47c1d9aff30af5
   - cmd: SET
 
 build_script:
