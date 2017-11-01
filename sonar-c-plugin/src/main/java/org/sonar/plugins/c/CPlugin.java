@@ -56,9 +56,6 @@ import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
 import org.sonar.cxx.sensors.rats.CxxRatsRuleRepository;
 import org.sonar.cxx.sensors.rats.CxxRatsSensor;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
-import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsProvider;
-import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsAggregator;
-import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsImportSensor;
 import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
 import org.sonar.cxx.sensors.utils.CxxMetrics;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindRuleRepository;
@@ -394,21 +391,7 @@ public final class CPlugin implements Plugin {
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(7)
-      .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxUnitTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
-      .name("Visual Studio Test Reports Paths")
-      .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(9)
-      .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxUnitTestResultsProvider.NUNIT_TEST_RESULTS_PROPERTY_KEY)
-      .name("Nunit Test Reports Paths")
-      .description("Example: \"nunit.xml\", \"nunit1.xml,nunit2.xml\" or \"C:/nunit.xml\"")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(10)
-      .build()      
+      .build()
     ));
   }
 
@@ -457,7 +440,7 @@ public final class CPlugin implements Plugin {
     l.addAll(testingAndCoverageProperties());
     l.addAll(compilerWarningsProperties());
     l.addAll(duplicationsProperties());
-    
+
     context.addExtensions(l);
   }
 
@@ -466,11 +449,10 @@ public final class CPlugin implements Plugin {
 
     // utility classes
     l.add(CxxCoverageAggregator.class);
-    l.add(CxxUnitTestResultsAggregator.class);
-        
+
     // metrics    
     l.add(CxxMetricsImp.class);
-    
+
     // issue sensors
     l.add(CxxSquidSensorImpl.class);
     l.add(CxxRatsSensorImpl.class);    
@@ -486,9 +468,8 @@ public final class CPlugin implements Plugin {
 
     // test sensors
     l.add(CxxXunitSensorImpl.class);
-    l.add(CxxUnitTestResultsImportSensorImpl.class);
     l.add(CxxCoverageSensorImpl.class);    
-    
+
     // rule provides
     l.add(CxxRatsRuleRepositoryImpl.class);
     l.add(CxxCppCheckRuleRepositoryImpl.class);
@@ -659,12 +640,6 @@ public final class CPlugin implements Plugin {
     }
   }
 
-  public static class CxxUnitTestResultsImportSensorImpl extends CxxUnitTestResultsImportSensor {
-    public CxxUnitTestResultsImportSensorImpl(Configuration settings, CxxUnitTestResultsAggregator unitTestResultsAggregator, ProjectDefinition projectDef) {
-      super(unitTestResultsAggregator, projectDef, new CLanguage(settings));      
-    }
-  }
-  
   public static class CxxCoverageAggregator extends CxxCoverageCache {
     public CxxCoverageAggregator() {                  
       super();
@@ -676,3 +651,4 @@ public final class CPlugin implements Plugin {
     return getClass().getSimpleName();
   }
 }
+

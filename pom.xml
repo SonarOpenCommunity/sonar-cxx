@@ -327,11 +327,13 @@
         <artifactId>jdom</artifactId>
         <version>1.0</version>
       </dependency>
+<!--
       <dependency>
         <groupId>org.sonarsource.dotnet</groupId>
         <artifactId>sonar-dotnet-tests-library</artifactId>
         <version>1.6.0.533</version>
       </dependency>
+-->
       <dependency>
         <groupId>org.hamcrest</groupId>
         <artifactId>hamcrest-all</artifactId>
