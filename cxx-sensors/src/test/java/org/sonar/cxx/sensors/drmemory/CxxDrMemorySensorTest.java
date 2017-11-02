@@ -19,7 +19,8 @@
  */
 package org.sonar.cxx.sensors.drmemory;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -65,3 +66,4 @@ public class CxxDrMemorySensorTest {
     assertThat(context.allIssues()).hasSize(1);
   }
 }
+

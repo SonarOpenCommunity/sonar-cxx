@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<assemblies>
+  <assembly name="C:\XUnitTests\bin\Debug\XUnitTests.DLL" configFile="C:\XUnitTests\packages\xunit.runner.console.2.1.0\tools\xunit.console.exe.Config" run-date="2016-01-26" run-time="15:45:43" time="0.227" total="invalid" passed="3" failed="2" skipped="0" environment="64-bit .NET 4.0.30319.42000 [collection-per-class, parallel (4 threads)]" test-framework="xUnit.net 2.1.0.3179" />
+</assemblies>

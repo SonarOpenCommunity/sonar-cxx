@@ -21,7 +21,7 @@ package org.sonar.cxx.sensors.compiler;
 
 import org.sonar.cxx.sensors.compiler.CxxCompilerVcRuleRepository;
 import org.sonar.cxx.sensors.compiler.CxxCompilerGccRuleRepository;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Test;

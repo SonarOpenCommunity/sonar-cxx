@@ -57,6 +57,9 @@ import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
 import org.sonar.cxx.sensors.rats.CxxRatsRuleRepository;
 import org.sonar.cxx.sensors.rats.CxxRatsSensor;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
+import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsAggregator;
+import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsImportSensor;
+import org.sonar.cxx.sensors.tests.dotnet.UnitTestConfiguration;
 import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
 import org.sonar.cxx.sensors.utils.CxxMetrics;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindRuleRepository;
@@ -92,6 +95,7 @@ public final class CxxPlugin implements Plugin {
     String subcateg = "(1) General";
     return new ArrayList<>(Arrays.asList(
       PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY)
+      .multiValues(true)
       .defaultValue(CppLanguage.DEFAULT_SOURCE_SUFFIXES)
       .name("Source files suffixes")
       .description("Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.")
@@ -100,6 +104,7 @@ public final class CxxPlugin implements Plugin {
       .index(1)
       .build(),
       PropertyDefinition.builder(HEADER_FILE_SUFFIXES_KEY)
+      .multiValues(true)
       .defaultValue(CppLanguage.DEFAULT_HEADER_SUFFIXES)
       .name("Header files suffixes")
       .description("Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.")
@@ -108,6 +113,7 @@ public final class CxxPlugin implements Plugin {
       .index(2)
       .build(),
       PropertyDefinition.builder(INCLUDE_DIRECTORIES_KEY)
+      .multiValues(true)
       .name("Include directories")
       .description("Comma-separated list of directories to search the included files in. "
         + "May be defined either relative to projects root or absolute.")
@@ -116,6 +122,7 @@ public final class CxxPlugin implements Plugin {
       .index(3)
       .build(),
       PropertyDefinition.builder(FORCE_INCLUDE_FILES_KEY)
+      .multiValues(true)
       .subCategory(subcateg)
       .name("Force includes")
       .description("Comma-separated list of files which should to be included implicitly at the "
@@ -135,6 +142,7 @@ public final class CxxPlugin implements Plugin {
       .build(),
       PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
       .defaultValue(CppLanguage.DEFAULT_C_FILES)
+      .multiValues(true)
       .name("C source files patterns")
       .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the"
         + "patterns, it is parsed in C-compatibility mode.")
@@ -426,6 +434,24 @@ public final class CxxPlugin implements Plugin {
           .subCategory(subcateg)
           .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
           .index(3)
+          .build(),
+        PropertyDefinition.builder(LANG_PROP_PREFIX 
+                                   + UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
+          .multiValues(true)
+          .name("Visual Studio Test Reports Paths")
+          .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
+          .subCategory(subcateg)
+          .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+          .index(4)
+          .build(),
+        PropertyDefinition.builder(LANG_PROP_PREFIX 
+                                   + UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY)
+          .multiValues(true)
+          .name("xUnit (MS) Test Reports Paths")
+          .description("Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
+          .subCategory(subcateg)
+          .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+          .index(5)
           .build()
         );
     return properties.build();
@@ -471,14 +497,13 @@ public final class CxxPlugin implements Plugin {
 
     // reusable elements
     l.addAll(getSensorsImpl());
-    
+
     // properties elements
     l.addAll(generalProperties());
     l.addAll(codeAnalysisProperties());
     l.addAll(testingAndCoverageProperties(context.getSonarQubeVersion()));
     l.addAll(compilerWarningsProperties());
     l.addAll(duplicationsProperties());
-
     context.addExtensions(l);
   }
 
@@ -487,6 +512,7 @@ public final class CxxPlugin implements Plugin {
 
     // utility classes
     l.add(CxxCoverageAggregator.class);
+    l.add(CxxUnitTestResultsAggregator.class);
 
     // metrics    
     l.add(CxxMetricsImp.class);
@@ -506,7 +532,8 @@ public final class CxxPlugin implements Plugin {
 
     // test sensors
     l.add(CxxXunitSensorImpl.class);
-    l.add(CxxCoverageSensorImpl.class);    
+    l.add(CxxUnitTestResultsImportSensorImpl.class);
+    l.add(CxxCoverageSensorImpl.class);
 
     // rule provides
     l.add(CxxRatsRuleRepositoryImpl.class);
@@ -533,76 +560,76 @@ public final class CxxPlugin implements Plugin {
   public static class CxxRatsRuleRepositoryImpl extends CxxRatsRuleRepository {
     public CxxRatsRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
         Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
     
   public static class CxxCppCheckRuleRepositoryImpl extends CxxCppCheckRuleRepository {
     public CxxCppCheckRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
         Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxPCLintRuleRepositoryImpl extends CxxPCLintRuleRepository {
     public CxxPCLintRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
         Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxDrMemoryRuleRepositoryImpl extends CxxDrMemoryRuleRepository {
     public CxxDrMemoryRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
         Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxCompilerVcRuleRepositoryImpl extends CxxCompilerVcRuleRepository {
     public CxxCompilerVcRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
         Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxCompilerGccRuleRepositoryImpl extends CxxCompilerGccRuleRepository {
     public CxxCompilerGccRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
         Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxVeraxxRuleRepositoryImpl extends CxxVeraxxRuleRepository {
     public CxxVeraxxRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
         Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxValgrindRuleRepositoryImpl extends CxxValgrindRuleRepository {
     public CxxValgrindRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
         Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxExternalRuleRepositoryImpl extends CxxOtherRepository {
     public CxxExternalRuleRepositoryImpl(RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
-      super(xmlRuleLoader, new CppLanguage(settings));      
+      super(xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxClangTidyRuleRepositoryImpl extends CxxClangTidyRuleRepository {
     public CxxClangTidyRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
         Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
 
   public static class CxxClangSARuleRepositoryImpl extends CxxClangSARuleRepository {
     public CxxClangSARuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
         Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
 
@@ -611,7 +638,7 @@ public final class CxxPlugin implements Plugin {
             FileLinesContextFactory fileLinesContextFactory,
           CheckFactory checkFactory,
           CxxCoverageAggregator coverageCache) {
-      super(new CppLanguage(settings), fileLinesContextFactory, checkFactory, coverageCache);      
+      super(new CppLanguage(settings), fileLinesContextFactory, checkFactory, coverageCache);
     }
   }
 
@@ -632,7 +659,7 @@ public final class CxxPlugin implements Plugin {
       super(cache, new CppLanguage(settings), context);
     }
   } 
-  
+
   public static class CxxCppCheckSensorImpl extends CxxCppCheckSensor {
     public CxxCppCheckSensorImpl(Configuration settings) {
       super(new CppLanguage(settings));
@@ -687,8 +714,15 @@ public final class CxxPlugin implements Plugin {
     }
   }
 
+  public static class CxxUnitTestResultsImportSensorImpl extends CxxUnitTestResultsImportSensor {
+    public CxxUnitTestResultsImportSensorImpl(Configuration settings,
+        CxxUnitTestResultsAggregator unitTestResultsAggregator, ProjectDefinition projectDef) {
+      super(unitTestResultsAggregator, projectDef, new CppLanguage(settings));
+    }
+  }
+
   public static class CxxCoverageAggregator extends CxxCoverageCache {
-    public CxxCoverageAggregator() {                  
+    public CxxCoverageAggregator() {
       super();
     }
   }

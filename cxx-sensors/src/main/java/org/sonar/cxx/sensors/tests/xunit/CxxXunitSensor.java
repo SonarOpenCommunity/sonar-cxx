@@ -61,7 +61,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   public CxxXunitSensor(CxxLanguage language) {
     super(language);
     if (language.getStringOption(XSLT_URL_KEY).isPresent()) {
-      xsltURL = language.getStringOption(XSLT_URL_KEY).get();
+      xsltURL = language.getStringOption(XSLT_URL_KEY).orElse("xunit-report.xslt");
     }
   }
 
@@ -125,8 +125,11 @@ public class CxxXunitSensor extends CxxReportSensor {
       LOG.info("Processing report '{}'", report);
       try {
         parser.parse(transformReport(report));
-      } catch (EmptyReportException e) { 
+      } catch (EmptyReportException e) {
         LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("{}", e);
+        }
       }
     }
     return parserHandler;

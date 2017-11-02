@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.utils.log.LogTester;
 

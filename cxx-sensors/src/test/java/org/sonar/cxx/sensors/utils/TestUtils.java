@@ -1,5 +1,3 @@
-package org.sonar.cxx.sensors.utils;
-
 /*
  * Sonar C++ Plugin (Community)
  * Copyright (C) 2010-2017 SonarOpenCommunity
@@ -19,7 +17,7 @@ package org.sonar.cxx.sensors.utils;
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
+package org.sonar.cxx.sensors.utils;
 
 import static org.mockito.Mockito.when;
 

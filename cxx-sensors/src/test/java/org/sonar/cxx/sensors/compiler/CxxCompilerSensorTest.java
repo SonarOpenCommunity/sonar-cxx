@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.xml.stream.XMLStreamException;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.cxx.CxxLanguage;

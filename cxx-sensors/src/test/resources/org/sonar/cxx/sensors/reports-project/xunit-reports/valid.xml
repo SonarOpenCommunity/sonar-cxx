@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<assemblies>
+  <!-- xmlv1 format -->
+  <assembly name="C:\XUnitTests\bin\Debug\XUnitTests.DLL" configFile="C:\XUnitTests\packages\xunit.runner.console.2.1.0\tools\xunit.console.exe.Config" run-date="2016-01-26" run-time="15:45:43" time="0.227" total="5" passed="3" failed="2" skipped="0" environment="64-bit .NET 4.0.30319.42000 [collection-per-class, parallel (4 threads)]" test-framework="xUnit.net 2.1.0.3179" />
+
+  <!-- xml format -->
+  <assembly name="C:\XUnitTests\bin\Debug\XUnitTests.DLL" environment="64-bit .NET 4.0.30319.42000 [collection-per-class, parallel (4 threads)]" test-framework="xUnit.net 2.1.0.3179" run-date="2016-01-26" run-time="16:24:26" config-file="C:\XUnitTests\packages\xunit.runner.console.2.1.0\tools\xunit.console.exe.Config" total="12" passed="2" failed="1" skipped="4" time="0.228" errors="5" />
+</assemblies>

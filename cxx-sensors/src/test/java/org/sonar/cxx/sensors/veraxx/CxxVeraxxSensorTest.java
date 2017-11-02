@@ -20,7 +20,7 @@
 package org.sonar.cxx.sensors.veraxx;
 
 import org.sonar.cxx.sensors.utils.TestUtils;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
 import org.junit.Before;

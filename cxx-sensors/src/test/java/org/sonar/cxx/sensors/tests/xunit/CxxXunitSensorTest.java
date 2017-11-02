@@ -23,7 +23,7 @@ import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
 import java.io.File;
 import java.util.Optional;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;

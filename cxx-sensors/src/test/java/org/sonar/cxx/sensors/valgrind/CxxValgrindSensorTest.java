@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
 import java.util.Set;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -88,3 +88,4 @@ public class CxxValgrindSensorTest {
     return new ValgrindFrame("ip", "obj", "fn", "dir", "file", "1");
   }
 }
+
