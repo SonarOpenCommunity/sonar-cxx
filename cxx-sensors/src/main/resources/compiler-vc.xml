@@ -10176,6 +10176,23 @@ see also:</p>
     <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>C26423</key>
+    <name>C26423: The allocation was not directly assigned to an owner.</name>
+    <description><![CDATA[<p>
+not available now - work in progress (experimental)
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#gslowner-ownership-pointers" target="_blank">GSL.owner: Ownership pointers</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-raii" target="_blank">R.1: Resource Acquisition Is Initialization</a></p>
+]]>
+    </description>
+    <internalKey>C26423</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>C26461</key>
     <name>C26461: Use const input arguments.</name>
     <description><![CDATA[<p>
