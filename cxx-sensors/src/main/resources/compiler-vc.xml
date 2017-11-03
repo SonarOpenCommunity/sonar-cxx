@@ -10176,6 +10176,22 @@ see also:</p>
     <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>C26412</key>
+    <name>C26412: Do not dereference an invalid pointer (lifetimes rule 1).</name>
+    <description><![CDATA[<p>
+not available now - work in progress (experimental)
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prolifetime-lifetime-safety-profile" target="_blank">Pro.lifetime: Lifetime safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26412</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>C26423</key>
     <name>C26423: The allocation was not directly assigned to an owner.</name>
     <description><![CDATA[<p>
@@ -10186,6 +10202,22 @@ see also:</p>
 ]]>
     </description>
     <internalKey>C26423</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26424</key>
+    <name>C26424: Failing to delete or assign ownership of allocation at line XXXX</name>
+    <description><![CDATA[<p>
+not available now - work in progress (experimental)
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Pro.safety: Type-safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26424</internalKey>
     <tag>core-guideline</tag>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
