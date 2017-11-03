@@ -80,7 +80,7 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   @Override
   public void execute(SensorContext context) {    
-    String moduleKey = context.settings().getString("sonar.moduleKey");
+    String moduleKey = context.config().get("sonar.moduleKey").orElse(null);
     if (moduleKey != null) {
       LOG.debug("Runs unit test import sensor only at top level project skip : Module Key = '{}'", moduleKey);
       return;        

@@ -37,6 +37,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
+
 public class CxxPCLintSensorTest {
   private DefaultFileSystem fs;
   private MapSettings settings = new MapSettings();
@@ -167,6 +168,7 @@ public class CxxPCLintSensorTest {
 
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
+    assertThat(context.allIssues().size()).isZero();
   }
 }
 

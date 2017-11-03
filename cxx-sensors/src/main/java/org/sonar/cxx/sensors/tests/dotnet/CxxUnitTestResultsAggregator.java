@@ -22,11 +22,14 @@ package org.sonar.cxx.sensors.tests.dotnet;
 import java.io.File;
 import org.sonar.api.batch.ScannerSide;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 
 @ScannerSide
 public class CxxUnitTestResultsAggregator {
 
+  private static final Logger LOG = Loggers.get(CxxUnitTestResultsAggregator.class);
   private final UnitTestConfiguration unitTestConf;
   private final Configuration settings;
   private final VisualStudioTestResultsFileParser visualStudioTestResultsFileParser;
@@ -52,10 +55,18 @@ public class CxxUnitTestResultsAggregator {
   }
 
   private boolean hasVisualStudioTestResultsFile() {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Exist configuration parameter: '{}':'{}'", unitTestConf.visualStudioTestResultsFilePropertyKey(),
+                                              settings.hasKey(unitTestConf.visualStudioTestResultsFilePropertyKey()));
+    }
     return settings.hasKey(unitTestConf.visualStudioTestResultsFilePropertyKey());
   }
 
   private boolean hasXUnitTestResultsFile() {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Exist configuration parameter: '{}':'{}'", unitTestConf.xunitTestResultsFilePropertyKey(),
+                                               settings.hasKey(unitTestConf.xunitTestResultsFilePropertyKey()));
+    }
     return settings.hasKey(unitTestConf.xunitTestResultsFilePropertyKey());
   }
 
@@ -78,6 +89,7 @@ public class CxxUnitTestResultsAggregator {
   private static void aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, String[] reportPaths, 
                                 UnitTestResultsParser parser, UnitTestResults unitTestResults) {
     for (String reportPathPattern : reportPaths) {
+      LOG.info("Report path pattern: '{}'", reportPathPattern);
       if (!reportPathPattern.isEmpty()) {
         for (File reportFile : wildcardPatternFileProvider.listFiles(reportPathPattern)) {
           parser.accept(reportFile, unitTestResults);

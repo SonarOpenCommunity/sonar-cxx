@@ -34,7 +34,6 @@ import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.api.utils.Version;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
@@ -75,8 +74,8 @@ import com.google.common.collect.ImmutableList;
 public final class CxxPlugin implements Plugin {
   private static final String USE_ANT_STYLE_WILDCARDS = 
       " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
-  private static final String EXTENDING_THE_CODE_ANALYSIS = 
-      " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.";
+  private static final String EXTENDING_THE_CODE_ANALYSIS = " The used format is described <a href='"
+                       + "https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.";
   public static final String LANG_PROP_PREFIX = "sonar.cxx.";
   public static final String SOURCE_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.sources";
   public static final String HEADER_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.headers";
@@ -402,12 +401,13 @@ public final class CxxPlugin implements Plugin {
     ));
   }
 
-  private static List<PropertyDefinition> testingAndCoverageProperties(Version sonarQubeVersion) {
+  private static List<PropertyDefinition> testingAndCoverageProperties() {
     String subcateg = "(3) Testing & Coverage";
     ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
 
     properties.add(
         PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.REPORT_PATH_KEY)
+          .multiValues(true)
           .name("Unit test coverage report(s)")
           .description("List of paths to reports containing unit test coverage data, relative to projects root."
             + " The values are separated by commas."
@@ -501,7 +501,7 @@ public final class CxxPlugin implements Plugin {
     // properties elements
     l.addAll(generalProperties());
     l.addAll(codeAnalysisProperties());
-    l.addAll(testingAndCoverageProperties(context.getSonarQubeVersion()));
+    l.addAll(testingAndCoverageProperties());
     l.addAll(compilerWarningsProperties());
     l.addAll(duplicationsProperties());
     context.addExtensions(l);

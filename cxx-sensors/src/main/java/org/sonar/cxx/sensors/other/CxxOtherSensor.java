@@ -34,6 +34,7 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -47,7 +48,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * @author jorge costa, stefan weiser
  */
 public class CxxOtherSensor extends CxxReportSensor {
-  private static final int MAX_STYLESHEETS = 10;
+  static final int MAX_STYLESHEETS = 10;
   private static final Logger LOG = Loggers.get(CxxOtherSensor.class);
   public static final String REPORT_PATH_KEY = "other.reportPath";
   public static final String KEY = "other";
@@ -57,8 +58,7 @@ public class CxxOtherSensor extends CxxReportSensor {
   public static final String OUTPUT_KEY = ".outputs";
 
   /**
-   * CxxOtherSensor for Other Sensor 
-   * @param language defines settings C or C++
+   * {@inheritDoc}
    */
   public CxxOtherSensor(CxxLanguage language) {
     super(language);
@@ -117,10 +117,6 @@ public class CxxOtherSensor extends CxxReportSensor {
     return KEY;
   }  
 
-  /**
-   * @param baseDir
-   * @param context
-   */
   public void transformFiles(final File baseDir, SensorContext context) {
     boolean goOn = true;
     for (int i = 1; (i < MAX_STYLESHEETS) && goOn; i++) {
@@ -132,24 +128,18 @@ public class CxxOtherSensor extends CxxReportSensor {
         LOG.error("'{}' is not defined.", OTHER_XSLT_KEY + i + STYLESHEET_KEY);
         break;
       }
-      String stylesheet = resolveFilename(baseDir.getAbsolutePath(), context.config().get(stylesheetKey).orElse(null));
+      String stylesheet = resolveFilename(baseDir.getAbsolutePath(), context.config().get(stylesheetKey).orElse(""));
+
 
       List<File> inputs = getReports(context.config(), baseDir, inputKey);
-      String[] outputStrings = null;
-      if (outputKey != null) {
-        outputStrings = context.config().getStringArray(outputKey);
-      }
-
+      String[] outputStrings = context.config().getStringArray(outputKey);
       List<String> outputs = Arrays.asList((outputStrings != null) ? outputStrings : new String[] {});
-      if (stylesheet == null && inputKey==null && outputKey==null) {
+
+      if (stylesheet == null) {
+        LOG.error(stylesheetKey + " is not defined.");
         goOn = false;
       } else {
-        if (stylesheet == null) {
-          LOG.error(stylesheetKey + " is not defined.");
-          goOn = false;
-        } else {
-          goOn = checkInput(inputKey, outputKey, inputs, outputs); 
-        }
+        goOn = checkInput(inputKey, outputKey, inputs, outputs); 
       }
 
       if (goOn) {
@@ -166,53 +156,23 @@ public class CxxOtherSensor extends CxxReportSensor {
 
   private static boolean checkInput(String inputKey, String outputKey, @Nullable List<File> inputs,
                                                                 @Nullable List<String> outputs) {
-    return isValidInput(inputKey, inputs) && isValidOutput(outputKey, outputs) && hasCorrectSize(inputs, outputs);
-  }
+    if ((inputs == null) || (inputs.isEmpty())) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(inputKey + " file is not defined.");
+      }
+      return false;
+      }
 
-  /**
-   * @param inputs
-   * @param outputs
-   * @return
-   */
-  private static boolean hasCorrectSize(List<File> inputs, List<String> outputs) {
+    if ((outputs == null) || (outputs.isEmpty())) {
+      LOG.error(outputKey + " is not defined.");
+      return false;
+      }
+
     if (inputs.size() != outputs.size()) {
       LOG.error("Number of source XML files is not equal to the the number of output files.");
       return false;
     } 
-    return true;
-  }
 
-  /**
-   * @param outputKey
-   * @param outputs
-   * @return
-   */
-  private static boolean isValidOutput(@Nullable String outputKey, @Nullable List<String> outputs) {
-    if ((outputKey==null) ||(outputs == null) || (outputs.isEmpty())) {
-      if (outputKey != null) {
-        LOG.error(outputKey + " file is not defined.");
-      } else {
-        LOG.error(" outputKey is not defined.");
-      }
-      return false;
-      }
-    return true;
-  }
-
-  /**
-   * @param inputKey
-   * @param inputs
-   */
-  private static boolean isValidInput(@Nullable String inputKey, @Nullable List<File> inputs) {
-
-    if ((inputKey == null) || (inputs == null) || (inputs.isEmpty())) {
-      if (inputKey != null) {
-        LOG.error(inputKey + " file is not defined.");
-      } else {
-        LOG.error(" inputKey is not defined.");
-      }
-      return false;
-      }
     return true;
   }
 
@@ -233,3 +193,4 @@ public class CxxOtherSensor extends CxxReportSensor {
     }
   }
 }
+

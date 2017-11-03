@@ -54,6 +54,7 @@ public class CxxValgrindSensorTest {
   public void shouldNotThrowWhenGivenValidData() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     sensor.execute(context);
+    assertThat(context.allAnalysisErrors().size()==0).isTrue();
   }
 
   @Test
@@ -63,7 +64,6 @@ public class CxxValgrindSensorTest {
     valgrindErrors.add(mockValgrindError(true));
     context.fileSystem().add(TestInputFileBuilder.create("myProjectKey", "dir/file").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     sensor.saveErrors(context, valgrindErrors);
-    
     assertThat(context.allIssues()).hasSize(1);
   }
 

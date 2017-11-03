@@ -23,16 +23,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 import org.sonar.api.Plugin;
+import org.sonar.api.SonarQubeSide;
 import org.sonar.api.SonarRuntime;
+import org.sonar.api.internal.SonarRuntimeImpl;
 import org.sonar.api.utils.Version;
 
 public class CxxPluginTest {
 
-//  @Test
-//  public void testGetExtensions() throws Exception {
-//   Plugin.Context context = new Plugin.Context( Version.create(6, 5));
-//   CxxPlugin plugin = new CxxPlugin();
-//   plugin.define(context);
-//   assertThat(context.getExtensions()).hasSize(75);
-//  }
+  @Test
+  public void testGetExtensions() throws Exception {
+   SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(Version.create(6, 5), SonarQubeSide.SCANNER);
+   Plugin.Context context = new Plugin.Context(runtime); 
+   CxxPlugin plugin = new CxxPlugin();
+   plugin.define(context);
+   assertThat(context.getExtensions()).hasSize(72);
+  }
 }

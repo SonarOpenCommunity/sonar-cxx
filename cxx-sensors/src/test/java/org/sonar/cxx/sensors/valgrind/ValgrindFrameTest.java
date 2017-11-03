@@ -21,6 +21,7 @@ package org.sonar.cxx.sensors.valgrind;
 
 import org.sonar.cxx.sensors.valgrind.ValgrindFrame;
 import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,31 +44,31 @@ public class ValgrindFrameTest {
 
   @Test
   public void frameDoesntEqualsNull() {
-    assert (!frame.equals(null));
+    assertThat(frame).isNotNull();
   }
 
   @Test
   public void frameDoesntEqualsMiscObject() {
-    assert (!frame.equals("string"));
+    assertThat(frame).isNotEqualTo("string");
   }
 
   @Test
   public void frameEqualityIsReflexive() {
-    assert (frame.equals(frame));
-    assert (otherFrame.equals(otherFrame));
-    assert (equalFrame.equals(equalFrame));
+    assertThat(frame).isEqualTo(frame);
+    assertThat(otherFrame).isEqualTo(otherFrame);
+    assertThat(equalFrame).isEqualTo(equalFrame);
   }
 
   @Test
   public void frameEqualityWorksAsExpected() {
-    assert (frame.equals(equalFrame));
-    assert (!frame.equals(otherFrame));
+    assertThat(frame).isEqualTo(equalFrame);
+    assertThat(frame).isNotEqualTo(otherFrame);
   }
 
   @Test
   public void frameHashWorksAsExpected() {
-    assert (frame.hashCode() == equalFrame.hashCode());
-    assert (frame.hashCode() != otherFrame.hashCode());
+    assertThat(frame.hashCode() == equalFrame.hashCode()).isTrue();
+    assertThat(frame.hashCode() != otherFrame.hashCode()).isTrue();
   }
 
   @Test

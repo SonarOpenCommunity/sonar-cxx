@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.io.File;
+import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,6 +51,12 @@ public class XmlParserHelperTest {
     assertThat(xml.nextStartOrEndTag()).isEqualTo("</bar>");
     assertThat(xml.nextStartOrEndTag()).isEqualTo("</foo>");
     assertThat(xml.nextStartOrEndTag()).isNull();
+    try {
+      xml.close();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   @Test
@@ -63,7 +70,12 @@ public class XmlParserHelperTest {
     thrown.expectMessage("valid.xml");
     thrown.expectMessage("Expected an double instead of \"hello\" for the attribute \"myString\"");
     xml.getDoubleAttribute("myString");
-
+    try {
+      xml.close();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
 }

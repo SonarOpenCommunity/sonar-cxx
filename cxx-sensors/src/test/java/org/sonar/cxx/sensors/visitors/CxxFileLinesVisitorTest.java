@@ -98,8 +98,6 @@ public class CxxFileLinesVisitorTest {
   @Test
   public void TestExecutableLinesOfCode() throws UnsupportedEncodingException, IOException {
 
-
-    String fileName = "src/test/resources/org/sonar/cxx/sensors/ncloc.cc";
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
                                   .setCharset(Charset.forName("UTF-8")).setLanguage(language.getKey())

@@ -511,7 +511,8 @@ public class CxxPreprocessor extends Preprocessor {
       }
       try {
         currentFileState.skipPreprocessorDirectives = false;
-        currentFileState.skipPreprocessorDirectives = !ifExprEvaluator.eval(ast.getFirstDescendant(CppGrammar.constantExpression));
+        currentFileState.skipPreprocessorDirectives = !ifExprEvaluator.eval(
+                                                       ast.getFirstDescendant(CppGrammar.constantExpression));
       } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
           filename, token.getLine(), token.getValue());
@@ -538,14 +539,16 @@ public class CxxPreprocessor extends Preprocessor {
   PreprocessorAction handleElIfLine(AstNode ast, Token token, String filename) { //TODO: deprecated PreprocessorAction
     // Handling of an elif line is similar to handling of an if line but doesn't increase the nesting level
     if (currentFileState.conditionalInclusionCounter == 0) {
-      if (currentFileState.skipPreprocessorDirectives && !currentFileState.conditionWasTrue) { //the preceding clauses had been evaluated to false
+      //the preceding clauses had been evaluated to false
+      if (currentFileState.skipPreprocessorDirectives && !currentFileState.conditionWasTrue) { 
         try {
           if (LOG.isTraceEnabled()) {
             LOG.trace("[{}:{}]: handling #elif line '{}'",
               filename, token.getLine(), token.getValue());
           }
           currentFileState.skipPreprocessorDirectives = false;
-          currentFileState.skipPreprocessorDirectives = !ifExprEvaluator.eval(ast.getFirstDescendant(CppGrammar.constantExpression));
+          currentFileState.skipPreprocessorDirectives = !ifExprEvaluator.eval(
+                                                        ast.getFirstDescendant(CppGrammar.constantExpression));
         } catch (EvaluationException e) {
           LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
             filename, token.getLine(), token.getValue());
@@ -573,7 +576,7 @@ public class CxxPreprocessor extends Preprocessor {
            new ArrayList<Token>()); //TODO: deprecated PreprocessorAction
   }
 
-  private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) { //TODO: deprecated PreprocessorAction
+  private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) { //TODO: deprecated
     if (!currentFileState.skipPreprocessorDirectives) {
       Macro macro = getMacro(getMacroName(ast));
       TokenType tokType = ast.getToken().getType();
@@ -647,10 +650,11 @@ public class CxxPreprocessor extends Preprocessor {
 
   private void parseIncludeLine(String includeLine, String filename, Charset charset) {
     AstNode includeAst = pplineParser.parse(includeLine);
-    handleIncludeLine(includeAst, includeAst.getFirstDescendant(CppGrammar.includeBodyQuoted).getToken(), filename, charset);
+    handleIncludeLine(includeAst, includeAst.getFirstDescendant(CppGrammar.includeBodyQuoted)
+                                            .getToken(), filename, charset);
   }
 
-  PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename, Charset charset) { //TODO: deprecated PreprocessorAction
+  PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename, Charset charset) { //TODO: deprecated 
     //
     // Included files have to be scanned with the (only) goal of gathering macros.
     // This is done as follows:
@@ -694,9 +698,6 @@ public class CxxPreprocessor extends Preprocessor {
         currentFileState = globalStateStack.pop();
       }
     }
-//    else {
-//      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
-//    }
 
     return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)),
            new ArrayList<Token>()); //@TODO: deprecated PreprocessorAction
@@ -709,7 +710,7 @@ public class CxxPreprocessor extends Preprocessor {
            new ArrayList<Token>()); //@TODO: deprecated PreprocessorAction
   }
 
-  PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) { //@TODO: deprecated PreprocessorAction
+  PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) {//@TODO:deprecated
     //
     // Every identifier and every keyword can be a macro instance.
     // Pipe the resulting string through a lexer to create proper Tokens

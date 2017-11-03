@@ -44,6 +44,10 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
+
 /**
  * This class is used as base for all sensors which import reports. It hosts
  * common logic such as finding the reports and saving issues in SonarQube
@@ -156,9 +160,9 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   /**
-   * resolveFilename
-   * @param baseDir
-   * @param filename
+   * resolveFilename normalizes the report full path
+   * @param baseDir of the project
+   * @param filename of the report
    * @return String
    */
   @Nullable
@@ -193,19 +197,21 @@ public abstract class CxxReportSensor implements Sensor {
                                       @Nullable String genericReportKeyData) {
 
     List<File> reports = new ArrayList<>();
-    
-    if ("".equals(genericReportKeyData) || genericReportKeyData == null) {
+
+    if (Strings.isNullOrEmpty(genericReportKeyData)) {
       return reports;
     }
-    
-    String[] reportPathStrings = settings.getStringArray(genericReportKeyData);
-    List<String> reportPaths = Arrays.asList((reportPathStrings != null) ? reportPathStrings : new String[] {});
-    if (reportPaths.isEmpty()) {
+
+    String reportPathString = settings.get(genericReportKeyData).orElse("");
+    if (reportPathString.isEmpty()) {
       LOG.info("Undefined report path value for key '{}'", genericReportKeyData);
     } else {
+      List<String> reportPaths = Arrays.asList(splitProperty(reportPathString));
 
       List<String> includes = normalizeReportPaths(moduleBaseDir, reportPaths);
-
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Scanner uses report paths: '{}'", includes);
+      }
       // Includes array cannot contain null elements
       DirectoryScanner directoryScanner = new DirectoryScanner();
       directoryScanner.setIncludes(includes.toArray(new String[includes.size()]));
@@ -236,7 +242,7 @@ public abstract class CxxReportSensor implements Sensor {
     List<String> includes = new ArrayList<>();
     for (String reportPath : reportPaths) {
 
-      String normalizedPath = resolveFilename(moduleBaseDir.getAbsolutePath(), reportPath);
+      String normalizedPath = resolveFilename(moduleBaseDir.getAbsolutePath(), reportPath.trim());
       if (normalizedPath != null) {
         includes.add(normalizedPath);
         continue;
@@ -349,6 +355,14 @@ public abstract class CxxReportSensor implements Sensor {
       }
     }
     return lineNr;
+  }
+
+  /**
+   * @param property String with comma separated items
+   * @return
+   */
+  public static String[] splitProperty(String property) {
+    return Iterables.toArray(Splitter.on(',').split(property), String.class);
   }
 
   protected void processReport(final SensorContext context, File report)

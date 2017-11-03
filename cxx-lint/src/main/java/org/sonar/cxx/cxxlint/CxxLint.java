@@ -50,7 +50,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.utils.log.Logger;
@@ -157,7 +156,8 @@ public class CxxLint {
     try {
       String content = new String(Files.readAllBytes(Paths.get(fileToAnalyse)), encodingOfFile);
       sensorContext.fileSystem().add(TestInputFileBuilder.create("ProjectKey", fileName).initMetadata(content).build());
-      InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+      InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates()
+                                                                                         .hasPath(fileName));
       
       List<CheckerData> rulesData = new ArrayList<>();
       if (!"".equals(settingsFile)) {
@@ -335,7 +335,8 @@ public class CxxLint {
           }
         }
 
-        // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, but is slow and can overflow buffers.  [runtime/printf-5] [1]
+        // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, 
+        // but is slow and can overflow buffers.  [runtime/printf-5] [1]
         LOG.info(message.getSourceCode() + "(" + message.getLine() + "): Warning : " + 
                message.formatDefaultMessage() + " [" + key + "]");
       }

@@ -26,7 +26,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
 
-import java.io.File;
 import java.nio.charset.Charset;
 
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
