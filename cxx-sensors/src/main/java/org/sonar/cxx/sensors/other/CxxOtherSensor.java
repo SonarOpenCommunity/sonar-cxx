@@ -48,6 +48,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * @author jorge costa, stefan weiser
  */
 public class CxxOtherSensor extends CxxReportSensor {
+  static final int MAX_STYLESHEETS = 10;
   private static final Logger LOG = Loggers.get(CxxOtherSensor.class);
   public static final String REPORT_PATH_KEY = "other.reportPath";
   public static final String KEY = "other";
@@ -118,7 +119,7 @@ public class CxxOtherSensor extends CxxReportSensor {
 
   public void transformFiles(final File baseDir, SensorContext context) {
     boolean goOn = true;
-    for (int i = 1; (i < 10) && goOn; i++) {
+    for (int i = 1; (i < MAX_STYLESHEETS) && goOn; i++) {
       String stylesheetKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + STYLESHEET_KEY);
       String inputKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + INPUT_KEY);
       String outputKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY);
@@ -156,7 +157,9 @@ public class CxxOtherSensor extends CxxReportSensor {
   private static boolean checkInput(String inputKey, String outputKey, @Nullable List<File> inputs,
                                                                 @Nullable List<String> outputs) {
     if ((inputs == null) || (inputs.isEmpty())) {
-      LOG.error(inputKey + " file is not defined.");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(inputKey + " file is not defined.");
+      }
       return false;
       }        
 
