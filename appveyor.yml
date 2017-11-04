@@ -69,7 +69,7 @@ build_script:
   - C:\Python27\Scripts\pip.exe install behave
   - C:\Python27\Scripts\pip.exe install colorama
   - mvn org.jacoco:jacoco-maven-plugin:prepare-agent clean install -Pcoverage-per-test
-  - IF "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar %SQ_PARAMETER%) ELSE (ECHO SKIP ANALYSIS)
+  - IF "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar %SQ_PARAMETER%) ELSE (mvn sonar:sonar %SQ_PR_PARAMETER%)
   - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi56
 cache:
   - C:\Users\appveyor\.m2
