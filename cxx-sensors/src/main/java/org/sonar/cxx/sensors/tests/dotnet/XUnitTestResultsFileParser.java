@@ -49,7 +49,8 @@ public class XUnitTestResultsFileParser implements UnitTestResultsParser{
 
         String tag = xmlParserHelper.nextStartTag();
         if (!"assemblies".equals(tag) && !"assembly".equals(tag)) {
-          throw xmlParserHelper.parseError("Expected either an <assemblies> or an <assembly> root tag, but got <" + tag + "> instead.");
+          throw xmlParserHelper.parseError("Expected either an <assemblies> or an <assembly> root tag, but got <"
+                                           + tag + "> instead.");
         }
 
         do {
@@ -78,7 +79,8 @@ public class XUnitTestResultsFileParser implements UnitTestResultsParser{
         executionTime *= 1000;
       }
 
-      unitTestResults.add(total, passed, skipped, failed, errors, executionTime != null ? (long) executionTime.doubleValue() : null);
+      unitTestResults.add(total, passed, skipped, failed, errors, executionTime != null ? 
+                                                                  (long) executionTime.doubleValue() : null);
     }
 
   }

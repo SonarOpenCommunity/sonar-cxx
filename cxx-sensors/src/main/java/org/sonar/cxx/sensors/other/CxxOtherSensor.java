@@ -48,7 +48,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * @author jorge costa, stefan weiser
  */
 public class CxxOtherSensor extends CxxReportSensor {
-  static final int MAX_STYLESHEETS = 10;
+  private static final int MAX_STYLESHEETS = 10;
   private static final Logger LOG = Loggers.get(CxxOtherSensor.class);
   public static final String REPORT_PATH_KEY = "other.reportPath";
   public static final String KEY = "other";

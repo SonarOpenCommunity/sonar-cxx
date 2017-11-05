@@ -120,7 +120,8 @@ public final class CxxUtils {
     if (recovery.isPresent() && recovery.get()) {
       return;
     }
-      LOG.info("Recovery is disabled, failing analysis : '{}'", ex.toString());
-      throw new IllegalStateException(ex.getMessage(), ex.getCause());
-    }
+    LOG.info("Recovery is disabled, failing analysis : '{}'", ex.toString());
+    throw new IllegalStateException(ex.getMessage(), ex.getCause());
   }
+}
+

@@ -32,8 +32,10 @@ import org.sonar.cxx.CxxLanguage;
  */
 public class CppLanguage extends CxxLanguage {
 
-  public CppLanguage(Configuration settings) {
-    super("c++", settings);
+  private final static Configuration config = null;
+
+  public CppLanguage() {
+    super("c++", config);
   }  
   
   @Override

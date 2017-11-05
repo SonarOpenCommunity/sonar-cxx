@@ -90,7 +90,8 @@ public class XmlParserHelper implements AutoCloseable{
   void checkRequiredAttribute(String name, int expectedValue) {
     int actualValue = getRequiredIntAttribute(name);
     if (expectedValue != actualValue) {
-      throw parseError("Expected \"" + expectedValue + "\" instead of \"" + actualValue + "\" for the \"" + name + "\" attribute");
+      throw parseError("Expected \"" + expectedValue + "\" instead of \"" + actualValue + "\" for the \"" 
+                       + name + "\" attribute");
     }
   }
 
@@ -148,7 +149,8 @@ public class XmlParserHelper implements AutoCloseable{
   }
 
   ParseErrorException parseError(String message) {
-    return new ParseErrorException(message + " in " + file.getAbsolutePath() + " at line " + stream.getLocation().getLineNumber());
+    return new ParseErrorException(message + " in " + file.getAbsolutePath() + " at line " 
+                                   + stream.getLocation().getLineNumber());
   }
 
   @Override

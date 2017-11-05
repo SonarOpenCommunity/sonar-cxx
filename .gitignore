@@ -2,6 +2,7 @@ target
 .project
 .classpath
 .idea/
+.pydevproject
 *.iml
 *.prefs
 .sonar
