@@ -20,10 +20,7 @@
  */
 package org.sonar.cxx.sensors.clangsa;
 
-import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
-import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
-import java.io.File;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
@@ -58,7 +55,7 @@ public class CxxClangSASensorTest {
     settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY), "clangsa-reports/clangsa-empty.plist");
     context.setSettings(settings);
 
-    CxxClangSASensor sensor = new CxxClangSASensor(language, settings);
+    CxxClangSASensor sensor = new CxxClangSASensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }
@@ -72,7 +69,7 @@ public class CxxClangSASensorTest {
 
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "src/lib/component1.cc").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
 
-    CxxClangSASensor sensor = new CxxClangSASensor(language, settings);
+    CxxClangSASensor sensor = new CxxClangSASensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(2);
   }
@@ -86,7 +83,7 @@ public class CxxClangSASensorTest {
     
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "src/lib/component1.cc").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
 
-    CxxClangSASensor sensor = new CxxClangSASensor(language, settings);
+    CxxClangSASensor sensor = new CxxClangSASensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }

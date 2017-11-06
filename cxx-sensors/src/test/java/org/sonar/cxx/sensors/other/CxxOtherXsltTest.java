@@ -60,7 +60,7 @@ public class CxxOtherXsltTest {
     when(language.getStringOption(CxxOtherSensor.OTHER_XSLT_KEY + "2" + CxxOtherSensor.STYLESHEET_KEY)).thenReturn("notexistingpath");
     when(language.getStringArrayOption(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.INPUT_KEY)).thenReturn(new String[] {"notexistingpath"});
     when(language.getStringArrayOption(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY)).thenReturn(new String[] {"notexistingpath"});
-    CxxOtherSensor sensor = new CxxOtherSensor(language, settings);
+    CxxOtherSensor sensor = new CxxOtherSensor(language);
 
     sensor.execute(context);
 
@@ -88,7 +88,7 @@ public class CxxOtherXsltTest {
 
     context.setSettings(settings);
 
-    CxxOtherSensor sensor = new CxxOtherSensor(language, settings);
+    CxxOtherSensor sensor = new CxxOtherSensor(language);
     sensor.transformFiles(fs.baseDir(), context);
 
     File reportBefore = new File(fs.baseDir() + "/" + inputFile);

@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.clangtidy;
 
-import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
@@ -55,7 +54,7 @@ public class CxxClangTidySensorTest {
     settings.setProperty(language.getPluginProperty(CxxClangTidySensor.REPORT_PATH_KEY), "clang-tidy-reports/cpd.report.txt");
     context.setSettings(settings);
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor(language, settings);
+    CxxClangTidySensor sensor = new CxxClangTidySensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }  
@@ -69,7 +68,7 @@ public class CxxClangTidySensorTest {
 
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor(language, settings);
+    CxxClangTidySensor sensor = new CxxClangTidySensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
   }
@@ -83,7 +82,7 @@ public class CxxClangTidySensorTest {
 
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor(language, settings);
+    CxxClangTidySensor sensor = new CxxClangTidySensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }  

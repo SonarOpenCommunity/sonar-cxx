@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -50,12 +49,10 @@ public class CxxDrMemorySensor extends CxxReportSensor {
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
   /**
-   * Create Sensor for DrMemory
-   * @param language C++ language object
-   * @param settings CXX properties
+   * {@inheritDoc}
    */
-  public CxxDrMemorySensor(CxxLanguage language, Settings settings) {
-    super(language, settings);
+  public CxxDrMemorySensor(CxxLanguage language) {
+    super(language);
   }
 
   /**

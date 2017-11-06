@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.drmemory;
 
-import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Before;
@@ -54,7 +53,7 @@ public class CxxDrMemorySensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    CxxDrMemorySensor sensor = new CxxDrMemorySensor(language, settings);
+    CxxDrMemorySensor sensor = new CxxDrMemorySensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
   }

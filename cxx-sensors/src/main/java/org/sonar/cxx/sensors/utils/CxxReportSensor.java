@@ -54,22 +54,30 @@ public abstract class CxxReportSensor implements Sensor {
   private final Set<String> uniqueIssues = new HashSet<>();
   private final Map<InputFile, Integer> violationsPerFileCount = new HashMap<>();
   private int violationsPerModuleCount;
-  protected final Settings settings;
   protected final CxxLanguage language;
   
   /**
-   * Use this constructor if your sensor implementation saves violations aka
-   * issues
-   *
-   * @param settings the Settings object used to access the configuration
-   * properties
-   * @param fs file system access layer
-   * @param metric this metrics will be used to save a measure of the overall
-   * issue count. Pass 'null' to skip this.
+   * {@inheritDoc}
    */
-  protected CxxReportSensor(CxxLanguage language, Settings settings) {
-    this.settings = settings;
+  protected CxxReportSensor(CxxLanguage language) {
     this.language = language;
+  }
+
+  /**
+   * Get string property from configuration. If the string is not set or empty,
+   * return the default value.
+   *
+   * @param context sensor context
+   * @param name Name of the property
+   * @param def Default value
+   * @return Value of the property if set and not empty, else default value.
+   */
+  public static String getContextStringProperty(SensorContext context, String name, String def) {
+    String s = context.settings().getString(name);
+    if (s == null || s.isEmpty()) {
+      return def;
+    }
+    return s;
   }
 
   /**

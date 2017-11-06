@@ -42,8 +42,8 @@ public class CxxReportSensorTest {
 
   private class CxxReportSensorImpl extends CxxReportSensor {
 
-    public CxxReportSensorImpl(CxxLanguage language, Settings settings) {
-      super(language, settings);
+    public CxxReportSensorImpl(CxxLanguage language) {
+      super(language);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class CxxReportSensorTest {
   public void shouldntThrowWhenInstantiating() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     
-    new CxxReportSensorImpl(language, settings);
+    new CxxReportSensorImpl(language);
   }
 
   @Test
