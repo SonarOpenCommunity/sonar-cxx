@@ -1249,6 +1249,20 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>gmtimeCalled</key>
+    <name>Non reentrant function 'gmtime' called</name>
+    <description>
+      Non reentrant function 'gmtime' called. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'gmtime_r'.
+    </description>
+    <internalKey>gmtimeCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>        
+  <rule>
     <key>nonreentrantFunctionslocaltime</key>
     <name>Avoid usage of the function 'localtime'</name>
     <description>
@@ -1423,6 +1437,19 @@ Possible null pointer dereference.
       The function 'ftime' is obsolete.
     </description>
     <internalKey>obsoleteFunctionsftime</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>        
+  <rule>
+    <key>ftimeCalled</key>
+    <name>Obsolescent function 'ftime' called</name>
+    <description>      
+      Obsolescent function 'ftime' called. It is recommended to use 'time',
+      'gettimeofday' or 'clock_gettime' instead.
+    </description>
+    <internalKey>ftimeCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
