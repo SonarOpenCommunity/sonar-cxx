@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.clangtidy;
 
 import java.io.File;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;

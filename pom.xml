@@ -203,7 +203,7 @@
     <license.owner>SonarOpenCommunity</license.owner>
     <license.mailto>http://github.com/SonarOpenCommunity/sonar-cxx</license.mailto>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-    <sonar.version>6.6</sonar.version>
+    <sonar.version>6.7</sonar.version>
     <sslr.version>1.22</sslr.version>
     <sslr-squid-bridge.version>2.6.1</sslr-squid-bridge.version>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>

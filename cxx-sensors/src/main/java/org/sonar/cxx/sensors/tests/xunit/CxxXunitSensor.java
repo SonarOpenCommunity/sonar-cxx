@@ -36,7 +36,6 @@ import org.sonar.api.utils.ParsingUtils;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -166,7 +165,7 @@ public class CxxXunitSensor extends CxxReportSensor {
            .withValue(testsCount)
            .save();
       } catch(Exception ex) { 
-        LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex);
+        LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       }       
 
@@ -177,7 +176,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsErrors)
          .save();
       } catch(Exception ex) { 
-        LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex);
+        LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       } 
       
@@ -188,7 +187,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsFailures)
          .save();
       } catch(Exception ex) { 
-        LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex);
+        LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       } 
       
@@ -199,7 +198,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsSkipped)
          .save();
       } catch(Exception ex) { 
-        LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex);
+        LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       } 
 
@@ -210,7 +209,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(ParsingUtils.scaleValue(successDensity))
          .save();
       } catch(Exception ex) { 
-        LOG.error("Cannot save measure TEST_SUCCESS_DENSITY : '{}', ignoring measure", ex);
+        LOG.error("Cannot save measure TEST_SUCCESS_DENSITY : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       }       
 
@@ -221,7 +220,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsTime)
          .save();
       } catch(Exception ex) { 
-        LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex);
+        LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       }       
     } else {

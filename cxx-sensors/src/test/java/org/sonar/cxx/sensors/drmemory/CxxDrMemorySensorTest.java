@@ -32,7 +32,6 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -40,7 +39,6 @@ public class CxxDrMemorySensorTest {
 
   private DefaultFileSystem fs;
   private CxxLanguage language;
-  private MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
