@@ -70,7 +70,12 @@ public class CxxFileLinesVisitorTest {
 
     assertThat(visitor.getLinesOfComments()).hasSize(11);
     assertThat(visitor.getLinesOfComments()).containsOnly(48, 1, 33, 97, 35, 117, 102, 7, 119, 106, 13);
-
+    
+    Set<Integer> lines = linesOfCode.get(inputFile);
+    assertThat(lines).isNotNull();
+    assertThat(lines).containsOnly(8, 10, 14, 16, 17, 21, 22, 23, 26, 31, 34, 35, 42, 44, 45, 51, 53, 55, 56, 58,
+                                   59, 63, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 79, 82, 84, 86, 87, 89, 90,
+                                   95, 98, 99, 100, 102, 115, 118, 119);    
   }
 
   @Test

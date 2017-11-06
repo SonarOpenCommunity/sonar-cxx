@@ -185,21 +185,29 @@ public class CxxCoverageSensor extends CxxReportSensor {
     Iterable<InputFile> inputFiles = fileSystem.inputFiles(p.and(p.hasType(InputFile.Type.MAIN),
       p.hasLanguage(this.language.getKey())));
 
+    int filesCnt = 0, unitCnt = 0, itCnt = 0, overallCnt = 0;
     for (InputFile inputFile : inputFiles) {
       Set<Integer> linesOfCodeForFile = linesOfCode.get(inputFile);
       String file = CxxUtils.normalizePath(inputFile.absolutePath());
 
       if (coverageMeasures != null && !coverageMeasures.containsKey(file)) {
         saveZeroValueForResource(inputFile, context, CoverageType.UNIT, linesOfCodeForFile);
+        unitCnt++;
       }
 
       if (itCoverageMeasures != null && !itCoverageMeasures.containsKey(file)) {
         saveZeroValueForResource(inputFile, context, CoverageType.IT, linesOfCodeForFile);
+        itCnt++;
       }
 
       if (overallCoverageMeasures != null && !overallCoverageMeasures.containsKey(file)) {
         saveZeroValueForResource(inputFile, context, CoverageType.OVERALL, linesOfCodeForFile);
+        overallCnt++;
       }
+      filesCnt++;
+    }
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("zeroMeasuresWithoutReports: total={} / unit={} / it={} / overall={}", filesCnt, unitCnt, itCnt, overallCnt);
     }
   }
 
@@ -207,7 +215,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     @Nullable Set<Integer> linesOfCode) {
     if (linesOfCode != null) {
       if (LOG.isDebugEnabled()) {
-        LOG.debug("Zeroing {} coverage measures for file '{}'", ctype, inputFile.relativePath());
+        LOG.debug("Zeroing {} coverage measures for file '{}': linesOfCode='{}'", ctype, inputFile.relativePath(), linesOfCode.size());
       }
       NewCoverage newCoverage = context.newCoverage()
         .onFile(inputFile)

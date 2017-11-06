@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.sonar.api.config.Settings;
-import org.sonar.api.internal.apachecommons.lang.builder.HashCodeBuilder;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.checks.BooleanEqualityComparisonCheck;
 import org.sonar.cxx.checks.ClassComplexityCheck;
@@ -95,14 +94,6 @@ public class CLanguage extends CxxLanguage {
     sourceSuffixes = createStringArray(settings.getStringArray(CPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES);
     headerSuffixes = createStringArray(settings.getStringArray(CPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);    
-  }
-  
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
-      appendSuper(super.hashCode()).
-      append(getKey()).
-      toHashCode();
   }
 
   @Override

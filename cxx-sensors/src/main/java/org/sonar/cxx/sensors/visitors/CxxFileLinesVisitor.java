@@ -56,14 +56,14 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   private final FileLinesContextFactory fileLinesContextFactory;
   private static final Version SQ_6_2 = Version.create(6, 2);
   private static boolean isSQ62orNewer;
-  private static Set<Integer> linesOfCode = Sets.newHashSet();
-  private static Set<Integer> linesOfComments = Sets.newHashSet();
-  private static Set<Integer> executableLines = Sets.newHashSet();
+  private static final Set<Integer> linesOfCode = Sets.newHashSet();
+  private static final Set<Integer> linesOfComments = Sets.newHashSet();
+  private static final Set<Integer> executableLines = Sets.newHashSet();
   private final FileSystem fileSystem;
   private final Map<InputFile, Set<Integer>> allLinesOfCode;
   private static int isWithinFunctionDefinition;
   private static final Set<String> ignoreToken = Sets.newHashSet(";", "{", "}", "(", ")", "[", "]");
-  private static AstNodeType[] nodesToVisit = {
+  private static final AstNodeType[] nodesToVisit = {
       CxxGrammarImpl.labeledStatement,
       CxxGrammarImpl.expressionStatement,
       CxxGrammarImpl.iterationStatement,
@@ -203,12 +203,14 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     }
 
     fileLinesContext.save();
-    this.allLinesOfCode.put(inputFile, linesOfCode);
-    
+    this.allLinesOfCode.put(inputFile, Sets.newHashSet(linesOfCode));
+
     if (LOG.isDebugEnabled()) {
-      LOG.debug("executableLines: '{}'", executableLines);
-      LOG.debug("linesOfCode:     '{}'", linesOfCode);
-      LOG.debug("linesOfComments: '{}'", linesOfComments);
+      LOG.debug("CxxFileLinesVisitor: '{}'", inputFile.absolutePath());
+      LOG.debug("   lines:           '{}'", inputFile.lines());
+      LOG.debug("   executableLines: '{}'", executableLines);
+      LOG.debug("   linesOfCode:     '{}'", linesOfCode);
+      LOG.debug("   linesOfComments: '{}'", linesOfComments);
     }
   }
 

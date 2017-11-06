@@ -26,7 +26,6 @@ import java.util.Map;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.AbstractLanguage;
 import org.sonar.api.config.Settings;
-import org.sonar.api.internal.apachecommons.lang.builder.HashCodeBuilder;
 
 /**
  * {@inheritDoc}
@@ -46,14 +45,6 @@ public abstract class CxxLanguage extends AbstractLanguage {
     super(key, name);
     this.settings = settings;
     this.MetricsCache = new HashMap<>();
-  }
-
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
-          appendSuper(super.hashCode()).
-          append(getKey()).
-          toHashCode();
   }
 
   @Override
