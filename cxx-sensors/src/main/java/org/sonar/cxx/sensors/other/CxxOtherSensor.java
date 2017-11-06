@@ -181,9 +181,13 @@ public class CxxOtherSensor extends CxxReportSensor {
    * @param outputs
    * @return
    */
-  private static boolean isValidOutput(String outputKey, @Nullable List<String> outputs) {
-    if ((outputs == null) || (outputs.isEmpty())) {
-      LOG.error(outputKey + " is not defined.");
+  private static boolean isValidOutput(@Nullable String outputKey, @Nullable List<String> outputs) {
+    if ((outputKey==null) ||(outputs == null) || (outputs.isEmpty())) {
+      if (outputKey != null) {
+        LOG.error(outputKey + " file is not defined.");
+      } else {
+        LOG.error(" outputKey is not defined.");
+      }
       return false;
       }
     return true;
@@ -193,9 +197,14 @@ public class CxxOtherSensor extends CxxReportSensor {
    * @param inputKey
    * @param inputs
    */
-  private static boolean isValidInput(String inputKey, @Nullable List<File> inputs) {
-    if ((inputs == null) || (inputs.isEmpty())) {
-      LOG.error(inputKey + " file is not defined.");
+  private static boolean isValidInput(@Nullable String inputKey, @Nullable List<File> inputs) {
+
+    if ((inputKey == null) || (inputs == null) || (inputs.isEmpty())) {
+      if (inputKey != null) {
+        LOG.error(inputKey + " file is not defined.");
+      } else {
+        LOG.error(" inputKey is not defined.");
+      }
       return false;
       }
     return true;
