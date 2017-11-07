@@ -34,7 +34,6 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -60,8 +59,8 @@ public class CxxOtherSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxOtherSensor(CxxLanguage language, Settings settings) {
-    super(language, settings);
+  public CxxOtherSensor(CxxLanguage language) {
+    super(language);
   }
 
   @Override

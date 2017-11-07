@@ -28,7 +28,6 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -47,8 +46,8 @@ public class CxxRatsSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxRatsSensor(CxxLanguage language, Settings settings) {
-    super(language, settings);
+  public CxxRatsSensor(CxxLanguage language) {
+    super(language);
   }
 
   @Override

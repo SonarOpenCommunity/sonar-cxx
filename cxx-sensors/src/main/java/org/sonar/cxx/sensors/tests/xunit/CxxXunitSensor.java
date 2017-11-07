@@ -36,7 +36,6 @@ import org.sonar.api.utils.ParsingUtils;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -58,8 +57,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(CxxLanguage language, Settings settings) {
-    super(language, settings);
+  public CxxXunitSensor(CxxLanguage language) {
+    super(language);
     xsltURL = language.getStringOption(XSLT_URL_KEY);
   }
 

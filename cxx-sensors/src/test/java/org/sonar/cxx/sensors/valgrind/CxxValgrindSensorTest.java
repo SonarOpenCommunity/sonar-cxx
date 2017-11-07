@@ -48,7 +48,7 @@ public class CxxValgrindSensorTest {
     fs = TestUtils.mockFileSystem();
     settings = new Settings();
     language = TestUtils.mockCxxLanguage();
-    sensor = new CxxValgrindSensor(language, settings);
+    sensor = new CxxValgrindSensor(language);
   }
 
   @Test

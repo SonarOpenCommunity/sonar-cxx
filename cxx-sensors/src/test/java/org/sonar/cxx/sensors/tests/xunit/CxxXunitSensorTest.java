@@ -19,8 +19,6 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
-import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
 import java.io.File;
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -56,7 +54,7 @@ public class CxxXunitSensorTest {
     settings.setProperty(language.getPluginProperty(CxxXunitSensor.REPORT_PATH_KEY), "notexistingpath");
     context.setSettings(settings);
 
-    CxxXunitSensor sensor = new CxxXunitSensor(language, settings);
+    CxxXunitSensor sensor = new CxxXunitSensor(language);
 
     sensor.execute(context);
 
@@ -70,7 +68,7 @@ public class CxxXunitSensorTest {
     settings.setProperty(language.getPluginProperty(CxxXunitSensor.REPORT_PATH_KEY), "xunit-reports/invalid-time-xunit-report.xml");
     context.setSettings(settings);
     
-    CxxXunitSensor sensor = new CxxXunitSensor(language, settings);
+    CxxXunitSensor sensor = new CxxXunitSensor(language);
 
     sensor.execute(context);
   }
@@ -83,7 +81,7 @@ public class CxxXunitSensorTest {
     when(language.getStringOption(CxxXunitSensor.XSLT_URL_KEY)).thenReturn("whatever");    
 //    settings.setProperty(language.getPluginProperty(CxxXunitSensor.XSLT_URL_KEY), "whatever");
 //    context.setSettings(settings);
-    CxxXunitSensor sensor = new CxxXunitSensor(language, settings);
+    CxxXunitSensor sensor = new CxxXunitSensor(language);
     sensor.transformReport(cppunitReport());
   }
 
@@ -93,7 +91,7 @@ public class CxxXunitSensorTest {
 
     when(language.getStringOption(CxxXunitSensor.XSLT_URL_KEY)).thenReturn("cppunit-1.x-to-junit-1.0.xsl");
     
-    CxxXunitSensor sensor = new CxxXunitSensor(language, settings);
+    CxxXunitSensor sensor = new CxxXunitSensor(language);
     File reportBefore = cppunitReport();
 
     File reportAfter = sensor.transformReport(reportBefore);

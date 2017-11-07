@@ -27,7 +27,6 @@ import java.util.regex.Pattern;
 
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -47,8 +46,8 @@ public class CxxClangTidySensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxClangTidySensor(CxxLanguage language, Settings settings) {
-    super(language, settings);
+  public CxxClangTidySensor(CxxLanguage language) {
+    super(language);
   }
 
   @Override
@@ -61,25 +60,9 @@ public class CxxClangTidySensor extends CxxReportSensor {
     descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " ClangTidySensor");
   }
 
-  /**
-   * Get string property from configuration. If the string is not set or empty,
-   * return the default value.
-   *
-   * @param name Name of the property
-   * @param def Default value
-   * @return Value of the property if set and not empty, else default value.
-   */
-  public String getParserStringProperty(String name, String def) {
-    String s = this.settings.getString(name);
-    if (s == null || s.isEmpty()) {
-      return def;
-    }
-    return s;
-  }
-
   @Override
   protected void processReport(final SensorContext context, File report) {
-    final String reportCharset = getParserStringProperty(this.language.getPluginProperty(REPORT_CHARSET_DEF), "UTF-8");
+    final String reportCharset = getContextStringProperty(context, this.language.getPluginProperty(REPORT_CHARSET_DEF), "UTF-8");
     LOG.debug("Parsing 'clang-tidy' report, CharSet= '{}'", reportCharset);
 
     try (Scanner scanner = new Scanner(report, reportCharset)) {

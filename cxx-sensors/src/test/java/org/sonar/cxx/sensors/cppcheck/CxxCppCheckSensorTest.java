@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.cppcheck;
 
-import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
@@ -54,7 +53,7 @@ public class CxxCppCheckSensorTest {
     settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-*.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language, settings);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
     sensor.execute(context);
@@ -69,7 +68,7 @@ public class CxxCppCheckSensorTest {
     settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
     context.setSettings(settings);
     
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language, settings);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(3);
   }
@@ -82,7 +81,7 @@ public class CxxCppCheckSensorTest {
     settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language, settings);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(3);
   }
@@ -95,7 +94,7 @@ public class CxxCppCheckSensorTest {
     settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language, settings);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }
@@ -108,7 +107,7 @@ public class CxxCppCheckSensorTest {
     settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language, settings);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }
@@ -122,7 +121,7 @@ public class CxxCppCheckSensorTest {
     settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-empty.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language, settings);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     sensor.execute(context);
   }  
 }

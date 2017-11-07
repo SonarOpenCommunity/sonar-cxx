@@ -86,7 +86,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * @param context for current file
    */
   public CxxCoverageSensor(CxxCoverageCache cache, CxxLanguage language, SensorContext context) {
-    super(language, context.settings());
+    super(language);
     this.cache = cache;
     if (context.getSonarQubeVersion().isGreaterThanOrEqual(SQ_6_2)) {
       isSQ_6_2_or_newer = true;

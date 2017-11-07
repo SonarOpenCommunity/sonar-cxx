@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.veraxx;
 
-import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
@@ -55,7 +54,7 @@ public class CxxVeraxxSensorTest {
     settings.setProperty(language.getPluginProperty(CxxVeraxxSensor.REPORT_PATH_KEY), "vera++-reports/vera++-result-*.xml");
     context.setSettings(settings);
     
-    CxxVeraxxSensor sensor = new CxxVeraxxSensor(language, settings);
+    CxxVeraxxSensor sensor = new CxxVeraxxSensor(language);
     
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/tests/SAMPLE-test.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));

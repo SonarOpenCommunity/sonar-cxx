@@ -19,8 +19,6 @@
  */
 package org.sonar.cxx.sensors.rats;
 
-import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
-import org.sonar.cxx.sensors.rats.CxxRatsSensor;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
@@ -57,7 +55,7 @@ public class CxxRatsSensorTest {
 
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "report.c").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    sensor = new CxxRatsSensor(language, settings);
+    sensor = new CxxRatsSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(5);
   }

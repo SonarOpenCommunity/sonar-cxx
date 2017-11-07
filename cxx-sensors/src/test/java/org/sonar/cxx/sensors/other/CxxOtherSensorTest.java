@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.other;
 
-import org.sonar.cxx.sensors.other.CxxOtherSensor;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
@@ -58,7 +57,7 @@ public class CxxOtherSensorTest {
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
 
-    sensor = new CxxOtherSensor(language, settings);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(2);
   }
@@ -72,7 +71,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    sensor = new CxxOtherSensor(language, settings);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
   }
@@ -85,7 +84,7 @@ public class CxxOtherSensorTest {
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/externalrules-result-projectlevelviolation.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(language, settings);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
   }
@@ -100,7 +99,7 @@ public class CxxOtherSensorTest {
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/externalrules-result-empty.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(language, settings);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }
@@ -113,7 +112,7 @@ public class CxxOtherSensorTest {
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/noreport.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(language, settings);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }
@@ -128,7 +127,7 @@ public class CxxOtherSensorTest {
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/externalrules-result-invalid.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(language, settings);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
   }
 
@@ -141,7 +140,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    sensor = new CxxOtherSensor(language, settings);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
   }
