@@ -161,7 +161,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    sensor = new CxxOtherSensor(language, settings);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }
@@ -178,7 +178,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    sensor = new CxxOtherSensor(language, settings);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(logTester.logs(LoggerLevel.ERROR)).contains("something is not defined.");
 
@@ -197,7 +197,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    sensor = new CxxOtherSensor(language, settings);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(logTester.logs(LoggerLevel.ERROR)).contains(" inputKey is not defined.");
   }
@@ -215,7 +215,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    sensor = new CxxOtherSensor(language, settings);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(logTester.logs(LoggerLevel.ERROR)).contains("someInput file is not defined.");
   }
