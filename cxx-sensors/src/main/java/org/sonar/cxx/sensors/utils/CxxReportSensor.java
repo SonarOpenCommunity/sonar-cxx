@@ -164,19 +164,20 @@ public abstract class CxxReportSensor implements Sensor {
   @Nullable
   public static String resolveFilename(final String baseDir, final String filename) {
 
-    // Normalization can return null if path is null, is invalid, 
-    // or is a path with back-ticks outside known directory structure
-    String normalizedPath = FilenameUtils.normalize(filename);
-    if ((normalizedPath != null) && (new File(normalizedPath).isAbsolute())) {
-      return normalizedPath;
+    if (filename != null) {
+      // Normalization can return null if path is null, is invalid, 
+      // or is a path with back-ticks outside known directory structure
+      String normalizedPath = FilenameUtils.normalize(filename);
+      if ((normalizedPath != null) && (new File(normalizedPath).isAbsolute())) {
+        return normalizedPath;
+      }
+  
+      // Prefix with absolute module base directory, attempt normalization again -- can still get null here
+      normalizedPath = FilenameUtils.normalize(baseDir + File.separator + filename);
+      if (normalizedPath != null) {
+        return normalizedPath;
+      }
     }
-
-    // Prefix with absolute module base directory, attempt normalization again -- can still get null here
-    normalizedPath = FilenameUtils.normalize(baseDir + File.separator + filename);
-    if (normalizedPath != null) {
-      return normalizedPath;
-    }
-
     return null;
   }
 
