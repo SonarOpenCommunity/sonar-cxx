@@ -3,7 +3,7 @@ Feature: Smoketest
   This is just for running a smoketest using a somewhat more complex testdata.
   Will be reworked later.
 
-  @SqApi66
+  @SqApi67
   Scenario: Smoketest
     Given the project "smoketest_project"
     When I run "sonar-scanner -X"
