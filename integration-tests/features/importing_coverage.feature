@@ -73,14 +73,14 @@ Feature: Importing coverage data
       """
     And the following metrics have following values:
       | metric                  | value |
-      | coverage                | 11.1  |
-      | line_coverage           | 7.3   |
+      | coverage                | 9.8   |
+      | line_coverage           | 6.4   |
       | branch_coverage         | 50    |
-      | it_coverage             | 25.0  |
-      | it_line_coverage        | 19.0  |
+      | it_coverage             | 22.4  |
+      | it_line_coverage        | 16.7  |
       | it_branch_coverage      | 50    |
-      | overall_coverage        | 26.1  |
-      | overall_line_coverage   | 20.0  |
+      | overall_coverage        | 30.0  |
+      | overall_line_coverage   | 23.9  |
       | overall_branch_coverage | 50    |
 
   @SqApi56
