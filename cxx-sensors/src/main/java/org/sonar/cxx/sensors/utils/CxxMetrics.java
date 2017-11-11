@@ -35,43 +35,50 @@ import org.sonar.cxx.sensors.rats.CxxRatsSensor;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindSensor;
 import org.sonar.cxx.sensors.veraxx.CxxVeraxxSensor;
+import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
+import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 
 /**
  * {@inheritDoc}
  */
 public class CxxMetrics implements Metrics {
+
   private final CxxLanguage language;
 
   /**
-  * CxxMetrics
-  * @param language for metrics
-  **/
+   * CxxMetrics
+   *
+   * @param language for metrics
+  *
+   */
   public CxxMetrics(CxxLanguage language) {
     this.language = language;
-    
-    buildMetric(CxxCompilerSensor.COMPILER_KEY, "Compiler issues", language);
+
+    buildMetric(CxxCompilerSensor.KEY, "Compiler issues", language);
     buildMetric(CxxCppCheckSensor.KEY, "CppCheck issues", language);
     buildMetric(CxxOtherSensor.KEY, "Other tools issues", language);
     buildMetric(CxxPCLintSensor.KEY, "PC-Lint issues", language);
-    buildMetric(CxxRatsSensor.KEY, "Rats issues", language);    
-    buildMetric(CxxSquidSensor.KEY, "Squid issues", language);      
-    buildMetric(CxxValgrindSensor.KEY, "Valgrind issues", language);    
-    buildMetric(CxxVeraxxSensor.KEY, "Vera issues", language);    
-    buildMetric(CxxDrMemorySensor.KEY, "DrMemory issues", language);  
+    buildMetric(CxxRatsSensor.KEY, "Rats issues", language);
+    buildMetric(CxxSquidSensor.KEY, "Squid issues", language);
+    buildMetric(CxxValgrindSensor.KEY, "Valgrind issues", language);
+    buildMetric(CxxVeraxxSensor.KEY, "Vera issues", language);
+    buildMetric(CxxDrMemorySensor.KEY, "DrMemory issues", language);
+    buildMetric(CxxClangSASensor.KEY, "ClangSA issues", language);
+    buildMetric(CxxClangTidySensor.KEY, "ClangTidy issues", language);
   }
 
   /**
-  * GetKey
-  * @param key for language
-  * @param language for metrics
-  * @return String
-  **/
+   * GetKey
+   *
+   * @param key for language
+   * @param language for metrics
+   * @return String
+  *
+   */
   public static String getKey(String key, CxxLanguage language) {
     return language.getPropertiesKey().toUpperCase(Locale.ENGLISH) + "-" + key.toUpperCase(Locale.ENGLISH);
   }
 
-
-  
   @Override
   public List<Metric> getMetrics() {
     return new ArrayList(this.language.getMetricsCache());
@@ -80,11 +87,11 @@ public class CxxMetrics implements Metrics {
   private static void buildMetric(String key, String description, CxxLanguage language) {
     String effectiveKey = CxxMetrics.getKey(key, language);
     Metric<?> metric = new Metric.Builder(effectiveKey, description, Metric.ValueType.INT)
-    .setDirection(Metric.DIRECTION_WORST)
-    .setQualitative(Boolean.TRUE)
-    .setDomain(language.getKey().toUpperCase(Locale.ENGLISH))
-    .create();
-    
-    language.SaveMetric(metric, key);    
+      .setDirection(Metric.DIRECTION_WORST)
+      .setQualitative(Boolean.TRUE)
+      .setDomain(language.getKey().toUpperCase(Locale.ENGLISH))
+      .create();
+
+    language.SaveMetric(metric, key);
   }
 }

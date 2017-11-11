@@ -44,9 +44,9 @@ public class CxxCompilerSensor extends CxxReportSensor {
   public static final String REPORT_REGEX_DEF = "compiler.regex";
   public static final String REPORT_CHARSET_DEF = "compiler.charset";
   public static final String PARSER_KEY_DEF = "compiler.parser";
-  public static final String DEFAULT_PARSER_DEF = CxxCompilerVcParser.COMPILER_KEY;
+  public static final String DEFAULT_PARSER_DEF = CxxCompilerVcParser.KEY;
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
-  public static final String COMPILER_KEY = "Compiler";
+  public static final String KEY = "Compiler";
 
   private final Map<String, CompilerParser> parsers = new HashMap<>();
 
@@ -122,6 +122,6 @@ public class CxxCompilerSensor extends CxxReportSensor {
   
   @Override
   protected String getSensorKey() {
-    return COMPILER_KEY;
+    return KEY;
   }  
 }
