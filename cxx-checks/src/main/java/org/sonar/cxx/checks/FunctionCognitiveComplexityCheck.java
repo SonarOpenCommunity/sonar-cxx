@@ -35,13 +35,13 @@ import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "FunctionCognitiveComplexity",
-  name = "Functions should not be too complex",
+  name = "Cognitive Complexity of methods/functions should not be too high",
   tags = {Tag.BRAIN_OVERLOAD},
-  priority = Priority.MAJOR)
+  priority = Priority.CRITICAL)
 @ActivatedByDefault
 @SqaleLinearWithOffsetRemediation(
   coeff = "1min",
-  offset = "10min",
+  offset = "5min",
   effortToFixDescription = "per complexity point above the threshold")
 public class FunctionCognitiveComplexityCheck extends SquidCheck<Grammar> {
 
