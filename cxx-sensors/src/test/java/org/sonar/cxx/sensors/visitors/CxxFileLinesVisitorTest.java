@@ -90,6 +90,7 @@ public class CxxFileLinesVisitorTest {
     
     Set<Integer> lines = linesOfCode.get(inputFile);
     assertThat(lines).isNotNull();
+
     assertThat(lines).containsOnly(8, 10, 14, 16, 17, 21, 22, 23, 26, 31, 34, 35, 42, 44, 45, 49, 51, 53, 55, 56,
                                   58, 59, 63, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 79, 82, 84, 86, 87, 89,
                                   90, 95, 98, 99, 100, 102, 107, 108, 109, 110, 111, 113, 115, 118, 119);
