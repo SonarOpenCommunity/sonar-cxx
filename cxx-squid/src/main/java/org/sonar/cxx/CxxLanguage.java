@@ -111,10 +111,12 @@ public abstract class CxxLanguage extends AbstractLanguage {
     return this.settings.hasKey(getPluginProperty(key));
   }
   
-  public void SaveMetric(Metric metric, String key) {
+  public boolean SaveMetric(Metric metric, String key) {
     if (!MetricsCache.containsKey(key)) {
       MetricsCache.put(key, metric);
-    }    
+      return true;
+    }
+    return false;
   }
   
   public Collection<Metric> getMetricsCache() {
