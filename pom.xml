@@ -10,7 +10,7 @@
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>0.9.8-SNAPSHOT</version>
+  <version>0.9.8</version>
   <packaging>pom</packaging>
 
   <name>Cxx</name>
@@ -133,7 +133,42 @@
       <id>BobSilent</id>
       <name>BobSilent</name>
       <email/>
-    </developer>	
+    </developer>
+     <developer>
+      <id>Kochise</id>
+      <name>Kochise</name>
+      <email/>
+    </developer>
+    <developer>
+      <id>gyorb</id>
+      <name>gyorb</name>
+      <email/>
+    </developer>
+    <developer>
+      <id>nathanaelg</id>
+      <name>nathanaelg</name>
+      <email/>
+    </developer>
+    <developer>
+      <id>gena01</id>
+      <name>gena01</name>
+      <email/>
+    </developer>
+    <developer>
+      <id>MarcAntoineCRUE</id>
+      <name>MarcAntoineCRUE</name>
+      <email/>
+    </developer>
+    <developer>
+      <id>Pasick</id>
+      <name>Pasick</name>
+      <email/>
+    </developer>
+    <developer>
+      <id>stefanweiser</id>
+      <name>stefanweiser</name>
+      <email/>
+    </developer>  
   </developers>
 
   <modules>
