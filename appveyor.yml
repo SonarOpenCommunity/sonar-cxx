@@ -3,7 +3,7 @@ environment:
   sonarcloudtoken:
     secure: bgbOr1N/vifD4OUSNVw5iiKl5D0a//xmIBVfEo+zqpDmSTCDWtmFV7Zsa2E5yMJ3
   githubtoken:
-    secure: f72Bkv7Kb0xkwE+CXE9BH9aV8iRIilNM2XANDOffRPazDf0luuu4w2wSQNt+RRZl
+    secure: Sa4G2KEbgHmHsFPmTsDtarM8iNx25mCXjvk4vlQUCL58YnRZDe4tz6kRp4pEASkg
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
