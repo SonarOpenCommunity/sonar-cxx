@@ -68,7 +68,7 @@ build_script:
   - C:\Python27\Scripts\pip.exe install colorama
   - mvn org.jacoco:jacoco-maven-plugin:prepare-agent clean install -Pcoverage-per-test
   - IF "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken%)
-  - IF NOT "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken% -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.github.repository=SonarOpenCommunityAdmin/sonar-cxx -Dsonar.github.oauth=%githubtoken%)
+  - IF NOT "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken% -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.github.repository=%APPVEYOR_REPO_NAME% -Dsonar.github.oauth=%githubtoken%)
   - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi56
 cache:
   - C:\Users\appveyor\.m2
