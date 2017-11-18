@@ -68,6 +68,7 @@ build_script:
   - C:\Python27\Scripts\pip.exe install colorama
   - mvn org.jacoco:jacoco-maven-plugin:prepare-agent clean install -Pcoverage-per-test
   - IF "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken%)
+  - echo IF NOT "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken% -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.github.repository=%APPVEYOR_REPO_NAME% -Dsonar.github.oauth=adf6e72e8384285377c8dd41761d5540dc1c6109)
   - IF NOT "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken% -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.github.repository=%APPVEYOR_REPO_NAME% -Dsonar.github.oauth=adf6e72e8384285377c8dd41761d5540dc1c6109)
   - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi56
 cache:
