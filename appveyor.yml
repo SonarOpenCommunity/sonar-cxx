@@ -3,7 +3,7 @@ environment:
   sonarcloudtoken:
     secure: bgbOr1N/vifD4OUSNVw5iiKl5D0a//xmIBVfEo+zqpDmSTCDWtmFV7Zsa2E5yMJ3
   githubtoken:
-    secure: f72Bkv7Kb0xkwE+CXE9BH9aV8iRIilNM2XANDOffRPazDf0luuu4w2wSQNt+RRZl
+    secure: D941HSXMeDkUayK4Kj1mx3dwbTG9XTJLAwiOZj+36ikNzg7u98RsmuGCnYnyP8SL
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -26,10 +26,10 @@ install:
       }
       if (!(Test-Path -Path "C:\sonarqube" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.6.7.zip',
-          'C:\sonarqube-5.6.7.zip'
+          'https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.7.zip',
+          'C:\sonarqube-6.7.zip'
         )
-        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-5.6.7.zip", "C:\sonarqube")
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-6.7.zip", "C:\sonarqube")
       }
   - ps: |
       If ($env:Platform -Match "x86") {
@@ -49,7 +49,7 @@ install:
   - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-3.0.3.778\bin;%PATH%
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
   - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.2.5
-  - cmd: SET SONARHOME=C:\sonarqube\sonarqube-5.6.7
+  - cmd: SET SONARHOME=C:\sonarqube\sonarqube-6.7
   - cmd: SET TestDataFolder=C:\projects\sonar-cxx\integration-tests\testdata
   - cmd: SET SQ_PARAMETER=-Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken%
   - cmd: SET SQ_PR_PARAMETER=%SQ_PARAMETER% -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.github.repository=%APPVEYOR_REPO_NAME% -Dsonar.github.oauth=%githubtoken%
@@ -70,7 +70,7 @@ build_script:
   - C:\Python27\Scripts\pip.exe install colorama
   - mvn org.jacoco:jacoco-maven-plugin:prepare-agent clean install -Pcoverage-per-test
   - IF "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar %SQ_PARAMETER%) ELSE (mvn sonar:sonar %SQ_PR_PARAMETER%)
-  - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi56
+  - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi62
 cache:
   - C:\Users\appveyor\.m2
 artifacts:
@@ -82,4 +82,4 @@ on_failure:
   - ps: Get-ChildItem cxx-checks\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem sonar-cxx-plugin\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem *.log | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  - ps: Get-ChildItem C:\sonarqube\sonarqube-5.6.7\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem C:\sonarqube\sonarqube-6.7\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
