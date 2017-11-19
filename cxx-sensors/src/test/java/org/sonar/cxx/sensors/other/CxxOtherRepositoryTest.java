@@ -20,7 +20,7 @@
 package org.sonar.cxx.sensors.other;
 
 import org.sonar.cxx.sensors.other.CxxOtherRepository;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 import static org.mockito.Mockito.when;

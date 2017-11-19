@@ -20,31 +20,32 @@
 package org.sonar.cxx.sensors.veraxx;
 
 import org.sonar.cxx.sensors.utils.TestUtils;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
 
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import java.util.Optional;
+
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 
 public class CxxVeraxxSensorTest {
 
   private DefaultFileSystem fs;
   private CxxLanguage language;
-  private Settings settings;
+  private MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    settings = new Settings();
     language = TestUtils.mockCxxLanguage();
     when(language.getPluginProperty(CxxVeraxxSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxVeraxxSensor.REPORT_PATH_KEY);
-    when(language.IsRecoveryEnabled()).thenReturn(true);
+    when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
     }
 
   @Test
@@ -56,13 +57,20 @@ public class CxxVeraxxSensorTest {
     
     CxxVeraxxSensor sensor = new CxxVeraxxSensor(language);
     
-    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/tests/SAMPLE-test.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/tests/SAMPLE-test.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/tests/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
+                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/tests/SAMPLE-test.cpp")
+                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/tests/SAMPLE-test.h")
+                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/tests/main.cpp")
+                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
+                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
+                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(10);
   }
 }
+

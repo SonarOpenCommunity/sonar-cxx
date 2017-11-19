@@ -37,7 +37,7 @@ public class FileEncodingCheckTest {
   public void testAsciiFileAsciiEncoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("US-ASCII");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".", "US-ASCII");        
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".", Charset.forName("US-ASCII"));
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, tester.sensorContext, check);
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
@@ -48,7 +48,7 @@ public class FileEncodingCheckTest {
   public void testAsciiFileUtf8Encoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("UTF-8");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".", "UTF-8");    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".", Charset.forName("UTF-8"));
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, tester.sensorContext, check);
    
     CheckMessagesVerifier.verify(file.getCheckMessages())
@@ -59,7 +59,7 @@ public class FileEncodingCheckTest {
   public void testUnicodeFileUtf16Encoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("UTF-16");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/Unicode.cc", ".", "UTF-16");    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/Unicode.cc", ".", Charset.forName("UTF-16"));
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
@@ -69,7 +69,7 @@ public class FileEncodingCheckTest {
   public void testUnicodeFileAsciiEncoding() throws IOException {
     Charset charset = Charset.forName("US-ASCII");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/Unicode.cc", ".", "US-ASCII");    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/Unicode.cc", ".", Charset.forName("US-ASCII"));
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Not all characters of the file can be encoded with the predefined charset " + charset.name() + ".")

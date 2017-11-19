@@ -20,7 +20,7 @@
 package org.sonar.cxx.sensors.rats;
 
 import org.sonar.cxx.sensors.rats.CxxRatsRuleRepository;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Test;

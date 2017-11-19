@@ -124,16 +124,34 @@ def step_impl(context, plat):
 @given(u'declared source extensions of language c++ are "{extensions}"')
 def step_impl(context, extensions):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
+    url = (SONAR_URL + "/api/settings/reset")
+    _rest_api_set(url, {'keys': 'sonar.cxx.suffixes.sources'})
     url = (SONAR_URL + "/api/settings/set")
-    payload = {'key': 'sonar.cxx.suffixes.sources', 'value': extensions}
+    extensionlist = extensions.split(",")
+    payload = dict()
+    payload['key'] = 'sonar.cxx.suffixes.sources'
+    for extension in extensionlist:
+        if 'values' in payload:
+            payload['values'].append(extension)
+        else:
+            payload['values'] = [extension]
     _rest_api_set(url, payload)
 
 
 @given(u'declared header extensions of language c++ are "{extensions}"')
 def step_impl(context, extensions):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
+    url = (SONAR_URL + "/api/settings/reset")
+    _rest_api_set(url, {'keys': 'sonar.cxx.suffixes.headers'})
     url = (SONAR_URL + "/api/settings/set")
-    payload = {'key': 'sonar.cxx.suffixes.headers', 'value': extensions}
+    extensionlist = extensions.split(",")
+    payload = dict()
+    payload['key'] = 'sonar.cxx.suffixes.headers'
+    for extension in extensionlist:
+        if 'values' in payload:
+            payload['values'].append(extension)
+        else:
+            payload['values'] = [extension]
     _rest_api_set(url, payload)
 
 

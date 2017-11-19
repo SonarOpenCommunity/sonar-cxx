@@ -21,7 +21,7 @@ package org.sonar.cxx.preprocessor;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;

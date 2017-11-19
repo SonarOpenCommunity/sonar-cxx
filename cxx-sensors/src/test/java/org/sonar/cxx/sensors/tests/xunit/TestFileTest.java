@@ -22,8 +22,7 @@ package org.sonar.cxx.sensors.tests.xunit;
 import org.sonar.cxx.sensors.tests.xunit.TestCase;
 import org.sonar.cxx.sensors.tests.xunit.TestFile;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
-
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,7 +36,7 @@ public class TestFileTest {
 
   @Before
   public void setUp() {
-    InputFile inputFile = new DefaultInputFile("foo", "test.cpp");
+    InputFile inputFile = TestInputFileBuilder.create("ProjectKey", "test.cpp").build();
     testFile = new TestFile(inputFile);
   }
 

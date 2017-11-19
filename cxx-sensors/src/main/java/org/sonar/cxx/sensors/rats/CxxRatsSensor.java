@@ -44,7 +44,8 @@ public class CxxRatsSensor extends CxxReportSensor {
   public static final String KEY = "Rats";
   
   /**
-   * {@inheritDoc}
+   * CxxRatsSensor for RATS Sensor 
+   * @param language defines settings C or C++
    */
   public CxxRatsSensor(CxxLanguage language) {
     super(language);

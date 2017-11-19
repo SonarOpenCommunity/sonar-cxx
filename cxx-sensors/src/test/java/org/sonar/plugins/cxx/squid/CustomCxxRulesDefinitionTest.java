@@ -20,7 +20,7 @@
 package org.sonar.plugins.cxx.squid;
 
 import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 import org.sonar.api.server.rule.RulesDefinition;

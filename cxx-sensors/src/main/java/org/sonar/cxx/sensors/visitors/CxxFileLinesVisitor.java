@@ -37,7 +37,6 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.api.utils.Version;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxKeyword;
@@ -54,8 +53,6 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   
   private static final Logger LOG = Loggers.get(CxxFileLinesVisitor.class);
   private final FileLinesContextFactory fileLinesContextFactory;
-  private static final Version SQ_6_2 = Version.create(6, 2);
-  private static boolean isSQ62orNewer;
   private static final Set<Integer> linesOfCode = Sets.newHashSet();
   private static final Set<Integer> linesOfComments = Sets.newHashSet();
   private static final Set<Integer> executableLines = Sets.newHashSet();
@@ -83,19 +80,13 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.fileSystem = context.fileSystem();
     this.allLinesOfCode = allLinesOfCode;
-    if (context.getSonarQubeVersion().isGreaterThanOrEqual(SQ_6_2)) {
-      LOG.info("SonarQube 6.2 or newer environment");
-      isSQ62orNewer = true;
-      }
   }
 
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.functionDefinition);
-    if (isSQ62orNewer) {
-      for (AstNodeType nodeType : nodesToVisit) {
-        subscribeTo(nodeType);
-      }
+    for (AstNodeType nodeType : nodesToVisit) {
+      subscribeTo(nodeType);
     }
   }
 
@@ -197,10 +188,8 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
     linesOfCode.stream().forEach(line -> fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1));
     linesOfComments.stream().forEach(line -> fileLinesContext.setIntValue(CoreMetrics.COMMENT_LINES_DATA_KEY, line, 1));
-    if(isSQ62orNewer) {
-      executableLines.stream().forEach(line -> fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, 
+    executableLines.stream().forEach(line -> fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, 
                                                                             line, 1));
-    }
 
     fileLinesContext.save();
     this.allLinesOfCode.put(inputFile, Sets.newHashSet(linesOfCode));

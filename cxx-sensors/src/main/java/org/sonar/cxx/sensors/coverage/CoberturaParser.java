@@ -64,17 +64,20 @@ public class CoberturaParser extends CxxCoverageParser {
     parser.parse(report);
   }
 
-  private void collectPackageMeasures(final SensorContext context, SMInputCursor pack, Map<String, CoverageMeasures> coverageData)
+  private static void collectPackageMeasures(final SensorContext context, SMInputCursor pack,
+                                             Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (pack.getNext() != null) {
       collectFileMeasures(context, pack.descendantElementCursor("class"), coverageData);
     }
   }
 
-  private static void collectFileMeasures(final SensorContext context, SMInputCursor clazz, Map<String, CoverageMeasures> coverageData)
+  private static void collectFileMeasures(final SensorContext context, SMInputCursor clazz,
+                                          Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (clazz.getNext() != null) {
-      String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), context.fileSystem().baseDir().getAbsolutePath());
+      String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), 
+                                                     context.fileSystem().baseDir().getAbsolutePath());
       if (normalPath != null) {
         CoverageMeasures builder = coverageData.get(normalPath);
         if (builder == null) {

@@ -21,13 +21,13 @@ package org.sonar.cxx.sensors.coverage;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.sonar.api.batch.BatchSide;
+import org.sonar.api.batch.ScannerSide;
 
 /**
  *
  * @author jocs
  */
-@BatchSide
+@ScannerSide
 public class CxxCoverageCache {
 
   private static final Map<String, Map<String, CoverageMeasures>> CACHE_UNIT = new HashMap<>();

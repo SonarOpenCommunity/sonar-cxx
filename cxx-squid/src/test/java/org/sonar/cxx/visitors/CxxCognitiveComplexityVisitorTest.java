@@ -19,20 +19,17 @@
  */
 package org.sonar.cxx.visitors;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxCognitiveComplexityVisitorTest {
@@ -42,7 +39,7 @@ public class CxxCognitiveComplexityVisitorTest {
       .setMetricDef(CxxMetric.COGNITIVE_COMPLEXITY)
       .build();
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".");
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
     SourceFile sourceFile = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
 
     return (sourceFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY));

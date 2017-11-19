@@ -45,7 +45,8 @@ public class CxxClangSASensor extends CxxReportSensor {
   public static final String KEY = "ClangSA";
 
   /**
-   * {@inheritDoc}
+   * CxxClangSASensor for Clang Static Analyzer Sensor 
+   * @param language defines settings C or C++
    */
   public CxxClangSASensor(CxxLanguage language) {
     super(language);
@@ -107,7 +108,7 @@ public class CxxClangSASensor extends CxxReportSensor {
                   | org.xml.sax.SAXException
                   | com.dd.plist.PropertyListFormatException e){
 
-      LOG.error("Failed to parse clangsa report: {}", e);
+      LOG.error("Failed to parse clangsa report: {}", e.getMessage());
 
     }
   }

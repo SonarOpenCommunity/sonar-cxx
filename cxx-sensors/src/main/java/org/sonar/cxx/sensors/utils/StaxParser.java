@@ -80,6 +80,7 @@ public class StaxParser {
   /**
    * parse XML stream:
    * @param xmlFile - java.io.File  = input file
+   * @exception XMLStreamException javax.xml.stream.XMLStreamException
    */
   public void parse(File xmlFile) throws XMLStreamException {
     try (FileInputStream input = new FileInputStream(xmlFile)) {
@@ -92,6 +93,7 @@ public class StaxParser {
   /**
    * parse XML stream:
    * @param xmlInput - java.io.InputStream  = input file
+   * @exception XMLStreamException javax.xml.stream.XMLStreamException
    */
   public void parse(InputStream xmlInput) throws XMLStreamException {
     InputStream input = isoControlCharsAwareParser ? new ISOControlCharAwareInputStream(xmlInput) : xmlInput;
@@ -101,6 +103,7 @@ public class StaxParser {
   /**
    * parse XML stream:
    * @param xmlReader - java.io.Reader  = input file
+   * @exception XMLStreamException javax.xml.stream.XMLStreamException
    */
   public void parse(Reader xmlReader) throws XMLStreamException {
     if (isoControlCharsAwareParser) {
@@ -112,6 +115,7 @@ public class StaxParser {
   /**
    * parse XML stream:
    * @param xmlUrl - java.net.URL  = input stream
+   * @exception XMLStreamException javax.xml.stream.XMLStreamException
    */
   public void parse(URL xmlUrl) throws XMLStreamException {
     try {
@@ -152,10 +156,11 @@ public class StaxParser {
    */
   public interface XmlStreamHandler {
     
-    /**
-     * stream:
-     * @param rootCursor - org.codehaus.staxmate.i.SMHierarchicCursor
-     */
+  /**
+   * stream:
+   * @param rootCursor - org.codehaus.staxmate.i.SMHierarchicCursor
+   * @exception XMLStreamException javax.xml.stream.XMLStreamException
+   */
     void stream(SMHierarchicCursor rootCursor) throws XMLStreamException;
   }
 

@@ -19,8 +19,6 @@
  */
 package org.sonar.cxx.checks;
 
-import java.util.List;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;

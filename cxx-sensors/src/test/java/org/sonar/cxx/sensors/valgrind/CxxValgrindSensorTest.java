@@ -25,14 +25,14 @@ import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
 import java.util.Set;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -41,12 +41,11 @@ public class CxxValgrindSensorTest {
   private CxxValgrindSensor sensor;
   private DefaultFileSystem fs;
   private CxxLanguage language;
-  private Settings settings;
+  private MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    settings = new Settings();
     language = TestUtils.mockCxxLanguage();
     sensor = new CxxValgrindSensor(language);
   }
@@ -55,6 +54,7 @@ public class CxxValgrindSensorTest {
   public void shouldNotThrowWhenGivenValidData() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     sensor.execute(context);
+    assertThat(context.allAnalysisErrors().size()==0).isTrue();
   }
 
   @Test
@@ -62,9 +62,8 @@ public class CxxValgrindSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Set<ValgrindError> valgrindErrors = new HashSet<>();
     valgrindErrors.add(mockValgrindError(true));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "dir/file").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    context.fileSystem().add(TestInputFileBuilder.create("myProjectKey", "dir/file").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     sensor.saveErrors(context, valgrindErrors);
-    
     assertThat(context.allIssues()).hasSize(1);
   }
 
@@ -89,3 +88,4 @@ public class CxxValgrindSensorTest {
     return new ValgrindFrame("ip", "obj", "fn", "dir", "file", "1");
   }
 }
+

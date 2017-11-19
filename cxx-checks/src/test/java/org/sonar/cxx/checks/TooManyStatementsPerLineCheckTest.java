@@ -21,7 +21,7 @@ package org.sonar.cxx.checks;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;

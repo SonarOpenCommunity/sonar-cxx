@@ -28,13 +28,12 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.config.Settings;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.api.utils.Version;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
@@ -57,9 +56,9 @@ import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
 import org.sonar.cxx.sensors.rats.CxxRatsRuleRepository;
 import org.sonar.cxx.sensors.rats.CxxRatsSensor;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
-import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsProvider;
-import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsAggregator;
-import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsImportSensor;
+import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsAggregator;
+import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsImportSensor;
+import org.sonar.cxx.sensors.tests.dotnet.UnitTestConfiguration;
 import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
 import org.sonar.cxx.sensors.utils.CxxMetrics;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindRuleRepository;
@@ -75,8 +74,8 @@ import com.google.common.collect.ImmutableList;
 public final class CxxPlugin implements Plugin {
   private static final String USE_ANT_STYLE_WILDCARDS = 
       " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
-  private static final String EXTENDING_THE_CODE_ANALYSIS = 
-      " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.";
+  private static final String EXTENDING_THE_CODE_ANALYSIS = " The used format is described <a href='"
+                       + "https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.";
   public static final String LANG_PROP_PREFIX = "sonar.cxx.";
   public static final String SOURCE_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.sources";
   public static final String HEADER_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.headers";
@@ -95,6 +94,7 @@ public final class CxxPlugin implements Plugin {
     String subcateg = "(1) General";
     return new ArrayList<>(Arrays.asList(
       PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY)
+      .multiValues(true)
       .defaultValue(CppLanguage.DEFAULT_SOURCE_SUFFIXES)
       .name("Source files suffixes")
       .description("Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.")
@@ -103,6 +103,7 @@ public final class CxxPlugin implements Plugin {
       .index(1)
       .build(),
       PropertyDefinition.builder(HEADER_FILE_SUFFIXES_KEY)
+      .multiValues(true)
       .defaultValue(CppLanguage.DEFAULT_HEADER_SUFFIXES)
       .name("Header files suffixes")
       .description("Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.")
@@ -111,6 +112,7 @@ public final class CxxPlugin implements Plugin {
       .index(2)
       .build(),
       PropertyDefinition.builder(INCLUDE_DIRECTORIES_KEY)
+      .multiValues(true)
       .name("Include directories")
       .description("Comma-separated list of directories to search the included files in. "
         + "May be defined either relative to projects root or absolute.")
@@ -119,6 +121,7 @@ public final class CxxPlugin implements Plugin {
       .index(3)
       .build(),
       PropertyDefinition.builder(FORCE_INCLUDE_FILES_KEY)
+      .multiValues(true)
       .subCategory(subcateg)
       .name("Force includes")
       .description("Comma-separated list of files which should to be included implicitly at the "
@@ -138,6 +141,7 @@ public final class CxxPlugin implements Plugin {
       .build(),
       PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
       .defaultValue(CppLanguage.DEFAULT_C_FILES)
+      .multiValues(true)
       .name("C source files patterns")
       .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the"
         + "patterns, it is parsed in C-compatibility mode.")
@@ -354,8 +358,7 @@ public final class CxxPlugin implements Plugin {
       .defaultValue(CxxCompilerSensor.DEFAULT_PARSER_DEF)
       .name("Format")
       .type(PropertyType.SINGLE_SELECT_LIST)
-      .options(LANG_PROP_PREFIX + CxxCompilerVcParser.KEY, LANG_PROP_PREFIX
-               + CxxCompilerGccParser.KEY)
+      .options(LANG_PROP_PREFIX + CxxCompilerVcParser.KEY, LANG_PROP_PREFIX + CxxCompilerGccParser.KEY)
       .description("The format of the warnings file. Currently supported are Visual C++ and GCC.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
@@ -398,137 +401,59 @@ public final class CxxPlugin implements Plugin {
     ));
   }
 
-  private static List<PropertyDefinition> testingAndCoverageProperties(Version sonarQubeVersion) {
+  private static List<PropertyDefinition> testingAndCoverageProperties() {
     String subcateg = "(3) Testing & Coverage";
     ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
-    if (sonarQubeVersion.isGreaterThanOrEqual(CxxCoverageSensor.SQ_6_2)) {
-      properties.add(
-          PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.REPORT_PATH_KEY)
-            .name("Unit test coverage report(s)")
-            .description("List of paths to reports containing unit test coverage data, relative to projects root."
-              + " The values are separated by commas."
-              + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
-              + "here</a> for supported formats.")
-            .subCategory(subcateg)
-            .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-            .index(1)
-            .build(),
-          PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY)
-            .defaultValue("False")
-            .name("Enable Force Zero Coverage")
-            .description("Set files without coverage reports to zero coverage. Default is 'False'.")
-            .subCategory(subcateg)
-            .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-            .type(PropertyType.BOOLEAN)
-            .index(2)
-            .build(),
-          PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.REPORT_PATH_KEY)
-            .name("Unit test execution report(s)")
-            .description("Path to unit test execution report(s), relative to projects root."
-              + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>"
-              + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
-            .subCategory(subcateg)
-            .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-            .index(3)
-            .build(),
-          PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.XSLT_URL_KEY)
-            .name("XSLT transformer")
-            .description("By default, the unit test execution reports are expected to be in the JUnitReport format."
-              + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is "
-              + "able to perform the according transformation.")
-            .subCategory(subcateg)
-            .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-            .index(4)
-            .build(),
-          PropertyDefinition.builder(LANG_PROP_PREFIX
-              + CxxUnitTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
-            .name("Visual Studio Test Reports Paths")
-            .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
-            .subCategory(subcateg)
-            .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-            .index(5)
-            .build(),
-          PropertyDefinition.builder(LANG_PROP_PREFIX + CxxUnitTestResultsProvider.NUNIT_TEST_RESULTS_PROPERTY_KEY)
-            .name("Nunit Test Reports Paths")
-            .description("Example: \"nunit.xml\", \"nunit1.xml,nunit2.xml\" or \"C:/nunit.xml\"")
-            .subCategory(subcateg)
-            .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-            .index(6)
-            .build()
+
+    properties.add(
+        PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.REPORT_PATH_KEY)
+          .multiValues(true)
+          .name("Unit test coverage report(s)")
+          .description("List of paths to reports containing unit test coverage data, relative to projects root."
+            + " The values are separated by commas."
+            + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
+            + "here</a> for supported formats.")
+          .subCategory(subcateg)
+          .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+          .index(1)
+          .build(),
+        PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.REPORT_PATH_KEY)
+          .name("Unit test execution report(s)")
+          .description("Path to unit test execution report(s), relative to projects root."
+            + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>"
+            + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
+          .subCategory(subcateg)
+          .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+          .index(2)
+          .build(),
+        PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.XSLT_URL_KEY)
+          .name("XSLT transformer")
+          .description("By default, the unit test execution reports are expected to be in the JUnitReport format."
+            + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is "
+            + "able to perform the according transformation.")
+          .subCategory(subcateg)
+          .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+          .index(3)
+          .build(),
+        PropertyDefinition.builder(LANG_PROP_PREFIX 
+                                   + UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
+          .multiValues(true)
+          .name("Visual Studio Test Reports Paths")
+          .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
+          .subCategory(subcateg)
+          .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+          .index(4)
+          .build(),
+        PropertyDefinition.builder(LANG_PROP_PREFIX 
+                                   + UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY)
+          .multiValues(true)
+          .name("xUnit (MS) Test Reports Paths")
+          .description("Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
+          .subCategory(subcateg)
+          .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+          .index(5)
+          .build()
         );
-    } else {
-      properties.add(
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.REPORT_PATH_KEY)
-      .name("Unit test coverage report(s)")
-      .description("Path to a report containing unit test coverage data, relative to projects root."
-              + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
-              + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(1)
-      .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.IT_REPORT_PATH_KEY)
-      .name("Integration test coverage report(s)")
-      .description("Path to a report containing integration test coverage data, relative to projects root."
-              + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here"
-              + "</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(2)
-      .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.OVERALL_REPORT_PATH_KEY)
-      .name("Overall test coverage report(s)")
-            .description("Path to a report containing overall test coverage data (i.e. test coverage gained by all "
-              + "tests of all kinds), relative to projects root. See <a href='https://github.com/SonarOpenCommunity/"
-              + "sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(3)
-      .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY)
-      .defaultValue("False")
-      .name("Enable Force Zero Coverage")
-      .description("Set files without coverage reports to zero coverage. Default is 'False'.")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .type(PropertyType.BOOLEAN)
-      .index(4)
-      .build(),      
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.REPORT_PATH_KEY)
-      .name("Unit test execution report(s)")
-      .description("Path to unit test execution report(s), relative to projects root."
-              + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/"
-              + "Get-test-execution-metrics'>here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(6)
-      .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.XSLT_URL_KEY)
-      .name("XSLT transformer")
-      .description("By default, the unit test execution reports are expected to be in the JUnitReport format."
-              + " To import a report in an other format, set this property to an URL to a XSLT "
-              + "stylesheet which is able to perform the according transformation.")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(7)
-      .build(),
-          PropertyDefinition.builder(LANG_PROP_PREFIX
-              + CxxUnitTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
-      .name("Visual Studio Test Reports Paths")
-      .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(9)
-      .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxUnitTestResultsProvider.NUNIT_TEST_RESULTS_PROPERTY_KEY)
-      .name("Nunit Test Reports Paths")
-      .description("Example: \"nunit.xml\", \"nunit1.xml,nunit2.xml\" or \"C:/nunit.xml\"")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(10)
-      .build()      
-        );
-    }
     return properties.build();
   }
 
@@ -572,14 +497,13 @@ public final class CxxPlugin implements Plugin {
 
     // reusable elements
     l.addAll(getSensorsImpl());
-    
+
     // properties elements
     l.addAll(generalProperties());
     l.addAll(codeAnalysisProperties());
-    l.addAll(testingAndCoverageProperties(context.getSonarQubeVersion()));
+    l.addAll(testingAndCoverageProperties());
     l.addAll(compilerWarningsProperties());
     l.addAll(duplicationsProperties());
-    
     context.addExtensions(l);
   }
 
@@ -589,10 +513,10 @@ public final class CxxPlugin implements Plugin {
     // utility classes
     l.add(CxxCoverageAggregator.class);
     l.add(CxxUnitTestResultsAggregator.class);
-        
+
     // metrics    
     l.add(CxxMetricsImp.class);
-    
+
     // issue sensors
     l.add(CxxSquidSensorImpl.class);
     l.add(CxxRatsSensorImpl.class);    
@@ -609,8 +533,8 @@ public final class CxxPlugin implements Plugin {
     // test sensors
     l.add(CxxXunitSensorImpl.class);
     l.add(CxxUnitTestResultsImportSensorImpl.class);
-    l.add(CxxCoverageSensorImpl.class);    
-    
+    l.add(CxxCoverageSensorImpl.class);
+
     // rule provides
     l.add(CxxRatsRuleRepositoryImpl.class);
     l.add(CxxCppCheckRuleRepositoryImpl.class);
@@ -623,185 +547,189 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxExternalRuleRepositoryImpl.class);    
     l.add(CxxClangTidyRuleRepositoryImpl.class);
     l.add(CxxClangSARuleRepositoryImpl.class);
-    
+
     return l;
   }
   
   public static class CxxMetricsImp extends CxxMetrics {
-    public CxxMetricsImp(Settings settings) {
+    public CxxMetricsImp(Configuration settings) {
       super(new CppLanguage(settings));
     }
   }
 
   public static class CxxRatsRuleRepositoryImpl extends CxxRatsRuleRepository {
     public CxxRatsRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-        Settings settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+        Configuration settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
     
   public static class CxxCppCheckRuleRepositoryImpl extends CxxCppCheckRuleRepository {
     public CxxCppCheckRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-        Settings settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+        Configuration settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxPCLintRuleRepositoryImpl extends CxxPCLintRuleRepository {
     public CxxPCLintRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-        Settings settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+        Configuration settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxDrMemoryRuleRepositoryImpl extends CxxDrMemoryRuleRepository {
     public CxxDrMemoryRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-        Settings settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+        Configuration settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxCompilerVcRuleRepositoryImpl extends CxxCompilerVcRuleRepository {
     public CxxCompilerVcRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-        Settings settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+        Configuration settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxCompilerGccRuleRepositoryImpl extends CxxCompilerGccRuleRepository {
     public CxxCompilerGccRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-        Settings settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+        Configuration settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxVeraxxRuleRepositoryImpl extends CxxVeraxxRuleRepository {
     public CxxVeraxxRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-        Settings settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+        Configuration settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxValgrindRuleRepositoryImpl extends CxxValgrindRuleRepository {
     public CxxValgrindRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-        Settings settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+        Configuration settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxExternalRuleRepositoryImpl extends CxxOtherRepository {
-    public CxxExternalRuleRepositoryImpl(RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
-      super(xmlRuleLoader, new CppLanguage(settings));      
+    public CxxExternalRuleRepositoryImpl(RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
+      super(xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxClangTidyRuleRepositoryImpl extends CxxClangTidyRuleRepository {
     public CxxClangTidyRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-        Settings settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+        Configuration settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
 
   public static class CxxClangSARuleRepositoryImpl extends CxxClangSARuleRepository {
     public CxxClangSARuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-        Settings settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+        Configuration settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxSquidSensorImpl extends CxxSquidSensor {
-    public CxxSquidSensorImpl(Settings settings,
+    public CxxSquidSensorImpl(Configuration settings,
             FileLinesContextFactory fileLinesContextFactory,
           CheckFactory checkFactory,
           CxxCoverageAggregator coverageCache) {
-      super(new CppLanguage(settings), fileLinesContextFactory, checkFactory, coverageCache);      
+      super(new CppLanguage(settings), fileLinesContextFactory, checkFactory, coverageCache);
     }
   }
-    
+
   public static class CxxRatsSensorImpl extends CxxRatsSensor {
-    public CxxRatsSensorImpl(Settings settings) {
-      super(new CppLanguage(settings));      
+    public CxxRatsSensorImpl(Configuration settings) {
+      super(new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxXunitSensorImpl extends CxxXunitSensor {
-    public CxxXunitSensorImpl(Settings settings) {
-      super(new CppLanguage(settings));      
+    public CxxXunitSensorImpl(Configuration settings) {
+      super(new CppLanguage(settings));
     }
   }
-  
+
   public static class CxxCoverageSensorImpl extends CxxCoverageSensor {
-    public CxxCoverageSensorImpl(Settings settings, CxxCoverageAggregator cache, SensorContext context) {
+    public CxxCoverageSensorImpl(Configuration settings, CxxCoverageAggregator cache, SensorContext context) {
       super(cache, new CppLanguage(settings), context);
     }
   } 
-  
+
   public static class CxxCppCheckSensorImpl extends CxxCppCheckSensor {
-    public CxxCppCheckSensorImpl(Settings settings) {
-      super(new CppLanguage(settings));      
+    public CxxCppCheckSensorImpl(Configuration settings) {
+      super(new CppLanguage(settings));
     }
   } 
-  
+
   public static class CxxPCLintSensorImpl extends CxxPCLintSensor {
-    public CxxPCLintSensorImpl(Settings settings) {
-      super(new CppLanguage(settings));      
+    public CxxPCLintSensorImpl(Configuration settings) {
+      super(new CppLanguage(settings));
     }
   } 
-  
+
   public static class CxxDrMemorySensorImpl extends CxxDrMemorySensor {
-    public CxxDrMemorySensorImpl(Settings settings) {
-      super(new CppLanguage(settings));      
+    public CxxDrMemorySensorImpl(Configuration settings) {
+      super(new CppLanguage(settings));
     }
   } 
-  
+
   public static class CxxCompilerSensorImpl extends CxxCompilerSensor {
-    public CxxCompilerSensorImpl(Settings settings) {
-      super(new CppLanguage(settings));      
+    public CxxCompilerSensorImpl(Configuration settings) {
+      super(new CppLanguage(settings));
     }
   } 
-  
+
   public static class CxxVeraxxSensorImpl extends CxxVeraxxSensor {
-    public CxxVeraxxSensorImpl(Settings settings) {
-      super(new CppLanguage(settings));      
+    public CxxVeraxxSensorImpl(Configuration settings) {
+      super(new CppLanguage(settings));
     }
   }  
 
   public static class CxxValgrindSensorImpl extends CxxValgrindSensor {
-    public CxxValgrindSensorImpl(Settings settings) {
-      super(new CppLanguage(settings));      
+    public CxxValgrindSensorImpl(Configuration settings) {
+      super(new CppLanguage(settings));
     }
   }
-            
+
   public static class CxxClangTidySensorImpl extends CxxClangTidySensor {
-    public CxxClangTidySensorImpl(Settings settings) {
-      super(new CppLanguage(settings));      
+    public CxxClangTidySensorImpl(Configuration settings) {
+      super(new CppLanguage(settings));
     }
-  }  
+  }
+
   public static class CxxClangSASensorImpl extends CxxClangSASensor {
-    public CxxClangSASensorImpl(Settings settings) {
-      super(new CppLanguage(settings));      
+    public CxxClangSASensorImpl(Configuration settings) {
+      super(new CppLanguage(settings));
     }
-  }  
+  }
+
   public static class CxxExternalRulesSensorImpl extends CxxOtherSensor {
-    public CxxExternalRulesSensorImpl(Settings settings) {
-      super(new CppLanguage(settings));      
+    public CxxExternalRulesSensorImpl(Configuration settings) {
+      super(new CppLanguage(settings));
     }
-  } 
+  }
+
   public static class CxxUnitTestResultsImportSensorImpl extends CxxUnitTestResultsImportSensor {
-    public CxxUnitTestResultsImportSensorImpl(Settings settings,
+    public CxxUnitTestResultsImportSensorImpl(Configuration settings,
         CxxUnitTestResultsAggregator unitTestResultsAggregator, ProjectDefinition projectDef) {
-      super(unitTestResultsAggregator, projectDef, new CppLanguage(settings));      
+      super(unitTestResultsAggregator, projectDef, new CppLanguage(settings));
     }
-  }   
-  
+  }
+
   public static class CxxCoverageAggregator extends CxxCoverageCache {
-    public CxxCoverageAggregator() {                  
+    public CxxCoverageAggregator() {
       super();
     }
   }
-    
+
   @Override
   public String toString() {
     return getClass().getSimpleName();
   }
 }
+

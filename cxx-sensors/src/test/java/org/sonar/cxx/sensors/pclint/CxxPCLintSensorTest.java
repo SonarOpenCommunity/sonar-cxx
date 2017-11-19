@@ -19,34 +19,36 @@
  */
 package org.sonar.cxx.sensors.pclint;
 
+import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
 import java.util.ArrayList;
+import java.util.Optional;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
 
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
+
 public class CxxPCLintSensorTest {
   private DefaultFileSystem fs;
-  private Settings settings;
+  private MapSettings settings = new MapSettings();
   private CxxLanguage language;
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    settings = new Settings();
     language = TestUtils.mockCxxLanguage();
     when(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxPCLintSensor.REPORT_PATH_KEY);
-    when(language.IsRecoveryEnabled()).thenReturn(true);
+    when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
   }
 
   @Test
@@ -56,9 +58,9 @@ public class CxxPCLintSensorTest {
     settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/pclint-result-SAMPLE.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "FileZip.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "FileZip.h").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "ZipManager.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.h").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "ZipManager.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(16);
@@ -71,7 +73,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/pclint-result-MISRA2004-SAMPLE1.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(29);
@@ -84,7 +86,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/pclint-result-MISRA2004-SAMPLE2.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
@@ -97,7 +99,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/pclint-result-MISRACPP.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(2);
@@ -113,7 +115,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/incorrect-pclint-MISRA2004-desc.xml");
     context.setSettings(settings);
     
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
@@ -126,7 +128,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
@@ -139,7 +141,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/pclint-result-MISRA1998-SAMPLE.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
@@ -166,5 +168,7 @@ public class CxxPCLintSensorTest {
 
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
+    assertThat(context.allIssues().size()).isZero();
   }
 }
+

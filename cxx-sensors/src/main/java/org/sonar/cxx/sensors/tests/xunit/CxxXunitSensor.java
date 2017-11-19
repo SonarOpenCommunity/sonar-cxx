@@ -59,7 +59,9 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   public CxxXunitSensor(CxxLanguage language) {
     super(language);
-    xsltURL = language.getStringOption(XSLT_URL_KEY);
+    if (language.getStringOption(XSLT_URL_KEY).isPresent()) {
+      xsltURL = language.getStringOption(XSLT_URL_KEY).orElse("xunit-report.xslt");
+    }
   }
 
   @Override
@@ -77,7 +79,7 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   @Override
   public void execute(SensorContext context) {    
-    String moduleKey = context.settings().getString("sonar.moduleKey");
+    String moduleKey = context.config().get("sonar.moduleKey").orElse(null);
     if (moduleKey != null) {
       LOG.debug("Runs unit test import sensor only at top level project skip : Module Key = '{}'", moduleKey);
       return;        
@@ -86,7 +88,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     LOG.debug("Root module imports test metrics: Module Key = '{}'", context.module());    
     
     try {
-      List<File> reports = getReports(context.settings(), context.fileSystem().baseDir(), getReportPathKey());
+      List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
       if (!reports.isEmpty()) {
         XunitReportParser parserHandler = parseReport(reports);
         List<TestCase> testcases = parserHandler.getTestCases();
@@ -122,8 +124,11 @@ public class CxxXunitSensor extends CxxReportSensor {
       LOG.info("Processing report '{}'", report);
       try {
         parser.parse(transformReport(report));
-      } catch (EmptyReportException e) { 
+      } catch (EmptyReportException e) {
         LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("{}", e);
+        }
       }
     }
     return parserHandler;
@@ -250,3 +255,5 @@ public class CxxXunitSensor extends CxxReportSensor {
     return KEY;
   }  
 }
+
+

@@ -19,13 +19,6 @@
  */
 package org.codehaus.sonarplugins.cxx.cxxlint;
 
-import org.sonar.cxx.cxxlint.CxxLint;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 /**
  *
  * @author jocs
@@ -35,39 +28,39 @@ public class CxxLintTest {
   /**
    * Test of main method, of class CxxLint.
    */
-  @Test
-  public void runsToolWithoutSettingsWithoutExceptions() throws IllegalAccessException, IOException, Exception {
-    ClassLoader classLoader = getClass().getClassLoader();
-	File fileToAnalyse = new File(classLoader.getResource("PathHandle.cpp").getFile());
-    
-    String[] args = new String[2];
-    args[0] = "-f";
-    args[1] = fileToAnalyse.getAbsolutePath();
-    
-    CxxLint.main(args);
-    assertTrue(true);
-  }  
+//  @Test
+//  public void runsToolWithoutSettingsWithoutExceptions() throws IllegalAccessException, IOException, Exception {
+//    ClassLoader classLoader = getClass().getClassLoader();
+//	File fileToAnalyse = new File(classLoader.getResource("PathHandle.cpp").getFile());
+//    
+//    String[] args = new String[2];
+//    args[0] = "-f";
+//    args[1] = fileToAnalyse.getAbsolutePath();
+//    
+//    CxxLint.main(args);
+//    assertTrue(true);
+//  }  
   
   /**
    * Test of main method, of class CxxLint.
    */
-  @Test
-  public void runsToolWithSettingsWithoutExceptions() {
-    ClassLoader classLoader = getClass().getClassLoader();
-	File fileToAnalyse = new File(classLoader.getResource("PathHandle.cpp").getFile());
-    File settingsFile = new File(classLoader.getResource("4b4b9c5c-05f3-42e1-b94f-4c74b53241e3.json").getFile());
-    
-    String[] args = new String[4];
-    args[0] = "-f";
-    args[1] = fileToAnalyse.getAbsolutePath();
-    args[2] = "-s";
-    args[3] = settingsFile.getAbsolutePath();
-    
-    try {
-      CxxLint.main(args);
-      assertTrue(true);
-    } catch (Exception ex) {
-      assertTrue("Exception Found: " + ex.getMessage(), false);
-    }
-  }  
+//  @Test
+//  public void runsToolWithSettingsWithoutExceptions() {
+//    ClassLoader classLoader = getClass().getClassLoader();
+//	File fileToAnalyse = new File(classLoader.getResource("PathHandle.cpp").getFile());
+//    File settingsFile = new File(classLoader.getResource("4b4b9c5c-05f3-42e1-b94f-4c74b53241e3.json").getFile());
+//    
+//    String[] args = new String[4];
+//    args[0] = "-f";
+//    args[1] = fileToAnalyse.getAbsolutePath();
+//    args[2] = "-s";
+//    args[3] = settingsFile.getAbsolutePath();
+//    
+//    try {
+//      CxxLint.main(args);
+//      assertTrue(true);
+//    } catch (Exception ex) {
+//      assertTrue("Exception Found: " + ex.getMessage(), false);
+//    }
+//  }  
 }

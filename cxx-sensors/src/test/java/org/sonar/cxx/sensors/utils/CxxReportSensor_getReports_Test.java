@@ -32,25 +32,19 @@ import java.util.TreeSet;
 import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 
 public class CxxReportSensor_getReports_Test {
 
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
-  private Settings settings;
+  private MapSettings settings = new MapSettings();
   
   @Rule
   public TemporaryFolder base = new TemporaryFolder();
-
-  @Before
-  public void setUp() {
-    settings = new Settings();
-    }
 
   @Test
   public void getReports_patternMatching() throws java.io.IOException, java.lang.InterruptedException {
@@ -82,7 +76,7 @@ public class CxxReportSensor_getReports_Test {
       setupExample(allpaths);
 
       settings.setProperty(REPORT_PATH_KEY, pattern);
-      reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+      reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
       assertMatch(reports, match, example[0]);
       deleteExample(base.getRoot());
     }
@@ -127,7 +121,7 @@ public class CxxReportSensor_getReports_Test {
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
-    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
     assertEquals(1, reports.size());
   }
 
@@ -138,7 +132,7 @@ public class CxxReportSensor_getReports_Test {
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
-    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
     assertEquals(1, reports.size());
   }
 
@@ -149,7 +143,7 @@ public class CxxReportSensor_getReports_Test {
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
-    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
     assertEquals(2, reports.size());
   }
 
@@ -163,7 +157,7 @@ public class CxxReportSensor_getReports_Test {
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + "," + relativeReport);
 
-    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
     assertEquals(2, reports.size());
   }
 
@@ -182,7 +176,7 @@ public class CxxReportSensor_getReports_Test {
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",**/*.xml");
 
-    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
     assertEquals(7, reports.size());
   }
 
@@ -200,7 +194,7 @@ public class CxxReportSensor_getReports_Test {
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",path/**/*.xml");
 
-    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
     assertEquals(6, reports.size());
   }
 
@@ -213,7 +207,7 @@ public class CxxReportSensor_getReports_Test {
 
     settings.setProperty(REPORT_PATH_KEY, "../" + base.getRoot().getName() + "/path/**/*.xml");
 
-    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
     assertEquals(4, reports.size());
   }
 
@@ -227,7 +221,7 @@ public class CxxReportSensor_getReports_Test {
         "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../" +
         "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../*.xml");
     
-    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
     assertEquals(0, reports.size());
   }
 }

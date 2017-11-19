@@ -22,7 +22,8 @@ package org.sonar.cxx.toolkit;
 
 import java.util.Collections;
 import java.util.List;
-import org.sonar.api.config.Settings;
+
+import org.sonar.api.config.Configuration;
 import org.sonar.cxx.CxxLanguage;
 
 /**
@@ -31,8 +32,10 @@ import org.sonar.cxx.CxxLanguage;
  */
 public class CppLanguage extends CxxLanguage {
 
+  private final static Configuration config = null;
+
   public CppLanguage() {
-    super("c++", new Settings());
+    super("c++", config);
   }  
   
   @Override

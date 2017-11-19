@@ -20,35 +20,38 @@
 package org.sonar.cxx.sensors.visitors;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.List;
-import org.apache.commons.io.Charsets;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.fs.internal.FileMetadata;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxHighlighterTest {
 
   private SensorContextTester context;
 
-  private File file;
+  private File target;
 
   @Before
   @SuppressWarnings("unchecked")
-  public void scanFile() {
-    String dir = "src/test/resources/org/sonar/cxx/sensors";
+  public void scanFile() throws IOException{
+    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
+    target = new File(baseDir, "highlighter.cc");
 
-    file = new File(dir, "/highlighter.cc");
-    DefaultInputFile inputFile = new DefaultInputFile("moduleKey", file.getName())
-      .initMetadata(new FileMetadata().readMetadata(file, Charsets.UTF_8));
+    String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
+    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target)
+                                 .setContents(content).setCharset(Charset.forName("UTF-8")).build();
 
-    context = SensorContextTester.create(new File(dir));
+    context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
 
     CxxHighlighterVisitor cxxHighlighter = new CxxHighlighterVisitor(context);
@@ -168,7 +171,7 @@ public class CxxHighlighterTest {
   }
 
   private void checkInternal(int line, int column, String messageComplement, TypeOfText expectedTypeOfText) {
-    String componentKey = "moduleKey:" + file.getName();
+    String componentKey = "ProjectKey:" + target.getName();
     List<TypeOfText> foundTypeOfTexts = context.highlightingTypeAt(componentKey, line, column);
 
     int expectedNumberOfTypeOfText = expectedTypeOfText == null ? 0 : 1;

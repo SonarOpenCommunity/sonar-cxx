@@ -34,11 +34,11 @@ public interface CoverageParser {
   /**
    * Parses the given report and stores the results in the according builder
    *
-   * @param context
-   * @param report
+   * @param context of sensor
+   * @param report with coverage data
    * @param coverageData A Map mapping source file names to coverage measures.
    * Has to be used to store the results into.
-   * @throws javax.xml.stream.XMLStreamException
+   * @throws XMLStreamException javax.xml.stream.XMLStreamException
    */
   void processReport(final SensorContext context, File report, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException;

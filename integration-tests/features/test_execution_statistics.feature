@@ -1,4 +1,4 @@
-@SqApi56 @SqApi62
+@SqApi67
 Feature: Providing test execution numbers
   As a SonarQube user,
   I want to import the test execution reports into SonarQube

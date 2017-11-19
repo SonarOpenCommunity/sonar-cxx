@@ -52,7 +52,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
   public static final String KEY = "PC-Lint";
 
   /**
-   * {@inheritDoc}
+   * CxxPCLintSensor for PC-lint Sensor 
+   * @param language defines settings C or C++
    */
   public CxxPCLintSensor(CxxLanguage language) {
     super(language);

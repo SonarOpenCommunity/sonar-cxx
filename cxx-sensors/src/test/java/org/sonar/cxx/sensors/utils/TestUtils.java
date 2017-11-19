@@ -1,5 +1,3 @@
-package org.sonar.cxx.sensors.utils;
-
 /*
  * Sonar C++ Plugin (Community)
  * Copyright (C) 2010-2017 SonarOpenCommunity
@@ -19,7 +17,7 @@ package org.sonar.cxx.sensors.utils;
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
+package org.sonar.cxx.sensors.utils;
 
 import static org.mockito.Mockito.when;
 
@@ -28,6 +26,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.CheckForNull;
 
@@ -37,7 +36,7 @@ import org.apache.tools.ant.DirectoryScanner;
 import org.mockito.Mockito;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.cxx.CxxLanguage;
 
 public class TestUtils {
@@ -102,10 +101,9 @@ public class TestUtils {
     when(language.getRepositorySuffix()).thenReturn("");
     when(language.getRepositoryKey()).thenReturn("cxx");    
     when(language.getPropertiesKey()).thenReturn("cxx");
-    when(language.IsRecoveryEnabled()).thenReturn(true);
+    when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
     when(language.getFileSuffixes())
             .thenReturn(new String [] { ".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh" });
-    
     return language;
   }
 
@@ -126,15 +124,13 @@ public class TestUtils {
 
     DirectoryScanner scanner = new DirectoryScanner();
     scanner.setIncludes(includes);
-    String relpath;
+    File target;
     for (File dir : dirs) {
       scanner.setBasedir(new File(fs.baseDir(), dir.getPath()));
       scanner.scan();
       for (String path : scanner.getIncludedFiles()) {
-        relpath = new File(dir, path).getPath();
-        fs.add(new DefaultInputFile("foo", relpath)
-          .setLanguage("c++")
-          .setType(ftype));
+        target = new File(dir, path);
+        fs.add(TestInputFileBuilder.create("ProjectKey", target.getPath()).setLanguage("cpp").setType(ftype).build());
       }
     }
   }

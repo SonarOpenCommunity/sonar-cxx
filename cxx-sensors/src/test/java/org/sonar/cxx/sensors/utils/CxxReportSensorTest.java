@@ -21,12 +21,12 @@ package org.sonar.cxx.sensors.utils;
 
 import java.io.File;
 import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 
 public class CxxReportSensorTest {
@@ -37,12 +37,11 @@ public class CxxReportSensorTest {
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
 
   private File baseDir;
-  private static FileSystem fs;
-  private Settings settings;
+  private MapSettings settings = new MapSettings();
 
   private class CxxReportSensorImpl extends CxxReportSensor {
 
-    public CxxReportSensorImpl(CxxLanguage language) {
+    public CxxReportSensorImpl(CxxLanguage language, MapSettings settings) {
       super(language);
     }
 
@@ -68,8 +67,7 @@ public class CxxReportSensorTest {
 
   @Before
   public void init() {
-    fs = TestUtils.mockFileSystem();
-    settings = new Settings();
+    TestUtils.mockFileSystem();
     try {
       baseDir = new File(getClass().getResource("/org/sonar/cxx/sensors/reports-project/").toURI());
     } catch (java.net.URISyntaxException e) {
@@ -81,7 +79,8 @@ public class CxxReportSensorTest {
   public void shouldntThrowWhenInstantiating() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     
-    new CxxReportSensorImpl(language);
+    CxxReportSensor sensor = new CxxReportSensorImpl(language, settings);
+    assertThat(sensor).isNotNull();
   }
 
   @Test
@@ -89,42 +88,46 @@ public class CxxReportSensorTest {
     TestUtils.mockCxxLanguage();
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
 
-    List<File> reports = CxxReportSensor.getReports(settings, baseDir, "");
-    assertNotFound(reports);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, "");
+    assertThat(reports).isNotNull();
   }
 
   @Test
   public void getReports_shouldFindNothingIfNoPath() {
     TestUtils.mockCxxLanguage();
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, "");
-    List<File> reports = CxxReportSensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
-    assertNotFound(reports);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
+    assertThat(reports).isNotNull();
   }
 
   @Test
   public void getReports_shouldFindNothingIfInvalidPath() {
     TestUtils.mockCxxLanguage();
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
-    List<File> reports = CxxReportSensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
-    assertNotFound(reports);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
+    assertThat(reports).isNotNull();
   }
 
   @Test
   public void getReports_shouldFindSomething() {
     TestUtils.mockCxxLanguage();
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
-    List<File> reports = CxxReportSensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
-    assertFound(reports);
-    assert (reports.size() == 6);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
+    assertThat(reports).isNotNull();
+    assertThat(reports.get(0).exists()).isTrue();
+    assertThat(reports.get(0).isAbsolute()).isTrue();
+    assertThat(reports.size() == 6).isTrue();
   }
 
   @Test
   public void getReports_shouldFindSomethingList() {
     TestUtils.mockCxxLanguage();
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH_LIST);
-    List<File> reports = CxxReportSensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
-    assertFound(reports);
-    assert (reports.size() == 5);
+    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
+    assertThat(reports).isNotNull();
+    assertThat(reports.get(0).exists()).isTrue();
+    assertThat(reports.get(0).isAbsolute()).isTrue();
+    assertThat(reports.size() == 5).isTrue();
   }
 
   @Test
@@ -143,7 +146,7 @@ public class CxxReportSensorTest {
     //TDB
   }
 
-  ///// negative testcases for saveViolation ////////////
+  ///// negative test cases for saveViolation ////////////
   @Test
   public void savesOnProjectLevelIfFilenameIsEmpty() {
     //TDB
@@ -164,14 +167,5 @@ public class CxxReportSensorTest {
     //TDB
   }
 
-  private void assertFound(List<File> reports) {
-    assert (reports != null);
-    assert (reports.get(0).exists());
-    assert (reports.get(0).isAbsolute());
-  }
-
-  private void assertNotFound(List<File> reports) {
-    assert (reports != null);
-  }
-
 }
+

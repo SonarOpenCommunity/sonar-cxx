@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="0ecff956-7215-452f-9ce6-2b6d45870188" name="vagrant@WIN7PRO64 2014-06-11 15:48:58" runUser="WIN7PRO64\vagrant" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2016-03-14T17:04:31.0752743+01:00" queuing="2016-03-14T17:04:31.4447480+01:00" start="2016-03-14T17:04:31.1+01:00" finish="2016-03-14T17:04:31.9162137+01:00" />
+  <ResultSummary outcome="Failed">
+    <Counters total="43" executed="42" passed="14" failed="2" error="3" timeout="5" aborted="7" inconclusive="11" passedButRunAborted="0" notRunnable="0" notExecuted="1" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

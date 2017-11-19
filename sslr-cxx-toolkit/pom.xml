@@ -28,6 +28,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>org.codehaus.sonar</groupId>
+      <artifactId>sonar-colorizer</artifactId>
+      <version>3.6</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
     </dependency>
@@ -37,8 +43,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.easytesting</groupId>
-      <artifactId>fest-assert</artifactId>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -73,7 +79,7 @@
                 <include>jaxen:jaxen</include>
                 <include>org.sonarsource.sslr:sslr-toolkit</include>
                 <include>org.sonarsource.sslr-squid-bridge:sslr-squid-bridge</include>
-                <include>org.sonarsource.sonarqube:sonar-colorizer</include>
+                <include>org.codehaus.sonar:sonar-colorizer</include>
                 <include>org.sonarsource.sonarqube:sonar-squid</include>
                 <include>org.sonarsource.sonarqube:sonar-channel</include>
                 <include>org.sonarsource.sonarqube:sonar-plugin-api</include>
@@ -108,7 +114,7 @@
               <rules>
                 <requireFilesSize>
                   <maxsize>8500000</maxsize>
-                  <minsize>7000000</minsize>
+                  <minsize>6500000</minsize>
                   <files>
                     <file>${project.build.directory}/${project.build.finalName}.jar</file>
                   </files>

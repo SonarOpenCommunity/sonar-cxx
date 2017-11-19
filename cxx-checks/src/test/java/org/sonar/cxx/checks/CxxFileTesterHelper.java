@@ -22,10 +22,13 @@ package org.sonar.cxx.checks;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
+import java.nio.charset.Charset;
+import java.util.Optional;
+
 import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
+
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxLanguage;
 
@@ -39,19 +42,17 @@ public class CxxFileTesterHelper {
     CxxFileTester tester = new CxxFileTester();
     tester.sensorContext = SensorContextTester.create(new File(basePath));
 
-    String content = new String(Files.readAllBytes(new File(tester.sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    tester.sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    tester.sensorContext.fileSystem().add(TestInputFileBuilder.create("", fileName).build());
     tester.cxxFile = tester.sensorContext.fileSystem().inputFile(tester.sensorContext.fileSystem().predicates().hasPath(fileName));
     
     return tester;
   }
-  
-  public static CxxFileTester CreateCxxFileTester(String fileName, String basePath, String encoding) throws UnsupportedEncodingException, IOException {
+
+  public static CxxFileTester CreateCxxFileTester(String fileName, String basePath,Charset charset) throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = new CxxFileTester();
     tester.sensorContext = SensorContextTester.create(new File(basePath));
 
-    String content = new String(Files.readAllBytes(new File(tester.sensorContext.fileSystem().baseDir(), fileName).toPath()), encoding);
-    tester.sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    tester.sensorContext.fileSystem().add(TestInputFileBuilder.create("", fileName).setCharset(charset).build());
     tester.cxxFile = tester.sensorContext.fileSystem().inputFile(tester.sensorContext.fileSystem().predicates().hasPath(fileName));
     
     return tester;
@@ -62,7 +63,7 @@ public class CxxFileTesterHelper {
     when(language.getKey()).thenReturn("c++");
     when(language.getName()).thenReturn("c++");
     when(language.getPropertiesKey()).thenReturn("cxx");
-    when(language.IsRecoveryEnabled()).thenReturn(true);
+    when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
     when(language.getFileSuffixes())
             .thenReturn(new String [] { ".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh" });
     

@@ -22,24 +22,18 @@ package org.sonar.plugins.c;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 
 public class CLanguageTest {
 
-  private Settings settings;
-
-  @Before
-  public void setup() {
-    settings = new Settings();
-  }
+  private MapSettings settings = new MapSettings();
 
   @Test
   public void shouldReturnConfiguredFileSuffixes() {
     settings.setProperty(CPlugin.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
     settings.setProperty(CPlugin.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
-    CLanguage cxx = new CLanguage(settings);
+    CLanguage cxx = new CLanguage(settings.asConfig());
 
     String[] expected = {".C", ".c", ".H", ".h"};
     String[] expectedSources = {".C", ".c"};
@@ -52,7 +46,7 @@ public class CLanguageTest {
 
   @Test
   public void shouldReturnDefaultFileSuffixes() {
-    CLanguage cxx = new CLanguage(settings);
+    CLanguage cxx = new CLanguage(settings.asConfig());
 
     String[] expectedSources = {".c"};
     String[] expectedHeaders = {".h"};
@@ -66,7 +60,7 @@ public class CLanguageTest {
   @Test
   public void shouldReturnConfiguredSourceSuffixes() {
     settings.setProperty(CPlugin.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
-    CLanguage cxx = new CLanguage(settings);
+    CLanguage cxx = new CLanguage(settings.asConfig());
 
     String[] expectedSources = {".C", ".c"};
     String[] expectedHeaders = {".h"};
@@ -80,7 +74,7 @@ public class CLanguageTest {
   @Test
   public void shouldReturnConfiguredHeaderSuffixes() {
     settings.setProperty(CPlugin.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
-    CLanguage cxx = new CLanguage(settings);
+    CLanguage cxx = new CLanguage(settings.asConfig());
 
     String[] expectedSources = {".c"};
     String[] expectedHeaders = {".H", ".h"};

@@ -23,14 +23,14 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 import java.util.Arrays;
-import org.sonar.api.batch.BatchSide;
+import org.sonar.api.batch.ScannerSide;
 import org.sonar.cxx.CxxLanguage;
 
 /**
  *
  * @author jocs
  */
-@BatchSide
+@ScannerSide
 public abstract class CustomCxxRulesDefinition implements RulesDefinition {
 
   @Override

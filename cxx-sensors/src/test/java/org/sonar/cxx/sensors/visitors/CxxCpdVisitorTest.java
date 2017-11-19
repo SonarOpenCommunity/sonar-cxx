@@ -20,16 +20,20 @@
 package org.sonar.cxx.sensors.visitors;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.List;
-import org.apache.commons.io.Charsets;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
-
+import org.sonar.cxx.CxxLanguage;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.fs.internal.FileMetadata;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import org.sonar.duplications.internal.pmd.TokensLine;
 
@@ -37,21 +41,24 @@ public class CxxCpdVisitorTest {
 
   private SensorContextTester context;
   private DefaultInputFile inputFile;
+  private CxxLanguage language;
 
   @Before
   @SuppressWarnings("unchecked")
-  public void scanFile() {
-    String dir = "src/test/resources/org/sonar/cxx/sensors";
+  public void scanFile() throws UnsupportedEncodingException, IOException{
+    language = TestUtils.mockCxxLanguage();
+    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
+    File target = new File(baseDir, "cpd.cc");
+    
+    String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
+    inputFile = TestInputFileBuilder.create("moduleKey", baseDir, target).setType(InputFile.Type.MAIN)
+                                                     .setContents(content).setCharset(Charset.forName("UTF-8")).build();
 
-    File file = new File(dir, "/cpd.cc");
-    inputFile = new DefaultInputFile("moduleKey", file.getName())
-      .initMetadata(new FileMetadata().readMetadata(file, Charsets.UTF_8));
-
-    context = SensorContextTester.create(new File(dir));
+    context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
 
     CxxCpdVisitor cxxCpdVisitor = new CxxCpdVisitor(context, true, true);
-    CxxAstScanner.scanSingleFile(inputFile, context, TestUtils.mockCxxLanguage(), cxxCpdVisitor);
+    CxxAstScanner.scanSingleFile(inputFile, context, language, cxxCpdVisitor);
   }
 
   @Test

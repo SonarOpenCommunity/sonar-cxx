@@ -94,9 +94,11 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
       }
     }
 
-    String customRules = language.getStringOption(this.customRepositoryKey);
-    if (customRules != null && !customRules.trim().isEmpty()) {
-      xmlRuleLoader.load(repository, new StringReader(customRules));
+    if (language.getStringOption(this.customRepositoryKey).isPresent()) {
+      String customRules = language.getStringOption(this.customRepositoryKey).orElse(null);
+      if (customRules != null && !customRules.trim().isEmpty()) {
+        xmlRuleLoader.load(repository, new StringReader(customRules));
+      }
     }
 
     repository.done();

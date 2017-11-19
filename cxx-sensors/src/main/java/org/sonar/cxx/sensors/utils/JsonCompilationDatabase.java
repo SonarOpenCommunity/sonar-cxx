@@ -45,6 +45,7 @@ public class JsonCompilationDatabase {
    * JsonCompilationDatabase
    * @param config
    * @param compileCommandsFile
+   * @throws IOException
    */
   public JsonCompilationDatabase(CxxConfiguration config, File compileCommandsFile) throws IOException {
     LOG.debug("Parsing 'JSON Compilation Database' format");
