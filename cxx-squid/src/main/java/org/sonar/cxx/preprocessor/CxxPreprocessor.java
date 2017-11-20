@@ -43,8 +43,8 @@ import org.sonar.api.utils.log.Loggers;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Preprocessor; //@TODO: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
-import com.sonar.sslr.api.PreprocessorAction; //@TODO: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+import com.sonar.sslr.api.Preprocessor; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+import com.sonar.sslr.api.PreprocessorAction; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
@@ -93,7 +93,7 @@ public class CxxPreprocessor extends Preprocessor {
   private File currentContextFile;
   private String rootFilePath;
 
-//@TODO: deprecated Preprocessor
+//@todo: deprecated Preprocessor
 
   private static class State {
     private boolean skipPreprocessorDirectives;
@@ -645,7 +645,7 @@ public class CxxPreprocessor extends Preprocessor {
     getMacros().put(macro.name, macro);
 
     return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), 
-           new ArrayList<Token>()); //@TODO: deprecated PreprocessorAction
+           new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
   private void parseIncludeLine(String includeLine, String filename, Charset charset) {
@@ -700,24 +700,24 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)),
-           new ArrayList<Token>()); //@TODO: deprecated PreprocessorAction
+           new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
-  PreprocessorAction handleUndefLine(AstNode ast, Token token) { //@TODO: deprecated PreprocessorAction
+  PreprocessorAction handleUndefLine(AstNode ast, Token token) { //@todo: deprecated PreprocessorAction
     String macroName = ast.getFirstDescendant(IDENTIFIER).getTokenValue();
     getMacros().removeLowPrio(macroName);
     return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)),
-           new ArrayList<Token>()); //@TODO: deprecated PreprocessorAction
+           new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
-  PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) {//@TODO:deprecated
+  PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) {//@todo:deprecated
     //
     // Every identifier and every keyword can be a macro instance.
     // Pipe the resulting string through a lexer to create proper Tokens
     // and to expand recursively all macros which may be in there.
     //
 
-    PreprocessorAction ppaction = PreprocessorAction.NO_OPERATION; //@TODO: deprecated PreprocessorAction
+    PreprocessorAction ppaction = PreprocessorAction.NO_OPERATION; //@todo: deprecated PreprocessorAction
     Macro macro = getMacro(curr.getValue());
     if (macro != null) {
       List<Token> replTokens = new LinkedList<>();
@@ -742,13 +742,13 @@ public class CxxPreprocessor extends Preprocessor {
         getMacros().disable(macro.name);
         while (!replTokens.isEmpty()) {
           Token c = replTokens.get(0);
-          PreprocessorAction action = PreprocessorAction.NO_OPERATION; //@TODO: deprecated PreprocessorAction
+          PreprocessorAction action = PreprocessorAction.NO_OPERATION; //@todo: deprecated PreprocessorAction
           if (c.getType().equals(IDENTIFIER)) {
             List<Token> rest = new ArrayList(replTokens);
             rest.addAll(tokens.subList(tokensConsumed, tokens.size()));
             action = handleIdentifiersAndKeywords(rest, c, filename);
           }
-          if (action.equals(PreprocessorAction.NO_OPERATION)) { //@TODO: deprecated PreprocessorAction
+          if (action.equals(PreprocessorAction.NO_OPERATION)) { //@todo: deprecated PreprocessorAction
             replTokens.remove(0);
             outTokens.add(c);
           } else {
@@ -775,7 +775,7 @@ public class CxxPreprocessor extends Preprocessor {
             filename, curr.getLine());
         }
 
-        ppaction = new PreprocessorAction( //@TODO: deprecated PreprocessorAction
+        ppaction = new PreprocessorAction( //@todo: deprecated PreprocessorAction
           tokensConsumed,
            Collections.singletonList(Trivia.createSkippedText(tokens.subList(0, tokensConsumed))),
           replTokens);

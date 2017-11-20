@@ -19,7 +19,7 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.anyString; //@todo: deprecated Matchers
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

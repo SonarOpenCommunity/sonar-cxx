@@ -175,7 +175,7 @@ public class CxxSquidSensor implements Sensor {
 
       files = new ArrayList<>();
       for(InputFile file : inputFiles) {
-        files.add(file.file());
+        files.add(file.file()); //@todo: deprecated file.file()
       }
     }
 
@@ -290,7 +290,7 @@ public class CxxSquidSensor implements Sensor {
       methodComplexityDistribution.add(functionComplexity);
     }
     
-    context.<String>newMeasure().forMetric(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION).on(inputFile)
+    context.<String>newMeasure().forMetric(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION).on(inputFile) //@todo: deprecated CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION
                                                       .withValue(methodComplexityDistribution.build()).save();
 
     Collection<SourceCode> classes = scanner.getIndex().search(new QueryByParent(squidFile),
@@ -300,9 +300,9 @@ public class CxxSquidSensor implements Sensor {
       complexityInClasses += classComplexity;
     }
 
-    context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY_IN_CLASSES).on(inputFile)
+    context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY_IN_CLASSES).on(inputFile) //@todo: deprecated CoreMetrics.COMPLEXITY_IN_CLASSES
                                             .withValue(complexityInClasses).save();
-    context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY_IN_FUNCTIONS).on(inputFile)
+    context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY_IN_FUNCTIONS).on(inputFile) //@todo: deprecated CoreMetrics.COMPLEXITY_IN_FUNCTIONS
                                             .withValue(complexityInFunctions).save();
   }
 
@@ -311,7 +311,7 @@ public class CxxSquidSensor implements Sensor {
     RangeDistributionBuilder fileComplexityDistribution = new RangeDistributionBuilder(LIMITS_COMPLEXITY_FILES);
     double complexity = squidFile.getDouble(CxxMetric.COMPLEXITY);
     fileComplexityDistribution.add(complexity);    
-    context.<String>newMeasure().forMetric(CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION).on(inputFile)
+    context.<String>newMeasure().forMetric(CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION).on(inputFile) //@todo: deprecated CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION
                                            .withValue(fileComplexityDistribution.build()).save();
   }
 

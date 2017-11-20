@@ -37,7 +37,7 @@ public class CppGrammarTest {
   private final Grammar g = p.getGrammar();
 
   private void mockRule(GrammarRuleKey key) {
-    g.rule(key).mock(); //@todo deprecated
+    g.rule(key).mock(); //@todo deprecated mock
   }
   
   @Test
