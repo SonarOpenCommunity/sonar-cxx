@@ -638,7 +638,7 @@ public final class CxxPlugin implements Plugin {
             FileLinesContextFactory fileLinesContextFactory,
           CheckFactory checkFactory,
           CxxCoverageAggregator coverageCache) {
-      super(new CppLanguage(settings), fileLinesContextFactory, checkFactory, coverageCache);
+      super(new CppLanguage(settings), fileLinesContextFactory, checkFactory);
     }
   }
 

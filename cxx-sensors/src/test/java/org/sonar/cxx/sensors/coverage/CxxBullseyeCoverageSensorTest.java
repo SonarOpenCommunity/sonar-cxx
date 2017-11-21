@@ -23,7 +23,6 @@ import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
@@ -34,10 +33,6 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
@@ -46,7 +41,6 @@ public class CxxBullseyeCoverageSensorTest {
   private static final Logger LOG = Loggers.get(CxxBullseyeCoverageSensorTest.class);
   private CxxCoverageSensor sensor;
   private DefaultFileSystem fs;
-  private Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
   private CxxLanguage language;
   private MapSettings settings = new MapSettings();
   
@@ -79,7 +73,7 @@ public class CxxBullseyeCoverageSensorTest {
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
   
       sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-      sensor.execute(context, linesOfCodeByFile);
+      sensor.execute(context);
   
       assertThat(context.lineHits("ProjectKey:main.cpp", 7)).isEqualTo(1);
 
@@ -149,7 +143,7 @@ public class CxxBullseyeCoverageSensorTest {
                                .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
 
       sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-      sensor.execute(context, linesOfCodeByFile);
+      sensor.execute(context);
 
       assertThat(context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", 4)).isEqualTo(1);
       assertThat(context.conditions("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", 7)).isEqualTo(2);
@@ -192,7 +186,7 @@ public class CxxBullseyeCoverageSensorTest {
         context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", filepath).setLanguage("cpp").initMetadata(sourceContent.toString()).build());
       }
       sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-      sensor.execute(context, linesOfCodeByFile);
+      sensor.execute(context);
 
       int[] coveredCondition = new int [] { 496, 524};
 

@@ -26,8 +26,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import javax.xml.stream.XMLStreamException;
 
 import org.sonar.api.batch.sensor.SensorContext;
@@ -81,15 +79,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
    */
   @Override
   public void execute(SensorContext context) {
-    // do nothing
-  }
-
-  /**
-   * {@inheritDoc}
-   * @param context for coverage analysis
-   * @param linesOfCodeByFile coverage metric cache 
-   */
-  public void execute(SensorContext context, Map<InputFile, Set<Integer>> linesOfCodeByFile) {
     Configuration conf = context.config();
     String[] reportsKey = conf.getStringArray(getReportPathKey());
     LOG.info("Searching coverage reports by path with basedir '{}' and search prop '{}'",

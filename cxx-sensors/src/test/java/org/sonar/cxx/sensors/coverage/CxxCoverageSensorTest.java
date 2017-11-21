@@ -76,7 +76,7 @@ public class CxxCoverageSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
                              .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    sensor.execute(context, linesOfCodeByFile);
+    sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 3)).isEqualTo(4);
@@ -108,7 +108,7 @@ public class CxxCoverageSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
                              .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    sensor.execute(context, linesOfCodeByFile);
+    sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 3)).isEqualTo(4);
@@ -124,7 +124,7 @@ public class CxxCoverageSensorTest {
     context.setSettings(settings);
 
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context, linesOfCodeByFile);
+    sensor.execute(context);
  
     List<String> log = logTester.logs();
     assertThat(log.contains("Scanner found '0' report files")).isTrue();
@@ -137,7 +137,7 @@ public class CxxCoverageSensorTest {
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     settings.setProperty(sensor.getReportPathKey(), "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
 
-    sensor.execute(context, linesOfCodeByFile);
+    sensor.execute(context);
     assertThat(linesOfCodeByFile.isEmpty()).isTrue();
   }
 
@@ -156,7 +156,7 @@ public class CxxCoverageSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
                              .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());    
 
-    sensor.execute(context, linesOfCodeByFile);
+    sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 1)).isNull();
     assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", 1)).isNull();
@@ -178,7 +178,7 @@ public class CxxCoverageSensorTest {
                              .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context, linesOfCodeByFile);
+    sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 1)).isNull();
     assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", 1)).isNull();
@@ -198,7 +198,7 @@ public class CxxCoverageSensorTest {
                              .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
 
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context, linesOfCodeByFile);
+    sensor.execute(context);
 
     
     int[] oneHitlinesA = new int[] {4, 5, 6, 8, 13, 15, 16, 25};

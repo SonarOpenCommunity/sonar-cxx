@@ -64,7 +64,7 @@ public class CxxMSCoverageSensorTest {
                              .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
 
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context, linesOfCodeByFile);
+    sensor.execute(context);
     
     int[] oneHitlinesA = new int[] {12, 14, 16, 19, 20, 21, 23, 25, 26, 27, 28};
     for (int oneHitline : oneHitlinesA) {
@@ -92,7 +92,7 @@ public class CxxMSCoverageSensorTest {
                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
 
    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-   sensor.execute(context, linesOfCodeByFile);
+   sensor.execute(context);
    
    int[] oneHitlinesA = new int[] {12, 14, 16, 19, 20, 21, 23, 25, 26, 27, 28};
    for (int oneHitline : oneHitlinesA) {
@@ -118,7 +118,7 @@ public class CxxMSCoverageSensorTest {
    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-   sensor.execute(context, linesOfCodeByFile);
+   sensor.execute(context);
    assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", 1)).isNull();
  
  }
