@@ -610,7 +610,7 @@ public final class CPlugin implements Plugin {
             FileLinesContextFactory fileLinesContextFactory,
             CheckFactory checkFactory,
             CxxCoverageAggregator coverageCache) {
-      super(new CLanguage(settings), fileLinesContextFactory, checkFactory, coverageCache);
+      super(new CLanguage(settings), fileLinesContextFactory, checkFactory);
     }
   }
 

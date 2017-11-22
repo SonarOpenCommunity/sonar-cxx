@@ -31,8 +31,6 @@ import org.sonar.api.batch.ScannerSide;
 public class CxxCoverageCache {
 
   private static final Map<String, Map<String, CoverageMeasures>> CACHE_UNIT = new HashMap<>();
-  private static final Map<String, Map<String, CoverageMeasures>> CACHE_IT = new HashMap<>();
-  private static final Map<String, Map<String, CoverageMeasures>> CACHE_OVERALL = new HashMap<>();
   
   public CxxCoverageCache() {
   }
@@ -41,11 +39,4 @@ public class CxxCoverageCache {
     return CACHE_UNIT;
   }
 
-  public Map<String, Map<String, CoverageMeasures>> integrationCoverageCache() {
-    return CACHE_IT;
-  }
-
-  public Map<String, Map<String, CoverageMeasures>> overallCoverageCache() {
-    return CACHE_OVERALL;
-  }
 }

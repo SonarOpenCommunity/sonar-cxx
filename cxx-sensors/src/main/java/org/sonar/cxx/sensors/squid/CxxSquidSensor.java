@@ -58,13 +58,10 @@ import org.sonar.api.ce.measure.RangeDistributionBuilder;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.rule.RuleKey;
-import org.sonar.api.utils.Version;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
-import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
-import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.utils.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
@@ -101,16 +98,14 @@ public class CxxSquidSensor implements Sensor {
 
   private AstScanner<Grammar> scanner;
   private final CxxLanguage language;
-  private final CxxCoverageCache cache;
     
   /**
    * {@inheritDoc}
    */
   public CxxSquidSensor(CxxLanguage language,
           FileLinesContextFactory fileLinesContextFactory,
-          CheckFactory checkFactory,
-          @Nullable CxxCoverageCache coverageCache) {
-    this(language, fileLinesContextFactory, checkFactory, null, coverageCache);    
+          CheckFactory checkFactory) {
+    this(language, fileLinesContextFactory, checkFactory, null);    
   }
   
   /**
@@ -119,23 +114,12 @@ public class CxxSquidSensor implements Sensor {
   public CxxSquidSensor(CxxLanguage language,
     FileLinesContextFactory fileLinesContextFactory,
     CheckFactory checkFactory,
-    @Nullable CustomCxxRulesDefinition[] customRulesDefinition,
-    @Nullable CxxCoverageCache coverageCache) {
+    @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
     this.checks = CxxChecks.createCxxCheck(checkFactory)
       .addChecks(language.getRepositoryKey(), language.getChecks())
       .addCustomChecks(customRulesDefinition);
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.language = language;
-
-    if (coverageCache == null) {
-      this.cache = new CxxCoverageCache();
-    } else {
-      this.cache = coverageCache;
-    }
-
-    if (language.getMetricsCache().isEmpty()) {
-      new CxxMetrics(language);
-    }
   }
 
   @Override
@@ -184,8 +168,6 @@ public class CxxSquidSensor implements Sensor {
     }
 
     scanner.scanFiles(files);
-
-    (new CxxCoverageSensor(this.cache, this.language, context)).execute(context, linesOfCodeByFile);
 
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles, context);
@@ -252,7 +234,7 @@ public class CxxSquidSensor implements Sensor {
     }
   }
 
-  private void saveMeasures(InputFile inputFile, SourceFile squidFile, SensorContext context) {
+  private static void saveMeasures(InputFile inputFile, SourceFile squidFile, SensorContext context) {
     context.<Integer>newMeasure().forMetric(CoreMetrics.FILES).on(inputFile)
                                             .withValue(squidFile.getInt(CxxMetric.FILES)).save();
     context.<Integer>newMeasure().forMetric(CoreMetrics.NCLOC).on(inputFile)
