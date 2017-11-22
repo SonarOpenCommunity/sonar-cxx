@@ -115,8 +115,6 @@ public class CxxSquidSensorTest {
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FUNCTIONS).value()).isEqualTo(22);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(2);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.COMPLEXITY).value()).isEqualTo(38);
-    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.COMPLEXITY_IN_CLASSES).value()).isEqualTo(10); //@todo: deprecated CoreMetrics.COMPLEXITY_IN_CLASSES
-    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.COMPLEXITY_IN_FUNCTIONS).value()).isEqualTo(38); //@todo: deprecated CoreMetrics.COMPLEXITY_IN_FUNCTIONS
   }  
   
   @Test

@@ -38,9 +38,7 @@ Feature: cpp-multimodule-project
       | duplicated_blocks        | 2     |
       | duplicated_files         | 2     |
       | complexity               | 7     |
-      | function_complexity      | 1.4   |
       | file_complexity          | 0.9   |
-      | class_complexity         | 6     |
       | violations               | 28    |
       | test_failures            | 2     |
       | skipped_tests            | 1     |
