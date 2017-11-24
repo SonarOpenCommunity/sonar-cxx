@@ -97,7 +97,7 @@ public class TestUtils {
   public static CxxLanguage mockCxxLanguage() {
     CxxLanguage language = Mockito.mock(CxxLanguage.class);
     when(language.getKey()).thenReturn("c++");
-    when(language.getName()).thenReturn("c++");
+    when(language.getName()).thenReturn("C++");
     when(language.getRepositorySuffix()).thenReturn("");
     when(language.getRepositoryKey()).thenReturn("cxx");    
     when(language.getPropertiesKey()).thenReturn("cxx");

@@ -28,13 +28,12 @@ import java.util.Optional;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.AbstractLanguage;
 import org.sonar.api.config.Configuration;
-import org.sonar.api.internal.apachecommons.lang.StringUtils;
-import org.sonar.api.internal.apachecommons.lang.builder.HashCodeBuilder;
 
 /**
  * {@inheritDoc}
  */
 public abstract class CxxLanguage extends AbstractLanguage {
+
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
   private final Configuration settings;
   private final Map<String, Metric> MetricsCache;
@@ -44,28 +43,11 @@ public abstract class CxxLanguage extends AbstractLanguage {
     this.settings = settings;
     this.MetricsCache = new HashMap<>();
   }
-  
+
   public CxxLanguage(String key, String name, Configuration settings) {
     super(key, name);
     this.settings = settings;
     this.MetricsCache = new HashMap<>();
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) {
-      return true;
-    }
-
-    if (obj == null) {
-      return false;
-    }
-
-    if (this.getClass() == obj.getClass()) {
-      return getKey().equals(((AbstractLanguage) obj).getKey()); 
-    } else {
-      return false;
-    }
   }
 
   /**
@@ -74,14 +56,15 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public abstract String[] getSourceFileSuffixes();
 
   public abstract String[] getHeaderFileSuffixes();
-  
+
   public abstract String getPropertiesKey();
-  
-  public abstract List<Class> getChecks();  
+
+  public abstract List<Class> getChecks();
+
   public abstract String getRepositoryKey();
 
   public String getRepositorySuffix() {
-    return ""; 
+    return "";
   }
 
   public String getPluginProperty(String key) {
@@ -98,7 +81,7 @@ public abstract class CxxLanguage extends AbstractLanguage {
 
   public String[] getStringArrayOption(String key) {
     return this.settings.getStringArray(getPluginProperty(key));
-  }  
+  }
 
   public Optional<Boolean> IsRecoveryEnabled() {
     return this.settings.getBoolean(getPluginProperty(ERROR_RECOVERY_KEY));
@@ -130,5 +113,5 @@ public abstract class CxxLanguage extends AbstractLanguage {
 
   public Metric getMetric(String metricKey) {
     return this.MetricsCache.get(metricKey);
-  } 
+  }
 }
