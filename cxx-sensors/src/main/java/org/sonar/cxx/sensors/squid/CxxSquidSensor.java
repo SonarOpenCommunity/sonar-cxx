@@ -42,9 +42,6 @@ import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.CheckMessage;
 import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.api.SourceFunction;
-import org.sonar.squidbridge.api.SourceClass;
-import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
 
 import com.sonar.sslr.api.Grammar;
@@ -54,7 +51,6 @@ import java.util.Set;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
-import org.sonar.api.ce.measure.RangeDistributionBuilder;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.rule.RuleKey;
@@ -89,8 +85,6 @@ public class CxxSquidSensor implements Sensor {
   public static final String CPD_IGNORE_LITERALS_KEY = "cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "cpd.ignoreIdentifiers";
   
-  private static final Number[] LIMITS_COMPLEXITY_METHODS = {1, 2, 4, 6, 8, 10, 12, 20, 30};
-  private static final Number[] LIMITS_COMPLEXITY_FILES = {0, 5, 10, 20, 30, 60, 90};
   public static final String KEY = "Squid";
 
   private final FileLinesContextFactory fileLinesContextFactory;
@@ -221,8 +215,6 @@ public class CxxSquidSensor implements Sensor {
       InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(ioFile));
 
       saveMeasures(inputFile, squidFile, context);
-      saveFunctionAndClassComplexityDistribution(inputFile, squidFile, context);
-      saveFilesComplexityDistribution(inputFile, squidFile, context);
       violationsCount += saveViolations(inputFile, squidFile, context);
     }
 
@@ -270,48 +262,6 @@ public class CxxSquidSensor implements Sensor {
     }
   }
   
-  private void saveFunctionAndClassComplexityDistribution(InputFile inputFile,
-                                                          SourceFile squidFile, SensorContext context) {
-    int complexityInFunctions = 0;
-    int complexityInClasses = 0;
-
-    RangeDistributionBuilder methodComplexityDistribution = new RangeDistributionBuilder(LIMITS_COMPLEXITY_METHODS);
-    Collection<SourceCode> squidFunctionsInFile = scanner.getIndex().search(new QueryByParent(squidFile),
-                                                                            new QueryByType(SourceFunction.class));
-    for (SourceCode squidFunction : squidFunctionsInFile) {
-      double functionComplexity = squidFunction.getDouble(CxxMetric.COMPLEXITY);
-      complexityInFunctions += functionComplexity;
-      if (squidFunction.getKey().contains("::")) {
-        complexityInClasses += functionComplexity;
-      }
-      methodComplexityDistribution.add(functionComplexity);
-    }
-    
-    context.<String>newMeasure().forMetric(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION).on(inputFile) //@todo: deprecated CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION
-                                                      .withValue(methodComplexityDistribution.build()).save();
-
-    Collection<SourceCode> classes = scanner.getIndex().search(new QueryByParent(squidFile),
-                                                               new QueryByType(SourceClass.class));
-    for (SourceCode squidClass : classes) {
-      double classComplexity = squidClass.getDouble(CxxMetric.COMPLEXITY);
-      complexityInClasses += classComplexity;
-    }
-
-    context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY_IN_CLASSES).on(inputFile) //@todo: deprecated CoreMetrics.COMPLEXITY_IN_CLASSES
-                                            .withValue(complexityInClasses).save();
-    context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY_IN_FUNCTIONS).on(inputFile) //@todo: deprecated CoreMetrics.COMPLEXITY_IN_FUNCTIONS
-                                            .withValue(complexityInFunctions).save();
-  }
-
-  private static void saveFilesComplexityDistribution(InputFile inputFile, SourceFile squidFile, 
-                                                      SensorContext context) {    
-    RangeDistributionBuilder fileComplexityDistribution = new RangeDistributionBuilder(LIMITS_COMPLEXITY_FILES);
-    double complexity = squidFile.getDouble(CxxMetric.COMPLEXITY);
-    fileComplexityDistribution.add(complexity);    
-    context.<String>newMeasure().forMetric(CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION).on(inputFile) //@todo: deprecated CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION
-                                           .withValue(fileComplexityDistribution.build()).save();
-  }
-
   private int saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext sensorContext) {
     Collection<CheckMessage> messages = squidFile.getCheckMessages();
     int violationsCount = 0;

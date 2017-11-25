@@ -34,9 +34,7 @@ Feature: Smoketest
       | duplicated_blocks        | 2     |
       | duplicated_files         | 2     |
       | complexity               | 7     |
-      | function_complexity      | 1.4   |
       | file_complexity          | 0.9   |
-      | class_complexity         | 6     |
       | violations               | 12    |
       | coverage                 | 53.8  |
       | line_coverage            | 54.8  |
