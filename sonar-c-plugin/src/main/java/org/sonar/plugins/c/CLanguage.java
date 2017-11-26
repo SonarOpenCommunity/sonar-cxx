@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.sonar.api.config.Configuration;
-import org.sonar.api.internal.apachecommons.lang.builder.HashCodeBuilder;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.checks.BooleanEqualityComparisonCheck;
 import org.sonar.cxx.checks.ClassComplexityCheck;
@@ -77,42 +76,49 @@ import org.sonar.cxx.checks.naming.MethodNameCheck;
  * @author jocs
  */
 public class CLanguage extends CxxLanguage {
-  public static final String DEFAULT_SOURCE_SUFFIXES = ".c";
-  public static final String DEFAULT_HEADER_SUFFIXES = ".h";
-  public static final String DEFAULT_C_FILES = "*.c,*.C";
-  public static final String KEY = "c";
-  public static final String PROPSKEY = "c";
-  public static final String REPOSITORY_KEY = "c";
 
+  /**
+   * c key
+   */
+  public static final String KEY = "c";
+
+  /**
+   * c name
+   */
+  public static final String NAME = "c";
+
+  /**
+   * Default c source files suffixes
+   */
+  public static final String DEFAULT_SOURCE_SUFFIXES = ".c";
+  public static final String DEFAULT_C_FILES = "*.c,*.C";
+
+  /**
+   * Default c header files suffixes
+   */
+  public static final String DEFAULT_HEADER_SUFFIXES = ".h";
+
+  /**
+   * c analysis parameters key
+   */
+  public static final String PROPSKEY = "c";
+
+  /**
+   * c repository key
+   */
+  public static final String REPOSITORY_KEY = "c";
   public static final String DEFAULT_PROFILE = "Sonar way";
 
   private final String[] sourceSuffixes;
   private final String[] headerSuffixes;
   private final String[] fileSuffixes;
-  
+
   public CLanguage(Configuration settings) {
-    super("c", "c", settings);
-    
+    super(KEY, NAME, settings);
+
     sourceSuffixes = createStringArray(settings.getStringArray(CPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES);
     headerSuffixes = createStringArray(settings.getStringArray(CPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
-    fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);    
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) {
-      return true;
-    }
-
-    if (obj == null) {
-      return false;
-    }
-
-    if (this.getClass() == obj.getClass()) {
-      return getKey().equals(((CxxLanguage) obj).getKey()); 
-    } else {
-      return false;
-    }
+    fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
   }
 
   @Override
@@ -129,7 +135,7 @@ public class CLanguage extends CxxLanguage {
   public String getRepositorySuffix() {
     return "-c";
   }
-  
+
   @Override
   public String[] getHeaderFileSuffixes() {
     return headerSuffixes.clone();
@@ -145,15 +151,16 @@ public class CLanguage extends CxxLanguage {
       return defaultValues.split(",");
     }
     return values;
-  }  
-  
+  }
+
   private String[] mergeArrays(String[] array1, String[] array2) {
     String[] result = new String[array1.length + array2.length];
     System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
     System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);
     return result;
-  }  
-  
+  }
+
+  @Override
   public List<Class> getChecks() {
     return new ArrayList<Class>(Arrays.asList(
       CollapsibleIfCandidateCheck.class,
@@ -209,5 +216,5 @@ public class CLanguage extends CxxLanguage {
   @Override
   public String getRepositoryKey() {
     return REPOSITORY_KEY;
-  }  
+  }
 }

@@ -55,7 +55,7 @@ public class CxxFileTesterHelper {
   public static CxxLanguage mockCxxLanguage() {
     CxxLanguage language = Mockito.mock(CxxLanguage.class);
     when(language.getKey()).thenReturn("c++");
-    when(language.getName()).thenReturn("c++");
+    when(language.getName()).thenReturn("C++");
     when(language.getPropertiesKey()).thenReturn("cxx");
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
     when(language.getFileSuffixes())
