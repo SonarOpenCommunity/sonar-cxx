@@ -22,10 +22,10 @@ package org.sonar.plugins.c;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 import org.sonar.api.Plugin;
 
 import org.sonar.api.PropertyType;
-import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.config.Configuration;
@@ -34,6 +34,7 @@ import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
@@ -55,6 +56,7 @@ import org.sonar.cxx.sensors.pclint.CxxPCLintRuleRepository;
 import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
 import org.sonar.cxx.sensors.rats.CxxRatsRuleRepository;
 import org.sonar.cxx.sensors.rats.CxxRatsSensor;
+import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
 import org.sonar.cxx.sensors.utils.CxxMetrics;
@@ -606,11 +608,19 @@ public final class CPlugin implements Plugin {
   }
 
   public static class CxxSquidSensorImpl extends CxxSquidSensor {
+
     public CxxSquidSensorImpl(Configuration settings,
-            FileLinesContextFactory fileLinesContextFactory,
-            CheckFactory checkFactory,
-            CxxCoverageAggregator coverageCache) {
+      FileLinesContextFactory fileLinesContextFactory,
+      CheckFactory checkFactory,
+      CxxCoverageAggregator coverageCache) {
       super(new CLanguage(settings), fileLinesContextFactory, checkFactory);
+    }
+
+    public CxxSquidSensorImpl(CxxLanguage language,
+      FileLinesContextFactory fileLinesContextFactory,
+      CheckFactory checkFactory,
+      @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
+      super(language, fileLinesContextFactory, checkFactory, customRulesDefinition);
     }
   }
 
