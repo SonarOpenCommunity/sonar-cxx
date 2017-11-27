@@ -139,8 +139,8 @@ public class CxxSquidSensor implements Sensor {
     visitors.add(
             new CxxCpdVisitor(
                     context,
-                    this.language.getBooleanOption(CPD_IGNORE_LITERALS_KEY).orElse(false),
-                    this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(false)));
+                    this.language.getBooleanOption(CPD_IGNORE_LITERALS_KEY).orElse(Boolean.FALSE),
+                    this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
     
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     this.scanner = CxxAstScanner.create(this.language, cxxConf, context,
@@ -177,13 +177,13 @@ public class CxxSquidSensor implements Sensor {
     String[] lines = this.language.getStringLinesOption(DEFINES_KEY);
     cxxConf.setDefines(lines);
     cxxConf.setIncludeDirectories(this.language.getStringArrayOption(INCLUDE_DIRECTORIES_KEY));
-    cxxConf.setErrorRecoveryEnabled(this.language.getBooleanOption(ERROR_RECOVERY_KEY).orElse(false));
+    cxxConf.setErrorRecoveryEnabled(this.language.getBooleanOption(ERROR_RECOVERY_KEY).orElse(Boolean.FALSE));
     cxxConf.setForceIncludeFiles(this.language.getStringArrayOption(FORCE_INCLUDE_FILES_KEY));
     cxxConf.setCFilesPatterns(this.language.getStringArrayOption(C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(this.language.getStringArrayOption(HEADER_FILE_SUFFIXES_KEY));
-    cxxConf.setMissingIncludeWarningsEnabled(this.language.getBooleanOption(MISSING_INCLUDE_WARN).orElse(false));
+    cxxConf.setMissingIncludeWarningsEnabled(this.language.getBooleanOption(MISSING_INCLUDE_WARN).orElse(Boolean.FALSE));
     cxxConf.setJsonCompilationDatabaseFile(this.language.getStringOption(JSON_COMPILATION_DATABASE_KEY).orElse(null));
-    cxxConf.setScanOnlySpecifiedSources(this.language.getBooleanOption(SCAN_ONLY_SPECIFIED_SOURCES_KEY).orElse(false));
+    cxxConf.setScanOnlySpecifiedSources(this.language.getBooleanOption(SCAN_ONLY_SPECIFIED_SOURCES_KEY).orElse(Boolean.FALSE));
 
     if (cxxConf.getJsonCompilationDatabaseFile() != null) {
       try {
