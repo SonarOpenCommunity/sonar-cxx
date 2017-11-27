@@ -21,8 +21,8 @@ package org.sonar.cxx.sensors.drmemory;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -179,7 +179,7 @@ public final class DrMemoryParser {
   public static List<String> getElements(File file, String charset) {
 
     List<String> list = new ArrayList<>();
-    try (FileInputStream input = new FileInputStream(file)) {
+    try (InputStream input = java.nio.file.Files.newInputStream(file.toPath())) {
       BufferedReader br = new BufferedReader(new InputStreamReader(input, charset));
       StringBuilder sb = new StringBuilder();
       String line;

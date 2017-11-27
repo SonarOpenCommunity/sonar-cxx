@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.utils;
 
 import com.ctc.wstx.stax.WstxInputFactory;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -83,7 +82,7 @@ public class StaxParser {
    * @exception XMLStreamException javax.xml.stream.XMLStreamException
    */
   public void parse(File xmlFile) throws XMLStreamException {
-    try (FileInputStream input = new FileInputStream(xmlFile)) {
+    try (InputStream input = java.nio.file.Files.newInputStream(xmlFile.toPath())) {
       parse(input);
     } catch (IOException e) {
       LOG.debug("Cannot access file", e);

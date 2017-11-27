@@ -26,10 +26,10 @@ import com.sonar.sslr.api.Grammar;
 import java.beans.Statement;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
@@ -83,7 +83,7 @@ public class CxxLint {
   public static String readFile(String filename, Charset charset) throws IOException {
     String content = null;
     File file = new File(filename); //for ex foo.txt
-    try (FileInputStream input = new FileInputStream(file)) {
+    try (InputStream input = java.nio.file.Files.newInputStream(file.toPath())) {
       BufferedReader reader = new BufferedReader(new InputStreamReader(input, charset));
       char[] chars = new char[(int) file.length()];
       reader.read(chars);
