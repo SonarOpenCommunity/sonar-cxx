@@ -34,7 +34,6 @@ import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
@@ -616,11 +615,11 @@ public final class CPlugin implements Plugin {
       super(new CLanguage(settings), fileLinesContextFactory, checkFactory);
     }
 
-    public CxxSquidSensorImpl(CxxLanguage language,
+    public CxxSquidSensorImpl(Configuration settings,
       FileLinesContextFactory fileLinesContextFactory,
       CheckFactory checkFactory,
       @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
-      super(language, fileLinesContextFactory, checkFactory, customRulesDefinition);
+      super(new CLanguage(settings), fileLinesContextFactory, checkFactory, customRulesDefinition);
     }
   }
 

@@ -68,7 +68,6 @@ import org.sonar.cxx.sensors.veraxx.CxxVeraxxSensor;
 
 import com.google.common.collect.ImmutableList;
 import javax.annotation.Nullable;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
 
 /**
@@ -645,11 +644,11 @@ public final class CxxPlugin implements Plugin {
       super(new CppLanguage(settings), fileLinesContextFactory, checkFactory);
     }
 
-    public CxxSquidSensorImpl(CxxLanguage language,
+    public CxxSquidSensorImpl(Configuration settings,
       FileLinesContextFactory fileLinesContextFactory,
       CheckFactory checkFactory,
       @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
-      super(language, fileLinesContextFactory, checkFactory, customRulesDefinition);
+      super(new CppLanguage(settings), fileLinesContextFactory, checkFactory, customRulesDefinition);
     }
   }
 
