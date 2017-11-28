@@ -639,8 +639,7 @@ public final class CxxPlugin implements Plugin {
 
     public CxxSquidSensorImpl(Configuration settings,
       FileLinesContextFactory fileLinesContextFactory,
-      CheckFactory checkFactory,
-      CxxCoverageAggregator coverageCache) {
+      CheckFactory checkFactory) {
       super(new CppLanguage(settings), fileLinesContextFactory, checkFactory);
     }
 
