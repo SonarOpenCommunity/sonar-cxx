@@ -138,7 +138,7 @@ public class CxxOtherSensor extends CxxReportSensor {
       }
       List<String> outputs = Arrays.asList((outputStrings != null) ? outputStrings : new String[] {});
 
-      if (stylesheet == null && inputKey==null && outputKey==null) {
+      if ((stylesheet == null) && (inputs.isEmpty()) && (outputs.isEmpty())) {
         goOn = false;
       } else {
         if (stylesheet == null) {
