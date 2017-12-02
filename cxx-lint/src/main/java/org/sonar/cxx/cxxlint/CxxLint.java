@@ -84,7 +84,7 @@ public class CxxLint {
   public static String readFile(String filename) {
     Path path = Paths.get(filename);
     String content = null;
-    try (Stream<String> lines = java.nio.file.Files.lines(path)){
+    try (Stream<String> lines = Files.lines(path)){
       content = lines.collect(Collectors.joining());
     } catch (IOException ex) { 
       if (LOG.isDebugEnabled()) {
