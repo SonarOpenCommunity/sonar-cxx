@@ -21,8 +21,8 @@ package org.sonar.cxx;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -77,7 +77,7 @@ public class CxxVCppBuildLogParser {
   
   /**
    * Can be used to create a list of includes, defines and options for a single line
-   * If it follows the format of Vcpp
+   * If it follows the format of VC++
    * @param line
    * @param projectPath
    * @param compilationFile
@@ -94,7 +94,7 @@ public class CxxVCppBuildLogParser {
   */
   public void parseVCppLog(File buildLog, String baseDir, String charsetName) {
     boolean detectedPlatform = false;
-    try (FileInputStream input = new FileInputStream(buildLog)) {
+    try (InputStream input = java.nio.file.Files.newInputStream(buildLog.toPath())) {
       BufferedReader br = new BufferedReader(new InputStreamReader(input, charsetName));
       String line;
       LOG.debug("build log parser baseDir='{}'", baseDir);

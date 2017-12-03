@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -84,7 +83,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
       xmlLoader.load(repository, xmlStream, charset);
 
       for (File userExtensionXml : getExtensions(repositoryKey, "xml")) {
-        try (FileInputStream input = new FileInputStream(userExtensionXml)) {
+        try (InputStream input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
 
           BufferedReader reader = new BufferedReader(new InputStreamReader(input, charset));
           xmlRuleLoader.load(repository, reader);

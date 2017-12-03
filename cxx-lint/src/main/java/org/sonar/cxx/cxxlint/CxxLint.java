@@ -24,10 +24,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sonar.sslr.api.Grammar;
 import java.beans.Statement;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -35,6 +32,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +41,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -80,20 +81,17 @@ public class CxxLint {
     return options;
   }
 
-  public static String readFile(String filename, Charset charset) throws IOException {
+  public static String readFile(String filename) {
+    Path path = Paths.get(filename);
     String content = null;
-    File file = new File(filename); //for ex foo.txt
-    try (FileInputStream input = new FileInputStream(file)) {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(input, charset));
-      char[] chars = new char[(int) file.length()];
-      reader.read(chars);
-      content = new String(chars);
-      reader.close();
+    try (Stream<String> lines = Files.lines(path)){
+      content = lines.collect(Collectors.joining());
     } catch (IOException ex) { 
       if (LOG.isDebugEnabled()) {
         LOG.debug("CxxLint exception in readFile {}", ex);
       }
     }
+
     return content;
   }
 
@@ -162,7 +160,7 @@ public class CxxLint {
       List<CheckerData> rulesData = new ArrayList<>();
       if (!"".equals(settingsFile)) {
         JsonParser parser = new JsonParser();
-        String fileContent = readFile(settingsFile, Charset.forName(encodingOfFile));
+        String fileContent = readFile(settingsFile);
         
         // get basic information
       String platformToolset = getJsonStringValue(parser, fileContent, "platformToolset");     

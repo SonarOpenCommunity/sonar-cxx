@@ -65,7 +65,7 @@ public class CxxMetrics implements Metrics {
     Metric<?> metric = new Metric.Builder(getKey(PUBLIC_API_KEY, language), "Public API", Metric.ValueType.INT)
       .setDescription("Public API")
       .setDirection(Metric.DIRECTION_WORST)
-      .setQualitative(false)
+      .setQualitative(Boolean.FALSE)
       .setDomain(this.domain)
       .create();
     saveMetric(PUBLIC_API_KEY, metric);
@@ -73,7 +73,7 @@ public class CxxMetrics implements Metrics {
     metric = new Metric.Builder(getKey(PUBLIC_DOCUMENTED_API_DENSITY_KEY, language), "Public Documented API (%)", Metric.ValueType.PERCENT)
       .setDescription("Public documented classes and functions balanced by ncloc")
       .setDirection(Metric.DIRECTION_BETTER)
-      .setQualitative(true)
+      .setQualitative(Boolean.TRUE)
       .setDomain(this.domain)
       .setWorstValue(0.0)
       .setBestValue(100.0)
@@ -84,7 +84,7 @@ public class CxxMetrics implements Metrics {
     metric = new Metric.Builder(getKey(PUBLIC_UNDOCUMENTED_API_KEY, language), "Public Undocumented API", Metric.ValueType.INT)
       .setDescription("Public undocumented classes, functions and variables")
       .setDirection(Metric.DIRECTION_WORST)
-      .setQualitative(true)
+      .setQualitative(Boolean.TRUE)
       .setDomain(this.domain)
       .setBestValue(0.0)
       .setDirection(Metric.DIRECTION_WORST)

@@ -42,7 +42,7 @@ class ValgrindReportParser {
    * @return Set<ValgrindError>
    * @exception XMLStreamException javax.xml.stream.XMLStreamException
    */
-  public Set<ValgrindError> processReport(File report) throws javax.xml.stream.XMLStreamException {
+  public Set<ValgrindError> processReport(File report) throws XMLStreamException {
     ValgrindReportStreamHandler streamHandler = new ValgrindReportStreamHandler();
     new StaxParser(streamHandler).parse(report);
     return streamHandler.valgrindErrors;
@@ -52,8 +52,7 @@ class ValgrindReportParser {
 
     private final Set<ValgrindError> valgrindErrors = new HashSet<>();
 
-    private static ValgrindStack parseStackTag(SMInputCursor child)
-      throws javax.xml.stream.XMLStreamException {
+    private static ValgrindStack parseStackTag(SMInputCursor child) throws XMLStreamException {
       ValgrindStack stack = new ValgrindStack();
       SMInputCursor frameCursor = child.childElementCursor("frame");
       while (frameCursor.getNext() != null) {
@@ -90,8 +89,7 @@ class ValgrindReportParser {
       return stack;
     }
 
-    private static ValgrindError parseErrorTag(SMInputCursor error)
-      throws javax.xml.stream.XMLStreamException {
+    private static ValgrindError parseErrorTag(SMInputCursor error) throws XMLStreamException {
       SMInputCursor child = error.childElementCursor();
 
       String kind = null;
@@ -122,7 +120,7 @@ class ValgrindReportParser {
      * {@inheritDoc}
      */
     @Override
-    public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
+    public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
       try {
         rootCursor.advance();
       } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
