@@ -7,9 +7,7 @@
     "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/ATLMFC/INCLUDE",
     "C:/Program Files (x86)/Windows Kits/8.1/include/shared",
     "C:/Program Files (x86)/Windows Kits/8.1/include/um",
-    "C:/Program Files (x86)/Windows Kits/8.1/include/winrt",
-    "D:/prod/structures/Packages/gtestmock.1.7.5/build/native/include/",
-    "D:/prod/structures/Packages/gtestmock.1.7.5/build/native/include/googletest"
+    "C:/Program Files (x86)/Windows Kits/8.1/include/winrt"
   ],
   "defines": [
     "_MBCS",
