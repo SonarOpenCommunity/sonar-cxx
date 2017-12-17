@@ -75,12 +75,6 @@ public class WildcardPatternFileProviderTest {
   public void absolute_paths_with_current_and_parent_folder_access() {
     assertThat(listFiles(new File(tmp.getRoot(), path("a", "..", ".", "foo.txt")).getAbsolutePath()))
       .containsOnly(new File(tmp.getRoot(), path("a", "..", ".", "foo.txt")));
-
-    assertThat(listFiles(new File(tmp.getRoot(), path("a", "..", ".", "foo.txt")).getAbsolutePath()))
-      .containsOnly(new File(tmp.getRoot(), path("a", "..", ".", "foo.txt")));
-
-    assertThat(listFiles(new File(tmp.getRoot(), path("a", "..", ".", "foo.txt")).getAbsolutePath()))
-      .containsOnly(new File(tmp.getRoot(), path("a", "..", ".", "foo.txt")));
   }
 
   @Test
