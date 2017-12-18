@@ -1,0 +1,19 @@
+Microsoft (R) Build Engine version 12.0.31101.0
+[Microsoft .NET Framework, version 4.0.30319.0]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Overriding target "ClCompile" in project "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V100\Microsoft.CppBuild.targets" with target "ClCompile" from project "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V100\Microsoft.CppBuild.targets".
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /GX /G5 PathHandle.cpp
+
+Build FAILED.
+
+"D:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\pathhandling.sln" (default target) (1) ->
+"D:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj.metaproj" (default target) (3) ->
+"D:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj" (default target) (4) ->
+(AfterBuild target) -> 
+  D:\prod\SonarQube\cxx\MSBuild\GtestXunitConverterTask.targets(10,9): error : D:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\BuildDrop\Test\v120\Win32\Debug\\\PathHandling.Test.exe Exit with Return Code = 1 [D:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj]
+
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:02.45
