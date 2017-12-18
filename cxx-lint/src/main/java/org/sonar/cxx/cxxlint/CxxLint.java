@@ -144,7 +144,6 @@ public class CxxLint {
     }
 
 
-    String fileName = targetFile.getName();
     SensorContextTester sensorContext = SensorContextTester.create(targetFile.getParentFile().toPath());
 
     CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile),
@@ -153,7 +152,7 @@ public class CxxLint {
     try {
       sensorContext.fileSystem().add(TestInputFileBuilder.create("", targetFile.getParentFile(), targetFile).build());
       InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates()
-                                                                                         .hasPath(fileName));
+                                                                                         .hasPath(targetFile.getName()));
       List<CheckerData> rulesData = new ArrayList<>();
       if (!"".equals(settingsFile)) {
         JsonParser parser = new JsonParser();
