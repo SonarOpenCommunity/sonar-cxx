@@ -238,6 +238,26 @@ public class CxxConfigurationTest {
   }
 
   @Test
+  public void shouldHandleTFSAgentV141mpOptionsCorrectly() {
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
+    config.setBaseDir(".");
+    List<File> files = new ArrayList<>();
+    files.add(new File("src/test/resources/logfile/TFS-agent-msvc14-mp.txt"));
+    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+
+    assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
+    List<String> defines = config.getDefines();
+    assertThat(defines.size()).isEqualTo(34);
+    ValidateDefaultAsserts(defines);
+    Assertions.assertThat(defines.contains("_CPPUNWIND")).isTrue();
+    Assertions.assertThat(defines.contains("_M_IX86 600")).isTrue();
+    Assertions.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
+    Assertions.assertThat(defines.contains("_MSC_VER 1910")).isTrue();
+    Assertions.assertThat(defines.contains("_MSC_FULL_VER 191024629")).isTrue();
+    Assertions.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
+  }
+
+  @Test
   public void shouldHandleSpecificV141x86OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
