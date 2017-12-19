@@ -109,8 +109,8 @@ public class CxxLint {
     Options options = createCommandLineOptions();
     CommandLine parsedArgs = null;
     String settingsFile = "";
-    String fileToAnalyse = "";
     String encodingOfFile = "UTF-8";
+    File targetFile = null; 
     boolean isNotOptionS = true;
     
     try {
@@ -118,9 +118,8 @@ public class CxxLint {
       if (!parsedArgs.hasOption("f")) {
         throw new ParseException("f option mandatory");
       } else {
-        fileToAnalyse = parsedArgs.getOptionValue("f");
-        File f = new File(fileToAnalyse);
-        if (!f.exists()) {
+        targetFile = new File(parsedArgs.getOptionValue("f"));
+        if (!targetFile.exists()) {
           throw new ParseException("file to analysis not found");
         }
       }
@@ -145,27 +144,24 @@ public class CxxLint {
     }
 
 
-    String fileName = new File(fileToAnalyse).getName();
-    SensorContextTester sensorContext = SensorContextTester.create(new File(fileToAnalyse).getParentFile().toPath());
+    SensorContextTester sensorContext = SensorContextTester.create(targetFile.getParentFile().toPath());
 
     CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile),
                                      new CppLanguage(sensorContext.config()));
 
     try {
-      String content = new String(Files.readAllBytes(Paths.get(fileToAnalyse)), encodingOfFile);
-      sensorContext.fileSystem().add(TestInputFileBuilder.create("ProjectKey", fileName).initMetadata(content).build());
+      sensorContext.fileSystem().add(TestInputFileBuilder.create("", targetFile.getParentFile(), targetFile).build());
       InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates()
-                                                                                         .hasPath(fileName));
-      
+                                                                                         .hasPath(targetFile.getName()));
       List<CheckerData> rulesData = new ArrayList<>();
       if (!"".equals(settingsFile)) {
         JsonParser parser = new JsonParser();
         String fileContent = readFile(settingsFile);
         
         // get basic information
-      String platformToolset = getJsonStringValue(parser, fileContent, "platformToolset");     
-      String platform = getJsonStringValue(parser, fileContent, "platform");
-      String projectFile = getJsonStringValue(parser, fileContent, "projectFile");       
+        String platformToolset = getJsonStringValue(parser, fileContent, "platformToolset");
+        String platform = getJsonStringValue(parser, fileContent, "platform");
+        String projectFile = getJsonStringValue(parser, fileContent, "projectFile");
         
         JsonElement rules = parser.parse(fileContent).getAsJsonObject().get("rules");
         if (rules != null) {
@@ -195,8 +191,8 @@ public class CxxLint {
           }
         }
         
-      handleVCppAdditionalOptions(platformToolset, platform, elementsOfAdditionalOptions + " ", 
-                                    projectFile, fileToAnalyse, configuration);
+        handleVCppAdditionalOptions(platformToolset, platform, elementsOfAdditionalOptions + " ", 
+                                    projectFile, targetFile.getName(), configuration);
       }
   
   
@@ -248,7 +244,7 @@ public class CxxLint {
       LOG.info("LOC: {}", file.getInt(CxxMetric.LINES_OF_CODE));
       LOG.info("COMPLEXITY: {}", file.getInt(CxxMetric.COMPLEXITY));
 
-    } catch (IOException|InstantiationException|IllegalAccessException ex) {
+    } catch (InstantiationException|IllegalAccessException ex) {
       LOG.error("{}", ex);
     }
     
@@ -333,18 +329,14 @@ public class CxxLint {
     for (JsonElement rule : rules.getAsJsonArray()) {
       JsonObject data = rule.getAsJsonObject();
       String ruleId = data.get("ruleId").getAsString();
-      
+
       String templateKey = "";
-      try {
+      if (data.has("templateKeyId")) {
         templateKey = data.get("templateKeyId").getAsString();
-      } catch(Exception ex) { 
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("CxxLint exception in createCheckerRules {}", ex);
-        }
       }
-      
+
       String enabled = data.get("status").getAsString();
- 
+
       CheckerData check = new CheckerData();
       check.setId(ruleId);
       check.setTemplateId(templateKey);
