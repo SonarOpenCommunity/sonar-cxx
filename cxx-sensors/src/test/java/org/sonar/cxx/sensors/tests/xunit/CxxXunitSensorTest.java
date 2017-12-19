@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.groups.Tuple.tuple;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +32,7 @@ import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
+import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -61,6 +63,29 @@ public class CxxXunitSensorTest {
     sensor.execute(context);
 
     assertThat(context.measures(context.module().key())).hasSize(0);
+  }
+
+  @Test
+  public void shouldReadXunitReport() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
+    settings.setProperty(language.getPluginProperty(CxxXunitSensor.REPORT_PATH_KEY), "xunit-reports/xunit-result-SAMPLE_with_fileName.xml");
+    context.setSettings(settings);
+
+    CxxXunitSensor sensor = new CxxXunitSensor(language);
+
+    sensor.execute(context);
+
+    assertThat(context.measures(context.module().key())).hasSize(6);
+    assertThat(context.measures(context.module().key()))
+    .extracting("metric.key", "value")
+    .containsOnly(
+      tuple(CoreMetrics.TESTS_KEY, 3),
+      tuple(CoreMetrics.SKIPPED_TESTS_KEY, 0),
+      tuple(CoreMetrics.TEST_FAILURES_KEY, 0),
+      tuple(CoreMetrics.TEST_ERRORS_KEY, 0),
+      tuple(CoreMetrics.TEST_SUCCESS_DENSITY_KEY, 100.0),
+      tuple(CoreMetrics.TEST_EXECUTION_TIME_KEY, 0L));
   }
 
   @Test(expected = IllegalStateException.class)
@@ -95,8 +120,7 @@ public class CxxXunitSensorTest {
     File reportBefore = cppunitReport();
 
     File reportAfter = sensor.transformReport(reportBefore);
-
-    assert (reportAfter != reportBefore);
+    assertThat(reportAfter).isNotSameAs(reportBefore);
   }
 
   File cppunitReport() {
