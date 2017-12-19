@@ -22,6 +22,8 @@ package org.sonar.cxx.sensors.utils;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.measures.Metric;
@@ -29,13 +31,14 @@ import org.sonar.cxx.CxxLanguage;
 
 public class CxxMetricsTest {
 
+  private MapSettings settings;
   private CxxLanguage language;
   private CxxMetrics metrics;
 
   public class CxxLanguageImpl extends CxxLanguage {
 
-    public CxxLanguageImpl(MapSettings settings) {
-      super("c++", "C++", (Configuration) settings);
+    public CxxLanguageImpl(Configuration settings) {
+      super("c++", "C++", settings);
     }
 
     @Override
@@ -72,25 +75,26 @@ public class CxxMetricsTest {
 
   @Before
   public void setUp() {
-    language = TestUtils.mockCxxLanguage();
+    settings = new MapSettings();
+    language = new CxxLanguageImpl(settings.asConfig());
     metrics = new CxxMetrics(language);
   }
 
-//  @Test
+  @Test
   public void getMetricsTest() {
     List<?> list = metrics.getMetrics();
-    assert (list.size() == 14);
+    assertThat(list.size()).isEqualTo(14);
   }
 
-//  @Test
+  @Test
   public void getMetricTest() {
     Metric<?> metric = language.getMetric(CxxMetrics.PUBLIC_API_KEY);
-    assert (metric != null);
+    assertThat(metric).isNotNull();
 
     metric = language.getMetric(CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY);
-    assert (metric != null);
+    assertThat(metric).isNotNull();
 
     metric = language.getMetric(CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY);
-    assert (metric != null);
+    assertThat(metric).isNotNull();
   }
 }
