@@ -97,7 +97,9 @@ public class CxxVCppBuildLogParser {
     try (InputStream input = java.nio.file.Files.newInputStream(buildLog.toPath())) {
       BufferedReader br = new BufferedReader(new InputStreamReader(input, charsetName));
       String line;
-      LOG.debug("build log parser baseDir='{}'", baseDir);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("build log parser baseDir='{}'", baseDir);
+      }
       Path currentProjectPath = Paths.get(baseDir);
 
       List<String> overallIncludes = uniqueIncludes.get(CxxConfiguration.OVERALLINCLUDEKEY);
@@ -122,6 +124,9 @@ public class CxxVCppBuildLogParser {
           currentProjectPath = Paths.get(pathProject).getParent();
           if (currentProjectPath == null) {
             currentProjectPath = Paths.get(baseDir);
+            }
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("build log parser currentProjectPath='{}'", currentProjectPath);
           }
         }
           // 1>Task "Message"
@@ -131,6 +136,9 @@ public class CxxVCppBuildLogParser {
         //1>  Platform=Win32         
         if (line.trim().endsWith("Platform=x64") || line.trim().matches("Building solution configuration \".*\\|x64\".")) {
           setPlatform("x64");
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("build log parser platform='{}'", this.platform);
+          }
         }
         // match "bin\CL.exe", "bin\amd64\CL.exe", "bin\x86_amd64\CL.exe"
         if (line.matches("^.*\\\\bin\\\\.*CL.exe\\x20.*$")) {
@@ -138,6 +146,9 @@ public class CxxVCppBuildLogParser {
           String[] allElems = line.split("\\s+");
           String data = allElems[allElems.length - 1];
           parseCLParameters(line, currentProjectPath, data);
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("build log parser cl.exe line='{}'", line);
+          }
         }
       }
       br.close();
@@ -172,7 +183,7 @@ public class CxxVCppBuildLogParser {
       setPlatformToolset("V140");
       return true;
     } else if (line.contains("\\V141\\Microsoft.CppBuild.targets") || 
-               line.matches("^.*VC\\\\Tools\\\\MSVC\\\\14.10.*\\\\bin\\\\HostX..\\\\x..\\\\CL.exe.*$")) {
+        line.matches("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$")) {
       setPlatformToolset("V141");
       return true;
     }

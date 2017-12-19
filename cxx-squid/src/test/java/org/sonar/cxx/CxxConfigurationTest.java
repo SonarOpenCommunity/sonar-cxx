@@ -63,7 +63,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
-    files.add(new File("src/test/resources/compiler/vc++13.txt"));
+    files.add(new File("src/test/resources/logfile/vc++13.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(13);
@@ -75,7 +75,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
-    files.add(new File("src/test/resources/compiler/platformCommon.txt"));
+    files.add(new File("src/test/resources/logfile/platformCommon.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -98,7 +98,7 @@ public class CxxConfigurationTest {
   public void shouldHandleSpecificCommonWin32OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     List<File> files = new ArrayList<>();
-    files.add(new File("src/test/resources/compiler/platformCommonWin32.txt"));
+    files.add(new File("src/test/resources/logfile/platformCommonWin32.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -113,7 +113,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
-    files.add(new File("src/test/resources/compiler/platformCommonX64.txt"));
+    files.add(new File("src/test/resources/logfile/platformCommonX64.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -133,7 +133,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
-    files.add(new File("src/test/resources/compiler/platformToolsetv100.txt"));
+    files.add(new File("src/test/resources/logfile/platformToolsetv100.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -151,7 +151,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
-    files.add(new File("src/test/resources/compiler/platformToolsetv110.txt"));
+    files.add(new File("src/test/resources/logfile/platformToolsetv110.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -173,7 +173,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
-    files.add(new File("src/test/resources/compiler/platformToolsetv120.txt"));
+    files.add(new File("src/test/resources/logfile/platformToolsetv120.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -198,7 +198,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
-    files.add(new File("src/test/resources/compiler/platformToolsetv140.txt"));
+    files.add(new File("src/test/resources/logfile/platformToolsetv140.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -218,11 +218,51 @@ public class CxxConfigurationTest {
   }
 
   @Test
+  public void shouldHandleTFSAgentV141OptionsCorrectly() {
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
+    config.setBaseDir(".");
+    List<File> files = new ArrayList<>();
+    files.add(new File("src/test/resources/logfile/TFS-agent-msvc14.txt"));
+    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+
+    assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
+    List<String> defines = config.getDefines();
+    assertThat(defines.size()).isEqualTo(34);
+    ValidateDefaultAsserts(defines);
+    Assertions.assertThat(defines.contains("_CPPUNWIND")).isTrue();
+    Assertions.assertThat(defines.contains("_M_IX86 600")).isTrue();
+    Assertions.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
+    Assertions.assertThat(defines.contains("_MSC_VER 1910")).isTrue();
+    Assertions.assertThat(defines.contains("_MSC_FULL_VER 191024629")).isTrue();
+    Assertions.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
+  }
+
+  @Test
+  public void shouldHandleTFSAgentV141mpOptionsCorrectly() {
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
+    config.setBaseDir(".");
+    List<File> files = new ArrayList<>();
+    files.add(new File("src/test/resources/logfile/TFS-agent-msvc14-mp.txt"));
+    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+
+    assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
+    List<String> defines = config.getDefines();
+    assertThat(defines.size()).isEqualTo(34);
+    ValidateDefaultAsserts(defines);
+    Assertions.assertThat(defines.contains("_CPPUNWIND")).isTrue();
+    Assertions.assertThat(defines.contains("_M_IX86 600")).isTrue();
+    Assertions.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
+    Assertions.assertThat(defines.contains("_MSC_VER 1910")).isTrue();
+    Assertions.assertThat(defines.contains("_MSC_FULL_VER 191024629")).isTrue();
+    Assertions.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
+  }
+
+  @Test
   public void shouldHandleSpecificV141x86OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
-    files.add(new File("src/test/resources/compiler/platformToolsetv141x86.txt"));
+    files.add(new File("src/test/resources/logfile/platformToolsetv141x86.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -242,7 +282,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
-    files.add(new File("src/test/resources/compiler/platformToolsetv141x64.txt"));
+    files.add(new File("src/test/resources/logfile/platformToolsetv141x64.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -261,7 +301,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
-    files.add(new File("src/test/resources/compiler/ParallelBuildLog.txt"));
+    files.add(new File("src/test/resources/logfile/ParallelBuildLog.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(15);

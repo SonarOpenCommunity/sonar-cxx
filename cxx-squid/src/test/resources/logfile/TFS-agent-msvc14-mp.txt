@@ -1,0 +1,609 @@
+2017-12-18T17:13:02.3676730Z ##[section]Starting: Build solution CppTesting.sln
+2017-12-18T17:13:02.3676730Z ==============================================================================
+2017-12-18T17:13:02.3676730Z Task         : Visual Studio Build
+2017-12-18T17:13:02.3676730Z Description  : Build with MSBuild and set the Visual Studio version property
+2017-12-18T17:13:02.3676730Z Version      : 1.120.0
+2017-12-18T17:13:02.3676730Z Author       : Microsoft Corporation
+2017-12-18T17:13:02.3676730Z Help         : [More Information](https://go.microsoft.com/fwlink/?LinkID=613727)
+2017-12-18T17:13:02.3676730Z ==============================================================================
+2017-12-18T17:13:03.5708107Z ##[command]"C:\agent\_work\_tasks\VSBuild_71a9a2d3-a98a-4caa-96ab-affca411ecda\1.120.0\ps_modules\MSBuildHelpers\vswhere.exe" -version [15.0,16.0) -latest -format json
+2017-12-18T17:13:03.8364386Z ##[command]"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe" "C:\agent\_work\1\s\CppTesting.sln" /nologo /nr:false /fl /flp:"logfile=C:\agent\_work\1\s\CppTesting.sln.log" /dl:CentralLogger,"C:\agent\_work\_tasks\VSBuild_71a9a2d3-a98a-4caa-96ab-affca411ecda\1.120.0\ps_modules\MSBuildHelpers\Microsoft.TeamFoundation.DistributedTask.MSBuild.Logger.dll";"RootDetailId=20c8e92d-5e0a-41da-8110-58dc9ee61849|SolutionDir=C:\agent\_work\1\s"*ForwardingLogger,"C:\agent\_work\_tasks\VSBuild_71a9a2d3-a98a-4caa-96ab-affca411ecda\1.120.0\ps_modules\MSBuildHelpers\Microsoft.TeamFoundation.DistributedTask.MSBuild.Logger.dll" /p:WarningLevel=4 /fileLoggerParameters:Verbosity:Normal;Encoding=UTF-8 /p:platform="x86" /p:configuration="Debug" /p:VisualStudioVersion="15.0" /m /p:_MSDeployUserAgent="TFS_989b4671-ea82-4f0f-9d72-122e298182ed_build_3_3409"
+2017-12-18T17:13:04.0399089Z Build started 12/18/2017 6:13:04 PM.
+2017-12-18T17:13:04.2430375Z      1>Project "C:\agent\_work\1\s\CppTesting.sln" on node 1 (default targets).
+2017-12-18T17:13:04.2430375Z      1>ValidateSolutionConfiguration:
+2017-12-18T17:13:04.2430375Z          Building solution configuration "Debug|x86".
+2017-12-18T17:13:04.8367970Z      1>Project "C:\agent\_work\1\s\CppTesting.sln" (1) is building "C:\agent\_work\1\s\Source\RootFinder\RootFinder.vcxproj" (2) on node 1 (default targets).
+2017-12-18T17:13:04.8367970Z      2>PrepareForBuild:
+2017-12-18T17:13:04.8367970Z          Creating directory "Debug\".
+2017-12-18T17:13:04.8367970Z          Creating directory "Debug\RootFinder.tlog\".
+2017-12-18T17:13:04.8367970Z      1>Project "C:\agent\_work\1\s\CppTesting.sln" (1) is building "C:\agent\_work\1\s\Source\Calculation\Calculation.vcxproj" (5) on node 3 (default targets).
+2017-12-18T17:13:04.8367970Z      5>PrepareForBuild:
+2017-12-18T17:13:04.8367970Z          Creating directory "Debug\".
+2017-12-18T17:13:04.8367970Z      1>Project "C:\agent\_work\1\s\CppTesting.sln" (1) is building "C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj" (3) on node 2 (default targets).
+2017-12-18T17:13:04.8367970Z      3>PrepareForBuild:
+2017-12-18T17:13:04.8367970Z          Creating directory "Debug\".
+2017-12-18T17:13:04.8524235Z      5>PrepareForBuild:
+2017-12-18T17:13:04.8524235Z          Creating directory "C:\agent\_work\1\s\Debug\".
+2017-12-18T17:13:04.8524235Z      3>PrepareForBuild:
+2017-12-18T17:13:04.8524235Z          Creating directory "Debug\MotorController.tlog\".
+2017-12-18T17:13:04.8524235Z      5>PrepareForBuild:
+2017-12-18T17:13:04.8524235Z          Creating directory "Debug\Calculation.tlog\".
+2017-12-18T17:13:04.8680481Z      2>InitializeBuildStatus:
+2017-12-18T17:13:04.8680481Z          Creating "Debug\RootFinder.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+2017-12-18T17:13:04.8836733Z      3>InitializeBuildStatus:
+2017-12-18T17:13:04.8836733Z          Creating "Debug\MotorController.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+2017-12-18T17:13:04.9149240Z      5>InitializeBuildStatus:
+2017-12-18T17:13:04.9149240Z          Creating "Debug\Calculation.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+2017-12-18T17:13:04.9461743Z        ClCompile:
+2017-12-18T17:13:04.9461743Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /IC:\agent\_work\1\s\_Globals\Include /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D CALCULATION_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"stdafx.h" /Fp"Debug\Calculation.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\\bin\HostX86\x86\EspXEngine.dll" /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet stdafx.cpp
+2017-12-18T17:13:04.9461743Z      3>ClCompile:
+2017-12-18T17:13:04.9461743Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /IC:\agent\_work\1\s\_Globals\Include /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D MOTORCONTROLLER_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"stdafx.h" /Fp"Debug\MotorController.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\\bin\HostX86\x86\EspXEngine.dll" /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet stdafx.cpp
+2017-12-18T17:13:04.9461743Z      2>ClCompile:
+2017-12-18T17:13:04.9625264Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /IC:\agent\_work\1\s\_Globals\Include /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D CROOTFINDER_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"stdafx.h" /Fp"Debug\RootFinder.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\\bin\HostX86\x86\EspXEngine.dll" /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet stdafx.cpp
+2017-12-18T17:13:05.0399262Z      1>Project "C:\agent\_work\1\s\CppTesting.sln" (1) is building "C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj" (7) on node 1 (default targets).
+2017-12-18T17:13:05.0399262Z      7>PrepareForBuild:
+2017-12-18T17:13:05.0399262Z          Creating directory "Debug\".
+2017-12-18T17:13:05.0399262Z          Creating directory "Debug\SQCxxTestData.tlog\".
+2017-12-18T17:13:05.0555513Z        InitializeBuildStatus:
+2017-12-18T17:13:05.0555513Z          Creating "Debug\SQCxxTestData.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+2017-12-18T17:13:05.0555513Z        ClCompile:
+2017-12-18T17:13:05.0555513Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /IC:\agent\_work\1\s\_Globals\Include /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D SQTEST_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\\bin\HostX86\x86\EspXEngine.dll" /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet component1.cc component2.cc
+2017-12-18T17:13:07.4796446Z      2>ClCompile:
+2017-12-18T17:13:07.4796446Z          stdafx.cpp
+2017-12-18T17:13:07.4796446Z      7>ClCompile:
+2017-12-18T17:13:07.4796446Z          component2.cc
+2017-12-18T17:13:07.4952711Z ##[warning]source\sqcxxtestdata\component2.cc(17,0): Warning C4101: 'x': unreferenced local variable
+2017-12-18T17:13:07.4952711Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(17): warning C4101: 'x': unreferenced local variable [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:07.4952711Z ##[warning]source\sqcxxtestdata\component2.cc(36,0): Warning C4189: 'i': local variable is initialized but not referenced
+2017-12-18T17:13:07.4952711Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(36): warning C4189: 'i': local variable is initialized but not referenced [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:07.4952711Z          component1.cc
+2017-12-18T17:13:07.4952711Z ##[warning]source\sqcxxtestdata\component1.cc(18,0): Warning C4101: 'x': unreferenced local variable
+2017-12-18T17:13:07.4952711Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(18): warning C4101: 'x': unreferenced local variable [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:07.4952711Z ##[warning]source\sqcxxtestdata\component1.cc(37,0): Warning C4189: 'i': local variable is initialized but not referenced
+2017-12-18T17:13:07.4952711Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(37): warning C4189: 'i': local variable is initialized but not referenced [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:07.4952711Z          Compiling...
+2017-12-18T17:13:07.4952711Z      3>ClCompile:
+2017-12-18T17:13:07.4952711Z          stdafx.cpp
+2017-12-18T17:13:07.4952711Z      5>ClCompile:
+2017-12-18T17:13:07.4952711Z          stdafx.cpp
+2017-12-18T17:13:07.5265213Z      2>ClCompile:
+2017-12-18T17:13:07.5265213Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /IC:\agent\_work\1\s\_Globals\Include /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D CROOTFINDER_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\\bin\HostX86\x86\EspXEngine.dll" /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet dllmain.cpp
+2017-12-18T17:13:07.5265213Z      5>ClCompile:
+2017-12-18T17:13:07.5265213Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /IC:\agent\_work\1\s\_Globals\Include /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D CALCULATION_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\Calculation.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\\bin\HostX86\x86\EspXEngine.dll" /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet Addition.cpp Calculation.cpp Multiply.cpp
+2017-12-18T17:13:07.5265213Z      3>ClCompile:
+2017-12-18T17:13:07.5265213Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /IC:\agent\_work\1\s\_Globals\Include /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D MOTORCONTROLLER_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\\bin\HostX86\x86\EspXEngine.dll" /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet dllmain.cpp
+2017-12-18T17:13:08.9952960Z          dllmain.cpp
+2017-12-18T17:13:09.0110871Z      5>ClCompile:
+2017-12-18T17:13:09.0110871Z          Multiply.cpp
+2017-12-18T17:13:09.0110871Z          Calculation.cpp
+2017-12-18T17:13:09.0110871Z          Addition.cpp
+2017-12-18T17:13:09.0110871Z ##[warning]source\motorcontroller\dllmain.cpp(7,0): Warning C4100: 'lpReserved': unreferenced formal parameter
+2017-12-18T17:13:09.0110871Z      3>c:\agent\_work\1\s\source\motorcontroller\dllmain.cpp(7): warning C4100: 'lpReserved': unreferenced formal parameter [C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj]
+2017-12-18T17:13:09.0110871Z ##[warning]source\motorcontroller\dllmain.cpp(4,0): Warning C4100: 'hModule': unreferenced formal parameter
+2017-12-18T17:13:09.0110871Z        ClCompile:
+2017-12-18T17:13:09.0110871Z          Compiling...
+2017-12-18T17:13:09.0110871Z      3>c:\agent\_work\1\s\source\motorcontroller\dllmain.cpp(4): warning C4100: 'hModule': unreferenced formal parameter [C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj]
+2017-12-18T17:13:09.0110871Z        ClCompile:
+2017-12-18T17:13:09.0110871Z          Generating Code...
+2017-12-18T17:13:09.0110871Z      2>ClCompile:
+2017-12-18T17:13:09.0110871Z          dllmain.cpp
+2017-12-18T17:13:09.0110871Z ##[warning]source\rootfinder\dllmain.cpp(7,0): Warning C4100: 'lpReserved': unreferenced formal parameter
+2017-12-18T17:13:09.0110871Z      2>c:\agent\_work\1\s\source\rootfinder\dllmain.cpp(7): warning C4100: 'lpReserved': unreferenced formal parameter [C:\agent\_work\1\s\Source\RootFinder\RootFinder.vcxproj]
+2017-12-18T17:13:09.0110871Z ##[warning]source\rootfinder\dllmain.cpp(4,0): Warning C4100: 'hModule': unreferenced formal parameter
+2017-12-18T17:13:09.0110871Z      2>c:\agent\_work\1\s\source\rootfinder\dllmain.cpp(4): warning C4100: 'hModule': unreferenced formal parameter [C:\agent\_work\1\s\Source\RootFinder\RootFinder.vcxproj]
+2017-12-18T17:13:09.0110871Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /IC:\agent\_work\1\s\_Globals\Include /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D CROOTFINDER_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\RootFinder.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\\bin\HostX86\x86\EspXEngine.dll" /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet RootFinder.cpp
+2017-12-18T17:13:09.0265476Z      3>ClCompile:
+2017-12-18T17:13:09.0265476Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /IC:\agent\_work\1\s\_Globals\Include /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D MOTORCONTROLLER_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\MotorController.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\\bin\HostX86\x86\EspXEngine.dll" /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet MotorController.cpp
+2017-12-18T17:13:09.0421723Z      2>ClCompile:
+2017-12-18T17:13:09.0577981Z          RootFinder.cpp
+2017-12-18T17:13:09.0890482Z      5>Link:
+2017-12-18T17:13:09.1046736Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\agent\_work\1\s\Debug\Calculation.dll" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\agent\_work\1\s\Debug\Calculation.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\agent\_work\1\s\Debug\Calculation.lib" /MACHINE:X86 /DLL Debug\Addition.obj
+2017-12-18T17:13:09.1046736Z          Debug\Calculation.obj
+2017-12-18T17:13:09.1046736Z          Debug\Multiply.obj
+2017-12-18T17:13:09.1046736Z          Debug\stdafx.obj
+2017-12-18T17:13:09.1828018Z      3>ClCompile:
+2017-12-18T17:13:09.1828018Z          MotorController.cpp
+2017-12-18T17:13:10.3703233Z        Link:
+2017-12-18T17:13:10.3703233Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\agent\_work\1\s\Debug\MotorController.dll" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\agent\_work\1\s\Debug\MotorController.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\agent\_work\1\s\Debug\MotorController.lib" /MACHINE:X86 /DLL Debug\dllmain.obj
+2017-12-18T17:13:10.3703233Z          Debug\MotorController.obj
+2017-12-18T17:13:10.3703233Z          Debug\stdafx.obj
+2017-12-18T17:13:10.3703233Z             Creating library C:\agent\_work\1\s\Debug\MotorController.lib and object C:\agent\_work\1\s\Debug\MotorController.exp
+2017-12-18T17:13:10.3703233Z          MotorController.vcxproj -> C:\agent\_work\1\s\Debug\MotorController.dll
+2017-12-18T17:13:10.3703233Z      5>Link:
+2017-12-18T17:13:10.3703233Z             Creating library C:\agent\_work\1\s\Debug\Calculation.lib and object C:\agent\_work\1\s\Debug\Calculation.exp
+2017-12-18T17:13:10.3703233Z          Calculation.vcxproj -> C:\agent\_work\1\s\Debug\Calculation.dll
+2017-12-18T17:13:10.3859498Z ##[warning]source\calculation\addition.cpp(11,0): Warning C26497: This function CAddition::twoValues could be marked constexpr if compile-time evaluation is desired. (f.4: https://go.microsoft.com/fwlink/p/?LinkID=784970)
+2017-12-18T17:13:10.3859498Z ##[warning]source\motorcontroller\motorcontroller.cpp(63,0): Warning C26498: This function call factorial can use constexpr if compile-time evaluation is desired. (con.5: https://go.microsoft.com/fwlink/p/?LinkID=784974)
+2017-12-18T17:13:10.3859498Z      5>c:\agent\_work\1\s\source\calculation\addition.cpp(11): warning C26497: This function CAddition::twoValues could be marked constexpr if compile-time evaluation is desired. (f.4: https://go.microsoft.com/fwlink/p/?LinkID=784970) [C:\agent\_work\1\s\Source\Calculation\Calculation.vcxproj]
+2017-12-18T17:13:10.3859498Z      3>c:\agent\_work\1\s\source\motorcontroller\motorcontroller.cpp(63): warning C26498: This function call factorial can use constexpr if compile-time evaluation is desired. (con.5: https://go.microsoft.com/fwlink/p/?LinkID=784974) [C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj]
+2017-12-18T17:13:10.3859498Z ##[warning]source\calculation\multiply.cpp(11,0): Warning C26497: This function CMultiply::twoValues could be marked constexpr if compile-time evaluation is desired. (f.4: https://go.microsoft.com/fwlink/p/?LinkID=784970)
+2017-12-18T17:13:10.3859498Z      5>c:\agent\_work\1\s\source\calculation\multiply.cpp(11): warning C26497: This function CMultiply::twoValues could be marked constexpr if compile-time evaluation is desired. (f.4: https://go.microsoft.com/fwlink/p/?LinkID=784970) [C:\agent\_work\1\s\Source\Calculation\Calculation.vcxproj]
+2017-12-18T17:13:10.3859498Z        FinalizeBuildStatus:
+2017-12-18T17:13:10.3859498Z          Deleting file "Debug\Calculation.tlog\unsuccessfulbuild".
+2017-12-18T17:13:10.3859498Z          Touching "Debug\Calculation.tlog\Calculation.lastbuildstate".
+2017-12-18T17:13:10.3859498Z        UnitTestCheck:
+2017-12-18T17:13:10.3859498Z          IsUnitTest = False
+2017-12-18T17:13:10.3859498Z      3>FinalizeBuildStatus:
+2017-12-18T17:13:10.3859498Z          Deleting file "Debug\MotorController.tlog\unsuccessfulbuild".
+2017-12-18T17:13:10.3859498Z          Touching "Debug\MotorController.tlog\MotorController.lastbuildstate".
+2017-12-18T17:13:10.3859498Z        UnitTestCheck:
+2017-12-18T17:13:10.3859498Z          IsUnitTest = False
+2017-12-18T17:13:10.3859498Z      5>CppCheck:
+2017-12-18T17:13:10.3859498Z          Remove string '..\..\..\boost\include'.
+2017-12-18T17:13:10.3859498Z      3>CppCheck:
+2017-12-18T17:13:10.3859498Z          Remove string '..\..\..\boost\include'.
+2017-12-18T17:13:10.3859498Z          C:\SCA-tools\Cppcheck\cppcheck.exe -v -q --platform=win32W --enable=all --xml-version=2 --includes-file=CppCheck.includes -DCODE_ANALYSIS -DWIN32 -D_DEBUG -D_WINDOWS -D_USRDLL -DMOTORCONTROLLER_EXPORTS -D_WINDLL -D_UNICODE -DUNICODE  dllmain.cpp MotorController.cpp stdafx.cpp MotorController.h stdafx.h targetver.h 2>"C:\agent\_work\1\s\Source\MotorController\cppcheck-report.xml"
+2017-12-18T17:13:10.3859498Z      5>CppCheck:
+2017-12-18T17:13:10.3859498Z          C:\SCA-tools\Cppcheck\cppcheck.exe -v -q --platform=win32W --enable=all --xml-version=2 --includes-file=CppCheck.includes -DCODE_ANALYSIS -DWIN32 -D_DEBUG -D_WINDOWS -DCALCULATION_EXPORTS -D_WINDLL -D_UNICODE -DUNICODE  Addition.cpp Calculation.cpp Multiply.cpp stdafx.cpp Addition.h Multiply.h stdafx.h targetver.h 2>"C:\agent\_work\1\s\Source\Calculation\cppcheck-report.xml"
+2017-12-18T17:13:10.3859498Z        SQEnvCheck:
+2017-12-18T17:13:10.3859498Z          sonar.log.level               = INFO
+2017-12-18T17:13:10.3859498Z          sonar.cxx.compiler.reportPath = C:\agent\_work\1\s\CppTesting.sln.log
+2017-12-18T17:13:10.3859498Z          sonar.cxx.compiler.parser     = Visual C++
+2017-12-18T17:13:10.3859498Z          sonar.cxx.compiler.charset    = UTF-8
+2017-12-18T17:13:10.3859498Z          sonar.cxx.compiler.regex      = ^\x20+(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20(.*)\x20\[C:\\agent\\_work\\1\\s\\Source\\Calculation\\Calculation.vcxproj\]$
+2017-12-18T17:13:10.3859498Z          sonar.cxx.cppcheck.reportPath = cppcheck-report.xml
+2017-12-18T17:13:10.3859498Z          sonar.cxx.pclint.reportPath   = pclint-report.xml
+2017-12-18T17:13:10.3859498Z          sonar.cxx.vera.reportPath     = vera-report.xml
+2017-12-18T17:13:10.3859498Z          sonar.cxx.rats.reportPath     = rats-report.xml
+2017-12-18T17:13:10.3859498Z          sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
+2017-12-18T17:13:10.3859498Z          sonar.cxx.suffixes.sources    = .cc,.cpp,.c,.cu
+2017-12-18T17:13:10.3859498Z          sonar.cxx.suffixes.headers    = .h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
+2017-12-18T17:13:10.3859498Z          sonar.cxx.forceIncludes       = sonar-defines.h
+2017-12-18T17:13:10.3859498Z          sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include
+2017-12-18T17:13:10.3859498Z      3>SQEnvCheck:
+2017-12-18T17:13:10.3859498Z          sonar.log.level               = INFO
+2017-12-18T17:13:10.3859498Z          sonar.cxx.compiler.reportPath = C:\agent\_work\1\s\CppTesting.sln.log
+2017-12-18T17:13:10.3859498Z          sonar.cxx.compiler.parser     = Visual C++
+2017-12-18T17:13:10.3859498Z          sonar.cxx.compiler.charset    = UTF-8
+2017-12-18T17:13:10.3859498Z          sonar.cxx.compiler.regex      = ^\x20+(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20(.*)\x20\[C:\\agent\\_work\\1\\s\\Source\\MotorController\\MotorController.vcxproj\]$
+2017-12-18T17:13:10.3859498Z          sonar.cxx.cppcheck.reportPath = cppcheck-report.xml
+2017-12-18T17:13:10.3859498Z          sonar.cxx.pclint.reportPath   = pclint-report.xml
+2017-12-18T17:13:10.3859498Z          sonar.cxx.vera.reportPath     = vera-report.xml
+2017-12-18T17:13:10.3859498Z          sonar.cxx.rats.reportPath     = rats-report.xml
+2017-12-18T17:13:10.3859498Z          sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
+2017-12-18T17:13:10.3859498Z          sonar.cxx.suffixes.sources    = .cc,.cpp,.c,.cu
+2017-12-18T17:13:10.3859498Z          sonar.cxx.suffixes.headers    = .h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
+2017-12-18T17:13:10.3859498Z          sonar.cxx.forceIncludes       = sonar-defines.h
+2017-12-18T17:13:10.3859498Z          sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include
+2017-12-18T17:13:10.3859498Z      5>CreateProjectSpecificDirs:
+2017-12-18T17:13:10.3859498Z          Directory "C:\agent\_work\1\.sonarqube\out\Calculation_0578" doesn't exist. Skipping.
+2017-12-18T17:13:10.3859498Z      3>CreateProjectSpecificDirs:
+2017-12-18T17:13:10.3859498Z          Directory "C:\agent\_work\1\.sonarqube\out\MotorController_0578" doesn't exist. Skipping.
+2017-12-18T17:13:10.3859498Z      5>CreateProjectSpecificDirs:
+2017-12-18T17:13:10.3859498Z          Creating directory "C:\agent\_work\1\.sonarqube\out\Calculation_0578".
+2017-12-18T17:13:10.3859498Z          Directory "C:\agent\_work\1\.sonarqube\conf\Calculation_0578" doesn't exist. Skipping.
+2017-12-18T17:13:10.3859498Z          Creating directory "C:\agent\_work\1\.sonarqube\conf\Calculation_0578".
+2017-12-18T17:13:10.3859498Z      3>CreateProjectSpecificDirs:
+2017-12-18T17:13:10.3859498Z          Creating directory "C:\agent\_work\1\.sonarqube\out\MotorController_0578".
+2017-12-18T17:13:10.3859498Z          Directory "C:\agent\_work\1\.sonarqube\conf\MotorController_0578" doesn't exist. Skipping.
+2017-12-18T17:13:10.3859498Z          Creating directory "C:\agent\_work\1\.sonarqube\conf\MotorController_0578".
+2017-12-18T17:13:10.3859498Z      3>Done Building Project "C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj" (default targets).
+2017-12-18T17:13:10.3859498Z      5>Done Building Project "C:\agent\_work\1\s\Source\Calculation\Calculation.vcxproj" (default targets).
+2017-12-18T17:13:10.4171994Z      2>Link:
+2017-12-18T17:13:10.4171994Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\agent\_work\1\s\Debug\RootFinder.dll" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\agent\_work\1\s\Debug\RootFinder.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\agent\_work\1\s\Debug\RootFinder.lib" /MACHINE:X86 /DLL Debug\dllmain.obj
+2017-12-18T17:13:10.4171994Z          Debug\RootFinder.obj
+2017-12-18T17:13:10.4171994Z          Debug\stdafx.obj
+2017-12-18T17:13:10.6359534Z      1>Project "C:\agent\_work\1\s\CppTesting.sln" (1) is building "C:\agent\_work\1\s\Tests\MotorControllerTests\MotorControllerTests.vcxproj" (4) on node 3 (default targets).
+2017-12-18T17:13:10.6359534Z      4>PrepareForBuild:
+2017-12-18T17:13:10.6515799Z          Creating directory "Debug\".
+2017-12-18T17:13:10.6515799Z          Creating directory "Debug\MotorCon.F2B66EDC.tlog\".
+2017-12-18T17:13:10.6515799Z        InitializeBuildStatus:
+2017-12-18T17:13:10.6515799Z          Creating "Debug\MotorCon.F2B66EDC.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+2017-12-18T17:13:10.6515799Z        ClCompile:
+2017-12-18T17:13:10.6515799Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"stdafx.h" /Fp"Debug\MotorControllerTests.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet stdafx.cpp
+2017-12-18T17:13:10.6515799Z      2>Link:
+2017-12-18T17:13:10.6515799Z             Creating library C:\agent\_work\1\s\Debug\RootFinder.lib and object C:\agent\_work\1\s\Debug\RootFinder.exp
+2017-12-18T17:13:10.6515799Z          RootFinder.vcxproj -> C:\agent\_work\1\s\Debug\RootFinder.dll
+2017-12-18T17:13:10.8078324Z        FinalizeBuildStatus:
+2017-12-18T17:13:10.8078324Z          Deleting file "Debug\RootFinder.tlog\unsuccessfulbuild".
+2017-12-18T17:13:10.8078324Z          Touching "Debug\RootFinder.tlog\RootFinder.lastbuildstate".
+2017-12-18T17:13:10.8078324Z        UnitTestCheck:
+2017-12-18T17:13:10.8078324Z          IsUnitTest = False
+2017-12-18T17:13:10.8703325Z        CppCheck:
+2017-12-18T17:13:10.8703325Z          Remove string '..\..\..\boost\include'.
+2017-12-18T17:13:10.9328340Z          C:\SCA-tools\Cppcheck\cppcheck.exe -v -q --platform=win32W --enable=all --xml-version=2 --includes-file=CppCheck.includes -DCODE_ANALYSIS -DWIN32 -D_DEBUG -D_WINDOWS -D_USRDLL -DCROOTFINDER_EXPORTS -D_WINDLL -D_UNICODE -DUNICODE  dllmain.cpp RootFinder.cpp stdafx.cpp RootFinder.h stdafx.h targetver.h 2>"C:\agent\_work\1\s\Source\RootFinder\cppcheck-report.xml"
+2017-12-18T17:13:11.0422114Z        SQEnvCheck:
+2017-12-18T17:13:11.0578360Z          sonar.log.level               = INFO
+2017-12-18T17:13:11.0578360Z          sonar.cxx.compiler.reportPath = C:\agent\_work\1\s\CppTesting.sln.log
+2017-12-18T17:13:11.0578360Z          sonar.cxx.compiler.parser     = Visual C++
+2017-12-18T17:13:11.0578360Z          sonar.cxx.compiler.charset    = UTF-8
+2017-12-18T17:13:11.0578360Z          sonar.cxx.compiler.regex      = ^\x20+(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20(.*)\x20\[C:\\agent\\_work\\1\\s\\Source\\RootFinder\\RootFinder.vcxproj\]$
+2017-12-18T17:13:11.0578360Z          sonar.cxx.cppcheck.reportPath = cppcheck-report.xml
+2017-12-18T17:13:11.0578360Z          sonar.cxx.pclint.reportPath   = pclint-report.xml
+2017-12-18T17:13:11.0578360Z          sonar.cxx.vera.reportPath     = vera-report.xml
+2017-12-18T17:13:11.0578360Z          sonar.cxx.rats.reportPath     = rats-report.xml
+2017-12-18T17:13:11.0578360Z          sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
+2017-12-18T17:13:11.0578360Z          sonar.cxx.suffixes.sources    = .cc,.cpp,.c,.cu
+2017-12-18T17:13:11.0578360Z          sonar.cxx.suffixes.headers    = .h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
+2017-12-18T17:13:11.0578360Z          sonar.cxx.forceIncludes       = sonar-defines.h
+2017-12-18T17:13:11.0578360Z          sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include
+2017-12-18T17:13:11.0578360Z        CreateProjectSpecificDirs:
+2017-12-18T17:13:11.0578360Z          Directory "C:\agent\_work\1\.sonarqube\out\RootFinder_0265" doesn't exist. Skipping.
+2017-12-18T17:13:11.0578360Z          Creating directory "C:\agent\_work\1\.sonarqube\out\RootFinder_0265".
+2017-12-18T17:13:11.0578360Z          Directory "C:\agent\_work\1\.sonarqube\conf\RootFinder_0265" doesn't exist. Skipping.
+2017-12-18T17:13:11.0578360Z          Creating directory "C:\agent\_work\1\.sonarqube\conf\RootFinder_0265".
+2017-12-18T17:13:11.0578360Z      2>Done Building Project "C:\agent\_work\1\s\Source\RootFinder\RootFinder.vcxproj" (default targets).
+2017-12-18T17:13:11.0734606Z      1>Project "C:\agent\_work\1\s\CppTesting.sln" (1) is building "C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj" (6) on node 1 (default targets).
+2017-12-18T17:13:11.0890869Z      6>PrepareForBuild:
+2017-12-18T17:13:11.0890869Z          Creating directory "Debug\".
+2017-12-18T17:13:11.0890869Z          Creating directory "Debug\RootFinderTests.tlog\".
+2017-12-18T17:13:11.0890869Z        InitializeBuildStatus:
+2017-12-18T17:13:11.0890869Z          Creating "Debug\RootFinderTests.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+2017-12-18T17:13:11.0890869Z        ClCompile:
+2017-12-18T17:13:11.0890869Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"stdafx.h" /Fp"Debug\RootFinderTests.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet stdafx.cpp
+2017-12-18T17:13:13.6672518Z      4>ClCompile:
+2017-12-18T17:13:13.6828764Z          stdafx.cpp
+2017-12-18T17:13:13.6828764Z      7>ClCompile:
+2017-12-18T17:13:13.6828764Z          Generating Code...
+2017-12-18T17:13:13.6828764Z ##[warning]source\sqcxxtestdata\component2.cc(31,0): Warning C4700: uninitialized local variable 'a' used
+2017-12-18T17:13:13.6828764Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(31): warning C4700: uninitialized local variable 'a' used [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.6828764Z ##[warning]source\sqcxxtestdata\component1.cc(32,0): Warning C4700: uninitialized local variable 'a' used
+2017-12-18T17:13:13.6828764Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(32): warning C4700: uninitialized local variable 'a' used [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.6828764Z      6>ClCompile:
+2017-12-18T17:13:13.6828764Z          stdafx.cpp
+2017-12-18T17:13:13.7141272Z      7>Link:
+2017-12-18T17:13:13.7141272Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\agent\_work\1\s\Debug\SQCxxTestData.dll" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\agent\_work\1\s\Debug\SQCxxTestData.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\agent\_work\1\s\Debug\SQCxxTestData.lib" /MACHINE:X86 /DLL Debug\component1.obj
+2017-12-18T17:13:13.7141272Z          Debug\component2.obj
+2017-12-18T17:13:13.8860018Z      1>Project "C:\agent\_work\1\s\CppTesting.sln" (1) is building "C:\agent\_work\1\s\Tests\CalculationTests\CalculationTests.vcxproj" (8) on node 3 (default targets).
+2017-12-18T17:13:13.9016273Z      8>PrepareForBuild:
+2017-12-18T17:13:13.9016273Z          Creating directory "Debug\".
+2017-12-18T17:13:13.9016273Z          Creating directory "Debug\CalculationTests.tlog\".
+2017-12-18T17:13:13.9016273Z        InitializeBuildStatus:
+2017-12-18T17:13:13.9016273Z          Creating "Debug\CalculationTests.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+2017-12-18T17:13:13.9016273Z        ClCompile:
+2017-12-18T17:13:13.9016273Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /I"C:\agent\_work\1\s\packages\vcpkg-export-20170706-185405.1.0.0\installed\x86-windows\include" /ZI /nologo /W3 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"stdafx.h" /Fp"Debug\CalculationTests.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /errorReport:queue   /analyze:quiet stdafx.cpp
+2017-12-18T17:13:13.9016273Z      7>Link:
+2017-12-18T17:13:13.9016273Z             Creating library C:\agent\_work\1\s\Debug\SQCxxTestData.lib and object C:\agent\_work\1\s\Debug\SQCxxTestData.exp
+2017-12-18T17:13:13.9172518Z          SQCxxTestData.vcxproj -> C:\agent\_work\1\s\Debug\SQCxxTestData.dll
+2017-12-18T17:13:13.9485019Z ##[warning]source\sqcxxtestdata\component1.cc(18,0): Warning C26494: Variable 'x' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(18): warning C26494: Variable 'x' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(51,0): Warning C6279: 'ip' is allocated with scalar new, but deleted with array delete [].
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(51): warning C6279: 'ip' is allocated with scalar new, but deleted with array delete []. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(37,0): Warning C6001: Using uninitialized memory 'ip'.
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(37): warning C6001: Using uninitialized memory 'ip'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(32,0): Warning C6001: Using uninitialized memory 'a'.
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(32): warning C6001: Using uninitialized memory 'a'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(28,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(28): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(35,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(35): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(35,0): Warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(35): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(36,0): Warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(36): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(36,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(36): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(40,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(40): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(40,0): Warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(40): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(41,0): Warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(41): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(41,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(41): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(45,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(45): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(45,0): Warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(45): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(46,0): Warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(46): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(46,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(46): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(47,0): Warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(47): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(47,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(47): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(50,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(50): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(50,0): Warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(50): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(51,0): Warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(51): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(51,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(51): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9641267Z ##[warning]source\sqcxxtestdata\component1.cc(31,0): Warning C26494: Variable 'a' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421)
+2017-12-18T17:13:13.9641267Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(31): warning C26494: Variable 'a' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component1.cc(37,0): Warning C26496: Variable 'i' is assigned only once, mark it as const. (con.4: https://go.microsoft.com/fwlink/p/?LinkID=784969)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(37): warning C26496: Variable 'i' is assigned only once, mark it as const. (con.4: https://go.microsoft.com/fwlink/p/?LinkID=784969) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component1.cc(35,0): Warning C26423: The allocation was not directly assigned to an owner.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(35): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component1.cc(37,0): Warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 36 by 'operator delete'.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(37): warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 36 by 'operator delete'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component1.cc(40,0): Warning C26423: The allocation was not directly assigned to an owner.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(40): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component1.cc(42,0): Warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 41 by 'operator delete'.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(42): warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 41 by 'operator delete'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component1.cc(45,0): Warning C26423: The allocation was not directly assigned to an owner.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(45): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component1.cc(50,0): Warning C26423: The allocation was not directly assigned to an owner.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(50): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component1.cc(52,0): Warning C26424: Failing to delete or assign ownership of allocation at line 28.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(52): warning C26424: Failing to delete or assign ownership of allocation at line 28. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(17,0): Warning C26494: Variable 'x' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(17): warning C26494: Variable 'x' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(50,0): Warning C6279: 'ip' is allocated with scalar new, but deleted with array delete [].
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(50): warning C6279: 'ip' is allocated with scalar new, but deleted with array delete []. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(31,0): Warning C6001: Using uninitialized memory 'a'.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(31): warning C6001: Using uninitialized memory 'a'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(36,0): Warning C6001: Using uninitialized memory 'ip'.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(36): warning C6001: Using uninitialized memory 'ip'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(30,0): Warning C26494: Variable 'a' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(30): warning C26494: Variable 'a' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(36,0): Warning C26496: Variable 'i' is assigned only once, mark it as const. (con.4: https://go.microsoft.com/fwlink/p/?LinkID=784969)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(36): warning C26496: Variable 'i' is assigned only once, mark it as const. (con.4: https://go.microsoft.com/fwlink/p/?LinkID=784969) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(34,0): Warning C26423: The allocation was not directly assigned to an owner.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(34): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(36,0): Warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 35 by 'operator delete'.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(36): warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 35 by 'operator delete'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(39,0): Warning C26423: The allocation was not directly assigned to an owner.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(39): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(41,0): Warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 40 by 'operator delete'.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(41): warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 40 by 'operator delete'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(44,0): Warning C26423: The allocation was not directly assigned to an owner.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(44): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(49,0): Warning C26423: The allocation was not directly assigned to an owner.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(49): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(51,0): Warning C26424: Failing to delete or assign ownership of allocation at line 27.
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(51): warning C26424: Failing to delete or assign ownership of allocation at line 27. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(27,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(27): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(34,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(34): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(34,0): Warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(34): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(35,0): Warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(35): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(35,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(35): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(39,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(39): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(39,0): Warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(39): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(40,0): Warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(40): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(40,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(40): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(44,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(44): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(44,0): Warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(44): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(45,0): Warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(45): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(45,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(45): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(46,0): Warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(46): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(46,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(46): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(49,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(49): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(49,0): Warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(49): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(50,0): Warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(50): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z ##[warning]source\sqcxxtestdata\component2.cc(50,0): Warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485)
+2017-12-18T17:13:13.9797522Z      7>c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(50): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:13.9797522Z        FinalizeBuildStatus:
+2017-12-18T17:13:13.9797522Z          Deleting file "Debug\SQCxxTestData.tlog\unsuccessfulbuild".
+2017-12-18T17:13:13.9797522Z          Touching "Debug\SQCxxTestData.tlog\SQCxxTestData.lastbuildstate".
+2017-12-18T17:13:13.9797522Z        UnitTestCheck:
+2017-12-18T17:13:13.9797522Z          IsUnitTest = True
+2017-12-18T17:13:13.9797522Z        SQEnvCheck:
+2017-12-18T17:13:13.9797522Z          sonar.log.level               = INFO
+2017-12-18T17:13:13.9797522Z          sonar.cxx.compiler.reportPath = C:\agent\_work\1\s\CppTesting.sln.log
+2017-12-18T17:13:13.9797522Z          sonar.cxx.compiler.parser     = Visual C++
+2017-12-18T17:13:13.9797522Z          sonar.cxx.compiler.charset    = UTF-8
+2017-12-18T17:13:13.9797522Z          sonar.cxx.compiler.regex      = ^\x20+(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20(.*)\x20\[C:\\agent\\_work\\1\\s\\Source\\SQCxxTestData\\SQCxxTestData.vcxproj\]$
+2017-12-18T17:13:13.9797522Z          sonar.cxx.cppcheck.reportPath = cppcheck-report.xml
+2017-12-18T17:13:13.9797522Z          sonar.cxx.pclint.reportPath   = pclint-report.xml
+2017-12-18T17:13:13.9797522Z          sonar.cxx.vera.reportPath     = vera-report.xml
+2017-12-18T17:13:13.9797522Z          sonar.cxx.rats.reportPath     = rats-report.xml
+2017-12-18T17:13:13.9797522Z          sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
+2017-12-18T17:13:13.9797522Z          sonar.cxx.suffixes.sources    = .cc,.cpp,.c,.cu
+2017-12-18T17:13:13.9797522Z          sonar.cxx.suffixes.headers    = .h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
+2017-12-18T17:13:13.9797522Z          sonar.cxx.forceIncludes       = sonar-defines.h
+2017-12-18T17:13:13.9797522Z          sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include
+2017-12-18T17:13:13.9797522Z        CreateProjectSpecificDirs:
+2017-12-18T17:13:13.9797522Z          Directory "C:\agent\_work\1\.sonarqube\out\SQCxxTestData_9485" doesn't exist. Skipping.
+2017-12-18T17:13:13.9797522Z          Creating directory "C:\agent\_work\1\.sonarqube\out\SQCxxTestData_9485".
+2017-12-18T17:13:13.9797522Z          Directory "C:\agent\_work\1\.sonarqube\conf\SQCxxTestData_9485" doesn't exist. Skipping.
+2017-12-18T17:13:13.9797522Z          Creating directory "C:\agent\_work\1\.sonarqube\conf\SQCxxTestData_9485".
+2017-12-18T17:13:13.9797522Z      7>Done Building Project "C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj" (default targets).
+2017-12-18T17:13:14.3860013Z      8>ClCompile:
+2017-12-18T17:13:14.3860013Z          stdafx.cpp
+2017-12-18T17:13:14.4016273Z      4>ClCompile:
+2017-12-18T17:13:14.4016273Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\MotorControllerTests.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet unittest1.cpp
+2017-12-18T17:13:14.4328773Z          unittest1.cpp
+2017-12-18T17:13:14.4485019Z      8>ClCompile:
+2017-12-18T17:13:14.4485019Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /I"C:\agent\_work\1\s\packages\vcpkg-export-20170706-185405.1.0.0\installed\x86-windows\include" /ZI /nologo /W3 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\CalculationTests.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /errorReport:queue   /analyze:quiet CalculationTest.cpp Addition_Test.cpp Multiply_Test.cpp
+2017-12-18T17:13:14.4641267Z ##[warning]tests\motorcontrollertests\unittest1.cpp(15,0): Warning C4505: 'Microsoft::VisualStudio::CppUnitTestFramework::ToString': unreferenced local function has been removed
+2017-12-18T17:13:14.4641267Z      4>c:\agent\_work\1\s\tests\motorcontrollertests\unittest1.cpp(15): warning C4505: 'Microsoft::VisualStudio::CppUnitTestFramework::ToString': unreferenced local function has been removed [C:\agent\_work\1\s\Tests\MotorControllerTests\MotorControllerTests.vcxproj]
+2017-12-18T17:13:14.4641267Z        ClCompile:
+2017-12-18T17:13:14.4641267Z          Multiply_Test.cpp
+2017-12-18T17:13:14.6047511Z      4>Link:
+2017-12-18T17:13:14.6047511Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\agent\_work\1\s\Debug\MotorControllerTests.dll" /INCREMENTAL /NOLOGO /LIBPATH:C:\agent\_work\1\s\Debug kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"C:\agent\_work\1\s\Debug\MotorControllerTests.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\agent\_work\1\s\Debug\MotorControllerTests.lib" /MACHINE:X86 /DLL Debug\stdafx.obj
+2017-12-18T17:13:14.6047511Z          Debug\unittest1.obj
+2017-12-18T17:13:14.6047511Z          C:\agent\_work\1\s\Debug\MotorController.lib
+2017-12-18T17:13:14.6360024Z             Creating library C:\agent\_work\1\s\Debug\MotorControllerTests.lib and object C:\agent\_work\1\s\Debug\MotorControllerTests.exp
+2017-12-18T17:13:14.8078773Z          MotorControllerTests.vcxproj -> C:\agent\_work\1\s\Debug\MotorControllerTests.dll
+2017-12-18T17:13:14.8547516Z        FinalizeBuildStatus:
+2017-12-18T17:13:14.8547516Z          Deleting file "Debug\MotorCon.F2B66EDC.tlog\unsuccessfulbuild".
+2017-12-18T17:13:14.8547516Z          Touching "Debug\MotorCon.F2B66EDC.tlog\MotorControllerTests.lastbuildstate".
+2017-12-18T17:13:14.8547516Z        CreateProjectSpecificDirs:
+2017-12-18T17:13:14.8547516Z          Directory "C:\agent\_work\1\.sonarqube\out\MotorControllerTests_8547" doesn't exist. Skipping.
+2017-12-18T17:13:14.8547516Z          Creating directory "C:\agent\_work\1\.sonarqube\out\MotorControllerTests_8547".
+2017-12-18T17:13:14.8547516Z          Directory "C:\agent\_work\1\.sonarqube\conf\MotorControllerTests_8547" doesn't exist. Skipping.
+2017-12-18T17:13:14.8547516Z          Creating directory "C:\agent\_work\1\.sonarqube\conf\MotorControllerTests_8547".
+2017-12-18T17:13:14.8547516Z      4>Done Building Project "C:\agent\_work\1\s\Tests\MotorControllerTests\MotorControllerTests.vcxproj" (default targets).
+2017-12-18T17:13:14.9485024Z      6>ClCompile:
+2017-12-18T17:13:14.9485024Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\CL.exe /c /ZI /nologo /W4 /WX- /diagnostics:classic /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Debug\RootFinderTests.pch" /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\localespc.dll" /FC /errorReport:queue   /analyze:quiet unittest1.cpp
+2017-12-18T17:13:14.9797509Z          unittest1.cpp
+2017-12-18T17:13:14.9797509Z ##[warning]tests\rootfindertests\unittest1.cpp(35,0): Warning C4238: nonstandard extension used: class rvalue used as lvalue
+2017-12-18T17:13:14.9797509Z      6>c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(35): warning C4238: nonstandard extension used: class rvalue used as lvalue [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
+2017-12-18T17:13:14.9953765Z ##[warning]tests\rootfindertests\unittest1.cpp(60,0): Warning C4238: nonstandard extension used: class rvalue used as lvalue
+2017-12-18T17:13:14.9953765Z      6>c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(60): warning C4238: nonstandard extension used: class rvalue used as lvalue [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
+2017-12-18T17:13:14.9953765Z ##[warning]tests\rootfindertests\unittest1.cpp(69,0): Warning C4238: nonstandard extension used: class rvalue used as lvalue
+2017-12-18T17:13:14.9953765Z      6>c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(69): warning C4238: nonstandard extension used: class rvalue used as lvalue [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
+2017-12-18T17:13:14.9953765Z ##[warning]tests\rootfindertests\unittest1.cpp(57,0): Warning C4189: 'result': local variable is initialized but not referenced
+2017-12-18T17:13:14.9953765Z      6>c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(57): warning C4189: 'result': local variable is initialized but not referenced [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
+2017-12-18T17:13:15.1828799Z        Link:
+2017-12-18T17:13:15.1828799Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\agent\_work\1\s\Debug\RootFinderTests.dll" /INCREMENTAL /NOLOGO /LIBPATH:C:\agent\_work\1\s\Debug kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"C:\agent\_work\1\s\Debug\RootFinderTests.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\agent\_work\1\s\Debug\RootFinderTests.lib" /MACHINE:X86 /DLL Debug\stdafx.obj
+2017-12-18T17:13:15.1828799Z          Debug\unittest1.obj
+2017-12-18T17:13:15.1828799Z          C:\agent\_work\1\s\Debug\RootFinder.lib
+2017-12-18T17:13:15.2297585Z             Creating library C:\agent\_work\1\s\Debug\RootFinderTests.lib and object C:\agent\_work\1\s\Debug\RootFinderTests.exp
+2017-12-18T17:13:15.4485075Z          RootFinderTests.vcxproj -> C:\agent\_work\1\s\Debug\RootFinderTests.dll
+2017-12-18T17:13:15.4953786Z        FinalizeBuildStatus:
+2017-12-18T17:13:15.4953786Z          Deleting file "Debug\RootFinderTests.tlog\unsuccessfulbuild".
+2017-12-18T17:13:15.4953786Z          Touching "Debug\RootFinderTests.tlog\RootFinderTests.lastbuildstate".
+2017-12-18T17:13:15.4953786Z        CreateProjectSpecificDirs:
+2017-12-18T17:13:15.4953786Z          Directory "C:\agent\_work\1\.sonarqube\out\RootFinderTests_4953" doesn't exist. Skipping.
+2017-12-18T17:13:15.4953786Z          Creating directory "C:\agent\_work\1\.sonarqube\out\RootFinderTests_4953".
+2017-12-18T17:13:15.4953786Z          Directory "C:\agent\_work\1\.sonarqube\conf\RootFinderTests_4953" doesn't exist. Skipping.
+2017-12-18T17:13:15.4953786Z          Creating directory "C:\agent\_work\1\.sonarqube\conf\RootFinderTests_4953".
+2017-12-18T17:13:15.4953786Z      6>Done Building Project "C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj" (default targets).
+2017-12-18T17:13:15.6516279Z      8>ClCompile:
+2017-12-18T17:13:15.6516279Z          Addition_Test.cpp
+2017-12-18T17:13:17.1516325Z          CalculationTest.cpp
+2017-12-18T17:13:18.6985038Z          Compiling...
+2017-12-18T17:13:32.8445518Z          Generating Code...
+2017-12-18T17:13:33.0347017Z        Link:
+2017-12-18T17:13:33.0503484Z          C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.11.25503\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\agent\_work\1\s\Debug\CalculationTests.exe" /INCREMENTAL /NOLOGO Calculation.lib gtest.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"C:\agent\_work\1\s\Debug\CalculationTests.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\agent\_work\1\s\Debug\CalculationTests.lib" /MACHINE:X86 Debug\CalculationTest.obj
+2017-12-18T17:13:33.0503484Z          Debug\Addition_Test.obj
+2017-12-18T17:13:33.0503484Z          Debug\Multiply_Test.obj
+2017-12-18T17:13:33.0503484Z          Debug\stdafx.obj
+2017-12-18T17:13:33.0503484Z          C:\agent\_work\1\s\Debug\Calculation.lib
+2017-12-18T17:13:33.3396022Z          CalculationTests.vcxproj -> C:\agent\_work\1\s\Debug\CalculationTests.exe
+2017-12-18T17:13:33.4020992Z        FinalizeBuildStatus:
+2017-12-18T17:13:33.4020992Z          Deleting file "Debug\CalculationTests.tlog\unsuccessfulbuild".
+2017-12-18T17:13:33.4020992Z          Touching "Debug\CalculationTests.tlog\CalculationTests.lastbuildstate".
+2017-12-18T17:13:33.4020992Z        CreateProjectSpecificDirs:
+2017-12-18T17:13:33.4020992Z          Directory "C:\agent\_work\1\.sonarqube\out\CalculationTests_4020" doesn't exist. Skipping.
+2017-12-18T17:13:33.4020992Z          Creating directory "C:\agent\_work\1\.sonarqube\out\CalculationTests_4020".
+2017-12-18T17:13:33.4020992Z          Directory "C:\agent\_work\1\.sonarqube\conf\CalculationTests_4020" doesn't exist. Skipping.
+2017-12-18T17:13:33.4020992Z          Creating directory "C:\agent\_work\1\.sonarqube\conf\CalculationTests_4020".
+2017-12-18T17:13:33.4020992Z      8>Done Building Project "C:\agent\_work\1\s\Tests\CalculationTests\CalculationTests.vcxproj" (default targets).
+2017-12-18T17:13:33.4177256Z      1>Done Building Project "C:\agent\_work\1\s\CppTesting.sln" (default targets).
+2017-12-18T17:13:33.4177256Z 
+2017-12-18T17:13:33.4177256Z Build succeeded.
+2017-12-18T17:13:33.4177256Z 
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj" (default target) (7) ->
+2017-12-18T17:13:33.4333520Z        (ClCompile target) -> 
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(17): warning C4101: 'x': unreferenced local variable [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(36): warning C4189: 'i': local variable is initialized but not referenced [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(18): warning C4101: 'x': unreferenced local variable [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(37): warning C4189: 'i': local variable is initialized but not referenced [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(31): warning C4700: uninitialized local variable 'a' used [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(32): warning C4700: uninitialized local variable 'a' used [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj" (default target) (3) ->
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\motorcontroller\dllmain.cpp(7): warning C4100: 'lpReserved': unreferenced formal parameter [C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\motorcontroller\dllmain.cpp(4): warning C4100: 'hModule': unreferenced formal parameter [C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj]
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\RootFinder\RootFinder.vcxproj" (default target) (2) ->
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\rootfinder\dllmain.cpp(7): warning C4100: 'lpReserved': unreferenced formal parameter [C:\agent\_work\1\s\Source\RootFinder\RootFinder.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\rootfinder\dllmain.cpp(4): warning C4100: 'hModule': unreferenced formal parameter [C:\agent\_work\1\s\Source\RootFinder\RootFinder.vcxproj]
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\Calculation\Calculation.vcxproj" (default target) (5) ->
+2017-12-18T17:13:33.4333520Z        (RunNativeCodeAnalysis target) -> 
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\calculation\addition.cpp(11): warning C26497: This function CAddition::twoValues could be marked constexpr if compile-time evaluation is desired. (f.4: https://go.microsoft.com/fwlink/p/?LinkID=784970) [C:\agent\_work\1\s\Source\Calculation\Calculation.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\calculation\multiply.cpp(11): warning C26497: This function CMultiply::twoValues could be marked constexpr if compile-time evaluation is desired. (f.4: https://go.microsoft.com/fwlink/p/?LinkID=784970) [C:\agent\_work\1\s\Source\Calculation\Calculation.vcxproj]
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj" (default target) (3) ->
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\motorcontroller\motorcontroller.cpp(63): warning C26498: This function call factorial can use constexpr if compile-time evaluation is desired. (con.5: https://go.microsoft.com/fwlink/p/?LinkID=784974) [C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj]
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj" (default target) (7) ->
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(18): warning C26494: Variable 'x' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(51): warning C6279: 'ip' is allocated with scalar new, but deleted with array delete []. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(37): warning C6001: Using uninitialized memory 'ip'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(32): warning C6001: Using uninitialized memory 'a'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(28): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(35): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(35): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(36): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(36): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(40): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(40): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(41): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(41): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(45): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(45): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(46): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(46): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(47): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(47): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(50): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(50): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(51): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(51): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(31): warning C26494: Variable 'a' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(37): warning C26496: Variable 'i' is assigned only once, mark it as const. (con.4: https://go.microsoft.com/fwlink/p/?LinkID=784969) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(35): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(37): warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 36 by 'operator delete'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(40): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(42): warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 41 by 'operator delete'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(45): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(50): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(52): warning C26424: Failing to delete or assign ownership of allocation at line 28. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(17): warning C26494: Variable 'x' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(50): warning C6279: 'ip' is allocated with scalar new, but deleted with array delete []. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(31): warning C6001: Using uninitialized memory 'a'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(36): warning C6001: Using uninitialized memory 'ip'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(30): warning C26494: Variable 'a' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(36): warning C26496: Variable 'i' is assigned only once, mark it as const. (con.4: https://go.microsoft.com/fwlink/p/?LinkID=784969) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(34): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(36): warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 35 by 'operator delete'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(39): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(41): warning C26412: Do not dereference an invalid pointer (lifetimes rule 1). 'ip' was invalidated at line 40 by 'operator delete'. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(44): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(49): warning C26423: The allocation was not directly assigned to an owner. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(51): warning C26424: Failing to delete or assign ownership of allocation at line 27. [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(27): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(34): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(34): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(35): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(35): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(39): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(39): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(40): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(40): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(44): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(44): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(45): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(45): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(46): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(46): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(49): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(49): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(50): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(50): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Tests\MotorControllerTests\MotorControllerTests.vcxproj" (default target) (4) ->
+2017-12-18T17:13:33.4333520Z        (ClCompile target) -> 
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\tests\motorcontrollertests\unittest1.cpp(15): warning C4505: 'Microsoft::VisualStudio::CppUnitTestFramework::ToString': unreferenced local function has been removed [C:\agent\_work\1\s\Tests\MotorControllerTests\MotorControllerTests.vcxproj]
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
+2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj" (default target) (6) ->
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(35): warning C4238: nonstandard extension used: class rvalue used as lvalue [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(60): warning C4238: nonstandard extension used: class rvalue used as lvalue [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(69): warning C4238: nonstandard extension used: class rvalue used as lvalue [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
+2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(57): warning C4189: 'result': local variable is initialized but not referenced [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z     82 Warning(s)
+2017-12-18T17:13:33.4333520Z     0 Error(s)
+2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z Time Elapsed 00:00:29.37
+2017-12-18T17:13:33.5271006Z ##[section]Finishing: Build solution CppTesting.sln

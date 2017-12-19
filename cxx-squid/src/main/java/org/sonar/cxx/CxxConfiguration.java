@@ -271,41 +271,34 @@ public class CxxConfiguration extends SquidConfiguration {
     String fileFormat,
     String charsetName) {
 
-    if (reports == null) {
+    if (reports == null || reports.isEmpty()) {
       return;
     }
 
     for (File buildLog : reports) {
       if (buildLog.exists()) {
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Parse build log  file '{}'", buildLog.getAbsolutePath());
-        }
         if ("Visual C++".equals(fileFormat)) {
           cxxVCppParser.parseVCppLog(buildLog, baseDir, charsetName);
+          LOG.info("Parse build log '"+ buildLog.getAbsolutePath()
+                +"' added includes: '" + uniqueIncludes.size()
+                +"', added defines: '" + uniqueDefines.size() + "'");
           if (LOG.isDebugEnabled()) {
-            LOG.info("Parse build log '"+ buildLog.getAbsolutePath()
-                  +"' added includes: '" + uniqueIncludes.size()
-                  +"', added defines: '" + uniqueDefines.size() + "'");
-          }
-        }
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("Parse build log OK");
-          for (List<String> allIncludes : uniqueIncludes.values()) {
-            if (!allIncludes.isEmpty()) {
-              LOG.debug("Includes folders ({})='{}'", allIncludes.size(), allIncludes);
+            for (List<String> allIncludes : uniqueIncludes.values()) {
+              if (!allIncludes.isEmpty()) {
+                LOG.debug("Includes folders ({})='{}'", allIncludes.size(), allIncludes);
+              }
             }
-          }
-          for (Set<String> allDefines : uniqueDefines.values()) {
-            if (!allDefines.isEmpty()) {
-              LOG.debug("Defines ({})='{}'", allDefines.size(), allDefines);
+            for (Set<String> allDefines : uniqueDefines.values()) {
+              if (!allDefines.isEmpty()) {
+                LOG.debug("Defines ({})='{}'", allDefines.size(), allDefines);
+              }
             }
           }
         }
       } else {
-        LOG.error("Compilation log not found: '{}'", buildLog.getAbsolutePath());
+        LOG.error("Compilation log file not found: '{}'", buildLog.getAbsolutePath());
       }
     }
-
   }
 
   public Charset getEncoding() {
