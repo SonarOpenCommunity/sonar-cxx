@@ -58,28 +58,30 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       .isEqualTo("array [ 10 ] ; EOF");
   }
 
-//  @Test
-//  public void hashhash_related_parsing_problem1() {
-//    assertThat(p.parse(
-//      "#define CASE(n) case 0x##n:\n"
-//      + "#define CASES CASE(00)\n"
-//      + "void foo()  {\n"
-//      + "switch (1) {\n"
-//      + "CASES\n"
-//      + "break;\n"
-//      + "}\n"
-//      + "}\n"))
-//      .isEqualTo("");
-//  }
+  @Test
+  public void hashhash_related_parsing_problem1() {
+    assertThat(serialize(p.parse(
+      "#define CASES CASE(00)\n"
+      + "#define CASE(n) case 0x##n:\n"
+      + "void foo()  {\n"
+      + "switch (1) {\n"
+      + "CASES\n"
+      + "break;\n"
+      + "}\n"
+      + "}\n")))
+      .isEqualTo("void foo ( ) { switch ( 1 ) { case 0x00 : break ; } } EOF");
+  }
 
-//  @Test
-//  public void hashhash_related_parsing_problem2() {
-//    assertThat(p.parse(
-//      "#define paster( n ) printf_s( \"token\" #n \" = %d\", token##n )\n"
-//      +"int token9 = 9;"
-//      +"paster( 9 );"))  
-//      .isEqualTo("printf_s ( \"token\" \"9\" \" = %d\" , token9 )");
-//  }
+  @Test
+  public void hashhash_related_parsing_problem2() {
+    assertThat(serialize(p.parse(
+      "#define paster( n ) printf_s( \"token\" #n \" = %d\", token##n )\n"
+      + "int token9 = 9;"
+      + "int main() { \n"
+      + "paster( 9 );\n"
+      + "}\n")))
+      .isEqualTo("int token9 = 9 ; int main ( ) { printf_s ( \"token9 = %d\" , token9 ) ; } EOF");
+  }
 
   @Test
   public void object_like_macros() {
