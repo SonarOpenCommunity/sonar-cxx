@@ -27,7 +27,7 @@ import org.junit.Test;
  *
  * @author jmecosta
  */
-public class BalancedTokensTest extends ParserBaseTest {
+public class BalancedTokensTest extends ParserBaseTestHelper {
 
   @Test
   public void attributeSpecifierSeq() {

@@ -23,7 +23,7 @@ import static org.sonar.sslr.tests.Assertions.assertThat;
 
 import org.junit.Test;
 
-public class AttributeTest extends ParserBaseTest {
+public class AttributeTest extends ParserBaseTestHelper {
 
   @Test
   public void classSpecifier_reallife() {

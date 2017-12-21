@@ -23,7 +23,7 @@ import static org.sonar.sslr.tests.Assertions.assertThat;
 
 import org.junit.Test;
 
-public class DeclaratorsTest extends ParserBaseTest {
+public class DeclaratorsTest extends ParserBaseTestHelper {
 
   @Test
   public void initDeclaratorList() {

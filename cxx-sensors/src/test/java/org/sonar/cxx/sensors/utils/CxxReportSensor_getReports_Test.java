@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
@@ -110,8 +110,7 @@ public class CxxReportSensor_getReports_Test {
 
     Set<File> realSet = new TreeSet<>(real);
     Set<File> expectedSet = new TreeSet<>(expectedFiles);
-
-    assertEquals("Failed for pattern: " + pattern, expectedSet, realSet);
+    assertThat(realSet).describedAs("Failed for pattern: {}", pattern).isEqualTo(expectedSet);
   }
 
   @Test
@@ -122,7 +121,7 @@ public class CxxReportSensor_getReports_Test {
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
-    assertEquals(1, reports.size());
+    assertThat(reports.size()).isEqualTo(1);
   }
 
   @Test
@@ -133,7 +132,7 @@ public class CxxReportSensor_getReports_Test {
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
-    assertEquals(1, reports.size());
+    assertThat(reports.size()).isEqualTo(1);
   }
 
   @Test
@@ -144,7 +143,7 @@ public class CxxReportSensor_getReports_Test {
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
-    assertEquals(2, reports.size());
+    assertThat(reports.size()).isEqualTo(2);
   }
 
   @Test
@@ -158,7 +157,7 @@ public class CxxReportSensor_getReports_Test {
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + "," + relativeReport);
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
-    assertEquals(2, reports.size());
+    assertThat(reports.size()).isEqualTo(2);
   }
 
   @Test
@@ -177,7 +176,7 @@ public class CxxReportSensor_getReports_Test {
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",**/*.xml");
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
-    assertEquals(7, reports.size());
+    assertThat(reports.size()).isEqualTo(7);
   }
 
   @Test
@@ -195,7 +194,7 @@ public class CxxReportSensor_getReports_Test {
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",path/**/*.xml");
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
-    assertEquals(6, reports.size());
+    assertThat(reports.size()).isEqualTo(6);
   }
 
   @Test
@@ -208,7 +207,7 @@ public class CxxReportSensor_getReports_Test {
     settings.setProperty(REPORT_PATH_KEY, "../" + base.getRoot().getName() + "/path/**/*.xml");
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
-    assertEquals(4, reports.size());
+    assertThat(reports.size()).isEqualTo(4);
   }
 
   @Test
@@ -222,6 +221,6 @@ public class CxxReportSensor_getReports_Test {
         "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../*.xml");
     
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
-    assertEquals(0, reports.size());
+    assertThat(reports.size()).isEqualTo(0);
   }
 }

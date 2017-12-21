@@ -37,7 +37,7 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 import com.sonar.sslr.api.Grammar;
 
-public class CxxParserTest extends ParserBaseTest {
+public class CxxParserTest extends ParserBaseTestHelper {
 
   String errSources = "/parser/bad/error_recovery_declaration.cc";
   String[] goodFiles = {"own", "VC", "cli", "cuda", "examples"};

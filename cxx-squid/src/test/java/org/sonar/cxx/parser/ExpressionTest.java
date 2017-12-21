@@ -23,7 +23,7 @@ import static org.sonar.sslr.tests.Assertions.assertThat;
 
 import org.junit.Test;
 
-public class ExpressionTest extends ParserBaseTest {
+public class ExpressionTest extends ParserBaseTestHelper {
 
   @Test
   public void primaryExpression() {

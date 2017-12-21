@@ -22,13 +22,8 @@ package org.sonar.cxx.sensors.coverage;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
@@ -41,7 +36,6 @@ public class CxxMSCoverageSensorTest {
   private DefaultFileSystem fs;
   private SensorContextTester context;
   private CxxLanguage language;
-  private Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
   private MapSettings settings = new MapSettings();
 
   @Before

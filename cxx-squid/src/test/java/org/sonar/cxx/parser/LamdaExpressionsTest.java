@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * @author jmecosta
  */
-public class LamdaExpressionsTest extends ParserBaseTest {
+public class LamdaExpressionsTest extends ParserBaseTestHelper {
 
   @Test
   public void lambdaExpression() {
