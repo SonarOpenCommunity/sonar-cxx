@@ -90,7 +90,6 @@ public class CxxSquidSensor implements Sensor {
   private final FileLinesContextFactory fileLinesContextFactory;
   private final CxxChecks checks;
 
-  private AstScanner<Grammar> scanner;
   private final CxxLanguage language;
     
   /**
@@ -143,7 +142,7 @@ public class CxxSquidSensor implements Sensor {
                     this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
     
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
-    this.scanner = CxxAstScanner.create(this.language, cxxConf, context,
+    AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf, context,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
     List<File> files;
@@ -181,9 +180,12 @@ public class CxxSquidSensor implements Sensor {
     cxxConf.setForceIncludeFiles(this.language.getStringArrayOption(FORCE_INCLUDE_FILES_KEY));
     cxxConf.setCFilesPatterns(this.language.getStringArrayOption(C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(this.language.getStringArrayOption(HEADER_FILE_SUFFIXES_KEY));
-    cxxConf.setMissingIncludeWarningsEnabled(this.language.getBooleanOption(MISSING_INCLUDE_WARN).orElse(Boolean.FALSE));
-    cxxConf.setJsonCompilationDatabaseFile(this.language.getStringOption(JSON_COMPILATION_DATABASE_KEY).orElse(null));
-    cxxConf.setScanOnlySpecifiedSources(this.language.getBooleanOption(SCAN_ONLY_SPECIFIED_SOURCES_KEY).orElse(Boolean.FALSE));
+    cxxConf.setMissingIncludeWarningsEnabled(this.language.getBooleanOption(MISSING_INCLUDE_WARN)
+                                                          .orElse(Boolean.FALSE));
+    cxxConf.setJsonCompilationDatabaseFile(this.language.getStringOption(JSON_COMPILATION_DATABASE_KEY)
+                                                        .orElse(null));
+    cxxConf.setScanOnlySpecifiedSources(this.language.getBooleanOption(SCAN_ONLY_SPECIFIED_SOURCES_KEY)
+                                                     .orElse(Boolean.FALSE));
 
     if (cxxConf.getJsonCompilationDatabaseFile() != null) {
       try {
