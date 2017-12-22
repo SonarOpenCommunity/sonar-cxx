@@ -44,6 +44,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import org.sonar.api.config.Configuration;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -57,6 +59,7 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   private static final String DEFINES_PROPERTY_KEY = "sonar.cxx.defines";
   private static final String INCLUDE_DIRECTORIES_PROPERTY_KEY = "sonar.cxx.includeDirectories";
   private static final String FORCE_INCLUDES_PROPERTY_KEY = "sonar.cxx.forceIncludes";
+  private final MapSettings settings = new MapSettings();
 
   @VisibleForTesting
   ConfigurationProperty charsetProperty = new ConfigurationProperty("Charset", CHARSET_PROPERTY_KEY,
@@ -97,7 +100,7 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   public Parser<? extends Grammar> doGetParser() {
     SquidAstVisitorContext<Grammar> context
       = new SquidAstVisitorContextImpl<>(new SourceProject(""));
-    CppLanguage language = new CppLanguage();
+    CppLanguage language = new CppLanguage(settings.asConfig());
     return CxxParser.create(context, getConfiguration(language), language);
   }
 
