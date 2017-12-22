@@ -23,7 +23,7 @@ import static org.sonar.sslr.tests.Assertions.assertThat;
 
 import org.junit.Test;
 
-public class FileInputTest extends ParserBaseTest {
+public class FileInputTest extends ParserBaseTestHelper {
 
   @Test
   public void translationUnit() {

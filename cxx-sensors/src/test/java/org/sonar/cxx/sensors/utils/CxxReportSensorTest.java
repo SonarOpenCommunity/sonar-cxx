@@ -130,42 +130,5 @@ public class CxxReportSensorTest {
     assertThat(reports.size() == 5).isTrue();
   }
 
-  @Test
-  public void savesACorrectLineLevelViolation() {
-    // assert(sensor.saveViolation(??, ??, rulerepokey, "existingfile",
-    //                             "1", "existingruleid", "somemessage"))
-  }
-
-  @Test
-  public void savesACorrectFileLevelViolation() {
-    //TDB
-  }
-
-  @Test
-  public void savesACorrectProjectLevelViolation() {
-    //TDB
-  }
-
-  ///// negative test cases for saveViolation ////////////
-  @Test
-  public void savesOnProjectLevelIfFilenameIsEmpty() {
-    //TDB
-  }
-
-  @Test
-  public void doesNotSaveIfLineNumberCannotBeParsed() {
-    //TDB
-  }
-
-  @Test
-  public void doesNotSaveIfRuleCannotBeFound() {
-    //TDB
-  }
-
-  @Test
-  public void doesNotSaveIfResourceCannotBeFoundInSonar() {
-    //TDB
-  }
-
 }
 

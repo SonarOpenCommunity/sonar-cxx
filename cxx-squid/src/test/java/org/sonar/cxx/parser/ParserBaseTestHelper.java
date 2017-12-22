@@ -29,13 +29,13 @@ import com.sonar.sslr.impl.Parser;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 
-public class ParserBaseTest {
+public class ParserBaseTestHelper {
 
   protected CxxConfiguration conf = null;
   protected Parser<Grammar> p = null;
   protected Grammar g = null;
 
-  public ParserBaseTest() {
+  public ParserBaseTestHelper() {
     conf = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     conf.setErrorRecoveryEnabled(false);
     p = CxxParser.create(mock(SquidAstVisitorContext.class), conf, CxxFileTesterHelper.mockCxxLanguage());
@@ -43,6 +43,6 @@ public class ParserBaseTest {
   }
   
   void mockRule(GrammarRuleKey key) {
-    g.rule(key).mock(); //@todo deprecated mock
+    g.rule(key).mock(); //@ToDo deprecated mock
   }
 }

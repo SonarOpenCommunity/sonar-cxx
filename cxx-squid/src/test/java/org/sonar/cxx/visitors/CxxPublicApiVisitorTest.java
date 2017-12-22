@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.visitors;
 
+import static org.assertj.core.groups.Tuple.tuple;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import org.assertj.core.groups.Tuple;
 import org.fest.assertions.Fail;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -38,6 +40,7 @@ import org.sonar.cxx.visitors.CxxPublicApiVisitor.PublicApiHandler;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
+import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.CxxAstScanner;
 
 import com.sonar.sslr.api.AstNode;
@@ -67,8 +70,8 @@ public class CxxPublicApiVisitorTest {
    * are counted..
    */
   @SuppressWarnings("unchecked")
-  private void testFile(String fileName, int expectedApi, int expectedUndoc,
-    boolean checkDouble) throws UnsupportedEncodingException, IOException {
+  private Tuple testFile(String fileName,boolean checkDouble) 
+                                 throws UnsupportedEncodingException, IOException {
 
     CxxPublicApiVisitor<Grammar> visitor = new CxxPublicApiVisitor<>(
       CxxMetric.PUBLIC_API, CxxMetric.PUBLIC_UNDOCUMENTED_API);
@@ -102,9 +105,7 @@ public class CxxPublicApiVisitorTest {
         file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
     }
 
-    assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(expectedApi);
-    assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(
-      expectedUndoc);
+    return (new Tuple (file.getInt(CxxMetric.PUBLIC_API),file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)));
   }
 
   @SuppressWarnings("unchecked")
@@ -122,37 +123,38 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void doxygen_example() throws IOException {
-    testFile("src/test/resources/metrics/doxygen_example.h", 13, 0, false);
+    assertThat(testFile("src/test/resources/metrics/doxygen_example.h", false)).isEqualTo(tuple(13,0));
   }
 
   @Test
   public void to_delete() throws IOException {
-    testFile("src/test/resources/metrics/public_api.h", 43, 0, true);
+    assertThat(testFile("src/test/resources/metrics/public_api.h", true)).isEqualTo(tuple(43,0));
+
   }
 
   @Test
   public void no_doc() throws IOException {
-    testFile("src/test/resources/metrics/no_doc.h", 22, 22, true);
+    assertThat(testFile("src/test/resources/metrics/no_doc.h", true)).isEqualTo(tuple(22,22));
   }
 
   @Test
   public void template() throws IOException {
-    testFile("src/test/resources/metrics/template.h", 14, 4, false);
+    assertThat(testFile("src/test/resources/metrics/template.h", false)).isEqualTo(tuple(14,4));
   }
 
   @Test
   public void alias_function_template() throws IOException {
-    testFile("src/test/resources/metrics/alias_in_template_func.h", 4, 3, false);
+    assertThat(testFile("src/test/resources/metrics/alias_in_template_func.h", false)).isEqualTo(tuple(4,3));
   }
 
   @Test
   public void unnamed_class() throws IOException {
-    testFile("src/test/resources/metrics/unnamed_class.h", 3, 1, false);
+    assertThat(testFile("src/test/resources/metrics/unnamed_class.h", false)).isEqualTo(tuple(3,1));
   }
 
   @Test
   public void unnamed_enum() throws IOException {
-    testFile("src/test/resources/metrics/unnamed_enum.h", 1, 1, false);
+    assertThat(testFile("src/test/resources/metrics/unnamed_enum.h", false)).isEqualTo(tuple(1,1));
   }
 
   @SuppressWarnings("unchecked")

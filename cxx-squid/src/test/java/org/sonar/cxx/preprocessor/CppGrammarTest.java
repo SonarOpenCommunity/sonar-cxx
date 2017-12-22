@@ -95,7 +95,7 @@ public class CppGrammarTest {
   @Test
   public void define_containing_argumentList() {
     AstNode define = p.parse("#define lala(a, b) a b");
-    assert (define.findFirstChild(CppGrammar.parameterList) != null); //@todo deprecated findFirstChild
+    org.assertj.core.api.Assertions.assertThat(define.getDescendants(CppGrammar.parameterList)).isNotNull();
   }
 
   @Test

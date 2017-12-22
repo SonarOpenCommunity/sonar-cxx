@@ -23,7 +23,7 @@ import static org.sonar.sslr.tests.Assertions.assertThat;
 
 import org.junit.Test;
 
-public class AttributedAtlTest extends ParserBaseTest {
+public class AttributedAtlTest extends ParserBaseTestHelper {
 
   @Test
   public void vcAtlDeclaration() {
