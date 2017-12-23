@@ -35,7 +35,7 @@ import org.sonar.cxx.CxxFileTesterHelper;
 
 public class CppLexerTest {
 
-  private final static Lexer lexer = CppLexer.create(CxxFileTesterHelper.mockCxxLanguage());
+  private final static Lexer lexer = CppLexer.create();
 
   @Test
   public void cpp_keywords() {

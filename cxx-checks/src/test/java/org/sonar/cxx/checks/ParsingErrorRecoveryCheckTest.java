@@ -31,7 +31,7 @@ public class ParsingErrorRecoveryCheckTest {
 
   @Test
   public void test_syntax_error_recovery() throws UnsupportedEncodingException, IOException {
-    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(true);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError3.cc", ".");       
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, config, new ParsingErrorRecoveryCheck()); 

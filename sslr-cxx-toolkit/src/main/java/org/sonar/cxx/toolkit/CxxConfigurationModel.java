@@ -116,7 +116,7 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
 
   @VisibleForTesting
   CxxConfiguration getConfiguration(CxxLanguage language) {
-    CxxConfiguration config = new CxxConfiguration(getCharset(), language);
+    CxxConfiguration config = new CxxConfiguration(getCharset());
     config.setErrorRecoveryEnabled("true".equals(errorRecoveryEnabled.getValue()));
     config.setDefines(getStringLines(defines.getValue()));
     config.setIncludeDirectories(getStringArray(includeDirectories.getValue()));

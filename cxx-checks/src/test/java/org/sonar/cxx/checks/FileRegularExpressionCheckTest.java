@@ -48,7 +48,7 @@ public class FileRegularExpressionCheckTest {
   public void fileRegExInvertWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.regularExpression = "stdafx\\.h";
     check.invertRegularExpression = true;
     check.message = "Found no 'stdafx.h' in file!";
@@ -65,7 +65,7 @@ public class FileRegularExpressionCheckTest {
   public void fileRegExCodingErrorActionReplace() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("US-ASCII");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
 
@@ -81,7 +81,7 @@ public class FileRegularExpressionCheckTest {
   public void fileRegExWithFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in a .cc file!";
@@ -98,7 +98,7 @@ public class FileRegularExpressionCheckTest {
   public void fileRegExInvertWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.matchFilePattern = "/**/*.h"; // all files with not .h file extension
     check.invertFilePattern = true;
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";

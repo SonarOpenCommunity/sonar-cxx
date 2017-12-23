@@ -51,8 +51,8 @@ public final class CppLexer {
   private CppLexer() {
   }
 
-  public static Lexer create(CxxLanguage language) {
-    return create(new CxxConfiguration(language));
+  public static Lexer create() {
+    return create(new CxxConfiguration());
   }
 
   public static Lexer create(CxxConfiguration conf) {

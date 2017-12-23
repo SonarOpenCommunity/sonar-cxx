@@ -237,7 +237,7 @@ public class CxxPreprocessor extends Preprocessor {
   private final Deque<State> globalStateStack = new LinkedList<>();
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context, CxxLanguage language) {
-    this(context, new CxxConfiguration(language), language);    
+    this(context, new CxxConfiguration(), language);    
   }
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf, CxxLanguage language) {
@@ -700,7 +700,7 @@ public class CxxPreprocessor extends Preprocessor {
       currentFileState = new State(includedFile);
 
       try {
-        IncludeLexer.create(this.language, this).lex(getCodeProvider().getSourceCode(includedFile, charset));
+        IncludeLexer.create(this).lex(getCodeProvider().getSourceCode(includedFile, charset));
       } catch (IOException ex) {
         LOG.error("[{}: Cannot read file]: {}", includedFile.getAbsoluteFile(), ex);
       } finally {
@@ -838,7 +838,7 @@ public class CxxPreprocessor extends Preprocessor {
     List<Token> tokens = null;
     getMacros().disable(macroName);
     try {
-      tokens = stripEOF(CxxLexer.create(this.language, this).lex(macroExpression));
+      tokens = stripEOF(CxxLexer.create(this).lex(macroExpression));
     } finally {
       getMacros().enable(macroName);
     }
@@ -1263,7 +1263,7 @@ public class CxxPreprocessor extends Preprocessor {
     } else if ((node = ast.getFirstDescendant(CppGrammar.includeBodyFreeform)) != null) {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
-      String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this.language, this).lex(includeBody)), "");
+      String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
       if (LOG.isTraceEnabled()) {
         LOG.trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'", 
                   includeBody, expandedIncludeBody);

@@ -32,7 +32,7 @@ import org.sonar.sslr.grammar.GrammarRuleKey;
 public class CppGrammarTest {
 
   private final Parser<Grammar> p = Parser.builder(CppGrammar.create())
-    .withLexer(CppLexer.create(CxxFileTesterHelper.mockCxxLanguage()))
+    .withLexer(CppLexer.create())
     .build();
   private final Grammar g = p.getGrammar();
 

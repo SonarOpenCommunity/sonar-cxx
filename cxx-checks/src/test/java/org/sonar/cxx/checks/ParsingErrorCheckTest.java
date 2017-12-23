@@ -33,7 +33,7 @@ public class ParsingErrorCheckTest {
 
   @Test
   public void test_syntax_error_recognition() throws UnsupportedEncodingException, IOException {
-    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(false);
         
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError1.cc", ".");
@@ -46,7 +46,7 @@ public class ParsingErrorCheckTest {
 
   @Test
   public void test_syntax_error_pperror() throws UnsupportedEncodingException, IOException {
-    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(false);
         
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError2.cc", ".");

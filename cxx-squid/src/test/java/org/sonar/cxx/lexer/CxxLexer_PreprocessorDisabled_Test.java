@@ -36,7 +36,7 @@ public class CxxLexer_PreprocessorDisabled_Test {
 
   @BeforeClass
   public static void init() {
-    lexer = CxxLexer.create(CxxFileTesterHelper.mockCxxLanguage());
+    lexer = CxxLexer.create();
   }
 
   @Test

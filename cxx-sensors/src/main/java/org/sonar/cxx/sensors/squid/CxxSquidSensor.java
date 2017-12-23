@@ -171,7 +171,7 @@ public class CxxSquidSensor implements Sensor {
   }
 
   private CxxConfiguration createConfiguration(FileSystem fs, SensorContext context) {
-    CxxConfiguration cxxConf = new CxxConfiguration(fs, this.language);
+    CxxConfiguration cxxConf = new CxxConfiguration(fs);
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = this.language.getStringLinesOption(DEFINES_KEY);
     cxxConf.setDefines(lines);

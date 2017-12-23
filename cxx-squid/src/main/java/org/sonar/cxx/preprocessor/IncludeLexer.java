@@ -35,8 +35,8 @@ public final class IncludeLexer {
   private IncludeLexer() {
   }
 
-  public static Lexer create(CxxLanguage language, Preprocessor... preprocessors) { //@todo deprecated Preprocessor
-    return create(new CxxConfiguration(language), preprocessors);
+  public static Lexer create(Preprocessor... preprocessors) { //@todo deprecated Preprocessor
+    return create(new CxxConfiguration(), preprocessors);
   }
 
   public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) { //@todo deprecated Preprocessor

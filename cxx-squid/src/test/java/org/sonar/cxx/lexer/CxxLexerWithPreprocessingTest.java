@@ -61,7 +61,7 @@ public class CxxLexerWithPreprocessingTest {
   public CxxLexerWithPreprocessingTest() {
     language = CxxFileTesterHelper.mockCxxLanguage();
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), language);
-    lexer = CxxLexer.create(language, cxxpp, new JoinStringsPreprocessor());
+    lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
   }
 
   @Test
@@ -279,7 +279,7 @@ public class CxxLexerWithPreprocessingTest {
 
   @Test
   public void external_define() {
-    CxxConfiguration conf = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration conf = new CxxConfiguration();
     conf.setDefines(new String[] {"M body"});
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
@@ -291,7 +291,7 @@ public class CxxLexerWithPreprocessingTest {
 
   @Test
   public void external_defines_with_params() {
-    CxxConfiguration conf = new CxxConfiguration(language);
+    CxxConfiguration conf = new CxxConfiguration();
     conf.setDefines(new String[] {"minus(a, b) a - b"});
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
@@ -343,8 +343,8 @@ public class CxxLexerWithPreprocessingTest {
     SquidAstVisitorContext<Grammar> ctx = mock(SquidAstVisitorContext.class);
     when(ctx.getFile()).thenReturn(new File("/home/joe/file.cc"));
 
-    CxxPreprocessor pp = new CxxPreprocessor(ctx, new CxxConfiguration(language), scp, language);
-    lexer = CxxLexer.create(language, pp, new JoinStringsPreprocessor());
+    CxxPreprocessor pp = new CxxPreprocessor(ctx, new CxxConfiguration(), scp, language);
+    lexer = CxxLexer.create(pp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("#include <file>\n"
       + "A");

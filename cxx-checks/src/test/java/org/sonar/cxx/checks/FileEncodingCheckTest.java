@@ -36,7 +36,7 @@ public class FileEncodingCheckTest {
   @Test
   public void testAsciiFileAsciiEncoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("US-ASCII");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".", Charset.forName("US-ASCII"));
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);
     
@@ -47,7 +47,7 @@ public class FileEncodingCheckTest {
   @Test
   public void testAsciiFileUtf8Encoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("UTF-8");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".", Charset.forName("UTF-8"));
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);
    
@@ -58,7 +58,7 @@ public class FileEncodingCheckTest {
   @Test
   public void testUnicodeFileUtf16Encoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("UTF-16");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/Unicode.cc", ".", Charset.forName("UTF-16"));
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
@@ -68,7 +68,7 @@ public class FileEncodingCheckTest {
   @Test
   public void testUnicodeFileAsciiEncoding() throws IOException {
     Charset charset = Charset.forName("US-ASCII");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/Unicode.cc", ".", Charset.forName("US-ASCII"));
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())

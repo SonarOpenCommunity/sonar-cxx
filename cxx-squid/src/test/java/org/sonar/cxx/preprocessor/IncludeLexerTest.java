@@ -35,7 +35,7 @@ import org.sonar.cxx.CxxFileTesterHelper;
 
 public class IncludeLexerTest {
 
-  private final static Lexer lexer = IncludeLexer.create(CxxFileTesterHelper.mockCxxLanguage());
+  private final static Lexer lexer = IncludeLexer.create();
 
   @Test
   public void proper_preprocessor_directives_are_created() {

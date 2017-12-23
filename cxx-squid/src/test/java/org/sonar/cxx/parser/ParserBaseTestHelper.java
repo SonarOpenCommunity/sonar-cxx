@@ -36,7 +36,7 @@ public class ParserBaseTestHelper {
   protected Grammar g = null;
 
   public ParserBaseTestHelper() {
-    conf = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
+    conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(false);
     p = CxxParser.create(mock(SquidAstVisitorContext.class), conf, CxxFileTesterHelper.mockCxxLanguage());
     g = p.getGrammar();
