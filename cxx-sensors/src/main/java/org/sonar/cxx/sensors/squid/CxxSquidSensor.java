@@ -258,8 +258,10 @@ public class CxxSquidSensor implements Sensor {
       int publicApi = squidFile.getInt(CxxMetric.PUBLIC_API);
       int publicUndocumentedApi = squidFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API);
       double densityOfPublicDocumentedApi = (publicApi > publicUndocumentedApi) ? ((publicApi - publicUndocumentedApi) / (double) publicApi * 100.0) : 0.0;
-      context.<Integer>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_API_KEY)).on(inputFile).withValue(publicApi).save();
-      context.<Integer>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY)).on(inputFile).withValue(publicUndocumentedApi).save();
+      context.<Integer>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_API_KEY))
+             .on(inputFile).withValue(publicApi).save();
+      context.<Integer>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY)).on(inputFile)
+          .withValue(publicUndocumentedApi).save();
       context.<Double>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY))
           .on(inputFile).withValue(densityOfPublicDocumentedApi).save();
     }

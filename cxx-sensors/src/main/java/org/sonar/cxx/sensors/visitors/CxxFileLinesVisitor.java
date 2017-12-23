@@ -110,9 +110,6 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
   @Override
   public void visitNode(AstNode astNode) {
-//    if (LOG.isDebugEnabled()) {
-//      LOG.debug("***** add executable lines for Node(s) : " + astNode);
-//    }
     switch ((CxxGrammarImpl) astNode.getType()) {
       case functionDefinition:
         if (!isDefaultOrDeleteFunctionBody(astNode)) {

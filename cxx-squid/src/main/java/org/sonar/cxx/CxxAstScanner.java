@@ -109,7 +109,8 @@ public final class CxxAstScanner {
    * @param visitors visitors AST checks and visitors to use
    * @return scanner for the given parameters
    */
-  public static AstScanner<Grammar> create(CxxLanguage language, CxxConfiguration conf, SquidAstVisitor<Grammar>... visitors) {
+  public static AstScanner<Grammar> create(CxxLanguage language, CxxConfiguration conf,
+      SquidAstVisitor<Grammar>... visitors) {
     final SquidAstVisitorContextImpl<Grammar> context = 
                                          new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
     final Parser<Grammar> parser = CxxParser.create(context, conf, language);
