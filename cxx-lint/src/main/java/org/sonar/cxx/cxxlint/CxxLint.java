@@ -227,7 +227,6 @@ public class CxxLint {
               new CppLanguage(sensorContext.config()), 
               cxxFile,
               configuration,
-              sensorContext,
               visitors.toArray(new SquidAstVisitor[visitors.size()]));
       LOG.info("Analyse with : " + visitors.size() + " checks");
   

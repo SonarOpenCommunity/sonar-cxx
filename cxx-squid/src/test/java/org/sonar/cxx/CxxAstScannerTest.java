@@ -43,7 +43,7 @@ public class CxxAstScannerTest {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/trivial.cc", ".", "");
     CxxFileTesterHelper.AddFileToContext(tester, "src/test/resources/metrics/trivial.cc", "");
         
-    AstScanner<Grammar> scanner = CxxAstScanner.create(CxxFileTesterHelper.mockCxxLanguage(), new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage()), tester.sensorContext);
+    AstScanner<Grammar> scanner = CxxAstScanner.create(CxxFileTesterHelper.mockCxxLanguage(), new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage()));
     scanner.scanFiles(new ArrayList<>(Arrays.asList(
       new File("src/test/resources/metrics/trivial.cc"),
       new File("src/test/resources/metrics/classes.cc")))

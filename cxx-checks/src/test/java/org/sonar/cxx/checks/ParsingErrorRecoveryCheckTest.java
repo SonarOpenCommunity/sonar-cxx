@@ -34,7 +34,7 @@ public class ParsingErrorRecoveryCheckTest {
     CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setErrorRecoveryEnabled(true);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError3.cc", ".");       
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, config, tester.sensorContext, new ParsingErrorRecoveryCheck()); 
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, config, new ParsingErrorRecoveryCheck()); 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage("C++ Parser can't read code. Declaration is skipped.")

@@ -142,7 +142,7 @@ public class CxxSquidSensor implements Sensor {
                     this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
     
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
-    AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf, context,
+    AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
     List<File> files;
@@ -260,7 +260,8 @@ public class CxxSquidSensor implements Sensor {
       double densityOfPublicDocumentedApi = (publicApi > publicUndocumentedApi) ? ((publicApi - publicUndocumentedApi) / (double) publicApi * 100.0) : 0.0;
       context.<Integer>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_API_KEY)).on(inputFile).withValue(publicApi).save();
       context.<Integer>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY)).on(inputFile).withValue(publicUndocumentedApi).save();
-      context.<Double>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY)).on(inputFile).withValue(densityOfPublicDocumentedApi).save();
+      context.<Double>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY))
+          .on(inputFile).withValue(densityOfPublicDocumentedApi).save();
     }
   }
   
