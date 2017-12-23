@@ -19,7 +19,7 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
-import static org.mockito.Matchers.anyString; //@todo: deprecated Matchers
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +32,6 @@ import org.junit.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -41,7 +40,6 @@ public class CxxValgrindSensorTest {
   private CxxValgrindSensor sensor;
   private DefaultFileSystem fs;
   private CxxLanguage language;
-  private MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {

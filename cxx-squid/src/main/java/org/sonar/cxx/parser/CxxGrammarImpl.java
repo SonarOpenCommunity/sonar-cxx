@@ -51,7 +51,6 @@ import com.sonar.sslr.api.Grammar;
 /**
  * Based on the C++ Standard, Appendix A
  */
-@SuppressWarnings("squid:S00115")
 public enum CxxGrammarImpl implements GrammarRuleKey {
 
   // Misc

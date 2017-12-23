@@ -19,7 +19,7 @@
  */
 package org.sonar.cxx.sensors.compiler;
 
-import static org.mockito.Matchers.any; //@todo: deprecated Matchers
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 

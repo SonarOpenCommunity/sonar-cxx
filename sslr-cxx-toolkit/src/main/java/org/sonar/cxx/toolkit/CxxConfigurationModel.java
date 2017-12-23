@@ -44,7 +44,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
