@@ -47,7 +47,7 @@ public class CxxLexerTest {
   public static void init() {
     CxxLanguage language = CxxFileTesterHelper.mockCxxLanguage();
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), language);
-    lexer = CxxLexer.create(language, cxxpp, new JoinStringsPreprocessor());
+    lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
   }
 
   /**

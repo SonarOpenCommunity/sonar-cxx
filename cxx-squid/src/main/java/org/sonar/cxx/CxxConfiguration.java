@@ -57,26 +57,22 @@ public class CxxConfiguration extends SquidConfiguration {
   private HashMap<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
 
   private final CxxVCppBuildLogParser cxxVCppParser;
-  private CxxLanguage language; 
 
-  public CxxConfiguration(CxxLanguage language) {
-    this.language = language;
+  public CxxConfiguration() {
     uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
     uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
-  public CxxConfiguration(Charset encoding, CxxLanguage language) {
+  public CxxConfiguration(Charset encoding) {
     super(encoding);
-    this.language = language;
     uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
     uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
-  public CxxConfiguration(FileSystem fs, CxxLanguage language) {
+  public CxxConfiguration(FileSystem fs) {
     super(fs.encoding());
-    this.language = language;
     uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
     uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);

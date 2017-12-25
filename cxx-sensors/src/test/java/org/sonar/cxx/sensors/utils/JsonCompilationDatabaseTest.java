@@ -36,7 +36,7 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testGlobalSettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration(TestUtils.mockCxxLanguage());
+    CxxConfiguration conf = new CxxConfiguration();
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
@@ -53,7 +53,7 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testExtensionSettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration(TestUtils.mockCxxLanguage());
+    CxxConfiguration conf = new CxxConfiguration();
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
     new JsonCompilationDatabase(conf, file);
 
@@ -72,7 +72,7 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testCommandSettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration(TestUtils.mockCxxLanguage());
+    CxxConfiguration conf = new CxxConfiguration();
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
@@ -98,7 +98,7 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testArgumentSettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration(TestUtils.mockCxxLanguage());
+    CxxConfiguration conf = new CxxConfiguration();
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
@@ -124,7 +124,7 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testUnknownUnitSettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration(TestUtils.mockCxxLanguage());
+    CxxConfiguration conf = new CxxConfiguration();
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
@@ -141,7 +141,7 @@ public class JsonCompilationDatabaseTest {
 
   @Test (expected = JsonMappingException.class)
   public void testInvalidJson() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration(TestUtils.mockCxxLanguage());
+    CxxConfiguration conf = new CxxConfiguration();
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/invalid.json");
 
@@ -150,7 +150,7 @@ public class JsonCompilationDatabaseTest {
 
   @Test (expected = FileNotFoundException.class)
   public void testFileNotFound() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration(TestUtils.mockCxxLanguage());
+    CxxConfiguration conf = new CxxConfiguration();
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/not-found.json");
 

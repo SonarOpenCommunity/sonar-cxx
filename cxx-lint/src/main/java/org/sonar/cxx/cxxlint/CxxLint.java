@@ -146,8 +146,7 @@ public class CxxLint {
 
     SensorContextTester sensorContext = SensorContextTester.create(targetFile.getParentFile().toPath());
 
-    CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile),
-                                     new CppLanguage(sensorContext.config()));
+    CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile));
 
     try {
       sensorContext.fileSystem().add(TestInputFileBuilder.create("", targetFile.getParentFile(), targetFile).build());
@@ -227,7 +226,6 @@ public class CxxLint {
               new CppLanguage(sensorContext.config()), 
               cxxFile,
               configuration,
-              sensorContext,
               visitors.toArray(new SquidAstVisitor[visitors.size()]));
       LOG.info("Analyse with : " + visitors.size() + " checks");
   

@@ -65,7 +65,7 @@ public class CxxParserTest extends ParserBaseTestHelper {
 
   @Test
   public void testPreproccessorParsingOnDiverseSourceFiles() {
-    conf = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
+    conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(false);
     String baseDir = new File("src/test").getAbsolutePath();
     conf.setBaseDir(baseDir);

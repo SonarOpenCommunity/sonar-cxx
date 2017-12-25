@@ -40,7 +40,6 @@ import org.sonar.cxx.visitors.CxxPublicApiVisitor.PublicApiHandler;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.CxxAstScanner;
 
 import com.sonar.sslr.api.AstNode;
