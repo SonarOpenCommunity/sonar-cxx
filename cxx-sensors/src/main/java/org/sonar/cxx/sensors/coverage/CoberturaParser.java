@@ -20,6 +20,7 @@
 package org.sonar.cxx.sensors.coverage;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,7 +39,9 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class CoberturaParser extends CxxCoverageParser {
+
   private static final Logger LOG = Loggers.get(CoberturaParser.class);
+  private String baseDir;
 
   public CoberturaParser() {
     // no operation but necessary for list of coverage parsers 
@@ -51,33 +54,44 @@ public class CoberturaParser extends CxxCoverageParser {
   public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     LOG.debug("Parsing 'Cobertura' format");
-    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-      /**
-       * {@inheritDoc}
-       */
-      @Override
-      public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        rootCursor.advance();
-        collectPackageMeasures(context, rootCursor.descendantElementCursor("package"), coverageData);
-      }
+    baseDir = context.fileSystem().baseDir().getAbsolutePath();
+
+    StaxParser sourceParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+      rootCursor.advance();
+      readBaseDir(rootCursor.descendantElementCursor("source"));
     });
-    parser.parse(report);
+    sourceParser.parse(report);
+
+    StaxParser packageParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+      rootCursor.advance();
+      collectPackageMeasures(baseDir, rootCursor.descendantElementCursor("package"), coverageData);
+    });
+    packageParser.parse(report);
   }
 
-  private static void collectPackageMeasures(final SensorContext context, SMInputCursor pack,
-                                             Map<String, CoverageMeasures> coverageData)
-    throws XMLStreamException {
-    while (pack.getNext() != null) {
-      collectFileMeasures(context, pack.descendantElementCursor("class"), coverageData);
+  private void readBaseDir(SMInputCursor source) throws XMLStreamException {
+    while (source.getNext() != null) {
+      String sourceValue = source.getElemStringValue().trim();
+      if (!sourceValue.isEmpty()) {
+        baseDir = Paths.get(baseDir).resolve(sourceValue).normalize().toString();
+        break;
+      }
     }
   }
 
-  private static void collectFileMeasures(final SensorContext context, SMInputCursor clazz,
-                                          Map<String, CoverageMeasures> coverageData)
+  private static void collectPackageMeasures(final String baseDir, SMInputCursor pack,
+    Map<String, CoverageMeasures> coverageData)
+    throws XMLStreamException {
+    while (pack.getNext() != null) {
+      collectFileMeasures(baseDir, pack.descendantElementCursor("class"), coverageData);
+    }
+  }
+
+  private static void collectFileMeasures(final String baseDir, SMInputCursor clazz,
+    Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (clazz.getNext() != null) {
-      String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), 
-                                                     context.fileSystem().baseDir().getAbsolutePath());
+      String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), baseDir);
       if (normalPath != null) {
         CoverageMeasures builder = coverageData.get(normalPath);
         if (builder == null) {
