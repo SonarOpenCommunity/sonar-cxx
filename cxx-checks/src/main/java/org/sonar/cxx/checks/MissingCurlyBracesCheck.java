@@ -50,7 +50,8 @@ public class MissingCurlyBracesCheck extends SquidCheck<Grammar> {
   @Override
   public void visitNode(AstNode astNode) {
     AstNode statement = astNode.getFirstChild(CxxGrammarImpl.statement);
-    if (!statement.getFirstChild().is(CxxGrammarImpl.compoundStatement) && !";".equals(statement.getToken().getValue())) {
+    if (!statement.getFirstChild().is(CxxGrammarImpl.compoundStatement)
+      && !";".equals(statement.getToken().getValue())) {
       getContext().createLineViolation(this, "Missing curly brace.", astNode);
     }
 
@@ -58,7 +59,8 @@ public class MissingCurlyBracesCheck extends SquidCheck<Grammar> {
       AstNode elseClause = astNode.getFirstChild(CxxKeyword.ELSE);
       if (elseClause != null) {
         statement = elseClause.getNextSibling();
-        if (!statement.getFirstChild().is(CxxGrammarImpl.compoundStatement) && !isIfStatement(statement.getFirstChild())) {
+        if (!statement.getFirstChild().is(CxxGrammarImpl.compoundStatement)
+          && !isIfStatement(statement.getFirstChild())) {
           getContext().createLineViolation(this, "Missing curly brace.", elseClause);
         }
       }

@@ -19,14 +19,11 @@
  */
 package org.sonar.cxx.sensors.drmemory;
 
+import java.nio.charset.Charset;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
-
-import java.nio.charset.Charset;
-
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;

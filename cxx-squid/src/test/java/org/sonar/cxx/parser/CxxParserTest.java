@@ -19,23 +19,20 @@
  */
 package org.sonar.cxx.parser;
 
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
+import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
 import org.apache.commons.io.FileUtils;
+import static org.junit.Assert.fail;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.squidbridge.SquidAstVisitorContext;
-
-import com.sonar.sslr.api.Grammar;
 
 public class CxxParserTest extends ParserBaseTestHelper {
 

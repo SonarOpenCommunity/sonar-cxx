@@ -19,21 +19,19 @@
  */
 package org.sonar.cxx;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.sonar.sslr.api.Grammar;
 import java.io.File;
-import org.junit.Test;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceProject;
 import org.sonar.squidbridge.indexer.QueryByType;
-
-import com.sonar.sslr.api.Grammar;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public class CxxAstScannerTest {
 

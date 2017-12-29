@@ -19,21 +19,17 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import static org.mockito.Mockito.when;
-
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import javax.annotation.CheckForNull;
-
-import java.util.Arrays;
-
 import org.apache.tools.ant.DirectoryScanner;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;

@@ -19,19 +19,17 @@
  */
 package org.sonar.cxx.visitors;
 
-import java.util.Set;
-import java.util.HashSet;
-
-import org.sonar.cxx.api.CxxMetric;
-import org.sonar.cxx.api.CxxPunctuator;
-import org.sonar.squidbridge.SquidAstVisitor;
-import org.sonar.squidbridge.api.SourceCode;
-
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+import java.util.HashSet;
+import java.util.Set;
+import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.api.CxxPunctuator;
+import org.sonar.squidbridge.SquidAstVisitor;
+import org.sonar.squidbridge.api.SourceCode;
 
 /**
  * CxxCommentLinesVisitor

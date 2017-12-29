@@ -19,12 +19,11 @@
  */
 package org.sonar.cxx.sensors.squid;
 
-import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
-
 import java.util.Arrays;
 import org.sonar.api.batch.ScannerSide;
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 /**
  *

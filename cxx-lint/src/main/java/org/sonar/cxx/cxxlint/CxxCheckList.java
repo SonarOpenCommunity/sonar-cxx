@@ -20,8 +20,8 @@
 package org.sonar.cxx.cxxlint;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 import org.sonar.cxx.checks.BooleanEqualityComparisonCheck;
 import org.sonar.cxx.checks.ClassComplexityCheck;
 import org.sonar.cxx.checks.CollapsibleIfCandidateCheck;
@@ -62,7 +62,6 @@ import org.sonar.cxx.checks.UseCorrectTypeCheck;
 import org.sonar.cxx.checks.UselessParenthesesCheck;
 import org.sonar.cxx.checks.UsingNamespaceInHeaderCheck;
 import org.sonar.cxx.checks.XPathCheck;
-
 import org.sonar.cxx.checks.naming.ClassNameCheck;
 import org.sonar.cxx.checks.naming.FileNameCheck;
 import org.sonar.cxx.checks.naming.FunctionNameCheck;

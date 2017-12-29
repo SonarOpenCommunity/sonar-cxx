@@ -22,10 +22,11 @@ package org.sonar.cxx.sensors.utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metrics;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
+import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
@@ -35,8 +36,6 @@ import org.sonar.cxx.sensors.rats.CxxRatsSensor;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindSensor;
 import org.sonar.cxx.sensors.veraxx.CxxVeraxxSensor;
-import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
-import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 
 /**
  * {@inheritDoc}

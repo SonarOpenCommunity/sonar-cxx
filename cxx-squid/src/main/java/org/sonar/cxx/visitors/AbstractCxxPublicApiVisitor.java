@@ -19,16 +19,6 @@
  */
 package org.sonar.cxx.visitors;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.api.CxxKeyword;
-import org.sonar.cxx.api.CxxPunctuator;
-import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
@@ -37,6 +27,14 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
+import java.util.ArrayList;
+import java.util.List;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.cxx.api.CxxPunctuator;
+import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * Abstract visitor that visits public API items.<br>

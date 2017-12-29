@@ -20,18 +20,15 @@
 package org.sonar.cxx.sensors.coverage;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import org.junit.Before;
+import org.junit.Test;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.mockito.Mockito.when;
-
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 

@@ -19,20 +19,19 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
-
+import java.nio.file.Files;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
-import org.sonar.squidbridge.checks.SquidCheck;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import java.nio.file.Files;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.NoSqale;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * FileEncodingCheck

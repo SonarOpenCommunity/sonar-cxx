@@ -21,24 +21,22 @@ package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
 
 import java.io.File;
+import static java.util.Arrays.asList;
 import java.util.Collections;
 import java.util.HashSet;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
-import org.sonar.api.config.internal.MapSettings;
-import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.utils.TestUtils;
-import org.sonar.api.config.Configuration;
-
-import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.sonar.api.config.Configuration;
+import org.sonar.api.config.internal.MapSettings;
+import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxUnitTestResultsAggregatorTest {
 

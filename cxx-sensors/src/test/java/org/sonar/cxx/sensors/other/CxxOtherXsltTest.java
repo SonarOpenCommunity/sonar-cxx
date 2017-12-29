@@ -19,16 +19,13 @@
  */
 package org.sonar.cxx.sensors.other;
 
-import static org.mockito.Mockito.when;
-
 import java.io.File;
 import java.util.Optional;
-
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.apache.commons.io.FileUtils;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;

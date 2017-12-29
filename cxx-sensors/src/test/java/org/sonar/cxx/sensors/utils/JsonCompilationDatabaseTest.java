@@ -19,18 +19,15 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.cxx.CxxCompilationUnitSettings;
 import org.sonar.cxx.CxxConfiguration;
-
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class JsonCompilationDatabaseTest {
 

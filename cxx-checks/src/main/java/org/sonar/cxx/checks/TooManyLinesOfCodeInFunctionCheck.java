@@ -19,8 +19,9 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 import java.util.List;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -29,8 +30,6 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 @Rule(key = "TooManyLinesOfCodeInFunction",
@@ -60,7 +59,8 @@ public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> {
     int lineCount = getNumberOfLine(node);
     if (lineCount > max) {
       getContext().createLineViolation(this,
-        "The number of code lines in this function is {0,number,integer} which is greater than {1,number,integer} authorized.",
+        "The number of code lines in this function is {0,number,integer} which is greater than "
+          + "{1,number,integer} authorized.",
         node, lineCount, max);
     }
   }

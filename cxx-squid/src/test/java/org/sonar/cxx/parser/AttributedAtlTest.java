@@ -19,9 +19,8 @@
  */
 package org.sonar.cxx.parser;
 
-import static org.sonar.sslr.tests.Assertions.assertThat;
-
 import org.junit.Test;
+import static org.sonar.sslr.tests.Assertions.assertThat;
 
 public class AttributedAtlTest extends ParserBaseTestHelper {
 

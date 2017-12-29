@@ -19,12 +19,10 @@
  */
 package org.sonar.cxx.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-
-import org.junit.Test;
-
 import com.sonar.sslr.api.AstNode;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
+import static org.mockito.Mockito.mock;
 
 public class CxxPunctuatorTest {
 

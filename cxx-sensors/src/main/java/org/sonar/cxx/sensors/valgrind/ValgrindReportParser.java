@@ -22,9 +22,7 @@ package org.sonar.cxx.sensors.valgrind;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.xml.stream.XMLStreamException;
-
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.cxx.sensors.utils.EmptyReportException;

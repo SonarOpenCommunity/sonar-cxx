@@ -19,32 +19,28 @@
  */
 package org.sonar.cxx.visitors;
 
-import static org.assertj.core.groups.Tuple.tuple;
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.groups.Tuple;
+import static org.assertj.core.groups.Tuple.tuple;
 import org.fest.assertions.Fail;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxFileTester;
+import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.visitors.CxxPublicApiVisitor.PublicApiHandler;
 import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.cxx.CxxFileTester;
-import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.cxx.CxxAstScanner;
-
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
 
 public class CxxPublicApiVisitorTest {
 

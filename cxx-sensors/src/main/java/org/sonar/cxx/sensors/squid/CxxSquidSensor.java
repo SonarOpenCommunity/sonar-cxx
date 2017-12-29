@@ -19,51 +19,48 @@
  */
 package org.sonar.cxx.sensors.squid;
 
+import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
-
+import java.util.Map;
+import java.util.Set;
 import javax.annotation.Nullable;
-
-import org.sonar.api.batch.sensor.Sensor;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.CheckFactory;
+import org.sonar.api.batch.sensor.Sensor;
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.batch.sensor.issue.NewIssue;
+import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.FileLinesContextFactory;
+import org.sonar.api.measures.Metric;
+import org.sonar.api.rule.RuleKey;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
+import org.sonar.cxx.sensors.utils.CxxMetrics;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
+import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
+import org.sonar.cxx.sensors.visitors.CxxCpdVisitor;
+import org.sonar.cxx.sensors.visitors.CxxFileLinesVisitor;
+import org.sonar.cxx.sensors.visitors.CxxHighlighterVisitor;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.CheckMessage;
 import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.indexer.QueryByType;
-
-import com.sonar.sslr.api.Grammar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.batch.sensor.issue.NewIssue;
-import org.sonar.api.batch.sensor.issue.NewIssueLocation;
-import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.api.measures.Metric;
-import org.sonar.api.rule.RuleKey;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
-import org.sonar.cxx.sensors.utils.CxxMetrics;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
-import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
-import org.sonar.cxx.sensors.visitors.CxxCpdVisitor;
-import org.sonar.cxx.sensors.visitors.CxxHighlighterVisitor;
-import org.sonar.cxx.sensors.visitors.CxxFileLinesVisitor;
 
 /**
  * {@inheritDoc}

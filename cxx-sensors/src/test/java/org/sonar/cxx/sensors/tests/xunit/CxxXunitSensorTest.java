@@ -21,10 +21,8 @@ package org.sonar.cxx.sensors.tests.xunit;
 
 import java.io.File;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
-
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;

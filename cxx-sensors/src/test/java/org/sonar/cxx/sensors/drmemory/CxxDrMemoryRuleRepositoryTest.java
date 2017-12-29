@@ -19,12 +19,10 @@
  */
 package org.sonar.cxx.sensors.drmemory;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-
 import java.util.List;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.Rule;

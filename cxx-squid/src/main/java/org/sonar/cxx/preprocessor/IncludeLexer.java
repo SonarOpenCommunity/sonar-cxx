@@ -19,15 +19,14 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
-
-import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.channels.PreprocessorChannel;
-
-import com.sonar.sslr.api.Preprocessor; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+//@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.channel.BlackHoleChannel;
+import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
+import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
+import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.channels.PreprocessorChannel;
 
 public final class IncludeLexer {
 

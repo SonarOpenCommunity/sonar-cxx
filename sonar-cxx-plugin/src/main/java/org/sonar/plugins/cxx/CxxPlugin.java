@@ -19,11 +19,12 @@
  */
 package org.sonar.plugins.cxx;
 
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
+import javax.annotation.Nullable;
 import org.sonar.api.Plugin;
-
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.batch.rule.CheckFactory;
@@ -34,10 +35,10 @@ import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
-import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
 import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
+import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
+import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.compiler.CxxCompilerGccParser;
 import org.sonar.cxx.sensors.compiler.CxxCompilerGccRuleRepository;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
@@ -55,6 +56,7 @@ import org.sonar.cxx.sensors.pclint.CxxPCLintRuleRepository;
 import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
 import org.sonar.cxx.sensors.rats.CxxRatsRuleRepository;
 import org.sonar.cxx.sensors.rats.CxxRatsSensor;
+import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsAggregator;
 import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsImportSensor;
@@ -65,10 +67,6 @@ import org.sonar.cxx.sensors.valgrind.CxxValgrindRuleRepository;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindSensor;
 import org.sonar.cxx.sensors.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.cxx.sensors.veraxx.CxxVeraxxSensor;
-
-import com.google.common.collect.ImmutableList;
-import javax.annotation.Nullable;
-import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
 
 /**
  * {@inheritDoc}

@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
 
 import java.io.File;
-
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;

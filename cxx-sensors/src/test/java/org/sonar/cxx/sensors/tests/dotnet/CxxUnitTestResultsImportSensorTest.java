@@ -20,11 +20,15 @@
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
 
+import java.util.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.groups.Tuple.tuple;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -33,12 +37,6 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
-
-import static org.assertj.core.groups.Tuple.tuple;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-
-import java.util.Optional;
 
 public class CxxUnitTestResultsImportSensorTest {
 

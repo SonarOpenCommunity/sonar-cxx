@@ -19,23 +19,20 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import java.math.BigInteger;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxConfiguration;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
-import org.sonar.cxx.api.CxxTokenType;
-import com.sonar.sslr.api.GenericTokenType;
+import java.math.BigInteger;
+import java.util.List;
+import javax.annotation.Nullable;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CppPunctuator;
+import org.sonar.cxx.api.CxxTokenType;
 
 public final class ExpressionEvaluator {
 

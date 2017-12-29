@@ -19,15 +19,13 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-
 import java.io.File;
 import java.util.ArrayList;
-
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;

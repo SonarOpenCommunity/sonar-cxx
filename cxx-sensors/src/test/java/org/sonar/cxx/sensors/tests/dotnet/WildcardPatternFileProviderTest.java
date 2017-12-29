@@ -21,16 +21,14 @@ package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
 
 import com.google.common.base.Joiner;
+import java.io.File;
+import java.util.Set;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
-
-import java.io.File;
-import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class WildcardPatternFileProviderTest {
 

@@ -20,17 +20,14 @@
 package org.sonar.cxx.preprocessor;
 
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.impl.Lexer;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
-import static org.junit.Assert.assertThat;
-
 import java.util.List;
-
+import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.sonar.cxx.api.CppKeyword;
 import org.sonar.cxx.api.CppPunctuator;
-
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Lexer;
 
 public class CppLexerTest {
 

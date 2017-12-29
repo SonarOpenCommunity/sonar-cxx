@@ -22,32 +22,29 @@ package org.sonar.cxx.toolkit;
 import com.google.common.annotations.VisibleForTesting;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
+import javax.annotation.Nullable;
+import org.sonar.api.config.internal.MapSettings;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.colorizer.CDocTokenizer;
 import org.sonar.colorizer.CppDocTokenizer;
 import org.sonar.colorizer.JavadocTokenizer;
 import org.sonar.colorizer.KeywordsTokenizer;
 import org.sonar.colorizer.StringTokenizer;
 import org.sonar.colorizer.Tokenizer;
-import org.sonar.sslr.toolkit.AbstractConfigurationModel;
-import org.sonar.sslr.toolkit.ConfigurationProperty;
-import org.sonar.sslr.toolkit.Validators;
 import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.sonar.squidbridge.SquidAstVisitorContextImpl;
 import org.sonar.squidbridge.api.SourceProject;
-
-import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
+import org.sonar.sslr.toolkit.AbstractConfigurationModel;
+import org.sonar.sslr.toolkit.ConfigurationProperty;
+import org.sonar.sslr.toolkit.Validators;
 
 public class CxxConfigurationModel extends AbstractConfigurationModel {
 

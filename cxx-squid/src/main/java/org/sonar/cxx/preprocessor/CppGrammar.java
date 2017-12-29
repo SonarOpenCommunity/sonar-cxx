@@ -20,6 +20,7 @@
 package org.sonar.cxx.preprocessor;
 
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+import com.sonar.sslr.api.Grammar;
 import static org.sonar.cxx.api.CppKeyword.DEFINE;
 import static org.sonar.cxx.api.CppKeyword.ELIF;
 import static org.sonar.cxx.api.CppKeyword.ELSE;
@@ -35,17 +36,15 @@ import static org.sonar.cxx.api.CppKeyword.PRAGMA;
 import static org.sonar.cxx.api.CppKeyword.UNDEF;
 import static org.sonar.cxx.api.CppKeyword.WARNING;
 import static org.sonar.cxx.api.CppPunctuator.HASH;
-import static org.sonar.cxx.api.CxxTokenType.WS;
-
 import org.sonar.cxx.api.CxxTokenType;
+import static org.sonar.cxx.api.CxxTokenType.WS;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
-
-import com.sonar.sslr.api.Grammar;
 
 /**
  * The rules are a subset of those found in the C++ Standard, A.14 "Preprocessor directives"
  */
+@SuppressWarnings({"squid:S00115", "squid:S00103"})
 public enum CppGrammar implements GrammarRuleKey {
   preprocessorLine,
   defineLine,

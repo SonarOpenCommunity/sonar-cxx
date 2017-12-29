@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.other;
 
 import java.io.StringReader;
-
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.api.utils.log.Logger;

@@ -116,7 +116,11 @@ public class CxxVCppBuildLogParser {
         }
 
         // get base path of project to make 
-        // Target "ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
+        // Target "ClCompile" in file
+        // "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets"
+        // from project
+        // "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\
+        //         PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
         if (line.contains("Target \"ClCompile\" in file")) {
           String pathProject = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");
           if (pathProject.endsWith(":")) {
@@ -135,7 +139,8 @@ public class CxxVCppBuildLogParser {
         // 1>Done executing task "Message".
         // 1>Task "Message"
         //1>  Platform=Win32         
-        if (line.trim().endsWith("Platform=x64") || line.trim().matches("Building solution configuration \".*\\|x64\".")) {
+        if (line.trim().endsWith("Platform=x64")
+          || line.trim().matches("Building solution configuration \".*\\|x64\".")) {
           setPlatform("x64");
           if (LOG.isDebugEnabled()) {
             LOG.debug("build log parser platform='{}'", this.platform);
@@ -480,13 +485,15 @@ public class CxxVCppBuildLogParser {
     }
 
     //_NATIVE_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used.    
-    //_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used or if wchar_t is defined in a system header file included in your project.
+    //_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used or if wchar_t is defined in a system header file
+    // included in your project.
     if (line.contains("/Zc:wchar_t ")) {
       addMacro("_WCHAR_T_DEFINED=1", fileElement);
       addMacro("_NATIVE_WCHAR_T_DEFINED=1", fileElement);
     }
 
-    //_Wp64 Defined when specifying /Wp64. Deprecated in Visual Studio 2010 and Visual Studio 2012, and not supported starting in Visual Studio 2013
+    //_Wp64 Defined when specifying /Wp64. Deprecated in Visual Studio 2010 and Visual Studio 2012,
+    // and not supported starting in Visual Studio 2013
     if (line.contains("/Wp64 ")) {
       addMacro("_Wp64", fileElement);
     }
@@ -495,7 +502,8 @@ public class CxxVCppBuildLogParser {
     //_WIN32 Defined for applications for Win32 and Win64. Always defined.
     //_WIN64 Defined for applications for Win64.
     //_M_X64 Defined for x64 processors.
-    //_M_IX86 Defined for x86 processors. See the Values for _M_IX86 table below for more information. This is not defined for x64 processors.
+    //_M_IX86 Defined for x86 processors. See the Values for _M_IX86 table below for more information.
+    //  This is not defined for x64 processors.
     //_M_IA64 Defined for Itanium Processor Family 64-bit processors.
     if ("x64".equals(platform) || line.contains("/D WIN64")) {
       // Defined for compilations that target x64 processors.
@@ -519,13 +527,16 @@ public class CxxVCppBuildLogParser {
       || line.contains("/EHac ")) {
       addMacro("_CPPUNWIND", fileElement);
     }
-    if (line.contains("/favor:ATOM") && (existMacro("_M_X64 100", fileElement) || existMacro("_M_IX86 600", fileElement))) {
+    if (line.contains("/favor:ATOM") && (existMacro("_M_X64 100", fileElement)
+      || existMacro("_M_IX86 600", fileElement))) {
       addMacro("__ATOM__=1", fileElement);
     }
-    if (line.contains("/arch:AVX") && (existMacro("_M_X64 100", fileElement) || existMacro("_M_IX86 600", fileElement))) {
+    if (line.contains("/arch:AVX") && (existMacro("_M_X64 100", fileElement)
+      || existMacro("_M_IX86 600", fileElement))) {
       addMacro("__AVX__=1", fileElement);
     }
-    if (line.contains("/arch:AVX2") && (existMacro("_M_X64 100", fileElement) || existMacro("_M_IX86 600", fileElement))) {
+    if (line.contains("/arch:AVX2") && (existMacro("_M_X64 100", fileElement)
+      || existMacro("_M_IX86 600", fileElement))) {
       addMacro("__AVX2__=1", fileElement);
     }
   }

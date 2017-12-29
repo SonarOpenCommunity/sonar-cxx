@@ -23,10 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
-
 import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
-
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 

@@ -22,20 +22,19 @@ package org.sonar.cxx.checks;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.squidbridge.annotations.ActivatedByDefault;
-import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.cxx.tag.Tag;
-import org.sonar.squidbridge.checks.SquidCheck;
-
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
 import org.sonar.cxx.api.CxxKeyword;
 import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
+import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.tag.Tag;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * NestedStatementsCheck

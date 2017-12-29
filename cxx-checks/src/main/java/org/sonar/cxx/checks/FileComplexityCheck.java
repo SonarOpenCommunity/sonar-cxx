@@ -19,15 +19,15 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.api.Grammar;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.tag.Tag;
+import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
 import org.sonar.squidbridge.checks.AbstractFileComplexityCheck;
 import org.sonar.squidbridge.measures.MetricDef;
-import com.sonar.sslr.api.Grammar;
-import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
-import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "FileComplexity",

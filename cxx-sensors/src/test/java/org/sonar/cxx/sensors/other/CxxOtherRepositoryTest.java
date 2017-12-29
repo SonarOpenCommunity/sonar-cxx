@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.other;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import static org.mockito.Mockito.when;
 import org.sonar.api.server.rule.RulesDefinition;

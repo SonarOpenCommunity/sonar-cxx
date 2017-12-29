@@ -23,9 +23,7 @@ import java.text.ParseException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-
 import javax.xml.stream.XMLStreamException;
-
 import org.codehaus.staxmate.in.ElementFilter;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;

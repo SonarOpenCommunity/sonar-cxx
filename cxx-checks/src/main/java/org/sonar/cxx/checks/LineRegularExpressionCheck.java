@@ -19,27 +19,24 @@
  */
 package org.sonar.cxx.checks;
 
+import com.google.common.io.Files;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import com.google.common.io.Files;
-
+import org.sonar.api.utils.PathUtils;
+import org.sonar.api.utils.WildcardPattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import com.sonar.sslr.api.Grammar;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
-import org.sonar.squidbridge.checks.SquidCheck;
-import org.sonar.api.utils.PathUtils;
-import org.sonar.api.utils.WildcardPattern;
-import com.sonar.sslr.api.AstNode;
-
 import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.annotations.RuleTemplate;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * LineRegularExpressionCheck

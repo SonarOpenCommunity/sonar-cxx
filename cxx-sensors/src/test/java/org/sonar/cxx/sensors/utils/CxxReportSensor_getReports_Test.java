@@ -23,13 +23,11 @@ package org.sonar.cxx.sensors.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.apache.commons.io.FileUtils;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-
 import org.sonar.api.config.internal.MapSettings;
 
 public class CxxReportSensor_getReports_Test {

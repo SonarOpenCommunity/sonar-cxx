@@ -19,8 +19,8 @@
  */
 package org.sonar.plugins.c;
 
-import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 

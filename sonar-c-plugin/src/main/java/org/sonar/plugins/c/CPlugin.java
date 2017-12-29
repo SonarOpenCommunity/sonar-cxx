@@ -20,11 +20,10 @@
 package org.sonar.plugins.c;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 import javax.annotation.Nullable;
 import org.sonar.api.Plugin;
-
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -34,10 +33,10 @@ import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
-import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
 import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
+import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
+import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.compiler.CxxCompilerGccParser;
 import org.sonar.cxx.sensors.compiler.CxxCompilerGccRuleRepository;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;

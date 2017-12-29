@@ -19,21 +19,18 @@
  */
 package org.sonar.cxx.sensors.squid;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.sonar.sslr.api.Grammar;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Arrays;
-
 import javax.annotation.Nullable;
-
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.squidbridge.SquidAstVisitor;
-
-import com.google.common.annotations.VisibleForTesting;
-import com.sonar.sslr.api.Grammar;
 
 public final class CxxChecks {
 

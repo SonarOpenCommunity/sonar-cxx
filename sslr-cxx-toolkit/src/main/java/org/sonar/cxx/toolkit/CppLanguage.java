@@ -21,7 +21,6 @@ package org.sonar.cxx.toolkit;
 
 import java.util.Collections;
 import java.util.List;
-
 import org.sonar.api.config.Configuration;
 import org.sonar.cxx.CxxLanguage;
 

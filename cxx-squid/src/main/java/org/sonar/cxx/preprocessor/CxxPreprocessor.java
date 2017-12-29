@@ -21,10 +21,27 @@ package org.sonar.cxx.preprocessor;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
+import static com.sonar.sslr.api.GenericTokenType.EOF;
+import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Preprocessor;
+import com.sonar.sslr.api.PreprocessorAction;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.api.TokenType;
+import com.sonar.sslr.api.Trivia;
+import com.sonar.sslr.impl.Parser;
 import java.io.File;
-
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collection; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+import java.util.Collections; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,58 +52,33 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nullable;
-
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Preprocessor; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
-import com.sonar.sslr.api.PreprocessorAction; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.TokenType;
-import com.sonar.sslr.api.Trivia;
-import com.sonar.sslr.impl.Parser;
-
 import org.sonar.cxx.CxxCompilationUnitSettings;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.lexer.CxxLexer;
-import org.sonar.squidbridge.SquidAstVisitorContext;
-
-import static com.sonar.sslr.api.GenericTokenType.EOF;
-import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.nio.file.FileSystemNotFoundException;
-import java.nio.file.Paths;
-import java.util.Collections;
 import org.sonar.cxx.CxxLanguage;
-
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
-import static org.sonar.cxx.api.CppPunctuator.COMMA;
-import static org.sonar.cxx.api.CppPunctuator.LT;
 import static org.sonar.cxx.api.CppPunctuator.BR_RIGHT;
-import static org.sonar.cxx.api.CppPunctuator.HASHHASH;
+import static org.sonar.cxx.api.CppPunctuator.COMMA;
 import static org.sonar.cxx.api.CppPunctuator.HASH;
+import static org.sonar.cxx.api.CppPunctuator.HASHHASH;
+import static org.sonar.cxx.api.CppPunctuator.LT;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
 import static org.sonar.cxx.api.CxxTokenType.WS;
-
+import org.sonar.cxx.lexer.CxxLexer;
 import static org.sonar.cxx.preprocessor.CppGrammar.defineLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.elifLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.elseLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.endifLine;
-import static org.sonar.cxx.preprocessor.CppGrammar.ifdefLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.ifLine;
+import static org.sonar.cxx.preprocessor.CppGrammar.ifdefLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.includeLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.undefLine;
+import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxPreprocessor extends Preprocessor {
 

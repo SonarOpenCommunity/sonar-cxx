@@ -19,21 +19,19 @@
  */
 package org.sonar.cxx.sensors.compiler;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.junit.Assert;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.cxx.CxxLanguage;
 
 public class MockCxxCompilerSensor extends CxxCompilerSensor {

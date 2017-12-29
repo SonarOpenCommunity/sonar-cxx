@@ -20,7 +20,6 @@
 package org.sonar.plugins.c;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import org.sonar.api.Plugin;
 import org.sonar.api.SonarQubeSide;

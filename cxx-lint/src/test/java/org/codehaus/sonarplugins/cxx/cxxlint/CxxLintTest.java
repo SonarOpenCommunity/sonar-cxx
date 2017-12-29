@@ -20,11 +20,9 @@
 package org.codehaus.sonarplugins.cxx.cxxlint;
 
 import java.io.File;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.cxx.cxxlint.CxxLint;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  *

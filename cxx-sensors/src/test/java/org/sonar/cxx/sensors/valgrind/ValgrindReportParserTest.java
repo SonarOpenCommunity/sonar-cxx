@@ -19,11 +19,9 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 import java.util.Set;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.cxx.sensors.utils.TestUtils;

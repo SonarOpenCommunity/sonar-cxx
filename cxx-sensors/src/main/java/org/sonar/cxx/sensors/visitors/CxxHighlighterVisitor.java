@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.visitors;
 
-import javax.annotation.Nullable;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
@@ -27,15 +26,16 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.highlighting.NewHighlighting;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.squidbridge.SquidAstVisitor;
-import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.squidbridge.SquidAstVisitor;
 
 public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 

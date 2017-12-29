@@ -19,10 +19,10 @@
  */
 package org.sonar.plugins.c;
 
-import org.junit.Test;
-import org.sonar.api.server.rule.RulesDefinition;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 import org.sonar.api.config.internal.MapSettings;
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.CxxLanguage;
 
 public class CRuleRepositoryTest {

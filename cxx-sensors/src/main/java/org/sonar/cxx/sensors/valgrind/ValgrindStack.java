@@ -21,11 +21,8 @@ package org.sonar.cxx.sensors.valgrind;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Nullable;
-
 import org.apache.commons.io.FilenameUtils;
-
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**

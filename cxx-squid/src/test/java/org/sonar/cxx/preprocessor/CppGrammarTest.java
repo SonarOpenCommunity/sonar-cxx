@@ -19,14 +19,12 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import static org.sonar.sslr.tests.Assertions.assertThat;
-
-import org.junit.Test;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
+import org.junit.Test;
 import org.sonar.sslr.grammar.GrammarRuleKey;
+import static org.sonar.sslr.tests.Assertions.assertThat;
 
 public class CppGrammarTest {
 

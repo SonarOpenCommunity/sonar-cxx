@@ -27,9 +27,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.xml.stream.XMLStreamException;
-
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.coverage.NewCoverage;
 import org.sonar.api.config.Configuration;

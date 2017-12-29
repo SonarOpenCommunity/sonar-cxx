@@ -19,13 +19,11 @@
  */
 package org.sonar.cxx;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.fest.assertions.Assertions;
-
 import org.junit.Test;
 
 public class CxxConfigurationTest {

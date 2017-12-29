@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;

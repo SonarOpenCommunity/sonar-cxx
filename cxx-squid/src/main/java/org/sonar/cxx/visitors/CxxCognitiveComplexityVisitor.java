@@ -19,25 +19,22 @@
  */
 package org.sonar.cxx.visitors;
 
-import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
+import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import com.sonar.sslr.api.Grammar;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.measures.MetricDef;
-
-import java.util.List;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Set;
-import java.util.HashSet;
 
 public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends SquidAstVisitor<G> {
 

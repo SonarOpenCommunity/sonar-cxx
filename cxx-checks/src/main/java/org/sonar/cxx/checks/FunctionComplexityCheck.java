@@ -64,7 +64,8 @@ public class FunctionComplexityCheck extends SquidCheck<Grammar> {
     int complexity = ChecksHelper.getRecursiveMeasureInt(sourceFunction, CxxMetric.COMPLEXITY);
     if (complexity > max) {
       getContext().createLineViolation(this,
-        "The Cyclomatic Complexity of this function is {0,number,integer} which is greater than {1,number,integer} authorized.",
+        "The Cyclomatic Complexity of this function is {0,number,integer} which is greater than "
+          + "{1,number,integer} authorized.",
         node,
         complexity,
         max);

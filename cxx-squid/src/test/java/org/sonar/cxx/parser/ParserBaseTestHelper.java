@@ -19,14 +19,12 @@
  */
 package org.sonar.cxx.parser;
 
-import static org.mockito.Mockito.mock;
-
-import org.sonar.cxx.CxxConfiguration;
-import org.sonar.squidbridge.SquidAstVisitorContext;
-
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
+import static org.mockito.Mockito.mock;
+import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxFileTesterHelper;
+import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 
 public class ParserBaseTestHelper {

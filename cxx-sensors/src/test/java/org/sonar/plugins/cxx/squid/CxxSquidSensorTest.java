@@ -19,8 +19,6 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
-import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -28,7 +26,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -39,13 +36,15 @@ import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
-import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.measure.Measure;
+import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
+import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxSquidSensorTest {

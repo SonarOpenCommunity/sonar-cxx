@@ -34,6 +34,7 @@ public final class Tag {
   public static final String UNUSED = "unused";
   public static final String BAD_PRACTICE = "bad-practice";
   public static final String CONFUSING = "confusing";
+
   // tags not used
   public static final String CLUMSY = "clumsy";
   public static final String CWE = "cwe";

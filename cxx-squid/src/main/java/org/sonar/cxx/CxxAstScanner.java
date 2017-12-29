@@ -19,8 +19,15 @@
  */
 package org.sonar.cxx;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.GenericTokenType;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.impl.Parser;
 import java.util.Collection;
-
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
@@ -48,15 +55,6 @@ import org.sonar.squidbridge.metrics.CommentsVisitor;
 import org.sonar.squidbridge.metrics.ComplexityVisitor;
 import org.sonar.squidbridge.metrics.CounterVisitor;
 import org.sonar.squidbridge.metrics.LinesVisitor;
-
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Parser;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.SensorContext;
 
 public final class CxxAstScanner {
 
@@ -156,13 +154,15 @@ public final class CxxAstScanner {
         }
         String functionName = sb.toString();
         sb.setLength(0);
-        AstNode namespace = astNode.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition); // todo: check if working with nested-namespace-definition
+        // todo: check if working with nested-namespace-definition
+        AstNode namespace = astNode.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition);
         while (namespace != null) {
           if (sb.length() > 0) {
             sb.insert(0, "::");
           }
           sb.insert(0, namespace.getFirstDescendant(GenericTokenType.IDENTIFIER).getTokenValue());
-          namespace = namespace.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition); // todo: check if working with nested-namespace-definition
+          // todo: check if working with nested-namespace-definition
+          namespace = namespace.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition);
         }
         String namespaceName = sb.length() > 0 ? sb.toString() + "::" : "";
         SourceFunction function = new SourceFunction(intersectingConcatenate(namespaceName, functionName)

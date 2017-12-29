@@ -22,9 +22,7 @@ package org.sonar.cxx.sensors.compiler;
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
-
 import javax.annotation.Nullable;
-
 import org.sonar.api.batch.sensor.SensorContext;
 
 /**

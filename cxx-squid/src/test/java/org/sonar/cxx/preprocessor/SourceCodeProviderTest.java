@@ -19,13 +19,11 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class SourceCodeProviderTest {

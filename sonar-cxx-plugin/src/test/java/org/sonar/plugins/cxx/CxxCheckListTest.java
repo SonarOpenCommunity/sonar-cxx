@@ -20,7 +20,6 @@
 package org.sonar.plugins.cxx;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import org.sonar.api.config.internal.MapSettings;
 

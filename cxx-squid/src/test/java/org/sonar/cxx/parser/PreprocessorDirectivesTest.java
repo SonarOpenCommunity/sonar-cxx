@@ -19,13 +19,11 @@
  */
 package org.sonar.cxx.parser;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.sonar.sslr.api.AstNode;
 import java.util.LinkedList;
 import java.util.List;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
-import com.sonar.sslr.api.AstNode;
 
 public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
 

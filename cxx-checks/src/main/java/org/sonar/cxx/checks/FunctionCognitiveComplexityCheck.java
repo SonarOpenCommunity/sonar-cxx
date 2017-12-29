@@ -19,19 +19,19 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.tag.Tag;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
 import org.sonar.squidbridge.api.SourceFunction;
 import org.sonar.squidbridge.checks.ChecksHelper;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import org.sonar.squidbridge.annotations.ActivatedByDefault;
-import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
-import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "FunctionCognitiveComplexity",
@@ -64,7 +64,8 @@ public class FunctionCognitiveComplexityCheck extends SquidCheck<Grammar> {
     int complexity = ChecksHelper.getRecursiveMeasureInt(sourceFunction, CxxMetric.COGNITIVE_COMPLEXITY);
     if (complexity > max) {
       getContext().createLineViolation(this,
-        "The Cognitive Complexity of this function is {0,number,integer} which is greater than {1,number,integer} authorized.",
+        "The Cognitive Complexity of this function is {0,number,integer} which is greater than "
+          + "{1,number,integer} authorized.",
         node,
         complexity,
         max);

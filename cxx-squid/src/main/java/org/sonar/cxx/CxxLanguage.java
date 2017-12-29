@@ -24,10 +24,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+import org.sonar.api.config.Configuration;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.AbstractLanguage;
-import org.sonar.api.config.Configuration;
 
 /**
  * {@inheritDoc}

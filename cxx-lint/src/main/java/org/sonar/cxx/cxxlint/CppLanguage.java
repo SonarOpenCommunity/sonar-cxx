@@ -20,7 +20,6 @@
 package org.sonar.cxx.cxxlint;
 
 import java.util.List;
-
 import org.sonar.api.config.Configuration;
 import org.sonar.cxx.CxxLanguage;
 

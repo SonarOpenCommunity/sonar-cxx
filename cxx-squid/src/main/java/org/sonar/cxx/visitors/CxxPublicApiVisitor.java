@@ -19,15 +19,13 @@
  */
 package org.sonar.cxx.visitors;
 
-import java.util.List;
-
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
-import org.sonar.squidbridge.measures.MetricDef;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import java.util.List;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.squidbridge.measures.MetricDef;
 
 /**
  * Visitor that counts documented and undocumented API items.<br>

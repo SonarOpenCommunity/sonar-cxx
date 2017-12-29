@@ -22,11 +22,9 @@ package org.sonar.cxx;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 

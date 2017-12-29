@@ -21,9 +21,7 @@ package org.sonar.cxx.sensors.coverage;
 
 import java.io.File;
 import java.util.Map;
-
 import javax.xml.stream.XMLStreamException;
-
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;

@@ -19,6 +19,12 @@
  */
 package org.sonar.cxx.sensors.clangsa;
 
+import com.dd.plist.NSArray;
+import com.dd.plist.NSDictionary;
+import com.dd.plist.NSNumber;
+import com.dd.plist.NSObject;
+import com.dd.plist.NSString;
+import com.dd.plist.PropertyListParser;
 import java.io.File;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
@@ -26,13 +32,6 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
-
-import com.dd.plist.PropertyListParser;
-import com.dd.plist.NSDictionary;
-import com.dd.plist.NSArray;
-import com.dd.plist.NSObject;
-import com.dd.plist.NSString;
-import com.dd.plist.NSNumber;
 
 /**
  * Sensor for Clang Static Analyzer.

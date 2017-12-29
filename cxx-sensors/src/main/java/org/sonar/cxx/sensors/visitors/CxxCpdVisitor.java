@@ -19,16 +19,13 @@
  */
 package org.sonar.cxx.sensors.visitors;
 
-import java.io.File;
-import javax.annotation.Nullable;
-
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import org.sonar.squidbridge.SquidAstVisitor;
-
+import java.io.File;
+import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.TextRange;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -37,6 +34,7 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.squidbridge.SquidAstVisitor;
 
 public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 
