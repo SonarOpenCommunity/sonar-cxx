@@ -1,7 +1,7 @@
 |     |     |     |
 | --- | --- | --- |
 | **Issue Stats** | [![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/pr)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx) | [![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/issue)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx) |
-| **SonarCloud**<br>(Technical Debt analysis) | [![Quality Gate](https://sonarqube.com/api/badges/gate?key=org.sonarsource.sonarqube-plugins.cxx:cxx)](https://sonarcloud.io/dashboard?id=org.sonarsource.sonarqube-plugins.cxx%3Acxx) |   |
+| **SonarCloud**<br>(Technical Debt analysis) | [![Quality Gate](https://sonarqube.com/api/badges/gate?key=org.sonarsource.sonarqube-plugins.cxx%3Acxx)](https://sonarcloud.io/dashboard?id=org.sonarsource.sonarqube-plugins.cxx%3Acxx) |   |
 | **Travis CI**<br>(Linux Build and Integration Tests) | [![Build Status](https://travis-ci.org/SonarOpenCommunity/sonar-cxx.svg?branch=master)](https://travis-ci.org/SonarOpenCommunity/sonar-cxx) |   |
 | **AppVeyor CI**<br>(Windows Build and Deployment) | [![Build status](https://ci.appveyor.com/api/projects/status/f6p12h9n59w01770/branch/master?svg=true)](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master) | [Download](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master/artifacts) |
 
