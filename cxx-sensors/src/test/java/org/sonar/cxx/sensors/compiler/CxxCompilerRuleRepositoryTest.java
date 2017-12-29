@@ -19,8 +19,6 @@
  */
 package org.sonar.cxx.sensors.compiler;
 
-import org.sonar.cxx.sensors.compiler.CxxCompilerVcRuleRepository;
-import org.sonar.cxx.sensors.compiler.CxxCompilerGccRuleRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -36,7 +34,7 @@ public class CxxCompilerRuleRepositoryTest {
   @Test
   public void createVcRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    
+
     CxxCompilerVcRuleRepository def = new CxxCompilerVcRuleRepository(
       mock(ServerFileSystem.class),
       new RulesDefinitionXmlLoader(), language);
@@ -51,7 +49,7 @@ public class CxxCompilerRuleRepositoryTest {
   @Test
   public void createGccRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    
+
     CxxCompilerGccRuleRepository def = new CxxCompilerGccRuleRepository(
       mock(ServerFileSystem.class),
       new RulesDefinitionXmlLoader(), language);

@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -51,22 +52,22 @@ public class CxxUnitTestResultsImportSensorTest {
     language = TestUtils.mockCxxLanguage();
     when(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxCppCheckSensor.REPORT_PATH_KEY);
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
-    }
+  }
 
   @Test
   public void coverage() {
     CxxUnitTestResultsAggregator unitTestResultsAggregator = mock(CxxUnitTestResultsAggregator.class);
     new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, ProjectDefinition.create(), language)
-        .describe(new DefaultSensorDescriptor());
+      .describe(new DefaultSensorDescriptor());
     SensorContext sensorContext = mock(SensorContext.class);
     new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, ProjectDefinition.create(), language)
-        .execute(sensorContext);
+      .execute(sensorContext);
     verifyZeroInteractions(sensorContext);
     when(unitTestResultsAggregator.hasUnitTestResultsProperty()).thenReturn(true);
     ProjectDefinition sub = ProjectDefinition.create();
     ProjectDefinition.create().addSubProject(sub);
     new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, sub, language)
-        .execute(sensorContext);
+      .execute(sensorContext);
     verifyZeroInteractions(sensorContext);
   }
 
@@ -84,10 +85,10 @@ public class CxxUnitTestResultsImportSensorTest {
     SensorContextTester context = SensorContextTester.create(temp.newFolder());
 
     when(unitTestResultsAggregator.aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.any(UnitTestResults.class)))
-        .thenReturn(results);
+      .thenReturn(results);
 
     new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, ProjectDefinition.create(), language)
-        .analyze(context, results);
+      .analyze(context, results);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results));
 
@@ -115,7 +116,7 @@ public class CxxUnitTestResultsImportSensorTest {
     when(unitTestResultsAggregator.aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.any(UnitTestResults.class))).thenReturn(results);
 
     new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, ProjectDefinition.create(), language)
-        .analyze(context, results);
+      .analyze(context, results);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results));
 

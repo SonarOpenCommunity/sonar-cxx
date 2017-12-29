@@ -43,7 +43,7 @@ import org.sonar.squidbridge.annotations.NoSqale;
   priority = Priority.MINOR)
 @ActivatedByDefault
 @NoSqale
-public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
+public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final Logger LOG = Loggers.get(FileEncodingCheck.class);
   private Charset charset = Charset.forName("UTF-8");
@@ -57,15 +57,14 @@ public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharset
   public void visitFile(AstNode astNode) {
     try {
       Files.readAllLines(getContext().getFile().toPath(), charset);
-    } catch (IOException e) { 
-      getContext().createFileViolation(this, 
-          "Not all characters of the file can be encoded with the predefined charset " 
-           + charset.name() + ".");
+    } catch (IOException e) {
+      getContext().createFileViolation(this,
+        "Not all characters of the file can be encoded with the predefined charset "
+        + charset.name() + ".");
       if (LOG.isDebugEnabled()) {
         LOG.debug("Cannot Read File", e);
       }
     }
   }
-  
-}
 
+}

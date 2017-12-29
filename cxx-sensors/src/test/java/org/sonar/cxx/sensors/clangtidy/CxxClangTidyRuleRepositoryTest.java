@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.clangtidy;
 
-import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -35,7 +34,7 @@ public class CxxClangTidyRuleRepositoryTest {
   @Test
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    
+
     CxxClangTidyRuleRepository def = new CxxClangTidyRuleRepository(
       mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
 

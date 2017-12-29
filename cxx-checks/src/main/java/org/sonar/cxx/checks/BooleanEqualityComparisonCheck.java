@@ -55,8 +55,8 @@ public class BooleanEqualityComparisonCheck extends SquidCheck<Grammar> {
   }
 
   private static boolean hasBooleanLiteralOperand(AstNode node) {
-    return node.hasDirectChildren(CxxGrammarImpl.LITERAL,CxxGrammarImpl.BOOL) 
-           && node.hasDescendant(CxxKeyword.TRUE, CxxKeyword.FALSE);
+    return node.hasDirectChildren(CxxGrammarImpl.LITERAL, CxxGrammarImpl.BOOL)
+      && node.hasDescendant(CxxKeyword.TRUE, CxxKeyword.FALSE);
   }
 
 }

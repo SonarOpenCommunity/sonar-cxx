@@ -41,7 +41,7 @@ public class ParserBaseTestHelper {
     p = CxxParser.create(mock(SquidAstVisitorContext.class), conf, CxxFileTesterHelper.mockCxxLanguage());
     g = p.getGrammar();
   }
-  
+
   void mockRule(GrammarRuleKey key) {
     g.rule(key).mock(); //@ToDo deprecated mock
   }

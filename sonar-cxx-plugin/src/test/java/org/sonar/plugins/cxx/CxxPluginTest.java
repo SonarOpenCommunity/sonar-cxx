@@ -32,10 +32,10 @@ public class CxxPluginTest {
 
   @Test
   public void testGetExtensions() throws Exception {
-   SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(Version.create(6, 5), SonarQubeSide.SCANNER);
-   Plugin.Context context = new Plugin.Context(runtime); 
-   CxxPlugin plugin = new CxxPlugin();
-   plugin.define(context);
-   assertThat(context.getExtensions()).hasSize(72);
+    SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(Version.create(6, 5), SonarQubeSide.SCANNER);
+    Plugin.Context context = new Plugin.Context(runtime);
+    CxxPlugin plugin = new CxxPlugin();
+    plugin.define(context);
+    assertThat(context.getExtensions()).hasSize(72);
   }
 }

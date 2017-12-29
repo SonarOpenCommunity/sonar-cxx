@@ -46,15 +46,15 @@ public class CheckUtils {
 
   public static boolean isParenthesisedExpression(AstNode node) {
     return (node.is(CxxGrammarImpl.primaryExpression) && node.getParent().is(CxxGrammarImpl.expression)
-            && node.getFirstChild().is(CxxPunctuator.BR_LEFT) && node.getLastChild().is(CxxPunctuator.BR_RIGHT) 
-            && !node.isCopyBookOrGeneratedNode());
+      && node.getFirstChild().is(CxxPunctuator.BR_LEFT) && node.getLastChild().is(CxxPunctuator.BR_RIGHT)
+      && !node.isCopyBookOrGeneratedNode());
   }
-  
+
   public static boolean isIdentifierLabel(AstNode node) {
     if (node.is(CxxGrammarImpl.labeledStatement)) {
       return node.getToken().getType().equals(GenericTokenType.IDENTIFIER);
     }
     return false;
   }
-  
+
 }

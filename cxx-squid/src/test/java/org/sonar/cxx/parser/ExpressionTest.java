@@ -35,7 +35,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.idExpression);
     mockRule(CxxGrammarImpl.lambdaExpression);
     mockRule(CxxGrammarImpl.foldExpression);
-    
+
     assertThat(p)
       .matches("LITERAL")
       .matches("this")
@@ -51,13 +51,13 @@ public class ExpressionTest extends ParserBaseTestHelper {
 
     mockRule(CxxGrammarImpl.castExpression);
     mockRule(CxxGrammarImpl.foldOperator);
-    
+
     assertThat(p)
       .matches("( castExpression foldOperator ... )")
       .matches("( ... foldOperator castExpression )")
       .matches("( castExpression foldOperator ... foldOperator castExpression )");
   }
-  
+
   @Test
   public void primaryExpression_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
@@ -549,7 +549,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
   @Test
   public void castExpression_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.castExpression));
-    
+
     assertThat(p).matches("(int)c");
     assertThat(p).matches("(unsigned int)c");
     assertThat(p).matches("(const char*)c");
@@ -561,7 +561,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
     // C-COMPATIBILITY: C99 compound literals
     assertThat(p).matches("(Point){ 400, 200 }");
     assertThat(p).matches("(struct Point){ 400, 200 }");
-    assertThat(p).matches("(struct foo) {x + y, 'a', 0}");    
+    assertThat(p).matches("(struct foo) {x + y, 'a', 0}");
     assertThat(p).matches("(int []){ 1, 2, 4, 8 }");
     assertThat(p).matches("(int [3]) {1}");
     assertThat(p).matches("(const float []){1e0, 1e1, 1e2}");

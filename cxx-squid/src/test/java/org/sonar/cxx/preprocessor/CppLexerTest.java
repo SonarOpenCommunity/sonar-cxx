@@ -31,7 +31,6 @@ import org.sonar.cxx.api.CppPunctuator;
 
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
-import org.sonar.cxx.CxxFileTesterHelper;
 
 public class CppLexerTest {
 

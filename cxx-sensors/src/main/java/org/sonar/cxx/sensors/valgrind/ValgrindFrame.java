@@ -44,8 +44,8 @@ class ValgrindFrame {
    * Constructs a stack frame with given attributes. Its perfectly valid if some
    * of them are empty or don't carry meaningful information.
    */
-  public ValgrindFrame(@Nullable String ip, @Nullable String obj, @Nullable String fn, @Nullable String dir, 
-                       @Nullable String file, @Nullable String line) {
+  public ValgrindFrame(@Nullable String ip, @Nullable String obj, @Nullable String fn, @Nullable String dir,
+    @Nullable String file, @Nullable String line) {
     if (ip != null) {
       this.ip = ip;
     }
@@ -71,7 +71,7 @@ class ValgrindFrame {
     StringBuilder builder = new StringBuilder().append(ip).append(": ").append(fn);
     if (isLocationKnown()) {
       builder.append(" (")
-        .append("".equals(file) ? ("in " + obj) : (file + getLineStr())) 
+        .append("".equals(file) ? ("in " + obj) : (file + getLineStr()))
         .append(')');
     }
 
@@ -118,6 +118,6 @@ class ValgrindFrame {
   }
 
   private String getLineStr() {
-    return "".equals(line) ? "" : ":" + line; 
+    return "".equals(line) ? "" : ":" + line;
   }
 }

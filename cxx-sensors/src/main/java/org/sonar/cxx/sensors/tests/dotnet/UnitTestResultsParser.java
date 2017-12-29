@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
 import java.io.File;
 import java.util.function.BiConsumer;
 

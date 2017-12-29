@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.cppcheck;
 
-import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
@@ -47,7 +46,7 @@ public class CxxCppCheckSensorTest {
     language = TestUtils.mockCxxLanguage();
     when(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxCppCheckSensor.REPORT_PATH_KEY);
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
-    }
+  }
 
   @Test
   public void shouldReportCorrectViolations() {
@@ -58,9 +57,9 @@ public class CxxCppCheckSensorTest {
 
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-                             .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
-                             .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(9);
   }
@@ -71,7 +70,7 @@ public class CxxCppCheckSensorTest {
 
     settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
     context.setSettings(settings);
-    
+
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(3);
@@ -112,8 +111,8 @@ public class CxxCppCheckSensorTest {
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }
-  
-  @Test(expected=IllegalStateException.class)
+
+  @Test(expected = IllegalStateException.class)
   public void shouldThrowExceptionWhenRecoveryIsDisabled() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
@@ -123,7 +122,5 @@ public class CxxCppCheckSensorTest {
 
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     sensor.execute(context);
-  }  
+  }
 }
-
-

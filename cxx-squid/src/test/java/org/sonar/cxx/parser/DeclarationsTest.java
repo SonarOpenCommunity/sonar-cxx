@@ -134,7 +134,7 @@ public class DeclarationsTest extends ParserBaseTestHelper {
 
     assertThat(p).matches("attributeSpecifierSeq initDeclaratorList ;");
     assertThat(p).matches("attributeSpecifierSeq declSpecifierSeq initDeclaratorList ;");
-    
+
     assertThat(p).matches("declSpecifierSeq [ identifierList ] initializer ;");
     assertThat(p).matches("attributeSpecifierSeq declSpecifierSeq [ identifierList ] initializer ;");
     assertThat(p).matches("declSpecifierSeq refQualifier [ identifierList ] initializer ;");
@@ -217,7 +217,7 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("constexpr");
     assertThat(p).matches("inline");
   }
-  
+
   @Test
   public void declSpecifier_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.declSpecifier));
@@ -231,7 +231,7 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("typedef");
     assertThat(p).matches("constexpr");
     assertThat(p).matches("inline");
- 
+
     // enum specifier
     assertThat(p).matches("enum foo { MONDAY=1 }");
 
@@ -311,7 +311,7 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("definingTypeSpecifier attributeSpecifierSeq definingTypeSpecifier");
     assertThat(p).matches("definingTypeSpecifier attributeSpecifierSeq definingTypeSpecifier attributeSpecifierSeq");
   }
-  
+
   @Test
   public void simpleTypeSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.simpleTypeSpecifier));
@@ -328,7 +328,7 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("nestedNameSpecifier template simpleTemplateId");
     assertThat(p).matches("templateName");
     assertThat(p).matches("nestedNameSpecifier templateName");
-  
+
     assertThat(p).matches("char");
     assertThat(p).matches("char16_t");
     assertThat(p).matches("char32_t");
@@ -536,23 +536,23 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.namedNamespaceDefinition);
     mockRule(CxxGrammarImpl.unnamedNamespaceDefinition);
     mockRule(CxxGrammarImpl.nestedNamespaceDefinition);
-        
+
     assertThat(p)
-        .matches("namedNamespaceDefinition")
-        .matches("unnamedNamespaceDefinition")
-        .matches("nestedNamespaceDefinition");
+      .matches("namedNamespaceDefinition")
+      .matches("unnamedNamespaceDefinition")
+      .matches("nestedNamespaceDefinition");
   }
-  
+
   @Test
   public void enclosingNamespaceSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.enclosingNamespaceSpecifier));
 
     assertThat(p)
-        .matches("IDENTIFIER")
-        .matches("IDENTIFIER :: IDENTIFIER")
-        .matches("IDENTIFIER :: IDENTIFIER :: IDENTIFIER");
+      .matches("IDENTIFIER")
+      .matches("IDENTIFIER :: IDENTIFIER")
+      .matches("IDENTIFIER :: IDENTIFIER :: IDENTIFIER");
   }
-  
+
   @Test
   public void namespaceDefinition_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.namespaceDefinition));
@@ -726,6 +726,6 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("[AttributeUsage(AttributeTargets::Class | AttributeTargets::Method)]");
     assertThat(p).matches("[ AnotherAttr( gcnew array<Object ^> { 3.14159, \"pi\" }, var1 = gcnew array<Object ^> { \"a\", \"b\" } ) ]");
     assertThat(p).matches("[System::Diagnostics::DebuggerNonUserCodeAttribute]");
-    assertThat(p).matches("[System::CodeDom::Compiler::GeneratedCodeAttribute(L\"System.Data.Design.TypedDataSetGenerator\", L\"4.0.0.0\")]");      
+    assertThat(p).matches("[System::CodeDom::Compiler::GeneratedCodeAttribute(L\"System.Data.Design.TypedDataSetGenerator\", L\"4.0.0.0\")]");
   }
 }

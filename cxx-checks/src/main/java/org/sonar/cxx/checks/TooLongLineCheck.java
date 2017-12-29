@@ -39,7 +39,7 @@ import org.sonar.cxx.tag.Tag;
 
 /**
  * TooLongLineCheck - similar Vera++ rule L004 "Line too long"
- * 
+ *
  */
 @Rule(
   key = "TooLongLine",
@@ -48,7 +48,7 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.MINOR)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
+public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final int DEFAULT_MAXIMUM_LINE_LENHGTH = 160;
   private static final int DEFAULT_TAB_WIDTH = 8;
@@ -96,9 +96,9 @@ public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetA
       }
       length = line.length() + length * (tabWidth - 1);
       if (length > maximumLineLength) {
-        getContext().createLineViolation(this, 
-            "Split this {0} characters long line (which is greater than {1} authorized).", 
-            i + 1, length, maximumLineLength);
+        getContext().createLineViolation(this,
+          "Split this {0} characters long line (which is greater than {1} authorized).",
+          i + 1, length, maximumLineLength);
       }
     }
   }

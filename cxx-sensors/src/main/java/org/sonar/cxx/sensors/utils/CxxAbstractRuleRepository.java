@@ -58,12 +58,12 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
    * {@inheritDoc}
    */
   public CxxAbstractRuleRepository(
-          ServerFileSystem fileSystem,
-          RulesDefinitionXmlLoader xmlRuleLoader,
-          String key,
-          String name,
-          String customKey,
-          CxxLanguage language) {
+    ServerFileSystem fileSystem,
+    RulesDefinitionXmlLoader xmlRuleLoader,
+    String key,
+    String name,
+    String customKey,
+    CxxLanguage language) {
     this.fileSystem = fileSystem;
     this.xmlRuleLoader = xmlRuleLoader;
     this.repositoryKey = key + language.getRepositorySuffix();
@@ -87,7 +87,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
           BufferedReader reader = new BufferedReader(new InputStreamReader(input, charset));
           xmlRuleLoader.load(repository, reader);
-        } catch (Exception ex) { 
+        } catch (Exception ex) {
           LOG.info("Cannot Load XML '{}'", ex);
         }
       }

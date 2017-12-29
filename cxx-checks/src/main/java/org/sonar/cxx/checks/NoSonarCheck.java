@@ -30,8 +30,7 @@ import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.NoSqale;
 
 /**
- * Note that {@link com.sonar.sslr.squid.checks.AbstractNoSonarCheck} can't be
- * used because of bug SSLRSQBR-16.
+ * Note that {@link com.sonar.sslr.squid.checks.AbstractNoSonarCheck} can't be used because of bug SSLRSQBR-16.
  */
 @Rule(
   key = "NoSonar",
@@ -46,13 +45,13 @@ public class NoSonarCheck extends SquidCheck<Grammar> implements AstAndTokenVisi
     for (Trivia trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         String[] commentLines = getContext().getCommentAnalyser()
-                                .getContents(trivia.getToken().getOriginalValue()).split("(\r)?\n|\r", -1);
+          .getContents(trivia.getToken().getOriginalValue()).split("(\r)?\n|\r", -1);
         int line = trivia.getToken().getLine();
 
         for (String commentLine : commentLines) {
           if (commentLine.contains("NOSONAR")) {
-            getContext().createLineViolation(this, 
-                "Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?", line);
+            getContext().createLineViolation(this,
+              "Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?", line);
           }
           line++;
         }

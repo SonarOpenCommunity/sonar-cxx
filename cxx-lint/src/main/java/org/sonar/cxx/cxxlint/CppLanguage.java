@@ -17,7 +17,6 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.sonar.cxx.cxxlint;
 
 import java.util.List;
@@ -33,27 +32,27 @@ public class CppLanguage extends CxxLanguage {
 
   public CppLanguage(Configuration config) {
     super("c++", config);
-  }  
-  
+  }
+
   @Override
   public String[] getFileSuffixes() {
-    return new String [] {"cpp", "hpp", "h", "hxx", "cxx"};
+    return new String[]{"cpp", "hpp", "h", "hxx", "cxx"};
   }
 
   @Override
   public String[] getSourceFileSuffixes() {
-    return new String [] {"cpp", "cxx"};
+    return new String[]{"cpp", "cxx"};
   }
 
   @Override
   public String[] getHeaderFileSuffixes() {
-    return new String [] {"hpp", "h", "hxx"};
+    return new String[]{"hpp", "h", "hxx"};
   }
 
   @Override
   public String getPropertiesKey() {
     return "cxx";
-  }  
+  }
 
   @Override
   public List<Class> getChecks() {

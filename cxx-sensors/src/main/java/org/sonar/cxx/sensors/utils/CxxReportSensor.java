@@ -49,17 +49,18 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 
 /**
- * This class is used as base for all sensors which import reports. It hosts
- * common logic such as finding the reports and saving issues in SonarQube
+ * This class is used as base for all sensors which import reports. It hosts common logic such as finding the reports
+ * and saving issues in SonarQube
  */
 public abstract class CxxReportSensor implements Sensor {
+
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
   private final Set<String> notFoundFiles = new HashSet<>();
   private final Set<String> uniqueIssues = new HashSet<>();
   private final Map<InputFile, Integer> violationsPerFileCount = new HashMap<>();
   private int violationsPerModuleCount;
   protected final CxxLanguage language;
-  
+
   /**
    * {@inheritDoc}
    */
@@ -68,8 +69,7 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   /**
-   * Get string property from configuration. If the string is not set or empty,
-   * return the default value.
+   * Get string property from configuration. If the string is not set or empty, return the default value.
    *
    * @param context sensor context
    * @param name Name of the property
@@ -90,12 +90,12 @@ public abstract class CxxReportSensor implements Sensor {
   @Override
   public void execute(SensorContext context) {
     try {
-      LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'", 
-                       context.fileSystem().baseDir(), getReportPathKey());
+      LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'",
+        context.fileSystem().baseDir(), getReportPathKey());
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
       violationsPerFileCount.clear();
       violationsPerModuleCount = 0;
-      
+
       for (File report : reports) {
         int prevViolationsCount = violationsPerModuleCount;
         LOG.info("Processing report '{}'", report);
@@ -103,10 +103,10 @@ public abstract class CxxReportSensor implements Sensor {
       }
 
       LOG.info("{} processed = {}", CxxMetrics.getKey(this.getSensorKey(), language), violationsPerModuleCount);
-          
+
       String metricKey = CxxMetrics.getKey(this.getSensorKey(), language);
       Metric<Integer> metric = this.language.getMetric(metricKey);
-      
+
       if (metric != null) {
         for (Map.Entry<InputFile, Integer> entry : violationsPerFileCount.entrySet()) {
           context.<Integer>newMeasure()
@@ -142,8 +142,8 @@ public abstract class CxxReportSensor implements Sensor {
     try {
       processReport(context, report);
       if (LOG.isDebugEnabled()) {
-        LOG.debug("{} processed = {}", CxxMetrics.getKey(this.getSensorKey(), language), 
-                                     violationsPerModuleCount - prevViolationsCount);
+        LOG.debug("{} processed = {}", CxxMetrics.getKey(this.getSensorKey(), language),
+          violationsPerModuleCount - prevViolationsCount);
       }
     } catch (EmptyReportException e) {
       LOG.warn("The report '{}' seems to be empty, ignoring.", report);
@@ -161,6 +161,7 @@ public abstract class CxxReportSensor implements Sensor {
 
   /**
    * resolveFilename normalizes the report full path
+   *
    * @param baseDir of the project
    * @param filename of the report
    * @return String
@@ -175,7 +176,7 @@ public abstract class CxxReportSensor implements Sensor {
       if ((normalizedPath != null) && (new File(normalizedPath).isAbsolute())) {
         return normalizedPath;
       }
-  
+
       // Prefix with absolute module base directory, attempt normalization again -- can still get null here
       normalizedPath = FilenameUtils.normalize(baseDir + File.separator + filename);
       if (normalizedPath != null) {
@@ -187,14 +188,15 @@ public abstract class CxxReportSensor implements Sensor {
 
   /**
    * getReports
+   *
    * @param settings of the C++ project
    * @param moduleBaseDir location of sonar properties file
    * @param genericReportKeyData full path of XML report
    * @return File
    */
   public static List<File> getReports(Configuration settings,
-                                      final File moduleBaseDir,
-                                      @Nullable String genericReportKeyData) {
+    final File moduleBaseDir,
+    @Nullable String genericReportKeyData) {
 
     List<File> reports = new ArrayList<>();
 
@@ -217,9 +219,9 @@ public abstract class CxxReportSensor implements Sensor {
       directoryScanner.setIncludes(includes.toArray(new String[includes.size()]));
       directoryScanner.scan();
 
-      String [] includeFiles = directoryScanner.getIncludedFiles();
+      String[] includeFiles = directoryScanner.getIncludedFiles();
       LOG.info("Scanner found '{}' report files", includeFiles.length);
-      for (String found : includeFiles) {        
+      for (String found : includeFiles) {
         reports.add(new File(found));
       }
 
@@ -260,45 +262,44 @@ public abstract class CxxReportSensor implements Sensor {
 
   /**
    * Saves code violation only if unique. Compares file, line, ruleId and msg.
-     * @param sensorContext
-     * @param ruleRepoKey
-     * @param file
-     * @param line
-     * @param ruleId
-     * @param msg
+   *
+   * @param sensorContext
+   * @param ruleRepoKey
+   * @param file
+   * @param line
+   * @param ruleId
+   * @param msg
    */
   public void saveUniqueViolation(SensorContext sensorContext, String ruleRepoKey,
-                                  @Nullable String file, @Nullable String line, String ruleId, String msg) {
+    @Nullable String file, @Nullable String line, String ruleId, String msg) {
     // StringBuilder is slower
-    if (uniqueIssues.add(file + line + ruleId + msg)) { 
+    if (uniqueIssues.add(file + line + ruleId + msg)) {
       saveViolation(sensorContext, ruleRepoKey, file, line, ruleId, msg);
     }
   }
 
   /**
-   * Saves a code violation which is detected in the given file/line and has
-   * given ruleId and message. Saves it to the given project and context.
-   * Project or file-level violations can be saved by passing null for the
-   * according parameters ('file' = null for project level, 'line' = null for
-   * file-level)
+   * Saves a code violation which is detected in the given file/line and has given ruleId and message. Saves it to the
+   * given project and context. Project or file-level violations can be saved by passing null for the according
+   * parameters ('file' = null for project level, 'line' = null for file-level)
    */
-  private void saveViolation(SensorContext sensorContext, String ruleRepoKey, 
-                            @Nullable String filename, @Nullable String line, String ruleId, String msg) {
+  private void saveViolation(SensorContext sensorContext, String ruleRepoKey,
+    @Nullable String filename, @Nullable String line, String ruleId, String msg) {
     // handles file="" situation -- file level
     if ((filename != null) && (!filename.isEmpty())) {
       String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
       String normalPath = CxxUtils.normalizePathFull(filename, root);
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
         InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem()
-                                                        .predicates().hasAbsolutePath(normalPath));
+          .predicates().hasAbsolutePath(normalPath));
         if (inputFile != null) {
           try {
             int lines = inputFile.lines();
             int lineNr = getLineAsInt(line, lines);
             String repoKey = ruleRepoKey + this.language.getRepositorySuffix();
             NewIssue newIssue = sensorContext
-                    .newIssue()
-                    .forRule(RuleKey.of(repoKey, ruleId));
+              .newIssue()
+              .forRule(RuleKey.of(repoKey, ruleId));
             NewIssueLocation location = newIssue.newLocation()
               .on(inputFile)
               .at(inputFile.selectLine(lineNr > 0 ? lineNr : 1))
@@ -322,7 +323,7 @@ public abstract class CxxReportSensor implements Sensor {
       // project level
       try {
         NewIssue newIssue = sensorContext.newIssue().forRule(
-                                 RuleKey.of(ruleRepoKey + this.language.getRepositorySuffix(), ruleId));
+          RuleKey.of(ruleRepoKey + this.language.getRepositorySuffix(), ruleId));
         NewIssueLocation location = newIssue.newLocation()
           .on(sensorContext.module())
           .message(msg);
@@ -332,9 +333,9 @@ public abstract class CxxReportSensor implements Sensor {
         violationsPerModuleCount++;
       } catch (RuntimeException ex) {
         LOG.error("Could not add the issue '{}' for rule '{}:{}', skipping issue",
-                                  ex.getMessage(), ruleRepoKey, ruleId);
+          ex.getMessage(), ruleRepoKey, ruleId);
         CxxUtils.validateRecovery(ex, this.language);
-    }
+      }
     }
   }
 
@@ -370,6 +371,6 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   public abstract String getReportPathKey();
+
   protected abstract String getSensorKey();
 }
-

@@ -39,7 +39,7 @@ public class FileEncodingCheckTest {
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".", Charset.forName("US-ASCII"));
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);
-    
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }
@@ -50,7 +50,7 @@ public class FileEncodingCheckTest {
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".", Charset.forName("UTF-8"));
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);
-   
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }

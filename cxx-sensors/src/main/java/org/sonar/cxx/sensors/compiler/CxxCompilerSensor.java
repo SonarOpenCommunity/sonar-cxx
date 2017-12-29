@@ -34,12 +34,13 @@ import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 /**
- * compiler for C++ with advanced analysis features (e.g. for VC 2008 team
- * edition or 2010/2012/2013/2015/2017 premium edition)
+ * compiler for C++ with advanced analysis features (e.g. for VC 2008 team edition or 2010/2012/2013/2015/2017 premium
+ * edition)
  *
  * @author Bert
  */
 public class CxxCompilerSensor extends CxxReportSensor {
+
   private static final Logger LOG = Loggers.get(CxxCompilerSensor.class);
   public static final String REPORT_PATH_KEY = "compiler.reportPath";
   public static final String REPORT_REGEX_DEF = "compiler.regex";
@@ -52,12 +53,13 @@ public class CxxCompilerSensor extends CxxReportSensor {
   private final Map<String, CompilerParser> parsers = new HashMap<>();
 
   /**
-   * CxxCompilerSensor for Visual Studio C++ Compiler Sensor 
+   * CxxCompilerSensor for Visual Studio C++ Compiler Sensor
+   *
    * @param language defines settings C or C++
    */
   public CxxCompilerSensor(CxxLanguage language) {
     super(language);
-  
+
     addCompilerParser(new CxxCompilerVcParser());
     addCompilerParser(new CxxCompilerGccParser());
   }
@@ -71,6 +73,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
 
   /**
    * Get the compiler parser to use.
+   *
    * @return CompilerParser
    */
   protected CompilerParser getCompilerParser(SensorContext context) {
@@ -88,7 +91,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " CompilerSensor");
   }
-  
+
   @Override
   public String getReportPathKey() {
     return language.getPluginProperty(REPORT_PATH_KEY);
@@ -99,9 +102,9 @@ public class CxxCompilerSensor extends CxxReportSensor {
     throws javax.xml.stream.XMLStreamException {
     final CompilerParser parser = getCompilerParser(context);
     final String reportCharset = getContextStringProperty(context,
-        this.language.getPluginProperty(REPORT_CHARSET_DEF), parser.defaultCharset());
+      this.language.getPluginProperty(REPORT_CHARSET_DEF), parser.defaultCharset());
     final String reportRegEx = getContextStringProperty(context,
-        this.language.getPluginProperty(REPORT_REGEX_DEF), parser.defaultRegexp());
+      this.language.getPluginProperty(REPORT_REGEX_DEF), parser.defaultRegexp());
     final List<CompilerParser.Warning> warnings = new LinkedList<>();
 
     // Iterate through the lines of the input file
@@ -115,7 +118,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
           LOG.warn("C-Compiler warning: '{}''{}'", w.id, w.msg);
         }
       }
-    } catch (java.io.FileNotFoundException|java.lang.IllegalArgumentException e) {
+    } catch (java.io.FileNotFoundException | java.lang.IllegalArgumentException e) {
       LOG.error("processReport Exception: {} - not processed '{}'", report, e);
     }
   }
@@ -123,10 +126,9 @@ public class CxxCompilerSensor extends CxxReportSensor {
   private static boolean isInputValid(CompilerParser.Warning warning) {
     return !warning.toString().isEmpty();
   }
-  
+
   @Override
   protected String getSensorKey() {
     return KEY;
-  }  
+  }
 }
-

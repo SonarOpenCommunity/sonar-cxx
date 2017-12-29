@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-
 /**
  * EmptyReportException is thrown when an empty report is detected
  */
@@ -31,6 +30,7 @@ public class EmptyReportException extends RuntimeException {
 
   /**
    * {@inheritDoc}
+   *
    * @param message is used for additional information
    */
   public EmptyReportException(String message) {
@@ -39,6 +39,7 @@ public class EmptyReportException extends RuntimeException {
 
   /**
    * {@inheritDoc}
+   *
    * @param throwable is used to forward details
    */
   public EmptyReportException(Throwable throwable) {
@@ -47,6 +48,7 @@ public class EmptyReportException extends RuntimeException {
 
   /**
    * {@inheritDoc}
+   *
    * @param message is used for additional information
    * @param throwable is used to forward details
    */

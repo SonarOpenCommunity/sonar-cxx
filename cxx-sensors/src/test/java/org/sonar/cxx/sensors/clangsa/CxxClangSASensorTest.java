@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.clangsa;
 
-import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
@@ -47,7 +46,7 @@ public class CxxClangSASensorTest {
     language = TestUtils.mockCxxLanguage();
     when(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxClangSASensor.REPORT_PATH_KEY);
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
-    }
+  }
 
   @Test
   public void shouldIgnoreIssuesIfResourceNotFound() {
@@ -69,7 +68,7 @@ public class CxxClangSASensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc")
-                             .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
 
     CxxClangSASensor sensor = new CxxClangSASensor(language);
     sensor.execute(context);
@@ -82,9 +81,9 @@ public class CxxClangSASensorTest {
 
     settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY), "clangsa-reports/clangsa-reportXYZ.plist");
     context.setSettings(settings);
-    
+
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc")
-                             .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
 
     CxxClangSASensor sensor = new CxxClangSASensor(language);
     sensor.execute(context);
@@ -92,5 +91,3 @@ public class CxxClangSASensorTest {
   }
 
 }
-
-

@@ -39,7 +39,7 @@ import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 
 /**
  * NestedStatementsCheck
- * 
+ *
  */
 @Rule(
   key = "NestedStatements",
@@ -49,7 +49,7 @@ import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 )
 @ActivatedByDefault
 @SqaleConstantRemediation("10min")
-public class NestedStatementsCheck extends SquidCheck<Grammar> { 
+public class NestedStatementsCheck extends SquidCheck<Grammar> {
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
     CxxGrammarImpl.selectionStatement,

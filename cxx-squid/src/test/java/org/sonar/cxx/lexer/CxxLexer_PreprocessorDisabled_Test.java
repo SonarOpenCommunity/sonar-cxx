@@ -28,7 +28,6 @@ import org.junit.Test;
 import org.sonar.cxx.api.CxxTokenType;
 
 import com.sonar.sslr.impl.Lexer;
-import org.sonar.cxx.CxxFileTesterHelper;
 
 public class CxxLexer_PreprocessorDisabled_Test {
 

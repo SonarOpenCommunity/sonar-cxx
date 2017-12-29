@@ -35,8 +35,8 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxPunctuator;
 
-public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> 
-    extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
+public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
+  extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
   private final SquidAstVisitorContext<?> context;
   private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);

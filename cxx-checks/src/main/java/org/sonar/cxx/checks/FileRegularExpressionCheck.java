@@ -45,7 +45,7 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
 
 /**
  * FileRegularExpressionCheck
- * 
+ *
  */
 @Rule(
   key = "FileRegularExpression",
@@ -53,7 +53,7 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale
-public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
+public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
   private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;
@@ -139,8 +139,8 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
       if (compare(invertRegularExpression, matcher.find())) {
         getContext().createFileViolation(this, message);
       }
-    } catch (Exception e) { 
-      throw new IllegalStateException(e); 
+    } catch (Exception e) {
+      throw new IllegalStateException(e);
     }
   }
 
@@ -153,7 +153,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return true;
   }
 
-  private CharSequence fromFile(File file) throws IOException  {
+  private CharSequence fromFile(File file) throws IOException {
     try (FileInputStream input = new FileInputStream(file)) {
       FileChannel channel = input.getChannel();
       ByteBuffer bbuf = channel.map(FileChannel.MapMode.READ_ONLY, 0, (int) channel.size());
@@ -165,4 +165,3 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return invert ? !condition : condition;
   }
 }
-

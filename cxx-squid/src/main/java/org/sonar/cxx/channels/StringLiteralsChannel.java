@@ -29,7 +29,7 @@ import com.sonar.sslr.impl.Lexer;
 /**
  * StringLiteralsChannel
  */
-public class StringLiteralsChannel extends Channel<Lexer> { 
+public class StringLiteralsChannel extends Channel<Lexer> {
 
   private static final char EOF = (char) -1;
 
@@ -115,8 +115,8 @@ public class StringLiteralsChannel extends Channel<Lexer> {
         }
         sb.append(charAt);
         index++;
-        
-        if( sb.length() > delimiter.length() ) {
+
+        if (sb.length() > delimiter.length()) {
           break;
         }
       }

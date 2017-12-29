@@ -35,6 +35,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class CppcheckParserV2 implements CppcheckParser {
+
   private static final Logger LOG = Loggers.get(CppcheckParserV2.class);
   private final CxxCppCheckSensor sensor;
 
@@ -85,7 +86,7 @@ public class CppcheckParserV2 implements CppcheckParser {
                   line = locationCursor.getAttrValue("line");
 
                   if (file != null) {
-                    file = file.replace('\\','/');
+                    file = file.replace('\\', '/');
                   }
 
                   if ("*".equals(file)) {

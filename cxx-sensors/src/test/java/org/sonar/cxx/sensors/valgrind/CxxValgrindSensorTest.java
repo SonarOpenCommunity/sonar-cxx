@@ -52,7 +52,7 @@ public class CxxValgrindSensorTest {
   public void shouldNotThrowWhenGivenValidData() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     sensor.execute(context);
-    assertThat(context.allAnalysisErrors().size()==0).isTrue();
+    assertThat(context.allAnalysisErrors().size() == 0).isTrue();
   }
 
   @Test
@@ -86,4 +86,3 @@ public class CxxValgrindSensorTest {
     return new ValgrindFrame("ip", "obj", "fn", "dir", "file", "1");
   }
 }
-

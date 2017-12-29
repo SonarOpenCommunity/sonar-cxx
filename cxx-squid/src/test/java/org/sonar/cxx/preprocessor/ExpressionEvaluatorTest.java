@@ -329,16 +329,16 @@ public class ExpressionEvaluatorTest {
     assertEquals(ExpressionEvaluator.decode("1l"), new BigInteger("1", 10));
     assertEquals(ExpressionEvaluator.decode("1U"), new BigInteger("1", 10));
     assertEquals(ExpressionEvaluator.decode("1u"), new BigInteger("1", 10));
-    
+
     assertEquals(ExpressionEvaluator.decode("1ul"), new BigInteger("1", 10));
     assertEquals(ExpressionEvaluator.decode("1ll"), new BigInteger("1", 10));
     assertEquals(ExpressionEvaluator.decode("1i64"), new BigInteger("1", 10));
     assertEquals(ExpressionEvaluator.decode("1ui64"), new BigInteger("1", 10));
-    
+
     assertEquals(ExpressionEvaluator.decode("067ll"), new BigInteger("67", 8));
     assertEquals(ExpressionEvaluator.decode("0b11ul"), new BigInteger("11", 2));
     assertEquals(ExpressionEvaluator.decode("0xabui64"), new BigInteger("ab", 16));
-    
+
     assertEquals(ExpressionEvaluator.decode("1'234"), new BigInteger("1234", 10));
     assertEquals(ExpressionEvaluator.decode("0b1111'0000'1111"), new BigInteger("111100001111", 2));
     assertEquals(ExpressionEvaluator.decode("0xAAAA'bbbb"), new BigInteger("AAAAbbbb", 16));

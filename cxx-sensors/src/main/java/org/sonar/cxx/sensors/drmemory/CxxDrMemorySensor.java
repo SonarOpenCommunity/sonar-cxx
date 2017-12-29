@@ -33,23 +33,23 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 
 /**
- * Dr. Memory is a memory monitoring tool capable of identifying memory-related
- * programming errors such as accesses of uninitialized memory, accesses to
- * not addressable memory (including outside of allocated heap units and heap
- * underflow and overflow), accesses to freed memory, double frees, memory
- * leaks, and (on Windows) handle leaks, GDI API usage errors, and accesses to
- * unreserved thread local storage slots. See also: http://drmemory.org
+ * Dr. Memory is a memory monitoring tool capable of identifying memory-related programming errors such as accesses of
+ * uninitialized memory, accesses to not addressable memory (including outside of allocated heap units and heap
+ * underflow and overflow), accesses to freed memory, double frees, memory leaks, and (on Windows) handle leaks, GDI API
+ * usage errors, and accesses to unreserved thread local storage slots. See also: http://drmemory.org
  *
  * @author asylvestre
  */
 public class CxxDrMemorySensor extends CxxReportSensor {
+
   private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   public static final String REPORT_PATH_KEY = "drmemory.reportPath";
   public static final String KEY = "DrMemory";
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
   /**
-   * CxxDrMemorySensor for Doctor Memory Sensor 
+   * CxxDrMemorySensor for Doctor Memory Sensor
+   *
    * @param language defines settings C or C++
    */
   public CxxDrMemorySensor(CxxLanguage language) {
@@ -62,7 +62,7 @@ public class CxxDrMemorySensor extends CxxReportSensor {
   public String defaultCharset() {
     return DEFAULT_CHARSET_DEF;
   }
-  
+
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " DrMemorySensor");
@@ -80,14 +80,14 @@ public class CxxDrMemorySensor extends CxxReportSensor {
     for (DrMemoryError error : DrMemoryParser.parse(report, defaultCharset())) {
       if (error.getStackTrace().isEmpty()) {
         saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
-                null, null,
-                error.getType().getId(), error.getMessage());
+          null, null,
+          error.getType().getId(), error.getMessage());
       }
       for (Location errorLocation : error.getStackTrace()) {
         if (isFileInAnalysis(context, errorLocation)) {
           saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
-                  errorLocation.getFile(), errorLocation.getLine().toString(),
-                  error.getType().getId(), error.getMessage());
+            errorLocation.getFile(), errorLocation.getLine().toString(),
+            error.getType().getId(), error.getMessage());
           break;
         }
       }
@@ -100,9 +100,9 @@ public class CxxDrMemorySensor extends CxxReportSensor {
     InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(new File(normalPath)));
     return inputFile != null;
   }
-  
+
   @Override
   protected String getSensorKey() {
     return KEY;
-  }  
+  }
 }

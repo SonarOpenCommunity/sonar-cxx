@@ -280,7 +280,7 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void external_define() {
     CxxConfiguration conf = new CxxConfiguration();
-    conf.setDefines(new String[] {"M body"});
+    conf.setDefines(new String[]{"M body"});
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 
@@ -292,7 +292,7 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void external_defines_with_params() {
     CxxConfiguration conf = new CxxConfiguration();
-    conf.setDefines(new String[] {"minus(a, b) a - b"});
+    conf.setDefines(new String[]{"minus(a, b) a - b"});
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 

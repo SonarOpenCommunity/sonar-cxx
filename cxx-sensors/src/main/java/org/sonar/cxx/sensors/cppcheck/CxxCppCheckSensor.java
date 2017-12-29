@@ -39,14 +39,16 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
  * @author vhardion
  */
 public class CxxCppCheckSensor extends CxxReportSensor {
+
   private static final Logger LOG = Loggers.get(CxxCppCheckSensor.class);
   public static final String REPORT_PATH_KEY = "cppcheck.reportPath";
   public static final String KEY = "CppCheck";
-  
+
   private final List<CppcheckParser> parsers = new LinkedList<>();
 
   /**
-   * CxxCppCheckSensor for CppCheck Sensor 
+   * CxxCppCheckSensor for CppCheck Sensor
+   *
    * @param language defines settings C or C++
    */
   public CxxCppCheckSensor(CxxLanguage language) {
@@ -64,7 +66,7 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " CppCheckSensor");
   }
-  
+
   @Override
   protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {

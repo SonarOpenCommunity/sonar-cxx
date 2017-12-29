@@ -34,18 +34,19 @@ import com.dd.plist.NSObject;
 import com.dd.plist.NSString;
 import com.dd.plist.NSNumber;
 
-
 /**
  * Sensor for Clang Static Analyzer.
  *
  */
 public class CxxClangSASensor extends CxxReportSensor {
+
   private static final Logger LOG = Loggers.get(CxxClangSASensor.class);
   public static final String REPORT_PATH_KEY = "clangsa.reportPath";
   public static final String KEY = "ClangSA";
 
   /**
-   * CxxClangSASensor for Clang Static Analyzer Sensor 
+   * CxxClangSASensor for Clang Static Analyzer Sensor
+   *
    * @param language defines settings C or C++
    */
   public CxxClangSASensor(CxxLanguage language) {
@@ -71,42 +72,42 @@ public class CxxClangSASensor extends CxxReportSensor {
     try {
       File f = new File(report.getPath());
 
-      NSDictionary rootDict = (NSDictionary)PropertyListParser.parse(f);
+      NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(f);
 
       // Array of file paths where an issue was detected.
-      NSObject[] sourceFiles = ((NSArray)rootDict.objectForKey("files")).getArray();
+      NSObject[] sourceFiles = ((NSArray) rootDict.objectForKey("files")).getArray();
 
-      NSObject[] diagnostics = ((NSArray)rootDict.objectForKey("diagnostics")).getArray();
+      NSObject[] diagnostics = ((NSArray) rootDict.objectForKey("diagnostics")).getArray();
 
-      for(NSObject diagnostic:diagnostics){
-        NSDictionary diag = (NSDictionary)diagnostic;
+      for (NSObject diagnostic : diagnostics) {
+        NSDictionary diag = (NSDictionary) diagnostic;
 
-        NSString desc = (NSString)diag.get("description");
+        NSString desc = (NSString) diag.get("description");
         String description = desc.getContent();
 
-        String checkerName = ((NSString)diag.get("check_name")).getContent();
+        String checkerName = ((NSString) diag.get("check_name")).getContent();
 
-        NSDictionary location = (NSDictionary)diag.get("location");
+        NSDictionary location = (NSDictionary) diag.get("location");
 
-        Integer line = ((NSNumber)location.get("line")).intValue();
+        Integer line = ((NSNumber) location.get("line")).intValue();
 
-        NSNumber fileIndex = (NSNumber)location.get("file");
+        NSNumber fileIndex = (NSNumber) location.get("file");
 
         NSObject filePath = sourceFiles[fileIndex.intValue()];
 
         saveUniqueViolation(context,
-            CxxClangSARuleRepository.KEY,
-            ((NSString)filePath).getContent(),
-            line.toString(),
-            checkerName,
-            description);
+          CxxClangSARuleRepository.KEY,
+          ((NSString) filePath).getContent(),
+          line.toString(),
+          checkerName,
+          description);
 
       }
     } catch (final java.io.IOException
-                  | java.text.ParseException
-                  | javax.xml.parsers.ParserConfigurationException
-                  | org.xml.sax.SAXException
-                  | com.dd.plist.PropertyListFormatException e){
+      | java.text.ParseException
+      | javax.xml.parsers.ParserConfigurationException
+      | org.xml.sax.SAXException
+      | com.dd.plist.PropertyListFormatException e) {
 
       LOG.error("Failed to parse clangsa report: {}", e.getMessage());
 

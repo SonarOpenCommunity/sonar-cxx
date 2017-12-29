@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.clangsa;
 
-import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 

@@ -32,8 +32,8 @@ import java.util.regex.Pattern;
 import org.sonar.cxx.tag.Tag;
 
 /**
- * FileNameCheck 
- * 
+ * FileNameCheck
+ *
  */
 @Rule(
   key = "FileName",
@@ -41,7 +41,7 @@ import org.sonar.cxx.tag.Tag;
   name = "File names should comply with a naming convention",
   tags = {Tag.CONVENTION})
 @SqaleConstantRemediation("10min")
-public class FileNameCheck extends SquidCheck<Grammar> { 
+public class FileNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$";
   private static final String MESSAGE = "Rename this file to match this regular expression: \"%s\".";

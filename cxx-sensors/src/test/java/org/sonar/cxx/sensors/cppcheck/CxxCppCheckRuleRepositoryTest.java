@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.cppcheck;
 
-import org.sonar.cxx.sensors.cppcheck.CxxCppCheckRuleRepository;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -35,7 +34,7 @@ public class CxxCppCheckRuleRepositoryTest {
   @Test
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    
+
     CxxCppCheckRuleRepository def = new CxxCppCheckRuleRepository(
       mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
 

@@ -31,10 +31,11 @@ import com.sonar.sslr.api.Token;
 
 /**
  * Visitor that computes the number of lines of code of a file.
+ *
  * @param <GRAMMAR>
  */
-public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar> 
-    extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
+public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
+  extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
   private final MetricDef metric;
   private int lastTokenLine;

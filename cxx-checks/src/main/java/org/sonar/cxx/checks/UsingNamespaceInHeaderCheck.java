@@ -29,8 +29,6 @@ import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.tag.Tag;
 
-
-
 @Rule(
   key = "UsingNamespaceInHeader",
   name = "Using namespace directives are not allowed in header files",

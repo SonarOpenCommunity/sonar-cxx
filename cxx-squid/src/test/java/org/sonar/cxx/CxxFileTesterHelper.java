@@ -35,7 +35,7 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
  * @author jocs
  */
 public class CxxFileTesterHelper {
-  
+
   public static CxxFileTester CreateCxxFileTester(String fileName, String basePath, String module) throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = new CxxFileTester();
     tester.sensorContext = SensorContextTester.create(new File(basePath));
@@ -59,8 +59,8 @@ public class CxxFileTesterHelper {
     when(language.getPropertiesKey()).thenReturn("cxx");
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
     when(language.getFileSuffixes())
-            .thenReturn(new String [] { ".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh" });
-    
+      .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
+
     return language;
-  }  
+  }
 }

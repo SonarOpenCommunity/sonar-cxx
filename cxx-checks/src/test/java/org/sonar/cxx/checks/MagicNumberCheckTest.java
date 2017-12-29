@@ -35,11 +35,10 @@ public class MagicNumberCheckTest {
 
   @Test
   public void test() throws UnsupportedEncodingException, IOException {
-    
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/magicNumber.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new MagicNumberCheck());  
-    
-    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new MagicNumberCheck());
+
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(12).withMessage("Extract this magic number '0.85' into a constant, variable declaration or an enum.")
       .next().atLine(16)
@@ -52,10 +51,10 @@ public class MagicNumberCheckTest {
   public void custom() throws UnsupportedEncodingException, IOException {
     MagicNumberCheck check = new MagicNumberCheck();
     check.exceptions = "0.85 , 1,,";
-    
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/magicNumber.cc", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);  
-        
+
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/magicNumber.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(17)
       .next().atLine(20)

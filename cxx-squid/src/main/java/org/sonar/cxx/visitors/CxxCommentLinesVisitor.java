@@ -35,11 +35,12 @@ import com.sonar.sslr.api.Trivia;
 
 /**
  * CxxCommentLinesVisitor
+ *
  * @param <GRAMMAR>
- * 
+ *
  */
-public class CxxCommentLinesVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> 
-                                   implements AstAndTokenVisitor { 
+public class CxxCommentLinesVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR>
+  implements AstAndTokenVisitor {
 
   private final Set<Integer> comments = new HashSet<>();
   private boolean seenFirstToken;

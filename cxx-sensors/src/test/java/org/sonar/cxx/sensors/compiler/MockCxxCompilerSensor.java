@@ -45,25 +45,25 @@ public class MockCxxCompilerSensor extends CxxCompilerSensor {
   protected CompilerParser getCompilerParser(SensorContext context) {
 
     CompilerParser compileParser = mock(CompilerParser.class);
-  
+
     try {
       doAnswer(new Answer<List<CompilerParser.Warning>>() {
 
-          @Override
-          public List<CompilerParser.Warning> answer(InvocationOnMock invocation)
-                  throws Throwable {
-              Object[] args = invocation.getArguments();
-              if (args[4] instanceof List<?>) {
-                List<CompilerParser.Warning> list = (List<CompilerParser.Warning>) args[4];
-                list.addAll(warnings);
-              }
-              return null;
+        @Override
+        public List<CompilerParser.Warning> answer(InvocationOnMock invocation)
+          throws Throwable {
+          Object[] args = invocation.getArguments();
+          if (args[4] instanceof List<?>) {
+            List<CompilerParser.Warning> list = (List<CompilerParser.Warning>) args[4];
+            list.addAll(warnings);
           }
-        }).when(compileParser).processReport(any(SensorContext.class), any(File.class), any(String.class),  any(String.class), any(List.class));
-      } catch (FileNotFoundException e) {
-        Assert.fail(e.getMessage());
-      }
-    
+          return null;
+        }
+      }).when(compileParser).processReport(any(SensorContext.class), any(File.class), any(String.class), any(String.class), any(List.class));
+    } catch (FileNotFoundException e) {
+      Assert.fail(e.getMessage());
+    }
+
     return compileParser;
   }
 
@@ -76,11 +76,10 @@ public class MockCxxCompilerSensor extends CxxCompilerSensor {
 
   @Override
   public void saveUniqueViolation(SensorContext context, String ruleRepoKey, String file,
-      String line, String ruleId, String msg) {
-    
+    String line, String ruleId, String msg) {
+
     CompilerParser.Warning w = new CompilerParser.Warning(file, line, ruleId, msg);
     savedWarnings.add(w);
   }
-  
-  
+
 }

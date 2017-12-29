@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

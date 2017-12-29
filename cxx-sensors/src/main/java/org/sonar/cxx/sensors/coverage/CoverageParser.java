@@ -26,8 +26,7 @@ import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.sensor.SensorContext;
 
 /**
- * The interface a coverage report parser has to implement in order to be used
- * by CxxCoverageSensor
+ * The interface a coverage report parser has to implement in order to be used by CxxCoverageSensor
  */
 public interface CoverageParser {
 
@@ -36,8 +35,7 @@ public interface CoverageParser {
    *
    * @param context of sensor
    * @param report with coverage data
-   * @param coverageData A Map mapping source file names to coverage measures.
-   * Has to be used to store the results into.
+   * @param coverageData A Map mapping source file names to coverage measures. Has to be used to store the results into.
    * @throws XMLStreamException javax.xml.stream.XMLStreamException
    */
   void processReport(final SensorContext context, File report, Map<String, CoverageMeasures> coverageData)

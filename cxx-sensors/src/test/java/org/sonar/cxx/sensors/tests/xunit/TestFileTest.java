@@ -19,8 +19,6 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import org.sonar.cxx.sensors.tests.xunit.TestCase;
-import org.sonar.cxx.sensors.tests.xunit.TestFile;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.junit.Before;

@@ -47,19 +47,22 @@ public abstract class CustomCxxRulesDefinition implements RulesDefinition {
 
   /**
    * Name of the custom rule repository.
-   * @return 
-   */  
+   *
+   * @return
+   */
   public abstract CxxLanguage getLanguage();
-  
+
   /**
    * Name of the custom rule repository.
-   * @return 
+   *
+   * @return
    */
   public abstract String repositoryName();
 
   /**
    * Key of the custom rule repository.
-   * @return 
+   *
+   * @return
    */
   public abstract String repositoryKey();
 

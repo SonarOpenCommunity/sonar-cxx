@@ -19,8 +19,6 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
-import org.sonar.cxx.sensors.valgrind.ValgrindReportParser;
-import org.sonar.cxx.sensors.valgrind.ValgrindError;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
@@ -33,6 +31,7 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 public class ValgrindReportParserTest {
 
   private ValgrindReportParser parser;
+
   @Before
   public void setUp() {
     parser = new ValgrindReportParser();
@@ -42,7 +41,7 @@ public class ValgrindReportParserTest {
   @Test
   public void shouldParseCorrectNumberOfErrors() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE.xml");    
+    File absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE.xml");
     Set<ValgrindError> valgrindErrors = parser.processReport(absReportFile);
     assertEquals(6, valgrindErrors.size());
   }
@@ -51,7 +50,7 @@ public class ValgrindReportParserTest {
   public void shouldThrowWhenGivenAnIncompleteReport_1() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     File absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_1.xml");
-    
+
     // error contains no kind-tag    
     parser.processReport(absReportFile);
   }
@@ -60,7 +59,7 @@ public class ValgrindReportParserTest {
   public void shouldThrowWhenGivenAnIncompleteReport_2() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     File absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_2.xml");
-    
+
     // error contains no what- or xwhat-tag
     parser.processReport(absReportFile);
   }
@@ -68,7 +67,7 @@ public class ValgrindReportParserTest {
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_3() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_3.xml");    
+    File absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_3.xml");
     // error contains no stack-tag
     parser.processReport(absReportFile);
   }

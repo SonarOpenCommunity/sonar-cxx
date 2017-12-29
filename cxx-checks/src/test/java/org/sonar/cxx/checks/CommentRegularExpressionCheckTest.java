@@ -29,7 +29,6 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class CommentRegularExpressionCheckTest {
 
-  
   @Test
   public void test() throws UnsupportedEncodingException, IOException {
     CommentRegularExpressionCheck check = new CommentRegularExpressionCheck();
@@ -37,7 +36,7 @@ public class CommentRegularExpressionCheckTest {
     check.message = "Avoid TODO";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/commentRegularExpression.cc", ".");
-    
+
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Avoid TODO")

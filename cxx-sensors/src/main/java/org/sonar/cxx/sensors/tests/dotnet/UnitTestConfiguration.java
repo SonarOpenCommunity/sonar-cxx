@@ -19,9 +19,11 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
 import org.sonar.cxx.CxxLanguage;
 
 public class UnitTestConfiguration {
+
   private CxxLanguage language;
   public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "vstest.reportsPaths";
   public static final String XUNIT_TEST_RESULTS_PROPERTY_KEY = "xunit.reportsPaths";
@@ -34,7 +36,7 @@ public class UnitTestConfiguration {
     return language.getPluginProperty(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
   }
 
-  String  xunitTestResultsFilePropertyKey() {
+  String xunitTestResultsFilePropertyKey() {
     return language.getPluginProperty(XUNIT_TEST_RESULTS_PROPERTY_KEY);
   }
 }

@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 /**
  * StandardDefinitions
- * 
+ *
  */
 public final class StandardDefinitions {
 
@@ -33,6 +33,7 @@ public final class StandardDefinitions {
 
   /**
    * macros
+   *
    * @return <String, String>
    */
   public static Map<String, String> macros() {
@@ -44,7 +45,7 @@ public final class StandardDefinitions {
     // indicates 'date unknown'. should suffice
     source.put("__DATE__", "\"??? ?? ????\"");
     // indicates 'time unknown'. should suffice
-    source.put("__TIME__", "\"??:??:??\""); 
+    source.put("__TIME__", "\"??:??:??\"");
     source.put("__STDC__", "1");
     source.put("__STDC_HOSTED__", "1");
     source.put("__cplusplus", "201103L");
@@ -55,6 +56,7 @@ public final class StandardDefinitions {
 
   /**
    * compatibilityMacros
+   *
    * @return <String, String>
    */
   public static Map<String, String> compatibilityMacros() {

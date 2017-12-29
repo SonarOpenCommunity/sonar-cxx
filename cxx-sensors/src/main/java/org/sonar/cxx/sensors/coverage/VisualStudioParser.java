@@ -35,6 +35,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class VisualStudioParser extends CxxCoverageParser {
+
   private static final Logger LOG = Loggers.get(VisualStudioParser.class);
 
   public VisualStudioParser() {
@@ -103,7 +104,7 @@ public class VisualStudioParser extends CxxCoverageParser {
   }
 
   private static void collectRangeMeasures(SMInputCursor function, Map<String, CoverageMeasures> coverageData,
-                                           int conditions, int coveredConditions)
+    int conditions, int coveredConditions)
     throws XMLStreamException {
     SMInputCursor range = function.childElementCursor("ranges").advance().childElementCursor("range");
     CoverageMeasures builder = null;

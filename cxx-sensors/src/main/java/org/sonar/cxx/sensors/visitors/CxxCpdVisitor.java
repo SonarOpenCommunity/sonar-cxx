@@ -102,7 +102,7 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
 
       try {
         TextRange range = inputFile.newRange(token.getLine(), token.getColumn(),
-                                             token.getLine(), token.getColumn() + token.getValue().length());
+          token.getLine(), token.getColumn() + token.getValue().length());
         cpdTokens.addToken(range, text);
       } catch (IllegalArgumentException | IllegalStateException e) {
         // ignore range errors: parsing errors could lead to wrong location data

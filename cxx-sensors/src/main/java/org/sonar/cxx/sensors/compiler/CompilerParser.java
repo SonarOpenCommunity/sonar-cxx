@@ -28,8 +28,7 @@ import javax.annotation.Nullable;
 import org.sonar.api.batch.sensor.SensorContext;
 
 /**
- * The interface a compiler parser has to implement in order to be used by
- * CxxCompilerSensor
+ * The interface a compiler parser has to implement in order to be used by CxxCompilerSensor
  *
  * @author Ferrand
  */
@@ -76,32 +75,32 @@ public interface CompilerParser {
       this.id = getValueOrDefault(id, "");
       this.msg = getValueOrDefault(msg, "");
     }
-    
+
     private static String getValueOrDefault(@Nullable String value, String defaultValue) {
       return isNotNullOrEmpty(value) ? value : defaultValue;
     }
-    
+
     private static boolean isNotNullOrEmpty(@Nullable String str) {
       return str != null && !str.isEmpty();
     }
-    
-    @Override 
+
+    @Override
     public boolean equals(Object other) {
       //check for self-comparison
-      if ( this == other ) {
+      if (this == other) {
         return true;
       }
 
       if (other == null) {
         return false;
       }
-      
-      if ( this.getClass() != other.getClass() ) {
+
+      if (this.getClass() != other.getClass()) {
         return false;
       }
-      
+
       //cast to native object is now safe
-      Warning otherW = (Warning)other;
+      Warning otherW = (Warning) other;
       return this.hashCode() == otherW.hashCode();
     }
 
@@ -109,8 +108,7 @@ public interface CompilerParser {
     public int hashCode() {
       return Objects.hashCode(filename) ^ Objects.hashCode(line) ^ Objects.hashCode(id) ^ Objects.hashCode(msg);
     }
-    
-    
+
   }
 
   void processReport(final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings)

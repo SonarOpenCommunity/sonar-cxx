@@ -31,10 +31,10 @@ public class UsingNamespaceInHeaderCheckTest {
   @Test
   public void check() throws UnsupportedEncodingException, IOException {
     UsingNamespaceInHeaderCheck check = new UsingNamespaceInHeaderCheck();
-    
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UsingNamespaceInHeader.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check); 
-    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(11).withMessage("Using namespace are not allowed in header files.")
       .noMore();

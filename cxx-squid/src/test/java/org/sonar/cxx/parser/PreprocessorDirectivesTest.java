@@ -113,7 +113,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       + "A;")))
       .isEqualTo("a ; EOF");
 
-   //@todo
+    //@todo
     // assert (serialize(p.parse(
     //   "#define A_B A/*Comment*/B\n"
     //   +" A_B;"))
@@ -128,13 +128,13 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       .isEqualTo("c_init ( ) ; EOF");
 
     // without whitespace after parameter list
-    assertThat (serialize(p.parse(
+    assertThat(serialize(p.parse(
       "#define foo(a)x\n"
       + "foo(b)=1;")))
       .isEqualTo("x = 1 ; EOF");
 
     // with parantheses
-    assertThat (serialize(p.parse(
+    assertThat(serialize(p.parse(
       "#define isequal(a, b)(a == b)\n"
       + "b = isequal(1,2);")))
       .isEqualTo("b = ( 1 == 2 ) ; EOF");
@@ -218,14 +218,14 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       .isEqualTo("printf ( \"error\" ) ; EOF");
 
     assertThat(serialize(p.parse(
-        "#define MACRO(s, ...) printf(s, __VA_ARGS__)\n"
-        + "MACRO(\"error\");")))
-        .isEqualTo("printf ( \"error\" ) ; EOF");
+      "#define MACRO(s, ...) printf(s, __VA_ARGS__)\n"
+      + "MACRO(\"error\");")))
+      .isEqualTo("printf ( \"error\" ) ; EOF");
 
     assertThat(serialize(p.parse(
-        "#define MACRO(s, ...) do { printf(s, __VA_ARGS__); } while (false)\n"
-        + "int main() { MACRO(\"error\"); }")))
-        .isEqualTo("int main ( ) { do { printf ( \"error\" ) ; } while ( false ) ; } EOF");
+      "#define MACRO(s, ...) do { printf(s, __VA_ARGS__); } while (false)\n"
+      + "int main() { MACRO(\"error\"); }")))
+      .isEqualTo("int main ( ) { do { printf ( \"error\" ) ; } while ( false ) ; } EOF");
 
     // without whitespace after the parameter list
     assertThat(serialize(p.parse(
@@ -240,10 +240,10 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       .isEqualTo("; EOF");
 
     // GNU CPP: You are allowed to leave the variable argument out entirely
-     assertThat(serialize(p.parse(
-       "#define eprintf(format, ...) fprintf (stderr, format, __VA_ARGS__)\n"
-       + "eprintf(\"success!\");")))
-       .isEqualTo("fprintf ( stderr , \"success!\" ) ; EOF");
+    assertThat(serialize(p.parse(
+      "#define eprintf(format, ...) fprintf (stderr, format, __VA_ARGS__)\n"
+      + "eprintf(\"success!\");")))
+      .isEqualTo("fprintf ( stderr , \"success!\" ) ; EOF");
     // GNU CPP: special meaning of token paste operator - if variable argument is left out then the comma before the ‘##’ will be deleted.
     assertThat(serialize(p.parse(
       "#define eprintf(format, ...) fprintf (stderr, format, ##__VA_ARGS__)\n"
@@ -329,7 +329,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       + "#define FB1(arg) FB(arg)\n"
       + "string s = FB1(F/B);")))
       .isEqualTo("string s = \"abc/def\" ; EOF");
-    
+
     assertThat(serialize(p.parse(
       "#define SC_METHOD(func) declare_method_process( func ## _handle, #func, func )\n"
       + "SC_METHOD(test);")))
@@ -425,7 +425,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       + "i = x;")))
       .isEqualTo("i = ( 4 + ( 2 * x ) ) ; EOF");
   }
-  
+
   @Test
   public void has_include() {
     assertThat(serialize(p.parse(

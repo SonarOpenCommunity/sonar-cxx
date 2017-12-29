@@ -38,7 +38,7 @@ import org.sonar.cxx.tag.Tag;
 
 /**
  * UseCorrectIncludeCheck
- * 
+ *
  */
 @Rule(
   key = "UseCorrectInclude",
@@ -47,11 +47,11 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.BLOCKER)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
+public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
   private Pattern pattern;
-  private Charset charset  = Charset.forName("UTF-8");
+  private Charset charset = Charset.forName("UTF-8");
 
   @Override
   public void init() {

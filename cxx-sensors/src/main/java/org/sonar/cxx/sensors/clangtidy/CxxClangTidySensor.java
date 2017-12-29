@@ -44,7 +44,8 @@ public class CxxClangTidySensor extends CxxReportSensor {
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
 
   /**
-   * CxxClangTidySensor for clang-tidy Sensor 
+   * CxxClangTidySensor for clang-tidy Sensor
+   *
    * @param language defines settings C or C++
    */
   public CxxClangTidySensor(CxxLanguage language) {
@@ -63,8 +64,8 @@ public class CxxClangTidySensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final SensorContext context, File report) {
-    final String reportCharset = getContextStringProperty(context, 
-        this.language.getPluginProperty(REPORT_CHARSET_DEF), "UTF-8");
+    final String reportCharset = getContextStringProperty(context,
+      this.language.getPluginProperty(REPORT_CHARSET_DEF), "UTF-8");
     LOG.debug("Parsing 'clang-tidy' report, CharSet= '{}'", reportCharset);
 
     try (Scanner scanner = new Scanner(report, reportCharset)) {

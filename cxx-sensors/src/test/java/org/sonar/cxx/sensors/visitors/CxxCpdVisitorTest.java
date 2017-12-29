@@ -45,14 +45,14 @@ public class CxxCpdVisitorTest {
 
   @Before
   @SuppressWarnings("unchecked")
-  public void scanFile() throws UnsupportedEncodingException, IOException{
+  public void scanFile() throws UnsupportedEncodingException, IOException {
     language = TestUtils.mockCxxLanguage();
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
     File target = new File(baseDir, "cpd.cc");
-    
+
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     inputFile = TestInputFileBuilder.create("moduleKey", baseDir, target).setType(InputFile.Type.MAIN)
-                                                     .setContents(content).setCharset(Charset.forName("UTF-8")).build();
+      .setContents(content).setCharset(Charset.forName("UTF-8")).build();
 
     context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);

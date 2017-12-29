@@ -19,10 +19,6 @@
  */
 package org.sonar.cxx.sensors.compiler;
 
-import org.sonar.cxx.sensors.compiler.CxxCompilerGccParser;
-import org.sonar.cxx.sensors.compiler.CxxCompilerVcParser;
-import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
-import org.sonar.cxx.sensors.compiler.CompilerParser;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
@@ -63,7 +59,7 @@ public class CxxCompilerSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectGccViolations() {    
+  public void shouldReportCorrectGccViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
     settings.setProperty(language.getPluginProperty(CxxCompilerSensor.REPORT_PATH_KEY), "compiler-reports/build.gcclog");
@@ -71,8 +67,8 @@ public class CxxCompilerSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/zipmanager.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
-    
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+
     CxxCompilerSensor sensor = new CxxCompilerSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(4);
@@ -88,7 +84,7 @@ public class CxxCompilerSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "zipmanager.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
     CxxCompilerSensor sensor = new CxxCompilerSensor(language);
     sensor.execute(context);
@@ -107,7 +103,7 @@ public class CxxCompilerSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "Server/source/zip/zipmanager.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
     CxxCompilerSensor sensor = new CxxCompilerSensor(language);
     sensor.execute(context);
@@ -125,8 +121,8 @@ public class CxxCompilerSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "Server/source/zip/zipmanager.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
-    
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+
     CxxCompilerSensor sensor = new CxxCompilerSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(9);
@@ -135,18 +131,16 @@ public class CxxCompilerSensorTest {
   @Test
   public void shouldReportWarningsWithoutFileAndLineInformation() throws XMLStreamException {
     List<CompilerParser.Warning> warnings = Arrays.asList(
-        new CompilerParser.Warning("filename1", "line1", "id1", "msg2"),
-        new CompilerParser.Warning("filename1", null, "id2", "msg1"),
-        new CompilerParser.Warning(null, null, "id3", "msg1"),
-        new CompilerParser.Warning(null, null, "id4", null)
-        );
+      new CompilerParser.Warning("filename1", "line1", "id1", "msg2"),
+      new CompilerParser.Warning("filename1", null, "id2", "msg1"),
+      new CompilerParser.Warning(null, null, "id3", "msg1"),
+      new CompilerParser.Warning(null, null, "id4", null)
+    );
 
     MockCxxCompilerSensor sensor = new MockCxxCompilerSensor(language, fs, profile, warnings);
-      SensorContextTester context = SensorContextTester.create(fs.baseDir());
-      sensor.processReport(context, null);
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    sensor.processReport(context, null);
 
     Assert.assertTrue(warnings.containsAll(sensor.savedWarnings));
   }
 }
-
-

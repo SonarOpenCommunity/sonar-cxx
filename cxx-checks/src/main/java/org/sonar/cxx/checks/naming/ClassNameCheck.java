@@ -33,8 +33,8 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 
 /**
- * ClassNameCheck 
- * 
+ * ClassNameCheck
+ *
  */
 @Rule(
   key = "ClassName",
@@ -43,7 +43,7 @@ import org.sonar.cxx.tag.Tag;
   tags = {Tag.CONVENTION})
 @SqaleConstantRemediation("5min")
 @ActivatedByDefault
-public class ClassNameCheck extends SquidCheck<Grammar> { 
+public class ClassNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "^[A-Z_][a-zA-Z0-9]+$";
   private Pattern pattern;

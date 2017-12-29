@@ -122,10 +122,10 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
   public void visitFile(@Nullable AstNode astNode) {
     newHighlighting = context.newHighlighting();
     InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates()
-                                            .is(getContext().getFile().getAbsoluteFile()));
+      .is(getContext().getFile().getAbsoluteFile()));
     if (inputFile != null) {
       newHighlighting.onFile(inputFile);
-  }
+    }
   }
 
   @Override
@@ -153,8 +153,8 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       for (Trivia trivia : token.getTrivia()) {
         if (trivia.isComment()) {
           highlight(last, new CommentLocation(trivia.getToken()), TypeOfText.COMMENT);
-        } else if (trivia.isSkippedText() 
-                    && trivia.getToken().getType().equals(CxxTokenType.PREPROCESSOR)) {
+        } else if (trivia.isSkippedText()
+          && trivia.getToken().getType().equals(CxxTokenType.PREPROCESSOR)) {
           highlight(last, new PreprocessorDirectiveLocation(trivia.getToken()), TypeOfText.PREPROCESS_DIRECTIVE);
         }
       }
@@ -165,12 +165,12 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     try {
       if (!current.overlaps(last)) {
         newHighlighting.highlight(current.startLine(), current.startLineOffset(),
-                          current.endLine(), current.endLineOffset(), typeOfText);
+          current.endLine(), current.endLineOffset(), typeOfText);
       }
-    } catch (IllegalArgumentException ex) { 
+    } catch (IllegalArgumentException ex) {
       // ignore highlight errors: parsing errors could lead to wrong location data
       LOG.warn("Highligthing error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(),
-          current.startLine(), current.startLineOffset());
+        current.startLine(), current.startLineOffset());
       if (LOG.isDebugEnabled()) {
         LOG.debug("highlighing exception {}", ex);
       }

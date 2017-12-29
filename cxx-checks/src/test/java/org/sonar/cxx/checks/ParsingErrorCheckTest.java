@@ -35,10 +35,10 @@ public class ParsingErrorCheckTest {
   public void test_syntax_error_recognition() throws UnsupportedEncodingException, IOException {
     CxxConfiguration config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(false);
-        
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError1.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, config, new ParsingErrorCheck()); 
-        
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, config, new ParsingErrorCheck());
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(4).withMessageThat(containsString("Parse error"))
       .noMore();
@@ -48,10 +48,10 @@ public class ParsingErrorCheckTest {
   public void test_syntax_error_pperror() throws UnsupportedEncodingException, IOException {
     CxxConfiguration config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(false);
-        
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError2.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, config, new ParsingErrorCheck()); 
-        
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, config, new ParsingErrorCheck());
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessageThat(containsString("Parse error"))
       .noMore();

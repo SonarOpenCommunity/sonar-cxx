@@ -32,18 +32,18 @@ public class ClassNameCheckTest {
   @Test
   public void test() throws Exception {
     ClassNameCheck check = new ClassNameCheck();
-    
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/ClassName.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage(
-        "Rename class \"MyClass_WithNotCompliantName1\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
+      "Rename class \"MyClass_WithNotCompliantName1\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
       .next().atLine(5).withMessage(
-        "Rename class \"myClassWithNotCompliantName2\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
+      "Rename class \"myClassWithNotCompliantName2\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
       .next().atLine(9).withMessage(
-        "Rename class \"MyStruct_WithNotCompliantName1\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
+      "Rename class \"MyStruct_WithNotCompliantName1\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
       .next().atLine(11).withMessage(
-        "Rename class \"myStructWithNotCompliantName2\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
+      "Rename class \"myStructWithNotCompliantName2\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
       .noMore();
   }
 

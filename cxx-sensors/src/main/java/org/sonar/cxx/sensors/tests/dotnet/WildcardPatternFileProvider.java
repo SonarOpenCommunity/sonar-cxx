@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 import org.sonar.api.utils.WildcardPattern;
 
 public class WildcardPatternFileProvider {
+
   private static final String CURRENT_FOLDER = ".";
   private static final String PARENT_FOLDER = "..";
 
@@ -53,13 +55,13 @@ public class WildcardPatternFileProvider {
     String pathTillFirstWildcardElement = toPath(elementsTillFirstWildcard);
     File fileTillFirstWildcardElement = new File(pathTillFirstWildcardElement);
 
-    File absoluteFileTillFirstWildcardElement = fileTillFirstWildcardElement.isAbsolute() 
-                                ? fileTillFirstWildcardElement : new File(baseDir, pathTillFirstWildcardElement);
+    File absoluteFileTillFirstWildcardElement = fileTillFirstWildcardElement.isAbsolute()
+      ? fileTillFirstWildcardElement : new File(baseDir, pathTillFirstWildcardElement);
 
     List<String> wildcardElements = elements.subList(elementsTillFirstWildcard.size(), elements.size());
     if (wildcardElements.isEmpty()) {
-      return absoluteFileTillFirstWildcardElement.exists() 
-             ? new HashSet<>(Arrays.asList(absoluteFileTillFirstWildcardElement)) : Collections.emptySet();
+      return absoluteFileTillFirstWildcardElement.exists()
+        ? new HashSet<>(Arrays.asList(absoluteFileTillFirstWildcardElement)) : Collections.emptySet();
     }
     checkNoCurrentOrParentFolderAccess(wildcardElements);
 
@@ -95,21 +97,21 @@ public class WildcardPatternFileProvider {
   private static void checkNoCurrentOrParentFolderAccess(List<String> elements) {
     for (String element : elements) {
       if (isCurrentOrParentFolder(element)) {
-        throw new IllegalArgumentException("Cannot contain '" + CURRENT_FOLDER + "' or '" 
-                                           + PARENT_FOLDER + "' after the first wildcard.");
+        throw new IllegalArgumentException("Cannot contain '" + CURRENT_FOLDER + "' or '"
+          + PARENT_FOLDER + "' after the first wildcard.");
       }
     }
   }
 
   private static boolean containsWildcard(String element) {
-    return RECURSIVE_PATTERN.equals(element) ||
-      element.contains(ZERO_OR_MORE_PATTERN) ||
-      element.contains(ANY_PATTERN);
+    return RECURSIVE_PATTERN.equals(element)
+      || element.contains(ZERO_OR_MORE_PATTERN)
+      || element.contains(ANY_PATTERN);
   }
 
   private static boolean isCurrentOrParentFolder(String element) {
-    return CURRENT_FOLDER.equals(element) ||
-      PARENT_FOLDER.equals(element);
+    return CURRENT_FOLDER.equals(element)
+      || PARENT_FOLDER.equals(element);
   }
 
   private static Set<File> listFiles(File dir) {

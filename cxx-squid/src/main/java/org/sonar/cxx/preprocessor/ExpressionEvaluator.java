@@ -152,10 +152,10 @@ public final class ExpressionEvaluator {
     } else if (nodeType.equals(CppGrammar.functionlikeMacro)) {
       return evalFunctionlikeMacro(exprAst);
     } else if (nodeType.equals(CppGrammar.hasIncludeExpression)) {
-      return evalHasIncludeExpression(exprAst);      
+      return evalHasIncludeExpression(exprAst);
     } else {
-      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '" 
-                + exprAst.getToken() + "', assuming 0");
+      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '"
+        + exprAst.getToken() + "', assuming 0");
       return BigInteger.ZERO;
     }
   }
@@ -473,7 +473,6 @@ public final class ExpressionEvaluator {
 
     // This function is only responsible for providing a string and a radix to BigInteger.
     // The lexer ensures that the number has a valid format.
-    
     int radix = 10;
     int begin = 0;
     if (number.length() > 2) {
@@ -530,7 +529,7 @@ public final class ExpressionEvaluator {
 
         case '\'': // ignore digit separator
           break;
-          
+
         default: // suffix
           suffix = true;
           break;

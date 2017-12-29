@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 // origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
 import java.io.File;
 import org.sonar.api.batch.ScannerSide;
 import org.sonar.api.config.Configuration;
@@ -37,8 +38,8 @@ public class CxxUnitTestResultsAggregator {
 
   public CxxUnitTestResultsAggregator(CxxLanguage language, Configuration settings) {
     this(new UnitTestConfiguration(language), settings,
-         new VisualStudioTestResultsFileParser(), 
-         new XUnitTestResultsFileParser());
+      new VisualStudioTestResultsFileParser(),
+      new XUnitTestResultsFileParser());
   }
 
   CxxUnitTestResultsAggregator(UnitTestConfiguration unitTestConf, Configuration settings,
@@ -57,7 +58,7 @@ public class CxxUnitTestResultsAggregator {
   private boolean hasVisualStudioTestResultsFile() {
     if (LOG.isDebugEnabled()) {
       LOG.debug("Exist configuration parameter: '{}':'{}'", unitTestConf.visualStudioTestResultsFilePropertyKey(),
-                                              settings.hasKey(unitTestConf.visualStudioTestResultsFilePropertyKey()));
+        settings.hasKey(unitTestConf.visualStudioTestResultsFilePropertyKey()));
     }
     return settings.hasKey(unitTestConf.visualStudioTestResultsFilePropertyKey());
   }
@@ -65,7 +66,7 @@ public class CxxUnitTestResultsAggregator {
   private boolean hasXUnitTestResultsFile() {
     if (LOG.isDebugEnabled()) {
       LOG.debug("Exist configuration parameter: '{}':'{}'", unitTestConf.xunitTestResultsFilePropertyKey(),
-                                               settings.hasKey(unitTestConf.xunitTestResultsFilePropertyKey()));
+        settings.hasKey(unitTestConf.xunitTestResultsFilePropertyKey()));
     }
     return settings.hasKey(unitTestConf.xunitTestResultsFilePropertyKey());
   }
@@ -73,21 +74,21 @@ public class CxxUnitTestResultsAggregator {
   UnitTestResults aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, UnitTestResults unitTestResults) {
     if (hasVisualStudioTestResultsFile()) {
       aggregate(wildcardPatternFileProvider,
-          settings.getStringArray(unitTestConf.visualStudioTestResultsFilePropertyKey()),
-          visualStudioTestResultsFileParser, unitTestResults);
+        settings.getStringArray(unitTestConf.visualStudioTestResultsFilePropertyKey()),
+        visualStudioTestResultsFileParser, unitTestResults);
     }
 
     if (hasXUnitTestResultsFile()) {
       aggregate(wildcardPatternFileProvider,
-          settings.getStringArray(unitTestConf.xunitTestResultsFilePropertyKey()),
-          xunitTestResultsFileParser, unitTestResults);
+        settings.getStringArray(unitTestConf.xunitTestResultsFilePropertyKey()),
+        xunitTestResultsFileParser, unitTestResults);
     }
 
     return unitTestResults;
   }
 
-  private static void aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, String[] reportPaths, 
-                                UnitTestResultsParser parser, UnitTestResults unitTestResults) {
+  private static void aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, String[] reportPaths,
+    UnitTestResultsParser parser, UnitTestResults unitTestResults) {
     for (String reportPathPattern : reportPaths) {
       LOG.info("Report path pattern: '{}'", reportPathPattern);
       if (!reportPathPattern.isEmpty()) {

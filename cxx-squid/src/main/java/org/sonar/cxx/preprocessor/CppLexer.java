@@ -37,7 +37,6 @@ import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
 import com.sonar.sslr.impl.channel.PunctuatorChannel;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
-import org.sonar.cxx.CxxLanguage;
 
 public final class CppLexer {
 
@@ -47,7 +46,7 @@ public final class CppLexer {
   //private static final String FLOAT_SUFFIX = "(f|l|F|L)";
   private static final String UD_SUFFIX = "([_a-zA-Z]([_a-zA-Z0-9]*+))"; // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
   private static final String HEXDIGIT_SEQUENCE = "([0-9a-fA-F]([']?+[0-9a-fA-F]++)*+)";
-  
+
   private CppLexer() {
   }
 
@@ -56,11 +55,10 @@ public final class CppLexer {
   }
 
   public static Lexer create(CxxConfiguration conf) {
-    
+
     //
     // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
     //
-    
     Lexer.Builder builder = Lexer.builder()
       .withCharset(conf.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)

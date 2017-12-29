@@ -99,11 +99,11 @@ public class TestUtils {
     when(language.getKey()).thenReturn("c++");
     when(language.getName()).thenReturn("C++");
     when(language.getRepositorySuffix()).thenReturn("");
-    when(language.getRepositoryKey()).thenReturn("cxx");    
+    when(language.getRepositoryKey()).thenReturn("cxx");
     when(language.getPropertiesKey()).thenReturn("cxx");
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
     when(language.getFileSuffixes())
-            .thenReturn(new String [] { ".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh" });
+      .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
     return language;
   }
 
@@ -135,14 +135,13 @@ public class TestUtils {
     }
   }
 
-
   /**
-   * Search for a test resource in the classpath. For example getResource("org/sonar/MyClass/foo.txt");
+   * Search for a test resource in the classpath. For example
+   * getResource("org/sonar/MyClass/foo.txt");
    *
    * @param path the starting slash is optional
    * @return the resource. Null if resource not found
    */
-
   @CheckForNull
   public static File getResource(String path) {
     String resourcePath = path;
@@ -158,7 +157,6 @@ public class TestUtils {
       }
     }
     return null;
-}
- 
-}
+  }
 
+}

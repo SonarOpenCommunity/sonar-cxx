@@ -39,10 +39,10 @@ public class CxxAstScannerTest {
 
   @Test
   public void files() throws UnsupportedEncodingException, IOException {
-    
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/trivial.cc", ".", "");
     CxxFileTesterHelper.AddFileToContext(tester, "src/test/resources/metrics/trivial.cc", "");
-        
+
     AstScanner<Grammar> scanner = CxxAstScanner.create(CxxFileTesterHelper.mockCxxLanguage(), new CxxConfiguration());
     scanner.scanFiles(new ArrayList<>(Arrays.asList(
       new File("src/test/resources/metrics/trivial.cc"),
@@ -53,7 +53,7 @@ public class CxxAstScannerTest {
   }
 
   @Test
-  public void comments() throws UnsupportedEncodingException, IOException {    
+  public void comments() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/comments.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
     assertThat(file.getInt(CxxMetric.COMMENT_LINES)).isEqualTo(6);
@@ -69,7 +69,7 @@ public class CxxAstScannerTest {
 
   @Test
   public void lines_of_code() throws UnsupportedEncodingException, IOException {
-    
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/classes.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
     assertThat(file.getInt(CxxMetric.LINES_OF_CODE)).isEqualTo(5);
@@ -98,7 +98,7 @@ public class CxxAstScannerTest {
 
   @Test
   public void complexity() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/complexity.cc", ".", "");    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/complexity.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
     assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
   }

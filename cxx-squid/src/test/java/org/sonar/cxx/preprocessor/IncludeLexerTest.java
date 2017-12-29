@@ -31,7 +31,6 @@ import org.sonar.cxx.api.CxxTokenType;
 
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
-import org.sonar.cxx.CxxFileTesterHelper;
 
 public class IncludeLexerTest {
 

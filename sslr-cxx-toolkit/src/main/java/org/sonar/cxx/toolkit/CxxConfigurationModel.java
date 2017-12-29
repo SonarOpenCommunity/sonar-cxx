@@ -71,19 +71,19 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
     Validators.booleanValidator());
 
   @VisibleForTesting
-  ConfigurationProperty defines = new ConfigurationProperty("Defines", DEFINES_PROPERTY_KEY + 
-                                  " (use \\n\\ as separator)",
-                                  getPropertyOrDefaultValue(DEFINES_PROPERTY_KEY, ""));
+  ConfigurationProperty defines = new ConfigurationProperty("Defines", DEFINES_PROPERTY_KEY
+    + " (use \\n\\ as separator)",
+    getPropertyOrDefaultValue(DEFINES_PROPERTY_KEY, ""));
 
   @VisibleForTesting
-  ConfigurationProperty includeDirectories = new ConfigurationProperty("Include Directories", 
-                                             INCLUDE_DIRECTORIES_PROPERTY_KEY + " (use , as separator)",
-                                             getPropertyOrDefaultValue(INCLUDE_DIRECTORIES_PROPERTY_KEY, ""));
+  ConfigurationProperty includeDirectories = new ConfigurationProperty("Include Directories",
+    INCLUDE_DIRECTORIES_PROPERTY_KEY + " (use , as separator)",
+    getPropertyOrDefaultValue(INCLUDE_DIRECTORIES_PROPERTY_KEY, ""));
 
   @VisibleForTesting
-  ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes", FORCE_INCLUDES_PROPERTY_KEY + 
-                                        " (use , as separator)", 
-                                        getPropertyOrDefaultValue(FORCE_INCLUDES_PROPERTY_KEY, ""));
+  ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes", FORCE_INCLUDES_PROPERTY_KEY
+    + " (use , as separator)",
+    getPropertyOrDefaultValue(FORCE_INCLUDES_PROPERTY_KEY, ""));
 
   @Override
   public List<ConfigurationProperty> getProperties() {

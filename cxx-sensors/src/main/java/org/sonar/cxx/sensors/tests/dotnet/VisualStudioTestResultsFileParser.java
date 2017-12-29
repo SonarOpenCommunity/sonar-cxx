@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -31,6 +32,7 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 public class VisualStudioTestResultsFileParser implements UnitTestResultsParser {
+
   private static final Logger LOG = Loggers.get(VisualStudioTestResultsFileParser.class);
 
   @Override
@@ -108,8 +110,8 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
         value = keepOnlyMilliseconds(value);
         return dateFormat.parse(value);
       } catch (ParseException e) {
-        throw xmlParserHelper.parseError("Expected an valid date and time instead of \"" + value 
-                                         + "\" for the attribute \"" + name + "\". " + e.getMessage());
+        throw xmlParserHelper.parseError("Expected an valid date and time instead of \"" + value
+          + "\" for the attribute \"" + name + "\". " + e.getMessage());
       }
     }
 

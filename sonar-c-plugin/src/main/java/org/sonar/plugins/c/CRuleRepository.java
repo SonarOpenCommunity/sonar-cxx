@@ -27,16 +27,17 @@ public class CRuleRepository implements RulesDefinition {
 
   private static final String REPOSITORY_NAME = "c SonarQube";
   private final CxxLanguage language;
+
   public CRuleRepository(CxxLanguage language) {
     this.language = language;
   }
-  
+
   @Override
   public void define(Context context) {
     NewRepository repository = context.
       createRepository(this.language.getRepositoryKey(), CLanguage.KEY).
-      setName(REPOSITORY_NAME);        
-    new AnnotationBasedRulesDefinition(repository, CLanguage.KEY).addRuleClasses(false, this.language.getChecks());    
+      setName(REPOSITORY_NAME);
+    new AnnotationBasedRulesDefinition(repository, CLanguage.KEY).addRuleClasses(false, this.language.getChecks());
     repository.done();
   }
 }

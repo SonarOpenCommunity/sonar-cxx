@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
 
 /**
  * FileHeaderCheck - similar Vera++ rule T013 "No copyright notice found"
- * 
+ *
  */
 @Rule(
   key = "FileHeader",
@@ -52,7 +52,7 @@ import java.util.regex.Pattern;
   tags = {})
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
+public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String DEFAULT_HEADER_FORMAT = "";
   private static final String MESSAGE = "Add or update the header of this file.";
@@ -92,9 +92,9 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
         try {
           searchPattern = Pattern.compile(headerFormat, Pattern.DOTALL);
         } catch (IllegalArgumentException e) {
-          throw new IllegalArgumentException("[" + getClass().getSimpleName() 
-                                                 + "] Unable to compile the regular expression: " 
-                                                 + headerFormat, e);
+          throw new IllegalArgumentException("[" + getClass().getSimpleName()
+            + "] Unable to compile the regular expression: "
+            + headerFormat, e);
         }
       }
     } else {
@@ -116,7 +116,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
       List<String> lines;
       try {
         lines = Files.readLines(getContext().getFile(), charset);
-      } catch (IOException e) { 
+      } catch (IOException e) {
         throw new IllegalStateException(e);
       }
 
@@ -154,4 +154,3 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
     return result;
   }
 }
-

@@ -28,13 +28,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class ClassComplexityCheckTest {
-  
+
   @Test
   public void test() throws UnsupportedEncodingException, IOException {
     ClassComplexityCheck check = new ClassComplexityCheck();
     check.setMaximumClassComplexityThreshold(5);
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/ClassComplexity.cc", ".");        
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/ClassComplexity.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(9).withMessage("Class has a complexity of 10 which is greater than 5 authorized.")

@@ -32,15 +32,15 @@ import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 
 public class CxxParseErrorLoggerVisitorTest {
-  
+
   @org.junit.Rule
   public LogTester logTester = new LogTester();
-  
+
   private SensorContextTester context;
 
   @Before
   @SuppressWarnings("unchecked")
-  public void scanFile() {    
+  public void scanFile() {
     String dir = "src/test/resources/visitors";
 
     InputFile inputFile = TestInputFileBuilder.create("", dir + "/syntaxerror.cc").build();

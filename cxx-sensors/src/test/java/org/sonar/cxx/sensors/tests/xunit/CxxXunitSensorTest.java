@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
 import java.io.File;
 import java.util.Optional;
 
@@ -49,7 +48,7 @@ public class CxxXunitSensorTest {
     when(language.getPluginProperty(CxxXunitSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxXunitSensor.REPORT_PATH_KEY);
     when(language.getPluginProperty(CxxXunitSensor.XSLT_URL_KEY)).thenReturn("sonar.cxx." + CxxXunitSensor.XSLT_URL_KEY);
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.FALSE));
-    }
+  }
 
   @Test
   public void shouldReportNothingWhenNoReportFound() {
@@ -78,14 +77,14 @@ public class CxxXunitSensorTest {
 
     assertThat(context.measures(context.module().key())).hasSize(6);
     assertThat(context.measures(context.module().key()))
-    .extracting("metric.key", "value")
-    .containsOnly(
-      tuple(CoreMetrics.TESTS_KEY, 3),
-      tuple(CoreMetrics.SKIPPED_TESTS_KEY, 0),
-      tuple(CoreMetrics.TEST_FAILURES_KEY, 0),
-      tuple(CoreMetrics.TEST_ERRORS_KEY, 0),
-      tuple(CoreMetrics.TEST_SUCCESS_DENSITY_KEY, 100.0),
-      tuple(CoreMetrics.TEST_EXECUTION_TIME_KEY, 0L));
+      .extracting("metric.key", "value")
+      .containsOnly(
+        tuple(CoreMetrics.TESTS_KEY, 3),
+        tuple(CoreMetrics.SKIPPED_TESTS_KEY, 0),
+        tuple(CoreMetrics.TEST_FAILURES_KEY, 0),
+        tuple(CoreMetrics.TEST_ERRORS_KEY, 0),
+        tuple(CoreMetrics.TEST_SUCCESS_DENSITY_KEY, 100.0),
+        tuple(CoreMetrics.TEST_EXECUTION_TIME_KEY, 0L));
   }
 
   @Test(expected = IllegalStateException.class)
@@ -94,7 +93,7 @@ public class CxxXunitSensorTest {
 
     settings.setProperty(language.getPluginProperty(CxxXunitSensor.REPORT_PATH_KEY), "xunit-reports/invalid-time-xunit-report.xml");
     context.setSettings(settings);
-    
+
     CxxXunitSensor sensor = new CxxXunitSensor(language);
 
     sensor.execute(context);
@@ -115,7 +114,7 @@ public class CxxXunitSensorTest {
     throws java.io.IOException, javax.xml.transform.TransformerException {
 
     when(language.getStringOption(CxxXunitSensor.XSLT_URL_KEY)).thenReturn(Optional.of("cppunit-1.x-to-junit-1.0.xsl"));
-    
+
     CxxXunitSensor sensor = new CxxXunitSensor(language);
     File reportBefore = cppunitReport();
 
@@ -127,5 +126,3 @@ public class CxxXunitSensorTest {
     return new File(new File(fs.baseDir(), "xunit-reports"), "cppunit-report.xml");
   }
 }
-
-

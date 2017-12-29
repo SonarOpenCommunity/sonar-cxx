@@ -33,10 +33,10 @@ public class SafetyTagCheckTest {
     SafetyTagCheck check = new SafetyTagCheck();
     check.regularExpression = "<Safetykey>.*</Safetykey>";
     check.suffix = "_SAFETY";
-    
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check); 
-    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(21).withMessage("Source files implementing risk mitigations shall use special name suffix '_SAFETY' : <Safetykey>MyRimName</Safetykey>");
 
@@ -44,10 +44,9 @@ public class SafetyTagCheckTest {
     check.regularExpression = "<Safetykey>.*</Safetykey>";
     check.suffix = "_SAFETY";
 
-    
     tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck_SAFETY.cc", ".");
     file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
-    
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
 
@@ -55,7 +54,7 @@ public class SafetyTagCheckTest {
     check.regularExpression = "<Safetykey>";
     check.suffix = "_SAFETY";
 
-    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck_SAFETY.cc", ".");    
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck_SAFETY.cc", ".");
     file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();

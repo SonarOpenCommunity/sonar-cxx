@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import org.sonar.cxx.sensors.tests.xunit.XunitReportParser;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;

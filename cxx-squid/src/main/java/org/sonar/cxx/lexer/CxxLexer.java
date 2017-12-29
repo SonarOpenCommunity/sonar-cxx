@@ -40,7 +40,6 @@ import com.sonar.sslr.impl.channel.BlackHoleChannel;
 import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
 import com.sonar.sslr.impl.channel.PunctuatorChannel;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
-import org.sonar.cxx.CxxLanguage;
 
 public final class CxxLexer {
 
@@ -59,11 +58,10 @@ public final class CxxLexer {
   }
 
   public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) { //@todo deprecated Preprocessor
-    
+
     //
     // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
     //
-    
     Lexer.Builder builder = Lexer.builder()
       .withCharset(conf.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)

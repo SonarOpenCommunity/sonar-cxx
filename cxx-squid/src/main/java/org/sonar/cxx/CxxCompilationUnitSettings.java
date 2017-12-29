@@ -30,6 +30,7 @@ import javax.annotation.Nullable;
  * CxxCompilationUnitSettings
  */
 public class CxxCompilationUnitSettings {
+
   private Map<String, String> defines = new ConcurrentHashMap<>();
   private List<String> includes = new ArrayList<>();
 
@@ -40,9 +41,8 @@ public class CxxCompilationUnitSettings {
   public void setDefines(@Nullable Map<String, String> defines) {
     if (defines != null) {
       this.defines = defines;
+    }
   }
-  }
-
 
   public List<String> getIncludes() {
     return new ArrayList<>(includes);

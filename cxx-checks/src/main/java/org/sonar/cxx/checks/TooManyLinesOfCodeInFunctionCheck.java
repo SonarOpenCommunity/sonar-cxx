@@ -34,19 +34,20 @@ import com.sonar.sslr.api.Grammar;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 @Rule(key = "TooManyLinesOfCodeInFunction",
-      name = "Avoid too many code lines in a single function",
-      priority = Priority.MAJOR,
-      tags = {Tag.BRAIN_OVERLOAD})
+  name = "Avoid too many code lines in a single function",
+  priority = Priority.MAJOR,
+  tags = {Tag.BRAIN_OVERLOAD})
 @ActivatedByDefault
 @SqaleConstantRemediation("1h")
 
-public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> { 
+public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> {
+
   private static final int DEFAULT_MAXIMUM = 200;
 
   @RuleProperty(
-      key = "max",
-      description = "Maximum code lines allowed",
-      defaultValue = "" + DEFAULT_MAXIMUM)
+    key = "max",
+    description = "Maximum code lines allowed",
+    defaultValue = "" + DEFAULT_MAXIMUM)
   private int max = DEFAULT_MAXIMUM;
 
   @Override
@@ -59,19 +60,20 @@ public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> {
     int lineCount = getNumberOfLine(node);
     if (lineCount > max) {
       getContext().createLineViolation(this,
-          "The number of code lines in this function is {0,number,integer} which is greater than {1,number,integer} authorized.",
-          node, lineCount, max);
+        "The number of code lines in this function is {0,number,integer} which is greater than {1,number,integer} authorized.",
+        node, lineCount, max);
     }
   }
 
   /**
-   aggregates lines for child nodes
-   @param node with child nodes
-   @return number of lines
+   * aggregates lines for child nodes
+   *
+   * @param node with child nodes
+   * @return number of lines
    */
   public static int getNumberOfLine(AstNode node) {
     List<AstNode> allChilds = node.getDescendants(CxxGrammarImpl.statement, CppPunctuator.CURLBR_LEFT,
-                                                                            CppPunctuator.CURLBR_RIGHT);
+      CppPunctuator.CURLBR_RIGHT);
     int lines = 1;
     int firstLine = node.getTokenLine();
     if (allChilds != null && !allChilds.isEmpty()) {
@@ -79,7 +81,7 @@ public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> {
       int currentLine = 0;
       for (AstNode child : allChilds) {
         currentLine = child.getTokenLine();
-        if (currentLine != previousLine ) {
+        if (currentLine != previousLine) {
           lines++;
           previousLine = currentLine;
         }

@@ -40,12 +40,12 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   /**
    * Extension to define defines
    */
-  private HashMap<String,String> defines;
+  private HashMap<String, String> defines;
 
   /**
    * Extension to define include directories
    */
-  private ArrayList<String> includes; 
+  private ArrayList<String> includes;
 
   /**
    * Initialize members
@@ -60,12 +60,10 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
     this.includes = new ArrayList<>();
   }
 
-
   /**
-   * The working directory of the compilation. All paths specified in the command 
-   * or file fields must be either absolute or relative to this directory.
+   * The working directory of the compilation. All paths specified in the command or file fields must be either absolute
+   * or relative to this directory.
    */
-
   public String getDirectory() {
     return directory;
   }
@@ -75,12 +73,10 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   }
 
   /**
-   * The main translation unit source processed by this compilation step. This is 
-   * used by tools as the key into the compilation database. There can be multiple 
-   * command objects for the same file, for example if the same source file is 
-   * compiled with different configurations.
+   * The main translation unit source processed by this compilation step. This is used by tools as the key into the
+   * compilation database. There can be multiple command objects for the same file, for example if the same source file
+   * is compiled with different configurations.
    */
-
   public String getFile() {
     return file;
   }
@@ -90,12 +86,10 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   }
 
   /**
-   * The compile command executed. After JSON unescaping, this must be a valid command 
-   * to rerun the exact compilation step for the translation unit in the environment 
-   * the build system uses. Parameters use shell quoting and shell escaping of quotes, 
-   * with ‘"‘ and ‘\‘ being the only special characters. Shell expansion is not supported.
+   * The compile command executed. After JSON unescaping, this must be a valid command to rerun the exact compilation
+   * step for the translation unit in the environment the build system uses. Parameters use shell quoting and shell
+   * escaping of quotes, with ‘"‘ and ‘\‘ being the only special characters. Shell expansion is not supported.
    */
-
   public String getCommand() {
     return command;
   }
@@ -107,7 +101,6 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   /**
    * The compile command executed as list of strings. Either arguments or command is required.
    */
-
   public String getArguments() {
     return arguments;
   }
@@ -117,10 +110,9 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   }
 
   /**
-   * The name of the output created by this compilation step. This field is optional. 
-   * It can be used to distinguish different processing modes of the same input file.
+   * The name of the output created by this compilation step. This field is optional. It can be used to distinguish
+   * different processing modes of the same input file.
    */
-
   public String getOutput() {
     return output;
   }
@@ -132,11 +124,9 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   /**
    * Extension to define defines
    */
-
   public Map<String, String> getDefines() {
     return defines;
   }
-
 
   public void setDefines(Map<String, String> defines) {
     this.defines = new HashMap<>(defines);
@@ -145,14 +135,12 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   /**
    * Extension to define include directories
    */
-
   public List<String> getIncludes() {
     return (ArrayList<String>) includes.clone();
   }
 
-
   public void setIncludes(List<String> includes) {
     this.includes = new ArrayList<>(includes);
-  } 
+  }
 
 }

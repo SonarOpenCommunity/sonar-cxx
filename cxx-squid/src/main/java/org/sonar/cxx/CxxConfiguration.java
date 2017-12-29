@@ -90,7 +90,7 @@ public class CxxConfiguration extends SquidConfiguration {
     if (defines == null) {
       return;
     }
-    
+
     Set<String> overallDefs = uniqueDefines.get(OVERALLDEFINEKEY);
     for (String define : defines) {
       if (!overallDefs.contains(define)) {
@@ -98,13 +98,13 @@ public class CxxConfiguration extends SquidConfiguration {
       }
     }
   }
-  
+
   public void addOverallDefine(String define) {
     Set<String> overallDefs = uniqueDefines.get(OVERALLDEFINEKEY);
     if (!overallDefs.contains(define)) {
       overallDefs.add(define);
     }
-  }  
+  }
 
   public List<String> getDefines() {
     Set<String> allDefines = new HashSet<>();
@@ -129,14 +129,14 @@ public class CxxConfiguration extends SquidConfiguration {
       }
     }
   }
-  
+
   public void addOverallIncludeDirectory(String includeDirectory) {
     List<String> overallIncludes = uniqueIncludes.get(OVERALLINCLUDEKEY);
     if (!overallIncludes.contains(includeDirectory)) {
       LOG.debug("setIncludeDirectories() adding dir '{}'", includeDirectory);
       overallIncludes.add(includeDirectory);
     }
-  }  
+  }
 
   public void setIncludeDirectories(@Nullable String[] includeDirectories) {
     if (includeDirectories != null) {
@@ -255,7 +255,7 @@ public class CxxConfiguration extends SquidConfiguration {
   public List<File> getCompilationUnitSourceFiles() {
     List<File> files = new ArrayList<>();
 
-    for (Iterator<String> iter = compilationUnitSettings.keySet().iterator(); iter.hasNext(); ) {
+    for (Iterator<String> iter = compilationUnitSettings.keySet().iterator(); iter.hasNext();) {
       String item = iter.next();
       files.add(new File(item));
     }
@@ -275,9 +275,9 @@ public class CxxConfiguration extends SquidConfiguration {
       if (buildLog.exists()) {
         if ("Visual C++".equals(fileFormat)) {
           cxxVCppParser.parseVCppLog(buildLog, baseDir, charsetName);
-          LOG.info("Parse build log '"+ buildLog.getAbsolutePath()
-                +"' added includes: '" + uniqueIncludes.size()
-                +"', added defines: '" + uniqueDefines.size() + "'");
+          LOG.info("Parse build log '" + buildLog.getAbsolutePath()
+            + "' added includes: '" + uniqueIncludes.size()
+            + "', added defines: '" + uniqueDefines.size() + "'");
           if (LOG.isDebugEnabled()) {
             for (List<String> allIncludes : uniqueIncludes.values()) {
               if (!allIncludes.isEmpty()) {
@@ -301,4 +301,3 @@ public class CxxConfiguration extends SquidConfiguration {
     return super.getCharset();
   }
 }
-

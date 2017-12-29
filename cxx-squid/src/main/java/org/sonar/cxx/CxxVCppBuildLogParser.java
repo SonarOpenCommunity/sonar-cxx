@@ -50,19 +50,20 @@ public class CxxVCppBuildLogParser {
   private String platformToolset = "V120";
   private String platform = "Win32";
   private static final String CPPWINRTVERSION = "__cplusplus_winrt=201009";
-  private static final String CPPVERSION = "__cplusplus=199711L";  
+  private static final String CPPVERSION = "__cplusplus=199711L";
 
   /**
    * CxxVCppBuildLogParser (ctor)
+   *
    * @param uniqueIncludesIn
    * @param uniqueDefinesIn
    */
-  public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn, 
-      HashMap<String, Set<String>> uniqueDefinesIn) { 
+  public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn,
+    HashMap<String, Set<String>> uniqueDefinesIn) {
     uniqueIncludes = uniqueIncludesIn;
     uniqueDefines = uniqueDefinesIn;
   }
-  
+
   public void setPlatform(String platform) {
     this.platform = platform;
   }
@@ -74,10 +75,10 @@ public class CxxVCppBuildLogParser {
   public void setPlatformToolset(String platformToolset) {
     this.platformToolset = platformToolset;
   }
-  
+
   /**
-   * Can be used to create a list of includes, defines and options for a single line
-   * If it follows the format of VC++
+   * Can be used to create a list of includes, defines and options for a single line If it follows the format of VC++
+   *
    * @param line
    * @param projectPath
    * @param compilationFile
@@ -85,13 +86,13 @@ public class CxxVCppBuildLogParser {
   public void parseVCppLine(String line, String projectPath, String compilationFile) {
     this.parseVCppCompilerCLLine(line, projectPath, compilationFile);
   }
-  
+
   /**
-  *
-  * @param buildLog
-  * @param baseDir
-  * @param charsetName
-  */
+   *
+   * @param buildLog
+   * @param baseDir
+   * @param charsetName
+   */
   public void parseVCppLog(File buildLog, String baseDir, String charsetName) {
     boolean detectedPlatform = false;
     try (InputStream input = java.nio.file.Files.newInputStream(buildLog.toPath())) {
@@ -114,7 +115,7 @@ public class CxxVCppBuildLogParser {
           }
         }
 
-          // get base path of project to make 
+        // get base path of project to make 
         // Target "ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
         if (line.contains("Target \"ClCompile\" in file")) {
           String pathProject = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");
@@ -124,12 +125,12 @@ public class CxxVCppBuildLogParser {
           currentProjectPath = Paths.get(pathProject).getParent();
           if (currentProjectPath == null) {
             currentProjectPath = Paths.get(baseDir);
-            }
+          }
           if (LOG.isDebugEnabled()) {
             LOG.debug("build log parser currentProjectPath='{}'", currentProjectPath);
           }
         }
-          // 1>Task "Message"
+        // 1>Task "Message"
         // 1>  Configuration=Debug
         // 1>Done executing task "Message".
         // 1>Task "Message"
@@ -142,7 +143,7 @@ public class CxxVCppBuildLogParser {
         }
         // match "bin\CL.exe", "bin\amd64\CL.exe", "bin\x86_amd64\CL.exe"
         if (line.matches("^.*\\\\bin\\\\.*CL.exe\\x20.*$")) {
-          detectedPlatform= setPlatformToolsetFromLine(line);
+          detectedPlatform = setPlatformToolsetFromLine(line);
           String[] allElems = line.split("\\s+");
           String data = allElems[allElems.length - 1];
           parseCLParameters(line, currentProjectPath, data);
@@ -162,28 +163,29 @@ public class CxxVCppBuildLogParser {
 
   /**
    * setPlatformToolsetFromLine
+   *
    * @param line - which contains "cl.exe" string
    */
   private boolean setPlatformToolsetFromLine(String line) {
-    if (line.contains("\\V100\\Microsoft.CppBuild.targets") || 
-        line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
+    if (line.contains("\\V100\\Microsoft.CppBuild.targets")
+      || line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V100");
       return true;
-    } else if (line.contains("\\V110\\Microsoft.CppBuild.targets") || 
-               line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
+    } else if (line.contains("\\V110\\Microsoft.CppBuild.targets")
+      || line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V110");
       return true;
-    } else if (line.contains("\\V120\\Microsoft.CppBuild.targets") || 
-               line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
+    } else if (line.contains("\\V120\\Microsoft.CppBuild.targets")
+      || line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V120");
       return true;
-    } else if (line.contains("\\V140\\Microsoft.CppBuild.targets") || 
-               line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe") ||
-               line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")) {
+    } else if (line.contains("\\V140\\Microsoft.CppBuild.targets")
+      || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe")
+      || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")) {
       setPlatformToolset("V140");
       return true;
-    } else if (line.contains("\\V141\\Microsoft.CppBuild.targets") || 
-        line.matches("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$")) {
+    } else if (line.contains("\\V141\\Microsoft.CppBuild.targets")
+      || line.matches("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$")) {
       setPlatformToolset("V141");
       return true;
     }
@@ -216,7 +218,7 @@ public class CxxVCppBuildLogParser {
 
       parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);
     } catch (InvalidPathException ex) {
-      LOG.warn("Cannot extract information from current element: {} - {}",data , ex);
+      LOG.warn("Cannot extract information from current element: {} - {}", data, ex);
     } catch (NullPointerException ex2) {
       LOG.error("Bug in parser, please report: '{}' - '{}'", data + " @ " + currentProjectPath, ex2);
     }
@@ -284,12 +286,12 @@ public class CxxVCppBuildLogParser {
         } else {
           includeRoot = new File(project, includeRoot.getPath());
         }
-      } 
+      }
       includePath = includeRoot.getCanonicalPath();
       if (!includesPerUnit.contains(includePath)) {
         includesPerUnit.add(includePath);
       }
-    } catch (IOException io) { 
+    } catch (IOException io) {
       if (LOG.isDebugEnabled()) {
         LOG.error("Cannot parse include path using element '{}' : '{}'", element, io);
       } else {
@@ -605,6 +607,5 @@ public class CxxVCppBuildLogParser {
     //_MFC_VER Defines the MFC version (see afxver_.h)
     addMacro("_MFC_VER=0x0E00", fileElement);
     addMacro("_ATL_VER=0x0E00", fileElement);
-  }  
+  }
 }
-

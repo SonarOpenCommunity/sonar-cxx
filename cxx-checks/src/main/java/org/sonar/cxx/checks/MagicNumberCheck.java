@@ -36,7 +36,7 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.tag.Tag;
 
 /**
- * Find  Magic numbers in source code
+ * Find Magic numbers in source code
  *
  */
 @Rule(
@@ -131,7 +131,7 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
   private static boolean isGenerated(AstNode node) {
     return node.getToken().isGeneratedCode();
   }
-  
+
   private static boolean isNullPtr(AstNode node) {
     return "nullptr".equals(node.getTokenValue());
   }

@@ -220,7 +220,7 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     assertThat(p).matches("typeSpecifierSeq");
     assertThat(p).matches("typeSpecifierSeq abstractDeclarator");
   }
-  
+
   @Test
   public void typeId_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.typeId));
@@ -243,7 +243,7 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     assertThat(p).matches("definingTypeSpecifierSeq");
     assertThat(p).matches("definingTypeSpecifierSeq abstractDeclarator");
   }
-  
+
   @Test
   public void abstractDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.abstractDeclarator));
@@ -511,7 +511,7 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     assertThat(p).matches("[constantExpression][constantExpression] = {}");
     assertThat(p).matches("[constantExpression][constantExpression].a = {}");
     assertThat(p).matches("[constantExpression][constantExpression].a.b = {}");
-    
+
     // C-COMPATIBILITY: EXTENSION: gcc's designated initializers range
     assertThat(p).matches("[constantExpression ... constantExpression] = {}");
     assertThat(p).matches("[constantExpression ... constantExpression] = { initializerList }");

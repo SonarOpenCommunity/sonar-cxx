@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
 import java.io.File;
 import java.util.Collections;
 import java.util.HashSet;
@@ -42,8 +43,8 @@ import static org.mockito.Mockito.when;
 public class CxxUnitTestResultsAggregatorTest {
 
   private CxxLanguage language;
-  private String key1 = "sonar.cxx." + UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY; 
-  private String key2 = "sonar.cxx." + UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY; 
+  private String key1 = "sonar.cxx." + UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY;
+  private String key2 = "sonar.cxx." + UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY;
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -52,9 +53,9 @@ public class CxxUnitTestResultsAggregatorTest {
   public void setUp() {
     language = TestUtils.mockCxxLanguage();
     when(language.getPluginProperty(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY))
-    .thenReturn(key1);
+      .thenReturn(key1);
     when(language.getPluginProperty(UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY))
-    .thenReturn(key2);
+      .thenReturn(key2);
   }
 
   @Test
@@ -72,7 +73,7 @@ public class CxxUnitTestResultsAggregatorTest {
     when(settings.hasKey(key1)).thenReturn(false);
     when(settings.hasKey(key2)).thenReturn(true);
     assertThat(new CxxUnitTestResultsAggregator(language, settings).hasUnitTestResultsProperty()).isTrue();
-    
+
     when(settings.hasKey(key1)).thenReturn(true);
     when(settings.hasKey(key2)).thenReturn(true);
     assertThat(new CxxUnitTestResultsAggregator(language, settings).hasUnitTestResultsProperty()).isTrue();

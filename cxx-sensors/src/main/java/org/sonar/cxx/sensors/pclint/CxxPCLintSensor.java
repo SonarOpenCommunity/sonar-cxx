@@ -39,20 +39,21 @@ import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 
 /**
- * PC-lint is an equivalent to pmd but for C++ The first version of the tool was
- * release 1985 and the tool analyzes C/C++ source code from many compiler
- * vendors. PC-lint is the version for Windows and FlexLint for Unix, VMS, OS-9,
+ * PC-lint is an equivalent to pmd but for C++ The first version of the tool was release 1985 and the tool analyzes
+ * C/C++ source code from many compiler vendors. PC-lint is the version for Windows and FlexLint for Unix, VMS, OS-9,
  * etc See also: http://www.gimpel.com/html/index.htm
  *
  * @author Bert
  */
 public class CxxPCLintSensor extends CxxReportSensor {
+
   private static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
   public static final String REPORT_PATH_KEY = "pclint.reportPath";
   public static final String KEY = "PC-Lint";
 
   /**
-   * CxxPCLintSensor for PC-lint Sensor 
+   * CxxPCLintSensor for PC-lint Sensor
+   *
    * @param language defines settings C or C++
    */
   public CxxPCLintSensor(CxxLanguage language) {
@@ -68,12 +69,12 @@ public class CxxPCLintSensor extends CxxReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " PCLintSensor");
   }
-  
+
   @Override
   protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
     LOG.debug("Parsing 'PC-Lint' format");
-    
+
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
@@ -82,8 +83,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         try {
           rootCursor.advance();
-        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
-          throw new EmptyReportException("Cannot read PClint report", eofExc); 
+        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
+          throw new EmptyReportException("Cannot read PClint report", eofExc);
         }
 
         SMInputCursor errorCursor = rootCursor.childElementCursor("issue");
@@ -95,19 +96,19 @@ public class CxxPCLintSensor extends CxxReportSensor {
             String msg = errorCursor.getAttrValue("desc");
 
             if (isInputValid(file, line, id, msg)) {
-              if (msg.contains("MISRA")){
+              if (msg.contains("MISRA")) {
                 //remap MISRA IDs. Only Unique rules for MISRA C 2004 and MISRA C/C++ 2008 
                 // have been created in the rule repository
-                if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008") 
-                   || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
+                if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008")
+                  || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
                   id = mapMisraRulesToUniqueSonarRules(msg, Boolean.FALSE);
-                } else if (msg.contains("MISRA 2012 Rule")){
+                } else if (msg.contains("MISRA 2012 Rule")) {
                   id = mapMisraRulesToUniqueSonarRules(msg, Boolean.TRUE);
                 }
               }
               saveUniqueViolation(context, CxxPCLintRuleRepository.KEY,
                 file, line, id, msg);
-              
+
             } else {
               LOG.warn("PC-lint warning ignored: {}", msg);
               if (LOG.isDebugEnabled()) {
@@ -115,15 +116,15 @@ public class CxxPCLintSensor extends CxxReportSensor {
               }
             }
           }
-        } catch (com.ctc.wstx.exc.WstxUnexpectedCharException 
-                | com.ctc.wstx.exc.WstxEOFException
-                | com.ctc.wstx.exc.WstxIOException e) {
+        } catch (com.ctc.wstx.exc.WstxUnexpectedCharException
+          | com.ctc.wstx.exc.WstxEOFException
+          | com.ctc.wstx.exc.WstxIOException e) {
           LOG.error("Ignore XML error from PC-lint '{}'", CxxUtils.getStackTrace(e));
         }
       }
 
-      private boolean isInputValid(@Nullable String file, @Nullable String line, 
-                                   @Nullable String id, @Nullable String msg) {
+      private boolean isInputValid(@Nullable String file, @Nullable String line,
+        @Nullable String id, @Nullable String msg) {
         try {
           if (file == null || file.isEmpty() || (Integer.parseInt(line) == 0)) {
             // issue for project or file level
@@ -137,8 +138,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
       }
 
       /**
-       * Concatenate M with the MISRA rule number to get the new rule id to save
-       * the violation to.
+       * Concatenate M with the MISRA rule number to get the new rule id to save the violation to.
        */
       private String mapMisraRulesToUniqueSonarRules(String msg, Boolean isMisra2012) {
         Pattern pattern = Pattern.compile(
@@ -165,7 +165,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
 
     parser.parse(report);
   }
-  
+
   @Override
   protected String getSensorKey() {
     return KEY;

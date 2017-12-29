@@ -43,7 +43,7 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
 
 /**
  * LineRegularExpressionCheck
- * 
+ *
  */
 @Rule(
   key = "LineRegularExpression",
@@ -51,7 +51,7 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale
-public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
+public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
   private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;
@@ -152,4 +152,3 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return invert ? !condition : condition;
   }
 }
-

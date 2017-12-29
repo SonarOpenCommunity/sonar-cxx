@@ -46,7 +46,7 @@ public class CxxVeraxxSensorTest {
     language = TestUtils.mockCxxLanguage();
     when(language.getPluginProperty(CxxVeraxxSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxVeraxxSensor.REPORT_PATH_KEY);
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
-    }
+  }
 
   @Test
   public void shouldReportCorrectViolations() {
@@ -54,23 +54,22 @@ public class CxxVeraxxSensorTest {
 
     settings.setProperty(language.getPluginProperty(CxxVeraxxSensor.REPORT_PATH_KEY), "vera++-reports/vera++-result-*.xml");
     context.setSettings(settings);
-    
+
     CxxVeraxxSensor sensor = new CxxVeraxxSensor(language);
-    
+
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/tests/SAMPLE-test.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/tests/SAMPLE-test.h")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/tests/main.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(10);
   }
 }
-

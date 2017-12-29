@@ -38,6 +38,7 @@ class ValgrindReportParser {
 
   /**
    * Parses given valgrind report
+   *
    * @param report full path of XML report
    * @return Set<ValgrindError>
    * @exception XMLStreamException javax.xml.stream.XMLStreamException

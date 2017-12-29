@@ -30,6 +30,7 @@ import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.annotations.RuleTemplate;
+
 /**
  * CommentContainsPatternChecker
  */
@@ -60,6 +61,7 @@ public class CommentContainsPatternChecker {
 
   /**
    * CommentContainsPatternChecker
+   *
    * @param check
    * @param pattern
    * @param message
@@ -73,6 +75,7 @@ public class CommentContainsPatternChecker {
 
   /**
    * visitToken
+   *
    * @param token
    */
   public void visitToken(Token token) {
@@ -85,7 +88,7 @@ public class CommentContainsPatternChecker {
         for (int i = 0; i < lines.length; i++) {
           int start = indexOfIgnoreCase(lines[i]);
           if (start != -1 && !isLetterAround(lines[i], start)) {
-            check.getContext().createLineViolation(check, message, line + i); 
+            check.getContext().createLineViolation(check, message, line + i);
           }
         }
       }

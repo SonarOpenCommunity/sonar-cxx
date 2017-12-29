@@ -40,6 +40,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class BullseyeParser extends CxxCoverageParser {
+
   private static final Logger LOG = Loggers.get(BullseyeParser.class);
   private static volatile String prevLine;
   private static int totalconditions;
@@ -82,8 +83,8 @@ public class BullseyeParser extends CxxCoverageParser {
     parser.parse(report);
   }
 
-  private static void collectCoverageLeafNodes(String refPath, SMInputCursor folder, 
-                                               final Map<String, CoverageMeasures> coverageData)
+  private static void collectCoverageLeafNodes(String refPath, SMInputCursor folder,
+    final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
 
     String correctPath = ensureRefPathIsCorrect(refPath);
@@ -94,8 +95,8 @@ public class BullseyeParser extends CxxCoverageParser {
     }
   }
 
-  private static void recTreeTopWalk(File fileName, SMInputCursor folder, 
-                                     final Map<String, CoverageMeasures> coverageData)
+  private static void recTreeTopWalk(File fileName, SMInputCursor folder,
+    final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     SMInputCursor child = folder.childElementCursor();
     while (child.getNext() != null) {
@@ -106,8 +107,8 @@ public class BullseyeParser extends CxxCoverageParser {
     }
   }
 
-  private static void collectCoverage2(String refPath, SMInputCursor folder, 
-                                       final Map<String, CoverageMeasures> coverageData)
+  private static void collectCoverage2(String refPath, SMInputCursor folder,
+    final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
 
     String correctPath = ensureRefPathIsCorrect(refPath);
@@ -147,8 +148,8 @@ public class BullseyeParser extends CxxCoverageParser {
     }
   }
 
-  private static void recTreeWalk(String refPath, SMInputCursor folder, List<String> path, 
-                           final Map<String, CoverageMeasures> coverageData)
+  private static void recTreeWalk(String refPath, SMInputCursor folder, List<String> path,
+    final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
 
     String correctPath = ensureRefPathIsCorrect(refPath);
@@ -244,7 +245,7 @@ public class BullseyeParser extends CxxCoverageParser {
   }
 
   private static String ensureRefPathIsCorrect(@Nullable String refPath) {
-    if (refPath == null || refPath.isEmpty() ) {
+    if (refPath == null || refPath.isEmpty()) {
       return refPath;
     }
     if (refPath.endsWith("\\") || refPath.endsWith("/")) {
@@ -262,8 +263,8 @@ public class BullseyeParser extends CxxCoverageParser {
     String fileName = String.join(File.separator, path);
     if (!(new File(fileName)).isAbsolute()) {
       fileName = correctPath + fileName;
-    } 
+    }
     return PathUtils.sanitize(fileName);
   }
-  
+
 }

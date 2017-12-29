@@ -36,31 +36,32 @@ import org.junit.rules.TemporaryFolder;
 import org.sonar.api.config.internal.MapSettings;
 
 public class CxxReportPatternMatchingTest {
+
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private MapSettings settings = new MapSettings();
   private List<String[]> examples = new LinkedList<>();
-  
+
   @Rule
   public TemporaryFolder base = new TemporaryFolder();
-  
+
   @Before
   public void setUp() {
     //                        "pattern",      "matches",   "matches not"
     // relative
-    examples.add(new String[]{"A.ext",        "A.ext",     "dir/B.ext"});
-    examples.add(new String[]{"dir/A.ext",    "dir/A.ext", "A.ext,dir/B.ext"});
-    examples.add(new String[]{"dir/../A.ext", "A.ext",     "B.ext,dir/A.ext"});
-    examples.add(new String[]{"./A.ext",      "A.ext",     "B.ext"});
-    examples.add(new String[]{"./A.ext",      "A.ext",     "B.ext"});
+    examples.add(new String[]{"A.ext", "A.ext", "dir/B.ext"});
+    examples.add(new String[]{"dir/A.ext", "dir/A.ext", "A.ext,dir/B.ext"});
+    examples.add(new String[]{"dir/../A.ext", "A.ext", "B.ext,dir/A.ext"});
+    examples.add(new String[]{"./A.ext", "A.ext", "B.ext"});
+    examples.add(new String[]{"./A.ext", "A.ext", "B.ext"});
     // empty
     examples.add(new String[]{"", "", ""});
     // question mark glob
-    examples.add(new String[]{"A?.ext",       "AA.ext,AB.ext", "B.ext"});
+    examples.add(new String[]{"A?.ext", "AA.ext,AB.ext", "B.ext"});
     // multi-char glob
-    examples.add(new String[]{"A*.ext",       "A.ext,AAA.ext", "B.ext"});
+    examples.add(new String[]{"A*.ext", "A.ext,AAA.ext", "B.ext"});
     // multi-dir glob
-    examples.add(new String[]{"**/A.ext",     "A.ext,dir/A.ext,dir/subdir/A.ext", "B.ext,dir/B.ext"});
-    examples.add(new String[]{"dir/**/A.ext", "dir/A.ext,dir/subdir/A.ext",       "A.ext,dir/B.ext,dir/subdir/B.ext"});
+    examples.add(new String[]{"**/A.ext", "A.ext,dir/A.ext,dir/subdir/A.ext", "B.ext,dir/B.ext"});
+    examples.add(new String[]{"dir/**/A.ext", "dir/A.ext,dir/subdir/A.ext", "A.ext,dir/B.ext,dir/subdir/B.ext"});
   }
 
   @Test

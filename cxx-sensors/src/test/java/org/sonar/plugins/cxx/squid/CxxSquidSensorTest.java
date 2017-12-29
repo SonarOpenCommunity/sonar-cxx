@@ -52,7 +52,7 @@ public class CxxSquidSensorTest {
 
   private CxxSquidSensor sensor;
   private CxxLanguage language;
-  
+
   @Before
   public void setUp() {
     language = TestUtils.mockCxxLanguage();
@@ -62,13 +62,13 @@ public class CxxSquidSensorTest {
     FileLinesContext fileLinesContext = mock(FileLinesContext.class);
     when(fileLinesContextFactory.createFor(Mockito.any(InputFile.class))).thenReturn(fileLinesContext);
     when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY))
-       .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
+      .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
 
     sensor = new CxxSquidSensor(
-            language,
-            fileLinesContextFactory,
-            checkFactory,
-            null);    
+      language,
+      fileLinesContextFactory,
+      checkFactory,
+      null);
   }
 
   @Test
@@ -78,15 +78,15 @@ public class CxxSquidSensorTest {
 
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-        .setCharset(Charset.forName("UTF-8")).setLanguage(language.getKey())
-        .setType(InputFile.Type.MAIN).build();
+      .setCharset(Charset.forName("UTF-8")).setLanguage(language.getKey())
+      .setType(InputFile.Type.MAIN).build();
 
     SensorContextTester context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
     Collection<Measure> measures = context.measures("ProjectKey:code_chunks.cc");
-            
+
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FILES).value()).isEqualTo(1);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(54);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.STATEMENTS).value()).isEqualTo(50);
@@ -100,32 +100,32 @@ public class CxxSquidSensorTest {
   public void testComplexitySquidMetrics() throws UnsupportedEncodingException, IOException {
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/complexity-project");
     File target = new File(baseDir, "complexity.cc");
-    
+
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-                             .setLanguage(language.getKey()).setType(InputFile.Type.MAIN).build();
+      .setLanguage(language.getKey()).setType(InputFile.Type.MAIN).build();
 
     SensorContextTester context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
     Collection<Measure> measures = context.measures("ProjectKey:complexity.cc");
-    
+
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FILES).value()).isEqualTo(1);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FUNCTIONS).value()).isEqualTo(22);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(2);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.COMPLEXITY).value()).isEqualTo(38);
-  }  
-  
+  }
+
   @Test
   public void testReplacingOfExtenalMacros() throws UnsupportedEncodingException, IOException {
-    when(this.language.getStringLinesOption(CxxSquidSensor.DEFINES_KEY)).thenReturn(new String[] { "MACRO class A{};" });
+    when(this.language.getStringLinesOption(CxxSquidSensor.DEFINES_KEY)).thenReturn(new String[]{"MACRO class A{};"});
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/external-macro-project");
     File target = new File(baseDir, "test.cc");
 
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-                             .setLanguage(language.getKey()).setType(InputFile.Type.MAIN).build();
+      .setLanguage(language.getKey()).setType(InputFile.Type.MAIN).build();
 
     SensorContextTester context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
@@ -137,18 +137,18 @@ public class CxxSquidSensorTest {
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(1);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.STATEMENTS).value()).isEqualTo(0);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FUNCTIONS).value()).isEqualTo(0);
-    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(1);        
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(1);
   }
 
   @Test
   public void testFindingIncludedFiles() throws UnsupportedEncodingException, IOException {
-    when(this.language.getStringArrayOption(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY)).thenReturn(new String[] { "include" });
+    when(this.language.getStringArrayOption(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY)).thenReturn(new String[]{"include"});
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/include-directories-project");
-    File target = new File(baseDir,"src/main.cc");
+    File target = new File(baseDir, "src/main.cc");
 
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-                             .setLanguage(language.getKey()).setType(InputFile.Type.MAIN).build();
+      .setLanguage(language.getKey()).setType(InputFile.Type.MAIN).build();
 
     SensorContextTester context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
@@ -160,22 +160,22 @@ public class CxxSquidSensorTest {
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(9);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.STATEMENTS).value()).isEqualTo(0);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FUNCTIONS).value()).isEqualTo(9);
-    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(0); 
-    
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(0);
+
   }
 
   @Test
   public void testForceIncludedFiles() throws UnsupportedEncodingException, IOException {
-    
-    when(this.language.getStringArrayOption(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY)).thenReturn(new String[] { "include" });
-    when(this.language.getStringArrayOption(CxxSquidSensor.FORCE_INCLUDE_FILES_KEY)).thenReturn(new String[] { "force1.hh", "subfolder/force2.hh" });
-    
+
+    when(this.language.getStringArrayOption(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY)).thenReturn(new String[]{"include"});
+    when(this.language.getStringArrayOption(CxxSquidSensor.FORCE_INCLUDE_FILES_KEY)).thenReturn(new String[]{"force1.hh", "subfolder/force2.hh"});
+
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/force-include-project");
-    File target = new File(baseDir,"src/src1.cc");
+    File target = new File(baseDir, "src/src1.cc");
 
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-                             .setLanguage(language.getKey()).setType(InputFile.Type.MAIN).build();
+      .setLanguage(language.getKey()).setType(InputFile.Type.MAIN).build();
 
     SensorContextTester context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
@@ -188,7 +188,7 @@ public class CxxSquidSensorTest {
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(1);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.STATEMENTS).value()).isEqualTo(2);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FUNCTIONS).value()).isEqualTo(1);
-    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(0);     
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(0);
   }
 
   @Test
@@ -197,11 +197,11 @@ public class CxxSquidSensorTest {
     // files to analyse, include each other, the preprocessor guards have to be disabled
     // and both have to be counted in terms of metrics
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/circular-includes-project");
-    File target = new File(baseDir,"test1.hh");
+    File target = new File(baseDir, "test1.hh");
 
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-                             .setLanguage(language.getKey()).setType(InputFile.Type.MAIN).build();
+      .setLanguage(language.getKey()).setType(InputFile.Type.MAIN).build();
 
     SensorContextTester context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
@@ -212,12 +212,11 @@ public class CxxSquidSensorTest {
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(1);
   }
 
-
   private Measure GetIntegerMeasureByKey(Collection<Measure> measures, Metric<Integer> metric) {
-    for (Measure measure: measures) {
+    for (Measure measure : measures) {
       if (measure.metric().equals(metric)) {
         return measure;
-      }      
+      }
     }
     return null;
   }

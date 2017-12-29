@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.pclint;
 
-import org.sonar.cxx.sensors.pclint.CxxPCLintRuleRepository;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -35,7 +34,7 @@ public class CxxPCLintRuleRepositoryTest {
   @Test
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    
+
     CxxPCLintRuleRepository def = new CxxPCLintRuleRepository(
       mock(ServerFileSystem.class),
       new RulesDefinitionXmlLoader(), language);

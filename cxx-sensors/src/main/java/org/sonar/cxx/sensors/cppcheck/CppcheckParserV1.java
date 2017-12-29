@@ -34,6 +34,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class CppcheckParserV1 implements CppcheckParser {
+
   private static final Logger LOG = Loggers.get(CppcheckParserV1.class);
   private final CxxCppCheckSensor sensor;
 
@@ -56,8 +57,8 @@ public class CppcheckParserV1 implements CppcheckParser {
 
         try {
           rootCursor.advance(); // results
-        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
-          throw new EmptyReportException("Cannot read cppcheck report (format V1)", eofExc); 
+        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
+          throw new EmptyReportException("Cannot read cppcheck report (format V1)", eofExc);
         }
 
         try {
@@ -69,7 +70,7 @@ public class CppcheckParserV1 implements CppcheckParser {
             String msg = errorCursor.getAttrValue("msg");
 
             if (file != null) {
-              file = file.replace('\\','/');
+              file = file.replace('\\', '/');
             }
 
             if ("*".equals(file)) {

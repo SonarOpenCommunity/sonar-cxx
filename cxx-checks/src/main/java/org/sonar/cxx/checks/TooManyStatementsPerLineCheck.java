@@ -47,8 +47,8 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   private static final boolean DEFAULT_EXCLUDE_CASE_BREAK = false;
 
   /**
-   * excludeCaseBreak - Exclude 'break' statement if it is on the same line
-   * as the switch label (case: or default:)
+   * excludeCaseBreak - Exclude 'break' statement if it is on the same line as
+   * the switch label (case: or default:)
    */
   @RuleProperty(
     key = "excludeCaseBreak",
@@ -113,7 +113,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   private boolean isEmptyExpressionStatement(AstNode astNode) {
     if (astNode.is(CxxGrammarImpl.expressionStatement) && ";".equals(astNode.getToken().getValue())) {
       AstNode statement = astNode.getFirstAncestor(CxxGrammarImpl.selectionStatement);
-      if (statement != null ) {
+      if (statement != null) {
         return astNode.getTokenLine() == statement.getTokenLine();
       }
 

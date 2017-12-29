@@ -20,6 +20,7 @@
 package org.sonar.cxx.tag;
 
 public final class Tag {
+
   // checks and rules use following tags
   public static final String BRAIN_OVERLOAD = "brain-overload";
   public static final String BUG = "bug";

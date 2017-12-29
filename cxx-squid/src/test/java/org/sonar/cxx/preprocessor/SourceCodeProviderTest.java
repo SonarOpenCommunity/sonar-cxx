@@ -33,7 +33,7 @@ public class SourceCodeProviderTest {
   private final SourceCodeProvider codeProvider = new SourceCodeProvider();
   private final File expected1 = new File(new File("src/test/resources/codeprovider/source.hh").getAbsolutePath());
   private final File expected2 = new File(new File("src/test/resources/codeprovider/source").getAbsolutePath());
- 
+
   // ////////////////////////////////////////////////////////////////////////////
   // Behavior in the absolute path case
   @Test
@@ -82,7 +82,7 @@ public class SourceCodeProviderTest {
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, false));
   }
-  
+
   @Test
   public void getting_file_relpath_case2() {
     String baseDir = new File("src/test").getAbsolutePath();
@@ -106,7 +106,7 @@ public class SourceCodeProviderTest {
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, false));
   }
-  
+
   @Test
   public void getting_file_relpath_case3() {
     String baseDir = new File("src/test").getAbsolutePath();
@@ -130,7 +130,7 @@ public class SourceCodeProviderTest {
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, false));
   }
-  
+
   @Test
   public void getting_file_relpath_case4() {
     String baseDir = new File("src/test").getAbsolutePath();
@@ -154,7 +154,7 @@ public class SourceCodeProviderTest {
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, false));
   }
-  
+
   // ////////////////////////////////////////////////////////////////////////////
   // Special behavior in the quoted case
   // Lookup in the current directory. Has to fail for the angle case
@@ -186,7 +186,7 @@ public class SourceCodeProviderTest {
   public void getting_source_code1() throws IOException {
     assertEquals("source code", codeProvider.getSourceCode(expected1, Charset.defaultCharset()));
   }
-  
+
   @Test
   public void getting_source_code2() throws IOException {
     assertEquals("source code", codeProvider.getSourceCode(expected2, Charset.defaultCharset()));

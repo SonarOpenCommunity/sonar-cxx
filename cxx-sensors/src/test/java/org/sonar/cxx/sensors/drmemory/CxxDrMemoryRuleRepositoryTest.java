@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.drmemory;
 
-import org.sonar.cxx.sensors.drmemory.CxxDrMemoryRuleRepository;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -38,7 +37,7 @@ public class CxxDrMemoryRuleRepositoryTest {
   @Test
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    
+
     CxxDrMemoryRuleRepository def = new CxxDrMemoryRuleRepository(
       mock(ServerFileSystem.class),
       new RulesDefinitionXmlLoader(), language);
@@ -48,6 +47,6 @@ public class CxxDrMemoryRuleRepositoryTest {
 
     RulesDefinition.Repository repo = context.repository(CxxDrMemoryRuleRepository.KEY);
     List<Rule> rules = repo.rules();
-	assertEquals(8, rules.size());
+    assertEquals(8, rules.size());
   }
 }

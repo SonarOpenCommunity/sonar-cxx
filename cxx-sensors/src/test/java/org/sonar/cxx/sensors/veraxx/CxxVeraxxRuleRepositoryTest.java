@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.veraxx;
 
-import org.sonar.cxx.sensors.veraxx.CxxVeraxxRuleRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 

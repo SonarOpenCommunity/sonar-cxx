@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.rats;
 
-import org.sonar.cxx.sensors.rats.CxxRatsSensor;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
@@ -61,4 +60,3 @@ public class CxxRatsSensorTest {
     assertThat(context.allIssues()).hasSize(5);
   }
 }
-

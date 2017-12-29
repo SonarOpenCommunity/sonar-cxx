@@ -27,7 +27,7 @@ import org.sonar.api.config.internal.MapSettings;
 public class CxxCheckListTest {
 
   private MapSettings settings = new MapSettings();
-  
+
   @Test
   public void count() {
     CppLanguage checks = new CppLanguage(settings.asConfig());
