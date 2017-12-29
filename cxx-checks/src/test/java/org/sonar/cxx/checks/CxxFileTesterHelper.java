@@ -37,24 +37,24 @@ import org.sonar.cxx.CxxLanguage;
  * @author jocs
  */
 public class CxxFileTesterHelper {
-  
+
   public static CxxFileTester CreateCxxFileTester(String fileName, String basePath) throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = new CxxFileTester();
     tester.sensorContext = SensorContextTester.create(new File(basePath));
 
     tester.sensorContext.fileSystem().add(TestInputFileBuilder.create("", fileName).build());
     tester.cxxFile = tester.sensorContext.fileSystem().inputFile(tester.sensorContext.fileSystem().predicates().hasPath(fileName));
-    
+
     return tester;
   }
 
-  public static CxxFileTester CreateCxxFileTester(String fileName, String basePath,Charset charset) throws UnsupportedEncodingException, IOException {
+  public static CxxFileTester CreateCxxFileTester(String fileName, String basePath, Charset charset) throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = new CxxFileTester();
     tester.sensorContext = SensorContextTester.create(new File(basePath));
 
     tester.sensorContext.fileSystem().add(TestInputFileBuilder.create("", fileName).setCharset(charset).build());
     tester.cxxFile = tester.sensorContext.fileSystem().inputFile(tester.sensorContext.fileSystem().predicates().hasPath(fileName));
-    
+
     return tester;
   }
 
@@ -65,8 +65,8 @@ public class CxxFileTesterHelper {
     when(language.getPropertiesKey()).thenReturn("cxx");
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
     when(language.getFileSuffixes())
-            .thenReturn(new String [] { ".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh" });
-    
+      .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
+
     return language;
-  }  
+  }
 }

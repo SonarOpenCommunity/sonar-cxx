@@ -19,15 +19,11 @@
  */
 package org.sonar.cxx.sensors.drmemory;
 
-import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
+import java.nio.charset.Charset;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
-
-import java.nio.charset.Charset;
-
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
@@ -51,16 +47,15 @@ public class CxxDrMemorySensorTest {
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
 
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-        .initMetadata("asd\nasdas\nasda\n").setCharset(Charset.forName("UTF-8")).build();
+      .initMetadata("asd\nasdas\nasda\n").setCharset(Charset.forName("UTF-8")).build();
 
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     context.settings().setProperty(language.getPluginProperty(CxxDrMemorySensor.REPORT_PATH_KEY),
-        "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
+      "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
     context.fileSystem().add(inputFile);
-    
+
     CxxDrMemorySensor sensor = new CxxDrMemorySensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
   }
 }
-

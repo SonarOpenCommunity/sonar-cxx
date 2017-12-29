@@ -20,11 +20,10 @@
 package org.sonar.cxx.sensors.cppcheck;
 
 import java.io.File;
-
 import javax.xml.stream.XMLStreamException;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -34,6 +33,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class CppcheckParserV1 implements CppcheckParser {
+
   private static final Logger LOG = Loggers.get(CppcheckParserV1.class);
   private final CxxCppCheckSensor sensor;
 
@@ -56,8 +56,8 @@ public class CppcheckParserV1 implements CppcheckParser {
 
         try {
           rootCursor.advance(); // results
-        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
-          throw new EmptyReportException("Cannot read cppcheck report (format V1)", eofExc); 
+        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
+          throw new EmptyReportException("Cannot read cppcheck report (format V1)", eofExc);
         }
 
         try {
@@ -69,7 +69,7 @@ public class CppcheckParserV1 implements CppcheckParser {
             String msg = errorCursor.getAttrValue("msg");
 
             if (file != null) {
-              file = file.replace('\\','/');
+              file = file.replace('\\', '/');
             }
 
             if ("*".equals(file)) {

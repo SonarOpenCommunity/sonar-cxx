@@ -20,7 +20,6 @@
 package org.sonar.plugins.cxx;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import org.sonar.api.Plugin;
 import org.sonar.api.SonarQubeSide;
@@ -32,10 +31,10 @@ public class CxxPluginTest {
 
   @Test
   public void testGetExtensions() throws Exception {
-   SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(Version.create(6, 5), SonarQubeSide.SCANNER);
-   Plugin.Context context = new Plugin.Context(runtime); 
-   CxxPlugin plugin = new CxxPlugin();
-   plugin.define(context);
-   assertThat(context.getExtensions()).hasSize(72);
+    SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(Version.create(6, 5), SonarQubeSide.SCANNER);
+    Plugin.Context context = new Plugin.Context(runtime);
+    CxxPlugin plugin = new CxxPlugin();
+    plugin.define(context);
+    assertThat(context.getExtensions()).hasSize(72);
   }
 }

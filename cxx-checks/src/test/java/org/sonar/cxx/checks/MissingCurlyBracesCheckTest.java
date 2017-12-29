@@ -33,9 +33,9 @@ public class MissingCurlyBracesCheckTest {
 
   @Test
   public void test() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/MissingCurlyBraces.cc", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check); 
-    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/MissingCurlyBraces.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(6).withMessage("Missing curly brace.")
       .next().atLine(7)

@@ -19,25 +19,24 @@
  */
 package org.sonar.cxx.checks;
 
-
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Objects;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.squidbridge.checks.SquidCheck;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.cxx.tag.Tag;
+import org.sonar.squidbridge.checks.SquidCheck;
 
-  /**
-  * HardcodedAccountCheck
-  **/
+/**
+ * HardcodedAccountCheck
+  *
+ */
 @Rule(
   key = "HardcodedAccount",
   name = "Do not hard code sensitive data in programs",
@@ -59,8 +58,9 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
   private static volatile Matcher reg;
 
   /**
-  * regularExpression
-  **/
+   * regularExpression
+  *
+   */
   @RuleProperty(
     key = "regularExpression",
     description = "literal regular expression rule",

@@ -41,9 +41,9 @@ public class CxxDefaultProfile extends ProfileDefinition {
    * {@inheritDoc}
    */
   public CxxDefaultProfile(
-          XMLProfileParser xmlProfileParser,
-          AnnotationProfileParser annotationProfileParser, //@todo: deprecated AnnotationProfileParser
-          CxxLanguage language) {
+    XMLProfileParser xmlProfileParser,
+    AnnotationProfileParser annotationProfileParser, //@todo: deprecated AnnotationProfileParser
+    CxxLanguage language) {
     this.annotationProfileParser = annotationProfileParser;
     this.xmlProfileParser = xmlProfileParser;
     this.lang = language;

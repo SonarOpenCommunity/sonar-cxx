@@ -19,6 +19,9 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
 import java.util.Arrays;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
@@ -27,9 +30,6 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.visitors.AbstractCxxPublicApiVisitor;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 

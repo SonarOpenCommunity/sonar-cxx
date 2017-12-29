@@ -19,23 +19,19 @@
  */
 package org.sonar.cxx.sensors.clangtidy;
 
-import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
-import org.sonar.cxx.sensors.utils.TestUtils;
+import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
-
-import java.util.Optional;
-
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxClangTidySensorTest {
 
@@ -51,7 +47,7 @@ public class CxxClangTidySensorTest {
     when(language.getPluginProperty(CxxClangTidySensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxClangTidySensor.REPORT_PATH_KEY);
     when(language.getPluginProperty(CxxClangTidySensor.REPORT_CHARSET_DEF)).thenReturn("UTF-8");
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
-    }
+  }
 
   @Test
   public void shouldIgnoreIssuesIfResourceNotFound() {
@@ -63,8 +59,8 @@ public class CxxClangTidySensorTest {
     CxxClangTidySensor sensor = new CxxClangTidySensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
-  }  
-  
+  }
+
   @Test
   public void shouldReportCorrectViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
@@ -73,8 +69,8 @@ public class CxxClangTidySensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-                             .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
-    
+      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+
     CxxClangTidySensor sensor = new CxxClangTidySensor(language);
 
     Configuration settings = Mockito.mock(Configuration.class);
@@ -92,13 +88,12 @@ public class CxxClangTidySensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-                             .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
 
     CxxClangTidySensor sensor = new CxxClangTidySensor(language);
 
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
-  }  
-  
-}
+  }
 
+}

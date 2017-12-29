@@ -19,9 +19,8 @@
  */
 package org.sonar.cxx.parser;
 
-import static org.sonar.sslr.tests.Assertions.assertThat;
-
 import org.junit.Test;
+import static org.sonar.sslr.tests.Assertions.assertThat;
 
 /**
  *
@@ -63,7 +62,7 @@ public class BalancedTokensTest extends ParserBaseTestHelper {
   @Test
   public void attributeSpecifier_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifier));
-    
+
     assertThat(p).matches("[ [ foo :: bar ( { foo }  [ bar ] ) ] ]");
   }
 
@@ -74,7 +73,7 @@ public class BalancedTokensTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.constantExpression);
     mockRule(CxxGrammarImpl.attributeUsingPrefix);
     mockRule(CxxGrammarImpl.attributeNamespace);
-    
+
     assertThat(p).matches("alignas ( typeId )");
     assertThat(p).matches("alignas ( typeId ... )");
     assertThat(p).matches("alignas ( constantExpression )");
@@ -86,10 +85,10 @@ public class BalancedTokensTest extends ParserBaseTestHelper {
   public void attributeUsingPrefix() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeUsingPrefix));
     mockRule(CxxGrammarImpl.attributeNamespace);
-    
-    assertThat(p).matches("using attributeNamespace :");   
+
+    assertThat(p).matches("using attributeNamespace :");
   }
-  
+
   @Test
   public void attributeList() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeList));
@@ -172,7 +171,7 @@ public class BalancedTokensTest extends ParserBaseTestHelper {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeArgumentClause));
     mockRule(CxxGrammarImpl.balancedTokenSeq);
 
-    assertThat(p).matches( "( balancedTokenSeq )");
+    assertThat(p).matches("( balancedTokenSeq )");
   }
 
   @Test

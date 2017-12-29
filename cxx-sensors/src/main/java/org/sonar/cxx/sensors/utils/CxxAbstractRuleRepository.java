@@ -28,11 +28,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Nullable;
-
 import org.apache.commons.io.FileUtils;
-
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
@@ -58,12 +55,12 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
    * {@inheritDoc}
    */
   public CxxAbstractRuleRepository(
-          ServerFileSystem fileSystem,
-          RulesDefinitionXmlLoader xmlRuleLoader,
-          String key,
-          String name,
-          String customKey,
-          CxxLanguage language) {
+    ServerFileSystem fileSystem,
+    RulesDefinitionXmlLoader xmlRuleLoader,
+    String key,
+    String name,
+    String customKey,
+    CxxLanguage language) {
     this.fileSystem = fileSystem;
     this.xmlRuleLoader = xmlRuleLoader;
     this.repositoryKey = key + language.getRepositorySuffix();
@@ -87,7 +84,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
           BufferedReader reader = new BufferedReader(new InputStreamReader(input, charset));
           xmlRuleLoader.load(repository, reader);
-        } catch (Exception ex) { 
+        } catch (Exception ex) {
           LOG.info("Cannot Load XML '{}'", ex);
         }
       }

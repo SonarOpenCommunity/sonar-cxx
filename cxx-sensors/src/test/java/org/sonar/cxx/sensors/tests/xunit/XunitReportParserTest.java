@@ -19,13 +19,10 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import org.sonar.cxx.sensors.tests.xunit.XunitReportParser;
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 import java.util.Map;
 import java.util.TreeMap;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.sensors.utils.TestUtils;

@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.checks;
+
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -26,15 +27,16 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class TooManyLinesOfCodeInFunctionCheckTest {
+
   private TooManyLinesOfCodeInFunctionCheck check = new TooManyLinesOfCodeInFunctionCheck();
 
   @Test
   public void test() throws UnsupportedEncodingException, IOException {
     check.setMax(6);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionLength.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);     
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(21)
-        .noMore();
+      .next().atLine(21)
+      .noMore();
   }
 }

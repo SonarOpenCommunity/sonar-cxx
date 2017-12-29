@@ -20,9 +20,9 @@
 package org.sonar.cxx.sensors.compiler;
 
 import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
 
 /**
  * {@inheritDoc}

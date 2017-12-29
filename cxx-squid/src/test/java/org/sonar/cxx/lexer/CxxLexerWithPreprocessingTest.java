@@ -19,23 +19,29 @@
  */
 package org.sonar.cxx.lexer;
 
+import com.sonar.sslr.api.GenericTokenType;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.impl.Lexer;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import org.junit.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.Test;
 import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxFileTesterHelper;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
@@ -43,15 +49,6 @@ import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.cxx.preprocessor.SourceCodeProvider;
 import org.sonar.squidbridge.SquidAstVisitorContext;
-
-import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Lexer;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.cxx.CxxLanguage;
 
 public class CxxLexerWithPreprocessingTest {
 
@@ -280,7 +277,7 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void external_define() {
     CxxConfiguration conf = new CxxConfiguration();
-    conf.setDefines(new String[] {"M body"});
+    conf.setDefines(new String[]{"M body"});
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 
@@ -292,7 +289,7 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void external_defines_with_params() {
     CxxConfiguration conf = new CxxConfiguration();
-    conf.setDefines(new String[] {"minus(a, b) a - b"});
+    conf.setDefines(new String[]{"minus(a, b) a - b"});
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 

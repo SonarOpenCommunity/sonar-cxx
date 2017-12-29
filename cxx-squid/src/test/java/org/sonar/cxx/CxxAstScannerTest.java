@@ -19,30 +19,28 @@
  */
 package org.sonar.cxx;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.sonar.sslr.api.Grammar;
 import java.io.File;
-import org.junit.Test;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceProject;
 import org.sonar.squidbridge.indexer.QueryByType;
 
-import com.sonar.sslr.api.Grammar;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
 public class CxxAstScannerTest {
 
   @Test
   public void files() throws UnsupportedEncodingException, IOException {
-    
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/trivial.cc", ".", "");
     CxxFileTesterHelper.AddFileToContext(tester, "src/test/resources/metrics/trivial.cc", "");
-        
+
     AstScanner<Grammar> scanner = CxxAstScanner.create(CxxFileTesterHelper.mockCxxLanguage(), new CxxConfiguration());
     scanner.scanFiles(new ArrayList<>(Arrays.asList(
       new File("src/test/resources/metrics/trivial.cc"),
@@ -53,7 +51,7 @@ public class CxxAstScannerTest {
   }
 
   @Test
-  public void comments() throws UnsupportedEncodingException, IOException {    
+  public void comments() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/comments.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
     assertThat(file.getInt(CxxMetric.COMMENT_LINES)).isEqualTo(6);
@@ -69,7 +67,7 @@ public class CxxAstScannerTest {
 
   @Test
   public void lines_of_code() throws UnsupportedEncodingException, IOException {
-    
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/classes.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
     assertThat(file.getInt(CxxMetric.LINES_OF_CODE)).isEqualTo(5);
@@ -98,7 +96,7 @@ public class CxxAstScannerTest {
 
   @Test
   public void complexity() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/complexity.cc", ".", "");    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/complexity.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
     assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
   }

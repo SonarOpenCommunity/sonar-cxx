@@ -19,16 +19,13 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
-import org.sonar.cxx.sensors.valgrind.CxxValgrindRuleRepository;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-
 import java.io.File;
 import java.util.ArrayList;
-
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
@@ -39,7 +36,7 @@ public class CxxValgrindRuleRepositoryTest {
 
   @Test
   public void shouldContainProperNumberOfRules() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();    
+    CxxLanguage language = TestUtils.mockCxxLanguage();
     CxxValgrindRuleRepository def = new CxxValgrindRuleRepository(mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
@@ -67,8 +64,8 @@ public class CxxValgrindRuleRepositoryTest {
   public void containsValidFormatInExtensionRulesNewFormat() {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<>();
-    extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesNewFormat.xml"));    
-    CxxLanguage language = TestUtils.mockCxxLanguage();    
+    extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesNewFormat.xml"));
+    CxxLanguage language = TestUtils.mockCxxLanguage();
     CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), language);
     CxxValgrindRuleRepository def = spy(obj);
     doReturn(extensionFile).when(def).getExtensions(CxxValgrindRuleRepository.KEY, "xml");
@@ -84,7 +81,7 @@ public class CxxValgrindRuleRepositoryTest {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesInvalid.xml"));
-    CxxLanguage language = TestUtils.mockCxxLanguage();    
+    CxxLanguage language = TestUtils.mockCxxLanguage();
     CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), language);
     CxxValgrindRuleRepository def = spy(obj);
     doReturn(extensionFile).when(def).getExtensions(CxxValgrindRuleRepository.KEY, "xml");
@@ -100,7 +97,7 @@ public class CxxValgrindRuleRepositoryTest {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesEmptyFile.xml"));
-    CxxLanguage language = TestUtils.mockCxxLanguage();    
+    CxxLanguage language = TestUtils.mockCxxLanguage();
     CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), language);
     CxxValgrindRuleRepository def = spy(obj);
     doReturn(extensionFile).when(def).getExtensions(CxxValgrindRuleRepository.KEY, "xml");

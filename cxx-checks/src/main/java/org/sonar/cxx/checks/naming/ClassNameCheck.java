@@ -21,20 +21,19 @@ package org.sonar.cxx.checks.naming;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.checks.SquidCheck;
 
-import java.util.regex.Pattern;
-import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.cxx.tag.Tag;
-
 /**
- * ClassNameCheck 
- * 
+ * ClassNameCheck
+ *
  */
 @Rule(
   key = "ClassName",
@@ -43,7 +42,7 @@ import org.sonar.cxx.tag.Tag;
   tags = {Tag.CONVENTION})
 @SqaleConstantRemediation("5min")
 @ActivatedByDefault
-public class ClassNameCheck extends SquidCheck<Grammar> { 
+public class ClassNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "^[A-Z_][a-zA-Z0-9]+$";
   private Pattern pattern;

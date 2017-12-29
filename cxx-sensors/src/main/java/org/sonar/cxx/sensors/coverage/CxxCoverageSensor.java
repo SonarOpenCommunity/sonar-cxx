@@ -27,9 +27,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.xml.stream.XMLStreamException;
-
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.coverage.NewCoverage;
 import org.sonar.api.config.Configuration;
@@ -57,6 +56,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
   /**
    * {@inheritDoc}
+   *
    * @param cache for all coverage data
    * @param language for current analysis
    * @param context for current file
@@ -100,7 +100,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
     }
   }
 
-
   private Map<String, CoverageMeasures> processReports(final SensorContext context, List<File> reports,
     Map<String, Map<String, CoverageMeasures>> cacheCov) {
     Map<String, CoverageMeasures> measuresTotal = new HashMap<>();
@@ -112,7 +111,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
             parseCoverageReport(parser, context, report, measuresTotal);
             if (LOG.isDebugEnabled()) {
               LOG.debug("cached measures for '{}' : current cache content data = '{}'", report.getAbsolutePath(),
-
                 cacheCov.size());
             }
             cacheCov.put(report.getAbsolutePath(), measuresTotal);
@@ -211,8 +209,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
       newCoverage.lineHits(measure.getLine(), measure.getHits());
       newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
     } catch (RuntimeException ex) {
-      LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ", 
-                 measure.getLine(), ex.getMessage());
+      LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ",
+        measure.getLine(), ex.getMessage());
       CxxUtils.validateRecovery(ex, language);
     }
   }
@@ -228,4 +226,3 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
 
 }
-

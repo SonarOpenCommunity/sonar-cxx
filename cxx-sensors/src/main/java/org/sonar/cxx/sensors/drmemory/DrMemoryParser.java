@@ -28,30 +28,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 
 public final class DrMemoryParser {
+
   private static final Logger LOG = Loggers.get(DrMemoryParser.class);
   public static final Pattern rx_message_finder = Pattern.compile("^Error #\\d+:(.*)");
   public static final Pattern rx_file_finder = Pattern.compile("^.*\\[(.*):(\\d+)\\]$");
   public static final int TOP_COUNT = 4;
-  
+
   /**
    * DrMemory supported error types
    *
    */
   public enum DrMemoryErrorType {
     UNADRESSABLE_ACCESS("UnadressableAccess", "UNADDRESSABLE ACCESS"),
-    UNINITIALIZE_READ("UninitializedRead", "UNINITIALIZED READ"), 
-    INVALID_HEAP_ARGUMENT("InvalidHeapArgument", "INVALID HEAP ARGUMENT"), 
+    UNINITIALIZE_READ("UninitializedRead", "UNINITIALIZED READ"),
+    INVALID_HEAP_ARGUMENT("InvalidHeapArgument", "INVALID HEAP ARGUMENT"),
     GDI_USAGE_ERROR("GdiUsageError", "GDI Usage Error"),
-    HANDLE_LEAK("HandleLeak", "HANDLE LEAK"), 
-    WARNING("DrMemoryWarning", "WARNING"), 
-    POSSIBLE_LEAK("PossibleMemoryLeak", "POSSIBLE LEAK"), 
-    LEAK("MemoryLeak", "LEAK"), 
+    HANDLE_LEAK("HandleLeak", "HANDLE LEAK"),
+    WARNING("DrMemoryWarning", "WARNING"),
+    POSSIBLE_LEAK("PossibleMemoryLeak", "POSSIBLE LEAK"),
+    LEAK("MemoryLeak", "LEAK"),
     UNRECOGNIZED("Dr Memory unrecognized error", "");
 
     private String id;
@@ -74,18 +74,22 @@ public final class DrMemoryParser {
   public static class DrMemoryError {
 
     public static class Location {
+
       private String file = "";
       private Integer line;
 
       public String getFile() {
         return file;
       }
+
       public void setFile(String file) {
         this.file = file;
       }
+
       public Integer getLine() {
         return line;
       }
+
       public void setLine(Integer line) {
         this.line = line;
       }
@@ -98,6 +102,7 @@ public final class DrMemoryParser {
     public DrMemoryErrorType getType() {
       return type;
     }
+
     public void setType(DrMemoryErrorType type) {
       this.type = type;
     }
@@ -105,12 +110,15 @@ public final class DrMemoryParser {
     public List<Location> getStackTrace() {
       return (ArrayList<Location>) ((ArrayList<Location>) stackTrace).clone();
     }
+
     public void setStackTrace(List<Location> stackTrace) {
       this.stackTrace = new ArrayList<>(stackTrace);
     }
+
     public String getMessage() {
       return message;
     }
+
     public void setMessage(String message) {
       this.message = message;
     }
@@ -121,6 +129,7 @@ public final class DrMemoryParser {
 
   /**
    * DrMemory parser
+   *
    * @param file with findings
    * @param charset file encoding character set
    * @return list of issues extracted from file
@@ -172,6 +181,7 @@ public final class DrMemoryParser {
 
   /**
    * get all DrMemory elements from file
+   *
    * @param file with findings
    * @param charset file encoding character set
    * @return list of elements from report file
@@ -205,8 +215,8 @@ public final class DrMemoryParser {
       br.close();
     } catch (IOException e) {
       String msg = new StringBuilder().append("Cannot feed the data into sonar, details: '")
-                                      .append(e)
-                                      .append("'").toString();
+        .append(e)
+        .append("'").toString();
       LOG.error(msg);
     }
     return list;

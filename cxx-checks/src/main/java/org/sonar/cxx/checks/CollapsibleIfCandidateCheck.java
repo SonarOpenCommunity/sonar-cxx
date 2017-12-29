@@ -19,20 +19,18 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 import javax.annotation.Nullable;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.api.CxxKeyword;
+import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
-import org.sonar.squidbridge.checks.SquidCheck;
-
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 @Rule(
   key = "CollapsibleIfCandidate",
@@ -52,7 +50,8 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
   public void visitNode(AstNode node) {
     if (!hasElseClause(node) && !hasDeclaration(node)) {
       AstNode enclosingIfStatement = getEnclosingIfStatement(node);
-      if (enclosingIfStatement != null && !hasElseClause(enclosingIfStatement) && hasSingleTrueStatement(enclosingIfStatement) && !hasDeclaration(enclosingIfStatement)) {
+      if (enclosingIfStatement != null && !hasElseClause(enclosingIfStatement)
+        && hasSingleTrueStatement(enclosingIfStatement) && !hasDeclaration(enclosingIfStatement)) {
         getContext().createLineViolation(this, "Merge this if statement with the enclosing one.", node);
       }
     }
@@ -63,9 +62,8 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
   }
 
   /**
-   * Verify if the ifStatement's condition is actually a variable declaration.
-   * This is the case if the condition is not an expression. This prevents
-   * collapse, since multiple definitions and expressions cannot be combined.
+   * Verify if the ifStatement's condition is actually a variable declaration. This is the case if the condition is not
+   * an expression. This prevents collapse, since multiple definitions and expressions cannot be combined.
    */
   private static boolean hasDeclaration(AstNode node) {
     AstNode condition = node.getFirstChild(CxxGrammarImpl.condition);
@@ -93,7 +91,8 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
   private static boolean hasSingleTrueStatement(AstNode node) {
     AstNode statement = node.getFirstChild(CxxGrammarImpl.statement);
     return statement.hasDirectChildren(CxxGrammarImpl.compoundStatement)
-      ? statement.getFirstChild(CxxGrammarImpl.compoundStatement).getFirstChild(CxxGrammarImpl.statementSeq).getChildren().size() == 1 : true;
+      ? statement.getFirstChild(CxxGrammarImpl.compoundStatement).getFirstChild(CxxGrammarImpl.statementSeq)
+        .getChildren().size() == 1 : true;
   }
 
 }

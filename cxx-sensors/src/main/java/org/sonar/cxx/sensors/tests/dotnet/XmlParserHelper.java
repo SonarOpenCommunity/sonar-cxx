@@ -19,17 +19,19 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import javax.annotation.Nullable;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
-public class XmlParserHelper implements AutoCloseable{
+public class XmlParserHelper implements AutoCloseable {
+
   private final File file;
   private final InputStreamReader reader;
   private final XMLStreamReader stream;
@@ -90,8 +92,8 @@ public class XmlParserHelper implements AutoCloseable{
   void checkRequiredAttribute(String name, int expectedValue) {
     int actualValue = getRequiredIntAttribute(name);
     if (expectedValue != actualValue) {
-      throw parseError("Expected \"" + expectedValue + "\" instead of \"" + actualValue + "\" for the \"" 
-                       + name + "\" attribute");
+      throw parseError("Expected \"" + expectedValue + "\" instead of \"" + actualValue + "\" for the \""
+        + name + "\" attribute");
     }
   }
 
@@ -149,8 +151,8 @@ public class XmlParserHelper implements AutoCloseable{
   }
 
   ParseErrorException parseError(String message) {
-    return new ParseErrorException(message + " in " + file.getAbsolutePath() + " at line " 
-                                   + stream.getLocation().getLineNumber());
+    return new ParseErrorException(message + " in " + file.getAbsolutePath() + " at line "
+      + stream.getLocation().getLineNumber());
   }
 
   @Override

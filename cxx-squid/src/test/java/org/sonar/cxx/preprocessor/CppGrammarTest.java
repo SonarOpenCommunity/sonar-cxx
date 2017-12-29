@@ -19,15 +19,12 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import static org.sonar.sslr.tests.Assertions.assertThat;
-
-import org.junit.Test;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
-import org.sonar.cxx.CxxFileTesterHelper;
+import org.junit.Test;
 import org.sonar.sslr.grammar.GrammarRuleKey;
+import static org.sonar.sslr.tests.Assertions.assertThat;
 
 public class CppGrammarTest {
 
@@ -39,7 +36,7 @@ public class CppGrammarTest {
   private void mockRule(GrammarRuleKey key) {
     g.rule(key).mock(); //@todo deprecated mock
   }
-  
+
   @Test
   public void preprocessorLine() {
     mockRule(CppGrammar.defineLine);
@@ -557,7 +554,7 @@ public class CppGrammarTest {
     assertThat(p).matches("defined LALA");
     assertThat(p).matches("defined (LALA)");
     assertThat(p).matches("defined(LALA)");
-    
+
     assertThat(p).matches("defined __has_include");
     assertThat(p).matches("defined (__has_include)");
   }
@@ -589,7 +586,7 @@ public class CppGrammarTest {
     assertThat(p).matches("__has_include( <optional> )");
     assertThat(p).matches("__has_include( \"optional.hpp\" )");
   }
-  
+
   @Test
   public void functionlikeMacro_reallife() {
     p.setRootRule(g.rule(CppGrammar.functionlikeMacro));

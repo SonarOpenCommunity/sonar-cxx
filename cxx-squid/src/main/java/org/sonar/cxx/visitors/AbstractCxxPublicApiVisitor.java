@@ -19,16 +19,6 @@
  */
 package org.sonar.cxx.visitors;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.api.CxxKeyword;
-import org.sonar.cxx.api.CxxPunctuator;
-import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
@@ -37,6 +27,14 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
+import java.util.ArrayList;
+import java.util.List;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.cxx.api.CxxPunctuator;
+import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * Abstract visitor that visits public API items.<br>
@@ -92,7 +90,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
   private boolean skipFile = true;
 
   protected abstract void onPublicApi(AstNode node, String id, List<Token> comments);
-  
+
   public interface PublicApiHandler {
 
     void onPublicApi(AstNode node, String id, List<Token> comments);
@@ -450,8 +448,8 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       if (declarators.size() == 1) {
         visitMemberDeclarator(memberDeclaration);
       } else {
-      // if several declarator, doc should be placed before each
-      // declarator, or in-lined
+        // if several declarator, doc should be placed before each
+        // declarator, or in-lined
         for (AstNode declarator : declarators) {
           visitMemberDeclarator(declarator);
         }
@@ -475,7 +473,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     if (declSpecifierSeq != null) {
       List<AstNode> declSpecifiers = declSpecifierSeq
         .getChildren(CxxGrammarImpl.declSpecifier);
-  
+
       for (AstNode declSpecifier : declSpecifiers) {
         AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
         if (friendNode != null) {
@@ -520,7 +518,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       AstNode functionBodyNode = functionDef
         .getFirstChild(CxxGrammarImpl.functionBody);
 
-      if ((functionBodyNode != null) && (isDefaultOrDeleteFunctionBody(functionBodyNode))){
+      if ((functionBodyNode != null) && (isDefaultOrDeleteFunctionBody(functionBodyNode))) {
         return;
       }
 
@@ -533,9 +531,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     List<AstNode> functionBody = functionBodyNode.getChildren();
 
     // look for exact sub AST
-    if ((functionBody.size() == 3) 
-        && functionBody.get(0).is(CxxPunctuator.ASSIGN)
-        && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
+    if ((functionBody.size() == 3)
+      && functionBody.get(0).is(CxxPunctuator.ASSIGN)
+      && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
 
       AstNode bodyType = functionBody.get(1);
 
@@ -722,7 +720,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
           // or next curly brace
           if (next != null) {
             // discard COMMA
-            if (next.getToken().getType().equals( CxxPunctuator.COMMA)) {
+            if (next.getToken().getType().equals(CxxPunctuator.COMMA)) {
               next = next.getNextAstNode();
             }
 
@@ -798,7 +796,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
     if (access != null) {
       return access.getToken().getType().equals(CxxKeyword.PUBLIC)
-        || access.getToken().getType().equals( CxxKeyword.PROTECTED);
+        || access.getToken().getType().equals(CxxKeyword.PROTECTED);
     } else {
       AstNode classSpecifier = node
         .getFirstAncestor(CxxGrammarImpl.classSpecifier);
@@ -849,9 +847,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     for (Trivia trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         Token triviaToken = trivia.getToken();
-        if ((triviaToken != null) 
-            && (triviaToken.getLine() == line)
-            && (isDoxygenInlineComment(triviaToken.getValue()))) {
+        if ((triviaToken != null)
+          && (triviaToken.getLine() == line)
+          && (isDoxygenInlineComment(triviaToken.getValue()))) {
           comments.add(triviaToken);
           if (LOG.isTraceEnabled()) {
             LOG.trace("Inline doc: " + triviaToken.getValue());

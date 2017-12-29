@@ -19,18 +19,15 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.cxx.CxxCompilationUnitSettings;
 import org.sonar.cxx.CxxConfiguration;
-
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class JsonCompilationDatabaseTest {
 
@@ -139,21 +136,21 @@ public class JsonCompilationDatabaseTest {
     assertThat(cus).isNull();
   }
 
-  @Test (expected = JsonMappingException.class)
+  @Test(expected = JsonMappingException.class)
   public void testInvalidJson() throws Exception {
     CxxConfiguration conf = new CxxConfiguration();
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/invalid.json");
 
-      new JsonCompilationDatabase(conf, file);
+    new JsonCompilationDatabase(conf, file);
   }
 
-  @Test (expected = FileNotFoundException.class)
+  @Test(expected = FileNotFoundException.class)
   public void testFileNotFound() throws Exception {
     CxxConfiguration conf = new CxxConfiguration();
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/not-found.json");
 
-      new JsonCompilationDatabase(conf, file);
+    new JsonCompilationDatabase(conf, file);
   }
 }

@@ -19,10 +19,9 @@
  */
 package org.sonar.cxx.lexer;
 
+import com.sonar.sslr.impl.Lexer;
 import org.sonar.sslr.channel.Channel;
 import org.sonar.sslr.channel.CodeReader;
-
-import com.sonar.sslr.impl.Lexer;
 
 public class BackslashChannel extends Channel<Lexer> {
 

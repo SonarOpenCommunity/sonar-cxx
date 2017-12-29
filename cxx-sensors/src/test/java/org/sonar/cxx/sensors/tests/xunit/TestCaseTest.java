@@ -19,12 +19,9 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import org.sonar.cxx.sensors.tests.xunit.TestCase;
-import static org.junit.Assert.assertEquals;
-
 import java.util.HashMap;
 import java.util.Map;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class TestCaseTest {

@@ -20,14 +20,13 @@
 package org.sonar.plugins.cxx;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import org.sonar.api.config.internal.MapSettings;
 
 public class CxxCheckListTest {
 
   private MapSettings settings = new MapSettings();
-  
+
   @Test
   public void count() {
     CppLanguage checks = new CppLanguage(settings.asConfig());

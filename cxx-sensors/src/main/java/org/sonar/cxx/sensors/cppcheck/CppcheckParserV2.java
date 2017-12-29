@@ -20,9 +20,7 @@
 package org.sonar.cxx.sensors.cppcheck;
 
 import java.io.File;
-
 import javax.xml.stream.XMLStreamException;
-
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -35,6 +33,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class CppcheckParserV2 implements CppcheckParser {
+
   private static final Logger LOG = Loggers.get(CppcheckParserV2.class);
   private final CxxCppCheckSensor sensor;
 
@@ -85,7 +84,7 @@ public class CppcheckParserV2 implements CppcheckParser {
                   line = locationCursor.getAttrValue("line");
 
                   if (file != null) {
-                    file = file.replace('\\','/');
+                    file = file.replace('\\', '/');
                   }
 
                   if ("*".equals(file)) {

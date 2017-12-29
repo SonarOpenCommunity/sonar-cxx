@@ -20,19 +20,16 @@
 package org.sonar.cxx.preprocessor;
 
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
-import static org.sonar.cxx.api.CppPunctuator.HASH;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.sonar.sslr.channel.Channel;
-import org.sonar.sslr.channel.CodeReader;
-
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.impl.Lexer;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import static org.sonar.cxx.api.CppPunctuator.HASH;
+import org.sonar.sslr.channel.Channel;
+import org.sonar.sslr.channel.CodeReader;
 
 public class KeywordChannel extends Channel<Lexer> {
 

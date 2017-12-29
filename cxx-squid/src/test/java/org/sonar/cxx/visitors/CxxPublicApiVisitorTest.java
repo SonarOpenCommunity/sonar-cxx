@@ -19,32 +19,28 @@
  */
 package org.sonar.cxx.visitors;
 
-import static org.assertj.core.groups.Tuple.tuple;
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.groups.Tuple;
+import static org.assertj.core.groups.Tuple.tuple;
 import org.fest.assertions.Fail;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxFileTester;
+import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.visitors.CxxPublicApiVisitor.PublicApiHandler;
 import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.cxx.CxxFileTester;
-import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.cxx.CxxAstScanner;
-
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
 
 public class CxxPublicApiVisitorTest {
 
@@ -65,12 +61,11 @@ public class CxxPublicApiVisitorTest {
    * @param fileName the file to use for test
    * @param expectedApi expected number of API
    * @param expectedUndoc expected number of undocumented API
-   * @param checkDouble if true, fails the test if two items with the same id
-   * are counted..
+   * @param checkDouble if true, fails the test if two items with the same id are counted..
    */
   @SuppressWarnings("unchecked")
-  private Tuple testFile(String fileName,boolean checkDouble) 
-                                 throws UnsupportedEncodingException, IOException {
+  private Tuple testFile(String fileName, boolean checkDouble)
+    throws UnsupportedEncodingException, IOException {
 
     CxxPublicApiVisitor<Grammar> visitor = new CxxPublicApiVisitor<>(
       CxxMetric.PUBLIC_API, CxxMetric.PUBLIC_UNDOCUMENTED_API);
@@ -97,14 +92,14 @@ public class CxxPublicApiVisitorTest {
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(
-            tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
+      tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("#API: {} UNDOC: {}",
         file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
     }
 
-    return (new Tuple (file.getInt(CxxMetric.PUBLIC_API),file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)));
+    return (new Tuple(file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)));
   }
 
   @SuppressWarnings("unchecked")
@@ -114,7 +109,7 @@ public class CxxPublicApiVisitorTest {
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(),
       new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
         CxxMetric.PUBLIC_UNDOCUMENTED_API)
-      .withHeaderFileSuffixes(Arrays.asList(".hpp")));
+        .withHeaderFileSuffixes(Arrays.asList(".hpp")));
 
     assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(0);
     assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
@@ -122,38 +117,38 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void doxygen_example() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/doxygen_example.h", false)).isEqualTo(tuple(13,0));
+    assertThat(testFile("src/test/resources/metrics/doxygen_example.h", false)).isEqualTo(tuple(13, 0));
   }
 
   @Test
   public void to_delete() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/public_api.h", true)).isEqualTo(tuple(43,0));
+    assertThat(testFile("src/test/resources/metrics/public_api.h", true)).isEqualTo(tuple(43, 0));
 
   }
 
   @Test
   public void no_doc() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/no_doc.h", true)).isEqualTo(tuple(22,22));
+    assertThat(testFile("src/test/resources/metrics/no_doc.h", true)).isEqualTo(tuple(22, 22));
   }
 
   @Test
   public void template() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/template.h", false)).isEqualTo(tuple(14,4));
+    assertThat(testFile("src/test/resources/metrics/template.h", false)).isEqualTo(tuple(14, 4));
   }
 
   @Test
   public void alias_function_template() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/alias_in_template_func.h", false)).isEqualTo(tuple(4,3));
+    assertThat(testFile("src/test/resources/metrics/alias_in_template_func.h", false)).isEqualTo(tuple(4, 3));
   }
 
   @Test
   public void unnamed_class() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/unnamed_class.h", false)).isEqualTo(tuple(3,1));
+    assertThat(testFile("src/test/resources/metrics/unnamed_class.h", false)).isEqualTo(tuple(3, 1));
   }
 
   @Test
   public void unnamed_enum() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/unnamed_enum.h", false)).isEqualTo(tuple(1,1));
+    assertThat(testFile("src/test/resources/metrics/unnamed_enum.h", false)).isEqualTo(tuple(1, 1));
   }
 
   @SuppressWarnings("unchecked")

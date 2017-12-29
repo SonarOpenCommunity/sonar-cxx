@@ -22,9 +22,7 @@ package org.sonar.cxx.sensors.valgrind;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.xml.stream.XMLStreamException;
-
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -38,6 +36,7 @@ class ValgrindReportParser {
 
   /**
    * Parses given valgrind report
+   *
    * @param report full path of XML report
    * @return Set<ValgrindError>
    * @exception XMLStreamException javax.xml.stream.XMLStreamException

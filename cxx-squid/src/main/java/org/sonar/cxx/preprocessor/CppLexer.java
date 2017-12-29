@@ -19,13 +19,16 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.sonar.sslr.impl.Lexer;
+import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
+import com.sonar.sslr.impl.channel.PunctuatorChannel;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.and;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.o2n;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.opt;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
-
+import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CppKeyword;
 import org.sonar.cxx.api.CppPunctuator;
@@ -33,21 +36,16 @@ import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
 
-import com.sonar.sslr.impl.Lexer;
-import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
-import com.sonar.sslr.impl.channel.PunctuatorChannel;
-import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
-import org.sonar.cxx.CxxLanguage;
-
 public final class CppLexer {
 
   private static final String EXPONENT = "([eE][+-]?+[0-9_]([']?+[0-9_]++)*+)";
   private static final String BINARY_EXPONENT = "([pP][+-]?+[0-9]([']?+[0-9]++)*+)"; // since C++17
   //private static final String INTEGER_SUFFIX = "(((U|u)(LL|ll|L|l)?)|((LL|ll|L|l)(u|U)?))";  
   //private static final String FLOAT_SUFFIX = "(f|l|F|L)";
-  private static final String UD_SUFFIX = "([_a-zA-Z]([_a-zA-Z0-9]*+))"; // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
+  // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
+  private static final String UD_SUFFIX = "([_a-zA-Z]([_a-zA-Z0-9]*+))";
   private static final String HEXDIGIT_SEQUENCE = "([0-9a-fA-F]([']?+[0-9a-fA-F]++)*+)";
-  
+
   private CppLexer() {
   }
 
@@ -56,11 +54,10 @@ public final class CppLexer {
   }
 
   public static Lexer create(CxxConfiguration conf) {
-    
+
     //
     // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
     //
-    
     Lexer.Builder builder = Lexer.builder()
       .withCharset(conf.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)
@@ -70,12 +67,17 @@ public final class CppLexer {
       .withChannel(new CharacterLiteralsChannel())
       .withChannel(new StringLiteralsChannel())
       // C++ Standard, Section 2.14.4 "Floating literals"
-      .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+\\.([0-9]([']?+[0-9]++)*+)*+" + opt(EXPONENT) + opt(UD_SUFFIX)))
-      .withChannel(regexp(CxxTokenType.NUMBER, "\\.[0-9]([']?+[0-9]++)*+" + opt(EXPONENT) + opt(UD_SUFFIX)))
+      .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+\\.([0-9]([']?+[0-9]++)*+)*+" 
+        + opt(EXPONENT) + opt(UD_SUFFIX)))
+      .withChannel(regexp(CxxTokenType.NUMBER, "\\.[0-9]([']?+[0-9]++)*+" 
+        + opt(EXPONENT) + opt(UD_SUFFIX)))
       .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+" + EXPONENT + opt(UD_SUFFIX)))
-      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX]" + HEXDIGIT_SEQUENCE + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
-      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX]" + HEXDIGIT_SEQUENCE + "." + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
-      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX]" + opt(HEXDIGIT_SEQUENCE) + "." + HEXDIGIT_SEQUENCE + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
+      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX]" + HEXDIGIT_SEQUENCE 
+        + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
+      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX]" + HEXDIGIT_SEQUENCE + "." 
+        + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
+      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX]" + opt(HEXDIGIT_SEQUENCE) + "." + HEXDIGIT_SEQUENCE 
+        + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
       // C++ Standard, Section 2.14.2 "Integer literals"
       .withChannel(regexp(CxxTokenType.NUMBER, "[1-9]([']?+[0-9]++)*+" + opt(UD_SUFFIX))) // Decimal literals
       .withChannel(regexp(CxxTokenType.NUMBER, "0[bB][01]([']?+[01]++)*+" + opt(UD_SUFFIX))) // Binary Literals

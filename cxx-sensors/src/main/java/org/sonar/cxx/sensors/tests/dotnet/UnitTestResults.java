@@ -19,10 +19,12 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 public class UnitTestResults {
+
   private int tests;
   private int passed;
   private int skipped;

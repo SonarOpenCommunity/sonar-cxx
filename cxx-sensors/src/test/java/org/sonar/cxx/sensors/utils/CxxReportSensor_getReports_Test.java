@@ -19,28 +19,24 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.apache.commons.io.FileUtils;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-
 import org.sonar.api.config.internal.MapSettings;
 
 public class CxxReportSensor_getReports_Test {
 
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private MapSettings settings = new MapSettings();
-  
+
   @Rule
   public TemporaryFolder base = new TemporaryFolder();
-
 
   @Test
   public void testAbsoluteInsideBasedir() throws IOException {
@@ -144,11 +140,11 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
 
     // Might be valid if java.io.tmpdir is nested excessively deep -- not likely    
-    settings.setProperty(REPORT_PATH_KEY, "../../../../../../../../../../../../../../../../../../../../../../../../" +
-        "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../" +
-        "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../" +
-        "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../*.xml");
-    
+    settings.setProperty(REPORT_PATH_KEY, "../../../../../../../../../../../../../../../../../../../../../../../../"
+      + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../"
+      + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../"
+      + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../*.xml");
+
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
     assertThat(reports.size()).isEqualTo(0);
   }

@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.cppcheck;
 
 import java.io.File;
-
 import org.sonar.api.batch.sensor.SensorContext;
 
 public interface CppcheckParser {

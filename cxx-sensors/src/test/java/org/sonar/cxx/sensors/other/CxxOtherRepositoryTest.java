@@ -19,9 +19,7 @@
  */
 package org.sonar.cxx.sensors.other;
 
-import org.sonar.cxx.sensors.other.CxxOtherRepository;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import static org.mockito.Mockito.when;
 import org.sonar.api.server.rule.RulesDefinition;
@@ -61,8 +59,8 @@ public class CxxOtherRepositoryTest {
   public void verifyTemplateRuleIsFound() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
-            .thenReturn(new String [] { null });    
-    
+      .thenReturn(new String[]{null});
+
     CxxOtherRepository def = new CxxOtherRepository(
       new RulesDefinitionXmlLoader(), language);
 
@@ -75,10 +73,10 @@ public class CxxOtherRepositoryTest {
 
   @Test
   public void createNonEmptyRulesTest() {
-    
+
     CxxLanguage language = TestUtils.mockCxxLanguage();
     when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
-            .thenReturn(new String [] { profile1 });    
+      .thenReturn(new String[]{profile1});
 
     CxxOtherRepository def = new CxxOtherRepository(
       new RulesDefinitionXmlLoader(), language);
@@ -94,8 +92,8 @@ public class CxxOtherRepositoryTest {
   public void createNullRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
-            .thenReturn(new String [] { null });        
-    
+      .thenReturn(new String[]{null});
+
     CxxOtherRepository def = new CxxOtherRepository(
       new RulesDefinitionXmlLoader(), language);
 
@@ -110,8 +108,8 @@ public class CxxOtherRepositoryTest {
   public void verifyRuleValuesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
-            .thenReturn(new String [] { profile2 });    
-        
+      .thenReturn(new String[]{profile2});
+
     CxxOtherRepository def = new CxxOtherRepository(
       new RulesDefinitionXmlLoader(), language);
 

@@ -28,12 +28,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import org.sonar.duplications.internal.pmd.TokensLine;
 
@@ -45,14 +45,14 @@ public class CxxCpdVisitorTest {
 
   @Before
   @SuppressWarnings("unchecked")
-  public void scanFile() throws UnsupportedEncodingException, IOException{
+  public void scanFile() throws UnsupportedEncodingException, IOException {
     language = TestUtils.mockCxxLanguage();
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
     File target = new File(baseDir, "cpd.cc");
-    
+
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     inputFile = TestInputFileBuilder.create("moduleKey", baseDir, target).setType(InputFile.Type.MAIN)
-                                                     .setContents(content).setCharset(Charset.forName("UTF-8")).build();
+      .setContents(content).setCharset(Charset.forName("UTF-8")).build();
 
     context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);

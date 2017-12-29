@@ -19,23 +19,20 @@
  */
 package org.sonar.cxx.parser;
 
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
+import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
 import org.apache.commons.io.FileUtils;
+import static org.junit.Assert.fail;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.squidbridge.SquidAstVisitorContext;
-
-import com.sonar.sslr.api.Grammar;
 
 public class CxxParserTest extends ParserBaseTestHelper {
 
@@ -70,17 +67,17 @@ public class CxxParserTest extends ParserBaseTestHelper {
     String baseDir = new File("src/test").getAbsolutePath();
     conf.setBaseDir(baseDir);
     conf.setIncludeDirectories(Arrays.asList(
-        "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\INCLUDE",
-        "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\ATLMFC\\INCLUDE",
-        "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\ucrt",
-        "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.6.1\\include\\um",
-        "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\shared",
-        "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\um",
-        "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\winrt",
-        "C:\\Workspaces\\boost\\boost_1_61_0",
-        "resources",
-        "resources\\parser\\preprocessor")
-        );
+      "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\INCLUDE",
+      "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\ATLMFC\\INCLUDE",
+      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\ucrt",
+      "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.6.1\\include\\um",
+      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\shared",
+      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\um",
+      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\winrt",
+      "C:\\Workspaces\\boost\\boost_1_61_0",
+      "resources",
+      "resources\\parser\\preprocessor")
+    );
     p = CxxParser.create(mock(SquidAstVisitorContext.class), conf, CxxFileTesterHelper.mockCxxLanguage());
     Collection<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"});
     for (File file : files) {

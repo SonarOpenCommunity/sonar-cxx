@@ -19,13 +19,14 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 
 import java.io.File;
 import java.io.IOException;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
-public class XUnitTestResultsFileParser implements UnitTestResultsParser{
+public class XUnitTestResultsFileParser implements UnitTestResultsParser {
+
   private static final Logger LOG = Loggers.get(XUnitTestResultsFileParser.class);
 
   @Override
@@ -50,7 +51,7 @@ public class XUnitTestResultsFileParser implements UnitTestResultsParser{
         String tag = xmlParserHelper.nextStartTag();
         if (!"assemblies".equals(tag) && !"assembly".equals(tag)) {
           throw xmlParserHelper.parseError("Expected either an <assemblies> or an <assembly> root tag, but got <"
-                                           + tag + "> instead.");
+            + tag + "> instead.");
         }
 
         do {
@@ -79,11 +80,10 @@ public class XUnitTestResultsFileParser implements UnitTestResultsParser{
         executionTime *= 1000;
       }
 
-      unitTestResults.add(total, passed, skipped, failed, errors, executionTime != null ? 
-                                                                  (long) executionTime.doubleValue() : null);
+      unitTestResults.add(total, passed, skipped, failed, errors, executionTime != null
+        ? (long) executionTime.doubleValue() : null);
     }
 
   }
-
 
 }

@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
 public class ParseErrorException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;

@@ -31,13 +31,13 @@ public class CxxRuleRepository implements RulesDefinition {
   public CxxRuleRepository(CxxLanguage language) {
     this.language = language;
   }
-  
+
   @Override
   public void define(Context context) {
     NewRepository repository = context.
       createRepository(this.language.getRepositoryKey(), CppLanguage.KEY).
-      setName(REPOSITORY_NAME);        
-    new AnnotationBasedRulesDefinition(repository, CppLanguage.KEY).addRuleClasses(false, this.language.getChecks());    
+      setName(REPOSITORY_NAME);
+    new AnnotationBasedRulesDefinition(repository, CppLanguage.KEY).addRuleClasses(false, this.language.getChecks());
     repository.done();
   }
 }

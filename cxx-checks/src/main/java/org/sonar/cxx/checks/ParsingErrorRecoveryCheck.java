@@ -19,20 +19,20 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
-import org.sonar.squidbridge.checks.SquidCheck;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.NoSqale;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 @Rule(
   key = "ParsingErrorRecovery",
   name = "C++ skip parser error",
-  tags = {Tag.TOOL_ERROR},  
+  tags = {Tag.TOOL_ERROR},
   priority = Priority.INFO)
 @ActivatedByDefault
 @NoSqale
@@ -45,6 +45,7 @@ public class ParsingErrorRecoveryCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    getContext().createLineViolation(this, "C++ Parser can't read code. Declaration is skipped.", node.getToken().getLine());
+    getContext().createLineViolation(this, "C++ Parser can't read code. Declaration is skipped.",
+      node.getToken().getLine());
   }
 }

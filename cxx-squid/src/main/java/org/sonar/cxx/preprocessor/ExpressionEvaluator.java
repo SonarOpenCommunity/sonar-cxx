@@ -19,23 +19,20 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import java.math.BigInteger;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxConfiguration;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
-import org.sonar.cxx.api.CxxTokenType;
-import com.sonar.sslr.api.GenericTokenType;
+import java.math.BigInteger;
+import java.util.List;
+import javax.annotation.Nullable;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CppPunctuator;
+import org.sonar.cxx.api.CxxTokenType;
 
 public final class ExpressionEvaluator {
 
@@ -152,10 +149,10 @@ public final class ExpressionEvaluator {
     } else if (nodeType.equals(CppGrammar.functionlikeMacro)) {
       return evalFunctionlikeMacro(exprAst);
     } else if (nodeType.equals(CppGrammar.hasIncludeExpression)) {
-      return evalHasIncludeExpression(exprAst);      
+      return evalHasIncludeExpression(exprAst);
     } else {
-      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '" 
-                + exprAst.getToken() + "', assuming 0");
+      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '"
+        + exprAst.getToken() + "', assuming 0");
       return BigInteger.ZERO;
     }
   }
@@ -473,7 +470,6 @@ public final class ExpressionEvaluator {
 
     // This function is only responsible for providing a string and a radix to BigInteger.
     // The lexer ensures that the number has a valid format.
-    
     int radix = 10;
     int begin = 0;
     if (number.length() > 2) {
@@ -530,7 +526,7 @@ public final class ExpressionEvaluator {
 
         case '\'': // ignore digit separator
           break;
-          
+
         default: // suffix
           suffix = true;
           break;

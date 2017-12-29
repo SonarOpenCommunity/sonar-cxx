@@ -21,9 +21,7 @@ package org.sonar.cxx.sensors.rats;
 
 import java.io.File;
 import java.util.List;
-
 import javax.annotation.Nullable;
-
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -38,13 +36,15 @@ import org.sonar.cxx.sensors.utils.CxxUtils;
  * {@inheritDoc}
  */
 public class CxxRatsSensor extends CxxReportSensor {
+
   private static final Logger LOG = Loggers.get(CxxRatsSensor.class);
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
   public static final String REPORT_PATH_KEY = "rats.reportPath";
   public static final String KEY = "Rats";
-  
+
   /**
-   * CxxRatsSensor for RATS Sensor 
+   * CxxRatsSensor for RATS Sensor
+   *
    * @param language defines settings C or C++
    */
   public CxxRatsSensor(CxxLanguage language) {
@@ -55,7 +55,7 @@ public class CxxRatsSensor extends CxxReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " RatsSensor");
   }
-  
+
   @Override
   public String getReportPathKey() {
     return this.language.getPluginProperty(REPORT_PATH_KEY);
@@ -65,7 +65,7 @@ public class CxxRatsSensor extends CxxReportSensor {
   protected void processReport(final SensorContext context, File report)
     throws org.jdom.JDOMException, java.io.IOException {
     LOG.debug("Parsing 'RATS' format");
-    
+
     try {
       SAXBuilder builder = new SAXBuilder(false);
       Element root = builder.build(report).getRootElement();
@@ -102,9 +102,9 @@ public class CxxRatsSensor extends CxxReportSensor {
     }
     return MISSING_RATS_TYPE;
   }
-  
+
   @Override
   protected String getSensorKey() {
     return KEY;
-  }  
+  }
 }

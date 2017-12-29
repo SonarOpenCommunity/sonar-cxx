@@ -31,7 +31,7 @@ import org.sonar.api.batch.ScannerSide;
 public class CxxCoverageCache {
 
   private static final Map<String, Map<String, CoverageMeasures>> CACHE_UNIT = new HashMap<>();
-  
+
   public CxxCoverageCache() {
   }
 

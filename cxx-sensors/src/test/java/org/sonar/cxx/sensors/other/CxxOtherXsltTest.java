@@ -19,16 +19,13 @@
  */
 package org.sonar.cxx.sensors.other;
 
-import static org.mockito.Mockito.when;
-
 import java.io.File;
 import java.util.Optional;
-
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.apache.commons.io.FileUtils;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
@@ -39,7 +36,9 @@ public class CxxOtherXsltTest {
 
   private FileSystem fs;
   private CxxLanguage language;
-  private MapSettings settings = new MapSettings();;
+  private MapSettings settings = new MapSettings();
+
+  ;
 
   @Before
   public void setUp() {
@@ -59,8 +58,8 @@ public class CxxOtherXsltTest {
     when(language.getStringOption(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn(Optional.of("notexistingpath"));
     when(language.getStringOption(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.STYLESHEET_KEY)).thenReturn(Optional.of("notexistingpath"));
     when(language.getStringOption(CxxOtherSensor.OTHER_XSLT_KEY + "2" + CxxOtherSensor.STYLESHEET_KEY)).thenReturn(Optional.of("notexistingpath"));
-    when(language.getStringArrayOption(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.INPUT_KEY)).thenReturn(new String[] {"notexistingpath"});
-    when(language.getStringArrayOption(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY)).thenReturn(new String[] {"notexistingpath"});
+    when(language.getStringArrayOption(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.INPUT_KEY)).thenReturn(new String[]{"notexistingpath"});
+    when(language.getStringArrayOption(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY)).thenReturn(new String[]{"notexistingpath"});
     CxxOtherSensor sensor = new CxxOtherSensor(language);
 
     sensor.execute(context);
@@ -98,4 +97,3 @@ public class CxxOtherXsltTest {
     Assert.assertTrue("The input and output file is equal!", !FileUtils.contentEquals(reportBefore, reportAfter));
   }
 }
-

@@ -26,14 +26,14 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
- * FunctionNameCheck 
- * 
+ * FunctionNameCheck
+ *
  */
 @Rule(
   key = "FunctionName",
@@ -43,7 +43,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 )
 @SqaleConstantRemediation("10min")
 @ActivatedByDefault
-public class FunctionNameCheck extends SquidCheck<Grammar> { 
+public class FunctionNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "^[a-z_][a-z0-9_]{2,30}$";
   private Pattern pattern;
@@ -55,7 +55,6 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
     key = "format",
     defaultValue = "" + DEFAULT)
   public String format = DEFAULT;
-
 
   @Override
   public void init() {
@@ -72,7 +71,7 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
         String identifier = idNode.getTokenValue();
         if (!pattern.matcher(identifier).matches()) {
           getContext().createLineViolation(this,
-                  "Rename function \"{0}\" to match the regular expression {1}.", idNode, identifier, format);
+            "Rename function \"{0}\" to match the regular expression {1}.", idNode, identifier, format);
         }
       }
     }
@@ -82,8 +81,8 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
     boolean isFunction = false;
     // not method inside of class
     // not a nested name - not method outside of class
-    if ((declId.getFirstAncestor(CxxGrammarImpl.memberDeclaration) == null) 
-        && (!declId.hasDirectChildren(CxxGrammarImpl.nestedNameSpecifier))) {
+    if ((declId.getFirstAncestor(CxxGrammarImpl.memberDeclaration) == null)
+      && (!declId.hasDirectChildren(CxxGrammarImpl.nestedNameSpecifier))) {
       isFunction = true;
     }
     return isFunction;

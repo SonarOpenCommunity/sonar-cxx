@@ -27,7 +27,7 @@ class CoverageMeasure {
 
   private final int line;
   private int hits;
-  private int conditions;  
+  private int conditions;
   private int coveredConditions;
 
   CoverageMeasure(int line) {
@@ -54,7 +54,7 @@ class CoverageMeasure {
     this.coveredConditions = coveredConditions;
     this.conditions = totalConditions;
   }
-  
+
   int getLine() {
     return this.line;
   }

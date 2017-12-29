@@ -22,17 +22,17 @@ package org.sonar.cxx.sensors.compiler;
 import java.io.File;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-
 
 /**
  * {@inheritDoc}
  */
 public class CxxCompilerVcParser implements CompilerParser {
+
   private static final Logger LOG = Loggers.get(CxxCompilerVcParser.class);
   public static final String KEY = "Visual C++";
   // search for single line with compiler warning message VS2008 - order for groups: 1 = file, 2 = line, 3 = ID, 4=message
@@ -77,8 +77,8 @@ public class CxxCompilerVcParser implements CompilerParser {
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final SensorContext context, File report, String charset, 
-                            String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
+  public void processReport(final SensorContext context, File report, String charset,
+    String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
     LOG.info("Parsing 'Visual C++' format ({})", charset);
 
     Scanner scanner = new Scanner(report, charset);
@@ -102,11 +102,11 @@ public class CxxCompilerVcParser implements CompilerParser {
   private static String removeMPPrefix(String fpath) {
     // /MP (Build with Multiple Processes) will create a line prefix with the job number eg. '   42>'
     if (fpath.matches("^\\d+>.*$")) {
-      return fpath.substring(fpath.indexOf('>')+1, fpath.length());
+      return fpath.substring(fpath.indexOf('>') + 1, fpath.length());
     }
     return fpath;
   }
-  
+
   @Override
   public String toString() {
     return getClass().getSimpleName();

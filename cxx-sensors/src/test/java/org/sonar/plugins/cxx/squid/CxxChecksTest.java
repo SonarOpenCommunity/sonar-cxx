@@ -19,14 +19,12 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import org.sonar.cxx.sensors.squid.CxxChecks;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.Before;
-import org.junit.Test;
+import com.sonar.sslr.api.Grammar;
 import java.util.ArrayList;
 import java.util.Collections;
-
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Before;
+import org.junit.Test;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
@@ -34,13 +32,12 @@ import org.sonar.api.batch.rule.internal.ActiveRulesBuilder;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Rule;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
+import org.sonar.cxx.sensors.squid.CxxChecks;
+import org.sonar.cxx.sensors.utils.TestUtils;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-
-import com.sonar.sslr.api.Grammar;
-import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxChecksTest {
 

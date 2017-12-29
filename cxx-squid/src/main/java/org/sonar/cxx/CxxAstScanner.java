@@ -19,8 +19,15 @@
  */
 package org.sonar.cxx;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.GenericTokenType;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.impl.Parser;
 import java.util.Collection;
-
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
@@ -49,37 +56,29 @@ import org.sonar.squidbridge.metrics.ComplexityVisitor;
 import org.sonar.squidbridge.metrics.CounterVisitor;
 import org.sonar.squidbridge.metrics.LinesVisitor;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Parser;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.SensorContext;
-
 public final class CxxAstScanner {
 
   private CxxAstScanner() {
   }
 
   /**
-   * Helper method for testing checks without having to deploy them on a Sonar
-   * instance.
+   * Helper method for testing checks without having to deploy them on a Sonar instance.
+   *
    * @param file is the file to be checked
    * @param sensorContext SQ API batch side context
    * @param visitors AST checks and visitors to use
    * @param language CxxLanguage to use
    * @return file checked with measures and issues
    */
-  public static SourceFile scanSingleFile(InputFile file, SensorContext sensorContext, CxxLanguage language, 
-                                          SquidAstVisitor<Grammar>... visitors) {
+  public static SourceFile scanSingleFile(InputFile file, SensorContext sensorContext, CxxLanguage language,
+    SquidAstVisitor<Grammar>... visitors) {
     return scanSingleFileConfig(language, file, new CxxConfiguration(sensorContext.fileSystem().encoding()),
-                                visitors);
+      visitors);
   }
 
   /**
    * Helper method for scanning a single file
+   *
    * @param file is the file to be checked
    * @param cxxConfig the plugin configuration
    * @param visitors AST checks and visitors to use
@@ -87,7 +86,7 @@ public final class CxxAstScanner {
    * @return file checked with measures and issues
    */
   public static SourceFile scanSingleFileConfig(CxxLanguage language, InputFile file, CxxConfiguration cxxConfig,
-                                                SquidAstVisitor<Grammar>... visitors) {
+    SquidAstVisitor<Grammar>... visitors) {
     if (!file.isFile()) {
       throw new IllegalArgumentException("File '" + file + "' not found.");
     }
@@ -95,14 +94,15 @@ public final class CxxAstScanner {
     scanner.scanFile(file.file()); //@todo: deprecated file.file()
     Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
     if (sources.size() != 1) {
-      throw new IllegalStateException("Only one SourceFile was expected whereas " 
-                                      + sources.size() + " has been returned.");
+      throw new IllegalStateException("Only one SourceFile was expected whereas "
+        + sources.size() + " has been returned.");
     }
     return (SourceFile) sources.iterator().next();
   }
 
   /**
    * Create scanner for language
+   *
    * @param language for sensor
    * @param conf settings for sensor
    * @param sensorContext for sensor
@@ -110,9 +110,9 @@ public final class CxxAstScanner {
    * @return scanner for the given parameters
    */
   public static AstScanner<Grammar> create(CxxLanguage language, CxxConfiguration conf,
-      SquidAstVisitor<Grammar>... visitors) {
-    final SquidAstVisitorContextImpl<Grammar> context = 
-                                         new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
+    SquidAstVisitor<Grammar>... visitors) {
+    final SquidAstVisitorContextImpl<Grammar> context
+      = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
     final Parser<Grammar> parser = CxxParser.create(context, conf, language);
 
     AstScanner.Builder<Grammar> builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
@@ -126,23 +126,23 @@ public final class CxxAstScanner {
     /* Comments */
     builder.setCommentAnalyser(
       new CommentAnalyser() {
-        @Override
-        public boolean isBlank(String line) {
-          for (int i = 0; i < line.length(); i++) {
-            if (Character.isLetterOrDigit(line.charAt(i))) {
-              return false;
-            }
+      @Override
+      public boolean isBlank(String line) {
+        for (int i = 0; i < line.length(); i++) {
+          if (Character.isLetterOrDigit(line.charAt(i))) {
+            return false;
           }
-          return true;
         }
+        return true;
+      }
 
-        @Override
-        public String getContents(String comment) {
-          return "/*".equals(comment.substring(0, 2))
-            ? comment.substring(2, comment.length() - 2)
-            : comment.substring(2);
-        }
-      });
+      @Override
+      public String getContents(String comment) {
+        return "/*".equals(comment.substring(0, 2))
+          ? comment.substring(2, comment.length() - 2)
+          : comment.substring(2);
+      }
+    });
 
     /* Functions */
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>(new SourceCodeBuilderCallback() {
@@ -154,13 +154,15 @@ public final class CxxAstScanner {
         }
         String functionName = sb.toString();
         sb.setLength(0);
-        AstNode namespace = astNode.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition); // todo: check if working with nested-namespace-definition
+        // todo: check if working with nested-namespace-definition
+        AstNode namespace = astNode.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition);
         while (namespace != null) {
           if (sb.length() > 0) {
             sb.insert(0, "::");
           }
           sb.insert(0, namespace.getFirstDescendant(GenericTokenType.IDENTIFIER).getTokenValue());
-          namespace = namespace.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition); // todo: check if working with nested-namespace-definition
+          // todo: check if working with nested-namespace-definition
+          namespace = namespace.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition);
         }
         String namespaceName = sb.length() > 0 ? sb.toString() + "::" : "";
         SourceFunction function = new SourceFunction(intersectingConcatenate(namespaceName, functionName)

@@ -19,25 +19,25 @@
  */
 package org.sonar.cxx.sensors.coverage;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 
 /**
  *
  * @author jocs
  */
 final class CoverageMeasures {
+
   private final Map<Integer, CoverageMeasure> lineMeasures = new HashMap<>();
-  
+
   private CoverageMeasures() {
     // empty
   }
-  
+
   static CoverageMeasures create() {
     return new CoverageMeasures();
   }
@@ -58,8 +58,8 @@ final class CoverageMeasures {
     Map<Integer, CoverageMeasure> measures = new HashMap<>();
     measures.putAll(lineMeasures);
     return measures.values();
-  }  
-  
+  }
+
   Set<Integer> getCoveredLines() {
     Set<Integer> coveredLines = Sets.newHashSet();
     lineMeasures.forEach((key, value) -> {
@@ -69,7 +69,7 @@ final class CoverageMeasures {
     });
     return ImmutableSet.copyOf(coveredLines);
   }
-  
+
   Set<Integer> getCoveredConditions() {
     Set<Integer> coveredConditionLines = Sets.newHashSet();
     lineMeasures.forEach((key, value) -> {

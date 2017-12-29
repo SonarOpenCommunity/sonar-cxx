@@ -32,15 +32,15 @@ public class FunctionNameCheckTest {
   @Test
   public void test() throws Exception {
     FunctionNameCheck check = new FunctionNameCheck();
-    
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionName.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(8).withMessage(
-        "Rename function \"Badly_Named_Function\" to match the regular expression ^[a-z_][a-z0-9_]{2,30}$.")
+      "Rename function \"Badly_Named_Function\" to match the regular expression ^[a-z_][a-z0-9_]{2,30}$.")
       .next().atLine(12).withMessage(
-        "Rename function \"too_long_function_name_because_it_has_more_than_30_characters\" "
-        + "to match the regular expression ^[a-z_][a-z0-9_]{2,30}$.")
+      "Rename function \"too_long_function_name_because_it_has_more_than_30_characters\" "
+      + "to match the regular expression ^[a-z_][a-z0-9_]{2,30}$.")
       .noMore();
   }
 

@@ -19,11 +19,9 @@
  */
 package org.sonar.cxx.sensors.rats;
 
-import org.sonar.cxx.sensors.rats.CxxRatsRuleRepository;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
@@ -35,7 +33,7 @@ public class CxxRatsRuleRepositoryTest {
   @Test
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    
+
     CxxRatsRuleRepository def = new CxxRatsRuleRepository(
       mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
 

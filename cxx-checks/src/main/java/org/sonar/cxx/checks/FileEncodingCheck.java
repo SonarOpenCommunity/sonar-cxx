@@ -19,20 +19,19 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
-
+import java.nio.file.Files;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
-import org.sonar.squidbridge.checks.SquidCheck;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import java.nio.file.Files;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.NoSqale;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * FileEncodingCheck
@@ -43,7 +42,7 @@ import org.sonar.squidbridge.annotations.NoSqale;
   priority = Priority.MINOR)
 @ActivatedByDefault
 @NoSqale
-public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
+public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final Logger LOG = Loggers.get(FileEncodingCheck.class);
   private Charset charset = Charset.forName("UTF-8");
@@ -57,15 +56,14 @@ public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharset
   public void visitFile(AstNode astNode) {
     try {
       Files.readAllLines(getContext().getFile().toPath(), charset);
-    } catch (IOException e) { 
-      getContext().createFileViolation(this, 
-          "Not all characters of the file can be encoded with the predefined charset " 
-           + charset.name() + ".");
+    } catch (IOException e) {
+      getContext().createFileViolation(this,
+        "Not all characters of the file can be encoded with the predefined charset "
+        + charset.name() + ".");
       if (LOG.isDebugEnabled()) {
         LOG.debug("Cannot Read File", e);
       }
     }
   }
-  
-}
 
+}

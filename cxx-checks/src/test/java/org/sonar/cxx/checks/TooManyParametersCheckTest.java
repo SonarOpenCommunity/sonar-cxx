@@ -33,15 +33,14 @@ public class TooManyParametersCheckTest {
   public void test() throws UnsupportedEncodingException, IOException {
     TooManyParametersCheck check = new TooManyParametersCheck();
     check.setMax(3);
-    
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TooManyParameters.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);       
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(11)
       .next().atLine(16)
       .next().atLine(64)
-      .noMore(); 
+      .noMore();
   }
 
 }

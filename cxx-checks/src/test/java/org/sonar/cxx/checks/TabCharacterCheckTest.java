@@ -33,10 +33,10 @@ public class TabCharacterCheckTest {
   @Test
   public void fileWithTabsOneMessagePerFile() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = false;
-    
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check); 
-        
+
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Replace all tab characters in this file by sequences of white-spaces.")
       .noMore();
@@ -45,9 +45,9 @@ public class TabCharacterCheckTest {
   @Test
   public void fileWithTabsOneMessagePerLine() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = true;
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check); 
-    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Replace all tab characters in this line by sequences of white-spaces.")
       .next().atLine(4)
@@ -58,8 +58,8 @@ public class TabCharacterCheckTest {
   public void fileWithoutTabs() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = false;
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/NonEmptyFile.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check); 
-    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }

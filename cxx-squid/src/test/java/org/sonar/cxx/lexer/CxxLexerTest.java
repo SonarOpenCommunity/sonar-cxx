@@ -19,25 +19,23 @@
  */
 package org.sonar.cxx.lexer;
 
+import com.sonar.sslr.api.GenericTokenType;
+import com.sonar.sslr.impl.Lexer;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasComment;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import org.sonar.cxx.CxxFileTesterHelper;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.squidbridge.SquidAstVisitorContext;
-
-import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.impl.Lexer;
-import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.cxx.CxxLanguage;
 
 public class CxxLexerTest {
 
@@ -117,7 +115,7 @@ public class CxxLexerTest {
     assertThat(lexer.lex("7llU"), hasToken("7llU", CxxTokenType.NUMBER));
     assertThat(lexer.lex("7LLu"), hasToken("7LLu", CxxTokenType.NUMBER));
     assertThat(lexer.lex("7LLU"), hasToken("7LLU", CxxTokenType.NUMBER));
-    
+
     // With Micosoft specific 64-bit integer-suffix: i64
     assertThat(lexer.lex("7i64"), hasToken("7i64", CxxTokenType.NUMBER));
     assertThat(lexer.lex("7ui64"), hasToken("7ui64", CxxTokenType.NUMBER));
@@ -166,7 +164,7 @@ public class CxxLexerTest {
     assertThat(lexer.lex("07llU"), hasToken("07llU", CxxTokenType.NUMBER));
     assertThat(lexer.lex("07LLu"), hasToken("07LLu", CxxTokenType.NUMBER));
     assertThat(lexer.lex("07LLU"), hasToken("07LLU", CxxTokenType.NUMBER));
-    
+
     // With Micosoft specific 64-bit integer-suffix: i64
     assertThat(lexer.lex("07i64"), hasToken("07i64", CxxTokenType.NUMBER));
     assertThat(lexer.lex("07ui64"), hasToken("07ui64", CxxTokenType.NUMBER));
@@ -215,7 +213,7 @@ public class CxxLexerTest {
     assertThat(lexer.lex("0x7llU"), hasToken("0x7llU", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0x7LLu"), hasToken("0x7LLu", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0x7LLU"), hasToken("0x7LLU", CxxTokenType.NUMBER));
-    
+
     // With Micosoft specific 64-bit integer-suffix: i64
     assertThat(lexer.lex("0x7i64"), hasToken("0x7i64", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0x7ui64"), hasToken("0x7ui64", CxxTokenType.NUMBER));
@@ -275,7 +273,7 @@ public class CxxLexerTest {
     assertThat(lexer.lex("0X7llU"), hasToken("0X7llU", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0X7LLu"), hasToken("0X7LLu", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0X7LLU"), hasToken("0X7LLU", CxxTokenType.NUMBER));
-    
+
     // With Micosoft specific 64-bit integer-suffix: i64
     assertThat(lexer.lex("0X7i64"), hasToken("0X7i64", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0X7ui64"), hasToken("0X7ui64", CxxTokenType.NUMBER));
@@ -324,7 +322,7 @@ public class CxxLexerTest {
     assertThat(lexer.lex("0B1llU"), hasToken("0B1llU", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0B1LLu"), hasToken("0B1LLu", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0B1LLU"), hasToken("0B1LLU", CxxTokenType.NUMBER));
-    
+
     // With Micosoft specific 64-bit integer-suffix: i64
     assertThat(lexer.lex("0B1i64"), hasToken("0B1i64", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0B1ui64"), hasToken("0B1ui64", CxxTokenType.NUMBER));
@@ -374,7 +372,7 @@ public class CxxLexerTest {
     assertThat(lexer.lex("3.14e-10L"), hasToken("3.14e-10L", CxxTokenType.NUMBER));
     assertThat(lexer.lex("3.14E-10L"), hasToken("3.14E-10L", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0e0L"), hasToken("0e0L", CxxTokenType.NUMBER));
-    
+
     // c++17: hexadecimal floating literals
     assertThat(lexer.lex("0x1ffp10"), hasToken("0x1ffp10", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0X0p-1"), hasToken("0X0p-1", CxxTokenType.NUMBER));
@@ -497,7 +495,7 @@ public class CxxLexerTest {
     assertThat("raw string: complex example",
       lexer.lex("R\"X*X(A C++11 raw string literal can be specified like this: R\"(This is my raw string)\" )X*X\""),
       hasToken("R\"X*X(A C++11 raw string literal can be specified like this: R\"(This is my raw string)\" )X*X\"", CxxTokenType.STRING));
-    
+
     assertThat("raw string: regex sample",
       lexer.lex("R\"([.^$|()\\[\\]{}*+?\\\\])\""),
       hasToken("R\"([.^$|()\\[\\]{}*+?\\\\])\"", CxxTokenType.STRING));

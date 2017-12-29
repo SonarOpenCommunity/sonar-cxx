@@ -22,18 +22,16 @@ package org.sonar.cxx;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 
 public class CxxLanguageTest {
 
   private MapSettings settings;
-  
+
   private static final String KEY = "c++";
   private static final String NAME = "C++";
   private static final String PLUGIN_ID = "cxx";
@@ -48,9 +46,10 @@ public class CxxLanguageTest {
   @Before
   public void setUp() {
     settings = new MapSettings();
- }
-  
+  }
+
   private class CppLanguage extends CxxLanguage {
+
     private final String[] sourceSuffixes;
     private final String[] headerSuffixes;
     private final String[] fileSuffixes;
@@ -108,7 +107,7 @@ public class CxxLanguageTest {
 
     }
   }
-  
+
   @Test
   public void testCxxLanguageStringConfiguration() throws Exception {
     CppLanguage language = new CppLanguage(settings.asConfig());

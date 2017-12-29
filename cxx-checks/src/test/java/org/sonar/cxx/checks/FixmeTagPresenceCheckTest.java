@@ -34,10 +34,10 @@ public class FixmeTagPresenceCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void detected() throws UnsupportedEncodingException, IOException {    
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FixmeTagPresenceCheck.cc", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new FixmeTagPresenceCheck());    
-    
+  public void detected() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FixmeTagPresenceCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new FixmeTagPresenceCheck());
+
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Take the required action to fix the issue indicated by this comment.")
       .next().atLine(7)

@@ -19,25 +19,24 @@
  */
 package org.sonar.cxx.checks;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.Objects;
-
-import org.sonar.check.Priority;
-import org.sonar.check.Rule;
-import org.sonar.check.RuleProperty;
-import org.sonar.cxx.tag.Tag;
-import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.sonar.check.Priority;
+import org.sonar.check.Rule;
+import org.sonar.check.RuleProperty;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
- * SafetyTagCheck - testifies whether the file name has suffix "_SAFETY"
- *                  whenever the pattern "<Safetykey>.*</Safetykey>" exists in the file.
+ * SafetyTagCheck - testifies whether the file name has suffix "_SAFETY" whenever the pattern
+ * "<Safetykey>.*</Safetykey>" exists in the file.
  */
 @Rule(
   key = "SafetyTag",
@@ -46,10 +45,11 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
   tags = {Tag.CONVENTION})
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor { 
+public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "<Safetykey>.*</Safetykey>";
-  private static final String DEFAULT_MESSAGE = "Source files implementing risk mitigations shall use special name suffix";
+  private static final String DEFAULT_MESSAGE = "Source files implementing risk mitigations shall use "
+    + "special name suffix";
   private static final String DEFAULT_NAME_SUFFIX = "_SAFETY";
   private Pattern pattern;
   /**

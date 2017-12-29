@@ -19,22 +19,21 @@
  */
 package org.sonar.cxx.visitors;
 
+import com.sonar.sslr.api.AstAndTokenVisitor;
+import com.sonar.sslr.api.AstNode;
 import static com.sonar.sslr.api.GenericTokenType.EOF;
-
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.measures.MetricDef;
 
-import com.sonar.sslr.api.AstAndTokenVisitor;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-
 /**
  * Visitor that computes the number of lines of code of a file.
+ *
  * @param <GRAMMAR>
  */
-public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar> 
-    extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
+public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
+  extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
   private final MetricDef metric;
   private int lastTokenLine;

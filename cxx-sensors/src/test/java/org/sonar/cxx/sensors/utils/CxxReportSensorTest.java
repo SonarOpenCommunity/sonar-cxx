@@ -78,13 +78,13 @@ public class CxxReportSensorTest {
   @Test
   public void shouldntThrowWhenInstantiating() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    
+
     CxxReportSensor sensor = new CxxReportSensorImpl(language, settings);
     assertThat(sensor).isNotNull();
   }
 
   @Test
-  public void getReports_shouldFindNothingIfNoKey() {    
+  public void getReports_shouldFindNothingIfNoKey() {
     TestUtils.mockCxxLanguage();
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
 
@@ -131,4 +131,3 @@ public class CxxReportSensorTest {
   }
 
 }
-

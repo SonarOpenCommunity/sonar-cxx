@@ -19,20 +19,18 @@
  */
 package org.sonar.cxx.parser;
 
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.impl.Parser;
 import java.io.File;
 import java.util.Collection;
-
 import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.lexer.CxxLexer;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.sonar.squidbridge.SquidAstVisitorContextImpl;
 import org.sonar.squidbridge.api.SourceProject;
-
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.impl.Parser;
-import org.sonar.cxx.CxxLanguage;
 
 public final class CxxParser {
 
@@ -62,7 +60,8 @@ public final class CxxParser {
     return create(context, new CxxConfiguration(), language);
   }
 
-  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf, CxxLanguage language) {
+  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf,
+    CxxLanguage language) {
     cxxpp = new CxxPreprocessor(context, conf, language);
     return Parser.builder(CxxGrammarImpl.create(conf))
       .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))

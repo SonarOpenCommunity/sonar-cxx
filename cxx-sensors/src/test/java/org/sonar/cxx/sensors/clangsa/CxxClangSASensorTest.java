@@ -19,21 +19,17 @@
  */
 package org.sonar.cxx.sensors.clangsa;
 
-import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
-import org.sonar.cxx.sensors.utils.TestUtils;
+import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
-
-import java.util.Optional;
-
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxClangSASensorTest {
 
@@ -47,7 +43,7 @@ public class CxxClangSASensorTest {
     language = TestUtils.mockCxxLanguage();
     when(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxClangSASensor.REPORT_PATH_KEY);
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
-    }
+  }
 
   @Test
   public void shouldIgnoreIssuesIfResourceNotFound() {
@@ -69,7 +65,7 @@ public class CxxClangSASensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc")
-                             .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
 
     CxxClangSASensor sensor = new CxxClangSASensor(language);
     sensor.execute(context);
@@ -82,9 +78,9 @@ public class CxxClangSASensorTest {
 
     settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY), "clangsa-reports/clangsa-reportXYZ.plist");
     context.setSettings(settings);
-    
+
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc")
-                             .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
 
     CxxClangSASensor sensor = new CxxClangSASensor(language);
     sensor.execute(context);
@@ -92,5 +88,3 @@ public class CxxClangSASensorTest {
   }
 
 }
-
-

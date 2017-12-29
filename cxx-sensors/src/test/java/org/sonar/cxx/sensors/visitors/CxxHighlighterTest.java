@@ -24,15 +24,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxHighlighterTest {
@@ -43,13 +42,13 @@ public class CxxHighlighterTest {
 
   @Before
   @SuppressWarnings("unchecked")
-  public void scanFile() throws IOException{
+  public void scanFile() throws IOException {
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
     target = new File(baseDir, "highlighter.cc");
 
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target)
-                                 .setContents(content).setCharset(Charset.forName("UTF-8")).build();
+      .setContents(content).setCharset(Charset.forName("UTF-8")).build();
 
     context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
@@ -76,13 +75,13 @@ public class CxxHighlighterTest {
     checkOnRange(49, 19, 7, TypeOfText.STRING);  // "hello"
     checkOnRange(50, 19, 18, TypeOfText.STRING); // "hello\tworld\r\n"
     checkOnRange(73, 32, 24, TypeOfText.STRING); // R"([.^$|()\[\]{}*+?\\])"
-    
+
     checkOnRange(83, 24, 5, TypeOfText.STRING); // "..."
     checkOnRange(84, 24, 7, TypeOfText.STRING); // u8"..."
     checkOnRange(85, 24, 6, TypeOfText.STRING); // L"..."
     checkOnRange(86, 24, 6, TypeOfText.STRING); // u"..."
     checkOnRange(87, 24, 6, TypeOfText.STRING); // U"..."
-    
+
     checkOnRange(89, 24, 13, TypeOfText.STRING); // "hello" " world"
     checkOnRange(90, 24, 13, TypeOfText.STRING); // u"" "hello world"
   }
@@ -97,7 +96,8 @@ public class CxxHighlighterTest {
   @Test
   public void comment() throws Exception {
 
-    check(1, 0, TypeOfText.COMMENT); /*\r\n comment\r\n*/
+    check(1, 0, TypeOfText.COMMENT);
+    /*\r\n comment\r\n*/
     check(3, 1, TypeOfText.COMMENT);
 
     checkOnRange(5, 0, 2, TypeOfText.COMMENT);   //
@@ -106,8 +106,10 @@ public class CxxHighlighterTest {
 
     checkOnRange(57, 22, 10, TypeOfText.COMMENT); // comment
     checkOnRange(58, 3, 10, TypeOfText.COMMENT);  // comment
-    checkOnRange(61, 3, 13, TypeOfText.COMMENT);  /* comment */
-    checkOnRange(64, 20, 13, TypeOfText.COMMENT); /* comment */
+    checkOnRange(61, 3, 13, TypeOfText.COMMENT);
+    /* comment */
+    checkOnRange(64, 20, 13, TypeOfText.COMMENT);
+    /* comment */
   }
 
   @Test
@@ -132,21 +134,21 @@ public class CxxHighlighterTest {
 
   @Test
   public void preprocessDirective() throws Exception {
-    
+
     checkOnRange(12, 0, 8, TypeOfText.PREPROCESS_DIRECTIVE); // #include
-    
+
     checkOnRange(14, 0, 6, TypeOfText.PREPROCESS_DIRECTIVE); // #ifdef
-    checkOnRange(15, 0,10, TypeOfText.PREPROCESS_DIRECTIVE); // #   define
+    checkOnRange(15, 0, 10, TypeOfText.PREPROCESS_DIRECTIVE); // #   define
     checkOnRange(16, 0, 5, TypeOfText.PREPROCESS_DIRECTIVE); // #else
-    checkOnRange(17, 0,10, TypeOfText.PREPROCESS_DIRECTIVE); // #   define
+    checkOnRange(17, 0, 10, TypeOfText.PREPROCESS_DIRECTIVE); // #   define
     checkOnRange(18, 0, 6, TypeOfText.PREPROCESS_DIRECTIVE); // #endif
-    
+
     checkOnRange(20, 0, 7, TypeOfText.PREPROCESS_DIRECTIVE); // #define
   }
-    
+
   /**
-   * Checks the highlighting of a range of columns. The first column of a line
-   * has index 0. The range is the columns of the token.
+   * Checks the highlighting of a range of columns. The first column of a line has index 0. The range is the columns of
+   * the token.
    */
   private void checkOnRange(int line, int firstColumn, int length, TypeOfText expectedTypeOfText) {
     // check that every column of the token is highlighted (and with the expected type)

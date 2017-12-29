@@ -33,10 +33,10 @@ public class TodoTagPresenceCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void detected() throws UnsupportedEncodingException, IOException {    
+  public void detected() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TodoTagPresenceCheck.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new TodoTagPresenceCheck()); 
-    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new TodoTagPresenceCheck());
+
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Complete the task associated to this TODO comment.")
       .next().atLine(7)

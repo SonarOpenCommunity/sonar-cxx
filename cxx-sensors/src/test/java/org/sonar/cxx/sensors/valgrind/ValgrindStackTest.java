@@ -19,15 +19,11 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
-import org.sonar.cxx.sensors.valgrind.ValgrindFrame;
-import org.sonar.cxx.sensors.valgrind.ValgrindStack;
-import static org.junit.Assert.assertEquals;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 

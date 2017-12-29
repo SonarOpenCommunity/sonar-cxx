@@ -27,14 +27,14 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
- * MethodNameCheck 
- * 
+ * MethodNameCheck
+ *
  */
 @Rule(
   key = "MethodName",
@@ -43,7 +43,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
   tags = {Tag.CONVENTION})
 @SqaleConstantRemediation("10min")
 @ActivatedByDefault
-public class MethodNameCheck extends SquidCheck<Grammar> { 
+public class MethodNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "^[A-Z][A-Za-z0-9]{2,30}$";
   private Pattern pattern;
@@ -74,7 +74,8 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
     }
   }
 
-  private static @Nullable AstNode getMethodName(AstNode functionDefinition) {
+  private static @Nullable
+  AstNode getMethodName(AstNode functionDefinition) {
     AstNode declId = functionDefinition.getFirstDescendant(CxxGrammarImpl.declaratorId);
     AstNode result = null;
     if (declId != null) {
@@ -88,7 +89,8 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
     return result;
   }
 
-  private static @Nullable AstNode getInsideMemberDeclaration(AstNode declId) {
+  private static @Nullable
+  AstNode getInsideMemberDeclaration(AstNode declId) {
     AstNode result = null;
     if (declId.hasAncestor(CxxGrammarImpl.memberDeclaration)) {
       AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
@@ -109,7 +111,8 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
     return result;
   }
 
-  private static @Nullable AstNode getOutsideMemberDeclaration(AstNode declId) {
+  private static @Nullable
+  AstNode getOutsideMemberDeclaration(AstNode declId) {
     AstNode nestedNameSpecifier = declId.getFirstDescendant(CxxGrammarImpl.nestedNameSpecifier);
     AstNode result = null;
     if (nestedNameSpecifier != null) {

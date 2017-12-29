@@ -19,17 +19,13 @@
  */
 package org.sonar.cxx.sensors.pclint;
 
-import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
 import java.util.ArrayList;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
-
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
@@ -37,8 +33,8 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-
 public class CxxPCLintSensorTest {
+
   private DefaultFileSystem fs;
   private MapSettings settings = new MapSettings();
   private CxxLanguage language;
@@ -82,7 +78,7 @@ public class CxxPCLintSensorTest {
   @Test
   public void shouldReportCorrectMisra2004PcLint9Violations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    
+
     settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/pclint-result-MISRA2004-SAMPLE2.xml");
     context.setSettings(settings);
 
@@ -114,7 +110,7 @@ public class CxxPCLintSensorTest {
 
     settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/incorrect-pclint-MISRA2004-desc.xml");
     context.setSettings(settings);
-    
+
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
@@ -153,7 +149,7 @@ public class CxxPCLintSensorTest {
 
     settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/pclint-result-projectlevelviolation.xml");
     context.setSettings(settings);
-    
+
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
@@ -161,7 +157,7 @@ public class CxxPCLintSensorTest {
 
   @Test
   public void shouldThrowExceptionInvalidChar() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());    
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
     settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/pclint-result-invalid-char.xml");
     context.setSettings(settings);
@@ -171,4 +167,3 @@ public class CxxPCLintSensorTest {
     assertThat(context.allIssues().size()).isZero();
   }
 }
-

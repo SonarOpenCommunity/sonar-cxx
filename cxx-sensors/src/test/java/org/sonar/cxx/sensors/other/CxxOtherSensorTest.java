@@ -19,22 +19,18 @@
  */
 package org.sonar.cxx.sensors.other;
 
+import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
-
-import java.util.Optional;
-
-import org.sonar.api.utils.log.LogTester;
-import org.sonar.api.utils.log.LoggerLevel;
-
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
+import org.sonar.api.utils.log.LogTester;
+import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -48,7 +44,7 @@ public class CxxOtherSensorTest {
   public LogTester logTester = new LogTester();
 
   @Before
-  public void setUp() {    
+  public void setUp() {
     fs = TestUtils.mockFileSystem();
 
     language = TestUtils.mockCxxLanguage();
@@ -63,9 +59,9 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
     sensor = new CxxOtherSensor(language);
     sensor.execute(context);
@@ -80,7 +76,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
@@ -98,7 +94,7 @@ public class CxxOtherSensorTest {
     assertThat(context.allIssues()).hasSize(1);
   }
 
-  @Test(expected = IllegalStateException.class)  
+  @Test(expected = IllegalStateException.class)
   public void shouldThrowExceptionWhenReportEmpty() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
@@ -145,7 +141,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
@@ -159,7 +155,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
@@ -176,7 +172,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(logTester.logs(LoggerLevel.ERROR)).contains("something is not defined.");
@@ -195,7 +191,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(logTester.logs(LoggerLevel.ERROR)).contains("inputKey is not defined.");
@@ -213,10 +209,10 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-                             .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(logTester.logs(LoggerLevel.ERROR)).contains("someInput file is not defined.");
-}
+  }
 
 }

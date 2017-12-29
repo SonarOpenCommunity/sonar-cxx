@@ -19,27 +19,24 @@
  */
 package org.sonar.cxx.checks;
 
+import com.google.common.io.Files;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
-
-import com.google.common.io.Files;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
-import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
-import org.sonar.squidbridge.checks.SquidCheck;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.tag.Tag;
+import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.cxx.tag.Tag;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * TabCharacterCheck - similar Vera++ rule L002 "Don't use tab characters"
- * 
+ *
  */
 @Rule(
   key = "TabCharacter",
@@ -48,7 +45,7 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.MINOR)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
+public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final boolean DEFAULT_CREATE_LINE_VIOLATION = false;
   private Charset charset = Charset.forName("UTF-8");
@@ -78,11 +75,11 @@ public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharset
     for (int i = 0; i < lines.size(); i++) {
       if (lines.get(i).contains("\t")) {
         if (createLineViolation) {
-          getContext().createLineViolation(this, 
-              "Replace all tab characters in this line by sequences of white-spaces.", i + 1);
+          getContext().createLineViolation(this,
+            "Replace all tab characters in this line by sequences of white-spaces.", i + 1);
         } else {
-          getContext().createFileViolation(this, 
-              "Replace all tab characters in this file by sequences of white-spaces.");
+          getContext().createFileViolation(this,
+            "Replace all tab characters in this file by sequences of white-spaces.");
           break;
         }
       }

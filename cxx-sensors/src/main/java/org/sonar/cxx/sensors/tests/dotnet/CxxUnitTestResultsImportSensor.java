@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 //origin https://github.com/SonarSource/sonar-dotnet-tests-library/
-import java.io.File;
 
+import java.io.File;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -30,19 +30,19 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 
-public class CxxUnitTestResultsImportSensor implements Sensor  {
+public class CxxUnitTestResultsImportSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxUnitTestResultsImportSensor.class);
 
-  private final WildcardPatternFileProvider wildcardPatternFileProvider = 
-                                         new WildcardPatternFileProvider(new File("."), File.separator);
+  private final WildcardPatternFileProvider wildcardPatternFileProvider
+    = new WildcardPatternFileProvider(new File("."), File.separator);
   private final CxxUnitTestResultsAggregator unitTestResultsAggregator;
   private final ProjectDefinition projectDef;
   protected final CxxLanguage language;
 
-  public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator, 
-                                        ProjectDefinition projectDef,
-                                        CxxLanguage language) {
+  public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator,
+    ProjectDefinition projectDef,
+    CxxLanguage language) {
     this.unitTestResultsAggregator = unitTestResultsAggregator;
     this.projectDef = projectDef;
     this.language = language;
@@ -69,7 +69,7 @@ public class CxxUnitTestResultsImportSensor implements Sensor  {
 
   void analyze(SensorContext context, UnitTestResults unitTestResults) {
     UnitTestResults aggregatedResults = unitTestResultsAggregator.aggregate(wildcardPatternFileProvider,
-                                                                            unitTestResults);
+      unitTestResults);
 
     context.<Integer>newMeasure()
       .forMetric(CoreMetrics.TESTS)

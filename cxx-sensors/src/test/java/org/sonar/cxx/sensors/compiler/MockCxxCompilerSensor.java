@@ -19,21 +19,19 @@
  */
 package org.sonar.cxx.sensors.compiler;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.junit.Assert;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.cxx.CxxLanguage;
 
 public class MockCxxCompilerSensor extends CxxCompilerSensor {
@@ -45,25 +43,25 @@ public class MockCxxCompilerSensor extends CxxCompilerSensor {
   protected CompilerParser getCompilerParser(SensorContext context) {
 
     CompilerParser compileParser = mock(CompilerParser.class);
-  
+
     try {
       doAnswer(new Answer<List<CompilerParser.Warning>>() {
 
-          @Override
-          public List<CompilerParser.Warning> answer(InvocationOnMock invocation)
-                  throws Throwable {
-              Object[] args = invocation.getArguments();
-              if (args[4] instanceof List<?>) {
-                List<CompilerParser.Warning> list = (List<CompilerParser.Warning>) args[4];
-                list.addAll(warnings);
-              }
-              return null;
+        @Override
+        public List<CompilerParser.Warning> answer(InvocationOnMock invocation)
+          throws Throwable {
+          Object[] args = invocation.getArguments();
+          if (args[4] instanceof List<?>) {
+            List<CompilerParser.Warning> list = (List<CompilerParser.Warning>) args[4];
+            list.addAll(warnings);
           }
-        }).when(compileParser).processReport(any(SensorContext.class), any(File.class), any(String.class),  any(String.class), any(List.class));
-      } catch (FileNotFoundException e) {
-        Assert.fail(e.getMessage());
-      }
-    
+          return null;
+        }
+      }).when(compileParser).processReport(any(SensorContext.class), any(File.class), any(String.class), any(String.class), any(List.class));
+    } catch (FileNotFoundException e) {
+      Assert.fail(e.getMessage());
+    }
+
     return compileParser;
   }
 
@@ -76,11 +74,10 @@ public class MockCxxCompilerSensor extends CxxCompilerSensor {
 
   @Override
   public void saveUniqueViolation(SensorContext context, String ruleRepoKey, String file,
-      String line, String ruleId, String msg) {
-    
+    String line, String ruleId, String msg) {
+
     CompilerParser.Warning w = new CompilerParser.Warning(file, line, ruleId, msg);
     savedWarnings.add(w);
   }
-  
-  
+
 }

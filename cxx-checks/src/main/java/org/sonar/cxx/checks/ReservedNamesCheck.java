@@ -19,28 +19,25 @@
  */
 package org.sonar.cxx.checks;
 
+import com.google.common.io.Files;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
-
-import com.google.common.io.Files;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
-import org.sonar.squidbridge.checks.SquidCheck;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.cxx.tag.Tag;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * ReservedNamesCheck - similar Vera++ rule T002
- * 
+ *
  */
 @Rule(
   key = "ReservedNames",
@@ -49,7 +46,7 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.BLOCKER)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
+public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static volatile String[] keywords = CxxKeyword.keywordValues();
   private Charset charset = Charset.forName("UTF-8");
@@ -74,17 +71,17 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
       if (sub.length > 1) {
         String name = sub[1].split("[\\s(]", 2)[0];
         if (name.startsWith("_") && name.length() > 1 && Character.isUpperCase(name.charAt(1))) {
-          getContext().createLineViolation(this, 
-              "Reserved name used for macro (begins with underscore followed by a capital letter)", nr);
+          getContext().createLineViolation(this,
+            "Reserved name used for macro (begins with underscore followed by a capital letter)", nr);
         } else if (name.contains("__")) {
-          getContext().createLineViolation(this, 
-              "Reserved name used for macro (contains two consecutive underscores)", nr);
+          getContext().createLineViolation(this,
+            "Reserved name used for macro (contains two consecutive underscores)", nr);
         } else {
-          name = name.toLowerCase(Locale.ENGLISH );
+          name = name.toLowerCase(Locale.ENGLISH);
           for (String keyword : keywords) {
             if (name.equals(keyword)) {
-              getContext().createLineViolation(this, 
-                  "Reserved name used for macro (keyword or alternative token redefined)", nr);
+              getContext().createLineViolation(this,
+                "Reserved name used for macro (keyword or alternative token redefined)", nr);
               break;
             }
           }

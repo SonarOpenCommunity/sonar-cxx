@@ -20,6 +20,7 @@
 package org.sonar.cxx.tag;
 
 public final class Tag {
+
   // checks and rules use following tags
   public static final String BRAIN_OVERLOAD = "brain-overload";
   public static final String BUG = "bug";
@@ -33,6 +34,7 @@ public final class Tag {
   public static final String UNUSED = "unused";
   public static final String BAD_PRACTICE = "bad-practice";
   public static final String CONFUSING = "confusing";
+
   // tags not used
   public static final String CLUMSY = "clumsy";
   public static final String CWE = "cwe";

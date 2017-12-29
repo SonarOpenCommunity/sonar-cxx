@@ -19,24 +19,24 @@
  */
 package org.sonar.cxx.checks;
 
-import java.util.Map;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.Grammar;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.squidbridge.checks.SquidCheck;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.Grammar;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.annotations.RuleTemplate;
-import org.sonar.cxx.tag.Tag;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * UseCorrectTypeCheck
- * 
+ *
  */
 @Rule(
   key = "UseCorrectType",
@@ -45,7 +45,7 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.MINOR)
 @RuleTemplate
 @NoSqale
-public class UseCorrectTypeCheck extends SquidCheck<Grammar> { 
+public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
     CxxGrammarImpl.typeName,
@@ -83,8 +83,6 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
     return message;
   }
 
-
-
   @Override
   public void init() {
     subscribeTo(CHECKED_TYPES);
@@ -116,7 +114,7 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
       Integer occurences = literalOccurences.getValue();
       String literal = literalOccurences.getKey();
       getContext().createLineViolation(this, "Use the correct type instead of "
-                    + literal + " (" + occurences + " times).", firstOccurrence.get(literal));
+        + literal + " (" + occurences + " times).", firstOccurrence.get(literal));
     }
   }
 

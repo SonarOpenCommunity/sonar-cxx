@@ -22,8 +22,8 @@ package org.sonar.cxx.sensors.compiler;
 import java.io.File;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -32,6 +32,7 @@ import org.sonar.api.utils.log.Loggers;
  * {@inheritDoc}
  */
 public class CxxCompilerGccParser implements CompilerParser {
+
   private static final Logger LOG = Loggers.get(CxxCompilerGccParser.class);
   public static final String KEY = "GCC";
   // search for single line with compiler warning message - order for groups: 1 = file, 2 = line, 3 = message, 4=id
@@ -92,7 +93,7 @@ public class CxxCompilerGccParser implements CompilerParser {
       String id = matchres.group(4).replaceAll("=$", "");
       if (LOG.isDebugEnabled()) {
         LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}", filename, line, id, msg);
-        }
+      }
       warnings.add(new Warning(filename, line, id, msg));
     }
     scanner.close();

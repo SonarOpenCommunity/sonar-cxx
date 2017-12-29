@@ -19,6 +19,8 @@
  */
 package org.sonar.cxx.sensors.utils;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -26,23 +28,21 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxCompilationUnitSettings;
 import org.sonar.cxx.CxxConfiguration;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * JsonCompilationDatabase
  */
 public class JsonCompilationDatabase {
+
   private static final Logger LOG = Loggers.get(JsonCompilationDatabase.class);
 
   /**
    * JsonCompilationDatabase
+   *
    * @param config
    * @param compileCommandsFile
    * @throws IOException
@@ -55,7 +55,7 @@ public class JsonCompilationDatabase {
     mapper.enable(DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY);
 
     JsonCompilationDatabaseCommandObject[] commandObjects = mapper.readValue(compileCommandsFile,
-        JsonCompilationDatabaseCommandObject[].class);
+      JsonCompilationDatabaseCommandObject[].class);
 
     for (JsonCompilationDatabaseCommandObject commandObject : commandObjects) {
 
@@ -84,7 +84,7 @@ public class JsonCompilationDatabase {
   }
 
   private static void parseCommandObject(CxxCompilationUnitSettings settings,
-      JsonCompilationDatabaseCommandObject commandObject) {
+    JsonCompilationDatabaseCommandObject commandObject) {
     settings.setDefines(commandObject.getDefines());
     settings.setIncludes(commandObject.getIncludes());
 
@@ -162,8 +162,8 @@ public class JsonCompilationDatabase {
             stringOpen = '\'';
           } else if (ch == '\"') {
             stringOpen = '\"';
-          } else if ((ch == ' ') 
-                  && (sb.length() > 0)) {
+          } else if ((ch == ' ')
+            && (sb.length() > 0)) {
             args.add(sb.toString());
             sb = new StringBuilder();
           }

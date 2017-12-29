@@ -41,9 +41,9 @@ public class CDefaultProfile extends ProfileDefinition {
    * {@inheritDoc}
    */
   public CDefaultProfile(
-          XMLProfileParser xmlProfileParser,
-          AnnotationProfileParser annotationProfileParser, //@todo: deprecated AnnotationProfileParser
-          CxxLanguage language) {
+    XMLProfileParser xmlProfileParser,
+    AnnotationProfileParser annotationProfileParser, //@todo: deprecated AnnotationProfileParser
+    CxxLanguage language) {
     this.annotationProfileParser = annotationProfileParser;
     this.xmlProfileParser = xmlProfileParser;
     this.language = language;

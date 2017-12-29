@@ -36,9 +36,9 @@ public class FileRegularExpressionCheckTest {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".");       
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);    
-    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
@@ -70,8 +70,8 @@ public class FileRegularExpressionCheckTest {
     check.message = "Found 'stdafx.h' in file!";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".", Charset.forName("US-ASCII"));
-      
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);    
+
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
@@ -86,8 +86,8 @@ public class FileRegularExpressionCheckTest {
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in a .cc file!";
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check); 
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
@@ -104,11 +104,10 @@ public class FileRegularExpressionCheckTest {
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.invertRegularExpression = true;
     check.message = "Found no '#include \"stdafx.h\"' in a file with not '.h' file extension!";
-    
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegExInvert.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);    
 
-    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegExInvert.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();

@@ -25,8 +25,8 @@ import com.sonar.sslr.api.TokenType;
 /**
  * C++ Standard, Section 2.12 "Keywords"
  *
- * In this list are only C++ keywords allowed. All other extensions must be
- * handled as identifiers (e.g. final, override, ...)
+ * In this list are only C++ keywords allowed. All other extensions must be handled as identifiers (e.g. final,
+ * override, ...)
  */
 public enum CxxKeyword implements TokenType {
 
@@ -115,7 +115,6 @@ public enum CxxKeyword implements TokenType {
   XOR("xor"),
   XOR_EQ("xor_eq"),
   TYPEID("typeid"),
-  
   // C++/CLI keywords
   GCNEW("gcnew");
   private final String value;

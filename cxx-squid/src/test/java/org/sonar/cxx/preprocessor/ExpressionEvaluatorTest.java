@@ -23,12 +23,11 @@ import java.math.BigInteger;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import org.junit.Test;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.squidbridge.SquidAstVisitorContext;
@@ -329,16 +328,16 @@ public class ExpressionEvaluatorTest {
     assertEquals(ExpressionEvaluator.decode("1l"), new BigInteger("1", 10));
     assertEquals(ExpressionEvaluator.decode("1U"), new BigInteger("1", 10));
     assertEquals(ExpressionEvaluator.decode("1u"), new BigInteger("1", 10));
-    
+
     assertEquals(ExpressionEvaluator.decode("1ul"), new BigInteger("1", 10));
     assertEquals(ExpressionEvaluator.decode("1ll"), new BigInteger("1", 10));
     assertEquals(ExpressionEvaluator.decode("1i64"), new BigInteger("1", 10));
     assertEquals(ExpressionEvaluator.decode("1ui64"), new BigInteger("1", 10));
-    
+
     assertEquals(ExpressionEvaluator.decode("067ll"), new BigInteger("67", 8));
     assertEquals(ExpressionEvaluator.decode("0b11ul"), new BigInteger("11", 2));
     assertEquals(ExpressionEvaluator.decode("0xabui64"), new BigInteger("ab", 16));
-    
+
     assertEquals(ExpressionEvaluator.decode("1'234"), new BigInteger("1234", 10));
     assertEquals(ExpressionEvaluator.decode("0b1111'0000'1111"), new BigInteger("111100001111", 2));
     assertEquals(ExpressionEvaluator.decode("0xAAAA'bbbb"), new BigInteger("AAAAbbbb", 16));

@@ -21,7 +21,6 @@ package org.sonar.plugins.c;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-
 import org.junit.Test;
 import org.sonar.api.config.internal.MapSettings;
 

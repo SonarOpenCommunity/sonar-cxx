@@ -19,13 +19,11 @@
  */
 package org.sonar.cxx;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.fest.assertions.Assertions;
-
 import org.junit.Test;
 
 public class CxxConfigurationTest {
@@ -165,7 +163,7 @@ public class CxxConfigurationTest {
     Assertions.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
     Assertions.assertThat(defines.contains("_MSC_VER 1700")).isTrue();
     Assertions.assertThat(defines.contains("_MSC_FULL_VER 1700610301")).isTrue();
-    Assertions.assertThat(defines.contains("_ATL_VER 0x0B00")).isTrue();    
+    Assertions.assertThat(defines.contains("_ATL_VER 0x0B00")).isTrue();
   }
 
   @Test
@@ -269,7 +267,7 @@ public class CxxConfigurationTest {
     List<String> defines = config.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 12);
     ValidateDefaultAsserts(defines);
-    Assertions.assertThat(defines.contains("_M_IX86 600")).isTrue();    
+    Assertions.assertThat(defines.contains("_M_IX86 600")).isTrue();
     Assertions.assertThat(defines.contains("__cplusplus 199711L")).isTrue();
     Assertions.assertThat(defines.contains("_MSC_VER 1910")).isTrue();
     Assertions.assertThat(defines.contains("_MSC_FULL_VER 191024629")).isTrue();
@@ -296,6 +294,7 @@ public class CxxConfigurationTest {
     // check atldef.h for _ATL_VER
     Assertions.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
   }
+
   @Test
   public void shouldHandleBuildLog() {
     CxxConfiguration config = new CxxConfiguration();
@@ -306,7 +305,7 @@ public class CxxConfigurationTest {
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(15);
     assertThat(config.getDefines().size()).isEqualTo(30);
-  }  
+  }
 
   private void ValidateDefaultAsserts(List<String> defines) {
     Assertions.assertThat(defines.contains("_INTEGRAL_MAX_BITS 64")).isTrue();
@@ -324,13 +323,13 @@ public class CxxConfigurationTest {
   public void shouldGetSourceFilesList() {
     CxxConfiguration config = new CxxConfiguration();
 
-    String [] files = new String [] { "testfile", "anotherfile", "thirdfile" };
+    String[] files = new String[]{"testfile", "anotherfile", "thirdfile"};
 
     for (String filename : files) {
       config.addCompilationUnitSettings(filename, new CxxCompilationUnitSettings());
     }
 
-    List <File> sourceFiles = config.getCompilationUnitSourceFiles();
+    List<File> sourceFiles = config.getCompilationUnitSourceFiles();
 
     assertThat(sourceFiles.size()).isEqualTo(files.length);
 

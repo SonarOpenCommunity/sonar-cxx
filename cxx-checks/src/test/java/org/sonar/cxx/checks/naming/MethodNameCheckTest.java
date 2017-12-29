@@ -36,16 +36,16 @@ public class MethodNameCheckTest {
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(12).withMessage(
-        "Rename method \"Badly_Named_Method2\" to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
+      "Rename method \"Badly_Named_Method2\" to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
       .next().atLine(15).withMessage(
-        "Rename method \"TooLongMethodNameBecauseItHasMoreThan30Characters2\" "
-        + "to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
+      "Rename method \"TooLongMethodNameBecauseItHasMoreThan30Characters2\" "
+      + "to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
       .next().atLine(22).withMessage(
-        "Rename method \"Badly_Named_Method1\" "
-        + "to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
+      "Rename method \"Badly_Named_Method1\" "
+      + "to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
       .next().atLine(26).withMessage(
-        "Rename method \"TooLongMethodNameBecauseItHasMoreThan30Characters1\" "
-        + "to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
+      "Rename method \"TooLongMethodNameBecauseItHasMoreThan30Characters1\" "
+      + "to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
       .noMore();
   }
 

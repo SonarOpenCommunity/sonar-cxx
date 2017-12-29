@@ -22,7 +22,6 @@ package org.sonar.plugins.c;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.sonar.api.config.Configuration;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.checks.BooleanEqualityComparisonCheck;

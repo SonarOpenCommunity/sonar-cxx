@@ -19,20 +19,18 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
+import com.sonar.sslr.api.Grammar;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.Param;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.squidbridge.checks.SquidCheck;
-import org.sonar.cxx.tag.Tag;
-
-import com.sonar.sslr.api.Grammar;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import org.sonar.cxx.tag.Tag;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 public class CustomCxxRulesDefinitionTest {
 

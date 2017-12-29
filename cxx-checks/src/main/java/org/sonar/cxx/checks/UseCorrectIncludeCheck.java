@@ -19,26 +19,24 @@
  */
 package org.sonar.cxx.checks;
 
+import com.google.common.io.Files;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import com.google.common.io.Files;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
-import org.sonar.squidbridge.checks.SquidCheck;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.cxx.tag.Tag;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * UseCorrectIncludeCheck
- * 
+ *
  */
 @Rule(
   key = "UseCorrectInclude",
@@ -47,11 +45,11 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.BLOCKER)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
+public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
   private Pattern pattern;
-  private Charset charset  = Charset.forName("UTF-8");
+  private Charset charset = Charset.forName("UTF-8");
 
   @Override
   public void init() {

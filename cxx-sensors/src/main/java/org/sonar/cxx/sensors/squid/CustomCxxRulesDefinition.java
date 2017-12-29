@@ -19,12 +19,11 @@
  */
 package org.sonar.cxx.sensors.squid;
 
-import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
-
 import java.util.Arrays;
 import org.sonar.api.batch.ScannerSide;
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 /**
  *
@@ -47,19 +46,22 @@ public abstract class CustomCxxRulesDefinition implements RulesDefinition {
 
   /**
    * Name of the custom rule repository.
-   * @return 
-   */  
+   *
+   * @return
+   */
   public abstract CxxLanguage getLanguage();
-  
+
   /**
    * Name of the custom rule repository.
-   * @return 
+   *
+   * @return
    */
   public abstract String repositoryName();
 
   /**
    * Key of the custom rule repository.
-   * @return 
+   *
+   * @return
    */
   public abstract String repositoryKey();
 

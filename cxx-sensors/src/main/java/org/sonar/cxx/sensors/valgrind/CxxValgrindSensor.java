@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.valgrind;
 
 import java.io.File;
 import java.util.Set;
-
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
@@ -33,12 +32,14 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
  * {@inheritDoc}
  */
 public class CxxValgrindSensor extends CxxReportSensor {
+
   private static final Logger LOG = Loggers.get(CxxValgrindSensor.class);
   public static final String REPORT_PATH_KEY = "valgrind.reportPath";
   public static final String KEY = "Valgrind";
 
   /**
-   * CxxValgrindSensor for Valgrind Sensor 
+   * CxxValgrindSensor for Valgrind Sensor
+   *
    * @param language defines settings C or C++
    */
   public CxxValgrindSensor(CxxLanguage language) {
@@ -62,7 +63,7 @@ public class CxxValgrindSensor extends CxxReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " ValgrindSensor");
   }
-  
+
   void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {
     for (ValgrindError error : valgrindErrors) {
       ValgrindFrame frame = error.getLastOwnFrame(context.fileSystem().baseDir().getPath());
@@ -74,9 +75,9 @@ public class CxxValgrindSensor extends CxxReportSensor {
       }
     }
   }
-  
+
   @Override
   protected String getSensorKey() {
     return KEY;
-  }  
+  }
 }

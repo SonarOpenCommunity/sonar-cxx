@@ -40,7 +40,7 @@ public class FileNameCheckTest {
   public void bad_name() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/badFile_name.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
-    
+
     String format = "(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$";
     String message = "Rename this file to match this regular expression: \"%s\".";
     checkMessagesVerifier.verify(file.getCheckMessages())
@@ -51,7 +51,7 @@ public class FileNameCheckTest {
   public void good_name_camel_case() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileName.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
-    
+
     checkMessagesVerifier.verify(file.getCheckMessages());
   }
 
@@ -59,7 +59,7 @@ public class FileNameCheckTest {
   public void good_name_snake_case() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/file_name.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
-    
+
     checkMessagesVerifier.verify(file.getCheckMessages());
   }
 
