@@ -29,6 +29,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class SafetyTagCheckTest {
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void test() throws UnsupportedEncodingException, IOException {
     SafetyTagCheck check = new SafetyTagCheck();
     check.regularExpression = "<Safetykey>.*</Safetykey>";

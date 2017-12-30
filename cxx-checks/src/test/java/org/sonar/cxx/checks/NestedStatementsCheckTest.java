@@ -33,6 +33,7 @@ public class NestedStatementsCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void detected() throws UnsupportedEncodingException, IOException {
     NestedStatementsCheck check = new NestedStatementsCheck();
     check.max = 5;

@@ -30,6 +30,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class CommentRegularExpressionCheckTest {
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void test() throws UnsupportedEncodingException, IOException {
     CommentRegularExpressionCheck check = new CommentRegularExpressionCheck();
     check.regularExpression = "(?i).*TODO.*";

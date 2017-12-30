@@ -30,6 +30,7 @@ import java.io.UnsupportedEncodingException;
 public class ClassComplexityCheckTest {
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void test() throws UnsupportedEncodingException, IOException {
     ClassComplexityCheck check = new ClassComplexityCheck();
     check.setMaximumClassComplexityThreshold(5);

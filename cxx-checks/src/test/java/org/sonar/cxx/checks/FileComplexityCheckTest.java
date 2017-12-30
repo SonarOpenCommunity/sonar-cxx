@@ -29,6 +29,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class FileComplexityCheckTest {
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void check() throws UnsupportedEncodingException, IOException {
     FileComplexityCheck check = new FileComplexityCheck();
     check.setMax(1);

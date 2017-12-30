@@ -30,6 +30,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class FunctionComplexityCheckTest {
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void check() throws UnsupportedEncodingException, IOException {
     FunctionComplexityCheck check = new FunctionComplexityCheck();
     check.setMax(5);

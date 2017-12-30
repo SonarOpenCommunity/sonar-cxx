@@ -30,6 +30,7 @@ import org.sonar.cxx.checks.CxxFileTesterHelper;
 public class MethodNameCheckTest {
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void test() throws Exception {
     MethodNameCheck check = new MethodNameCheck();
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/MethodName.cc", ".");

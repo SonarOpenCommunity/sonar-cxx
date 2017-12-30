@@ -32,6 +32,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class FileRegularExpressionCheckTest {
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void fileRegExWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     check.regularExpression = "stdafx\\.h";
@@ -45,6 +46,7 @@ public class FileRegularExpressionCheckTest {
   }
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void fileRegExInvertWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
@@ -62,6 +64,7 @@ public class FileRegularExpressionCheckTest {
   }
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void fileRegExCodingErrorActionReplace() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("US-ASCII");
@@ -78,6 +81,7 @@ public class FileRegularExpressionCheckTest {
   }
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void fileRegExWithFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
@@ -95,6 +99,7 @@ public class FileRegularExpressionCheckTest {
   }
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
   public void fileRegExInvertWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
