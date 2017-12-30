@@ -30,7 +30,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class XPathCheckTest {
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void xpathWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     XPathCheck check = new XPathCheck();
     check.xpathQuery = "//declaration";
@@ -44,7 +44,7 @@ public class XPathCheckTest {
   }
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void xpathWithFilePattern1() throws UnsupportedEncodingException, IOException {
     XPathCheck check = new XPathCheck();
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
@@ -59,7 +59,7 @@ public class XPathCheckTest {
   }
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void xpathWithFilePattern2() throws UnsupportedEncodingException, IOException {
     XPathCheck check = new XPathCheck();
     check.matchFilePattern = "/**/test/**/xpath.cc"; // all files with filename xpath.cc in a subdirectory with name test
@@ -74,7 +74,7 @@ public class XPathCheckTest {
   }
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void xpathWithFilePattern3() throws UnsupportedEncodingException, IOException {
     XPathCheck check = new XPathCheck();
     check.matchFilePattern = "/**/*.xxx"; // all files with .xxx file extension
@@ -88,7 +88,7 @@ public class XPathCheckTest {
   }
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void xpathWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
     XPathCheck check = new XPathCheck();
     check.matchFilePattern = "/**/*.xxx"; // all files with not .xxx file extension

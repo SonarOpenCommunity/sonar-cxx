@@ -32,7 +32,7 @@ public class MissingCurlyBracesCheckTest {
   private final MissingCurlyBracesCheck check = new MissingCurlyBracesCheck();
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/MissingCurlyBraces.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);

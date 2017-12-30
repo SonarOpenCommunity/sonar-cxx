@@ -30,7 +30,7 @@ import java.io.UnsupportedEncodingException;
 public class TooManyParametersCheckTest {
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
     TooManyParametersCheck check = new TooManyParametersCheck();
     check.setMax(3);

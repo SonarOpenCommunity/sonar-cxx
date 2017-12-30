@@ -30,7 +30,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class LineRegularExpressionCheckTest {
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void lineRegExWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.regularExpression = "stdafx\\.h";
@@ -45,7 +45,7 @@ public class LineRegularExpressionCheckTest {
   }
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void lineRegExInvertWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.regularExpression = "//.*";
@@ -60,7 +60,7 @@ public class LineRegularExpressionCheckTest {
   }
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void lineRegExWithFilePattern1() throws UnsupportedEncodingException, IOException {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
@@ -77,7 +77,7 @@ public class LineRegularExpressionCheckTest {
   }
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void lineRegExWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.matchFilePattern = "/**/*.xx"; // all files with not .xx file extension
@@ -95,7 +95,7 @@ public class LineRegularExpressionCheckTest {
   }
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void lineRegExWithFilePattern2() throws UnsupportedEncodingException, IOException {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.matchFilePattern = "/**/*.xx"; // all files with .xx file extension

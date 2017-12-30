@@ -31,7 +31,7 @@ public class TooManyLinesOfCodeInFunctionCheckTest {
   private TooManyLinesOfCodeInFunctionCheck check = new TooManyLinesOfCodeInFunctionCheck();
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
     check.setMax(6);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionLength.cc", ".");

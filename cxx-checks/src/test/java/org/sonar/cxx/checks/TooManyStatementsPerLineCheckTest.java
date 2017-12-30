@@ -31,7 +31,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class TooManyStatementsPerLineCheckTest {
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = false;
@@ -56,7 +56,7 @@ public class TooManyStatementsPerLineCheckTest {
   }
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void testExcludeCaseBreak() throws UnsupportedEncodingException, IOException {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = true;

@@ -30,7 +30,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class ParsingErrorRecoveryCheckTest {
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertation
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test_syntax_error_recovery() throws UnsupportedEncodingException, IOException {
     CxxConfiguration config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(true);
