@@ -34,6 +34,7 @@ public class MagicNumberCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/magicNumber.cc", ".");
@@ -48,6 +49,7 @@ public class MagicNumberCheckTest {
   }
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void custom() throws UnsupportedEncodingException, IOException {
     MagicNumberCheck check = new MagicNumberCheck();
     check.exceptions = "0.85 , 1,,";

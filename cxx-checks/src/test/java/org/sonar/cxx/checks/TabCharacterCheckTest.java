@@ -31,6 +31,7 @@ public class TabCharacterCheckTest {
   private final TabCharacterCheck check = new TabCharacterCheck();
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void fileWithTabsOneMessagePerFile() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = false;
 
@@ -43,6 +44,7 @@ public class TabCharacterCheckTest {
   }
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void fileWithTabsOneMessagePerLine() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = true;
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".");
@@ -55,6 +57,7 @@ public class TabCharacterCheckTest {
   }
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void fileWithoutTabs() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = false;
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/NonEmptyFile.cc", ".");

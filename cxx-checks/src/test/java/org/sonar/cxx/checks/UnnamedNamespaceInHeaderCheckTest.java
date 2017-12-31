@@ -29,6 +29,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class UnnamedNamespaceInHeaderCheckTest {
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void check() throws UnsupportedEncodingException, IOException {
     UnnamedNamespaceInHeaderCheck check = new UnnamedNamespaceInHeaderCheck();
 

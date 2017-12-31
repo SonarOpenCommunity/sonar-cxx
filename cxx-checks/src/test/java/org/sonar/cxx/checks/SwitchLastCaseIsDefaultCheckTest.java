@@ -33,6 +33,7 @@ public class SwitchLastCaseIsDefaultCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void detected() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SwitchLastCaseIsDefaultCheck.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new SwitchLastCaseIsDefaultCheck());

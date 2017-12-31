@@ -31,6 +31,7 @@ public class TooLongLineCheckTest {
   private final TooLongLineCheck check = new TooLongLineCheck();
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
     check.maximumLineLength = 20;
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineLength.cc", ".");

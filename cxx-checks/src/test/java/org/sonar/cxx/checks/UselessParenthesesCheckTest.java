@@ -32,6 +32,7 @@ public class UselessParenthesesCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void detected() throws IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UselessParenthesesCheck.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new UselessParenthesesCheck());

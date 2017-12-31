@@ -29,6 +29,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class WrongIncludeCheckTest {
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void check() throws UnsupportedEncodingException, IOException {
     UseCorrectIncludeCheck check = new UseCorrectIncludeCheck();
 

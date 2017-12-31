@@ -34,6 +34,7 @@ public class FileEncodingCheckTest {
   private final FileEncodingCheck check = new FileEncodingCheck();
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void testAsciiFileAsciiEncoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("US-ASCII");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
@@ -45,6 +46,7 @@ public class FileEncodingCheckTest {
   }
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void testAsciiFileUtf8Encoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("UTF-8");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
@@ -56,6 +58,7 @@ public class FileEncodingCheckTest {
   }
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void testUnicodeFileUtf16Encoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("UTF-16");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
@@ -66,6 +69,7 @@ public class FileEncodingCheckTest {
   }
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void testUnicodeFileAsciiEncoding() throws IOException {
     Charset charset = Charset.forName("US-ASCII");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
