@@ -22,6 +22,7 @@ package org.sonar.cxx.sensors.other;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -88,24 +89,17 @@ public class CxxOtherSensor extends CxxReportSensor {
     URISyntaxException, TransformerException {
     LOG.debug("Parsing 'other' format");
 
-    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+    StaxParser parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+      rootCursor.advance();
 
-      /**
-       * {@inheritDoc}
-       */
-      @Override
-      public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        rootCursor.advance();
+      SMInputCursor errorCursor = rootCursor.childElementCursor("error");
+      while (errorCursor.getNext() != null) {
+        String file = errorCursor.getAttrValue("file");
+        String line = errorCursor.getAttrValue("line");
+        String id = errorCursor.getAttrValue("id");
+        String msg = errorCursor.getAttrValue("msg");
 
-        SMInputCursor errorCursor = rootCursor.childElementCursor("error");
-        while (errorCursor.getNext() != null) {
-          String file = errorCursor.getAttrValue("file");
-          String line = errorCursor.getAttrValue("line");
-          String id = errorCursor.getAttrValue("id");
-          String msg = errorCursor.getAttrValue("msg");
-
-          saveUniqueViolation(context, CxxOtherRepository.KEY, file, line, id, msg);
-        }
+        saveUniqueViolation(context, CxxOtherRepository.KEY, file, line, id, msg);
       }
     });
 
@@ -118,45 +112,34 @@ public class CxxOtherSensor extends CxxReportSensor {
   }
 
   public void transformFiles(final File baseDir, SensorContext context) {
-    boolean goOn = true;
-    for (int i = 1; (i < MAX_STYLESHEETS) && goOn; i++) {
+    for (int i = 1; i < MAX_STYLESHEETS; i++) {
       String stylesheetKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + STYLESHEET_KEY);
       String inputKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + INPUT_KEY);
       String outputKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY);
 
-      if (stylesheetKey == null) {
-        LOG.error("'{}' is not defined.", OTHER_XSLT_KEY + i + STYLESHEET_KEY);
+      String stylesheet = stylesheetKey == null ? null : resolveFilename(baseDir.getAbsolutePath(), context.config().get(stylesheetKey).orElse(null));
+      List<File> inputs = inputKey == null ? new ArrayList<>() : getReports(context.config(), baseDir, inputKey);
+      String[] outputStrings = outputKey == null ? null : context.config().getStringArray(outputKey);
+      List<String> outputs = outputStrings == null ? new ArrayList<>() : Arrays.asList(outputStrings);
+
+      if ((stylesheet == null) && (inputs.isEmpty()) && (outputs.isEmpty())) {
+        break; // no or last item
+      }
+
+      if (stylesheet == null) {
+        LOG.error(stylesheetKey + " is not defined.");
         break;
       }
-      String stylesheet = resolveFilename(baseDir.getAbsolutePath(), context.config().get(stylesheetKey).orElse(null));
 
-      List<File> inputs = getReports(context.config(), baseDir, inputKey);
-      String[] outputStrings = null;
-      if (outputKey != null) {
-        outputStrings = context.config().getStringArray(outputKey);
-      }
-      List<String> outputs = Arrays.asList((outputStrings != null) ? outputStrings : new String[]{});
-
-      if (stylesheet == null && inputKey == null && outputKey == null) {
-        goOn = false;
-      } else {
-        if (stylesheet == null) {
-          LOG.error(stylesheetKey + " is not defined.");
-          goOn = false;
-        } else {
-          goOn = checkInput(inputKey, outputKey, inputs, outputs);
-        }
+      if (!checkInput(inputKey, outputKey, inputs, outputs)) {
+        break;
       }
 
-      if (goOn) {
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Converting " + stylesheet + " with " + inputs + " to " + outputs + ".");
-        }
-        File stylesheetFile = new File(stylesheet);
-        if (stylesheetFile.isAbsolute()) {
-          transformFileList(baseDir.getAbsolutePath(), stylesheetFile, inputs, outputs);
-        }
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Converting " + stylesheet + " with " + inputs + " to " + outputs + ".");
       }
+
+      transformFileList(baseDir.getAbsolutePath(), stylesheet, inputs, outputs);
     }
   }
 
@@ -213,11 +196,11 @@ public class CxxOtherSensor extends CxxReportSensor {
     return true;
   }
 
-  private void transformFileList(final String baseDir, File stylesheetFile, List<File> inputs, List<String> outputs) {
+  private void transformFileList(final String baseDir, String stylesheet, List<File> inputs, List<String> outputs) {
     for (int j = 0; j < inputs.size(); j++) {
       try {
         String normalizedOutputFilename = resolveFilename(baseDir, outputs.get(j));
-        CxxUtils.transformFile(new StreamSource(stylesheetFile), inputs.get(j), new File(normalizedOutputFilename));
+        CxxUtils.transformFile(new StreamSource(new File(stylesheet)), inputs.get(j), new File(normalizedOutputFilename));
       } catch (TransformerException e) {
         String msg = new StringBuilder()
           .append("Cannot transform report files: '")

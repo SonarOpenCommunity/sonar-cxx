@@ -148,6 +148,18 @@ public class CxxOtherSensorTest {
   }
 
   @Test
+  public void shouldReportNothing() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("other.xslt.1.stylesheet");
+    when(language.getPluginProperty("other.xslt.1.inputs")).thenReturn("other.xslt.1.inputs");
+    when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("other.xslt.1.outputs");
+
+    sensor = new CxxOtherSensor(language);
+    sensor.execute(context);
+    assertThat(logTester.logs(LoggerLevel.ERROR)).isEmpty();
+  }
+
+  @Test
   public void shouldNotCreateMessage() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("something");
@@ -166,9 +178,10 @@ public class CxxOtherSensorTest {
     logTester.clear();
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("something");
-    when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("something");
+    when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("outputs");
 
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/externalrules-with-duplicates.xml");
+    settings.setProperty("outputs", "outputs");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
