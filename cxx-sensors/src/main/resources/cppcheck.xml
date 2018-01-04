@@ -5799,10 +5799,10 @@ Result of operator '|' is always true if one operand is non-zero. Did you intend
   </rule>
   <rule>
     <key>knownConditionTrueFalse</key>
-    <name>Condition &apos;x&apos; is always true</name>
+    <name>Condition &apos;x&apos; is always true or false</name>
     <description>
 <![CDATA[<p>
-Condition 'x' is always true.
+Condition 'x' is always true or false.
 </p><h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a></p>
@@ -5976,7 +5976,7 @@ Boolean value assigned to floating point variable.
     <name>Invalid test for overflow (undefined behavior)</name>
     <description>
 <![CDATA[<p>
-Invalid test for overflow 'x + u < x'. Condition is always false unless there is overflow, and overflow is UB.
+Invalid test for overflow 'x + u < x'. Condition is always false unless there is overflow, and overflow is undefined behaviour.
 </p><h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
 ]]>
@@ -6298,6 +6298,52 @@ The class 'class' has 'operator=' but lack of 'copy constructor'.
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <!-- ########### New in cppcheck 1.82 ########### -->
+  <rule>
+    <key>unsafeClassDivZero</key>
+    <name>Public interface of Class is not safe</name>
+    <description>
+<![CDATA[<p>
+Public interface of Class is not safe. When calling Class::dostuff(), if parameter 'x' is 0 that leads to division by zero.
+</p>
+]]>
+    </description>
+    <internalKey>unsafeClassDivZero</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>pointerAdditionResultNotNull</key>
+    <name>Comparison is wrong. Result of &apos;ptr+1&apos; can&apos;t be 0</name>
+    <description>
+<![CDATA[<p>
+Comparison is wrong. Result of 'ptr+1' can't be 0 unless there is pointer overflow, and pointer overflow is undefined behaviour.
+</p>
+]]>
+    </description>
+    <internalKey>pointerAdditionResultNotNull</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>overlappingStrcmp</key>
+    <name>Multiple suspicious overlapping strcmp</name>
+    <description>
+<![CDATA[<p>
+The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc") == 0'.
+</p>
+]]>
+    </description>
+    <internalKey>overlappingStrcmp</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <!-- ########### add missing rules which seems not to be part of cppcheck errorlist ########### -->
   <rule>
