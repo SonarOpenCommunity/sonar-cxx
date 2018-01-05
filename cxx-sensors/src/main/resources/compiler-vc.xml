@@ -1973,7 +1973,7 @@ A const automatic instance of a non-trivial class is initialized with a compiler
   </rule>
   <rule>
     <key>C4272</key>
-    <name>C4272: 'function' : is marked __declspec(dllimport); must specify native calling convention when importing a function.</name>
+    <name>C4272: 'function' : is marked __declspec(dllimport); must specify native calling convention when importing a function</name>
     <description><![CDATA[<p>
 It is an error to export a function marked with the __clrcall calling convention, and the compiler issues this warning if you attempt to import a function marked __clrcall.
 </p><h2>MSDN Documentation</h2>
@@ -3143,7 +3143,7 @@ Under /clr, initializer symbols contain function tokens, not functions pointers.
   </rule>
   <rule>
     <key>C4379</key>
-    <name>C4379: Version version of the common language runtime is not supported by this compiler. Using this version may cause unexpected results.</name>
+    <name>C4379: Version version of the common language runtime is not supported by this compiler. Using this version may cause unexpected results</name>
     <description><![CDATA[<p>
 You have a previous version of the common language runtime on your machine, but not the current version. To resolve C4379, install the version of the common language runtime that shipped with your compiler.
 </p><h2>MSDN Documentation</h2>
@@ -3567,7 +3567,7 @@ The identifier is a local symbol that resolves to a displacement register and th
   </rule>
   <rule>
     <key>C4412</key>
-    <name>C4412: 'function' : function signature contains type 'type'; C++ objects are unsafe to pass between pure code and mixed or native.</name>
+    <name>C4412: 'function' : function signature contains type 'type'; C++ objects are unsafe to pass between pure code and mixed or native</name>
     <description><![CDATA[<p>
 The compiler detected a potentially unsafe situation that could result in a runtime error: a call is being made from a /clr:pure compiland to a function that was imported via dllimport and the function signature contains an unsafe type. A type is unsafe if it contains a member function or has a data member that is an unsafe type or an indirection to an unsafe type.
 This is unsafe because of the difference in the default calling conventions between pure and native code (or mixed native and managed). When importing (via dllimport) a function into a /clr:pure compiland, ensure that the declarations of each type in the signature are identical to those in the compiland that exports the function (being especially careful about differences in implicit calling conventions).
@@ -5515,7 +5515,7 @@ A name passed to the &lt;param&gt; tag was not found by the compiler.
   </rule>
   <rule>
     <key>C4639</key>
-    <name>C4639: MSXML error, XML document comments will not be processed.</name>
+    <name>C4639: MSXML error, XML document comments will not be processed</name>
     <description><![CDATA[<p>
 This Can occur for any number of reasons.
 To resolve this warning:
@@ -5762,7 +5762,7 @@ A type that has public accessibility outside the assembly uses a type that has p
   </rule>
   <rule>
     <key>C4679</key>
-    <name>C4679: The compiler encountered a construct that it cannot support, that cannot be imported from metadata.</name>
+    <name>C4679: The compiler encountered a construct that it cannot support, that cannot be imported from metadata</name>
     <description><![CDATA[<p>
 'member': could not import member
 Do not try to use the construct.
@@ -6115,7 +6115,7 @@ The compiler may have generated the zero operand.
   </rule>
   <rule>
     <key>C4727</key>
-    <name>C4727: "PCH named pch_file with same timestamp found in obj_file_1 and obj_file_2. Using first PCH.</name>
+    <name>C4727: "PCH named pch_file with same timestamp found in obj_file_1 and obj_file_2. Using first PCH</name>
     <description><![CDATA[<p>
 C4727 occurs when compiling multiple compilands with /Yc, and where the compiler was able to mark all .obj files with the same .pch timestamp.
 To resolve, compile one source file with /Yc /c (creates pch), and the others compile separately with /Yu /c (uses pch), then link them together.
@@ -6268,7 +6268,7 @@ An external variable referenced or defined in two files has different types in t
   </rule>
   <rule>
     <key>C4746</key>
-    <name>C4746: volatile access of '&lt;expression&gt;' is subject to /volatile:[iso|ms] setting; consider using __iso_volatile_load/store intrinsic functions.</name>
+    <name>C4746: volatile access of '&lt;expression&gt;' is subject to /volatile:[iso|ms] setting; consider using __iso_volatile_load/store intrinsic functions</name>
     <description><![CDATA[<p>
 C4746 is emitted whenever a volatile variable is accessed directly. It is intended to help developers identify code locations that are affected by the specific volatile model currently specified (which can be controlled with the /volatile compiler option). In particular, it can be useful in locating compiler-generated hardware memory barriers when /volatile:ms is used.
 The __iso_volatile_load/store intrinsics can be used to explicitly access volatile memory without being affected by the volatile model. Using these intrinsics will not trigger C4746.
@@ -6627,7 +6627,7 @@ An array with an undefined number of elements (zero-sized array) is the last mem
   </rule>
   <rule>
     <key>C4819</key>
-    <name>C4819: The file contains a character that cannot be represented in the current code page (number). Save the file in Unicode format to prevent data loss.</name>
+    <name>C4819: The file contains a character that cannot be represented in the current code page (number). Save the file in Unicode format to prevent data loss</name>
     <description><![CDATA[<p>
 C4819 occurs when an ANSI source file is compiled on a system with a codepage that cannot represent all characters in the file.
 To resolve C4819, save the file in Unicode format.
@@ -6690,7 +6690,7 @@ You can also manually unpin the object and ignore the warning.
   </rule>
   <rule>
     <key>C4826</key>
-    <name>C4826: Conversion from 'type1 ' to 'type_2' is sign-extended. This may cause unexpected runtime behavior.</name>
+    <name>C4826: Conversion from 'type1 ' to 'type_2' is sign-extended. This may cause unexpected runtime behavior</name>
     <description><![CDATA[<p>
 This warning indicates that the compiler performed sign extension when a 32-bit pointer was cast to a 64-bit variable.
 If the extension was performed on a windows HANDLE type, it is safe to ignore this warning. If the extension was performed on a pointer type, you should modify the cast to prevent the sign extension (see example below).
@@ -7145,7 +7145,7 @@ This warning indicates that a null pointer is being dereferenced. If the pointer
   </rule>
   <rule>
     <key>C6014</key>
-    <name>C6014: Leaking memory.</name>
+    <name>C6014: Leaking memory</name>
     <description><![CDATA[<p>
 This warning indicates that the specified pointer points to allocated memory or some other allocated resource that has not been freed. The analyzer checks for this condition only when the _Analysis_mode_(_Analysis_local_leak_checks_) SAL annotation is specified. By default, this annotation is specified for Windows kernel mode (driver) code. For more information about SAL annotations, see Using SAL Annotations to Reduce C/C++ Code Defects.
 </p><h2>MSDN Documentation</h2>
@@ -7548,7 +7548,7 @@ This warning indicates that a Boolean is being used as an HRESULT without being 
   </rule>
   <rule>
     <key>C6217</key>
-    <name>C6217: Implicit cast between semantically different integer types: testing HRESULT with 'not'. Consider using SUCCEEDED or FAILED macro instead.</name>
+    <name>C6217: Implicit cast between semantically different integer types: testing HRESULT with 'not'. Consider using SUCCEEDED or FAILED macro instead</name>
     <description><![CDATA[<p>
 This warning indicates that an HRESULT is being tested with the not (!) operator. A success (S_OK) in HRESULT is indicated by a value of 0. However, 0 indicates failure for a Boolean type. Testing HRESULT with the not operator (!) to determine which code block to run can cause following the wrong code path. This will lead to unwanted results.
 </p><h2>MSDN Documentation</h2>
@@ -7623,7 +7623,7 @@ This warning indicates that an HRESULT is being assigned or initialized with a v
   </rule>
   <rule>
     <key>C6226</key>
-    <name>C6226: Implicit cast between semantically different integer types: assigning -1 to HRESULT. Consider using E_FAIL instead.</name>
+    <name>C6226: Implicit cast between semantically different integer types: assigning -1 to HRESULT. Consider using E_FAIL instead</name>
     <description><![CDATA[<p>
 This warning indicates that an HRESULT is being assigned or initialized with a value of an explicit -1. This warning is frequently caused by accidental confusion of integer and HRESULT types. To indicate success, the symbolic constant S_OK should be used. To indicate failure, the symbolic constants starting with E_constant should be used.
 </p><h2>MSDN Documentation</h2>
@@ -7771,7 +7771,7 @@ This warning indicates that a declaration has the same name as a declaration at 
   </rule>
   <rule>
     <key>C6246</key>
-    <name>C6246: Local declaration of &lt;variable&gt; hides declaration of same name in outer scope. Additional Information: See previous declaration at &lt;location&gt;.</name>
+    <name>C6246: Local declaration of &lt;variable&gt; hides declaration of same name in outer scope. Additional Information: See previous declaration at &lt;location&gt;</name>
     <description><![CDATA[<p>
 This warning indicates that two declarations have the same name at local scope. The name at outer scope is hidden by the declaration at the inner scope. Any intended use of the outer scope declaration will result in the use of local declaration.
 </p><h2>MSDN Documentation</h2>
@@ -7839,7 +7839,7 @@ This warning indicates that a call to _alloca has been detected outside of local
   </rule>
   <rule>
     <key>C6258</key>
-    <name>C6258: using TerminateThread does not allow proper thread clean up.</name>
+    <name>C6258: using TerminateThread does not allow proper thread clean up</name>
     <description><![CDATA[<p>
 This warning indicates that a call to TerminateThread has been detected.
 TerminateThread is a dangerous function that should only be used in the most extreme cases. For more information about problems associated with TerminateThread call, see this topic in the MSDN Library: TerminateThread.
@@ -8188,7 +8188,7 @@ This warning appears only in C++ code and indicates that the calling function ha
 
   <rule>
     <key>C6284</key>
-    <name>C6284: object passed as parameter '%d' when string is required in call to &lt;function&gt;.</name>
+    <name>C6284: object passed as parameter '%d' when string is required in call to &lt;function&gt;</name>
     <description><![CDATA[<p>
 This warning indicates that the format string specifies a string, for example, a %s specification for printf or scanf, but a C++ object has been passed instead.
 This defect might produce incorrect output or crashes.
@@ -9117,7 +9117,7 @@ The CompareString function takes a locale as an argument; however, passing in a 
   </rule>
   <rule>
     <key>C6411</key>
-    <name>C6411: Potentially reading invalid data from the buffer.</name>
+    <name>C6411: Potentially reading invalid data from the buffer</name>
     <description><![CDATA[<p>
 This warning indicates that the value of the index that is used to read from the buffer can exceed the readable size of the buffer. Because the code analysis tool reports this warning when it cannot reduce a complex expression that represents the buffer size, or the index used to access the buffer, this warning might be reported in error.
 </p><h2>MSDN Documentation</h2>
@@ -9132,7 +9132,7 @@ This warning indicates that the value of the index that is used to read from the
   </rule>
   <rule>
     <key>C6412</key>
-    <name>C6412: Potential buffer overrun while writing to buffer. The writable size is write_size bytes, but write_index bytes may be written.</name>
+    <name>C6412: Potential buffer overrun while writing to buffer. The writable size is write_size bytes, but write_index bytes may be written</name>
     <description><![CDATA[<p>
 This warning indicates that the value of the index that is used to write to the buffer can exceed the writeable size of the buffer.
 Because the code analysis tool reports this warning when it cannot reduce a complex expression that represents the buffer size, or the index used to access the buffer, this warning might be reported in error.
@@ -9283,7 +9283,7 @@ This warning indicates that the return keyword cannot be used in a precondition.
   </rule>
   <rule>
     <key>C6510</key>
-    <name>C6510: Invalid annotation: 'NullTerminated' property may only be used on buffers whose elements are of integral or pointer type: Function '&lt;function&gt;' &lt;parameter&gt;.</name>
+    <name>C6510: Invalid annotation: 'NullTerminated' property may only be used on buffers whose elements are of integral or pointer type: Function '&lt;function&gt;' &lt;parameter&gt;</name>
     <description><![CDATA[<p>
 This warning indicates an incorrect use of the NullTerminated property (those ending in '_z'). You can only use this type of property on pointer or array types.
 </p><h2>MSDN Documentation</h2>
@@ -9388,7 +9388,7 @@ This warning indicates that either no property was specified in the attribute or
   </rule>
   <rule>
     <key>C6517</key>
-    <name>C6517: Invalid annotation: 'SAL_readableTo' property may not be specified on buffers that are not readable: '_Param_(1)'.</name>
+    <name>C6517: Invalid annotation: 'SAL_readableTo' property may not be specified on buffers that are not readable: '_Param_(1)'</name>
     <description><![CDATA[<p>
 This warning indicates that SAL_readableTo property does not have the required read access. You cannot use this property to annotate a parameter without providing read access.
 </p><h2>MSDN Documentation</h2>
@@ -9641,7 +9641,7 @@ This warning is reported when there is an error in the annotations.
   </rule>
   <rule>
     <key>C6705</key>
-    <name>C6705: Annotation error expected &lt;expected_number&gt; arguments for annotation &lt;parameter&gt; found &lt;actual_number&gt;.</name>
+    <name>C6705: Annotation error expected &lt;expected_number&gt; arguments for annotation &lt;parameter&gt; found &lt;actual_number&gt;</name>
     <description><![CDATA[<p>
       This warning is reported when there is an error in the annotations.
 </p><h2>MSDN Documentation</h2>
@@ -9731,7 +9731,7 @@ Annotations cannot be applied to extern "C" {...}. Apply the annotations to a sp
   </rule>
   <rule>
     <key>C26100</key>
-    <name>C26100: Race condition. Variable &lt;var&gt; should be protected by lock &lt;lock&gt;.</name>
+    <name>C26100: Race condition. Variable &lt;var&gt; should be protected by lock &lt;lock&gt;</name>
     <description><![CDATA[<p>
 The _Guarded_by_ annotation in the code specifies the lock to use to guard a shared variable. C26100 is generated when the guard contract is violated.
 </p><h2>MSDN Documentation</h2>
@@ -9746,7 +9746,7 @@ The _Guarded_by_ annotation in the code specifies the lock to use to guard a sha
   </rule>
   <rule>
     <key>C26101</key>
-    <name>C26101: Failing to use interlocked operation properly for variable &lt;var&gt;.</name>
+    <name>C26101: Failing to use interlocked operation properly for variable &lt;var&gt;</name>
     <description><![CDATA[<p>
 Windows APIs offer a variety of interlocked operations. Annotation _Interlocked_ specifies that a variable should only be accessed through an interlocked operation. C26101 is issued when an access is not consistent with the _Interlocked_ annotation.
 </p><h2>MSDN Documentation</h2>
@@ -9761,7 +9761,7 @@ Windows APIs offer a variety of interlocked operations. Annotation _Interlocked_
   </rule>
   <rule>
     <key>C26105</key>
-    <name>C26105: Lock order violation. Acquiring lock &lt;lock&gt; with level &lt;level&gt; causes order inversion.</name>
+    <name>C26105: Lock order violation. Acquiring lock &lt;lock&gt; with level &lt;level&gt; causes order inversion</name>
     <description><![CDATA[<p>
 Concurrency SAL supports lock levels. To declare a lock level, which is denoted by a string literal without double quotes, use _Create_lock_level_. You can impose an order of acquisition between two lock levels by using the annotation _Set_lock_level_order_(A,B), which states that locks that have level A must be acquired before locks that have level B. To establish a lock order hierarchy (a partial order among lock levels), use multiple _Set_lock_level_order_ annotations. To associate a lock with a lock level, use the _Set_lock_level_ annotation when you declare the lock. C26105 is issued when a lock ordering violation is detected.
 </p><h2>MSDN Documentation</h2>
@@ -9776,7 +9776,7 @@ Concurrency SAL supports lock levels. To declare a lock level, which is denoted 
   </rule>
   <rule>
     <key>C26110</key>
-    <name>C26110: Caller failing to hold lock &lt;lock&gt; before calling function &lt;func&gt;.</name>
+    <name>C26110: Caller failing to hold lock &lt;lock&gt; before calling function &lt;func&gt;</name>
     <description><![CDATA[<p>
       When a lock is required, make sure to clarify whether the function itself or its caller should acquire the lock. C26110 is issued when there is a violation of the _Requires_lock_held_ annotation.
 </p><h2>MSDN Documentation</h2>
@@ -9791,7 +9791,7 @@ Concurrency SAL supports lock levels. To declare a lock level, which is denoted 
   </rule>
   <rule>
     <key>C26111</key>
-    <name>C26111: Caller failing to release lock &lt;lock&gt; before calling function &lt;func&gt;.</name>
+    <name>C26111: Caller failing to release lock &lt;lock&gt; before calling function &lt;func&gt;</name>
     <description><![CDATA[<p>
 The annotation _Requires_lock_not_held_ imposes a precondition that the lock count for the specified lock cannot be greater than zero when the function is called. C26111 is issued when a function fails to release the lock before it calls another function.
 </p><h2>MSDN Documentation</h2>
@@ -9806,7 +9806,7 @@ The annotation _Requires_lock_not_held_ imposes a precondition that the lock cou
   </rule>
   <rule>
     <key>C26112</key>
-    <name>C26112: Caller cannot hold any lock before calling &lt;func&gt;.</name>
+    <name>C26112: Caller cannot hold any lock before calling &lt;func&gt;</name>
     <description><![CDATA[<p>
 The annotation _Requires_no_locks_held_ imposes a precondition that the caller must not hold any lock while it calls the function. C26112 is issued when a function fails to release all locks before it calls another function. 
 </p><h2>MSDN Documentation</h2>
@@ -9821,7 +9821,7 @@ The annotation _Requires_no_locks_held_ imposes a precondition that the caller m
   </rule>
   <rule>
     <key>C26115</key>
-    <name>C26115: Failing to release lock &lt;lock&gt; in function &lt;func&gt;.</name>
+    <name>C26115: Failing to release lock &lt;lock&gt; in function &lt;func&gt;</name>
     <description><![CDATA[<p>
 Enforcement of syntactically scoped lock acquire and lock release pairs in C/C++ programs is not performed by the language. A function may introduce a locking side effect by making an observable modification to the concurrency state. For example, a lock wrapper function increments the number of lock acquisitions, or lock count, for a given lock.
 You can annotate a function that has a side effect from a lock acquire or lock release by using _Acquires_lock_ or _Releases_lock_, respectively. Without such annotations, a function is expected not to change any lock count after it returns. If acquires and releases are not balanced, they are considered to be orphaned. C26115 is issued when a function introduces an orphaned lock.
@@ -9837,7 +9837,7 @@ You can annotate a function that has a side effect from a lock acquire or lock r
   </rule>
   <rule>
     <key>C26116</key>
-    <name>C26116: Failing to acquire or to hold lock &lt;lock&gt; in &lt;func&gt;.</name>
+    <name>C26116: Failing to acquire or to hold lock &lt;lock&gt; in &lt;func&gt;</name>
     <description><![CDATA[<p>
 Enforcement of syntactically scoped lock acquire and lock release pairs in C/C++ programs is not performed by the language. A function may introduce a locking side effect by making an observable modification to the concurrency state. For example, a lock wrapper function increments the number of lock acquisitions, or lock count, for a given lock.You can annotate a function that has a side effect from a lock acquire or lock release by using _Acquires_lock_ or _Requires_lock_held, respectively. Without such annotations, a function is expected not to change any lock count after it returns. If acquires and releases are not balanced, they are considered to be orphaned. C26116 is issued when a function has been annotated with _Acquires_lock_, but it does not acquire a lock, or when a function is annotated with _Requires_lock_held and releases the lock.
 </p><h2>MSDN Documentation</h2>
@@ -9852,7 +9852,7 @@ Enforcement of syntactically scoped lock acquire and lock release pairs in C/C++
   </rule>
   <rule>
     <key>C26117</key>
-    <name>C26117: Releasing unheld lock &lt;lock&gt; in function &lt;func&gt;.</name>
+    <name>C26117: Releasing unheld lock &lt;lock&gt; in function &lt;func&gt;</name>
     <description><![CDATA[<p>
 Enforcement of syntactically scoped lock acquire and lock release pairs in C/C++ programs is not performed by the language. A function may introduce a locking side effect by making an observable modification to the concurrency state. For example, a lock wrapper function increments the number of lock acquisitions, or lock count, for a given lock.You can annotate a function that has a side effect from a lock acquire or lock release by using _Acquires_lock_ or _Releases_lock_, respectively. Without such annotations, a function is expected not to change any lock count after it returns. If acquires and releases are not balanced, they are considered to be orphaned. C26117 is issued when a function that has not been annotated with _Releases_lock_ releases a lock that it doesn't hold, because the function must own the lock before it releases it.
 </p><h2>MSDN Documentation</h2>
@@ -9867,7 +9867,7 @@ Enforcement of syntactically scoped lock acquire and lock release pairs in C/C++
   </rule>
   <rule>
     <key>C26130</key>
-    <name>C26130: Missing annotation _Requires_lock_held_(&lt;lock&gt;) or _No_competing_thread_ at function &lt;func&gt;. Otherwise it could be a race condition.</name>
+    <name>C26130: Missing annotation _Requires_lock_held_(&lt;lock&gt;) or _No_competing_thread_ at function &lt;func&gt;. Otherwise it could be a race condition</name>
     <description><![CDATA[<p>
 C26130: Missing annotation _Requires_lock_held_(&lt;lock&gt;) or _No_competing_thread_ at function &lt;func&gt;. Otherwise it could be a race condition. Variable &lt;var&gt; should be protected by lock &lt;lock&gt;.
 C26130 is issued when the analyzer detects a potential race condition but infers that the function is likely to be run in a single threaded mode, for example, when the function is in the initialization stage based on certain heuristics. 
@@ -9883,7 +9883,7 @@ C26130 is issued when the analyzer detects a potential race condition but infers
   </rule>
   <rule>
     <key>C26135</key>
-    <name>C26135: Missing annotation &lt;annotation&gt; at function &lt;func&gt;.</name>
+    <name>C26135: Missing annotation &lt;annotation&gt; at function &lt;func&gt;</name>
     <description><![CDATA[<p>
 C26135 is issued when the analyzer infers that a function is a lock wrapper function that has a lock acquire or lock release side effect. If the code is not intended to be a wrapper function, then either the lock is leaking (if the lock is being acquired) or it is being released incorrectly (if the lock is being released).
 </p><h2>MSDN Documentation</h2>
@@ -9898,7 +9898,7 @@ C26135 is issued when the analyzer infers that a function is a lock wrapper func
   </rule>
   <rule>
     <key>C26140</key>
-    <name>C26140: Undefined lock kind &lt;lock&gt; in annotation &lt;annotation&gt; on lock &lt;lock&gt;.</name>
+    <name>C26140: Undefined lock kind &lt;lock&gt; in annotation &lt;annotation&gt; on lock &lt;lock&gt;</name>
     <description><![CDATA[<p>
 C26140: Undefined lock kind &lt;lock&gt; in annotation &lt;annotation&gt; on lock &lt;lock&gt;.
 </p><h2>MSDN Documentation</h2>
@@ -9913,7 +9913,7 @@ C26140: Undefined lock kind &lt;lock&gt; in annotation &lt;annotation&gt; on loc
   </rule>
   <rule>
     <key>C26160</key>
-    <name>C26160: Caller possibly failing to hold lock &lt;lock&gt; before calling function &lt;func&gt;.</name>
+    <name>C26160: Caller possibly failing to hold lock &lt;lock&gt; before calling function &lt;func&gt;</name>
     <description><![CDATA[<p>
 C26160 resembles C26110 except that the confidence level is lower. For example, the function may contain annotation errors.
 </p><h2>MSDN Documentation</h2>
@@ -9928,7 +9928,7 @@ C26160 resembles C26110 except that the confidence level is lower. For example, 
   </rule>
   <rule>
     <key>C26165</key>
-    <name>C26165: Possibly failing to release lock &lt;lock&gt; in function &lt;func&gt;.</name>
+    <name>C26165: Possibly failing to release lock &lt;lock&gt; in function &lt;func&gt;</name>
     <description><![CDATA[<p>
 C26165 resembles C26115 except that the confidence level is lower. For example, the function may contain annotation errors.
 </p><h2>MSDN Documentation</h2>
@@ -9943,7 +9943,7 @@ C26165 resembles C26115 except that the confidence level is lower. For example, 
   </rule>
   <rule>
     <key>C26166</key>
-    <name>C26166: Possibly failing to acquire or to hold lock &lt;lock&gt; in function &lt;func&gt;.</name>
+    <name>C26166: Possibly failing to acquire or to hold lock &lt;lock&gt; in function &lt;func&gt;</name>
     <description><![CDATA[<p>
 C26166 resembles C26116 except that the confidence level is lower. For example, the function may contain annotation errors.
 </p><h2>MSDN Documentation</h2>
@@ -9958,7 +9958,7 @@ C26166 resembles C26116 except that the confidence level is lower. For example, 
   </rule>
   <rule>
     <key>C26167</key>
-    <name>C26167: Possibly releasing unheld lock &lt;lock&gt; in function &lt;func&gt;.</name>
+    <name>C26167: Possibly releasing unheld lock &lt;lock&gt; in function &lt;func&gt;</name>
     <description><![CDATA[<p>
 C26167 resembles C26117 except that the confidence level is lower. For example, the function may contain annotation errors.
 </p><h2>MSDN Documentation</h2>
@@ -9973,7 +9973,7 @@ C26167 resembles C26117 except that the confidence level is lower. For example, 
   </rule>
   <rule>
     <key>C26400</key>
-    <name>C26400: No raw pointer assignment.</name>
+    <name>C26400: No raw pointer assignment</name>
     <description><![CDATA[<p>
 No raw pointer assignment.
 
@@ -9990,7 +9990,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26401</key>
-    <name>C26401: Don't delete none-owner.</name>
+    <name>C26401: Don't delete none-owner</name>
     <description><![CDATA[<p>
 Don't delete none-owner.
 
@@ -10007,7 +10007,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26402</key>
-    <name>C26402: Don't heap allocate moveable result.</name>
+    <name>C26402: Don't heap allocate moveable result</name>
     <description><![CDATA[<p>
 Don't heap allocate moveable result.
 
@@ -10024,7 +10024,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26403</key>
-    <name>C26403: Reset or delete owner.</name>
+    <name>C26403: Reset or delete owner</name>
     <description><![CDATA[<p>
 Reset or delete owner.
 
@@ -10041,7 +10041,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26404</key>
-    <name>C26404: Don't delete invalid owner.</name>
+    <name>C26404: Don't delete invalid owner</name>
     <description><![CDATA[<p>
 Don't delete invalid owner.
 
@@ -10058,7 +10058,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26405</key>
-    <name>C26405: Don't assign to valid owner.</name>
+    <name>C26405: Don't assign to valid owner</name>
     <description><![CDATA[<p>
 Don't assign to valid owner.
 
@@ -10075,7 +10075,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26406</key>
-    <name>C26406: Don't assign raw pointer to owner.</name>
+    <name>C26406: Don't assign raw pointer to owner</name>
     <description><![CDATA[<p>
 Don't assign raw pointer to owner.
 
@@ -10092,7 +10092,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26407</key>
-    <name>C26407: Don't heap allocate unnecessarily.</name>
+    <name>C26407: Don't heap allocate unnecessarily</name>
     <description><![CDATA[<p>
 Don't heap allocate unnecessarily.
 
@@ -10109,7 +10109,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26408</key>
-    <name>C26408: No malloc or free.</name>
+    <name>C26408: No malloc or free</name>
     <description><![CDATA[<p>
 No malloc or free.
 
@@ -10126,7 +10126,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26409</key>
-    <name>C26409: No new or delete.</name>
+    <name>C26409: No new or delete</name>
     <description><![CDATA[<p>
 Don't heap allocate moveable result.
 
@@ -10143,7 +10143,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26410</key>
-    <name>C26410: No reference to const unique pointer.</name>
+    <name>C26410: No reference to const unique pointer</name>
     <description><![CDATA[<p>
 No reference to const unique pointer.
 
@@ -10160,7 +10160,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26411</key>
-    <name>C26411: No reference to unique pointer.</name>
+    <name>C26411: No reference to unique pointer</name>
     <description><![CDATA[<p>
 No reference to unique pointer.
 
@@ -10177,7 +10177,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26412</key>
-    <name>C26412: Do not dereference an invalid pointer (lifetimes rule 1).</name>
+    <name>C26412: Do not dereference an invalid pointer (lifetimes rule 1)</name>
     <description><![CDATA[<p>
 not available now - work in progress (experimental)
 see also:</p>
@@ -10193,7 +10193,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26423</key>
-    <name>C26423: The allocation was not directly assigned to an owner.</name>
+    <name>C26423: The allocation was not directly assigned to an owner</name>
     <description><![CDATA[<p>
 not available now - work in progress (experimental)
 see also:</p>
@@ -10226,7 +10226,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26461</key>
-    <name>C26461: Use const input arguments.</name>
+    <name>C26461: Use const pointer arguments</name>
     <description><![CDATA[<p>
 By default, pass pointers and references to consts
 <pre><code>
@@ -10263,7 +10263,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26470</key>
-    <name>C26470: No reinterpret_cast to void pointer.</name>
+    <name>C26470: No reinterpret_cast to void pointer</name>
     <description><![CDATA[<p>
 No reinterpret_cast to void pointer.
 see also:</p>
@@ -10279,7 +10279,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26471</key>
-    <name>C26471: No reinterpret_cast from void pointer.</name>
+    <name>C26471: No reinterpret_cast from void pointer</name>
     <description><![CDATA[<p>
 No reinterpret_cast from void pointer.
 see also:</p>
@@ -10295,7 +10295,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26481</key>
-    <name>C26481: No pointer arithmetic.</name>
+    <name>C26481: No pointer arithmetic</name>
     <description><![CDATA[<p>
 Pointers should only refer to single objects, and pointer arithmetic is fragile and easy to get wrong. <i>span</i> is a bounds-checked, safe type for accessing arrays of data.
 
@@ -10313,7 +10313,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26482</key>
-    <name>C26482: No dynamic array indexing.</name>
+    <name>C26482: No dynamic array indexing</name>
     <description><![CDATA[<p>
 No dynamic array indexing
 see also:</p>
@@ -10329,7 +10329,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26483</key>
-    <name>C26483: Static index out of range.</name>
+    <name>C26483: Static index out of range</name>
     <description><![CDATA[<p>
 No dynamic array indexing
 see also:</p>
@@ -10345,7 +10345,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26485</key>
-    <name>C26485: No array to pointer decay.</name>
+    <name>C26485: No array to pointer decay</name>
     <description><![CDATA[<p>
 No array to pointer decay.
 
@@ -10362,7 +10362,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26490</key>
-    <name>C26490: No reinterpret_cast.</name>
+    <name>C26490: No reinterpret_cast</name>
     <description><![CDATA[<p>
 No reinterpret_cast.
 see also:</p>
@@ -10378,7 +10378,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26491</key>
-    <name>C26491: No static downcast.</name>
+    <name>C26491: No static downcast</name>
     <description><![CDATA[<p>
 No static downcast.
 see also:</p>
@@ -10394,7 +10394,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26492</key>
-    <name>C26492: No const cast.</name>
+    <name>C26492: No const cast</name>
     <description><![CDATA[<p>
 No static downcast.
 see also:</p>
@@ -10410,7 +10410,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26493</key>
-    <name>C26493: No C-style cast.</name>
+    <name>C26493: No C-style cast</name>
     <description><![CDATA[<p>
 No C-style cast.
 see also:</p>
@@ -10426,7 +10426,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26494</key>
-    <name>C26494: Variable use before initialization.</name>
+    <name>C26494: Variable use before initialization</name>
     <description><![CDATA[<p>
 Variable use before initialization.
 see also:</p>
@@ -10442,7 +10442,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26495</key>
-    <name>C26495: Variable use before initialization.</name>
+    <name>C26495: Variable use before initialization</name>
     <description><![CDATA[<p>
 Variable use before initialization.
 see also:</p>
@@ -10459,7 +10459,7 @@ see also:</p>
 
   <rule>
     <key>C26496</key>
-    <name>C26496: Use const for variable.</name>
+    <name>C26496: Use const for variable</name>
     <description><![CDATA[<p>
 Use const to define objects with values that do not change after construction
 <pre><code>
@@ -10484,7 +10484,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26497</key>
-    <name>C26497: Use constexpr for function.</name>
+    <name>C26497: Use constexpr for function</name>
     <description><![CDATA[<p>
  If a function may have to be evaluated at compile time, declare it constexpr
 <pre><code>
@@ -10520,7 +10520,7 @@ see also:</p>
   </rule>
   <rule>
     <key>C26498</key>
-    <name>C26498: Use constexpr for function call.</name>
+    <name>C26498: Use constexpr for function call</name>
     <description><![CDATA[<p>
 Use constexpr for function call.
 
@@ -10568,7 +10568,7 @@ This warning is reported when the object being annotated is not a pointer type. 
   </rule>
   <rule>
     <key>C28022</key>
-    <name>C28022: The function class(es) &lt;classlist1&gt; on this function do not match the function class(es) &lt;classlist2&gt; on the typedef used to define it.</name>
+    <name>C28022: The function class(es) &lt;classlist1&gt; on this function do not match the function class(es) &lt;classlist2&gt; on the typedef used to define it</name>
     <description><![CDATA[<p>
 This warning is reported when there is an error in the annotations. Both the typedef and the function itself have _Function_class_ annotations, but they do not match. If both are used they must match.
 </p><h2>MSDN Documentation</h2>
@@ -10599,7 +10599,7 @@ This warning is issued when the function on the left side of the assignment (or 
   </rule>
   <rule>
     <key>C28024</key>
-    <name>C28024: The function pointer being assigned to is annotated with the function class &lt;class&gt;, which is not contained in the function class(es) &lt;classlist&gt;.</name>
+    <name>C28024: The function pointer being assigned to is annotated with the function class &lt;class&gt;, which is not contained in the function class(es) &lt;classlist&gt;</name>
     <description><![CDATA[<p>
 This warning is reported when both functions were annotated with a function class, but the classes do not match.
 This warning is issued when a function pointer has a _Function_class_ annotation that specifies that only functions of a particular functional class should be assigned to it. In an assignment or implied assignment in a function call, the source and target must be of the same function class, but the function classes do not match.
@@ -10954,7 +10954,7 @@ The driver is passing or assigning a function (pointer) of an unexpected type (t
   </rule>
     <rule>
     <key>C28128</key>
-    <name>C28128: An access to a field has been made directly. It should be made by a routine.</name>
+    <name>C28128: An access to a field has been made directly. It should be made by a routine</name>
     <description><![CDATA[<p>
 The driver directly accessed a structure member that should be accessed only by using specialized functions.
 </p><h2>MSDN Documentation</h2>
@@ -11284,7 +11284,7 @@ A _IRQL_saves_ annotation specifies that the current function will save an IRQL 
   </rule>
   <rule>
     <key>C28159</key>
-    <name>C28159: Consider using another function instead.</name>
+    <name>C28159: Consider using another function instead</name>
     <description><![CDATA[<p>
 This warning is reported for Drivers is suggesting that you use a preferred function call that is semantically equivalent to the function that the driver is calling. This is a general warning message; the annotation __drv_preferredFunction was used (possibly with a conditional a __drv_when() annotation) to flag a bad coding practice.
 </p><h2>MSDN Documentation</h2>
@@ -11391,7 +11391,7 @@ A function pointer has a __drv_functionClass annotation that specifies that only
   </rule>
   <rule>
     <key>C28166</key>
-    <name>C28166: The function does not restore the IRQL to the value that was current at function entry and is required to do so.</name>
+    <name>C28166: The function does not restore the IRQL to the value that was current at function entry and is required to do so</name>
     <description><![CDATA[<p>
 This warning indicates that a function has the _IRQL_requires_same_ annotation and there is at least one path through the function that does not.
 </p><h2>Microsoft Documentation</h2>
@@ -11542,7 +11542,7 @@ This warning indicates that a driver accessed an undocumented structure member t
 
   <rule>
     <key>C28182</key>
-    <name>C28182: Dereferencing NULL pointer.</name>
+    <name>C28182: Dereferencing NULL pointer</name>
     <description><![CDATA[<p>
 Additional information: &lt;pointer1&gt; contains the same NULL value as &lt;pointer2&gt; did &lt;note&gt;
 The code analysis tool reports this warning when it confirms that the pointer can be NULL. If there are unconfirmed instances where the error might occur earlier in the trace, the code analysis tool adds the line number of the first instance to the warning message so that you can change the code to address all instances.
@@ -11661,7 +11661,7 @@ Functions that free memory should be annotated with __drv_freesMem. The major fu
   </rule>
   <rule>
     <key>C28198</key>
-    <name>C28198: Possibly leaking memory due to an exception.</name>
+    <name>C28198: Possibly leaking memory due to an exception</name>
     <description><![CDATA[<p>
 This warning indicates that allocated memory is not being freed after an exception is raised. The statement at the end of the path can raise an exception. The memory was passed to a function that might have saved a copy to be freed later.
 This warning is very similar to C28197. The annotations that are recommended for use with C28197 can also be used here.
@@ -11725,7 +11725,7 @@ This warning is reported when there is an error in the annotations.
   </rule>
   <rule>
     <key>C28204</key>
-    <name>C28204: &lt;function&gt; : Only one of this overload and the one at &lt;filename&gt;(&lt;line&gt;) are annotated for &lt;paramname&gt;: both or neither must be annotated.</name>
+    <name>C28204: &lt;function&gt; : Only one of this overload and the one at &lt;filename&gt;(&lt;line&gt;) are annotated for &lt;paramname&gt;: both or neither must be annotated</name>
     <description><![CDATA[<p>
 This warning is reported when there is an error in the annotations.
 </p><h2>MSDN Documentation</h2>
@@ -11770,7 +11770,7 @@ This warning is reported when the struct pointer dereference notation -&gt; was 
   </rule>
   <rule>
     <key>C28207</key>
-    <name>C28207: &lt;expression&gt;: left operand is a struct, use .</name>
+    <name>C28207: &lt;expression&gt;: left operand is a struct, use </name>
     <description><![CDATA[<p>
 This warning is reported when a struct dereference dot (.) was expected.
 </p><h2>MSDN Documentation</h2>
@@ -11905,7 +11905,7 @@ Applying a __typefix annotation to a parameter that already has that annotation 
   </rule>
   <rule>
     <key>C28216</key>
-    <name>C28216: The _Check_return_ annotation only applies to post-conditions for the specific function parameter.</name>
+    <name>C28216: The _Check_return_ annotation only applies to post-conditions for the specific function parameter</name>
     <description><![CDATA[<p>
 The _Check_return_ annotation has been applied in a context other than __post; it may need a __post (or __drv_out) modifier, or it may be placed incorrectly.
 </p><h2>MSDN Documentation</h2>
@@ -12115,7 +12115,7 @@ This warning indicates that an annotation was used with a parameter when the ann
   </rule>
   <rule>
     <key>C28230</key>
-    <name>C28230: The type of parameter has no member.</name>
+    <name>C28230: The type of parameter has no member</name>
     <description><![CDATA[<p>
 This warning indicates that an argument to an annotation attempts to access a struct, class, or union and the named member does not exist.
 </p><h2>MSDN Documentation</h2>
@@ -12355,7 +12355,7 @@ A __deref operator was applied to a non-pointer type when creating an annotation
   </rule>
   <rule>
     <key>C28250</key>
-    <name>C28250: Inconsistent annotation for function: the prior instance has an error.</name>
+    <name>C28250: Inconsistent annotation for function: the prior instance has an error</name>
     <description><![CDATA[<p>
 Note: There are several prototypes for this function. This Compares the first prototype with instance number &lt;number&gt;.
 If a declaration is made using a typedef, the line where the typedef appears is more useful than the line of the declaration.
@@ -12506,7 +12506,7 @@ C28267: A syntax error in the annotations was found annotation &lt;name&gt; in t
   </rule>
   <rule>
     <key>C28267</key>
-    <name>C28267: A syntax error in the annotations was found annotation &lt;name&gt; in the function &lt;function&gt;.</name>
+    <name>C28267: A syntax error in the annotations was found annotation &lt;name&gt; in the function &lt;function&gt;</name>
     <description><![CDATA[<p>
 C28267: A syntax error in the annotations was found annotation &lt;name&gt; in the function &lt;function&gt;.
 </p><h2>MSDN Documentation</h2>
@@ -12566,7 +12566,7 @@ This warning indicates that there is an internal error in the model file, not in
   </rule>
   <rule>
     <key>C28278</key>
-    <name>C28278: Function name appears with no prototype in scope.</name>
+    <name>C28278: Function name appears with no prototype in scope</name>
     <description><![CDATA[<p>
 This warning typically indicates that a __deref is needed to apply the __return annotation to the value returned.
 The Code Analysis tool reports this warning when a function without a declaration was called, and the analysis that can be performed is limited because the declaration contains important information.
@@ -12793,7 +12793,7 @@ This warning is reported when annotations were not found at the first declaratio
   </rule>
   <rule>
     <key>C28302</key>
-    <name>C28302: For C++ reference-parameter &lt;parameter_name&gt;, an extra _Deref_ operator was found on &lt;annotation&gt;.</name>
+    <name>C28302: For C++ reference-parameter &lt;parameter_name&gt;, an extra _Deref_ operator was found on &lt;annotation&gt;</name>
     <description><![CDATA[<p>
 This warning is reported when an extra level of _Deref_ is used on a parameter.
 SAL2 does not require the use of an extra level of _Deref_ when dealing with reference parameters. This particular annotation is unambiguous and is interpreted correctly, but should be corrected.
@@ -12810,7 +12810,7 @@ Frequently this can be corrected by simply removing the older __deref annotation
   </rule>
   <rule>
     <key>C28303</key>
-    <name>C28303: For C++ reference-parameter &lt;parameter_name&gt;, an ambiguous _Deref_ operator was found on &lt;annotation&gt;.</name>
+    <name>C28303: For C++ reference-parameter &lt;parameter_name&gt;, an ambiguous _Deref_ operator was found on &lt;annotation&gt;</name>
     <description><![CDATA[<p>
 This warning similar to C28302 and is reported when an extra level of _Deref_ is used on a parameter.
 SAL2 does not require the use of an extra level of _Deref_ when dealing with reference parameters. This particular annotation is ambiguous as to which level of dereference is intended to be annotated. It may be necessary to use _At_ to reference the specific object to be annotated.
@@ -12826,7 +12826,7 @@ SAL2 does not require the use of an extra level of _Deref_ when dealing with ref
   </rule>
   <rule>
     <key>C28304</key>
-    <name>C28304: For C++ reference-parameter &lt;parameter_name&gt;, an improperly placed _Notref_ operator was found applied to &lt;token&gt;.</name>
+    <name>C28304: For C++ reference-parameter &lt;parameter_name&gt;, an improperly placed _Notref_ operator was found applied to &lt;token&gt;</name>
     <description><![CDATA[<p>
 The _Notref_ operator should only be used in special circumstances involving C++ reference parameters and only in system-provided macros. It must be immediately followed by a _Deref_ operator or a functional annotation.
 </p><h2>MSDN Documentation</h2>
@@ -12841,7 +12841,7 @@ The _Notref_ operator should only be used in special circumstances involving C++
   </rule>
   <rule>
     <key>C28305</key>
-    <name>C28305: An error while parsing &lt;token&gt; was discovered.</name>
+    <name>C28305: An error while parsing &lt;token&gt; was discovered</name>
     <description><![CDATA[<p>
 This warning is reported when the expression containing the specified token is ill-formed.
 </p><h2>MSDN Documentation</h2>
@@ -12905,7 +12905,7 @@ In the second form, the first format-string parameter is the n-th argument after
   </rule>
   <rule>
     <key>C28309</key>
-    <name>C28309: &lt;parameter_name&gt;: Annotation operands must be integer/enum/pointer types. Floats are approximated as integers. Types: &lt;typelist&gt;.</name>
+    <name>C28309: &lt;parameter_name&gt;: Annotation operands must be integer/enum/pointer types. Floats are approximated as integers. Types: &lt;typelist&gt;</name>
     <description><![CDATA[<p>
 C28309: &lt;parameter_name&gt;: Annotation operands must be integer/enum/pointer types. Void operands and C++ overloaded operators are not supported. Floats are approximated as integers. Types: &lt;typelist&gt;.
 You've tried to use a void or a function in an annotation expression, and Code Analysis can't handle it.  This error typically occurs when an operator== that's implemented as a function is used, but other cases may also occur. Examine the types in &lt;typelist&gt; for clues about what's wrong.
@@ -12968,7 +12968,7 @@ The annotation is an old version and should be updated to the equivalent SAL2. T
   
   <rule>
     <key>C28350</key>
-    <name>C28350: The annotation &lt;annotation&gt; describes a situation that is not conditionally applicable.</name>
+    <name>C28350: The annotation &lt;annotation&gt; describes a situation that is not conditionally applicable</name>
     <description><![CDATA[<p>
 Usually this warning is generated when an annotation is applied where the C/C++ type is being inspected.
 </p><h2>MSDN Documentation</h2>
@@ -12983,7 +12983,7 @@ Usually this warning is generated when an annotation is applied where the C/C++ 
   </rule>
   <rule>
     <key>C28351</key>
-    <name>C28351: The annotation &lt;annotation&gt; describes where a dynamic value (a variable) cannot be used in the condition.</name>
+    <name>C28351: The annotation &lt;annotation&gt; describes where a dynamic value (a variable) cannot be used in the condition</name>
     <description><![CDATA[<p>
 This warning is reported when an annotation is applied where the C/C++ type is being inspected.
 The expression in the _When_ should evaluate to a constant. The _When_ is ignored.
@@ -13255,7 +13255,7 @@ Stack-based arrays can never be NULL. However, most of the time the intention is
   </rule>
   <rule>
     <key>C28650</key>
-    <name>C28650: The type for which !0 is being used does not treat it as failure case.</name>
+    <name>C28650: The type for which !0 is being used does not treat it as failure case</name>
     <description><![CDATA[<p>
 Returning a status value such as !TRUE is not the same as returning a status value that indicates failure.
 </p><h2>Microsoft Documentation</h2>
@@ -13479,5 +13479,375 @@ This warning indicates that a function is being used that has been banned, and h
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
+  <!-- ########### C++ Core Check improvements in Visual Studio 2017 15.5 ########### -->
+  <rule>
+    <key>C26432</key>
+    <name>C26432: If you define or =delete any default operation, define or =delete them all</name>
+    <description><![CDATA[<p>
+Special operations like constructors are assumed to alter behavior of types so that they rely more on language mechanisms to automatically enforce specific scenarios (the canonical example is resource management). If any of these operations is explicitly defined, defaulted or deleted (as an indication that user wants to avoid any special handling of a type) it would be inconsistent to leave the other operations from the same group unspecified (i.e. implicitly defined by compiler).
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26432" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26432</a></p>
+]]>
+    </description>
+    <internalKey>C26432</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26436</key>
+    <name>C26436: A base class destructor should be either public and virtual, or protected and nonvirtual</name>
+    <description><![CDATA[<p>
+If a class defines a virtual function it becomes polymorphic, which implies that derived classes can change its behavior including resource management and destruction logic. Because client code may call polymorphic types via pointers to base classes, there is no way a client can explicitly choose which behavior is appropriate without downcasting. To make sure that resources are managed consistently and destruction occurs according to the actual type’s rules it is recommended to define a public virtual destructor. If the type hierarchy is designed to disallow client code to destroy objects directly, destructors should be defined as protected non-virtual.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26436" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26436</a></p>
+]]>
+    </description>
+    <internalKey>C26436</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26434</key>
+    <name>C26434: Virtual functions should specify exactly one of virtual, override, or final</name>
+    <description><![CDATA[<p>
+Introducing a method which has the same name as a non-virtual method in a base class is like introducing a variable name which conflicts with a name from outer scope. Furthermore, if signatures of methods mismatch, the intended overriding may turn into overloading. Overall, name hiding is dangerous and error-prone.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26434" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26434</a></p>
+]]>
+    </description>
+    <internalKey>C26434</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26441</key>
+    <name>C26441: Remember to name your lock_guards and unique_locks</name>
+    <description><![CDATA[<p>
+The standard library provides a few useful classes which help to control concurrent access to resources. Objects of such types lock exclusive access for the duration of their lifetime. This implies that every lock object must be named, i.e. have clearly defined lifetime which spans through the period in which access operations are executed. So, failing to assign a lock object to a variable is a mistake which is effectively disables locking mechanism (because temporary variables are transient). This rule tries to catch simple cases of such unintended behavior.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26441" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26441</a></p>
+]]>
+    </description>
+    <internalKey>C26441</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26426</key>
+    <name>C26426: Avoid complex initialization of global objects</name>
+    <description><![CDATA[<p>
+The order of execution of initializers for global objects may be inconsistent or undefined. This can lead to issues which are hard to reproduce and investigate. To avoid such problems global initializers should not depend on external code which is executed at runtime and can potentially depend on data which is not yet initialized. This rule flags cases where global objects use function calls to obtain their initial values.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26426" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26426</a></p>
+]]>
+    </description>
+    <internalKey>C26426</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26427</key>
+    <name>C26427: Avoid complex initialization of global objects</name>
+    <description><![CDATA[<p>
+Global objects may be initialized in an inconsistent or undefined order which means that interdependency between them is risky and should be avoided. This is specifically applicable when initializers refer to another object considered to be ‘extern’.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26427" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26427</a></p>
+]]>
+    </description>
+    <internalKey>C26427</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26439</key>
+    <name>C26439: If your function may not throw, declare it noexcept</name>
+    <description><![CDATA[<p>
+Some kinds of operations should never cause exceptions. Their implementations should be reliable and should handle possible errors conditions gracefully. They should never use exceptions to indicate failure. This rule flags cases where such operations are not explicitly marked as ‘noexcept’ which means that they may throw exceptions and cannot convey assumptions about their reliability.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26439" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26439</a></p>
+]]>
+    </description>
+    <internalKey>C26439</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26440</key>
+    <name>C26440: If your function may not throw, declare it noexcept</name>
+    <description><![CDATA[<p>
+If code is not supposed to cause any exceptions, it should be marked as such by using the ‘noexcept’ specifier. This would help to simplify error handling on the client code side, as well as enable compiler to do additional optimizations.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26440" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26440</a></p>
+]]>
+    </description>
+    <internalKey>C26440</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26416</key>
+    <name>C26416: Take a shared_ptr parameter to express that a function is part owner</name>
+    <description><![CDATA[<p>
+Passing a shared pointer by rvalue reference is usually unnecessary. Unless it is an implementation of move semantics for a shared pointer type itself, shared pointer objects can be safely passed by value. Using rvalue reference may be also an indication that unique pointer is more appropriate since it clearly transfers unique ownership from caller to callee.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26416" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26416</a></p>
+]]>
+    </description>
+    <internalKey>C26416</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26417</key>
+    <name>C26417: Take a shared_ptr&amp; parameter to express that a function might reseat the shared pointer</name>
+    <description><![CDATA[<p>
+Passing shared pointers by reference may be useful in scenarios where callee code updates target of the smart pointer object and its caller expects to see such update. Using a reference solely to reduce costs of passing a shared pointer is questionable. If callee code only accesses target object and never manages its lifetime, it is safer to pass raw pointer or reference, rather than to expose resource management details.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26417" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26417</a></p>
+]]>
+    </description>
+    <internalKey>C26417</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26418</key>
+    <name>C26418: Take a const shared_ptr&amp; parameter to express that it might retain a reference count to the object</name>
+    <description><![CDATA[<p>
+If shared pointer parameter is passed by value or reference to a constant object it is expected that function will take control of its target object’s lifetime without affecting of the caller. The code should either copy or move the shared pointer parameter to another shared pointer object or pass it further to other code by invoking functions which accept shared pointers. If this is not the case, then plain pointer or reference may be feasible.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26418" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26418</a></p>
+]]>
+    </description>
+    <internalKey>C26418</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26415</key>
+    <name>C26415: Take smart pointers as parameters only to explicitly express lifetime semantics</name>
+    <description><![CDATA[<p>
+Using a smart pointer type to pass data to a function indicates that the target function needs to manage the lifetime of the contained object. However, if the function only uses the smart pointer to access the contained object and never actually calls any code which may lead to its deallocation (never affect its lifetime), there is usually no need to complicate the interface with smart pointers. A plain pointer or reference to the contained object should be preferred.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26415" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26415</a></p>
+]]>
+    </description>
+    <internalKey>C26415</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26414</key>
+    <name>C26414: Prefer scoped objects, don't heap-allocate unnecessarily</name>
+    <description><![CDATA[<p>
+Smart pointers are convenient for dynamic resource management, but they are not always necessary. For example, creating of a local dynamic buffer can be easily (end sometimes more efficiently) managed by standard containers. For single objects it may be unnecessary to do dynamic allocation at all (e.g. if such objects never outlive their creator function) and they can be replaced with local variables. Smart pointers become handy when scenario requires changing of ownership, i.e. reassigning of a dynamic resource multiple times or in multiple paths. This also includes cases where resources are obtained from external code and smart pointers are used to extend resource’s lifetime.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26414" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26414</a></p>
+]]>
+    </description>
+    <internalKey>C26414</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26429</key>
+    <name>C26429: Use a not_null to indicate that "null" is not a valid value</name>
+    <description><![CDATA[<p>
+It is a common practice to use asserts to enforce assumptions about validity of pointer values. The problem with asserts is that they do not expose assumptions through the interface (e.g. in return types or parameters). Asserts are also harder to maintain and keep in sync with other code changes. The recommendation is to use gsl::not_null from the Guidelines Support Library as a marker of resources which should never have null value. The rule USE_NOTNULL helps to identify places that omit checks for nullness and hence can be updated to use gsl::not_null.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26429" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26429</a></p>
+]]>
+    </description>
+    <internalKey>C26429</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26430</key>
+    <name>C26430: Use a not_null to indicate that "null" is not a valid value</name>
+    <description><![CDATA[<p>
+If code ever checks nullness of pointer variables it should do this consistently and validate pointers on all paths. Sometimes overaggressive checking for nullness is still better than possibility of a hard crash in one of the complicated branches. Ideally such code should be refactored to be less complex (by splitting into multiple functions) and to rely on markers like gsl::not_null (see Guidelines Support Library) to isolate parts of algorithm that can make safe assumption about valid pointer values. The rule TEST_ON_ALL_PATHS helps to find places where nullness checks are either inconsistent (hence assumptions may require review) or actual bugs where potential null value can bypass nullness check in some of the code paths.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26430" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26430</a></p>
+]]>
+    </description>
+    <internalKey>C26430</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26431</key>
+    <name>C26431: Use a not_null to indicate that "null" is not a valid value</name>
+    <description><![CDATA[<p>
+The marker type gsl::not_null from Guidelines Support Library is used to clearly indicate values which are never null pointers. It causes a hard failure if such assumption is not held at runtime. So, obviously, there is no need to check for nullness if expression evaluates to a result of type gsl::not_null.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26431" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26431</a></p>
+]]>
+    </description>
+    <internalKey>C26431</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26438</key>
+    <name>C26438: Avoid goto</name>
+    <description><![CDATA[<p>
+Using of ‘goto’ is widely acknowledged as dangerous and error-prone practice. It is acceptable only in generated code (e.g. in a parser generated from a grammar). With modern C++ features and utilities provided by the Guidelines Support Library it should be easy to avoid ‘goto’ altogether.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26438" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26438</a></p>
+]]>
+    </description>
+    <internalKey>C26438</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26437</key>
+    <name>C26437: Don't slice</name>
+    <description><![CDATA[<p>
+Slicing is allowed by compiler and can be viewed as a special case of dangerous implicit cast. Even if it is done intentionally and doesn’t lead to immediate issues, it is still highly discouraged since it makes code rather unmaintainable by forcing additional requirements on related data types. This is especially true if types are polymorphic or involve resource management.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26437" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26437</a></p>
+]]>
+    </description>
+    <internalKey>C26437</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26472</key>
+    <name>C26472: Avoid casts</name>
+    <description><![CDATA[<p>
+This rule helps to find places where static casts are used to convert between integral types, which is unsafe since compiler would not warn if any data loss occurs. Brace initializers are better for the cases where constants are used, and a compiler error is desired.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26472" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26472</a></p>
+]]>
+    </description>
+    <internalKey>C26472</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26473</key>
+    <name>C26473: Avoid casts</name>
+    <description><![CDATA[<p>
+This rule helps to remove unnecessary or suspicious casts. Obviously, when type is converted to itself, such conversion is ineffective, yet the fact that the cast is used may indicate subtle design issue or a potential for regression if types change in future. It is always safer to use as few casts as possible.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26473" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26473</a></p>
+]]>
+    </description>
+    <internalKey>C26473</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26474</key>
+    <name>C26474: Avoid casts</name>
+    <description><![CDATA[<p>
+In some cases, implicit casts between pointer types can safely be done and don’t require user to write specific cast expression. This rule finds instances of such unnecessary casting which can be removed.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26474" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26474</a></p>
+]]>
+    </description>
+    <internalKey>C26474</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26475</key>
+    <name>C26475: If you must use a cast, use a named cast</name>
+    <description><![CDATA[<p>
+Function style casts (e.g. "int(1.1)") are another incarnation of C-style casts (like "(int)1.1") with all its questionable safety. Specifically, compiler doesn’t try to check if any data loss can occur neither in C-casts, nor in function casts. In both cases it is better either to avoid casting or use brace initializer if possible. If neither works, static casts may be suitable, but it is still better to use utilities from the Guidelines Support Library.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26475" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26475</a></p>
+]]>
+    </description>
+    <internalKey>C26475</internalKey>
+	<tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26460</key>
+    <name>C26460: Use const reference arguments</name>
+    <description><![CDATA[<p>
+By default, pass pointers and references to consts
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
+]]>
+    </description>
+    <internalKey>C26460</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  
 </rules>
 
