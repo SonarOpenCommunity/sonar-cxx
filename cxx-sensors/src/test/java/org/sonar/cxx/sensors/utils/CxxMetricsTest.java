@@ -38,7 +38,7 @@ public class CxxMetricsTest {
   public class CxxLanguageImpl extends CxxLanguage {
 
     public CxxLanguageImpl(Configuration settings) {
-      super("c++", "C++", settings);
+      super("c++", "c++", settings);
     }
 
     @Override
