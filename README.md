@@ -5,12 +5,53 @@
 | **Travis CI**<br>(Linux Build and Integration Tests) | [![Build Status](https://travis-ci.org/SonarOpenCommunity/sonar-cxx.svg?branch=master)](https://travis-ci.org/SonarOpenCommunity/sonar-cxx) |   |
 | **AppVeyor CI**<br>(Windows Build and Deployment) | [![Build status](https://ci.appveyor.com/api/projects/status/f6p12h9n59w01770/branch/master?svg=true)](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master) | [Download](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master/artifacts) |
 
-## SonarQube C++ Community plugin
+## SonarQube C++ plugin (Community)
 
 [SonarQube](https://www.sonarqube.org) is an open platform to manage code quality. This plugin
-adds C++ support to this platform.
+adds C++ support to SonarQube with the focus on integration of existing C++ tools.
 
 This plugin is free software; you can redistribute it and/or modify it under the terms of the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.en.html) as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+
+* parser supporting C89, C99, C11, C++03, C++11, C++14 and C++17 standards
+  * Microsoft extensions: C++/CLI, Attributed ATL
+  * GNU extensions
+  * CUDA extensions
+* Microsoft Windows and Linux for runtime environment
+
+Sensors for **static and dynamic code analysis**:
+* Cppcheck warnings support (http://cppcheck.sourceforge.net/)
+* GCC/G++ warnings support (https://gcc.gnu.org/)
+* Visual Studio warnings support (https://www.visualstudio.com/)
+* Visual Studio Core Guideline Checker warnings support
+* Clang Static Analyzer support (https://clang-analyzer.llvm.org/)
+* Clang Tidy warnings support (http://clang.llvm.org/extra/clang-tidy/)
+* PC-Lint warnings support (http://www.gimpel.com/)
+* RATS (https://github.com/andrew-d/rough-auditing-tool-for-security)
+* Valgrind (http://valgrind.org/)
+* Vera++ (https://bitbucket.org/verateam/vera/wiki/Home)
+* Dr. Memory warnings support (http://drmemory.org/)
+
+**Test framework** sensors for:
+* XUnit file format
+* Google Test file format
+* Boost.Test file format
+* CppUnit file format
+* VSTest file format
+* NUnit file format
+* extentions over XSLT possible
+
+**Coverage** sensors for:
+* Visual Studio coverage reports
+* Gcov / gcovr coverage reports
+* Bullseye coverage reports (http://www.bullseye.com/)
+* Cobertura coverage reports (http://cobertura.github.io/cobertura/)
+
+Simple to **customize**
+* provide the ability to write custom rules
+* custom rules by XPath checks possible
+* custom rules by regular expression checks possible
+* easy 3rd party tool integration with XML rule definitions and reports possible
+
 
 ## Quickstart
 1. Setup a SonarQube instance
