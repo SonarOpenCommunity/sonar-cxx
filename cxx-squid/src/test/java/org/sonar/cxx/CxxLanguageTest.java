@@ -33,7 +33,7 @@ public class CxxLanguageTest {
   private MapSettings settings;
 
   private static final String KEY = "c++";
-  private static final String NAME = "C++";
+  private static final String NAME = "c++";
   private static final String PLUGIN_ID = "cxx";
   private static final String SOURCE_SUFFIXES = ".cxx,.cpp,.cc,.c";
   private static final String HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
