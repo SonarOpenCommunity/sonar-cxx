@@ -151,19 +151,19 @@ public final class CxxPlugin implements Plugin {
         .index(6)
         .build(),
       PropertyDefinition.builder(CxxPlugin.ERROR_RECOVERY_KEY)
-        .defaultValue("True")
+        .defaultValue("true")
         .name("Parse error recovery")
         .description("Defines mode for error handling of report files and parsing errors. `False' (strict) breaks after"
-          + "an error or 'True' (tolerant) continues. See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/"
-          + "Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>sonar.cxx.errorRecoveryEnabled</a> for a"
-          + " complete description.")
+          + " an error or 'True' (tolerant=default) continues. See <a href='https://github.com/SonarOpenCommunity/"
+          +"sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>"
+          + "sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .type(PropertyType.BOOLEAN)
         .index(7)
         .build(),
       PropertyDefinition.builder(CxxPlugin.MISSING_INCLUDE_WARN)
-        .defaultValue("True")
+        .defaultValue("true")
         .name("Missing include warnings")
         .description("Enables/disables the warnings when included files could not be found.")
         .subCategory(subcateg)
@@ -180,7 +180,7 @@ public final class CxxPlugin implements Plugin {
         .index(9)
         .build(),
       PropertyDefinition.builder(CxxPlugin.SCAN_ONLY_SPECIFIED_SOURCES_KEY)
-        .defaultValue("False")
+        .defaultValue("false")
         .name("Scan only specified source files")
         .description("Only scan source files defined in specification file. Eg. by JSON Compilation Database.")
         .subCategory(subcateg)
@@ -462,7 +462,7 @@ public final class CxxPlugin implements Plugin {
     String subcateg = "(5) Duplications";
     return new ArrayList<>(Arrays.asList(
       PropertyDefinition.builder(CxxPlugin.CPD_IGNORE_LITERALS_KEY)
-        .defaultValue("False")
+        .defaultValue("false")
         .name("Ignores literal value differences when evaluating a duplicate block")
         .description("Ignores literal (numbers, characters and strings) value differences when evaluating a duplicate "
           + "block. This means that e.g. foo=42; and foo=43; will be seen as equivalent. Default is 'False'.")
@@ -472,7 +472,7 @@ public final class CxxPlugin implements Plugin {
         .index(1)
         .build(),
       PropertyDefinition.builder(CxxPlugin.CPD_IGNORE_IDENTIFIERS_KEY)
-        .defaultValue("False")
+        .defaultValue("false")
         .name("Ignores identifier value differences when evaluating a duplicate block")
         .description("Ignores identifier value differences when evaluating a duplicate block e.g. variable names, "
           + "methods names, and so forth. Default is 'False'.")
