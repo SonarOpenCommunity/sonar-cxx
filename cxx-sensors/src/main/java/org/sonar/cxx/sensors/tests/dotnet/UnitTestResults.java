@@ -18,7 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.sensors.tests.dotnet;
-//origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
+// origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+// SonarQube .NET Tests Library
+// Copyright (C) 2014-2017 SonarSource SA
+// mailto:info AT sonarsource DOT com
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
@@ -51,7 +55,7 @@ public class UnitTestResults {
     return tests;
   }
 
-  double passedPercentage() {
+  public double passedPercentage() {
     return tests != 0 ? (passed * 100.0 / tests) : 0;
   }
 
@@ -68,7 +72,8 @@ public class UnitTestResults {
   }
 
   @CheckForNull
-  Long executionTime() {
+  public Long executionTime() {
     return executionTime;
   }
+
 }

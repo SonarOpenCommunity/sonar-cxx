@@ -18,7 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.sensors.tests.dotnet;
-//origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
+// origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+// SonarQube .NET Tests Library
+// Copyright (C) 2014-2017 SonarSource SA
+// mailto:info AT sonarsource DOT com
 
 import java.io.File;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,7 +33,7 @@ import static org.mockito.Mockito.mock;
 
 public class VisualStudioTestResultsFileParserTest {
 
-  private static String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/MSTest-reports/";
+  private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/MSTest-reports/";
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
