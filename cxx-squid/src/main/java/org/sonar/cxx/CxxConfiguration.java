@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.Nullable;
@@ -52,27 +51,27 @@ public class CxxConfiguration extends SquidConfiguration {
   private String jsonCompilationDatabaseFile;
   private boolean scanOnlySpecifiedSources;
   private CxxCompilationUnitSettings globalCompilationUnitSettings;
-  private HashMap<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
+  private final HashMap<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
 
   private final CxxVCppBuildLogParser cxxVCppParser;
 
   public CxxConfiguration() {
-    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
-    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
+    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
+    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
   public CxxConfiguration(Charset encoding) {
     super(encoding);
-    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
-    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
+    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
+    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
   public CxxConfiguration(FileSystem fs) {
     super(fs.encoding());
-    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
-    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
+    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
+    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
@@ -207,7 +206,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<String> getHeaderFileSuffixes() {
-    return this.headerFileSuffixes;
+    return new ArrayList<>(this.headerFileSuffixes);
   }
 
   public void setMissingIncludeWarningsEnabled(boolean enabled) {
@@ -253,8 +252,7 @@ public class CxxConfiguration extends SquidConfiguration {
   public List<File> getCompilationUnitSourceFiles() {
     List<File> files = new ArrayList<>();
 
-    for (Iterator<String> iter = compilationUnitSettings.keySet().iterator(); iter.hasNext();) {
-      String item = iter.next();
+    for (String item : compilationUnitSettings.keySet()) {
       files.add(new File(item));
     }
 
