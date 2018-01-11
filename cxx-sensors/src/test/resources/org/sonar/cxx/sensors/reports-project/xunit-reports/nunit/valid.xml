@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="c:\git\sonar-nunit\Sonar.NUnit\bin\Debug\Sonar.NUnit.dll" total="200" errors="30" failures="20" not-run="5" inconclusive="4" ignored="3" skipped="2" invalid="1" date="2014-08-15" time="09:02:13">
+  <environment nunit-version="2.6.0.12051" clr-version="2.0.50727.5483" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="c:\git\sonar-nunit" machine-name="machine" user="user" user-domain="domain" />
+  <culture-info current-culture="en-GB" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="C:\sonar-examples\projects\languages\csharp\NUnitTestProject1\bin\Debug\NUnitTestProject1.dll" executed="True" result="Success" success="True" time="0.051" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="NUnitTestProject1" executed="True" result="Success" success="True" time="0.046" asserts="0">
+        <results>
+          <test-suite type="TestFixture" name="NUnitTest1" executed="True" result="Success" success="True" time="0.045" asserts="0">
+            <results>
+              <test-case name="NUnitTestProject1.NUnitTest1.NUnitTestMethod1" executed="True" result="Success" success="True" time="0.041" asserts="2" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="c:\git\sonar-nunit\Sonar.NUnit\bin\Debug\Sonar.NUnit.dll" date="2014-08-15" time="09:02:13">
+  <environment nunit-version="2.6.0.12051" clr-version="2.0.50727.5483" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="c:\git\sonar-nunit" machine-name="machine" user="user" user-domain="domain" />
+  <culture-info current-culture="en-GB" current-uiculture="en-US" />
+</test-results>
