@@ -18,7 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.sensors.tests.dotnet;
+
 // origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+// SonarQube .NET Tests Library
+// Copyright (C) 2014-2017 SonarSource SA
+// mailto:info AT sonarsource DOT com
 
 import java.io.File;
 import org.sonar.api.batch.ScannerSide;
@@ -35,24 +39,30 @@ public class CxxUnitTestResultsAggregator {
   private final Configuration settings;
   private final VisualStudioTestResultsFileParser visualStudioTestResultsFileParser;
   private final XUnitTestResultsFileParser xunitTestResultsFileParser;
+  private final NUnitTestResultsFileParser nunitTestResultsFileParser;
 
   public CxxUnitTestResultsAggregator(CxxLanguage language, Configuration settings) {
     this(new UnitTestConfiguration(language), settings,
       new VisualStudioTestResultsFileParser(),
-      new XUnitTestResultsFileParser());
+      new XUnitTestResultsFileParser(),
+      new NUnitTestResultsFileParser()
+    );
   }
 
   CxxUnitTestResultsAggregator(UnitTestConfiguration unitTestConf, Configuration settings,
     VisualStudioTestResultsFileParser visualStudioTestResultsFileParser,
-    XUnitTestResultsFileParser xunitTestResultsFileParser) {
+    XUnitTestResultsFileParser xunitTestResultsFileParser,
+    NUnitTestResultsFileParser nunitTestResultsFileParser
+  ) {
     this.unitTestConf = unitTestConf;
     this.settings = settings;
     this.visualStudioTestResultsFileParser = visualStudioTestResultsFileParser;
     this.xunitTestResultsFileParser = xunitTestResultsFileParser;
+    this.nunitTestResultsFileParser = nunitTestResultsFileParser;
   }
 
   boolean hasUnitTestResultsProperty() {
-    return hasVisualStudioTestResultsFile() || hasXUnitTestResultsFile();
+    return hasVisualStudioTestResultsFile() || hasXUnitTestResultsFile() || hasNUnitTestResultsFile();
   }
 
   private boolean hasVisualStudioTestResultsFile() {
@@ -71,6 +81,14 @@ public class CxxUnitTestResultsAggregator {
     return settings.hasKey(unitTestConf.xunitTestResultsFilePropertyKey());
   }
 
+  private boolean hasNUnitTestResultsFile() {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Exist configuration parameter: '{}':'{}'", unitTestConf.nunitTestResultsFilePropertyKey(),
+        settings.hasKey(unitTestConf.nunitTestResultsFilePropertyKey()));
+    }
+    return settings.hasKey(unitTestConf.nunitTestResultsFilePropertyKey());
+  }
+
   UnitTestResults aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, UnitTestResults unitTestResults) {
     if (hasVisualStudioTestResultsFile()) {
       aggregate(wildcardPatternFileProvider,
@@ -82,6 +100,12 @@ public class CxxUnitTestResultsAggregator {
       aggregate(wildcardPatternFileProvider,
         settings.getStringArray(unitTestConf.xunitTestResultsFilePropertyKey()),
         xunitTestResultsFileParser, unitTestResults);
+    }
+
+    if (hasNUnitTestResultsFile()) {
+      aggregate(wildcardPatternFileProvider,
+        settings.getStringArray(unitTestConf.nunitTestResultsFilePropertyKey()),
+        nunitTestResultsFileParser, unitTestResults);
     }
 
     return unitTestResults;

@@ -18,15 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.sensors.tests.dotnet;
-//origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
+// origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+// SonarQube .NET Tests Library
+// Copyright (C) 2014-2017 SonarSource SA
+// mailto:info AT sonarsource DOT com
 
 import org.sonar.cxx.CxxLanguage;
 
 public class UnitTestConfiguration {
 
-  private CxxLanguage language;
+  private final CxxLanguage language;
   public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "vstest.reportsPaths";
   public static final String XUNIT_TEST_RESULTS_PROPERTY_KEY = "xunit.reportsPaths";
+  public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "nunit.reportsPaths";
 
   public UnitTestConfiguration(CxxLanguage language) {
     this.language = language;
@@ -38,5 +43,9 @@ public class UnitTestConfiguration {
 
   String xunitTestResultsFilePropertyKey() {
     return language.getPluginProperty(XUNIT_TEST_RESULTS_PROPERTY_KEY);
+  }
+
+  String nunitTestResultsFilePropertyKey() {
+    return language.getPluginProperty(NUNIT_TEST_RESULTS_PROPERTY_KEY);
   }
 }

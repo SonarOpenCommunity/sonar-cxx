@@ -18,7 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.sensors.tests.dotnet;
-//origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+
+// origin https://github.com/SonarSource/sonar-dotnet-tests-library/
+// SonarQube .NET Tests Library
+// Copyright (C) 2014-2017 SonarSource SA
+// mailto:info AT sonarsource DOT com
 
 import java.io.File;
 import java.io.IOException;
@@ -45,8 +49,8 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
 
     private final File file;
     private final UnitTestResults unitTestResults;
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-    private Pattern millisecondsPattern = Pattern.compile("(\\.([0-9]{0,3}))[0-9]*+");
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    private final Pattern millisecondsPattern = Pattern.compile("(\\.([0-9]{0,3}))[0-9]*+");
 
     private boolean foundCounters;
 

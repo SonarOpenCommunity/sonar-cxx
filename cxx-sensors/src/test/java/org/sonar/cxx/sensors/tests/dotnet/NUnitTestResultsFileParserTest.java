@@ -23,22 +23,22 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-
 import java.io.File;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.api.utils.log.LoggerLevel;
 
-public class XUnitTestResultsFileParserTest {
+public class NUnitTestResultsFileParserTest {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
-  private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/xunit-reports/xunit/";
+  private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/xunit-reports/nunit/";
 
   @Rule
   public LogTester logTester = new LogTester();
@@ -46,9 +46,9 @@ public class XUnitTestResultsFileParserTest {
   @Test
   public void no_counters() {
     thrown.expect(ParseErrorException.class);
-    thrown.expectMessage("Missing attribute \"total\" in element <assembly> in ");
+    thrown.expectMessage("Missing attribute \"total\" in element <test-results> in ");
     thrown.expectMessage(new File(REPORT_PATH + "no_counters.xml").getAbsolutePath());
-    new XUnitTestResultsFileParser().accept(new File(REPORT_PATH + "no_counters.xml"), mock(UnitTestResults.class));
+    new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "no_counters.xml"), mock(UnitTestResults.class));
   }
 
   @Test
@@ -56,59 +56,47 @@ public class XUnitTestResultsFileParserTest {
     thrown.expect(ParseErrorException.class);
     thrown.expectMessage("Expected an integer instead of \"invalid\" for the attribute \"total\" in ");
     thrown.expectMessage(new File(REPORT_PATH + "invalid_total.xml").getAbsolutePath());
-    new XUnitTestResultsFileParser().accept(new File(REPORT_PATH + "invalid_total.xml"), mock(UnitTestResults.class));
-  }
-
-  @Test
-  public void invalid_root() {
-    thrown.expect(ParseErrorException.class);
-    thrown.expectMessage("Expected either an <assemblies> or an <assembly> root tag, but got <foo> instead.");
-    thrown.expectMessage(new File(REPORT_PATH + "invalid_root.xml").getAbsolutePath());
-    new XUnitTestResultsFileParser().accept(new File(REPORT_PATH + "invalid_root.xml"), mock(UnitTestResults.class));
+    new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "invalid_total.xml"), mock(UnitTestResults.class));
   }
 
   @Test
   public void valid() throws Exception {
     UnitTestResults results = new UnitTestResults();
-    new XUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid.xml"), results);
+    new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid.xml"), results);
 
-    assertThat(results.tests()).isEqualTo(17);
-    assertThat(results.passedPercentage()).isEqualTo(5 * 100.0 / 17);
-    assertThat(results.skipped()).isEqualTo(4);
-    assertThat(results.failures()).isEqualTo(3);
-    assertThat(results.errors()).isEqualTo(5);
-    assertThat(results.executionTime()).isEqualTo(227 + 228);
+    assertThat(results.tests()).isEqualTo(196);
+    assertThat(results.passedPercentage()).isEqualTo(146 * 100.0 / 196);
+    assertThat(results.skipped()).isEqualTo(7);
+    assertThat(results.failures()).isEqualTo(20);
+    assertThat(results.errors()).isEqualTo(30);
+    assertThat(results.executionTime()).isEqualTo(51);
   }
 
   @Test
-  public void valid_xunit_1_9_2() throws Exception {
+  public void valid_comma_in_double() throws Exception {
     UnitTestResults results = new UnitTestResults();
-    new XUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid_xunit-1.9.2.xml"), results);
+    new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid_comma_in_double.xml"), results);
 
-    assertThat(results.tests()).isEqualTo(6);
-    assertThat(results.passedPercentage()).isEqualTo(3 * 100.0 / 6);
-    assertThat(results.skipped()).isEqualTo(2);
-    assertThat(results.failures()).isEqualTo(1);
-    assertThat(results.errors()).isEqualTo(0);
+    assertThat(results.executionTime()).isEqualTo(1051);
   }
 
   @Test
-  public void should_not_fail_without_execution_time() throws Exception {
+  public void valid_no_execution_time() throws Exception {
     UnitTestResults results = new UnitTestResults();
-    new XUnitTestResultsFileParser().accept(new File(REPORT_PATH + "no_execution_time.xml"), results);
+    new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid_no_execution_time.xml"), results);
 
-    assertThat(results.tests()).isEqualTo(17);
-    assertThat(results.passedPercentage()).isEqualTo(5 * 100.0 / 17);
-    assertThat(results.skipped()).isEqualTo(4);
-    assertThat(results.failures()).isEqualTo(3);
-    assertThat(results.errors()).isEqualTo(5);
+    assertThat(results.tests()).isEqualTo(196);
+    assertThat(results.passedPercentage()).isEqualTo(146 * 100.0 / 196);
+    assertThat(results.skipped()).isEqualTo(7);
+    assertThat(results.failures()).isEqualTo(20);
+    assertThat(results.errors()).isEqualTo(30);
     assertThat(results.executionTime()).isNull();
   }
 
   @Test
   public void empty() {
     UnitTestResults results = new UnitTestResults();
-    new XUnitTestResultsFileParser().accept(new File(REPORT_PATH + "empty.xml"), results);
+    new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "empty.xml"), results);
 
     assertThat(logTester.logs(LoggerLevel.WARN)).contains("One of the assemblies contains no test result, please make sure this is expected.");
     assertThat(results.tests()).isEqualTo(0);
@@ -118,4 +106,5 @@ public class XUnitTestResultsFileParserTest {
     assertThat(results.errors()).isEqualTo(0);
     assertThat(results.executionTime()).isNull();
   }
+
 }
