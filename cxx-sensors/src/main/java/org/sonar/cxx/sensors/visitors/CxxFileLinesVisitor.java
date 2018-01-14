@@ -39,9 +39,11 @@ import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.squidbridge.SquidAstVisitor;
 
 /**
@@ -51,6 +53,8 @@ import org.sonar.squidbridge.SquidAstVisitor;
 public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 
   private static final Logger LOG = Loggers.get(CxxFileLinesVisitor.class);
+
+  private final CxxLanguage language;
   private final FileLinesContextFactory fileLinesContextFactory;
   private static final Set<Integer> linesOfCode = Sets.newHashSet();
   private static final Set<Integer> linesOfComments = Sets.newHashSet();
@@ -74,8 +78,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
    * @param fileLinesContextFactory container for linesOfCode, linesOfComments, executableLines
    * @param allLinesOfCode set of lines for a source file
    */
-  public CxxFileLinesVisitor(FileLinesContextFactory fileLinesContextFactory, SensorContext context,
+  public CxxFileLinesVisitor(CxxLanguage language, FileLinesContextFactory fileLinesContextFactory, SensorContext context,
     Map<InputFile, Set<Integer>> allLinesOfCode) {
+    this.language = language;
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.fileSystem = context.fileSystem();
     this.allLinesOfCode = allLinesOfCode;
@@ -182,11 +187,30 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     }
     FileLinesContext fileLinesContext = fileLinesContextFactory.createFor(inputFile);
 
-    linesOfCode.stream().forEach(line -> fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1));
-    linesOfComments.stream().forEach(line -> fileLinesContext.setIntValue(CoreMetrics.COMMENT_LINES_DATA_KEY, line, 1));
-    executableLines.stream().forEach(line -> fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY,
-      line, 1));
-
+    try {
+      linesOfCode.stream().forEach(
+        line -> fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1)
+      );
+    } catch (IllegalArgumentException e) {
+      LOG.error("NCLOC_DATA_KEY metric error: {}", e.getMessage());
+      CxxUtils.validateRecovery(e, language);
+    }
+    try {
+      linesOfComments.stream().forEach(
+        line -> fileLinesContext.setIntValue(CoreMetrics.COMMENT_LINES_DATA_KEY, line, 1)
+      );
+    } catch (IllegalArgumentException e) {
+      LOG.error("COMMENT_LINES_DATA_KEY metric error: {}", e.getMessage());
+      CxxUtils.validateRecovery(e, language);
+    }
+    try {
+      executableLines.stream().forEach(
+        line -> fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, line, 1)
+      );
+    } catch (IllegalArgumentException e) {
+      LOG.error("EXECUTABLE_LINES_DATA_KEY metric error: {}", e.getMessage());
+      CxxUtils.validateRecovery(e, language);
+    }
     fileLinesContext.save();
     this.allLinesOfCode.put(inputFile, Sets.newHashSet(linesOfCode));
 

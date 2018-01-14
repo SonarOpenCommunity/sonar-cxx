@@ -130,7 +130,7 @@ public class CxxSquidSensor implements Sensor {
 
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     visitors.add(new CxxHighlighterVisitor(context));
-    visitors.add(new CxxFileLinesVisitor(fileLinesContextFactory, context, linesOfCodeByFile));
+    visitors.add(new CxxFileLinesVisitor(language, fileLinesContextFactory, context, linesOfCodeByFile));
 
     visitors.add(
       new CxxCpdVisitor(
