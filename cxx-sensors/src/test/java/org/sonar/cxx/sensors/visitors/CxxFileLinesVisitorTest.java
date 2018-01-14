@@ -75,7 +75,7 @@ public class CxxFileLinesVisitorTest {
     when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
 
     HashMap<InputFile, Set<Integer>> linesOfCode = new HashMap<>();
-    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(fileLinesContextFactory, sensorContext, linesOfCode);
+    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(language, fileLinesContextFactory, sensorContext, linesOfCode);
 
     CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
 
@@ -109,7 +109,7 @@ public class CxxFileLinesVisitorTest {
     when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
 
     HashMap<InputFile, Set<Integer>> linesOfCode = new HashMap<>();
-    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(fileLinesContextFactory, sensorContext, linesOfCode);
+    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(language, fileLinesContextFactory, sensorContext, linesOfCode);
 
     CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
 
