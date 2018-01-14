@@ -82,6 +82,8 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxPreprocessor extends Preprocessor {
 
+  private static final String CPLUSPLUS = "__cplusplus";
+  private static final String EVALUATED_TO_FALSE = "[{}:{}]: '{}' evaluated to false, skipping tokens that follow";
   private final CxxLanguage language;
   private File currentContextFile;
   private String rootFilePath;
@@ -393,7 +395,7 @@ public class CxxPreprocessor extends Preprocessor {
           getMacros().setHighPrio(false);
         }
 
-        if (getMacro("__cplusplus") == null) {
+        if (getMacro(CPLUSPLUS) == null) {
           //Create macros to replace C++ keywords when parsing C files
           registerMacros(StandardDefinitions.compatibilityMacros());
         }
@@ -403,9 +405,9 @@ public class CxxPreprocessor extends Preprocessor {
         if (isCFile(currentContextFile.getAbsolutePath())) {
           //Create macros to replace C++ keywords when parsing C files
           registerMacros(StandardDefinitions.compatibilityMacros());
-          fixedMacros.disable("__cplusplus");
+          fixedMacros.disable(CPLUSPLUS);
         } else {
-          fixedMacros.enable("__cplusplus");
+          fixedMacros.enable(CPLUSPLUS);
         }
       }
     }
@@ -527,8 +529,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       if (currentFileState.skipPreprocessorDirectives) {
         if (LOG.isTraceEnabled()) {
-          LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-            filename, token.getLine(), token.getValue());
+          LOG.trace(EVALUATED_TO_FALSE, filename, token.getLine(), token.getValue());
         }
       } else {
         currentFileState.conditionWasTrue = true;
@@ -563,8 +564,7 @@ public class CxxPreprocessor extends Preprocessor {
 
         if (currentFileState.skipPreprocessorDirectives) {
           if (LOG.isTraceEnabled()) {
-            LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-              filename, token.getLine(), token.getValue());
+            LOG.trace(EVALUATED_TO_FALSE, filename, token.getLine(), token.getValue());
           }
         } else {
           currentFileState.conditionWasTrue = true;
@@ -587,8 +587,7 @@ public class CxxPreprocessor extends Preprocessor {
       TokenType tokType = ast.getToken().getType();
       if ((tokType.equals(IFDEF) && macro == null) || (tokType.equals(IFNDEF) && macro != null)) {
         if (LOG.isTraceEnabled()) {
-          LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-            filename, token.getLine(), token.getValue());
+          LOG.trace(EVALUATED_TO_FALSE, filename, token.getLine(), token.getValue());
         }
         currentFileState.skipPreprocessorDirectives = true;
       }

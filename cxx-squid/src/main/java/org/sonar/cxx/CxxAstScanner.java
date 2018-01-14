@@ -110,6 +110,7 @@ public final class CxxAstScanner {
    * @param visitors visitors AST checks and visitors to use
    * @return scanner for the given parameters
    */
+  @SafeVarargs
   public static AstScanner<Grammar> create(CxxLanguage language, CxxConfiguration conf,
     SquidAstVisitor<Grammar>... visitors) {
     final SquidAstVisitorContextImpl<Grammar> context

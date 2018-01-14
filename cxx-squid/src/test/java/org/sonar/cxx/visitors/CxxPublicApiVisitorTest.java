@@ -63,7 +63,6 @@ public class CxxPublicApiVisitorTest {
    * @param expectedUndoc expected number of undocumented API
    * @param checkDouble if true, fails the test if two items with the same id are counted..
    */
-  @SuppressWarnings("unchecked")
   private Tuple testFile(String fileName, boolean checkDouble)
     throws UnsupportedEncodingException, IOException {
 
@@ -102,7 +101,6 @@ public class CxxPublicApiVisitorTest {
     return (new Tuple(file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)));
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   public void test_no_matching_suffix() throws IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".", "");
@@ -151,7 +149,6 @@ public class CxxPublicApiVisitorTest {
     assertThat(testFile("src/test/resources/metrics/unnamed_enum.h", false)).isEqualTo(tuple(1, 1));
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   public void public_api() throws UnsupportedEncodingException, IOException {
     CxxPublicApiVisitor<Grammar> visitor = new CxxPublicApiVisitor<>(
