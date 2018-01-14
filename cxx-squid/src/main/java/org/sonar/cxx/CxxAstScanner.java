@@ -70,6 +70,7 @@ public final class CxxAstScanner {
    * @param language CxxLanguage to use
    * @return file checked with measures and issues
    */
+  @SafeVarargs
   public static SourceFile scanSingleFile(InputFile file, SensorContext sensorContext, CxxLanguage language,
     SquidAstVisitor<Grammar>... visitors) {
     return scanSingleFileConfig(language, file, new CxxConfiguration(sensorContext.fileSystem().encoding()),
