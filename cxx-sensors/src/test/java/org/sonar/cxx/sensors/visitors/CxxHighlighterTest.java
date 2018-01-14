@@ -41,7 +41,6 @@ public class CxxHighlighterTest {
   private File target;
 
   @Before
-  @SuppressWarnings("unchecked")
   public void scanFile() throws IOException {
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
     target = new File(baseDir, "highlighter.cc");
@@ -58,7 +57,8 @@ public class CxxHighlighterTest {
   }
 
   @Test
-  public void keyword() throws Exception {
+  @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
+  public void keyword() {
 
     checkOnRange(55, 0, 4, TypeOfText.KEYWORD);  // void
     checkOnRange(57, 3, 4, TypeOfText.KEYWORD);  // auto
@@ -70,7 +70,8 @@ public class CxxHighlighterTest {
   }
 
   @Test
-  public void stringLiteral() throws Exception {
+  @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
+  public void stringLiteral() {
 
     checkOnRange(49, 19, 7, TypeOfText.STRING);  // "hello"
     checkOnRange(50, 19, 18, TypeOfText.STRING); // "hello\tworld\r\n"
@@ -87,14 +88,16 @@ public class CxxHighlighterTest {
   }
 
   @Test
-  public void character() throws Exception {
+  @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
+  public void character() {
 
     checkOnRange(46, 10, 3, TypeOfText.STRING); // 'x'
     checkOnRange(47, 10, 4, TypeOfText.STRING); // '\t'
   }
 
   @Test
-  public void comment() throws Exception {
+  @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
+  public void comment() {
 
     check(1, 0, TypeOfText.COMMENT);
     /*\r\n comment\r\n*/
@@ -113,7 +116,8 @@ public class CxxHighlighterTest {
   }
 
   @Test
-  public void number() throws Exception {
+  @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
+  public void number() {
 
     checkOnRange(27, 10, 1, TypeOfText.CONSTANT); //  0
     checkOnRange(28, 10, 1, TypeOfText.CONSTANT); // -1 (without minus)
@@ -133,7 +137,8 @@ public class CxxHighlighterTest {
   }
 
   @Test
-  public void preprocessDirective() throws Exception {
+  @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
+  public void preprocessDirective() {
 
     checkOnRange(12, 0, 8, TypeOfText.PREPROCESS_DIRECTIVE); // #include
 

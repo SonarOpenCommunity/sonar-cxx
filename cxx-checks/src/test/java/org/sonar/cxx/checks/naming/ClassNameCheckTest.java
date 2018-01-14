@@ -30,6 +30,7 @@ import org.sonar.cxx.checks.CxxFileTesterHelper;
 public class ClassNameCheckTest {
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws Exception {
     ClassNameCheck check = new ClassNameCheck();
 

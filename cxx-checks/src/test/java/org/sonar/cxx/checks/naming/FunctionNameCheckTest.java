@@ -30,6 +30,7 @@ import org.sonar.cxx.checks.CxxFileTesterHelper;
 public class FunctionNameCheckTest {
 
   @Test
+  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws Exception {
     FunctionNameCheck check = new FunctionNameCheck();
 

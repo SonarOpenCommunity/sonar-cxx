@@ -39,7 +39,6 @@ public class CxxParseErrorLoggerVisitorTest {
   private SensorContextTester context;
 
   @Before
-  @SuppressWarnings("unchecked")
   public void scanFile() {
     String dir = "src/test/resources/visitors";
 

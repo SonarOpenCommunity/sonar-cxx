@@ -35,7 +35,7 @@ public class UndocumentedApiCheckTest {
   @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
-  @SuppressWarnings({"unchecked", "squid:S2699"})
+  @SuppressWarnings("squid:S2699")
   @Test
   public void detected() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/no_doc.h", ".");
@@ -96,7 +96,6 @@ public class UndocumentedApiCheckTest {
     }
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   public void docStyle1() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style1.h", ".");
@@ -110,11 +109,9 @@ public class UndocumentedApiCheckTest {
       errors.append(msg.formatDefaultMessage());
       errors.append("\r\n");
     }
-
-    assert errors.length() == 0 : errors;
+    assertThat(errors.length()).isEqualTo(0);
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   public void docStyle2() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style2.h", ".");
@@ -128,7 +125,7 @@ public class UndocumentedApiCheckTest {
       errors.append(msg.formatDefaultMessage());
       errors.append("\r\n");
     }
-    assert errors.length() == 0 : errors;
+    assertThat(errors.length()).isEqualTo(0);
   }
 
 }

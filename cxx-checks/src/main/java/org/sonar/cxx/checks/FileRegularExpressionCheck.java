@@ -138,7 +138,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
       if (compare(invertRegularExpression, matcher.find())) {
         getContext().createFileViolation(this, message);
       }
-    } catch (Exception e) {
+    } catch (IOException e) {
       throw new IllegalStateException(e);
     }
   }
