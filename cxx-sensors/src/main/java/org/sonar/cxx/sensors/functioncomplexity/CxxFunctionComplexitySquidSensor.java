@@ -107,20 +107,12 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
   @Override
   public void publishMeasureForFile(InputFile inputFile, SourceFile squidFile, SensorContext context) {
     FunctionCount c = complexFunctionsPerFile.get(squidFile);
-    if (c == null) 
-      return;
-    
-    context.<Integer>newMeasure()
-      .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS)
-      .on(inputFile)
-      .withValue(c.functionsOverThreshold)
-      .save();
-
-    context.<Double>newMeasure()
-      .forMetric(FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)
-      .on(inputFile)
-      .withValue(calculatePercComplexFunctions(c.functionsOverThreshold, c.functionsBelowThreshold))
-      .save();    
+    if (c != null) 
+        context.<Integer>newMeasure()
+            .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS)
+            .on(inputFile)
+            .withValue(c.functionsOverThreshold)
+            .save();
   }
 
   @Override
@@ -130,16 +122,6 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
       .on(module)
       .withValue(functionsOverThreshold)
       .save();
-    
-    context.<Double>newMeasure()
-      .forMetric(FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)
-      .on(module)
-      .withValue(calculatePercComplexFunctions(functionsOverThreshold, functionsBelowThreshold))
-      .save();    
-  }
-  
-  private double calculatePercComplexFunctions(int functionsOverThreshold, int functionsBelowThreshold){
-    return ((float)functionsOverThreshold * 100.0) / ((float)functionsOverThreshold + (float)functionsBelowThreshold);
   }
   
 }
