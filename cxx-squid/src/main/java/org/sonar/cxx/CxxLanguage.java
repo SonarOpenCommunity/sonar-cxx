@@ -43,7 +43,7 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public CxxLanguage(String key, Configuration settings) {
     super(key);
     this.settings = settings;
-    this.MetricsCache = new HashMap<>();
+    this.MetricsCache = new HashMap<>();   
   }
 
   public CxxLanguage(String key, String name, Configuration settings) {
@@ -72,6 +72,10 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public String getPluginProperty(String key) {
     return "sonar." + getPropertiesKey() + "." + key;
   }
+  
+  public Optional<Integer> getIntegerOption(String key){
+    return this.settings.getInt(getPluginProperty(key));
+  }  
 
   public Optional<Boolean> getBooleanOption(String key) {
     return this.settings.getBoolean(getPluginProperty(key));

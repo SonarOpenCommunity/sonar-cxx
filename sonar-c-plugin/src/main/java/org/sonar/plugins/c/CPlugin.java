@@ -48,6 +48,8 @@ import org.sonar.cxx.sensors.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemoryRuleRepository;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
+import org.sonar.cxx.sensors.functioncomplexity.CxxFunctionComplexitySquidSensor;
+import org.sonar.cxx.sensors.functioncomplexity.FunctionComplexityMetrics;
 import org.sonar.cxx.sensors.other.CxxOtherRepository;
 import org.sonar.cxx.sensors.other.CxxOtherSensor;
 import org.sonar.cxx.sensors.pclint.CxxPCLintRuleRepository;
@@ -324,7 +326,16 @@ public final class CPlugin implements Plugin {
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
         .index(17)
-        .build()
+        .build(),
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionComplexitySquidSensor.FUNCTION_COMPLEXITY_THRESHOLD_KEY)
+        .defaultValue("10")
+        .name("Cyclomatic complexity threshold")
+        .description("Cyclomatic complexity threshold used to classify a function as complex")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .type(PropertyType.INTEGER)
+        .index(18)
+        .build()      
     ));
   }
 
@@ -466,6 +477,9 @@ public final class CPlugin implements Plugin {
     l.addAll(testingAndCoverageProperties());
     l.addAll(compilerWarningsProperties());
     l.addAll(duplicationsProperties());
+    
+    //extra metrics
+    l.add(FunctionComplexityMetrics.class);    
 
     context.addExtensions(l);
   }
