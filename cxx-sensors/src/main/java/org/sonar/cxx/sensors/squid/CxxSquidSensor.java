@@ -88,6 +88,12 @@ public class CxxSquidSensor implements Sensor {
   private final CxxChecks checks;
 
   private final CxxLanguage language;
+  
+  private List<SquidSensor> squidSensors = new ArrayList<>();
+  
+  public List<SquidSensor> getSquidSensors(){
+    return this.squidSensors;
+  }
 
   /**
    * {@inheritDoc}
@@ -137,6 +143,9 @@ public class CxxSquidSensor implements Sensor {
         context,
         this.language.getBooleanOption(CPD_IGNORE_LITERALS_KEY).orElse(Boolean.FALSE),
         this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
+    
+    for (SquidSensor sensor : squidSensors)
+      visitors.add(sensor.getVisitor());                    
 
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf,
@@ -227,6 +236,9 @@ public class CxxSquidSensor implements Sensor {
         .withValue(violationsCount)
         .save();
     }
+    
+    for(SquidSensor sensor: squidSensors)
+        sensor.publishMeasureForProject(context.module(), context);
   }
 
   private void saveMeasures(InputFile inputFile, SourceFile squidFile, SensorContext context) {
@@ -262,6 +274,9 @@ public class CxxSquidSensor implements Sensor {
       context.<Double>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY))
         .on(inputFile).withValue(densityOfPublicDocumentedApi).save();
     }
+    
+    for(SquidSensor sensor: squidSensors)
+        sensor.publishMeasureForFile(inputFile, squidFile, context);
   }
 
   private int saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext sensorContext) {

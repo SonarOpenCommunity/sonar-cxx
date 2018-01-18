@@ -19,6 +19,8 @@
  */
 package org.sonar.plugins.cxx.squid;
 
+import com.sonar.sslr.api.AstVisitor;
+import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -29,9 +31,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.InputModule;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.rule.ActiveRules;
@@ -45,7 +47,10 @@ import org.sonar.api.measures.Metric;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
+import org.sonar.cxx.sensors.squid.SquidSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import org.sonar.squidbridge.SquidAstVisitor;
+import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxSquidSensorTest {
 
@@ -210,6 +215,34 @@ public class CxxSquidSensorTest {
 
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(1);
   }
+  
+  @Test
+  public void testSquidSensors() throws IOException{
+    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/codechunks-project");   
+    File target = new File(baseDir, "code_chunks.cc");
+    SensorContextTester context = SensorContextTester.create(baseDir);
+    
+    String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
+    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
+      .setCharset(Charset.forName("UTF-8")).setLanguage(language.getKey())
+      .setType(InputFile.Type.MAIN).build();
+    
+    SquidAstVisitor<Grammar> mockVisitor = (SquidAstVisitor<Grammar>) mock(SquidAstVisitor.class);
+    SquidSensor squidSensorMock = mock(SquidSensor.class);
+    when(squidSensorMock.getVisitor()).thenReturn(mockVisitor);
+    
+    sensor.getSquidSensors().clear();  
+    sensor.getSquidSensors().add(squidSensorMock);    
+    
+    context.fileSystem().add(inputFile);
+    sensor.execute(context);    
+    
+    verify(squidSensorMock, times(1)).getVisitor();
+    verify(squidSensorMock, times(1)).publishMeasureForFile(eq(inputFile), any(SourceFile.class), eq(context));
+    verify(squidSensorMock, times(1)).publishMeasureForProject(any(InputModule.class), eq(context));
+  }
+  
+  
 
   private Measure GetIntegerMeasureByKey(Collection<Measure> measures, Metric<Integer> metric) {
     for (Measure measure : measures) {
