@@ -49,6 +49,7 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
+import org.sonar.cxx.sensors.functioncomplexity.CxxFunctionComplexitySquidSensor;
 import org.sonar.cxx.sensors.utils.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
@@ -120,6 +121,12 @@ public class CxxSquidSensor implements Sensor {
     if (this.language.getMetricsCache().isEmpty()) {
       new CxxMetrics(this.language);
     }
+    
+    registerSquidSensors();
+  }
+  
+  protected void registerSquidSensors(){
+    this.squidSensors.add(new CxxFunctionComplexitySquidSensor(this.language));
   }
 
   @Override

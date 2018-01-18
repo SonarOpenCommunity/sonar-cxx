@@ -50,6 +50,8 @@ import org.sonar.cxx.sensors.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemoryRuleRepository;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
+import org.sonar.cxx.sensors.functioncomplexity.CxxFunctionComplexitySquidSensor;
+import org.sonar.cxx.sensors.functioncomplexity.FunctionComplexityMetrics;
 import org.sonar.cxx.sensors.other.CxxOtherRepository;
 import org.sonar.cxx.sensors.other.CxxOtherSensor;
 import org.sonar.cxx.sensors.pclint.CxxPCLintRuleRepository;
@@ -89,7 +91,7 @@ public final class CxxPlugin implements Plugin {
   public static final String JSON_COMPILATION_DATABASE_KEY = LANG_PROP_PREFIX + "jsonCompilationDatabase";
   public static final String SCAN_ONLY_SPECIFIED_SOURCES_KEY = LANG_PROP_PREFIX + "scanOnlySpecifiedSources";
   public static final String CPD_IGNORE_LITERALS_KEY = LANG_PROP_PREFIX + "cpd.ignoreLiterals";
-  public static final String CPD_IGNORE_IDENTIFIERS_KEY = LANG_PROP_PREFIX + "cpd.ignoreIdentifiers";
+  public static final String CPD_IGNORE_IDENTIFIERS_KEY = LANG_PROP_PREFIX + "cpd.ignoreIdentifiers";  
 
   private static List<PropertyDefinition> generalProperties() {
     String subcateg = "(1) General";
@@ -340,6 +342,15 @@ public final class CxxPlugin implements Plugin {
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
         .index(17)
+        .build(),
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionComplexitySquidSensor.FUNCTION_COMPLEXITY_THRESHOLD_KEY)
+        .defaultValue("10")
+        .name("Cyclomatic complexity threshold")
+        .description("Cyclomatic complexity threshold used to classify a function as complex")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .type(PropertyType.INTEGER)
+        .index(18)
         .build()
     ));
   }
@@ -505,6 +516,10 @@ public final class CxxPlugin implements Plugin {
     l.addAll(testingAndCoverageProperties());
     l.addAll(compilerWarningsProperties());
     l.addAll(duplicationsProperties());
+    
+    //extra metrics
+    l.add(FunctionComplexityMetrics.class);
+    
     context.addExtensions(l);
   }
 
