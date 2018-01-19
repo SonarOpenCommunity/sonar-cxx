@@ -50,6 +50,8 @@ import org.sonar.cxx.sensors.drmemory.CxxDrMemoryRuleRepository;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
 import org.sonar.cxx.sensors.functioncomplexity.CxxFunctionComplexitySquidSensor;
 import org.sonar.cxx.sensors.functioncomplexity.FunctionComplexityMetrics;
+import org.sonar.cxx.sensors.functionsize.CxxFunctionSizeSquidSensor;
+import org.sonar.cxx.sensors.functionsize.FunctionSizeMetrics;
 import org.sonar.cxx.sensors.other.CxxOtherRepository;
 import org.sonar.cxx.sensors.other.CxxOtherSensor;
 import org.sonar.cxx.sensors.pclint.CxxPCLintRuleRepository;
@@ -335,7 +337,16 @@ public final class CPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .type(PropertyType.INTEGER)
         .index(18)
-        .build()      
+        .build(),
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionSizeSquidSensor.FUNCTION_SIZE_THRESHOLD_KEY)
+        .defaultValue("20")
+        .name("Function size threshold")
+        .description("Function size threshold to consider a function to be too big")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .type(PropertyType.INTEGER)
+        .index(19)
+        .build()                              
     ));
   }
 
@@ -480,6 +491,7 @@ public final class CPlugin implements Plugin {
     
     //extra metrics
     l.add(FunctionComplexityMetrics.class);    
+    l.add(FunctionSizeMetrics.class);
 
     context.addExtensions(l);
   }
