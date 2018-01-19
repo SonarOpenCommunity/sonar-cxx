@@ -97,7 +97,7 @@ public class CxxFunctionComplexitySquidSensorTest {
       Collection<Measure> measures = sensorContext.measures(componentKey);
       T value = null;
       for(Measure m : measures){
-        if (m.metric() == FunctionComplexityMetrics.COMPLEX_FUNCTIONS)
+        if (m.metric() == metric)
           value = (T) m.value();
       }
       return value;
@@ -121,6 +121,7 @@ public class CxxFunctionComplexitySquidSensorTest {
         sensor.publishMeasureForProject(sensorContext.module(), sensorContext);
                       
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(4);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(40.0);        
     }    
     
     @Test
@@ -131,6 +132,7 @@ public class CxxFunctionComplexitySquidSensorTest {
         sensor.publishMeasureForFile(inputFile, squidFile, sensorContext);
                       
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(4);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(40.0);        
     }        
   
 }

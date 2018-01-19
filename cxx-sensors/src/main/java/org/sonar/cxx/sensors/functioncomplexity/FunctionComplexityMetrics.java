@@ -33,10 +33,17 @@ public class FunctionComplexityMetrics implements Metrics {
     .setQualitative(false)
     .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
     .create();
+  
+  public static final Metric<Double> PERC_COMPLEX_FUNCTIONS = new Metric.Builder("perc_complex_functions", "% of Complex Functions", Metric.ValueType.PERCENT)
+    .setDescription("% of functions with high cyclomatic complexity")
+    .setDirection(Metric.DIRECTION_WORST)
+    .setQualitative(false)
+    .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
+    .create();         
 
   @Override
   public List<Metric> getMetrics() {
-    return asList(COMPLEX_FUNCTIONS);
+    return asList(COMPLEX_FUNCTIONS, PERC_COMPLEX_FUNCTIONS);
   }
   
 }
