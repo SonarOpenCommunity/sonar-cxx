@@ -21,7 +21,11 @@ package org.sonar.cxx.sensors.functionsize;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Hashtable;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.InputModule;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -32,7 +36,11 @@ import static org.sonar.cxx.checks.TooManyLinesOfCodeInFunctionCheck.getNumberOf
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.sensors.functioncomplexity.FunctionComplexityMetrics;
 import org.sonar.cxx.sensors.functioncomplexity.FunctionCount;
+import org.sonar.cxx.sensors.functioncomplexity.FunctionScore;
+import org.sonar.cxx.sensors.functioncomplexity.FunctionScoreComparator;
 import org.sonar.cxx.sensors.squid.SquidSensor;
+import org.sonar.cxx.sensors.utils.FileStreamFactory;
+import org.sonar.cxx.sensors.utils.StreamFactory;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
@@ -42,6 +50,7 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
   private static final Logger LOG = Loggers.get(CxxFunctionSizeSquidSensor.class);
   
   public static final String FUNCTION_SIZE_THRESHOLD_KEY = "funcsize.threshold";  
+  public static final String FUNCTION_SIZE_FILE_NAME_KEY = "funcsize.filename";  
   
   private int functionsBelowThreshold;
   
@@ -57,14 +66,32 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
     return this.functionsOverThreshold;
   }  
   
-    private Hashtable<SourceFile, FunctionCount> bigFunctionsPerFile = new Hashtable<>();      
+  private Hashtable<SourceFile, FunctionCount> bigFunctionsPerFile = new Hashtable<>();
+  
+  private String fileName;
+  
+  private StreamFactory streamFactory;
+  
+  private TreeSet<FunctionScore> rankedList = new TreeSet<FunctionScore>(new FunctionScoreComparator());
+  public SortedSet<FunctionScore> getRankedList(){
+      return this.rankedList;
+  }    
+  
+  public void setFileStreamFactory(StreamFactory factory){
+    this.streamFactory = factory;
+  }
   
   public CxxFunctionSizeSquidSensor(CxxLanguage language){
     this.sizeThreshold = language.getIntegerOption(FUNCTION_SIZE_THRESHOLD_KEY).orElse(20);
     LOG.debug("Function size threshold: " + this.sizeThreshold);   
+    
+    this.fileName = language.getStringOption(FUNCTION_SIZE_FILE_NAME_KEY).orElse("");
+    LOG.debug("File name to dump function size data: " + this.fileName);
+    
+    this.streamFactory = new FileStreamFactory();    
   }
   
-    @Override
+  @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.functionBody);
   }
@@ -78,7 +105,36 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
     
     incrementFunctionByThresholdForProject(lineCount);
     incrementFunctionByThresholdForFile(sourceFile, lineCount);
+    appendRankedList(sourceFunction, lineCount);
   }
+  
+  private void appendRankedList(SourceFunction sourceFunction, int complexity){
+    if (fileName.equals(""))
+        return;
+
+    FunctionScore score = new FunctionScore(complexity, getContext().getFile().getName(), sourceFunction.getKey());
+    this.rankedList.add(score);
+  }  
+  
+  private void writeScore(OutputStream stream, FunctionScore score) throws IOException{
+    stream.write((score.getComponentName() + "\t" + score.getFunctionId() + "\t" + score.getScore() + System.lineSeparator()).getBytes());
+  }
+  
+  private void dumpRankedList(){
+    if (fileName.equals(""))
+      return;
+    
+    try {
+      OutputStream stream = streamFactory.createOutputFileStream(this.fileName);
+      for(FunctionScore score : rankedList)
+        writeScore(stream, score);
+      stream.flush();
+      stream.close();
+    }
+    catch (Exception e){
+      LOG.error("Couldn't write ranked list to " + fileName + ". Exception text: " + e.getMessage());
+    }    
+  }  
   
   private void incrementFunctionByThresholdForFile(SourceFile sourceFile, int complexity){
     if (!bigFunctionsPerFile.containsKey(sourceFile))
@@ -136,6 +192,8 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
       .on(module)
       .withValue(calculatePercComplexFunctions(functionsOverThreshold, functionsBelowThreshold))
       .save();    
+    
+    dumpRankedList();
   }
   
   private double calculatePercComplexFunctions(int functionsOverThreshold, int functionsBelowThreshold){

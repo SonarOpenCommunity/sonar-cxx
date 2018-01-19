@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.functioncomplexity;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -44,6 +45,7 @@ import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
+import org.sonar.cxx.sensors.utils.StreamFactory;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import org.sonar.squidbridge.api.SourceFile;
 
@@ -53,9 +55,7 @@ public class CxxFunctionComplexitySquidSensorTest {
     private FileLinesContext fileLinesContext;
     private CxxLanguage language;
     private SensorContextTester sensorContext;
-    private CxxFunctionComplexitySquidSensor sensor;
-    private Configuration configuration;
-    //private CxxSquidSensor squidSensor;
+    private CxxFunctionComplexitySquidSensor sensor;    
     
     @Before
     public void setUp(){
@@ -65,11 +65,7 @@ public class CxxFunctionComplexitySquidSensorTest {
         language = TestUtils.mockCxxLanguage();        
         when(language.getIntegerOption(CxxFunctionComplexitySquidSensor.FUNCTION_COMPLEXITY_THRESHOLD_KEY)).thenReturn(Optional.of(5));
         
-        sensor = new CxxFunctionComplexitySquidSensor(language);                
-        
-    //    ActiveRules rules = mock(ActiveRules.class);
-  //      CheckFactory checkFactory = new CheckFactory(rules);
-  //      squidSensor = new CxxSquidSensor(language, fileLinesContextFactory, checkFactory);        
+        sensor = new CxxFunctionComplexitySquidSensor(language);                       
     }
     
     private DefaultInputFile getInputFile() throws IOException{
@@ -132,5 +128,24 @@ public class CxxFunctionComplexitySquidSensorTest {
                       
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(4);        
     }        
+    
+    @Test
+    public void testSaveRankedListToFile() throws IOException{
+        DefaultInputFile inputFile = getInputFile();
+        
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        StreamFactory streamFactory = mock(StreamFactory.class);
+        when(streamFactory.createOutputFileStream("complex_functions.txt")).thenReturn(outputStream);
+        
+        when(language.getStringOption(CxxFunctionComplexitySquidSensor.FUNCTION_COMPLEXITY_FILE_NAME_KEY)).thenReturn(Optional.of("complex_functions.txt"));
+        
+        this.sensor = new CxxFunctionComplexitySquidSensor(this.language);
+        SourceFile squidFile = CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
+        sensor.setFileStreamFactory(streamFactory);
+        sensor.publishMeasureForProject(sensorContext.module(), sensorContext);      
+        
+        String fileData = new String(outputStream.toByteArray(), "UTF-8");
+        assertThat(fileData).isNotEmpty();
+    }                   
   
 }
