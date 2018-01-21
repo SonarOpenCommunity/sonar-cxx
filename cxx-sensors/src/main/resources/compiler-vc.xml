@@ -10181,7 +10181,7 @@ see also:</p>
     <description><![CDATA[<p>
 not available now - work in progress (experimental)
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prolifetime-lifetime-safety-profile" target="_blank">Pro.lifetime: Lifetime safety profile</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prolifetime-lifetime-safety-profile" target="_blank">Core Guideline - Pro.lifetime: Lifetime safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26412</internalKey>
@@ -10277,8 +10277,8 @@ If shared pointer parameter is passed by value or reference to a constant object
     <description><![CDATA[<p>
 not available now - work in progress (experimental)
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#gslowner-ownership-pointers" target="_blank">GSL.owner: Ownership pointers</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-raii" target="_blank">R.1: Resource Acquisition Is Initialization</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#gslowner-ownership-pointers" target="_blank">Core Guideline - GSL.owner: Ownership pointers</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-raii" target="_blank">Core Guideline - R.1: Resource Acquisition Is Initialization</a></p>
 ]]>
     </description>
     <internalKey>C26423</internalKey>
@@ -10294,7 +10294,7 @@ see also:</p>
     <description><![CDATA[<p>
 not available now - work in progress (experimental)
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Pro.safety: Type-safety profile</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26424</internalKey>
@@ -10343,6 +10343,7 @@ Global objects may be initialized in an inconsistent or undefined order which me
 It is a common practice to use asserts to enforce assumptions about validity of pointer values. The problem with asserts is that they do not expose assumptions through the interface (e.g. in return types or parameters). Asserts are also harder to maintain and keep in sync with other code changes. The recommendation is to use gsl::not_null from the Guidelines Support Library as a marker of resources which should never have null value. The rule USE_NOTNULL helps to identify places that omit checks for nullness and hence can be updated to use gsl::not_null.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26429" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26429</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" target="_blank">Core Guideline - F.23: Use a not_null<T> to indicate that "null" is not a valid value</a></p>
 ]]>
     </description>
     <internalKey>C26429</internalKey>
@@ -10391,6 +10392,7 @@ The marker type gsl::not_null from Guidelines Support Library is used to clearly
 Special operations like constructors are assumed to alter behavior of types so that they rely more on language mechanisms to automatically enforce specific scenarios (the canonical example is resource management). If any of these operations is explicitly defined, defaulted or deleted (as an indication that user wants to avoid any special handling of a type) it would be inconsistent to leave the other operations from the same group unspecified (i.e. implicitly defined by compiler).
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26432" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26432</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#c21-if-you-define-or-delete-any-default-operation-define-or-delete-them-all" target="blank">Core Guideline - C.21: If you define or =delete any default operation, define or =delete them all</a></p>
 ]]>
     </description>
     <internalKey>C26432</internalKey>
@@ -10407,6 +10409,7 @@ Special operations like constructors are assumed to alter behavior of types so t
 When a method overrides a base virtual function it should clearly state this by using the 'override' specifier.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26433" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26433</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#c128-virtual-functions-should-specify-exactly-one-of-virtual-override-or-final" target="blank">Core Guideline - C.128: Virtual functions should specify exactly one of virtual, override, or final</a></p>
 ]]>
     </description>
     <internalKey>C26433</internalKey>
@@ -10503,6 +10506,7 @@ Using of ‘goto’ is widely acknowledged as dangerous and error-prone practice
 Some kinds of operations should never cause exceptions. Their implementations should be reliable and should handle possible errors conditions gracefully. They should never use exceptions to indicate failure. This rule flags cases where such operations are not explicitly marked as ‘noexcept’ which means that they may throw exceptions and cannot convey assumptions about their reliability.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26439" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26439</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f6-if-your-function-may-not-throw-declare-it-noexcept" target="blank">Core Guideline - F.6: If your function may not throw, declare it noexcept</a></p>
 ]]>
     </description>
     <internalKey>C26439</internalKey>
@@ -10519,6 +10523,7 @@ Some kinds of operations should never cause exceptions. Their implementations sh
 If code is not supposed to cause any exceptions, it should be marked as such by using the ‘noexcept’ specifier. This would help to simplify error handling on the client code side, as well as enable compiler to do additional optimizations.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26440" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26440</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f6-if-your-function-may-not-throw-declare-it-noexcept" target="blank">Core Guideline - F.6: If your function may not throw, declare it noexcept</a></p>
 ]]>
     </description>
     <internalKey>C26440</internalKey>
@@ -10551,6 +10556,7 @@ The standard library provides a few useful classes which help to control concurr
 Destructors are very special methods and guidelines for them differ from the OVERRIDE_EXPLICITLY rule: it is recommended to rely on implicit overriding if the base class has a virtual destructor.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26443" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26443</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#c128-virtual-functions-should-specify-exactly-one-of-virtual-override-or-final" target="blank">Core Guideline - C.128: Virtual functions should specify exactly one of virtual, override, or final</a></p>
 ]]>
     </description>
     <internalKey>C26443</internalKey>
@@ -10663,7 +10669,7 @@ This rule detects if subtraction operations result in a negative number converte
     <description><![CDATA[<p>
 By default, pass pointers and references to consts
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Core Guideline - Con: Constants and Immutability</a></p>
 ]]>
     </description>
     <internalKey>C26460</internalKey>
@@ -10700,10 +10706,100 @@ S0 f8(int *p, int *)
 }
 </code></pre>
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con3-by-default-pass-pointers-and-references-to-consts" target="_blank">Core Guideline - Con.3: By default, pass pointers and references to consts</a></p>
 ]]>
     </description>
     <internalKey>C26461</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26462</key>
+    <name>C26462: USE_CONST_POINTER_FOR_VARIABLE</name>
+    <description><![CDATA[<p>
+USE_CONST_POINTER_FOR_VARIABLE
+see also:</p>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26462" target="_blank">C26462 USE_CONST_POINTER_FOR_VARIABLE</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con4-use-const-to-define-objects-with-values-that-do-not-change-after-construction" target="_blank">Core Guideline - Con.4: Use const to define objects with values that do not change after construction</a></p>
+
+]]>
+    </description>
+    <internalKey>C26462</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26463</key>
+    <name>C26463: USE_CONST_FOR_ELEMENTS</name>
+    <description><![CDATA[<p>
+USE_CONST_FOR_ELEMENTS
+see also:</p>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26463" target="_blank">C26463 USE_CONST_FOR_ELEMENTS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con4-use-const-to-define-objects-with-values-that-do-not-change-after-construction" target="_blank">Core Guideline - Con.4: Use const to define objects with values that do not change after construction</a></p>
+
+]]>
+    </description>
+    <internalKey>C26463</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26464</key>
+    <name>C26464: USE_CONST_POINTER_FOR_ELEMENTS</name>
+    <description><![CDATA[<p>
+USE_CONST_POINTER_FOR_ELEMENTS
+see also:</p>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26464" target="_blank">C26464 USE_CONST_POINTER_FOR_ELEMENTS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con4-use-const-to-define-objects-with-values-that-do-not-change-after-construction" target="_blank">Core Guideline - Con.4: Use const to define objects with values that do not change after construction</a></p>
+
+]]>
+    </description>
+    <internalKey>C26464</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26465</key>
+    <name>C26465: NO_CONST_CAST_UNNECESSARY</name>
+    <description><![CDATA[<p>
+NO_CONST_CAST_UNNECESSARY
+see also:</p>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26465" target="_blank">C26465 NO_CONST_CAST_UNNECESSARY</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#es48-avoid-casts" target="_blank">Core Guideline - ES.48: Avoid casts</a></p>
+
+]]>
+    </description>
+    <internalKey>C26465</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26466</key>
+    <name>C26466: NO_STATIC_DOWNCAST_POLYMORPHIC</name>
+    <description><![CDATA[<p>
+NO_STATIC_DOWNCAST_POLYMORPHIC
+see also:</p>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26466" target="_blank">C26466 NO_STATIC_DOWNCAST_POLYMORPHIC</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-downcast" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26466</internalKey>
     <tag>core-guideline</tag>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -10927,7 +11023,7 @@ This rule tries to catch scenarios in which a local pointer obtains a value poin
     <description><![CDATA[<p>
 No reinterpret_cast.
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-reinterpretcast" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26490</internalKey>
@@ -11007,7 +11103,7 @@ see also:</p>
     <description><![CDATA[<p>
 Variable use before initialization.
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-memberinit" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26495</internalKey>
@@ -11034,7 +11130,7 @@ int f5()
     return a;
 }</code></pre>
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con4-use-const-to-define-objects-with-values-that-do-not-change-after-construction" target="_blank">Core Guideline - Con.4: Use const to define objects with values that do not change after construction</a></p>
 ]]>
     </description>
     <internalKey>C26496</internalKey>
@@ -11070,7 +11166,7 @@ void f3()
 }
 }</code></pre>
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Core Guideline - Con: Constants and Immutability</a></p>
 ]]>
     </description>
     <internalKey>C26497</internalKey>
@@ -11086,7 +11182,7 @@ see also:</p>
 Use constexpr for function call.
 
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Core Guideline - Con: Constants and Immutability</a></p>
 ]]>
     </description>
     <internalKey>C26498</internalKey>
