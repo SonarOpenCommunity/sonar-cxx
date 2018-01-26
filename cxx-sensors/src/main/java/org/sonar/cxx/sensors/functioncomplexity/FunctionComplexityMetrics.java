@@ -33,10 +33,31 @@ public class FunctionComplexityMetrics implements Metrics {
     .setQualitative(false)
     .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
     .create();
+  
+  public static final Metric<Double> PERC_COMPLEX_FUNCTIONS = new Metric.Builder("perc_complex_functions", "% of Complex Functions", Metric.ValueType.PERCENT)
+    .setDescription("% of functions with high cyclomatic complexity")
+    .setDirection(Metric.DIRECTION_WORST)
+    .setQualitative(false)
+    .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
+    .create();         
+  
+  public static final Metric<Integer> LOC_IN_COMPLEX_FUNCTIONS = new Metric.Builder("loc_in_complex_functions", "LoC in Complex Functions", Metric.ValueType.INT)
+    .setDescription("Number of lines of code in functions with high cyclomatic complexity")
+    .setDirection(Metric.DIRECTION_WORST)
+    .setQualitative(false)
+    .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
+    .create();  
+  
+  public static final Metric<Double> PERC_LOC_IN_COMPLEX_FUNCTIONS = new Metric.Builder("perc_loc_in_complex_functions", "% of LoC in Complex Functions", Metric.ValueType.PERCENT)
+    .setDescription("% of lines of code in functions with high cyclomatic complexity")
+    .setDirection(Metric.DIRECTION_WORST)
+    .setQualitative(false)
+    .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
+    .create();           
 
   @Override
   public List<Metric> getMetrics() {
-    return asList(COMPLEX_FUNCTIONS);
+    return asList(COMPLEX_FUNCTIONS, PERC_COMPLEX_FUNCTIONS, LOC_IN_COMPLEX_FUNCTIONS, PERC_LOC_IN_COMPLEX_FUNCTIONS);
   }
   
 }

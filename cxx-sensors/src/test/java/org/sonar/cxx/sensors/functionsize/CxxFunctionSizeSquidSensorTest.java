@@ -83,17 +83,7 @@ public class CxxFunctionSizeSquidSensorTest {
       when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);        
       
       return inputFile;
-    }    
-    
-    @Test
-    public void testFunctionsOverAndBelowThresholdForProject() throws IOException {            
-        DefaultInputFile inputFile = getInputFile();              
-                
-        CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
-        
-        assertThat(sensor.getFunctionsBelowThreshold()).isEqualTo(6);
-        assertThat(sensor.getFunctionsOverThreshold()).isEqualTo(4);        
-    }    
+    }       
     
     private <T extends Serializable> T getMeasureValue(SensorContextTester sensorContext, String componentKey, Metric<T> metric){
       Collection<Measure> measures = sensorContext.measures(componentKey);
@@ -113,7 +103,9 @@ public class CxxFunctionSizeSquidSensorTest {
         sensor.publishMeasureForProject(sensorContext.module(), sensorContext);
                       
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(4);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(44);        
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(40.0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(80);        
     }        
     
     @Test
@@ -124,7 +116,9 @@ public class CxxFunctionSizeSquidSensorTest {
         sensor.publishMeasureForFile(inputFile, squidFile, sensorContext);
                       
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(4);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(44);        
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(40.0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(80);        
     }            
     
     @Test

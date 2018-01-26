@@ -56,17 +56,15 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
   
   private int sizeThreshold;
   
-  public int getFunctionsBelowThreshold(){
-    return this.functionsBelowThreshold;
-  }
-  
   private int functionsOverThreshold;
   
-  public int getFunctionsOverThreshold(){
-    return this.functionsOverThreshold;
-  }  
+  private int locBelowThreshold;
+  
+  private int locOverThreshold;
   
   private Hashtable<SourceFile, FunctionCount> bigFunctionsPerFile = new Hashtable<>();
+  
+  private Hashtable<SourceFile, FunctionCount> locInBigFunctionsPerFile = new Hashtable<>();
   
   private String fileName;
   
@@ -136,22 +134,34 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
     }    
   }  
   
-  private void incrementFunctionByThresholdForFile(SourceFile sourceFile, int complexity){
+  private void incrementFunctionByThresholdForFile(SourceFile sourceFile, int lineCount){
     if (!bigFunctionsPerFile.containsKey(sourceFile))
       bigFunctionsPerFile.put(sourceFile, new FunctionCount());
+    
+    if (!locInBigFunctionsPerFile.containsKey(sourceFile))
+      locInBigFunctionsPerFile.put(sourceFile, new FunctionCount());    
         
     FunctionCount count = bigFunctionsPerFile.get(sourceFile);
-    if (complexity > this.sizeThreshold)
-        count.functionsOverThreshold++;
-    else
-        count.functionsBelowThreshold++;        
+    FunctionCount locCount = locInBigFunctionsPerFile.get(sourceFile);
+    if (lineCount > this.sizeThreshold){
+        count.countOverThreshold++;
+        locCount.countOverThreshold += lineCount;
+    }
+    else {
+        count.countBelowThreshold++;        
+        locCount.countBelowThreshold += lineCount;
+    }
   }  
   
   private void incrementFunctionByThresholdForProject(int lineCount){
-    if (lineCount > sizeThreshold)
+    if (lineCount > sizeThreshold) {
       this.functionsOverThreshold++;
-    else
+      this.locOverThreshold += lineCount;
+    }
+    else {
       this.functionsBelowThreshold++;
+      this.locBelowThreshold += lineCount;
+    }
   }
 
 
@@ -162,25 +172,18 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
 
   @Override
   public void publishMeasureForFile(InputFile inputFile, SourceFile squidFile, SensorContext context) {
-    FunctionCount c = bigFunctionsPerFile.get(squidFile);
-    if (c == null) 
-      return;
-    
-    context.<Integer>newMeasure()
-      .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS)
-      .on(inputFile)
-      .withValue(c.functionsOverThreshold)
-      .save();
-
-    context.<Double>newMeasure()
-      .forMetric(FunctionSizeMetrics.PERC_BIG_FUNCTIONS)
-      .on(inputFile)
-      .withValue(calculatePercComplexFunctions(c.functionsOverThreshold, c.functionsBelowThreshold))
-      .save();    
+    publishBigFunctionMetrics(inputFile, squidFile, context);    
+    publishLocInBigFunctionMetrics(inputFile, squidFile, context);    
   }
 
   @Override
   public void publishMeasureForProject(InputModule module, SensorContext context) {
+    publishBigFunctionCountForProject(module, context);    
+    publishLocInBigFunctionForProject(module, context);
+    dumpRankedList();    
+  }
+  
+  private void publishBigFunctionCountForProject(InputModule module, SensorContext context){
     context.<Integer>newMeasure()
       .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS)
       .on(module)
@@ -190,14 +193,62 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
     context.<Double>newMeasure()
       .forMetric(FunctionSizeMetrics.PERC_BIG_FUNCTIONS)
       .on(module)
-      .withValue(calculatePercComplexFunctions(functionsOverThreshold, functionsBelowThreshold))
-      .save();    
-    
-    dumpRankedList();
+      .withValue(calculatePercentual(functionsOverThreshold, functionsBelowThreshold))
+      .save();        
   }
   
-  private double calculatePercComplexFunctions(int functionsOverThreshold, int functionsBelowThreshold){
-    return ((float)functionsOverThreshold * 100.0) / ((float)functionsOverThreshold + (float)functionsBelowThreshold);
+  private void publishLocInBigFunctionForProject(InputModule module, SensorContext context){
+    context.<Integer>newMeasure()
+      .forMetric(FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)
+      .on(module)
+      .withValue(locOverThreshold)
+      .save();
+    
+    context.<Double>newMeasure()
+      .forMetric(FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)
+      .on(module)
+      .withValue(calculatePercentual(locOverThreshold, locBelowThreshold))
+      .save();            
+  }
+  
+  private double calculatePercentual(int overThreshold, int belowThreshold){
+    return ((float)overThreshold * 100.0) / ((float)overThreshold + (float)belowThreshold);
+  }
+
+  private void publishBigFunctionMetrics(InputFile inputFile, SourceFile squidFile, SensorContext context) {
+    FunctionCount c = bigFunctionsPerFile.get(squidFile);
+    if (c == null) 
+      return;
+    
+    context.<Integer>newMeasure()
+      .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS)
+      .on(inputFile)
+      .withValue((int)c.countOverThreshold)
+      .save();
+
+    context.<Double>newMeasure()
+      .forMetric(FunctionSizeMetrics.PERC_BIG_FUNCTIONS)
+      .on(inputFile)
+      .withValue(calculatePercentual(c.countOverThreshold, c.countBelowThreshold))
+      .save();    
+  }
+
+  private void publishLocInBigFunctionMetrics(InputFile inputFile, SourceFile squidFile, SensorContext context) {
+    FunctionCount c = locInBigFunctionsPerFile.get(squidFile);
+    if (c == null) 
+      return;
+    
+    context.<Integer>newMeasure()
+      .forMetric(FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)
+      .on(inputFile)
+      .withValue((int)c.countOverThreshold)
+      .save();
+
+    context.<Double>newMeasure()
+      .forMetric(FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)
+      .on(inputFile)
+      .withValue(calculatePercentual(c.countOverThreshold, c.countBelowThreshold))
+      .save();    
   }
   
 }
