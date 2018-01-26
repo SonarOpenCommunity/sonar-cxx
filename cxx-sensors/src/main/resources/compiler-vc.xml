@@ -9973,12 +9973,13 @@ C26167 resembles C26117 except that the confidence level is lower. For example, 
   </rule>
   <rule>
     <key>C26400</key>
-    <name>C26400: No raw pointer assignment</name>
+    <name>C26400: NO_RAW_POINTER_ASSIGNMENT</name>
     <description><![CDATA[<p>
 No raw pointer assignment.
 
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26400" target="_blank">C26400 NO_RAW_POINTER_ASSIGNMENT</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Ri-raw" target="_blank">Core Guideline - I.11: Never transfer ownership by a raw pointer (T*) or reference (T&)</a></p>
 ]]>
     </description>
     <internalKey>C26400</internalKey>
@@ -9990,11 +9991,12 @@ see also:</p>
   </rule>
   <rule>
     <key>C26401</key>
-    <name>C26401: Don't delete none-owner</name>
+    <name>C26401: DONT_DELETE_NON_OWNER</name>
     <description><![CDATA[<p>
 Don't delete none-owner.
 
 see also:</p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26401" target="_blank">C26401 DONT_DELETE_NON_OWNER</a></p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
 ]]>
     </description>
@@ -10007,12 +10009,13 @@ see also:</p>
   </rule>
   <rule>
     <key>C26402</key>
-    <name>C26402: Don't heap allocate moveable result</name>
+    <name>C26402: DONT_HEAP_ALLOCATE_MOVABLE_RESULT</name>
     <description><![CDATA[<p>
-Don't heap allocate moveable result.
 
 see also:</p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26402" target="_blank">C26402 DONT_HEAP_ALLOCATE_MOVABLE_RESULT</a></p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-ptr" target="_blank">Core Guideline - R.3: A raw pointer (a T*) is non-owning</a></p>
 ]]>
     </description>
     <internalKey>C26402</internalKey>
@@ -10024,12 +10027,13 @@ see also:</p>
   </rule>
   <rule>
     <key>C26403</key>
-    <name>C26403: Reset or delete owner</name>
+    <name>C26403: RESET_OR_DELETE_OWNER</name>
     <description><![CDATA[<p>
-Reset or delete owner.
 
 see also:</p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26403" target="_blank">C26403 RESET_OR_DELETE_OWNER</a></p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-ptr" target="_blank">Core Guideline - R.3: A raw pointer (a T*) is non-owning</a></p>
 ]]>
     </description>
     <internalKey>C26403</internalKey>
@@ -10041,11 +10045,12 @@ see also:</p>
   </rule>
   <rule>
     <key>C26404</key>
-    <name>C26404: Don't delete invalid owner</name>
+    <name>C26404: DONT_DELETE_INVALID</name>
     <description><![CDATA[<p>
-Don't delete invalid owner.
+Do not delete an owner<T> which may be in invalid state.
 
 see also:</p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26404" target="_blank">C26404 DONT_DELETE_INVALID</a></p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
 ]]>
     </description>
@@ -10058,11 +10063,11 @@ see also:</p>
   </rule>
   <rule>
     <key>C26405</key>
-    <name>C26405: Don't assign to valid owner</name>
+    <name>C26405: DONT_ASSIGN_TO_VALID</name>
     <description><![CDATA[<p>
-Don't assign to valid owner.
 
 see also:</p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26405" target="_blank">C26404 DONT_ASSIGN_TO_VALID</a></p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
 ]]>
     </description>
@@ -10075,12 +10080,14 @@ see also:</p>
   </rule>
   <rule>
     <key>C26406</key>
-    <name>C26406: Don't assign raw pointer to owner</name>
+    <name>C26406: DONT_ASSIGN_RAW_TO_OWNER</name>
     <description><![CDATA[<p>
-Don't assign raw pointer to owner.
+Do not assign a raw pointer to an owner<T>.
 
 see also:</p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26406" target="_blank">C26406 DONT_ASSIGN_RAW_TO_OWNER</a></p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-ptr" target="_blank">Core Guideline - R.3: A raw pointer (a T*) is non-owning</a></p>
 ]]>
     </description>
     <internalKey>C26406</internalKey>
@@ -10092,12 +10099,13 @@ see also:</p>
   </rule>
   <rule>
     <key>C26407</key>
-    <name>C26407: Don't heap allocate unnecessarily</name>
+    <name>C26407: DONT_HEAP_ALLOCATE_UNNECESSARILY</name>
     <description><![CDATA[<p>
 Don't heap allocate unnecessarily.
 
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26407" target="_blank">C26407 DONT_HEAP_ALLOCATE_UNNECESSARILY</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-scoped" target="_blank">Core Guideline - R.5: Prefer scoped objects, don't heap-allocate unnecessarily</a></p>
 ]]>
     </description>
     <internalKey>C26407</internalKey>
@@ -10109,12 +10117,13 @@ see also:</p>
   </rule>
   <rule>
     <key>C26408</key>
-    <name>C26408: No malloc or free</name>
+    <name>C26408: NO_MALLOC_FREE</name>
     <description><![CDATA[<p>
-No malloc or free.
+Avoid malloc() and free(), prefer the nothrow version of new with delete.
 
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26408" target="_blank">C26408 NO_MALLOC_FREE</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-mallocfree" target="_blank">Core Guideline - R.10: Avoid malloc() and free()</a></p>
 ]]>
     </description>
     <internalKey>C26408</internalKey>
@@ -10126,12 +10135,13 @@ see also:</p>
   </rule>
   <rule>
     <key>C26409</key>
-    <name>C26409: No new or delete</name>
+    <name>C26409: NO_NEW_DELETE</name>
     <description><![CDATA[<p>
-Don't heap allocate moveable result.
+Avoid calling new and delete explicitly, use std::make_unique<T> instead.
 
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26409" target="_blank">C26409 NO_NEW_DELETE</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-newdelete" target="_blank">Core Guideline - R.11: Avoid calling new and delete explicitly</a></p>
 ]]>
     </description>
     <internalKey>C26409</internalKey>
@@ -10143,12 +10153,13 @@ see also:</p>
   </rule>
   <rule>
     <key>C26410</key>
-    <name>C26410: No reference to const unique pointer</name>
+    <name>C26410: NO_REF_TO_CONST_UNIQUE_PTR</name>
     <description><![CDATA[<p>
-No reference to const unique pointer.
+The parameter '%parameter%' is a reference to const unique pointer, use const T* or const T& instead.
 
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26410" target="_blank">C26410 NO_REF_TO_CONST_UNIQUE_PTR</a></p>
+<p><a href="hhttps://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-uniqueptrparam" target="_blank">Core Guideline - R.32: Take a unique_ptr<widget> parameter to express that a function assumes ownership of a widget</a></p>
 ]]>
     </description>
     <internalKey>C26410</internalKey>
@@ -10160,12 +10171,13 @@ see also:</p>
   </rule>
   <rule>
     <key>C26411</key>
-    <name>C26411: No reference to unique pointer</name>
+    <name>C26411 NO_REF_TO_UNIQUE_PTR</name>
     <description><![CDATA[<p>
 No reference to unique pointer.
 
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26411" target="_blank">C26411 NO_REF_TO_UNIQUE_PTR</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-reseat" target="_blank">Core Guideline - R.33: Take a unique_ptr<widget>& parameter to express that a function reseats thewidget</a></p>
 ]]>
     </description>
     <internalKey>C26411</internalKey>
@@ -10181,7 +10193,7 @@ see also:</p>
     <description><![CDATA[<p>
 not available now - work in progress (experimental)
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prolifetime-lifetime-safety-profile" target="_blank">Pro.lifetime: Lifetime safety profile</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prolifetime-lifetime-safety-profile" target="_blank">Core Guideline - Pro.lifetime: Lifetime safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26412</internalKey>
@@ -10192,13 +10204,98 @@ see also:</p>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>C26414</key>
+    <name>C26414 RESET_LOCAL_SMART_PTR</name>
+    <description><![CDATA[<p>
+Smart pointers are convenient for dynamic resource management, but they are not always necessary. For example, creating of a local dynamic buffer can be easily (end sometimes more efficiently) managed by standard containers. For single objects it may be unnecessary to do dynamic allocation at all (e.g. if such objects never outlive their creator function) and they can be replaced with local variables. Smart pointers become handy when scenario requires changing of ownership, i.e. reassigning of a dynamic resource multiple times or in multiple paths. This also includes cases where resources are obtained from external code and smart pointers are used to extend resource’s lifetime.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26414" target="_blank">C26414 RESET_LOCAL_SMART_PTR</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-scoped" target="_blank">Core Guideline - R.5: Prefer scoped objects, don't heap-allocate unnecessarily</a></p>
+]]>
+    </description>
+    <internalKey>C26414</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26415</key>
+    <name>C26415 SMART_PTR_NOT_NEEDED</name>
+    <description><![CDATA[<p>
+Using a smart pointer type to pass data to a function indicates that the target function needs to manage the lifetime of the contained object. However, if the function only uses the smart pointer to access the contained object and never actually calls any code which may lead to its deallocation (never affect its lifetime), there is usually no need to complicate the interface with smart pointers. A plain pointer or reference to the contained object should be preferred.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26415" target="_blank">C26415 SMART_PTR_NOT_NEEDED</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-smartptrparam" target="_blank">Core Guideline - R.30: Take smart pointers as parameters only to explicitly express lifetime semantics</a></p>
+]]>
+    </description>
+    <internalKey>C26415</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26416</key>
+    <name>C26416: NO_RVALUE_REF_SHARED_PTR</name>
+    <description><![CDATA[<p>
+Passing a shared pointer by rvalue reference is usually unnecessary. Unless it is an implementation of move semantics for a shared pointer type itself, shared pointer objects can be safely passed by value. Using rvalue reference may be also an indication that unique pointer is more appropriate since it clearly transfers unique ownership from caller to callee.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26416" target="_blank">C26416 NO_RVALUE_REF_SHARED_PTR</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-sharedptrparam-owner" target="_blank">Core Guideline - R.34: Take a shared_ptr<widget> parameter to express that a function is part owner</a></p>
+]]>
+    </description>
+    <internalKey>C26416</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26417</key>
+    <name>C26417: NO_LVALUE_REF_SHARED_PTR</name>
+    <description><![CDATA[<p>
+Passing shared pointers by reference may be useful in scenarios where callee code updates target of the smart pointer object and its caller expects to see such update. Using a reference solely to reduce costs of passing a shared pointer is questionable. If callee code only accesses target object and never manages its lifetime, it is safer to pass raw pointer or reference, rather than to expose resource management details.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26417" target="_blank">C26417 NO_LVALUE_REF_SHARED_PTR</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-sharedptrparam" target="_blank">Core Guideline - R.35: Take a shared_ptr<widget>& parameter to express that a function might reseat the shared pointer</a></p>
+]]>
+    </description>
+    <internalKey>C26417</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26418</key>
+    <name>C26418: NO_VALUE_OR_CONST_REF_SHARED_PTR</name>
+    <description><![CDATA[<p>
+If shared pointer parameter is passed by value or reference to a constant object it is expected that function will take control of its target object’s lifetime without affecting of the caller. The code should either copy or move the shared pointer parameter to another shared pointer object or pass it further to other code by invoking functions which accept shared pointers. If this is not the case, then plain pointer or reference may be feasible.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26418" target="_blank">C26418 NO_VALUE_OR_CONST_REF_SHARED_PTR</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-sharedptrparam-const" target="_blank">Core Guideline - R.36: Take a const shared_ptr<widget>& parameter to express that it might retain a reference count to the object ???</a></p>
+]]>
+    </description>
+    <internalKey>C26418</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>C26423</key>
     <name>C26423: The allocation was not directly assigned to an owner</name>
     <description><![CDATA[<p>
 not available now - work in progress (experimental)
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#gslowner-ownership-pointers" target="_blank">GSL.owner: Ownership pointers</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-raii" target="_blank">R.1: Resource Acquisition Is Initialization</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#gslowner-ownership-pointers" target="_blank">Core Guideline - GSL.owner: Ownership pointers</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-raii" target="_blank">Core Guideline - R.1: Resource Acquisition Is Initialization</a></p>
 ]]>
     </description>
     <internalKey>C26423</internalKey>
@@ -10214,7 +10311,7 @@ see also:</p>
     <description><![CDATA[<p>
 not available now - work in progress (experimental)
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Pro.safety: Type-safety profile</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26424</internalKey>
@@ -10225,36 +10322,513 @@ see also:</p>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>C26426</key>
+    <name>C26426: NO_GLOBAL_INIT_CALLS</name>
+    <description><![CDATA[<p>
+The order of execution of initializers for global objects may be inconsistent or undefined. This can lead to issues which are hard to reproduce and investigate. To avoid such problems global initializers should not depend on external code which is executed at runtime and can potentially depend on data which is not yet initialized. This rule flags cases where global objects use function calls to obtain their initial values.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26426" target="_blank">C26426 NO_GLOBAL_INIT_CALLS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#i22-avoid-complex-initialization-of-global-objects" target="_blank">Core Guideline - I.22: Avoid complex initialization of global objects</a></p>
+]]>
+    </description>
+    <internalKey>C26426</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26427</key>
+    <name>C26427: NO_GLOBAL_INIT_EXTERNS</name>
+    <description><![CDATA[<p>
+Global objects may be initialized in an inconsistent or undefined order which means that interdependency between them is risky and should be avoided. This is specifically applicable when initializers refer to another object considered to be ‘extern’.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26427" target="_blank">C26427 NO_GLOBAL_INIT_EXTERNS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#i22-avoid-complex-initialization-of-global-objects" target="_blank">Core Guideline - I.22: Avoid complex initialization of global objects</a></p>
+]]>
+    </description>
+    <internalKey>C26427</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26429</key>
+    <name>C26429: USE_NOTNULL</name>
+    <description><![CDATA[<p>
+It is a common practice to use asserts to enforce assumptions about validity of pointer values. The problem with asserts is that they do not expose assumptions through the interface (e.g. in return types or parameters). Asserts are also harder to maintain and keep in sync with other code changes. The recommendation is to use gsl::not_null from the Guidelines Support Library as a marker of resources which should never have null value. The rule USE_NOTNULL helps to identify places that omit checks for nullness and hence can be updated to use gsl::not_null.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26429" target="_blank">C26429: USE_NOTNULL</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" target="_blank">Core Guideline - F.23: Use a not_null<T> to indicate that "null" is not a valid value</a></p>
+]]>
+    </description>
+    <internalKey>C26429</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26430</key>
+    <name>C26430: TEST_ON_ALL_PATHS</name>
+    <description><![CDATA[<p>
+If code ever checks nullness of pointer variables it should do this consistently and validate pointers on all paths. Sometimes overaggressive checking for nullness is still better than possibility of a hard crash in one of the complicated branches. Ideally such code should be refactored to be less complex (by splitting into multiple functions) and to rely on markers like gsl::not_null (see Guidelines Support Library) to isolate parts of algorithm that can make safe assumption about valid pointer values. The rule TEST_ON_ALL_PATHS helps to find places where nullness checks are either inconsistent (hence assumptions may require review) or actual bugs where potential null value can bypass nullness check in some of the code paths.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26430" target="_blank">C26430 TEST_ON_ALL_PATHS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" target="_blank">Core Guideline - F.23: Use a not_null<T> to indicate that "null" is not a valid value</a></p>
+]]>
+    </description>
+    <internalKey>C26430</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26431</key>
+    <name>C26431: DONT_TEST_NOTNULL</name>
+    <description><![CDATA[<p>
+The marker type gsl::not_null from Guidelines Support Library is used to clearly indicate values which are never null pointers. It causes a hard failure if such assumption is not held at runtime. So, obviously, there is no need to check for nullness if expression evaluates to a result of type gsl::not_null.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26431" target="_blank">C26431: DONT_TEST_NOTNULL</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" target="_blank">Core Guideline - F.23: Use a not_null<T> to indicate that "null" is not a valid value</a></p>
+]]>
+    </description>
+    <internalKey>C26431</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26432</key>
+    <name>C26432: DEFINE_OR_DELETE_SPECIAL_OPS</name>
+    <description><![CDATA[<p>
+Special operations like constructors are assumed to alter behavior of types so that they rely more on language mechanisms to automatically enforce specific scenarios (the canonical example is resource management). If any of these operations is explicitly defined, defaulted or deleted (as an indication that user wants to avoid any special handling of a type) it would be inconsistent to leave the other operations from the same group unspecified (i.e. implicitly defined by compiler).
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26432" target="_blank">C26432 DEFINE_OR_DELETE_SPECIAL_OPS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#c21-if-you-define-or-delete-any-default-operation-define-or-delete-them-all" target="blank">Core Guideline - C.21: If you define or =delete any default operation, define or =delete them all</a></p>
+]]>
+    </description>
+    <internalKey>C26432</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+ <rule>
+    <key>C26433</key>
+    <name>C26433: OVERRIDE_EXPLICITLY</name>
+    <description><![CDATA[<p>
+When a method overrides a base virtual function it should clearly state this by using the 'override' specifier.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26433" target="_blank">C26433 OVERRIDE_EXPLICITLY</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#c128-virtual-functions-should-specify-exactly-one-of-virtual-override-or-final" target="blank">Core Guideline - C.128: Virtual functions should specify exactly one of virtual, override, or final</a></p>
+]]>
+    </description>
+    <internalKey>C26433</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+ <rule>
+    <key>C26434</key>
+    <name>C26434: DONT_HIDE_METHODS</name>
+    <description><![CDATA[<p>
+Function '%symbol_1%' hides a non-virtual function '%symbol_2%'.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26434" target="_blank">C26434 DONT_HIDE_METHODS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#c128-virtual-functions-should-specify-exactly-one-of-virtual-override-or-final" target="blank">Core Guideline - C.128: Virtual functions should specify exactly one of virtual, override, or final</a></p>
+]]>
+    </description>
+    <internalKey>C26434</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+ <rule>
+    <key>C26435</key>
+    <name>C26435: SINGLE_VIRTUAL_SPECIFICATION</name>
+    <description><![CDATA[<p>
+Methods should clearly state the kind of their virtual behavior by using a single specifier ('virtual', 'override', or 'final').
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26435" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26435</a></p>
+]]>
+    </description>
+    <internalKey>C26435</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26436</key>
+    <name>C26436: NEED_VIRTUAL_DTOR</name>
+    <description><![CDATA[<p>
+If a class defines a virtual function it becomes polymorphic, which implies that derived classes can change its behavior including resource management and destruction logic. Because client code may call polymorphic types via pointers to base classes, there is no way a client can explicitly choose which behavior is appropriate without downcasting. To make sure that resources are managed consistently and destruction occurs according to the actual type’s rules it is recommended to define a public virtual destructor. If the type hierarchy is designed to disallow client code to destroy objects directly, destructors should be defined as protected non-virtual.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26436" target="_blank">C26436 NEED_VIRTUAL_DTOR</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#c35-a-base-class-destructor-should-be-either-public-and-virtual-or-protected-and-nonvirtual" target="blank">Core Guideline - C.35: A base class destructor should be either public and virtual, or protected and nonvirtual</a></p>
+]]>
+    </description>
+    <internalKey>C26436</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26437</key>
+    <name>C26437: DONT_SLICE</name>
+    <description><![CDATA[<p>
+Slicing is allowed by compiler and can be viewed as a special case of dangerous implicit cast. Even if it is done intentionally and doesn’t lead to immediate issues, it is still highly discouraged since it makes code rather unmaintainable by forcing additional requirements on related data types. This is especially true if types are polymorphic or involve resource management.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26437" target="_blank">C26437 DONT_SLICE</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#es63-dont-slice" target="blank">Core Guideline - ES.63: Don't slice</a></p>
+]]>
+    </description>
+    <internalKey>C26437</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26438</key>
+    <name>C26438: NO_GOTO</name>
+    <description><![CDATA[<p>
+Using of ‘goto’ is widely acknowledged as dangerous and error-prone practice. It is acceptable only in generated code (e.g. in a parser generated from a grammar). With modern C++ features and utilities provided by the Guidelines Support Library it should be easy to avoid ‘goto’ altogether.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26438" target="_blank">C26438 NO_GOTO</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#es76-avoid-goto" target="blank">Core Guideline - ES.76: Avoid goto</a></p>
+]]>
+    </description>
+    <internalKey>C26438</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26439</key>
+    <name>C26439: SPECIAL_NOEXCEPT</name>
+    <description><![CDATA[<p>
+Some kinds of operations should never cause exceptions. Their implementations should be reliable and should handle possible errors conditions gracefully. They should never use exceptions to indicate failure. This rule flags cases where such operations are not explicitly marked as ‘noexcept’ which means that they may throw exceptions and cannot convey assumptions about their reliability.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26439" target="_blank">C26439 SPECIAL_NOEXCEPT</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f6-if-your-function-may-not-throw-declare-it-noexcept" target="blank">Core Guideline - F.6: If your function may not throw, declare it noexcept</a></p>
+]]>
+    </description>
+    <internalKey>C26439</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26440</key>
+    <name>C26440: DECLARE_NOEXCEPT</name>
+    <description><![CDATA[<p>
+If code is not supposed to cause any exceptions, it should be marked as such by using the ‘noexcept’ specifier. This would help to simplify error handling on the client code side, as well as enable compiler to do additional optimizations.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26440" target="_blank">C26440 DECLARE_NOEXCEPT</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f6-if-your-function-may-not-throw-declare-it-noexcept" target="blank">Core Guideline - F.6: If your function may not throw, declare it noexcept</a></p>
+]]>
+    </description>
+    <internalKey>C26440</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26441</key>
+    <name>C26441: NO_UNNAMED_GUARDS</name>
+    <description><![CDATA[<p>
+The standard library provides a few useful classes which help to control concurrent access to resources. Objects of such types lock exclusive access for the duration of their lifetime. This implies that every lock object must be named, i.e. have clearly defined lifetime which spans through the period in which access operations are executed. So, failing to assign a lock object to a variable is a mistake which is effectively disables locking mechanism (because temporary variables are transient). This rule tries to catch simple cases of such unintended behavior.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26441" target="_blank">C26441 NO_UNNAMED_GUARDS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#cp44-remember-to-name-your-lock_guards-and-unique_locks" target="blank">Core Guideline - 
+CP.44: Remember to name your lock_guards and unique_locks</a></p>
+]]>
+    </description>
+    <internalKey>C26441</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26443</key>
+    <name>C26443: NO_EXPLICIT_DTOR_OVERRIDE</name>
+    <description><![CDATA[<p>
+Destructors are very special methods and guidelines for them differ from the OVERRIDE_EXPLICITLY rule: it is recommended to rely on implicit overriding if the base class has a virtual destructor.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26443" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26443</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#c128-virtual-functions-should-specify-exactly-one-of-virtual-override-or-final" target="blank">Core Guideline - C.128: Virtual functions should specify exactly one of virtual, override, or final</a></p>
+]]>
+    </description>
+    <internalKey>C26443</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26444</key>
+    <name>C26444: NO_UNNAMED_RAII_OBJECTS</name>
+    <description><![CDATA[<p>
+This rule helps to detect some common cases where a potentially expensive object is created and immediately discarded. This is often an indication of ignored call results or inefficient resource handling.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26444" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26444</a></p>
+]]>
+    </description>
+    <internalKey>C26444</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26450</key>
+    <name>C26450: RESULT_OF_ARITHMETIC_OPERATION_PROVABLY_LOSSY</name>
+    <description><![CDATA[<p>
+Arithmetic operation on constants can sometimes lead to unintended overflows which are not obvious in user code but can be easily identified by automated tools.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26450" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26450</a></p>
+]]>
+    </description>
+    <internalKey>C26450</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26451</key>
+    <name>C26451: RESULT_OF_ARITHMETIC_OPERATION_CAST_TO_LARGER_SIZE</name>
+    <description><![CDATA[<p>
+A cast to a wider type can be ineffective and lead to unexpected results due to order of operations and non-obvious overflows. For example, an arithmetic operation may cause an overflow on 32-bit integer result before it is converted to 64-bit type.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26451" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26451</a></p>
+]]>
+    </description>
+    <internalKey>C26451</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26452</key>
+    <name>C26452: SHIFT_COUNT_NEGATIVE_OR_TOO_BIG</name>
+    <description><![CDATA[<p>
+Shifting integral values can result in undefined behavior if the shift count is not appropriate to the left-hand operand type.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26452" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26452</a></p>
+]]>
+    </description>
+    <internalKey>C26452</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26453</key>
+    <name>C26453: LEFTSHIFT_NEGATIVE_SIGNED_NUMBER</name>
+    <description><![CDATA[<p>
+Left shifting of negative signed integral has undefined results.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26453" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26453</a></p>
+]]>
+    </description>
+    <internalKey>C26453</internalKey>
+  <tag>core-guideline</tag>
+    <severity>BLOCKER</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26454</key>
+    <name>C26454: RESULT_OF_ARITHMETIC_OPERATION_NEGATIVE_UNSIGNED</name>
+    <description><![CDATA[<p>
+This rule detects if subtraction operations result in a negative number converted into unsigned type, which is always an overflow.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26454" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26454</a></p>
+]]>
+    </description>
+    <internalKey>C26454</internalKey>
+  <tag>core-guideline</tag>
+    <severity>BLOCKER</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+
+  <rule>
+    <key>C26460</key>
+    <name>C26460: USE_CONST_REFERENCE_ARGUMENTS</name>
+    <description><![CDATA[<p>
+By default, pass pointers and references to consts
+see also:</p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26460" target="_blank">C26460 USE_CONST_REFERENCE_ARGUMENTS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rconst-ref" target="_blank">Core Guideline - 
+Con.3: By default, pass pointers and references to consts</a></p>
+]]>
+    </description>
+    <internalKey>C26460</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>C26461</key>
-    <name>C26461: Use const pointer arguments</name>
+    <name>C26461: USE_CONST_POINTER_ARGUMENTS</name>
     <description><![CDATA[<p>
 By default, pass pointers and references to consts
 <pre><code>
 // Expect 26461: The input pointer argument b in function f7 can be marked as const
 int f7(const int *a, int *b)
 {
-    return *a + *b;
+    return *a + *b;
 }
- 
+ 
 struct S0
 {
-    virtual void m();
+    virtual void m();
 };
- 
+ 
 // Expect 26461 on 'p' but don't report on unnamed parameter.
 S0 f8(int *p, int *)
 {
-    (p == nullptr);
- 
-    // Don't report on return UDT.
-    return{};
+    (p == nullptr);
+ 
+    // Don't report on return UDT.
+    return{};
 }
 </code></pre>
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26461" target="_blank">C26461 C26461 USE_CONST_POINTER_ARGUMENTS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con3-by-default-pass-pointers-and-references-to-consts" target="_blank">Core Guideline - Con.3: By default, pass pointers and references to consts</a></p>
 ]]>
     </description>
     <internalKey>C26461</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26462</key>
+    <name>C26462: USE_CONST_POINTER_FOR_VARIABLE</name>
+    <description><![CDATA[<p>
+USE_CONST_POINTER_FOR_VARIABLE
+see also:</p>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26462" target="_blank">C26462 USE_CONST_POINTER_FOR_VARIABLE</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con4-use-const-to-define-objects-with-values-that-do-not-change-after-construction" target="_blank">Core Guideline - Con.4: Use const to define objects with values that do not change after construction</a></p>
+
+]]>
+    </description>
+    <internalKey>C26462</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26463</key>
+    <name>C26463: USE_CONST_FOR_ELEMENTS</name>
+    <description><![CDATA[<p>
+USE_CONST_FOR_ELEMENTS
+see also:</p>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26463" target="_blank">C26463 USE_CONST_FOR_ELEMENTS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con4-use-const-to-define-objects-with-values-that-do-not-change-after-construction" target="_blank">Core Guideline - Con.4: Use const to define objects with values that do not change after construction</a></p>
+
+]]>
+    </description>
+    <internalKey>C26463</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26464</key>
+    <name>C26464: USE_CONST_POINTER_FOR_ELEMENTS</name>
+    <description><![CDATA[<p>
+USE_CONST_POINTER_FOR_ELEMENTS
+see also:</p>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26464" target="_blank">C26464 USE_CONST_POINTER_FOR_ELEMENTS</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con4-use-const-to-define-objects-with-values-that-do-not-change-after-construction" target="_blank">Core Guideline - Con.4: Use const to define objects with values that do not change after construction</a></p>
+
+]]>
+    </description>
+    <internalKey>C26464</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26465</key>
+    <name>C26465: NO_CONST_CAST_UNNECESSARY</name>
+    <description><![CDATA[<p>
+NO_CONST_CAST_UNNECESSARY
+see also:</p>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26465" target="_blank">C26465 NO_CONST_CAST_UNNECESSARY</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-constcast" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+
+]]>
+    </description>
+    <internalKey>C26465</internalKey>
+    <tag>core-guideline</tag>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26466</key>
+    <name>C26466: NO_STATIC_DOWNCAST_POLYMORPHIC</name>
+    <description><![CDATA[<p>
+NO_STATIC_DOWNCAST_POLYMORPHIC
+see also:</p>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26466" target="_blank">C26466 NO_STATIC_DOWNCAST_POLYMORPHIC</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-downcast" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26466</internalKey>
     <tag>core-guideline</tag>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -10279,11 +10853,11 @@ see also:</p>
   </rule>
   <rule>
     <key>C26471</key>
-    <name>C26471: No reinterpret_cast from void pointer</name>
+    <name>C26471: NO_REINTERPRET_CAST_FROM_VOID_PTR</name>
     <description><![CDATA[<p>
 No reinterpret_cast from void pointer.
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-reinterpretcast" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26471</internalKey>
@@ -10294,12 +10868,82 @@ see also:</p>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
-    <key>C26481</key>
-    <name>C26481: No pointer arithmetic</name>
+    <key>C26472</key>
+    <name>C26472: NO_CASTS_FOR_ARITHMETIC_CONVERSION</name>
     <description><![CDATA[<p>
+This rule helps to find places where static casts are used to convert between integral types, which is unsafe since compiler would not warn if any data loss occurs. Brace initializers are better for the cases where constants are used, and a compiler error is desired.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26472" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26472</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-reinterpretcast" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26472</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26473</key>
+    <name>C26473: NO_IDENTITY_CAST</name>
+    <description><![CDATA[<p>
+This rule helps to remove unnecessary or suspicious casts. Obviously, when type is converted to itself, such conversion is ineffective, yet the fact that the cast is used may indicate subtle design issue or a potential for regression if types change in future. It is always safer to use as few casts as possible.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26473" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26473</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-reinterpretcast" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26473</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26474</key>
+    <name>C26474: NO_IMPLICIT_CAST</name>
+    <description><![CDATA[<p>
+In some cases, implicit casts between pointer types can safely be done and don’t require user to write specific cast expression. This rule finds instances of such unnecessary casting which can be removed.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26474" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26474</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-reinterpretcast" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+]]>
+    </description>
+    <internalKey>C26474</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26475</key>
+    <name>C26475: NO_FUNCTION_STYLE_CASTS</name>
+    <description><![CDATA[<p>
+Function style casts (e.g. "int(1.1)") are another incarnation of C-style casts (like "(int)1.1") with all its questionable safety. Specifically, compiler doesn’t try to check if any data loss can occur neither in C-casts, nor in function casts. In both cases it is better either to avoid casting or use brace initializer if possible. If neither works, static casts may be suitable, but it is still better to use utilities from the Guidelines Support Library.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26475" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26475</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#es49-if-you-must-use-a-cast-use-a-named-cast" target="_blank">Core Guideline - ES.49: If you must use a cast, use a named cast</a></p>
+]]>
+    </description>
+    <internalKey>C26475</internalKey>
+  <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26481</key>
+    <name>C26481: NO_POINTER_ARITHMETIC</name>
+    <description><![CDATA[<p>
+Don't use pointer arithmetic. Use span instead.
 Pointers should only refer to single objects, and pointer arithmetic is fragile and easy to get wrong. <i>span</i> is a bounds-checked, safe type for accessing arrays of data.
 
 see also:</p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26481" target="_blank">C26481 NO_POINTER_ARITHMETIC</a></p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
 <p><a href="http://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#probounds-bounds-safety-profile" target="_blank">Core Guideline - Pro.bounds: Bounds safety profile</a></p>
 ]]>
@@ -10313,9 +10957,9 @@ see also:</p>
   </rule>
   <rule>
     <key>C26482</key>
-    <name>C26482: No dynamic array indexing</name>
+    <name>C26482: NO_DYNAMIC_ARRAY_INDEXING</name>
     <description><![CDATA[<p>
-No dynamic array indexing
+Only index into arrays using constant expressions.
 see also:</p>
 <p><a href="http://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#probounds-bounds-safety-profile" target="_blank">Core Guideline - Pro.bounds: Bounds safety profile</a></p>
 ]]>
@@ -10329,9 +10973,9 @@ see also:</p>
   </rule>
   <rule>
     <key>C26483</key>
-    <name>C26483: Static index out of range</name>
+    <name>C26483: STATIC_INDEX_OUT_OF_RANGE</name>
     <description><![CDATA[<p>
-No dynamic array indexing
+Value %value% is outside the bounds (0, %bound%) of variable '%variable%'. Only index into arrays using constant expressions that are within bounds of the array.
 see also:</p>
 <p><a href="http://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#probounds-bounds-safety-profile" target="_blank">Core Guideline - Pro.bounds: Bounds safety profile</a></p>
 ]]>
@@ -10345,12 +10989,13 @@ see also:</p>
   </rule>
   <rule>
     <key>C26485</key>
-    <name>C26485: No array to pointer decay</name>
+    <name>C26485: NO_ARRAY_TO_POINTER_DECAY</name>
     <description><![CDATA[<p>
 No array to pointer decay.
 
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#r-resource-management" target="_blank">Core Guideline - Pro.safety: Resource management</a></p>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26485" target="_blank">C26485 NO_ARRAY_TO_POINTER_DECAY</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#probounds-bounds-safety-profile" target="_blank">Core Guideline - Pro.bounds: Bounds safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26485</internalKey>
@@ -10361,12 +11006,60 @@ see also:</p>
     <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
-    <key>C26490</key>
-    <name>C26490: No reinterpret_cast</name>
+    <key>C26486</key>
+    <name>C26486: LIFETIMES_FUNCTION_PRECONDITION_VIOLATION</name>
     <description><![CDATA[<p>
-No reinterpret_cast.
+If a pointer is passed to a function it is expected that it points to a valid memory location, i.e. a location with a valid object or nullptr.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26486" target="_blank">https://docs.microsoft.com/visualstudio/code-quality/c26486</a></p>
+]]>
+    </description>
+    <internalKey>C26486</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26487</key>
+    <name>C26487: LIFETIMES_FUNCTION_POSTCONDITION_VIOLATION</name>
+    <description><![CDATA[<p>
+If a pointer is returned from a function it must either point to a valid object which will outlive the function or be nullptr.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26487" target="_blank">https://docs.microsoft.com/visualstudio/code-quality/c26487</a></p>
+]]>
+    </description>
+    <internalKey>C26487</internalKey>
+    <tag>core-guideline</tag>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26489</key>
+    <name>C26489: LIFETIMES_DEREF_INVALID_POINTER</name>
+    <description><![CDATA[<p>
+This rule tries to catch scenarios in which a local pointer obtains a value pointing to a transient object. If such a pointer is accessed at the point where its target may not be alive this can clearly lead to catastrophic results. 
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/visualstudio/code-quality/c26489" target="_blank">https://docs.microsoft.com/visualstudio/code-quality/c26489</a></p>
+]]>
+    </description>
+    <internalKey>C26489</internalKey>
+    <tag>core-guideline</tag>
+    <severity>BLOCKER</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26490</key>
+    <name>C26490: NO_REINTERPRET_CAST</name>
+    <description><![CDATA[<p>
+Don't use reinterpret_cast.
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-reinterpretcast" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26490</internalKey>
@@ -10378,9 +11071,9 @@ see also:</p>
   </rule>
   <rule>
     <key>C26491</key>
-    <name>C26491: No static downcast</name>
+    <name>C26491: NO_STATIC_DOWNCAST</name>
     <description><![CDATA[<p>
-No static downcast.
+Don't use static_cast downcasts.
 see also:</p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
@@ -10394,9 +11087,9 @@ see also:</p>
   </rule>
   <rule>
     <key>C26492</key>
-    <name>C26492: No const cast</name>
+    <name>C26492: NO_CONST_CAST</name>
     <description><![CDATA[<p>
-No static downcast.
+Don't use const_cast to cast away const.
 see also:</p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
@@ -10410,9 +11103,9 @@ see also:</p>
   </rule>
   <rule>
     <key>C26493</key>
-    <name>C26493: No C-style cast</name>
+    <name>C26493: NO_CSTYLE_CAST</name>
     <description><![CDATA[<p>
-No C-style cast.
+Don't use C-style casts.
 see also:</p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
@@ -10426,9 +11119,9 @@ see also:</p>
   </rule>
   <rule>
     <key>C26494</key>
-    <name>C26494: Variable use before initialization</name>
+    <name>C26494: VAR_USE_BEFORE_INIT</name>
     <description><![CDATA[<p>
-Variable use before initialization.
+Variable '%variable%' is uninitialized. Always initialize an object.
 see also:</p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
@@ -10442,11 +11135,11 @@ see also:</p>
   </rule>
   <rule>
     <key>C26495</key>
-    <name>C26495: Variable use before initialization</name>
+    <name>C26495: MEMBER_UNINIT</name>
     <description><![CDATA[<p>
-Variable use before initialization.
+Variable '%variable%' is uninitialized. Always initialize a member variable.
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#prosafety-type-safety-profile" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-memberinit" target="_blank">Core Guideline - Pro.safety: Type-safety profile</a></p>
 ]]>
     </description>
     <internalKey>C26495</internalKey>
@@ -10459,21 +11152,21 @@ see also:</p>
 
   <rule>
     <key>C26496</key>
-    <name>C26496: Use const for variable</name>
+    <name>C26496: USE_CONST_FOR_VARIABLE</name>
     <description><![CDATA[<p>
-Use const to define objects with values that do not change after construction
+The variable '%variable%' is assigned only once, mark it as const.
 <pre><code>
 int f5()
 {
-    // Expect 26496: Variable m is assigned only once, use const.
-    int m = 5;
-    const int a = 10;
-    if (m > a)
-        return m;
-    return a;
+    // Expect 26496: Variable m is assigned only once, use const.
+    int m = 5;
+    const int a = 10;
+    if (m > a)
+        return m;
+    return a;
 }</code></pre>
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con4-use-const-to-define-objects-with-values-that-do-not-change-after-construction" target="_blank">Core Guideline - Con.4: Use const to define objects with values that do not change after construction</a></p>
 ]]>
     </description>
     <internalKey>C26496</internalKey>
@@ -10484,32 +11177,32 @@ see also:</p>
   </rule>
   <rule>
     <key>C26497</key>
-    <name>C26497: Use constexpr for function</name>
+    <name>C26497: USE_CONSTEXPR_FOR_FUNCTION</name>
     <description><![CDATA[<p>
  If a function may have to be evaluated at compile time, declare it constexpr
 <pre><code>
 // Expect 26497: could be marked constexpr if compile-time evaluation is desired
 int f1(int a, int b)
 {
-    return a + b;
+    return a + b;
 }
- 
+ 
 constexpr int f2(int a, int b)
 {
-    return a + b;
+    return a + b;
 }
- 
+ 
 void f3()
 {
-   // Compile-time evaluation
-    constexpr int m = f2(10, 20);
-     
-    // Expect 26498: This function call f2 can use constexpr if compile-time evaluation is desired.
-    const int m2 = f2(10, 20);
+   // Compile-time evaluation
+    constexpr int m = f2(10, 20);
+     
+    // Expect 26498: This function call f2 can use constexpr if compile-time evaluation is desired.
+    const int m2 = f2(10, 20);
 }
 }</code></pre>
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rf-constexpr" target="_blank">Core Guideline - F.4: If a function may have to be evaluated at compile time, declare it constexpr</a></p>
 ]]>
     </description>
     <internalKey>C26497</internalKey>
@@ -10520,12 +11213,12 @@ see also:</p>
   </rule>
   <rule>
     <key>C26498</key>
-    <name>C26498: Use constexpr for function call</name>
+    <name>C26498: USE_CONSTEXPR_FOR_FUNCTIONCALL</name>
     <description><![CDATA[<p>
 Use constexpr for function call.
 
 see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rconst-constexpr" target="_blank">Core Guideline - Con.5: Use constexpr for values that can be computed at compile time</a></p>
 ]]>
     </description>
     <internalKey>C26498</internalKey>
@@ -13478,376 +14171,6 @@ This warning indicates that a function is being used that has been banned, and h
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-
-  <!-- ########### C++ Core Check improvements in Visual Studio 2017 15.5 ########### -->
-  <rule>
-    <key>C26432</key>
-    <name>C26432: If you define or =delete any default operation, define or =delete them all</name>
-    <description><![CDATA[<p>
-Special operations like constructors are assumed to alter behavior of types so that they rely more on language mechanisms to automatically enforce specific scenarios (the canonical example is resource management). If any of these operations is explicitly defined, defaulted or deleted (as an indication that user wants to avoid any special handling of a type) it would be inconsistent to leave the other operations from the same group unspecified (i.e. implicitly defined by compiler).
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26432" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26432</a></p>
-]]>
-    </description>
-    <internalKey>C26432</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26436</key>
-    <name>C26436: A base class destructor should be either public and virtual, or protected and nonvirtual</name>
-    <description><![CDATA[<p>
-If a class defines a virtual function it becomes polymorphic, which implies that derived classes can change its behavior including resource management and destruction logic. Because client code may call polymorphic types via pointers to base classes, there is no way a client can explicitly choose which behavior is appropriate without downcasting. To make sure that resources are managed consistently and destruction occurs according to the actual type’s rules it is recommended to define a public virtual destructor. If the type hierarchy is designed to disallow client code to destroy objects directly, destructors should be defined as protected non-virtual.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26436" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26436</a></p>
-]]>
-    </description>
-    <internalKey>C26436</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26434</key>
-    <name>C26434: Virtual functions should specify exactly one of virtual, override, or final</name>
-    <description><![CDATA[<p>
-Introducing a method which has the same name as a non-virtual method in a base class is like introducing a variable name which conflicts with a name from outer scope. Furthermore, if signatures of methods mismatch, the intended overriding may turn into overloading. Overall, name hiding is dangerous and error-prone.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26434" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26434</a></p>
-]]>
-    </description>
-    <internalKey>C26434</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26441</key>
-    <name>C26441: Remember to name your lock_guards and unique_locks</name>
-    <description><![CDATA[<p>
-The standard library provides a few useful classes which help to control concurrent access to resources. Objects of such types lock exclusive access for the duration of their lifetime. This implies that every lock object must be named, i.e. have clearly defined lifetime which spans through the period in which access operations are executed. So, failing to assign a lock object to a variable is a mistake which is effectively disables locking mechanism (because temporary variables are transient). This rule tries to catch simple cases of such unintended behavior.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26441" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26441</a></p>
-]]>
-    </description>
-    <internalKey>C26441</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26426</key>
-    <name>C26426: Avoid complex initialization of global objects</name>
-    <description><![CDATA[<p>
-The order of execution of initializers for global objects may be inconsistent or undefined. This can lead to issues which are hard to reproduce and investigate. To avoid such problems global initializers should not depend on external code which is executed at runtime and can potentially depend on data which is not yet initialized. This rule flags cases where global objects use function calls to obtain their initial values.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26426" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26426</a></p>
-]]>
-    </description>
-    <internalKey>C26426</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26427</key>
-    <name>C26427: Avoid complex initialization of global objects</name>
-    <description><![CDATA[<p>
-Global objects may be initialized in an inconsistent or undefined order which means that interdependency between them is risky and should be avoided. This is specifically applicable when initializers refer to another object considered to be ‘extern’.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26427" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26427</a></p>
-]]>
-    </description>
-    <internalKey>C26427</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26439</key>
-    <name>C26439: If your function may not throw, declare it noexcept</name>
-    <description><![CDATA[<p>
-Some kinds of operations should never cause exceptions. Their implementations should be reliable and should handle possible errors conditions gracefully. They should never use exceptions to indicate failure. This rule flags cases where such operations are not explicitly marked as ‘noexcept’ which means that they may throw exceptions and cannot convey assumptions about their reliability.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26439" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26439</a></p>
-]]>
-    </description>
-    <internalKey>C26439</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26440</key>
-    <name>C26440: If your function may not throw, declare it noexcept</name>
-    <description><![CDATA[<p>
-If code is not supposed to cause any exceptions, it should be marked as such by using the ‘noexcept’ specifier. This would help to simplify error handling on the client code side, as well as enable compiler to do additional optimizations.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26440" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26440</a></p>
-]]>
-    </description>
-    <internalKey>C26440</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26416</key>
-    <name>C26416: Take a shared_ptr parameter to express that a function is part owner</name>
-    <description><![CDATA[<p>
-Passing a shared pointer by rvalue reference is usually unnecessary. Unless it is an implementation of move semantics for a shared pointer type itself, shared pointer objects can be safely passed by value. Using rvalue reference may be also an indication that unique pointer is more appropriate since it clearly transfers unique ownership from caller to callee.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26416" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26416</a></p>
-]]>
-    </description>
-    <internalKey>C26416</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26417</key>
-    <name>C26417: Take a shared_ptr&amp; parameter to express that a function might reseat the shared pointer</name>
-    <description><![CDATA[<p>
-Passing shared pointers by reference may be useful in scenarios where callee code updates target of the smart pointer object and its caller expects to see such update. Using a reference solely to reduce costs of passing a shared pointer is questionable. If callee code only accesses target object and never manages its lifetime, it is safer to pass raw pointer or reference, rather than to expose resource management details.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26417" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26417</a></p>
-]]>
-    </description>
-    <internalKey>C26417</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26418</key>
-    <name>C26418: Take a const shared_ptr&amp; parameter to express that it might retain a reference count to the object</name>
-    <description><![CDATA[<p>
-If shared pointer parameter is passed by value or reference to a constant object it is expected that function will take control of its target object’s lifetime without affecting of the caller. The code should either copy or move the shared pointer parameter to another shared pointer object or pass it further to other code by invoking functions which accept shared pointers. If this is not the case, then plain pointer or reference may be feasible.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26418" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26418</a></p>
-]]>
-    </description>
-    <internalKey>C26418</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26415</key>
-    <name>C26415: Take smart pointers as parameters only to explicitly express lifetime semantics</name>
-    <description><![CDATA[<p>
-Using a smart pointer type to pass data to a function indicates that the target function needs to manage the lifetime of the contained object. However, if the function only uses the smart pointer to access the contained object and never actually calls any code which may lead to its deallocation (never affect its lifetime), there is usually no need to complicate the interface with smart pointers. A plain pointer or reference to the contained object should be preferred.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26415" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26415</a></p>
-]]>
-    </description>
-    <internalKey>C26415</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26414</key>
-    <name>C26414: Prefer scoped objects, don't heap-allocate unnecessarily</name>
-    <description><![CDATA[<p>
-Smart pointers are convenient for dynamic resource management, but they are not always necessary. For example, creating of a local dynamic buffer can be easily (end sometimes more efficiently) managed by standard containers. For single objects it may be unnecessary to do dynamic allocation at all (e.g. if such objects never outlive their creator function) and they can be replaced with local variables. Smart pointers become handy when scenario requires changing of ownership, i.e. reassigning of a dynamic resource multiple times or in multiple paths. This also includes cases where resources are obtained from external code and smart pointers are used to extend resource’s lifetime.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26414" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26414</a></p>
-]]>
-    </description>
-    <internalKey>C26414</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26429</key>
-    <name>C26429: Use a not_null to indicate that "null" is not a valid value</name>
-    <description><![CDATA[<p>
-It is a common practice to use asserts to enforce assumptions about validity of pointer values. The problem with asserts is that they do not expose assumptions through the interface (e.g. in return types or parameters). Asserts are also harder to maintain and keep in sync with other code changes. The recommendation is to use gsl::not_null from the Guidelines Support Library as a marker of resources which should never have null value. The rule USE_NOTNULL helps to identify places that omit checks for nullness and hence can be updated to use gsl::not_null.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26429" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26429</a></p>
-]]>
-    </description>
-    <internalKey>C26429</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26430</key>
-    <name>C26430: Use a not_null to indicate that "null" is not a valid value</name>
-    <description><![CDATA[<p>
-If code ever checks nullness of pointer variables it should do this consistently and validate pointers on all paths. Sometimes overaggressive checking for nullness is still better than possibility of a hard crash in one of the complicated branches. Ideally such code should be refactored to be less complex (by splitting into multiple functions) and to rely on markers like gsl::not_null (see Guidelines Support Library) to isolate parts of algorithm that can make safe assumption about valid pointer values. The rule TEST_ON_ALL_PATHS helps to find places where nullness checks are either inconsistent (hence assumptions may require review) or actual bugs where potential null value can bypass nullness check in some of the code paths.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26430" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26430</a></p>
-]]>
-    </description>
-    <internalKey>C26430</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26431</key>
-    <name>C26431: Use a not_null to indicate that "null" is not a valid value</name>
-    <description><![CDATA[<p>
-The marker type gsl::not_null from Guidelines Support Library is used to clearly indicate values which are never null pointers. It causes a hard failure if such assumption is not held at runtime. So, obviously, there is no need to check for nullness if expression evaluates to a result of type gsl::not_null.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26431" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26431</a></p>
-]]>
-    </description>
-    <internalKey>C26431</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26438</key>
-    <name>C26438: Avoid goto</name>
-    <description><![CDATA[<p>
-Using of ‘goto’ is widely acknowledged as dangerous and error-prone practice. It is acceptable only in generated code (e.g. in a parser generated from a grammar). With modern C++ features and utilities provided by the Guidelines Support Library it should be easy to avoid ‘goto’ altogether.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26438" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26438</a></p>
-]]>
-    </description>
-    <internalKey>C26438</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26437</key>
-    <name>C26437: Don't slice</name>
-    <description><![CDATA[<p>
-Slicing is allowed by compiler and can be viewed as a special case of dangerous implicit cast. Even if it is done intentionally and doesn’t lead to immediate issues, it is still highly discouraged since it makes code rather unmaintainable by forcing additional requirements on related data types. This is especially true if types are polymorphic or involve resource management.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26437" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26437</a></p>
-]]>
-    </description>
-    <internalKey>C26437</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26472</key>
-    <name>C26472: Avoid casts</name>
-    <description><![CDATA[<p>
-This rule helps to find places where static casts are used to convert between integral types, which is unsafe since compiler would not warn if any data loss occurs. Brace initializers are better for the cases where constants are used, and a compiler error is desired.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26472" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26472</a></p>
-]]>
-    </description>
-    <internalKey>C26472</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26473</key>
-    <name>C26473: Avoid casts</name>
-    <description><![CDATA[<p>
-This rule helps to remove unnecessary or suspicious casts. Obviously, when type is converted to itself, such conversion is ineffective, yet the fact that the cast is used may indicate subtle design issue or a potential for regression if types change in future. It is always safer to use as few casts as possible.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26473" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26473</a></p>
-]]>
-    </description>
-    <internalKey>C26473</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26474</key>
-    <name>C26474: Avoid casts</name>
-    <description><![CDATA[<p>
-In some cases, implicit casts between pointer types can safely be done and don’t require user to write specific cast expression. This rule finds instances of such unnecessary casting which can be removed.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26474" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26474</a></p>
-]]>
-    </description>
-    <internalKey>C26474</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26475</key>
-    <name>C26475: If you must use a cast, use a named cast</name>
-    <description><![CDATA[<p>
-Function style casts (e.g. "int(1.1)") are another incarnation of C-style casts (like "(int)1.1") with all its questionable safety. Specifically, compiler doesn’t try to check if any data loss can occur neither in C-casts, nor in function casts. In both cases it is better either to avoid casting or use brace initializer if possible. If neither works, static casts may be suitable, but it is still better to use utilities from the Guidelines Support Library.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26475" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26475</a></p>
-]]>
-    </description>
-    <internalKey>C26475</internalKey>
-	<tag>core-guideline</tag>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26460</key>
-    <name>C26460: Use const reference arguments</name>
-    <description><![CDATA[<p>
-By default, pass pointers and references to consts
-see also:</p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con-constants-and-immutability" target="_blank">Con: Constants and Immutability</a></p>
-]]>
-    </description>
-    <internalKey>C26460</internalKey>
-    <tag>core-guideline</tag>
-    <severity>MAJOR</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  
+ 
 </rules>
 
