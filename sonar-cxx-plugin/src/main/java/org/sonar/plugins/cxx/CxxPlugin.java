@@ -359,7 +359,7 @@ public final class CxxPlugin implements Plugin {
         .defaultValue(CxxCompilerSensor.DEFAULT_PARSER_DEF)
         .name("Format")
         .type(PropertyType.SINGLE_SELECT_LIST)
-        .options(CxxCompilerVcParser.KEY, CxxCompilerGccParser.KEY)
+        .options(CxxCompilerVcParser.KEY_VC, CxxCompilerGccParser.KEY_GCC)
         .description("The format of the warnings file. Currently supported are Visual C++ and GCC.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)

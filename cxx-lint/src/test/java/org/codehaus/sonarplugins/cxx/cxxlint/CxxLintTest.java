@@ -20,7 +20,8 @@
 package org.codehaus.sonarplugins.cxx.cxxlint;
 
 import java.io.File;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 import org.junit.Test;
 import org.sonar.cxx.cxxlint.CxxLint;
 
@@ -29,7 +30,6 @@ import org.sonar.cxx.cxxlint.CxxLint;
  * @author jocs
  */
 public class CxxLintTest {
-//  private static final Logger LOG = Loggers.get(CxxLintTest.class);
 
   /**
    * Test of main method, of class CxxLint.
@@ -43,7 +43,7 @@ public class CxxLintTest {
     args[0] = "-f";
     args[1] = fileToAnalyse.getAbsolutePath();
     CxxLint.main(args);
-    assertThat(true);
+    assertThatCode(() -> CxxLint.main(args)).doesNotThrowAnyException();
   }
 
   /**
@@ -61,12 +61,7 @@ public class CxxLintTest {
     args[2] = "-s";
     args[3] = settingsFile.getAbsolutePath();
 
-//    try {
     CxxLint.main(args);
-    assertThat(true);
-//    } catch (Exception ex) {
-//      LOG.info("Exception Found: " + ex);
-//      assertThat(false);
-//    }
+    assertThatCode(() -> CxxLint.main(args)).doesNotThrowAnyException();
   }
 }

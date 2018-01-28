@@ -77,9 +77,10 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
    * @param context for coverage analysis
    * @param fileLinesContextFactory container for linesOfCode, linesOfComments, executableLines
    * @param allLinesOfCode set of lines for a source file
+   * @param language properties
    */
-  public CxxFileLinesVisitor(CxxLanguage language, FileLinesContextFactory fileLinesContextFactory, SensorContext context,
-    Map<InputFile, Set<Integer>> allLinesOfCode) {
+  public CxxFileLinesVisitor(CxxLanguage language, FileLinesContextFactory fileLinesContextFactory, 
+      SensorContext context, Map<InputFile, Set<Integer>> allLinesOfCode) {
     this.language = language;
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.fileSystem = context.fileSystem();
@@ -117,7 +118,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     switch ((CxxGrammarImpl) astNode.getType()) {
       case functionDefinition:
         if (!isDefaultOrDeleteFunctionBody(astNode)) {
-          isWithinFunctionDefinition++;
+          increaseFunctionDefinition();
         }
         break;
       case labeledStatement:
@@ -132,6 +133,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       // Do nothing particular
     }
   }
+
 
   /**
    * @param astNode
@@ -150,8 +152,22 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   @Override
   public void leaveNode(AstNode astNode) {
     if (!isDefaultOrDeleteFunctionBody(astNode)) {
-      isWithinFunctionDefinition--;
+      decreaseFunctionDefinitions();
     }
+  }
+
+  /**
+   * 
+   */
+  private static void increaseFunctionDefinition() {
+    isWithinFunctionDefinition++;
+  }
+
+  /**
+   * 
+   */
+  private static void decreaseFunctionDefinitions() {
+    isWithinFunctionDefinition--;
   }
 
   private static boolean isDefaultOrDeleteFunctionBody(AstNode astNode) {
