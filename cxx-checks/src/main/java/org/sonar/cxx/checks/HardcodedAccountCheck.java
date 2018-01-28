@@ -71,6 +71,7 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
     return regularExpression;
   }
 
+  @SuppressWarnings("squid:S2696") // ... initialize SquidAstVisitor
   @Override
   public void init() {
     String regEx = getRegularExpression();
