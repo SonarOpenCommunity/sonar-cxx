@@ -34,7 +34,7 @@ import org.sonar.api.utils.log.Loggers;
 public class CxxCompilerVcParser implements CompilerParser {
 
   private static final Logger LOG = Loggers.get(CxxCompilerVcParser.class);
-  public static final String KEY = "Visual C++";
+  public static final String KEY_VC = "Visual C++";
   // search for single line with compiler warning message VS2008 - order for groups: 1 = file, 2 = line, 3 = ID, 4=message
   public static final String DEFAULT_REGEX_DEF = "^(.*)\\((\\d+)\\)\\x20:\\x20warning\\x20(C\\d+):(.*)$";
   // sample regex for VS2012/2013: "^.*>(?<filename>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)$";
@@ -46,7 +46,7 @@ public class CxxCompilerVcParser implements CompilerParser {
    */
   @Override
   public String key() {
-    return KEY;
+    return KEY_VC;
   }
 
   /**
