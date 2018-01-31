@@ -199,6 +199,12 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
   
   private void publishLocInBigFunctionForProject(InputModule module, SensorContext context){
     context.<Integer>newMeasure()
+      .forMetric(FunctionSizeMetrics.LOC_IN_FUNCTIONS)
+      .on(module)
+      .withValue(locOverThreshold + locBelowThreshold)
+      .save();    
+    
+    context.<Integer>newMeasure()
       .forMetric(FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)
       .on(module)
       .withValue(locOverThreshold)
@@ -239,9 +245,15 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
       return;
     
     context.<Integer>newMeasure()
+      .forMetric(FunctionSizeMetrics.LOC_IN_FUNCTIONS)
+      .on(inputFile)
+      .withValue(c.countOverThreshold + c.countBelowThreshold)
+      .save();    
+    
+    context.<Integer>newMeasure()
       .forMetric(FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)
       .on(inputFile)
-      .withValue((int)c.countOverThreshold)
+      .withValue(c.countOverThreshold)
       .save();
 
     context.<Double>newMeasure()

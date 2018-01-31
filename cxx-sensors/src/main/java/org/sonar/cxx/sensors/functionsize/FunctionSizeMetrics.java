@@ -49,16 +49,23 @@ public class FunctionSizeMetrics implements Metrics {
     .setDomain(CoreMetrics.DOMAIN_SIZE)
     .create();  
   
-public static final Metric<Double> PERC_LOC_IN_BIG_FUNCTIONS = new Metric.Builder("perc_loc_in_big_functions", "% of LoC in Big Functions", Metric.ValueType.PERCENT)
+  public static final Metric<Double> PERC_LOC_IN_BIG_FUNCTIONS = new Metric.Builder("perc_loc_in_big_functions", "% of LoC in Big Functions", Metric.ValueType.PERCENT)
     .setDescription("% of lines of code in functions with too many lines")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(false)
     .setDomain(CoreMetrics.DOMAIN_SIZE)
     .create();    
+  
+   public static final Metric<Integer> LOC_IN_FUNCTIONS = new Metric.Builder("loc_in_functions", "LoC in Functions", Metric.ValueType.INT)
+    .setDescription("Number of lines of code in function bodies")
+    .setDirection(Metric.DIRECTION_WORST)
+    .setQualitative(false)
+    .setDomain(CoreMetrics.DOMAIN_SIZE)
+    .create();      
 
   @Override
   public List<Metric> getMetrics() {
-    return asList(BIG_FUNCTIONS, PERC_BIG_FUNCTIONS, LOC_IN_BIG_FUNCTIONS, PERC_LOC_IN_BIG_FUNCTIONS);
+    return asList(BIG_FUNCTIONS, PERC_BIG_FUNCTIONS, LOC_IN_BIG_FUNCTIONS, PERC_LOC_IN_BIG_FUNCTIONS, LOC_IN_FUNCTIONS);
   }
   
 }
