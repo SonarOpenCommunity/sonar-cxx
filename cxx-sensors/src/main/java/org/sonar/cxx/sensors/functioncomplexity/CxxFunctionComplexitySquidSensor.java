@@ -39,8 +39,6 @@ import static org.sonar.cxx.checks.TooManyLinesOfCodeInFunctionCheck.getNumberOf
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import static org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor.REPORT_PATH_KEY;
 import org.sonar.cxx.sensors.squid.SquidSensor;
-import org.sonar.cxx.sensors.utils.FileStreamFactory;
-import org.sonar.cxx.sensors.utils.StreamFactory;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
@@ -50,8 +48,7 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
   
   private static final Logger LOG = Loggers.get(CxxFunctionComplexitySquidSensor.class);
   
-  public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "funccomplexity.threshold";
-  public static final String FUNCTION_COMPLEXITY_FILE_NAME_KEY = "funccomplexity.filename";
+  public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "funccomplexity.threshold";  
   
   private int cyclomaticComplexityThreshold;
   
@@ -67,28 +64,12 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
   
   private Hashtable<SourceFile, FunctionCount> locInComplexFunctionsPerFile = new Hashtable<>();      
   
-  private String fileName;
-  
-  private StreamFactory streamFactory;
-  
-  private TreeSet<FunctionScore> rankedList = new TreeSet<FunctionScore>(new FunctionScoreComparator());
-  public SortedSet<FunctionScore> getRankedList(){
-      return this.rankedList;
-  }  
+  private String fileName; 
   
   public CxxFunctionComplexitySquidSensor(CxxLanguage language){    
     this.cyclomaticComplexityThreshold = language.getIntegerOption(FUNCTION_COMPLEXITY_THRESHOLD_KEY).orElse(10);
-    LOG.debug("Cyclomatic complexity threshold: " + this.cyclomaticComplexityThreshold);   
-    
-    this.fileName = language.getStringOption(FUNCTION_COMPLEXITY_FILE_NAME_KEY).orElse("");
-    LOG.debug("File name to dump CC data: " + this.fileName);
-    
-    this.streamFactory = new FileStreamFactory();
-  }
-  
-  public void setFileStreamFactory(StreamFactory factory){
-    this.streamFactory = factory;
-  }
+    LOG.debug("Cyclomatic complexity threshold: " + this.cyclomaticComplexityThreshold);                     
+  } 
 
   @Override
   public SquidAstVisitor<Grammar> getVisitor() {
@@ -109,37 +90,8 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
       int lineCount = getNumberOfLine(node);
 
       incrementFunctionByThresholdForAllFiles(complexity, lineCount);           
-      incrementFunctionByThresholdForFile(sourceFile, complexity, lineCount);
-      appendRankedList(sourceFunction, complexity);
-  }      
-  
-  private void appendRankedList(SourceFunction sourceFunction, int complexity){
-    if (fileName.equals(""))
-        return;
-
-    FunctionScore score = new FunctionScore(complexity, getContext().getFile().getName(), sourceFunction.getKey());
-    this.rankedList.add(score);
-  }  
-  
-  private void writeScore(OutputStream stream, FunctionScore score) throws IOException{
-    stream.write((score.getComponentName() + "\t" + score.getFunctionId() + "\t" + score.getScore() + System.lineSeparator()).getBytes());
-  }
-  
-  private void dumpRankedList(){
-    if (fileName.equals(""))
-      return;
-    
-    try {
-      OutputStream stream = streamFactory.createOutputFileStream(this.fileName);
-      for(FunctionScore score : rankedList)
-        writeScore(stream, score);
-      stream.flush();
-      stream.close();
-    }
-    catch (Exception e){
-      LOG.error("Couldn't write ranked list to " + fileName + ". Exception text: " + e.getMessage());
-    }    
-  }
+      incrementFunctionByThresholdForFile(sourceFile, complexity, lineCount);      
+  }         
   
   private void incrementFunctionByThresholdForAllFiles(int complexity, int lineCount){
       if (complexity > this.cyclomaticComplexityThreshold){
@@ -217,9 +169,7 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
   @Override
   public void publishMeasureForProject(InputModule module, SensorContext context) {
     publishComplexFunctionMetrics(module, context);    
-    publishLinesOfCodeInComplexFunctionMetrics(module, context);
-    
-    dumpRankedList();
+    publishLinesOfCodeInComplexFunctionMetrics(module, context);       
   }
   
   private void publishComplexFunctionMetrics(InputModule module, SensorContext context){

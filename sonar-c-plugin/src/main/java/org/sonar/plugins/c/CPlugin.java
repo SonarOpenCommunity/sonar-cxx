@@ -465,7 +465,7 @@ public final class CPlugin implements Plugin {
     l.addAll(codeAnalysisProperties());
     l.addAll(testingAndCoverageProperties());
     l.addAll(compilerWarningsProperties());
-    l.addAll(duplicationsProperties());   
+    l.addAll(duplicationsProperties());
 
     context.addExtensions(l);
   }

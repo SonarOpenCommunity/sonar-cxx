@@ -45,7 +45,6 @@ import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
-import org.sonar.cxx.sensors.utils.StreamFactory;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import org.sonar.squidbridge.api.SourceFile;
 
@@ -123,25 +122,5 @@ public class CxxFunctionComplexitySquidSensorTest {
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(44);        
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(40.0);        
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(80);                
-    }        
-    
-    @Test
-    public void testSaveRankedListToFile() throws IOException{
-        DefaultInputFile inputFile = getInputFile();
-        
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        StreamFactory streamFactory = mock(StreamFactory.class);
-        when(streamFactory.createOutputFileStream("complex_functions.txt")).thenReturn(outputStream);
-        
-        when(language.getStringOption(CxxFunctionComplexitySquidSensor.FUNCTION_COMPLEXITY_FILE_NAME_KEY)).thenReturn(Optional.of("complex_functions.txt"));
-        
-        this.sensor = new CxxFunctionComplexitySquidSensor(this.language);
-        SourceFile squidFile = CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
-        sensor.setFileStreamFactory(streamFactory);
-        sensor.publishMeasureForProject(sensorContext.module(), sensorContext);      
-        
-        String fileData = new String(outputStream.toByteArray(), "UTF-8");
-        assertThat(fileData).isNotEmpty();
-    }                   
-  
+    }              
 }
