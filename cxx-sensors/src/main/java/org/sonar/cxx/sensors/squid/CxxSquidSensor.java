@@ -123,8 +123,10 @@ public class CxxSquidSensor implements Sensor {
   }
   
   protected void registerSquidSensors(){
-    this.squidSensors.add(new CxxFunctionComplexitySquidSensor(this.language));
-    this.squidSensors.add(new CxxFunctionSizeSquidSensor(this.language));
+    if (this.language.getKey() == "c++"){
+      this.squidSensors.add(new CxxFunctionComplexitySquidSensor(this.language));
+      this.squidSensors.add(new CxxFunctionSizeSquidSensor(this.language));
+    }
   }
 
   @Override
