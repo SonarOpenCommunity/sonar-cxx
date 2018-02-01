@@ -84,6 +84,23 @@ public class CxxFunctionComplexitySquidSensorTest {
       return inputFile;
     }
     
+    private DefaultInputFile getEmptyInputFile() throws IOException{
+      File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
+      File target = new File(baseDir, "EmptyFile.cc");
+
+      String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
+      DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
+                                    .setCharset(Charset.forName("UTF-8")).setLanguage(language.getKey())
+                                    .setType(InputFile.Type.MAIN).build();
+
+      sensorContext = SensorContextTester.create(baseDir);
+      sensorContext.fileSystem().add(inputFile);
+
+      when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);        
+      
+      return inputFile;
+    }    
+    
     public <T> boolean containsAll(Collection<T> c){
       return false;
     }
@@ -109,7 +126,20 @@ public class CxxFunctionComplexitySquidSensorTest {
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(44);                        
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(40.0);        
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(80);        
-    }    
+    }           
+    
+    @Test
+    public void testPublishMeasuresForEmptyProject() throws IOException {            
+        DefaultInputFile inputFile = getEmptyInputFile();              
+                
+        CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
+        sensor.publishMeasureForProject(sensorContext.module(), sensorContext);
+                      
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(0);                        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);                        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);        
+    }               
     
     @Test
     public void testPublishMeasuresForFile() throws IOException {            
@@ -123,4 +153,17 @@ public class CxxFunctionComplexitySquidSensorTest {
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(40.0);        
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(80);                
     }              
+
+    @Test
+    public void testPublishMeasuresForEmptyFile() throws IOException {
+        DefaultInputFile inputFile = getEmptyInputFile();
+        
+        SourceFile squidFile = CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
+        sensor.publishMeasureForFile(inputFile, squidFile, sensorContext);
+                      
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);                
+    }    
 }

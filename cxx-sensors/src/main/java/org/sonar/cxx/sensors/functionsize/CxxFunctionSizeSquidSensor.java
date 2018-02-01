@@ -49,15 +49,15 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
   
   public static final String FUNCTION_SIZE_THRESHOLD_KEY = "funcsize.threshold";  
   
-  private int functionsBelowThreshold;
+  private int functionsBelowThreshold = 0;
   
-  private int sizeThreshold;
+  private int sizeThreshold = 0;
   
-  private int functionsOverThreshold;
+  private int functionsOverThreshold = 0;
   
-  private int locBelowThreshold;
+  private int locBelowThreshold = 0;
   
-  private int locOverThreshold;
+  private int locOverThreshold = 0;
   
   private Hashtable<SourceFile, FunctionCount> bigFunctionsPerFile = new Hashtable<>();
   
@@ -167,13 +167,20 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
   }
   
   private double calculatePercentual(int overThreshold, int belowThreshold){
-    return ((float)overThreshold * 100.0) / ((float)overThreshold + (float)belowThreshold);
+    double total = (double)overThreshold + (double)belowThreshold;
+    if (total > 0)
+      return ((float)overThreshold * 100.0) / ((float)overThreshold + (float)belowThreshold);
+    else 
+      return 0;
   }
 
   private void publishBigFunctionMetrics(InputFile inputFile, SourceFile squidFile, SensorContext context) {
     FunctionCount c = bigFunctionsPerFile.get(squidFile);
-    if (c == null) 
-      return;
+    if (c == null){ 
+      c = new FunctionCount();
+      c.countBelowThreshold = 0;
+      c.countOverThreshold = 0;
+    }
     
     context.<Integer>newMeasure()
       .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS)
@@ -190,8 +197,11 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
 
   private void publishLocInBigFunctionMetrics(InputFile inputFile, SourceFile squidFile, SensorContext context) {
     FunctionCount c = locInBigFunctionsPerFile.get(squidFile);
-    if (c == null) 
-      return;
+    if (c == null) {
+      c = new FunctionCount();
+      c.countBelowThreshold = 0;
+      c.countOverThreshold = 0;
+    }
     
     context.<Integer>newMeasure()
       .forMetric(FunctionSizeMetrics.LOC_IN_FUNCTIONS)

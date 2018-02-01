@@ -82,6 +82,23 @@ public class CxxFunctionSizeSquidSensorTest {
       return inputFile;
     }       
     
+    private DefaultInputFile getEmptyInputFile() throws IOException{
+      File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
+      File target = new File(baseDir, "EmptyFile.cc");
+
+      String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
+      DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
+                                    .setCharset(Charset.forName("UTF-8")).setLanguage(language.getKey())
+                                    .setType(InputFile.Type.MAIN).build();
+
+      sensorContext = SensorContextTester.create(baseDir);
+      sensorContext.fileSystem().add(inputFile);
+
+      when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);        
+      
+      return inputFile;
+    }        
+    
     private <T extends Serializable> T getMeasureValue(SensorContextTester sensorContext, String componentKey, Metric<T> metric){
       Collection<Measure> measures = sensorContext.measures(componentKey);
       T value = null;
@@ -107,6 +124,20 @@ public class CxxFunctionSizeSquidSensorTest {
     }        
     
     @Test
+    public void testPublishMeasuresForEmptyProject() throws IOException {            
+        DefaultInputFile inputFile = getEmptyInputFile();              
+                
+        CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
+        sensor.publishMeasureForProject(sensorContext.module(), sensorContext);
+                      
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.LOC_IN_FUNCTIONS)).isEqualTo(0);      
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
+    }            
+    
+    @Test
     public void testPublishMeasuresForFile() throws IOException {            
         DefaultInputFile inputFile = getInputFile();                                    
                 
@@ -119,4 +150,18 @@ public class CxxFunctionSizeSquidSensorTest {
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(40.0);        
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(80);        
     }  
+    
+    @Test
+    public void testPublishMeasuresForEmptyFile() throws IOException {            
+        DefaultInputFile inputFile = getEmptyInputFile();              
+                
+        SourceFile squidFile = CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
+        sensor.publishMeasureForFile(inputFile, squidFile, sensorContext);
+                      
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.LOC_IN_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
+    }                
 }

@@ -131,8 +131,11 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
   
   private void publishComplexFunctionMetricsForFile(InputFile inputFile, SourceFile squidFile, SensorContext context){
     FunctionCount c = complexFunctionsPerFile.get(squidFile);
-    if (c == null) 
-      return;    
+    if (c == null){
+      c = new FunctionCount();
+      c.countBelowThreshold = 0;
+      c.countOverThreshold = 0;
+    }      
     
     context.<Integer>newMeasure()
       .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS)
@@ -143,15 +146,18 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
     context.<Double>newMeasure()
       .forMetric(FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)
       .on(inputFile)
-      .withValue(calculatePercentage((int)c.countOverThreshold, (int)c.countBelowThreshold))
+      .withValue(calculatePercentual((int)c.countOverThreshold, (int)c.countBelowThreshold))
       .save();    
   }
   
   private void publishLocInComplexFunctionMetricsForFile(InputFile inputFile, SourceFile squidFile, SensorContext context){
     FunctionCount locCount = locInComplexFunctionsPerFile.get(squidFile);
         
-    if (locCount == null)
-      return;    
+    if (locCount == null){
+      locCount = new FunctionCount();
+      locCount.countBelowThreshold = 0;
+      locCount.countOverThreshold = 0;
+    }
     
     context.<Integer>newMeasure()
             .forMetric(FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)
@@ -162,7 +168,7 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
     context.<Double>newMeasure()
       .forMetric(FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)
       .on(inputFile)
-      .withValue(calculatePercentage((int)locCount.countOverThreshold, (int)locCount.countBelowThreshold))
+      .withValue(calculatePercentual((int)locCount.countOverThreshold, (int)locCount.countBelowThreshold))
       .save();        
   }
 
@@ -182,7 +188,7 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
     context.<Double>newMeasure()
       .forMetric(FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)
       .on(module)
-      .withValue(calculatePercentage(functionsOverThreshold, functionsBelowThreshold))
+      .withValue(calculatePercentual(functionsOverThreshold, functionsBelowThreshold))
       .save();    
   }
   
@@ -196,12 +202,16 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
     context.<Double>newMeasure()
       .forMetric(FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)
       .on(module)
-      .withValue(calculatePercentage(linesOfCodeOverThreshold, linesOfCodeBelowThreshold))
+      .withValue(calculatePercentual(linesOfCodeOverThreshold, linesOfCodeBelowThreshold))
       .save();    
   }
   
-  private double calculatePercentage(int overThreshold, int belowThreshold){
-    return ((float)overThreshold * 100.0) / ((float)overThreshold + (float)belowThreshold);
+  private double calculatePercentual(int overThreshold, int belowThreshold){
+    double total = (double)overThreshold + (double)belowThreshold;
+    if (total > 0)
+      return ((float)overThreshold * 100.0) / ((float)overThreshold + (float)belowThreshold);
+    else 
+      return 0;
   }
   
 }
