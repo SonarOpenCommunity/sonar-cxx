@@ -5123,4 +5123,150 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <!-- end of update from RATS 2.3 rats-c.xml -->
+  
+  <!-- added from RATS 2.4 rats-c.xml -->
+  <rule>
+    <key>strcpy</key>
+    <name>strcpy</name>
+    <description>
+	  Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <tag>security</tag>
+    <internalKey>config/strcpy</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>strcat</key>
+    <name>strcat</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <tag>security</tag>
+    <internalKey>config/strcat</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>recvmsg</key>
+    <name>recvmsg</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>config/recvmsg</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>recvfrom</key>
+    <name>recvfrom</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>config/recvfrom</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>recv</key>
+    <name>recv</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>config/recv</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>readv</key>
+    <name>readv</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>config/readv</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>readlink</key>
+    <name>readlink</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>config/readlink</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>readdir</key>
+    <name>readdir</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>config/readdir</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>fread</key>
+    <name>fread</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>config/fread</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>_tscanf</key>
+    <name>_tscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <tag>security</tag>
+    <internalKey>config/_tscanf</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <!-- end of update from RATS 2.4 rats-c.xml -->
+  
 </rules>
