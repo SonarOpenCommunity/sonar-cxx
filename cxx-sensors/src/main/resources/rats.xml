@@ -30,7 +30,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/drand48</internalKey>
+    <internalKey>drand48</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -47,7 +47,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/erand48</internalKey>
+    <internalKey>erand48</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -64,7 +64,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/initstate</internalKey>
+    <internalKey>initstate</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -81,7 +81,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/jrand48</internalKey>
+    <internalKey>jrand48</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -98,7 +98,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/lcong48</internalKey>
+    <internalKey>lcong48</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -115,7 +115,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/lrand48</internalKey>
+    <internalKey>lrand48</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -132,7 +132,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/mrand48</internalKey>
+    <internalKey>mrand48</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -149,7 +149,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/nrand48</internalKey>
+    <internalKey>nrand48</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -166,7 +166,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/random</internalKey>
+    <internalKey>random</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -183,7 +183,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/seed48</internalKey>
+    <internalKey>seed48</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -200,7 +200,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/setstate</internalKey>
+    <internalKey>setstate</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -218,7 +218,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MAJOR</severity>
-    <internalKey>config/srand</internalKey>
+    <internalKey>srand</internalKey>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -234,7 +234,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/srand48</internalKey>
+    <internalKey>srand48</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -251,7 +251,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/strfry</internalKey>
+    <internalKey>strfry</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -268,7 +268,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/memfrob</internalKey>
+    <internalKey>memfrob</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -285,7 +285,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/crypt</internalKey>
+    <internalKey>crypt</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -302,7 +302,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <internalKey>config/srandom</internalKey>
+    <internalKey>srandom</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -319,7 +319,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/memcpy</internalKey>
+    <internalKey>memcpy</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -335,7 +335,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       for buffer overflow attacks.
     </description>
     <tag>security</tag>
-    <internalKey>config/fixed size global buffer</internalKey>
+    <internalKey>fixed size global buffer</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -352,7 +352,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       not be detected.
     </description>
     <tag>security</tag>
-    <internalKey>config/fixed size local buffer</internalKey>
+    <internalKey>fixed size local buffer</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -370,7 +370,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       it is available to you.
     </description>
     <tag>security</tag>
-    <internalKey>config/strncpy</internalKey>
+    <internalKey>strncpy</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -385,7 +385,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       calling chroot()!
     </description>
     <tag>security</tag>
-    <internalKey>config/chroot</internalKey>
+    <internalKey>chroot</internalKey>
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -400,7 +400,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       easily overflowable by user. Use fgets(buf, size, stdin) instead.
     </description>
     <tag>security</tag>
-    <internalKey>config/gets</internalKey>
+    <internalKey>gets</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -416,7 +416,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       that it contains nothing dangerous.
     </description>
     <tag>security</tag>
-    <internalKey>config/system</internalKey>
+    <internalKey>system</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -432,7 +432,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       that it contains nothing dangerous.
     </description>
     <tag>security</tag>
-    <internalKey>config/popen</internalKey>
+    <internalKey>popen</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -450,7 +450,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       length.
     </description>
     <tag>security</tag>
-    <internalKey>config/getenv</internalKey>
+    <internalKey>getenv</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -467,7 +467,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       not prepared to handle.
     </description>
     <tag>security</tag>
-    <internalKey>config/printf</internalKey>
+    <internalKey>printf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -485,7 +485,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/sprintf</internalKey>
+    <internalKey>sprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -503,7 +503,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/wsprintf</internalKey>
+    <internalKey>wsprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -521,7 +521,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/wsprintfA</internalKey>
+    <internalKey>wsprintfA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -539,7 +539,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/wsprintfW</internalKey>
+    <internalKey>wsprintfW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -556,7 +556,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/_snprintf</internalKey>
+    <internalKey>_snprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -573,7 +573,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/_snwprintf</internalKey>
+    <internalKey>_snwprintf</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -591,7 +591,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/lstrcpy</internalKey>
+    <internalKey>lstrcpy</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -609,7 +609,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/lstrcpyA</internalKey>
+    <internalKey>lstrcpyA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -627,7 +627,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/lstrcpyW</internalKey>
+    <internalKey>lstrcpyW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -645,7 +645,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/wcscpy</internalKey>
+    <internalKey>wcscpy</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -663,7 +663,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/_mbscpy</internalKey>
+    <internalKey>_mbscpy</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -681,7 +681,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tcscpy</internalKey>
+    <internalKey>_tcscpy</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -699,7 +699,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCpy</internalKey>
+    <internalKey>StrCpy</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -717,7 +717,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCpyA</internalKey>
+    <internalKey>StrCpyA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -735,7 +735,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCpyW</internalKey>
+    <internalKey>StrCpyW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -753,7 +753,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/lstrcat</internalKey>
+    <internalKey>lstrcat</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -771,7 +771,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/wcscat</internalKey>
+    <internalKey>wcscat</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -789,7 +789,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/_mbscat</internalKey>
+    <internalKey>_mbscat</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -807,7 +807,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tcscat</internalKey>
+    <internalKey>_tcscat</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -826,7 +826,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MAJOR</severity>
-    <internalKey>config/StrCat</internalKey>
+    <internalKey>StrCat</internalKey>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -843,7 +843,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCatA</internalKey>
+    <internalKey>StrCatA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -861,7 +861,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCatW</internalKey>
+    <internalKey>StrCatW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -878,7 +878,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/strxfrm</internalKey>
+    <internalKey>strxfrm</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -895,7 +895,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/wcsxfrm</internalKey>
+    <internalKey>wcsxfrm</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -912,7 +912,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tcsxfrm</internalKey>
+    <internalKey>_tcsxfrm</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -929,7 +929,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/lstrcpyn</internalKey>
+    <internalKey>lstrcpyn</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -946,7 +946,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCpyN</internalKey>
+    <internalKey>StrCpyN</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -963,7 +963,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCpyNA</internalKey>
+    <internalKey>StrCpyNA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -980,7 +980,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCpyNW</internalKey>
+    <internalKey>StrCpyNW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -997,7 +997,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/lstrcpynW</internalKey>
+    <internalKey>lstrcpynW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1014,7 +1014,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/wcsncpy</internalKey>
+    <internalKey>wcsncpy</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1031,7 +1031,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/_mbsncpy</internalKey>
+    <internalKey>_mbsncpy</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1048,7 +1048,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tcsncpy</internalKey>
+    <internalKey>_tcsncpy</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1065,7 +1065,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/_mbsnbcat</internalKey>
+    <internalKey>_mbsnbcat</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1083,7 +1083,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MAJOR</severity>
-    <internalKey>config/wcsncat</internalKey>
+    <internalKey>wcsncat</internalKey>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1099,7 +1099,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tcnscat</internalKey>
+    <internalKey>_tcnscat</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1116,7 +1116,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       forget about NULL termination.
     </description>
     <tag>security</tag>
-    <internalKey>config/MultiByteToWideChar</internalKey>
+    <internalKey>MultiByteToWideChar</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1133,7 +1133,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/WideCharToMultiByte</internalKey>
+    <internalKey>WideCharToMultiByte</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1150,7 +1150,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrNCat</internalKey>
+    <internalKey>StrNCat</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1167,7 +1167,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrNCat</internalKey>
+    <internalKey>StrNCat</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1184,7 +1184,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCatBuff</internalKey>
+    <internalKey>StrCatBuff</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1201,7 +1201,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCatBuffA</internalKey>
+    <internalKey>StrCatBuffA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1218,7 +1218,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCatBuffW</internalKey>
+    <internalKey>StrCatBuffW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1235,7 +1235,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCatN</internalKey>
+    <internalKey>StrCatN</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1252,7 +1252,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCatNA</internalKey>
+    <internalKey>StrCatNA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1269,7 +1269,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrCatNW</internalKey>
+    <internalKey>StrCatNW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1286,7 +1286,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFormatByteSize</internalKey>
+    <internalKey>StrFormatByteSize</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1303,7 +1303,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFormatByteSizeA</internalKey>
+    <internalKey>StrFormatByteSizeA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1320,7 +1320,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFormatByteSizeW</internalKey>
+    <internalKey>StrFormatByteSizeW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1337,7 +1337,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFormatByteSize64</internalKey>
+    <internalKey>StrFormatByteSize64</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1354,7 +1354,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFormatByteSize64A</internalKey>
+    <internalKey>StrFormatByteSize64A</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1371,7 +1371,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFormatByteSize64W</internalKey>
+    <internalKey>StrFormatByteSize64W</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1388,7 +1388,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFormatKBSize</internalKey>
+    <internalKey>StrFormatKBSize</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1405,7 +1405,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFormatKBSizeA</internalKey>
+    <internalKey>StrFormatKBSizeA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1422,7 +1422,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFormatKBSizeW</internalKey>
+    <internalKey>StrFormatKBSizeW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1439,7 +1439,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFromTimeInterval</internalKey>
+    <internalKey>StrFromTimeInterval</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1456,7 +1456,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFromTimeIntervalA</internalKey>
+    <internalKey>StrFromTimeIntervalA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1473,7 +1473,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/StrFromTimeIntervalW</internalKey>
+    <internalKey>StrFromTimeIntervalW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1490,7 +1490,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/wvnsprintf</internalKey>
+    <internalKey>wvnsprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1507,7 +1507,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/wvnsprintfA</internalKey>
+    <internalKey>wvnsprintfA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1524,7 +1524,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/wvnsprintfW</internalKey>
+    <internalKey>wvnsprintfW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1541,7 +1541,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/wnsprintf</internalKey>
+    <internalKey>wnsprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1558,7 +1558,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/wnsprintfA</internalKey>
+    <internalKey>wnsprintfA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1575,7 +1575,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/wnsprintfW</internalKey>
+    <internalKey>wnsprintfW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1590,7 +1590,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathAddExtension</internalKey>
+    <internalKey>PathAddExtension</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1605,7 +1605,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathAddExtensionA</internalKey>
+    <internalKey>PathAddExtensionA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1620,7 +1620,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathAddExtensionW</internalKey>
+    <internalKey>PathAddExtensionW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1635,7 +1635,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathAddBackslash</internalKey>
+    <internalKey>PathAddBackslash</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1650,7 +1650,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathAddBackslashA</internalKey>
+    <internalKey>PathAddBackslashA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1665,7 +1665,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathAddBackslashW</internalKey>
+    <internalKey>PathAddBackslashW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1680,7 +1680,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathAppend</internalKey>
+    <internalKey>PathAppend</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1695,7 +1695,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathAppendA</internalKey>
+    <internalKey>PathAppendA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1710,7 +1710,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathAppendW</internalKey>
+    <internalKey>PathAppendW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1725,7 +1725,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathCanonicalize</internalKey>
+    <internalKey>PathCanonicalize</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1740,7 +1740,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathCanonicalizeA</internalKey>
+    <internalKey>PathCanonicalizeA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1755,7 +1755,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathCanonicalizeW</internalKey>
+    <internalKey>PathCanonicalizeW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1770,7 +1770,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathCombine</internalKey>
+    <internalKey>PathCombine</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1785,7 +1785,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathCombineA</internalKey>
+    <internalKey>PathCombineA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1800,7 +1800,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <internalKey>config/PathCombineW</internalKey>
+    <internalKey>PathCombineW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1817,7 +1817,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       specify the full path.
     </description>
     <tag>security</tag>
-    <internalKey>config/LoadLibrary</internalKey>
+    <internalKey>LoadLibrary</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1834,7 +1834,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       specify the full path.
     </description>
     <tag>security</tag>
-    <internalKey>config/LoadLibraryA</internalKey>
+    <internalKey>LoadLibraryA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1851,7 +1851,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       specify the full path.
     </description>
     <tag>security</tag>
-    <internalKey>config/LoadLibraryW</internalKey>
+    <internalKey>LoadLibraryW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1869,7 +1869,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       context if possible?
     </description>
     <tag>security</tag>
-    <internalKey>config/GetExtensionVersion</internalKey>
+    <internalKey>GetExtensionVersion</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1887,7 +1887,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToChar</internalKey>
+    <internalKey>OemToChar</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1905,7 +1905,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToCharA</internalKey>
+    <internalKey>OemToCharA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1923,7 +1923,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToCharW</internalKey>
+    <internalKey>OemToCharW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1940,7 +1940,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToCharBuff</internalKey>
+    <internalKey>OemToCharBuff</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1957,7 +1957,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToCharBuffA</internalKey>
+    <internalKey>OemToCharBuffA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1974,7 +1974,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToCharBuffW</internalKey>
+    <internalKey>OemToCharBuffW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1992,7 +1992,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToAnsi</internalKey>
+    <internalKey>OemToAnsi</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2010,7 +2010,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToAnsiA</internalKey>
+    <internalKey>OemToAnsiA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2028,7 +2028,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToAnsiW</internalKey>
+    <internalKey>OemToAnsiW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2045,7 +2045,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToAnsiBuff</internalKey>
+    <internalKey>OemToAnsiBuff</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2062,7 +2062,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToAnsiBuffA</internalKey>
+    <internalKey>OemToAnsiBuffA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2079,7 +2079,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/OemToAnsiBuffW</internalKey>
+    <internalKey>OemToAnsiBuffW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2097,7 +2097,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       given by GetTempPath().
     </description>
     <tag>security</tag>
-    <internalKey>config/GetTempPath</internalKey>
+    <internalKey>GetTempPath</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2115,7 +2115,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       given by GetTempPath().
     </description>
     <tag>security</tag>
-    <internalKey>config/GetTempPathA</internalKey>
+    <internalKey>GetTempPathA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2133,7 +2133,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       given by GetTempPath().
     </description>
     <tag>security</tag>
-    <internalKey>config/GetTempPathW</internalKey>
+    <internalKey>GetTempPathW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2150,7 +2150,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <internalKey>config/GetTempFileName</internalKey>
+    <internalKey>GetTempFileName</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2167,7 +2167,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <internalKey>config/GetTempFileNameA</internalKey>
+    <internalKey>GetTempFileNameA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2184,7 +2184,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <internalKey>config/GetTempFileNameW</internalKey>
+    <internalKey>GetTempFileNameW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2203,7 +2203,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/ShellExecute</internalKey>
+    <internalKey>ShellExecute</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2222,7 +2222,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/ShellExecuteA</internalKey>
+    <internalKey>ShellExecuteA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2241,7 +2241,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/ShellExecuteW</internalKey>
+    <internalKey>ShellExecuteW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2260,7 +2260,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/ShellExecuteEx</internalKey>
+    <internalKey>ShellExecuteEx</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2279,7 +2279,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/ShellExecuteExA</internalKey>
+    <internalKey>ShellExecuteExA</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2298,7 +2298,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/ShellExecuteExW</internalKey>
+    <internalKey>ShellExecuteExW</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2317,7 +2317,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wsystem</internalKey>
+    <internalKey>_wsystem</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2333,7 +2333,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_texecl</internalKey>
+    <internalKey>_texecl</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2349,7 +2349,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_execl</internalKey>
+    <internalKey>_execl</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2365,7 +2365,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wexecl</internalKey>
+    <internalKey>_wexecl</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2381,7 +2381,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_texecle</internalKey>
+    <internalKey>_texecle</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2397,7 +2397,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_execle</internalKey>
+    <internalKey>_execle</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2413,7 +2413,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wexecle</internalKey>
+    <internalKey>_wexecle</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2432,7 +2432,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_texeclp</internalKey>
+    <internalKey>_texeclp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2451,7 +2451,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_execlp</internalKey>
+    <internalKey>_execlp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2470,7 +2470,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wexeclp</internalKey>
+    <internalKey>_wexeclp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2489,7 +2489,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_texeclpe</internalKey>
+    <internalKey>_texeclpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2508,7 +2508,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_execlpe</internalKey>
+    <internalKey>_execlpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2527,7 +2527,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wexeclpe</internalKey>
+    <internalKey>_wexeclpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2543,7 +2543,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_texecv</internalKey>
+    <internalKey>_texecv</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2559,7 +2559,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_execv</internalKey>
+    <internalKey>_execv</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2575,7 +2575,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wexecv</internalKey>
+    <internalKey>_wexecv</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2591,7 +2591,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_texecve</internalKey>
+    <internalKey>_texecve</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2607,7 +2607,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_execve</internalKey>
+    <internalKey>_execve</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2623,7 +2623,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wexecve</internalKey>
+    <internalKey>_wexecve</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2642,7 +2642,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_texecvp</internalKey>
+    <internalKey>_texecvp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2661,7 +2661,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_execvp</internalKey>
+    <internalKey>_execvp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2680,7 +2680,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wexecvp</internalKey>
+    <internalKey>_wexecvp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2700,7 +2700,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_texecvpe</internalKey>
+    <internalKey>_texecvpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2719,7 +2719,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_execvpe</internalKey>
+    <internalKey>_execvpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2738,7 +2738,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wexecvpe</internalKey>
+    <internalKey>_wexecvpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2754,7 +2754,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tspawnl</internalKey>
+    <internalKey>_tspawnl</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2770,7 +2770,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_spawnl</internalKey>
+    <internalKey>_spawnl</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2786,7 +2786,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wspawnl</internalKey>
+    <internalKey>_wspawnl</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2802,7 +2802,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_spawnle</internalKey>
+    <internalKey>_spawnle</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2818,7 +2818,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wspawnle</internalKey>
+    <internalKey>_wspawnle</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2837,7 +2837,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tspawnlp</internalKey>
+    <internalKey>_tspawnlp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2856,7 +2856,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_spawnlp</internalKey>
+    <internalKey>_spawnlp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2875,7 +2875,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wspawnlp</internalKey>
+    <internalKey>_wspawnlp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2894,7 +2894,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tspawnlpe</internalKey>
+    <internalKey>_tspawnlpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2913,7 +2913,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_spawnlpe</internalKey>
+    <internalKey>_spawnlpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2932,7 +2932,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wspawnlpe</internalKey>
+    <internalKey>_wspawnlpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2948,7 +2948,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tspawnv</internalKey>
+    <internalKey>_tspawnv</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2964,7 +2964,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_spawnv</internalKey>
+    <internalKey>_spawnv</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2980,7 +2980,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wspawnv</internalKey>
+    <internalKey>_wspawnv</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2996,7 +2996,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tspawnve</internalKey>
+    <internalKey>_tspawnve</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3012,7 +3012,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_spawnve</internalKey>
+    <internalKey>_spawnve</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3028,7 +3028,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wspawnve</internalKey>
+    <internalKey>_wspawnve</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3044,7 +3044,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tspawnle</internalKey>
+    <internalKey>_tspawnle</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3063,7 +3063,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tspawnvp</internalKey>
+    <internalKey>_tspawnvp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3082,7 +3082,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_spawnvp</internalKey>
+    <internalKey>_spawnvp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3101,7 +3101,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wspawnvp</internalKey>
+    <internalKey>_wspawnvp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3120,7 +3120,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tspawnvpe</internalKey>
+    <internalKey>_tspawnvpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3139,7 +3139,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_spawnvpe</internalKey>
+    <internalKey>_spawnvpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3158,7 +3158,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/_wspawnvpe</internalKey>
+    <internalKey>_wspawnvpe</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3176,7 +3176,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/scanf</internalKey>
+    <internalKey>scanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3194,7 +3194,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/sscanf</internalKey>
+    <internalKey>sscanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3212,7 +3212,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/sscanf</internalKey>
+    <internalKey>sscanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3230,7 +3230,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/fscanf</internalKey>
+    <internalKey>fscanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3248,7 +3248,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/vfscanf</internalKey>
+    <internalKey>vfscanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3266,7 +3266,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/vsprintf</internalKey>
+    <internalKey>vsprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3284,7 +3284,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/vscanf</internalKey>
+    <internalKey>vscanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3302,7 +3302,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/vsscanf</internalKey>
+    <internalKey>vsscanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3320,7 +3320,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/streadd</internalKey>
+    <internalKey>streadd</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3338,7 +3338,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/strecpy</internalKey>
+    <internalKey>strecpy</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3356,7 +3356,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/strtrns</internalKey>
+    <internalKey>strtrns</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3373,7 +3373,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       longer than MAXPATHLEN.
     </description>
     <tag>security</tag>
-    <internalKey>config/realpath</internalKey>
+    <internalKey>realpath</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3388,7 +3388,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       them to this function.
     </description>
     <tag>security</tag>
-    <internalKey>config/syslog</internalKey>
+    <internalKey>syslog</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3403,7 +3403,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       them to this function.
     </description>
     <tag>security</tag>
-    <internalKey>config/getopt</internalKey>
+    <internalKey>getopt</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3418,7 +3418,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       them to this function.
     </description>
     <tag>security</tag>
-    <internalKey>config/getopt_long</internalKey>
+    <internalKey>getopt_long</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3433,7 +3433,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       them to this function.
     </description>
     <tag>security</tag>
-    <internalKey>config/getpass</internalKey>
+    <internalKey>getpass</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3448,7 +3448,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       make sure you are not in danger of writing past the allocated space.
     </description>
     <tag>security</tag>
-    <internalKey>config/getchar</internalKey>
+    <internalKey>getchar</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3463,7 +3463,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       make sure you are not in danger of writing past the allocated space.
     </description>
     <tag>security</tag>
-    <internalKey>config/fgetc</internalKey>
+    <internalKey>fgetc</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3478,7 +3478,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       make sure you are not in danger of writing past the allocated space.
     </description>
     <tag>security</tag>
-    <internalKey>config/getc</internalKey>
+    <internalKey>getc</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3493,7 +3493,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       make sure you are not in danger of writing past the allocated space.
     </description>
     <tag>security</tag>
-    <internalKey>config/read</internalKey>
+    <internalKey>read</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3510,7 +3510,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/bcopy</internalKey>
+    <internalKey>bcopy</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3527,7 +3527,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/fgets</internalKey>
+    <internalKey>fgets</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3542,7 +3542,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       easily overflowable by user.
     </description>
     <tag>security</tag>
-    <internalKey>config/cin</internalKey>
+    <internalKey>cin</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3559,7 +3559,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/snprintf</internalKey>
+    <internalKey>snprintf</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3576,7 +3576,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/strccpy</internalKey>
+    <internalKey>strccpy</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3593,7 +3593,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/strcadd</internalKey>
+    <internalKey>strcadd</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3610,7 +3610,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/_vsnprintf</internalKey>
+    <internalKey>_vsnprintf</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3627,7 +3627,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <internalKey>config/tmpfile</internalKey>
+    <internalKey>tmpfile</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3644,7 +3644,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <internalKey>config/tmpnam</internalKey>
+    <internalKey>tmpnam</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3661,7 +3661,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <internalKey>config/tempnam</internalKey>
+    <internalKey>tempnam</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3675,7 +3675,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       The results of this call are easy to forge.
     </description>
     <tag>security</tag>
-    <internalKey>config/getlogin</internalKey>
+    <internalKey>getlogin</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3690,7 +3690,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       recommends against using this.
     </description>
     <tag>security</tag>
-    <internalKey>config/cuserid</internalKey>
+    <internalKey>cuserid</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3704,7 +3704,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       The results are easy for an attacker to forge, and not reliable.
     </description>
     <tag>security</tag>
-    <internalKey>config/ttyname</internalKey>
+    <internalKey>ttyname</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3724,7 +3724,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       and performs the appropriate action(s) when it is set.
     </description>
     <tag>security</tag>
-    <internalKey>config/signal</internalKey>
+    <internalKey>signal</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3739,7 +3739,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       set to large values, etc), and should not be trusted.
     </description>
     <tag>security</tag>
-    <internalKey>config/gethostbyname</internalKey>
+    <internalKey>gethostbyname</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3754,7 +3754,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       set to large values, etc), and should not be trusted.
     </description>
     <tag>security</tag>
-    <internalKey>config/gethostbyaddr</internalKey>
+    <internalKey>gethostbyaddr</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3769,7 +3769,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       structure will not be zeroed out.
     </description>
     <tag>security</tag>
-    <internalKey>config/realloc</internalKey>
+    <internalKey>realloc</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3785,7 +3785,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       child may start outputting identical number streams.
     </description>
     <tag>security</tag>
-    <internalKey>config/fork</internalKey>
+    <internalKey>fork</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3802,7 +3802,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       start outputting identical number streams. Use fork() instead.
     </description>
     <tag>security</tag>
-    <internalKey>config/vfork</internalKey>
+    <internalKey>vfork</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3819,7 +3819,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/_mbsnbcpy</internalKey>
+    <internalKey>_mbsnbcpy</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3836,7 +3836,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <internalKey>config/CopyMemory</internalKey>
+    <internalKey>CopyMemory</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3852,7 +3852,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       access violations.
     </description>
     <tag>security</tag>
-    <internalKey>config/strlen</internalKey>
+    <internalKey>strlen</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3868,7 +3868,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       access violations.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tcslen</internalKey>
+    <internalKey>_tcslen</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3884,7 +3884,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       access violations.
     </description>
     <tag>security</tag>
-    <internalKey>config/_mbslen</internalKey>
+    <internalKey>_mbslen</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3900,7 +3900,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       access violations.
     </description>
     <tag>security</tag>
-    <internalKey>config/wcslen</internalKey>
+    <internalKey>wcslen</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3919,7 +3919,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/CreateProcess</internalKey>
+    <internalKey>CreateProcess</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3938,7 +3938,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/CreateProcessAsUser</internalKey>
+    <internalKey>CreateProcessAsUser</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3957,7 +3957,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/CreateProcessWithLogon</internalKey>
+    <internalKey>CreateProcessWithLogon</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3976,7 +3976,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <internalKey>config/WinExec</internalKey>
+    <internalKey>WinExec</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3992,7 +3992,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <internalKey>config/RpcImpersonateClient</internalKey>
+    <internalKey>RpcImpersonateClient</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4008,7 +4008,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <internalKey>config/ImpersonateLoggedOnUser</internalKey>
+    <internalKey>ImpersonateLoggedOnUser</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4024,7 +4024,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <internalKey>config/CoImpersonateClient</internalKey>
+    <internalKey>CoImpersonateClient</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4040,7 +4040,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <internalKey>config/ImpersonateNamedPipeClient</internalKey>
+    <internalKey>ImpersonateNamedPipeClient</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4056,7 +4056,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <internalKey>config/ImpersonateDdeClientWindow</internalKey>
+    <internalKey>ImpersonateDdeClientWindow</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4072,7 +4072,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <internalKey>config/ImpersonateSecurityContext</internalKey>
+    <internalKey>ImpersonateSecurityContext</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4088,7 +4088,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <internalKey>config/QuerySecurityContextToken</internalKey>
+    <internalKey>QuerySecurityContextToken</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4104,7 +4104,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <internalKey>config/SetThreadToken</internalKey>
+    <internalKey>SetThreadToken</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4120,7 +4120,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Everyone ACE on such an object.
     </description>
     <tag>security</tag>
-    <internalKey>config/SetSecurityDescriptorDacl</internalKey>
+    <internalKey>SetSecurityDescriptorDacl</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4137,7 +4137,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       specify the full path.
     </description>
     <tag>security</tag>
-    <internalKey>config/AfxLoadLibrary</internalKey>
+    <internalKey>AfxLoadLibrary</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4154,7 +4154,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       specify the full path.
     </description>
     <tag>security</tag>
-    <internalKey>config/LoadLibraryEx</internalKey>
+    <internalKey>LoadLibraryEx</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4169,7 +4169,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       InitialCriticalSectionAndSpinCount instead.
     </description>
     <tag>security</tag>
-    <internalKey>config/InitializeCriticalSection</internalKey>
+    <internalKey>InitializeCriticalSection</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4184,7 +4184,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       InitialCriticalSectionAndSpinCount instead.
     </description>
     <tag>security</tag>
-    <internalKey>config/EnterCriticalSection</internalKey>
+    <internalKey>EnterCriticalSection</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4202,7 +4202,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       length. catgets() can utilize the NLSPATH environment variable.
     </description>
     <tag>security</tag>
-    <internalKey>config/catgets</internalKey>
+    <internalKey>catgets</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4220,7 +4220,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       length. catgets() can utilize the NLSPATH environment variable.
     </description>
     <tag>security</tag>
-    <internalKey>config/gettext</internalKey>
+    <internalKey>gettext</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4235,7 +4235,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       privileges. It should be set to restrictive values.
     </description>
     <tag>security</tag>
-    <internalKey>config/umask</internalKey>
+    <internalKey>umask</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4250,7 +4250,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Control Entry, making it vulnerable.
     </description>
     <tag>security</tag>
-    <internalKey>config/AddAccessAllowedAce</internalKey>
+    <internalKey>AddAccessAllowedAce</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4266,7 +4266,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system call (such as fopen) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/access</internalKey>
+    <internalKey>access</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4282,7 +4282,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system call (such as open) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/lstat</internalKey>
+    <internalKey>lstat</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4299,7 +4299,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Prefer fstat() when possible
     </description>
     <tag>security</tag>
-    <internalKey>config/stat</internalKey>
+    <internalKey>stat</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4317,7 +4317,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       if it needs to be secured.
     </description>
     <tag>security</tag>
-    <internalKey>config/creat</internalKey>
+    <internalKey>creat</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4335,7 +4335,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       if it needs to be secured.
     </description>
     <tag>security</tag>
-    <internalKey>config/mknod</internalKey>
+    <internalKey>mknod</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4353,7 +4353,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       if it needs to be secured.
     </description>
     <tag>security</tag>
-    <internalKey>config/mkfifo</internalKey>
+    <internalKey>mkfifo</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4372,7 +4372,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Prefer the use of fpathconf() when possible.
     </description>
     <tag>security</tag>
-    <internalKey>config/pathconf</internalKey>
+    <internalKey>pathconf</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4390,7 +4390,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       if it needs to be secured.
     </description>
     <tag>security</tag>
-    <internalKey>config/opendir</internalKey>
+    <internalKey>opendir</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4408,7 +4408,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       if it needs to be secured.
     </description>
     <tag>security</tag>
-    <internalKey>config/dirname</internalKey>
+    <internalKey>dirname</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4426,7 +4426,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       if it needs to be secured.
     </description>
     <tag>security</tag>
-    <internalKey>config/basename</internalKey>
+    <internalKey>basename</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4442,7 +4442,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/scandir</internalKey>
+    <internalKey>scandir</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4458,7 +4458,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/fopen</internalKey>
+    <internalKey>fopen</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4474,7 +4474,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/open</internalKey>
+    <internalKey>open</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4491,7 +4491,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Prefer the use of fchmod() when possible.
     </description>
     <tag>security</tag>
-    <internalKey>config/chmod</internalKey>
+    <internalKey>chmod</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4508,7 +4508,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Prefer the use of fchown() when possible.
     </description>
     <tag>security</tag>
-    <internalKey>config/chown</internalKey>
+    <internalKey>chown</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4524,7 +4524,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/chgrp</internalKey>
+    <internalKey>chgrp</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4540,7 +4540,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/rename</internalKey>
+    <internalKey>rename</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4556,7 +4556,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/mkdir</internalKey>
+    <internalKey>mkdir</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4572,7 +4572,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/mkdirp</internalKey>
+    <internalKey>mkdirp</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4588,7 +4588,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/rmdirp</internalKey>
+    <internalKey>rmdirp</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4604,7 +4604,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/rmdir</internalKey>
+    <internalKey>rmdir</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4620,7 +4620,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/remove</internalKey>
+    <internalKey>remove</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4636,7 +4636,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/unlink</internalKey>
+    <internalKey>unlink</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4652,7 +4652,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/link</internalKey>
+    <internalKey>link</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4668,7 +4668,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/lchown</internalKey>
+    <internalKey>lchown</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4684,7 +4684,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/execve</internalKey>
+    <internalKey>execve</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4700,7 +4700,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/execl</internalKey>
+    <internalKey>execl</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4716,7 +4716,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/execlp</internalKey>
+    <internalKey>execlp</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4732,7 +4732,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/execle</internalKey>
+    <internalKey>execle</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4748,7 +4748,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/execv</internalKey>
+    <internalKey>execv</internalKey>
      <severity>MINOR</severity>
    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4764,7 +4764,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/execvp</internalKey>
+    <internalKey>execvp</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4780,7 +4780,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/freopen</internalKey>
+    <internalKey>freopen</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4796,7 +4796,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-    <internalKey>config/mktemp</internalKey>
+    <internalKey>mktemp</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4812,7 +4812,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       have added formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <internalKey>config/fprintf</internalKey>
+    <internalKey>fprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4828,7 +4828,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       have added formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <internalKey>config/vfprintf</internalKey>
+    <internalKey>vfprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4844,7 +4844,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       have added formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <internalKey>config/vprintf</internalKey>
+    <internalKey>vprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4860,7 +4860,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <internalKey>config/_ftprintf</internalKey>
+    <internalKey>_ftprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4877,7 +4877,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/_stscanf</internalKey>
+    <internalKey>_stscanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4894,7 +4894,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/swprintf</internalKey>
+    <internalKey>swprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4911,7 +4911,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/_stprintf</internalKey>
+    <internalKey>_stprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4926,7 +4926,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <internalKey>config/_tprintf</internalKey>
+    <internalKey>_tprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4941,7 +4941,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <internalKey>config/wprintf</internalKey>
+    <internalKey>wprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4957,7 +4957,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <internalKey>config/_cprintf</internalKey>
+    <internalKey>_cprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4974,7 +4974,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/_cscanf</internalKey>
+    <internalKey>_cscanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4991,7 +4991,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/_ftscanf</internalKey>
+    <internalKey>_ftscanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5006,7 +5006,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       dest buffer size = n it may not NULL-terminate the string."
     </description>
     <tag>security</tag>
-    <internalKey>config/_vsnwprintf</internalKey>
+    <internalKey>_vsnwprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5021,7 +5021,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <internalKey>config/fwprintf</internalKey>
+    <internalKey>fwprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5038,7 +5038,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <internalKey>config/fwscanf</internalKey>
+    <internalKey>fwscanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5054,7 +5054,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       string could contain `%s' without precision that could result in a buffer overflow
     </description>
     <tag>security</tag>
-    <internalKey>config/getwd</internalKey>
+    <internalKey>getwd</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5069,7 +5069,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       have added formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <internalKey>config/vfwprintf</internalKey>
+    <internalKey>vfwprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5085,7 +5085,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       string could contain `%s' without precision that could result in a buffer overflow
     </description>
     <tag>security</tag>
-    <internalKey>config/vswprintf</internalKey>
+    <internalKey>vswprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5100,7 +5100,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       have added formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <internalKey>config/vwprintf</internalKey>
+    <internalKey>vwprintf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5116,11 +5116,157 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       string could contain `%s' without precision that could result in a buffer overflow
     </description>
     <tag>security</tag>
-    <internalKey>config/wscanf</internalKey>
+    <internalKey>wscanf</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <!-- end of update from RATS 2.3 rats-c.xml -->
+  
+  <!-- added from RATS 2.4 rats-c.xml -->
+  <rule>
+    <key>strcpy</key>
+    <name>strcpy</name>
+    <description>
+	  Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <tag>security</tag>
+    <internalKey>strcpy</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>strcat</key>
+    <name>strcat</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <tag>security</tag>
+    <internalKey>strcat</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>recvmsg</key>
+    <name>recvmsg</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>recvmsg</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>recvfrom</key>
+    <name>recvfrom</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>recvfrom</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>recv</key>
+    <name>recv</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>recv</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>readv</key>
+    <name>readv</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>readv</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>readlink</key>
+    <name>readlink</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>readlink</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>readdir</key>
+    <name>readdir</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>readdir</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>fread</key>
+    <name>fread</name>
+    <description>
+      Functions that is known input source, but not otherwise problem.
+    </description>
+    <tag>security</tag>
+    <internalKey>fread</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>_tscanf</key>
+    <name>_tscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <tag>security</tag>
+    <internalKey>_tscanf</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <!-- end of update from RATS 2.4 rats-c.xml -->
+  
 </rules>
