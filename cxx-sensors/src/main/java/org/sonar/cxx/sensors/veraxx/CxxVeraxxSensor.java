@@ -55,7 +55,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
     descriptor
       .name(language.getName() + " VeraxxSensor")
       .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxVeraxxRuleRepository.KEY);
+      .createIssuesForRuleRepository(CxxVeraxxRuleRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override

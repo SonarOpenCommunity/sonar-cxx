@@ -56,7 +56,8 @@ public class CxxRatsSensor extends CxxReportSensor {
     descriptor
       .name(language.getName() + " RatsSensor")
       .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxRatsRuleRepository.KEY);
+      .createIssuesForRuleRepository(CxxRatsRuleRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override

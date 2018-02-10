@@ -73,7 +73,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name(language.getName() + " CoverageSensor")
-      .onlyOnLanguage(language.getKey());
+      .onlyOnLanguage(language.getKey())
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override

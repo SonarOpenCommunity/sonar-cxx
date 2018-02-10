@@ -70,7 +70,8 @@ public class CxxOtherSensor extends CxxReportSensor {
     descriptor
       .name(language.getName() + " ExternalRulesSensor")
       .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxOtherRepository.KEY);
+      .createIssuesForRuleRepository(CxxOtherRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override

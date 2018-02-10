@@ -63,7 +63,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
     descriptor
       .name(language.getName() + " PCLintSensor")
       .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxPCLintRuleRepository.KEY);
+      .createIssuesForRuleRepository(CxxPCLintRuleRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override

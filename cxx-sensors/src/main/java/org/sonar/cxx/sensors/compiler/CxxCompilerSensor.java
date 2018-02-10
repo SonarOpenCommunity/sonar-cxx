@@ -68,7 +68,8 @@ public class CxxCompilerSensor extends CxxReportSensor {
     descriptor
       .name(language.getName() + " CompilerSensor")
       .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepositories(CxxCompilerGccRuleRepository.KEY, CxxCompilerVcRuleRepository.KEY);
+      .createIssuesForRuleRepositories(CxxCompilerGccRuleRepository.KEY, CxxCompilerVcRuleRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override

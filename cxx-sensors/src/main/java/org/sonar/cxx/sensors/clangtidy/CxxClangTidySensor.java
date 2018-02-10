@@ -56,7 +56,8 @@ public class CxxClangTidySensor extends CxxReportSensor {
     descriptor
       .name(language.getName() + " ClangTidySensor")
       .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxClangTidyRuleRepository.KEY);
+      .createIssuesForRuleRepository(CxxClangTidyRuleRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override

@@ -61,7 +61,8 @@ public class CxxDrMemorySensor extends CxxReportSensor {
     descriptor
       .name(language.getName() + " DrMemorySensor")
       .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxDrMemoryRuleRepository.KEY);
+      .createIssuesForRuleRepository(CxxDrMemoryRuleRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override

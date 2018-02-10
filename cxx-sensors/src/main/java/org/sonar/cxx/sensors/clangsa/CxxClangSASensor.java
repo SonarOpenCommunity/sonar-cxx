@@ -57,7 +57,8 @@ public class CxxClangSASensor extends CxxReportSensor {
     descriptor
       .name(language.getName() + " ClangSASensor")
       .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxClangSARuleRepository.KEY);
+      .createIssuesForRuleRepository(CxxClangSARuleRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override

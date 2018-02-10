@@ -67,7 +67,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name(language.getName() + " XunitSensor")
-      .onlyOnLanguage(this.language.getKey());
+      .onlyOnLanguage(this.language.getKey())
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
   
   @Override
