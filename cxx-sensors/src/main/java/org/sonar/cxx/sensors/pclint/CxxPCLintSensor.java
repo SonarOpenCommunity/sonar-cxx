@@ -59,13 +59,16 @@ public class CxxPCLintSensor extends CxxReportSensor {
   }
 
   @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
+  public void describe(SensorDescriptor descriptor) {
+    descriptor
+      .name(language.getName() + " PCLintSensor")
+      .onlyOnLanguage(this.language.getKey())
+      .createIssuesForRuleRepository(CxxPCLintRuleRepository.KEY);
   }
 
   @Override
-  public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " PCLintSensor");
+  public String getReportPathKey() {
+    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override

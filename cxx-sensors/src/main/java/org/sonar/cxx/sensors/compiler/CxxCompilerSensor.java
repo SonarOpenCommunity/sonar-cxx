@@ -63,6 +63,19 @@ public class CxxCompilerSensor extends CxxReportSensor {
     addCompilerParser(new CxxCompilerGccParser());
   }
 
+  @Override
+  public void describe(SensorDescriptor descriptor) {
+    descriptor
+      .name(language.getName() + " CompilerSensor")
+      .onlyOnLanguage(this.language.getKey())
+      .createIssuesForRuleRepositories(CxxCompilerGccRuleRepository.KEY, CxxCompilerVcRuleRepository.KEY);
+  }
+
+  @Override
+  public String getReportPathKey() {
+    return language.getPluginProperty(REPORT_PATH_KEY);
+  }
+
   /**
    * Add a compiler parser.
    */
@@ -84,16 +97,6 @@ public class CxxCompilerSensor extends CxxReportSensor {
     }
     LOG.info("C-Compiler parser: '{}'", parserValue);
     return parser;
-  }
-
-  @Override
-  public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " CompilerSensor");
-  }
-
-  @Override
-  public String getReportPathKey() {
-    return language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override

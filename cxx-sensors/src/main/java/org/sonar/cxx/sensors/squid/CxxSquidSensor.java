@@ -118,7 +118,9 @@ public class CxxSquidSensor implements Sensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " SquidSensor");
+    descriptor
+      .name(language.getName() + " SquidSensor")
+      .onlyOnLanguage(this.language.getKey());
   }
 
   /**

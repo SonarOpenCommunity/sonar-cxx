@@ -56,13 +56,16 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   }
 
   @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
+  public void describe(SensorDescriptor descriptor) {
+    descriptor
+      .name(language.getName() + " CppCheckSensor")
+      .onlyOnLanguage(this.language.getKey())
+      .createIssuesForRuleRepository(CxxCppCheckRuleRepository.KEY);
   }
 
   @Override
-  public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " CppCheckSensor");
+  public String getReportPathKey() {
+    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override

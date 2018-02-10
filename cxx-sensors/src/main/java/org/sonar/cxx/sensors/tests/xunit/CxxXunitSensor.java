@@ -64,13 +64,15 @@ public class CxxXunitSensor extends CxxReportSensor {
   }
 
   @Override
+  public void describe(SensorDescriptor descriptor) {
+    descriptor
+      .name(language.getName() + " XunitSensor")
+      .onlyOnLanguage(this.language.getKey());
+  }
+  
+  @Override
   public String getReportPathKey() {
     return this.language.getPluginProperty(REPORT_PATH_KEY);
-  }
-
-  @Override
-  public void describe(SensorDescriptor descriptor) {
-    descriptor.name(language.getName() + " XunitSensor");
   }
 
   /**

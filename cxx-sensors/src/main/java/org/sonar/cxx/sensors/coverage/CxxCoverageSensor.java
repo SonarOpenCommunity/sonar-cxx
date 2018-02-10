@@ -71,7 +71,14 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(language.getKey()).name(language.getName() + " CoverageSensor");
+    descriptor
+      .name(language.getName() + " CoverageSensor")
+      .onlyOnLanguage(language.getKey());
+  }
+
+  @Override
+  public String getReportPathKey() {
+    return language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   /**
@@ -218,11 +225,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
   @Override
   protected String getSensorKey() {
     return KEY;
-  }
-
-  @Override
-  public String getReportPathKey() {
-    return language.getPluginProperty(REPORT_PATH_KEY);
   }
 
 }

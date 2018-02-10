@@ -53,7 +53,10 @@ public class CxxRatsSensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " RatsSensor");
+    descriptor
+      .name(language.getName() + " RatsSensor")
+      .onlyOnLanguage(this.language.getKey())
+      .createIssuesForRuleRepository(CxxRatsRuleRepository.KEY);
   }
 
   @Override
