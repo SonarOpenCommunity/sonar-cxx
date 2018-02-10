@@ -120,7 +120,8 @@ public class CxxSquidSensor implements Sensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name(language.getName() + " SquidSensor")
-      .onlyOnLanguage(this.language.getKey());
+      .onlyOnLanguage(this.language.getKey())
+      .onlyOnFileType(InputFile.Type.MAIN);
   }
 
   /**
