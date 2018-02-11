@@ -66,13 +66,17 @@ public class CxxOtherSensor extends CxxReportSensor {
   }
 
   @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
+  public void describe(SensorDescriptor descriptor) {
+    descriptor
+      .name(language.getName() + " ExternalRulesSensor")
+      .onlyOnLanguage(this.language.getKey())
+      .createIssuesForRuleRepository(CxxOtherRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override
-  public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " ExternalRulesSensor");
+  public String getReportPathKey() {
+    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   /**

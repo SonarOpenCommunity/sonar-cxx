@@ -47,6 +47,15 @@ public class CxxValgrindSensor extends CxxReportSensor {
   }
 
   @Override
+  public void describe(SensorDescriptor descriptor) {
+    descriptor
+      .name(language.getName() + " ValgrindSensor")
+      .onlyOnLanguage(this.language.getKey())
+      .createIssuesForRuleRepository(CxxValgrindRuleRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+  }
+
+  @Override
   public String getReportPathKey() {
     return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
@@ -57,11 +66,6 @@ public class CxxValgrindSensor extends CxxReportSensor {
     LOG.debug("Parsing 'Valgrind' format");
     ValgrindReportParser parser = new ValgrindReportParser();
     saveErrors(context, parser.processReport(report));
-  }
-
-  @Override
-  public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " ValgrindSensor");
   }
 
   void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {

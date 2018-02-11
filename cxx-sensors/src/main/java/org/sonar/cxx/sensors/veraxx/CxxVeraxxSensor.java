@@ -51,13 +51,17 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   }
 
   @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
+  public void describe(SensorDescriptor descriptor) {
+    descriptor
+      .name(language.getName() + " VeraxxSensor")
+      .onlyOnLanguage(this.language.getKey())
+      .createIssuesForRuleRepository(CxxVeraxxRuleRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override
-  public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " VeraxxSensor");
+  public String getReportPathKey() {
+    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override

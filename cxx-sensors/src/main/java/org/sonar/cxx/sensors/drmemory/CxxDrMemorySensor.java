@@ -56,21 +56,25 @@ public class CxxDrMemorySensor extends CxxReportSensor {
     super(language);
   }
 
-  /**
-   * @return default character set UTF-8
-   */
-  public String defaultCharset() {
-    return DEFAULT_CHARSET_DEF;
-  }
-
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " DrMemorySensor");
+    descriptor
+      .name(language.getName() + " DrMemorySensor")
+      .onlyOnLanguage(this.language.getKey())
+      .createIssuesForRuleRepository(CxxDrMemoryRuleRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override
   public String getReportPathKey() {
     return this.language.getPluginProperty(REPORT_PATH_KEY);
+  }
+
+  /**
+   * @return default character set UTF-8
+   */
+  public String defaultCharset() {
+    return DEFAULT_CHARSET_DEF;
   }
 
   @Override
