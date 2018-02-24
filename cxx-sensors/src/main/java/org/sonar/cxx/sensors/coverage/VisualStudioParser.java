@@ -95,14 +95,11 @@ public class VisualStudioParser extends CxxCoverageParser {
     throws XMLStreamException {
     SMInputCursor function = functions.childElementCursor("function");
     while (function.getNext() != null) {
-      int blocksCovered = Integer.parseInt(function.getAttrValue("blocks_covered"));
-      int blocksNotCovered = Integer.parseInt(function.getAttrValue("blocks_not_covered"));
-      collectRangeMeasures(function, coverageData, blocksCovered + blocksNotCovered, blocksCovered);
+      collectRangeMeasures(function, coverageData);
     }
   }
 
-  private static void collectRangeMeasures(SMInputCursor function, Map<String, CoverageMeasures> coverageData,
-    int conditions, int coveredConditions)
+  private static void collectRangeMeasures(SMInputCursor function, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     SMInputCursor range = function.childElementCursor("ranges").advance().childElementCursor("range");
     CoverageMeasures builder = null;
@@ -122,7 +119,6 @@ public class VisualStudioParser extends CxxCoverageParser {
           coverageData.put(sourceId, builder);
         }
 
-        builder.setConditions(startLine - 1, conditions, coveredConditions);
         lastSourceId = sourceId;
       }
 
