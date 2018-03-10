@@ -216,6 +216,10 @@ public class CxxCoverageSensor extends CxxReportSensor {
     try {
       newCoverage.lineHits(measure.getLine(), measure.getHits());
       newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("line '{}' Hits '{}' Conditions '{}:{}'",measure.getLine(), measure.getHits(), 
+                                                           measure.getConditions(), measure.getCoveredConditions() );
+      }
     } catch (RuntimeException ex) {
       LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ",
         measure.getLine(), ex.getMessage());
