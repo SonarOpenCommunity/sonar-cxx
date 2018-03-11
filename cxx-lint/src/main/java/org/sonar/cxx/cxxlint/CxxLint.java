@@ -140,6 +140,7 @@ public class CxxLint {
       LOG.error("Parsing Command line Failed.  Reason: " + exp);
       HelpFormatter formatter = new HelpFormatter();
       formatter.printHelp("java -jar CxxLint-<sersion>.jar -f filetoanalyse", options);
+      return;
     }
 
     SensorContextTester sensorContext = SensorContextTester.create(targetFile.getParentFile().toPath());
