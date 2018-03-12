@@ -85,7 +85,7 @@ public class CppLanguage extends CxxLanguage {
   /**
    * cxx name
    */
-  public static final String NAME = "c++";
+  public static final String NAME = "C++ (Community)";
 
   /**
    * Default cxx source files suffixes
