@@ -27,6 +27,7 @@ import org.junit.Test;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.config.internal.MapSettings;
@@ -166,4 +167,16 @@ public class CxxPCLintSensorTest {
     sensor.execute(context);
     assertThat(context.allIssues().size()).isZero();
   }
+  
+  @Test
+  public void sensorDescriptor() {
+    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    CxxPCLintSensor sensor = new CxxPCLintSensor(language);
+    sensor.describe(descriptor);
+
+    assertThat(descriptor.name()).isEqualTo(language.getName() + " PCLintSensor");
+    assertThat(descriptor.languages()).containsOnly(language.getKey());
+    assertThat(descriptor.ruleRepositories()).containsOnly(CxxPCLintRuleRepository.KEY);
+  }
+  
 }

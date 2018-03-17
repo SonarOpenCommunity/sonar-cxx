@@ -29,8 +29,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.rats.CxxRatsRuleRepository;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxValgrindSensorTest {
@@ -72,6 +74,16 @@ public class CxxValgrindSensorTest {
     assertThat(context.allIssues()).hasSize(0);
   }
 
+  @Test
+  public void sensorDescriptor() {
+    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    sensor.describe(descriptor);
+
+    assertThat(descriptor.name()).isEqualTo(language.getName() + " ValgrindSensor");
+    assertThat(descriptor.languages()).containsOnly(language.getKey());
+    assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.KEY);
+  }
+  
   private ValgrindError mockValgrindError(boolean inside) {
     ValgrindError error = mock(ValgrindError.class);
     when(error.getKind()).thenReturn("valgrind-error");

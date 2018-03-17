@@ -24,8 +24,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
+import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
@@ -87,4 +89,15 @@ public class CxxClangSASensorTest {
     assertThat(context.allIssues()).hasSize(0);
   }
 
+  @Test
+  public void sensorDescriptor() {
+    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    CxxClangSASensor sensor = new CxxClangSASensor(language);
+    sensor.describe(descriptor);
+    
+    assertThat(descriptor.name()).isEqualTo(language.getName() + " ClangSASensor");
+    assertThat(descriptor.languages()).containsOnly(language.getKey());
+    assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangSARuleRepository.KEY);
+  }
+  
 }
