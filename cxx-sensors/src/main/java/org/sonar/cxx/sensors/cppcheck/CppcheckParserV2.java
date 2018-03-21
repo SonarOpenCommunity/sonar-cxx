@@ -20,12 +20,16 @@
 package org.sonar.cxx.sensors.cppcheck;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.sensors.utils.CxxReportLocation;;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 
@@ -77,11 +81,14 @@ public class CppcheckParserV2 implements CppcheckParser {
                 );
                 String file = null;
                 String line = null;
+                String info = null;
 
+                List<CxxReportLocation> locations = new ArrayList<>();
                 SMInputCursor locationCursor = errorCursor.childElementCursor("location");
-                if (locationCursor.getNext() != null) {
+                while (locationCursor.getNext() != null) {
                   file = locationCursor.getAttrValue("file");
                   line = locationCursor.getAttrValue("line");
+                  info = locationCursor.getAttrValue("info");
 
                   if (file != null) {
                     file = file.replace('\\', '/');
@@ -91,11 +98,20 @@ public class CppcheckParserV2 implements CppcheckParser {
                     // findings on project level
                     file = null;
                     line = null;
+                    info = null;
                   }
+                  
+                  CxxReportLocation location = new CxxReportLocation(file, line,
+                		  (info == null) ? msg : info);
+                  locations.add(location);
                 }
 
                 if (isInputValid(id, msg)) {
-                  sensor.saveUniqueViolation(context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
+                  if (locations.isEmpty()) {
+                    sensor.saveUniqueViolation(context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
+                  } else {
+                    sensor.saveUniqueViolation(context, CxxCppCheckRuleRepository.KEY, id, locations);
+                  }
                 } else {
                   LOG.warn("Skipping invalid violation: '{}'", msg);
                 }
