@@ -58,7 +58,7 @@ public class CxxCppCheckSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
       .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
     sensor.execute(context);
-    assertThat(context.allIssues()).hasSize(9);
+    assertThat(context.allIssues()).hasSize(11);
   }
 
   @Test
