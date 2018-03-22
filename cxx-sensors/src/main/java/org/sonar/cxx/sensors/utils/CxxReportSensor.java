@@ -308,10 +308,10 @@ public abstract class CxxReportSensor implements Sensor {
         tmpViolationsPerFileCount.merge(inputFile, 1, Integer::sum);
 
         return newIssueLocation;
+      } else {
+        LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
+        notFoundFiles.add(normalPath);
       }
-    } else {
-      LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
-      notFoundFiles.add(normalPath);
     }
     return null;
   }
