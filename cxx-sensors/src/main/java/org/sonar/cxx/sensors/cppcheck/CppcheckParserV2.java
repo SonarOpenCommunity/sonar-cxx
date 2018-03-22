@@ -100,9 +100,8 @@ public class CppcheckParserV2 implements CppcheckParser {
                     line = null;
                     info = null;
                   }
-                  
-                  CxxReportLocation location = new CxxReportLocation(file, line,
-                		  (info == null) ? msg : info);
+
+                  CxxReportLocation location = new CxxReportLocation(file, line, (info == null) ? msg : info);
                   locations.add(location);
                 }
 

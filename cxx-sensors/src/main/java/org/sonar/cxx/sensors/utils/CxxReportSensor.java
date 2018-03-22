@@ -275,6 +275,14 @@ public abstract class CxxReportSensor implements Sensor {
     saveUniqueViolation(sensorContext, ruleRepoKey, ruleId, Collections.singletonList(location));
   }
 
+  /**
+   * Saves code violation only if unique. Compares file, line, ruleId and msg or the first given location
+   *
+   * @param sensorContext
+   * @param ruleRepoKey
+   * @param ruleId
+   * @param locations
+   */
   public void saveUniqueViolation(SensorContext sensorContext, String ruleRepoKey, String ruleId,
       List<CxxReportLocation> locations) {
     CxxReportLocation firstLocation = locations.get(0);
@@ -315,11 +323,9 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   /**
-   * Saves a code violation which is detected in the given file/line and has
-   * given ruleId and message. Saves it to the given project and context.
-   * Project or file-level violations can be saved by passing null for the
-   * according parameters ('file' = null for project level, 'line' = null for
-   * file-level)
+   * Saves a code violation which is detected in the given file/line and has given ruleId and message. Saves it to the
+   * given project and context. Project or file-level violations can be saved by passing null for the according
+   * parameters ('file' = null for project level, 'line' = null for file-level)
    */
   private void saveViolation(SensorContext sensorContext, String ruleRepoKey, String ruleId,
       List<CxxReportLocation> locations) {
