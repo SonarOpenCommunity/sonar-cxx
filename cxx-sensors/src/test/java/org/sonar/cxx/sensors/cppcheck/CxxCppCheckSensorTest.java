@@ -26,6 +26,7 @@ import org.junit.Test;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
@@ -120,4 +121,16 @@ public class CxxCppCheckSensorTest {
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     sensor.execute(context);
   }
+  
+  @Test
+  public void sensorDescriptor() {
+    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
+    sensor.describe(descriptor);
+
+    assertThat(descriptor.name()).isEqualTo(language.getName() + " CppCheckSensor");
+    assertThat(descriptor.languages()).containsOnly(language.getKey());
+    assertThat(descriptor.ruleRepositories()).containsOnly(CxxCppCheckRuleRepository.KEY);
+  }
+  
 }

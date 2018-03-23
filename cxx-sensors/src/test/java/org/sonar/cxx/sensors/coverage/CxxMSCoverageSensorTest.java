@@ -25,6 +25,7 @@ import org.junit.Test;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
@@ -87,4 +88,16 @@ public class CxxMSCoverageSensorTest {
     assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", 1)).isNull();
 
   }
+  
+  @Test
+  public void sensorDescriptor() {
+    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    context = SensorContextTester.create(fs.baseDir());
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+    sensor.describe(descriptor);
+
+    assertThat(descriptor.name()).isEqualTo(language.getName() + " CoverageSensor");
+    assertThat(descriptor.languages()).containsOnly(language.getKey());
+  }
+  
 }

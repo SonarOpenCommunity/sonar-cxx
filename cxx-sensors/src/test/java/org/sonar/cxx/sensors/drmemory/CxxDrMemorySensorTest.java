@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
@@ -58,4 +59,16 @@ public class CxxDrMemorySensorTest {
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
   }
+  
+  @Test
+  public void sensorDescriptor() {
+    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    CxxDrMemorySensor sensor = new CxxDrMemorySensor(language);
+    sensor.describe(descriptor);
+
+    assertThat(descriptor.name()).isEqualTo(language.getName() + " DrMemorySensor");
+    assertThat(descriptor.languages()).containsOnly(language.getKey());
+    assertThat(descriptor.ruleRepositories()).containsOnly(CxxDrMemoryRuleRepository.KEY);
+  }
+  
 }

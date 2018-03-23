@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.measures.CoreMetrics;
@@ -122,5 +123,14 @@ public class CxxXunitSensorTest {
 
   File cppunitReport() {
     return new File(new File(fs.baseDir(), "xunit-reports"), "cppunit-report.xml");
+  }
+  
+  @Test
+  public void sensorDescriptor() {
+    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    CxxXunitSensor sensor = new CxxXunitSensor(language);
+    sensor.describe(descriptor);
+
+    assertThat(descriptor.name()).isEqualTo(language.getName() + " XunitSensor");
   }
 }
