@@ -22,6 +22,8 @@ package org.sonar.cxx.sensors.valgrind;
 import java.util.HashSet;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -79,9 +81,11 @@ public class CxxValgrindSensorTest {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
     sensor.describe(descriptor);
 
-    assertThat(descriptor.name()).isEqualTo(language.getName() + " ValgrindSensor");
-    assertThat(descriptor.languages()).containsOnly(language.getKey());
-    assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.KEY);
+    SoftAssertions softly = new SoftAssertions(); 
+    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ValgrindSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.KEY);
+    softly.assertAll();
   }
   
   private ValgrindError mockValgrindError(boolean inside) {

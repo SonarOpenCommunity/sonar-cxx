@@ -22,6 +22,8 @@ package org.sonar.cxx.sensors.pclint;
 import java.util.ArrayList;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
@@ -174,9 +176,11 @@ public class CxxPCLintSensorTest {
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.describe(descriptor);
 
-    assertThat(descriptor.name()).isEqualTo(language.getName() + " PCLintSensor");
-    assertThat(descriptor.languages()).containsOnly(language.getKey());
-    assertThat(descriptor.ruleRepositories()).containsOnly(CxxPCLintRuleRepository.KEY);
+    SoftAssertions softly = new SoftAssertions(); 
+    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " PCLintSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxPCLintRuleRepository.KEY);
+    softly.assertAll();
   }
   
 }
