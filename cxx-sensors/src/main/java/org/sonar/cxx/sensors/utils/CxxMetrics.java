@@ -106,12 +106,11 @@ public class CxxMetrics implements Metrics {
 
   private Metric<?> buildReportMetric(String key, String description) {
     String effectiveKey = CxxMetrics.getKey(key, this.language);
-    Metric<?> metric = new Metric.Builder(effectiveKey, description, Metric.ValueType.INT)
-      .setDirection(Metric.DIRECTION_WORST)
-      .setQualitative(Boolean.TRUE)
-      .setDomain(this.domain)
-      .create();
-    return metric;
+    return new Metric.Builder(effectiveKey, description, Metric.ValueType.INT)
+        .setDirection(Metric.DIRECTION_WORST)
+        .setQualitative(Boolean.TRUE)
+        .setDomain(this.domain)
+        .create();
   }
 
   private Boolean saveMetric(String key, Metric<?> metric) {

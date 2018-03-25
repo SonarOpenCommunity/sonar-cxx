@@ -19,19 +19,21 @@
  */
 package org.sonar.cxx.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 
 public class CxxTokenTypeTest {
 
   @Test
   public void test() {
-    assertThat(CxxTokenType.values()).hasSize(12);
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(CxxTokenType.values()).hasSize(12);
 
     for (CxxTokenType tokenType : CxxTokenType.values()) {
-      assertThat(tokenType.getName()).isEqualTo(tokenType.name());
-      assertThat(tokenType.getValue()).isEqualTo(tokenType.name());
+      softly.assertThat(tokenType.getName()).isEqualTo(tokenType.name());
+      softly.assertThat(tokenType.getValue()).isEqualTo(tokenType.name());
     }
+    softly.assertAll();
   }
 
 }

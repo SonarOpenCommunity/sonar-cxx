@@ -38,6 +38,7 @@ import org.sonar.cxx.channels.StringLiteralsChannel;
 
 public final class CppLexer {
 
+  private static final String HEX_PREFIX = "0[xX]";
   private static final String EXPONENT = "([eE][+-]?+[0-9_]([']?+[0-9_]++)*+)";
   private static final String BINARY_EXPONENT = "([pP][+-]?+[0-9]([']?+[0-9]++)*+)"; // since C++17
   //private static final String INTEGER_SUFFIX = "(((U|u)(LL|ll|L|l)?)|((LL|ll|L|l)(u|U)?))";  
@@ -72,17 +73,17 @@ public final class CppLexer {
       .withChannel(regexp(CxxTokenType.NUMBER, "\\.[0-9]([']?+[0-9]++)*+" 
         + opt(EXPONENT) + opt(UD_SUFFIX)))
       .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+" + EXPONENT + opt(UD_SUFFIX)))
-      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX]" + HEXDIGIT_SEQUENCE 
+      .withChannel(regexp(CxxTokenType.NUMBER, HEX_PREFIX + HEXDIGIT_SEQUENCE 
         + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
-      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX]" + HEXDIGIT_SEQUENCE + "." 
+      .withChannel(regexp(CxxTokenType.NUMBER, HEX_PREFIX + HEXDIGIT_SEQUENCE + "." 
         + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
-      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX]" + opt(HEXDIGIT_SEQUENCE) + "." + HEXDIGIT_SEQUENCE 
+      .withChannel(regexp(CxxTokenType.NUMBER, HEX_PREFIX + opt(HEXDIGIT_SEQUENCE) + "." + HEXDIGIT_SEQUENCE 
         + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
       // C++ Standard, Section 2.14.2 "Integer literals"
       .withChannel(regexp(CxxTokenType.NUMBER, "[1-9]([']?+[0-9]++)*+" + opt(UD_SUFFIX))) // Decimal literals
       .withChannel(regexp(CxxTokenType.NUMBER, "0[bB][01]([']?+[01]++)*+" + opt(UD_SUFFIX))) // Binary Literals
       .withChannel(regexp(CxxTokenType.NUMBER, "0([']?+[0-7]++)++" + opt(UD_SUFFIX))) // Octal Literals
-      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX]" + HEXDIGIT_SEQUENCE + opt(UD_SUFFIX))) // Hex Literals
+      .withChannel(regexp(CxxTokenType.NUMBER, HEX_PREFIX + HEXDIGIT_SEQUENCE + opt(UD_SUFFIX))) // Hex Literals
       .withChannel(regexp(CxxTokenType.NUMBER, "0" + opt(UD_SUFFIX))) // Decimal zero
 
       .withChannel(new KeywordChannel(and("#", o2n("\\s"), "[a-z]", o2n("\\w")), CppKeyword.values()))

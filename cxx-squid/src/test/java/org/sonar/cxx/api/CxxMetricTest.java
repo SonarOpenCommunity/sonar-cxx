@@ -19,22 +19,24 @@
  */
 package org.sonar.cxx.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 
 public class CxxMetricTest {
 
   @Test
   public void test() {
-    assertThat(CxxMetric.values()).hasSize(11);
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(CxxMetric.values()).hasSize(11);
 
     for (CxxMetric metric : CxxMetric.values()) {
-      assertThat(metric.getName()).isEqualTo(metric.name());
-      assertThat(metric.isCalculatedMetric()).isFalse();
-      assertThat(metric.aggregateIfThereIsAlreadyAValue()).isTrue();
-      assertThat(metric.isThereAggregationFormula()).isTrue();
-      assertThat(metric.getCalculatedMetricFormula()).isNull();
+      softly.assertThat(metric.getName()).isEqualTo(metric.name());
+      softly.assertThat(metric.isCalculatedMetric()).isFalse();
+      softly.assertThat(metric.aggregateIfThereIsAlreadyAValue()).isTrue();
+      softly.assertThat(metric.isThereAggregationFormula()).isTrue();
+      softly.assertThat(metric.getCalculatedMetricFormula()).isNull();
     }
+    softly.assertAll();
   }
 
 }

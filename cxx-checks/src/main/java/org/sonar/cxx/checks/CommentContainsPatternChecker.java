@@ -79,8 +79,9 @@ public class CommentContainsPatternChecker {
    */
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
-      String comment = trivia.getToken().getOriginalValue();
-      int line = trivia.getToken().getLine();
+      Token triviaToken = trivia.getToken();
+      String comment = triviaToken.getOriginalValue();
+      int line = triviaToken.getLine();
       if (indexOfIgnoreCase(comment) != -1) {
         String[] lines = comment.split("\r\n?|\n");
 

@@ -19,15 +19,17 @@
  */
 package org.sonar.cxx.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 
 public class CppKeywordTest {
 
   @Test
   public void test() {
-    assertThat(CppKeyword.values()).hasSize(14);
-    assertThat(CppKeyword.keywordValues()).hasSize(CppKeyword.values().length);
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(CppKeyword.values()).hasSize(14);
+    softly.assertThat(CppKeyword.keywordValues()).hasSize(CppKeyword.values().length);
+    softly.assertAll();
   }
 
 }

@@ -43,6 +43,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -143,12 +144,13 @@ public class CxxLint {
       return;
     }
 
-    SensorContextTester sensorContext = SensorContextTester.create(targetFile.getParentFile().toPath());
-
-    CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile));
 
     try {
-      sensorContext.fileSystem().add(TestInputFileBuilder.create("", targetFile.getParentFile(), targetFile).build());
+      File parent = targetFile.getParentFile();
+      SensorContextTester sensorContext = SensorContextTester.create(parent.toPath());
+      CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile));
+
+      sensorContext.fileSystem().add(TestInputFileBuilder.create("", parent, targetFile).build());
       InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates()
         .hasPath(targetFile.getName()));
       List<CheckerData> rulesData = new ArrayList<>();
@@ -240,7 +242,7 @@ public class CxxLint {
       LOG.info("LOC: {}", file.getInt(CxxMetric.LINES_OF_CODE));
       LOG.info("COMPLEXITY: {}", file.getInt(CxxMetric.COMPLEXITY));
 
-    } catch (InstantiationException | IllegalAccessException ex) {
+    } catch (InstantiationException | IllegalAccessException |NullPointerException ex) {
       LOG.error("{}", ex);
     }
 
@@ -419,7 +421,6 @@ public class CxxLint {
       || "V110".equals(platformToolset)
       || "V120".equals(platformToolset)
       || "V140".equals(platformToolset)) {
-
       HashMap<String, List<String>> uniqueIncludes = new HashMap<>();
       HashMap<String, Set<String>> uniqueDefines = new HashMap<>();
       uniqueDefines.put(fileToAnalyse, new HashSet<String>());
