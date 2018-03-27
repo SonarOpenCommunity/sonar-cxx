@@ -55,7 +55,7 @@ public abstract class CxxReportSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
   private final Set<String> notFoundFiles = new HashSet<>();
-  private final Set<String> uniqueIssues = new HashSet<>();
+  private final Set<CxxReportIssue> uniqueIssues = new HashSet<>();
   private final Map<InputFile, Integer> violationsPerFileCount = new HashMap<>();
   private int violationsPerModuleCount;
   protected final CxxLanguage language;
@@ -272,7 +272,8 @@ public abstract class CxxReportSensor implements Sensor {
   public void saveUniqueViolation(SensorContext sensorContext, String ruleRepoKey, @Nullable String file,
       @Nullable String line, String ruleId, String msg) {
     CxxReportLocation location = new CxxReportLocation(file, line, msg);
-    saveUniqueViolation(sensorContext, ruleRepoKey, ruleId, Collections.singletonList(location));
+    CxxReportIssue issue = new CxxReportIssue(ruleRepoKey, ruleId, location);
+    saveUniqueViolation(sensorContext, issue);
   }
 
   /**
@@ -283,17 +284,14 @@ public abstract class CxxReportSensor implements Sensor {
    * @param ruleId
    * @param locations
    */
-  public void saveUniqueViolation(SensorContext sensorContext, String ruleRepoKey, String ruleId,
-      List<CxxReportLocation> locations) {
-    CxxReportLocation firstLocation = locations.get(0);
-    // StringBuilder is slower
-    if (uniqueIssues.add(firstLocation.getFile() + firstLocation.getLine() + ruleId + firstLocation.getMsg())) {
-      saveViolation(sensorContext, ruleRepoKey, ruleId, locations);
+  public void saveUniqueViolation(SensorContext sensorContext, CxxReportIssue issue) {
+    if (uniqueIssues.add(issue)) {
+      saveViolation(sensorContext, issue);
     }
   }
 
   private NewIssueLocation createNewIssueLocationFile(SensorContext sensorContext, NewIssue newIssue,
-      CxxReportLocation location, Map<InputFile, Integer> tmpViolationsPerFileCount) {
+      CxxReportLocation location, Set<InputFile> affectedFiles) {
     String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
     String normalPath = CxxUtils.normalizePathFull(location.getFile(), root);
     if (normalPath != null && !notFoundFiles.contains(normalPath)) {
@@ -303,9 +301,9 @@ public abstract class CxxReportSensor implements Sensor {
         int lines = inputFile.lines();
         int lineNr = getLineAsInt(location.getLine(), lines);
         NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile)
-            .at(inputFile.selectLine(lineNr > 0 ? lineNr : 1)).message(location.getMsg());
+            .at(inputFile.selectLine(lineNr > 0 ? lineNr : 1)).message(location.getInfo());
 
-        tmpViolationsPerFileCount.merge(inputFile, 1, Integer::sum);
+        affectedFiles.add(inputFile);
 
         return newIssueLocation;
       } else {
@@ -318,7 +316,7 @@ public abstract class CxxReportSensor implements Sensor {
 
   private NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
       CxxReportLocation location) {
-    NewIssueLocation newIssueLocation = newIssue.newLocation().on(sensorContext.module()).message(location.getMsg());
+    NewIssueLocation newIssueLocation = newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
     return newIssueLocation;
   }
 
@@ -327,28 +325,23 @@ public abstract class CxxReportSensor implements Sensor {
    * given project and context. Project or file-level violations can be saved by passing null for the according
    * parameters ('file' = null for project level, 'line' = null for file-level)
    */
-  private void saveViolation(SensorContext sensorContext, String ruleRepoKey, String ruleId,
-      List<CxxReportLocation> locations) {
+  private void saveViolation(SensorContext sensorContext, CxxReportIssue issue) {
+    String repoKey = issue.getRuleRepoKey() + this.language.getRepositorySuffix();
+    NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(repoKey, issue.getRuleId()));
 
-    String repoKey = ruleRepoKey + this.language.getRepositorySuffix();
-    NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(repoKey, ruleId));
-
-    int tmpViolationPerModuleCount = 0;
-    Map<InputFile, Integer> tmpViolationsPerFileCount = new HashMap<>();
+    Set<InputFile> affectedFiles = new HashSet<>();
     List<NewIssueLocation> newIssueLocations = new ArrayList<>();
 
-    for (CxxReportLocation location : locations) {
+    for (CxxReportLocation location : issue.getLocations()) {
       if (location.getFile() != null && !location.getFile().isEmpty()) {
         NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location,
-            tmpViolationsPerFileCount);
+            affectedFiles);
         if (newIssueLocation != null) {
           newIssueLocations.add(newIssueLocation);
-          tmpViolationPerModuleCount++;
         }
       } else {
         NewIssueLocation newIssueLocation = createNewIssueLocationModule(sensorContext, newIssue, location);
         newIssueLocations.add(newIssueLocation);
-        tmpViolationPerModuleCount++;
       }
     }
 
@@ -360,13 +353,12 @@ public abstract class CxxReportSensor implements Sensor {
         }
         newIssue.save();
 
-        for (Map.Entry<InputFile, Integer> entry : tmpViolationsPerFileCount.entrySet()) {
-          violationsPerFileCount.merge(entry.getKey(), entry.getValue(), Integer::sum);
+        for (InputFile affectedFile : affectedFiles) {
+          violationsPerFileCount.merge(affectedFile, 1, Integer::sum);
         }
-        violationsPerModuleCount += tmpViolationPerModuleCount;
+        violationsPerModuleCount++;
       } catch (RuntimeException ex) {
-        LOG.error("Could not add the issue '{}' for rule '{}:{}', skipping issue", ex.getMessage(), ruleRepoKey,
-            ruleId);
+        LOG.error("Could not add the issue '{}':{}', skipping issue", issue.toString(), ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       }
     }

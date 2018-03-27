@@ -19,6 +19,8 @@
  */
 package org.sonar.cxx.sensors.utils;
 
+import java.util.Objects;
+
 /**
  * Each issues in SonarQube might have multiple locations; Encapsulate its
  * properties in this structure
@@ -26,13 +28,13 @@ package org.sonar.cxx.sensors.utils;
 public class CxxReportLocation {
   final String file;
   final String line;
-  final String msg;
+  final String info;
 
-  public CxxReportLocation(String file, String line, String msg) {
+  public CxxReportLocation(String file, String line, String info) {
     super();
     this.file = file;
     this.line = line;
-    this.msg = msg;
+    this.info = info;
   }
 
   public String getFile() {
@@ -43,7 +45,29 @@ public class CxxReportLocation {
     return line;
   }
 
-  public String getMsg() {
-    return msg;
+  public String getInfo() {
+    return info;
+  }
+
+  @Override
+  public String toString() {
+    return "CxxReportLocation [file=" + file + ", line=" + line + ", info=" + info + "]";
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(file, info, line);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    CxxReportLocation other = (CxxReportLocation) obj;
+    return Objects.equals(file, other.file) && Objects.equals(info, other.info) && Objects.equals(line, other.line);
   }
 }
