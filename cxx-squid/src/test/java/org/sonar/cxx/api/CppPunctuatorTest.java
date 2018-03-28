@@ -24,6 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 
+import org.assertj.core.api.SoftAssertions;
+
 public class CppPunctuatorTest {
 
   @Test
@@ -31,9 +33,11 @@ public class CppPunctuatorTest {
     assertThat(CppPunctuator.values()).hasSize(70);
 
     AstNode astNode = mock(AstNode.class);
+    SoftAssertions softly = new SoftAssertions();
     for (CppPunctuator punctuator : CppPunctuator.values()) {
-      assertThat(punctuator.hasToBeSkippedFromAst(astNode)).isFalse();
+      softly.assertThat(punctuator.hasToBeSkippedFromAst(astNode)).isFalse();
     }
+    softly.assertAll();
   }
 
 }

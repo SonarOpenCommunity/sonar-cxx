@@ -38,6 +38,11 @@ public class CxxOtherRepository implements RulesDefinition {
   private static final String NAME = "Other";
   private final CxxLanguage language;
 
+  /**
+   * CxxOtherRepository
+   * @param xmlRuleLoader to load rules from XML file
+   * @param language for C or C++
+   */
   public CxxOtherRepository(RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
     this.xmlRuleLoader = xmlRuleLoader;
     this.language = language;
@@ -45,14 +50,15 @@ public class CxxOtherRepository implements RulesDefinition {
 
   @Override
   public void define(Context context) {
-    NewRepository repository = context.createRepository(KEY + this.language.getRepositorySuffix(), this.language.getKey()).setName(NAME + this.language.getRepositorySuffix());
+    NewRepository repository = context.createRepository(KEY + this.language.getRepositorySuffix(), 
+                      this.language.getKey()).setName(NAME + this.language.getRepositorySuffix());
 
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
     for (String ruleDefs : this.language.getStringArrayOption(RULES_KEY)) {
       if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));
-        } catch (Exception ex) {
+        } catch (IllegalStateException ex) {
           LOG.info("Cannot load rules XML '{}'", ex);
         }
       }

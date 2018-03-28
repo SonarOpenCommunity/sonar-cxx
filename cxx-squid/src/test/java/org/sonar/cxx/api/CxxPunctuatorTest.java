@@ -20,20 +20,22 @@
 package org.sonar.cxx.api;
 
 import com.sonar.sslr.api.AstNode;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
+import org.assertj.core.api.SoftAssertions;
 
 public class CxxPunctuatorTest {
 
   @Test
   public void test() {
-    assertThat(CxxPunctuator.values()).hasSize(49);
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(CxxPunctuator.values()).hasSize(49);
 
     AstNode astNode = mock(AstNode.class);
     for (CxxPunctuator punctuator : CxxPunctuator.values()) {
-      assertThat(punctuator.hasToBeSkippedFromAst(astNode)).isFalse();
+      softly.assertThat(punctuator.hasToBeSkippedFromAst(astNode)).isFalse();
     }
+    softly.assertAll();
   }
 
 }

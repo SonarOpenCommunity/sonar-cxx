@@ -31,9 +31,13 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 
+/**
+ * CxxUnitTestResultsAggregator (from .Net test library)
+ */
 @ScannerSide
 public class CxxUnitTestResultsAggregator {
 
+  private static final String EXIST_CONFIGURATION_PARAMETER = "Exist configuration parameter: '{}':'{}'";
   private static final Logger LOG = Loggers.get(CxxUnitTestResultsAggregator.class);
   private final UnitTestConfiguration unitTestConf;
   private final Configuration settings;
@@ -41,6 +45,11 @@ public class CxxUnitTestResultsAggregator {
   private final XUnitTestResultsFileParser xunitTestResultsFileParser;
   private final NUnitTestResultsFileParser nunitTestResultsFileParser;
 
+  /**
+   * CxxUnitTestResultsAggregator
+   * @param language C or C++
+   * @param settings SQ Configuration
+   */
   public CxxUnitTestResultsAggregator(CxxLanguage language, Configuration settings) {
     this(new UnitTestConfiguration(language), settings,
       new VisualStudioTestResultsFileParser(),
@@ -67,7 +76,7 @@ public class CxxUnitTestResultsAggregator {
 
   private boolean hasVisualStudioTestResultsFile() {
     if (LOG.isDebugEnabled()) {
-      LOG.debug("Exist configuration parameter: '{}':'{}'", unitTestConf.visualStudioTestResultsFilePropertyKey(),
+      LOG.debug(EXIST_CONFIGURATION_PARAMETER, unitTestConf.visualStudioTestResultsFilePropertyKey(),
         settings.hasKey(unitTestConf.visualStudioTestResultsFilePropertyKey()));
     }
     return settings.hasKey(unitTestConf.visualStudioTestResultsFilePropertyKey());
@@ -75,7 +84,7 @@ public class CxxUnitTestResultsAggregator {
 
   private boolean hasXUnitTestResultsFile() {
     if (LOG.isDebugEnabled()) {
-      LOG.debug("Exist configuration parameter: '{}':'{}'", unitTestConf.xunitTestResultsFilePropertyKey(),
+      LOG.debug(EXIST_CONFIGURATION_PARAMETER, unitTestConf.xunitTestResultsFilePropertyKey(),
         settings.hasKey(unitTestConf.xunitTestResultsFilePropertyKey()));
     }
     return settings.hasKey(unitTestConf.xunitTestResultsFilePropertyKey());
@@ -83,7 +92,7 @@ public class CxxUnitTestResultsAggregator {
 
   private boolean hasNUnitTestResultsFile() {
     if (LOG.isDebugEnabled()) {
-      LOG.debug("Exist configuration parameter: '{}':'{}'", unitTestConf.nunitTestResultsFilePropertyKey(),
+      LOG.debug(EXIST_CONFIGURATION_PARAMETER, unitTestConf.nunitTestResultsFilePropertyKey(),
         settings.hasKey(unitTestConf.nunitTestResultsFilePropertyKey()));
     }
     return settings.hasKey(unitTestConf.nunitTestResultsFilePropertyKey());

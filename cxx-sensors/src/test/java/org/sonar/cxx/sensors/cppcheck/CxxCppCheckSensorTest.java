@@ -21,6 +21,8 @@ package org.sonar.cxx.sensors.cppcheck;
 
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
@@ -128,9 +130,11 @@ public class CxxCppCheckSensorTest {
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     sensor.describe(descriptor);
 
-    assertThat(descriptor.name()).isEqualTo(language.getName() + " CppCheckSensor");
-    assertThat(descriptor.languages()).containsOnly(language.getKey());
-    assertThat(descriptor.ruleRepositories()).containsOnly(CxxCppCheckRuleRepository.KEY);
+    SoftAssertions softly = new SoftAssertions(); 
+    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CppCheckSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxCppCheckRuleRepository.KEY);
+    softly.assertAll();
   }
   
 }

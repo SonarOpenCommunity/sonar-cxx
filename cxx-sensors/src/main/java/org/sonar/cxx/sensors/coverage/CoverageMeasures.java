@@ -30,8 +30,7 @@ import java.util.Set;
  *
  * @author jocs
  */
-final class CoverageMeasures {
-
+public final class CoverageMeasures {
   private final Map<Integer, CoverageMeasure> lineMeasures = new HashMap<>();
 
   private CoverageMeasures() {

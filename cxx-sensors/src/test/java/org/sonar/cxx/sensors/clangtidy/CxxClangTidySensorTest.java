@@ -21,6 +21,8 @@ package org.sonar.cxx.sensors.clangtidy;
 
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -103,9 +105,11 @@ public class CxxClangTidySensorTest {
     CxxClangTidySensor sensor = new CxxClangTidySensor(language);
     sensor.describe(descriptor);
 
-    assertThat(descriptor.name()).isEqualTo(language.getName() + " ClangTidySensor");
-    assertThat(descriptor.languages()).containsOnly(language.getKey());
-    assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangTidyRuleRepository.KEY);
+    SoftAssertions softly = new SoftAssertions(); 
+    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ClangTidySensor");
+    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangTidyRuleRepository.KEY);
+    softly.assertAll();
   }
   
 }

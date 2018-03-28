@@ -49,12 +49,13 @@ public class CxxXunitSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "xunit.reportPath";
   public static final String KEY = "Xunit";
   public static final String XSLT_URL_KEY = "xunit.xsltURL";
-  private static final double PERCENT_BASE = 100d;
+  private static final double PERCENT_BASE = 100D;
 
   private String xsltURL;
 
   /**
-   * {@inheritDoc}
+   * CxxXunitSensor
+   * @param language for C or C++
    */
   public CxxXunitSensor(CxxLanguage language) {
     super(language);
@@ -166,7 +167,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           .on(context.module())
           .withValue(testsCount)
           .save();
-      } catch (Exception ex) {
+      } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       }
@@ -177,7 +178,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           .on(context.module())
           .withValue(testsErrors)
           .save();
-      } catch (Exception ex) {
+      } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       }
@@ -188,7 +189,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           .on(context.module())
           .withValue(testsFailures)
           .save();
-      } catch (Exception ex) {
+      } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       }
@@ -199,7 +200,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           .on(context.module())
           .withValue(testsSkipped)
           .save();
-      } catch (Exception ex) {
+      } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       }
@@ -210,7 +211,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           .on(context.module())
           .withValue(ParsingUtils.scaleValue(successDensity))
           .save();
-      } catch (Exception ex) {
+      } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TEST_SUCCESS_DENSITY : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       }
@@ -221,7 +222,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           .on(context.module())
           .withValue(testsTime)
           .save();
-      } catch (Exception ex) {
+      } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       }

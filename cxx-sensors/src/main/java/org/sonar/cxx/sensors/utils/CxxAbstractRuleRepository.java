@@ -21,6 +21,7 @@ package org.sonar.cxx.sensors.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -84,7 +85,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
           BufferedReader reader = new BufferedReader(new InputStreamReader(input, charset));
           xmlRuleLoader.load(repository, reader);
-        } catch (Exception ex) {
+        } catch (IOException|IllegalStateException ex) {
           LOG.info("Cannot Load XML '{}'", ex);
         }
       }

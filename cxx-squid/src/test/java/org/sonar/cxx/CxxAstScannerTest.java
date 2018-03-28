@@ -26,6 +26,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.AstScanner;
@@ -54,8 +56,10 @@ public class CxxAstScannerTest {
   public void comments() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/comments.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
-    assertThat(file.getInt(CxxMetric.COMMENT_LINES)).isEqualTo(6);
-    assertThat(file.getNoSonarTagLines()).contains(8).hasSize(1);
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(file.getInt(CxxMetric.COMMENT_LINES)).isEqualTo(6);
+    softly.assertThat(file.getNoSonarTagLines()).contains(8).hasSize(1);
+    softly.assertAll();
   }
 
   @Test

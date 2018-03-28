@@ -21,6 +21,8 @@ package org.sonar.cxx.sensors.other;
 
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -235,9 +237,11 @@ public class CxxOtherSensorTest {
     sensor = new CxxOtherSensor(language);
     sensor.describe(descriptor);
 
-    assertThat(descriptor.name()).isEqualTo(language.getName() + " ExternalRulesSensor");
-    assertThat(descriptor.languages()).containsOnly(language.getKey());
-    assertThat(descriptor.ruleRepositories()).containsOnly(CxxOtherRepository.KEY);
+    SoftAssertions softly = new SoftAssertions(); 
+    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ExternalRulesSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxOtherRepository.KEY);
+    softly.assertAll();
   }
   
 }

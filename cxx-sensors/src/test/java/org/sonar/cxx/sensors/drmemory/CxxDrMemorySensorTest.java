@@ -21,6 +21,8 @@ package org.sonar.cxx.sensors.drmemory;
 
 import java.nio.charset.Charset;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
@@ -66,9 +68,11 @@ public class CxxDrMemorySensorTest {
     CxxDrMemorySensor sensor = new CxxDrMemorySensor(language);
     sensor.describe(descriptor);
 
-    assertThat(descriptor.name()).isEqualTo(language.getName() + " DrMemorySensor");
-    assertThat(descriptor.languages()).containsOnly(language.getKey());
-    assertThat(descriptor.ruleRepositories()).containsOnly(CxxDrMemoryRuleRepository.KEY);
+    SoftAssertions softly = new SoftAssertions(); 
+    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " DrMemorySensor");
+    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxDrMemoryRuleRepository.KEY);
+    softly.assertAll();
   }
   
 }

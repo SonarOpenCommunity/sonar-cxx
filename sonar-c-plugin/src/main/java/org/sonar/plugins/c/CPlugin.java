@@ -68,10 +68,12 @@ import org.sonar.cxx.sensors.veraxx.CxxVeraxxSensor;
  */
 public final class CPlugin implements Plugin {
 
+  private static final String USE_ANT_STYLE_WILDCARDS_1 = " Use <a href='"
+    + "https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
+  private static final String USE_ANT_STYLE_WILDCARDS_2 = " If neccessary, <a href='"
+    + "https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.";
   private static final String EXTENDING_THE_CODE_ANALYSIS = " The used format is described <a href='"
     + "https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.";
-  private static final String USE_ANT_STYLE_WILDCARDS = " Use <a href='"
-    + "https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
   public static final String LANG_PROP_PREFIX = "sonar.c.";
   public static final String SOURCE_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.sources";
   public static final String HEADER_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.headers";
@@ -170,7 +172,7 @@ public final class CPlugin implements Plugin {
         .index(9)
         .build(),
       PropertyDefinition.builder(CPlugin.SCAN_ONLY_SPECIFIED_SOURCES_KEY)
-        .defaultValue("False")
+        .defaultValue(Boolean.FALSE.toString())
         .name("Scan only specified source files")
         .description("Only scan source files defined in specification file. Eg. by JSON Compilation Database.")
         .subCategory(subcateg)
@@ -188,8 +190,7 @@ public final class CPlugin implements Plugin {
       .name("Cppcheck report(s)")
       .description("Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, "
         + "relative to projects root. Both XML formats (version 1 and version 2) are supported."
-        + " If neccessary, <a href='https://ant.apache.org/manual/dirtasks.html'>"
-        + "Ant-style wildcards</a> are at your service."
+        + USE_ANT_STYLE_WILDCARDS_2
       )
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
@@ -206,7 +207,7 @@ public final class CPlugin implements Plugin {
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxValgrindSensor.REPORT_PATH_KEY)
         .name("Valgrind report(s)")
         .description("Path to <a href='http://valgrind.org/'>Valgrind</a> report(s), relative to projects root."
-          + USE_ANT_STYLE_WILDCARDS)
+          + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(3)
@@ -222,7 +223,7 @@ public final class CPlugin implements Plugin {
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxDrMemorySensor.REPORT_PATH_KEY)
         .name("Dr Memory report(s)")
         .description("Path to <a href='http://drmemory.org/'>Dr. Memory</a> reports(s), relative to projects root."
-          + USE_ANT_STYLE_WILDCARDS)
+          + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(5)
@@ -230,7 +231,7 @@ public final class CPlugin implements Plugin {
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxPCLintSensor.REPORT_PATH_KEY)
         .name("PC-lint report(s)")
         .description("Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> reports(s), relative to "
-          + "projects root." + USE_ANT_STYLE_WILDCARDS)
+          + "projects root." + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(5)
@@ -246,7 +247,7 @@ public final class CPlugin implements Plugin {
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxRatsSensor.REPORT_PATH_KEY)
         .name("RATS report(s)")
         .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/> reports(s),"
-          + "relative to projects root." + USE_ANT_STYLE_WILDCARDS)
+          + "relative to projects root." + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(7)
@@ -262,7 +263,7 @@ public final class CPlugin implements Plugin {
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxSensor.REPORT_PATH_KEY)
         .name("Vera++ report(s)")
         .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s), relative to projects root."
-          + USE_ANT_STYLE_WILDCARDS)
+          + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(9)
@@ -278,7 +279,7 @@ public final class CPlugin implements Plugin {
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxOtherSensor.REPORT_PATH_KEY)
         .name("External checkers report(s)")
         .description("Path to a code analysis report, which is generated by some unsupported code analyser, "
-          + "relative to projects root." + USE_ANT_STYLE_WILDCARDS
+          + "relative to projects root." + USE_ANT_STYLE_WILDCARDS_1
           + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>"
           + "here</a> for details.")
         .subCategory(subcateg)
@@ -298,8 +299,7 @@ public final class CPlugin implements Plugin {
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_PATH_KEY)
         .name("Clang-Tidy analyzer report(s)")
         .description("Path to Clang-Tidy reports, relative to projects root."
-          + " If neccessary, <a href='https://ant.apache.org/manual/dirtasks.html'>"
-          + "Ant-style wildcards</a> are at your service.")
+          + USE_ANT_STYLE_WILDCARDS_2)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(13)
@@ -323,8 +323,7 @@ public final class CPlugin implements Plugin {
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSASensor.REPORT_PATH_KEY)
         .name("Clang Static analyzer analyzer report(s)")
         .description("Path to Clang Static Analyzer reports, relative to projects root."
-          + " If neccessary, <a href='https://ant.apache.org/manual/dirtasks.html'>"
-          + "Ant-style wildcards</a> are at your service.")
+          + USE_ANT_STYLE_WILDCARDS_2)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(16)
@@ -345,7 +344,7 @@ public final class CPlugin implements Plugin {
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerSensor.REPORT_PATH_KEY)
         .name("Compiler report(s)")
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
-          + USE_ANT_STYLE_WILDCARDS)
+          + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(1)
@@ -404,7 +403,7 @@ public final class CPlugin implements Plugin {
         .name("Unit test coverage report(s)")
         .description("Path to a report containing unit test coverage data, relative to projects root."
           + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
-          + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
+          + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(1)
@@ -413,7 +412,7 @@ public final class CPlugin implements Plugin {
         .name("Unit test execution report(s)")
         .description("Path to unit test execution report(s), relative to projects root."
           + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>"
-          + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
+          + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(6)
@@ -434,7 +433,7 @@ public final class CPlugin implements Plugin {
     String subcateg = "(5) Duplications";
     return new ArrayList<>(Arrays.asList(
       PropertyDefinition.builder(CPlugin.CPD_IGNORE_LITERALS_KEY)
-        .defaultValue("False")
+        .defaultValue(Boolean.FALSE.toString())
         .name("Ignores literal value differences when evaluating a duplicate block")
         .description("Ignores literal (numbers, characters and strings) value differences when evaluating a duplicate "
           + "block. This means that e.g. foo=42; and foo=43; will be seen as equivalent. Default is 'False'.")
@@ -444,7 +443,7 @@ public final class CPlugin implements Plugin {
         .index(1)
         .build(),
       PropertyDefinition.builder(CPlugin.CPD_IGNORE_IDENTIFIERS_KEY)
-        .defaultValue("False")
+        .defaultValue(Boolean.FALSE.toString())
         .name("Ignores identifier value differences when evaluating a duplicate block")
         .description("Ignores identifier value differences when evaluating a duplicate block e.g. variable names, "
           + "methods names, and so forth. Default is 'False'.")

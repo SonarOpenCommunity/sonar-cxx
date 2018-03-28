@@ -58,9 +58,9 @@ public class MissingCurlyBracesCheck extends SquidCheck<Grammar> {
     if (isIfStatement(astNode)) {
       AstNode elseClause = astNode.getFirstChild(CxxKeyword.ELSE);
       if (elseClause != null) {
-        statement = elseClause.getNextSibling();
-        if (!statement.getFirstChild().is(CxxGrammarImpl.compoundStatement)
-          && !isIfStatement(statement.getFirstChild())) {
+        statement = elseClause.getNextSibling().getFirstChild();
+        if (!statement.is(CxxGrammarImpl.compoundStatement)
+          && !isIfStatement(statement)) {
           getContext().createLineViolation(this, "Missing curly brace.", elseClause);
         }
       }

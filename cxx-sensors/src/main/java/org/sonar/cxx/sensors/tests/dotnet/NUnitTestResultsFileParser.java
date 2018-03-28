@@ -98,7 +98,7 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
 
           if (level == 1 && time != null) {
             if (executionTime == null) {
-              executionTime = 0d;
+              executionTime = 0D;
             }
             executionTime += time * 1000;
           }
