@@ -6345,7 +6345,1017 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### add missing rules which seems not to be part of cppcheck errorlist ########### -->
+  <!-- ########### keys matching the schema <some-function-id>Called are not listed by the simple cppcheck -errorlist          ########### -->
+  <!-- ########### they become visible only if corresponding library was loaded, e.g. cppcheck -errorlist -library=posix.cfg   ########### -->
+  <!-- ########### see generate_cppcheck_resources.sh for more details                                                         ########### -->
+  <rule>
+    <key>pthread_attr_getstackaddrCalled</key>
+    <name>Obsolescent function 'pthread_attr_getstackaddr' called. It is recommended to use 'pthread_attr_getstack' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'pthread_attr_getstackaddr' called. It is recommended to use 'pthread_attr_getstack' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>pthread_attr_getstackaddrCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>mktempCalled</key>
+    <name>Obsolete function 'mktemp' called. It is recommended to use 'mkstemp' or 'mkdtemp' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolete function 'mktemp' called. It is recommended to use 'mkstemp' or 'mkdtemp' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>mktempCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getspnamCalled</key>
+    <name>Non reentrant function 'getspnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getspnam_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getspnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getspnam_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getspnamCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>swapcontextCalled</key>
+    <name>Obsolescent function 'swapcontext' called. Applications are recommended to be rewritten to use POSIX threads.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'swapcontext' called. Applications are recommended to be rewritten to use POSIX threads.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>swapcontextCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ctime_rCalled</key>
+    <name>Obsolescent function 'ctime_r' called. It is recommended to use 'strftime' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'ctime_r' called. It is recommended to use 'strftime' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>ctime_rCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>usleepCalled</key>
+    <name>Obsolescent function 'usleep' called. It is recommended to use 'nanosleep' or 'setitimer' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'usleep' called. It is recommended to use 'nanosleep' or 'setitimer' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>usleepCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>pthread_attr_setstackaddrCalled</key>
+    <name>Obsolescent function 'pthread_attr_setstackaddr' called. It is recommended to use 'pthread_attr_setstack' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'pthread_attr_setstackaddr' called. It is recommended to use 'pthread_attr_setstack' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>pthread_attr_setstackaddrCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getrpcbynameCalled</key>
+    <name>Non reentrant function 'getrpcbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getrpcbyname_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getrpcbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getrpcbyname_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getrpcbynameCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getserventCalled</key>
+    <name>Non reentrant function 'getservent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getservent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getservent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getservent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getserventCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ecvtCalled</key>
+    <name>Obsolescent function 'ecvt' called. It is recommended to use 'sprintf' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'ecvt' called. It is recommended to use 'sprintf' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>ecvtCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getrpcbynumberCalled</key>
+    <name>Non reentrant function 'getrpcbynumber' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getrpcbynumber_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getrpcbynumber' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getrpcbynumber_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getrpcbynumberCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>asctime_rCalled</key>
+    <name>Obsolescent function 'asctime_r' called. It is recommended to use 'strftime' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'asctime_r' called. It is recommended to use 'strftime' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>asctime_rCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>gethostbyname2Called</key>
+    <name>Non reentrant function 'gethostbyname2' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostbyname2_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'gethostbyname2' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostbyname2_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>gethostbyname2Called</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>utimeCalled</key>
+    <name>Obsolescent function 'utime' called. It is recommended to use 'utimensat' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'utime' called. It is recommended to use 'utimensat' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>utimeCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getprotoentCalled</key>
+    <name>Non reentrant function 'getprotoent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getprotoent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getprotoent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getprotoent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getprotoentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>cryptCalled</key>
+    <name>Non reentrant function 'crypt' called. For threadsafe applications it is recommended to use the reentrant replacement function 'crypt_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'crypt' called. For threadsafe applications it is recommended to use the reentrant replacement function 'crypt_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>cryptCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getservbynameCalled</key>
+    <name>Non reentrant function 'getservbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getservbyname_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getservbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getservbyname_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getservbynameCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ttynameCalled</key>
+    <name>Non reentrant function 'ttyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'ttyname_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'ttyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'ttyname_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>ttynameCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>tempnamCalled</key>
+    <name>Non reentrant function 'tempnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'tempnam_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'tempnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'tempnam_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>tempnamCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getspentCalled</key>
+    <name>Non reentrant function 'getspent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getspent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getspent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getspent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getspentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getnetbyaddrCalled</key>
+    <name>Non reentrant function 'getnetbyaddr' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getnetbyaddr_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getnetbyaddr' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getnetbyaddr_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getnetbyaddrCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getnetgrentCalled</key>
+    <name>Non reentrant function 'getnetgrent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getnetgrent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getnetgrent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getnetgrent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getnetgrentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getrpcentCalled</key>
+    <name>Non reentrant function 'getrpcent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getrpcent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getrpcent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getrpcent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getrpcentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>std::strtokCalled</key>
+    <name>Non reentrant function 'strtok' called. For threadsafe applications it is recommended to use the reentrant replacement function 'strtok_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'strtok' called. For threadsafe applications it is recommended to use the reentrant replacement function 'strtok_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>std::strtokCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>scalbCalled</key>
+    <name>Obsolescent function 'scalb' called. It is recommended to use 'scalbln', 'scalblnf', 'scalbln', 'scalbn', 'scalbnf' or 'scalbnl' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'scalb' called. It is recommended to use 'scalbln', 'scalblnf', 'scalbln', 'scalbn', 'scalbnf' or 'scalbnl' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>scalbCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getsCalled</key>
+    <name>Obsolete function 'gets' called. It is recommended to use 'fgets' or 'gets_s' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolete function 'gets' called. It is recommended to use 'fgets' or 'gets_s' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getsCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>tmpnam_rCalled</key>
+    <name>Obsolescent function 'tmpnam_r' called. It is recommended to use 'tmpfile', 'mkstemp' or 'mkdtemp' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'tmpnam_r' called. It is recommended to use 'tmpfile', 'mkstemp' or 'mkdtemp' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>tmpnam_rCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>gethostbyaddrCalled</key>
+    <name>Obsolescent function 'gethostbyaddr' called. It is recommended to use 'getnameinfo' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'gethostbyaddr' called. It is recommended to use 'getnameinfo' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>gethostbyaddrCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>bsd_signalCalled</key>
+    <name>Obsolescent function 'bsd_signal' called. It is recommended to use 'sigaction' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'bsd_signal' called. It is recommended to use 'sigaction' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>bsd_signalCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getgrnamCalled</key>
+    <name>Non reentrant function 'getgrnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getgrnam_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getgrnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getgrnam_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getgrnamCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>rindexCalled</key>
+    <name>Obsolescent function 'rindex' called. It is recommended to use 'strrchr' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'rindex' called. It is recommended to use 'strrchr' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>rindexCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getloginCalled</key>
+    <name>Non reentrant function 'getlogin' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getlogin_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getlogin' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getlogin_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getloginCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getgrgidCalled</key>
+    <name>Non reentrant function 'getgrgid' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getgrgid_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getgrgid' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getgrgid_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getgrgidCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>lstrcatCalled</key>
+    <name>Due to security concerns it is not recommended to use this function, see MSDN for details.</name>
+    <description><![CDATA[
+        <p>
+  Due to security concerns it is not recommended to use this function, see MSDN for details.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>lstrcatCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>gcvtCalled</key>
+    <name>Obsolescent function 'gcvt' called. It is recommended to use 'sprintf' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'gcvt' called. It is recommended to use 'sprintf' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>gcvtCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>fgetgrentCalled</key>
+    <name>Non reentrant function 'fgetgrent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'fgetgrent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'fgetgrent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'fgetgrent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>fgetgrentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getnetentCalled</key>
+    <name>Non reentrant function 'getnetent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getnetent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getnetent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getnetent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getnetentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>std::asctimeCalled</key>
+    <name>Obsolete function 'std::asctime' called. It is recommended to use 'strftime' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolete function 'std::asctime' called. It is recommended to use 'strftime' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>std::asctimeCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>rand_rCalled</key>
+    <name>Obsolescent function 'rand_r' called. It is recommended to use 'rand' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'rand_r' called. It is recommended to use 'rand' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>rand_rCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>sgetspentCalled</key>
+    <name>Non reentrant function 'sgetspent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'sgetspent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'sgetspent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'sgetspent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>sgetspentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>fgetpwentCalled</key>
+    <name>Non reentrant function 'fgetpwent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'fgetpwent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'fgetpwent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'fgetpwent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>fgetpwentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getpwentCalled</key>
+    <name>Non reentrant function 'getpwent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getpwent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getpwent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getpwent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getpwentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ctermidCalled</key>
+    <name>Non reentrant function 'ctermid' called. For threadsafe applications it is recommended to use the reentrant replacement function 'ctermid_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'ctermid' called. For threadsafe applications it is recommended to use the reentrant replacement function 'ctermid_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>ctermidCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>vforkCalled</key>
+    <name>Obsolescent function 'vfork' called. It is recommended to use 'fork' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'vfork' called. It is recommended to use 'fork' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>vforkCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getwdCalled</key>
+    <name>Obsolescent function 'getwd' called. It is recommended to use 'getcwd' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'getwd' called. It is recommended to use 'getcwd' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getwdCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>indexCalled</key>
+    <name>Obsolescent function 'index' called. It is recommended to use 'strchr' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'index' called. It is recommended to use 'strchr' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>indexCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getnetbynameCalled</key>
+    <name>Non reentrant function 'getnetbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getnetbyname_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getnetbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getnetbyname_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getnetbynameCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>makecontextCalled</key>
+    <name>Obsolescent function 'makecontext' called. Applications are recommended to be rewritten to use POSIX threads.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'makecontext' called. Applications are recommended to be rewritten to use POSIX threads.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>makecontextCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>bzeroCalled</key>
+    <name>Obsolescent function 'bzero' called. It is recommended to use 'memset' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'bzero' called. It is recommended to use 'memset' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>bzeroCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getcontextCalled</key>
+    <name>Obsolescent function 'getcontext' called. Applications are recommended to be rewritten to use POSIX threads.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'getcontext' called. Applications are recommended to be rewritten to use POSIX threads.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getcontextCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ualarmCalled</key>
+    <name>Obsolescent function 'ualarm' called. It is recommended to use 'timer_create', 'timer_delete', 'timer_getoverrun', 'timer_gettime' or 'timer_settime' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'ualarm' called. It is recommended to use 'timer_create', 'timer_delete', 'timer_getoverrun', 'timer_gettime' or 'timer_settime' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>ualarmCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>fcvtCalled</key>
+    <name>Obsolescent function 'fcvt' called. It is recommended to use 'sprintf' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'fcvt' called. It is recommended to use 'sprintf' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>fcvtCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getprotobynameCalled</key>
+    <name>Non reentrant function 'getprotobyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getprotobyname_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getprotobyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getprotobyname_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getprotobynameCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getpwnamCalled</key>
+    <name>Non reentrant function 'getpwnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getpwnam_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getpwnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getpwnam_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getpwnamCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getpwuidCalled</key>
+    <name>Non reentrant function 'getpwuid' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getpwuid_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getpwuid' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getpwuid_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getpwuidCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>readdirCalled</key>
+    <name>Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>readdirCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>bcopyCalled</key>
+    <name>Obsolescent function 'bcopy' called. It is recommended to use 'memcpy' or 'memmove' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'bcopy' called. It is recommended to use 'memcpy' or 'memmove' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>bcopyCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>bcmpCalled</key>
+    <name>Obsolescent function 'bcmp' called. It is recommended to use 'memcmp' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'bcmp' called. It is recommended to use 'memcmp' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>bcmpCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>wcswcsCalled</key>
+    <name>Obsolescent function 'wcswcs' called. It is recommended to use 'wcsstr' instead.</name>
+    <description><![CDATA[
+        <p>
+  Obsolescent function 'wcswcs' called. It is recommended to use 'wcsstr' instead.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>wcswcsCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>fgetspentCalled</key>
+    <name>Non reentrant function 'fgetspent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'fgetspent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'fgetspent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'fgetspent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>fgetspentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getservbyportCalled</key>
+    <name>Non reentrant function 'getservbyport' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getservbyport_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getservbyport' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getservbyport_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getservbyportCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>gethostentCalled</key>
+    <name>Non reentrant function 'gethostent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'gethostent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>gethostentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>getgrentCalled</key>
+    <name>Non reentrant function 'getgrent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getgrent_r'.</name>
+    <description><![CDATA[
+        <p>
+  Non reentrant function 'getgrent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getgrent_r'.
+  </p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <internalKey>getgrentCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
   <rule>
     <key>asctimeCalled</key>
     <name>Obsolete function 'asctime' called</name>
