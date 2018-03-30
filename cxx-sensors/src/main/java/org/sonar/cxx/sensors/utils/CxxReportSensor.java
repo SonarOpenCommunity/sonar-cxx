@@ -44,6 +44,7 @@ import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxReportLocation;
 
 /**
  * This class is used as base for all sensors which import reports. It hosts common logic such as finding the reports
@@ -53,7 +54,7 @@ public abstract class CxxReportSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
   private final Set<String> notFoundFiles = new HashSet<>();
-  private final Set<String> uniqueIssues = new HashSet<>();
+  private final Set<CxxReportIssue> uniqueIssues = new HashSet<>();
   private final Map<InputFile, Integer> violationsPerFileCount = new HashMap<>();
   private int violationsPerModuleCount;
   protected final CxxLanguage language;
@@ -167,7 +168,7 @@ public abstract class CxxReportSensor implements Sensor {
   public static String resolveFilename(final String baseDir, @Nullable final String filename) {
 
     if (filename != null) {
-      // Normalization can return null if path is null, is invalid, 
+      // Normalization can return null if path is null, is invalid,
       // or is a path with back-ticks outside known directory structure
       String normalizedPath = FilenameUtils.normalize(filename);
       if ((normalizedPath != null) && (new File(normalizedPath).isAbsolute())) {
@@ -258,21 +259,51 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   /**
-   * Saves code violation only if unique. Compares file, line, ruleId and msg.
+   * Saves code violation only if it wasn't already saved
    *
    * @param sensorContext
-   * @param ruleRepoKey
-   * @param file
-   * @param line
-   * @param ruleId
-   * @param msg
+   * @param issue
    */
-  public void saveUniqueViolation(SensorContext sensorContext, String ruleRepoKey,
-    @Nullable String file, @Nullable String line, String ruleId, String msg) {
-    // StringBuilder is slower
-    if (uniqueIssues.add(file + line + ruleId + msg)) {
-      saveViolation(sensorContext, ruleRepoKey, file, line, ruleId, msg);
+  public void saveUniqueViolation(SensorContext sensorContext, CxxReportIssue issue) {
+    if (uniqueIssues.add(issue)) {
+      saveViolation(sensorContext, issue);
     }
+  }
+
+  protected InputFile getInputFileIfInProject(SensorContext sensorContext, String path) {
+    String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
+    String normalPath = CxxUtils.normalizePathFull(path, root);
+    if (normalPath == null || notFoundFiles.contains(normalPath)) {
+      return null;
+    }
+    InputFile inputFile = sensorContext.fileSystem()
+        .inputFile(sensorContext.fileSystem().predicates().hasAbsolutePath(normalPath));
+    if (inputFile == null) {
+      notFoundFiles.add(normalPath);
+    }
+    return inputFile;
+  }
+
+  private NewIssueLocation createNewIssueLocationFile(SensorContext sensorContext, NewIssue newIssue,
+      CxxReportLocation location, Set<InputFile> affectedFiles) {
+    InputFile inputFile = getInputFileIfInProject(sensorContext, location.getFile());
+    if (inputFile != null) {
+      int lines = inputFile.lines();
+      int lineNr = getLineAsInt(location.getLine(), lines);
+      NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile)
+          .at(inputFile.selectLine(lineNr > 0 ? lineNr : 1)).message(location.getInfo());
+      affectedFiles.add(inputFile);
+      return newIssueLocation;
+    } else {
+      LOG.warn("Cannot find the file '{}', skipping violations", location.getFile());
+      return null;
+    }
+  }
+
+  private NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
+      CxxReportLocation location) {
+    NewIssueLocation newIssueLocation = newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
+    return newIssueLocation;
   }
 
   /**
@@ -280,57 +311,40 @@ public abstract class CxxReportSensor implements Sensor {
    * given project and context. Project or file-level violations can be saved by passing null for the according
    * parameters ('file' = null for project level, 'line' = null for file-level)
    */
-  private void saveViolation(SensorContext sensorContext, String ruleRepoKey,
-    @Nullable String filename, @Nullable String line, String ruleId, String msg) {
-    // handles file="" situation -- file level
-    if ((filename != null) && (!filename.isEmpty())) {
-      String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
-      String normalPath = CxxUtils.normalizePathFull(filename, root);
-      if (normalPath != null && !notFoundFiles.contains(normalPath)) {
-        InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem()
-          .predicates().hasAbsolutePath(normalPath));
-        if (inputFile != null) {
-          try {
-            int lines = inputFile.lines();
-            int lineNr = getLineAsInt(line, lines);
-            String repoKey = ruleRepoKey + this.language.getRepositorySuffix();
-            NewIssue newIssue = sensorContext
-              .newIssue()
-              .forRule(RuleKey.of(repoKey, ruleId));
-            NewIssueLocation location = newIssue.newLocation()
-              .on(inputFile)
-              .at(inputFile.selectLine(lineNr > 0 ? lineNr : 1))
-              .message(msg);
+  private void saveViolation(SensorContext sensorContext, CxxReportIssue issue) {
+    String repoKey = issue.getRuleRepoKey() + this.language.getRepositorySuffix();
+    NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(repoKey, issue.getRuleId()));
 
-            newIssue.at(location);
-            newIssue.save();
+    Set<InputFile> affectedFiles = new HashSet<>();
+    List<NewIssueLocation> newIssueLocations = new ArrayList<>();
 
-            violationsPerFileCount.merge(inputFile, 1, Integer::sum);
-            violationsPerModuleCount++;
-          } catch (RuntimeException ex) {
-            LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
-            CxxUtils.validateRecovery(ex, this.language);
-          }
-        } else {
-          LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
-          notFoundFiles.add(normalPath);
+    for (CxxReportLocation location : issue.getLocations()) {
+      if (location.getFile() != null && !location.getFile().isEmpty()) {
+        NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location,
+            affectedFiles);
+        if (newIssueLocation != null) {
+          newIssueLocations.add(newIssueLocation);
         }
+      } else {
+        NewIssueLocation newIssueLocation = createNewIssueLocationModule(sensorContext, newIssue, location);
+        newIssueLocations.add(newIssueLocation);
       }
-    } else {
-      // project level
-      try {
-        NewIssue newIssue = sensorContext.newIssue().forRule(
-          RuleKey.of(ruleRepoKey + this.language.getRepositorySuffix(), ruleId));
-        NewIssueLocation location = newIssue.newLocation()
-          .on(sensorContext.module())
-          .message(msg);
+    }
 
-        newIssue.at(location);
+    if (!newIssueLocations.isEmpty()) {
+      try {
+        newIssue.at(newIssueLocations.get(0));
+        for (int i = 1; i < newIssueLocations.size(); i++) {
+          newIssue.addLocation(newIssueLocations.get(i));
+        }
         newIssue.save();
+
+        for (InputFile affectedFile : affectedFiles) {
+          violationsPerFileCount.merge(affectedFile, 1, Integer::sum);
+        }
         violationsPerModuleCount++;
       } catch (RuntimeException ex) {
-        LOG.error("Could not add the issue '{}' for rule '{}:{}', skipping issue",
-          ex.getMessage(), ruleRepoKey, ruleId);
+        LOG.error("Could not add the issue '{}':{}', skipping issue", issue.toString(), CxxUtils.getStackTrace(ex));
         CxxUtils.validateRecovery(ex, this.language);
       }
     }

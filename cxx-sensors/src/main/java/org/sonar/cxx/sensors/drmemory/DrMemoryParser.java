@@ -93,6 +93,11 @@ public final class DrMemoryParser {
       public void setLine(Integer line) {
         this.line = line;
       }
+
+      @Override
+      public String toString() {
+        return "Location [file=" + file + ", line=" + line + "]";
+      }
     }
 
     private DrMemoryErrorType type = DrMemoryErrorType.UNRECOGNIZED;
@@ -121,6 +126,11 @@ public final class DrMemoryParser {
 
     public void setMessage(String message) {
       this.message = message;
+    }
+
+    @Override
+    public String toString() {
+      return "DrMemoryError [type=" + type + ", stackTrace=" + stackTrace + ", message=" + message + "]";
     }
   }
 

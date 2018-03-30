@@ -26,6 +26,7 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 
@@ -79,7 +80,8 @@ public class CppcheckParserV1 implements CppcheckParser {
             }
 
             if (isInputValid(id, msg)) {
-              sensor.saveUniqueViolation(context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
+              CxxReportIssue issue = new CxxReportIssue(CxxCppCheckRuleRepository.KEY, id, file, line, msg);
+              sensor.saveUniqueViolation(context, issue);
             } else {
               LOG.warn("Skipping invalid violation: '{}'", msg);
             }

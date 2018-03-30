@@ -20,6 +20,7 @@
 package org.sonar.cxx.sensors.valgrind;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.apache.commons.io.FilenameUtils;
@@ -40,6 +41,10 @@ class ValgrindStack {
    */
   public void addFrame(ValgrindFrame frame) {
     frames.add(frame);
+  }
+
+  public List<ValgrindFrame> getFrames() {
+    return Collections.unmodifiableList(frames);
   }
 
   @Override

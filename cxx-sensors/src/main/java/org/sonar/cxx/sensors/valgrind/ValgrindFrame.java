@@ -108,7 +108,7 @@ class ValgrindFrame {
     return line;
   }
 
-  private boolean isLocationKnown() {
+  public boolean isLocationKnown() {
     return !("".equals(file) && "".equals(obj));
   }
 

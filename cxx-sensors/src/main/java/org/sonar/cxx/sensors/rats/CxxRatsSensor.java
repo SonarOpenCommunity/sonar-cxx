@@ -29,6 +29,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 
@@ -89,8 +90,9 @@ public class CxxRatsSensor extends CxxReportSensor {
           List<Element> lines = file.getChildren("line");
           for (Element lineElem : lines) {
             String line = lineElem.getTextTrim();
-            saveUniqueViolation(context, CxxRatsRuleRepository.KEY,
-              fileName, line, type, message);
+
+            CxxReportIssue issue = new CxxReportIssue(CxxRatsRuleRepository.KEY, type, fileName, line, message);
+            saveUniqueViolation(context, issue);
           }
         }
       }

@@ -27,6 +27,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -92,8 +93,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                 String message = errorCursor.getAttrValue("message");
                 String source = errorCursor.getAttrValue("source");
 
-                saveUniqueViolation(context, CxxVeraxxRuleRepository.KEY,
-                  name, line, source, message);
+                CxxReportIssue issue = new CxxReportIssue(CxxVeraxxRuleRepository.KEY, source, name, line, message);
+                saveUniqueViolation(context, issue);
               } else {
                 if (LOG.isDebugEnabled()) {
                   LOG.debug("Error in file '{}', with message '{}'",

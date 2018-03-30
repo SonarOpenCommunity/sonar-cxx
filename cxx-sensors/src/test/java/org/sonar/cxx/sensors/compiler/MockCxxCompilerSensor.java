@@ -33,6 +33,8 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxReportIssue;
+import org.sonar.cxx.sensors.utils.CxxReportLocation;
 
 public class MockCxxCompilerSensor extends CxxCompilerSensor {
 
@@ -73,8 +75,13 @@ public class MockCxxCompilerSensor extends CxxCompilerSensor {
   }
 
   @Override
-  public void saveUniqueViolation(SensorContext context, String ruleRepoKey, String file,
-    String line, String ruleId, String msg) {
+  public void saveUniqueViolation(SensorContext context, CxxReportIssue issue) {
+    String ruleRepoKey = issue.getRuleRepoKey();
+    String ruleId = issue.getRuleId();
+    CxxReportLocation primaryLocation = issue.getLocations().get(0);
+    String file = primaryLocation.getFile();
+    String line = primaryLocation.getLine();
+    String msg = primaryLocation.getInfo();
 
     CompilerParser.Warning w = new CompilerParser.Warning(file, line, ruleId, msg);
     savedWarnings.add(w);

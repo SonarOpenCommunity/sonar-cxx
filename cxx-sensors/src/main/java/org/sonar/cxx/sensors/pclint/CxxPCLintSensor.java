@@ -31,6 +31,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -99,7 +100,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
 
             if (isInputValid(file, line, id, msg)) {
               if (msg.contains("MISRA")) {
-                //remap MISRA IDs. Only Unique rules for MISRA C 2004 and MISRA C/C++ 2008 
+                //remap MISRA IDs. Only Unique rules for MISRA C 2004 and MISRA C/C++ 2008
                 // have been created in the rule repository
                 if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008")
                   || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
@@ -108,9 +109,9 @@ public class CxxPCLintSensor extends CxxReportSensor {
                   id = mapMisraRulesToUniqueSonarRules(msg, Boolean.TRUE);
                 }
               }
-              saveUniqueViolation(context, CxxPCLintRuleRepository.KEY,
-                file, line, id, msg);
 
+              CxxReportIssue issue = new CxxReportIssue(CxxPCLintRuleRepository.KEY, id, file, line, msg);
+              saveUniqueViolation(context, issue);
             } else {
               LOG.warn("PC-lint warning ignored: {}", msg);
               if (LOG.isDebugEnabled()) {

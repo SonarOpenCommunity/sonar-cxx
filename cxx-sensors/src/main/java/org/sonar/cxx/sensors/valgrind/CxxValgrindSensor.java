@@ -26,6 +26,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 /**
@@ -78,16 +79,38 @@ public class CxxValgrindSensor extends CxxReportSensor {
     return errorMsg.toString();
   }
 
+  private Boolean frameIsInProject(SensorContext context, ValgrindFrame frame) {
+    return frame.isLocationKnown() && (getInputFileIfInProject(context, frame.getPath()) != null);
+  }
+
+  private CxxReportIssue createIssue(SensorContext context, ValgrindError error, ValgrindStack stack, Integer stackNr) {
+    ValgrindFrame lastOwnFrame = stack.getLastOwnFrame(context.fileSystem().baseDir().getPath());
+    if (lastOwnFrame == null) {
+      LOG.warn("Cannot find a project file to assign the valgrind error '{}' to", error);
+      return null;
+    }
+
+    String errorMsg = createErrorMsg(error, stack, stackNr);
+    // set the last own frame as a primary location
+    CxxReportIssue issue = new CxxReportIssue(CxxValgrindRuleRepository.KEY, error.getKind(), lastOwnFrame.getPath(),
+        lastOwnFrame.getLine(), errorMsg);
+    // add all frames as secondary locations
+    for (ValgrindFrame frame : stack.getFrames()) {
+      Boolean frameIsInProject = frameIsInProject(context, frame);
+      String mappedPath = (frameIsInProject) ? frame.getPath() : lastOwnFrame.getPath();
+      String mappedLine = (frameIsInProject) ? frame.getLine() : lastOwnFrame.getLine();
+      issue.addLocation(mappedPath, mappedLine, frame.toString());
+    }
+    return issue;
+  }
+
   void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {
     for (ValgrindError error : valgrindErrors) {
       Integer stackNr = 0;
       for (ValgrindStack stack : error.getStacks()) {
-        ValgrindFrame frame = stack.getLastOwnFrame(context.fileSystem().baseDir().getPath());
-        if (frame != null) {
-          String errorMsg = createErrorMsg(error, stack, stackNr);
-          saveUniqueViolation(context, CxxValgrindRuleRepository.KEY, frame.getPath(), frame.getLine(), error.getKind(), errorMsg);
-        } else {
-          LOG.warn("Cannot find a project file to assign the valgrind error '{}' to", error);
+        CxxReportIssue issue = createIssue(context, error, stack, stackNr);
+        if (issue != null) {
+          saveUniqueViolation(context, issue);
         }
         ++stackNr;
       }

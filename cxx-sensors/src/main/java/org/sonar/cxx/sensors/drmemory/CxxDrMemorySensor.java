@@ -29,6 +29,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
+import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 
@@ -77,32 +78,54 @@ public class CxxDrMemorySensor extends CxxReportSensor {
     return DEFAULT_CHARSET_DEF;
   }
 
+  private Boolean frameIsInProject(SensorContext context, Location frame) {
+    return getInputFileIfInProject(context, frame.getFile()) != null;
+  }
+
+  private Location getLastOwnFrame(SensorContext context, DrMemoryError error) {
+    for (Location frame : error.getStackTrace()) {
+      if (frameIsInProject(context, frame)) {
+        return frame;
+      }
+    }
+    return null;
+  }
+
+  private static String getFrameText(Location frame, Integer frameNr) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("#").append(frameNr).append(" ").append(frame.getFile()).append(":").append(frame.getLine());
+    return sb.toString();
+  }
+
   @Override
   protected void processReport(final SensorContext context, File report) {
     LOG.debug("Parsing 'Dr Memory' format");
 
     for (DrMemoryError error : DrMemoryParser.parse(report, defaultCharset())) {
       if (error.getStackTrace().isEmpty()) {
-        saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
-          null, null,
-          error.getType().getId(), error.getMessage());
-      }
-      for (Location errorLocation : error.getStackTrace()) {
-        if (isFileInAnalysis(context, errorLocation)) {
-          saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
-            errorLocation.getFile(), errorLocation.getLine().toString(),
-            error.getType().getId(), error.getMessage());
-          break;
+        CxxReportIssue moduleIssue = new CxxReportIssue(CxxDrMemoryRuleRepository.KEY, error.getType().getId(), null, null, error.getMessage());
+        saveUniqueViolation(context, moduleIssue);
+      } else {
+        Location lastOwnFrame = getLastOwnFrame(context, error);
+        if (lastOwnFrame == null) {
+          LOG.warn("Cannot find a project file to assign the DrMemory error '{}' to", error);
+          continue;
         }
+        CxxReportIssue fileIssue = new CxxReportIssue(CxxDrMemoryRuleRepository.KEY, error.getType().getId(),
+            lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), error.getMessage());
+
+        // add all frames as secondary locations
+        Integer frameNr = 0;
+        for (Location frame : error.getStackTrace()) {
+          Boolean frameIsInProject = frameIsInProject(context, frame);
+          String mappedPath = (frameIsInProject) ? frame.getFile() : lastOwnFrame.getFile();
+          Integer mappedLine = (frameIsInProject) ? frame.getLine() : lastOwnFrame.getLine();
+          fileIssue.addLocation(mappedPath, mappedLine.toString(), getFrameText(frame, frameNr));
+          ++frameNr;
+        }
+        saveUniqueViolation(context, fileIssue);
       }
     }
-  }
-
-  private static boolean isFileInAnalysis(SensorContext context, Location errorLocation) {
-    String root = context.fileSystem().baseDir().getAbsolutePath();
-    String normalPath = CxxUtils.normalizePathFull(errorLocation.getFile(), root);
-    InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(new File(normalPath)));
-    return inputFile != null;
   }
 
   @Override

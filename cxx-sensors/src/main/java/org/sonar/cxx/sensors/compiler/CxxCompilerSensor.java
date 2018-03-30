@@ -30,6 +30,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 /**
@@ -116,7 +117,8 @@ public class CxxCompilerSensor extends CxxReportSensor {
       parser.processReport(context, report, reportCharset, reportRegEx, warnings);
       for (CompilerParser.Warning w : warnings) {
         if (isInputValid(w)) {
-          saveUniqueViolation(context, parser.rulesRepositoryKey(), w.filename, w.line, w.id, w.msg);
+          CxxReportIssue issue = new CxxReportIssue(parser.rulesRepositoryKey(), w.id, w.filename, w.line, w.msg);
+          saveUniqueViolation(context, issue);
         } else {
           LOG.warn("C-Compiler warning: '{}''{}'", w.id, w.msg);
         }
