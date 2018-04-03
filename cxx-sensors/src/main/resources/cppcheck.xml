@@ -7360,8 +7360,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxDos2UnixFilenameCalled</key>
     <name>This function is deprecated. Construct a 'wxFileName' with 'wxPATH_DOS' and then use 'wxFileName::GetFullPath(wxPATH_UNIX)' instead.</name>
     <description><![CDATA[
-        This function is deprecated. Construct a 'wxFileName' with 'wxPATH_DOS' and then use 'wxFileName::GetFullPath(wxPATH_UNIX)' instead.
+        <p>
+  This function is deprecated. Construct a 'wxFileName' with 'wxPATH_DOS' and then use 'wxFileName::GetFullPath(wxPATH_UNIX)' instead.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxDos2UnixFilenameCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7372,8 +7377,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>LocalAllocCalled</key>
     <name>Obsolete function 'LocalAlloc' called. It is recommended to use 'HeapAlloc' instead.</name>
     <description><![CDATA[
-        Obsolete function 'LocalAlloc' called. It is recommended to use 'HeapAlloc' instead.
+        <p>
+  Obsolete function 'LocalAlloc' called. It is recommended to use 'HeapAlloc' instead.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>LocalAllocCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7384,8 +7394,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxDebugContext::GetLevelCalled</key>
     <name>This function is deprecated and is replaced by 'wxLog' functionality.</name>
     <description><![CDATA[
-        This function is deprecated and is replaced by 'wxLog' functionality.
+        <p>
+  This function is deprecated and is replaced by 'wxLog' functionality.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxDebugContext::GetLevelCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7396,8 +7411,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxArtProvider::InsertCalled</key>
     <name>This function is deprecated and kept mostly for backwards compatibility. Please override 'PushBack' method instead in any new code.</name>
     <description><![CDATA[
-        This function is deprecated and kept mostly for backwards compatibility. Please override 'PushBack' method instead in any new code.
+        <p>
+  This function is deprecated and kept mostly for backwards compatibility. Please override 'PushBack' method instead in any new code.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxArtProvider::InsertCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7408,8 +7428,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxSizerItem::SetWindowCalled</key>
     <name>This function is deprecated.</name>
     <description><![CDATA[
-        This function is deprecated.
+        <p>
+  This function is deprecated.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxSizerItem::SetWindowCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7420,8 +7445,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxComboCtrl::SetTextIndentCalled</key>
     <name>This function is deprecated and kept mostly for backwards compatibility. Please override 'SetMargins()' method instead in any new code.</name>
     <description><![CDATA[
-        This function is deprecated and kept mostly for backwards compatibility. Please override 'SetMargins()' method instead in any new code.
+        <p>
+  This function is deprecated and kept mostly for backwards compatibility. Please override 'SetMargins()' method instead in any new code.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxComboCtrl::SetTextIndentCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7432,8 +7462,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxSizerItem::SetSpacerCalled</key>
     <name>This function is deprecated. This function does not free the old sizer which may result in memory leaks, use 'wxSizerItem::AssignSpacer' which does free it instead.</name>
     <description><![CDATA[
-        This function is deprecated. This function does not free the old sizer which may result in memory leaks, use 'wxSizerItem::AssignSpacer' which does free it instead.
+        <p>
+  This function is deprecated. This function does not free the old sizer which may result in memory leaks, use 'wxSizerItem::AssignSpacer' which does free it instead.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxSizerItem::SetSpacerCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7444,8 +7479,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxComboCtrl::HidePopupCalled</key>
     <name>This function is deprecated and kept mostly for backwards compatibility. Please override 'Dismiss()' method instead in any new code.</name>
     <description><![CDATA[
-        This function is deprecated and kept mostly for backwards compatibility. Please override 'Dismiss()' method instead in any new code.
+        <p>
+  This function is deprecated and kept mostly for backwards compatibility. Please override 'Dismiss()' method instead in any new code.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxComboCtrl::HidePopupCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7456,8 +7496,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxString::LowerCaseCalled</key>
     <name>This is the same as 'wxString::MakeLower' and is kept for wxWidgets 1.xx compatibility. You should not use it in new code.</name>
     <description><![CDATA[
-        This is the same as 'wxString::MakeLower' and is kept for wxWidgets 1.xx compatibility. You should not use it in new code.
+        <p>
+  This is the same as 'wxString::MakeLower' and is kept for wxWidgets 1.xx compatibility. You should not use it in new code.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxString::LowerCaseCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7468,8 +7513,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxGrid::SetCellAlignmentCalled</key>
     <name>This function is deprecated. Please use 'wxGrid::SetCellAlignment(row, col, horiz, vert)' instead.</name>
     <description><![CDATA[
-        This function is deprecated. Please use 'wxGrid::SetCellAlignment(row, col, horiz, vert)' instead.
+        <p>
+  This function is deprecated. Please use 'wxGrid::SetCellAlignment(row, col, horiz, vert)' instead.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxGrid::SetCellAlignmentCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7480,8 +7530,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxFileNameFromPathCalled</key>
     <name>This function is deprecated. Please use 'wxFileName::SplitPath()' instead.</name>
     <description><![CDATA[
-        This function is deprecated. Please use 'wxFileName::SplitPath()' instead.
+        <p>
+  This function is deprecated. Please use 'wxFileName::SplitPath()' instead.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxFileNameFromPathCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7492,8 +7547,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>RtlFillBytesCalled</key>
     <name>Obsolete function 'RtlFillBytes' called. It is recommended to use 'RtlFillMemory' instead.</name>
     <description><![CDATA[
-        Obsolete function 'RtlFillBytes' called. It is recommended to use 'RtlFillMemory' instead.
+        <p>
+  Obsolete function 'RtlFillBytes' called. It is recommended to use 'RtlFillMemory' instead.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>RtlFillBytesCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7517,8 +7577,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>RtlZeroBytesCalled</key>
     <name>Obsolete function 'RtlZeroBytes' called. It is recommended to use 'RtlZeroMemory' instead.</name>
     <description><![CDATA[
-        Obsolete function 'RtlZeroBytes' called. It is recommended to use 'RtlZeroMemory' instead.
+        <p>
+  Obsolete function 'RtlZeroBytes' called. It is recommended to use 'RtlZeroMemory' instead.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>RtlZeroBytesCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7529,8 +7594,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxGetWorkingDirectoryCalled</key>
     <name>Obsolete function 'wxGetWorkingDirectory' called. It is recommended to use 'wxGetCwd' instead.</name>
     <description><![CDATA[
-        Obsolete function 'wxGetWorkingDirectory' called. It is recommended to use 'wxGetCwd' instead.
+        <p>
+  Obsolete function 'wxGetWorkingDirectory' called. It is recommended to use 'wxGetCwd' instead.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxGetWorkingDirectoryCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7541,8 +7611,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxDataViewCustomRenderer::ActivateCalled</key>
     <name>This function is deprecated and kept mostly for backwards compatibility. Please override 'wxDataViewCustomRenderer::ActivateCell()' method instead in any new code.</name>
     <description><![CDATA[
-        This function is deprecated and kept mostly for backwards compatibility. Please override 'wxDataViewCustomRenderer::ActivateCell()' method instead in any new code.
+        <p>
+  This function is deprecated and kept mostly for backwards compatibility. Please override 'wxDataViewCustomRenderer::ActivateCell()' method instead in any new code.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxDataViewCustomRenderer::ActivateCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7553,8 +7628,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxString::LengthCalled</key>
     <name>This is the same as 'wxString::Len' and is kept for wxWidgets 1.xx compatibility. You should not use it in new code.</name>
     <description><![CDATA[
-        This is the same as 'wxString::Len' and is kept for wxWidgets 1.xx compatibility. You should not use it in new code.
+        <p>
+  This is the same as 'wxString::Len' and is kept for wxWidgets 1.xx compatibility. You should not use it in new code.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxString::LengthCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7565,8 +7645,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxComboCtrl::ShowPopupCalled</key>
     <name>This function is deprecated and kept mostly for backwards compatibility. Please override 'Popup()' method instead in any new code.</name>
     <description><![CDATA[
-        This function is deprecated and kept mostly for backwards compatibility. Please override 'Popup()' method instead in any new code.
+        <p>
+  This function is deprecated and kept mostly for backwards compatibility. Please override 'Popup()' method instead in any new code.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxComboCtrl::ShowPopupCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7577,8 +7662,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>strlwrCalled</key>
     <name>Obsolete function 'strlwr' called. It is recommended to use '_strlwr' or '_strlwr_s' instead.</name>
     <description><![CDATA[
-        Obsolete function 'strlwr' called. It is recommended to use '_strlwr' or '_strlwr_s' instead.
+        <p>
+  Obsolete function 'strlwr' called. It is recommended to use '_strlwr' or '_strlwr_s' instead.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>strlwrCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7589,8 +7679,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>getprotobynumberCalled</key>
     <name>Non reentrant function 'getprotobynumber' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getprotobynumber_r'.</name>
     <description><![CDATA[
-        Non reentrant function 'getprotobynumber' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getprotobynumber_r'.
+        <p>
+  Non reentrant function 'getprotobynumber' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getprotobynumber_r'.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>getprotobynumberCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7601,8 +7696,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxComboCtrl::GetTextIndentCalled</key>
     <name>This function is deprecated and kept mostly for backwards compatibility. Please override 'GetMargins()' method instead in any new code.</name>
     <description><![CDATA[
-        This function is deprecated and kept mostly for backwards compatibility. Please override 'GetMargins()' method instead in any new code.
+        <p>
+  This function is deprecated and kept mostly for backwards compatibility. Please override 'GetMargins()' method instead in any new code.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxComboCtrl::GetTextIndentCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7626,8 +7726,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxSizerItem::SetSizerCalled</key>
     <name>This function is deprecated. This function does not free the old sizer which may result in memory leaks, use 'wxSizerItem::AssignSizer' which does free it instead.</name>
     <description><![CDATA[
-        This function is deprecated. This function does not free the old sizer which may result in memory leaks, use 'wxSizerItem::AssignSizer' which does free it instead.
+        <p>
+  This function is deprecated. This function does not free the old sizer which may result in memory leaks, use 'wxSizerItem::AssignSizer' which does free it instead.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxSizerItem::SetSizerCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7638,8 +7743,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxCalendarCtrl::EnableYearChangeCalled</key>
     <name>This function should be used instead of changing 'wxCAL_NO_YEAR_CHANGE' style bit directly. It allows or disallows the user to change the year interactively. Only in generic 'wxCalendarCtrl'.</name>
     <description><![CDATA[
-        This function should be used instead of changing 'wxCAL_NO_YEAR_CHANGE' style bit directly. It allows or disallows the user to change the year interactively. Only in generic 'wxCalendarCtrl'.
+        <p>
+  This function should be used instead of changing 'wxCAL_NO_YEAR_CHANGE' style bit directly. It allows or disallows the user to change the year interactively. Only in generic 'wxCalendarCtrl'.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxCalendarCtrl::EnableYearChangeCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7650,8 +7760,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxString::IsNullCalled</key>
     <name>This is the same as 'wxString::IsEmpty' and is kept for wxWidgets 1.xx compatibility. You should not use it in new code.</name>
     <description><![CDATA[
-        This is the same as 'wxString::IsEmpty' and is kept for wxWidgets 1.xx compatibility. You should not use it in new code.
+        <p>
+  This is the same as 'wxString::IsEmpty' and is kept for wxWidgets 1.xx compatibility. You should not use it in new code.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxString::IsNullCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7662,8 +7777,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>wxApp::MacOpenFileCalled</key>
     <name>This function is deprecated and kept mostly for backwards compatibility. Please override 'wxApp::MacOpenFiles' method instead in any new code.</name>
     <description><![CDATA[
-        This function is deprecated and kept mostly for backwards compatibility. Please override 'wxApp::MacOpenFiles' method instead in any new code.
+        <p>
+  This function is deprecated and kept mostly for backwards compatibility. Please override 'wxApp::MacOpenFiles' method instead in any new code.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>wxApp::MacOpenFileCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -7674,8 +7794,13 @@ The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc"
     <key>struprCalled</key>
     <name>Obsolete function 'strupr' called. It is recommended to use '_strupr' or '_strupr_s' instead.</name>
     <description><![CDATA[
-        Obsolete function 'strupr' called. It is recommended to use '_strupr' or '_strupr_s' instead.
+        <p>
+  Obsolete function 'strupr' called. It is recommended to use '_strupr' or '_strupr_s' instead.
+  </p>
+  /p><h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
       ]]></description>
+    <tag>cwe</tag>
     <internalKey>struprCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>

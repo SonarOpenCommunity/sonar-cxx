@@ -41,6 +41,6 @@ public class CxxCppCheckRuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxCppCheckRuleRepository.KEY);
-    assertEquals(442, repo.rules().size());
+    assertEquals(469, repo.rules().size());
   }
 }

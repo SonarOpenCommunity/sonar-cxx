@@ -16,4 +16,4 @@ done
 cppcheck ${CPPCHECK_LIBRARY_ARGS} --errorlist > cppcheck-errorlist.xml
 cppcheck ${CPPCHECK_LIBRARY_ARGS} --errorlist | python cppcheck_createrules.py rules > cppcheck.xml
 cppcheck ${CPPCHECK_LIBRARY_ARGS} --errorlist | python cppcheck_createrules.py profile > cppcheck-profile.xml
-python cppcheck_createrules.py comparerules sonar-cxx/cxx-sensors/src/main/resources/cppcheck.xml cppcheck.xml > cppcheck-comparison.md
+python cppcheck_createrules.py comparerules ../../../cxx-sensors/src/main/resources/cppcheck.xml cppcheck.xml > cppcheck-comparison.md

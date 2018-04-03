@@ -79,12 +79,19 @@ def error_to_rule(error):
     errId = error.attrib["id"]
     errMsg = error.attrib["msg"]
     errSeverity = error.attrib["severity"]
-    isCWE = "cwe" in error.attrib
+    isRuleFromLibraryConfiguration = errId.endswith("Called")
+    isCWE = ("cwe" in error.attrib) or isRuleFromLibraryConfiguration
 
     et.SubElement(rule, 'key').text = errId
     et.SubElement(rule, 'name').text = errMsg
 
     # encode description tag always as CDATA
+    if isRuleFromLibraryConfiguration:
+        errMsg = """<p>
+%s
+</p>
+/p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>""" %errMsg
     cdata = CDATA(errMsg)
     et.SubElement(rule, 'description').append(cdata)
 
