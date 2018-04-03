@@ -73,29 +73,40 @@ def header():
     return '<?xml version="1.0" encoding="us-ascii"?>\n'
 
 
+def message_with_CWE_reference(msg, cwe_nr, cwe_msg):
+    href_text = "CWE-{}".format(cwe_nr) if cwe_msg is None else "CWE-{}: {}".format(cwe_nr, cwe_msg)
+    return """<p>
+{}
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/{}.html" target="_blank">{}</a></p>""".format(msg, cwe_nr, href_text)
+
 def error_to_rule(error):
     rule = et.Element('rule')
 
     errId = error.attrib["id"]
     errMsg = error.attrib["msg"]
     errSeverity = error.attrib["severity"]
-    isRuleFromLibraryConfiguration = errId.endswith("Called")
-    isCWE = ("cwe" in error.attrib) or isRuleFromLibraryConfiguration
 
     et.SubElement(rule, 'key').text = errId
     et.SubElement(rule, 'name').text = errMsg
 
+    cweNr = None
+    cweMsg = None
+
+    if "cwe" in error.attrib:
+        cweNr = error.attrib["cwe"]
+    elif errId.endswith("Called"):
+        cweNr = 477
+        cweMsg = "Use of Obsolete Functions"
+
+    if cweNr is not None:
+        errMsg = message_with_CWE_reference(errMsg, cweNr, cweMsg)
+
     # encode description tag always as CDATA
-    if isRuleFromLibraryConfiguration:
-        errMsg = """<p>
-%s
-</p>
-/p><h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>""" %errMsg
     cdata = CDATA(errMsg)
     et.SubElement(rule, 'description').append(cdata)
 
-    if isCWE:
+    if cweNr is not None:
         et.SubElement(rule, 'tag').text = "cwe"
 
     et.SubElement(rule, 'internalKey').text = errId
@@ -174,7 +185,7 @@ def compareRules(old_path, new_path):
 
     print "### NEW RULES WHICH MUST BE ADDED\n"
     print "```XML"
-    for key in only_in_new:
+    for key in sorted(only_in_new):
         rule_tag = new_keys_mapping[key]
         indent(rule_tag)
         # after parsing we lost the CDATA information
