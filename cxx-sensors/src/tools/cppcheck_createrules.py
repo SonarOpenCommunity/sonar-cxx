@@ -70,7 +70,7 @@ et._serialize_xml = et._serialize['xml'] = _serialize_xml
 
 
 def header():
-    return '<?xml version="1.0" encoding="us-ascii"?>\n'
+    return '<?xml version="1.0" encoding="UTF-8"?>\n'
 
 
 def message_with_CWE_reference(msg, cwe_nr, cwe_msg):
