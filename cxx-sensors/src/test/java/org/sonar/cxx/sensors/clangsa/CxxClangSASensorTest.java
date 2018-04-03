@@ -92,6 +92,21 @@ public class CxxClangSASensorTest {
   }
 
   @Test
+  public void clangVersionIsTooOld() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
+    settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY), "clangsa-reports/clangsa-wrong-version.plist");
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/cxx-library-sample/foo.cpp")
+      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+
+    CxxClangSASensor sensor = new CxxClangSASensor(language);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(0);
+  }
+
+  @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
     CxxClangSASensor sensor = new CxxClangSASensor(language);
