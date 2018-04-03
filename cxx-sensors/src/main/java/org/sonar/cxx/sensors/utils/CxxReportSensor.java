@@ -124,7 +124,7 @@ public abstract class CxxReportSensor implements Sensor {
         .append(e)
         .append("'")
         .toString();
-      LOG.error(msg);
+      LOG.error(msg, e);
       CxxUtils.validateRecovery(e, this.language);
     }
   }
