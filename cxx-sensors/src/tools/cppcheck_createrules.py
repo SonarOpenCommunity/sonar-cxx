@@ -26,10 +26,14 @@
 import sys
 import xml.etree.ElementTree as et
 
-severity_2_priority = {
-    "error": "MAJOR",
-    "style": "MINOR"
-    }
+severity_2_sonarqube = {
+    "error": {"type": "BUG", "priority": "MAJOR"},
+    "warning": {"type": "BUG", "priority": "MINOR"},
+    "portability": {"type": "BUG", "priority": "MINOR"},
+    "performance": {"type": "BUG", "priority": "MINOR"},
+    "style": {"type": "CODE_SMELL", "priority": "MINOR"},
+    "information": {"type": "CODE_SMELL", "priority": "MINOR"},
+}
 
 # xml prettifyer
 #
@@ -48,54 +52,83 @@ def indent(elem, level=0):
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = i
 
-# monkey pathing element tree to support CDATA as by 
-# Eli Golovinsky, 2008, www.gooli.org
-#            
+# see https://stackoverflow.com/questions/174890/how-to-output-cdata-using-elementtree
 def CDATA(text=None):
-    """
-    A CDATA element factory function that uses the function itself as the tag
-    (based on the Comment factory function in the ElementTree implementation).
-    """
-    element = et.Element(CDATA)
+    element = et.Element('![CDATA[')
     element.text = text
     return element
 
-old_ElementTree = et.ElementTree
-class ElementTree_CDATA(old_ElementTree):
-    def _write(self, file, node, encoding, namespaces):
-        if node.tag is CDATA:
-            if node.text:
-                text = node.text.encode(encoding)
-                file.write("<![CDATA[%s]]>" % text)
-        else:
-            old_ElementTree._write(self, file, node, encoding, namespaces)
-et.ElementTree = ElementTree_CDATA
-       
+et._original_serialize_xml = et._serialize_xml
+
+def _serialize_xml(write, elem, encoding, qnames, namespaces):
+    if elem.tag == '![CDATA[':
+        write("<%s%s]]>%s" % (elem.tag, elem.text, "" if elem.tail is None else elem.tail))
+    else:
+        et._original_serialize_xml(write, elem, encoding, qnames, namespaces)
+
+et._serialize_xml = et._serialize['xml'] = _serialize_xml
+
+
 def header():
-    return '<?xml version="1.0" encoding="ASCII"?>\n'
+    return '<?xml version="1.0" encoding="UTF-8"?>\n'
+
+
+def message_with_CWE_reference(msg, cwe_nr, cwe_msg):
+    href_text = "CWE-{}".format(cwe_nr) if cwe_msg is None else "CWE-{}: {}".format(cwe_nr, cwe_msg)
+    return """<p>
+{}
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/{}.html" target="_blank">{}</a></p>""".format(msg, cwe_nr, href_text)
 
 def error_to_rule(error):
     rule = et.Element('rule')
-    
+
     errId = error.attrib["id"]
     errMsg = error.attrib["msg"]
+    errSeverity = error.attrib["severity"]
+
     et.SubElement(rule, 'key').text = errId
-    et.SubElement(rule, 'configkey').text = errId
     et.SubElement(rule, 'name').text = errMsg
-    et.SubElement(rule, 'description').text = "\n%s\n" % errMsg
-    
+
+    cweNr = None
+    cweMsg = None
+
+    if "cwe" in error.attrib:
+        cweNr = error.attrib["cwe"]
+    elif errId.endswith("Called"):
+        cweNr = 477
+        cweMsg = "Use of Obsolete Functions"
+
+    if cweNr is not None:
+        errMsg = message_with_CWE_reference(errMsg, cweNr, cweMsg)
+
+    # encode description tag always as CDATA
+    cdata = CDATA(errMsg)
+    et.SubElement(rule, 'description').append(cdata)
+
+    if cweNr is not None:
+        et.SubElement(rule, 'tag').text = "cwe"
+
+    et.SubElement(rule, 'internalKey').text = errId
+    et.SubElement(rule, 'severity').text = severity_2_sonarqube[errSeverity]["priority"]
+    et.SubElement(rule, 'type').text = severity_2_sonarqube[errSeverity]["type"]
+    et.SubElement(rule, 'remediationFunction').text = "LINEAR"
+    et.SubElement(rule, 'remediationFunctionGapMultiplier').text = "5min"
+
     return rule
+
 
 def error_to_rule_in_profile(error):
     rule = et.Element('rule')
-    
+
     errId = error.attrib["id"]
     errSeverity = error.attrib["severity"]
     et.SubElement(rule, 'repositoryKey').text = "cppcheck"
     et.SubElement(rule, 'key').text = errId
-    et.SubElement(rule, 'priority').text = severity_2_priority[errSeverity]
-    
+    et.SubElement(rule, 'priority').text = severity_2_sonarqube[errSeverity]["priority"]
+
     return rule
+
 
 def createRules(errors, converter):
     rules = et.Element('rules')
@@ -103,33 +136,111 @@ def createRules(errors, converter):
         rules.append(converter(error))
     return rules
 
-def usage():
-    return 'Usage: %s <"rules"|"profile"> < cppcheck --errorlist' % sys.argv[0]
 
-if len(sys.argv) != 2:
+def parseRules(path):
+    tree = et.parse(path)
+    root = tree.getroot()
+    entries = 0
+    keys = set()
+    keys_to_ruleelement = {}
+
+    for rules_tag in root.iter('rules'):
+        for rule_tag in rules_tag.iter('rule'):
+            for key_tag in rule_tag.iter('key'):
+                entries = entries + 1
+                keys.add(key_tag.text)
+                keys_to_ruleelement[key_tag.text] = rule_tag
+    return entries, keys, keys_to_ruleelement
+
+
+def compareRules(old_path, new_path):
+    old_entries, old_keys, old_keys_mapping = parseRules(old_path)
+    new_entries, new_keys, new_keys_mapping = parseRules(new_path)
+    print "# OLD RULE SET vs NEW RULE SET\n"
+
+    print "## OLD RULE SET\n"
+    print "nr of xml entries: ", old_entries, "\n"
+    print "nr of unique rules: ", len(old_keys), "\n"
+    print "rules which are only in the old rule set:"
+    only_in_old = old_keys.difference(new_keys)
+    for key in sorted(only_in_old):
+        print "*", key
+    print ""
+
+    print "## NEW RULE SET\n"
+    print "nr of xml entries: ", new_entries, "\n"
+    print "nr of unique rules: ", len(new_keys), "\n"
+    print "rules which are only in the new rule set:"
+    only_in_new = new_keys.difference(old_keys)
+    for key in sorted(only_in_new):
+        print "*", key
+    print ""
+
+    print "## COMMON RULES\n"
+    common_keys = old_keys.intersection(new_keys)
+    print "nr of rules: ", len(common_keys), "\n"
+    for key in sorted(common_keys):
+        print "*", key
+    print ""
+
+    print "### NEW RULES WHICH MUST BE ADDED\n"
+    print "```XML"
+    for key in sorted(only_in_new):
+        rule_tag = new_keys_mapping[key]
+        indent(rule_tag)
+        # after parsing we lost the CDATA information
+        # restore it for <description> tag, assume it always encoded as CDATA
+        for description_tag in rule_tag.iter('description'):
+            desc = description_tag.text
+            description_tag.text = ""
+            description_tag.append(CDATA(desc))
+        et.ElementTree(rule_tag).write(sys.stdout)
+    print "```\n"
+
+    # we might have more analysis here: e.g. check if severity didn't change
+    # after cppcheck updated its rules
+
+
+def usage():
+    return """Usage: %s <"rules"|"profile"> < cppcheck --errorlist
+       %s comparerules old_cppcheck.xml new_cppcheck.xml
+           """ % (sys.argv[0], sys.argv[0])
+
+
+def parseCppcheckErrorlist(f):
+    tree = et.parse(f)
+    root = tree.getroot()
+    errors = []
+    for errors_tag in root.iter('errors'):
+        for error_tag in errors_tag.iter('error'):
+            errors.append(error_tag)
+    return errors
+
+
+def writeXML(root, f):
+    indent(root)
+    f.write(header())
+    et.ElementTree(root).write(f)
+
+if len(sys.argv) < 2:
     print usage()
     exit()
 
-# transform the std input into an elementtree
-tree = et.parse(sys.stdin)
-results = tree.getroot()
-errors = results.findall("error")
-
 # transform to an other elementtree
-root = None
 if sys.argv[1] == "rules":
+    errors = parseCppcheckErrorlist(sys.stdin)
     root = createRules(errors, error_to_rule)
+    writeXML(root, sys.stdout)
 elif sys.argv[1] == "profile":
+    errors = parseCppcheckErrorlist(sys.stdin)
     rules = createRules(errors, error_to_rule_in_profile)
     root = et.Element('profile')
     et.SubElement(root, 'name').text = "Default C++ Profile"
     et.SubElement(root, 'language').text = "c++"
     root.append(rules)
+    writeXML(root, sys.stdout)
+elif sys.argv[1] == "comparerules" and len(sys.argv) == 4:
+    compareRules(sys.argv[2], sys.argv[3])
 else:
     print usage()
     exit()
-
-# write the resulting elementtree to the out stream
-indent(root)
-sys.stdout.write(header())
-et.ElementTree(root).write(sys.stdout)
