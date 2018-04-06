@@ -21,13 +21,18 @@ package org.sonar.cxx.lexer;
 
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.impl.Lexer;
-import static com.sonar.sslr.test.lexer.LexerMatchers.hasComment;
-import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThat;
+
+import org.assertj.core.api.SoftAssertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
+
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
@@ -36,6 +41,7 @@ import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.squidbridge.SquidAstVisitorContext;
+import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 
 public class CxxLexerTest {
 
@@ -50,124 +56,138 @@ public class CxxLexerTest {
 
   /**
    * C++ Standard, Section 2.8 "Comments"
+   * @throws URISyntaxException 
    */
   @Test
   public void comments_cxx() {
-    assertThat("comment c++: empty", lexer.lex("//\n new line"), hasComment("//"));
-    assertThat("comment c++: simple", lexer.lex("// My comment \n new line"), hasComment("// My comment "));
-    assertThat("comment c++: nested", lexer.lex("// // \n new line"), hasComment("// // "));
-    assertThat("comment c++: nested2", lexer.lex("// /**/ \n new line"), hasComment("// /**/ "));
-  }
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(lexer.lex("//\n new line")).as("comment c++: empty").anySatisfy(token -> 
+       assertThat(token).isValue("new").hasTrivia().isTrivia("//").isComment().isTriviaLine(1));
+    softly.assertThat(lexer.lex("// My comment \\n new line")).as("\"comment c++: simple\"").anySatisfy(token -> 
+       assertThat(token).isValue("EOF").hasTrivia().isTrivia("// My comment \\n new line").isComment().isTriviaLine(1));
+    softly.assertThat(lexer.lex("// // \n new line")).as("comment c++: nested").anySatisfy(token -> 
+       assertThat(token).isValue("new").hasTrivia().isTrivia("// // ").isComment().isTriviaLine(1));
+    softly.assertThat(lexer.lex("// /**/ \n new line")).as("comment c++: nested2").anySatisfy(token ->
+       assertThat(token).isValue("new").hasTrivia().isTrivia("// /**/ ").isComment().isTriviaLine(1));
+    softly.assertAll();
+    }
 
   /**
    * C++ Standard, Section 2.8 "Comments"
    */
   @Test
   public void comments_c() {
-    assertThat("comment c: empty", lexer.lex("/**/"), hasComment("/**/"));
-    assertThat("comment c: simple", lexer.lex("/* My comment */"), hasComment("/* My comment */"));
-    assertThat("comment c: with newline", lexer.lex("/*\\\n*/"), hasComment("/*\\\n*/"));
-    assertThat("comment c: nested", lexer.lex("/*//*/"), hasComment("/*//*/"));
-    assertThat("comment c: nested2", lexer.lex("/* /* */"), hasComment("/* /* */"));
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(lexer.lex("/**/")).as("comment c: empty").anySatisfy(token ->
+      assertThat(token).isValue("EOF").hasTrivia().isTrivia("/**/").isComment().isTriviaLine(1));
+    softly.assertThat(lexer.lex("/* My comment */")).as("comment c: simple").anySatisfy(token ->
+       assertThat(token).isValue("EOF").hasTrivia().isTrivia("/* My comment */").isComment().isTriviaLine(1));
+    softly.assertThat(lexer.lex("/*\\\n*/")).as("comment c: with newline").anySatisfy(token ->
+       assertThat(token).isValue("EOF").hasTrivia().isTrivia("/*\\\n*/").isComment().isTriviaLine(1));
+    softly.assertThat(lexer.lex("/*//*/")).as("comment c: nested").anySatisfy(token ->
+       assertThat(token).isValue("EOF").hasTrivia().isTrivia("/*//*/").isComment().isTriviaLine(1));
+    softly.assertThat(lexer.lex("/* /* */")).as("comment c: nested2").anySatisfy(token ->
+       assertThat(token).isValue("EOF").hasTrivia().isTrivia("/* /* */").isComment().isTriviaLine(1));
+    softly.assertAll();
   }
+  
 
   /**
    * C++ Standard, Section 2.14.2 "Integer literals"
    */
   @Test
   public void decimal_integer_literals() {
-    // Decimal integer
-    assertThat(lexer.lex("0"), hasToken("0", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7"), hasToken("7", CxxTokenType.NUMBER));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+      LiteralValuesBuilder.builder("0").tokenValue("0").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7").tokenValue("7").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix
+      LiteralValuesBuilder.builder("7u").tokenValue("7u").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7U").tokenValue("7U").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix LongSuffix"
+      LiteralValuesBuilder.builder("7ul").tokenValue("7ul").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7uL").tokenValue("7uL").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7Ul").tokenValue("7Ul").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7UL").tokenValue("7UL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix LongLongSuffix"
+      LiteralValuesBuilder.builder("7ull").tokenValue("7ull").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7uLL").tokenValue("7uLL").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7Ull").tokenValue("7Ull").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7ULL").tokenValue("7ULL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongSuffix"
+      LiteralValuesBuilder.builder("7l").tokenValue("7l").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7L").tokenValue("7L").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongSuffix UnsignedSuffix"
+      LiteralValuesBuilder.builder("7lu").tokenValue("7lu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7lU").tokenValue("7lU").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7Lu").tokenValue("7Lu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7LU").tokenValue("7LU").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongLongSuffix"
+      LiteralValuesBuilder.builder("7ll").tokenValue("7ll").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7LL").tokenValue("7LL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongLongSuffix UnsignedSuffix"
+      LiteralValuesBuilder.builder("7llu").tokenValue("7llu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7llU").tokenValue("7llU").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7LLu").tokenValue("7LLu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7LLU").tokenValue("7LLU").tokenType(CxxTokenType.NUMBER).build(),
+      // With Microsoft specific 64-bit integer-suffix: i64
+      LiteralValuesBuilder.builder("7i64").tokenValue("7i64").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7ui64").tokenValue("7ui64").tokenType(CxxTokenType.NUMBER).build()
+      ));
 
-    // With "UnsignedSuffix"
-    assertThat(lexer.lex("7u"), hasToken("7u", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7U"), hasToken("7U", CxxTokenType.NUMBER));
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+    }
 
-    // With "UnsignedSuffix LongSuffix"
-    assertThat(lexer.lex("7ul"), hasToken("7ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7uL"), hasToken("7uL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7Ul"), hasToken("7Ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7UL"), hasToken("7UL", CxxTokenType.NUMBER));
 
-    // With "UnsignedSuffix LongLongSuffix"
-    assertThat(lexer.lex("7ull"), hasToken("7ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7uLL"), hasToken("7uLL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7Ull"), hasToken("7Ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7ULL"), hasToken("7ULL", CxxTokenType.NUMBER));
-
-    // With "LongSuffix"
-    assertThat(lexer.lex("7l"), hasToken("7l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7L"), hasToken("7L", CxxTokenType.NUMBER));
-
-    // With "LongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("7lu"), hasToken("7lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7lU"), hasToken("7lU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7Lu"), hasToken("7Lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7LU"), hasToken("7LU", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix"
-    assertThat(lexer.lex("7ll"), hasToken("7ll", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7LL"), hasToken("7LL", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("7llu"), hasToken("7llu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7llU"), hasToken("7llU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7LLu"), hasToken("7LLu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7LLU"), hasToken("7LLU", CxxTokenType.NUMBER));
-
-    // With Micosoft specific 64-bit integer-suffix: i64
-    assertThat(lexer.lex("7i64"), hasToken("7i64", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("7ui64"), hasToken("7ui64", CxxTokenType.NUMBER));
-  }
 
   /**
    * C++ Standard, Section 2.14.2 "Integer literals"
    */
   @Test
   public void octal_integer_literals() {
-    // Octal integer
-    assertThat(lexer.lex("07"), hasToken("07", CxxTokenType.NUMBER));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+      // Octal integer
+      LiteralValuesBuilder.builder("07").tokenValue("07").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix
+      LiteralValuesBuilder.builder("07u").tokenValue("07u").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07U").tokenValue("07U").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix LongSuffix"
+      LiteralValuesBuilder.builder("07ul").tokenValue("07ul").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07uL").tokenValue("07uL").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07Ul").tokenValue("07Ul").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07UL").tokenValue("07UL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix LongLongSuffix"
+      LiteralValuesBuilder.builder("07ull").tokenValue("07ull").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07uLL").tokenValue("07uLL").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07Ull").tokenValue("07Ull").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07ULL").tokenValue("07ULL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongSuffix"
+      LiteralValuesBuilder.builder("07l").tokenValue("07l").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07L").tokenValue("07L").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongSuffix UnsignedSuffix"
+      LiteralValuesBuilder.builder("07lu").tokenValue("07lu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07lU").tokenValue("07lU").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07Lu").tokenValue("07Lu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07LU").tokenValue("07LU").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongLongSuffix"
+      LiteralValuesBuilder.builder("07ll").tokenValue("07ll").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07LL").tokenValue("07LL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongLongSuffix UnsignedSuffix"
+      LiteralValuesBuilder.builder("07llu").tokenValue("07llu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07llU").tokenValue("07llU").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07LLu").tokenValue("07LLu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07LLU").tokenValue("07LLU").tokenType(CxxTokenType.NUMBER).build(),
+      // With Microsoft specific 64-bit integer-suffix: i64
+      LiteralValuesBuilder.builder("07i64").tokenValue("07i64").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07ui64").tokenValue("07ui64").tokenType(CxxTokenType.NUMBER).build()
+      ));
 
-    // With "UnsignedSuffix"
-    assertThat(lexer.lex("07u"), hasToken("07u", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07U"), hasToken("07U", CxxTokenType.NUMBER));
-
-    // With "UnsignedSuffix LongSuffix"
-    assertThat(lexer.lex("07ul"), hasToken("07ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07uL"), hasToken("07uL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07Ul"), hasToken("07Ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07UL"), hasToken("07UL", CxxTokenType.NUMBER));
-
-    // With "UnsignedSuffix LongLongSuffix"
-    assertThat(lexer.lex("07ull"), hasToken("07ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07uLL"), hasToken("07uLL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07Ull"), hasToken("07Ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07ULL"), hasToken("07ULL", CxxTokenType.NUMBER));
-
-    // With "LongSuffix"
-    assertThat(lexer.lex("07l"), hasToken("07l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07L"), hasToken("07L", CxxTokenType.NUMBER));
-
-    // With "LongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("07lu"), hasToken("07lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07lU"), hasToken("07lU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07Lu"), hasToken("07Lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07LU"), hasToken("07LU", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix"
-    assertThat(lexer.lex("07ll"), hasToken("07ll", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07LL"), hasToken("07LL", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("07llu"), hasToken("07llu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07llU"), hasToken("07llU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07LLu"), hasToken("07LLu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07LLU"), hasToken("07LLU", CxxTokenType.NUMBER));
-
-    // With Micosoft specific 64-bit integer-suffix: i64
-    assertThat(lexer.lex("07i64"), hasToken("07i64", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("07ui64"), hasToken("07ui64", CxxTokenType.NUMBER));
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   /**
@@ -175,48 +195,47 @@ public class CxxLexerTest {
    */
   @Test
   public void hex_integer_literals() {
-    // Hex integer
-    assertThat(lexer.lex("0x7"), hasToken("0x7", CxxTokenType.NUMBER));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+      // Hex integer
+      LiteralValuesBuilder.builder("0x7").tokenValue("0x7").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix
+      LiteralValuesBuilder.builder("0x7u").tokenValue("0x7u").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7U").tokenValue("0x7U").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix LongSuffix"
+      LiteralValuesBuilder.builder("0x7ul").tokenValue("0x7ul").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7uL").tokenValue("0x7uL").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7Ul").tokenValue("0x7Ul").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7UL").tokenValue("0x7UL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix LongLongSuffix"
+      LiteralValuesBuilder.builder("0x7ull").tokenValue("0x7ull").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7uLL").tokenValue("0x7uLL").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7Ull").tokenValue("0x7Ull").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7ULL").tokenValue("0x7ULL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongSuffix"
+      LiteralValuesBuilder.builder("0x7l").tokenValue("0x7l").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7L").tokenValue("0x7L").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongSuffix UnsignedSuffix"
+      LiteralValuesBuilder.builder("0x7lu").tokenValue("0x7lu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7lU").tokenValue("0x7lU").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7Lu").tokenValue("0x7Lu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7LU").tokenValue("0x7LU").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongLongSuffix"
+      LiteralValuesBuilder.builder("0x7ll").tokenValue("0x7ll").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7LL").tokenValue("0x7LL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongLongSuffix UnsignedSuffix"
+      LiteralValuesBuilder.builder("0x7llu").tokenValue("0x7llu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7llU").tokenValue("0x7llU").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7LLu").tokenValue("0x7LLu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7LLU").tokenValue("0x7LLU").tokenType(CxxTokenType.NUMBER).build(),
+      // With Microsoft specific 64-bit integer-suffix: i64
+      LiteralValuesBuilder.builder("0x7i64").tokenValue("0x7i64").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7ui64").tokenValue("0x7ui64").tokenType(CxxTokenType.NUMBER).build()
+      ));
 
-    // With "UnsignedSuffix"
-    assertThat(lexer.lex("0x7u"), hasToken("0x7u", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7U"), hasToken("0x7U", CxxTokenType.NUMBER));
-
-    // With "UnsignedSuffix LongSuffix"
-    assertThat(lexer.lex("0x7ul"), hasToken("0x7ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7uL"), hasToken("0x7uL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7Ul"), hasToken("0x7Ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7UL"), hasToken("0x7UL", CxxTokenType.NUMBER));
-
-    // With "UnsignedSuffix LongLongSuffix"
-    assertThat(lexer.lex("0x7ull"), hasToken("0x7ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7uLL"), hasToken("0x7uLL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7Ull"), hasToken("0x7Ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7ULL"), hasToken("0x7ULL", CxxTokenType.NUMBER));
-
-    // With "LongSuffix"
-    assertThat(lexer.lex("0x7l"), hasToken("0x7l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7L"), hasToken("0x7L", CxxTokenType.NUMBER));
-
-    // With "LongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("0x7lu"), hasToken("0x7lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7lU"), hasToken("0x7lU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7Lu"), hasToken("0x7Lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7LU"), hasToken("0x7LU", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix"
-    assertThat(lexer.lex("0x7ll"), hasToken("0x7ll", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7LL"), hasToken("0x7LL", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("0x7llu"), hasToken("0x7llu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7llU"), hasToken("0x7llU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7LLu"), hasToken("0x7LLu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7LLU"), hasToken("0x7LLU", CxxTokenType.NUMBER));
-
-    // With Micosoft specific 64-bit integer-suffix: i64
-    assertThat(lexer.lex("0x7i64"), hasToken("0x7i64", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x7ui64"), hasToken("0x7ui64", CxxTokenType.NUMBER));
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   /**
@@ -224,10 +243,17 @@ public class CxxLexerTest {
    */
   @Test
   public void bin_integer_literals() {
-    // bin integer
-    assertThat(lexer.lex("0b0"), hasToken("0b0", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1"), hasToken("0B1", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b10101001"), hasToken("0b10101001", CxxTokenType.NUMBER));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+      // bin integer
+      LiteralValuesBuilder.builder("0b0").tokenValue("0b0").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1").tokenValue("0B1").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0b10101001").tokenValue("0b10101001").tokenType(CxxTokenType.NUMBER).build()
+    ));
+    
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   /**
@@ -235,97 +261,95 @@ public class CxxLexerTest {
    */
   @Test
   public void hex_integer_literals_bigX() {
-    // Hex integer (big X)
-    assertThat(lexer.lex("0X7"), hasToken("0X7", CxxTokenType.NUMBER));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+      // Hex integer (big X)
+      LiteralValuesBuilder.builder("0X7").tokenValue("0X7").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix
+      LiteralValuesBuilder.builder("0X7u").tokenValue("0X7u").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7U").tokenValue("0X7U").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix LongSuffix"
+      LiteralValuesBuilder.builder("0X7ul").tokenValue("0X7ul").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7uL").tokenValue("0X7uL").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7Ul").tokenValue("0X7Ul").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7UL").tokenValue("0X7UL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix LongLongSuffix"
+      LiteralValuesBuilder.builder("0X7ull").tokenValue("0X7ull").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7uLL").tokenValue("0X7uLL").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7Ull").tokenValue("0X7Ull").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7ULL").tokenValue("0X7ULL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongSuffix"
+      LiteralValuesBuilder.builder("0X7l").tokenValue("0X7l").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7L").tokenValue("0X7L").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongSuffix UnsignedSuffix"
+      LiteralValuesBuilder.builder("0X7lu").tokenValue("0X7lu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7lU").tokenValue("0X7lU").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7Lu").tokenValue("0X7Lu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7LU").tokenValue("0X7LU").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongLongSuffix"
+      LiteralValuesBuilder.builder("0X7ll").tokenValue("0X7ll").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7LL").tokenValue("0X7LL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongLongSuffix UnsignedSuffix"
+      LiteralValuesBuilder.builder("0X7llu").tokenValue("0X7llu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7llU").tokenValue("0X7llU").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7LLu").tokenValue("0X7LLu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7LLU").tokenValue("0X7LLU").tokenType(CxxTokenType.NUMBER).build(),
+      // With Microsoft specific 64-bit integer-suffix: i64
+      LiteralValuesBuilder.builder("0X7i64").tokenValue("0X7i64").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X7ui64").tokenValue("0X7ui64").tokenType(CxxTokenType.NUMBER).build()
+      ));
 
-    // With "UnsignedSuffix"
-    assertThat(lexer.lex("0X7u"), hasToken("0X7u", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7U"), hasToken("0X7U", CxxTokenType.NUMBER));
-
-    // With "UnsignedSuffix LongSuffix"
-    assertThat(lexer.lex("0X7ul"), hasToken("0X7ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7uL"), hasToken("0X7uL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7Ul"), hasToken("0X7Ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7UL"), hasToken("0X7UL", CxxTokenType.NUMBER));
-
-    // With "UnsignedSuffix LongLongSuffix"
-    assertThat(lexer.lex("0X7ull"), hasToken("0X7ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7uLL"), hasToken("0X7uLL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7Ull"), hasToken("0X7Ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7ULL"), hasToken("0X7ULL", CxxTokenType.NUMBER));
-
-    // With "LongSuffix"
-    assertThat(lexer.lex("0X7l"), hasToken("0X7l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7L"), hasToken("0X7L", CxxTokenType.NUMBER));
-
-    // With "LongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("0X7lu"), hasToken("0X7lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7lU"), hasToken("0X7lU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7Lu"), hasToken("0X7Lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7LU"), hasToken("0X7LU", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix"
-    assertThat(lexer.lex("0X7ll"), hasToken("0X7ll", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7LL"), hasToken("0X7LL", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("0X7llu"), hasToken("0X7llu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7llU"), hasToken("0X7llU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7LLu"), hasToken("0X7LLu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7LLU"), hasToken("0X7LLU", CxxTokenType.NUMBER));
-
-    // With Micosoft specific 64-bit integer-suffix: i64
-    assertThat(lexer.lex("0X7i64"), hasToken("0X7i64", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X7ui64"), hasToken("0X7ui64", CxxTokenType.NUMBER));
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   /**
    * C++ Standard, Section 2.14.2 "Integer literals"
    */
   @Test
-  public void bin_integer_literals_bigX() {
-    // Hex integer (big X)
-    assertThat(lexer.lex("0B1"), hasToken("0B1", CxxTokenType.NUMBER));
+  public void bin_integer_literals_bigB() {
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+      // Binary literal (big B)
+      LiteralValuesBuilder.builder("0B1").tokenValue("0B1").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix
+      LiteralValuesBuilder.builder("0B1u").tokenValue("0B1u").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1U").tokenValue("0B1U").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix LongSuffix"
+      LiteralValuesBuilder.builder("0B1ul").tokenValue("0B1ul").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1uL").tokenValue("0B1uL").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1Ul").tokenValue("0B1Ul").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1UL").tokenValue("0B1UL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "UnsignedSuffix LongLongSuffix"
+      LiteralValuesBuilder.builder("0B1ull").tokenValue("0B1ull").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1uLL").tokenValue("0B1uLL").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1Ull").tokenValue("0B1Ull").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1ULL").tokenValue("0B1ULL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongSuffix"
+      LiteralValuesBuilder.builder("0B1l").tokenValue("0B1l").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1L").tokenValue("0B1L").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongSuffix UnsignedSuffix"
+      LiteralValuesBuilder.builder("0B1lu").tokenValue("0B1lu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1lU").tokenValue("0B1lU").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1Lu").tokenValue("0B1Lu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1LU").tokenValue("0B1LU").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongLongSuffix"
+      LiteralValuesBuilder.builder("0B1ll").tokenValue("0B1ll").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1LL").tokenValue("0B1LL").tokenType(CxxTokenType.NUMBER).build(),
+      // With "LongLongSuffix UnsignedSuffix"
+      LiteralValuesBuilder.builder("0B1llu").tokenValue("0B1llu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1llU").tokenValue("0B1llU").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1LLu").tokenValue("0B1LLu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1LLU").tokenValue("0B1LLU").tokenType(CxxTokenType.NUMBER).build(),
+      // With Microsoft specific 64-bit integer-suffix: i64
+      LiteralValuesBuilder.builder("0B1i64").tokenValue("0B1i64").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0B1ui64").tokenValue("0B1ui64").tokenType(CxxTokenType.NUMBER).build()
+      ));
 
-    // With "UnsignedSuffix"
-    assertThat(lexer.lex("0B1u"), hasToken("0B1u", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1U"), hasToken("0B1U", CxxTokenType.NUMBER));
-
-    // With "UnsignedSuffix LongSuffix"
-    assertThat(lexer.lex("0B1ul"), hasToken("0B1ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1uL"), hasToken("0B1uL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1Ul"), hasToken("0B1Ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1UL"), hasToken("0B1UL", CxxTokenType.NUMBER));
-
-    // With "UnsignedSuffix LongLongSuffix"
-    assertThat(lexer.lex("0B1ull"), hasToken("0B1ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1uLL"), hasToken("0B1uLL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1Ull"), hasToken("0B1Ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1ULL"), hasToken("0B1ULL", CxxTokenType.NUMBER));
-
-    // With "LongSuffix"
-    assertThat(lexer.lex("0B1l"), hasToken("0B1l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1L"), hasToken("0B1L", CxxTokenType.NUMBER));
-
-    // With "LongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("0B1lu"), hasToken("0B1lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1lU"), hasToken("0B1lU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1Lu"), hasToken("0B1Lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1LU"), hasToken("0B1LU", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix"
-    assertThat(lexer.lex("0B1ll"), hasToken("0B1ll", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1LL"), hasToken("0B1LL", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("0B1llu"), hasToken("0B1llu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1llU"), hasToken("0B1llU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1LLu"), hasToken("0B1LLu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1LLU"), hasToken("0B1LLU", CxxTokenType.NUMBER));
-
-    // With Micosoft specific 64-bit integer-suffix: i64
-    assertThat(lexer.lex("0B1i64"), hasToken("0B1i64", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0B1ui64"), hasToken("0B1ui64", CxxTokenType.NUMBER));
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   /**
@@ -333,53 +357,59 @@ public class CxxLexerTest {
    */
   @Test
   public void floating_point_literals() {
-    assertThat(lexer.lex("3.14"), hasToken("3.14", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("10."), hasToken("10.", CxxTokenType.NUMBER));
-    assertThat(lexer.lex(".001"), hasToken(".001", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("1e100"), hasToken("1e100", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("3.14e-10"), hasToken("3.14e-10", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("3.14E-10"), hasToken("3.14E-10", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0e0"), hasToken("0e0", CxxTokenType.NUMBER));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+      LiteralValuesBuilder.builder("3.14").tokenValue("3.14").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("10.").tokenValue("10.").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder(".001").tokenValue(".001").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1e100").tokenValue("1e100").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("3.14e-10").tokenValue("3.14e-10").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("3.14E-10").tokenValue("3.14E-10").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0e0").tokenValue("0e0").tokenType(CxxTokenType.NUMBER).build(),
 
-    assertThat(lexer.lex("3.14f"), hasToken("3.14f", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("10.f"), hasToken("10.f", CxxTokenType.NUMBER));
-    assertThat(lexer.lex(".001f"), hasToken(".001f", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("1e100f"), hasToken("1e100f", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("3.14e-10f"), hasToken("3.14e-10f", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("3.14E-10f"), hasToken("3.14E-10f", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0e0f"), hasToken("0e0f", CxxTokenType.NUMBER));
+      LiteralValuesBuilder.builder("3.14f").tokenValue("3.14f").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("10.f").tokenValue("10.f").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder(".001f").tokenValue(".001f").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1e100f").tokenValue("1e100f").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("3.14e-10f").tokenValue("3.14e-10f").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("3.14E-10f").tokenValue("3.14E-10f").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0e0f").tokenValue("0e0f").tokenType(CxxTokenType.NUMBER).build(),
 
-    assertThat(lexer.lex("3.14F"), hasToken("3.14F", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("10.F"), hasToken("10.F", CxxTokenType.NUMBER));
-    assertThat(lexer.lex(".001F"), hasToken(".001F", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("1e100F"), hasToken("1e100F", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("3.14e-10F"), hasToken("3.14e-10F", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("3.14E-10F"), hasToken("3.14E-10F", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0e0F"), hasToken("0e0F", CxxTokenType.NUMBER));
+      LiteralValuesBuilder.builder("3.14F").tokenValue("3.14F").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("10.F").tokenValue("10.F").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder(".001F").tokenValue(".001F").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1e100F").tokenValue("1e100F").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("3.14e-10F").tokenValue("3.14e-10F").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("3.14E-10F").tokenValue("3.14E-10F").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0e0F").tokenValue("0e0F").tokenType(CxxTokenType.NUMBER).build(),
 
-    assertThat(lexer.lex("3.14l"), hasToken("3.14l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("10.l"), hasToken("10.l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex(".001l"), hasToken(".001l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("1e100l"), hasToken("1e100l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("3.14e-10l"), hasToken("3.14e-10l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("3.14E-10l"), hasToken("3.14E-10l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0e0l"), hasToken("0e0l", CxxTokenType.NUMBER));
+      LiteralValuesBuilder.builder("3.14l").tokenValue("3.14l").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("10.l").tokenValue("10.l").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder(".001l").tokenValue(".001l").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1e100l").tokenValue("1e100l").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("3.14e-10l").tokenValue("3.14e-10l").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("3.14E-10l").tokenValue("3.14E-10l").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0e0l").tokenValue("0e0l").tokenType(CxxTokenType.NUMBER).build(),
 
-    assertThat(lexer.lex("3.14L"), hasToken("3.14L", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("10.L"), hasToken("10.L", CxxTokenType.NUMBER));
-    assertThat(lexer.lex(".001L"), hasToken(".001L", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("1e100L"), hasToken("1e100L", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("3.14e-10L"), hasToken("3.14e-10L", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("3.14E-10L"), hasToken("3.14E-10L", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0e0L"), hasToken("0e0L", CxxTokenType.NUMBER));
+      LiteralValuesBuilder.builder("3.14L").tokenValue("3.14L").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("10.L").tokenValue("10.L").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder(".001L").tokenValue(".001L").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1e100L").tokenValue("1e100L").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("3.14e-10L").tokenValue("3.14e-10L").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("3.14E-10L").tokenValue("3.14E-10L").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0e0L").tokenValue("0e0L").tokenType(CxxTokenType.NUMBER).build(),
+      // c++17: hexadecimal floating literals
+      LiteralValuesBuilder.builder("0x1ffp10").tokenValue("0x1ffp10").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0X0p-1").tokenValue("0X0p-1").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x1.p0").tokenValue("0x1.p0").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0xf.p-1").tokenValue("0xf.p-1").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x0.123p-1").tokenValue("0x0.123p-1").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0xa.bp10l").tokenValue("0xa.bp10l").tokenType(CxxTokenType.NUMBER).build()
+      ));
 
-    // c++17: hexadecimal floating literals
-    assertThat(lexer.lex("0x1ffp10"), hasToken("0x1ffp10", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0X0p-1"), hasToken("0X0p-1", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x1.p0"), hasToken("0x1.p0", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0xf.p-1"), hasToken("0xf.p-1", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x0.123p-1"), hasToken("0x0.123p-1", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0xa.bp10l"), hasToken("0xa.bp10l", CxxTokenType.NUMBER));
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   /**
@@ -387,12 +417,19 @@ public class CxxLexerTest {
    */
   @Test
   public void user_defined_literals() {
-    assertThat(lexer.lex("12_w"), hasToken("12_w", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("1.2_w"), hasToken("1.2_w", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0x123ABC_print"), hasToken("0x123ABC_print", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b101010_print"), hasToken("0b101010_print", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("\"two\"_w;"), hasToken("\"two\"_w", CxxTokenType.STRING));
-    assertThat(lexer.lex("'X'_w;"), hasToken("'X'_w", CxxTokenType.CHARACTER));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+    LiteralValuesBuilder.builder("12_w").tokenValue("12_w").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder("1.2_w").tokenValue("1.2_w").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder("0x123ABC_print").tokenValue("0x123ABC_print").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder("0b101010_print").tokenValue("0b101010_print").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder("\"two\"_w").tokenValue("\"two\"_w").tokenType(CxxTokenType.STRING).build(),
+    LiteralValuesBuilder.builder("'X'_w").tokenValue("'X'_w").tokenType(CxxTokenType.CHARACTER).build()
+    ));
+
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   /**
@@ -400,15 +437,22 @@ public class CxxLexerTest {
    */
   @Test
   public void digit_separators() {
-    assertThat(lexer.lex("1'000'000"), hasToken("1'000'000", CxxTokenType.NUMBER)); // integer
-    assertThat(lexer.lex("0b0100'1100'0110"), hasToken("0b0100'1100'0110", CxxTokenType.NUMBER)); // binary
-    assertThat(lexer.lex("00'04'00'00'00"), hasToken("00'04'00'00'00", CxxTokenType.NUMBER)); // oct  
-    assertThat(lexer.lex("0x10'0000"), hasToken("0x10'0000", CxxTokenType.NUMBER)); // hex  
-    assertThat(lexer.lex("1'000.000'015'3"), hasToken("1'000.000'015'3", CxxTokenType.NUMBER)); // float
-    assertThat(lexer.lex("1'000."), hasToken("1'000.", CxxTokenType.NUMBER));
-    assertThat(lexer.lex(".000'015'3"), hasToken(".000'015'3", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("1'000e-10"), hasToken("1'000e-10", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("1'000e-1'000"), hasToken("1'000e-1'000", CxxTokenType.NUMBER));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+    LiteralValuesBuilder.builder("1'000'000").tokenValue("1'000'000").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder("0b0100'1100'0110").tokenValue("0b0100'1100'0110").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder("00'04'00'00'00").tokenValue("00'04'00'00'00").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder("0x10'0000").tokenValue("0x10'0000").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder("1'000.000'015'3").tokenValue("1'000.000'015'3").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder("1'000.").tokenValue("1'000.").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder(".000'015'3").tokenValue(".000'015'3").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder("1'000e-10").tokenValue("1'000e-10").tokenType(CxxTokenType.NUMBER).build(),
+    LiteralValuesBuilder.builder("1'000e-1'000").tokenValue("1'000e-1'000").tokenType(CxxTokenType.NUMBER).build()
+    ));
+
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   /**
@@ -416,8 +460,15 @@ public class CxxLexerTest {
    */
   @Test
   public void boolean_literals() {
-    assertThat(lexer.lex("true"), hasToken("true", CxxKeyword.TRUE));
-    assertThat(lexer.lex("false"), hasToken("false", CxxKeyword.FALSE));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+    LiteralValuesBuilder.builder("true").tokenValue("true").tokenType(CxxKeyword.TRUE).build(),
+    LiteralValuesBuilder.builder("false").tokenValue("false").tokenType(CxxKeyword.FALSE).build()
+    ));
+
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   /**
@@ -425,7 +476,14 @@ public class CxxLexerTest {
    */
   @Test
   public void pointer_literals() {
-    assertThat(lexer.lex("nullptr"), hasToken("nullptr", CxxTokenType.NUMBER));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+    LiteralValuesBuilder.builder("nullptr").tokenValue("nullptr").tokenType(CxxTokenType.NUMBER).build()
+    ));
+
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   /**
@@ -433,19 +491,26 @@ public class CxxLexerTest {
    */
   @Test
   public void character_literals() {
-    assertThat("char: empty", lexer.lex("''"), hasToken("''", CxxTokenType.CHARACTER));
-    assertThat("char: prefix u", lexer.lex("u''"), hasToken("u''", CxxTokenType.CHARACTER));
-    assertThat("char: prefix U", lexer.lex("U''"), hasToken("U''", CxxTokenType.CHARACTER));
-    assertThat("char: prefix L", lexer.lex("L''"), hasToken("L''", CxxTokenType.CHARACTER));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+    LiteralValuesBuilder.builder("''").tokenValue("''").tokenType(CxxTokenType.CHARACTER).build(),  // char: empty
+    LiteralValuesBuilder.builder("u''").tokenValue("u''").tokenType(CxxTokenType.CHARACTER).build(), // char: prefix u
+    LiteralValuesBuilder.builder("U''").tokenValue("U''").tokenType(CxxTokenType.CHARACTER).build(), // char: prefix U
+    LiteralValuesBuilder.builder("L''").tokenValue("L''").tokenType(CxxTokenType.CHARACTER).build(), // char: prefix L
 
-    assertThat("char: trivial", lexer.lex("'a'"), hasToken("'a'", CxxTokenType.CHARACTER));
-    assertThat("char: more than one", lexer.lex("'ab'"), hasToken("'ab'", CxxTokenType.CHARACTER));
+    LiteralValuesBuilder.builder("'a'").tokenValue("'a'").tokenType(CxxTokenType.CHARACTER).build(), // char: trivial
+    LiteralValuesBuilder.builder("'ab'").tokenValue("'ab'").tokenType(CxxTokenType.CHARACTER).build(), //char: more than one
 
-    assertThat("char: escaped quote", lexer.lex("'\\''"), hasToken("'\\''", CxxTokenType.CHARACTER));
-    assertThat("char: escaped backslash", lexer.lex("'\\\\'"), hasToken("'\\\\'", CxxTokenType.CHARACTER));
+    LiteralValuesBuilder.builder("'\\''").tokenValue("'\\''").tokenType(CxxTokenType.CHARACTER).build(), // char: escaped quote
+    LiteralValuesBuilder.builder("'\\\\'").tokenValue("'\\\\'").tokenType(CxxTokenType.CHARACTER).build(), // char: escaped backslash
 
-    assertThat("char: unterminated", lexer.lex("'"), hasToken("'", GenericTokenType.UNKNOWN_CHAR));
-    assertThat("char: unescaped backslash", lexer.lex("'\\'"), hasToken("'", GenericTokenType.UNKNOWN_CHAR));
+    LiteralValuesBuilder.builder("'").tokenValue("'").tokenType(GenericTokenType.UNKNOWN_CHAR).build(),
+    LiteralValuesBuilder.builder("'\\'").tokenValue("'").tokenType(GenericTokenType.UNKNOWN_CHAR).build() // This are 3 Tokens of UNKNOWN_CHAR
+    ));
+
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   /**
@@ -453,77 +518,99 @@ public class CxxLexerTest {
    */
   @Test
   public void string_literals() {
-    assertThat("string: empty", lexer.lex("\"\""), hasToken("\"\"", CxxTokenType.STRING));
-    assertThat("string: prefix u", lexer.lex("u\"\""), hasToken("u\"\"", CxxTokenType.STRING));
-    assertThat("string: prefix u8", lexer.lex("u8\"\""), hasToken("u8\"\"", CxxTokenType.STRING));
-    assertThat("string: prefix U", lexer.lex("U\"\""), hasToken("U\"\"", CxxTokenType.STRING));
-    assertThat("string: prefix L", lexer.lex("L\"\""), hasToken("L\"\"", CxxTokenType.STRING));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+    LiteralValuesBuilder.builder("\"\"").tokenValue("\"\"").tokenType(CxxTokenType.STRING).build(), // string: empty
+    LiteralValuesBuilder.builder("u\"\"").tokenValue("u\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix u
+    LiteralValuesBuilder.builder("u8\"\"").tokenValue("u8\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix U 
+    LiteralValuesBuilder.builder("U\"\"").tokenValue("U\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix L 
 
-    assertThat("string: trivial", lexer.lex("\"a\""), hasToken("\"a\"", CxxTokenType.STRING));
+    LiteralValuesBuilder.builder("\"a\"").tokenValue("\"a\"").tokenType(CxxTokenType.STRING).build(), // string: trivial 
 
-    assertThat("string: escaped backslash", lexer.lex("\" \\\\ \""), hasToken("\" \\\\ \"", CxxTokenType.STRING));
-    assertThat("string: escaped quote", lexer.lex("\" \\\" \""), hasToken("\" \\\" \"", CxxTokenType.STRING));
+    LiteralValuesBuilder.builder("\" \\\\ \"").tokenValue("\" \\\\ \"").tokenType(CxxTokenType.STRING).build(), // string: escaped quote
+    LiteralValuesBuilder.builder("\" \\\" \"").tokenValue("\" \\\" \"").tokenType(CxxTokenType.STRING).build(), // string: escaped backslash
 
-    assertThat("string: unterminated", lexer.lex("\""), hasToken("\"", GenericTokenType.UNKNOWN_CHAR));
-    assertThat("string: unescaped backslash", lexer.lex("\"\\\""), hasToken("\\", GenericTokenType.UNKNOWN_CHAR));
+    LiteralValuesBuilder.builder("\"").tokenValue("\"").tokenType(GenericTokenType.UNKNOWN_CHAR).build(), // string: unterminated
+    LiteralValuesBuilder.builder("\"\\\"").tokenValue("\\").tokenType(GenericTokenType.UNKNOWN_CHAR).build() // string: unescaped backslash
+    ));
+
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   @Test
   public void rawstring_literals() {
-    assertThat("raw string: empty", lexer.lex("R\"(...)\""), hasToken("R\"(...)\"", CxxTokenType.STRING));
-    assertThat("raw string: prefix u", lexer.lex("uR\"(...)\""), hasToken("uR\"(...)\"", CxxTokenType.STRING));
-    assertThat("raw string: prefix u8R", lexer.lex("u8R\"(...)\""), hasToken("u8R\"(...)\"", CxxTokenType.STRING));
-    assertThat("raw string: prefix UR", lexer.lex("UR\"(...)\""), hasToken("UR\"(...)\"", CxxTokenType.STRING));
-    assertThat("raw string: prefix LR", lexer.lex("LR\"(...)\""), hasToken("LR\"(...)\"", CxxTokenType.STRING));
-
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+    LiteralValuesBuilder.builder("R\"(...)\"").tokenValue("R\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: empty
+    LiteralValuesBuilder.builder("uR\"(...)\"").tokenValue("uR\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: prefix u
+    LiteralValuesBuilder.builder("u8R\"(...)\"").tokenValue("u8R\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: prefix u8R 
+    LiteralValuesBuilder.builder("UR\"(...)\"").tokenValue("UR\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: prefix UR 
+    LiteralValuesBuilder.builder("LR\"(...)\"").tokenValue("LR\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: prefix LR
     // examples from the standard
-    assertThat("raw string: std example 1", lexer.lex("R\"(...)\""), hasToken("R\"(...)\"", CxxTokenType.STRING));
-    assertThat("raw string: std example 2", lexer.lex("u8R\"**(...)**\""), hasToken("u8R\"**(...)**\"", CxxTokenType.STRING));
-    assertThat("raw string: std example 3", lexer.lex("uR\"*∼(...)*∼\""), hasToken("uR\"*∼(...)*∼\"", CxxTokenType.STRING));
-    assertThat("raw string: std example 4", lexer.lex("UR\"zzz(...)zzz\""), hasToken("UR\"zzz(...)zzz\"", CxxTokenType.STRING));
-    assertThat("raw string: std example 5", lexer.lex("LR\"(...)\""), hasToken("LR\"(...)\"", CxxTokenType.STRING));
+    LiteralValuesBuilder.builder("R\"(...)\"").tokenValue("R\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: std example 1 
+    LiteralValuesBuilder.builder("u8R\"**(...)**\"").tokenValue("u8R\"**(...)**\"").tokenType(CxxTokenType.STRING).build(), // raw string: std example 2
+    LiteralValuesBuilder.builder("uR\"*∼(...)*∼\"").tokenValue("uR\"*∼(...)*∼\"").tokenType(CxxTokenType.STRING).build(), // raw string: std example 3
+    LiteralValuesBuilder.builder("UR\"zzz(...)zzz\"").tokenValue("UR\"zzz(...)zzz\"").tokenType(CxxTokenType.STRING).build(), // raw string: std example 4
+    LiteralValuesBuilder.builder("LR\"(...)\"").tokenValue("LR\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: std example 5
 
-    assertThat("raw string: an unescaped \\ character",
-      lexer.lex("R\"(An unescaped \\ character)\""), hasToken("R\"(An unescaped \\ character)\"", CxxTokenType.STRING));
+    LiteralValuesBuilder.builder("R\"(An unescaped \\ character)\"").tokenValue("R\"(An unescaped \\ character)\"")
+                         .tokenType(CxxTokenType.STRING).build(), // raw string: an unescaped \\ character
+    LiteralValuesBuilder.builder("R\"(An unescaped \" character)\"").tokenValue("R\"(An unescaped \" character)\"")
+                         .tokenType(CxxTokenType.STRING).build(), // raw string: an unescaped \" character
+    LiteralValuesBuilder.builder("R\"xyz()\")xyz\"").tokenValue("R\"xyz()\")xyz\"")
+                         .tokenType(CxxTokenType.STRING).build(), // raw string: represent the string: )\"
+    LiteralValuesBuilder.builder("R\"X*X(A C++11 raw string literal can be specified like this: R\"(This is my raw string)\" )X*X\"")
+                         .tokenValue("R\"X*X(A C++11 raw string literal can be specified like this: R\"(This is my raw string)\" )X*X\"")
+                         .tokenType(CxxTokenType.STRING).build(), // raw string: complex example
+    LiteralValuesBuilder.builder("R\"([.^$|()\\[\\]{}*+?\\\\])\"").tokenValue("R\"([.^$|()\\[\\]{}*+?\\\\])\"")
+                         .tokenType(CxxTokenType.STRING).build() // raw string: regex sample
+    ));
 
-    assertThat("raw string: an unescaped \" character",
-      lexer.lex("R\"(An unescaped \" character)\""), hasToken("R\"(An unescaped \" character)\"", CxxTokenType.STRING));
-
-    assertThat("raw string: represent the string: )\"",
-      lexer.lex("R\"xyz()\")xyz\""), hasToken("R\"xyz()\")xyz\"", CxxTokenType.STRING));
-
-    assertThat("raw string: complex example",
-      lexer.lex("R\"X*X(A C++11 raw string literal can be specified like this: R\"(This is my raw string)\" )X*X\""),
-      hasToken("R\"X*X(A C++11 raw string literal can be specified like this: R\"(This is my raw string)\" )X*X\"", CxxTokenType.STRING));
-
-    assertThat("raw string: regex sample",
-      lexer.lex("R\"([.^$|()\\[\\]{}*+?\\\\])\""),
-      hasToken("R\"([.^$|()\\[\\]{}*+?\\\\])\"", CxxTokenType.STRING));
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   @Test
   public void operators_and_delimiters() {
-    assertThat(lexer.lex(":"), hasToken(":", CxxPunctuator.COLON));
-    assertThat(lexer.lex("="), hasToken("=", CxxPunctuator.ASSIGN));
-    assertThat(lexer.lex("~"), hasToken("~", CxxPunctuator.BW_NOT));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+    LiteralValuesBuilder.builder(":").tokenValue(":").tokenType(CxxPunctuator.COLON).build(),
+    LiteralValuesBuilder.builder("=").tokenValue("=").tokenType(CxxPunctuator.ASSIGN).build(),
+    LiteralValuesBuilder.builder("~").tokenValue("~").tokenType(CxxPunctuator.BW_NOT).build()
+    ));
+
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Operator|Delimiter %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   @Test
   public void keywords_and_identifiers() {
-    assertThat(lexer.lex("return"), hasToken("return", CxxKeyword.RETURN));
-    assertThat(lexer.lex("identifier"), hasToken("identifier", GenericTokenType.IDENTIFIER));
-    assertThat(lexer.lex("a1"), hasToken("a1", GenericTokenType.IDENTIFIER));
-    assertThat(lexer.lex("A1"), hasToken("A1", GenericTokenType.IDENTIFIER));
-    assertThat(lexer.lex("A_a_A_1"), hasToken("A_a_A_1", GenericTokenType.IDENTIFIER));
+    final List<LiteralValuesBuilder> values =
+        new ArrayList<>(Arrays.asList(
+    LiteralValuesBuilder.builder("return").tokenValue("return").tokenType(CxxKeyword.RETURN).build(),
+    LiteralValuesBuilder.builder("identifier").tokenValue("identifier").tokenType(GenericTokenType.IDENTIFIER).build(),
+    LiteralValuesBuilder.builder("a1").tokenValue("a1").tokenType(GenericTokenType.IDENTIFIER).build(),
+    LiteralValuesBuilder.builder("A1").tokenValue("A1").tokenType(GenericTokenType.IDENTIFIER).build(),
+    LiteralValuesBuilder.builder("A_a_A_1").tokenValue("A_a_A_1").tokenType(GenericTokenType.IDENTIFIER).build(),
+    LiteralValuesBuilder.builder("truetype").tokenValue("truetype").tokenType(GenericTokenType.IDENTIFIER).build() //identifier: containing boolean constant
+    ));
 
-    assertThat("identifier: containing boolean constant", lexer.lex("truetype"), hasToken("truetype", GenericTokenType.IDENTIFIER));
+    values.forEach(value -> 
+      assertThat(lexer.lex(value.lexerValue)).as("Keyword|Identifier %s", value.lexerValue).anySatisfy(token ->
+        assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
   }
 
   @Test
   public void blank_lines() {
-    assertThat(lexer.lex("    // comment\n")).hasSize(1);
-    assertThat(lexer.lex("    \n")).hasSize(1);
-    assertThat(lexer.lex("    ")).hasSize(1);
-    assertThat(lexer.lex("line\n\n")).hasSize(2);
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(lexer.lex("    // comment\\n").size()).isEqualTo(1);
+    softly.assertThat(lexer.lex("    \n").size()).isEqualTo(1);
+    softly.assertThat(lexer.lex("    ").size()).isEqualTo(1);
+    softly.assertThat(lexer.lex("line\n\n").size()).isEqualTo(2);
+    softly.assertAll();
   }
 }
