@@ -259,7 +259,7 @@ public class CxxConfiguration extends SquidConfiguration {
     return files;
   }
 
-  public void setCompilationPropertiesWithBuildLog(List<File> reports,
+  public void setCompilationPropertiesWithBuildLog(@Nullable List<File> reports,
     String fileFormat,
     String charsetName) {
 

@@ -42,6 +42,10 @@ import org.sonar.api.utils.log.Loggers;
  */
 public class CxxVCppBuildLogParser {
 
+  private static final String MSC_IX86_600 = "_M_IX86 600";
+
+  private static final String MSC_X64_100 = "_M_X64 100";
+
   private static final Logger LOG = Loggers.get(CxxVCppBuildLogParser.class);
 
   private final HashMap<String, List<String>> uniqueIncludes;
@@ -193,6 +197,8 @@ public class CxxVCppBuildLogParser {
       || line.matches("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$")) {
       setPlatformToolset("V141");
       return true;
+    } else {
+      // do nothing
     }
     return false;
   }
@@ -263,6 +269,8 @@ public class CxxVCppBuildLogParser {
       parseV140CompilerOptions(line, fileElement);
     } else if ("V141".equals(platformToolset)) {
       parseV141CompilerOptions(line, fileElement);
+    } else {
+      // do nothing
     }
   }
 
@@ -518,6 +526,8 @@ public class CxxVCppBuildLogParser {
       addMacro("_WIN32", fileElement);
       //This is not defined for x64 processors.
       addMacro("_M_IX86=600", fileElement);
+    } else {
+      // do nothing
     }
     // VC++ 17.0, 18.0, 19.0
     // _CPPUNWIND Defined for code compiled by using one of the /EH (Exception Handling Model) flags.
@@ -527,16 +537,16 @@ public class CxxVCppBuildLogParser {
       || line.contains("/EHac ")) {
       addMacro("_CPPUNWIND", fileElement);
     }
-    if (line.contains("/favor:ATOM") && (existMacro("_M_X64 100", fileElement)
-      || existMacro("_M_IX86 600", fileElement))) {
+    if (line.contains("/favor:ATOM") && (existMacro(MSC_X64_100, fileElement)
+      || existMacro(MSC_IX86_600, fileElement))) {
       addMacro("__ATOM__=1", fileElement);
     }
-    if (line.contains("/arch:AVX") && (existMacro("_M_X64 100", fileElement)
-      || existMacro("_M_IX86 600", fileElement))) {
+    if (line.contains("/arch:AVX") && (existMacro(MSC_X64_100, fileElement)
+      || existMacro(MSC_IX86_600, fileElement))) {
       addMacro("__AVX__=1", fileElement);
     }
-    if (line.contains("/arch:AVX2") && (existMacro("_M_X64 100", fileElement)
-      || existMacro("_M_IX86 600", fileElement))) {
+    if (line.contains("/arch:AVX2") && (existMacro(MSC_X64_100, fileElement)
+      || existMacro(MSC_IX86_600, fileElement))) {
       addMacro("__AVX2__=1", fileElement);
     }
   }
