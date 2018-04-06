@@ -336,7 +336,7 @@ public class CxxConfigurationTest {
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(15);
-    assertThat(config.getDefines().size()).isEqualTo(30);
+    softly.assertThat(config.getDefines().size()).isEqualTo(30);
     softly.assertAll();
   }
 
@@ -349,7 +349,7 @@ public class CxxConfigurationTest {
     softly.assertThat(defines.contains("__LINE__ 1")).isTrue();
     softly.assertThat(defines.contains("__TIME__ \"??:??:??\"")).isTrue();
     softly.assertThat(defines.contains("__TIMESTAMP__ \"??? ?? ???? ??:??:??\"")).isTrue();
-
+    softly.assertAll();
   }
 
   @Test
