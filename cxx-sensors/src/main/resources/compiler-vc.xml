@@ -10613,6 +10613,81 @@ This rule helps to detect some common cases where a potentially expensive object
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>C26445</key>
+    <name>C26445: A reference to gsl::span or std::string_view may be an indication of a lifetime issue</name>
+    <description><![CDATA[<p>
+The intention of this rule is to catch subtle lifetime issues that may occur in code which has been migrated from standard containers to new span and view types. Such types can be considered as “references to buffers.” Using a reference to a span or view creates an additional layer of indirection. Such indirection is often unnecessary and can be confusing for maintainers. In addition, spans are cheap to copy and can be returned by value from function calls. Obviously, such call results should never be referenced.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26445" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26445</a></p>
+]]>
+    </description>
+    <internalKey>C26445</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26446</key>
+    <name>C26446: Prefer to use gsl::at() instead of unchecked subscript operator</name>
+    <description><![CDATA[<p>
+The Bounds profile of the C++ Core Guidelines tries to eliminate unsafe manipulations of memory by avoiding the use of raw pointers and unchecked operations. One way to perform uniform range-checked access to buffers is to use the gsl::at() utility from the Guidelines Support Library.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26446" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26446</a></p>
+]]>
+    </description>
+    <internalKey>C26446</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26447</key>
+    <name>C26447: The function is declared noexcept but calls a function that may throw exceptions</name>
+    <description><![CDATA[<p>
+This rule amends another rule, C26440 DECLARE_NOEXCEPT, which tries to find functions that are good candidates to be marked as noexcept. In this case, the idea is that once some function is marked as noexcept, it must keep its contract by not invoking other code that may throw exceptions.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26447" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26447</a></p>
+]]>
+    </description>
+    <internalKey>C26447</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26448</key>
+    <name>C26448: Consider using gsl::finally if final action is intended</name>
+    <description><![CDATA[<p>
+The Guidelines Support Library provides a convenient utility to implement the final action concept. Since the C++ language doesn't support try-finally constructs, it became common to implement custom cleanup types that would invoke arbitrary actions on destruction. The gsl::finally utility is implemented in this way and provides a more uniform way to perform final actions across a code base.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26448" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26448</a></p>
+]]>
+    </description>
+    <internalKey>C26448</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26449</key>
+    <name>C26449: gsl::span or std::string_view created from a temporary will be invalid when the temporary is invalidated</name>
+    <description><![CDATA[<p>
+Spans and views are convenient and lightweight types that allow to reference memory buffers. But they must be used carefully: while their interface looks similar to standard containers, their behavior is more like the behavior of pointers and references. They do not own data and must never be constructed from temporary buffers. This check focuses on cases where source data is temporary, while span or view is not.
+</p><h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26449" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26449</a></p>
+]]>
+    </description>
+    <internalKey>C26449</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>C26450</key>
     <name>C26450: RESULT_OF_ARITHMETIC_OPERATION_PROVABLY_LOSSY</name>
     <description><![CDATA[<p>
@@ -14169,83 +14244,6 @@ This warning indicates that a function is being used that has been banned, and h
 ]]>
     </description>
     <internalKey>C28751</internalKey>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  
-<!-- ########### VS2017 15.7 ########### -->
-  <rule>
-    <key>C26446</key>
-    <name>C26446: Prefer to use gsl::at() instead of unchecked subscript operator</name>
-    <description><![CDATA[<p>
-The Bounds profile of the C++ Core Guidelines tries to eliminate unsafe manipulations of memory by avoiding the use of raw pointers and unchecked operations. One way to perform uniform range-checked access to buffers is to use the gsl::at() utility from the Guidelines Support Library.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26446" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26446</a></p>
-]]>
-    </description>
-    <internalKey>C26446</internalKey>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26447</key>
-    <name>C26447: The function is declared noexcept but calls a function that may throw exceptions</name>
-    <description><![CDATA[<p>
-This rule amends another rule, C26440 DECLARE_NOEXCEPT, which tries to find functions that are good candidates to be marked as noexcept. In this case, the idea is that once some function is marked as noexcept, it must keep its contract by not invoking other code that may throw exceptions.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26447" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26447</a></p>
-]]>
-    </description>
-    <internalKey>C26447</internalKey>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26445</key>
-    <name>C26445: A reference to gsl::span or std::string_view may be an indication of a lifetime issue</name>
-    <description><![CDATA[<p>
-The intention of this rule is to catch subtle lifetime issues that may occur in code which has been migrated from standard containers to new span and view types. Such types can be considered as “references to buffers.” Using a reference to a span or view creates an additional layer of indirection. Such indirection is often unnecessary and can be confusing for maintainers. In addition, spans are cheap to copy and can be returned by value from function calls. Obviously, such call results should never be referenced.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26445" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26445</a></p>
-]]>
-    </description>
-    <internalKey>C26445</internalKey>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26448</key>
-    <name>C26448: Consider using gsl::finally if final action is intended</name>
-    <description><![CDATA[<p>
-The Guidelines Support Library provides a convenient utility to implement the final action concept. Since the C++ language doesn't support try-finally constructs, it became common to implement custom cleanup types that would invoke arbitrary actions on destruction. The gsl::finally utility is implemented in this way and provides a more uniform way to perform final actions across a code base.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26448" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26448</a></p>
-]]>
-    </description>
-    <internalKey>C26448</internalKey>
-    <severity>INFO</severity>
-    <type>CODE_SMELL</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>
-  <rule>
-    <key>C26449</key>
-    <name>C26449: gsl::span or std::string_view created from a temporary will be invalid when the temporary is invalidated</name>
-    <description><![CDATA[<p>
-Spans and views are convenient and lightweight types that allow to reference memory buffers. But they must be used carefully: while their interface looks similar to standard containers, their behavior is more like the behavior of pointers and references. They do not own data and must never be constructed from temporary buffers. This check focuses on cases where source data is temporary, while span or view is not.
-</p><h2>Microsoft Documentation</h2>
-<p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26449" target="_blank">https://docs.microsoft.com/en-us/visualstudio/code-quality/c26449</a></p>
-]]>
-    </description>
-    <internalKey>C26449</internalKey>
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
