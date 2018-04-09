@@ -24,7 +24,9 @@
 #
 
 import sys
+import os
 import xml.etree.ElementTree as et
+import textwrap
 
 severity_2_sonarqube = {
     "error": {"type": "BUG", "priority": "MAJOR"},
@@ -35,17 +37,21 @@ severity_2_sonarqube = {
     "information": {"type": "CODE_SMELL", "priority": "MINOR"},
 }
 
+CWE_MAP = None
+
 # xml prettifyer
 #
+
+
 def indent(elem, level=0):
-    i = "\n" + level*"  "
+    i = "\n" + level * "  "
     if len(elem):
         if not elem.text or not elem.text.strip():
             elem.text = i + "  "
         if not elem.tail or not elem.tail.strip():
             elem.tail = i
         for elem in elem:
-            indent(elem, level+1)
+            indent(elem, level + 1)
         if not elem.tail or not elem.tail.strip():
             elem.tail = i
     else:
@@ -53,12 +59,15 @@ def indent(elem, level=0):
             elem.tail = i
 
 # see https://stackoverflow.com/questions/174890/how-to-output-cdata-using-elementtree
+
+
 def CDATA(text=None):
     element = et.Element('![CDATA[')
     element.text = text
     return element
 
 et._original_serialize_xml = et._serialize_xml
+
 
 def _serialize_xml(write, elem, encoding, qnames, namespaces):
     if elem.tag == '![CDATA[':
@@ -73,45 +82,57 @@ def header():
     return '<?xml version="1.0" encoding="UTF-8"?>\n'
 
 
-def message_with_CWE_reference(msg, cwe_nr, cwe_msg):
+def message_with_CWE_reference(msg, cwe_nr):
+    cwe_msg = CWE_MAP.get(str(cwe_nr), None)
+    if cwe_msg is None:
+        sys.stderr.write('CWE ID ' + cwe_nr + ' was not found!\n')
     href_text = "CWE-{}".format(cwe_nr) if cwe_msg is None else "CWE-{}: {}".format(cwe_nr, cwe_msg)
+    msgWrapped = textwrap.fill(msg)
     return """<p>
 {}
-</p><h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/{}.html" target="_blank">{}</a></p>""".format(msg, cwe_nr, href_text)
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/{}.html" target="_blank">{}</a></p>""".format(msgWrapped.replace("\\012", "\n"), cwe_nr, href_text)
+
 
 def error_to_rule(error):
     rule = et.Element('rule')
 
     errId = error.attrib["id"]
     errMsg = error.attrib["msg"]
+    errDetails = error.attrib["verbose"]
     errSeverity = error.attrib["severity"]
 
+    sonarQubeIssueType = severity_2_sonarqube[errSeverity]["type"]
+    sonarQubeIssueSeverity = severity_2_sonarqube[errSeverity]["priority"]
+
     et.SubElement(rule, 'key').text = errId
-    et.SubElement(rule, 'name').text = errMsg
+    et.SubElement(rule, 'name').text = errMsg if not errMsg.endswith(".") else errMsg[:-1]
 
     cweNr = None
-    cweMsg = None
 
     if "cwe" in error.attrib:
         cweNr = error.attrib["cwe"]
-    elif errId.endswith("Called"):
+    elif errId.endswith("Called") and errSeverity == "style":
+        # there is no CWE number, but such checks come from libraries and
+        # warn about obsolete or not thread-safe functions
         cweNr = 477
-        cweMsg = "Use of Obsolete Functions"
 
     if cweNr is not None:
-        errMsg = message_with_CWE_reference(errMsg, cweNr, cweMsg)
+        errDetails = message_with_CWE_reference(errDetails, cweNr)
 
     # encode description tag always as CDATA
-    cdata = CDATA(errMsg)
+    cdata = CDATA(errDetails)
     et.SubElement(rule, 'description').append(cdata)
 
     if cweNr is not None:
         et.SubElement(rule, 'tag').text = "cwe"
+    if sonarQubeIssueType == "BUG":
+        et.SubElement(rule, 'tag').text = "bug"
 
     et.SubElement(rule, 'internalKey').text = errId
-    et.SubElement(rule, 'severity').text = severity_2_sonarqube[errSeverity]["priority"]
-    et.SubElement(rule, 'type').text = severity_2_sonarqube[errSeverity]["type"]
+    et.SubElement(rule, 'severity').text = sonarQubeIssueSeverity
+    et.SubElement(rule, 'type').text = sonarQubeIssueType
     et.SubElement(rule, 'remediationFunction').text = "LINEAR"
     et.SubElement(rule, 'remediationFunctionGapMultiplier').text = "5min"
 
@@ -140,44 +161,75 @@ def createRules(errors, converter):
 def parseRules(path):
     tree = et.parse(path)
     root = tree.getroot()
-    entries = 0
-    keys = set()
+    keys = []
     keys_to_ruleelement = {}
 
     for rules_tag in root.iter('rules'):
         for rule_tag in rules_tag.iter('rule'):
             for key_tag in rule_tag.iter('key'):
-                entries = entries + 1
-                keys.add(key_tag.text)
+                keys.append(key_tag.text)
                 keys_to_ruleelement[key_tag.text] = rule_tag
-    return entries, keys, keys_to_ruleelement
+    return keys, keys_to_ruleelement
+
+
+def loadCWE(path):
+    id_to_name = {}
+
+    tree = et.parse(path)
+    root = tree.getroot()
+    ns0 = '{http://cwe.mitre.org/cwe-6}'
+    for catalog_tag in root.iter(ns0 + 'Weakness_Catalog'):
+        for weaknesses_tag in catalog_tag.iter(ns0 + 'Weaknesses'):
+            for weakness_tag in weaknesses_tag.iter(ns0 + 'Weakness'):
+                id_attr = weakness_tag.attrib["ID"]
+                name_attr = weakness_tag.attrib["Name"]
+                id_to_name[id_attr] = name_attr
+
+        for categories_tag in catalog_tag.iter(ns0 + 'Categories'):
+            for category_tag in categories_tag.iter(ns0 + 'Category'):
+                id_attr = category_tag.attrib["ID"]
+                name_attr = category_tag.attrib["Name"]
+                id_to_name[id_attr] = name_attr
+
+    return id_to_name
+
+
+def makeDescriptionToCDATA(rule_t):
+    """after parsing we lost the CDATA information
+       restore it for <description> tag, assume it always encoded as CDATA"""
+    for description_tag in rule_t.iter('description'):
+        desc = description_tag.text
+        description_tag.text = ""
+        description_tag.append(CDATA(desc))
 
 
 def compareRules(old_path, new_path):
-    old_entries, old_keys, old_keys_mapping = parseRules(old_path)
-    new_entries, new_keys, new_keys_mapping = parseRules(new_path)
+    old_keys, old_keys_mapping = parseRules(old_path)
+    new_keys, new_keys_mapping = parseRules(new_path)
+    old_keys_set = set(old_keys)
+    new_keys_set = set(new_keys)
     print "# OLD RULE SET vs NEW RULE SET\n"
 
     print "## OLD RULE SET\n"
-    print "nr of xml entries: ", old_entries, "\n"
-    print "nr of unique rules: ", len(old_keys), "\n"
+    print "nr of xml entries: ", len(old_keys), "\n"
+    print "nr of unique rules: ", len(old_keys_set), "\n"
     print "rules which are only in the old rule set:"
-    only_in_old = old_keys.difference(new_keys)
+    only_in_old = old_keys_set.difference(new_keys_set)
     for key in sorted(only_in_old):
         print "*", key
     print ""
 
     print "## NEW RULE SET\n"
-    print "nr of xml entries: ", new_entries, "\n"
-    print "nr of unique rules: ", len(new_keys), "\n"
+    print "nr of xml entries: ", len(new_keys), "\n"
+    print "nr of unique rules: ", len(new_keys_set), "\n"
     print "rules which are only in the new rule set:"
-    only_in_new = new_keys.difference(old_keys)
+    only_in_new = new_keys_set.difference(old_keys_set)
     for key in sorted(only_in_new):
         print "*", key
     print ""
 
     print "## COMMON RULES\n"
-    common_keys = old_keys.intersection(new_keys)
+    common_keys = old_keys_set.intersection(new_keys_set)
     print "nr of rules: ", len(common_keys), "\n"
     for key in sorted(common_keys):
         print "*", key
@@ -188,17 +240,32 @@ def compareRules(old_path, new_path):
     for key in sorted(only_in_new):
         rule_tag = new_keys_mapping[key]
         indent(rule_tag)
-        # after parsing we lost the CDATA information
-        # restore it for <description> tag, assume it always encoded as CDATA
-        for description_tag in rule_tag.iter('description'):
-            desc = description_tag.text
-            description_tag.text = ""
-            description_tag.append(CDATA(desc))
+        makeDescriptionToCDATA(rule_tag)
         et.ElementTree(rule_tag).write(sys.stdout)
     print "```\n"
 
-    # we might have more analysis here: e.g. check if severity didn't change
-    # after cppcheck updated its rules
+    # create a rule xml from the new rules, where rules are stored in the same
+    # order as in the old rule file. this will make xml files comparable by diff/meld etc.
+    comparable_rules = et.Element('rules')
+    for common_key in old_keys:
+        if common_key in new_keys_mapping:
+            rule_tag = new_keys_mapping[common_key]
+            makeDescriptionToCDATA(rule_tag)
+            comparable_rules.append(rule_tag)
+    for only_new_key in sorted(only_in_new):
+        rule_tag = new_keys_mapping[only_new_key]
+        makeDescriptionToCDATA(rule_tag)
+        comparable_rules.append(rule_tag)
+
+    with open(new_path + ".comparable", 'w') as f:
+        writeXML(comparable_rules, f)
+
+    print """### DIFF EXISTRING vs GENERATED"""
+    print "run\n\n"
+    print "```bash"
+    print "<your favorite diff>", os.path.abspath(old_path), os.path.abspath(new_path) + ".comparable # e.g."
+    print "meld", os.path.abspath(old_path), os.path.abspath(new_path) + ".comparable"
+    print "```\n"
 
 
 def usage():
@@ -229,6 +296,7 @@ if len(sys.argv) < 2:
 # transform to an other elementtree
 if sys.argv[1] == "rules":
     errors = parseCppcheckErrorlist(sys.stdin)
+    CWE_MAP = loadCWE(sys.argv[2])
     root = createRules(errors, error_to_rule)
     writeXML(root, sys.stdout)
 elif sys.argv[1] == "profile":
