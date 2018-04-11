@@ -484,7 +484,7 @@ created.
       <p>
 The class::operator= does not conform to standard C/C++ behaviour. To
 conform to standard C/C++ behaviour, return a reference to self (such
-as: <code>'class &class::operator=(..) { .. return *this; }'</code>. For safety
+as: <code>'class &amp;class::operator=(..) { .. return *this; }'</code>. For safety
 reasons it might be better to not fix this message. If you think that
 safety is always more important than conformance then please
 ignore/suppress this message. For more details about this topic, see
@@ -1921,7 +1921,7 @@ Instance of 'varname' object is destroyed immediately.
       <p>
 Using 'sizeof' for array given as function argument returns the size
 of a pointer. It does not return the size of the whole array in bytes
-as might be expected. For example, this code:
+as might be expected. For example, this code:</p>
 <pre>
 int f(char a[100]) {
   return sizeof(a);
@@ -1930,7 +1930,6 @@ int f(char a[100]) {
 returns 4 (in
 32-bit systems) or 8 (in 64-bit systems) instead of 100 (the size of
 the array in bytes).
-</p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/467.html" target="_blank">CWE-467: Use of sizeof() on a Pointer Type</a></p>
     ]]>
@@ -2058,7 +2057,7 @@ Redundant code: Found a statement that begins with type constant.
       <![CDATA[
       <p>
 When using 'char' variables in bit operations, sign extension can
-generate unexpected results. For example:
+generate unexpected results. For example:</p>
 <pre>
 char c = 0x80;
 int i = 0 | c;
@@ -2066,7 +2065,6 @@ if (i & 0x8000)
   printf("not expected");
 </pre>
 The "not expected" will be printed on the screen.
-</p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
     ]]>
@@ -2088,7 +2086,7 @@ The "not expected" will be printed on the screen.
 The scope of the variable 'varname' can be reduced. Warning: Be
 careful when fixing this message, especially when there are inner
 loops. Here is an example where cppcheck will write that the scope for
-'i' can be reduced:
+'i' can be reduced:</p>
 <pre>
 void f(int x)
 {
@@ -2097,14 +2095,13 @@ void f(int x)
     // it's safe to move 'int i = 0;' here
     for (int n = 0; n < 10; ++n) {
        // it is possible but not safe to move 'int i = 0;' here
-       do_something(&i);
+       do_something(&amp;i);
     }
    }
 }
 </pre>
 When you see this message it is always safe to
 reduce the variable scope 1 level.
-</p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
     ]]>
@@ -2263,7 +2260,7 @@ Sample program
 that can crash:
 </p>
 <pre>
-#include <stdio.h>
+#include &lt;stdio.h&gt;
 int main()
 {
   char c[5];
@@ -2274,7 +2271,7 @@ int main()
 <p>
 Typing
 in 5 or more characters may make the program crash. The correct usage
-here is 'scanf("%4s", c);', as the maximum field width does not
+here is <code>scanf("%4s", c);</code>, as the maximum field width does not
 include the terminating null byte.
 </p>
 <p>
@@ -2365,7 +2362,6 @@ The code <code>a+b?c:d</code> should be written as either <code>(a+b)?c:d</code>
     <name>Suspicious condition (assignment + comparison)</name>
     <description>
 <![CDATA[
-<p>
 <ul>
 <li>Suspicious condition (assignment + comparison), it can be clarified with parentheses.</li>
 <li>Suspicious expression. Boolean result is used in bitwise operation. The operator '!'
@@ -2375,7 +2371,6 @@ It is recommended that the expression is clarified with parentheses.</li>
 Comparison operators have higher precedence than bitwise operators.
 Please clarify the condition with parentheses.</li>
 </ul>
-</p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
@@ -4932,13 +4927,12 @@ members remain uninitialized. Consider using 'new' instead.
     <description>
 <![CDATA[
 <p>
-Mismatching bitmasks. Result is always 0
+Mismatching bitmasks. Result is always 0</p>
 <pre>
 X = Y & 0xf0; 
 Z = X & 0x1;
 </pre>
 results => Z=0
-</p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
@@ -5063,10 +5057,10 @@ use this little code example on 64bit platforms. If the output
 includes "ERROR", the sentinel had only 4 out of 8 bytes initialized
 to zero and was not detected as the final argument to stop argument
 processing via va_arg(). Changing the 0 to (void*)0 or 0L will make
-the "ERROR" output go away.
+the "ERROR" output go away.</p>
 <pre>
-#include <stdarg.h>
-#include <stdio.h>
+#include &lt;stdarg.h&gt;
+#include &lt;stdio.h&gt;
 
 void f(char *s, ...) {
   va_list ap;
@@ -5090,7 +5084,7 @@ void g() {
 void h() {
   int i;
   volatile unsigned char a[1000];
-  for (i = 0; i<sizeof(a); i++)
+  for (i = 0; i &lt; sizeof(a); i++)
     a[i] = -1;
 }
 
@@ -5100,7 +5094,7 @@ int main() {
   return 0;
 }
 </pre>
-</p><h2>References</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/475.html" target="_blank">CWE-475: Undefined Behavior for Input to API</a></p>
 ]]>
     </description>
@@ -5215,7 +5209,7 @@ calculations, the behaviour is undefined. Arithmetic operations on
 Comma is used in return statement. When comma is used in a return
 statement it can easily be misread as a semicolon. For example in the
 code below the value of 'b' is returned if the condition is true, but
-it is easy to think that 'a+1' is returned:
+it is easy to think that 'a+1' is returned:</p>
 <pre>
   if (x)
     return a + 1,
@@ -5224,7 +5218,6 @@ it is easy to think that 'a+1' is returned:
 However it can be useful to use comma in
 macros. Cppcheck does not warn when such a macro is then used in a
 return statement, it is less likely such code is misunderstood.
-</p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
     ]]>
@@ -5767,7 +5760,7 @@ dereference it?
       <![CDATA[
       <p>
 Dead pointer usage. Pointer 'pointer' is dead if it has been assigned
-'&x'.
+'&amp;x'.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/825.html" target="_blank">CWE-825: Expired Pointer Dereference</a></p>
@@ -6637,7 +6630,7 @@ switch()?
       <![CDATA[
       <p>
 Unsafe allocation. If funcName() throws, memory could be leaked. Use
-make_shared<T>() / make_unique<T>() instead.
+make_shared&lt;T&gt;() / make_unique&lt;T&gt;() instead.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a></p>

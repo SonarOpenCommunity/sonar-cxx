@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <rules>
   <!-- C and C++ rules for Clang Static Analyzer. https://clang-analyzer.llvm.org/
 Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -->

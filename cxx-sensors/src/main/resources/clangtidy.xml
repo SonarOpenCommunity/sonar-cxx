@@ -969,9 +969,9 @@ Finds string constructors that are suspicious and probably errors.
   <key>misc-string-integer-assignment</key>
   <name>misc-string-integer-assignment</name>
   <description><![CDATA[<p>
-The check finds assignments of an integer to ``std::basic_string<CharT>``
+The check finds assignments of an integer to ``std::basic_string&lt;CharT&gt;``
 (``std::string``, ``std::wstring``, etc.). The source of the problem is the
-following assignment operator of ``std::basic_string<CharT>``: ``basic_string& operator=( CharT ch );``
+following assignment operator of ``std::basic_string&lt;CharT&gt;``: ``basic_string& operator=( CharT ch );``
   </p>
     <h2>References</h2>
 
@@ -1716,7 +1716,7 @@ Finds static function and variable definitions in anonymous namespace.
   <key>readability-uniqueptr-delete-release</key>
   <name>readability-uniqueptr-delete-release</name>
   <description><![CDATA[<p>
-Replace ``delete <unique_ptr>.release()`` with ``<unique_ptr> = nullptr``.
+Replace ``delete &lt;unique_ptr&gt;.release()`` with ``&lt;unique_ptr&gt; = nullptr``.
 The latter is shorter, simpler and does not require use of raw pointer APIs.
   </p>
     <h2>References</h2>

@@ -1098,7 +1098,7 @@ A function or pointer to function has a UDT (user-defined type, which is a class
 - All calls to this function occur from C++.
 - The definition of the function is in C++.
 </p><h2>MSDN Documentation</h2>
-<p><a href="https://msdn.microsoft.com/en-us/library/aa734013.aspx target="_blank">https://msdn.microsoft.com/en-us/library/aa734013.aspx</a></p>
+<p><a href="https://msdn.microsoft.com/en-us/library/aa734013.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/aa734013.aspx</a></p>
 ]]>
     </description>
     <internalKey>C4190</internalKey>
@@ -1110,18 +1110,18 @@ A function or pointer to function has a UDT (user-defined type, which is a class
   <rule>
     <key>C4191</key>
     <name>C4191: 'operator/operation' : unsafe conversion from 'type of expression' to 'type required'</name>
-    <description><![CDATA[<p>
+    <description><![CDATA[
 <p>Several operations involving function pointers are considered unsafe: 
 </p><ul>
 <li>Function types with different calling conventions.</li>
 <li>Function types with different return conventions.</li>
 <li>Argument or return types with different sizes, type categories, or classifications.</li>
-<li>Differing argument list lengths (on <i><b>__cdecl</i></b>, only on cast from longer list to shorter list, even if shorter is varargs).</li>
-<li>Pointer to data (other than <i><b>void*</i></b>) aliased against a pointer to function.</li>
+<li>Differing argument list lengths (on <i><b>__cdecl</b></i>, only on cast from longer list to shorter list, even if shorter is varargs).</li>
+<li>Pointer to data (other than <i><b>void*</b></i>) aliased against a pointer to function.</li>
 <li>Any other type difference that would yield an error or warning on a <i><b>reinterpret_cast</b></i>.</li>
 </ul>
 <p>Calling this function through the result pointer might cause your program to crash.</p>
-</p><h2>MSDN Documentation</h2>
+<h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/aa734013.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/aa734013.aspx</a></p>
 ]]>
     </description>
@@ -2249,10 +2249,10 @@ If a shift count is negative or too large, the behavior of the resulting image i
     <key>C4295</key>
     <name>C4295: ' array ' : array is too small to include a terminating null character</name>
     <description><![CDATA[<p>
-An array was initialized but the last character in the array is not a null; accessing the array may produce unexpected results.
-</p><h2>MSDN Documentation</h2>
+An array was initialized but the last character in the array is not a null; accessing the array may produce unexpected results.</p>
+<h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/t12y6ed4.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/t12y6ed4.aspx</a></p>
-</p><h2>References</h2>
+<h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
 ]]>
@@ -2497,7 +2497,7 @@ There is a conflict between the format specified and the number of parameters. F
 <pre><code>
   printf("%d %d\n", 1); //C4317
 </code></pre>
-</p><h2>MSDN Documentation</h2>
+<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2014/11/12/improvements-to-warnings-in-the-c-compiler.aspx" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2014/11/12/improvements-to-warnings-in-the-c-compiler.aspx</a></p>
 ]]>
     </description>
@@ -3624,7 +3624,7 @@ There is a conflict between the format specified and the number of parameters. F
 <pre><code>
   printf("%d\n", 1, 2); //C4422
 </code></pre>
-</p><h2>MSDN Documentation</h2>
+<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2014/11/12/improvements-to-warnings-in-the-c-compiler.aspx" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2014/11/12/improvements-to-warnings-in-the-c-compiler.aspx</a></p>
 ]]>
     </description>
@@ -3642,9 +3642,9 @@ There is a conflict between the format specified and the number of parameters. F
 Some specifiers that aren't allowed to be used in some variants of printf. For example printf_s disallows '%n'.</p>
 <pre><code>
     int n; 
-    printf_s("Test %n", &n); //C4426
+    printf_s("Test %n", &amp;n); //C4426
 </code></pre>
-</p><h2>MSDN Documentation</h2>
+<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2014/11/12/improvements-to-warnings-in-the-c-compiler.aspx" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2014/11/12/improvements-to-warnings-in-the-c-compiler.aspx</a></p>
 ]]>
     </description>
@@ -3995,8 +3995,8 @@ have no effect under /clr.
     <key>C4471</key>
     <name>C4471: forward declaration of an unscoped enumeration must have an underlying type</name>
     <description>
-    <![CDATA[
-A forward declaration of an unscoped enumeration must have an underlying type( int assumed ).
+    <![CDATA[<p>
+A forward declaration of an unscoped enumeration must have an underlying type( int assumed ).</p>
 <pre><code>
 // unscoped enum
 enum class C {x,y}; //scoped, base is int by default
@@ -4004,8 +4004,8 @@ enum class C {x,y}; //scoped, base is int by default
 enum class Z: char {x,y}; //scoped, base is char
 // forward declaration
 enum class Direction: short; //enum base is short
-</pre></code>
-</p><h2>MSDN Documentation</h2>
+</code></pre>
+<h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/23k5d385.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/23k5d385.aspx</a></p>
 ]]>
     </description>
@@ -4019,7 +4019,7 @@ enum class Direction: short; //enum base is short
     <key>C4473</key>
     <name>C4473: '&lt;function&gt;' : not enough arguments passed for format string</name>
     <description>
-    <![CDATA[
+    <![CDATA[<p>
 Missing variadic arguments can be as big of a security concern as incorrect types, because they may cause your program to read garbage from the stack.
 </p><h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4473" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4473</a></p>
@@ -4039,7 +4039,7 @@ Missing variadic arguments can be as big of a security concern as incorrect type
     <key>C4474</key>
     <name>C4474: '&lt;function&gt;' : too many arguments passed for format string</name>
     <description>
-    <![CDATA[
+    <![CDATA[<p>
 Compiling this with default flags wouldn’t result in any diagnostic messages, giving you a false sense of security, but you can clearly see that there are problems here. Unfortunately, always giving a warning when a format string is not a string literal turned out to generate too many warnings on valid use cases (e.g. localization), so as a compromise we decided to provide this warning as off by default.
 </p><h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4474" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4474</a></p>
@@ -4060,7 +4060,7 @@ Compiling this with default flags wouldn’t result in any diagnostic messages, 
     <name>C4475: '&lt;function&gt;' : length modifier '&lt;length&gt;' cannot be used with type field character '&lt;conversion-specifier&gt;' in format specifier</name>
     <description>
     <![CDATA[
-</p><h2>MSDN Documentation</h2>
+<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4475" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4475</a></p>
 ]]>
     </description>
@@ -4075,7 +4075,7 @@ Compiling this with default flags wouldn’t result in any diagnostic messages, 
     <name>C4476: '&lt;function&gt;' : unknown type field character '&lt;conversion-specifier&gt;' in format specifier</name>
     <description>
     <![CDATA[
-</p><h2>MSDN Documentation</h2>
+<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4476" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4476</a></p>
 ]]>
     </description>
@@ -4090,7 +4090,7 @@ Compiling this with default flags wouldn’t result in any diagnostic messages, 
     <name>C4477: '&lt;function&gt;' :format string '&lt;format-string&gt;' requires an argument of type '&lt;type&gt;', but variadic argument &lt;position&gt; has type '&lt;type&gt;'</name>
     <description>
     <![CDATA[
-</p><h2>MSDN Documentation</h2>
+<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4477" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4477</a></p>
 ]]>
     </description>
@@ -4106,7 +4106,7 @@ Compiling this with default flags wouldn’t result in any diagnostic messages, 
     <name>C4478: '&lt;function&gt;' : positional and non-positional placeholders cannot be mixed in the same format string</name>
     <description>
     <![CDATA[
-</p><h2>MSDN Documentation</h2>
+<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4478" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4478</a></p>
 ]]>
     </description>
@@ -5069,7 +5069,7 @@ A function was redefined or redeclared and the second definition or declaration 
     <description><![CDATA[<p>
       The __fastcall function-calling convention cannot be used with the /clr compiler option. The compiler ignores the calls to __fastcall. To fix this warning, either remove the calls to __fastcall or compile without /clr. 
 </p><h2>MSDN Documentation</h2>
-<p><a href="" target="_blank"></a></p>
+<p><a href="https://msdn.microsoft.com/en-us/library/fb18b15e.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/fb18b15e.aspx</a></p>
 ]]>
     </description>
     <internalKey>C4561</internalKey>
@@ -5084,7 +5084,7 @@ A function was redefined or redeclared and the second definition or declaration 
     <description><![CDATA[<p>
 The compiler detected a method with one or more parameters with default values. The default value(s) for the parameters will be ignored when the method is invoked; explicitly specify values for those parameters. If you do not explicitly specify values for those parameters, the C++ compiler will generate an error.
 </p><h2>MSDN Documentation</h2>
-<p><a href="https://msdn.microsoft.com/en-us/library/fb18b15e.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/fb18b15e.aspx</a></p>
+<p><a href="https://msdn.microsoft.com/en-us/library/8ehbb95s.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/8ehbb95s.aspx</a></p>
 ]]>
     </description>
     <internalKey>C4564</internalKey>
@@ -6371,8 +6371,7 @@ This warning is, by default, issued as an error. C4772 can not be suppressed wit
   <rule>
     <key>C4774</key>
     <name>C4774: '&lt;function&gt;' : format string expected in argument &lt;position&gt; is not a string literal</name>
-    <description><![CDATA[<p>
-</p><h2>MSDN Documentation</h2>
+    <description><![CDATA[<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4774" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4774</a></p>
 ]]>
     </description>
@@ -6385,8 +6384,7 @@ This warning is, by default, issued as an error. C4772 can not be suppressed wit
   <rule>
     <key>C4775</key>
     <name>C4775: nonstandard extension used in format string '&lt;format-string&gt;' of function '&lt;function&gt;'</name>
-    <description><![CDATA[<p>
-</p><h2>MSDN Documentation</h2>
+    <description><![CDATA[<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4775" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4775</a></p>
 ]]>
     </description>
@@ -6399,8 +6397,7 @@ This warning is, by default, issued as an error. C4772 can not be suppressed wit
   <rule>
     <key>C4776</key>
     <name>C4776: ‘%&lt;conversion-specifier&gt;' is not allowed in the format string of function '&lt;function&gt;'</name>
-    <description><![CDATA[<p>
-</p><h2>MSDN Documentation</h2>
+    <description><![CDATA[<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4776" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4776</a></p>
 ]]>
     </description>
@@ -6413,8 +6410,7 @@ This warning is, by default, issued as an error. C4772 can not be suppressed wit
   <rule>
     <key>C4777</key>
     <name>C4777: '&lt;function&gt;' : format string '&lt;format-string&gt;' requires an argument of type '&lt;type&gt;', but variadic argument &lt;position&gt; has type '&lt;type&gt;'</name>
-    <description><![CDATA[<p>
-</p><h2>MSDN Documentation</h2>
+    <description><![CDATA[<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4777" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4777</a></p>
 ]]>
     </description>
@@ -6427,8 +6423,7 @@ This warning is, by default, issued as an error. C4772 can not be suppressed wit
   <rule>
     <key>C4778</key>
     <name>C4778: '&lt;function&gt;' : unterminated format string '&lt;format-string&gt;'</name>
-    <description><![CDATA[<p>
-</p><h2>MSDN Documentation</h2>
+    <description><![CDATA[<h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4778" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4778</a></p>
 ]]>
     </description>
@@ -6791,7 +6786,7 @@ To correct this error
     <description><![CDATA[<p>
 Implicit conversion might not be sufficient and the precision might be different e.g. double to float. Use explicit type cast if this is intended. 
 </p><h2>MSDN Documentation</h2>
-<p><a href="" target="_blank"></a></p>
+<p><a href="https://msdn.microsoft.com/en-us/library/mt763968.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/mt763968.aspx</a></p>
 ]]>
     </description>
     <internalKey>C4838</internalKey>
@@ -7130,7 +7125,7 @@ This warning is reported when an uninitialized local variable is used before it 
 This warning indicates that a null pointer is being dereferenced. If the pointer value is invalid, the result is undefined.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/2ayc37ac.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/2ayc37ac.aspx</a></p>
-</p><h2>References</h2>
+<h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/display/c/EXP34-C.+Do+not+dereference+null+pointers" target="_blank">EXP34-C. Do not dereference null pointers</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/476.html" target="_blank">CWE-476: NULL Pointer Dereference</a></p>
 ]]>
@@ -7199,7 +7194,7 @@ This warning indicates that the specified function has been called in such a way
 Most C standard library and Win32 string handling functions require and produce zero-terminated strings. A few 'counted string' functions (including strncpy, wcsncpy, _mbsncpy, _snprintf, and snwprintf) do not produce zero-terminated strings if they exactly fill their buffer. In this case, a subsequent call to a string function that expects a zero-terminated string will go beyond the end of the buffer looking for the zero. The program should make sure that the string ends with a zero. In general, you should pass a length to the 'counted string' function one smaller than the size of the buffer and then explicitly assign zero to the last character in the buffer.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/5dx7ef8x.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/5dx7ef8x.aspx</a></p>
-</p><h2>References</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/170.html" target="_blank">CWE-170: Improper Null Termination</a></p>
 ]]>
     </description>
@@ -7413,7 +7408,7 @@ One common cause of this defect is using an array's size as an index into the ar
 This warning indicates that a parameter pointing to a stack buffer of known size is being passed into a function that copies more bytes into it than that size. This situation will cause a buffer overrun. This defect is likely to cause an exploitable security hole or a program crash.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/subscriptions/administration/6cb2bae4(v=vs.90)" target="_blank">https://msdn.microsoft.com/en-us/subscriptions/administration/6cb2bae4(v=vs.90)</a></p>
-</p><h2>References</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
 ]]>
     </description>
@@ -7474,7 +7469,7 @@ This warning is generated when:
 - Both the variable type and the formal parameter type are some variety of pointer-to-wide char.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/subscriptions/downloads/e7ca7stt(v=vs.90).aspx" target="_blank">https://msdn.microsoft.com/en-us/subscriptions/downloads/e7ca7stt(v=vs.90).aspx</a></p>
-</p><h2>References</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
 ]]>
     </description>
@@ -7793,7 +7788,7 @@ Objects that have null DACLs can have their security descriptors altered by mali
 Even if everyone needs access to an object, the object should be secured so that only administrators can alter its security. If only the creator needs access to an object, a DACL should not be set on the object; the system will choose an appropriate default.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/c5se1z6d.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/c5se1z6d.aspx</a></p>
-</p><h2>References</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/475.html" target="_blank">CWE-475: Undefined Behavior for Input to API</a></p>
 ]]>
     </description>
@@ -8064,7 +8059,7 @@ This warning indicates a potentially incorrect cast from an ANSI string (char_t*
 This warning indicates that the application name parameter is null and there might be spaces in the executable path name. In this case, unless the executable name is "fully qualified," there is likely to be a security problem. A malicious user might insert a rogue executable with the same name earlier in the path. To correct this warning, you can specify the application name instead of passing null or if you do pass null for the application name, use quotation marks around the executable path.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/4b4tecce.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/4b4tecce.aspx</a></p>
-</p><h2>References</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/475.html" target="_blank">CWE-475: Undefined Behavior for Input to API</a></p>
 ]]>
     </description>
@@ -9055,7 +9050,7 @@ This warning indicates that the writable extent of the specified buffer might be
 This warning is raised if an annotated function parameter is being passed an unexpected value. For example, passing a potentially null value to a parameter that is marked with _In_ annotation generates this warning.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/k204dhw5.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/k204dhw5.aspx</a></p>
-</p><h2>References</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/475.html" target="_blank">CWE-475: Undefined Behavior for Input to API</a></p>
 ]]>
     </description>
@@ -10047,7 +10042,7 @@ see also:</p>
     <key>C26404</key>
     <name>C26404: DONT_DELETE_INVALID</name>
     <description><![CDATA[<p>
-Do not delete an owner<T> which may be in invalid state.
+Do not delete an owner&lt;T&gt; which may be in invalid state.
 
 see also:</p>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26404" target="_blank">C26404 DONT_DELETE_INVALID</a></p>
@@ -10082,7 +10077,7 @@ see also:</p>
     <key>C26406</key>
     <name>C26406: DONT_ASSIGN_RAW_TO_OWNER</name>
     <description><![CDATA[<p>
-Do not assign a raw pointer to an owner<T>.
+Do not assign a raw pointer to an owner&lt;T&gt;.
 
 see also:</p>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26406" target="_blank">C26406 DONT_ASSIGN_RAW_TO_OWNER</a></p>
@@ -10137,7 +10132,7 @@ see also:</p>
     <key>C26409</key>
     <name>C26409: NO_NEW_DELETE</name>
     <description><![CDATA[<p>
-Avoid calling new and delete explicitly, use std::make_unique<T> instead.
+Avoid calling new and delete explicitly, use std::make_unique&lt;T&gt; instead.
 
 see also:</p>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26409" target="_blank">C26409 NO_NEW_DELETE</a></p>
@@ -10159,7 +10154,7 @@ The parameter '%parameter%' is a reference to const unique pointer, use const T*
 
 see also:</p>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26410" target="_blank">C26410 NO_REF_TO_CONST_UNIQUE_PTR</a></p>
-<p><a href="hhttps://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-uniqueptrparam" target="_blank">Core Guideline - R.32: Take a unique_ptr<widget> parameter to express that a function assumes ownership of a widget</a></p>
+<p><a href="hhttps://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-uniqueptrparam" target="_blank">Core Guideline - R.32: Take a unique_ptr&lt;widget&gt; parameter to express that a function assumes ownership of a widget</a></p>
 ]]>
     </description>
     <internalKey>C26410</internalKey>
@@ -10177,7 +10172,7 @@ No reference to unique pointer.
 
 see also:</p>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26411" target="_blank">C26411 NO_REF_TO_UNIQUE_PTR</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-reseat" target="_blank">Core Guideline - R.33: Take a unique_ptr<widget>& parameter to express that a function reseats thewidget</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-reseat" target="_blank">Core Guideline - R.33: Take a unique_ptr&lt;widget&gt;& parameter to express that a function reseats thewidget</a></p>
 ]]>
     </description>
     <internalKey>C26411</internalKey>
@@ -10245,7 +10240,7 @@ Using a smart pointer type to pass data to a function indicates that the target 
 Passing a shared pointer by rvalue reference is usually unnecessary. Unless it is an implementation of move semantics for a shared pointer type itself, shared pointer objects can be safely passed by value. Using rvalue reference may be also an indication that unique pointer is more appropriate since it clearly transfers unique ownership from caller to callee.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26416" target="_blank">C26416 NO_RVALUE_REF_SHARED_PTR</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-sharedptrparam-owner" target="_blank">Core Guideline - R.34: Take a shared_ptr<widget> parameter to express that a function is part owner</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-sharedptrparam-owner" target="_blank">Core Guideline - R.34: Take a shared_ptr&lt;widget&gt; parameter to express that a function is part owner</a></p>
 ]]>
     </description>
     <internalKey>C26416</internalKey>
@@ -10262,7 +10257,7 @@ Passing a shared pointer by rvalue reference is usually unnecessary. Unless it i
 Passing shared pointers by reference may be useful in scenarios where callee code updates target of the smart pointer object and its caller expects to see such update. Using a reference solely to reduce costs of passing a shared pointer is questionable. If callee code only accesses target object and never manages its lifetime, it is safer to pass raw pointer or reference, rather than to expose resource management details.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26417" target="_blank">C26417 NO_LVALUE_REF_SHARED_PTR</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-sharedptrparam" target="_blank">Core Guideline - R.35: Take a shared_ptr<widget>& parameter to express that a function might reseat the shared pointer</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-sharedptrparam" target="_blank">Core Guideline - R.35: Take a shared_ptr&lt;widget&gt;& parameter to express that a function might reseat the shared pointer</a></p>
 ]]>
     </description>
     <internalKey>C26417</internalKey>
@@ -10279,7 +10274,7 @@ Passing shared pointers by reference may be useful in scenarios where callee cod
 If shared pointer parameter is passed by value or reference to a constant object it is expected that function will take control of its target object’s lifetime without affecting of the caller. The code should either copy or move the shared pointer parameter to another shared pointer object or pass it further to other code by invoking functions which accept shared pointers. If this is not the case, then plain pointer or reference may be feasible.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26418" target="_blank">C26418 NO_VALUE_OR_CONST_REF_SHARED_PTR</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-sharedptrparam-const" target="_blank">Core Guideline - R.36: Take a const shared_ptr<widget>& parameter to express that it might retain a reference count to the object ???</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-sharedptrparam-const" target="_blank">Core Guideline - R.36: Take a const shared_ptr&lt;widget&gt;& parameter to express that it might retain a reference count to the object ???</a></p>
 ]]>
     </description>
     <internalKey>C26418</internalKey>
@@ -10365,7 +10360,7 @@ Global objects may be initialized in an inconsistent or undefined order which me
 It is a common practice to use asserts to enforce assumptions about validity of pointer values. The problem with asserts is that they do not expose assumptions through the interface (e.g. in return types or parameters). Asserts are also harder to maintain and keep in sync with other code changes. The recommendation is to use gsl::not_null from the Guidelines Support Library as a marker of resources which should never have null value. The rule USE_NOTNULL helps to identify places that omit checks for nullness and hence can be updated to use gsl::not_null.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26429" target="_blank">C26429: USE_NOTNULL</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" target="_blank">Core Guideline - F.23: Use a not_null<T> to indicate that "null" is not a valid value</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" target="_blank">Core Guideline - F.23: Use a not_null&lt;T&gt; to indicate that "null" is not a valid value</a></p>
 ]]>
     </description>
     <internalKey>C26429</internalKey>
@@ -10382,7 +10377,7 @@ It is a common practice to use asserts to enforce assumptions about validity of 
 If code ever checks nullness of pointer variables it should do this consistently and validate pointers on all paths. Sometimes overaggressive checking for nullness is still better than possibility of a hard crash in one of the complicated branches. Ideally such code should be refactored to be less complex (by splitting into multiple functions) and to rely on markers like gsl::not_null (see Guidelines Support Library) to isolate parts of algorithm that can make safe assumption about valid pointer values. The rule TEST_ON_ALL_PATHS helps to find places where nullness checks are either inconsistent (hence assumptions may require review) or actual bugs where potential null value can bypass nullness check in some of the code paths.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26430" target="_blank">C26430 TEST_ON_ALL_PATHS</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" target="_blank">Core Guideline - F.23: Use a not_null<T> to indicate that "null" is not a valid value</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" target="_blank">Core Guideline - F.23: Use a not_null&lt;T&gt; to indicate that "null" is not a valid value</a></p>
 ]]>
     </description>
     <internalKey>C26430</internalKey>
@@ -10399,7 +10394,7 @@ If code ever checks nullness of pointer variables it should do this consistently
 The marker type gsl::not_null from Guidelines Support Library is used to clearly indicate values which are never null pointers. It causes a hard failure if such assumption is not held at runtime. So, obviously, there is no need to check for nullness if expression evaluates to a result of type gsl::not_null.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26431" target="_blank">C26431: DONT_TEST_NOTNULL</a></p>
-<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" target="_blank">Core Guideline - F.23: Use a not_null<T> to indicate that "null" is not a valid value</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" target="_blank">Core Guideline - F.23: Use a not_null&lt;T&gt; to indicate that "null" is not a valid value</a></p>
 ]]>
     </description>
     <internalKey>C26431</internalKey>
@@ -10790,7 +10785,7 @@ Con.3: By default, pass pointers and references to consts</a></p>
     <key>C26461</key>
     <name>C26461: USE_CONST_POINTER_ARGUMENTS</name>
     <description><![CDATA[<p>
-By default, pass pointers and references to consts
+By default, pass pointers and references to consts</p>
 <pre><code>
 // Expect 26461: The input pointer argument b in function f7 can be marked as const
 int f7(const int *a, int *b)
@@ -10812,7 +10807,7 @@ S0 f8(int *p, int *)
     return{};
 }
 </code></pre>
-see also:</p>
+see also:
 <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/c26461" target="_blank">C26461 C26461 USE_CONST_POINTER_ARGUMENTS</a></p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con3-by-default-pass-pointers-and-references-to-consts" target="_blank">Core Guideline - Con.3: By default, pass pointers and references to consts</a></p>
 ]]>
@@ -11232,7 +11227,7 @@ see also:</p>
     <key>C26496</key>
     <name>C26496: USE_CONST_FOR_VARIABLE</name>
     <description><![CDATA[<p>
-The variable '%variable%' is assigned only once, mark it as const.
+The variable '%variable%' is assigned only once, mark it as const.</p>
 <pre><code>
 int f5()
 {
@@ -11243,7 +11238,7 @@ int f5()
         return m;
     return a;
 }</code></pre>
-see also:</p>
+see also:
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#con4-use-const-to-define-objects-with-values-that-do-not-change-after-construction" target="_blank">Core Guideline - Con.4: Use const to define objects with values that do not change after construction</a></p>
 ]]>
     </description>
@@ -11257,7 +11252,7 @@ see also:</p>
     <key>C26497</key>
     <name>C26497: USE_CONSTEXPR_FOR_FUNCTION</name>
     <description><![CDATA[<p>
- If a function may have to be evaluated at compile time, declare it constexpr
+If a function may have to be evaluated at compile time, declare it constexpr</p>
 <pre><code>
 // Expect 26497: could be marked constexpr if compile-time evaluation is desired
 int f1(int a, int b)
@@ -11279,7 +11274,7 @@ void f3()
     const int m2 = f2(10, 20);
 }
 }</code></pre>
-see also:</p>
+see also:
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rf-constexpr" target="_blank">Core Guideline - F.4: If a function may have to be evaluated at compile time, declare it constexpr</a></p>
 ]]>
     </description>
@@ -14133,7 +14128,7 @@ This warning indicates that a function is being used that has been banned, and h
     <key>C28721</key>
     <name>C28721: Deprecated performance counter architecture</name>
     <description><![CDATA[<p>
-A deprecated performance counter architecture is used: <symptom>.
+A deprecated performance counter architecture is used: &lt;symptom&gt;.
 </p><h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28721-deprecated-performance-counter-architecture" target="_blank">https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/28721-deprecated-performance-counter-architecture</a></p>
 ]]>
