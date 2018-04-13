@@ -26,10 +26,10 @@ install:
       }
       if (!(Test-Path -Path "C:\sonarqube" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.7.2.zip',
-          'C:\sonarqube-6.7.2.zip'
+          'https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.7.3.zip',
+          'C:\sonarqube-6.7.3.zip'
         )
-        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-6.7.2.zip", "C:\sonarqube")
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-6.7.3.zip", "C:\sonarqube")
       }
   - ps: |
       If ($env:Platform -Match "x86") {
@@ -49,7 +49,7 @@ install:
   - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-3.0.3.778\bin;%PATH%
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
   - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.2.5
-  - cmd: SET SONARHOME=C:\sonarqube\sonarqube-6.7.2
+  - cmd: SET SONARHOME=C:\sonarqube\sonarqube-6.7.3
   - cmd: SET TestDataFolder=C:\projects\sonar-cxx\integration-tests\testdata
   - cmd: SET
 
@@ -81,4 +81,4 @@ on_failure:
   - ps: Get-ChildItem cxx-checks\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem sonar-cxx-plugin\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem *.log | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  - ps: Get-ChildItem C:\sonarqube\sonarqube-6.7.2\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem C:\sonarqube\sonarqube-6.7.3\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
