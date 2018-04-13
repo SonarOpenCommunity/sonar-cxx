@@ -220,14 +220,14 @@ def call_xmllint(file_path):
 
 
 def call_tidy(file_path):
-    command = ["/home/igalkin/workspace_myGITHUB/tidy-html5/build/cmake/tidy", file_path]
+    command = ["tidy", file_path]
     p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     if p.returncode != 0:
         print "### TIDY ", file_path
         print "### ERR"
         print err
-        print "### OUT"
+        print "### SUGGESTION FOR FIXING"
         print out
         print "\n"
         return True
@@ -251,8 +251,7 @@ def checkRules(path):
 <html>
   <head>
     <meta charset=\"utf-8\">
-    <title>MarkSheet</title>
-    <meta name= \"description\" content=\"A simple HTML and CSS tutorial\">
+    <title>Rule Description</title>
   </head>
   <body>
 """
