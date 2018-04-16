@@ -68,14 +68,28 @@ public class CxxValgrindSensor extends CxxReportSensor {
     saveErrors(context, parser.processReport(report));
   }
 
+  private static String createErrorMsg(ValgrindError error, ValgrindStack stack, Integer stackNr) {
+    StringBuilder errorMsg = new StringBuilder();
+    errorMsg.append(error.getText());
+    if (error.getStacks().size() > 1) {
+      errorMsg.append(" (Stack ").append(stackNr).append(")");
+    }
+    errorMsg.append("\n\n").append(stack);
+    return errorMsg.toString();
+  }
+
   void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {
     for (ValgrindError error : valgrindErrors) {
-      ValgrindFrame frame = error.getLastOwnFrame(context.fileSystem().baseDir().getPath());
-      if (frame != null) {
-        saveUniqueViolation(context, CxxValgrindRuleRepository.KEY,
-          frame.getPath(), frame.getLine(), error.getKind(), error.toString());
-      } else {
-        LOG.warn("Cannot find a project file to assign the valgrind error '{}' to", error);
+      Integer stackNr = 0;
+      for (ValgrindStack stack : error.getStacks()) {
+        ValgrindFrame frame = stack.getLastOwnFrame(context.fileSystem().baseDir().getPath());
+        if (frame != null) {
+          String errorMsg = createErrorMsg(error, stack, stackNr);
+          saveUniqueViolation(context, CxxValgrindRuleRepository.KEY, frame.getPath(), frame.getLine(), error.getKind(), errorMsg);
+        } else {
+          LOG.warn("Cannot find a project file to assign the valgrind error '{}' to", error);
+        }
+        ++stackNr;
       }
     }
   }

@@ -20,8 +20,12 @@
 package org.sonar.cxx.sensors.valgrind;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.Stack;
+
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -93,7 +97,8 @@ class ValgrindReportParser {
 
       String kind = null;
       String text = null;
-      ValgrindStack stack = null;
+      List<String> details = new ArrayList<>();
+      List<ValgrindStack> stacks = new ArrayList<>();
       while (child.getNext() != null) {
         String tagName = child.getLocalName();
         if ("kind".equalsIgnoreCase(tagName)) {
@@ -102,17 +107,23 @@ class ValgrindReportParser {
           text = child.childElementCursor("text").advance().getElemStringValue();
         } else if ("what".equalsIgnoreCase(tagName)) {
           text = child.getElemStringValue();
+        } else if ("auxwhat".equalsIgnoreCase(tagName)) {
+          details.add(child.getElemStringValue());
         } else if ("stack".equalsIgnoreCase(tagName)) {
-          stack = parseStackTag(child);
+          stacks.add(parseStackTag(child));
         }
       }
 
-      if (text == null || kind == null || stack == null) {
+      if (text == null || kind == null || stacks.isEmpty()) {
         String msg = "Valgrind error is incomplete: we require all of 'kind', '*what.text' and 'stack'";
         child.throwStreamException(msg);
       }
 
-      return new ValgrindError(kind, text, stack);
+      if (!details.isEmpty()) {
+        text = text + ": " + String.join("; ", details);
+      }
+
+      return new ValgrindError(kind, text, stacks);
     }
 
     /**

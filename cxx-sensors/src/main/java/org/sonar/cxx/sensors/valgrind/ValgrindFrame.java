@@ -22,7 +22,9 @@ package org.sonar.cxx.sensors.valgrind;
 import java.io.File;
 import javax.annotation.Nullable;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.ObjectUtils;
 
 /**
  * Represents a stack frame. Overwrites equality. Has a string serialization
@@ -30,12 +32,12 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 class ValgrindFrame {
 
-  private String ip = "???";
-  private String obj = "";
-  private String fn = "???";
-  private String dir = "";
-  private String file = "";
-  private String line = "";
+  private String ip;
+  private String obj;
+  private String fn;
+  private String dir;
+  private String file;
+  private String line;
 
   /**
    * Constructs a stack frame with given attributes. Its perfectly valid if some
@@ -43,24 +45,12 @@ class ValgrindFrame {
    */
   public ValgrindFrame(@Nullable String ip, @Nullable String obj, @Nullable String fn, @Nullable String dir,
     @Nullable String file, @Nullable String line) {
-    if (ip != null) {
-      this.ip = ip;
-    }
-    if (obj != null) {
-      this.obj = obj;
-    }
-    if (fn != null) {
-      this.fn = fn;
-    }
-    if (dir != null) {
-      this.dir = FilenameUtils.normalize(dir);
-    }
-    if (file != null) {
-      this.file = file;
-    }
-    if (line != null) {
-      this.line = line;
-    }
+    this.ip = (ip != null) ? ip : "???";
+    this.obj = (obj != null) ? obj : "";
+    this.fn = (fn != null) ? fn : "???";
+    this.dir = (dir != null) ? FilenameUtils.normalize(dir) : "";
+    this.file = (file != null) ? file : "";
+    this.line = (line != null) ? line : "";
   }
 
   @Override
@@ -77,25 +67,33 @@ class ValgrindFrame {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
+    if (this == o)
       return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
+    if (o == null)
       return false;
-    }
+    if (getClass() != o.getClass())
+      return false;
     ValgrindFrame other = (ValgrindFrame) o;
-    return hashCode() == other.hashCode();
+    return new EqualsBuilder()
+        .append(ip, other.ip)
+        .append(obj, other.obj)
+        .append(fn, other.fn)
+        .append(dir, other.dir)
+        .append(file, other.file)
+        .append(line, other.line)
+        .isEquals();
   }
 
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
-      .append(obj)
-      .append(fn)
-      .append(dir)
-      .append(file)
-      .append(line)
-      .toHashCode();
+        .append(ip)
+        .append(obj)
+        .append(fn)
+        .append(dir)
+        .append(file)
+        .append(line)
+        .toHashCode();
   }
 
   String getPath() {
