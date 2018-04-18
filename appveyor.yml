@@ -19,7 +19,7 @@ install:
 
       if (!(Test-Path -Path "C:\sonar-scanner" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.0.3.778.zip',
+          'https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.1.0.1141.zip',
           'C:\sonar-scanner-dist.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonar-scanner-dist.zip", "C:\sonar-scanner")
@@ -46,7 +46,7 @@ install:
         $env:LANG_PLATFORM="-x64"
       }
   - cmd: SET    
-  - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-3.0.3.778\bin;%PATH%
+  - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-3.1.0.1141\bin;%PATH%
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
   - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.2.5
   - cmd: SET SONARHOME=C:\sonarqube\sonarqube-6.7.3
