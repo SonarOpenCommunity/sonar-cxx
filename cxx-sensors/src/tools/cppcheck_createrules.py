@@ -25,6 +25,7 @@
 
 import sys
 import os
+import subprocess
 import xml.etree.ElementTree as et
 import textwrap
 
@@ -203,8 +204,76 @@ def makeDescriptionToCDATA(rule_t):
         description_tag.append(CDATA(desc))
 
 
+def call_xmllint(file_path):
+    command = ["xmllint", file_path]
+    p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = p.communicate()
+    if p.returncode != 0:
+        print "### XMLLINT", file_path
+        print "### ERR"
+        print err
+        print "### OUT"
+        print out
+        print "\n"
+        return True
+    return False
+
+
+def call_tidy(file_path):
+    command = ["tidy", file_path]
+    p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = p.communicate()
+    if p.returncode != 0:
+        print "### TIDY ", file_path
+        print "### ERR"
+        print err
+        print "### SUGGESTION FOR FIXING"
+        print out
+        print "\n"
+        return True
+    return False
+
+
+def checkRules(path):
+    print "### CHECK ", path
+    has_xmllint_errors = call_xmllint(path)
+    if has_xmllint_errors:
+        return 1
+
+    has_tidy_errors = False
+    keys, keys_mapping = parseRules(path)
+    for key in keys:
+        for rule_tag in keys_mapping[key].iter('rule'):
+            for description_tag in rule_tag.iter('description'):
+                description_dump_path = "/tmp/" + key + ".ruledump"
+                with open(description_dump_path, "w") as f:
+                    html_start = u"""<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=\"utf-8\">
+    <title>Rule Description</title>
+  </head>
+  <body>
+"""
+                    html_stop = u"""
+  </body>
+</html>"""
+
+                    f.write(html_start)
+                    f.write(description_tag.text.encode("UTF-8"))
+                    f.write(html_stop)
+                is_tidy_error = call_tidy(description_dump_path)
+                has_tidy_errors = has_tidy_errors or is_tidy_error
+
+    if has_tidy_errors:
+        return 2
+
+    print "no errors found"
+    return 0
+
+
 def compareRules(old_path, new_path):
-    old_keys, old_keys_mapping = parseRules(old_path)
+    old_keys, _ = parseRules(old_path)
     new_keys, new_keys_mapping = parseRules(new_path)
     old_keys_set = set(old_keys)
     new_keys_set = set(new_keys)
@@ -309,6 +378,9 @@ elif sys.argv[1] == "profile":
     writeXML(root, sys.stdout)
 elif sys.argv[1] == "comparerules" and len(sys.argv) == 4:
     compareRules(sys.argv[2], sys.argv[3])
+elif sys.argv[1] == "check" and len(sys.argv) == 3:
+    rc = checkRules(sys.argv[2])
+    sys.exit(rc)
 else:
     print usage()
     exit()

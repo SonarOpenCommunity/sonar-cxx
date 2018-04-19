@@ -487,7 +487,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
   <rule>
     <key>-Wclass-memaccess</key>
     <name>Warn when the destination of a call to a raw memory function violate const-correctness or encapsulation, or corrupt the virtual table</name>
-    <description>
+    <description><![CDATA[<p>
     Warn when the destination of a call to a raw memory function such as memset or memcpy is an object
     of class type writing into which might bypass the class non-trivial or deleted constructor or copy
     assignment, violate const-correctness or encapsulation, or corrupt the virtual table. Modifying
@@ -495,12 +495,13 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     class. For example, the call to memset below is undefined becase it modifies a non-trivial class
     object and is, therefore, diagnosed. The safe way to either initialize or clear the storage of
     objects of such types is by using the appropriate constructor or assignment operator, if one is
-    available.
-
+    available.</p>
+<pre>
     std::string str = "abc";
     memset (&amp;str, 0, 3);
-
+</pre>
     The -Wclass-memaccess option is enabled by -Wall.
+    ]]>
     </description>
     <internalKey>-Wclass-memaccess</internalKey>
     <severity>CRITICAL</severity>
@@ -1610,12 +1611,12 @@ Follow these steps to make your custom Custom rules available in SonarQube:
   <rule>
     <key>-Wliteral-suffix</key>
     <name>Warn when a string or character literal is followed by a ud-suffix which does not begin with an underscore</name>
-    <description>
+    <description><![CDATA[<p>
     Warn when a string or character literal is followed by a ud-suffix which does
     not begin with an underscore. As a conforming extension, GCC treats such
     suffixes as separate preprocessing tokens in order to maintain backwards
-    compatibility with code that uses formatting macros from &gt;inttypes.h&gt;. For example:
-
+    compatibility with code that uses formatting macros from &gt;inttypes.h&gt;. For example:</p>
+<pre>
     #define __STDC_FORMAT_MACROS
     #include &lt;inttypes.h&gt;
     #include &lt;stdio.h&gt;
@@ -1624,13 +1625,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       int64_t i64 = 123;
       printf("My int64: %" PRId64"\n", i64);
     }
-
+</pre>
     In this case, PRId64 is treated as a separate preprocessing token.
 
     Additionally, warn when a user-defined literal operator is declared with a
     literal suffix identifier that doesn’t begin with an underscore. Literal
     suffix identifiers that don’t begin with an underscore are reserved for
     future standardization.
+    ]]>
     </description>
     <internalKey>-Wliteral-suffix</internalKey>
     <severity>CRITICAL</severity>
@@ -1904,10 +1906,12 @@ Follow these steps to make your custom Custom rules available in SonarQube:
   <rule>
     <key>-Wmissing-parameter-type</key>
     <name>Warn about function parameters declared without a type specifier in K&amp;R-style functions</name>
-    <description>
+    <description><![CDATA[
     A function parameter is declared without a type specifier in K&amp;R-style functions:
-
+<pre>
             void foo(bar) { }
+</pre>
+]]>
     </description>
     <internalKey>-Wmissing-parameter-type</internalKey>
     <severity>CRITICAL</severity>
@@ -2938,14 +2942,15 @@ Follow these steps to make your custom Custom rules available in SonarQube:
   <rule>
     <key>-Wsizeof-pointer-memaccess</key>
     <name>Warn for suspicious length parameters to certain string and memory built-in functions if the argument uses sizeof</name>
-    <description>
+    <description><![CDATA[<p>
     Warn for suspicious length parameters to certain string and memory
     built-in functions if the argument uses sizeof. This warning warns e.g.
     about memset (ptr, 0, sizeof (ptr)); if ptr is not an array, but a
     pointer, and suggests a possible fix, or about
-    memcpy (&amp;foo, ptr, sizeof (&amp;foo));.
+    memcpy (&amp;foo, ptr, sizeof (&amp;foo));.</p>
 
-    This warning is enabled by -Wall
+    <p>This warning is enabled by -Wall</p>
+]]>
     </description>
     <internalKey>-Wsizeof-pointer-memaccess</internalKey>
     <severity>CRITICAL</severity>
@@ -2997,27 +3002,28 @@ Follow these steps to make your custom Custom rules available in SonarQube:
   <rule>
     <key>-Wstrict-aliasing</key>
     <name>Warn about code which might break strict aliasing rules</name>
-    <description>
+    <description><![CDATA[<p>
     Warn about code which might break the strict aliasing rules that the compiler is using
     for optimization. The warning does not catch all cases, but does attempt to catch the more common
     pitfalls. Higher levels correspond to higher accuracy (fewer false positives). Higher levels also
     correspond to more effort, similar to the way -O works. -Wstrict-aliasing is equivalent to
-    -Wstrict-aliasing=n, with n=3.
+    -Wstrict-aliasing=n, with n=3.</p>
 
-    Level 1: Most aggressive, quick, least accurate.  Possibly useful when higher levels do not warn but
+    <p>Level 1: Most aggressive, quick, least accurate.  Possibly useful when higher levels do not warn but
     -fstrict-aliasing still breaks the code, as it has very few false negatives.  However, it has many
     false positives.  Warns for all pointer conversions between possibly incompatible types, even if
-    never dereferenced.  Runs in the frontend only.
+    never dereferenced.  Runs in the frontend only.</p>
 
-    Level 2: Aggressive, quick, not too precise.  May still have many false positives (not as many as
+    <p>Level 2: Aggressive, quick, not too precise.  May still have many false positives (not as many as
     level 1 though), and few false negatives (but possibly more than level 1).  Unlike level 1, it
-    only warns when an address is taken.  Warns about incomplete types.  Runs in the frontend only.
+    only warns when an address is taken.  Warns about incomplete types.  Runs in the frontend only.</p>
 
-    Level 3 (default for -Wstrict-aliasing): Should have very few false positives and few false negatives.
+    <p>Level 3 (default for -Wstrict-aliasing): Should have very few false positives and few false negatives.
     Slightly slower than levels 1 or 2 when optimization is enabled. Takes care of the common pun+dereference
     pattern in the frontend: "*(int*)&amp;some_float". If optimization is enabled, it also runs in the
     backend, where it deals with multiple statement cases using flow-sensitive points-to information.
-    Only warns when the converted pointer is dereferenced. Does not warn about incomplete types.
+    Only warns when the converted pointer is dereferenced. Does not warn about incomplete types.</p>
+]]>
     </description>
     <internalKey>-Wstrict-aliasing</internalKey>
     <severity>CRITICAL</severity>
@@ -3519,47 +3525,50 @@ Follow these steps to make your custom Custom rules available in SonarQube:
   <rule>
     <key>-Wtraditional</key>
     <name>Warn about features not present in traditional C</name>
-    <description>
+    <description><![CDATA[<p>
     Warn about certain constructs that behave differently in traditional and ISO C. Also
     warn about ISO C constructs that have no traditional C equivalent, and/or problematic constructs
-    which should be avoided.
-      * Macro parameters that appear within string literals in the macro body.  In traditional C macro
-        replacement takes place within string literals, but does not in ISO C.
-      * In traditional C, some preprocessor directives did not exist.  Traditional preprocessors would
+    which should be avoided.</p>
+    <ul>
+    <li>Macro parameters that appear within string literals in the macro body.  In traditional C macro
+        replacement takes place within string literals, but does not in ISO C.</li>
+    <li>In traditional C, some preprocessor directives did not exist.  Traditional preprocessors would
         only consider a line to be a directive if the # appeared in column 1 on the line.  Therefore
         -Wtraditional warns about directives that traditional C understands but would ignore because the #
         does not appear as the first character on the line. It also suggests you hide directives like #pragma
         not understood by traditional C by indenting them.  Some traditional implementations would not
-        recognize #elif, so it suggests avoiding it altogether.
-      * A function-like macro that appears without arguments.
-      * The unary plus operator.
-      * The U integer constant suffix, or the F or L floating point constant suffixes.  (Traditional C
+        recognize #elif, so it suggests avoiding it altogether.</li>
+    <li>A function-like macro that appears without arguments.</li>
+    <li>The unary plus operator.</li>
+    <li>The U integer constant suffix, or the F or L floating point constant suffixes.  (Traditional C
         does support the L suffix on integer constants.)  Note, these suffixes appear in macros defined
         in the system headers of most modern systems, e.g. the _MIN/_MAX macros in "&lt;limits.h&gt;".
         Use of these macros in user code might normally lead to spurious warnings, however GCC's integrated
-        preprocessor has enough context to avoid warning in these cases.
-      * A function declared external in one block and then used after the end of the block.
-      * A "switch" statement has an operand of type "long".
-      * A non-"static" function declaration follows a "static" one.  This construct is not accepted by
-        some traditional C compilers.
-      * The ISO type of an integer constant has a different width or signedness from its traditional type.
+        preprocessor has enough context to avoid warning in these cases.</li>
+    <li>A function declared external in one block and then used after the end of the block.</li>
+    <li>A "switch" statement has an operand of type "long".</li>
+    <li>A non-"static" function declaration follows a "static" one.  This construct is not accepted by
+        some traditional C compilers.</li>
+    <li>The ISO type of an integer constant has a different width or signedness from its traditional type.
         This warning is only issued if the base of the constant is ten.  I.e. hexadecimal or octal values,
-        which typically represent bit patterns, are not warned about.
-      * Usage of ISO string concatenation is detected.
-      * Initialization of automatic aggregates.
-      * Identifier conflicts with labels.  Traditional C lacks a separate namespace for labels.
-      * Initialization of unions.  If the initializer is zero, the warning is omitted.  This is done under
+        which typically represent bit patterns, are not warned about.</li>
+    <li>Usage of ISO string concatenation is detected.</li>
+    <li>Initialization of automatic aggregates.</li>
+    <li>Identifier conflicts with labels.  Traditional C lacks a separate namespace for labels.</li>
+    <li>Initialization of unions.  If the initializer is zero, the warning is omitted.  This is done under
         the assumption that the zero initializer in user code appears conditioned on e.g. "__STDC__" to
         avoid missing initializer warnings and relies on default initialization to zero in the traditional
-        C case.
-      * Conversions by prototypes between fixed/floating point values and vice versa.  The absence of
+        C case.</li>
+    <li>Conversions by prototypes between fixed/floating point values and vice versa.  The absence of
         these prototypes when compiling with traditional C would cause serious problems.  This is a subset
-        of the possible conversion warnings, for the full set use -Wtraditional-conversion.
-      * Use of ISO C style function definitions.  This warning intentionally is not issued for prototype
+        of the possible conversion warnings, for the full set use -Wtraditional-conversion.</li>
+    <li>Use of ISO C style function definitions.  This warning intentionally is not issued for prototype
         declarations or variadic functions because these ISO C features will appear in your code when
         using libiberty's traditional C compatibility macros, "PARAMS" and "VPARAMS".  This warning is
         also bypassed for nested functions because that feature is already a GCC extension and thus not
-        relevant to traditional C compatibility.
+        relevant to traditional C compatibility.</li>
+    </ul>
+]]>
     </description>
     <internalKey>-Wtraditional</internalKey>
     <severity>CRITICAL</severity>
