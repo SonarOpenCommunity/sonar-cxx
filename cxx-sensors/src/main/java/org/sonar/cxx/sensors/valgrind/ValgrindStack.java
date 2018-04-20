@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
@@ -53,23 +54,23 @@ class ValgrindStack {
 
   @Override
   public int hashCode() {
-    HashCodeBuilder builder = new HashCodeBuilder();
-    for (ValgrindFrame frame : frames) {
-      builder.append(frame);
-    }
-    return builder.toHashCode();
+    return new HashCodeBuilder()
+        .append(frames)
+        .toHashCode();
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
+  public boolean equals(Object obj) {
+    if (this == obj)
       return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
+    if (obj == null)
       return false;
-    }
-    ValgrindStack other = (ValgrindStack) o;
-    return hashCode() == other.hashCode();
+    if (getClass() != obj.getClass())
+      return false;
+    ValgrindStack other = (ValgrindStack) obj;
+    return new EqualsBuilder()
+        .append(frames, other.frames)
+        .isEquals();
   }
 
   /**

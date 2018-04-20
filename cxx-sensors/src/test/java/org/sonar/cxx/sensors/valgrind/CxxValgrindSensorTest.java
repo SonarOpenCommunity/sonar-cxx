@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -81,18 +82,21 @@ public class CxxValgrindSensorTest {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions(); 
+    SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ValgrindSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.KEY);
     softly.assertAll();
   }
-  
+
   private ValgrindError mockValgrindError(boolean inside) {
+    ValgrindStack stack = mock(ValgrindStack.class);
+    ValgrindFrame frame = inside ? generateValgrindFrame() : null;
+    when(stack.getLastOwnFrame(anyString())).thenReturn(frame);
+
     ValgrindError error = mock(ValgrindError.class);
     when(error.getKind()).thenReturn("valgrind-error");
-    ValgrindFrame frame = inside == true ? generateValgrindFrame() : null;
-    when(error.getLastOwnFrame((anyString()))).thenReturn(frame);
+    when(error.getStacks()).thenReturn(Collections.singletonList(stack));
     return error;
   }
 

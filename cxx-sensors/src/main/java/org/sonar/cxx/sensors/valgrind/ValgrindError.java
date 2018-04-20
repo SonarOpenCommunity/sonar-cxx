@@ -19,6 +19,9 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
+import java.util.List;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
@@ -29,54 +32,78 @@ class ValgrindError {
 
   private final String kind;
   private final String text;
-  private final ValgrindStack stack;
+  private final List<ValgrindStack> stacks;
 
   /**
    * Constructs a ValgrindError out of the given attributes
    *
    * @param kind The kind of error, plays the role of an id
    * @param text Description of the error
-   * @param stack The associated call stack
+   * @param stacks One or more associated call stacks
    */
-  public ValgrindError(String kind, String text, ValgrindStack stack) {
+  public ValgrindError(String kind, String text, List<ValgrindStack> stacks) {
     this.kind = kind;
     this.text = text;
-    this.stack = stack;
+    this.stacks = stacks;
   }
 
+
+  /**
+   * For debug prints only; SonarQube cannot deal with long/multi-line error
+   * messages. Formats like Markdown or HTML are not supported.
+   *
+   * For the sake of readability each ValgrindStack will be saved as a separate NewIssue.
+   *
+   * See <a href=
+   * "http://javadocs.sonarsource.org/7.0/apidocs/org/sonar/api/batch/sensor/issue/NewIssueLocation.html#message-java.lang.String-">NewIssueLocation::message()</a>
+   */
   @Override
   public String toString() {
-    return text + "\n\n" + stack;
+    StringBuilder sb = new StringBuilder();
+    sb.append("ValgrindError [kind=").append(kind).append(", text=").append(text).append(", stacks=[");
+    for (ValgrindStack stack : stacks) {
+      sb.append(" ValgrindStack=[").append(stack).append("] ");
+    }
+    sb.append("] ]");
+    return sb.toString();
   }
 
+
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
+  public boolean equals(Object obj) {
+    if (this == obj)
       return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
+    if (obj == null)
       return false;
-    }
-    ValgrindError other = (ValgrindError) o;
-    return hashCode() == other.hashCode();
+    if (getClass() != obj.getClass())
+      return false;
+    ValgrindError other = (ValgrindError) obj;
+    return new EqualsBuilder()
+        .append(kind, other.kind)
+        .append(text, other.text)
+        .append(stacks, other.stacks)
+        .isEquals();
   }
 
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
-      .append(kind)
-      .append(stack)
-      .toHashCode();
+        .append(kind)
+        .append(text)
+        .append(stacks)
+        .toHashCode();
   }
 
   String getKind() {
     return this.kind;
   }
 
-  /**
-   * @see ValgrindStack#getLastFrame
-   */
-  public ValgrindFrame getLastOwnFrame(String basedir) {
-    return stack.getLastOwnFrame(basedir);
+  public String getText() {
+    return text;
   }
+
+  public List<ValgrindStack> getStacks() {
+    return stacks;
+  }
+
 }

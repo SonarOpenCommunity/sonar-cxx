@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,9 +35,9 @@ public class ValgrindErrorTest {
 
   @Before
   public void setUp() {
-    error = new ValgrindError("kind", "text", new ValgrindStack());
-    equalError = new ValgrindError("kind", "text", new ValgrindStack());
-    otherError = new ValgrindError("otherkind", "othertext", new ValgrindStack());
+    error = new ValgrindError("kind", "text", Collections.singletonList(new ValgrindStack()));
+    equalError = new ValgrindError("kind", "text", Collections.singletonList(new ValgrindStack()));
+    otherError = new ValgrindError("otherkind", "othertext", Collections.singletonList(new ValgrindStack()));
   }
 
   @Test
@@ -69,20 +70,8 @@ public class ValgrindErrorTest {
   }
 
   @Test
-  public void stringRepresentationShouldResembleValgrindsStandard() {
-    Map<String, ValgrindError> ioMap = new HashMap<>();
-
-    ioMap.put("\n\n", new ValgrindError("", "", new ValgrindStack()));
-    ioMap.put("description\n\n", new ValgrindError("kind", "description", new ValgrindStack()));
-
-    for (Map.Entry<String, ValgrindError> entry : ioMap.entrySet()) {
-      assertEquals(entry.getKey(), entry.getValue().toString());
-    }
-  }
-
-  @Test
   public void getKindWorks() {
     String KIND = "kind";
-    assertEquals(new ValgrindError(KIND, "", new ValgrindStack()).getKind(), KIND);
+    assertEquals(new ValgrindError(KIND, "", Collections.singletonList(new ValgrindStack())).getKind(), KIND);
   }
 }
