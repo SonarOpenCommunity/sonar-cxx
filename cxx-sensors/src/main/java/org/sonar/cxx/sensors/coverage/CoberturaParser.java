@@ -40,9 +40,10 @@ public class CoberturaParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(CoberturaParser.class);
   private String baseDir;
+  private static final Pattern conditionsPattern = Pattern.compile("\\((.*?)\\)");
 
   public CoberturaParser() {
-    // no operation but necessary for list of coverage parsers 
+    // no operation but necessary for list of coverage parsers
   }
 
   /**
@@ -103,6 +104,7 @@ public class CoberturaParser extends CxxCoverageParser {
 
   private static void collectFileData(SMInputCursor clazz, CoverageMeasures builder) throws XMLStreamException {
     SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
+
     while (line.getNext() != null) {
       int lineId = Integer.parseInt(line.getAttrValue("number"));
       long noHits = Long.parseLong(line.getAttrValue("hits"));
@@ -116,8 +118,7 @@ public class CoberturaParser extends CxxCoverageParser {
       String isBranch = line.getAttrValue("branch");
       String text = line.getAttrValue("condition-coverage");
       if (text != null && "true".equals(isBranch) && !text.trim().isEmpty()) {
-        Pattern p = Pattern.compile("\\((.*?)\\)");
-        Matcher m = p.matcher(text);
+        Matcher m = conditionsPattern.matcher(text);
         if (m.find()) {
           String[] conditions = m.group(1).split("/");
           builder.setConditions(lineId, Integer.parseInt(conditions[1]), Integer.parseInt(conditions[0]));
