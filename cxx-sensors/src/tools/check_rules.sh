@@ -15,10 +15,10 @@
 #
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-RULES_DIR="$(realpath $SCRIPT_DIR/../main/resources/)"
+RULES_DIR="$(readlink -f $SCRIPT_DIR/../main/resources/)"
 RULES=( "clangsa.xml" "clangtidy.xml" "compiler-gcc.xml" "compiler-vc.xml" \
 "cppcheck.xml" "drmemory.xml" "external-rule.xml" "pclint.xml" \
-"rats.xml" "valgrind.xml" "vera++.xml" "external/intel_inspector_rules.xml")
+"rats.xml" "valgrind.xml" "vera++.xml" )
 
 declare -i RC_CHECK=0
 for RULE in "${RULES[@]}"
@@ -27,11 +27,12 @@ do
    BASE_NAME="$(basename $ABS_PATH_TO_RULE)"
    REPORT_PATH="${PWD}/${BASE_NAME}.tidy"
    declare -i RC=0
-   $(python cppcheck_createrules.py check ${ABS_PATH_TO_RULE} > ${REPORT_PATH})
+   $(python ${SCRIPT_DIR}/cppcheck_createrules.py check ${ABS_PATH_TO_RULE} > ${REPORT_PATH})
    RC=$?
    if [[ ${RC} -ne 0 ]]
    then
-       echo "[ FAILED ] ${ABS_PATH_TO_RULE}: see ${REPORT_PATH}"
+       echo "[ FAILED ] ${ABS_PATH_TO_RULE}"
+       cat ${REPORT_PATH}
    else
        echo "[ PASSED ] ${ABS_PATH_TO_RULE}"
    fi
