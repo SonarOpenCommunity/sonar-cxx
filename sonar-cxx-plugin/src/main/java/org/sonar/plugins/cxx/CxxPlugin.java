@@ -51,9 +51,7 @@ import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemoryRuleRepository;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
 import org.sonar.cxx.sensors.functioncomplexity.CxxFunctionComplexitySquidSensor;
-import org.sonar.cxx.sensors.functioncomplexity.FunctionComplexityMetrics;
 import org.sonar.cxx.sensors.functionsize.CxxFunctionSizeSquidSensor;
-import org.sonar.cxx.sensors.functionsize.FunctionSizeMetrics;
 import org.sonar.cxx.sensors.other.CxxOtherRepository;
 import org.sonar.cxx.sensors.other.CxxOtherSensor;
 import org.sonar.cxx.sensors.pclint.CxxPCLintRuleRepository;
@@ -517,10 +515,6 @@ public final class CxxPlugin implements Plugin {
     l.addAll(testingAndCoverageProperties());
     l.addAll(compilerWarningsProperties());
     l.addAll(duplicationsProperties());
-    
-    //extra metrics
-    l.add(FunctionComplexityMetrics.class);
-    l.add(FunctionSizeMetrics.class);
     
     context.addExtensions(l);
   }

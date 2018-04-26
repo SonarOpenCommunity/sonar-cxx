@@ -34,11 +34,11 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import static org.sonar.cxx.checks.TooManyLinesOfCodeInFunctionCheck.getNumberOfLine;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.cxx.sensors.functioncomplexity.FunctionComplexityMetrics;
 import org.sonar.cxx.sensors.functioncomplexity.FunctionCount;
 import org.sonar.cxx.sensors.functioncomplexity.FunctionScore;
 import org.sonar.cxx.sensors.functioncomplexity.FunctionScoreComparator;
 import org.sonar.cxx.sensors.squid.SquidSensor;
+import org.sonar.opencommunity.metrics.OpenCommunityMetrics;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
@@ -128,39 +128,32 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
 
   @Override
   public void publishMeasureForProject(InputModule module, SensorContext context) {
-    publishBigFunctionCountForProject(module, context);    
-    publishLocInBigFunctionForProject(module, context);
+
   }
   
   private void publishBigFunctionCountForProject(InputModule module, SensorContext context){
     context.<Integer>newMeasure()
-      .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS)
+      .forMetric(OpenCommunityMetrics.BIG_FUNCTIONS)
       .on(module)
       .withValue(functionsOverThreshold)
       .save();
     
     context.<Double>newMeasure()
-      .forMetric(FunctionSizeMetrics.PERC_BIG_FUNCTIONS)
+      .forMetric(OpenCommunityMetrics.BIG_FUNCTIONS_PERC)
       .on(module)
       .withValue(calculatePercentual(functionsOverThreshold, functionsBelowThreshold))
       .save();        
   }
   
-  private void publishLocInBigFunctionForProject(InputModule module, SensorContext context){
+  private void publishLocInBigFunctionForProject(InputModule module, SensorContext context){  
     context.<Integer>newMeasure()
-      .forMetric(FunctionSizeMetrics.LOC_IN_FUNCTIONS)
-      .on(module)
-      .withValue(locOverThreshold + locBelowThreshold)
-      .save();    
-    
-    context.<Integer>newMeasure()
-      .forMetric(FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)
+      .forMetric(OpenCommunityMetrics.BIG_FUNCTIONS_LOC)
       .on(module)
       .withValue(locOverThreshold)
       .save();
     
     context.<Double>newMeasure()
-      .forMetric(FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)
+      .forMetric(OpenCommunityMetrics.BIG_FUNCTIONS_LOC_PERC)
       .on(module)
       .withValue(calculatePercentual(locOverThreshold, locBelowThreshold))
       .save();            
@@ -183,13 +176,13 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
     }
     
     context.<Integer>newMeasure()
-      .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS)
+      .forMetric(OpenCommunityMetrics.BIG_FUNCTIONS)
       .on(inputFile)
       .withValue((int)c.countOverThreshold)
       .save();
 
     context.<Double>newMeasure()
-      .forMetric(FunctionSizeMetrics.PERC_BIG_FUNCTIONS)
+      .forMetric(OpenCommunityMetrics.BIG_FUNCTIONS_PERC)
       .on(inputFile)
       .withValue(calculatePercentual(c.countOverThreshold, c.countBelowThreshold))
       .save();    
@@ -204,19 +197,19 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
     }
     
     context.<Integer>newMeasure()
-      .forMetric(FunctionSizeMetrics.LOC_IN_FUNCTIONS)
+      .forMetric(OpenCommunityMetrics.LOC_IN_FUNCTIONS)
       .on(inputFile)
       .withValue(c.countOverThreshold + c.countBelowThreshold)
       .save();    
     
     context.<Integer>newMeasure()
-      .forMetric(FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)
+      .forMetric(OpenCommunityMetrics.BIG_FUNCTIONS_LOC)
       .on(inputFile)
       .withValue(c.countOverThreshold)
       .save();
 
     context.<Double>newMeasure()
-      .forMetric(FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)
+      .forMetric(OpenCommunityMetrics.BIG_FUNCTIONS_LOC_PERC)
       .on(inputFile)
       .withValue(calculatePercentual(c.countOverThreshold, c.countBelowThreshold))
       .save();    

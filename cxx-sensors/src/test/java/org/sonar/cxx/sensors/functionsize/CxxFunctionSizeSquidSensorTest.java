@@ -44,6 +44,7 @@ import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import org.sonar.opencommunity.metrics.OpenCommunityMetrics;
 import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxFunctionSizeSquidSensorTest {
@@ -107,35 +108,7 @@ public class CxxFunctionSizeSquidSensorTest {
           value = (T) m.value();
       }
       return value;
-    }    
-    
-    @Test
-    public void testPublishMeasuresForProject() throws IOException {            
-        DefaultInputFile inputFile = getInputFile();              
-                
-        CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
-        sensor.publishMeasureForProject(sensorContext.module(), sensorContext);
-                      
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(4);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.LOC_IN_FUNCTIONS)).isEqualTo(55);      
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(44);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(40.0);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(80);        
-    }        
-    
-    @Test
-    public void testPublishMeasuresForEmptyProject() throws IOException {            
-        DefaultInputFile inputFile = getEmptyInputFile();              
-                
-        CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
-        sensor.publishMeasureForProject(sensorContext.module(), sensorContext);
-                      
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.LOC_IN_FUNCTIONS)).isEqualTo(0);      
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
-    }            
+    }          
     
     @Test
     public void testPublishMeasuresForFile() throws IOException {            
@@ -144,11 +117,11 @@ public class CxxFunctionSizeSquidSensorTest {
         SourceFile squidFile = CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
         sensor.publishMeasureForFile(inputFile, squidFile, sensorContext);
                       
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(4);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.LOC_IN_FUNCTIONS)).isEqualTo(55);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(44);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(40.0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(80);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.BIG_FUNCTIONS)).isEqualTo(4);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.LOC_IN_FUNCTIONS)).isEqualTo(55);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.BIG_FUNCTIONS_LOC)).isEqualTo(44);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.BIG_FUNCTIONS_PERC)).isEqualTo(40.0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.BIG_FUNCTIONS_LOC_PERC)).isEqualTo(80);        
     }  
     
     @Test
@@ -158,10 +131,10 @@ public class CxxFunctionSizeSquidSensorTest {
         SourceFile squidFile = CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
         sensor.publishMeasureForFile(inputFile, squidFile, sensorContext);
                       
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.LOC_IN_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.BIG_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.LOC_IN_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.BIG_FUNCTIONS_LOC)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.BIG_FUNCTIONS_PERC)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.BIG_FUNCTIONS_LOC_PERC)).isEqualTo(0);        
     }                
 }
