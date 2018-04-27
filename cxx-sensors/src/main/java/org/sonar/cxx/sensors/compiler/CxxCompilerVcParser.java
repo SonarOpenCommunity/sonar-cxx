@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
@@ -40,6 +41,8 @@ public class CxxCompilerVcParser implements CompilerParser {
   // sample regex for VS2012/2013: "^.*>(?<filename>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)$";
   // get value with e.g. scanner.match().group("filename");
   public static final String DEFAULT_CHARSET_DEF = "UTF-8"; // use "UTF-16" for VS2010 build log or TFS Team build log file
+
+  private static final Pattern jobNumberPrefixPattern = Pattern.compile("^\\d+>(.*)$");
 
   /**
    * {@inheritDoc}
@@ -101,8 +104,9 @@ public class CxxCompilerVcParser implements CompilerParser {
 
   private static String removeMPPrefix(String fpath) {
     // /MP (Build with Multiple Processes) will create a line prefix with the job number eg. '   42>'
-    if (fpath.matches("^\\d+>.*$")) {
-      return fpath.substring(fpath.indexOf('>') + 1, fpath.length());
+    Matcher m = jobNumberPrefixPattern.matcher(fpath);
+    if (m.matches()) {
+      return m.group(1);
     }
     return fpath;
   }

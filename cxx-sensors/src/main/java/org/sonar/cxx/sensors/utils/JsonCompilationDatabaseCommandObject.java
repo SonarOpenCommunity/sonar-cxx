@@ -21,6 +21,7 @@ package org.sonar.cxx.sensors.utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -136,7 +137,7 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
    * Extension to define include directories
    */
   public List<String> getIncludes() {
-    return (ArrayList<String>) includes.clone();
+    return Collections.unmodifiableList(includes);
   }
 
   public void setIncludes(List<String> includes) {
