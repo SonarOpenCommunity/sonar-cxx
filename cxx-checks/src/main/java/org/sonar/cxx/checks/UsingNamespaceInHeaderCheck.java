@@ -39,7 +39,8 @@ import org.sonar.squidbridge.checks.SquidCheck;
 //similar Vera++ rule T018
 public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
-  private static final String DEFAULT_NAME_SUFFIX = ".h,.hh,.hpp,.H";
+  private static final String[] DEFAULT_NAME_SUFFIX = new String[] { ".h", ".hh", ".hpp", ".H" };
+  private Boolean isHeader;
 
   @Override
   public void init() {
@@ -47,16 +48,20 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
   }
 
   @Override
+  public void visitFile(AstNode astNode) {
+    isHeader = isHeader(getContext().getFile().getName());
+  }
+
+  @Override
   public void visitNode(AstNode node) {
-    if (isHeader(getContext().getFile().getName())
+    if (isHeader
       && "using".equals(node.getTokenValue()) && node.getFirstChild().getChildren().toString().contains("namespace")) {
       getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
     }
   }
 
   private static boolean isHeader(String name) {
-    String[] suffixes = DEFAULT_NAME_SUFFIX.split(",");
-    for (String suff : suffixes) {
+    for (String suff : DEFAULT_NAME_SUFFIX) {
       if (name.endsWith(suff)) {
         return true;
       }

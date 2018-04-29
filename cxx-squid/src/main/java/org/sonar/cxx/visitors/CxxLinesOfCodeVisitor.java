@@ -22,6 +22,9 @@ package org.sonar.cxx.visitors;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import static com.sonar.sslr.api.GenericTokenType.EOF;
+
+import java.util.regex.Pattern;
+
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import org.sonar.squidbridge.SquidAstVisitor;
@@ -37,6 +40,7 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
 
   private final MetricDef metric;
   private int lastTokenLine;
+  public static final Pattern EOLPattern = Pattern.compile("\\R");
 
   public CxxLinesOfCodeVisitor(MetricDef metric) {
     this.metric = metric;
@@ -57,7 +61,7 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
   public void visitToken(Token token) {
     if (!token.getType().equals(EOF)) {
       /* Handle all the lines of the token */
-      String[] tokenLines = token.getValue().split("\n", -1);
+      String[] tokenLines = EOLPattern.split(token.getValue(), -1);
 
       int firstLineAlreadyCounted = lastTokenLine == token.getLine() ? 1 : 0;
       getContext().peekSourceCode().add(metric, (double) tokenLines.length - firstLineAlreadyCounted);

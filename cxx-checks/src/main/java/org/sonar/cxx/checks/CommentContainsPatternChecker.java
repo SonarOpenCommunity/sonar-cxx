@@ -58,6 +58,8 @@ public class CommentContainsPatternChecker {
 
   private Pattern p;
 
+  private static final Pattern EOLPattern = Pattern.compile("\\R");
+
   /**
    * CommentContainsPatternChecker
    *
@@ -83,7 +85,7 @@ public class CommentContainsPatternChecker {
       String comment = triviaToken.getOriginalValue();
       int line = triviaToken.getLine();
       if (indexOfIgnoreCase(comment) != -1) {
-        String[] lines = comment.split("\r\n?|\n");
+        String[] lines = EOLPattern.split(comment);
 
         for (int i = 0; i < lines.length; i++) {
           int start = indexOfIgnoreCase(lines[i]);

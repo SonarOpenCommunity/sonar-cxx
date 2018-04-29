@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.api.CxxKeyword;
@@ -50,6 +53,7 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
 
   private static volatile String[] keywords = CxxKeyword.keywordValues();
   private Charset charset = Charset.forName("UTF-8");
+  private static final Pattern defineDeclarationPattern = Pattern.compile("^\\s*#define\\s+([^\\s(]+).*$");
 
   @Override
   public void init() {
@@ -67,9 +71,9 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
     int nr = 0;
     for (String line : lines) {
       nr++;
-      String[] sub = line.split("^\\s*#define\\s+", 2);
-      if (sub.length > 1) {
-        String name = sub[1].split("[\\s(]", 2)[0];
+      Matcher matcher = defineDeclarationPattern.matcher(line);
+      if (matcher.matches()) {
+        String name = matcher.group(1);
         if (name.startsWith("_") && name.length() > 1 && Character.isUpperCase(name.charAt(1))) {
           getContext().createLineViolation(this,
             "Reserved name used for macro (begins with underscore followed by a capital letter)", nr);

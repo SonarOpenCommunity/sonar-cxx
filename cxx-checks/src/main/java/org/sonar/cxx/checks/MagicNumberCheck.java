@@ -62,7 +62,7 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
   @Override
   public void init() {
     subscribeTo(CxxTokenType.NUMBER);
-    for (String magicNumber : Arrays.asList(exceptions.split(","))) {
+    for (String magicNumber : exceptions.split(",")) {
       magicNumber = magicNumber.trim();
       if (!magicNumber.isEmpty()) {
         exceptionsSet.add(magicNumber);

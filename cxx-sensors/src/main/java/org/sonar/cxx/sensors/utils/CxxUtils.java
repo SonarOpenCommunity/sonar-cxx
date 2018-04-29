@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
+import java.util.regex.Pattern;
+
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -40,6 +42,7 @@ import org.sonar.cxx.CxxLanguage;
 public final class CxxUtils {
 
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
+  public static final Pattern EOLPattern = Pattern.compile("\\R");
   private static final Logger LOG = Loggers.get(CxxUtils.class);
 
   private CxxUtils() {

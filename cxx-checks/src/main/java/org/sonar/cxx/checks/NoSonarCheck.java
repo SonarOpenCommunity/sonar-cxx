@@ -23,6 +23,9 @@ import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+
+import java.util.regex.Pattern;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
@@ -40,12 +43,14 @@ import org.sonar.squidbridge.checks.SquidCheck;
 @NoSqale
 public class NoSonarCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 
+  private static final Pattern EOLPattern = Pattern.compile("\\R");
+
   @Override
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
       if (trivia.isComment()) {
-        String[] commentLines = getContext().getCommentAnalyser()
-          .getContents(trivia.getToken().getOriginalValue()).split("(\r)?\n|\r", -1);
+        String[] commentLines = EOLPattern
+            .split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue()), -1);
         int line = trivia.getToken().getLine();
 
         for (String commentLine : commentLines) {
