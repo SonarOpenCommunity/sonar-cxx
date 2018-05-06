@@ -36,6 +36,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.StaxParser;
@@ -103,7 +104,8 @@ public class CxxOtherSensor extends CxxReportSensor {
         String id = errorCursor.getAttrValue("id");
         String msg = errorCursor.getAttrValue("msg");
 
-        saveUniqueViolation(context, CxxOtherRepository.KEY, file, line, id, msg);
+        CxxReportIssue issue = new CxxReportIssue(CxxOtherRepository.KEY, id, file, line, msg);
+        saveUniqueViolation(context, issue);
       }
     });
 

@@ -10,5 +10,13 @@
              verbose="long error text" inconclusive="true">
       <location file="sources/utils/utils.cpp" line="1"/>
     </error>
+    <error id="nullPointerRedundantCheck" severity="warning" msg="Either the condition &apos;!e&apos; is redundant or there is possible null pointer dereference: e." verbose="Either the condition &apos;!e&apos; is redundant or there is possible null pointer dereference: e." cwe="476">
+      <location file="sources/utils/code_chunks.cpp" line="88" info="Null pointer dereference"/>
+      <location file="sources/utils/code_chunks.cpp" line="89" info="Assuming that condition &apos;!e&apos; is not redundant"/>
+    </error>
+    <error id="nullPointer" severity="error" msg="Null pointer dereference: ptr" verbose="Null pointer dereference: ptr" cwe="476">
+      <location file="sources/utils/code_chunks.cpp" line="92" info="Null pointer dereference"/>
+      <location file="sources/utils/code_chunks.cpp" line="91" info="Assignment &apos;ptr=nullptr&apos;, assigned value is 0"/>
+    </error>
   </errors>
 </results>

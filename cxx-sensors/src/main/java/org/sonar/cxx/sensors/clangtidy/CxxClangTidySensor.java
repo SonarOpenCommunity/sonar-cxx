@@ -29,6 +29,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 /**
@@ -74,7 +75,7 @@ public class CxxClangTidySensor extends CxxReportSensor {
     try (Scanner scanner = new Scanner(report, reportCharset)) {
       // E:\Development\SonarQube\cxx\sonar-cxx\sonar-cxx-plugin\src\test\resources\org\sonar\plugins\cxx\
       //   reports-project\clang-tidy-reports\..\..\cpd.cc:76:20:
-      //   warning: ISO C++11 does not allow conversion from string literal to 'char *' 
+      //   warning: ISO C++11 does not allow conversion from string literal to 'char *'
       //   [clang-diagnostic-writable-strings]
       // <path>:<line>:<column>: <level>: <message> [<checkname>]
       // relative paths
@@ -90,12 +91,9 @@ public class CxxClangTidySensor extends CxxReportSensor {
           String lineId = m.group(2);
           String message = m.group(5);
           String check = m.group(6);
-          saveUniqueViolation(context,
-            CxxClangTidyRuleRepository.KEY,
-            path,
-            lineId,
-            check,
-            message);
+
+          CxxReportIssue issue = new CxxReportIssue(CxxClangTidyRuleRepository.KEY, check, path, lineId, message);
+          saveUniqueViolation(context, issue);
         }
       }
     } catch (final java.io.FileNotFoundException

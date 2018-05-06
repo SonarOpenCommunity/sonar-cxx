@@ -26,6 +26,7 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 
@@ -39,6 +40,13 @@ public class CppcheckParserV2 implements CppcheckParser {
 
   public CppcheckParserV2(CxxCppCheckSensor sensor) {
     this.sensor = sensor;
+  }
+
+  private static String requireAttributeSet(String attributeValue, String errorMsg) {
+    if (attributeValue == null || attributeValue.isEmpty()) {
+      throw new IllegalArgumentException(errorMsg);
+    }
+    return attributeValue;
   }
 
   /**
@@ -70,18 +78,19 @@ public class CppcheckParserV2 implements CppcheckParser {
               parsed = true;
               SMInputCursor errorCursor = errorsCursor.childElementCursor("error");
               while (errorCursor.getNext() != null) {
-                String id = errorCursor.getAttrValue("id");
-                String msg = createMsg(
-                  errorCursor.getAttrValue("inconclusive"),
-                  errorCursor.getAttrValue("msg")
-                );
-                String file = null;
-                String line = null;
+                String id = requireAttributeSet(errorCursor.getAttrValue("id"),
+                    "Missing mandatory attribute /results/errors/error[@id]");
+                String msg = requireAttributeSet(errorCursor.getAttrValue("msg"),
+                    "Missing mandatory attribute /results/errors/error[@msg]");
+                Boolean isInconclusive = "true".equals(errorCursor.getAttrValue("inconclusive"));
+                String issueText = (isInconclusive) ? "[inconclusive] " + msg : msg;
+                CxxReportIssue issue = null;
 
                 SMInputCursor locationCursor = errorCursor.childElementCursor("location");
-                if (locationCursor.getNext() != null) {
-                  file = locationCursor.getAttrValue("file");
-                  line = locationCursor.getAttrValue("line");
+                while (locationCursor.getNext() != null) {
+                  String file = locationCursor.getAttrValue("file");
+                  String line = locationCursor.getAttrValue("line");
+                  String info = locationCursor.getAttrValue("info");
 
                   if (file != null) {
                     file = file.replace('\\', '/');
@@ -91,14 +100,28 @@ public class CppcheckParserV2 implements CppcheckParser {
                     // findings on project level
                     file = null;
                     line = null;
+                    info = null;
+                  }
+
+                  if (issue == null) {
+                    // primary location
+                    issue = new CxxReportIssue(CxxCppCheckRuleRepository.KEY, id, file, line, issueText);
+                    // add the same file:line second time if there is additional
+                    // information about the flow/analysis
+                    if (info != null && !msg.equals(info)) {
+                      issue.addLocation(file, line, info);
+                    }
+                  } else if (info != null) {
+                    // secondary location
+                    issue.addLocation(file, line, info);
                   }
                 }
 
-                if (isInputValid(id, msg)) {
-                  sensor.saveUniqueViolation(context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
-                } else {
-                  LOG.warn("Skipping invalid violation: '{}'", msg);
+                // no <location> tags: issue raised on the whole module/project
+                if (issue == null) {
+                  issue = new CxxReportIssue(CxxCppCheckRuleRepository.KEY, id, null, null, issueText);
                 }
+                sensor.saveUniqueViolation(context, issue);
               }
             }
           }
@@ -109,17 +132,6 @@ public class CppcheckParserV2 implements CppcheckParser {
         if (!parsed) {
           throw new XMLStreamException();
         }
-      }
-
-      private String createMsg(String inconclusive, String msg) {
-        if (!msg.isEmpty() && ("true".equals(inconclusive))) {
-          return "[inconclusive] " + msg;
-        }
-        return msg;
-      }
-
-      private boolean isInputValid(String id, String msg) {
-        return !id.isEmpty() && msg != null && !msg.isEmpty();
       }
     });
 
