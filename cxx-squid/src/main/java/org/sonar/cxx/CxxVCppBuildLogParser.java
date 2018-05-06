@@ -56,6 +56,12 @@ public class CxxVCppBuildLogParser {
   private static final String CPPWINRTVERSION = "__cplusplus_winrt=201009";
   private static final String CPPVERSION = "__cplusplus=199711L";
 
+  private static final Pattern[] includePatterns = { Pattern.compile("/I\"(.*?)\""), Pattern.compile("/I([^\\s\"]+) ") };
+  private static final Pattern[] definePatterns = { Pattern.compile("[/-]D\\s([^\\s]+)"), Pattern.compile("[/-]D([^\\s]+)") };
+  private static final Pattern pathToCLPattern = Pattern.compile("^.*\\\\bin\\\\.*CL.exe\\x20.*$");
+  private static final Pattern plattformX86Pattern = Pattern.compile("Building solution configuration \".*\\|x64\".");
+  private static final Pattern toolsetV141Pattern = Pattern.compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
+
   /**
    * CxxVCppBuildLogParser (ctor)
    *
@@ -110,7 +116,7 @@ public class CxxVCppBuildLogParser {
       List<String> overallIncludes = uniqueIncludes.get(CxxConfiguration.OVERALLINCLUDEKEY);
 
       while ((line = br.readLine()) != null) {
-        if (line.trim().startsWith("INCLUDE=")) { // handle environment includes 
+        if (line.trim().startsWith("INCLUDE=")) { // handle environment includes
           String[] includes = line.split("=")[1].split(";");
           for (String include : includes) {
             if (!overallIncludes.contains(include)) {
@@ -119,7 +125,7 @@ public class CxxVCppBuildLogParser {
           }
         }
 
-        // get base path of project to make 
+        // get base path of project to make
         // Target "ClCompile" in file
         // "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets"
         // from project
@@ -142,16 +148,16 @@ public class CxxVCppBuildLogParser {
         // 1>  Configuration=Debug
         // 1>Done executing task "Message".
         // 1>Task "Message"
-        //1>  Platform=Win32         
-        if (line.trim().endsWith("Platform=x64")
-          || line.trim().matches("Building solution configuration \".*\\|x64\".")) {
+        //1>  Platform=Win32
+        String lineTrimmed = line.trim();
+        if (lineTrimmed.endsWith("Platform=x64") || plattformX86Pattern.matcher(lineTrimmed).matches()) {
           setPlatform("x64");
           if (LOG.isDebugEnabled()) {
             LOG.debug("build log parser platform='{}'", this.platform);
           }
         }
         // match "bin\CL.exe", "bin\amd64\CL.exe", "bin\x86_amd64\CL.exe"
-        if (line.matches("^.*\\\\bin\\\\.*CL.exe\\x20.*$")) {
+        if (pathToCLPattern.matcher(line).matches()) {
           detectedPlatform = setPlatformToolsetFromLine(line);
           String[] allElems = line.split("\\s+");
           String data = allElems[allElems.length - 1];
@@ -194,7 +200,7 @@ public class CxxVCppBuildLogParser {
       setPlatformToolset("V140");
       return true;
     } else if (line.contains("\\V141\\Microsoft.CppBuild.targets")
-      || line.matches("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$")) {
+        || toolsetV141Pattern.matcher(line).matches()) {
       setPlatformToolset("V141");
       return true;
     } else {
@@ -212,12 +218,10 @@ public class CxxVCppBuildLogParser {
     String path = data.replaceAll("\"", "");
     String fileElement;
     try {
-      if (!path.isEmpty() && path.matches("^[a-zA-Z]:.*$")) {
-        // do not add project path if data is not a relative path
-        fileElement = Paths.get(path).toAbsolutePath().toString();
-      } else {
-        fileElement = Paths.get(currentProjectPath.toAbsolutePath().toString(), path).toAbsolutePath().toString();
-      }
+      // a) if path is empty: fileElement == currentProjectPath
+      // b) if path is absolute: fileElement == path
+      // c) otherwise fileElement == currentProjectPath\path
+      fileElement = currentProjectPath.resolve(path).toAbsolutePath().toString();
 
       if (!uniqueDefines.containsKey(fileElement)) {
         uniqueDefines.put(fileElement, new HashSet<String>());
@@ -236,26 +240,22 @@ public class CxxVCppBuildLogParser {
   }
 
   private void parseVCppCompilerCLLine(String line, String projectPath, String fileElement) {
-
-    for (String includeElem : getMatches(Pattern.compile("/I\"(.*?)\""), line)) {
-      parseInclude(includeElem, projectPath, fileElement);
+    for (Pattern includePattern : includePatterns) {
+      for (String includeElem : getMatches(includePattern, line)) {
+        parseInclude(includeElem, projectPath, fileElement);
+      }
     }
 
-    for (String includeElem : getMatches(Pattern.compile("/I([^\\s\"]+) "), line)) {
-      parseInclude(includeElem, projectPath, fileElement);
+    for (Pattern definePattern : definePatterns) {
+      for (String macroElem : getMatches(definePattern, line)) {
+        addMacro(macroElem, fileElement);
+      }
     }
 
-    for (String macroElem : getMatches(Pattern.compile("[/-]D\\s([^\\s]+)"), line)) {
-      addMacro(macroElem, fileElement);
-    }
-
-    for (String macroElem : getMatches(Pattern.compile("[/-]D([^\\s]+)"), line)) {
-      addMacro(macroElem, fileElement);
-    }
 
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.100).aspx
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.110).aspx
-    // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.120).aspx 
+    // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.120).aspx
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.140).aspx
     parseCommonCompilerOptions(line, fileElement);
 
@@ -331,7 +331,7 @@ public class CxxVCppBuildLogParser {
 
   private void parseCommonCompilerOptions(String line, String fileElement) {
     // Always Defined //
-    //_INTEGRAL_MAX_BITS Reports the maximum size (in bits) for an integral type.    
+    //_INTEGRAL_MAX_BITS Reports the maximum size (in bits) for an integral type.
     addMacro("_INTEGRAL_MAX_BITS=64", fileElement);
     //_MSC_BUILD Evaluates to the revision number component of the compiler's version number. The revision number is
     // the fourth component of the period-delimited version number. For example, if the version number of the
@@ -352,16 +352,16 @@ public class CxxVCppBuildLogParser {
     //__TIME__ The most recent compilation time of the current source file.
     // The time is a string literal of the form hh:mm:ss.
     addMacro("__TIME__=\"??:??:??\"", fileElement);
-    //__TIMESTAMP__ The date and time of the last modification of the current source file, 
-    // expressed as a string literal in the form Ddd Mmm Date hh:mm:ss yyyy, where Ddd is 
+    //__TIMESTAMP__ The date and time of the last modification of the current source file,
+    // expressed as a string literal in the form Ddd Mmm Date hh:mm:ss yyyy, where Ddd is
     // the abbreviated day of the week and Date is an integer from 1 to 31.
     addMacro("__TIMESTAMP__=\"??? ?? ???? ??:??:??\"", fileElement);
-    // _M_IX86 
+    // _M_IX86
     //    /GB _M_IX86 = 600 Blend
     //    /G5 _M_IX86 = 500 (Default. Future compilers will emit a different value to reflect the dominant processor.) Pentium
-    //    /G6 _M_IX86 = 600  Pentium Pro, Pentium II, and Pentium III 
+    //    /G6 _M_IX86 = 600  Pentium Pro, Pentium II, and Pentium III
     //    /G3 _M_IX86 = 300  80386
-    //    /G4 _M_IX86 = 400  80486    
+    //    /G4 _M_IX86 = 400  80486
     if (line.contains("/GB ") || line.contains("/G6")) {
       addMacro("_M_IX86=600", fileElement);
     }
@@ -378,7 +378,7 @@ public class CxxVCppBuildLogParser {
     //    0 if /arch was not used.
     //    1 if /arch:SSE was used.
     //    2 if /arch:SSE2 was used.
-    // Expands to an integer literal value indicating which /arch compiler option was used. 
+    // Expands to an integer literal value indicating which /arch compiler option was used.
     // The default value is '2' if /arch was not specified
     addMacro("_M_IX86_FP=2", fileElement);
     if (line.contains("/arch:IA32")) {
@@ -408,7 +408,7 @@ public class CxxVCppBuildLogParser {
       // In the range 40-49 if /arch:VFPv4 was used.
       addMacro("_M_ARM_FP", fileElement);
     }
-    // __STDC__ Indicates full conformance with the ANSI C standard. Defined as the integer constant 1 only if 
+    // __STDC__ Indicates full conformance with the ANSI C standard. Defined as the integer constant 1 only if
     // the /Za compiler option is given and you are not compiling C++ code; otherwise is undefined.
     if (line.contains("/Za ")) {
       addMacro("__STDC__=1", fileElement);
@@ -436,11 +436,11 @@ public class CxxVCppBuildLogParser {
     if (line.contains("/clr:safe ")) {
       addMacro("_M_CEE_SAFE", fileElement);
     }
-    // __CLR_VER Defines the version of the common language runtime used when the application was compiled. 
+    // __CLR_VER Defines the version of the common language runtime used when the application was compiled.
     // The value returned will be in the following format:
-    // __cplusplus_cli Defined when you compile with /clr, /clr:pure, or /clr:safe. Value of __cplusplus_cli is 200406. 
-    // __cplusplus_cli is in effect throughout the translation unit.    
-    //_M_CEE Defined for a compilation that uses any form of /clr (/clr:oldSyntax, /clr:safe, for example).    
+    // __cplusplus_cli Defined when you compile with /clr, /clr:pure, or /clr:safe. Value of __cplusplus_cli is 200406.
+    // __cplusplus_cli is in effect throughout the translation unit.
+    //_M_CEE Defined for a compilation that uses any form of /clr (/clr:oldSyntax, /clr:safe, for example).
     if (line.contains("/clr")) {
 
       addMacro("_M_CEE", fileElement);
@@ -468,7 +468,7 @@ public class CxxVCppBuildLogParser {
     if (line.contains("/LDd ")) {
       addMacro("_DEBUG", fileElement);
     }
-    //_DLL Defined when /MD or /MDd (Multithreaded DLL) is specified. 
+    //_DLL Defined when /MD or /MDd (Multithreaded DLL) is specified.
     if (line.contains("/MD ") || line.contains("/MDd ")) {
       addMacro("_DLL", fileElement);
     }
@@ -481,7 +481,7 @@ public class CxxVCppBuildLogParser {
       addMacro("_MT", fileElement);
       addMacro("_DEBUG", fileElement);
     }
-    //_OPENMP Defined when compiling with /openmp, returns an integer representing the date of the 
+    //_OPENMP Defined when compiling with /openmp, returns an integer representing the date of the
     // OpenMP specification implemented by Visual C++.
     if (line.contains("/openmp ")) {
       addMacro("_OPENMP=200203", fileElement);
@@ -492,7 +492,7 @@ public class CxxVCppBuildLogParser {
       addMacro("_VC_NODEFAULTLIB", fileElement);
     }
 
-    //_NATIVE_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used.    
+    //_NATIVE_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used.
     //_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used or if wchar_t is defined in a system header file
     // included in your project.
     if (line.contains("/Zc:wchar_t ")) {
@@ -522,7 +522,7 @@ public class CxxVCppBuildLogParser {
       addMacro("_M_IA64", fileElement);
       addMacro("_M_AMD64", fileElement);
     } else if ("Win32".equals(platform)) {
-      // Defined for compilations that target x86 processors. 
+      // Defined for compilations that target x86 processors.
       addMacro("_WIN32", fileElement);
       //This is not defined for x64 processors.
       addMacro("_M_IX86=600", fileElement);

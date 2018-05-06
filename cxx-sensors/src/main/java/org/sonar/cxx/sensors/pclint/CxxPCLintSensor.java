@@ -49,6 +49,9 @@ public class CxxPCLintSensor extends CxxReportSensor {
   private static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
   public static final String REPORT_PATH_KEY = "pclint.reportPath";
   public static final String KEY = "PC-Lint";
+  public static final Pattern misraRulePattern = Pattern.compile(
+      // Rule nn.nn -or- Rule nn-nn-nn
+      "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])");
 
   /**
    * CxxPCLintSensor for PC-lint Sensor
@@ -144,11 +147,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
        * Concatenate M with the MISRA rule number to get the new rule id to save the violation to.
        */
       private String mapMisraRulesToUniqueSonarRules(String msg, Boolean isMisra2012) {
-        Pattern pattern = Pattern.compile(
-          // Rule nn.nn -or- Rule nn-nn-nn
-          "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])"
-        );
-        Matcher matcher = pattern.matcher(msg);
+        Matcher matcher = misraRulePattern.matcher(msg);
         if (matcher.find()) {
           String misraRule = matcher.group(1);
           String newKey;
