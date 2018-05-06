@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
+
 import org.sonar.api.config.Configuration;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.AbstractLanguage;
@@ -36,6 +38,7 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
   private final Configuration settings;
   private final Map<String, Metric> MetricsCache;
+  public static final Pattern EOLPattern = Pattern.compile("\\R");
 
   public CxxLanguage(String key, Configuration settings) {
     super(key);
@@ -89,7 +92,7 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public String[] getStringLinesOption(String key) {
     Optional<String> value = this.settings.get(getPluginProperty(key));
     if (value.isPresent()) {
-      return value.get().split("\r?\n|\r", -1);
+      return EOLPattern.split(value.get(), -1);
     }
     return new String[0];
   }

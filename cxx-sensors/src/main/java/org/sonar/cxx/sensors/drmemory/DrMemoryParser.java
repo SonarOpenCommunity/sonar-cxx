@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
+import org.sonar.cxx.sensors.utils.CxxUtils;
 
 public final class DrMemoryParser {
 
@@ -156,7 +157,7 @@ public final class DrMemoryParser {
       if (m.find()) {
         DrMemoryError error = new DrMemoryError();
         error.type = extractErrorType(m.group(1));
-        String[] elementSplitted = element.split("\\r?\\n");
+        String[] elementSplitted = CxxUtils.EOLPattern.split(element);
         error.message = elementSplitted[0];
         for (String elementPart : elementSplitted) {
           Matcher locationMatcher = rx_file_finder.matcher(elementPart);

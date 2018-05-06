@@ -26,6 +26,8 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
+
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.squidbridge.SquidAstVisitor;
@@ -42,6 +44,7 @@ public class CxxCommentLinesVisitor<GRAMMAR extends Grammar> extends SquidAstVis
 
   private final Set<Integer> comments = new HashSet<>();
   private boolean seenFirstToken;
+  public static final Pattern EOLPattern = Pattern.compile("\\R");
 
   @Override
   public void init() {
@@ -59,8 +62,8 @@ public class CxxCommentLinesVisitor<GRAMMAR extends Grammar> extends SquidAstVis
     for (Trivia trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         if (seenFirstToken) {
-          String[] commentLines = getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue())
-            .split("(\r)?\n|\r", -1);
+          String[] commentLines = EOLPattern
+              .split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue()), -1);
           int line = trivia.getToken().getLine();
           for (String commentLine : commentLines) {
             if (!commentLine.contains("NOSONAR") && !getContext().getCommentAnalyser().isBlank(commentLine)) {

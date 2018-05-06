@@ -35,6 +35,7 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.squidbridge.SquidAstVisitor;
 
 public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
@@ -91,7 +92,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     public CommentLocation(Token token) {
       super(token);
       String value = token.getValue();
-      String[] lines = value.split("\r\n|\n|\r", -1);
+      String[] lines = CxxUtils.EOLPattern.split(value, -1);
 
       if (lines.length > 1) {
         endLine = token.getLine() + lines.length - 1;
@@ -102,10 +103,11 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
 
   private static class PreprocessorDirectiveLocation extends TokenLocation {
 
+    public static final Pattern preprocessorPattern = Pattern.compile("^[ \t]*#[ \t]*\\w+");
+
     PreprocessorDirectiveLocation(Token token) {
       super(token);
-      Pattern r = Pattern.compile("^[ \t]*#[ \t]*\\w+");
-      Matcher m = r.matcher(token.getValue());
+      Matcher m = preprocessorPattern.matcher(token.getValue());
       if (m.find()) {
         endLineOffset = startLineOffset + (m.end() - m.start());
       } else {
