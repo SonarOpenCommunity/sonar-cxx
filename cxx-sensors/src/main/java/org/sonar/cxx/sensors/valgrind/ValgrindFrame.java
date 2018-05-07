@@ -24,7 +24,6 @@ import javax.annotation.Nullable;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.ObjectUtils;
 
 /**
  * Represents a stack frame. Overwrites equality. Has a string serialization

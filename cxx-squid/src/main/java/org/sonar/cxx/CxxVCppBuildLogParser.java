@@ -28,9 +28,9 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,19 +48,22 @@ public class CxxVCppBuildLogParser {
 
   private static final Logger LOG = Loggers.get(CxxVCppBuildLogParser.class);
 
-  private final HashMap<String, List<String>> uniqueIncludes;
-  private final HashMap<String, Set<String>> uniqueDefines;
+  private final Map<String, List<String>> uniqueIncludes;
+  private final Map<String, Set<String>> uniqueDefines;
 
   private String platformToolset = "V120";
   private String platform = "Win32";
   private static final String CPPWINRTVERSION = "__cplusplus_winrt=201009";
   private static final String CPPVERSION = "__cplusplus=199711L";
 
-  private static final Pattern[] includePatterns = { Pattern.compile("/I\"(.*?)\""), Pattern.compile("/I([^\\s\"]+) ") };
-  private static final Pattern[] definePatterns = { Pattern.compile("[/-]D\\s([^\\s]+)"), Pattern.compile("[/-]D([^\\s]+)") };
+  private static final Pattern[] includePatterns = { Pattern.compile("/I\"(.*?)\""),
+      Pattern.compile("/I([^\\s\"]+) ") };
+  private static final Pattern[] definePatterns = { Pattern.compile("[/-]D\\s([^\\s]+)"),
+      Pattern.compile("[/-]D([^\\s]+)") };
   private static final Pattern pathToCLPattern = Pattern.compile("^.*\\\\bin\\\\.*CL.exe\\x20.*$");
   private static final Pattern plattformX86Pattern = Pattern.compile("Building solution configuration \".*\\|x64\".");
-  private static final Pattern toolsetV141Pattern = Pattern.compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
+  private static final Pattern toolsetV141Pattern = Pattern
+      .compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
 
   /**
    * CxxVCppBuildLogParser (ctor)
@@ -68,8 +71,8 @@ public class CxxVCppBuildLogParser {
    * @param uniqueIncludesIn
    * @param uniqueDefinesIn
    */
-  public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn,
-    HashMap<String, Set<String>> uniqueDefinesIn) {
+  public CxxVCppBuildLogParser(Map<String, List<String>> uniqueIncludesIn,
+      Map<String, Set<String>> uniqueDefinesIn) {
     uniqueIncludes = uniqueIncludesIn;
     uniqueDefines = uniqueDefinesIn;
   }

@@ -19,8 +19,6 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,25 +29,19 @@ import static org.junit.Assert.assertNotEquals;
 
 public class CxxReportIssueTest {
 
-  static void assertEqualsConvention(Object left, Object right) {
-    assertEquals(left, right);
-    assertEquals(left.hashCode(), right.hashCode());
-  }
-
-  static void assertNotEqualsConvention(Object left, Object right) {
-    assertNotEquals(left, right);
-    assertNotEquals(left.hashCode(), right.hashCode());
-  }
-
   @Test
   public void reportLocationEquality() {
     CxxReportLocation location0 = new CxxReportLocation("path0.cpp", "1", "Boolean value assigned to pointer.");
     CxxReportLocation location1 = new CxxReportLocation("path0.cpp", "1", "Boolean value assigned to pointer.");
-    assertEqualsConvention(location0, location1);
+    assertEquals(location0, location1);
+    assertEquals(location0.hashCode(), location1.hashCode());
 
     CxxReportLocation location2 = new CxxReportLocation("path2.cpp", "1", "Exception thrown in destructor.");
-    assertNotEqualsConvention(location2, location0);
-    assertNotEqualsConvention(location2, location1);
+    assertNotEquals(location2, location0);
+    assertNotEquals(location2.hashCode(), location0.hashCode());
+
+    assertNotEquals(location2, location1);
+    assertNotEquals(location2.hashCode(), location1.hashCode());
   }
 
   @Test
@@ -60,8 +52,13 @@ public class CxxReportIssueTest {
     CxxReportIssue issue1 = new CxxReportIssue("cppcheck", "exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
     CxxReportIssue issue2 = new CxxReportIssue("cppcheck", "exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
 
-    assertEqualsConvention(issue1, issue2);
-    assertNotEqualsConvention(issue0, issue1);
-    assertNotEqualsConvention(issue0, issue2);
+    assertEquals(issue1, issue2);
+    assertEquals(issue1.hashCode(), issue2.hashCode());
+
+    assertNotEquals(issue0, issue1);
+    assertNotEquals(issue0.hashCode(), issue1.hashCode());
+
+    assertNotEquals(issue0, issue2);
+    assertNotEquals(issue0.hashCode(), issue2.hashCode());
   }
 }

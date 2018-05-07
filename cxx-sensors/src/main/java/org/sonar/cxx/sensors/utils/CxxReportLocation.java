@@ -20,17 +20,18 @@
 package org.sonar.cxx.sensors.utils;
 
 import java.util.Objects;
+import javax.annotation.Nullable;
 
 /**
  * Each issues in SonarQube might have multiple locations; Encapsulate its
  * properties in this structure
  */
 public class CxxReportLocation {
-  final String file;
-  final String line;
-  final String info;
+  private final String file;
+  private final String line;
+  private final String info;
 
-  public CxxReportLocation(String file, String line, String info) {
+  public CxxReportLocation(@Nullable String file, @Nullable String line, String info) {
     super();
     this.file = file;
     this.line = line;

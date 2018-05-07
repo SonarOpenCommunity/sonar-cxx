@@ -99,7 +99,8 @@ public class CxxClangSASensor extends CxxReportSensor {
 
         String filePath = ((NSString) sourceFiles[fileIndex]).getContent();
 
-        CxxReportIssue issue = new CxxReportIssue(CxxClangSARuleRepository.KEY, checkerName, filePath, line.toString(), description);
+        CxxReportIssue issue = new CxxReportIssue(CxxClangSARuleRepository.KEY, checkerName, filePath, line.toString(),
+            description);
         saveUniqueViolation(context, issue);
       }
     } catch (final java.io.IOException

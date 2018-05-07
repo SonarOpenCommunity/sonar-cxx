@@ -24,16 +24,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import javax.annotation.Nullable;
 
 /**
  * Issue with one or multiple locations
  */
 public class CxxReportIssue {
-  final String ruleRepoKey;
-  final String ruleId;
-  final List<CxxReportLocation> locations;
+  private final String ruleRepoKey;
+  private final String ruleId;
+  private final List<CxxReportLocation> locations;
 
-  public CxxReportIssue(String ruleRepoKey, String ruleId, String file, String line, String info) {
+  public CxxReportIssue(String ruleRepoKey, String ruleId, @Nullable String file, @Nullable String line, String info) {
     super();
     this.ruleRepoKey = ruleRepoKey;
     this.ruleId = ruleId;
@@ -41,7 +42,7 @@ public class CxxReportIssue {
     addLocation(file, line, info);
   }
 
-  public void addLocation(String file, String line, String info) {
+  public final void addLocation(@Nullable String file, @Nullable String line, String info) {
     locations.add(new CxxReportLocation(file, line, info));
   }
 
