@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
@@ -124,6 +126,15 @@ public class CxxSquidSensor implements Sensor {
       .onlyOnFileType(InputFile.Type.MAIN);
   }
 
+  private static boolean isJSONCompilationDBEntyInProject(File file, SensorContext context) {
+    boolean fileInProject = context.fileSystem()
+        .inputFile(context.fileSystem().predicates().hasAbsolutePath(file.getAbsolutePath())) != null;
+    if (!fileInProject) {
+      LOG.warn("{}: file not in project, skip {}", SCAN_ONLY_SPECIFIED_SOURCES_KEY, file.getAbsolutePath());
+    }
+    return fileInProject;
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -147,7 +158,8 @@ public class CxxSquidSensor implements Sensor {
 
     List<File> files;
     if (cxxConf.isScanOnlySpecifiedSources()) {
-      files = cxxConf.getCompilationUnitSourceFiles();
+      files = cxxConf.getCompilationUnitSourceFiles().stream().filter(f -> isJSONCompilationDBEntyInProject(f, context))
+          .collect(Collectors.toList());
     } else {
       Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
         .and(context.fileSystem().predicates()
@@ -156,7 +168,7 @@ public class CxxSquidSensor implements Sensor {
 
       files = new ArrayList<>();
       for (InputFile file : inputFiles) {
-        files.add(file.file()); //@todo: deprecated file.file()
+        files.add(new File(file.uri().getPath()));
       }
     }
 
