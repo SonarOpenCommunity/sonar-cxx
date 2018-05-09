@@ -289,9 +289,9 @@ public abstract class CxxReportSensor implements Sensor {
     InputFile inputFile = getInputFileIfInProject(sensorContext, location.getFile());
     if (inputFile != null) {
       int lines = inputFile.lines();
-      int lineNr = getLineAsInt(location.getLine(), lines);
-      NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile)
-          .at(inputFile.selectLine(lineNr > 0 ? lineNr : 1)).message(location.getInfo());
+      int lineNr = Integer.max(1, getLineAsInt(location.getLine(), lines));
+      NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(lineNr))
+          .message(location.getInfo());
       affectedFiles.add(inputFile);
       return newIssueLocation;
     } else {
@@ -300,10 +300,9 @@ public abstract class CxxReportSensor implements Sensor {
     }
   }
 
-  private NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
+  private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
       CxxReportLocation location) {
-    NewIssueLocation newIssueLocation = newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
-    return newIssueLocation;
+    return newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
   }
 
   /**

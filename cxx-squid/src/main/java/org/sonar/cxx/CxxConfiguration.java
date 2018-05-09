@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.FileSystem;
@@ -40,8 +41,8 @@ public class CxxConfiguration extends SquidConfiguration {
   public static final String OVERALLDEFINEKEY = "CxxOverallDefine";
 
   private boolean ignoreHeaderComments;
-  private final HashMap<String, List<String>> uniqueIncludes = new HashMap<>();
-  private final HashMap<String, Set<String>> uniqueDefines = new HashMap<>();
+  private final Map<String, List<String>> uniqueIncludes = new HashMap<>();
+  private final Map<String, Set<String>> uniqueDefines = new HashMap<>();
   private List<String> forceIncludeFiles = new ArrayList<>();
   private List<String> headerFileSuffixes = new ArrayList<>();
   private String baseDir;
@@ -51,7 +52,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private String jsonCompilationDatabaseFile;
   private boolean scanOnlySpecifiedSources;
   private CxxCompilationUnitSettings globalCompilationUnitSettings;
-  private final HashMap<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
+  private final Map<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
 
   private final CxxVCppBuildLogParser cxxVCppParser;
 

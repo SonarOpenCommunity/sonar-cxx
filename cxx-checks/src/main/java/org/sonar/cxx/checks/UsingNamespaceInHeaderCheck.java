@@ -40,7 +40,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
   private static final String[] DEFAULT_NAME_SUFFIX = new String[] { ".h", ".hh", ".hpp", ".H" };
-  private Boolean isHeader;
+  private Boolean isHeader = false;
 
   @Override
   public void init() {

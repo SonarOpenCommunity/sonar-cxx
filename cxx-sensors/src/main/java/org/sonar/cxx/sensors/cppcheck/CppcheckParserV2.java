@@ -20,6 +20,7 @@
 package org.sonar.cxx.sensors.cppcheck;
 
 import java.io.File;
+import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -42,11 +43,18 @@ public class CppcheckParserV2 implements CppcheckParser {
     this.sensor = sensor;
   }
 
-  private static String requireAttributeSet(String attributeValue, String errorMsg) {
+  private static String requireAttributeSet(@Nullable String attributeValue, String errorMsg) {
     if (attributeValue == null || attributeValue.isEmpty()) {
       throw new IllegalArgumentException(errorMsg);
     }
     return attributeValue;
+  }
+
+  private static String createIssueText(String msg, boolean isInconclusive) {
+    if (isInconclusive) {
+      return "[inconclusive] " + msg;
+    }
+    return msg;
   }
 
   /**
@@ -83,7 +91,7 @@ public class CppcheckParserV2 implements CppcheckParser {
                 String msg = requireAttributeSet(errorCursor.getAttrValue("msg"),
                     "Missing mandatory attribute /results/errors/error[@msg]");
                 Boolean isInconclusive = "true".equals(errorCursor.getAttrValue("inconclusive"));
-                String issueText = (isInconclusive) ? "[inconclusive] " + msg : msg;
+                String issueText = createIssueText(msg, isInconclusive);
                 CxxReportIssue issue = null;
 
                 SMInputCursor locationCursor = errorCursor.childElementCursor("location");

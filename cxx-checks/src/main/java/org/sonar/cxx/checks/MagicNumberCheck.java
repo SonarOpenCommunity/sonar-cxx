@@ -21,7 +21,6 @@ package org.sonar.cxx.checks;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import org.sonar.check.Priority;

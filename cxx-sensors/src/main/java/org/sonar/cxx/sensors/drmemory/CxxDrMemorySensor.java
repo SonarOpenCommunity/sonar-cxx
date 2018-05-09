@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.drmemory;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
@@ -31,7 +30,6 @@ import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
-import org.sonar.cxx.sensors.utils.CxxUtils;
 
 /**
  * Dr. Memory is a memory monitoring tool capable of identifying memory-related programming errors such as accesses of
@@ -103,7 +101,8 @@ public class CxxDrMemorySensor extends CxxReportSensor {
 
     for (DrMemoryError error : DrMemoryParser.parse(report, defaultCharset())) {
       if (error.getStackTrace().isEmpty()) {
-        CxxReportIssue moduleIssue = new CxxReportIssue(CxxDrMemoryRuleRepository.KEY, error.getType().getId(), null, null, error.getMessage());
+        CxxReportIssue moduleIssue = new CxxReportIssue(CxxDrMemoryRuleRepository.KEY, error.getType().getId(), null,
+            null, error.getMessage());
         saveUniqueViolation(context, moduleIssue);
       } else {
         Location lastOwnFrame = getLastOwnFrame(context, error);

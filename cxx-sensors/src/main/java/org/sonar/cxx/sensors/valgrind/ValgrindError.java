@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -44,7 +45,7 @@ class ValgrindError {
   public ValgrindError(String kind, String text, List<ValgrindStack> stacks) {
     this.kind = kind;
     this.text = text;
-    this.stacks = stacks;
+    this.stacks = Collections.unmodifiableList(stacks);
   }
 
 
