@@ -78,6 +78,8 @@ public class CxxClangSASensor extends CxxReportSensor {
 
       NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(f);
 
+      final String clangVersion = ((NSString) rootDict.get("clang_version")).getContent();
+
       // Array of file paths where an issue was detected.
       NSObject[] sourceFiles = ((NSArray) rootDict.objectForKey("files")).getArray();
 
@@ -89,7 +91,12 @@ public class CxxClangSASensor extends CxxReportSensor {
         NSString desc = (NSString) diag.get("description");
         String description = desc.getContent();
 
-        String checkerName = ((NSString) diag.get("check_name")).getContent();
+        final NSObject checkNameValue = diag.get("check_name");
+        if(checkNameValue == null) {
+            LOG.error("clang version > 3.7.0 is required. Your version is: " + clangVersion);
+            return;
+        }
+        String checkerName = ((NSString) checkNameValue).getContent();
 
         NSDictionary location = (NSDictionary) diag.get("location");
 
