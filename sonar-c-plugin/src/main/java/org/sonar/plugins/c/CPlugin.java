@@ -84,7 +84,6 @@ public final class CPlugin implements Plugin {
   public static final String C_FILES_PATTERNS_KEY = LANG_PROP_PREFIX + "cFilesPatterns";
   public static final String MISSING_INCLUDE_WARN = LANG_PROP_PREFIX + "missingIncludeWarnings";
   public static final String JSON_COMPILATION_DATABASE_KEY = LANG_PROP_PREFIX + "jsonCompilationDatabase";
-  public static final String SCAN_ONLY_SPECIFIED_SOURCES_KEY = LANG_PROP_PREFIX + "scanOnlySpecifiedSources";
   public static final String CPD_IGNORE_LITERALS_KEY = LANG_PROP_PREFIX + "cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = LANG_PROP_PREFIX + "cpd.ignoreIdentifiers";
 
@@ -170,15 +169,6 @@ public final class CPlugin implements Plugin {
           + "and includes should be used for source files.")
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(9)
-        .build(),
-      PropertyDefinition.builder(CPlugin.SCAN_ONLY_SPECIFIED_SOURCES_KEY)
-        .defaultValue(Boolean.FALSE.toString())
-        .name("Scan only specified source files")
-        .description("Only scan source files defined in specification file. Eg. by JSON Compilation Database.")
-        .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .type(PropertyType.BOOLEAN)
-        .index(10)
         .build()
     ));
   }
