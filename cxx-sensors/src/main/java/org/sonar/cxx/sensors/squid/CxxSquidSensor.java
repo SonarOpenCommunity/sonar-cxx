@@ -77,7 +77,6 @@ public class CxxSquidSensor implements Sensor {
   public static final String C_FILES_PATTERNS_KEY = "cFilesPatterns";
   public static final String MISSING_INCLUDE_WARN = "missingIncludeWarnings";
   public static final String JSON_COMPILATION_DATABASE_KEY = "jsonCompilationDatabase";
-  public static final String SCAN_ONLY_SPECIFIED_SOURCES_KEY = "scanOnlySpecifiedSources";
 
   public static final String CPD_IGNORE_LITERALS_KEY = "cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "cpd.ignoreIdentifiers";
@@ -145,23 +144,14 @@ public class CxxSquidSensor implements Sensor {
     AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
-    List<File> files;
-    if (cxxConf.isScanOnlySpecifiedSources()) {
-      files = cxxConf.getCompilationUnitSourceFiles();
-    } else {
-      Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
-        .and(context.fileSystem().predicates()
-          .hasLanguage(this.language.getKey()), context.fileSystem().predicates()
-          .hasType(InputFile.Type.MAIN)));
+    Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
+      .and(context.fileSystem().predicates()
+        .hasLanguage(this.language.getKey()), context.fileSystem().predicates()
+        .hasType(InputFile.Type.MAIN)));
 
-      files = new ArrayList<>();
-      for (InputFile file : inputFiles) {
-        files.add(file.file()); //@todo: deprecated file.file()
-      }
-    }
-
-    if (LOG.isDebugEnabled() && !files.isEmpty()) {
-      LOG.debug("All source files (Type.MAIN): {}", files);
+    List<File> files = new ArrayList<>();
+    for (InputFile file : inputFiles) {
+      files.add(new File(file.uri().getPath()));
     }
 
     scanner.scanFiles(files);
@@ -184,8 +174,6 @@ public class CxxSquidSensor implements Sensor {
       .orElse(Boolean.FALSE));
     cxxConf.setJsonCompilationDatabaseFile(this.language.getStringOption(JSON_COMPILATION_DATABASE_KEY)
       .orElse(null));
-    cxxConf.setScanOnlySpecifiedSources(this.language.getBooleanOption(SCAN_ONLY_SPECIFIED_SOURCES_KEY)
-      .orElse(Boolean.FALSE));
 
     if (cxxConf.getJsonCompilationDatabaseFile() != null) {
       try {
