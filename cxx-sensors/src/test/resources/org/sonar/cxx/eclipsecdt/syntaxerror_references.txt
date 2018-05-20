@@ -1,0 +1,22 @@
+DECLARATION:
+3: int i = 0;
+       !
+REFERENCES:
+7:     i = 1 //;
+       ^
+12:     i = 2;
+        ^
+
+
+DECLARATION:
+5: void func1()
+        !!!!!
+REFERENCES:
+
+
+DECLARATION:
+10: void func2()
+         !!!!!
+REFERENCES:
+
+

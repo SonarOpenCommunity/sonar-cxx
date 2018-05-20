@@ -51,6 +51,7 @@ import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
 import org.sonar.cxx.sensors.visitors.CxxCpdVisitor;
+import org.sonar.cxx.sensors.visitors.CxxEclipseCDTVisitor;
 import org.sonar.cxx.sensors.visitors.CxxFileLinesVisitor;
 import org.sonar.cxx.sensors.visitors.CxxHighlighterVisitor;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -126,9 +127,11 @@ public class CxxSquidSensor implements Sensor {
   @Override
   public void execute(SensorContext context) {
 
+    CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     visitors.add(new CxxHighlighterVisitor(context));
     visitors.add(new CxxFileLinesVisitor(language, fileLinesContextFactory, context));
+    visitors.add(new CxxEclipseCDTVisitor(context, cxxConf));
 
     visitors.add(
       new CxxCpdVisitor(
@@ -136,7 +139,6 @@ public class CxxSquidSensor implements Sensor {
         this.language.getBooleanOption(CPD_IGNORE_LITERALS_KEY).orElse(Boolean.FALSE),
         this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
 
-    CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 

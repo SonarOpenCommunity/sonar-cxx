@@ -15,6 +15,14 @@
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
   </properties>
 
+  <!-- see cxx-checks/pom.xml -->
+  <repositories>
+    <repository>
+      <id>sonar-cxx-local-maven</id>
+      <url>file://${java.io.tmpdir}/sonar-cxx-local-maven/</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>
@@ -99,6 +107,22 @@
     	<groupId>org.assertj</groupId>
     	<artifactId>assertj-core</artifactId>
     	<scope>test</scope>
+    </dependency>
+
+    <dependency>
+       <groupId>org.eclipse.cdt</groupId>
+       <artifactId>org.eclipse.cdt.core</artifactId>
+       <version>6.5.0</version>
+    </dependency>
+    <dependency>
+       <groupId>org.eclipse.platform</groupId>
+       <artifactId>org.eclipse.core.runtime</artifactId>
+       <version>3.14.0</version>
+    </dependency>
+    <dependency>
+       <groupId>com.ibm.icu</groupId>
+       <artifactId>icu4j</artifactId>
+       <version>3.4.4</version>
     </dependency>
   </dependencies>
 </project>

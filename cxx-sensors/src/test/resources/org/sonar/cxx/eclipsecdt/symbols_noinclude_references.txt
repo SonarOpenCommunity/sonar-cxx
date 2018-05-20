@@ -1,0 +1,194 @@
+DECLARATION:
+6: int global1 = 0;
+       !!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+8: constexpr int factorial( int n )
+                 !!!!!!!!!
+REFERENCES:
+10:   return n <= 1 ? 1 : ( n * factorial( n - 1 ) );
+                                ^^^^^^^^^
+
+
+DECLARATION:
+8: constexpr int factorial( int n )
+                                !
+REFERENCES:
+10:   return n <= 1 ? 1 : ( n * factorial( n - 1 ) );
+             ^
+10:   return n <= 1 ? 1 : ( n * factorial( n - 1 ) );
+                            ^
+10:   return n <= 1 ? 1 : ( n * factorial( n - 1 ) );
+                                           ^
+
+
+DECLARATION:
+13: CMotorController::CMotorController() :
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+13: CMotorController::CMotorController() :
+                      !!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+18: void CMotorController::setSpeed( int speed )
+         !!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+18: void CMotorController::setSpeed( int speed )
+                           !!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+18: void CMotorController::setSpeed( int speed )
+                                         !!!!!
+REFERENCES:
+20:   this->speed = speed;
+                    ^^^^^
+
+
+DECLARATION:
+23: int CMotorController::getSpeed()
+        !!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+23: int CMotorController::getSpeed()
+                          !!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+28: void CMotorController::setDirection( Direction direction )
+         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+28: void CMotorController::setDirection( Direction direction )
+                           !!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+28: void CMotorController::setDirection( Direction direction )
+                                                   !!!!!!!!!
+REFERENCES:
+30:   this->direction = direction;
+                        ^^^^^^^^^
+
+
+DECLARATION:
+33: void CMotorController::setDirectionAndSpeed( Direction direction, int speed )
+         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+33: void CMotorController::setDirectionAndSpeed( Direction direction, int speed )
+                           !!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+33: void CMotorController::setDirectionAndSpeed( Direction direction, int speed )
+                                                           !!!!!!!!!
+REFERENCES:
+35:   this->direction = direction;
+                        ^^^^^^^^^
+
+
+DECLARATION:
+33: void CMotorController::setDirectionAndSpeed( Direction direction, int speed )
+                                                                          !!!!!
+REFERENCES:
+36:   this->speed = speed;
+                    ^^^^^
+
+
+DECLARATION:
+39: Direction CMotorController::getDirection()
+              !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+39: Direction CMotorController::getDirection()
+                                !!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+44: bool CMotorController::getLimiter()
+         !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+44: bool CMotorController::getLimiter()
+                           !!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+49: Velocity CMotorController::getVelocity()
+             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+49: Velocity CMotorController::getVelocity()
+                               !!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+54: void CMotorController::checkSpeed()
+         !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+54: void CMotorController::checkSpeed()
+                           !!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+57:   int test1 = global1;
+          !!!!!
+REFERENCES:
+
+
+DECLARATION:
+77: template< typename T >
+                       !
+REFERENCES:
+78: T* factoryFunction()
+    ^
+80:   return new T();
+                 ^
+
+
+DECLARATION:
+78: T* factoryFunction()
+       !!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+83: void main()
+         !!!!
+REFERENCES:
+
+

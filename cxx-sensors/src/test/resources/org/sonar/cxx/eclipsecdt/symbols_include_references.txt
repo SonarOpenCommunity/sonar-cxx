@@ -1,0 +1,342 @@
+DECLARATION:
+6: int global1 = 0;
+       !!!!!!!
+REFERENCES:
+56:   global1 = 1;
+      ^^^^^^^
+57:   int test1 = global1;
+                  ^^^^^^^
+
+
+DECLARATION:
+8: constexpr int factorial( int n )
+                 !!!!!!!!!
+REFERENCES:
+10:   return n <= 1 ? 1 : ( n * factorial( n - 1 ) );
+                                ^^^^^^^^^
+72:     factorial( 4 );
+        ^^^^^^^^^
+
+
+DECLARATION:
+8: constexpr int factorial( int n )
+                                !
+REFERENCES:
+10:   return n <= 1 ? 1 : ( n * factorial( n - 1 ) );
+             ^
+10:   return n <= 1 ? 1 : ( n * factorial( n - 1 ) );
+                            ^
+10:   return n <= 1 ? 1 : ( n * factorial( n - 1 ) );
+                                           ^
+
+
+DECLARATION:
+13: CMotorController::CMotorController() :
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+13: CMotorController::CMotorController() :
+                      !!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+14:     speed( 0 ), direction( Forward ), limiter( false ), velocity( Decelerate )
+        !!!!!
+REFERENCES:
+20:   this->speed = speed;
+            ^^^^^
+25:   return speed;
+             ^^^^^
+36:   this->speed = speed;
+            ^^^^^
+59:   switch ( speed )
+               ^^^^^
+
+
+DECLARATION:
+14:     speed( 0 ), direction( Forward ), limiter( false ), velocity( Decelerate )
+                    !!!!!!!!!
+REFERENCES:
+30:   this->direction = direction;
+            ^^^^^^^^^
+35:   this->direction = direction;
+            ^^^^^^^^^
+41:   return direction;
+             ^^^^^^^^^
+
+
+DECLARATION:
+14:     speed( 0 ), direction( Forward ), limiter( false ), velocity( Decelerate )
+                               !!!!!!!
+REFERENCES:
+85:   factoryFunction< CMotorController >()->setDirection( Direction::Forward );
+                                                                      ^^^^^^^
+
+
+DECLARATION:
+14:     speed( 0 ), direction( Forward ), limiter( false ), velocity( Decelerate )
+                                          !!!!!!!
+REFERENCES:
+46:   return limiter;
+             ^^^^^^^
+62:     limiter = false;
+        ^^^^^^^
+67:     limiter = true;
+        ^^^^^^^
+
+
+DECLARATION:
+18: void CMotorController::setSpeed( int speed )
+         !!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+18: void CMotorController::setSpeed( int speed )
+                           !!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+18: void CMotorController::setSpeed( int speed )
+                                         !!!!!
+REFERENCES:
+20:   this->speed = speed;
+                    ^^^^^
+
+
+DECLARATION:
+20:   this->speed = speed;
+                    !!!!!
+REFERENCES:
+
+
+DECLARATION:
+23: int CMotorController::getSpeed()
+        !!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+23: int CMotorController::getSpeed()
+                          !!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+28: void CMotorController::setDirection( Direction direction )
+         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+85:   factoryFunction< CMotorController >()->setDirection( Direction::Forward );
+                                             ^^^^^^^^^^^^
+
+
+DECLARATION:
+28: void CMotorController::setDirection( Direction direction )
+                           !!!!!!!!!!!!
+REFERENCES:
+85:   factoryFunction< CMotorController >()->setDirection( Direction::Forward );
+                                             ^^^^^^^^^^^^
+
+
+DECLARATION:
+28: void CMotorController::setDirection( Direction direction )
+                                         !!!!!!!!!
+REFERENCES:
+33: void CMotorController::setDirectionAndSpeed( Direction direction, int speed )
+                                                 ^^^^^^^^^
+39: Direction CMotorController::getDirection()
+    ^^^^^^^^^
+85:   factoryFunction< CMotorController >()->setDirection( Direction::Forward );
+                                                           ^^^^^^^^^
+
+
+DECLARATION:
+28: void CMotorController::setDirection( Direction direction )
+                                                   !!!!!!!!!
+REFERENCES:
+30:   this->direction = direction;
+                        ^^^^^^^^^
+
+
+DECLARATION:
+30:   this->direction = direction;
+                        !!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+33: void CMotorController::setDirectionAndSpeed( Direction direction, int speed )
+         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+33: void CMotorController::setDirectionAndSpeed( Direction direction, int speed )
+                           !!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+33: void CMotorController::setDirectionAndSpeed( Direction direction, int speed )
+                                                           !!!!!!!!!
+REFERENCES:
+35:   this->direction = direction;
+                        ^^^^^^^^^
+
+
+DECLARATION:
+33: void CMotorController::setDirectionAndSpeed( Direction direction, int speed )
+                                                                          !!!!!
+REFERENCES:
+36:   this->speed = speed;
+                    ^^^^^
+
+
+DECLARATION:
+39: Direction CMotorController::getDirection()
+              !!!!!!!!!!!!!!!!
+REFERENCES:
+13: CMotorController::CMotorController() :
+    ^^^^^^^^^^^^^^^^
+18: void CMotorController::setSpeed( int speed )
+         ^^^^^^^^^^^^^^^^
+23: int CMotorController::getSpeed()
+        ^^^^^^^^^^^^^^^^
+28: void CMotorController::setDirection( Direction direction )
+         ^^^^^^^^^^^^^^^^
+33: void CMotorController::setDirectionAndSpeed( Direction direction, int speed )
+         ^^^^^^^^^^^^^^^^
+44: bool CMotorController::getLimiter()
+         ^^^^^^^^^^^^^^^^
+49: Velocity CMotorController::getVelocity()
+             ^^^^^^^^^^^^^^^^
+54: void CMotorController::checkSpeed()
+         ^^^^^^^^^^^^^^^^
+85:   factoryFunction< CMotorController >()->setDirection( Direction::Forward );
+                       ^^^^^^^^^^^^^^^^
+
+
+DECLARATION:
+39: Direction CMotorController::getDirection()
+              !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+39: Direction CMotorController::getDirection()
+                                !!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+44: bool CMotorController::getLimiter()
+         !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+44: bool CMotorController::getLimiter()
+                           !!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+49: Velocity CMotorController::getVelocity()
+    !!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+49: Velocity CMotorController::getVelocity()
+             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+49: Velocity CMotorController::getVelocity()
+                               !!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+54: void CMotorController::checkSpeed()
+         !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+54: void CMotorController::checkSpeed()
+                           !!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+56:   global1 = 1;
+      !!!!!!!
+REFERENCES:
+57:   int test1 = global1;
+                  ^^^^^^^
+
+
+DECLARATION:
+57:   int test1 = global1;
+          !!!!!
+REFERENCES:
+
+
+DECLARATION:
+63:     velocity = Accelerate;
+        !!!!!!!!
+REFERENCES:
+14:     speed( 0 ), direction( Forward ), limiter( false ), velocity( Decelerate )
+                                                            ^^^^^^^^
+68:     velocity = Decelerate;
+        ^^^^^^^^
+
+
+DECLARATION:
+63:     velocity = Accelerate;
+                   !!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+68:     velocity = Decelerate;
+                   !!!!!!!!!!
+REFERENCES:
+14:     speed( 0 ), direction( Forward ), limiter( false ), velocity( Decelerate )
+                                                                      ^^^^^^^^^^
+
+
+DECLARATION:
+77: template< typename T >
+                       !
+REFERENCES:
+78: T* factoryFunction()
+    ^
+80:   return new T();
+                 ^
+
+
+DECLARATION:
+78: T* factoryFunction()
+       !!!!!!!!!!!!!!!
+REFERENCES:
+
+
+DECLARATION:
+83: void main()
+         !!!!
+REFERENCES:
+
+
+DECLARATION:
+85:   factoryFunction< CMotorController >()->setDirection( Direction::Forward );
+                                             !!!!!!!!!!!!
+REFERENCES:
+
+

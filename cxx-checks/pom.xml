@@ -51,4 +51,84 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <!-- Eclipse CDT is not tracked in maven repository -->
+  <!-- Workaround:
+       cxx-check/pom.xml
+       1. Download the latest jar (see also http://www.eclipse.org/downloads/download.php?file=/tools/cdt/releases/9.4/cdt-9.4.3/plugins/org.eclipse.cdt.core_6.4.0.201802261533.jar)
+       2. Install it to the local maven repository. This allows the proper version control for dependencies.
+       cxx-sensors/pom.xml (depends on cxx-check/pom.xml)
+       3. Use local repository in addition to the official maven repository
+       4. Add the dependency to Eclipse CDT
+  -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.googlecode.maven-download-plugin</groupId>
+        <artifactId>download-maven-plugin</artifactId>
+        <version>1.4.0</version>
+        <executions>
+          <execution>
+            <id>download-eclipse-cdt-core</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://ftp.halifax.rwth-aachen.de/eclipse/tools/cdt/releases/9.5/cdt-9.5.2/plugins/org.eclipse.cdt.core_6.5.0.201807181141.jar</url>
+              <outputFileName>org.eclipse.cdt.core_6.5.0.201807181141.jar</outputFileName>
+              <outputDirectory>${java.io.tmpdir}</outputDirectory>
+              <md5>9fc8edd950a527149ae33e79bc858c91</md5>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.googlecode.maven-download-plugin</groupId>
+        <artifactId>download-maven-plugin</artifactId>
+        <version>1.4.0</version>
+        <executions>
+          <execution>
+            <id>download-eclipse-cdt-core-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://ftp.halifax.rwth-aachen.de/eclipse/tools/cdt/releases/9.5/cdt-9.5.2/plugins/org.eclipse.cdt.core.source_6.5.0.201807181141.jar</url>
+              <outputFileName>org.eclipse.cdt.core.source_6.5.0.201807181141.jar</outputFileName>
+              <outputDirectory>${java.io.tmpdir}</outputDirectory>
+              <md5>9ac89ce26712bf0b078aa178315daa15</md5>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.5.1</version>
+        <configuration>
+          <groupId>org.eclipse.cdt</groupId>
+          <artifactId>org.eclipse.cdt.core</artifactId>
+          <version>6.5.0</version>
+          <packaging>jar</packaging>
+          <file>${java.io.tmpdir}/org.eclipse.cdt.core_6.5.0.201807181141.jar</file>
+          <sources>${java.io.tmpdir}/org.eclipse.cdt.core.source_6.5.0.201807181141.jar</sources>
+          <generatePom>true</generatePom>
+          <localRepositoryPath>${java.io.tmpdir}/sonar-cxx-local-maven/</localRepositoryPath>
+          <createChecksum>true</createChecksum>
+        </configuration>
+        <executions>
+          <execution>
+            <id>install-eclipse-cdt-core</id>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <phase>generate-sources</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
