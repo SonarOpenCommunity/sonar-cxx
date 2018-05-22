@@ -89,6 +89,13 @@ void test3()
    const char     *t6 = "hello" " world";
    const wchar_t  *t7 = u"" "hello world";
    const wchar_t  *t8 = /*comment1*/ u"" /*comment2*/ "hello world" /*comment3*/; // issue #996
+
+   const char     *t9 = /*comment4*/ "hello"
+                        /*comment5*/ " world" /*comment6*/;
+
+   const char     *t10 = "hello"
+                         "Mary"
+                         "Lou";
 }
 
 /* EOF */
