@@ -60,7 +60,6 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   private static final Set<Integer> linesOfComments = Sets.newHashSet();
   private static final Set<Integer> executableLines = Sets.newHashSet();
   private final FileSystem fileSystem;
-  private final Map<InputFile, Set<Integer>> allLinesOfCode;
   private static int isWithinFunctionDefinition;
   private static final Set<String> ignoreToken = Sets.newHashSet(";", "{", "}", "(", ")", "[", "]");
   private static final AstNodeType[] nodesToVisit = {
@@ -76,15 +75,13 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
    *
    * @param context for coverage analysis
    * @param fileLinesContextFactory container for linesOfCode, linesOfComments, executableLines
-   * @param allLinesOfCode set of lines for a source file
    * @param language properties
    */
-  public CxxFileLinesVisitor(CxxLanguage language, FileLinesContextFactory fileLinesContextFactory, 
-      SensorContext context, Map<InputFile, Set<Integer>> allLinesOfCode) {
+  public CxxFileLinesVisitor(CxxLanguage language, FileLinesContextFactory fileLinesContextFactory,
+      SensorContext context) {
     this.language = language;
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.fileSystem = context.fileSystem();
-    this.allLinesOfCode = allLinesOfCode;
   }
 
   @Override
@@ -157,14 +154,14 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   }
 
   /**
-   * 
+   *
    */
   private static void increaseFunctionDefinition() {
     isWithinFunctionDefinition++;
   }
 
   /**
-   * 
+   *
    */
   private static void decreaseFunctionDefinitions() {
     isWithinFunctionDefinition--;
@@ -228,7 +225,6 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       CxxUtils.validateRecovery(e, language);
     }
     fileLinesContext.save();
-    this.allLinesOfCode.put(inputFile, Sets.newHashSet(linesOfCode));
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("CxxFileLinesVisitor: '{}'", inputFile.uri().getPath());

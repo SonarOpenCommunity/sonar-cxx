@@ -81,6 +81,9 @@ public class CommentContainsPatternChecker {
    */
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
+      if (!trivia.isComment()) {
+        continue;
+      }
       Token triviaToken = trivia.getToken();
       String comment = triviaToken.getOriginalValue();
       int line = triviaToken.getLine();

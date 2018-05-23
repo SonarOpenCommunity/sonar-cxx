@@ -19,16 +19,15 @@
  */
 package org.sonar.cxx.visitors;
 
-import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstVisitor;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR>
-  implements AstAndTokenVisitor {
+    implements AstVisitor {
 
   private SquidAstVisitorContext<?> context;
 
@@ -42,12 +41,5 @@ public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRA
   @Override
   public void visitFile(AstNode node) {
     CxxParser.finishedParsing(context.getFile());
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void visitToken(Token token) {
   }
 }

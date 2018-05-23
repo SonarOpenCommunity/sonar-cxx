@@ -55,10 +55,6 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
   private Charset charset = Charset.forName("UTF-8");
   private static final Pattern defineDeclarationPattern = Pattern.compile("^\\s*#define\\s+([^\\s(]+).*$");
 
-  @Override
-  public void init() {
-    //keywords = CxxKeyword.keywordValues();
-  }
 
   @Override
   public void visitFile(AstNode astNode) {

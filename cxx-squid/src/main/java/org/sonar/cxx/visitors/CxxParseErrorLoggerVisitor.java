@@ -19,11 +19,10 @@
  */
 package org.sonar.cxx.visitors;
 
-import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstVisitor;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
@@ -34,7 +33,7 @@ import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
-  extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
+    extends SquidAstVisitor<GRAMMAR> implements AstVisitor {
 
   private final SquidAstVisitorContext<?> context;
   private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);
@@ -84,9 +83,4 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
         context.getFile(), identifierLine, sb.toString());
     }
   }
-
-  @Override
-  public void visitToken(Token token) {
-  }
-
 }
