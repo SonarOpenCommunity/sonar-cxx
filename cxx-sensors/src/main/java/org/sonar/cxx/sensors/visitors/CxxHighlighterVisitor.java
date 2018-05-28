@@ -24,6 +24,9 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Nullable;
@@ -140,6 +143,12 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     }
   }
 
+
+  private Optional<Trivia> getTriviaWithConcatenatedLiterals(Token stringToken) {
+    return stringToken.getTrivia().stream()
+        .filter(t -> t.isSkippedText() && CxxTokenType.STRING.equals(t.getToken().getType())).findFirst();
+  }
+
   @Override
   public void visitToken(Token token) {
     if (!token.isGeneratedCode()) {
@@ -148,8 +157,17 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
         last = highlight(last, new TokenLocation(token), TypeOfText.CONSTANT);
       } else if (token.getType() instanceof CxxKeyword) {
         last = highlight(last, new TokenLocation(token), TypeOfText.KEYWORD);
-      } else if (token.getType().equals(CxxTokenType.STRING) || token.getType().equals(CxxTokenType.CHARACTER)) {
+      } else if (token.getType().equals(CxxTokenType.CHARACTER)) {
         last = highlight(last, new TokenLocation(token), TypeOfText.STRING);
+      } else if (token.getType().equals(CxxTokenType.STRING)) {
+        Optional<Trivia> triviaWithConcatenatedLiterals = getTriviaWithConcatenatedLiterals(token);
+        if (!triviaWithConcatenatedLiterals.isPresent()) {
+          last = highlight(last, new TokenLocation(token), TypeOfText.STRING);
+        } else {
+          for (Token concatenatedLiterals : triviaWithConcatenatedLiterals.get().getTokens()) {
+            last = highlight(last, new TokenLocation(concatenatedLiterals), TypeOfText.STRING);
+          }
+        }
       }
 
       for (Trivia trivia : token.getTrivia()) {

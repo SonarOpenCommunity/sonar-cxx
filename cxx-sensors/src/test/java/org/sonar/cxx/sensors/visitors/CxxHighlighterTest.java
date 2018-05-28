@@ -83,8 +83,36 @@ public class CxxHighlighterTest {
     checkOnRange(86, 24, 6, TypeOfText.STRING); // u"..."
     checkOnRange(87, 24, 6, TypeOfText.STRING); // U"..."
 
-    checkOnRange(89, 24, 13, TypeOfText.STRING); // "hello" " world"
-    checkOnRange(90, 24, 13, TypeOfText.STRING); // u"" "hello world"
+    // "hello" " world"
+    checkOnRange(89, 24, 7, TypeOfText.STRING);
+    checkOnRange(89, 32, 8, TypeOfText.STRING);
+
+    // u"" "hello world"
+    checkOnRange(90, 24, 3, TypeOfText.STRING);
+    checkOnRange(90, 28, 13, TypeOfText.STRING);
+
+    // /*comment1*/ u"" /*comment2*/ "hello world" /*comment3*/; // issue #996
+    checkOnRange(91, 24, 12, TypeOfText.COMMENT);
+    checkOnRange(91, 37, 3, TypeOfText.STRING);
+    checkOnRange(91, 41, 12, TypeOfText.COMMENT);
+    checkOnRange(91, 54, 13, TypeOfText.STRING);
+    checkOnRange(91, 68, 12, TypeOfText.COMMENT);
+    checkOnRange(91, 82, 13, TypeOfText.COMMENT);
+
+    // /*comment4*/ "hello"
+    // /*comment5*/ " world" /*comment6*/;
+    checkOnRange(93, 24, 12, TypeOfText.COMMENT);
+    checkOnRange(93, 37, 7, TypeOfText.STRING);
+    checkOnRange(94, 24, 12, TypeOfText.COMMENT);
+    checkOnRange(94, 37, 8, TypeOfText.STRING);
+    checkOnRange(94, 46, 12, TypeOfText.COMMENT);
+
+    // "hello"
+    // "Mary"
+    // "Lou";
+    checkOnRange(96, 25, 7, TypeOfText.STRING);
+    checkOnRange(97, 25, 6, TypeOfText.STRING);
+    checkOnRange(98, 25, 5, TypeOfText.STRING);
   }
 
   @Test
