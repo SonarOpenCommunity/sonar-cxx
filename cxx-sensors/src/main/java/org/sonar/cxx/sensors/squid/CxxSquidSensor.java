@@ -24,11 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
@@ -128,11 +125,10 @@ public class CxxSquidSensor implements Sensor {
    */
   @Override
   public void execute(SensorContext context) {
-    Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
 
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     visitors.add(new CxxHighlighterVisitor(context));
-    visitors.add(new CxxFileLinesVisitor(language, fileLinesContextFactory, context, linesOfCodeByFile));
+    visitors.add(new CxxFileLinesVisitor(language, fileLinesContextFactory, context));
 
     visitors.add(
       new CxxCpdVisitor(

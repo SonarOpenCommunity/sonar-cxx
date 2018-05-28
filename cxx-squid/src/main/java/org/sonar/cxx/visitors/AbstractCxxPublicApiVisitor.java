@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.visitors;
 
-import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstVisitor;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
@@ -71,7 +71,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 // @Rule(key = "UndocumentedApi", description =
 // "All public APIs should be documented", priority = Priority.MINOR)
 public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
-  extends SquidCheck<Grammar> implements AstAndTokenVisitor {
+    extends SquidCheck<Grammar> implements AstVisitor {
 
   private static final Logger LOG = Loggers.get(AbstractCxxPublicApiVisitor.class);
 
@@ -127,10 +127,6 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       System.out.println(AstXmlPrinter.print(astNode));
     }
 
-  }
-
-  @Override
-  public void visitToken(Token token) {
   }
 
   @Override
