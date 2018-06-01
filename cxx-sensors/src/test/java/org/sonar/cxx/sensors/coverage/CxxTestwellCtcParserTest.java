@@ -19,7 +19,7 @@
  */
 package org.sonar.cxx.sensors.coverage;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
@@ -48,6 +48,7 @@ public class CxxTestwellCtcParserTest {
 
   @Test
   public void shouldReportCoveredLines() {
+    SoftAssertions softly = new SoftAssertions();
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
@@ -56,12 +57,14 @@ public class CxxTestwellCtcParserTest {
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
     
-    assertThat(context.lineHits("ProjectKey:HGBuildNumberLookup.cpp", 42)).isEqualTo(10);
+    softly.assertThat(context.lineHits("ProjectKey:HGBuildNumberLookup.cpp", 42)).isEqualTo(10);
+    softly.assertAll();
     
   }
 
   @Test
   public void shouldReportCoveredConditionsOne() {
+    SoftAssertions softly = new SoftAssertions();
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
@@ -70,12 +73,14 @@ public class CxxTestwellCtcParserTest {
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
     
-    assertThat(context.coveredConditions("ProjectKey:HGBuildNumberLookup.cpp", 50)).isEqualTo(1);
+    softly.assertThat(context.coveredConditions("ProjectKey:HGBuildNumberLookup.cpp", 50)).isEqualTo(1);
+    softly.assertAll();
     
   }
 
   @Test
   public void shouldReportCoveredConditionsTwo() {
+    SoftAssertions softly = new SoftAssertions();
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
@@ -84,12 +89,14 @@ public class CxxTestwellCtcParserTest {
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
     
-    assertThat(context.coveredConditions("ProjectKey:HGBuildNumberLookup.cpp", 56)).isEqualTo(2);
+    softly.assertThat(context.coveredConditions("ProjectKey:HGBuildNumberLookup.cpp", 56)).isEqualTo(2);
+    softly.assertAll();
     
   }
 
   @Test
   public void shouldConsumeLargeReportCoveredLines() {
+    SoftAssertions softly = new SoftAssertions();
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
@@ -100,12 +107,14 @@ public class CxxTestwellCtcParserTest {
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
     
-    assertThat(context.lineHits("ProjectKey:test-wildmatch.c", 3)).isEqualTo(209);
+    softly.assertThat(context.lineHits("ProjectKey:test-wildmatch.c", 3)).isEqualTo(209);
+    softly.assertAll();
 
   }
 
   @Test
   public void shouldConsumeLargeReportCoveredConditions() {
+    SoftAssertions softly = new SoftAssertions();
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
@@ -116,12 +125,14 @@ public class CxxTestwellCtcParserTest {
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
     
-    assertThat(context.coveredConditions("ProjectKey:test-wildmatch.c", 6)).isEqualTo(2);
+    softly.assertThat(context.coveredConditions("ProjectKey:test-wildmatch.c", 6)).isEqualTo(2);
+    softly.assertAll();
 
   }
 
   @Test
   public void shouldConsumeLargeReportConditions() {
+    SoftAssertions softly = new SoftAssertions();
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
@@ -132,12 +143,14 @@ public class CxxTestwellCtcParserTest {
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
     
-    assertThat(context.conditions("ProjectKey:credential-store.c", 78)).isEqualTo(8);
+    softly.assertThat(context.conditions("ProjectKey:credential-store.c", 78)).isEqualTo(8);
+    softly.assertAll();
 
   }
 
   @Test
   public void shouldConsumeEmptyReport() {
+    SoftAssertions softly = new SoftAssertions();
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_empty.txt");
     context.setSettings(settings);
@@ -146,7 +159,8 @@ public class CxxTestwellCtcParserTest {
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
     
-    assertThat(context.lineHits("ProjectKey:test-wildmatch.c", 3)).isNull();
+    softly.assertThat(context.lineHits("ProjectKey:test-wildmatch.c", 3)).isNull();
+    softly.assertAll();
 
   }
 }
