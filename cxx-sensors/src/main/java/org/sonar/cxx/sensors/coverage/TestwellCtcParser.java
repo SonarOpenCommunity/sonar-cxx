@@ -39,7 +39,6 @@ import static org.sonar.cxx.sensors.coverage.TestwellCtcResult.FILE_HEADER;
 import static org.sonar.cxx.sensors.coverage.TestwellCtcResult.FILE_RESULT;
 import static org.sonar.cxx.sensors.coverage.TestwellCtcResult.LINE_RESULT;
 import static org.sonar.cxx.sensors.coverage.TestwellCtcResult.SECTION_SEP;
-import static org.sonar.cxx.sensors.coverage.TestwellCtcResult.REPORT_FOOTER;
 
 
 
@@ -92,8 +91,8 @@ public class TestwellCtcParser extends CxxCoverageParser {
     } catch (FileNotFoundException e) {
       LOG.warn("TestwellCtcParser file not found '{}'", e.getMessage());
     }
-
   }
+
   private void parseReportHead() {
     try {
       if (!matcher.reset(scanner.next()).find()) {
@@ -105,7 +104,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
       LOG.debug("'Testwell CTC++' file section not found!");
     }
   }
-  
+
   private void parseUnit(final Map<String, CoverageMeasures> coverageData) {
     LOG.debug(matcher.toString());
     
@@ -116,7 +115,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
       scanner.close();
     }
   }
-  
+
   private void parseFileUnit(final Map<String, CoverageMeasures> coverageData) {
     LOG.debug("Parsing file section...");
     
@@ -134,7 +133,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
     addLines(file, coverageData);
     matcher.reset(scanner.next());
   }
-  
+
   private void addLines(File file, final Map<String, CoverageMeasures> coverageData) {
     LOG.debug("Parsing function sections...");
 
@@ -144,7 +143,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
     }
     coverageData.put(file.getPath(), coverageMeasures);
   }
-  
+
   private void parseLineSection(CoverageMeasures coverageMeasures) {
     LOG.debug("Found line section...");
     
@@ -154,12 +153,11 @@ public class TestwellCtcParser extends CxxCoverageParser {
       LOG.warn("Neither File Result nor Line Result after FileHeader!");
     }
   }
-  
+
   private void addEachLine(CoverageMeasures coverageMeasures) {
 
     int lineIdCur;
     int lineIdPrev;
-    int lineIdNext;
     int lineHits;
     int conditions;
     int coveredConditions;
@@ -167,29 +165,29 @@ public class TestwellCtcParser extends CxxCoverageParser {
     int lineHitsTrue;
     int lineHitsFalse;
     boolean conditionDetected;
-    
+
     lineIdPrev = 0;
     conditions = 0;
     coveredConditions = 0;
     lineIdCond = 0;
     conditionDetected = false;
     lineHits = 0;
-    
+
     do {
       lineIdCur = Integer.parseInt(matcher.group(LINE_NR_GROUP));
-     
+
       String condsTrue = matcher.group(CONDS_TRUE);
       String condsFalse = matcher.group(CONDS_FALSE);
-      
+
       if ((condsTrue != null) || (condsFalse != null)) {
-        
+
         lineHitsTrue = (condsTrue != null ? new BigDecimal(condsTrue).intValue() : 0);
         lineHitsFalse = (condsFalse != null ? new BigDecimal(condsFalse).intValue() : 0);
         lineHits = lineHitsTrue + lineHitsFalse;
-        
+
         if (lineIdPrev != lineIdCur) {
           coverageMeasures.setHits(lineIdCur, lineHits);
-          
+
           if (lineIdCond > 0) {
             coverageMeasures.setConditions(lineIdCond, conditions, coveredConditions);
             lineIdCond = 0;
@@ -197,7 +195,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
             coveredConditions = 0;
             conditionDetected = false;
           }
-          
+
           if ((condsTrue != null) && (condsFalse != null)) {
             // suppose single condition
             lineIdCond = lineIdCur;
@@ -207,7 +205,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
           }
         } else {
           // multicondition
-          
+
           if (conditionDetected == true) {
             // reset supposed single condition
             conditions = 0;
@@ -222,28 +220,40 @@ public class TestwellCtcParser extends CxxCoverageParser {
         }
       } else {
         // Parse information for statement coverage needed in decising the line coverage
-        String blockEnd = matcher.group(4);
-        if (blockEnd != null) {
-          if (blockEnd.endsWith("-")) {
-            lineHits = 0;
-          } else if (blockEnd.endsWith("+")) {
-            lineHits = 1;
-          } else {
-            lineHits = 0;
-            LOG.warn("Undefined information for statement coverage!");
-          }
-          coverageMeasures.setHits(lineIdCur, lineHits);
-        }
+        setLinehitsByBlockend(coverageMeasures, lineIdCur);
       }
 
-      if (lineIdPrev > 0) {
-        lineIdNext = lineIdPrev + 1;
-        while (lineIdNext < lineIdCur) {
-          coverageMeasures.setHits(lineIdNext, lineHits);
-          lineIdNext++;
-        }
-      }
+      setLinehits(coverageMeasures, lineIdPrev, lineIdCur, lineHits);
       lineIdPrev = lineIdCur;
     } while (matcher.find());
+  }
+
+  private void setLinehitsByBlockend(CoverageMeasures coverageMeasures, int lineIdCur) {
+    int lineHits;
+    String blockEnd = matcher.group(4);
+
+    if (blockEnd != null) {
+      if (blockEnd.endsWith("-")) {
+        lineHits = 0;
+      } else if (blockEnd.endsWith("+")) {
+        lineHits = 1;
+      } else {
+        lineHits = 0;
+        LOG.warn("Undefined information for statement coverage!");
+      }
+      coverageMeasures.setHits(lineIdCur, lineHits);
+    }
+  }
+  
+  private void setLinehits(CoverageMeasures coverageMeasures, int lineIdPrev, int lineIdCur, int lineHits) {
+    int lineIdNext;
+
+    if (lineIdPrev > 0) {
+      lineIdNext = lineIdPrev + 1;
+      while (lineIdNext < lineIdCur) {
+        coverageMeasures.setHits(lineIdNext, lineHits);
+        lineIdNext++;
+      }
+    }
   }
 }
