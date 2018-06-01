@@ -47,7 +47,7 @@ public class CxxTestwellCtcParserTest {
   }
 
   @Test
-  public void shouldReportCorrectCoverage() {
+  public void shouldReportCoveredLines() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
@@ -57,13 +57,39 @@ public class CxxTestwellCtcParserTest {
     sensor.execute(context);
     
     assertThat(context.lineHits("ProjectKey:HGBuildNumberLookup.cpp", 42)).isEqualTo(10);
+    
+  }
+
+  @Test
+  public void shouldReportCoveredConditionsOne() {
+    context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_small_v8.txt");
+    context.setSettings(settings);
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
+      .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+    sensor.execute(context);
+    
     assertThat(context.coveredConditions("ProjectKey:HGBuildNumberLookup.cpp", 50)).isEqualTo(1);
+    
+  }
+
+  @Test
+  public void shouldReportCoveredConditionsTwo() {
+    context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_small_v8.txt");
+    context.setSettings(settings);
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
+      .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+    sensor.execute(context);
+    
     assertThat(context.coveredConditions("ProjectKey:HGBuildNumberLookup.cpp", 56)).isEqualTo(2);
     
   }
 
   @Test
-  public void shouldConsumeLargeReport() {
+  public void shouldConsumeLargeReportCoveredLines() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
@@ -75,7 +101,37 @@ public class CxxTestwellCtcParserTest {
     sensor.execute(context);
     
     assertThat(context.lineHits("ProjectKey:test-wildmatch.c", 3)).isEqualTo(209);
+
+  }
+
+  @Test
+  public void shouldConsumeLargeReportCoveredConditions() {
+    context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_big.txt");
+    context.setSettings(settings);
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
+      .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "credential-store.c")
+      .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+    sensor.execute(context);
+    
     assertThat(context.coveredConditions("ProjectKey:test-wildmatch.c", 6)).isEqualTo(2);
+
+  }
+
+  @Test
+  public void shouldConsumeLargeReportConditions() {
+    context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/TestwellCTC/report_big.txt");
+    context.setSettings(settings);
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
+      .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "credential-store.c")
+      .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+    sensor.execute(context);
+    
     assertThat(context.conditions("ProjectKey:credential-store.c", 78)).isEqualTo(8);
 
   }
