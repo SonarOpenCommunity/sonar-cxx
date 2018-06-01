@@ -174,6 +174,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
     coveredConditions = 0;
     lineIdCond = 0;
     conditionDetected = false;
+    lineHits = 0;
     
     do {
       lineIdCur = Integer.parseInt(matcher.group(LINE_NR_GROUP));
@@ -237,9 +238,6 @@ public class TestwellCtcParser extends CxxCoverageParser {
             LOG.warn("Undefined information for statement coverage!");
           }
           coverageMeasures.setHits(lineIdCur, lineHits);
-        }
-        else {
-          lineHits = 0;
         }
       }
 
