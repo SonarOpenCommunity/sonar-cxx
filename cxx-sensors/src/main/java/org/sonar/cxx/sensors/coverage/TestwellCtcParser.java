@@ -127,8 +127,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
     filename = matcher.group(1);
     if((new File(filename)).isAbsolute() == false) {
       normalFilename = FilenameUtils.normalize("./" + filename);
-    }
-    else {
+    } else {
       normalFilename = FilenameUtils.normalize(filename);
     }
     file = new File(normalFilename);
@@ -151,7 +150,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
     
     if (matcher.usePattern(LINE_RESULT).find(FROM_START)) {
       addEachLine(coverageMeasures);
-    } else  {
+    } else {
       LOG.warn("Neither File Result nor Line Result after FileHeader!");
     }
   }
@@ -206,9 +205,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
             coveredConditions = (lineHitsTrue > 0 ? 1 : 0) + (lineHitsFalse > 0 ? 1 : 0);
             conditionDetected = true;
           }
-        }
-        else
-        {
+        } else {
           // multicondition
           
           if (conditionDetected == true) {
@@ -223,9 +220,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
             coveredConditions++;
           }
         }
-      }
-      else
-      {
+      } else {
         // Parse information for statement coverage needed in decising the line coverage
         String blockEnd = matcher.group(4);
         if (blockEnd != null) {
