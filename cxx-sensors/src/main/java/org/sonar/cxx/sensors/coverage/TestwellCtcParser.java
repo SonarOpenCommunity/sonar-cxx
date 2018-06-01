@@ -111,7 +111,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
     
     if (matcher.usePattern(FILE_HEADER).find(FROM_START)) {
       parseFileUnit(coverageData);
-    } else if (matcher.usePattern(REPORT_FOOTER).find(FROM_START)) {
+    } else {
       state = State.END;
       scanner.close();
     }
