@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
 
-public enum TestwellCtcResult {
+public enum TestwellCtcTxtResult {
 
   MON_SYM("Symbol file\\(s\\) used   : (.*$(?:\\s+^ +.*$)*)"),
   MON_DAT("Data file\\(s\\) used     : (.*$(?:\\s+^ +.*$)*)"),
@@ -50,7 +50,7 @@ public enum TestwellCtcResult {
 
   private final String patternString;
 
-  private TestwellCtcResult(String key) {
+  private TestwellCtcTxtResult(String key) {
     patternString = key;
   }
 

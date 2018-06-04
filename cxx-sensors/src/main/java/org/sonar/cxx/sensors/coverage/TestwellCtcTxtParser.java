@@ -35,19 +35,19 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
-import static org.sonar.cxx.sensors.coverage.TestwellCtcResult.FILE_HEADER;
-import static org.sonar.cxx.sensors.coverage.TestwellCtcResult.FILE_RESULT;
-import static org.sonar.cxx.sensors.coverage.TestwellCtcResult.LINE_RESULT;
-import static org.sonar.cxx.sensors.coverage.TestwellCtcResult.SECTION_SEP;
+import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.FILE_HEADER;
+import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.FILE_RESULT;
+import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.LINE_RESULT;
+import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.SECTION_SEP;
 
 
 
 /**
  * {@inheritDoc}
  */
-public class TestwellCtcParser extends CxxCoverageParser {
+public class TestwellCtcTxtParser extends CxxCoverageParser {
 
-  private static final Logger LOG = Loggers.get(TestwellCtcParser.class);
+  private static final Logger LOG = Loggers.get(TestwellCtcTxtParser.class);
   
   private Scanner scanner;
   private Matcher matcher;
@@ -66,7 +66,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
   }
   
 
-  public TestwellCtcParser() {
+  public TestwellCtcTxtParser() {
     // no operation but necessary for list of coverage parsers 
   }
 
@@ -75,7 +75,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
    */
   @Override
   public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData) {
-    LOG.debug("Parsing 'Testwell CTC++' format");
+    LOG.debug("Parsing 'Testwell CTC++' textual format");
     
     try {
       this.scanner = new Scanner(report).useDelimiter(SECTION_SEP);
@@ -89,7 +89,7 @@ public class TestwellCtcParser extends CxxCoverageParser {
       }
       
     } catch (FileNotFoundException e) {
-      LOG.warn("TestwellCtcParser file not found '{}'", e.getMessage());
+      LOG.warn("TestwellCtcTxtParser file not found '{}'", e.getMessage());
     }
   }
 

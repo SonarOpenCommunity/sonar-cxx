@@ -31,7 +31,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxTestwellCtcParserTest {
+public class CxxTestwellCtcTxtParserTest {
 
   private CxxCoverageSensor sensor;
   private DefaultFileSystem fs;

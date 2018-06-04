@@ -67,7 +67,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     parsers.add(new CoberturaParser());
     parsers.add(new BullseyeParser());
     parsers.add(new VisualStudioParser());
-    parsers.add(new TestwellCtcParser());
+    parsers.add(new TestwellCtcTxtParser());
   }
 
   @Override
