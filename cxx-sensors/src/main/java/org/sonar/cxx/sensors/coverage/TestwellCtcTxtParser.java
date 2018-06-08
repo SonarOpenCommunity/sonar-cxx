@@ -53,8 +53,7 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
   private static final Logger LOG = Loggers.get(TestwellCtcTxtParser.class);
   
   private Scanner scanner;
-  private Matcher matcher;
-  
+  private Matcher matcher;  
   
   private static final int FROM_START = 0;
   private static final int CONDS_FALSE = 1;
@@ -78,8 +77,8 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
       this.scanner = new Scanner(report).useDelimiter(SECTION_SEP);
       this.matcher = FILE_HEADER.matcher("");
       
-      if (true == parseReportHead()) {
-        while(true == parseUnit(coverageData)) {
+      if (parseReportHead()) {
+        while(parseUnit(coverageData)) {
         }
       }
     } catch (FileNotFoundException e) {
@@ -89,7 +88,7 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
 
   private boolean parseReportHead() {
     try {
-      if (false == matcher.reset(scanner.next()).find()) {
+      if (!matcher.reset(scanner.next()).find()) {
         LOG.info("'Testwell CTC++' file section not found.");
       } else {
         return true;
@@ -116,16 +115,14 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
     LOG.debug("Parsing file section...");
     
     String normalFilename;
-    String filename;
-    File file;
     
-    filename = matcher.group(1);
-    if((new File(filename)).isAbsolute() == false) {
+    String filename = matcher.group(1);
+    if (!(new File(filename)).isAbsolute()) {
       normalFilename = FilenameUtils.normalize("./" + filename);
     } else {
       normalFilename = FilenameUtils.normalize(filename);
     }
-    file = new File(normalFilename);
+    File file = new File(normalFilename);
     addLines(file, coverageData);
     matcher.reset(scanner.next());
   }
@@ -152,33 +149,23 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
 
   private void addEachLine(CoverageMeasures coverageMeasures) {
 
-    int lineIdCur;
-    int lineIdPrev;
-    int lineHits;
-    int conditions;
-    int coveredConditions;
-    int lineIdCond;
-    int lineHitsTrue;
-    int lineHitsFalse;
-    boolean conditionDetected;
-
-    lineIdPrev = 0;
-    conditions = 0;
-    coveredConditions = 0;
-    lineIdCond = 0;
-    conditionDetected = false;
-    lineHits = 0;
+    int lineHits = 0;
+    int lineIdPrev = 0;
+    int lineIdCond = 0;
+    int conditions = 0;
+    int coveredConditions = 0;
+    boolean conditionIsDetected = false;
 
     do {
-      lineIdCur = Integer.parseInt(matcher.group(LINE_NR_GROUP));
+      int lineIdCur = Integer.parseInt(matcher.group(LINE_NR_GROUP));
 
       String condsTrue = matcher.group(CONDS_TRUE);
       String condsFalse = matcher.group(CONDS_FALSE);
 
       if ((condsTrue != null) || (condsFalse != null)) {
 
-        lineHitsTrue = (condsTrue != null ? new BigDecimal(condsTrue).intValue() : 0);
-        lineHitsFalse = (condsFalse != null ? new BigDecimal(condsFalse).intValue() : 0);
+        int lineHitsTrue = (condsTrue != null ? new BigDecimal(condsTrue).intValue() : 0);
+        int lineHitsFalse = (condsFalse != null ? new BigDecimal(condsFalse).intValue() : 0);
         lineHits = lineHitsTrue + lineHitsFalse;
 
         if (lineIdPrev != lineIdCur) {
@@ -189,7 +176,7 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
             lineIdCond = 0;
             conditions = 0;
             coveredConditions = 0;
-            conditionDetected = false;
+            conditionIsDetected = false;
           }
 
           if ((condsTrue != null) && (condsFalse != null)) {
@@ -197,16 +184,16 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
             lineIdCond = lineIdCur;
             conditions = 2;
             coveredConditions = (lineHitsTrue > 0 ? 1 : 0) + (lineHitsFalse > 0 ? 1 : 0);
-            conditionDetected = true;
+            conditionIsDetected = true;
           }
         } else {
           // multicondition
 
-          if (conditionDetected == true) {
+          if (conditionIsDetected) {
             // reset supposed single condition
             conditions = 0;
             coveredConditions = 0;
-            conditionDetected = false;
+            conditionIsDetected = false;
           }
           lineIdCond = lineIdCur;
           conditions++;
@@ -242,10 +229,9 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
   }
   
   private void setLinehits(CoverageMeasures coverageMeasures, int lineIdPrev, int lineIdCur, int lineHits) {
-    int lineIdNext;
 
     if (lineIdPrev > 0) {
-      lineIdNext = lineIdPrev + 1;
+      int lineIdNext = lineIdPrev + 1;
       while (lineIdNext < lineIdCur) {
         coverageMeasures.setHits(lineIdNext, lineHits);
         lineIdNext++;
