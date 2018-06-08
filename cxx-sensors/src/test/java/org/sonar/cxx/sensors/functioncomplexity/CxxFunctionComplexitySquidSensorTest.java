@@ -46,7 +46,6 @@ import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
-import org.sonar.opencommunity.metrics.OpenCommunityMetrics;
 import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxFunctionComplexitySquidSensorTest {
@@ -114,7 +113,33 @@ public class CxxFunctionComplexitySquidSensorTest {
           value = (T) m.value();
       }
       return value;
-    }       
+    }   
+    
+    @Test
+    public void testPublishMeasuresForProject() throws IOException {            
+        DefaultInputFile inputFile = getInputFile();              
+                
+        CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
+        sensor.publishMeasureForProject(sensorContext.module(), sensorContext);
+                      
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(4);                        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(44);                        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(40.0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(80);        
+    }           
+    
+    @Test
+    public void testPublishMeasuresForEmptyProject() throws IOException {            
+        DefaultInputFile inputFile = getEmptyInputFile();              
+                
+        CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
+        sensor.publishMeasureForProject(sensorContext.module(), sensorContext);
+                      
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(0);                        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);                        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);        
+    }               
     
     @Test
     public void testPublishMeasuresForFile() throws IOException {            
@@ -123,10 +148,10 @@ public class CxxFunctionComplexitySquidSensorTest {
         SourceFile squidFile = CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
         sensor.publishMeasureForFile(inputFile, squidFile, sensorContext);
                       
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(4);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.COMPLEX_FUNCTIONS_LOC)).isEqualTo(44);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.COMPLEX_FUNCTIONS_PERC)).isEqualTo(40.0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)).isEqualTo(80);                
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(4);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(44);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(40.0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(80);                
     }              
 
     @Test
@@ -136,9 +161,9 @@ public class CxxFunctionComplexitySquidSensorTest {
         SourceFile squidFile = CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), sensor.getVisitor());
         sensor.publishMeasureForFile(inputFile, squidFile, sensorContext);
                       
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.COMPLEX_FUNCTIONS_LOC)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.COMPLEX_FUNCTIONS_PERC)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), OpenCommunityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)).isEqualTo(0);                
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);                
     }    
 }

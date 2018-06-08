@@ -39,7 +39,6 @@ import static org.sonar.cxx.checks.TooManyLinesOfCodeInFunctionCheck.getNumberOf
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import static org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor.REPORT_PATH_KEY;
 import org.sonar.cxx.sensors.squid.SquidSensor;
-import org.sonar.opencommunity.metrics.OpenCommunityMetrics;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
@@ -139,13 +138,13 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
     }      
     
     context.<Integer>newMeasure()
-      .forMetric(OpenCommunityMetrics.COMPLEX_FUNCTIONS)
+      .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS)
       .on(inputFile)
       .withValue((int)c.countOverThreshold)
       .save();    
 
     context.<Double>newMeasure()
-      .forMetric(OpenCommunityMetrics.COMPLEX_FUNCTIONS_PERC)
+      .forMetric(FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)
       .on(inputFile)
       .withValue(calculatePercentual((int)c.countOverThreshold, (int)c.countBelowThreshold))
       .save();    
@@ -161,13 +160,13 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
     }
     
     context.<Integer>newMeasure()
-            .forMetric(OpenCommunityMetrics.COMPLEX_FUNCTIONS_LOC)
+            .forMetric(FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)
             .on(inputFile)
             .withValue(locCount.countOverThreshold)
             .save();
     
     context.<Double>newMeasure()
-      .forMetric(OpenCommunityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)
+      .forMetric(FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)
       .on(inputFile)
       .withValue(calculatePercentual((int)locCount.countOverThreshold, (int)locCount.countBelowThreshold))
       .save();        
@@ -175,18 +174,19 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
 
   @Override
   public void publishMeasureForProject(InputModule module, SensorContext context) {
-    
+    publishComplexFunctionMetrics(module, context);    
+    publishLinesOfCodeInComplexFunctionMetrics(module, context);       
   }
   
   private void publishComplexFunctionMetrics(InputModule module, SensorContext context){
     context.<Integer>newMeasure()
-      .forMetric(OpenCommunityMetrics.COMPLEX_FUNCTIONS)
+      .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS)
       .on(module)
       .withValue(functionsOverThreshold)
       .save();
     
     context.<Double>newMeasure()
-      .forMetric(OpenCommunityMetrics.COMPLEX_FUNCTIONS_PERC)
+      .forMetric(FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)
       .on(module)
       .withValue(calculatePercentual(functionsOverThreshold, functionsBelowThreshold))
       .save();    
@@ -194,13 +194,13 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
   
   private void publishLinesOfCodeInComplexFunctionMetrics(InputModule module, SensorContext context){
     context.<Integer>newMeasure()
-      .forMetric(OpenCommunityMetrics.COMPLEX_FUNCTIONS_LOC)
+      .forMetric(FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)
       .on(module)
       .withValue(linesOfCodeOverThreshold)
       .save();
     
     context.<Double>newMeasure()
-      .forMetric(OpenCommunityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)
+      .forMetric(FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)
       .on(module)
       .withValue(calculatePercentual(linesOfCodeOverThreshold, linesOfCodeBelowThreshold))
       .save();    

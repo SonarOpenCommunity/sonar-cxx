@@ -101,10 +101,5 @@
     	<artifactId>assertj-core</artifactId>
     	<scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.sonar.opencommunity.metrics</groupId>
-      <artifactId>sonar-opencommunity-metrics</artifactId>
-      <version>0.9.9</version>
-    </dependency>
   </dependencies>
 </project>
