@@ -138,7 +138,7 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
       .save();    
 
     context.<Double>newMeasure()
-      .forMetric(FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)
+      .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_PERC)
       .on(inputFile)
       .withValue(calculatePercentual((int)c.countOverThreshold, (int)c.countBelowThreshold))
       .save();    
@@ -154,13 +154,13 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
     }
     
     context.<Integer>newMeasure()
-            .forMetric(FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)
+            .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC)
             .on(inputFile)
             .withValue(locCount.countOverThreshold)
             .save();
     
     context.<Double>newMeasure()
-      .forMetric(FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)
+      .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)
       .on(inputFile)
       .withValue(calculatePercentual((int)locCount.countOverThreshold, (int)locCount.countBelowThreshold))
       .save();        
@@ -180,7 +180,7 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
       .save();
     
     context.<Double>newMeasure()
-      .forMetric(FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)
+      .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_PERC)
       .on(module)
       .withValue(calculatePercentual(functionsOverThreshold, functionsBelowThreshold))
       .save();    
@@ -188,13 +188,13 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
   
   private void publishLinesOfCodeInComplexFunctionMetrics(InputModule module, SensorContext context){
     context.<Integer>newMeasure()
-      .forMetric(FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)
+      .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC)
       .on(module)
       .withValue(linesOfCodeOverThreshold)
       .save();
     
     context.<Double>newMeasure()
-      .forMetric(FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)
+      .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)
       .on(module)
       .withValue(calculatePercentual(linesOfCodeOverThreshold, linesOfCodeBelowThreshold))
       .save();    

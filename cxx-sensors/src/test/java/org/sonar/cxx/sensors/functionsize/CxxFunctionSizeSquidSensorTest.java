@@ -117,9 +117,9 @@ public class CxxFunctionSizeSquidSensorTest {
                       
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(4);        
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.LOC_IN_FUNCTIONS)).isEqualTo(55);      
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(44);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(40.0);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(80);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS_LOC)).isEqualTo(44);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS_PERC)).isEqualTo(40.0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS_LOC_PERC)).isEqualTo(80);        
     }        
     
     @Test
@@ -131,9 +131,9 @@ public class CxxFunctionSizeSquidSensorTest {
                       
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(0);        
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.LOC_IN_FUNCTIONS)).isEqualTo(0);      
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS_LOC)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS_PERC)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionSizeMetrics.BIG_FUNCTIONS_LOC_PERC)).isEqualTo(0);        
     }            
     
     @Test
@@ -145,9 +145,9 @@ public class CxxFunctionSizeSquidSensorTest {
                       
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(4);        
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.LOC_IN_FUNCTIONS)).isEqualTo(55);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(44);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(40.0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(80);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS_LOC)).isEqualTo(44);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS_PERC)).isEqualTo(40.0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS_LOC_PERC)).isEqualTo(80);        
     }  
     
     @Test
@@ -159,8 +159,8 @@ public class CxxFunctionSizeSquidSensorTest {
                       
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS)).isEqualTo(0);        
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.LOC_IN_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_BIG_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS_LOC)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS_PERC)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionSizeMetrics.BIG_FUNCTIONS_LOC_PERC)).isEqualTo(0);        
     }                
 }

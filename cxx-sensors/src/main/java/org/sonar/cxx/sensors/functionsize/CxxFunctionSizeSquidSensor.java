@@ -134,7 +134,7 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
       .save();
     
     context.<Double>newMeasure()
-      .forMetric(FunctionSizeMetrics.PERC_BIG_FUNCTIONS)
+      .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS_PERC)
       .on(module)
       .withValue(calculatePercentual(functionsOverThreshold, functionsBelowThreshold))
       .save();        
@@ -148,13 +148,13 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
       .save();    
     
     context.<Integer>newMeasure()
-      .forMetric(FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)
+      .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS_LOC)
       .on(module)
       .withValue(locOverThreshold)
       .save();
     
     context.<Double>newMeasure()
-      .forMetric(FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)
+      .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS_LOC_PERC)
       .on(module)
       .withValue(calculatePercentual(locOverThreshold, locBelowThreshold))
       .save();            
@@ -183,7 +183,7 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
       .save();
 
     context.<Double>newMeasure()
-      .forMetric(FunctionSizeMetrics.PERC_BIG_FUNCTIONS)
+      .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS_PERC)
       .on(inputFile)
       .withValue(calculatePercentual(c.countOverThreshold, c.countBelowThreshold))
       .save();    
@@ -204,13 +204,13 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
       .save();    
     
     context.<Integer>newMeasure()
-      .forMetric(FunctionSizeMetrics.LOC_IN_BIG_FUNCTIONS)
+      .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS_LOC)
       .on(inputFile)
       .withValue(c.countOverThreshold)
       .save();
 
     context.<Double>newMeasure()
-      .forMetric(FunctionSizeMetrics.PERC_LOC_IN_BIG_FUNCTIONS)
+      .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS_LOC_PERC)
       .on(inputFile)
       .withValue(calculatePercentual(c.countOverThreshold, c.countBelowThreshold))
       .save();    

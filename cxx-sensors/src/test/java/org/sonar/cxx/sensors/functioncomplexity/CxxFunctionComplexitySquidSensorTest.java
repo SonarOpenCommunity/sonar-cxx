@@ -117,9 +117,9 @@ public class CxxFunctionComplexitySquidSensorTest {
         sensor.publishMeasureForProject(sensorContext.module(), sensorContext);
                       
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(4);                        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(44);                        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(40.0);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(80);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC)).isEqualTo(44);                        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_PERC)).isEqualTo(40.0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)).isEqualTo(80);        
     }           
     
     @Test
@@ -130,9 +130,9 @@ public class CxxFunctionComplexitySquidSensorTest {
         sensor.publishMeasureForProject(sensorContext.module(), sensorContext);
                       
         assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(0);                        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);                        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC)).isEqualTo(0);                        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_PERC)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, sensorContext.module().key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)).isEqualTo(0);        
     }               
     
     @Test
@@ -143,9 +143,9 @@ public class CxxFunctionComplexitySquidSensorTest {
         sensor.publishMeasureForFile(inputFile, squidFile, sensorContext);
                       
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(4);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(44);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(40.0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(80);                
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC)).isEqualTo(44);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_PERC)).isEqualTo(40.0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)).isEqualTo(80);                
     }              
 
     @Test
@@ -156,8 +156,8 @@ public class CxxFunctionComplexitySquidSensorTest {
         sensor.publishMeasureForFile(inputFile, squidFile, sensorContext);
                       
         assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_COMPLEX_FUNCTIONS)).isEqualTo(0);        
-        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.PERC_LOC_IN_COMPLEX_FUNCTIONS)).isEqualTo(0);                
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_PERC)).isEqualTo(0);        
+        assertThat(getMeasureValue(sensorContext, inputFile.key(), FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)).isEqualTo(0);                
     }    
 }
