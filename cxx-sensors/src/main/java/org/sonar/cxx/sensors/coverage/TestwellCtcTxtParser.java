@@ -54,19 +54,13 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
   
   private Scanner scanner;
   private Matcher matcher;
-  private State state;
   
   
   private static final int FROM_START = 0;
   private static final int CONDS_FALSE = 1;
   private static final int CONDS_TRUE = 2;
   private static final int LINE_NR_GROUP = 3;
-  
-  private enum State {
-    BEGIN,
-    PARSING,
-    END;
-  }
+
   
 
   public TestwellCtcTxtParser() {
@@ -84,39 +78,38 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
       this.scanner = new Scanner(report).useDelimiter(SECTION_SEP);
       this.matcher = FILE_HEADER.matcher("");
       
-      this.state = State.BEGIN;
-      parseReportHead();
-
-      while(State.PARSING == this.state) {
-          parseUnit(coverageData);
+      if (true == parseReportHead()) {
+        while(true == parseUnit(coverageData)) {
+        }
       }
-      
     } catch (FileNotFoundException e) {
       LOG.warn("TestwellCtcTxtParser file not found '{}'", e.getMessage());
     }
   }
 
-  private void parseReportHead() {
+  private boolean parseReportHead() {
     try {
-      if (!matcher.reset(scanner.next()).find()) {
+      if (false == matcher.reset(scanner.next()).find()) {
         LOG.info("'Testwell CTC++' file section not found.");
       } else {
-        this.state = State.PARSING;
+        return true;
       }
     } catch (NoSuchElementException e) {
       LOG.debug("'Testwell CTC++' file section not found!");
     }
+    return false;
   }
 
-  private void parseUnit(final Map<String, CoverageMeasures> coverageData) {
+  private boolean parseUnit(final Map<String, CoverageMeasures> coverageData) {
     LOG.debug(matcher.toString());
     
     if (matcher.usePattern(FILE_HEADER).find(FROM_START)) {
       parseFileUnit(coverageData);
     } else {
-      state = State.END;
       scanner.close();
+      return false;
     }
+    return true;
   }
 
   private void parseFileUnit(final Map<String, CoverageMeasures> coverageData) {
@@ -141,7 +134,7 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
     LOG.debug("Parsing function sections...");
 
     CoverageMeasures coverageMeasures = CoverageMeasures.create();
-    while (!matcher.reset(scanner.next()).usePattern(FILE_RESULT).find()) {
+    while (false == matcher.reset(scanner.next()).usePattern(FILE_RESULT).find()) {
       parseLineSection(coverageMeasures);
     }
     coverageData.put(file.getPath(), coverageMeasures);
