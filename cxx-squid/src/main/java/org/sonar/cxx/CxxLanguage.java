@@ -43,7 +43,7 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public CxxLanguage(String key, Configuration settings) {
     super(key);
     this.settings = settings;
-    this.MetricsCache = new HashMap<>();   
+    this.MetricsCache = new HashMap<>();
   }
 
   public CxxLanguage(String key, String name, Configuration settings) {

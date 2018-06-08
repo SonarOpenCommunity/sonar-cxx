@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.functionsize;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;

@@ -92,7 +92,7 @@ public final class CxxPlugin implements Plugin {
   public static final String MISSING_INCLUDE_WARN = LANG_PROP_PREFIX + "missingIncludeWarnings";
   public static final String JSON_COMPILATION_DATABASE_KEY = LANG_PROP_PREFIX + "jsonCompilationDatabase";
   public static final String CPD_IGNORE_LITERALS_KEY = LANG_PROP_PREFIX + "cpd.ignoreLiterals";
-  public static final String CPD_IGNORE_IDENTIFIERS_KEY = LANG_PROP_PREFIX + "cpd.ignoreIdentifiers";  
+  public static final String CPD_IGNORE_IDENTIFIERS_KEY = LANG_PROP_PREFIX + "cpd.ignoreIdentifiers";
 
   private static List<PropertyDefinition> generalProperties() {
     String subcateg = "(1) General";

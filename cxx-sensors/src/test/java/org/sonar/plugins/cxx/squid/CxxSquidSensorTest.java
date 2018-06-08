@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import com.sonar.sslr.api.AstVisitor;
 import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import java.io.IOException;

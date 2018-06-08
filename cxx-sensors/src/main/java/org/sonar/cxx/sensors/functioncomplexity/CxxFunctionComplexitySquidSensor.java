@@ -21,23 +21,16 @@ package org.sonar.cxx.sensors.functioncomplexity;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Hashtable;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.InputModule;
 import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
 import static org.sonar.cxx.checks.TooManyLinesOfCodeInFunctionCheck.getNumberOfLine;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import static org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor.REPORT_PATH_KEY;
 import org.sonar.cxx.sensors.squid.SquidSensor;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.SourceFile;
@@ -68,7 +61,8 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
   
   public CxxFunctionComplexitySquidSensor(CxxLanguage language){    
     this.cyclomaticComplexityThreshold = language.getIntegerOption(FUNCTION_COMPLEXITY_THRESHOLD_KEY).orElse(10);
-    LOG.debug("Cyclomatic complexity threshold: " + this.cyclomaticComplexityThreshold);                     
+    if (LOG.isDebugEnabled())
+      LOG.debug("Cyclomatic complexity threshold: " + this.cyclomaticComplexityThreshold);                     
   } 
 
   @Override

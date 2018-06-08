@@ -122,8 +122,8 @@ public class CxxSquidSensor implements Sensor {
     registerSquidSensors();
   }
   
-  protected void registerSquidSensors(){
-    if (this.language.getKey() == "c++"){
+  protected void registerSquidSensors(){    
+    if (this.language.getKey() ==  "c++"){
       this.squidSensors.add(new CxxFunctionComplexitySquidSensor(this.language));
       this.squidSensors.add(new CxxFunctionSizeSquidSensor(this.language));
     }

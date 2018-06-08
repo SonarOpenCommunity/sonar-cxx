@@ -21,11 +21,7 @@ package org.sonar.cxx.sensors.functionsize;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Hashtable;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.InputModule;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -34,10 +30,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import static org.sonar.cxx.checks.TooManyLinesOfCodeInFunctionCheck.getNumberOfLine;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.cxx.sensors.functioncomplexity.FunctionComplexityMetrics;
 import org.sonar.cxx.sensors.functioncomplexity.FunctionCount;
-import org.sonar.cxx.sensors.functioncomplexity.FunctionScore;
-import org.sonar.cxx.sensors.functioncomplexity.FunctionScoreComparator;
 import org.sonar.cxx.sensors.squid.SquidSensor;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.SourceFile;
@@ -65,7 +58,8 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
   
   public CxxFunctionSizeSquidSensor(CxxLanguage language){
     this.sizeThreshold = language.getIntegerOption(FUNCTION_SIZE_THRESHOLD_KEY).orElse(20);
-    LOG.debug("Function size threshold: " + this.sizeThreshold);   
+    if (LOG.isDebugEnabled())
+      LOG.debug("Function size threshold: " + this.sizeThreshold);   
   }
   
   @Override
