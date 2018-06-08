@@ -78,7 +78,7 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
       this.matcher = FILE_HEADER.matcher("");
       
       if (parseReportHead()) {
-        while(parseUnit(coverageData)) {
+        while (parseUnit(coverageData)) {
         }
       }
     } catch (FileNotFoundException e) {
