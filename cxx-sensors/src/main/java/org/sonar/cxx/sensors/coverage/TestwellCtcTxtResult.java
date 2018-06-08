@@ -24,9 +24,6 @@ package org.sonar.cxx.sensors.coverage;
 
 import java.util.regex.Pattern;
 
-import static java.util.regex.Pattern.MULTILINE;
-import static java.util.regex.Pattern.compile;
-
 public enum TestwellCtcTxtResult {
 
   MON_SYM("Symbol file\\(s\\) used   : (.*$(?:\\s+^ +.*$)*)"),
@@ -42,14 +39,12 @@ public enum TestwellCtcTxtResult {
   FILE_COND("^\\Q***TER\\E +\\d+ % \\( *(\\d+)/ *(\\d+)\\) of FILE (?:.*)$"),
   FILE_STMT("^ {6} +\\d+ % \\( *(\\d+)/ *(\\d+)\\) statement.*$");
 
-  public static final Pattern REPORT_HEADER = Pattern.compile(MON_SYM.patternString + "\\s+" + MON_DAT.patternString
-    + "\\s+" + LIS_DTE.patternString + "\\s+" + COV_VIW.patternString, MULTILINE);
-  public static final Pattern REPORT_FOOTER = Pattern.compile(SRC_FLS.patternString + "\\s+" + HDR_EXT.patternString + "\\s+"
-    + FKT_EXT.patternString + "\\s*" + SRC_LNS.patternString, MULTILINE);
-  public static final Pattern FILE_HEADER = Pattern.compile(FILE_MONI.patternString + "\\s+" + FILE_INST.patternString, MULTILINE);
-  public static final Pattern SECTION_SEP = compile("^-{77}|={77}$", MULTILINE);
-  public static final Pattern LINE_RESULT = compile("^(?: {10}| *([0-9Ee]+)) (?: {10}| *([0-9Ee]+)) -? *([0-9Ee]+) *(?:}([+-]+))?(.*)$", MULTILINE);
-  public static final Pattern FILE_RESULT = compile(FILE_COND.patternString + "\\s+" + FILE_STMT.patternString, MULTILINE);
+  public static final Pattern REPORT_HEADER = Pattern.compile(String.join("\\s+", MON_SYM.patternString, MON_DAT.patternString, LIS_DTE.patternString, COV_VIW.patternString), Pattern.MULTILINE);
+  public static final Pattern REPORT_FOOTER = Pattern.compile(String.join("\\s+", SRC_FLS.patternString, HDR_EXT.patternString, FKT_EXT.patternString, SRC_LNS.patternString), Pattern.MULTILINE);
+  public static final Pattern FILE_HEADER = Pattern.compile(String.join("\\s+", FILE_MONI.patternString, FILE_INST.patternString), Pattern.MULTILINE);
+  public static final Pattern SECTION_SEP = Pattern.compile("^-{77}|={77}$", Pattern.MULTILINE);
+  public static final Pattern LINE_RESULT = Pattern.compile("^(?: {10}| *([0-9Ee]+)) (?: {10}| *([0-9Ee]+)) -? *([0-9Ee]+) *(?:}([+-]+))?(.*)$", Pattern.MULTILINE);
+  public static final Pattern FILE_RESULT = Pattern.compile(String.join("\\s+", FILE_COND.patternString, FILE_STMT.patternString), Pattern.MULTILINE);
 
   private final String patternString;
 
