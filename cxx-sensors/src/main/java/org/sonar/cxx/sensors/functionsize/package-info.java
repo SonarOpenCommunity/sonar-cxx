@@ -19,7 +19,7 @@
  */
 
 /**
- * Package with sensor to evaluate Dr Memrory specific results files.
+ * Package with sensor to get function size metrics
  */
 @ParametersAreNonnullByDefault
 package org.sonar.cxx.sensors.functionsize;
