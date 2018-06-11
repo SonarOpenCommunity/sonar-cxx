@@ -28,7 +28,7 @@ public class FunctionScore {
 
   public void setScore(int value){
       this.score = value;
-  }    
+  }
 
   private String componentName;
 
@@ -52,7 +52,7 @@ public class FunctionScore {
 
   public FunctionScore(){
 
-  }   
+  }
 
   public FunctionScore(int score, String componentName, String functionId){
       this.score = score;

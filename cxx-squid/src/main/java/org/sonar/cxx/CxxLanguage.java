@@ -72,10 +72,10 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public String getPluginProperty(String key) {
     return "sonar." + getPropertiesKey() + "." + key;
   }
-  
+
   public Optional<Integer> getIntegerOption(String key){
     return this.settings.getInt(getPluginProperty(key));
-  }  
+  }
 
   public Optional<Boolean> getBooleanOption(String key) {
     return this.settings.getBoolean(getPluginProperty(key));

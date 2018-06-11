@@ -26,12 +26,15 @@ public class FunctionScoreComparator implements Comparator<FunctionScore>{
 
     @Override
     public int compare(FunctionScore o1, FunctionScore o2) {
-        if (o1 == o2)
+        if (o1 == o2) {
             return 0;
-        else if (o1.getScore() > o2.getScore())
+        }
+        else if (o1.getScore() > o2.getScore()) {
             return -1;
-        else
+        }
+        else {
             return 1;
+        }
     }
-    
+
 }

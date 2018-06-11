@@ -352,7 +352,7 @@ public final class CxxPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .type(PropertyType.INTEGER)
         .index(19)
-        .build()            
+        .build()
     ));
   }
 
@@ -517,11 +517,11 @@ public final class CxxPlugin implements Plugin {
     l.addAll(testingAndCoverageProperties());
     l.addAll(compilerWarningsProperties());
     l.addAll(duplicationsProperties());
-    
+
     //extra metrics
     l.add(FunctionComplexityMetrics.class);
     l.add(FunctionSizeMetrics.class);
-    
+
     context.addExtensions(l);
   }
 
@@ -532,7 +532,7 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxCoverageAggregator.class);
     l.add(CxxUnitTestResultsAggregator.class);
 
-    // metrics    
+    // metrics
     l.add(CxxMetricsImp.class);
 
     // issue sensors

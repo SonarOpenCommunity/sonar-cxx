@@ -186,7 +186,7 @@ public class CxxSquidSensorTest {
 
     Collection<Measure> measures = context.measures("ProjectKey:src/src1.cc");
 
-    // These checks actually check the force include feature, since only if it works the metric values will be like follows    
+    // These checks actually check the force include feature, since only if it works the metric values will be like follows
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FILES).value()).isEqualTo(1);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(1);
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.STATEMENTS).value()).isEqualTo(2);
@@ -214,34 +214,34 @@ public class CxxSquidSensorTest {
 
     assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(1);
   }
-  
+
   @Test
   public void testSquidSensors() throws IOException{
-    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/codechunks-project");   
+    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/codechunks-project");
     File target = new File(baseDir, "code_chunks.cc");
     SensorContextTester context = SensorContextTester.create(baseDir);
-    
+
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
       .setCharset(Charset.forName("UTF-8")).setLanguage(language.getKey())
       .setType(InputFile.Type.MAIN).build();
-    
+
     SquidAstVisitor<Grammar> mockVisitor = (SquidAstVisitor<Grammar>) mock(SquidAstVisitor.class);
     SquidSensor squidSensorMock = mock(SquidSensor.class);
     when(squidSensorMock.getVisitor()).thenReturn(mockVisitor);
-    
-    sensor.getSquidSensors().clear();  
-    sensor.getSquidSensors().add(squidSensorMock);    
-    
+
+    sensor.getSquidSensors().clear();
+    sensor.getSquidSensors().add(squidSensorMock);
+
     context.fileSystem().add(inputFile);
-    sensor.execute(context);    
-    
+    sensor.execute(context);
+
     verify(squidSensorMock, times(1)).getVisitor();
     verify(squidSensorMock, times(1)).publishMeasureForFile(eq(inputFile), any(SourceFile.class), eq(context));
     verify(squidSensorMock, times(1)).publishMeasureForProject(any(InputModule.class), eq(context));
   }
-  
-  
+
+
 
   private Measure GetIntegerMeasureByKey(Collection<Measure> measures, Metric<Integer> metric) {
     for (Measure measure : measures) {

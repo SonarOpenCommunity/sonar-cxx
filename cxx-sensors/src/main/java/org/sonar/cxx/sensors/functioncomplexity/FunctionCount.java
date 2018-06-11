@@ -21,6 +21,6 @@ package org.sonar.cxx.sensors.functioncomplexity;
 
 public class FunctionCount {
   public int countOverThreshold;
-  
+
   public int countBelowThreshold;
 }

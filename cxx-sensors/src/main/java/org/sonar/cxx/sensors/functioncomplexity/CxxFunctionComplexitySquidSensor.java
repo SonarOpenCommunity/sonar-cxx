@@ -38,73 +38,76 @@ import org.sonar.squidbridge.api.SourceFunction;
 import org.sonar.squidbridge.checks.ChecksHelper;
 
 public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> implements SquidSensor {
-  
+
   private static final Logger LOG = Loggers.get(CxxFunctionComplexitySquidSensor.class);
-  
-  public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "funccomplexity.threshold";  
-  
+
+  public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "funccomplexity.threshold";
+
   private int cyclomaticComplexityThreshold;
-  
+
   private int functionsBelowThreshold;
-   
+
   private int functionsOverThreshold;
-  
+
   private int linesOfCodeBelowThreshold;
 
   private int linesOfCodeOverThreshold;
-  
-  private Hashtable<SourceFile, FunctionCount> complexFunctionsPerFile = new Hashtable<>();      
-  
-  private Hashtable<SourceFile, FunctionCount> locInComplexFunctionsPerFile = new Hashtable<>();      
-  
-  private String fileName; 
-  
-  public CxxFunctionComplexitySquidSensor(CxxLanguage language){    
+
+  private Hashtable<SourceFile, FunctionCount> complexFunctionsPerFile = new Hashtable<>();
+
+  private Hashtable<SourceFile, FunctionCount> locInComplexFunctionsPerFile = new Hashtable<>();
+
+  private String fileName;
+
+  public CxxFunctionComplexitySquidSensor(CxxLanguage language){
     this.cyclomaticComplexityThreshold = language.getIntegerOption(FUNCTION_COMPLEXITY_THRESHOLD_KEY).orElse(10);
-    if (LOG.isDebugEnabled())
-      LOG.debug("Cyclomatic complexity threshold: " + this.cyclomaticComplexityThreshold);                     
-  } 
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Cyclomatic complexity threshold: " + this.cyclomaticComplexityThreshold);
+    }
+  }
 
   @Override
   public SquidAstVisitor<Grammar> getVisitor() {
     return this;
   }
-  
+
   @Override
   public void init() {
         subscribeTo(CxxGrammarImpl.functionDefinition);
-  }     
-  
+  }
+
   @Override
-  public void leaveNode(AstNode node) {              
+  public void leaveNode(AstNode node) {
       SourceFunction sourceFunction = (SourceFunction) getContext().peekSourceCode();
       SourceFile sourceFile = (SourceFile)sourceFunction.getAncestor(SourceFile.class);
 
-      int complexity = ChecksHelper.getRecursiveMeasureInt(sourceFunction, CxxMetric.COMPLEXITY);            
+      int complexity = ChecksHelper.getRecursiveMeasureInt(sourceFunction, CxxMetric.COMPLEXITY);
       int lineCount = getNumberOfLine(node);
 
-      incrementFunctionByThresholdForAllFiles(complexity, lineCount);           
-      incrementFunctionByThresholdForFile(sourceFile, complexity, lineCount);      
-  }         
-  
+      incrementFunctionByThresholdForAllFiles(complexity, lineCount);
+      incrementFunctionByThresholdForFile(sourceFile, complexity, lineCount);
+  }
+
   private void incrementFunctionByThresholdForAllFiles(int complexity, int lineCount){
       if (complexity > this.cyclomaticComplexityThreshold){
           this.functionsOverThreshold++;
           this.linesOfCodeOverThreshold += lineCount;
       }
       else {
-          this.functionsBelowThreshold++;                              
+          this.functionsBelowThreshold++;
           this.linesOfCodeBelowThreshold += lineCount;
       }
-  }  
-  
+  }
+
   private void incrementFunctionByThresholdForFile(SourceFile sourceFile, int complexity, int loc){
-    if (!complexFunctionsPerFile.containsKey(sourceFile))
+    if (!complexFunctionsPerFile.containsKey(sourceFile)) {
       complexFunctionsPerFile.put(sourceFile, new FunctionCount());
-    
-    if (!locInComplexFunctionsPerFile.containsKey(sourceFile))
-      locInComplexFunctionsPerFile.put(sourceFile, new FunctionCount());    
-        
+    }
+
+    if (!locInComplexFunctionsPerFile.containsKey(sourceFile)) {
+      locInComplexFunctionsPerFile.put(sourceFile, new FunctionCount());
+    }
+
     FunctionCount functionCount = complexFunctionsPerFile.get(sourceFile);
     FunctionCount locCount = locInComplexFunctionsPerFile.get(sourceFile);
     if (complexity > this.cyclomaticComplexityThreshold){
@@ -112,7 +115,7 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
         locCount.countOverThreshold += loc;
     }
     else {
-        functionCount.countBelowThreshold++;        
+        functionCount.countBelowThreshold++;
         locCount.countBelowThreshold += loc;
     }
   }
@@ -122,90 +125,92 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
     publishComplexFunctionMetricsForFile(inputFile, squidFile, context);
     publishLocInComplexFunctionMetricsForFile(inputFile, squidFile, context);
   }
-  
+
   private void publishComplexFunctionMetricsForFile(InputFile inputFile, SourceFile squidFile, SensorContext context){
     FunctionCount c = complexFunctionsPerFile.get(squidFile);
     if (c == null){
       c = new FunctionCount();
       c.countBelowThreshold = 0;
       c.countOverThreshold = 0;
-    }      
-    
+    }
+
     context.<Integer>newMeasure()
       .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS)
       .on(inputFile)
       .withValue((int)c.countOverThreshold)
-      .save();    
+      .save();
 
     context.<Double>newMeasure()
       .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_PERC)
       .on(inputFile)
       .withValue(calculatePercentual((int)c.countOverThreshold, (int)c.countBelowThreshold))
-      .save();    
+      .save();
   }
-  
+
   private void publishLocInComplexFunctionMetricsForFile(InputFile inputFile, SourceFile squidFile, SensorContext context){
     FunctionCount locCount = locInComplexFunctionsPerFile.get(squidFile);
-        
+
     if (locCount == null){
       locCount = new FunctionCount();
       locCount.countBelowThreshold = 0;
       locCount.countOverThreshold = 0;
     }
-    
+
     context.<Integer>newMeasure()
             .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC)
             .on(inputFile)
             .withValue(locCount.countOverThreshold)
             .save();
-    
+
     context.<Double>newMeasure()
       .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)
       .on(inputFile)
       .withValue(calculatePercentual((int)locCount.countOverThreshold, (int)locCount.countBelowThreshold))
-      .save();        
+      .save();
   }
 
   @Override
   public void publishMeasureForProject(InputModule module, SensorContext context) {
-    publishComplexFunctionMetrics(module, context);    
-    publishLinesOfCodeInComplexFunctionMetrics(module, context);       
+    publishComplexFunctionMetrics(module, context);
+    publishLinesOfCodeInComplexFunctionMetrics(module, context);
   }
-  
+
   private void publishComplexFunctionMetrics(InputModule module, SensorContext context){
     context.<Integer>newMeasure()
       .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS)
       .on(module)
       .withValue(functionsOverThreshold)
       .save();
-    
+
     context.<Double>newMeasure()
       .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_PERC)
       .on(module)
       .withValue(calculatePercentual(functionsOverThreshold, functionsBelowThreshold))
-      .save();    
+      .save();
   }
-  
+
   private void publishLinesOfCodeInComplexFunctionMetrics(InputModule module, SensorContext context){
     context.<Integer>newMeasure()
       .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC)
       .on(module)
       .withValue(linesOfCodeOverThreshold)
       .save();
-    
+
     context.<Double>newMeasure()
       .forMetric(FunctionComplexityMetrics.COMPLEX_FUNCTIONS_LOC_PERC)
       .on(module)
       .withValue(calculatePercentual(linesOfCodeOverThreshold, linesOfCodeBelowThreshold))
-      .save();    
+      .save();
   }
-  
+
   private double calculatePercentual(int overThreshold, int belowThreshold){
     double total = (double)overThreshold + (double)belowThreshold;
-    if (total > 0)
+    if (total > 0) {
       return ((float)overThreshold * 100.0) / ((float)overThreshold + (float)belowThreshold);
-    else 
+    }
+    else {
       return 0;
+    }
   }
-  
+
 }

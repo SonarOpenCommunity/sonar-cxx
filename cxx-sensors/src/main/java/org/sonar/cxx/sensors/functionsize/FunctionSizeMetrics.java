@@ -27,45 +27,45 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metrics;
 
 public class FunctionSizeMetrics implements Metrics {
-  
+
   public static final Metric<Integer> BIG_FUNCTIONS = new Metric.Builder("big_functions", "Big Functions", Metric.ValueType.INT)
     .setDescription("Number of functions with too many lines")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain(CoreMetrics.DOMAIN_SIZE)
     .create();
-  
+
   public static final Metric<Integer> BIG_FUNCTIONS_LOC = new Metric.Builder("loc_in_big_functions", "Big Functions Lines of Code", Metric.ValueType.INT)
     .setDescription("Number of lines of code in functions with too many lines")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain(CoreMetrics.DOMAIN_SIZE)
-    .create();  
-  
+    .create();
+
   public static final Metric<Double> BIG_FUNCTIONS_PERC = new Metric.Builder("perc_big_functions", "Big Functions (%)", Metric.ValueType.PERCENT)
     .setDescription("% of functions with too many lines")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain(CoreMetrics.DOMAIN_SIZE)
-    .create();  
-  
+    .create();
+
   public static final Metric<Double> BIG_FUNCTIONS_LOC_PERC = new Metric.Builder("perc_loc_in_big_functions", "Big Functions Lines of Code (%)", Metric.ValueType.PERCENT)
     .setDescription("% of lines of code in functions with too many lines")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain(CoreMetrics.DOMAIN_SIZE)
-    .create();    
-  
+    .create();
+
    public static final Metric<Integer> LOC_IN_FUNCTIONS = new Metric.Builder("loc_in_functions", "Lines of Code in Functions", Metric.ValueType.INT)
     .setDescription("Number of lines of code in function bodies")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain(CoreMetrics.DOMAIN_SIZE)
-    .create();        
+    .create();
 
   @Override
   public List<Metric> getMetrics() {
     return asList(BIG_FUNCTIONS, BIG_FUNCTIONS_PERC, BIG_FUNCTIONS_LOC, BIG_FUNCTIONS_LOC_PERC, LOC_IN_FUNCTIONS);
   }
-  
+
 }

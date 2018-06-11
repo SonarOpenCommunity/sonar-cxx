@@ -26,38 +26,38 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metrics;
 
 public class FunctionComplexityMetrics implements Metrics {
-  
+
   public static final Metric<Integer> COMPLEX_FUNCTIONS = new Metric.Builder("complex_functions", "Complex Functions", Metric.ValueType.INT)
     .setDescription("Number of functions with high cyclomatic complexity")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
     .create();
-  
+
   public static final Metric<Double> COMPLEX_FUNCTIONS_PERC = new Metric.Builder("perc_complex_functions", "Complex Functions (%)", Metric.ValueType.PERCENT)
     .setDescription("% of functions with high cyclomatic complexity")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
-    .create();         
-  
+    .create();
+
   public static final Metric<Integer> COMPLEX_FUNCTIONS_LOC = new Metric.Builder("loc_in_complex_functions", "Complex Functions Lines of Code", Metric.ValueType.INT)
     .setDescription("Number of lines of code in functions with high cyclomatic complexity")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
-    .create();  
-  
+    .create();
+
   public static final Metric<Double> COMPLEX_FUNCTIONS_LOC_PERC = new Metric.Builder("perc_loc_in_complex_functions", "Complex Functions Lines of Code (%)", Metric.ValueType.PERCENT)
     .setDescription("% of lines of code in functions with high cyclomatic complexity")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
-    .create();             
+    .create();
 
   @Override
   public List<Metric> getMetrics() {
     return asList(COMPLEX_FUNCTIONS, COMPLEX_FUNCTIONS_PERC, COMPLEX_FUNCTIONS_LOC, COMPLEX_FUNCTIONS_LOC_PERC);
   }
-  
+
 }
