@@ -87,15 +87,14 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
   }
 
   private boolean parseReportHead() {
+
     try {
-      if (!matcher.reset(scanner.next()).find()) {
-        LOG.info("'Testwell CTC++' file section not found.");
-      } else {
+      if (matcher.reset(scanner.next()).find()) {
         return true;
       }
     } catch (NoSuchElementException e) {
-      LOG.debug("'Testwell CTC++' file section not found!");
     }
+    LOG.debug("'Testwell CTC++' file section not found.");
     return false;
   }
 
@@ -131,7 +130,7 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
     LOG.debug("Parsing function sections...");
 
     CoverageMeasures coverageMeasures = CoverageMeasures.create();
-    while (false == matcher.reset(scanner.next()).usePattern(FILE_RESULT).find()) {
+    while (!matcher.reset(scanner.next()).usePattern(FILE_RESULT).find()) {
       parseLineSection(coverageMeasures);
     }
     coverageData.put(file.getPath(), coverageMeasures);
