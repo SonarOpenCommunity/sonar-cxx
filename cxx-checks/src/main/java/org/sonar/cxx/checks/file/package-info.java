@@ -21,6 +21,6 @@
  * Package with checks for cxx community plug-in.
  */
 @ParametersAreNonnullByDefault
-package org.sonar.cxx.checks.naming;
+package org.sonar.cxx.checks.file;
 
 import javax.annotation.ParametersAreNonnullByDefault;
