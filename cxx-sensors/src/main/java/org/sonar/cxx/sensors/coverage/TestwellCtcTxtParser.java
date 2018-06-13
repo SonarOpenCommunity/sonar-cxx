@@ -53,7 +53,6 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
   private static final Logger LOG = Loggers.get(TestwellCtcTxtParser.class);
   
   private Scanner scanner;
-  private Matcher matcher;  
   
   private static final int FROM_START = 0;
   private static final int CONDS_FALSE = 1;
@@ -72,37 +71,25 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
   @Override
   public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData) {
     LOG.debug("Parsing 'Testwell CTC++' textual format");
-    
+
     try {
       this.scanner = new Scanner(report).useDelimiter(SECTION_SEP);
-      this.matcher = FILE_HEADER.matcher("");
-      
-      if (parseReportHead()) {
-        while (parseUnit(coverageData)) {
-        }
+      Matcher headerMatcher = FILE_HEADER.matcher(scanner.next());
+      while (parseUnit(coverageData, headerMatcher)) {
+        headerMatcher.reset(scanner.next());
       }
     } catch (FileNotFoundException e) {
-      LOG.warn("TestwellCtcTxtParser file not found '{}'", e.getMessage());
-    }
-  }
-
-  private boolean parseReportHead() {
-
-    try {
-      if (matcher.reset(scanner.next()).find()) {
-        return true;
-      }
+      LOG.warn("File not found '{}'", e.getMessage());
     } catch (NoSuchElementException e) {
+      LOG.debug("File section not found.");
     }
-    LOG.debug("'Testwell CTC++' file section not found.");
-    return false;
   }
 
-  private boolean parseUnit(final Map<String, CoverageMeasures> coverageData) {
-    LOG.debug(matcher.toString());
-    
-    if (matcher.usePattern(FILE_HEADER).find(FROM_START)) {
-      parseFileUnit(coverageData);
+  private boolean parseUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher) {
+    LOG.debug(headerMatcher.toString());
+
+    if (headerMatcher.find(FROM_START)) {
+      parseFileUnit(coverageData, headerMatcher);
     } else {
       scanner.close();
       return false;
@@ -110,12 +97,11 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
     return true;
   }
 
-  private void parseFileUnit(final Map<String, CoverageMeasures> coverageData) {
+  private void parseFileUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher) {
     LOG.debug("Parsing file section...");
-    
+
     String normalFilename;
-    
-    String filename = matcher.group(1);
+    String filename = headerMatcher.group(1);
     if (!(new File(filename)).isAbsolute()) {
       normalFilename = FilenameUtils.normalize("./" + filename);
     } else {
@@ -123,30 +109,32 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
     }
     File file = new File(normalFilename);
     addLines(file, coverageData);
-    matcher.reset(scanner.next());
   }
 
   private void addLines(File file, final Map<String, CoverageMeasures> coverageData) {
     LOG.debug("Parsing function sections...");
 
     CoverageMeasures coverageMeasures = CoverageMeasures.create();
-    while (!matcher.reset(scanner.next()).usePattern(FILE_RESULT).find()) {
-      parseLineSection(coverageMeasures);
+    String nextLine = scanner.next();
+    while (!FILE_RESULT.matcher(nextLine).find()) {
+      parseLineSection(coverageMeasures, nextLine);
+      nextLine = scanner.next();
     }
     coverageData.put(file.getPath(), coverageMeasures);
   }
 
-  private void parseLineSection(CoverageMeasures coverageMeasures) {
+  private void parseLineSection(CoverageMeasures coverageMeasures, String nextLine) {
     LOG.debug("Found line section...");
     
-    if (matcher.usePattern(LINE_RESULT).find(FROM_START)) {
-      addEachLine(coverageMeasures);
+    Matcher lineMatcher = LINE_RESULT.matcher(nextLine);
+    if (lineMatcher.find(FROM_START)) {
+      addEachLine(coverageMeasures, lineMatcher);
     } else {
       LOG.warn("Neither File Result nor Line Result after FileHeader!");
     }
   }
 
-  private void addEachLine(CoverageMeasures coverageMeasures) {
+  private void addEachLine(CoverageMeasures coverageMeasures, Matcher lineMatcher) {
 
     int lineHits = 0;
     int lineIdPrev = 0;
@@ -156,10 +144,10 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
     boolean conditionIsDetected = false;
 
     do {
-      int lineIdCur = Integer.parseInt(matcher.group(LINE_NR_GROUP));
+      int lineIdCur = Integer.parseInt(lineMatcher.group(LINE_NR_GROUP));
 
-      String condsTrue = matcher.group(CONDS_TRUE);
-      String condsFalse = matcher.group(CONDS_FALSE);
+      String condsTrue = lineMatcher.group(CONDS_TRUE);
+      String condsFalse = lineMatcher.group(CONDS_FALSE);
 
       if ((condsTrue != null) || (condsFalse != null)) {
 
@@ -202,17 +190,17 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
         }
       } else {
         // Parse information for statement coverage needed in decising the line coverage
-        setLinehitsByBlockend(coverageMeasures, lineIdCur);
+        setLinehitsByBlockend(coverageMeasures, lineIdCur, lineMatcher);
       }
 
       setLinehits(coverageMeasures, lineIdPrev, lineIdCur, lineHits);
       lineIdPrev = lineIdCur;
-    } while (matcher.find());
+    } while (lineMatcher.find());
   }
 
-  private void setLinehitsByBlockend(CoverageMeasures coverageMeasures, int lineIdCur) {
+  private void setLinehitsByBlockend(CoverageMeasures coverageMeasures, int lineIdCur, Matcher lineMatcher) {
     int lineHits;
-    String blockEnd = matcher.group(4);
+    String blockEnd = lineMatcher.group(4);
 
     if (blockEnd != null) {
       if (blockEnd.endsWith("-")) {
@@ -226,7 +214,7 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
       coverageMeasures.setHits(lineIdCur, lineHits);
     }
   }
-  
+
   private void setLinehits(CoverageMeasures coverageMeasures, int lineIdPrev, int lineIdCur, int lineHits) {
 
     if (lineIdPrev > 0) {
