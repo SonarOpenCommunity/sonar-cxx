@@ -264,9 +264,10 @@ Index is out of bounds: Supplied size is larger than actual size.
     <description>
       <![CDATA[
       <p>
-If the source string's size fits or exceeds the given size, strncpy()
-does not add a zero at the end of the buffer. This causes bugs later
-in the code if the code assumes buffer is null-terminated.
+The buffer 'buffer' may not be null-terminated after the call to
+strncpy(). If the source string's size fits or exceeds the given size,
+strncpy() does not add a zero at the end of the buffer. This causes
+bugs later in the code if the code assumes buffer is null-terminated.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/170.html" target="_blank">CWE-170: Improper Null Termination</a></p>
@@ -2002,12 +2003,12 @@ w.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not
   </rule>
   <rule>
     <key>passedByValue</key>
-    <name>Function parameter should be passed by reference</name>
+    <name>Function parameter should be passed by const reference</name>
     <description>
       <![CDATA[
       <p>
 Parameter 'parametername' is passed by value. It could be passed as a
-(const) reference which is usually faster and recommended in C++.
+const reference which is usually faster and recommended in C++.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
@@ -4681,12 +4682,12 @@ copy constructor instead of allocating new memory.
   </rule>
   <rule>
     <key>noCopyConstructor</key>
-    <name>class 'class' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory</name>
+    <name>Class 'class' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s)</name>
     <description>
       <![CDATA[
       <p>
-class 'class' does not have a copy constructor which is recommended
-since the class contains a pointer to allocated memory.
+Class 'class' does not have a copy constructor which is recommended
+since it has dynamic memory/resource allocation(s).
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
@@ -5161,8 +5162,8 @@ dimension, which does not match.
     <description>
       <![CDATA[
       <p>
-Make sure to check that the iterator is valid before dereferencing it
-- not after.
+Possible dereference of an invalid iterator. Make sure to check
+that the iterator is valid before dereferencing it - not after.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/825.html" target="_blank">CWE-825: Expired Pointer Dereference</a></p>
@@ -6741,15 +6742,18 @@ Reading from empty STL container.
   <!-- ########### New in cppcheck 1.77 ########### -->
   <rule>
     <key>nullPointerArithmetic</key>
-    <name>Overflow in pointer arithmetic, NULL pointer is subtracted</name>
+    <name>Pointer arithmetic with NULL pointer</name>
     <description>
-<![CDATA[<p>
-Overflow in pointer arithmetic, NULL pointer is subtracted.
-</p><h2>References</h2>
+      <![CDATA[
+      <p>
+Pointer arithmetic with NULL pointer.
+</p>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
+    <tag>bug</tag>
     <internalKey>nullPointerArithmetic</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -8926,6 +8930,307 @@ Internal Cppcheck tool error. Create an issue on the Cppcheck issue tracker.
     <internalKey>internalError</internalKey>
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>QString::vsprintfCalled</key>
+    <name>Obsolete function 'QString::vsprintf' called. It is recommended to use 'QString::vasprintf', 'QString::arg' or 'QTextStream' instead</name>
+    <description>
+      <![CDATA[
+      <p>
+Obsolete function 'QString::vsprintf' called. It is recommended to use
+'QString::vasprintf', 'QString::arg' or 'QTextStream' instead.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>QString::vsprintfCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>asctime_sCalled</key>
+    <name>Obsolete function 'asctime_s' called. It is recommended to use 'strftime' instead</name>
+    <description>
+      <![CDATA[
+      <p>
+Obsolete function 'asctime_s' called. It is recommended to use
+'strftime' instead.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>asctime_sCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>duplicateValueTernary</key>
+    <name>Same value in both branches of ternary operator</name>
+    <description>
+      <![CDATA[
+      <p>
+Finding the same value in both branches of ternary operator is
+suspicious as the same code is executed regardless of the condition.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>duplicateValueTernary</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>identicalInnerCondition</key>
+    <name>Identical inner 'if' condition</name>
+    <description>
+      <![CDATA[
+      <p>
+Identical inner 'if' condition is always true/false (outer condition is equal to the
+inner condition).
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>identicalInnerCondition</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>missingOverride</key>
+    <name>Missing override</name>
+    <description>
+      <![CDATA[
+      The function overrides a function in a base class but is not marked with a 'override' specifier.
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <internalKey>missingOverride</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>noDestructor</key>
+    <name>Missing destructor</name>
+    <description>
+      <![CDATA[
+      <p>
+Class 'class' does not have a destructor which is recommended since it
+has dynamic memory/resource allocation(s).
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>noDestructor</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>noOperatorEq</key>
+    <name>Missing assignment operator</name>
+    <description>
+      <![CDATA[
+      <p>
+Class 'class' does not have a operator= which is recommended since it
+has dynamic memory/resource allocation(s).
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>noOperatorEq</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>oppositeExpression</key>
+    <name>Opposite expression on both sides of logical operator</name>
+    <description>
+      <![CDATA[
+      <p>
+Finding the opposite expression on both sides of an operator is
+suspicious and might indicate a cut and paste or logic error. Please
+examine this code carefully to determine if it is correct.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>oppositeExpression</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>pureVirtualCall</key>
+    <name>Call of pure virtual function in constructor</name>
+    <description>
+      <![CDATA[
+      Call of pure virtual function in constructor. The call will fail during runtime.
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>bug</tag>
+    <internalKey>pureVirtualCall</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>qInstallMsgHandlerCalled</key>
+    <name>Obsolete function 'qInstallMsgHandler' called. It is recommended to use 'qInstallMessageHandler' instead</name>
+    <description>
+      <![CDATA[
+      <p>
+Obsolete function 'qInstallMsgHandler' called. It is recommended to
+use 'qInstallMessageHandler' instead.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>qInstallMsgHandlerCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>qrandCalled</key>
+    <name>Obsolete function 'qrand' called. It is recommended to use 'QRandomGenerator' instead</name>
+    <description>
+      <![CDATA[
+      <p>
+Obsolete function 'qrand' called. It is recommended to use
+'QRandomGenerator' instead.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>qrandCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>qsrandCalled</key>
+    <name>Obsolete function 'qsrand' called. It is recommended to use 'QRandomGenerator' instead</name>
+    <description>
+      <![CDATA[
+      <p>
+Obsolete function 'qsrand' called. It is recommended to use
+'QRandomGenerator' instead.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>qsrandCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>std::asctime_sCalled</key>
+    <name>Obsolete function 'std::asctime_s' called. It is recommended to use 'strftime' instead</name>
+    <description>
+      <![CDATA[
+      <p>
+Obsolete function 'std::asctime_s' called. It is recommended to use
+'strftime' instead.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>std::asctime_sCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>umaskCalled</key>
+    <name>Obsolete function 'umask' called. It is recommended to use '_umask' instead</name>
+    <description>
+      <![CDATA[
+      <p>
+Obsolete function 'umask' called. It is recommended to use '_umask'
+instead.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>umaskCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>virtualCallInConstructor</key>
+    <name>Virtual function is called from constructor</name>
+    <description>
+      <![CDATA[
+      Call of pure virtual function in constructor. Dynamic binding is not used.
+    ]]>
+      <![CDATA[]]>
+    </description>
+    <tag>bug</tag>
+    <internalKey>virtualCallInConstructor</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
