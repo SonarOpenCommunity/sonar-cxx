@@ -1,0 +1,126 @@
+*****************************************************************************
+*           CTC++, Test Coverage Analyzer for C/C++, Version 7.2            *
+*                                                                           *
+*                         EXECUTION PROFILE LISTING                         *
+*                                                                           *
+*                    Copyright (c) 1993-2013 Testwell Oy                    *
+*             Copyright (c) 2013-2014 Verifysoft Technology GmbH            *
+*****************************************************************************
+
+
+License notice: This is a limited period evaluation copy license.
+
+Symbol file(s) used   : MON.sym (Mon Aug 11 12:04:57 2014)
+  bla1 awefja waelfnwajlgb
+      bla2 kawjfbawf waifnaw
+  bla3 fawfaowf uwebfawuo
+Data file(s) used     : MON.dat (Mon Aug 11 12:05:14 2014)
+ bkrag warguß ß05ig
+ rapgij9 ßebü 9üeßsk
+ ßüydjfb
+ s
+Listing produced at   : Mon Aug 11 12:06:01 2014
+Coverage view         : As instrumented
+
+
+
+MONITORED SOURCE FILE : Calc.java
+INSTRUMENTATION MODE  : multicondition
+
+ HITS/TRUE      FALSE    LINE DESCRIPTION
+=============================================================================
+
+         9                  4 FUNCTION Calc::isPrime()
+         2          7       8   if (value == 1 || value == 2 || value == 3)
+         1                  8     1: T || _ || _
+         0            -     8     2: F || T || _
+         1                  8     3: F || F || T
+                    7       8     4: F || F || F
+         2                  9     return true
+         5          2      11   if (value % 2 == 0)
+         5                 12     return false
+        58          2      13   for (;divisor < value / 2;)
+         0         58 -    15     if (value % divisor == 0)
+         0            -    16       return false
+         2                 18   return true
+                           19 }
+
+***TER  82 % ( 14/ 17) of FUNCTION Calc::isPrime()
+        91 % ( 10/ 11) statement
+-----------------------------------------------------------------------------
+
+
+***TER  82 % ( 14/ 17) of FILE Calc.java
+        91 % ( 10/ 11) statement
+-----------------------------------------------------------------------------
+
+
+
+MONITORED SOURCE FILE : Prime.java
+INSTRUMENTATION MODE  : multicondition
+
+ HITS/TRUE      FALSE    LINE DESCRIPTION
+=============================================================================
+
+         1                  3 FUNCTION Prime::main()
+         1                  6   try
+         9          1       8     while (myio . allowedValue ( ))
+         0            -    14   catch (Exception myexp)
+                           19 }
+
+***TER  80 % (  4/  5) of FUNCTION Prime::main()
+        80 % (  4/  5) statement
+-----------------------------------------------------------------------------
+
+
+***TER  80 % (  4/  5) of FILE Prime.java
+        80 % (  4/  5) statement
+-----------------------------------------------------------------------------
+
+
+
+MONITORED SOURCE FILE : io.java
+INSTRUMENTATION MODE  : multicondition
+
+ HITS/TRUE      FALSE    LINE DESCRIPTION
+=============================================================================
+
+        10                 10 FUNCTION io::allowedValue()
+        10                 15   try
+         9          1      19     if (value != 0)
+         9                 20       return true
+                           21     else
+         1                 22       return false
+         0            -    24   catch (NumberFormatException err)
+         0            -    26     return false
+                           28 }
+
+***TER  75 % (  6/  8) of FUNCTION io::allowedValue()
+        89 % (  8/  9) statement
+-----------------------------------------------------------------------------
+
+9147483647                 30 FUNCTION io::test()
+13094967E3          5      32   if (Calc . isPrime ( value ))
+                           34   else
+                           36 }
+
+***TER 100 % (  3/  3) of FUNCTION io::test()
+       100 % (  3/  3) statement
+-----------------------------------------------------------------------------
+
+
+***TER  82 % (  9/ 11) of FILE io.java
+        92 % ( 11/ 12) statement
+-----------------------------------------------------------------------------
+
+
+
+SUMMARY
+=======
+
+Source files       : 3
+Headers extracted  : 0
+Source lines       : 82
+Measurement points : 31
+TER                : 82 % (27/33) multicondition
+TER                : 89 % (25/28) statement

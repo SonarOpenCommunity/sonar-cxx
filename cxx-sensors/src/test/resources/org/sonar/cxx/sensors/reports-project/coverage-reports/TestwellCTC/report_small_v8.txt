@@ -1,0 +1,59 @@
+*****************************************************************************
+*           CTC++, Test Coverage Analyzer for C/C++, Version 8.1            *
+*                                                                           *
+*                         EXECUTION PROFILE LISTING                         *
+*                                                                           *
+*                    Copyright (c) 1993-2013 Testwell Oy                    *
+*             Copyright (c) 2013-2016 Verifysoft Technology GmbH            *
+*****************************************************************************
+
+
+Symbol file(s) used   : HGBuildNumberLookup\MON.sym (Wed Mar 15 11:11:37 2017)
+Data file(s) used     : HGBuildNumberLookup\MON.dat (Wed Mar 15 11:11:48 2017)
+Listing produced at   : Wed Mar 15 11:11:48 2017
+Coverage view         : As instrumented
+
+
+
+MONITORED SOURCE FILE : HGBuildNumberLookup.cpp
+INSTRUMENTATION MODE  : multicondition
+
+ HITS/TRUE      FALSE    LINE DESCRIPTION
+=============================================================================
+
+        10                 42 FUNCTION BuildNumberLookup::getBuildSubDir()
+        10          0 -    50   if (success)
+                           54   }+
+         7          3      56   if (success)
+         6          1      58     if (myDir . exists ( ))
+                           62     }+
+                           63     else
+                           68     }+
+                           69   }+
+         3          7      71   if (! success)
+                           75   }+
+        10                 77   return success
+                           78 }
+
+***TER  90 % (  9/ 10) of FUNCTION BuildNumberLookup::getBuildSubDir()
+       100 % ( 12/ 12) statement
+-----------------------------------------------------------------------------
+
+
+***TER  90 % (  9/ 10) of FILE HGBuildNumberLookup.cpp
+       100 % ( 12/ 12) statement
+-----------------------------------------------------------------------------
+
+
+
+SUMMARY
+=======
+
+Source files       : 1
+Headers extracted  : 0
+Functions          : 1
+Source lines       : 93
+Measurement points : 10
+TER                : 90 % (9/10) multicondition
+TER                : 100 % (12/12) statement
+
