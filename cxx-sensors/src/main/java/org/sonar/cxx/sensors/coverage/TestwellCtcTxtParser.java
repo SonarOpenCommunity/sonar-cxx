@@ -72,8 +72,8 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
   public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData) {
     LOG.debug("Parsing 'Testwell CTC++' textual format");
 
-    try {
-      this.scanner = new Scanner(report).useDelimiter(SECTION_SEP);
+    try (Scanner s = new Scanner(report).useDelimiter(SECTION_SEP)) {
+      scanner = s;
       Matcher headerMatcher = FILE_HEADER.matcher(scanner.next());
       while (parseUnit(coverageData, headerMatcher)) {
         headerMatcher.reset(scanner.next());
@@ -91,7 +91,6 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
     if (headerMatcher.find(FROM_START)) {
       parseFileUnit(coverageData, headerMatcher);
     } else {
-      scanner.close();
       return false;
     }
     return true;
@@ -102,10 +101,10 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
 
     String normalFilename;
     String filename = headerMatcher.group(1);
-    if (!(new File(filename)).isAbsolute()) {
-      normalFilename = FilenameUtils.normalize("./" + filename);
-    } else {
+    if (new File(filename).isAbsolute()) {
       normalFilename = FilenameUtils.normalize(filename);
+    } else {
+      normalFilename = FilenameUtils.normalize("./" + filename);
     }
     File file = new File(normalFilename);
     addLines(file, coverageData);
@@ -115,10 +114,8 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
     LOG.debug("Parsing function sections...");
 
     CoverageMeasures coverageMeasures = CoverageMeasures.create();
-    String nextLine = scanner.next();
-    while (!FILE_RESULT.matcher(nextLine).find()) {
+    for (String nextLine = scanner.next(); !FILE_RESULT.matcher(nextLine).find(); nextLine = scanner.next()) {
       parseLineSection(coverageMeasures, nextLine);
-      nextLine = scanner.next();
     }
     coverageData.put(file.getPath(), coverageMeasures);
   }
