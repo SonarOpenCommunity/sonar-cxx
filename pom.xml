@@ -12,7 +12,7 @@
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0</version>
   <packaging>pom</packaging>
 
   <name>Cxx</name>
@@ -343,7 +343,7 @@
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
           <artifactId>lifecycle-mapping</artifactId>
-          <version>1.1.0-SNAPSHOT</version>
+          <version>1.1.0</version>
           <configuration>
             <lifecycleMappingMetadata>
               <pluginExecutions>
