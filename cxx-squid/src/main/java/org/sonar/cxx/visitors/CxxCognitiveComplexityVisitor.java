@@ -83,7 +83,7 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
     IDENTIFIER
   };
 
-  private static final AstNodeType[] INCREMENT_TYPES = new AstNodeType[]{
+  private static final List<AstNodeType> INCREMENT_TYPES = Arrays.asList(
     CxxGrammarImpl.handler,
     CxxGrammarImpl.iterationStatement,
     CxxGrammarImpl.logicalAndExpression,
@@ -92,22 +92,22 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
     CxxKeyword.ELSE,
     CxxKeyword.GOTO,
     CxxPunctuator.QUEST
-  };
+  );
 
-  private static final AstNodeType[] NESTING_LEVEL_TYPES = new AstNodeType[]{
+  private static final List<AstNodeType> NESTING_LEVEL_TYPES = Arrays.asList(
     CxxGrammarImpl.handler,
     CxxGrammarImpl.iterationStatement,
     CxxGrammarImpl.lambdaExpression,
     CxxGrammarImpl.selectionStatement,
     CxxPunctuator.QUEST
-  };
+  );
 
-  private static final AstNodeType[] NESTING_INCREMENTS_TYPES = new AstNodeType[]{
+  private static final List<AstNodeType> NESTING_INCREMENTS_TYPES = Arrays.asList(
     CxxGrammarImpl.handler,
     CxxGrammarImpl.iterationStatement,
     CxxGrammarImpl.selectionStatement,
     CxxPunctuator.QUEST
-  };
+  );
 
   private int nesting;
   private final Set<AstNode> checkedNodes;
@@ -132,33 +132,28 @@ public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends Squi
 
   @Override
   public void visitNode(AstNode node) {
-    if (checkedNodes.contains(node)) {
+    if (!checkedNodes.add(node)) {
       return;
     }
-    checkedNodes.add(node);
 
-    List<AstNode> watchedDescendants = node.getDescendants(DESCENDANT_TYPES);
-
-    if (Arrays.asList(NESTING_LEVEL_TYPES).contains(node.getType())
+    if (NESTING_LEVEL_TYPES.contains(node.getType())
       && !isElseIf(node)) {
       nesting++;
     }
 
-    visitChildren(watchedDescendants);
+    visitChildren(node.getDescendants(DESCENDANT_TYPES));
 
-    if (Arrays.asList(NESTING_LEVEL_TYPES).contains(node.getType())
+    if (NESTING_LEVEL_TYPES.contains(node.getType())
       && !isElseIf(node)) {
       nesting--;
     }
 
-    checkedNodes.addAll(watchedDescendants);
-
-    if (Arrays.asList(INCREMENT_TYPES).contains(node.getType())
+    if (INCREMENT_TYPES.contains(node.getType())
       && !isElseIf(node)) {
       getContext().peekSourceCode().add(metric, 1);
     }
 
-    if (Arrays.asList(NESTING_INCREMENTS_TYPES).contains(node.getType())
+    if (NESTING_INCREMENTS_TYPES.contains(node.getType())
       && !isElseIf(node)) {
       getContext().peekSourceCode().add(metric, nesting);
     }
