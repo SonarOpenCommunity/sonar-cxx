@@ -171,7 +171,22 @@
       <id>stefanweiser</id>
       <name>stefanweiser</name>
       <email/>
-    </developer>  
+    </developer>
+    <developer>
+      <id>ericlemes</id>
+      <name>Eric Lemes</name>
+      <email/>
+    </developer>
+    <developer>
+      <id>ivangalkin</id>
+      <name>ivangalkin</name>
+      <email/>
+    </developer>
+    <developer>
+      <id>rufinio</id>
+      <name>rufinio</name>
+      <email/>
+    </developer>
   </developers>
 
   <modules>
