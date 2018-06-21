@@ -27,6 +27,7 @@ public enum CxxMetric implements MetricDef {
   FILES,
   LINES,
   LINES_OF_CODE,
+  LINES_OF_CODE_IN_FUNCTION_BODY,
   STATEMENTS,
   FUNCTIONS,
   CLASSES,

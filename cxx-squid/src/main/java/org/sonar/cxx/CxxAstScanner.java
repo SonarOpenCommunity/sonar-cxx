@@ -36,6 +36,7 @@ import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.cxx.visitors.CxxCognitiveComplexityVisitor;
 import org.sonar.cxx.visitors.CxxFileVisitor;
+import org.sonar.cxx.visitors.CxxLinesOfCodeInFunctionBodyVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeVisitor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 import org.sonar.cxx.visitors.CxxPublicApiVisitor;
@@ -199,6 +200,7 @@ public final class CxxAstScanner {
     /* Metrics */
     builder.withSquidAstVisitor(new LinesVisitor<>(CxxMetric.LINES));
     builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<>(CxxMetric.LINES_OF_CODE));
+    builder.withSquidAstVisitor(new CxxLinesOfCodeInFunctionBodyVisitor<>());
     builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
       CxxMetric.PUBLIC_UNDOCUMENTED_API)
       .withHeaderFileSuffixes(conf.getHeaderFileSuffixes()));
