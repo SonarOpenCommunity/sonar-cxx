@@ -28,7 +28,8 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
-import static org.sonar.cxx.checks.TooManyLinesOfCodeInFunctionCheck.getNumberOfLine;
+import org.sonar.cxx.api.CxxMetric;
+
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.sensors.functioncomplexity.FunctionCount;
 import org.sonar.cxx.sensors.squid.SquidSensor;
@@ -71,9 +72,9 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
   @Override
   public void leaveNode(AstNode node) {
     SourceFunction sourceFunction = (SourceFunction) getContext().peekSourceCode();
-    SourceFile sourceFile = (SourceFile)sourceFunction.getAncestor(SourceFile.class);
+    SourceFile sourceFile = sourceFunction.getAncestor(SourceFile.class);
 
-    int lineCount = getNumberOfLine(node);
+    int lineCount = sourceFunction.getInt(CxxMetric.LINES_OF_CODE_IN_FUNCTION_BODY);
 
     incrementFunctionByThresholdForProject(lineCount);
     incrementFunctionByThresholdForFile(sourceFile, lineCount);
@@ -166,7 +167,7 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
   private double calculatePercentual(int overThreshold, int belowThreshold){
     double total = (double)overThreshold + (double)belowThreshold;
     if (total > 0) {
-      return ((float)overThreshold * 100.0) / ((float)overThreshold + (float)belowThreshold);
+      return (overThreshold * 100.0) / ((double)overThreshold + (double)belowThreshold);
     }
     else {
       return 0;
@@ -184,7 +185,7 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
     context.<Integer>newMeasure()
       .forMetric(FunctionSizeMetrics.BIG_FUNCTIONS)
       .on(inputFile)
-      .withValue((int)c.countOverThreshold)
+      .withValue(c.countOverThreshold)
       .save();
 
     context.<Double>newMeasure()

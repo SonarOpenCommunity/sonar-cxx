@@ -26,10 +26,12 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CppPunctuator;
+import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.api.SourceFunction;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 @Rule(key = "TooManyLinesOfCodeInFunction",
@@ -56,38 +58,14 @@ public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> {
 
   @Override
   public void leaveNode(AstNode node) {
-    int lineCount = getNumberOfLine(node);
+    SourceFunction sourceFunction = (SourceFunction) getContext().peekSourceCode();
+    int lineCount = sourceFunction.getInt(CxxMetric.LINES_OF_CODE_IN_FUNCTION_BODY);
     if (lineCount > max) {
       getContext().createLineViolation(this,
         "The number of code lines in this function is {0,number,integer} which is greater than "
           + "{1,number,integer} authorized.",
         node, lineCount, max);
     }
-  }
-
-  /**
-   * aggregates lines for child nodes
-   *
-   * @param node with child nodes
-   * @return number of lines
-   */
-  public static int getNumberOfLine(AstNode node) {
-    List<AstNode> allChilds = node.getDescendants(CxxGrammarImpl.statement, CppPunctuator.CURLBR_LEFT,
-      CppPunctuator.CURLBR_RIGHT);
-    int lines = 1;
-    int firstLine = node.getTokenLine();
-    if (allChilds != null && !allChilds.isEmpty()) {
-      int previousLine = firstLine;
-      int currentLine = 0;
-      for (AstNode child : allChilds) {
-        currentLine = child.getTokenLine();
-        if (currentLine != previousLine) {
-          lines++;
-          previousLine = currentLine;
-        }
-      }
-    }
-    return lines;
   }
 
   public void setMax(int max) {
