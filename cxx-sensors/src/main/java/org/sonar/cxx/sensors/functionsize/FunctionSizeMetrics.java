@@ -56,7 +56,7 @@ public class FunctionSizeMetrics implements Metrics {
     .setDomain(CoreMetrics.DOMAIN_SIZE)
     .create();
 
-   public static final Metric<Integer> LOC_IN_FUNCTIONS = new Metric.Builder("loc_in_functions", "Lines of Code in Functions", Metric.ValueType.INT)
+  public static final Metric<Integer> LOC_IN_FUNCTIONS = new Metric.Builder("loc_in_functions", "Lines of Code in Functions", Metric.ValueType.INT)
     .setDescription("Number of lines of code in function bodies")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)

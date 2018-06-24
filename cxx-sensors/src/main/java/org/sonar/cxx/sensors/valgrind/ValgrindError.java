@@ -72,12 +72,15 @@ class ValgrindError {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     ValgrindError other = (ValgrindError) obj;
     return new EqualsBuilder()
         .append(kind, other.kind)

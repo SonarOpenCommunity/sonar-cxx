@@ -77,25 +77,24 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
 
   @Override
   public void leaveNode(AstNode node) {
-      SourceFunction sourceFunction = (SourceFunction) getContext().peekSourceCode();
-      SourceFile sourceFile = sourceFunction.getAncestor(SourceFile.class);
+    SourceFunction sourceFunction = (SourceFunction) getContext().peekSourceCode();
+    SourceFile sourceFile = sourceFunction.getAncestor(SourceFile.class);
 
-      int complexity = ChecksHelper.getRecursiveMeasureInt(sourceFunction, CxxMetric.COMPLEXITY);
-      int lineCount = sourceFunction.getInt(CxxMetric.LINES_OF_CODE_IN_FUNCTION_BODY);
+    int complexity = ChecksHelper.getRecursiveMeasureInt(sourceFunction, CxxMetric.COMPLEXITY);
+    int lineCount = sourceFunction.getInt(CxxMetric.LINES_OF_CODE_IN_FUNCTION_BODY);
 
-      incrementFunctionByThresholdForAllFiles(complexity, lineCount);
-      incrementFunctionByThresholdForFile(sourceFile, complexity, lineCount);
+    incrementFunctionByThresholdForAllFiles(complexity, lineCount);
+    incrementFunctionByThresholdForFile(sourceFile, complexity, lineCount);
   }
 
   private void incrementFunctionByThresholdForAllFiles(int complexity, int lineCount){
-      if (complexity > this.cyclomaticComplexityThreshold){
-          this.functionsOverThreshold++;
-          this.linesOfCodeOverThreshold += lineCount;
-      }
-      else {
-          this.functionsBelowThreshold++;
-          this.linesOfCodeBelowThreshold += lineCount;
-      }
+    if (complexity > this.cyclomaticComplexityThreshold){
+      this.functionsOverThreshold++;
+      this.linesOfCodeOverThreshold += lineCount;
+    } else {
+      this.functionsBelowThreshold++;
+      this.linesOfCodeBelowThreshold += lineCount;
+    }
   }
 
   private void incrementFunctionByThresholdForFile(SourceFile sourceFile, int complexity, int loc){
@@ -110,12 +109,11 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
     FunctionCount functionCount = complexFunctionsPerFile.get(sourceFile);
     FunctionCount locCount = locInComplexFunctionsPerFile.get(sourceFile);
     if (complexity > this.cyclomaticComplexityThreshold){
-        functionCount.countOverThreshold++;
-        locCount.countOverThreshold += loc;
-    }
-    else {
-        functionCount.countBelowThreshold++;
-        locCount.countBelowThreshold += loc;
+      functionCount.countOverThreshold++;
+      locCount.countOverThreshold += loc;
+    } else {
+      functionCount.countBelowThreshold++;
+      locCount.countBelowThreshold += loc;
     }
   }
 
@@ -206,8 +204,7 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
     double total = (double)overThreshold + (double)belowThreshold;
     if (total > 0) {
       return (overThreshold * 100.0) / ((double)overThreshold + (double)belowThreshold);
-    }
-    else {
+    } else {
       return 0;
     }
   }

@@ -21,42 +21,41 @@ package org.sonar.cxx.sensors.functioncomplexity;
 
 public class FunctionScore {
   private int score;
-
-  public int getScore(){
-      return this.score;
-  }
-
-  public void setScore(int value){
-      this.score = value;
-  }
-
   private String componentName;
-
-  public String getComponentName(){
-      return this.componentName;
-  }
-
-  public void setComponentName(String value){
-      this.componentName = value;
-  }
-
   private String functionId;
 
-  public String getFunctionId(){
-      return this.functionId;
-  }
-
-  public void setFunctionId(String value){
-      this.functionId = value;
-  }
-
-  public FunctionScore(){
+  public FunctionScore() {
 
   }
 
-  public FunctionScore(int score, String componentName, String functionId){
-      this.score = score;
-      this.componentName = componentName;
-      this.functionId = functionId;
+  public FunctionScore(int score, String componentName, String functionId) {
+    this.score = score;
+    this.componentName = componentName;
+    this.functionId = functionId;
   }
+
+  public int getScore() {
+    return this.score;
+  }
+
+  public void setScore(int value) {
+    this.score = value;
+  }
+
+  public String getComponentName() {
+    return this.componentName;
+  }
+
+  public void setComponentName(String value) {
+    this.componentName = value;
+  }
+
+  public String getFunctionId() {
+    return this.functionId;
+  }
+
+  public void setFunctionId(String value) {
+    this.functionId = value;
+  }
+
 }
