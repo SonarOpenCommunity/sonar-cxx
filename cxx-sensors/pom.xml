@@ -54,8 +54,8 @@
       <artifactId>ant</artifactId>
     </dependency>
     <dependency>
-      <groupId>jdom</groupId>
-      <artifactId>jdom</artifactId>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom2</artifactId>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -74,7 +74,6 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.5</version>
     </dependency>
     <dependency>
       <groupId>commons-lang</groupId>

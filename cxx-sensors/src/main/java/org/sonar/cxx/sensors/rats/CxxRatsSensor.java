@@ -22,8 +22,8 @@ package org.sonar.cxx.sensors.rats;
 import java.io.File;
 import java.util.List;
 import javax.annotation.Nullable;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
+import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
@@ -68,7 +68,7 @@ public class CxxRatsSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final SensorContext context, File report)
-    throws org.jdom.JDOMException, java.io.IOException {
+    throws org.jdom2.JDOMException, java.io.IOException {
     LOG.debug("Parsing 'RATS' format");
 
     try {
@@ -96,7 +96,7 @@ public class CxxRatsSensor extends CxxReportSensor {
           }
         }
       }
-    } catch (org.jdom.input.JDOMParseException e) {
+    } catch (org.jdom2.input.JDOMParseException e) {
       // when RATS fails the XML file might be incomplete
       LOG.error("Ignore incomplete XML output from RATS '{}'", CxxUtils.getStackTrace(e));
     }
