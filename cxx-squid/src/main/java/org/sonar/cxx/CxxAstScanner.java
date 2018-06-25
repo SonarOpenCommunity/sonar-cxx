@@ -25,9 +25,14 @@ import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
+
+import java.io.File;
 import java.util.Collection;
+import java.util.Optional;
+
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.cxx.CxxAstVisitorProfiler;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
@@ -118,7 +123,12 @@ public final class CxxAstScanner {
       = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
     final Parser<Grammar> parser = CxxParser.create(context, conf, language);
 
-    AstScanner.Builder<Grammar> builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
+    AstScanner.Builder<Grammar> builder = AstScanner.<Grammar>builder(context);
+    Optional<String> squidProfilerOutOption = language.getStringOption("squidprofiler.out");
+    if (squidProfilerOutOption.isPresent()) {
+      builder = CxxAstVisitorProfiler.<Grammar>builder(context, new File(squidProfilerOutOption.get()));
+    }
+    builder.setBaseParser(parser);
 
     /* Metrics */
     builder.withMetrics(CxxMetric.values());
