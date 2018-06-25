@@ -56,8 +56,6 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
 
   private Hashtable<SourceFile, FunctionCount> locInComplexFunctionsPerFile = new Hashtable<>();
 
-  private String fileName;
-
   public CxxFunctionComplexitySquidSensor(CxxLanguage language){
     this.cyclomaticComplexityThreshold = language.getIntegerOption(FUNCTION_COMPLEXITY_THRESHOLD_KEY).orElse(10);
     if (LOG.isDebugEnabled()) {
@@ -200,10 +198,10 @@ public class CxxFunctionComplexitySquidSensor extends SquidAstVisitor<Grammar> i
       .save();
   }
 
-  private double calculatePercentual(int overThreshold, int belowThreshold){
+  private static double calculatePercentual(int overThreshold, int belowThreshold){
     double total = (double)overThreshold + (double)belowThreshold;
     if (total > 0) {
-      return (overThreshold * 100.0) / ((double)overThreshold + (double)belowThreshold);
+      return (overThreshold / total * 100.0) ;
     } else {
       return 0;
     }
