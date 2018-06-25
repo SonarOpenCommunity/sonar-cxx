@@ -92,12 +92,11 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
     FunctionCount count = bigFunctionsPerFile.get(sourceFile);
     FunctionCount locCount = locInBigFunctionsPerFile.get(sourceFile);
     if (lineCount > this.sizeThreshold){
-        count.countOverThreshold++;
-        locCount.countOverThreshold += lineCount;
-    }
-    else {
-        count.countBelowThreshold++;
-        locCount.countBelowThreshold += lineCount;
+      count.countOverThreshold++;
+      locCount.countOverThreshold += lineCount;
+    } else {
+      count.countBelowThreshold++;
+      locCount.countBelowThreshold += lineCount;
     }
   }
 
@@ -105,8 +104,7 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
     if (lineCount > sizeThreshold) {
       this.functionsOverThreshold++;
       this.locOverThreshold += lineCount;
-    }
-    else {
+    } else {
       this.functionsBelowThreshold++;
       this.locBelowThreshold += lineCount;
     }
@@ -164,12 +162,11 @@ public class CxxFunctionSizeSquidSensor extends SquidAstVisitor<Grammar> impleme
       .save();
   }
 
-  private double calculatePercentual(int overThreshold, int belowThreshold){
+  private static double calculatePercentual(int overThreshold, int belowThreshold){
     double total = (double)overThreshold + (double)belowThreshold;
     if (total > 0) {
-      return (overThreshold * 100.0) / ((double)overThreshold + (double)belowThreshold);
-    }
-    else {
+      return (overThreshold / total * 100.0);
+    } else {
       return 0;
     }
   }

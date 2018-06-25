@@ -17,10 +17,12 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.checks;
+package org.sonar.cxx.checks.metrics;
 
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.checks.CxxFileTester;
+import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 

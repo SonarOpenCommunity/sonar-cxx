@@ -123,7 +123,7 @@ public class CxxSquidSensor implements Sensor {
   }
 
   protected void registerSquidSensors(){
-    if (this.language.getKey() ==  "c++"){
+    if ("c++".equals(this.language.getKey())){
       this.squidSensors.add(new CxxFunctionComplexitySquidSensor(this.language));
       this.squidSensors.add(new CxxFunctionSizeSquidSensor(this.language));
     }
@@ -153,8 +153,9 @@ public class CxxSquidSensor implements Sensor {
         this.language.getBooleanOption(CPD_IGNORE_LITERALS_KEY).orElse(Boolean.FALSE),
         this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
 
-    for (SquidSensor sensor : squidSensors)
+    for (SquidSensor sensor : squidSensors) {
       visitors.add(sensor.getVisitor());
+    }
 
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf,
@@ -195,7 +196,7 @@ public class CxxSquidSensor implements Sensor {
       try {
         new JsonCompilationDatabase(cxxConf, new File(cxxConf.getJsonCompilationDatabaseFile()));
       } catch (IOException e) {
-        LOG.debug("Cannot access Json DB File: {}", e.getMessage());
+        LOG.debug("Cannot access Json DB File: {}", e);
       }
     }
 
@@ -235,8 +236,9 @@ public class CxxSquidSensor implements Sensor {
         .save();
     }
 
-    for(SquidSensor sensor: squidSensors)
+    for(SquidSensor sensor: squidSensors) {
         sensor.publishMeasureForProject(context.module(), context);
+    }
   }
 
   private void saveMeasures(InputFile inputFile, SourceFile squidFile, SensorContext context) {
@@ -273,8 +275,9 @@ public class CxxSquidSensor implements Sensor {
         .on(inputFile).withValue(densityOfPublicDocumentedApi).save();
     }
 
-    for(SquidSensor sensor: squidSensors)
-        sensor.publishMeasureForFile(inputFile, squidFile, context);
+    for(SquidSensor sensor: squidSensors) {
+      sensor.publishMeasureForFile(inputFile, squidFile, context);
+    }
   }
 
   private int saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext sensorContext) {

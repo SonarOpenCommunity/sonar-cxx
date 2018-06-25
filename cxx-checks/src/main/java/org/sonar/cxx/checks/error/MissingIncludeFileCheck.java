@@ -17,10 +17,8 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.checks;
+package org.sonar.cxx.checks.error;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxParser;
@@ -29,6 +27,9 @@ import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.checks.SquidCheck;
+
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 
 @Rule(
   key = "MissingIncludeFile",
