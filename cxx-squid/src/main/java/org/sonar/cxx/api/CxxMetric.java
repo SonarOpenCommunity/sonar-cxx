@@ -33,9 +33,7 @@ public enum CxxMetric implements MetricDef {
   CLASSES,
   COMPLEXITY,
   COGNITIVE_COMPLEXITY,
-  COMMENT_LINES,
-  PUBLIC_API,
-  PUBLIC_UNDOCUMENTED_API;
+  COMMENT_LINES;
 
   @Override
   public String getName() {

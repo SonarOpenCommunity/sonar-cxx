@@ -39,7 +39,6 @@ import org.sonar.cxx.visitors.CxxFileVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeInFunctionBodyVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeVisitor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
-import org.sonar.cxx.visitors.CxxPublicApiVisitor;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.CommentAnalyser;
 import org.sonar.squidbridge.SourceCodeBuilderCallback;
@@ -201,9 +200,6 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(new LinesVisitor<>(CxxMetric.LINES));
     builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<>(CxxMetric.LINES_OF_CODE));
     builder.withSquidAstVisitor(new CxxLinesOfCodeInFunctionBodyVisitor<>());
-    builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
-      CxxMetric.PUBLIC_UNDOCUMENTED_API)
-      .withHeaderFileSuffixes(conf.getHeaderFileSuffixes()));
 
     builder.withSquidAstVisitor(CommentsVisitor.<Grammar>builder().withCommentMetric(CxxMetric.COMMENT_LINES)
       .withNoSonar(true)
