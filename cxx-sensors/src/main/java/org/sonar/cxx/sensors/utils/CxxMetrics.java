@@ -45,12 +45,6 @@ public class CxxMetrics implements Metrics {
   private final CxxLanguage language;
   private final String domain;
 
-  // Introduce own documentation metrics, after they has been removed from SQ core
-  // see https://jira.sonarsource.com/browse/SONAR-8328
-  public static final String PUBLIC_API_KEY = "public_api";
-  public static final String PUBLIC_UNDOCUMENTED_API_KEY = "public_undocumented_api";
-  public static final String PUBLIC_DOCUMENTED_API_DENSITY_KEY = "public_documented_api_density";
-
   /**
    * CxxMetrics
    *
@@ -60,36 +54,6 @@ public class CxxMetrics implements Metrics {
   public CxxMetrics(CxxLanguage language) {
     this.language = language;
     this.domain = language.getKey().toUpperCase(Locale.ENGLISH);
-
-    Metric<?> metric = new Metric.Builder(getKey(PUBLIC_API_KEY, language), "Public API", Metric.ValueType.INT)
-      .setDescription("Public API")
-      .setDirection(Metric.DIRECTION_WORST)
-      .setQualitative(Boolean.FALSE)
-      .setDomain(this.domain)
-      .create();
-    saveMetric(PUBLIC_API_KEY, metric);
-
-    metric = new Metric.Builder(getKey(PUBLIC_DOCUMENTED_API_DENSITY_KEY, language), "Public Documented API (%)", Metric.ValueType.PERCENT)
-      .setDescription("Public documented classes and functions balanced by ncloc")
-      .setDirection(Metric.DIRECTION_BETTER)
-      .setQualitative(Boolean.TRUE)
-      .setDomain(this.domain)
-      .setWorstValue(0.0)
-      .setBestValue(100.0)
-      .setOptimizedBestValue(true)
-      .create();
-    saveMetric(PUBLIC_DOCUMENTED_API_DENSITY_KEY, metric);
-
-    metric = new Metric.Builder(getKey(PUBLIC_UNDOCUMENTED_API_KEY, language), "Public Undocumented API", Metric.ValueType.INT)
-      .setDescription("Public undocumented classes, functions and variables")
-      .setDirection(Metric.DIRECTION_WORST)
-      .setQualitative(Boolean.TRUE)
-      .setDomain(this.domain)
-      .setBestValue(0.0)
-      .setDirection(Metric.DIRECTION_WORST)
-      .setOptimizedBestValue(true)
-      .create();
-    saveMetric(PUBLIC_UNDOCUMENTED_API_KEY, metric);
 
     saveMetric(CxxCompilerSensor.KEY, buildReportMetric(CxxCompilerSensor.KEY, "Compiler issues"));
     saveMetric(CxxCppCheckSensor.KEY, buildReportMetric(CxxCppCheckSensor.KEY, "CppCheck issues"));

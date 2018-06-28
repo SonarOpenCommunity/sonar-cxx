@@ -83,18 +83,7 @@ public class CxxMetricsTest {
   @Test
   public void getMetricsTest() {
     List<?> list = metrics.getMetrics();
-    assertThat(list.size()).isEqualTo(14);
+    assertThat(list.size()).isEqualTo(11);
   }
 
-  @Test
-  public void getMetricTest() {
-    Metric<?> metric = language.getMetric(CxxMetrics.PUBLIC_API_KEY);
-    assertThat(metric).isNotNull();
-
-    metric = language.getMetric(CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY);
-    assertThat(metric).isNotNull();
-
-    metric = language.getMetric(CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY);
-    assertThat(metric).isNotNull();
-  }
 }

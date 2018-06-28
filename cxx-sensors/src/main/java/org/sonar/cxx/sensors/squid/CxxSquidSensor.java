@@ -256,24 +256,6 @@ public class CxxSquidSensor implements Sensor {
       .withValue(squidFile.getInt(CxxMetric.COMPLEXITY)).save();
     context.<Integer>newMeasure().forMetric(CoreMetrics.COMMENT_LINES).on(inputFile)
       .withValue(squidFile.getInt(CxxMetric.COMMENT_LINES)).save();
-    context.<Integer>newMeasure().forMetric(CoreMetrics.PUBLIC_API).on(inputFile)
-      .withValue(squidFile.getInt(CxxMetric.PUBLIC_API)).save();
-    context.<Integer>newMeasure().forMetric(CoreMetrics.PUBLIC_UNDOCUMENTED_API).on(inputFile)
-      .withValue(squidFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).save();
-
-    // Configuration properties for SQ 6.2++
-    // see https://jira.sonarsource.com/browse/SONAR-8328
-    if (!language.getMetricsCache().isEmpty()) {
-      int publicApi = squidFile.getInt(CxxMetric.PUBLIC_API);
-      int publicUndocumentedApi = squidFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API);
-      double densityOfPublicDocumentedApi = (publicApi > publicUndocumentedApi) ? ((publicApi - publicUndocumentedApi) / (double) publicApi * 100.0) : 0.0;
-      context.<Integer>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_API_KEY))
-        .on(inputFile).withValue(publicApi).save();
-      context.<Integer>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY)).on(inputFile)
-        .withValue(publicUndocumentedApi).save();
-      context.<Double>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY))
-        .on(inputFile).withValue(densityOfPublicDocumentedApi).save();
-    }
 
     for(SquidSensor sensor: squidSensors) {
       sensor.publishMeasureForFile(inputFile, squidFile, context);
