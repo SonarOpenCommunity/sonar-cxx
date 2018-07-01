@@ -270,7 +270,7 @@ public abstract class CxxReportSensor implements Sensor {
     }
   }
 
-  protected InputFile getInputFileIfInProject(SensorContext sensorContext, String path) {
+  public InputFile getInputFileIfInProject(SensorContext sensorContext, String path) {
     String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
     String normalPath = CxxUtils.normalizePathFull(path, root);
     if (normalPath == null || notFoundFiles.contains(normalPath)) {
