@@ -21,6 +21,8 @@ package org.sonar.cxx.sensors.utils;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +30,7 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 
 public class CxxReportSensorTest {
 
@@ -62,6 +65,11 @@ public class CxxReportSensorTest {
     @Override
     protected String getSensorKey() {
       return "testSensor";
+    }
+
+    @Override
+    protected Optional<CxxMetricsFactory.Key> getMetricKey() {
+      return Optional.empty();
     }
   };
 

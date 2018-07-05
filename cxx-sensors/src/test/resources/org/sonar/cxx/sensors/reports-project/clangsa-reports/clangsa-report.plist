@@ -6,6 +6,7 @@
 <string>clang version 3.8.0-2ubuntu4 (tags/RELEASE_380/final)</string>
  <key>files</key>
  <array>
+  <string>src/lib/component0.cc</string>
   <string>src/lib/component1.cc</string>
  </array>
  <key>diagnostics</key>
@@ -249,6 +250,67 @@
    <key>line</key><integer>37</integer>
    <key>col</key><integer>9</integer>
    <key>file</key><integer>0</integer>
+  </dict>
+  </dict>
+  <dict>
+   <key>path</key>
+   <array>
+    <dict>
+     <key>kind</key><string>event</string>
+     <key>location</key>
+     <dict>
+      <key>line</key><integer>37</integer>
+      <key>col</key><integer>9</integer>
+      <key>file</key><integer>1</integer>
+     </dict>
+     <key>ranges</key>
+     <array>
+       <array>
+        <dict>
+         <key>line</key><integer>37</integer>
+         <key>col</key><integer>9</integer>
+         <key>file</key><integer>1</integer>
+        </dict>
+        <dict>
+         <key>line</key><integer>37</integer>
+         <key>col</key><integer>9</integer>
+         <key>file</key><integer>1</integer>
+        </dict>
+       </array>
+       <array>
+        <dict>
+         <key>line</key><integer>37</integer>
+         <key>col</key><integer>13</integer>
+         <key>file</key><integer>1</integer>
+        </dict>
+        <dict>
+         <key>line</key><integer>37</integer>
+         <key>col</key><integer>15</integer>
+         <key>file</key><integer>1</integer>
+        </dict>
+       </array>
+     </array>
+     <key>depth</key><integer>0</integer>
+     <key>extended_message</key>
+     <string>Value stored to &apos;i&apos; during its initialization is never read</string>
+     <key>message</key>
+     <string>Value stored to &apos;i&apos; during its initialization is never read</string>
+    </dict>
+   </array>
+   <key>description</key><string>Value stored to &apos;i&apos; during its initialization is never read</string>
+   <key>category</key><string>Dead store</string>
+   <key>type</key><string>Dead initialization</string>
+   <key>check_name</key><string>deadcode.DeadStores</string>
+   <!-- This hash is experimental and going to change! -->
+   <key>issue_hash_content_of_line_in_context</key><string>ec3497e24cb3e11eacfd34c540fcba71</string>
+  <key>issue_context_kind</key><string>C++ method</string>
+  <key>issue_context</key><string>do_valgrind_errors</string>
+  <key>issue_hash_function_offset</key><string>13</string>
+  <key>location</key>
+  <dict>
+   <key>line</key><integer>37</integer>
+   <key>col</key><integer>9</integer>
+   <key>file</key><integer>1</integer>
   </dict>
   </dict>
  </array>

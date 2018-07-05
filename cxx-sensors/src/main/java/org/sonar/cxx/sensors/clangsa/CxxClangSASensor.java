@@ -26,12 +26,15 @@ import com.dd.plist.NSObject;
 import com.dd.plist.NSString;
 import com.dd.plist.PropertyListParser;
 import java.io.File;
+import java.util.Optional;
+
 import javax.annotation.Nullable;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
@@ -122,5 +125,10 @@ public class CxxClangSASensor extends CxxReportSensor {
   @Override
   protected String getSensorKey() {
     return KEY;
+  }
+
+  @Override
+  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
+    return Optional.of(CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY);
   }
 }

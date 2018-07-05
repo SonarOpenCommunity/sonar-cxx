@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import javax.annotation.Nullable;
 import org.apache.commons.io.FilenameUtils;
@@ -44,6 +45,7 @@ import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxReportLocation;
 
 /**
@@ -100,12 +102,13 @@ public abstract class CxxReportSensor implements Sensor {
         executeReport(context, report, prevViolationsCount);
       }
 
-      LOG.info("{} processed = {}", CxxMetrics.getKey(this.getSensorKey(), language), violationsPerModuleCount);
 
-      String metricKey = CxxMetrics.getKey(this.getSensorKey(), language);
-      Metric<Integer> metric = this.language.getMetric(metricKey);
+      Optional<CxxMetricsFactory.Key> metricKey = this.getMetricKey();
+      if (metricKey.isPresent())
+      {
+        Metric<Integer> metric = this.language.getMetric(metricKey.get());
+        LOG.info("{} processed = {}", metric.getKey(), violationsPerModuleCount);
 
-      if (metric != null) {
         for (Map.Entry<InputFile, Integer> entry : violationsPerFileCount.entrySet()) {
           context.<Integer>newMeasure()
             .forMetric(metric)
@@ -113,11 +116,18 @@ public abstract class CxxReportSensor implements Sensor {
             .withValue(entry.getValue())
             .save();
         }
-        context.<Integer>newMeasure()
-          .forMetric(metric)
-          .on(context.module())
-          .withValue(violationsPerModuleCount)
-          .save();
+
+        // this sensor could be executed on module without any files
+        // (possible for hierarchical multi-module projects)
+        // don't publish 0 as module metric,
+        // let AggregateMeasureComputer calculate the correct value
+        if ( violationsPerModuleCount != 0 ) {
+          context.<Integer>newMeasure()
+            .forMetric(metric)
+            .on(context.module())
+            .withValue(violationsPerModuleCount)
+            .save();
+        }
       }
     } catch (Exception e) {
       String msg = new StringBuilder()
@@ -139,8 +149,9 @@ public abstract class CxxReportSensor implements Sensor {
   private void executeReport(SensorContext context, File report, int prevViolationsCount) throws Exception {
     try {
       processReport(context, report);
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("{} processed = {}", CxxMetrics.getKey(this.getSensorKey(), language),
+      if (LOG.isDebugEnabled() && this.getMetricKey().isPresent()) {
+        Metric<Integer> metric = language.getMetric(this.getMetricKey().get());
+        LOG.debug("{} processed = {}", metric.getKey(),
           violationsPerModuleCount - prevViolationsCount);
       }
     } catch (EmptyReportException e) {
@@ -383,4 +394,6 @@ public abstract class CxxReportSensor implements Sensor {
   public abstract String getReportPathKey();
 
   protected abstract String getSensorKey();
+
+  protected abstract Optional<CxxMetricsFactory.Key> getMetricKey();
 }

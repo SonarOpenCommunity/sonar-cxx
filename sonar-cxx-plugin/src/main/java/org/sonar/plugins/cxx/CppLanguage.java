@@ -72,7 +72,7 @@ public class CppLanguage extends CxxLanguage {
    * @param settings
    */
   public CppLanguage(Configuration settings) {
-    super(KEY, NAME, settings);
+    super(KEY, NAME, PROPSKEY, settings);
 
     sourceSuffixes = createStringArray(settings.getStringArray(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY),
       DEFAULT_SOURCE_SUFFIXES);
@@ -150,11 +150,6 @@ public class CppLanguage extends CxxLanguage {
   @Override
   public String getRepositoryKey() {
     return REPOSITORY_KEY;
-  }
-
-  @Override
-  public String getPropertiesKey() {
-    return PROPSKEY;
   }
 
   private static String[] createStringArray(String[] values, String defaultValues) {

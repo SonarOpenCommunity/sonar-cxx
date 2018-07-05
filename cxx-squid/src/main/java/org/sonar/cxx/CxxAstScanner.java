@@ -19,13 +19,8 @@
  */
 package org.sonar.cxx;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Parser;
 import java.util.Collection;
+
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.cxx.api.CxxKeyword;
@@ -36,6 +31,8 @@ import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.cxx.visitors.CxxCognitiveComplexityVisitor;
 import org.sonar.cxx.visitors.CxxFileVisitor;
+import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
+import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeInFunctionBodyVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeVisitor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
@@ -56,6 +53,13 @@ import org.sonar.squidbridge.metrics.CommentsVisitor;
 import org.sonar.squidbridge.metrics.ComplexityVisitor;
 import org.sonar.squidbridge.metrics.CounterVisitor;
 import org.sonar.squidbridge.metrics.LinesVisitor;
+
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.GenericTokenType;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.impl.Parser;
 
 public final class CxxAstScanner {
 
@@ -201,9 +205,7 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(new LinesVisitor<>(CxxMetric.LINES));
     builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<>(CxxMetric.LINES_OF_CODE));
     builder.withSquidAstVisitor(new CxxLinesOfCodeInFunctionBodyVisitor<>());
-    builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
-      CxxMetric.PUBLIC_UNDOCUMENTED_API)
-      .withHeaderFileSuffixes(conf.getHeaderFileSuffixes()));
+    builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(language));
 
     builder.withSquidAstVisitor(CommentsVisitor.<Grammar>builder().withCommentMetric(CxxMetric.COMMENT_LINES)
       .withNoSonar(true)
@@ -239,6 +241,9 @@ public final class CxxAstScanner {
       .setMetricDef(CxxMetric.COGNITIVE_COMPLEXITY)
       .subscribeTo(CxxGrammarImpl.functionDefinition)
       .build());
+
+    builder.withSquidAstVisitor(new CxxFunctionComplexityVisitor<>(language));
+    builder.withSquidAstVisitor(new CxxFunctionSizeVisitor<>(language));
 
     // to emit a 'new file' event to the internals of the plugin
     builder.withSquidAstVisitor(new CxxFileVisitor<>(context));

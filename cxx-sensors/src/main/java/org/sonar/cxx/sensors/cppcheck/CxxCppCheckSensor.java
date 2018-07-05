@@ -22,12 +22,15 @@ package org.sonar.cxx.sensors.cppcheck;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+
 import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 /**
@@ -93,5 +96,10 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   @Override
   protected String getSensorKey() {
     return KEY;
+  }
+
+  @Override
+  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
+    return Optional.of(CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY);
   }
 }

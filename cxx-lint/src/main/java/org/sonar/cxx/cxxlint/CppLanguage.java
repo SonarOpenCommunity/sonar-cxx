@@ -30,7 +30,7 @@ import org.sonar.cxx.CxxLanguage;
 public class CppLanguage extends CxxLanguage {
 
   public CppLanguage(Configuration config) {
-    super("c++", config);
+    super("c++", "cxx", config);
   }
 
   @Override
@@ -46,11 +46,6 @@ public class CppLanguage extends CxxLanguage {
   @Override
   public String[] getHeaderFileSuffixes() {
     return new String[]{"hpp", "h", "hxx"};
-  }
-
-  @Override
-  public String getPropertiesKey() {
-    return "cxx";
   }
 
   @Override

@@ -27,7 +27,7 @@ public class CxxMetricTest {
   @Test
   public void test() {
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(CxxMetric.values()).hasSize(12);
+    softly.assertThat(CxxMetric.values()).hasSize(17);
 
     for (CxxMetric metric : CxxMetric.values()) {
       softly.assertThat(metric.getName()).isEqualTo(metric.name());

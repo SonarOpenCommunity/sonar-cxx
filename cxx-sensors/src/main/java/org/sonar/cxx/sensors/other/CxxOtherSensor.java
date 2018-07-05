@@ -25,6 +25,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
@@ -36,6 +38,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
@@ -115,6 +118,11 @@ public class CxxOtherSensor extends CxxReportSensor {
   @Override
   protected String getSensorKey() {
     return KEY;
+  }
+
+  @Override
+  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
+    return Optional.of(CxxMetricsFactory.Key.OTHER_SENSOR_ISSUES_KEY);
   }
 
   public void transformFiles(final File baseDir, SensorContext context) {

@@ -55,7 +55,7 @@ public class CxxLanguageTest {
     private final String[] fileSuffixes;
 
     public CppLanguage(Configuration settings) {
-      super(KEY, NAME, settings);
+      super(KEY, NAME, PLUGIN_ID, settings);
 
       sourceSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.sources"), SOURCE_SUFFIXES);
       headerSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.headers"), HEADER_SUFFIXES);
@@ -94,11 +94,6 @@ public class CxxLanguageTest {
       System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
       System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);
       return result;
-    }
-
-    @Override
-    public String getPropertiesKey() {
-      return PLUGIN_ID;
     }
 
     @Override

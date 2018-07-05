@@ -19,11 +19,12 @@
  */
 package org.sonar.plugins.cxx;
 
-import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.annotation.Nullable;
+
 import org.sonar.api.Plugin;
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
@@ -32,9 +33,14 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.FileLinesContextFactory;
+import org.sonar.api.measures.Metric;
+import org.sonar.api.measures.Metrics;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.cxx.AggregateMeasureComputer;
+import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.DensityMeasureComputer;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
 import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
@@ -50,10 +56,6 @@ import org.sonar.cxx.sensors.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemoryRuleRepository;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
-import org.sonar.cxx.sensors.functioncomplexity.CxxFunctionComplexitySquidSensor;
-import org.sonar.cxx.sensors.functioncomplexity.FunctionComplexityMetrics;
-import org.sonar.cxx.sensors.functionsize.CxxFunctionSizeSquidSensor;
-import org.sonar.cxx.sensors.functionsize.FunctionSizeMetrics;
 import org.sonar.cxx.sensors.other.CxxOtherRepository;
 import org.sonar.cxx.sensors.other.CxxOtherSensor;
 import org.sonar.cxx.sensors.pclint.CxxPCLintRuleRepository;
@@ -66,11 +68,14 @@ import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsAggregator;
 import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsImportSensor;
 import org.sonar.cxx.sensors.tests.dotnet.UnitTestConfiguration;
 import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
-import org.sonar.cxx.sensors.utils.CxxMetrics;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindRuleRepository;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindSensor;
 import org.sonar.cxx.sensors.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.cxx.sensors.veraxx.CxxVeraxxSensor;
+import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
+import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * {@inheritDoc}
@@ -335,7 +340,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .index(17)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionComplexitySquidSensor.FUNCTION_COMPLEXITY_THRESHOLD_KEY)
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionComplexityVisitor.FUNCTION_COMPLEXITY_THRESHOLD_KEY)
         .defaultValue("10")
         .name("Cyclomatic complexity threshold")
         .description("Cyclomatic complexity threshold used to classify a function as complex")
@@ -344,7 +349,7 @@ public final class CxxPlugin implements Plugin {
         .type(PropertyType.INTEGER)
         .index(18)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionSizeSquidSensor.FUNCTION_SIZE_THRESHOLD_KEY)
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionSizeVisitor.FUNCTION_SIZE_THRESHOLD_KEY)
         .defaultValue("20")
         .name("Function size threshold")
         .description("Function size threshold to consider a function to be too big")
@@ -518,10 +523,6 @@ public final class CxxPlugin implements Plugin {
     l.addAll(compilerWarningsProperties());
     l.addAll(duplicationsProperties());
 
-    //extra metrics
-    l.add(FunctionComplexityMetrics.class);
-    l.add(FunctionSizeMetrics.class);
-
     context.addExtensions(l);
   }
 
@@ -534,6 +535,10 @@ public final class CxxPlugin implements Plugin {
 
     // metrics
     l.add(CxxMetricsImp.class);
+    // ComputeEngine: propagate metrics through all levels (FILE -> MODULE -> PROJECT)
+    l.add(AggregateMeasureComputerImpl.class);
+    // ComputeEngine: calculate new metrics from existing ones
+    l.add(DensityMeasureComputerImpl.class);
 
     // issue sensors
     l.add(CxxSquidSensorImpl.class);
@@ -569,10 +574,27 @@ public final class CxxPlugin implements Plugin {
     return l;
   }
 
-  public static class CxxMetricsImp extends CxxMetrics {
+  public static class CxxMetricsImp implements Metrics {
+    private static final List<Metric> METRICS = CxxMetricsFactory.generateList(CppLanguage.KEY, CppLanguage.PROPSKEY);
 
     public CxxMetricsImp(Configuration settings) {
-      super(new CppLanguage(settings));
+    }
+
+    @Override
+    public List<Metric> getMetrics() {
+      return METRICS;
+    }
+  }
+
+  public static class AggregateMeasureComputerImpl extends AggregateMeasureComputer {
+    public AggregateMeasureComputerImpl() {
+      super(CppLanguage.KEY, CppLanguage.PROPSKEY);
+    }
+  }
+
+  public static class DensityMeasureComputerImpl extends DensityMeasureComputer {
+    public DensityMeasureComputerImpl() {
+      super(CppLanguage.KEY, CppLanguage.PROPSKEY);
     }
   }
 

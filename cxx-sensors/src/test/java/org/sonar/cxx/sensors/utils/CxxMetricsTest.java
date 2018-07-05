@@ -21,6 +21,8 @@ package org.sonar.cxx.sensors.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,17 +30,16 @@ import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.measures.Metric;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 
 public class CxxMetricsTest {
 
-  private MapSettings settings;
   private CxxLanguage language;
-  private CxxMetrics metrics;
 
   public class CxxLanguageImpl extends CxxLanguage {
 
     public CxxLanguageImpl(Configuration settings) {
-      super("c++", "c++", settings);
+      super("c++", "c++", "cxx", settings);
     }
 
     @Override
@@ -57,11 +58,6 @@ public class CxxMetricsTest {
     }
 
     @Override
-    public String getPropertiesKey() {
-      return "cxx";
-    }
-
-    @Override
     public List<Class> getChecks() {
       return new ArrayList<>();
     }
@@ -75,26 +71,27 @@ public class CxxMetricsTest {
 
   @Before
   public void setUp() {
-    settings = new MapSettings();
-    language = new CxxLanguageImpl(settings.asConfig());
-    metrics = new CxxMetrics(language);
+    language = new CxxLanguageImpl(new MapSettings().asConfig());
   }
 
   @Test
   public void getMetricsTest() {
-    List<?> list = metrics.getMetrics();
-    assertThat(list.size()).isEqualTo(14);
+    List<Metric> list = CxxMetricsFactory.generateList(language.getKey(), language.getPropertiesKey());
+    assertThat(list.size()).isEqualTo(23);
+
+    Map<CxxMetricsFactory.Key, Metric<?>> map = CxxMetricsFactory.generateMap(language.getKey(), language.getPropertiesKey());
+    assertThat(map.size()).isEqualTo(23);
   }
 
   @Test
   public void getMetricTest() {
-    Metric<?> metric = language.getMetric(CxxMetrics.PUBLIC_API_KEY);
-    assertThat(metric).isNotNull();
+    Metric<Integer> metric0 = language.getMetric(CxxMetricsFactory.Key.PUBLIC_API_KEY);
+    assertThat(metric0).isNotNull();
 
-    metric = language.getMetric(CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY);
-    assertThat(metric).isNotNull();
+    Metric<Integer> metric1 = language.getMetric(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY);
+    assertThat(metric1).isNotNull();
 
-    metric = language.getMetric(CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY);
-    assertThat(metric).isNotNull();
+    Metric<Double> metric2 = language.getMetric(CxxMetricsFactory.Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY);
+    assertThat(metric2).isNotNull();
   }
 }

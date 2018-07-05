@@ -20,6 +20,8 @@
 package org.sonar.cxx.sensors.veraxx;
 
 import java.io.File;
+import java.util.Optional;
+
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -27,6 +29,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
@@ -116,5 +119,10 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   @Override
   protected String getSensorKey() {
     return KEY;
+  }
+
+  @Override
+  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
+    return Optional.of(CxxMetricsFactory.Key.VERAXX_SENSOR_KEY);
   }
 }

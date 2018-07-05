@@ -30,6 +30,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
@@ -135,5 +136,10 @@ public class CxxCompilerSensor extends CxxReportSensor {
   @Override
   protected String getSensorKey() {
     return KEY;
+  }
+
+  @Override
+  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
+    return Optional.of(CxxMetricsFactory.Key.COMPILER_SENSOR_ISSUES_KEY);
   }
 }

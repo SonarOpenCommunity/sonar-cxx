@@ -19,14 +19,15 @@
  */
 package org.sonar.cxx.sensors.squid;
 
-import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+
 import javax.annotation.Nullable;
+
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.CheckFactory;
@@ -44,11 +45,9 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
-import org.sonar.cxx.sensors.functioncomplexity.CxxFunctionComplexitySquidSensor;
-import org.sonar.cxx.sensors.functionsize.CxxFunctionSizeSquidSensor;
-import org.sonar.cxx.sensors.utils.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
 import org.sonar.cxx.sensors.visitors.CxxCpdVisitor;
@@ -61,14 +60,14 @@ import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.indexer.QueryByType;
 
+import com.sonar.sslr.api.Grammar;
+
 /**
  * {@inheritDoc}
  */
 public class CxxSquidSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
-  public static final String SOURCE_FILE_SUFFIXES_KEY = "suffixes.sources";
-  public static final String HEADER_FILE_SUFFIXES_KEY = "suffixes.headers";
   public static final String DEFINES_KEY = "defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
@@ -86,12 +85,6 @@ public class CxxSquidSensor implements Sensor {
   private final CxxChecks checks;
 
   private final CxxLanguage language;
-
-  private List<SquidSensor> squidSensors = new ArrayList<>();
-
-  public List<SquidSensor> getSquidSensors(){
-    return this.squidSensors;
-  }
 
   /**
    * {@inheritDoc}
@@ -114,19 +107,6 @@ public class CxxSquidSensor implements Sensor {
       .addCustomChecks(customRulesDefinition);
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.language = language;
-
-    if (this.language.getMetricsCache().isEmpty()) {
-      new CxxMetrics(this.language);
-    }
-
-    registerSquidSensors();
-  }
-
-  protected void registerSquidSensors(){
-    if ("c++".equals(this.language.getKey())){
-      this.squidSensors.add(new CxxFunctionComplexitySquidSensor(this.language));
-      this.squidSensors.add(new CxxFunctionSizeSquidSensor(this.language));
-    }
   }
 
   @Override
@@ -152,10 +132,6 @@ public class CxxSquidSensor implements Sensor {
         context,
         this.language.getBooleanOption(CPD_IGNORE_LITERALS_KEY).orElse(Boolean.FALSE),
         this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
-
-    for (SquidSensor sensor : squidSensors) {
-      visitors.add(sensor.getVisitor());
-    }
 
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf,
@@ -185,8 +161,16 @@ public class CxxSquidSensor implements Sensor {
     cxxConf.setIncludeDirectories(this.language.getStringArrayOption(INCLUDE_DIRECTORIES_KEY));
     cxxConf.setErrorRecoveryEnabled(this.language.getBooleanOption(ERROR_RECOVERY_KEY).orElse(Boolean.FALSE));
     cxxConf.setForceIncludeFiles(this.language.getStringArrayOption(FORCE_INCLUDE_FILES_KEY));
+    // FIXME this.language.getStringArrayOption(C_FILES_PATTERNS_KEY) must be fixed
+    // 1. it doesn't match C plugin (C_FILES_PATTERNS_KEY) as key makes sense
+    //    for C++ plugin only
+    // 2. event for C++ plugin this.language.getStringArrayOption(...) works wrong:
+    //    it returns empty string if property is not set, but it have to return the
+    //    default value instead
+    //    For proper implemenation see CppLanguage::CppLanguage()
+    //    or createStringArray(settings.getStringArray(C_FILES_PATTERNS_KEY), DEFAULT_C_FILES)
     cxxConf.setCFilesPatterns(this.language.getStringArrayOption(C_FILES_PATTERNS_KEY));
-    cxxConf.setHeaderFileSuffixes(this.language.getStringArrayOption(HEADER_FILE_SUFFIXES_KEY));
+    cxxConf.setHeaderFileSuffixes(this.language.getHeaderFileSuffixes());
     cxxConf.setMissingIncludeWarningsEnabled(this.language.getBooleanOption(MISSING_INCLUDE_WARN)
       .orElse(Boolean.FALSE));
     cxxConf.setJsonCompilationDatabaseFile(this.language.getStringOption(JSON_COMPILATION_DATABASE_KEY)
@@ -214,6 +198,14 @@ public class CxxSquidSensor implements Sensor {
   }
 
   private void save(Collection<SourceCode> squidSourceFiles, SensorContext context) {
+    // don't publish metrics on modules, which were not analyzed
+    // otherwise hierarchical multi-module projects will contain wrong metrics ( == 0)
+    // see also AggregateMeasureComputer
+    if (squidSourceFiles.isEmpty())
+    {
+      return;
+    }
+
     int violationsCount = 0;
 
     for (SourceCode squidSourceFile : squidSourceFiles) {
@@ -225,23 +217,16 @@ public class CxxSquidSensor implements Sensor {
       violationsCount += saveViolations(inputFile, squidFile, context);
     }
 
-    String metricKey = CxxMetrics.getKey(KEY, language);
-    Metric metric = this.language.getMetric(metricKey);
-
-    if (metric != null) {
-      context.<Integer>newMeasure()
-        .forMetric(metric)
-        .on(context.module())
-        .withValue(violationsCount)
-        .save();
-    }
-
-    for(SquidSensor sensor: squidSensors) {
-        sensor.publishMeasureForProject(context.module(), context);
-    }
+    Metric<Integer> metric = this.language.getMetric(CxxMetricsFactory.Key.SQUID_SENSOR_ISSUES_KEY);
+    context.<Integer>newMeasure()
+      .forMetric(metric)
+      .on(context.module())
+      .withValue(violationsCount)
+      .save();
   }
 
   private void saveMeasures(InputFile inputFile, SourceFile squidFile, SensorContext context) {
+    // CORE METRICS
     context.<Integer>newMeasure().forMetric(CoreMetrics.FILES).on(inputFile)
       .withValue(squidFile.getInt(CxxMetric.FILES)).save();
     context.<Integer>newMeasure().forMetric(CoreMetrics.NCLOC).on(inputFile)
@@ -254,30 +239,42 @@ public class CxxSquidSensor implements Sensor {
       .withValue(squidFile.getInt(CxxMetric.CLASSES)).save();
     context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY).on(inputFile)
       .withValue(squidFile.getInt(CxxMetric.COMPLEXITY)).save();
+    context.<Integer>newMeasure().forMetric(CoreMetrics.COGNITIVE_COMPLEXITY).on(inputFile)
+        .withValue(squidFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY)).save();
     context.<Integer>newMeasure().forMetric(CoreMetrics.COMMENT_LINES).on(inputFile)
       .withValue(squidFile.getInt(CxxMetric.COMMENT_LINES)).save();
-    context.<Integer>newMeasure().forMetric(CoreMetrics.PUBLIC_API).on(inputFile)
-      .withValue(squidFile.getInt(CxxMetric.PUBLIC_API)).save();
-    context.<Integer>newMeasure().forMetric(CoreMetrics.PUBLIC_UNDOCUMENTED_API).on(inputFile)
-      .withValue(squidFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).save();
 
-    // Configuration properties for SQ 6.2++
-    // see https://jira.sonarsource.com/browse/SONAR-8328
-    if (!language.getMetricsCache().isEmpty()) {
-      int publicApi = squidFile.getInt(CxxMetric.PUBLIC_API);
-      int publicUndocumentedApi = squidFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API);
-      double densityOfPublicDocumentedApi = (publicApi > publicUndocumentedApi) ? ((publicApi - publicUndocumentedApi) / (double) publicApi * 100.0) : 0.0;
-      context.<Integer>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_API_KEY))
-        .on(inputFile).withValue(publicApi).save();
-      context.<Integer>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY)).on(inputFile)
-        .withValue(publicUndocumentedApi).save();
-      context.<Double>newMeasure().forMetric(language.getMetric(CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY))
-        .on(inputFile).withValue(densityOfPublicDocumentedApi).save();
-    }
+    // CUSTOM METRICS
+    // non-core metrics are not aggregated automatically,
+    // see AggregateMeasureComputer
 
-    for(SquidSensor sensor: squidSensors) {
-      sensor.publishMeasureForFile(inputFile, squidFile, context);
-    }
+    // 1. PUBLIC API
+    // PUBLIC_DOCUMENTED_API_DENSITY_KEY is calculated by means of
+    // DensityMeasureComputer
+    context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_API_KEY))
+        .on(inputFile).withValue(squidFile.getInt(CxxMetric.PUBLIC_API)).save();
+    context.<Integer>newMeasure()
+        .forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY)).on(inputFile)
+        .withValue(squidFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).save();
+
+    // 2. FUNCTION COMPLEXITY
+    // COMPLEX_FUNCTIONS_PERC_KEY and COMPLEX_FUNCTIONS_LOC_PERC_KEY
+    // are calculated by means of by means of DensityMeasureComputer
+    context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_KEY))
+        .on(inputFile).withValue(squidFile.getInt(CxxMetric.COMPLEX_FUNCTIONS)).save();
+    context.<Integer>newMeasure()
+        .forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_KEY)).on(inputFile)
+        .withValue(squidFile.getInt(CxxMetric.COMPLEX_FUNCTIONS_LOC)).save();
+
+    // 2. FUNCTION SIZE
+    // BIG_FUNCTIONS_PERC_KEY and BIG_FUNCTIONS_LOC_PERC_KEY
+    // are calculated by means of by means of DensityMeasureComputer
+    context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY))
+    .on(inputFile).withValue(squidFile.getInt(CxxMetric.LOC_IN_FUNCTIONS)).save();
+    context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_KEY))
+        .on(inputFile).withValue(squidFile.getInt(CxxMetric.BIG_FUNCTIONS)).save();
+    context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY))
+        .on(inputFile).withValue(squidFile.getInt(CxxMetric.BIG_FUNCTIONS_LOC)).save();
   }
 
   private int saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext sensorContext) {
