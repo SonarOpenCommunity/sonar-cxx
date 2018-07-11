@@ -26,8 +26,12 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
 import java.math.BigInteger;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
+
 import javax.annotation.Nullable;
+
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxConfiguration;
@@ -41,19 +45,21 @@ public final class ExpressionEvaluator {
 
   private final Parser<Grammar> parser;
   private final CxxPreprocessor preprocessor;
+  private final Deque<String> macroEvaluationStack;
 
-  public ExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor) {
+  private ExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor) {
     parser = CppParser.createConstantExpressionParser(conf);
 
     this.preprocessor = preprocessor;
+    macroEvaluationStack = new LinkedList<>();
   }
 
-  public boolean eval(String constExpr) {
-    return evalToInt(constExpr, null).compareTo(BigInteger.ZERO) != 0;
+  public static boolean eval(CxxConfiguration conf, CxxPreprocessor preprocessor, String constExpr) {
+    return new ExpressionEvaluator(conf, preprocessor).evalToBoolean(constExpr, null);
   }
 
-  public boolean eval(AstNode constExpr) {
-    return evalToInt(constExpr).compareTo(BigInteger.ZERO) != 0;
+  public static boolean eval(CxxConfiguration conf, CxxPreprocessor preprocessor, AstNode constExpr) {
+    return new ExpressionEvaluator(conf, preprocessor).evalToBoolean(constExpr);
   }
 
   private BigInteger evalToInt(String constExpr, @Nullable AstNode exprAst) {
@@ -86,6 +92,16 @@ public final class ExpressionEvaluator {
     return evalComplexAst(exprAst);
   }
 
+  private boolean evalToBoolean(AstNode exprAst)
+  {
+    return !BigInteger.ZERO.equals(evalToInt(exprAst));
+  }
+
+  private boolean evalToBoolean(String constExpr, @Nullable AstNode exprAst)
+  {
+    return !BigInteger.ZERO.equals(evalToInt(constExpr, exprAst));
+  }
+
   private BigInteger evalLeaf(AstNode exprAst) {
     // Evaluation of leafs
     //
@@ -96,8 +112,27 @@ public final class ExpressionEvaluator {
     } else if (nodeType.equals(CxxTokenType.CHARACTER)) {
       return evalCharacter(exprAst.getTokenValue());
     } else if (nodeType.equals(GenericTokenType.IDENTIFIER)) {
-      String value = preprocessor.valueOf(exprAst.getTokenValue());
-      return value == null ? BigInteger.ZERO : evalToInt(value, exprAst);
+
+      final String id = exprAst.getTokenValue();
+      if (macroEvaluationStack.contains(id))
+      {
+        if (LOG.isDebugEnabled())
+        {
+          LOG.debug("ExpressionEvaluator: self-referential macro '{}' detected; assume true; evaluation stack = ['{} <- {}']", id, id, String.join(" <- ", macroEvaluationStack));
+        }
+        return BigInteger.ONE;
+      }
+      final String value = preprocessor.valueOf(id);
+      if (value == null)
+      {
+        return BigInteger.ZERO;
+      }
+
+      macroEvaluationStack.addFirst(id);
+      BigInteger expansion = evalToInt(value, exprAst);
+      macroEvaluationStack.removeFirst();
+      return expansion;
+
     } else {
       throw new EvaluationException("Unknown expression type '" + nodeType + "'");
     }
@@ -194,10 +229,10 @@ public final class ExpressionEvaluator {
   // ////////////// logical expressions ///////////////////////////
   private BigInteger evalLogicalOrExpression(AstNode exprAst) {
     AstNode operand = exprAst.getFirstChild();
-    boolean result = eval(operand);
+    boolean result = evalToBoolean(operand);
 
     while (!result && ((operand = getNextOperand(operand)) != null)) {
-      result = eval(operand);
+      result = evalToBoolean(operand);
     }
 
     return result ? BigInteger.ONE : BigInteger.ZERO;
@@ -205,10 +240,10 @@ public final class ExpressionEvaluator {
 
   private BigInteger evalLogicalAndExpression(AstNode exprAst) {
     AstNode operand = exprAst.getFirstChild();
-    boolean result = eval(operand);
+    boolean result = evalToBoolean(operand);
 
     while (result && ((operand = getNextOperand(operand)) != null)) {
-      result = eval(operand);
+      result = evalToBoolean(operand);
     }
 
     return result ? BigInteger.ONE : BigInteger.ZERO;
@@ -233,9 +268,9 @@ public final class ExpressionEvaluator {
       operatorType = operator.getType();
       rhs = operator.getNextSibling();
       if (operatorType.equals(CppPunctuator.EQ)) {
-        result = result == eval(rhs);
+        result = result == evalToBoolean(rhs);
       } else if (operatorType.equals(CppPunctuator.NOT_EQ)) {
-        result = result != eval(rhs);
+        result = result != evalToBoolean(rhs);
       } else {
         throw new EvaluationException("Unknown equality operator '" + operatorType + "'");
       }
@@ -332,7 +367,7 @@ public final class ExpressionEvaluator {
     } else if (operatorType.equals(CppPunctuator.MINUS)) {
       return evalToInt(operand).negate();
     } else if (operatorType.equals(CppPunctuator.NOT)) {
-      boolean result = !eval(operand);
+      boolean result = !evalToBoolean(operand);
       return result ? BigInteger.ONE : BigInteger.ZERO;
     } else if (operatorType.equals(CppPunctuator.BW_NOT)) {
       //todo: need more information (signed/unsigned, data type length) to invert bits in all cases correct
@@ -414,7 +449,7 @@ public final class ExpressionEvaluator {
       AstNode trueCaseOperand = operator.getNextSibling();
       operator = trueCaseOperand.getNextSibling();
       AstNode falseCaseOperand = operator.getNextSibling();
-      return eval(decisionOperand) ? evalToInt(trueCaseOperand) : evalToInt(falseCaseOperand);
+      return evalToBoolean(decisionOperand) ? evalToInt(trueCaseOperand) : evalToInt(falseCaseOperand);
     } else {
       AstNode decisionOperand = exprAst.getFirstChild();
       AstNode operator = decisionOperand.getNextSibling();

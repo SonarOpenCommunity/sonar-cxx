@@ -19,266 +19,323 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import java.math.BigInteger;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.math.BigInteger;
+
+import org.assertj.core.api.SoftAssertions;
+import org.junit.Test;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class ExpressionEvaluatorTest {
 
-  private final ExpressionEvaluator evaluator
-    = new ExpressionEvaluator(mock(CxxConfiguration.class),
-      mock(CxxPreprocessor.class));
+  static boolean eval(String constExpr, CxxPreprocessor pp) {
+    return ExpressionEvaluator.eval(mock(CxxConfiguration.class), pp, constExpr);
+  }
+
+  static boolean eval(String constExpr) {
+    return eval(constExpr, mock(CxxPreprocessor.class));
+  }
 
   @Test
   public void bools() {
-    assertTrue(evaluator.eval("true"));
+    assertTrue(eval("true"));
 
-    assertFalse(evaluator.eval("false"));
+    assertFalse(eval("false"));
   }
 
   @Test
   public void numbers() {
-    assertTrue(evaluator.eval("1"));
-    assertTrue(evaluator.eval("0xAA"));
-    assertTrue(evaluator.eval("0XAA"));
-    assertTrue(evaluator.eval("1L"));
-    assertTrue(evaluator.eval("01L"));
-    assertTrue(evaluator.eval("1u"));
-    assertTrue(evaluator.eval("1000000000UL"));
-    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFF"));
-    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFFui64"));
-    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFFLL"));
-    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFFuLL"));
-    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFFll"));
-    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFFull"));
-    assertTrue(evaluator.eval("0xffffffffffffffffui64"));
-    assertTrue(evaluator.eval("0xffffffffffffffffi64"));
-    assertTrue(evaluator.eval("0x7FFFFFL"));
+    assertTrue(eval("1"));
+    assertTrue(eval("0xAA"));
+    assertTrue(eval("0XAA"));
+    assertTrue(eval("1L"));
+    assertTrue(eval("01L"));
+    assertTrue(eval("1u"));
+    assertTrue(eval("1000000000UL"));
+    assertTrue(eval("0xFFFFFFFFFFFFFFFF"));
+    assertTrue(eval("0xFFFFFFFFFFFFFFFFui64"));
+    assertTrue(eval("0xFFFFFFFFFFFFFFFFLL"));
+    assertTrue(eval("0xFFFFFFFFFFFFFFFFuLL"));
+    assertTrue(eval("0xFFFFFFFFFFFFFFFFll"));
+    assertTrue(eval("0xFFFFFFFFFFFFFFFFull"));
+    assertTrue(eval("0xffffffffffffffffui64"));
+    assertTrue(eval("0xffffffffffffffffi64"));
+    assertTrue(eval("0x7FFFFFL"));
 
-    assertFalse(evaluator.eval("0"));
-    assertFalse(evaluator.eval("0x0"));
+    assertFalse(eval("0"));
+    assertFalse(eval("0x0"));
   }
 
   @Test
   public void characters() {
-    assertTrue(evaluator.eval("'1'"));
-    assertTrue(evaluator.eval("'a'"));
+    assertTrue(eval("'1'"));
+    assertTrue(eval("'a'"));
 
-    assertFalse(evaluator.eval("'\0'"));
+    assertFalse(eval("'\0'"));
   }
 
   @Test
   public void conditional_expression() {
-    assertTrue(evaluator.eval("1 ? 1 : 0"));
-    assertTrue(evaluator.eval("0 ? 0 : 1"));
+    assertTrue(eval("1 ? 1 : 0"));
+    assertTrue(eval("0 ? 0 : 1"));
 
-    assertFalse(evaluator.eval("1 ? 0 : 1"));
-    assertFalse(evaluator.eval("0 ? 1 : 0"));
+    assertFalse(eval("1 ? 0 : 1"));
+    assertFalse(eval("0 ? 1 : 0"));
 
-    assertTrue(evaluator.eval("1 ? : 0"));
-    assertTrue(evaluator.eval("0 ? : 1"));
+    assertTrue(eval("1 ? : 0"));
+    assertTrue(eval("0 ? : 1"));
   }
 
   @Test
   public void logical_or() {
-    assertTrue(evaluator.eval("1 || 0"));
-    assertTrue(evaluator.eval("0 || 1"));
-    assertTrue(evaluator.eval("1 || 1"));
-    assertTrue(evaluator.eval("0 || 0 || 1"));
+    assertTrue(eval("1 || 0"));
+    assertTrue(eval("0 || 1"));
+    assertTrue(eval("1 || 1"));
+    assertTrue(eval("0 || 0 || 1"));
 
-    assertFalse(evaluator.eval("0 || 0"));
-    assertFalse(evaluator.eval("0 || 0 || 0"));
+    assertFalse(eval("0 || 0"));
+    assertFalse(eval("0 || 0 || 0"));
   }
 
   @Test
   public void logical_and() {
-    assertTrue(evaluator.eval("1 && 1"));
-    assertTrue(evaluator.eval("1 && 1 && 1"));
+    assertTrue(eval("1 && 1"));
+    assertTrue(eval("1 && 1 && 1"));
 
-    assertFalse(evaluator.eval("1 && 0"));
-    assertFalse(evaluator.eval("0 && 1"));
-    assertFalse(evaluator.eval("0 && 0"));
-    assertFalse(evaluator.eval("1 && 1 && 0"));
+    assertFalse(eval("1 && 0"));
+    assertFalse(eval("0 && 1"));
+    assertFalse(eval("0 && 0"));
+    assertFalse(eval("1 && 1 && 0"));
   }
 
   @Test
   public void inclusive_or() {
-    assertTrue(evaluator.eval("1 | 0"));
-    assertTrue(evaluator.eval("0 | 1"));
-    assertTrue(evaluator.eval("1 | 1"));
-    assertTrue(evaluator.eval("0 | 0 | 1"));
+    assertTrue(eval("1 | 0"));
+    assertTrue(eval("0 | 1"));
+    assertTrue(eval("1 | 1"));
+    assertTrue(eval("0 | 0 | 1"));
 
-    assertFalse(evaluator.eval("0 | 0 | 0"));
+    assertFalse(eval("0 | 0 | 0"));
   }
 
   @Test
   public void exclusive_or() {
-    assertTrue(evaluator.eval("1 ^ 0"));
-    assertTrue(evaluator.eval("0 ^ 1"));
-    assertTrue(evaluator.eval("0 ^ 1 ^ 0"));
+    assertTrue(eval("1 ^ 0"));
+    assertTrue(eval("0 ^ 1"));
+    assertTrue(eval("0 ^ 1 ^ 0"));
 
-    assertFalse(evaluator.eval("0 ^ 0"));
-    assertFalse(evaluator.eval("0 ^ 1 ^ 1"));
+    assertFalse(eval("0 ^ 0"));
+    assertFalse(eval("0 ^ 1 ^ 1"));
   }
 
   @Test
   public void and_expr() {
-    assertTrue(evaluator.eval("1 & 1"));
-    assertTrue(evaluator.eval("2 & 2 & 2"));
+    assertTrue(eval("1 & 1"));
+    assertTrue(eval("2 & 2 & 2"));
 
-    assertFalse(evaluator.eval("0 & 1"));
-    assertFalse(evaluator.eval("1 & 0"));
-    assertFalse(evaluator.eval("0 & 0"));
-    assertFalse(evaluator.eval("2 & 4"));
-    assertFalse(evaluator.eval("1 & 1 & 4"));
+    assertFalse(eval("0 & 1"));
+    assertFalse(eval("1 & 0"));
+    assertFalse(eval("0 & 0"));
+    assertFalse(eval("2 & 4"));
+    assertFalse(eval("1 & 1 & 4"));
   }
 
   @Test
   public void equality_expr() {
-    assertTrue(evaluator.eval("1 == 1"));
-    assertTrue(evaluator.eval("1 == true"));
-    assertTrue(evaluator.eval("true == true"));
-    assertTrue(evaluator.eval("true == 1"));
-    assertTrue(evaluator.eval("false == 0"));
-    assertTrue(evaluator.eval("0 == false"));
+    assertTrue(eval("1 == 1"));
+    assertTrue(eval("1 == true"));
+    assertTrue(eval("true == true"));
+    assertTrue(eval("true == 1"));
+    assertTrue(eval("false == 0"));
+    assertTrue(eval("0 == false"));
 
-    assertTrue(evaluator.eval("true != 2"));
-    assertTrue(evaluator.eval("false != 1"));
-    assertTrue(evaluator.eval("1 != 2"));
+    assertTrue(eval("true != 2"));
+    assertTrue(eval("false != 1"));
+    assertTrue(eval("1 != 2"));
 
-    assertFalse(evaluator.eval("1 == 0"));
-    assertFalse(evaluator.eval("3 != 3"));
-    assertFalse(evaluator.eval("2 != 3 != 4"));
-    assertFalse(evaluator.eval("0 != 1 != true"));
+    assertFalse(eval("1 == 0"));
+    assertFalse(eval("3 != 3"));
+    assertFalse(eval("2 != 3 != 4"));
+    assertFalse(eval("0 != 1 != true"));
 
-    assertTrue(evaluator.eval("1 == 1 == true"));
+    assertTrue(eval("1 == 1 == true"));
   }
 
   @Test
   public void relational_expr() {
-    assertTrue(evaluator.eval("0 < 1"));
-    assertTrue(evaluator.eval("0 <= 1"));
-    assertTrue(evaluator.eval("1 > 0"));
-    assertTrue(evaluator.eval("1 >= 0"));
-    assertTrue(evaluator.eval("0 < 0 < 2"));
+    assertTrue(eval("0 < 1"));
+    assertTrue(eval("0 <= 1"));
+    assertTrue(eval("1 > 0"));
+    assertTrue(eval("1 >= 0"));
+    assertTrue(eval("0 < 0 < 2"));
 
-    assertFalse(evaluator.eval("3 < 2"));
-    assertFalse(evaluator.eval("3 <= 2"));
-    assertFalse(evaluator.eval("0 > 1"));
-    assertFalse(evaluator.eval("0 >= 1"));
-    assertFalse(evaluator.eval("0 < 1 < 1"));
+    assertFalse(eval("3 < 2"));
+    assertFalse(eval("3 <= 2"));
+    assertFalse(eval("0 > 1"));
+    assertFalse(eval("0 >= 1"));
+    assertFalse(eval("0 < 1 < 1"));
 
-    assertTrue(evaluator.eval("2 > 1 > false"));
-    assertTrue(evaluator.eval("0 >= 0 >= false"));
-    assertTrue(evaluator.eval("0 <= 0  >= true"));
+    assertTrue(eval("2 > 1 > false"));
+    assertTrue(eval("0 >= 0 >= false"));
+    assertTrue(eval("0 <= 0  >= true"));
 
-    assertFalse(evaluator.eval("1 < 1 > false"));
-    assertFalse(evaluator.eval("0 >= 1 >= true"));
-    assertFalse(evaluator.eval("2 <= 2 <= false"));
+    assertFalse(eval("1 < 1 > false"));
+    assertFalse(eval("0 >= 1 >= true"));
+    assertFalse(eval("2 <= 2 <= false"));
   }
 
   @Test
   public void shift_expr() {
-    assertTrue(evaluator.eval("1 << 2"));
-    assertTrue(evaluator.eval("1 >> 0"));
+    assertTrue(eval("1 << 2"));
+    assertTrue(eval("1 >> 0"));
 
-    assertFalse(evaluator.eval("0 << 1"));
-    assertFalse(evaluator.eval("0 >> 1"));
-    assertFalse(evaluator.eval("10 >> 1 >> 10"));
+    assertFalse(eval("0 << 1"));
+    assertFalse(eval("0 >> 1"));
+    assertFalse(eval("10 >> 1 >> 10"));
   }
 
   @Test
   public void additive_expr() {
-    assertTrue(evaluator.eval("1 + 1"));
-    assertTrue(evaluator.eval("2 - 1"));
-    assertTrue(evaluator.eval("3 - 3 + 2"));
+    assertTrue(eval("1 + 1"));
+    assertTrue(eval("2 - 1"));
+    assertTrue(eval("3 - 3 + 2"));
 
-    assertFalse(evaluator.eval("0 + 0"));
-    assertFalse(evaluator.eval("1 - 1"));
-    assertFalse(evaluator.eval("3 - 2 - 1"));
+    assertFalse(eval("0 + 0"));
+    assertFalse(eval("1 - 1"));
+    assertFalse(eval("3 - 2 - 1"));
   }
 
   @Test
   public void multiplicative_expr() {
-    assertTrue(evaluator.eval("1 * 2"));
-    assertTrue(evaluator.eval("1 / 1"));
-    assertTrue(evaluator.eval("1 % 2"));
+    assertTrue(eval("1 * 2"));
+    assertTrue(eval("1 / 1"));
+    assertTrue(eval("1 % 2"));
 
-    assertFalse(evaluator.eval("0 * 1"));
-    assertFalse(evaluator.eval("0 / 1"));
-    assertFalse(evaluator.eval("1 % 1"));
-    assertFalse(evaluator.eval("1 * 1 * 0"));
+    assertFalse(eval("0 * 1"));
+    assertFalse(eval("0 / 1"));
+    assertFalse(eval("1 % 1"));
+    assertFalse(eval("1 * 1 * 0"));
   }
 
   @Test
   public void primary_expr() {
-    assertTrue(evaluator.eval("(1)"));
+    assertTrue(eval("(1)"));
 
-    assertFalse(evaluator.eval("(0)"));
-    assertFalse(evaluator.eval("( 0 )"));
-    assertFalse(evaluator.eval("(1 || 0) && 0"));
+    assertFalse(eval("(0)"));
+    assertFalse(eval("( 0 )"));
+    assertFalse(eval("(1 || 0) && 0"));
   }
 
   @Test
   public void unary_expression() {
-    assertTrue(evaluator.eval("+1"));
-    assertTrue(evaluator.eval("-1"));
-    assertTrue(evaluator.eval("!0"));
-    assertTrue(evaluator.eval("~0"));
+    assertTrue(eval("+1"));
+    assertTrue(eval("-1"));
+    assertTrue(eval("!0"));
+    assertTrue(eval("~0"));
 
-    assertFalse(evaluator.eval("+0"));
-    assertFalse(evaluator.eval("-0"));
-    assertFalse(evaluator.eval("!1"));
-    assertFalse(evaluator.eval("~0xFFFFFFFFFFFFFFFF"));
+    assertFalse(eval("+0"));
+    assertFalse(eval("-0"));
+    assertFalse(eval("!1"));
+    assertFalse(eval("~0xFFFFFFFFFFFFFFFF"));
   }
 
   @Test
   public void identifier_defined() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn("1");
-    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
-    assertTrue(evaluator.eval("LALA"));
+    assertTrue(eval("LALA", pp));
   }
 
   @Test
+  public void self_referential_identifier0() {
+    CxxPreprocessor pp = mock(CxxPreprocessor.class);
+    when(pp.valueOf("A")).thenReturn("A");
+
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(eval("A", pp)).isTrue();
+    softly.assertThat(eval("A && A", pp)).isTrue();
+    softly.assertThat(eval("A && !A", pp)).isFalse();
+    softly.assertAll();
+  }
+
+  @Test
+  public void self_referential_identifier1() {
+    CxxPreprocessor pp = mock(CxxPreprocessor.class);
+    when(pp.valueOf("A")).thenReturn("B");
+    when(pp.valueOf("B")).thenReturn("A");
+
+    assertTrue(eval("A", pp));
+  }
+
+  @Test
+  public void self_referential_identifier2() {
+    CxxPreprocessor pp = mock(CxxPreprocessor.class);
+    when(pp.valueOf("C")).thenReturn("B");
+    when(pp.valueOf("B")).thenReturn("C");
+    when(pp.valueOf("A")).thenReturn("B");
+
+    assertTrue(eval("A", pp));
+  }
+
+  @Test
+  public void self_referential_identifier3() {
+    CxxPreprocessor pp = mock(CxxPreprocessor.class);
+    when(pp.valueOf("C")).thenReturn("B");
+    when(pp.valueOf("B")).thenReturn("C");
+    when(pp.valueOf("A1")).thenReturn("1");
+    when(pp.valueOf("A0")).thenReturn("0");
+    when(pp.valueOf("A")).thenReturn("A0 + A1 + B");
+
+    assertTrue(eval("A", pp));
+  }
+
+  @Test
+  public void self_referential_identifier4() {
+    // https://gcc.gnu.org/onlinedocs/gcc-3.0.1/cpp_3.html#SEC31
+    CxxPreprocessor pp = mock(CxxPreprocessor.class);
+    when(pp.valueOf("x")).thenReturn("(4 + y)");
+    when(pp.valueOf("y")).thenReturn("(2 * x)");
+
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(eval("x", pp)).isTrue();
+    softly.assertThat(eval("y", pp)).isTrue();
+    softly.assertAll();
+  }
+
+
+  @Test
   public void identifier_undefined() {
-    ExpressionEvaluator evaluator
-      = new ExpressionEvaluator(mock(CxxConfiguration.class),
-        mock(CxxPreprocessor.class));
-    assertFalse(evaluator.eval("LALA"));
+    assertFalse(eval("LALA"));
   }
 
   @Test
   public void functionlike_macro_defined_true() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.expandFunctionLikeMacro(anyString(), anyList())).thenReturn("1");
-    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
-    assertTrue(evaluator.eval("has_feature(URG)"));
+    assertTrue(eval("has_feature(URG)", pp));
   }
 
   @Test
   public void functionlike_macro_defined_false() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn("0");
-    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
-    assertFalse(evaluator.eval("has_feature(URG)"));
+    assertFalse(eval("has_feature(URG)", pp));
   }
 
   @Test
   public void functionlike_macro_undefined() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn(null);
-    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
-    assertFalse(evaluator.eval("has_feature(URG)"));
+    assertFalse(eval("has_feature(URG)", pp));
   }
 
   @Test
@@ -286,16 +343,12 @@ public class ExpressionEvaluatorTest {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     String macro = "LALA";
     when(pp.valueOf(macro)).thenReturn("1");
-    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
-    assertTrue(evaluator.eval("defined " + macro));
+    assertTrue(eval("defined " + macro, pp));
   }
 
   @Test
   public void defined_false_without_parantheses() {
-    ExpressionEvaluator evaluator
-      = new ExpressionEvaluator(mock(CxxConfiguration.class),
-        mock(CxxPreprocessor.class));
-    assertFalse(evaluator.eval("defined LALA"));
+    assertFalse(eval("defined LALA"));
   }
 
   @Test
@@ -303,18 +356,14 @@ public class ExpressionEvaluatorTest {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     String macro = "LALA";
     when(pp.valueOf(macro)).thenReturn("1");
-    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
-    assertTrue(evaluator.eval("defined (" + macro + ")"));
-    assertTrue(evaluator.eval("defined(" + macro + ")"));
+    assertTrue(eval("defined (" + macro + ")", pp));
+    assertTrue(eval("defined(" + macro + ")", pp));
   }
 
   @Test
   public void defined_false_with_parantheses() {
-    ExpressionEvaluator evaluator
-      = new ExpressionEvaluator(mock(CxxConfiguration.class),
-        mock(CxxPreprocessor.class));
-    assertFalse(evaluator.eval("defined (LALA)"));
-    assertFalse(evaluator.eval("defined(LALA)"));
+    assertFalse(eval("defined (LALA)"));
+    assertFalse(eval("defined(LALA)"));
   }
 
   @Test
@@ -345,17 +394,16 @@ public class ExpressionEvaluatorTest {
 
   @Test(expected = EvaluationException.class)
   public void throw_on_invalid_expressions() {
-    evaluator.eval("\"\"");
+    eval("\"\"");
   }
 
   @Test
   public void std_macro_evaluated_as_expected() {
     CxxPreprocessor pp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), CxxFileTesterHelper.mockCxxLanguage());
-    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
 
-    assertTrue(evaluator.eval("__LINE__"));
-    assertTrue(evaluator.eval("__STDC__"));
-    assertTrue(evaluator.eval("__STDC_HOSTED__"));
-    assertTrue(evaluator.eval("__cplusplus"));
+    assertTrue(eval("__LINE__", pp));
+    assertTrue(eval("__STDC__", pp));
+    assertTrue(eval("__STDC_HOSTED__", pp));
+    assertTrue(eval("__cplusplus", pp));
   }
 }

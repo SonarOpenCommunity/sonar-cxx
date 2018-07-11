@@ -179,7 +179,6 @@ public class CxxPreprocessor extends Preprocessor {
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SourceCodeProvider unitCodeProvider;
   private SquidAstVisitorContext<Grammar> context;
-  private ExpressionEvaluator ifExprEvaluator;
   private List<String> cFilesPatterns;
   private CxxConfiguration conf;
   private CxxCompilationUnitSettings compilationUnitSettings;
@@ -248,7 +247,6 @@ public class CxxPreprocessor extends Preprocessor {
     SourceCodeProvider sourceCodeProvider,
     CxxLanguage language) {
     this.context = context;
-    this.ifExprEvaluator = new ExpressionEvaluator(conf, this);
     this.cFilesPatterns = conf.getCFilesPatterns();
     this.conf = conf;
     this.language = language;
@@ -518,8 +516,8 @@ public class CxxPreprocessor extends Preprocessor {
       }
       try {
         currentFileState.skipPreprocessorDirectives = false;
-        currentFileState.skipPreprocessorDirectives = !ifExprEvaluator.eval(
-          ast.getFirstDescendant(CppGrammar.constantExpression));
+        currentFileState.skipPreprocessorDirectives = !ExpressionEvaluator.eval(conf, this,
+            ast.getFirstDescendant(CppGrammar.constantExpression));
       } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
           filename, token.getLine(), token.getValue());
@@ -553,8 +551,8 @@ public class CxxPreprocessor extends Preprocessor {
               filename, token.getLine(), token.getValue());
           }
           currentFileState.skipPreprocessorDirectives = false;
-          currentFileState.skipPreprocessorDirectives = !ifExprEvaluator.eval(
-            ast.getFirstDescendant(CppGrammar.constantExpression));
+          currentFileState.skipPreprocessorDirectives = !ExpressionEvaluator.eval(conf, this,
+              ast.getFirstDescendant(CppGrammar.constantExpression));
         } catch (EvaluationException e) {
           LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
             filename, token.getLine(), token.getValue());
@@ -658,7 +656,7 @@ public class CxxPreprocessor extends Preprocessor {
       .getToken(), filename, charset);
   }
 
-  PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename, Charset charset) { //TODO: deprecated 
+  PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename, Charset charset) { //TODO: deprecated
     //
     // Included files have to be scanned with the (only) goal of gathering macros.
     // This is done as follows:
@@ -1035,7 +1033,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
     }
 
-    // replace # with "" if sequence HASH BR occurs for body HASH __VA_ARGS__    
+    // replace # with "" if sequence HASH BR occurs for body HASH __VA_ARGS__
     if (newTokens.size() > 3 && newTokens.get(newTokens.size() - 2).getType().equals(HASH)
       && newTokens.get(newTokens.size() - 1).getType().equals(BR_RIGHT)) {
       for (int n = newTokens.size() - 2; n != 0; n--) {
