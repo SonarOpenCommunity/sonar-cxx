@@ -31,6 +31,8 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.groups.Tuple;
 import static org.assertj.core.groups.Tuple.tuple;
+import static org.mockito.Mockito.when;
+
 import org.fest.assertions.Fail;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -38,8 +40,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
-import org.sonar.cxx.visitors.CxxPublicApiVisitor.PublicApiHandler;
 import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxPublicApiVisitorTest {
@@ -55,6 +57,23 @@ public class CxxPublicApiVisitorTest {
     return fileName.substring(lastIndexOf);
   }
 
+  private class TestPublicApiVisitor extends AbstractCxxPublicApiVisitor<Grammar> {
+    final Map<String, List<Token>> idCommentMap = new HashMap<>();
+    boolean checkDoubleIDs = false;
+
+    TestPublicApiVisitor(boolean checkDoubleIDs) {
+      this.checkDoubleIDs = checkDoubleIDs;
+    }
+
+    @Override
+    protected void onPublicApi(AstNode node, String id, List<Token> comments) {
+      if (checkDoubleIDs && idCommentMap.containsKey(id)) {
+        Fail.fail("DOUBLE ID: " + id);
+      }
+      idCommentMap.put(id, comments);
+    }
+  }
+
   /**
    * Check that CxxPublicApiVisitor correctly counts API for given file.
    *
@@ -66,48 +85,30 @@ public class CxxPublicApiVisitorTest {
   private Tuple testFile(String fileName, boolean checkDouble)
     throws UnsupportedEncodingException, IOException {
 
-    CxxPublicApiVisitor<Grammar> visitor = new CxxPublicApiVisitor<>(
-      CxxMetric.PUBLIC_API, CxxMetric.PUBLIC_UNDOCUMENTED_API);
-
-    if (checkDouble) {
-      final Map<String, List<Token>> idCommentMap = new HashMap<>();
-
-      visitor.setHandler(new PublicApiHandler() {
-        @Override
-        public void onPublicApi(AstNode node, String id,
-          List<Token> comments) {
-          if (idCommentMap.containsKey(id)) {
-            Fail.fail("DOUBLE ID: " + id);
-          }
-
-          // store and compare later in order to not break the parsing
-          idCommentMap.put(id, comments);
-        }
-      });
-    }
+    TestPublicApiVisitor visitor = new TestPublicApiVisitor(checkDouble);
 
     visitor.withHeaderFileSuffixes(Arrays
       .asList(getFileExtension(fileName)));
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(
-      tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("#API: {} UNDOC: {}",
-        file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+          file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
     }
 
-    return (new Tuple(file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)));
+    return new Tuple(file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
   }
 
   @Test
   public void test_no_matching_suffix() throws IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(),
-      new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
-        CxxMetric.PUBLIC_UNDOCUMENTED_API)
-        .withHeaderFileSuffixes(Arrays.asList(".hpp")));
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".",
+        "");
+    CxxLanguage language = CxxFileTesterHelper.mockCxxLanguage();
+    when(language.getHeaderFileSuffixes()).thenReturn(new String[] { ".hpp" });
+
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, language);
 
     assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(0);
     assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
@@ -151,33 +152,11 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void public_api() throws UnsupportedEncodingException, IOException {
-    CxxPublicApiVisitor<Grammar> visitor = new CxxPublicApiVisitor<>(
-      CxxMetric.PUBLIC_API, CxxMetric.PUBLIC_UNDOCUMENTED_API);
-
-    final Map<String, List<Token>> idCommentMap = new HashMap<>();
-
-    visitor.setHandler(new PublicApiHandler() {
-      @Override
-      public void onPublicApi(AstNode node, String id,
-        List<Token> comments) {
-        if (idCommentMap.containsKey(id)) {
-          Fail.fail("DOUBLE ID: " + id);
-        }
-
-        // store and compare later in order to not break the parsing
-        idCommentMap.put(id, comments);
-      }
-    });
-
+    TestPublicApiVisitor visitor = new TestPublicApiVisitor(true);
     visitor.withHeaderFileSuffixes(Arrays.asList(".h"));
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/public_api.h", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor); //
-
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("DOC: {} UNDOC: {}",
-        file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
-    }
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
 
     final Map<String, String> expectedIdCommentMap = new HashMap<>();
 
@@ -236,9 +215,9 @@ public class CxxPublicApiVisitorTest {
     for (final String id : expectedIdCommentMap.keySet()) {
       LOG.debug("id: {}", id);
 
-      List<Token> comments = idCommentMap.get(id);
+      List<Token> comments = visitor.idCommentMap.get(id);
 
-      assertThat(idCommentMap.keySet())
+      assertThat(visitor.idCommentMap.keySet())
         .overridingErrorMessage("No public API for " + id)
         .contains(id);
       assertThat(comments)
@@ -250,10 +229,10 @@ public class CxxPublicApiVisitorTest {
     }
 
     // check correction
-    for (final String id : idCommentMap.keySet()) {
+    for (final String id : visitor.idCommentMap.keySet()) {
       LOG.debug("id: {}", id);
 
-      List<Token> comments = idCommentMap.get(id);
+      List<Token> comments = visitor.idCommentMap.get(id);
 
       assertThat(comments)
         .overridingErrorMessage("No documentation for " + id)

@@ -19,8 +19,7 @@
  */
 package org.sonar.cxx;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,26 +29,35 @@ import org.sonar.api.config.Configuration;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.AbstractLanguage;
 
+import java.util.Collections;
+
 /**
  * {@inheritDoc}
  */
 public abstract class CxxLanguage extends AbstractLanguage {
 
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
+  private final String propertiesKey;
   private final Configuration settings;
-  private final Map<String, Metric> MetricsCache;
+  private final Map<CxxMetricsFactory.Key, Metric<?>> langSpecificMetrics;
   public static final Pattern EOLPattern = Pattern.compile("\\R");
 
-  public CxxLanguage(String key, Configuration settings) {
+  public CxxLanguage(String key, String propertiesKey, Configuration settings) {
     super(key);
+    this.propertiesKey = propertiesKey;
     this.settings = settings;
-    this.MetricsCache = new HashMap<>();
+    this.langSpecificMetrics = Collections.unmodifiableMap(CxxMetricsFactory.generateMap(key, propertiesKey));
   }
 
-  public CxxLanguage(String key, String name, Configuration settings) {
+  public CxxLanguage(String key, String name, String propertiesKey, Configuration settings) {
     super(key, name);
+    this.propertiesKey = propertiesKey;
     this.settings = settings;
-    this.MetricsCache = new HashMap<>();
+    this.langSpecificMetrics = Collections.unmodifiableMap(CxxMetricsFactory.generateMap(key, propertiesKey));
+  }
+
+  public String getPropertiesKey() {
+    return propertiesKey;
   }
 
   /**
@@ -58,8 +66,6 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public abstract String[] getSourceFileSuffixes();
 
   public abstract String[] getHeaderFileSuffixes();
-
-  public abstract String getPropertiesKey();
 
   public abstract List<Class> getChecks();
 
@@ -73,7 +79,7 @@ public abstract class CxxLanguage extends AbstractLanguage {
     return "sonar." + getPropertiesKey() + "." + key;
   }
 
-  public Optional<Integer> getIntegerOption(String key){
+  public Optional<Integer> getIntegerOption(String key) {
     return this.settings.getInt(getPluginProperty(key));
   }
 
@@ -105,19 +111,16 @@ public abstract class CxxLanguage extends AbstractLanguage {
     return this.settings.hasKey(getPluginProperty(key));
   }
 
-  public boolean SaveMetric(Metric metric, String key) {
-    if (!MetricsCache.containsKey(key)) {
-      MetricsCache.put(key, metric);
-      return true;
+  /**
+   * Get language specific metric
+   *
+   * @throws IllegalStateException if metric was not registered
+   */
+  public <G extends Serializable> Metric<G> getMetric(CxxMetricsFactory.Key metricKey) {
+    Metric<G> metric = (Metric<G>) this.langSpecificMetrics.get(metricKey);
+    if (metric == null) {
+      throw new IllegalStateException("Requested metric " + metricKey + " couldn't be found");
     }
-    return false;
-  }
-
-  public Collection<?> getMetricsCache() {
-    return this.MetricsCache.values();
-  }
-
-  public Metric getMetric(String metricKey) {
-    return this.MetricsCache.get(metricKey);
+    return metric;
   }
 }

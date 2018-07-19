@@ -20,20 +20,25 @@
 package org.sonar.cxx.sensors.utils;
 
 import java.io.File;
+import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.annotation.CheckForNull;
 import org.apache.tools.ant.DirectoryScanner;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.same;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.measures.Metric;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 
 public class TestUtils {
 
@@ -100,6 +105,11 @@ public class TestUtils {
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
     when(language.getFileSuffixes())
       .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
+    when(language.getHeaderFileSuffixes()).thenReturn(new String[] { ".hpp", ".h", ".hxx", ".hh" });
+
+    Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap("cxx", "cxx");
+    metrics.forEach((key, value) -> when(language.getMetric(same(key))).thenReturn((Metric<Serializable>) value));
+
     return language;
   }
 

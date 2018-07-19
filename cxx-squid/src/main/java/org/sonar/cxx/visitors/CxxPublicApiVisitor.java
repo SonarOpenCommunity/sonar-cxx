@@ -19,13 +19,18 @@
  */
 package org.sonar.cxx.visitors;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.api.CxxMetric;
+import org.sonar.squidbridge.api.SourceFile;
+
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import java.util.List;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
-import org.sonar.squidbridge.measures.MetricDef;
 
 /**
  * Visitor that counts documented and undocumented API items.<br>
@@ -55,51 +60,46 @@ import org.sonar.squidbridge.measures.MetricDef;
  *
  * @author Ludovic Cintrat
  *
- * @param <GRAMMAR>
+ * @param <G>
  */
-// @Rule(key = "UndocumentedApi", description =
-// "All public APIs should be documented", priority = Priority.MINOR)
-public class CxxPublicApiVisitor<GRAMMAR extends Grammar> extends
-  AbstractCxxPublicApiVisitor<Grammar> {
+public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApiVisitor<G> {
 
   private static final Logger LOG = Loggers.get(CxxPublicApiVisitor.class);
 
-  private final MetricDef undocumented;
-  private final MetricDef api;
+  private int totalAPINr;
+  private int undocumentedAPINr;
 
-  public interface PublicApiHandler {
-
-    void onPublicApi(AstNode node, String id, List<Token> comments);
+  public CxxPublicApiVisitor(CxxLanguage language) {
+    super();
+    withHeaderFileSuffixes(Arrays.asList(language.getHeaderFileSuffixes()));
   }
 
-  private PublicApiHandler handler;
+  @Override
+  public void visitFile(AstNode astNode) {
+    totalAPINr = 0;
+    undocumentedAPINr = 0;
+    super.visitFile(astNode);
+  }
 
-  public CxxPublicApiVisitor(MetricDef publicDocumentedApi,
-    MetricDef publicUndocumentedApi) {
-    super();
-    api = publicDocumentedApi;
-    undocumented = publicUndocumentedApi;
+  @Override
+  public void leaveFile(AstNode astNode) {
+    super.leaveFile(astNode);
+
+    SourceFile sourceFile = (SourceFile) getContext().peekSourceCode();
+    sourceFile.setMeasure(CxxMetric.PUBLIC_API, totalAPINr);
+    sourceFile.setMeasure(CxxMetric.PUBLIC_UNDOCUMENTED_API, undocumentedAPINr);
   }
 
   @Override
   protected void onPublicApi(AstNode node, String id, List<Token> comments) {
-    boolean commented = !comments.isEmpty();
+    final boolean commented = !comments.isEmpty();
 
-    LOG.debug("node: {} line: {} id: '{}' documented: {}",
-      node.getType(), node.getTokenLine(), id, commented);
-
-    if (handler != null) {
-      handler.onPublicApi(node, id, comments);
-    }
+    LOG.debug("node: {} line: {} id: '{}' documented: {}", node.getType(), node.getTokenLine(), id, commented);
 
     if (!commented) {
-      getContext().peekSourceCode().add(undocumented, 1);
+      undocumentedAPINr++;
     }
 
-    getContext().peekSourceCode().add(api, 1);
-  }
-
-  public void setHandler(PublicApiHandler handler) {
-    this.handler = handler;
+    totalAPINr++;
   }
 }

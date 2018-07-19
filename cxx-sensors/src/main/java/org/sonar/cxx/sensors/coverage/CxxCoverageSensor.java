@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -36,6 +38,7 @@ import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -218,7 +221,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
       newCoverage.lineHits(measure.getLine(), measure.getHits());
       newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
       if (LOG.isDebugEnabled()) {
-        LOG.debug("line '{}' Hits '{}' Conditions '{}:{}'",measure.getLine(), measure.getHits(), 
+        LOG.debug("line '{}' Hits '{}' Conditions '{}:{}'",measure.getLine(), measure.getHits(),
                                                            measure.getConditions(), measure.getCoveredConditions() );
       }
     } catch (RuntimeException ex) {
@@ -231,6 +234,11 @@ public class CxxCoverageSensor extends CxxReportSensor {
   @Override
   protected String getSensorKey() {
     return KEY;
+  }
+
+  @Override
+  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
+    return Optional.empty();
   }
 
 }

@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
@@ -35,6 +37,7 @@ import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -71,7 +74,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       //.onlyOnLanguage(this.language.getKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
-  
+
   @Override
   public String getReportPathKey() {
     return this.language.getPluginProperty(REPORT_PATH_KEY);
@@ -256,5 +259,10 @@ public class CxxXunitSensor extends CxxReportSensor {
   @Override
   protected String getSensorKey() {
     return KEY;
+  }
+
+  @Override
+  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
+    return Optional.empty();
   }
 }

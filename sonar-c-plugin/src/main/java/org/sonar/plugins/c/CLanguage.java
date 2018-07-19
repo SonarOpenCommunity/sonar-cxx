@@ -68,7 +68,7 @@ public class CLanguage extends CxxLanguage {
   private final String[] fileSuffixes;
 
   public CLanguage(Configuration settings) {
-    super(KEY, NAME, settings);
+    super(KEY, NAME, PROPSKEY, settings);
 
     sourceSuffixes = createStringArray(settings.getStringArray(CPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES);
     headerSuffixes = createStringArray(settings.getStringArray(CPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
@@ -95,10 +95,6 @@ public class CLanguage extends CxxLanguage {
     return headerSuffixes.clone();
   }
 
-  @Override
-  public String getPropertiesKey() {
-    return PROPSKEY;
-  }
 
   private static String[] createStringArray(String[] values, String defaultValues) {
     if (values.length == 0) {

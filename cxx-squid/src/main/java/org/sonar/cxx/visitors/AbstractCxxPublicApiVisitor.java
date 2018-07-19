@@ -27,6 +27,8 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
@@ -66,12 +68,10 @@ import org.sonar.squidbridge.checks.SquidCheck;
  *
  * @author Ludovic Cintrat
  *
- * @param <GRAMMAR>
+ * @param <G>
  */
-// @Rule(key = "UndocumentedApi", description =
-// "All public APIs should be documented", priority = Priority.MINOR)
-public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
-    extends SquidCheck<Grammar> implements AstVisitor {
+public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends SquidCheck<G>
+    implements AstVisitor {
 
   private static final Logger LOG = Loggers.get(AbstractCxxPublicApiVisitor.class);
 
@@ -91,26 +91,22 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
   protected abstract void onPublicApi(AstNode node, String id, List<Token> comments);
 
-  public interface PublicApiHandler {
-
-    void onPublicApi(AstNode node, String id, List<Token> comments);
-  }
-
   @Override
   public void init() {
-    subscribeTo(CxxGrammarImpl.classSpecifier);
-    subscribeTo(CxxGrammarImpl.memberDeclaration);
-    subscribeTo(CxxGrammarImpl.functionDefinition);
-    subscribeTo(CxxGrammarImpl.enumSpecifier);
-    subscribeTo(CxxGrammarImpl.initDeclaratorList);
-    subscribeTo(CxxGrammarImpl.aliasDeclaration);
+    subscribeTo(
+        CxxGrammarImpl.classSpecifier,
+        CxxGrammarImpl.memberDeclaration,
+        CxxGrammarImpl.functionDefinition,
+        CxxGrammarImpl.enumSpecifier,
+        CxxGrammarImpl.initDeclaratorList,
+        CxxGrammarImpl.aliasDeclaration);
   }
 
   @Override
   public void visitFile(AstNode astNode) {
     if (LOG.isDebugEnabled()) {
-      LOG.debug("API File: " + getContext().getFile().getName());
-      LOG.debug("Header file suffixes: " + headerFileSuffixes);
+      LOG.debug("API File: {}", getContext().getFile().getName());
+      LOG.debug("Header file suffixes: {}", headerFileSuffixes);
     }
     skipFile = true;
 
@@ -891,7 +887,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       || comment.startsWith("///") || comment.startsWith("//!");
   }
 
-  public AbstractCxxPublicApiVisitor<GRAMMAR> withHeaderFileSuffixes(List<String> headerFileSuffixes) {
+  public AbstractCxxPublicApiVisitor<G> withHeaderFileSuffixes(List<String> headerFileSuffixes) {
     this.headerFileSuffixes = new ArrayList<>(headerFileSuffixes);
     return this;
   }

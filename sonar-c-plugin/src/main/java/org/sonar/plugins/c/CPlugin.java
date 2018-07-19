@@ -22,7 +22,9 @@ package org.sonar.plugins.c;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.annotation.Nullable;
+
 import org.sonar.api.Plugin;
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.rule.CheckFactory;
@@ -30,9 +32,14 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.FileLinesContextFactory;
+import org.sonar.api.measures.Metric;
+import org.sonar.api.measures.Metrics;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.cxx.AggregateMeasureComputer;
+import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.DensityMeasureComputer;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
 import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
@@ -57,7 +64,6 @@ import org.sonar.cxx.sensors.rats.CxxRatsSensor;
 import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
-import org.sonar.cxx.sensors.utils.CxxMetrics;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindRuleRepository;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindSensor;
 import org.sonar.cxx.sensors.veraxx.CxxVeraxxRuleRepository;
@@ -478,6 +484,10 @@ public final class CPlugin implements Plugin {
 
     // metrics
     l.add(CxxMetricsImp.class);
+    // ComputeEngine: propagate metrics through all levels (FILE -> MODULE -> PROJECT)
+    l.add(AggregateMeasureComputerImpl.class);
+    // ComputeEngine: calculate new metrics from existing ones
+    l.add(DensityMeasureComputerImpl.class);
 
     // issue sensors
     l.add(CxxSquidSensorImpl.class);
@@ -512,10 +522,28 @@ public final class CPlugin implements Plugin {
     return l;
   }
 
-  public static class CxxMetricsImp extends CxxMetrics {
+  public static class CxxMetricsImp implements Metrics {
+
+    private static final List<Metric> METRICS = CxxMetricsFactory.generateList(CLanguage.KEY, CLanguage.PROPSKEY);
 
     public CxxMetricsImp(Configuration settings) {
-      super(new CLanguage(settings));
+    }
+
+    @Override
+    public List<Metric> getMetrics() {
+      return METRICS;
+    }
+  }
+
+  public static class AggregateMeasureComputerImpl extends AggregateMeasureComputer {
+    public AggregateMeasureComputerImpl() {
+      super(CLanguage.KEY, CLanguage.PROPSKEY);
+    }
+  }
+
+  public static class DensityMeasureComputerImpl extends DensityMeasureComputer {
+    public DensityMeasureComputerImpl() {
+      super(CLanguage.KEY, CLanguage.PROPSKEY);
     }
   }
 

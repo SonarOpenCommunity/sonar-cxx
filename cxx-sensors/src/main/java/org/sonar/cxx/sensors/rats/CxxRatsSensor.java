@@ -21,6 +21,8 @@ package org.sonar.cxx.sensors.rats;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
+
 import javax.annotation.Nullable;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -29,6 +31,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
@@ -112,5 +115,10 @@ public class CxxRatsSensor extends CxxReportSensor {
   @Override
   protected String getSensorKey() {
     return KEY;
+  }
+
+  @Override
+  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
+    return Optional.of(CxxMetricsFactory.Key.RATS_SENSOR_ISSUES_KEY);
   }
 }
