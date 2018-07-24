@@ -40,7 +40,7 @@ public class CxxCppCheckRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxCppCheckRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxCppCheckRuleRepository.getRepositoryKey(language));
     assertEquals(484, repo.rules().size());
   }
 }

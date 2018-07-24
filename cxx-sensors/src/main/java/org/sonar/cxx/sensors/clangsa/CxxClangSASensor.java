@@ -19,34 +19,34 @@
  */
 package org.sonar.cxx.sensors.clangsa;
 
-import com.dd.plist.NSArray;
-import com.dd.plist.NSDictionary;
-import com.dd.plist.NSNumber;
-import com.dd.plist.NSObject;
-import com.dd.plist.NSString;
-import com.dd.plist.PropertyListParser;
 import java.io.File;
-import java.util.Optional;
 
 import javax.annotation.Nullable;
+
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
+
+import com.dd.plist.NSArray;
+import com.dd.plist.NSDictionary;
+import com.dd.plist.NSNumber;
+import com.dd.plist.NSObject;
+import com.dd.plist.NSString;
+import com.dd.plist.PropertyListParser;
 
 /**
  * Sensor for Clang Static Analyzer.
  *
  */
-public class CxxClangSASensor extends CxxReportSensor {
+public class CxxClangSASensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxClangSASensor.class);
   public static final String REPORT_PATH_KEY = "clangsa.reportPath";
-  public static final String KEY = "ClangSA";
 
   /**
    * CxxClangSASensor for Clang Static Analyzer Sensor
@@ -54,15 +54,15 @@ public class CxxClangSASensor extends CxxReportSensor {
    * @param language defines settings C or C++
    */
   public CxxClangSASensor(CxxLanguage language) {
-    super(language);
+    super(language, REPORT_PATH_KEY, CxxClangSARuleRepository.getRepositoryKey(language));
   }
 
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(language.getName() + " ClangSASensor")
-      .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxClangSARuleRepository.KEY)
+      .name(getLanguage().getName() + " ClangSASensor")
+      .onlyOnLanguage(getLanguage().getKey())
+      .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
@@ -71,11 +71,6 @@ public class CxxClangSASensor extends CxxReportSensor {
       throw new IllegalArgumentException(errorMsg);
     }
     return object;
-  }
-
-  @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override
@@ -113,8 +108,7 @@ public class CxxClangSASensor extends CxxReportSensor {
         }
         String filePath = ((NSString) sourceFiles[fileIndex]).getContent();
 
-        CxxReportIssue issue = new CxxReportIssue(CxxClangSARuleRepository.KEY, checkerName, filePath, line.toString(),
-          description);
+        CxxReportIssue issue = new CxxReportIssue(checkerName, filePath, line.toString(), description);
         saveUniqueViolation(context, issue);
       }
     } catch (Exception e) {
@@ -123,12 +117,7 @@ public class CxxClangSASensor extends CxxReportSensor {
   }
 
   @Override
-  protected String getSensorKey() {
-    return KEY;
-  }
-
-  @Override
-  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
-    return Optional.of(CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY);
+  protected CxxMetricsFactory.Key getMetricKey() {
+    return CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY;
   }
 }

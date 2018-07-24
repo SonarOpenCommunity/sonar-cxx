@@ -67,7 +67,7 @@ public class CxxOtherRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.getRepositoryKey(language));
     assertThat(repo.rules()).hasSize(1);
   }
 
@@ -84,7 +84,7 @@ public class CxxOtherRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.getRepositoryKey(language));
     assertThat(repo.rules()).hasSize(3);
   }
 
@@ -100,7 +100,7 @@ public class CxxOtherRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.getRepositoryKey(language));
     assertThat(repo.rules()).hasSize(1);
   }
 
@@ -116,7 +116,7 @@ public class CxxOtherRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.getRepositoryKey(language));
     Rule rule = repo.rule("key");
     assertThat(rule).isNotNull();
 

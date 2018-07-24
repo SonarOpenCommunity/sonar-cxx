@@ -41,7 +41,7 @@ public class CxxCompilerRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxCompilerVcRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxCompilerVcRuleRepository.getRepositoryKey(language));
     assertThat(repo.rules()).hasSize(888);
   }
 
@@ -56,7 +56,7 @@ public class CxxCompilerRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxCompilerGccRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxCompilerGccRuleRepository.getRepositoryKey(language));
     assertThat(repo.rules()).hasSize(230);
   }
 }

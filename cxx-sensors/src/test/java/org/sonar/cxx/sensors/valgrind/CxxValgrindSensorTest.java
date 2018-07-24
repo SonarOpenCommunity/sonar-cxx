@@ -35,7 +35,6 @@ import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.rats.CxxRatsRuleRepository;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxValgrindSensorTest {
@@ -85,7 +84,7 @@ public class CxxValgrindSensorTest {
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ValgrindSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.KEY);
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.getRepositoryKey(language));
     softly.assertAll();
   }
 

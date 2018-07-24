@@ -40,7 +40,7 @@ public class CxxRatsRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxRatsRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxRatsRuleRepository.getRepositoryKey(language));
     assertThat(repo.rules()).hasSize(313);
   }
 }

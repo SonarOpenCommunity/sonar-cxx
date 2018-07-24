@@ -19,9 +19,10 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
+import org.junit.Test;
 
 public class CxxReportIssueTest {
 
@@ -42,11 +43,11 @@ public class CxxReportIssueTest {
 
   @Test
   public void reportIssueEquality() {
-    CxxReportIssue issue0 = new CxxReportIssue("cppcheck", "nullPointer", "path0.cpp", "1", "Null pointer dereference: ptr");
+    CxxReportIssue issue0 = new CxxReportIssue("nullPointer", "path0.cpp", "1", "Null pointer dereference: ptr");
     issue0.addLocation("path0.cpp", "1", "Assignment &apos;ptr=nullptr&apos;, assigned value is 0");
 
-    CxxReportIssue issue1 = new CxxReportIssue("cppcheck", "exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
-    CxxReportIssue issue2 = new CxxReportIssue("cppcheck", "exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    CxxReportIssue issue1 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    CxxReportIssue issue2 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
 
     assertEquals(issue1, issue2);
     assertEquals(issue1.hashCode(), issue2.hashCode());

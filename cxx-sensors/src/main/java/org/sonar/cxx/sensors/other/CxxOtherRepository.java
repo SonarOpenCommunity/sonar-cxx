@@ -25,6 +25,7 @@ import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
 
 /**
  * Loads the external rules configuration file.
@@ -32,7 +33,7 @@ import org.sonar.cxx.CxxLanguage;
 public class CxxOtherRepository implements RulesDefinition {
 
   private static final Logger LOG = Loggers.get(CxxOtherRepository.class);
-  public static final String KEY = "other";
+  private static final String KEY = "other";
   public static final String RULES_KEY = "other.rules";
   private final RulesDefinitionXmlLoader xmlRuleLoader;
   private static final String NAME = "Other";
@@ -48,10 +49,14 @@ public class CxxOtherRepository implements RulesDefinition {
     this.language = language;
   }
 
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+
   @Override
   public void define(Context context) {
-    NewRepository repository = context.createRepository(KEY + this.language.getRepositorySuffix(), 
-                      this.language.getKey()).setName(NAME + this.language.getRepositorySuffix());
+    NewRepository repository = context.createRepository(getRepositoryKey(language), this.language.getKey())
+        .setName(NAME);
 
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
     for (String ruleDefs : this.language.getStringArrayOption(RULES_KEY)) {

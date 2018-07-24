@@ -169,18 +169,18 @@ public class CxxPCLintSensorTest {
     sensor.execute(context);
     assertThat(context.allIssues().size()).isZero();
   }
-  
+
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions(); 
+    SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " PCLintSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxPCLintRuleRepository.KEY);
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxPCLintRuleRepository.getRepositoryKey(language));
     softly.assertAll();
   }
-  
+
 }

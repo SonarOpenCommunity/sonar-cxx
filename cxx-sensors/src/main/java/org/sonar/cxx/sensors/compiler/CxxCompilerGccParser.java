@@ -54,14 +54,6 @@ public class CxxCompilerGccParser implements CompilerParser {
    * {@inheritDoc}
    */
   @Override
-  public String rulesRepositoryKey() {
-    return CxxCompilerGccRuleRepository.KEY;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public String defaultRegexp() {
     return DEFAULT_REGEX_DEF;
   }

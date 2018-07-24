@@ -40,7 +40,7 @@ public class CxxVeraxxRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxVeraxxRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxVeraxxRuleRepository.getRepositoryKey(language));
     assertThat(repo.rules()).hasSize(28);
   }
 }

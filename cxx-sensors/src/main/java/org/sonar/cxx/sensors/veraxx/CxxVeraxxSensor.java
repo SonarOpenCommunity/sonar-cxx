@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.veraxx;
 
 import java.io.File;
-import java.util.Optional;
 
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -30,8 +29,8 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
@@ -39,11 +38,10 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 /**
  * {@inheritDoc}
  */
-public class CxxVeraxxSensor extends CxxReportSensor {
+public class CxxVeraxxSensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);
   public static final String REPORT_PATH_KEY = "vera.reportPath";
-  public static final String KEY = "Vera++";
 
   /**
    * CxxVeraxxSensor for C++ Vera Sensor
@@ -51,21 +49,16 @@ public class CxxVeraxxSensor extends CxxReportSensor {
    * @param language defines settings C or C++
    */
   public CxxVeraxxSensor(CxxLanguage language) {
-    super(language);
+    super(language, REPORT_PATH_KEY, CxxVeraxxRuleRepository.getRepositoryKey(language));
   }
 
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(language.getName() + " VeraxxSensor")
-      .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxVeraxxRuleRepository.KEY)
+      .name(getLanguage().getName() + " VeraxxSensor")
+      .onlyOnLanguage(getLanguage().getKey())
+      .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
-  }
-
-  @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override
@@ -96,7 +89,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                 String message = errorCursor.getAttrValue("message");
                 String source = errorCursor.getAttrValue("source");
 
-                CxxReportIssue issue = new CxxReportIssue(CxxVeraxxRuleRepository.KEY, source, name, line, message);
+                CxxReportIssue issue = new CxxReportIssue(source, name, line, message);
                 saveUniqueViolation(context, issue);
               } else {
                 if (LOG.isDebugEnabled()) {
@@ -117,12 +110,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   }
 
   @Override
-  protected String getSensorKey() {
-    return KEY;
-  }
-
-  @Override
-  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
-    return Optional.of(CxxMetricsFactory.Key.VERAXX_SENSOR_KEY);
+  protected CxxMetricsFactory.Key getMetricKey() {
+    return CxxMetricsFactory.Key.VERAXX_SENSOR_KEY;
   }
 }

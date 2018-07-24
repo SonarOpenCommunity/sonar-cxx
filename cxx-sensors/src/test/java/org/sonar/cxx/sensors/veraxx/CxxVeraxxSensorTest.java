@@ -79,10 +79,10 @@ public class CxxVeraxxSensorTest {
     CxxVeraxxSensor sensor = new CxxVeraxxSensor(language);
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions(); 
+    SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " VeraxxSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxVeraxxRuleRepository.KEY);
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxVeraxxRuleRepository.getRepositoryKey(language));
     softly.assertAll();
   }
 }

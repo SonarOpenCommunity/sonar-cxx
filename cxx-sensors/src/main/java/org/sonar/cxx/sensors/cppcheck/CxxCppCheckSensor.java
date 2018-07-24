@@ -22,16 +22,16 @@ package org.sonar.cxx.sensors.cppcheck;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.xml.stream.XMLStreamException;
+
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
+import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 
 /**
  * Sensor for cppcheck (static code analyzer).
@@ -39,11 +39,10 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
  * @author fbonin
  * @author vhardion
  */
-public class CxxCppCheckSensor extends CxxReportSensor {
+public class CxxCppCheckSensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxCppCheckSensor.class);
   public static final String REPORT_PATH_KEY = "cppcheck.reportPath";
-  public static final String KEY = "CppCheck";
 
   private final List<CppcheckParser> parsers = new LinkedList<>();
 
@@ -53,7 +52,7 @@ public class CxxCppCheckSensor extends CxxReportSensor {
    * @param language defines settings C or C++
    */
   public CxxCppCheckSensor(CxxLanguage language) {
-    super(language);
+    super(language, REPORT_PATH_KEY, CxxCppCheckRuleRepository.getRepositoryKey(language));
     parsers.add(new CppcheckParserV2(this));
     parsers.add(new CppcheckParserV1(this));
   }
@@ -61,15 +60,10 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(language.getName() + " CppCheckSensor")
-      .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxCppCheckRuleRepository.KEY)
+      .name(getLanguage().getName() + " CppCheckSensor")
+      .onlyOnLanguage(getLanguage().getKey())
+      .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
-  }
-
-  @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override
@@ -94,12 +88,7 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   }
 
   @Override
-  protected String getSensorKey() {
-    return KEY;
-  }
-
-  @Override
-  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
-    return Optional.of(CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY);
+  protected CxxMetricsFactory.Key getMetricKey() {
+    return CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY;
   }
 }

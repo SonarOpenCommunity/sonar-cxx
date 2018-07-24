@@ -25,12 +25,12 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
+
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -39,8 +39,8 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.StaxParser;
 
@@ -49,13 +49,12 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  *
  * @author jorge costa, stefan weiser
  */
-public class CxxOtherSensor extends CxxReportSensor {
+public class CxxOtherSensor extends CxxIssuesReportSensor {
 
   private static final int MAX_STYLESHEETS = 10;
   private static final Logger LOG = Loggers.get(CxxOtherSensor.class);
   public static final String REPORT_PATH_KEY = "other.reportPath";
-  public static final String KEY = "other";
-  public static final String OTHER_XSLT_KEY = KEY + ".xslt.";
+  public static final String OTHER_XSLT_KEY = "other.xslt.";
   public static final String STYLESHEET_KEY = ".stylesheet";
   public static final String INPUT_KEY = ".inputs";
   public static final String OUTPUT_KEY = ".outputs";
@@ -66,21 +65,16 @@ public class CxxOtherSensor extends CxxReportSensor {
    * @param language defines settings C or C++
    */
   public CxxOtherSensor(CxxLanguage language) {
-    super(language);
+    super(language, REPORT_PATH_KEY, CxxOtherRepository.getRepositoryKey(language));
   }
 
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(language.getName() + " ExternalRulesSensor")
-      .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxOtherRepository.KEY)
+      .name(getLanguage().getName() + " ExternalRulesSensor")
+      .onlyOnLanguage(getLanguage().getKey())
+      .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
-  }
-
-  @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   /**
@@ -107,7 +101,7 @@ public class CxxOtherSensor extends CxxReportSensor {
         String id = errorCursor.getAttrValue("id");
         String msg = errorCursor.getAttrValue("msg");
 
-        CxxReportIssue issue = new CxxReportIssue(CxxOtherRepository.KEY, id, file, line, msg);
+        CxxReportIssue issue = new CxxReportIssue(id, file, line, msg);
         saveUniqueViolation(context, issue);
       }
     });
@@ -116,20 +110,15 @@ public class CxxOtherSensor extends CxxReportSensor {
   }
 
   @Override
-  protected String getSensorKey() {
-    return KEY;
-  }
-
-  @Override
-  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
-    return Optional.of(CxxMetricsFactory.Key.OTHER_SENSOR_ISSUES_KEY);
+  protected CxxMetricsFactory.Key getMetricKey() {
+    return CxxMetricsFactory.Key.OTHER_SENSOR_ISSUES_KEY;
   }
 
   public void transformFiles(final File baseDir, SensorContext context) {
     for (int i = 1; i < MAX_STYLESHEETS; i++) {
-      String stylesheetKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + STYLESHEET_KEY);
-      String inputKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + INPUT_KEY);
-      String outputKey = this.language.getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY);
+      String stylesheetKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + STYLESHEET_KEY);
+      String inputKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + INPUT_KEY);
+      String outputKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY);
 
       String stylesheet = stylesheetKey == null ? null : resolveFilename(baseDir.getAbsolutePath(), context.config().get(stylesheetKey).orElse(null));
       List<File> inputs = inputKey == null ? new ArrayList<>() : getReports(context.config(), baseDir, inputKey);
@@ -222,7 +211,7 @@ public class CxxOtherSensor extends CxxReportSensor {
           .append("'")
           .toString();
         LOG.error(msg);
-        CxxUtils.validateRecovery(e, this.language);
+        CxxUtils.validateRecovery(e, getLanguage());
       }
     }
   }

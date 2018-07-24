@@ -20,11 +20,11 @@
 package org.sonar.cxx.sensors.cppcheck;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
+
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -140,7 +140,7 @@ public class CppcheckParserV2 implements CppcheckParser {
               return;
             }
 
-            issue = new CxxReportIssue(CxxCppCheckRuleRepository.KEY, id, file, line, issueText);
+            issue = new CxxReportIssue(id, file, line, issueText);
             // add the same <file>:<line> second time if there is additional
             // information about the flow/analysis
             if (info != null && !msg.equals(info)) {
@@ -169,7 +169,7 @@ public class CppcheckParserV2 implements CppcheckParser {
 
         // no <location> tags: issue raised on the whole module/project
         if (issue == null) {
-          issue = new CxxReportIssue(CxxCppCheckRuleRepository.KEY, id, null, null, issueText);
+          issue = new CxxReportIssue(id, null, null, issueText);
         }
         sensor.saveUniqueViolation(context, issue);
       }

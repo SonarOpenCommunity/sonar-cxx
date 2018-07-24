@@ -29,7 +29,7 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxDrMemoryRuleRepository extends CxxAbstractRuleRepository {
 
-  public static final String KEY = "drmemory";
+  private static final String KEY = "drmemory";
   public static final String CUSTOM_RULES_KEY = "drmemory.customRules";
   private static final String NAME = "Dr Memory";
 
@@ -38,6 +38,10 @@ public class CxxDrMemoryRuleRepository extends CxxAbstractRuleRepository {
    */
   public CxxDrMemoryRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
+  }
+
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
   }
 
   @Override

@@ -20,11 +20,12 @@
 package org.sonar.cxx.sensors.pclint;
 
 import java.io.File;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
+
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -33,8 +34,8 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
@@ -46,11 +47,10 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  *
  * @author Bert
  */
-public class CxxPCLintSensor extends CxxReportSensor {
+public class CxxPCLintSensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
   public static final String REPORT_PATH_KEY = "pclint.reportPath";
-  public static final String KEY = "PC-Lint";
   public static final Pattern misraRulePattern = Pattern.compile(
       // Rule nn.nn -or- Rule nn-nn-nn
       "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])");
@@ -61,21 +61,16 @@ public class CxxPCLintSensor extends CxxReportSensor {
    * @param language defines settings C or C++
    */
   public CxxPCLintSensor(CxxLanguage language) {
-    super(language);
+    super(language, REPORT_PATH_KEY, CxxPCLintRuleRepository.getRepositoryKey(language));
   }
 
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(language.getName() + " PCLintSensor")
-      .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxPCLintRuleRepository.KEY)
+      .name(getLanguage().getName() + " PCLintSensor")
+      .onlyOnLanguage(getLanguage().getKey())
+      .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
-  }
-
-  @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override
@@ -115,7 +110,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
                 }
               }
 
-              CxxReportIssue issue = new CxxReportIssue(CxxPCLintRuleRepository.KEY, id, file, line, msg);
+              CxxReportIssue issue = new CxxReportIssue(id, file, line, msg);
               saveUniqueViolation(context, issue);
             } else {
               LOG.warn("PC-lint warning ignored: {}", msg);
@@ -171,12 +166,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
   }
 
   @Override
-  protected String getSensorKey() {
-    return KEY;
-  }
-
-  @Override
-  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
-    return Optional.of(CxxMetricsFactory.Key.PCLINT_SENSOR_ISSUES_KEY);
+  protected CxxMetricsFactory.Key getMetricKey() {
+    return CxxMetricsFactory.Key.PCLINT_SENSOR_ISSUES_KEY;
   }
 }

@@ -19,18 +19,17 @@
  */
 package org.sonar.cxx.sensors.utils;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.File;
 import java.util.List;
-import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.CxxMetricsFactory;
 
 public class CxxReportSensorTest {
 
@@ -45,7 +44,7 @@ public class CxxReportSensorTest {
   private class CxxReportSensorImpl extends CxxReportSensor {
 
     public CxxReportSensorImpl(CxxLanguage language, MapSettings settings) {
-      super(language);
+      super(language, "test.report");
     }
 
     @Override
@@ -55,21 +54,6 @@ public class CxxReportSensorTest {
     @Override
     public void describe(SensorDescriptor descriptor) {
       descriptor.onlyOnLanguage("c++").name("CxxReportSensorTest");
-    }
-
-    @Override
-    public String getReportPathKey() {
-      return "test.report";
-    }
-
-    @Override
-    protected String getSensorKey() {
-      return "testSensor";
-    }
-
-    @Override
-    protected Optional<CxxMetricsFactory.Key> getMetricKey() {
-      return Optional.empty();
     }
   };
 

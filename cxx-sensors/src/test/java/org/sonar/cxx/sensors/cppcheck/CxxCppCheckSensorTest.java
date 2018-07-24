@@ -163,7 +163,7 @@ public class CxxCppCheckSensorTest {
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CppCheckSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxCppCheckRuleRepository.KEY);
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxCppCheckRuleRepository.getRepositoryKey(language));
     softly.assertAll();
   }
 

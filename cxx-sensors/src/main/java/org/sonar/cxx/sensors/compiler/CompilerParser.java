@@ -40,13 +40,6 @@ public interface CompilerParser {
   String key();
 
   /**
-   * Get the key identifying the rules repository for this compiler.
-   *
-   * @return The key of the rules repository associated with this compiler.
-   */
-  String rulesRepositoryKey();
-
-  /**
    * Get the default regexp used to parse warning messages.
    *
    * @return The default regexp.
