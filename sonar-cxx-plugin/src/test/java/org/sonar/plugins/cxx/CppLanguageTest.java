@@ -28,60 +28,6 @@ public class CppLanguageTest {
 
   private MapSettings settings = new MapSettings();
 
-  @Test
-  public void shouldReturnConfiguredFileSuffixes() {
-    settings.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
-    settings.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
-    CppLanguage cxx = new CppLanguage(settings.asConfig());
 
-    String[] expected = {".C", ".c", ".H", ".h"};
-    String[] expectedSources = {".C", ".c"};
-    String[] expectedHeaders = {".H", ".h"};
-
-    assertThat(cxx.getFileSuffixes(), is(expected));
-    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
-    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
-  }
-
-  @Test
-  public void shouldReturnDefaultFileSuffixes() {
-    CppLanguage cxx = new CppLanguage(settings.asConfig());
-
-    String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};
-    String[] expectedHeaders = {".hxx", ".hpp", ".hh", ".h"};
-    String[] expectedAll = {".cxx", ".cpp", ".cc", ".c", ".hxx", ".hpp", ".hh", ".h"};
-
-    assertThat(cxx.getFileSuffixes(), is(expectedAll));
-    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
-    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
-  }
-
-  @Test
-  public void shouldReturnConfiguredSourceSuffixes() {
-    settings.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
-    CppLanguage cxx = new CppLanguage(settings.asConfig());
-
-    String[] expectedSources = {".C", ".c"};
-    String[] expectedHeaders = {".hxx", ".hpp", ".hh", ".h"};
-    String[] expectedAll = {".C", ".c", ".hxx", ".hpp", ".hh", ".h"};
-
-    assertThat(cxx.getFileSuffixes(), is(expectedAll));
-    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
-    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
-  }
-
-  @Test
-  public void shouldReturnConfiguredHeaderSuffixes() {
-    settings.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
-    CppLanguage cxx = new CppLanguage(settings.asConfig());
-
-    String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};
-    String[] expectedHeaders = {".H", ".h"};
-    String[] expectedAll = {".cxx", ".cpp", ".cc", ".c", ".H", ".h"};
-
-    assertThat(cxx.getFileSuffixes(), is(expectedAll));
-    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
-    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
-  }
 
 }

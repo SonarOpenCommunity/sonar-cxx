@@ -45,13 +45,13 @@ public class CppLanguage extends CxxLanguage {
   /**
    * Default cxx source files suffixes
    */
-  public static final String DEFAULT_SOURCE_SUFFIXES = ".cxx,.cpp,.cc,.c";
+  public static final String DEFAULT_SOURCE_SUFFIXES = ".cxx,.cpp,.cc";
   public static final String DEFAULT_C_FILES = "*.c,*.C";
 
   /**
    * Default cxx header files suffixes
    */
-  public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
+  public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh";
 
   /**
    * cxx analysis parameters key

@@ -36,9 +36,8 @@ public class CxxCompilerVcRuleRepository extends CxxAbstractRuleRepository {
   /**
    * {@inheritDoc}
    */
-  public CxxCompilerVcRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-    CxxLanguage language) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
+  public CxxCompilerVcRuleRepository() {
+    super(KEY, NAME, CUSTOM_RULES_KEY);
   }
 
   public static String getRepositoryKey(CxxLanguage lang) {

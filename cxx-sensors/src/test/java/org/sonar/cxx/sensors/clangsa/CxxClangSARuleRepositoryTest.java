@@ -40,7 +40,9 @@ public class CxxClangSARuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxClangSARuleRepository.getRepositoryKey(language));
-    assertEquals(111, repo.rules().size());
+    RulesDefinition.Repository repoCpp = context.repository("cpp-" + CxxClangSARuleRepository.KEY);
+    assertEquals(111, repoCpp.rules().size());
+    RulesDefinition.Repository repoC = context.repository("c-" + CxxClangSARuleRepository.KEY);
+    assertEquals(111, repoC.rules().size());    
   }
 }

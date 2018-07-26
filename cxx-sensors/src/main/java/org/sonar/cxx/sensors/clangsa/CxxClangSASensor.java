@@ -60,10 +60,10 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " ClangSASensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name("ClangSASensor")
+      .onlyOnLanguages("c++", "c")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));   
   }
 
   private static NSObject require(@Nullable NSObject object, String errorMsg) {

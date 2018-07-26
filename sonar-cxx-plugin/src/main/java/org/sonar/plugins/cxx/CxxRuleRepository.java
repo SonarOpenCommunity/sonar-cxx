@@ -28,7 +28,7 @@ public class CxxRuleRepository implements RulesDefinition {
   private static final String REPOSITORY_NAME = "c++ SonarQube";
   private final CxxLanguage language;
 
-  public CxxRuleRepository(CxxLanguage language) {
+  public CxxRuleRepository(CppLanguage language) {
     this.language = language;
   }
 

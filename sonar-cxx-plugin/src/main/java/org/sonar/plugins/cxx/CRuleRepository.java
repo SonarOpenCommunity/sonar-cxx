@@ -17,20 +17,27 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.c;
+package org.sonar.plugins.cxx;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
-public class CCheckListTest {
+public class CRuleRepository implements RulesDefinition {
 
-  private MapSettings settings = new MapSettings();
+  private static final String REPOSITORY_NAME = "c SonarQube";
+  private final CxxLanguage language;
 
-  @Test
-  public void count() {
-    CxxLanguage checks = new CLanguage(settings.asConfig());
-    assertThat(checks.getChecks().size()).isEqualTo(45);
+  public CRuleRepository(CLanguage language) {
+    this.language = language;
+  }
+
+  @Override
+  public void define(Context context) {
+    NewRepository repository = context.
+      createRepository(this.language.getRepositoryKey(), CLanguage.KEY).
+      setName(REPOSITORY_NAME);
+    new AnnotationBasedRulesDefinition(repository, CLanguage.KEY).addRuleClasses(false, this.language.getChecks());
+    repository.done();
   }
 }

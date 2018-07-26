@@ -43,7 +43,7 @@ public class CxxDefaultProfile extends ProfileDefinition {
   public CxxDefaultProfile(
     XMLProfileParser xmlProfileParser,
     AnnotationProfileParser annotationProfileParser, //@todo: deprecated AnnotationProfileParser
-    CxxLanguage language) {
+    CppLanguage language) {
     this.annotationProfileParser = annotationProfileParser;
     this.xmlProfileParser = xmlProfileParser;
     this.lang = language;

@@ -194,8 +194,7 @@
     <module>cxx-checks</module>
     <module>cxx-lint</module>
     <module>cxx-sensors</module>
-    <module>sonar-cxx-plugin</module>
-    <module>sonar-c-plugin</module>    
+    <module>sonar-cxx-plugin</module> 
     <module>sslr-cxx-toolkit</module>
     <module>integration-tests</module>
   </modules>

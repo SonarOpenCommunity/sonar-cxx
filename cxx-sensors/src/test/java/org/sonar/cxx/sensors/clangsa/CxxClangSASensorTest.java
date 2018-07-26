@@ -153,8 +153,8 @@ public class CxxClangSASensorTest {
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ClangSASensor");
-    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.name()).isEqualTo("ClangSASensor");
+    softly.assertThat(descriptor.languages()).contains("c++", "c");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangSARuleRepository.getRepositoryKey(language));
     softly.assertAll();
   }

@@ -17,20 +17,21 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.c;
+package org.sonar.plugins.cxx;
 
 import org.sonar.api.profiles.AnnotationProfileParser; //@todo: deprecated AnnotationProfileParser
 import org.sonar.api.profiles.ProfileDefinition; //@todo: deprecated ProfileDefinition
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.api.rules.ActiveRule;
+import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
 import org.sonar.api.utils.ValidationMessages;
 import org.sonar.cxx.CxxLanguage;
 
 /**
  * {@inheritDoc}
  */
-public class CDefaultProfile extends ProfileDefinition {
+public class CDefaultProfile  implements BuiltInQualityProfilesDefinition {
 
   private final XMLProfileParser xmlProfileParser;
   private final AnnotationProfileParser annotationProfileParser; //@todo: deprecated AnnotationProfileParser
@@ -43,16 +44,15 @@ public class CDefaultProfile extends ProfileDefinition {
   public CDefaultProfile(
     XMLProfileParser xmlProfileParser,
     AnnotationProfileParser annotationProfileParser, //@todo: deprecated AnnotationProfileParser
-    CxxLanguage language) {
+    CLanguage language) {
     this.annotationProfileParser = annotationProfileParser;
     this.xmlProfileParser = xmlProfileParser;
     this.language = language;
   }
 
-  @Override
   public RulesProfile createProfile(ValidationMessages messages) {
     RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(),
-      "default-profile.xml", messages);
+      "default-profile-c.xml", messages);
     RulesProfile sonarRules = annotationProfileParser.parse(this.language.getRepositoryKey(), NAME,
       CLanguage.KEY, this.language.getChecks(), messages);
     for (ActiveRule activeRule : sonarRules.getActiveRules()) {
@@ -62,4 +62,10 @@ public class CDefaultProfile extends ProfileDefinition {
     profile.setDefaultProfile(Boolean.TRUE);
     return profile;
   }
+  
+  @Override
+  public void define(Context cntxt) {
+    NewBuiltInQualityProfile profile = cntxt.createBuiltInQualityProfile(CLanguage.DEFAULT_PROFILE, CLanguage.KEY); 
+    profile.done();      
+  }  
 }

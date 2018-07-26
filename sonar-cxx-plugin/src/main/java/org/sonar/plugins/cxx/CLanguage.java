@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.c;
+package org.sonar.plugins.cxx;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,8 +70,8 @@ public class CLanguage extends CxxLanguage {
   public CLanguage(Configuration settings) {
     super(KEY, NAME, PROPSKEY, settings);
 
-    sourceSuffixes = createStringArray(settings.getStringArray(CPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES);
-    headerSuffixes = createStringArray(settings.getStringArray(CPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
+    sourceSuffixes = createStringArray(settings.getStringArray(CxxPlugin.SOURCE_C_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES);
+    headerSuffixes = createStringArray(settings.getStringArray(CxxPlugin.HEADER_C_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
   }
 

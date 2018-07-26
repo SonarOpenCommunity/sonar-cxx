@@ -91,6 +91,8 @@ public final class CxxPlugin implements Plugin {
   public static final String LANG_PROP_PREFIX = "sonar.cxx.";
   public static final String SOURCE_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.sources";
   public static final String HEADER_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.headers";
+  public static final String SOURCE_C_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "c.suffixes.sources";
+  public static final String HEADER_C_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "c.suffixes.headers";  
   public static final String DEFINES_KEY = LANG_PROP_PREFIX + "defines";
   public static final String INCLUDE_DIRECTORIES_KEY = LANG_PROP_PREFIX + "includeDirectories";
   public static final String ERROR_RECOVERY_KEY = LANG_PROP_PREFIX + "errorRecoveryEnabled";
@@ -512,8 +514,11 @@ public final class CxxPlugin implements Plugin {
 
     // plugin elements
     l.add(CppLanguage.class);
+    l.add(CLanguage.class);
     l.add(CxxDefaultProfile.class);
     l.add(CxxRuleRepository.class);
+    l.add(CDefaultProfile.class);
+    l.add(CRuleRepository.class);    
 
     // reusable elements
     l.addAll(getSensorsImpl());
