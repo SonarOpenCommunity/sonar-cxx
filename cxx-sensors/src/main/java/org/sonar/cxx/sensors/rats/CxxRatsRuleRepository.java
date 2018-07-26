@@ -36,8 +36,8 @@ public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
   /**
    * {@inheritDoc}
    */
-  public CxxRatsRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
+  public CxxRatsRuleRepository() {
+    super(KEY, NAME, CUSTOM_RULES_KEY);
   }
 
   public static String getRepositoryKey(CxxLanguage lang) {

@@ -59,8 +59,8 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " DrMemorySensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name("DrMemorySensor")
+      .onlyOnLanguages("c++", "c")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

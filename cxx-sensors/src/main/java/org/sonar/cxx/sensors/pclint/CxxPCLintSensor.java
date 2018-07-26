@@ -67,8 +67,8 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " PCLintSensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name("PCLintSensor")
+      .onlyOnLanguages("c++", "c")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

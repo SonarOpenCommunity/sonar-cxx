@@ -238,8 +238,8 @@ public class CxxOtherSensorTest {
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ExternalRulesSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.name()).isEqualTo("ExternalRulesSensor");
+    softly.assertThat(descriptor.languages()).contains("c++", "c");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxOtherRepository.getRepositoryKey(language));
     softly.assertAll();
   }

@@ -48,6 +48,26 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
 
   private final CompilerParser parser;
+  @Override
+  public void describe(SensorDescriptor descriptor) {
+    descriptor
+      .name("CompilerSensor")
+      .onlyOnLanguages("c++", "c")
+      .createIssuesForRuleRepositories(CxxCompilerGccRuleRepository.KEY, CxxCompilerVcRuleRepository.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+  }
+
+  @Override
+  public String getReportPathKey() {
+    return language.getPluginProperty(REPORT_PATH_KEY);
+  }
+
+  /**
+   * Add a compiler parser.
+   */
+  private void addCompilerParser(CompilerParser parser) {
+    parsers.put(parser.key(), parser);
+  }
 
   protected CxxCompilerSensor(CxxLanguage language, String propertiesKeyPathToReports, String ruleRepositoryKey,
       CompilerParser parser) {

@@ -34,8 +34,7 @@ public class CxxClangSARuleRepositoryTest {
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
 
-    CxxClangSARuleRepository def = new CxxClangSARuleRepository(
-      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
+    CxxClangSARuleRepository def = new CxxClangSARuleRepository();
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);

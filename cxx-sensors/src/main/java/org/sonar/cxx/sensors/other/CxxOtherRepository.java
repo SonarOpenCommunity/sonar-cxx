@@ -20,6 +20,7 @@
 package org.sonar.cxx.sensors.other;
 
 import java.io.StringReader;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.api.utils.log.Logger;
@@ -37,16 +38,16 @@ public class CxxOtherRepository implements RulesDefinition {
   public static final String RULES_KEY = "other.rules";
   private final RulesDefinitionXmlLoader xmlRuleLoader;
   private static final String NAME = "Other";
-  private final CxxLanguage language;
+  private final Configuration settings;
 
   /**
    * CxxOtherRepository
    * @param xmlRuleLoader to load rules from XML file
    * @param language for C or C++
    */
-  public CxxOtherRepository(RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
+  public CxxOtherRepository(RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
     this.xmlRuleLoader = xmlRuleLoader;
-    this.language = language;
+    this.settings = settings;
   }
 
   public static String getRepositoryKey(CxxLanguage lang) {
@@ -55,20 +56,34 @@ public class CxxOtherRepository implements RulesDefinition {
 
   @Override
   public void define(Context context) {
-    NewRepository repository = context.createRepository(getRepositoryKey(language), this.language.getKey())
-        .setName(NAME);
+    NewRepository repositoryCpp = context.createRepository(KEY + "c++", "c++").setName(NAME + "c++");
 
-    xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
-    for (String ruleDefs : this.language.getStringArrayOption(RULES_KEY)) {
+    xmlRuleLoader.load(repositoryCpp, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
+    for (String ruleDefs : this.settings.getStringArray(RULES_KEY)) {
       if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
         try {
-          xmlRuleLoader.load(repository, new StringReader(ruleDefs));
+          xmlRuleLoader.load(repositoryCpp, new StringReader(ruleDefs));
         } catch (IllegalStateException ex) {
           LOG.info("Cannot load rules XML '{}'", ex);
         }
       }
     }
 
-    repository.done();
+    repositoryCpp.done();
+    
+    NewRepository repositoryC = context.createRepository(KEY + "c", "c").setName(NAME + "c");
+
+    xmlRuleLoader.load(repositoryC, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
+    for (String ruleDefs : this.settings.getStringArray(RULES_KEY)) {
+      if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
+        try {
+          xmlRuleLoader.load(repositoryC, new StringReader(ruleDefs));
+        } catch (IllegalStateException ex) {
+          LOG.info("Cannot load rules XML '{}'", ex);
+        }
+      }
+    }
+
+    repositoryC.done();  
   }
 }

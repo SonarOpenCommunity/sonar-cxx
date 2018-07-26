@@ -34,9 +34,7 @@ public class CxxPCLintRuleRepositoryTest {
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
 
-    CxxPCLintRuleRepository def = new CxxPCLintRuleRepository(
-      mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader(), language);
+    CxxPCLintRuleRepository def = new CxxPCLintRuleRepository();
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);

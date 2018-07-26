@@ -36,9 +36,7 @@ public class CxxDrMemoryRuleRepositoryTest {
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
 
-    CxxDrMemoryRuleRepository def = new CxxDrMemoryRuleRepository(
-      mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader(), language);
+    CxxDrMemoryRuleRepository def = new CxxDrMemoryRuleRepository();
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);

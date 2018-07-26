@@ -33,9 +33,7 @@ public class CxxVeraxxRuleRepositoryTest {
   @Test
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    CxxVeraxxRuleRepository def = new CxxVeraxxRuleRepository(
-      mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader(), language);
+    CxxVeraxxRuleRepository def = new CxxVeraxxRuleRepository();
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);

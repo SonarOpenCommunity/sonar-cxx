@@ -34,8 +34,7 @@ public class CxxClangTidyRuleRepositoryTest {
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
 
-    CxxClangTidyRuleRepository def = new CxxClangTidyRuleRepository(
-      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
+    CxxClangTidyRuleRepository def = new CxxClangTidyRuleRepository();
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);

@@ -34,9 +34,7 @@ public class CxxCompilerRuleRepositoryTest {
   public void createVcRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
 
-    CxxCompilerVcRuleRepository def = new CxxCompilerVcRuleRepository(
-      mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader(), language);
+    CxxCompilerVcRuleRepository def = new CxxCompilerVcRuleRepository();
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
@@ -49,9 +47,7 @@ public class CxxCompilerRuleRepositoryTest {
   public void createGccRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
 
-    CxxCompilerGccRuleRepository def = new CxxCompilerGccRuleRepository(
-      mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader(), language);
+    CxxCompilerGccRuleRepository def = new CxxCompilerGccRuleRepository();
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);

@@ -21,7 +21,9 @@ package org.sonar.cxx.sensors.other;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
+import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.Rule;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
@@ -57,66 +59,75 @@ public class CxxOtherRepositoryTest {
 
   @Test
   public void verifyTemplateRuleIsFound() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
+    Configuration settings = Mockito.mock(Configuration.class);
+    when(settings.getStringArray(CxxOtherRepository.RULES_KEY))
       .thenReturn(new String[]{null});
 
     CxxOtherRepository def = new CxxOtherRepository(
-      new RulesDefinitionXmlLoader(), language);
+      new RulesDefinitionXmlLoader(), settings);
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY + "c++");
     assertThat(repo.rules()).hasSize(1);
+    
+    RulesDefinition.Repository repo2 = context.repository(CxxOtherRepository.KEY + "c");
+    assertThat(repo2.rules()).hasSize(1);  
   }
 
   @Test
   public void createNonEmptyRulesTest() {
 
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
+    Configuration settings = Mockito.mock(Configuration.class);
+    when(settings.getStringArray(CxxOtherRepository.RULES_KEY))
       .thenReturn(new String[]{profile1});
 
     CxxOtherRepository def = new CxxOtherRepository(
-      new RulesDefinitionXmlLoader(), language);
+      new RulesDefinitionXmlLoader(), settings);
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY + "c++");
     assertThat(repo.rules()).hasSize(3);
+    
+    RulesDefinition.Repository repo2 = context.repository(CxxOtherRepository.KEY + "c");
+    assertThat(repo2.rules()).hasSize(3);    
   }
 
   @Test
   public void createNullRulesTest() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
+    Configuration settings = Mockito.mock(Configuration.class);
+    when(settings.getStringArray(CxxOtherRepository.RULES_KEY))
       .thenReturn(new String[]{null});
 
     CxxOtherRepository def = new CxxOtherRepository(
-      new RulesDefinitionXmlLoader(), language);
+      new RulesDefinitionXmlLoader(), settings);
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY + "c++");
     assertThat(repo.rules()).hasSize(1);
+    
+    RulesDefinition.Repository repo2 = context.repository(CxxOtherRepository.KEY + "c");
+    assertThat(repo2.rules()).hasSize(1);
   }
 
   @Test
   public void verifyRuleValuesTest() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
+    Configuration settings = Mockito.mock(Configuration.class);
+    when(settings.getStringArray(CxxOtherRepository.RULES_KEY))
       .thenReturn(new String[]{profile2});
 
     CxxOtherRepository def = new CxxOtherRepository(
-      new RulesDefinitionXmlLoader(), language);
+      new RulesDefinitionXmlLoader(), settings);
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY + "c++");
     Rule rule = repo.rule("key");
     assertThat(rule).isNotNull();
 

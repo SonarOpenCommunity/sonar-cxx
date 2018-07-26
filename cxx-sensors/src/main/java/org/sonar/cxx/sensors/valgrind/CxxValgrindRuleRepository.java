@@ -36,8 +36,8 @@ public class CxxValgrindRuleRepository extends CxxAbstractRuleRepository {
   /**
    * {@inheritDoc}
    */
-  public CxxValgrindRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
+  public CxxValgrindRuleRepository() {
+    super(KEY, NAME, CUSTOM_RULES_KEY);
   }
 
   public static String getRepositoryKey(CxxLanguage lang) {

@@ -56,8 +56,8 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " ClangTidySensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name("ClangTidySensor")
+      .onlyOnLanguages("c++", "c")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

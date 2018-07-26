@@ -60,8 +60,8 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " CppCheckSensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name("CppCheckSensor")
+      .onlyOnLanguages("c++", "c")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

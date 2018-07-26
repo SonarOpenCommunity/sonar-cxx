@@ -51,8 +51,8 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " ValgrindSensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name("ValgrindSensor")
+      .onlyOnLanguages("c++", "c")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

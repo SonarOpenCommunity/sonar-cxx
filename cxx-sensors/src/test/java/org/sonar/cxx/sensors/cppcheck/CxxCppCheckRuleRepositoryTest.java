@@ -34,8 +34,7 @@ public class CxxCppCheckRuleRepositoryTest {
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
 
-    CxxCppCheckRuleRepository def = new CxxCppCheckRuleRepository(
-      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
+    CxxCppCheckRuleRepository def = new CxxCppCheckRuleRepository();
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);

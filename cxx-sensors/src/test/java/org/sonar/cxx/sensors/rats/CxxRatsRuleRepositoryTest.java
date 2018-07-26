@@ -34,8 +34,7 @@ public class CxxRatsRuleRepositoryTest {
   public void createRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
 
-    CxxRatsRuleRepository def = new CxxRatsRuleRepository(
-      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
+    CxxRatsRuleRepository def = new CxxRatsRuleRepository();
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
