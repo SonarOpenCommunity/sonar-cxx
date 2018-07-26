@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.drmemory;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
@@ -31,8 +30,8 @@ import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
+import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 /**
  * Dr. Memory is a memory monitoring tool capable of identifying memory-related programming errors such as accesses of
@@ -42,12 +41,11 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
  *
  * @author asylvestre
  */
-public class CxxDrMemorySensor extends CxxReportSensor {
+public class CxxDrMemorySensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   public static final String REPORT_PATH_KEY = "drmemory.reportPath";
-  public static final String KEY = "DrMemory";
-  public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
+  private static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
   /**
    * CxxDrMemorySensor for Doctor Memory Sensor
@@ -55,28 +53,16 @@ public class CxxDrMemorySensor extends CxxReportSensor {
    * @param language defines settings C or C++
    */
   public CxxDrMemorySensor(CxxLanguage language) {
-    super(language);
+    super(language, REPORT_PATH_KEY, CxxDrMemoryRuleRepository.getRepositoryKey(language));
   }
 
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(language.getName() + " DrMemorySensor")
-      .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxDrMemoryRuleRepository.KEY)
+      .name(getLanguage().getName() + " DrMemorySensor")
+      .onlyOnLanguage(getLanguage().getKey())
+      .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
-  }
-
-  @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
-  }
-
-  /**
-   * @return default character set UTF-8
-   */
-  public String defaultCharset() {
-    return DEFAULT_CHARSET_DEF;
   }
 
   private Boolean frameIsInProject(SensorContext context, Location frame) {
@@ -102,9 +88,9 @@ public class CxxDrMemorySensor extends CxxReportSensor {
   protected void processReport(final SensorContext context, File report) {
     LOG.debug("Parsing 'Dr Memory' format");
 
-    for (DrMemoryError error : DrMemoryParser.parse(report, defaultCharset())) {
+    for (DrMemoryError error : DrMemoryParser.parse(report, DEFAULT_CHARSET_DEF)) {
       if (error.getStackTrace().isEmpty()) {
-        CxxReportIssue moduleIssue = new CxxReportIssue(CxxDrMemoryRuleRepository.KEY, error.getType().getId(), null,
+        CxxReportIssue moduleIssue = new CxxReportIssue(error.getType().getId(), null,
             null, error.getMessage());
         saveUniqueViolation(context, moduleIssue);
       } else {
@@ -113,7 +99,7 @@ public class CxxDrMemorySensor extends CxxReportSensor {
           LOG.warn("Cannot find a project file to assign the DrMemory error '{}' to", error);
           continue;
         }
-        CxxReportIssue fileIssue = new CxxReportIssue(CxxDrMemoryRuleRepository.KEY, error.getType().getId(),
+        CxxReportIssue fileIssue = new CxxReportIssue(error.getType().getId(),
             lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), error.getMessage());
 
         // add all frames as secondary locations
@@ -131,12 +117,7 @@ public class CxxDrMemorySensor extends CxxReportSensor {
   }
 
   @Override
-  protected String getSensorKey() {
-    return KEY;
-  }
-
-  @Override
-  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
-    return Optional.of(CxxMetricsFactory.Key.DRMEMORY_SENSOR_ISSUES_KEY);
+  protected CxxMetricsFactory.Key getMetricKey() {
+    return CxxMetricsFactory.Key.DRMEMORY_SENSOR_ISSUES_KEY;
   }
 }

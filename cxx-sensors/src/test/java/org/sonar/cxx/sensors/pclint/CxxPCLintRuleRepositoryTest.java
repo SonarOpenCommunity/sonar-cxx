@@ -41,7 +41,7 @@ public class CxxPCLintRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxPCLintRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxPCLintRuleRepository.getRepositoryKey(language));
     assertEquals(1590, repo.rules().size());
   }
 }

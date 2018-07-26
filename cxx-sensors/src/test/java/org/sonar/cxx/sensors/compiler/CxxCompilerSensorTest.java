@@ -66,7 +66,7 @@ public class CxxCompilerSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/zipmanager.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerSensor(language);
+    CxxCompilerSensor sensor = new CxxCompilerGccSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(4);
   }
@@ -83,7 +83,7 @@ public class CxxCompilerSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "zipmanager.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerSensor(language);
+    CxxCompilerSensor sensor = new CxxCompilerVcSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(9);
   }
@@ -102,7 +102,7 @@ public class CxxCompilerSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "Server/source/zip/zipmanager.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerSensor(language);
+    CxxCompilerSensor sensor = new CxxCompilerVcSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(9);
   }
@@ -120,7 +120,7 @@ public class CxxCompilerSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "Server/source/zip/zipmanager.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerSensor(language);
+    CxxCompilerSensor sensor = new CxxCompilerVcSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(9);
   }

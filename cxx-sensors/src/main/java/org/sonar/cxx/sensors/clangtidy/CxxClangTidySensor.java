@@ -20,27 +20,26 @@
 package org.sonar.cxx.sensors.clangtidy;
 
 import java.io.File;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 /**
  * Sensor for clang-tidy
  */
-public class CxxClangTidySensor extends CxxReportSensor {
+public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
-  public static final String KEY = "Clang-Tidy";
   public static final String REPORT_PATH_KEY = "clangtidy.reportPath";
   public static final String REPORT_CHARSET_DEF = "clangtidy.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
@@ -51,27 +50,22 @@ public class CxxClangTidySensor extends CxxReportSensor {
    * @param language defines settings C or C++
    */
   public CxxClangTidySensor(CxxLanguage language) {
-    super(language);
+    super(language, REPORT_PATH_KEY, CxxClangTidyRuleRepository.getRepositoryKey(language));
   }
 
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(language.getName() + " ClangTidySensor")
-      .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxClangTidyRuleRepository.KEY)
+      .name(getLanguage().getName() + " ClangTidySensor")
+      .onlyOnLanguage(getLanguage().getKey())
+      .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
-  }
-
-  @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override
   protected void processReport(final SensorContext context, File report) {
     final String reportCharset = getContextStringProperty(context,
-      this.language.getPluginProperty(REPORT_CHARSET_DEF), DEFAULT_CHARSET_DEF);
+        getLanguage().getPluginProperty(REPORT_CHARSET_DEF), DEFAULT_CHARSET_DEF);
     LOG.debug("Parsing 'clang-tidy' report, CharSet= '{}'", reportCharset);
 
     try (Scanner scanner = new Scanner(report, reportCharset)) {
@@ -94,7 +88,7 @@ public class CxxClangTidySensor extends CxxReportSensor {
           String message = m.group(5);
           String check = m.group(6);
 
-          CxxReportIssue issue = new CxxReportIssue(CxxClangTidyRuleRepository.KEY, check, path, lineId, message);
+          CxxReportIssue issue = new CxxReportIssue(check, path, lineId, message);
           saveUniqueViolation(context, issue);
         }
       }
@@ -107,12 +101,7 @@ public class CxxClangTidySensor extends CxxReportSensor {
   }
 
   @Override
-  protected String getSensorKey() {
-    return KEY;
-  }
-
-  @Override
-  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
-    return Optional.of(CxxMetricsFactory.Key.CLANG_TIDY_SENSOR_ISSUES_KEY);
+  protected CxxMetricsFactory.Key getMetricKey() {
+    return CxxMetricsFactory.Key.CLANG_TIDY_SENSOR_ISSUES_KEY;
   }
 }

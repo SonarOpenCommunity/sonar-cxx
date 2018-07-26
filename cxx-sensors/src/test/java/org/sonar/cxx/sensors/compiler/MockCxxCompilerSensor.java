@@ -31,6 +31,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
@@ -38,11 +39,9 @@ import org.sonar.cxx.sensors.utils.CxxReportLocation;
 
 public class MockCxxCompilerSensor extends CxxCompilerSensor {
 
-  private final List<CompilerParser.Warning> warnings;
   public List<CompilerParser.Warning> savedWarnings;
 
-  @Override
-  protected CompilerParser getCompilerParser(SensorContext context) {
+  private static CompilerParser mocktCompilerParser(List<CompilerParser.Warning> warnings) {
 
     CompilerParser compileParser = mock(CompilerParser.class);
 
@@ -68,15 +67,13 @@ public class MockCxxCompilerSensor extends CxxCompilerSensor {
   }
 
   public MockCxxCompilerSensor(CxxLanguage language, FileSystem fs, RulesProfile profile, List<CompilerParser.Warning> warningsToProcess) {
-    super(language);
+    super(language, REPORT_PATH_KEY, "", mocktCompilerParser(warningsToProcess) );
 
-    warnings = warningsToProcess;
     savedWarnings = new LinkedList<>();
   }
 
   @Override
   public void saveUniqueViolation(SensorContext context, CxxReportIssue issue) {
-    String ruleRepoKey = issue.getRuleRepoKey();
     String ruleId = issue.getRuleId();
     CxxReportLocation primaryLocation = issue.getLocations().get(0);
     String file = primaryLocation.getFile();
@@ -85,6 +82,10 @@ public class MockCxxCompilerSensor extends CxxCompilerSensor {
 
     CompilerParser.Warning w = new CompilerParser.Warning(file, line, ruleId, msg);
     savedWarnings.add(w);
+  }
+
+  @Override
+  public void describe(SensorDescriptor descriptor) {
   }
 
 }

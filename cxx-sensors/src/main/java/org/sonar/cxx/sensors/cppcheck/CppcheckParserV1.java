@@ -80,7 +80,7 @@ public class CppcheckParserV1 implements CppcheckParser {
             }
 
             if (isInputValid(id, msg)) {
-              CxxReportIssue issue = new CxxReportIssue(CxxCppCheckRuleRepository.KEY, id, file, line, msg);
+              CxxReportIssue issue = new CxxReportIssue(id, file, line, msg);
               sensor.saveUniqueViolation(context, issue);
             } else {
               LOG.warn("Skipping invalid violation: '{}'", msg);

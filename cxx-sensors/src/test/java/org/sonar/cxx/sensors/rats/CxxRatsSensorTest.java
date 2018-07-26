@@ -60,18 +60,18 @@ public class CxxRatsSensorTest {
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(5);
   }
-  
+
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
     sensor = new CxxRatsSensor(language);
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions(); 
+    SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " RatsSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxRatsRuleRepository.KEY);
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxRatsRuleRepository.getRepositoryKey(language));
     softly.assertAll();
   }
-  
+
 }

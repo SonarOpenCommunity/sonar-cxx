@@ -26,9 +26,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.xml.stream.XMLStreamException;
+
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
@@ -38,7 +38,6 @@ import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -55,7 +54,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
   private final List<CoverageParser> parsers = new LinkedList<>();
   private final CxxCoverageCache cache;
-  public static final String KEY = "Coverage";
 
   /**
    * {@inheritDoc}
@@ -65,7 +63,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * @param context for current file
    */
   public CxxCoverageSensor(CxxCoverageCache cache, CxxLanguage language, SensorContext context) {
-    super(language);
+    super(language, REPORT_PATH_KEY);
     this.cache = cache;
     parsers.add(new CoberturaParser());
     parsers.add(new BullseyeParser());
@@ -76,14 +74,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(language.getName() + " CoverageSensor")
-      .onlyOnLanguage(language.getKey())
+      .name(getLanguage().getName() + " CoverageSensor")
+      .onlyOnLanguage(getLanguage().getKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
-  }
-
-  @Override
-  public String getReportPathKey() {
-    return language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   /**
@@ -194,7 +187,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
             newCoverage.save();
           } catch (RuntimeException ex) {
             LOG.error("Cannot save measure for file '{}' , ignoring measure. ", filePath, ex);
-            CxxUtils.validateRecovery(ex, language);
+            CxxUtils.validateRecovery(ex, getLanguage());
           }
           LOG.info("Saved '{}' coverage measures for file '{}'", measures.size(), filePath);
         } else {
@@ -227,18 +220,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     } catch (RuntimeException ex) {
       LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ",
         measure.getLine(), ex.getMessage());
-      CxxUtils.validateRecovery(ex, language);
+      CxxUtils.validateRecovery(ex, getLanguage());
     }
   }
-
-  @Override
-  protected String getSensorKey() {
-    return KEY;
-  }
-
-  @Override
-  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
-    return Optional.empty();
-  }
-
 }

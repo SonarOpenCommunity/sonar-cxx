@@ -20,25 +20,24 @@
 package org.sonar.cxx.sensors.valgrind;
 
 import java.io.File;
-import java.util.Optional;
 import java.util.Set;
+
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxReportIssue;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 /**
  * {@inheritDoc}
  */
-public class CxxValgrindSensor extends CxxReportSensor {
+public class CxxValgrindSensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxValgrindSensor.class);
   public static final String REPORT_PATH_KEY = "valgrind.reportPath";
-  public static final String KEY = "Valgrind";
 
   /**
    * CxxValgrindSensor for Valgrind Sensor
@@ -46,21 +45,16 @@ public class CxxValgrindSensor extends CxxReportSensor {
    * @param language defines settings C or C++
    */
   public CxxValgrindSensor(CxxLanguage language) {
-    super(language);
+    super(language, REPORT_PATH_KEY, CxxValgrindRuleRepository.getRepositoryKey(language));
   }
 
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(language.getName() + " ValgrindSensor")
-      .onlyOnLanguage(this.language.getKey())
-      .createIssuesForRuleRepository(CxxValgrindRuleRepository.KEY)
+      .name(getLanguage().getName() + " ValgrindSensor")
+      .onlyOnLanguage(getLanguage().getKey())
+      .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
-  }
-
-  @Override
-  public String getReportPathKey() {
-    return this.language.getPluginProperty(REPORT_PATH_KEY);
   }
 
   @Override
@@ -94,7 +88,7 @@ public class CxxValgrindSensor extends CxxReportSensor {
 
     String errorMsg = createErrorMsg(error, stack, stackNr);
     // set the last own frame as a primary location
-    CxxReportIssue issue = new CxxReportIssue(CxxValgrindRuleRepository.KEY, error.getKind(), lastOwnFrame.getPath(),
+    CxxReportIssue issue = new CxxReportIssue(error.getKind(), lastOwnFrame.getPath(),
         lastOwnFrame.getLine(), errorMsg);
     // add all frames as secondary locations
     for (ValgrindFrame frame : stack.getFrames()) {
@@ -120,12 +114,7 @@ public class CxxValgrindSensor extends CxxReportSensor {
   }
 
   @Override
-  protected String getSensorKey() {
-    return KEY;
-  }
-
-  @Override
-  protected Optional<CxxMetricsFactory.Key> getMetricKey() {
-    return Optional.of(CxxMetricsFactory.Key.VALGRIND_SENSOR_KEY);
+  protected CxxMetricsFactory.Key getMetricKey() {
+    return CxxMetricsFactory.Key.VALGRIND_SENSOR_KEY;
   }
 }

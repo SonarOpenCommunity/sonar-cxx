@@ -40,7 +40,7 @@ public class CxxValgrindRuleRepositoryTest {
     CxxValgrindRuleRepository def = new CxxValgrindRuleRepository(mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
-    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.getRepositoryKey(language));
     assertEquals(16, repo.rules().size());
   }
 
@@ -52,11 +52,12 @@ public class CxxValgrindRuleRepositoryTest {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), language);
     CxxValgrindRuleRepository def = spy(obj);
-    doReturn(extensionFile).when(def).getExtensions(CxxValgrindRuleRepository.KEY, "xml");
+    final String repositoryKey = CxxValgrindRuleRepository.getRepositoryKey(language);
+    doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
-    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(repositoryKey);
     assertEquals(18, repo.rules().size());
   }
 
@@ -68,11 +69,12 @@ public class CxxValgrindRuleRepositoryTest {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), language);
     CxxValgrindRuleRepository def = spy(obj);
-    doReturn(extensionFile).when(def).getExtensions(CxxValgrindRuleRepository.KEY, "xml");
+    final String repositoryKey = CxxValgrindRuleRepository.getRepositoryKey(language);
+    doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
-    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(repositoryKey);
     assertEquals(17, repo.rules().size());
   }
 
@@ -84,11 +86,12 @@ public class CxxValgrindRuleRepositoryTest {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), language);
     CxxValgrindRuleRepository def = spy(obj);
-    doReturn(extensionFile).when(def).getExtensions(CxxValgrindRuleRepository.KEY, "xml");
+    final String repositoryKey = CxxValgrindRuleRepository.getRepositoryKey(language);
+    doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
-    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(repositoryKey);
     assertEquals(16, repo.rules().size());
   }
 
@@ -100,11 +103,12 @@ public class CxxValgrindRuleRepositoryTest {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), language);
     CxxValgrindRuleRepository def = spy(obj);
-    doReturn(extensionFile).when(def).getExtensions(CxxValgrindRuleRepository.KEY, "xml");
+    final String repositoryKey = CxxValgrindRuleRepository.getRepositoryKey(language);
+    doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
-    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(repositoryKey);
     assertEquals(16, repo.rules().size());
   }
 }

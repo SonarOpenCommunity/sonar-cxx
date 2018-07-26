@@ -105,11 +105,11 @@ public class CxxClangTidySensorTest {
     CxxClangTidySensor sensor = new CxxClangTidySensor(language);
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions(); 
+    SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ClangTidySensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangTidyRuleRepository.KEY);
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangTidyRuleRepository.getRepositoryKey(language));
     softly.assertAll();
   }
-  
+
 }

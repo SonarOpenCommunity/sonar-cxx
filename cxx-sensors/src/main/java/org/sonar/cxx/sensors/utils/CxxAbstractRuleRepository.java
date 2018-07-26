@@ -64,10 +64,14 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     CxxLanguage language) {
     this.fileSystem = fileSystem;
     this.xmlRuleLoader = xmlRuleLoader;
-    this.repositoryKey = key + language.getRepositorySuffix();
+    this.repositoryKey = getRepositoryKey(key, language);
     this.repositoryName = name;
     this.customRepositoryKey = customKey;
     this.language = language;
+  }
+
+  public static String getRepositoryKey(String key, CxxLanguage lang) {
+    return key + lang.getRepositorySuffix();
   }
 
   @Override

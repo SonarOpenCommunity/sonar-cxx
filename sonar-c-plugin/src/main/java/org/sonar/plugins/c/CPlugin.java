@@ -46,9 +46,11 @@ import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.compiler.CxxCompilerGccParser;
 import org.sonar.cxx.sensors.compiler.CxxCompilerGccRuleRepository;
+import org.sonar.cxx.sensors.compiler.CxxCompilerGccSensor;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 import org.sonar.cxx.sensors.compiler.CxxCompilerVcParser;
 import org.sonar.cxx.sensors.compiler.CxxCompilerVcRuleRepository;
+import org.sonar.cxx.sensors.compiler.CxxCompilerVcSensor;
 import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
 import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckRuleRepository;
@@ -495,7 +497,8 @@ public final class CPlugin implements Plugin {
     l.add(CxxCppCheckSensorImpl.class);
     l.add(CxxPCLintSensorImpl.class);
     l.add(CxxDrMemorySensorImpl.class);
-    l.add(CxxCompilerSensorImpl.class);
+    l.add(CxxCompilerGccSensorImpl.class);
+    l.add(CxxCompilerVcSensorImpl.class);
     l.add(CxxVeraxxSensorImpl.class);
     l.add(CxxValgrindSensorImpl.class);
     l.add(CxxClangTidySensorImpl.class);
@@ -693,9 +696,16 @@ public final class CPlugin implements Plugin {
     }
   }
 
-  public static class CxxCompilerSensorImpl extends CxxCompilerSensor {
+  public static class CxxCompilerGccSensorImpl extends CxxCompilerGccSensor {
 
-    public CxxCompilerSensorImpl(Configuration settings) {
+    public CxxCompilerGccSensorImpl(Configuration settings) {
+      super(new CLanguage(settings));
+    }
+  }
+
+  public static class CxxCompilerVcSensorImpl extends CxxCompilerVcSensor {
+
+    public CxxCompilerVcSensorImpl(Configuration settings) {
       super(new CLanguage(settings));
     }
   }

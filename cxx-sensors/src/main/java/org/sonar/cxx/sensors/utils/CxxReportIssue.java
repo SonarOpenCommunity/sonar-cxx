@@ -30,13 +30,11 @@ import javax.annotation.Nullable;
  * Issue with one or multiple locations
  */
 public class CxxReportIssue {
-  private final String ruleRepoKey;
   private final String ruleId;
   private final List<CxxReportLocation> locations;
 
-  public CxxReportIssue(String ruleRepoKey, String ruleId, @Nullable String file, @Nullable String line, String info) {
+  public CxxReportIssue(String ruleId, @Nullable String file, @Nullable String line, String info) {
     super();
-    this.ruleRepoKey = ruleRepoKey;
     this.ruleId = ruleId;
     this.locations = new ArrayList<>();
     addLocation(file, line, info);
@@ -44,10 +42,6 @@ public class CxxReportIssue {
 
   public final void addLocation(@Nullable String file, @Nullable String line, String info) {
     locations.add(new CxxReportLocation(file, line, info));
-  }
-
-  public String getRuleRepoKey() {
-    return ruleRepoKey;
   }
 
   public String getRuleId() {
@@ -61,13 +55,12 @@ public class CxxReportIssue {
   @Override
   public String toString() {
     String locationsToString = locations.stream().map(Object::toString).collect(Collectors.joining(", "));
-    return "CxxReportIssue [ruleRepoKey=" + ruleRepoKey + ", ruleId=" + ruleId + ", locations=" + locationsToString
-        + "]";
+    return "CxxReportIssue [ruleId=" + ruleId + ", locations=" + locationsToString + "]";
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(locations, ruleId, ruleRepoKey);
+    return Objects.hash(locations, ruleId);
   }
 
   @Override
@@ -82,7 +75,6 @@ public class CxxReportIssue {
       return false;
     }
     CxxReportIssue other = (CxxReportIssue) obj;
-    return Objects.equals(locations, other.locations) && Objects.equals(ruleId, other.ruleId)
-        && Objects.equals(ruleRepoKey, other.ruleRepoKey);
+    return Objects.equals(locations, other.locations) && Objects.equals(ruleId, other.ruleId);
   }
 }

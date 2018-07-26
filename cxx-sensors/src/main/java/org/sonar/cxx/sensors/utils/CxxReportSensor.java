@@ -19,53 +19,51 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+
 import javax.annotation.Nullable;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tools.ant.DirectoryScanner;
-import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.api.batch.sensor.issue.NewIssue;
-import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.config.Configuration;
-import org.sonar.api.measures.Metric;
-import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.CxxMetricsFactory;
-import org.sonar.cxx.sensors.utils.CxxReportLocation;
+
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 
 /**
- * This class is used as base for all sensors which import reports. It hosts common logic such as finding the reports
- * and saving issues in SonarQube
+ * This class is used as base for all sensors which import reports. It hosts
+ * common logic such as finding the reports.
  */
 public abstract class CxxReportSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
-  private final Set<String> notFoundFiles = new HashSet<>();
-  private final Set<CxxReportIssue> uniqueIssues = new HashSet<>();
-  private final Map<InputFile, Integer> violationsPerFileCount = new HashMap<>();
-  private int violationsPerModuleCount;
-  protected final CxxLanguage language;
+  private final CxxLanguage language;
+  private final String propertiesKeyPathToReports;
 
   /**
    * {@inheritDoc}
    */
-  protected CxxReportSensor(CxxLanguage language) {
+  protected CxxReportSensor(CxxLanguage language, String propertiesKeyPathToReports) {
     this.language = language;
+    this.propertiesKeyPathToReports = language.getPluginProperty(propertiesKeyPathToReports);
+  }
+
+  public CxxLanguage getLanguage() {
+    return language;
+  }
+
+  public String getReportPathKey()
+  {
+    return propertiesKeyPathToReports;
   }
 
   /**
@@ -82,85 +80,6 @@ public abstract class CxxReportSensor implements Sensor {
       return def;
     }
     return s;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void execute(SensorContext context) {
-    try {
-      LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'",
-        context.fileSystem().baseDir(), getReportPathKey());
-      List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
-      violationsPerFileCount.clear();
-      violationsPerModuleCount = 0;
-
-      for (File report : reports) {
-        int prevViolationsCount = violationsPerModuleCount;
-        LOG.info("Processing report '{}'", report);
-        executeReport(context, report, prevViolationsCount);
-      }
-
-
-      Optional<CxxMetricsFactory.Key> metricKey = this.getMetricKey();
-      if (metricKey.isPresent())
-      {
-        Metric<Integer> metric = this.language.getMetric(metricKey.get());
-        LOG.info("{} processed = {}", metric.getKey(), violationsPerModuleCount);
-
-        for (Map.Entry<InputFile, Integer> entry : violationsPerFileCount.entrySet()) {
-          context.<Integer>newMeasure()
-            .forMetric(metric)
-            .on(entry.getKey())
-            .withValue(entry.getValue())
-            .save();
-        }
-
-        // this sensor could be executed on module without any files
-        // (possible for hierarchical multi-module projects)
-        // don't publish 0 as module metric,
-        // let AggregateMeasureComputer calculate the correct value
-        if ( violationsPerModuleCount != 0 ) {
-          context.<Integer>newMeasure()
-            .forMetric(metric)
-            .on(context.module())
-            .withValue(violationsPerModuleCount)
-            .save();
-        }
-      }
-    } catch (Exception e) {
-      String msg = new StringBuilder()
-        .append("Cannot feed the data into sonar, details: '")
-        .append(e)
-        .append("'")
-        .toString();
-      LOG.error(msg);
-      CxxUtils.validateRecovery(e, this.language);
-    }
-  }
-
-  /**
-   * @param context
-   * @param report
-   * @param prevViolationsCount
-   * @throws Exception
-   */
-  private void executeReport(SensorContext context, File report, int prevViolationsCount) throws Exception {
-    try {
-      processReport(context, report);
-      if (LOG.isDebugEnabled() && this.getMetricKey().isPresent()) {
-        Metric<Integer> metric = language.getMetric(this.getMetricKey().get());
-        LOG.debug("{} processed = {}", metric.getKey(),
-          violationsPerModuleCount - prevViolationsCount);
-      }
-    } catch (EmptyReportException e) {
-      LOG.warn("The report '{}' seems to be empty, ignoring.", report);
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Cannot read report", e);
-      }
-      CxxUtils.validateRecovery(e, language);
-    }
   }
 
   @Override
@@ -270,116 +189,6 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   /**
-   * Saves code violation only if it wasn't already saved
-   *
-   * @param sensorContext
-   * @param issue
-   */
-  public void saveUniqueViolation(SensorContext sensorContext, CxxReportIssue issue) {
-    if (uniqueIssues.add(issue)) {
-      saveViolation(sensorContext, issue);
-    }
-  }
-
-  public InputFile getInputFileIfInProject(SensorContext sensorContext, String path) {
-    String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
-    String normalPath = CxxUtils.normalizePathFull(path, root);
-    if (normalPath == null || notFoundFiles.contains(normalPath)) {
-      return null;
-    }
-    InputFile inputFile = sensorContext.fileSystem()
-        .inputFile(sensorContext.fileSystem().predicates().hasAbsolutePath(normalPath));
-    if (inputFile == null) {
-      notFoundFiles.add(normalPath);
-    }
-    return inputFile;
-  }
-
-  private NewIssueLocation createNewIssueLocationFile(SensorContext sensorContext, NewIssue newIssue,
-      CxxReportLocation location, Set<InputFile> affectedFiles) {
-    InputFile inputFile = getInputFileIfInProject(sensorContext, location.getFile());
-    if (inputFile != null) {
-      int lines = inputFile.lines();
-      int lineNr = Integer.max(1, getLineAsInt(location.getLine(), lines));
-      NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(lineNr))
-          .message(location.getInfo());
-      affectedFiles.add(inputFile);
-      return newIssueLocation;
-    } else {
-      LOG.warn("Cannot find the file '{}', skipping violations", location.getFile());
-      return null;
-    }
-  }
-
-  private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
-      CxxReportLocation location) {
-    return newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
-  }
-
-  /**
-   * Saves a code violation which is detected in the given file/line and has given ruleId and message. Saves it to the
-   * given project and context. Project or file-level violations can be saved by passing null for the according
-   * parameters ('file' = null for project level, 'line' = null for file-level)
-   */
-  private void saveViolation(SensorContext sensorContext, CxxReportIssue issue) {
-    String repoKey = issue.getRuleRepoKey() + this.language.getRepositorySuffix();
-    NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(repoKey, issue.getRuleId()));
-
-    Set<InputFile> affectedFiles = new HashSet<>();
-    List<NewIssueLocation> newIssueLocations = new ArrayList<>();
-
-    for (CxxReportLocation location : issue.getLocations()) {
-      if (location.getFile() != null && !location.getFile().isEmpty()) {
-        NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location,
-            affectedFiles);
-        if (newIssueLocation != null) {
-          newIssueLocations.add(newIssueLocation);
-        }
-      } else {
-        NewIssueLocation newIssueLocation = createNewIssueLocationModule(sensorContext, newIssue, location);
-        newIssueLocations.add(newIssueLocation);
-      }
-    }
-
-    if (!newIssueLocations.isEmpty()) {
-      try {
-        newIssue.at(newIssueLocations.get(0));
-        for (int i = 1; i < newIssueLocations.size(); i++) {
-          newIssue.addLocation(newIssueLocations.get(i));
-        }
-        newIssue.save();
-
-        for (InputFile affectedFile : affectedFiles) {
-          violationsPerFileCount.merge(affectedFile, 1, Integer::sum);
-        }
-        violationsPerModuleCount++;
-      } catch (RuntimeException ex) {
-        LOG.error("Could not add the issue '{}':{}', skipping issue", issue.toString(), CxxUtils.getStackTrace(ex));
-        CxxUtils.validateRecovery(ex, this.language);
-      }
-    }
-  }
-
-  private int getLineAsInt(@Nullable String line, int maxLine) {
-    int lineNr = 0;
-    if (line != null) {
-      try {
-        lineNr = Integer.parseInt(line);
-        if (lineNr < 1) {
-          lineNr = 1;
-        } else if (lineNr > maxLine) { // https://jira.sonarsource.com/browse/SONAR-6792
-          lineNr = maxLine;
-        }
-      } catch (java.lang.NumberFormatException nfe) {
-        LOG.warn("Skipping invalid line number: {}", line);
-        CxxUtils.validateRecovery(nfe, this.language);
-        lineNr = -1;
-      }
-    }
-    return lineNr;
-  }
-
-  /**
    * @param property String with comma separated items
    * @return
    */
@@ -387,13 +196,4 @@ public abstract class CxxReportSensor implements Sensor {
     return Iterables.toArray(Splitter.on(',').split(property), String.class);
   }
 
-  protected void processReport(final SensorContext context, File report)
-    throws Exception {
-  }
-
-  public abstract String getReportPathKey();
-
-  protected abstract String getSensorKey();
-
-  protected abstract Optional<CxxMetricsFactory.Key> getMetricKey();
 }
