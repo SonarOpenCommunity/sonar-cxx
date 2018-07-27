@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,6 +36,7 @@ import static org.mockito.Mockito.*;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.rule.ActiveRule;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
@@ -42,6 +44,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
+import org.sonar.api.rule.RuleKey;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
@@ -50,16 +53,27 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
 import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
 
+
 public class CxxSquidSensorTest {
 
   private CxxSquidSensor sensor;
   private CxxLanguage language;
+  private ActiveRules activeRulesForSquidSensor;
 
   @Before
   public void setUp() {
     language = TestUtils.mockCxxLanguage();
-    ActiveRules rules = mock(ActiveRules.class);
-    CheckFactory checkFactory = new CheckFactory(rules);
+
+    final String rulesRepositoryKey = language.getRepositoryKey();
+    final String languageKey = language.getKey();
+    activeRulesForSquidSensor = mock(ActiveRules.class);
+    ActiveRule activeRule = mock(ActiveRule.class);
+    when(activeRule.ruleKey()).thenReturn(RuleKey.of(rulesRepositoryKey, "ruleKey"));
+    when(activeRule.language()).thenReturn(languageKey);
+    when(activeRule.params()).thenReturn(Collections.emptyMap());
+    when(activeRulesForSquidSensor.findByRepository(same(language.getRepositoryKey()))).thenReturn(Collections.singletonList(activeRule));
+
+    CheckFactory checkFactory = new CheckFactory(activeRulesForSquidSensor);
     FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);
     FileLinesContext fileLinesContext = mock(FileLinesContext.class);
     when(fileLinesContextFactory.createFor(Mockito.any(InputFile.class))).thenReturn(fileLinesContext);
@@ -201,17 +215,42 @@ public class CxxSquidSensorTest {
     DefaultInputFile inputFile = buildTestInputFile(baseDir, "src/main.cc");
 
     SensorContextTester context = SensorContextTester.create(baseDir);
+    context.setActiveRules(activeRulesForSquidSensor);
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FILES).value()).isEqualTo(1);
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(9);
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(0);
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(9);
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(12);
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(1);
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(10);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.CLASSES).value()).isEqualTo(0);
     softly.assertAll();
+  }
 
+
+  @Test
+  public void testSimplifiedPreprocessing() throws IOException {
+    // same as testFindingIncludedFiles but preprocessor directives are not handled
+    when(this.language.getStringArrayOption(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY))
+        .thenReturn(new String[] { "include" });
+    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/include-directories-project");
+    DefaultInputFile inputFile = buildTestInputFile(baseDir, "src/main.cc");
+
+    SensorContextTester context = SensorContextTester.create(baseDir);
+    context.fileSystem().add(inputFile);
+    sensor.execute(context);
+
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FILES).value()).isEqualTo(1);
+    // number of NCLOC remained the same even if #includes were not processed
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(12);
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(1);
+    // all unresolved macro expansion were skipped; number of functions is now 1
+    // (was 10 with includes)
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(1);
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.CLASSES).value()).isEqualTo(0);
+    softly.assertAll();
   }
 
   @Test
@@ -224,6 +263,7 @@ public class CxxSquidSensorTest {
     DefaultInputFile inputFile = buildTestInputFile(baseDir, "src/src1.cc");
 
     SensorContextTester context = SensorContextTester.create(baseDir);
+    context.setActiveRules(activeRulesForSquidSensor);
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 

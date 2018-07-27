@@ -52,6 +52,18 @@ public class CxxConfiguration extends SquidConfiguration {
   private String jsonCompilationDatabaseFile;
   private CxxCompilationUnitSettings globalCompilationUnitSettings;
   private final Map<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
+  private boolean isSimplifiedPreprocessor = false;
+
+  /**
+   * @return true iff handling of preprocessor directives is disabled
+   */
+  public boolean isSimplifiedPreprocessor() {
+    return isSimplifiedPreprocessor;
+  }
+
+  public void setSimplifiedPreprocessor() {
+    this.isSimplifiedPreprocessor = true;
+  }
 
   private final CxxVCppBuildLogParser cxxVCppParser;
 

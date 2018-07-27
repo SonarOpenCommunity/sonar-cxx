@@ -215,7 +215,7 @@ public class CxxLexerWithPreprocessingTest {
     softly.assertAll();
   }
 
-  @Test 
+  @Test
   public void expanding_hashhash_operator_sampleFromCPPStandard() {
     // TODO: think about implementing this behavior. This is a sample from the standard, which is
     // not working yet. Because the current implementation throws away all 'irrelevant'
@@ -226,7 +226,7 @@ public class CxxLexerWithPreprocessingTest {
      + "#define in_between(a) mkstr(a)\n"
      + "#define join(c, d) in_between(c hash_hash(x) d)\n"
      + "join(x,y)");
-     
+
      SoftAssertions softly = new SoftAssertions();
      softly.assertThat(tokens).hasSize(2); //"x ## y" + EOF
 //     softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("\"x ## y\"").hasType(CxxTokenType.STRING));
@@ -432,7 +432,7 @@ public class CxxLexerWithPreprocessingTest {
       + "#endif\n");
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(tokens).noneMatch(token ->token.getValue().contentEquals("111") && token.getType().equals(CxxTokenType.NUMBER)); 
+    softly.assertThat(tokens).noneMatch(token ->token.getValue().contentEquals("111") && token.getType().equals(CxxTokenType.NUMBER));
     softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("222").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
@@ -447,7 +447,7 @@ public class CxxLexerWithPreprocessingTest {
       + "#endif\n");
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(tokens).noneMatch(token ->token.getValue().contentEquals("222") && token.getType().equals(CxxTokenType.NUMBER)); 
+    softly.assertThat(tokens).noneMatch(token ->token.getValue().contentEquals("222") && token.getType().equals(CxxTokenType.NUMBER));
     softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("111").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
@@ -612,6 +612,7 @@ public class CxxLexerWithPreprocessingTest {
   public void externalMacrosCannotBeOverriden() {
     CxxConfiguration conf = mock(CxxConfiguration.class);
     when(conf.getDefines()).thenReturn(Arrays.asList("name goodvalue"));
+    when(conf.isSimplifiedPreprocessor()).thenReturn(false);
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
     lexer = CxxLexer.create(conf, cxxpp);
 

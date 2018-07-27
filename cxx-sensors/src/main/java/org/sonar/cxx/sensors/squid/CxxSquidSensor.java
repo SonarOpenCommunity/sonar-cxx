@@ -30,6 +30,7 @@ import javax.annotation.Nullable;
 
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -117,6 +118,10 @@ public class CxxSquidSensor implements Sensor {
       .onlyOnFileType(InputFile.Type.MAIN);
   }
 
+  private boolean areSquidChecksEnabled(ActiveRules activeRules) {
+    return !activeRules.findByRepository(language.getRepositoryKey()).isEmpty();
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -134,6 +139,9 @@ public class CxxSquidSensor implements Sensor {
         this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
 
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
+    if (!areSquidChecksEnabled(context.activeRules())) {
+      cxxConf.setSimplifiedPreprocessor();
+    }
     AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 

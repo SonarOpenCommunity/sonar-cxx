@@ -424,6 +424,12 @@ public class CxxPreprocessor extends Preprocessor {
 
       AstNodeType lineKind = lineAst.getType();
 
+      if (conf.isSimplifiedPreprocessor()) {
+        LOG.debug("Preprocessor runs in simplified more; skip preprocessor directive {}", lineKind);
+        return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
+            new ArrayList<Token>());
+      }
+
       if (lineKind.equals(ifdefLine)) {
         return handleIfdefLine(lineAst, token, rootFilePath);
       } else if (lineKind.equals(ifLine)) {

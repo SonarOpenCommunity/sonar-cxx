@@ -27,3 +27,7 @@ HEADER1
 HEADER2
 BAR //void bar(){}
 WIDGET //void widget(){}
+
+int main(int, char*) {
+  return 0;
+}
