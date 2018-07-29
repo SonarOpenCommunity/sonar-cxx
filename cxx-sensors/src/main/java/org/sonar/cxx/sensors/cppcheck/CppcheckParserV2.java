@@ -109,7 +109,7 @@ public class CppcheckParserV2 implements CppcheckParser {
             "Missing mandatory attribute /results/errors/error[@id]");
         String msg = requireAttributeSet(errorCursor.getAttrValue("msg"),
             "Missing mandatory attribute /results/errors/error[@msg]");
-        Boolean isInconclusive = "true".equals(errorCursor.getAttrValue("inconclusive"));
+        boolean isInconclusive = "true".equals(errorCursor.getAttrValue("inconclusive"));
         String issueText = createIssueText(msg, isInconclusive);
         CxxReportIssue issue = null;
 

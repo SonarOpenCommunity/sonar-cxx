@@ -1,6 +1,5 @@
 import os
 import sys
-from os.path import join
 
 _FILE_LINES = []
 

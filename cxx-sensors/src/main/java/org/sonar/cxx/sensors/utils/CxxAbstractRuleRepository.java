@@ -86,10 +86,8 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
       for (File userExtensionXml : getExtensions(repositoryKey, "xml")) {
         try (InputStream input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
-
-          BufferedReader reader = new BufferedReader(new InputStreamReader(input, charset));
-          xmlRuleLoader.load(repository, reader);
-        } catch (IOException|IllegalStateException ex) {
+          xmlRuleLoader.load(repository, input, charset);
+        } catch (IOException | IllegalStateException ex) {
           LOG.info("Cannot Load XML '{}'", ex);
         }
       }
