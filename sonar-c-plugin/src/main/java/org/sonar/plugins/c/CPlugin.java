@@ -173,7 +173,7 @@ public final class CPlugin implements Plugin {
       PropertyDefinition.builder(CPlugin.JSON_COMPILATION_DATABASE_KEY)
         .subCategory(subcateg)
         .name("JSON Compilation Database")
-        .description("JSON Compilation Database file to use as specification for what defines"
+        .description("JSON Compilation Database file to use as specification for what defines "
           + "and includes should be used for source files.")
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(9)

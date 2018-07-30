@@ -65,7 +65,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     saveErrors(context, parser.processReport(report));
   }
 
-  private static String createErrorMsg(ValgrindError error, ValgrindStack stack, Integer stackNr) {
+  private static String createErrorMsg(ValgrindError error, ValgrindStack stack, int stackNr) {
     StringBuilder errorMsg = new StringBuilder();
     errorMsg.append(error.getText());
     if (error.getStacks().size() > 1) {
@@ -79,7 +79,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     return frame.isLocationKnown() && (getInputFileIfInProject(context, frame.getPath()) != null);
   }
 
-  private CxxReportIssue createIssue(SensorContext context, ValgrindError error, ValgrindStack stack, Integer stackNr) {
+  private CxxReportIssue createIssue(SensorContext context, ValgrindError error, ValgrindStack stack, int stackNr) {
     ValgrindFrame lastOwnFrame = stack.getLastOwnFrame(context.fileSystem().baseDir().getPath());
     if (lastOwnFrame == null) {
       LOG.warn("Cannot find a project file to assign the valgrind error '{}' to", error);
@@ -102,7 +102,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
 
   void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {
     for (ValgrindError error : valgrindErrors) {
-      Integer stackNr = 0;
+      int stackNr = 0;
       for (ValgrindStack stack : error.getStacks()) {
         CxxReportIssue issue = createIssue(context, error, stack, stackNr);
         if (issue != null) {

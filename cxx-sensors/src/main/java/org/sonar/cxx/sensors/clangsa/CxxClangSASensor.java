@@ -98,9 +98,9 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
           "Missing mandatory entry 'diagnostics/check_name'")).getContent();
         NSDictionary location = (NSDictionary) require(diag.get("location"),
           "Missing mandatory entry 'diagnostics/location'");
-        Integer line = ((NSNumber) require(location.get("line"),
+        int line = ((NSNumber) require(location.get("line"),
           "Missing mandatory entry 'diagnostics/location/line'")).intValue();
-        Integer fileIndex = ((NSNumber) require(location.get("file"),
+        int fileIndex = ((NSNumber) require(location.get("file"),
           "Missing mandatory entry 'diagnostics/location/file'")).intValue();
 
         if (fileIndex < 0 || fileIndex >= sourceFiles.length) {
@@ -108,7 +108,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
         }
         String filePath = ((NSString) sourceFiles[fileIndex]).getContent();
 
-        CxxReportIssue issue = new CxxReportIssue(checkerName, filePath, line.toString(), description);
+        CxxReportIssue issue = new CxxReportIssue(checkerName, filePath, Integer.toString(line), description);
         saveUniqueViolation(context, issue);
       }
     } catch (Exception e) {

@@ -111,7 +111,6 @@ public final class CxxAstScanner {
    *
    * @param language for sensor
    * @param conf settings for sensor
-   * @param sensorContext for sensor
    * @param visitors visitors AST checks and visitors to use
    * @return scanner for the given parameters
    */

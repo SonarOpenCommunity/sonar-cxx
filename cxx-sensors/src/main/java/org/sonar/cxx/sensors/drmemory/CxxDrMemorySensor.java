@@ -78,7 +78,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
     return null;
   }
 
-  private static String getFrameText(Location frame, Integer frameNr) {
+  private static String getFrameText(Location frame, int frameNr) {
     StringBuilder sb = new StringBuilder();
     sb.append("#").append(frameNr).append(" ").append(frame.getFile()).append(":").append(frame.getLine());
     return sb.toString();
@@ -103,7 +103,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
             lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), error.getMessage());
 
         // add all frames as secondary locations
-        Integer frameNr = 0;
+        int frameNr = 0;
         for (Location frame : error.getStackTrace()) {
           Boolean frameIsInProject = frameIsInProject(context, frame);
           String mappedPath = (frameIsInProject) ? frame.getFile() : lastOwnFrame.getFile();

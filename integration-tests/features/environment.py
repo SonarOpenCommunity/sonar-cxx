@@ -26,7 +26,6 @@ import sys
 import time
 import platform
 import requests
-import json
 
 from glob import glob
 from shutil import copyfile
@@ -35,7 +34,6 @@ from common import analyse_log, get_sonar_log_path
 
 from tempfile import mkstemp
 from shutil import move
-from os import remove, close
 
 SONAR_URL = "http://localhost:9000"
 INDENT = "    "
@@ -232,9 +230,9 @@ def replace(file_path, pattern, subst):
         with open(file_path) as old_file:
             for line in old_file:
                 new_file.write(line.replace(pattern, subst))
-    close(fh)
+    os.close(fh)
     #Remove original file
-    remove(file_path)
+    os.remove(file_path)
     #Move new file
     move(abs_path, file_path)
 
