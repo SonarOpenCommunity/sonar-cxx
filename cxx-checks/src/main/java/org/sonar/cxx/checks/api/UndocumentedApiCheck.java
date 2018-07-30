@@ -86,12 +86,10 @@ public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
     boolean commented = !comments.isEmpty();
 
     if (LOG.isDebugEnabled()) {
-      LOG.debug("node: {} line: {} id: '{}' documented: {}",
-        new Object[]{node.getType(), node.getTokenLine(), id, commented});
+      LOG.debug("node: {} line: {} id: '{}' documented: {}", node.getType(), node.getTokenLine(), id, commented);
     }
     if (!commented) {
-      getContext().createLineViolation(this, "Undocumented API: " + id,
-        node);
+      getContext().createLineViolation(this, "Undocumented API: " + id, node);
     }
   }
 }

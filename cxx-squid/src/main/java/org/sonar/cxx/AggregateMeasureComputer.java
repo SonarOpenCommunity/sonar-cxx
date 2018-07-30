@@ -84,15 +84,16 @@ public class AggregateMeasureComputer implements MeasureComputer {
     return metricKeys.clone();
   }
 
-  private void compute(MeasureComputerContext context, String metricKey) {
+  private static void compute(MeasureComputerContext context, String metricKey) {
     final Component component = context.getComponent();
     if (component.getType() == Component.Type.FILE) {
       LOG.debug("Component {}: FILE doesn't required an aggregation", component.getKey());
       return;
     }
-    if (context.getMeasure(metricKey) != null) {
+    final Measure existingMeasure = context.getMeasure(metricKey);
+    if (existingMeasure != null) {
       LOG.debug("Component {}: measure {} already calculated, value = {}", component.getKey(), metricKey,
-          context.getMeasure(metricKey).getIntValue());
+          existingMeasure.getIntValue());
       return;
     }
     Iterable<Measure> childrenMeasures = context.getChildrenMeasures(metricKey);
