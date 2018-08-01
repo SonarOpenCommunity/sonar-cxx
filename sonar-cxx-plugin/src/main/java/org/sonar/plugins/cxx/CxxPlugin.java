@@ -798,8 +798,8 @@ public final class CxxPlugin implements Plugin {
   public static class CxxUnitTestResultsImportSensorImpl extends CxxUnitTestResultsImportSensor {
 
     public CxxUnitTestResultsImportSensorImpl(Configuration settings,
-      CxxUnitTestResultsAggregator unitTestResultsAggregator, ProjectDefinition projectDef) {
-      super(unitTestResultsAggregator, projectDef, new CppLanguage(settings));
+        CxxUnitTestResultsAggregator unitTestResultsAggregator) {
+      super(unitTestResultsAggregator, new CppLanguage(settings));
     }
   }
 

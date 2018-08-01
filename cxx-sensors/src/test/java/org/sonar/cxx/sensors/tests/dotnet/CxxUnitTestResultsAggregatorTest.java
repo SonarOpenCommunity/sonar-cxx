@@ -70,34 +70,33 @@ public class CxxUnitTestResultsAggregatorTest {
     when(settings.hasKey(key1)).thenReturn(false);
     when(settings.hasKey(key2)).thenReturn(false);
     when(settings.hasKey(key3)).thenReturn(false);
-    assertThat(new CxxUnitTestResultsAggregator(language, settings).hasUnitTestResultsProperty()).isFalse();
+    assertThat(new UnitTestConfiguration(language, settings).hasUnitTestResultsProperty()).isFalse();
 
     when(settings.hasKey(key1)).thenReturn(true);
     when(settings.hasKey(key2)).thenReturn(false);
     when(settings.hasKey(key3)).thenReturn(false);
-    assertThat(new CxxUnitTestResultsAggregator(language, settings).hasUnitTestResultsProperty()).isTrue();
+    assertThat(new UnitTestConfiguration(language, settings).hasUnitTestResultsProperty()).isTrue();
 
     when(settings.hasKey(key1)).thenReturn(false);
     when(settings.hasKey(key2)).thenReturn(true);
     when(settings.hasKey(key3)).thenReturn(false);
-    assertThat(new CxxUnitTestResultsAggregator(language, settings).hasUnitTestResultsProperty()).isTrue();
+    assertThat(new UnitTestConfiguration(language, settings).hasUnitTestResultsProperty()).isTrue();
 
     when(settings.hasKey(key1)).thenReturn(false);
     when(settings.hasKey(key2)).thenReturn(false);
     when(settings.hasKey(key3)).thenReturn(true);
-    assertThat(new CxxUnitTestResultsAggregator(language, settings).hasUnitTestResultsProperty()).isTrue();
+    assertThat(new UnitTestConfiguration(language, settings).hasUnitTestResultsProperty()).isTrue();
 
     when(settings.hasKey(key1)).thenReturn(true);
     when(settings.hasKey(key2)).thenReturn(true);
     when(settings.hasKey(key3)).thenReturn(true);
-    assertThat(new CxxUnitTestResultsAggregator(language, settings).hasUnitTestResultsProperty()).isTrue();
+    assertThat(new UnitTestConfiguration(language, settings).hasUnitTestResultsProperty()).isTrue();
   }
 
   @Test
   public void aggregate() {
     WildcardPatternFileProvider wildcardPatternFileProvider = mock(WildcardPatternFileProvider.class);
     MapSettings settings = new MapSettings();
-    UnitTestConfiguration unitTestConf = new UnitTestConfiguration(language);
 
     // Visual Studio test results only
     settings.setProperty(key1, "foo.trx");
@@ -106,9 +105,9 @@ public class CxxUnitTestResultsAggregatorTest {
     XUnitTestResultsFileParser xunitTestResultsFileParser = mock(XUnitTestResultsFileParser.class);
     NUnitTestResultsFileParser nunitTestResultsFileParser = mock(NUnitTestResultsFileParser.class);
     UnitTestResults results = mock(UnitTestResults.class);
-    new CxxUnitTestResultsAggregator(unitTestConf, settings.asConfig(),
-      visualStudioTestResultsFileParser, xunitTestResultsFileParser, nunitTestResultsFileParser)
-      .aggregate(wildcardPatternFileProvider, results);
+    new CxxUnitTestResultsAggregator(visualStudioTestResultsFileParser, xunitTestResultsFileParser,
+        nunitTestResultsFileParser).aggregate(wildcardPatternFileProvider, results,
+            new UnitTestConfiguration(language, settings.asConfig()));
     verify(visualStudioTestResultsFileParser).accept(new File("foo.trx"), results);
 
     // XUnit test results only
@@ -119,9 +118,9 @@ public class CxxUnitTestResultsAggregatorTest {
     xunitTestResultsFileParser = mock(XUnitTestResultsFileParser.class);
     nunitTestResultsFileParser = mock(NUnitTestResultsFileParser.class);
     results = mock(UnitTestResults.class);
-    new CxxUnitTestResultsAggregator(unitTestConf, settings.asConfig(),
-      visualStudioTestResultsFileParser, xunitTestResultsFileParser, nunitTestResultsFileParser)
-      .aggregate(wildcardPatternFileProvider, results);
+    new CxxUnitTestResultsAggregator(visualStudioTestResultsFileParser, xunitTestResultsFileParser,
+        nunitTestResultsFileParser).aggregate(wildcardPatternFileProvider, results,
+            new UnitTestConfiguration(language, settings.asConfig()));
     verify(visualStudioTestResultsFileParser, Mockito.never()).accept(Mockito.any(File.class), Mockito.any(UnitTestResults.class));
     verify(xunitTestResultsFileParser).accept(new File("foo.xml"), results);
     verify(nunitTestResultsFileParser, Mockito.never()).accept(Mockito.any(File.class), Mockito.any(UnitTestResults.class));
@@ -138,9 +137,9 @@ public class CxxUnitTestResultsAggregatorTest {
     xunitTestResultsFileParser = mock(XUnitTestResultsFileParser.class);
     nunitTestResultsFileParser = mock(NUnitTestResultsFileParser.class);
     results = mock(UnitTestResults.class);
-    new CxxUnitTestResultsAggregator(unitTestConf, settings.asConfig(),
-      visualStudioTestResultsFileParser, xunitTestResultsFileParser, nunitTestResultsFileParser)
-      .aggregate(wildcardPatternFileProvider, results);
+    new CxxUnitTestResultsAggregator(visualStudioTestResultsFileParser, xunitTestResultsFileParser,
+        nunitTestResultsFileParser).aggregate(wildcardPatternFileProvider, results,
+            new UnitTestConfiguration(language, settings.asConfig()));
     verify(visualStudioTestResultsFileParser).accept(new File("foo.trx"), results);
     verify(xunitTestResultsFileParser).accept(new File("foo.xml"), results);
     verify(nunitTestResultsFileParser).accept(new File("foo1.xml"), results);
@@ -151,13 +150,13 @@ public class CxxUnitTestResultsAggregatorTest {
     xunitTestResultsFileParser = mock(XUnitTestResultsFileParser.class);
     nunitTestResultsFileParser = mock(NUnitTestResultsFileParser.class);
     results = mock(UnitTestResults.class);
-    new CxxUnitTestResultsAggregator(unitTestConf, settings.asConfig(),
-      visualStudioTestResultsFileParser, xunitTestResultsFileParser, nunitTestResultsFileParser)
-      .aggregate(wildcardPatternFileProvider, results);
+    new CxxUnitTestResultsAggregator(visualStudioTestResultsFileParser, xunitTestResultsFileParser,
+        nunitTestResultsFileParser).aggregate(wildcardPatternFileProvider, results,
+            new UnitTestConfiguration(language, settings.asConfig()));
     verify(visualStudioTestResultsFileParser, Mockito.never()).accept(Mockito.any(File.class), Mockito.any(UnitTestResults.class));
     verify(xunitTestResultsFileParser, Mockito.never()).accept(Mockito.any(File.class), Mockito.any(UnitTestResults.class));
     verify(nunitTestResultsFileParser, Mockito.never()).accept(Mockito.any(File.class), Mockito.any(UnitTestResults.class));
-    
+
     // Multiple files configured
     Mockito.reset(wildcardPatternFileProvider);
     settings.clear();
@@ -175,9 +174,9 @@ public class CxxUnitTestResultsAggregatorTest {
     nunitTestResultsFileParser = mock(NUnitTestResultsFileParser.class);
     results = mock(UnitTestResults.class);
 
-    new CxxUnitTestResultsAggregator(unitTestConf, settings.asConfig(),
-      visualStudioTestResultsFileParser, xunitTestResultsFileParser, nunitTestResultsFileParser)
-      .aggregate(wildcardPatternFileProvider, results);
+    new CxxUnitTestResultsAggregator(visualStudioTestResultsFileParser, xunitTestResultsFileParser,
+        nunitTestResultsFileParser).aggregate(wildcardPatternFileProvider, results,
+            new UnitTestConfiguration(language, settings.asConfig()));
 
     verify(wildcardPatternFileProvider).listFiles("*.trx");
     verify(wildcardPatternFileProvider).listFiles("bar.trx");
