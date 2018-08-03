@@ -50,21 +50,21 @@ public class DensityMeasureComputer implements MeasureComputer {
 
   private static final Logger LOG = Loggers.get(DensityMeasureComputer.class);
 
-  private final String PublicAPIKey;
-  private final String PublicUndocumentedAPIKey;
-  private final String PublicDocumentedAPIDensityKey;
+  private final String publicAPIKey;
+  private final String publicUndocumentedAPIKey;
+  private final String publicDocumentedAPIDensityKey;
 
-  private final String ComplexFunctionsKey;
-  private final String ComplexFunctionsPercKey;
-  private final String ComplexFunctionsLocKey;
-  private final String ComplexFunctionsLocPercKey;
+  private final String complexFunctionsKey;
+  private final String complexFunctionsPercKey;
+  private final String complexFunctionsLocKey;
+  private final String complexFunctionsLocPercKey;
 
-  private final String BigFunctionsKey;
-  private final String BigFunctionsPercKey;
-  private final String BigFunctionsLocKey;
-  private final String BigFunctionsLocPercKey;
+  private final String bigFunctionsKey;
+  private final String bigFunctionsPercKey;
+  private final String bigFunctionsLocKey;
+  private final String bigFunctionsLocPercKey;
 
-  private final String LocInFunctionsKey;
+  private final String locInFunctionsKey;
 
   private final String[] inputMetrics;
   private final String[] outputMetrics;
@@ -72,26 +72,26 @@ public class DensityMeasureComputer implements MeasureComputer {
   public DensityMeasureComputer(String languageKey, String languagePropsKey) {
     final Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap(languageKey, languagePropsKey);
 
-    PublicAPIKey = metrics.get(CxxMetricsFactory.Key.PUBLIC_API_KEY).key();
-    PublicUndocumentedAPIKey = metrics.get(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY).key();
-    PublicDocumentedAPIDensityKey = metrics.get(CxxMetricsFactory.Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY).key();
+    publicAPIKey = metrics.get(CxxMetricsFactory.Key.PUBLIC_API_KEY).key();
+    publicUndocumentedAPIKey = metrics.get(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY).key();
+    publicDocumentedAPIDensityKey = metrics.get(CxxMetricsFactory.Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY).key();
 
-    ComplexFunctionsKey = metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_KEY).key();
-    ComplexFunctionsPercKey = metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_PERC_KEY).key();
-    ComplexFunctionsLocKey = metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_KEY).key();
-    ComplexFunctionsLocPercKey = metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_PERC_KEY).key();
+    complexFunctionsKey = metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_KEY).key();
+    complexFunctionsPercKey = metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_PERC_KEY).key();
+    complexFunctionsLocKey = metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_KEY).key();
+    complexFunctionsLocPercKey = metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_PERC_KEY).key();
 
-    BigFunctionsKey = metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_KEY).key();
-    BigFunctionsPercKey = metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_PERC_KEY).key();
-    BigFunctionsLocKey = metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY).key();
-    BigFunctionsLocPercKey = metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_PERC_KEY).key();
+    bigFunctionsKey = metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_KEY).key();
+    bigFunctionsPercKey = metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_PERC_KEY).key();
+    bigFunctionsLocKey = metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY).key();
+    bigFunctionsLocPercKey = metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_PERC_KEY).key();
 
-    LocInFunctionsKey = metrics.get(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY).key();
+    locInFunctionsKey = metrics.get(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY).key();
 
-    inputMetrics = new String[] { PublicAPIKey, PublicUndocumentedAPIKey, CoreMetrics.FUNCTIONS_KEY, LocInFunctionsKey,
-        ComplexFunctionsKey, ComplexFunctionsLocKey, BigFunctionsKey, BigFunctionsLocKey };
-    outputMetrics = new String[] { PublicDocumentedAPIDensityKey, ComplexFunctionsPercKey, ComplexFunctionsLocPercKey,
-        BigFunctionsPercKey, BigFunctionsLocPercKey };
+    inputMetrics = new String[] { publicAPIKey, publicUndocumentedAPIKey, CoreMetrics.FUNCTIONS_KEY, locInFunctionsKey,
+        complexFunctionsKey, complexFunctionsLocKey, bigFunctionsKey, bigFunctionsLocKey };
+    outputMetrics = new String[] { publicDocumentedAPIDensityKey, complexFunctionsPercKey, complexFunctionsLocPercKey,
+        bigFunctionsPercKey, bigFunctionsLocPercKey };
   }
 
   public String[] getInputMetrics() {
@@ -109,14 +109,14 @@ public class DensityMeasureComputer implements MeasureComputer {
 
   @Override
   public void compute(MeasureComputerContext context) {
-    compute(context, PublicUndocumentedAPIKey, PublicAPIKey, PublicDocumentedAPIDensityKey, true);
-    compute(context, ComplexFunctionsKey, CoreMetrics.FUNCTIONS_KEY, ComplexFunctionsPercKey, false);
-    compute(context, ComplexFunctionsLocKey, LocInFunctionsKey, ComplexFunctionsLocPercKey, false);
-    compute(context, BigFunctionsKey, CoreMetrics.FUNCTIONS_KEY, BigFunctionsPercKey, false);
-    compute(context, BigFunctionsLocKey, LocInFunctionsKey, BigFunctionsLocPercKey, false);
+    compute(context, publicUndocumentedAPIKey, publicAPIKey, publicDocumentedAPIDensityKey, true);
+    compute(context, complexFunctionsKey, CoreMetrics.FUNCTIONS_KEY, complexFunctionsPercKey, false);
+    compute(context, complexFunctionsLocKey, locInFunctionsKey, complexFunctionsLocPercKey, false);
+    compute(context, bigFunctionsKey, CoreMetrics.FUNCTIONS_KEY, bigFunctionsPercKey, false);
+    compute(context, bigFunctionsLocKey, locInFunctionsKey, bigFunctionsLocPercKey, false);
   }
 
-  private void compute(MeasureComputerContext context, String valueKey, String totalKey, String densityKey,
+  private static void compute(MeasureComputerContext context, String valueKey, String totalKey, String densityKey,
       boolean calculateReminingPercent) {
     final Component component = context.getComponent();
 
@@ -126,9 +126,10 @@ public class DensityMeasureComputer implements MeasureComputer {
       LOG.error("Component {}: not enough data to calcualte measure {}", context.getComponent().getKey(), densityKey);
       return;
     }
-    if (context.getMeasure(densityKey) != null) {
+    final Measure existingMeasure = context.getMeasure(densityKey);
+    if (existingMeasure != null) {
       LOG.error("Component {}: measure {} already calculated, value = {}", component.getKey(), densityKey,
-          context.getMeasure(densityKey).getDoubleValue());
+          existingMeasure.getDoubleValue());
       return;
     }
 
@@ -138,7 +139,10 @@ public class DensityMeasureComputer implements MeasureComputer {
       value = Integer.max(total - value, 0);
     }
 
-    final double density = (total >= value && total != 0) ? (double) value / (double) total * 100.0 : 0.0;
+    double density = 0.0;
+    if (total >= value && total != 0) {
+      density = (double) value / (double) total * 100.0;
+    }
 
     LOG.info("Component {}: add measure {}, value {}", component.getKey(), densityKey, density);
     context.addMeasure(densityKey, density);

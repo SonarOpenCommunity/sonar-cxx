@@ -28,7 +28,6 @@ import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
@@ -70,8 +69,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
  *
  * @param <G>
  */
-public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends SquidCheck<G>
-    implements AstVisitor {
+public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends SquidCheck<G> {
 
   private static final Logger LOG = Loggers.get(AbstractCxxPublicApiVisitor.class);
 
@@ -887,7 +885,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       || comment.startsWith("///") || comment.startsWith("//!");
   }
 
-  public AbstractCxxPublicApiVisitor<G> withHeaderFileSuffixes(List<String> headerFileSuffixes) {
+  public final AbstractCxxPublicApiVisitor<G> withHeaderFileSuffixes(List<String> headerFileSuffixes) {
     this.headerFileSuffixes = new ArrayList<>(headerFileSuffixes);
     return this;
   }
