@@ -25,11 +25,10 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // mailto:info AT sonarsource DOT com
 
 import java.io.File;
+
 import org.sonar.api.batch.ScannerSide;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 
 /**
  * CxxUnitTestResultsAggregator (from .Net test library)
@@ -37,10 +36,7 @@ import org.sonar.cxx.CxxLanguage;
 @ScannerSide
 public class CxxUnitTestResultsAggregator {
 
-  private static final String EXIST_CONFIGURATION_PARAMETER = "Exist configuration parameter: '{}':'{}'";
   private static final Logger LOG = Loggers.get(CxxUnitTestResultsAggregator.class);
-  private final UnitTestConfiguration unitTestConf;
-  private final Configuration settings;
   private final VisualStudioTestResultsFileParser visualStudioTestResultsFileParser;
   private final XUnitTestResultsFileParser xunitTestResultsFileParser;
   private final NUnitTestResultsFileParser nunitTestResultsFileParser;
@@ -50,71 +46,32 @@ public class CxxUnitTestResultsAggregator {
    * @param language C or C++
    * @param settings SQ Configuration
    */
-  public CxxUnitTestResultsAggregator(CxxLanguage language, Configuration settings) {
-    this(new UnitTestConfiguration(language), settings,
-      new VisualStudioTestResultsFileParser(),
-      new XUnitTestResultsFileParser(),
-      new NUnitTestResultsFileParser()
-    );
+  public CxxUnitTestResultsAggregator() {
+    this(new VisualStudioTestResultsFileParser(), new XUnitTestResultsFileParser(), new NUnitTestResultsFileParser());
   }
 
-  CxxUnitTestResultsAggregator(UnitTestConfiguration unitTestConf, Configuration settings,
-    VisualStudioTestResultsFileParser visualStudioTestResultsFileParser,
-    XUnitTestResultsFileParser xunitTestResultsFileParser,
-    NUnitTestResultsFileParser nunitTestResultsFileParser
-  ) {
-    this.unitTestConf = unitTestConf;
-    this.settings = settings;
+  CxxUnitTestResultsAggregator(VisualStudioTestResultsFileParser visualStudioTestResultsFileParser,
+      XUnitTestResultsFileParser xunitTestResultsFileParser, NUnitTestResultsFileParser nunitTestResultsFileParser) {
     this.visualStudioTestResultsFileParser = visualStudioTestResultsFileParser;
     this.xunitTestResultsFileParser = xunitTestResultsFileParser;
     this.nunitTestResultsFileParser = nunitTestResultsFileParser;
   }
 
-  boolean hasUnitTestResultsProperty() {
-    return hasVisualStudioTestResultsFile() || hasXUnitTestResultsFile() || hasNUnitTestResultsFile();
-  }
-
-  private boolean hasVisualStudioTestResultsFile() {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug(EXIST_CONFIGURATION_PARAMETER, unitTestConf.visualStudioTestResultsFilePropertyKey(),
-        settings.hasKey(unitTestConf.visualStudioTestResultsFilePropertyKey()));
-    }
-    return settings.hasKey(unitTestConf.visualStudioTestResultsFilePropertyKey());
-  }
-
-  private boolean hasXUnitTestResultsFile() {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug(EXIST_CONFIGURATION_PARAMETER, unitTestConf.xunitTestResultsFilePropertyKey(),
-        settings.hasKey(unitTestConf.xunitTestResultsFilePropertyKey()));
-    }
-    return settings.hasKey(unitTestConf.xunitTestResultsFilePropertyKey());
-  }
-
-  private boolean hasNUnitTestResultsFile() {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug(EXIST_CONFIGURATION_PARAMETER, unitTestConf.nunitTestResultsFilePropertyKey(),
-        settings.hasKey(unitTestConf.nunitTestResultsFilePropertyKey()));
-    }
-    return settings.hasKey(unitTestConf.nunitTestResultsFilePropertyKey());
-  }
-
-  UnitTestResults aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, UnitTestResults unitTestResults) {
-    if (hasVisualStudioTestResultsFile()) {
-      aggregate(wildcardPatternFileProvider,
-        settings.getStringArray(unitTestConf.visualStudioTestResultsFilePropertyKey()),
-        visualStudioTestResultsFileParser, unitTestResults);
+  UnitTestResults aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, UnitTestResults unitTestResults,
+      UnitTestConfiguration unitTestConf) {
+    if (unitTestConf.hasVisualStudioTestResultsFile()) {
+      aggregate(wildcardPatternFileProvider, unitTestConf.getVisualStudioTestResultsFiles(),
+          visualStudioTestResultsFileParser, unitTestResults);
     }
 
-    if (hasXUnitTestResultsFile()) {
-      aggregate(wildcardPatternFileProvider,
-        settings.getStringArray(unitTestConf.xunitTestResultsFilePropertyKey()),
-        xunitTestResultsFileParser, unitTestResults);
+    if (unitTestConf.hasXUnitTestResultsFile()) {
+      aggregate(wildcardPatternFileProvider, unitTestConf.getXUnitTestResultsFiles(), xunitTestResultsFileParser,
+          unitTestResults);
     }
 
-    if (hasNUnitTestResultsFile()) {
-      aggregate(wildcardPatternFileProvider,
-        settings.getStringArray(unitTestConf.nunitTestResultsFilePropertyKey()),
-        nunitTestResultsFileParser, unitTestResults);
+    if (unitTestConf.hasNUnitTestResultsFile()) {
+      aggregate(wildcardPatternFileProvider, unitTestConf.getNUnitTestResultsFiles(), nunitTestResultsFileParser,
+          unitTestResults);
     }
 
     return unitTestResults;

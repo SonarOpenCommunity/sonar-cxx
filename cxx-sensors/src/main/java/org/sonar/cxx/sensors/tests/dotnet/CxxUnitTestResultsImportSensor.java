@@ -25,30 +25,23 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // mailto:info AT sonarsource DOT com
 
 import java.io.File;
-import org.sonar.api.batch.bootstrap.ProjectDefinition;
+
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 
 public class CxxUnitTestResultsImportSensor implements Sensor {
 
-  private static final Logger LOG = Loggers.get(CxxUnitTestResultsImportSensor.class);
-
   private final WildcardPatternFileProvider wildcardPatternFileProvider
     = new WildcardPatternFileProvider(new File("."), File.separator);
   private final CxxUnitTestResultsAggregator unitTestResultsAggregator;
-  private final ProjectDefinition projectDef;
   protected final CxxLanguage language;
 
   public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator,
-    ProjectDefinition projectDef,
     CxxLanguage language) {
     this.unitTestResultsAggregator = unitTestResultsAggregator;
-    this.projectDef = projectDef;
     this.language = language;
   }
 
@@ -57,23 +50,18 @@ public class CxxUnitTestResultsImportSensor implements Sensor {
     String name = String.format("%s Unit Test Results Import", this.language.getName());
     descriptor.name(name);
     descriptor.global();
+    descriptor.onlyWhenConfiguration(conf -> new UnitTestConfiguration(language, conf).hasUnitTestResultsProperty());
     descriptor.onlyOnLanguage(this.language.getKey());
   }
 
   @Override
   public void execute(SensorContext context) {
-    if (!unitTestResultsAggregator.hasUnitTestResultsProperty()) {
-      LOG.info("No unit test results property. Skip Sensor");
-      return;
-    }
-    if (projectDef.getParent() == null) {
-      analyze(context, new UnitTestResults());
-    }
+    analyze(context, new UnitTestResults(), new UnitTestConfiguration(language, context.config()));
   }
 
-  void analyze(SensorContext context, UnitTestResults unitTestResults) {
+  void analyze(SensorContext context, UnitTestResults unitTestResults, UnitTestConfiguration unitTestConf) {
     UnitTestResults aggregatedResults = unitTestResultsAggregator.aggregate(wildcardPatternFileProvider,
-      unitTestResults);
+        unitTestResults, unitTestConf);
 
     context.<Integer>newMeasure()
       .forMetric(CoreMetrics.TESTS)

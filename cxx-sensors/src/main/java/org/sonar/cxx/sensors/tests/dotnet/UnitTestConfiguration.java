@@ -19,6 +19,10 @@
  */
 package org.sonar.cxx.sensors.tests.dotnet;
 
+import org.sonar.api.config.Configuration;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+
 // origin https://github.com/SonarSource/sonar-dotnet-tests-library/
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
@@ -28,24 +32,60 @@ import org.sonar.cxx.CxxLanguage;
 
 public class UnitTestConfiguration {
 
-  private final CxxLanguage language;
+  private static final String EXIST_CONFIGURATION_PARAMETER = "Exist configuration parameter: '{}':'{}'";
+  private static final Logger LOG = Loggers.get(UnitTestConfiguration.class);
+
   public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "vstest.reportsPaths";
   public static final String XUNIT_TEST_RESULTS_PROPERTY_KEY = "xunit.reportsPaths";
   public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "nunit.reportsPaths";
 
-  public UnitTestConfiguration(CxxLanguage language) {
-    this.language = language;
+  private final Configuration config;
+  private final String vsKeyEffective;
+  private final String xUnitKeyEffective;
+  private final String nUnitKeyEffective;
+
+  public UnitTestConfiguration(CxxLanguage language, Configuration config) {
+    this.config = config;
+    vsKeyEffective = language.getPluginProperty(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
+    xUnitKeyEffective = language.getPluginProperty(XUNIT_TEST_RESULTS_PROPERTY_KEY);
+    nUnitKeyEffective = language.getPluginProperty(NUNIT_TEST_RESULTS_PROPERTY_KEY);
   }
 
-  String visualStudioTestResultsFilePropertyKey() {
-    return language.getPluginProperty(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
+  boolean hasVisualStudioTestResultsFile() {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(EXIST_CONFIGURATION_PARAMETER, vsKeyEffective, config.hasKey(vsKeyEffective));
+    }
+    return config.hasKey(vsKeyEffective);
   }
 
-  String xunitTestResultsFilePropertyKey() {
-    return language.getPluginProperty(XUNIT_TEST_RESULTS_PROPERTY_KEY);
+  boolean hasXUnitTestResultsFile() {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(EXIST_CONFIGURATION_PARAMETER, xUnitKeyEffective, config.hasKey(xUnitKeyEffective));
+    }
+    return config.hasKey(xUnitKeyEffective);
   }
 
-  String nunitTestResultsFilePropertyKey() {
-    return language.getPluginProperty(NUNIT_TEST_RESULTS_PROPERTY_KEY);
+  boolean hasNUnitTestResultsFile() {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(EXIST_CONFIGURATION_PARAMETER, nUnitKeyEffective, config.hasKey(nUnitKeyEffective));
+    }
+    return config.hasKey(nUnitKeyEffective);
   }
+
+  boolean hasUnitTestResultsProperty() {
+    return hasVisualStudioTestResultsFile() || hasXUnitTestResultsFile() || hasNUnitTestResultsFile();
+  }
+
+  String[] getVisualStudioTestResultsFiles() {
+    return config.getStringArray(vsKeyEffective);
+  }
+
+  String[] getXUnitTestResultsFiles() {
+    return config.getStringArray(xUnitKeyEffective);
+  }
+
+  String[] getNUnitTestResultsFiles() {
+    return config.getStringArray(nUnitKeyEffective);
+  }
+
 }
