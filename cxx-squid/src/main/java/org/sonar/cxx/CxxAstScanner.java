@@ -23,9 +23,7 @@ import java.util.Collection;
 
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
-import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
@@ -55,7 +53,6 @@ import org.sonar.squidbridge.metrics.CounterVisitor;
 import org.sonar.squidbridge.metrics.LinesVisitor;
 
 import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
@@ -217,23 +214,9 @@ public final class CxxAstScanner {
       .subscribeTo(CxxGrammarImpl.statement)
       .build());
 
-    AstNodeType[] complexityAstNodeType = new AstNodeType[]{
-      // Entry points
-      CxxGrammarImpl.functionDefinition,
-      CxxKeyword.IF,
-      CxxKeyword.FOR,
-      CxxKeyword.WHILE,
-      CxxKeyword.CATCH,
-      CxxKeyword.CASE,
-      CxxKeyword.DEFAULT,
-      CxxPunctuator.AND,
-      CxxPunctuator.OR,
-      CxxPunctuator.QUEST
-    };
-
     builder.withSquidAstVisitor(ComplexityVisitor.<Grammar>builder()
       .setMetricDef(CxxMetric.COMPLEXITY)
-      .subscribeTo(complexityAstNodeType)
+      .subscribeTo(CxxComplexityConstants.CyclomaticComplexityAstNodeTypes)
       .build());
 
     builder.withSquidAstVisitor(new CxxCognitiveComplexityVisitor<Grammar>());

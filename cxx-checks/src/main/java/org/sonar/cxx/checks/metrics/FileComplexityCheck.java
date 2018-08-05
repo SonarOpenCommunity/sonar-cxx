@@ -19,15 +19,17 @@
  */
 package org.sonar.cxx.checks.metrics;
 
-import com.sonar.sslr.api.Grammar;
+import java.util.Optional;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
-import org.sonar.squidbridge.checks.AbstractFileComplexityCheck;
-import org.sonar.squidbridge.measures.MetricDef;
+
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.Grammar;
 
 @Rule(
   key = "FileComplexity",
@@ -39,7 +41,7 @@ import org.sonar.squidbridge.measures.MetricDef;
   coeff = "1min",
   offset = "30min",
   effortToFixDescription = "per complexity point above the threshold")
-public class FileComplexityCheck extends AbstractFileComplexityCheck<Grammar> {
+public class FileComplexityCheck extends CxxCyclomaticComplexityCheck<Grammar> {
 
   private static final int DEFAULT_MAX = 200;
 
@@ -49,18 +51,22 @@ public class FileComplexityCheck extends AbstractFileComplexityCheck<Grammar> {
     defaultValue = "" + DEFAULT_MAX)
   private int max = DEFAULT_MAX;
 
-  public void setMax(int max) {
+  @Override
+  protected Optional<AstNodeType> getScopeType() {
+    return Optional.empty();
+  }
+
+  @Override
+  protected String getScopeName() {
+    return "file";
+  }
+
+  @Override
+  protected int getMaxComplexity() {
+    return max;
+  }
+
+  public void setMaxComplexity(int max) {
     this.max = max;
   }
-
-  @Override
-  public int getMaximumFileComplexity() {
-    return this.max;
-  }
-
-  @Override
-  public MetricDef getComplexityMetric() {
-    return CxxMetric.COMPLEXITY;
-  }
-
 }

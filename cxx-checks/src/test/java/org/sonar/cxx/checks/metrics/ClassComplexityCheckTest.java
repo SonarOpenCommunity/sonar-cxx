@@ -19,29 +19,90 @@
  */
 package org.sonar.cxx.checks.metrics;
 
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
-import org.junit.Test;
-import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.checks.CxxFileTester;
-import org.sonar.cxx.checks.CxxFileTesterHelper;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Set;
+
+import org.assertj.core.api.SoftAssertions;
+import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.checks.CxxFileTester;
+import org.sonar.cxx.checks.CxxFileTesterHelper;
+import org.sonar.cxx.utils.CxxReportIssue;
+import org.sonar.cxx.utils.CxxReportLocation;
+import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
+import org.sonar.squidbridge.api.SourceFile;
 
 public class ClassComplexityCheckTest {
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
     ClassComplexityCheck check = new ClassComplexityCheck();
-    check.setMaximumClassComplexityThreshold(5);
+    check.setMaxComplexity(5);
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/ClassComplexity.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(9).withMessage("Class has a complexity of 10 which is greater than 5 authorized.")
-      .noMore();
+
+    Set<CxxReportIssue> issues = MultiLocatitionSquidCheck.getMultiLocationCheckMessages(file);
+    assertThat(issues).isNotNull();
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(issues).hasSize(3);
+    softly.assertThat(issues).allSatisfy(issue -> "ClassComplexity".equals(issue.getRuleId()));
+
+    CxxReportIssue issue0 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("9"))
+        .findFirst().orElseThrow(() -> new AssertionError("No issue at line 9"));
+    softly.assertThat(issue0.getLocations()).containsOnly(
+        new CxxReportLocation(null, "9",
+            "The Cyclomatic Complexity of this class is 12 which is greater than 5 authorized."),
+        new CxxReportLocation(null, "14", "+1: function definition"),
+        new CxxReportLocation(null, "16", "+1: function definition"),
+        new CxxReportLocation(null, "21", "+1: function definition"),
+        new CxxReportLocation(null, "22", "+1: function definition"),
+        new CxxReportLocation(null, "25", "+1: function definition"),
+        new CxxReportLocation(null, "26", "+1: if statement"),
+        new CxxReportLocation(null, "27", "+1: if statement"),
+        new CxxReportLocation(null, "28", "+1: conditional operator"),
+        new CxxReportLocation(null, "30", "+1: conditional operator"),
+        new CxxReportLocation(null, "33", "+1: if statement"),
+        new CxxReportLocation(null, "34", "+1: conditional operator"),
+        new CxxReportLocation(null, "36", "+1: conditional operator"));
+
+    CxxReportIssue issue1 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("42"))
+        .findFirst().orElseThrow(() -> new AssertionError("No issue at line 42"));
+    softly.assertThat(issue1.getLocations()).containsOnly(
+        new CxxReportLocation(null, "42",
+            "The Cyclomatic Complexity of this class is 10 which is greater than 5 authorized."),
+        new CxxReportLocation(null, "47", "+1: function definition"),
+        new CxxReportLocation(null, "49", "+1: function definition"),
+        new CxxReportLocation(null, "51", "+1: switch label"),
+        new CxxReportLocation(null, "53", "+1: switch label"),
+        new CxxReportLocation(null, "57", "+1: function definition"),
+        new CxxReportLocation(null, "58", "+1: for loop"),
+        new CxxReportLocation(null, "59", "+1: if statement"),
+        new CxxReportLocation(null, "59", "+1: logical operator"),
+        new CxxReportLocation(null, "59", "+1: logical operator"),
+        new CxxReportLocation(null, "65", "+1: function definition")
+    );
+
+    CxxReportIssue issue2 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("45"))
+        .findFirst().orElseThrow(() -> new AssertionError("No issue at line 45"));
+    softly.assertThat(issue2.getLocations()).containsOnly(
+        new CxxReportLocation(null, "45",
+            "The Cyclomatic Complexity of this class is 9 which is greater than 5 authorized."),
+        new CxxReportLocation(null, "47", "+1: function definition"),
+        new CxxReportLocation(null, "49", "+1: function definition"),
+        new CxxReportLocation(null, "51", "+1: switch label"),
+        new CxxReportLocation(null, "53", "+1: switch label"),
+        new CxxReportLocation(null, "57", "+1: function definition"),
+        new CxxReportLocation(null, "58", "+1: for loop"),
+        new CxxReportLocation(null, "59", "+1: if statement"),
+        new CxxReportLocation(null, "59", "+1: logical operator"),
+        new CxxReportLocation(null, "59", "+1: logical operator"));
+
+    softly.assertAll();
+
   }
 
 }

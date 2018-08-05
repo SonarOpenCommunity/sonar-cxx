@@ -76,11 +76,8 @@ public final class CxxChecks {
 
   @Nullable
   public RuleKey ruleKey(SquidAstVisitor<Grammar> check) {
-    RuleKey ruleKey;
-
     for (Checks<SquidAstVisitor<Grammar>> checks : checksByRepository) {
-      ruleKey = checks.ruleKey(check);
-
+      RuleKey ruleKey = checks.ruleKey(check);
       if (ruleKey != null) {
         return ruleKey;
       }

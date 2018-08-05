@@ -19,28 +19,45 @@
  */
 package org.sonar.cxx.checks.metrics;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Set;
+
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
+import org.sonar.cxx.utils.CxxReportIssue;
+import org.sonar.cxx.utils.CxxReportLocation;
+import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class FileComplexityCheckTest {
 
   @Test
-  @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void check() throws UnsupportedEncodingException, IOException {
     FileComplexityCheck check = new FileComplexityCheck();
-    check.setMax(1);
+    check.setMaxComplexity(1);
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/functions.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
 
-    CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().noMore();
+    Set<CxxReportIssue> issues = MultiLocatitionSquidCheck.getMultiLocationCheckMessages(file);
+    assertThat(issues).isNotNull();
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(issues).hasSize(1);
+
+    CxxReportIssue actualIssue = issues.iterator().next();
+    softly.assertThat(actualIssue.getRuleId()).isEqualTo("FileComplexity");
+    softly.assertThat(actualIssue.getLocations()).containsOnly(
+        new CxxReportLocation(null, "1",
+            "The Cyclomatic Complexity of this file is 2 which is greater than 1 authorized."),
+        new CxxReportLocation(null, "3", "+1: function definition"),
+        new CxxReportLocation(null, "5", "+1: function definition"));
+    softly.assertAll();
   }
 
 }

@@ -17,47 +17,50 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.utils;
+package org.sonar.cxx.utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 /**
- * Each issues in SonarQube might have multiple locations; Encapsulate its
- * properties in this structure
+ * Issue with one or multiple locations
  */
-public class CxxReportLocation {
-  private final String file;
-  private final String line;
-  private final String info;
+public class CxxReportIssue {
+  private final String ruleId;
+  private final List<CxxReportLocation> locations;
 
-  public CxxReportLocation(@Nullable String file, @Nullable String line, String info) {
+  public CxxReportIssue(String ruleId, @Nullable String file, @Nullable String line, String info) {
     super();
-    this.file = file;
-    this.line = line;
-    this.info = info;
+    this.ruleId = ruleId;
+    this.locations = new ArrayList<>();
+    addLocation(file, line, info);
   }
 
-  public String getFile() {
-    return file;
+  public final void addLocation(@Nullable String file, @Nullable String line, String info) {
+    locations.add(new CxxReportLocation(file, line, info));
   }
 
-  public String getLine() {
-    return line;
+  public String getRuleId() {
+    return ruleId;
   }
 
-  public String getInfo() {
-    return info;
+  public List<CxxReportLocation> getLocations() {
+    return Collections.unmodifiableList(locations);
   }
 
   @Override
   public String toString() {
-    return "CxxReportLocation [file=" + file + ", line=" + line + ", info=" + info + "]";
+    String locationsToString = locations.stream().map(Object::toString).collect(Collectors.joining(", "));
+    return "CxxReportIssue [ruleId=" + ruleId + ", locations=" + locationsToString + "]";
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(file, info, line);
+    return Objects.hash(locations, ruleId);
   }
 
   @Override
@@ -71,7 +74,7 @@ public class CxxReportLocation {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    CxxReportLocation other = (CxxReportLocation) obj;
-    return Objects.equals(file, other.file) && Objects.equals(info, other.info) && Objects.equals(line, other.line);
+    CxxReportIssue other = (CxxReportIssue) obj;
+    return Objects.equals(locations, other.locations) && Objects.equals(ruleId, other.ruleId);
   }
 }

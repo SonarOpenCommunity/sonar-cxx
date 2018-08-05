@@ -53,6 +53,9 @@ import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
 import org.sonar.cxx.sensors.visitors.CxxCpdVisitor;
 import org.sonar.cxx.sensors.visitors.CxxFileLinesVisitor;
 import org.sonar.cxx.sensors.visitors.CxxHighlighterVisitor;
+import org.sonar.cxx.utils.CxxReportIssue;
+import org.sonar.cxx.utils.CxxReportLocation;
+import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.CheckMessage;
@@ -278,29 +281,45 @@ public class CxxSquidSensor implements Sensor {
   }
 
   private int saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext sensorContext) {
-    Collection<CheckMessage> messages = squidFile.getCheckMessages();
     int violationsCount = 0;
-    if (messages != null) {
-      for (CheckMessage message : messages) {
+    if (squidFile.hasCheckMessages()) {
+      for (CheckMessage message : squidFile.getCheckMessages()) {
         int line = 1;
         if (message.getLine() != null && message.getLine() > 0) {
           line = message.getLine();
         }
 
-        NewIssue newIssue = sensorContext
-          .newIssue()
-          .forRule(RuleKey.of(this.language.getRepositoryKey(), checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()).rule()));
-        NewIssueLocation location = newIssue.newLocation()
-          .on(inputFile)
-          .at(inputFile.selectLine(line))
-          .message(message.getText(Locale.ENGLISH));
+        NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(this.language.getRepositoryKey(),
+            checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()).rule()));
+        NewIssueLocation location = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
+            .message(message.getText(Locale.ENGLISH));
 
         newIssue.at(location);
         newIssue.save();
-
-        // @todo - this will add a issue regardless of the save
-        violationsCount++;
+        ++violationsCount;
       }
+    }
+
+    if (MultiLocatitionSquidCheck.hasMultiLocationCheckMessages(squidFile)) {
+      for (CxxReportIssue issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(squidFile)) {
+        final NewIssue newIssue = sensorContext.newIssue()
+            .forRule(RuleKey.of(language.getRepositoryKey(), issue.getRuleId()));
+        int locationNr = 0;
+        for (CxxReportLocation location : issue.getLocations()) {
+          final Integer line = Integer.valueOf(location.getLine());
+          final NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
+              .message(location.getInfo());
+          if (locationNr == 0) {
+            newIssue.at(newIssueLocation);
+          } else {
+            newIssue.addLocation(newIssueLocation);
+          }
+          ++locationNr;
+        }
+        newIssue.save();
+        ++violationsCount;
+      }
+      MultiLocatitionSquidCheck.eraseMultilineCheckMessages(squidFile);
     }
 
     return violationsCount;
