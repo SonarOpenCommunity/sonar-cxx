@@ -44,13 +44,10 @@ import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
 import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
-import org.sonar.cxx.sensors.compiler.CxxCompilerGccParser;
-import org.sonar.cxx.sensors.compiler.CxxCompilerGccRuleRepository;
-import org.sonar.cxx.sensors.compiler.CxxCompilerGccSensor;
-import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
-import org.sonar.cxx.sensors.compiler.CxxCompilerVcParser;
-import org.sonar.cxx.sensors.compiler.CxxCompilerVcRuleRepository;
-import org.sonar.cxx.sensors.compiler.CxxCompilerVcSensor;
+import org.sonar.cxx.sensors.compiler.gcc.CxxCompilerGccRuleRepository;
+import org.sonar.cxx.sensors.compiler.gcc.CxxCompilerGccSensor;
+import org.sonar.cxx.sensors.compiler.vc.CxxCompilerVcRuleRepository;
+import org.sonar.cxx.sensors.compiler.vc.CxxCompilerVcSensor;
 import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
 import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckRuleRepository;
@@ -339,57 +336,73 @@ public final class CPlugin implements Plugin {
   private static List<PropertyDefinition> compilerWarningsProperties() {
     String subcateg = "(4) Compiler warnings";
     return new ArrayList<>(Arrays.asList(
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerSensor.REPORT_PATH_KEY)
-        .name("Compiler report(s)")
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcSensor.REPORT_PATH_KEY)
+        .name("VC Compiler Report(s)")
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
           + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(1)
-        .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerSensor.PARSER_KEY_DEF)
-        .defaultValue(CxxCompilerSensor.DEFAULT_PARSER_DEF)
-        .name("Format")
-        .type(PropertyType.SINGLE_SELECT_LIST)
-        .options(CxxCompilerVcParser.KEY_VC, CxxCompilerGccParser.KEY_GCC)
-        .description("The format of the warnings file. Currently supported are Visual C++ and GCC.")
+        .build(),      
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcSensor.REPORT_CHARSET_DEF)
+        .defaultValue(CxxCompilerVcSensor.DEFAULT_CHARSET_DEF)
+        .name("VC Report Encoding")
+        .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(2)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerSensor.REPORT_CHARSET_DEF)
-        .defaultValue(CxxCompilerSensor.DEFAULT_CHARSET_DEF)
-        .name("Encoding")
-        .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcSensor.REPORT_REGEX_DEF)
+        .name("VC Regular Expression")
+        .description("Regular expression to identify the four named groups of the compiler warning message: <file>, <line>, <id>,"
+          + " <message>. Leave empty to use parser's default."
+          + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
+          + "this page</a> for details regarding the different regular expression that can be use per compiler.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(3)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerSensor.REPORT_REGEX_DEF)
-        .name("Custom matcher")
-        .description("Regular expression to identify the four groups of the compiler warning message: file, line, ID, "
-          + "message. For advanced usages. Leave empty to use parser's default. See <a href='"
-          + "https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>this page</a> for details regarding the "
-          + "different regular expression that can be use per compiler.")
-        .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(4)
-        .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcRuleRepository.CUSTOM_RULES_KEY)
-        .name("Custom rules for Visual C++ warnings")
+        .name("VC Custom Rules")
         .description("XML definitions of custom rules for Visual C++ warnings, which are'nt builtin into the plugin."
           + EXTENDING_THE_CODE_ANALYSIS)
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
+        .index(4)
+        .build(),
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_PATH_KEY)
+        .name("GCC Compiler Report(s)")
+        .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
+          + USE_ANT_STYLE_WILDCARDS_1)
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(5)
+        .build(),      
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_CHARSET_DEF)
+        .defaultValue(CxxCompilerVcSensor.DEFAULT_CHARSET_DEF)
+        .name("GCC Report Encoding")
+        .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .index(6)
+        .build(),
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_REGEX_DEF)
+        .name("GCC Regular Expression")
+        .description("Regular expression to identify the four named groups of the compiler warning message: <file>, <line>, <id>,"
+          + " <message>. Leave empty to use parser's default."
+          + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
+          + "this page</a> for details regarding the different regular expression that can be use per compiler.")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .index(7)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccRuleRepository.CUSTOM_RULES_KEY)
-        .name("Custom rules for GCC warnings")
+        .name("GCC Custom Rules")
         .description("XML definitions of custom rules for GCC's warnings, which are'nt builtin into the plugin."
           + EXTENDING_THE_CODE_ANALYSIS)
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(6)
+        .index(8)
         .build()
     ));
   }

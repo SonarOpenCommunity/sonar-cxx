@@ -17,35 +17,31 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.compiler;
+package org.sonar.cxx.sensors.compiler.vc;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
+import static org.mockito.Mockito.mock;
 import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
+import org.sonar.cxx.sensors.utils.TestUtils;
 
-/**
- * {@inheritDoc}
- */
-public class CxxCompilerGccRuleRepository extends CxxAbstractRuleRepository {
+public class CxxCompilerVcRuleRepositoryTest {
 
-  private static final String KEY = "compiler-gcc";
-  public static final String CUSTOM_RULES_KEY = "compiler-gcc.customRules";
-  private static final String NAME = "Compiler-GCC";
+  @Test
+  public void createVcRulesTest() {
+    CxxLanguage language = TestUtils.mockCxxLanguage();
 
-  /**
-   * {@inheritDoc}
-   */
-  public CxxCompilerGccRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
-  }
+    CxxCompilerVcRuleRepository def = new CxxCompilerVcRuleRepository(
+      mock(ServerFileSystem.class),
+      new RulesDefinitionXmlLoader(), language);
 
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
-  }
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
 
-  @Override
-  protected String fileName() {
-    return "/compiler-gcc.xml";
+    RulesDefinition.Repository repo = context.repository(CxxCompilerVcRuleRepository.getRepositoryKey(language));
+    assertThat(repo.rules()).hasSize(888);
   }
 }

@@ -19,9 +19,9 @@
  */
 
 /**
- * Package with base class for sensors to evaluate compiler specific report files.
+ * Package with sensor to evaluate GCC compiler specific report files.
  */
 @ParametersAreNonnullByDefault
-package org.sonar.cxx.sensors.compiler;
+package org.sonar.cxx.sensors.compiler.gcc;
 
 import javax.annotation.ParametersAreNonnullByDefault;

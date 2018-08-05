@@ -61,7 +61,8 @@ public class AggregateMeasureComputer implements MeasureComputer {
         // sensors
         metrics.get(CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY).key(),
         metrics.get(CxxMetricsFactory.Key.CLANG_TIDY_SENSOR_ISSUES_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.COMPILER_SENSOR_ISSUES_KEY).key(),
+        metrics.get(CxxMetricsFactory.Key.VC_SENSOR_ISSUES_KEY).key(),
+        metrics.get(CxxMetricsFactory.Key.GCC_SENSOR_ISSUES_KEY).key(),
         metrics.get(CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY).key(),
         metrics.get(CxxMetricsFactory.Key.DRMEMORY_SENSOR_ISSUES_KEY).key(),
         metrics.get(CxxMetricsFactory.Key.OTHER_SENSOR_ISSUES_KEY).key(),

@@ -47,7 +47,7 @@ public class AggregateMeasureComputerTest {
   @Test
   public void metricsNumber() {
     final AggregateMeasureComputer aggregator = new AggregateMeasureComputer("c++", "cxx");
-    assertThat(aggregator.getAggregatedMetrics().length).isEqualTo(18);
+    assertThat(aggregator.getAggregatedMetrics().length).isEqualTo(19);
   }
 
   @Test
