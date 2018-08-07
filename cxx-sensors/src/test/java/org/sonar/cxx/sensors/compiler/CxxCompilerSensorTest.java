@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.xml.stream.XMLStreamException;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +33,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.profiles.RulesProfile;
@@ -139,5 +142,33 @@ public class CxxCompilerSensorTest {
     sensor.processReport(context, null);
 
     Assert.assertTrue(warnings.containsAll(sensor.savedWarnings));
+  }
+
+  @Test
+  public void sensorDescriptorGcc() {
+    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    CxxCompilerGccSensor sensor = new CxxCompilerGccSensor(language);
+    sensor.describe(descriptor);
+
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CxxCompilerGccSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.ruleRepositories())
+        .containsOnly(CxxCompilerGccRuleRepository.getRepositoryKey(language));
+    softly.assertAll();
+  }
+
+  @Test
+  public void sensorDescriptorVc() {
+    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    CxxCompilerVcSensor sensor = new CxxCompilerVcSensor(language);
+    sensor.describe(descriptor);
+
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CxxCompilerVcSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.ruleRepositories())
+        .containsOnly(CxxCompilerVcRuleRepository.getRepositoryKey(language));
+    softly.assertAll();
   }
 }
