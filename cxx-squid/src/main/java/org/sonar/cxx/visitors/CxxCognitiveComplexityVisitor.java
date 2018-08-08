@@ -19,156 +19,125 @@
  */
 package org.sonar.cxx.visitors;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
-import com.sonar.sslr.api.Grammar;
+
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
 import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
-import org.sonar.squidbridge.measures.MetricDef;
+
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.Grammar;
 
 public final class CxxCognitiveComplexityVisitor<G extends Grammar> extends SquidAstVisitor<G> {
 
-  private final MetricDef metric;
-  private final Set<AstNodeType> astNodeTypes;
+  private static final AstNodeType[] DESCENDANT_TYPES = new AstNodeType[] {
+      CxxGrammarImpl.handler,
+      CxxGrammarImpl.iterationStatement,
+      CxxGrammarImpl.lambdaExpression,
+      CxxGrammarImpl.logicalAndExpression,
+      CxxGrammarImpl.logicalOrExpression,
+      CxxGrammarImpl.selectionStatement,
+      CxxKeyword.ELSE,
+      CxxKeyword.GOTO,
+      CxxPunctuator.QUEST,
+      IDENTIFIER };
 
-  public static final class Builder<G extends Grammar> {
+  private static final AstNodeType[] INCREMENT_TYPES = new AstNodeType[] {
+      CxxGrammarImpl.handler,
+      CxxGrammarImpl.iterationStatement,
+      CxxGrammarImpl.logicalAndExpression,
+      CxxGrammarImpl.logicalOrExpression,
+      CxxGrammarImpl.selectionStatement,
+      CxxKeyword.ELSE,
+      CxxKeyword.GOTO,
+      CxxPunctuator.QUEST };
 
-    private MetricDef metric;
-    private Set<AstNodeType> astNodeTypes = Sets.newHashSet();
+  private static final AstNodeType[] NESTING_LEVEL_TYPES = new AstNodeType[] {
+      CxxGrammarImpl.handler,
+      CxxGrammarImpl.iterationStatement,
+      CxxGrammarImpl.lambdaExpression,
+      CxxGrammarImpl.selectionStatement,
+      CxxPunctuator.QUEST };
 
-    private Builder() {
-    }
+  private static final AstNodeType[] NESTING_INCREMENTS_TYPES = new AstNodeType[] {
+      CxxGrammarImpl.handler,
+      CxxGrammarImpl.iterationStatement,
+      CxxGrammarImpl.selectionStatement,
+      CxxPunctuator.QUEST };
 
-    public Builder<G> setMetricDef(MetricDef metric) {
-      this.metric = metric;
-      return this;
-    }
-
-    public Builder<G> subscribeTo(AstNodeType... astNodeTypes) {
-      this.astNodeTypes.addAll(Arrays.asList(astNodeTypes));
-      return this;
-    }
-
-    public Builder<G> subscribeTo(Collection<AstNodeType> astNodeTypes) {
-      this.astNodeTypes = Sets.newHashSet(astNodeTypes);
-      return this;
-    }
-
-    public CxxCognitiveComplexityVisitor<G> build() {
-      return new CxxCognitiveComplexityVisitor<>(this);
-    }
-
-  }
-
-  private static final AstNodeType[] DESCENDANT_TYPES = new AstNodeType[]{
-    CxxGrammarImpl.handler,
-    CxxGrammarImpl.iterationStatement,
-    CxxGrammarImpl.lambdaExpression,
-    CxxGrammarImpl.logicalAndExpression,
-    CxxGrammarImpl.logicalOrExpression,
-    CxxGrammarImpl.selectionStatement,
-    CxxKeyword.ELSE,
-    CxxKeyword.GOTO,
-    CxxPunctuator.QUEST,
-    IDENTIFIER
-  };
-
-  private static final List<AstNodeType> INCREMENT_TYPES = Arrays.asList(
-    CxxGrammarImpl.handler,
-    CxxGrammarImpl.iterationStatement,
-    CxxGrammarImpl.logicalAndExpression,
-    CxxGrammarImpl.logicalOrExpression,
-    CxxGrammarImpl.selectionStatement,
-    CxxKeyword.ELSE,
-    CxxKeyword.GOTO,
-    CxxPunctuator.QUEST
-  );
-
-  private static final List<AstNodeType> NESTING_LEVEL_TYPES = Arrays.asList(
-    CxxGrammarImpl.handler,
-    CxxGrammarImpl.iterationStatement,
-    CxxGrammarImpl.lambdaExpression,
-    CxxGrammarImpl.selectionStatement,
-    CxxPunctuator.QUEST
-  );
-
-  private static final List<AstNodeType> NESTING_INCREMENTS_TYPES = Arrays.asList(
-    CxxGrammarImpl.handler,
-    CxxGrammarImpl.iterationStatement,
-    CxxGrammarImpl.selectionStatement,
-    CxxPunctuator.QUEST
-  );
-
+  private CxxMetric metric;
   private int nesting;
-  private final Set<AstNode> checkedNodes;
+  private boolean inFunctionDefinitionScope;
 
-  private CxxCognitiveComplexityVisitor(Builder<G> builder) {
-    this.metric = builder.metric;
-    this.astNodeTypes = ImmutableSet.copyOf(builder.astNodeTypes);
-    nesting = 0;
-    checkedNodes = new HashSet<>();
+  static final Set<AstNodeType> SUBSCRIPTION_NODES = new HashSet<>();
+  static {
+    SUBSCRIPTION_NODES.add(CxxGrammarImpl.functionDefinition);
+    SUBSCRIPTION_NODES.addAll(Arrays.asList(DESCENDANT_TYPES));
+    SUBSCRIPTION_NODES.addAll(Arrays.asList(INCREMENT_TYPES));
+    SUBSCRIPTION_NODES.addAll(Arrays.asList(NESTING_LEVEL_TYPES));
+    SUBSCRIPTION_NODES.addAll(Arrays.asList(NESTING_INCREMENTS_TYPES));
   }
 
-  public static <G extends Grammar> Builder<G> builder() {
-    return new Builder<>();
+  public CxxCognitiveComplexityVisitor() {
+    this.metric = CxxMetric.COGNITIVE_COMPLEXITY;
+    nesting = 0;
+    inFunctionDefinitionScope = false;
   }
 
   @Override
   public void init() {
-    for (AstNodeType astNodeType : astNodeTypes) {
+    for (AstNodeType astNodeType : SUBSCRIPTION_NODES) {
       subscribeTo(astNodeType);
     }
   }
 
   @Override
   public void visitNode(AstNode node) {
-    if (!checkedNodes.add(node)) {
+    if (node.is(CxxGrammarImpl.functionDefinition)) {
+      inFunctionDefinitionScope = true;
+    }
+
+    if (!inFunctionDefinitionScope || isElseIf(node)) {
       return;
     }
 
-    if (NESTING_LEVEL_TYPES.contains(node.getType())
-      && !isElseIf(node)) {
-      nesting++;
-    }
-
-    visitChildren(node.getDescendants(DESCENDANT_TYPES));
-
-    if (NESTING_LEVEL_TYPES.contains(node.getType())
-      && !isElseIf(node)) {
-      nesting--;
-    }
-
-    if (INCREMENT_TYPES.contains(node.getType())
-      && !isElseIf(node)) {
+    if (node.is(INCREMENT_TYPES)) {
       getContext().peekSourceCode().add(metric, 1);
     }
 
-    if (NESTING_INCREMENTS_TYPES.contains(node.getType())
-      && !isElseIf(node)) {
+    if (node.is(NESTING_INCREMENTS_TYPES)) {
       getContext().peekSourceCode().add(metric, nesting);
+    }
+
+    if (node.is(NESTING_LEVEL_TYPES)) {
+      ++nesting;
     }
   }
 
-  private void visitChildren(List<AstNode> watchedDescendants) {
-    for (AstNode descendant : watchedDescendants) {
-      visitNode(descendant);
+  @Override
+  public void leaveNode(AstNode node) {
+    if (node.is(CxxGrammarImpl.functionDefinition)) {
+      inFunctionDefinitionScope = false;
+    }
+
+    if (!inFunctionDefinitionScope || isElseIf(node)) {
+      return;
+    }
+
+    if (node.is(NESTING_LEVEL_TYPES)) {
+      --nesting;
     }
   }
 
   private static boolean isElseIf(AstNode node) {
-    return node.is(CxxGrammarImpl.selectionStatement)
-      && node.getToken().getType().equals(CxxKeyword.IF)
-      && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
+    return node.is(CxxGrammarImpl.selectionStatement) && node.getToken().getType().equals(CxxKeyword.IF)
+        && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
   }
-
 }
