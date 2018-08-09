@@ -46,7 +46,10 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.name(getLanguage().getName() + " CxxCompilerGccSensor").onlyOnLanguage(getLanguage().getKey())
-        .createIssuesForRuleRepositories(getReportPathKey()).onlyWhenConfiguration(new IsGccParserConfigured());
+    descriptor
+      .name(getLanguage().getName() + " CxxCompilerGccSensor")
+      .onlyOnLanguage(getLanguage().getKey())
+      .createIssuesForRuleRepository(getRuleRepositoryKey())
+      .onlyWhenConfiguration(new IsGccParserConfigured());
   }
 }

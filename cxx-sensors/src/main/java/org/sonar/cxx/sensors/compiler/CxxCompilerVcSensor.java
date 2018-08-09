@@ -49,7 +49,10 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.name(getLanguage().getName() + " CxxCompilerVcSensor").onlyOnLanguage(getLanguage().getKey())
-        .createIssuesForRuleRepositories(getReportPathKey()).onlyWhenConfiguration(new IsVcParserConfigured());
+    descriptor
+    .name(getLanguage().getName() + " CxxCompilerVcSensor")
+    .onlyOnLanguage(getLanguage().getKey())
+    .createIssuesForRuleRepository(getRuleRepositoryKey())
+    .onlyWhenConfiguration(new IsVcParserConfigured());
   }
 }
