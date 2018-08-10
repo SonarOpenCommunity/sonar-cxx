@@ -19,10 +19,11 @@
  */
 package org.sonar.cxx.visitors;
 
-import com.sonar.sslr.api.Grammar;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
@@ -33,19 +34,14 @@ import org.sonar.squidbridge.api.SourceFile;
 public class CxxCognitiveComplexityVisitorTest {
 
   private int testFile(String fileName) throws UnsupportedEncodingException, IOException {
-    CxxCognitiveComplexityVisitor<Grammar> visitor = CxxCognitiveComplexityVisitor.<Grammar>builder()
-      .setMetricDef(CxxMetric.COGNITIVE_COMPLEXITY)
-      .build();
-
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
-    SourceFile sourceFile = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
+    SourceFile sourceFile = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
 
     return (sourceFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY));
   }
 
   @Test
   public void if_statement() throws UnsupportedEncodingException, IOException {
-
     assertThat(testFile("src/test/resources/visitors/if.cc")).isEqualTo(1);
   }
 

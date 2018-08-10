@@ -236,10 +236,7 @@ public final class CxxAstScanner {
       .subscribeTo(complexityAstNodeType)
       .build());
 
-    builder.withSquidAstVisitor(CxxCognitiveComplexityVisitor.<Grammar>builder()
-      .setMetricDef(CxxMetric.COGNITIVE_COMPLEXITY)
-      .subscribeTo(CxxGrammarImpl.functionDefinition)
-      .build());
+    builder.withSquidAstVisitor(new CxxCognitiveComplexityVisitor<Grammar>());
 
     builder.withSquidAstVisitor(new CxxFunctionComplexityVisitor<>(language));
     builder.withSquidAstVisitor(new CxxFunctionSizeVisitor<>(language));
