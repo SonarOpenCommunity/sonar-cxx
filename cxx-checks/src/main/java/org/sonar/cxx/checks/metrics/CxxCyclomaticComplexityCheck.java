@@ -171,16 +171,16 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
 
   @Override
   public void visitNode(AstNode astNode) {
+    if (getScopeType().isPresent() && astNode.is(getScopeType().get())) {
+      complexityScopes.addFirst(new ComplexityScope(astNode.getTokenLine()));
+    }
+
     if (astNode.is(CxxComplexityConstants.CyclomaticComplexityAstNodeTypes)) {
       // for nested scopes (e.g. nested classes) the inner classes
       // add complexity to the outer ones
       for (ComplexityScope scope : complexityScopes) {
         scope.addComplexitySource(astNode.getTokenLine(), astNode.getType());
       }
-    }
-
-    if (getScopeType().isPresent() && astNode.is(getScopeType().get())) {
-      complexityScopes.addFirst(new ComplexityScope(astNode.getTokenLine()));
     }
   }
 

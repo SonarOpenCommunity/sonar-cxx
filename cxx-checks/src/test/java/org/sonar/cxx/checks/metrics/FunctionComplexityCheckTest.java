@@ -54,7 +54,8 @@ public class FunctionComplexityCheckTest {
         .findFirst().orElseThrow(() -> new AssertionError("No issue at line 13"));
     softly.assertThat(issue0.getLocations()).containsOnly(
         new CxxReportLocation(null, "13",
-            "The Cyclomatic Complexity of this function is 7 which is greater than 5 authorized."),
+            "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
+        new CxxReportLocation(null, "13", "+1: function definition"),
         new CxxReportLocation(null, "14", "+1: if statement"),
         new CxxReportLocation(null, "15", "+1: if statement"),
         new CxxReportLocation(null, "16", "+1: conditional operator"),
@@ -67,7 +68,8 @@ public class FunctionComplexityCheckTest {
         .findFirst().orElseThrow(() -> new AssertionError("No issue at line 33"));
     softly.assertThat(issue1.getLocations()).containsOnly(
         new CxxReportLocation(null, "33",
-            "The Cyclomatic Complexity of this function is 7 which is greater than 5 authorized."),
+            "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
+        new CxxReportLocation(null, "33", "+1: function definition"),
         new CxxReportLocation(null, "34", "+1: if statement"),
         new CxxReportLocation(null, "35", "+1: if statement"),
         new CxxReportLocation(null, "36", "+1: conditional operator"),
@@ -80,7 +82,8 @@ public class FunctionComplexityCheckTest {
         .findFirst().orElseThrow(() -> new AssertionError("No issue at line 51"));
     softly.assertThat(issue2.getLocations()).containsOnly(
         new CxxReportLocation(null, "51",
-            "The Cyclomatic Complexity of this function is 7 which is greater than 5 authorized."),
+            "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
+        new CxxReportLocation(null, "51", "+1: function definition"),
         new CxxReportLocation(null, "52", "+1: if statement"),
         new CxxReportLocation(null, "53", "+1: if statement"),
         new CxxReportLocation(null, "54", "+1: conditional operator"),
@@ -93,7 +96,8 @@ public class FunctionComplexityCheckTest {
         .findFirst().orElseThrow(() -> new AssertionError("No issue at line 72"));
     softly.assertThat(issue3.getLocations()).containsOnly(
         new CxxReportLocation(null, "72",
-            "The Cyclomatic Complexity of this function is 7 which is greater than 5 authorized."),
+            "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
+        new CxxReportLocation(null, "72", "+1: function definition"),
         new CxxReportLocation(null, "73", "+1: if statement"),
         new CxxReportLocation(null, "74", "+1: if statement"),
         new CxxReportLocation(null, "75", "+1: conditional operator"),
@@ -106,7 +110,8 @@ public class FunctionComplexityCheckTest {
         .findFirst().orElseThrow(() -> new AssertionError("No issue at line 89"));
     softly.assertThat(issue4.getLocations()).containsOnly(
         new CxxReportLocation(null, "89",
-            "The Cyclomatic Complexity of this function is 13 which is greater than 5 authorized."),
+            "The Cyclomatic Complexity of this function is 14 which is greater than 5 authorized."),
+        new CxxReportLocation(null, "89", "+1: function definition"),
         new CxxReportLocation(null, "91", "+1: if statement"),
         new CxxReportLocation(null, "91", "+1: logical operator"),
         new CxxReportLocation(null, "91", "+1: logical operator"),
