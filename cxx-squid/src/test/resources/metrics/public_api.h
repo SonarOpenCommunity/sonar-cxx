@@ -51,6 +51,11 @@ public:
 	 * publicDefinedMethod comment
 	 */
 	void publicDefinedMethod() { }
+
+	/**
+	 * This method is declared and documented here, but defined below.
+	 */
+	void publicDeclaredMethod();
 protected:
 	/**
 	 protectedMethod doc
@@ -102,6 +107,11 @@ private:
 public:
 	int inlineCommentedLastAttr; //!< inlineCommentedLastAttr comment
 };
+
+inline void testClass::publicDeclaredMethod() {
+	// This method is defined and documented inside testClass
+	// and should not be marked as undocumented here.
+}
 
 /// testStruct doc
 struct testStruct {
