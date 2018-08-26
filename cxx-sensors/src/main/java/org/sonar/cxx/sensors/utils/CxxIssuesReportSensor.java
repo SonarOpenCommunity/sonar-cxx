@@ -39,6 +39,8 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.utils.CxxReportIssue;
+import org.sonar.cxx.utils.CxxReportLocation;
 
 /**
  * This class is used as base for all sensors which import external reports,

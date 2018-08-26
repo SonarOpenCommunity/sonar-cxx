@@ -31,7 +31,7 @@ import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
-import org.sonar.cxx.sensors.utils.CxxReportIssue;
+import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
  * Dr. Memory is a memory monitoring tool capable of identifying memory-related programming errors such as accesses of

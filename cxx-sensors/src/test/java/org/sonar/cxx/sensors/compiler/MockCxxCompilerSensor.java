@@ -34,8 +34,8 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.utils.CxxReportIssue;
-import org.sonar.cxx.sensors.utils.CxxReportLocation;
+import org.sonar.cxx.utils.CxxReportIssue;
+import org.sonar.cxx.utils.CxxReportLocation;
 
 public class MockCxxCompilerSensor extends CxxCompilerSensor {
 

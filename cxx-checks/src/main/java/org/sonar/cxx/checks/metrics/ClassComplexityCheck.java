@@ -19,18 +19,17 @@
  */
 package org.sonar.cxx.checks.metrics;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
+import java.util.Optional;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
-import org.sonar.squidbridge.api.SourceClass;
-import org.sonar.squidbridge.checks.ChecksHelper;
-import org.sonar.squidbridge.checks.SquidCheck;
+
+import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.Grammar;
 
 @Rule(
   key = "ClassComplexity",
@@ -41,7 +40,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
   coeff = "1min",
   offset = "10min",
   effortToFixDescription = "per complexity point over the threshold")
-public class ClassComplexityCheck extends SquidCheck<Grammar> {
+public class ClassComplexityCheck extends CxxCyclomaticComplexityCheck<Grammar> {
 
   private static final int DEFAULT_MAXIMUM_CLASS_COMPLEXITY_THRESHOLD = 60;
 
@@ -49,28 +48,24 @@ public class ClassComplexityCheck extends SquidCheck<Grammar> {
     key = "maximumClassComplexityThreshold",
     description = "Max value of complexity allowed in a class",
     defaultValue = "" + DEFAULT_MAXIMUM_CLASS_COMPLEXITY_THRESHOLD)
-  private int maximumClassComplexityThreshold = DEFAULT_MAXIMUM_CLASS_COMPLEXITY_THRESHOLD;
+  private int max = DEFAULT_MAXIMUM_CLASS_COMPLEXITY_THRESHOLD;
 
   @Override
-  public void init() {
-    subscribeTo(CxxGrammarImpl.classSpecifier);
+  protected Optional<AstNodeType> getScopeType() {
+    return Optional.of(CxxGrammarImpl.classSpecifier);
   }
 
   @Override
-  public void leaveNode(AstNode node) {
-    SourceClass sourceClass = (SourceClass) getContext().peekSourceCode();
-    int complexity = ChecksHelper.getRecursiveMeasureInt(sourceClass, CxxMetric.COMPLEXITY);
-    if (complexity > maximumClassComplexityThreshold) {
-      getContext().createLineViolation(this,
-        "Class has a complexity of {0,number,integer} which is greater than {1,number,integer} authorized.",
-        node,
-        complexity,
-        maximumClassComplexityThreshold);
-    }
+  protected String getScopeName() {
+    return "class";
   }
 
-  public void setMaximumClassComplexityThreshold(int threshold) {
-    this.maximumClassComplexityThreshold = threshold;
+  @Override
+  protected int getMaxComplexity() {
+    return max;
   }
 
+  public void setMaxComplexity(int threshold) {
+    this.max = threshold;
+  }
 }

@@ -32,7 +32,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
-import org.sonar.cxx.sensors.utils.CxxReportIssue;
+import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
  * Sensor for clang-tidy

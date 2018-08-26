@@ -27,6 +27,8 @@ import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
+import org.sonar.cxx.utils.CxxReportIssue;
+import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
 import org.sonar.squidbridge.api.SourceFunction;
