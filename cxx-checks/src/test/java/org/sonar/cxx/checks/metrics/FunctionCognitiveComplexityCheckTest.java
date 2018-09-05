@@ -113,7 +113,7 @@ public class FunctionCognitiveComplexityCheckTest {
     CxxReportIssue issue4 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("89"))
         .findFirst().orElseThrow(() -> new AssertionError("No issue at line 89"));
     softly.assertThat(issue4.getLocations()).containsOnly(
-        new CxxReportLocation(null, "89", "The Cognitive Complexity of this function is 17 which is greater than 5 authorized."),
+        new CxxReportLocation(null, "89", "The Cognitive Complexity of this function is 18 which is greater than 5 authorized."),
         new CxxReportLocation(null, "91", "+1: if statement"),
         new CxxReportLocation(null, "91", "+1: logical operator"),
         new CxxReportLocation(null, "91", "+1: logical operator"),
@@ -126,7 +126,8 @@ public class FunctionCognitiveComplexityCheckTest {
         new CxxReportLocation(null, "106", "+1: catch-clause"),
         new CxxReportLocation(null, "107", "+2: iteration statement (incl 1 for nesting)"),
         new CxxReportLocation(null, "108", "+3: conditional operator (incl 2 for nesting)"),
-        new CxxReportLocation(null, "110", "+2: conditional operator (incl 1 for nesting)"));
+        new CxxReportLocation(null, "110", "+2: conditional operator (incl 1 for nesting)"),
+        new CxxReportLocation(null, "113", "+1: switch statement"));
     softly.assertAll();
   }
 

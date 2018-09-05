@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.AstNode;
 
 /**
  * Describe a code scope (function definition, class definition, entire file
@@ -38,13 +38,13 @@ public class CxxComplexityScope {
     this.startingLine = startingLine;
   }
 
-  public void addComplexitySource(int line, AstNodeType nodeType) {
-    sources.add(new CxxComplexitySource(line, nodeType, 0));
+  public void addComplexitySource(AstNode node) {
+    sources.add(new CxxComplexitySource(node.getTokenLine(), node.getType(), node.getToken().getType(), 0));
     ++complexity;
   }
 
-  public void addComplexitySourceWithNesting(int line, AstNodeType nodeType) {
-    sources.add(new CxxComplexitySource(line, nodeType, nesting));
+  public void addComplexitySourceWithNesting(AstNode node) {
+    sources.add(new CxxComplexitySource(node.getTokenLine(), node.getType(), node.getToken().getType(), nesting));
     complexity += (1 + nesting);
   }
 
