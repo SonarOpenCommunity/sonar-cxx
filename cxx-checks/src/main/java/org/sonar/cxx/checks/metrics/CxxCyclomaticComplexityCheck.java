@@ -97,6 +97,10 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
 
   @Override
   public void visitNode(AstNode astNode) {
+    if (astNode.getToken().isGeneratedCode()) {
+      return;
+    }
+
     final Optional<AstNodeType> scopeType = getScopeType();
     if (scopeType.isPresent() && astNode.is(scopeType.get())) {
       complexityScopes.addFirst(new CxxComplexityScope(astNode.getTokenLine()));
@@ -113,6 +117,10 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
 
   @Override
   public void leaveNode(AstNode astNode) {
+    if (astNode.getToken().isGeneratedCode()) {
+      return;
+    }
+
     final Optional<AstNodeType> scopeType = getScopeType();
     if (scopeType.isPresent() && astNode.is(scopeType.get())) {
       analyzeScopeComplexity();

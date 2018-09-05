@@ -835,6 +835,16 @@ public class CxxPreprocessor extends Preprocessor {
     } finally {
       getMacros().enable(macroName);
     }
+
+    // make sure that all expanded Tokens are marked as generated
+    // it will prevent them from being involved into NCLOC / complexity /
+    // highlighting
+    for (Token token : tokens) {
+      if (!token.isGeneratedCode()) {
+        token = Token.builder(token).setGeneratedCode(true).build();
+      }
+    }
+
     return tokens;
   }
 

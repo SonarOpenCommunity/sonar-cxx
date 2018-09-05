@@ -146,6 +146,11 @@ public class CxxCognitiveComplexityVisitorTest {
   }
 
   @Test
+  public void add_version_macro() throws UnsupportedEncodingException, IOException {
+    assertThat(testFile("src/test/resources/visitors/add_version_macro.cc")).isEqualTo(1);
+  }
+
+  @Test
   public void to_regexp() throws UnsupportedEncodingException, IOException {
     assertThat(testFile("src/test/resources/visitors/to_regexp.cc")).isEqualTo(20);
   }
