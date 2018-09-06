@@ -106,7 +106,7 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
       // for nested scopes (e.g. nested classes) the inner classes
       // add complexity to the outer ones
       for (CxxComplexityScope scope : complexityScopes) {
-        scope.addComplexitySource(astNode.getTokenLine(), astNode.getType());
+        scope.addComplexitySource(astNode);
       }
     }
   }

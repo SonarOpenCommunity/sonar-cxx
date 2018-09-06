@@ -24,15 +24,18 @@ import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 
 import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.TokenType;
 
 /**
  * Structure, that tracks all nodes, which increase the code complexity
  */
 public class CxxComplexitySource {
-  public CxxComplexitySource(int line, AstNodeType nodeType, int nesting) {
+
+  public CxxComplexitySource(int line, AstNodeType nodeType, TokenType tokenType, int nesting) {
     super();
     this.line = line;
-    this.type = nodeType;
+    this.nodeType = nodeType;
+    this.tokenType = tokenType;
     this.nesting = nesting;
   }
 
@@ -41,28 +44,32 @@ public class CxxComplexitySource {
   }
 
   private String getNodeDescripton() {
-    if (type == CxxGrammarImpl.functionDefinition) {
+    if (nodeType == CxxGrammarImpl.functionDefinition) {
       return "function definition";
-    } else if (type == CxxKeyword.IF || type == CxxGrammarImpl.selectionStatement) {
+    } else if (nodeType == CxxKeyword.IF
+        || (nodeType == CxxGrammarImpl.selectionStatement && tokenType == CxxKeyword.IF)) {
       return "if statement";
-    } else if (type == CxxKeyword.ELSE) {
+    } else if (nodeType == CxxKeyword.SWITCH
+        || (nodeType == CxxGrammarImpl.selectionStatement && tokenType == CxxKeyword.SWITCH)) {
+      return "switch statement";
+    } else if (nodeType == CxxKeyword.ELSE) {
       return "else statement";
-    } else if (type == CxxKeyword.FOR) {
+    } else if (nodeType == CxxKeyword.FOR) {
       return "for loop";
-    } else if (type == CxxKeyword.WHILE) {
+    } else if (nodeType == CxxKeyword.WHILE) {
       return "while loop";
-    } else if (type == CxxGrammarImpl.iterationStatement) {
+    } else if (nodeType == CxxGrammarImpl.iterationStatement) {
       return "iteration statement";
-    } else if (type == CxxKeyword.CATCH || type == CxxGrammarImpl.handler) {
+    } else if (nodeType == CxxKeyword.CATCH || nodeType == CxxGrammarImpl.handler) {
       return "catch-clause";
-    } else if (type == CxxKeyword.CASE || type == CxxKeyword.DEFAULT) {
+    } else if (nodeType == CxxKeyword.CASE || nodeType == CxxKeyword.DEFAULT) {
       return "switch label";
-    } else if (type == CxxKeyword.GOTO) {
+    } else if (nodeType == CxxKeyword.GOTO) {
       return "goto statement";
-    } else if (type == CxxPunctuator.AND || type == CxxPunctuator.OR || type == CxxGrammarImpl.logicalAndExpression
-        || type == CxxGrammarImpl.logicalOrExpression) {
+    } else if (nodeType == CxxPunctuator.AND || nodeType == CxxPunctuator.OR
+        || nodeType == CxxGrammarImpl.logicalAndExpression || nodeType == CxxGrammarImpl.logicalOrExpression) {
       return "logical operator";
-    } else if (type == CxxPunctuator.QUEST) {
+    } else if (nodeType == CxxPunctuator.QUEST) {
       return "conditional operator";
     }
     return "";
@@ -78,6 +85,7 @@ public class CxxComplexitySource {
   }
 
   private final int line;
-  private final AstNodeType type;
+  private final AstNodeType nodeType;
+  private final TokenType tokenType;
   private final int nesting;
 }

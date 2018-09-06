@@ -109,9 +109,9 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
     }
 
     if (node.is(NESTING_INCREMENTS_TYPES)) {
-      complexityScopes.getFirst().addComplexitySourceWithNesting(node.getTokenLine(), node.getType());
+      complexityScopes.getFirst().addComplexitySourceWithNesting(node);
     } else if (node.is(INCREMENT_TYPES)) {
-      complexityScopes.getFirst().addComplexitySource(node.getTokenLine(), node.getType());
+      complexityScopes.getFirst().addComplexitySource(node);
     }
 
     if (node.is(NESTING_LEVEL_TYPES)) {

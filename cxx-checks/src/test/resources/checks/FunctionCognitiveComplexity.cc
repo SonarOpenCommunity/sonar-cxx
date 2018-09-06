@@ -109,4 +109,17 @@ std::string func_with_trycatch(int i) {
       }
       return (i % 2 == 0) ? "exotic exception" : "strange exception";
    }
+
+   switch (i) {
+   case 0:
+      return "zero";
+   case 1:
+      return "one";
+   case 2:
+      return "two";
+   case 3:
+      return "three";
+   default:
+      return "many";
+   }
 }
