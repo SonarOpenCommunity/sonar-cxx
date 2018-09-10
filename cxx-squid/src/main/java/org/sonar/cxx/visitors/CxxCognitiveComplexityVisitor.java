@@ -100,6 +100,10 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
 
   @Override
   public void visitNode(AstNode node) {
+    if (node.getToken().isGeneratedCode()) {
+      return;
+    }
+
     if (node.is(CxxGrammarImpl.functionDefinition)) {
       complexityScopes.addFirst(new CxxComplexityScope(node.getTokenLine()));
     }
@@ -123,6 +127,10 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
 
   @Override
   public void leaveNode(AstNode node) {
+    if (node.getToken().isGeneratedCode()) {
+      return;
+    }
+
     if (node.is(CxxGrammarImpl.functionDefinition)) {
       analyzeComplexity(complexityScopes.removeFirst());
     }

@@ -28,6 +28,7 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.cxx.visitors.CxxCognitiveComplexityVisitor;
+import org.sonar.cxx.visitors.CxxCyclomaticComplexityVisitor;
 import org.sonar.cxx.visitors.CxxFileVisitor;
 import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
 import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
@@ -214,10 +215,10 @@ public final class CxxAstScanner {
       .subscribeTo(CxxGrammarImpl.statement)
       .build());
 
-    builder.withSquidAstVisitor(ComplexityVisitor.<Grammar>builder()
+    builder.withSquidAstVisitor(new CxxCyclomaticComplexityVisitor(ComplexityVisitor.<Grammar>builder()
       .setMetricDef(CxxMetric.COMPLEXITY)
       .subscribeTo(CxxComplexityConstants.CyclomaticComplexityAstNodeTypes)
-      .build());
+      .build()));
 
     builder.withSquidAstVisitor(new CxxCognitiveComplexityVisitor<Grammar>());
 
