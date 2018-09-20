@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# use cppcheck_createrules.py in order to check the validity of created rules
+# use utils_createrules.py in order to check the validity of created rules
 #
 # currently available checks:
 #
@@ -27,7 +27,7 @@ do
    BASE_NAME="$(basename $ABS_PATH_TO_RULE)"
    REPORT_PATH="${PWD}/${BASE_NAME}.tidy"
    declare -i RC=0
-   $(python ${SCRIPT_DIR}/cppcheck_createrules.py check ${ABS_PATH_TO_RULE} > ${REPORT_PATH})
+   $(python ${SCRIPT_DIR}/utils_createrules.py check ${ABS_PATH_TO_RULE} > ${REPORT_PATH})
    RC=$?
    if [[ ${RC} -ne 0 ]]
    then

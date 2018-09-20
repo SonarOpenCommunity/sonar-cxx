@@ -19,5 +19,4 @@ wget https://cwe.mitre.org/data/xml/cwec_v3.1.xml.zip --output-document=cwec_v3.
 
 cppcheck ${CPPCHECK_LIBRARY_ARGS} --errorlist --xml-version=2 > cppcheck-errorlist.xml
 cppcheck ${CPPCHECK_LIBRARY_ARGS} --errorlist --xml-version=2 | python cppcheck_createrules.py rules cwec_v3.1.xml > cppcheck.xml
-cppcheck ${CPPCHECK_LIBRARY_ARGS} --errorlist --xml-version=2 | python cppcheck_createrules.py profile > cppcheck-profile.xml
-python cppcheck_createrules.py comparerules $SCRIPT_DIR/../main/resources/cppcheck.xml cppcheck.xml > cppcheck-comparison.md
+python utils_createrules.py comparerules $SCRIPT_DIR/../main/resources/cppcheck.xml cppcheck.xml > cppcheck-comparison.md
