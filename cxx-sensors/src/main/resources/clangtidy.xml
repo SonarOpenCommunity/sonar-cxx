@@ -218,8 +218,8 @@ struct some_struct* s = (struct some_struct*) malloc(sizeof(struct some_struct))
 ]]></description>
   <tag>bad-practice</tag>
   <tag>suspicious</tag>
-  <severity>MAJOR</severity>
-  <type>BUG</type>
+  <severity>INFO</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-pro-bounds-array-to-pointer-decay</key>
@@ -589,7 +589,7 @@ bool f() {
 
 </div>
 <h1 id="google-readability-namespace-comments">google-readability-namespace-comments</h1>
-<p>The google-readability-namespace-comments check is an alias, please see <a href="llvm-namespace-comment.html">llvm-namespace-comment</a> for more information.</p>
+<p>The google-readability-namespace-comments check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/llvm-namespace-comment.html">llvm-namespace-comment</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-readability-namespace-comments.html" target="_blank">clang.llvm.org</a></p>
 ]]></description>
@@ -2413,7 +2413,7 @@ bool x = p ? true : false;</code></pre>
 
 </div>
 <h1 id="modernize-use-default">modernize-use-default</h1>
-<p>This check has been renamed to <a href="modernize-use-equals-default.html">modernize-use-equals-default</a>.</p>
+<p>This check has been renamed to <a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-equals-default.html">modernize-use-equals-default</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-default.html" target="_blank">clang.llvm.org</a></p>
 ]]></description>
@@ -3836,7 +3836,7 @@ absl::memory_internal::MakeUniqueResult();
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-no-namespace.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -3864,7 +3864,7 @@ absl::StrAppend(&amp;s, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;);
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-redundant-strcat-calls.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -3882,7 +3882,7 @@ absl::StrAppend(&amp;s, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;);
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-str-cat-append.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -3915,7 +3915,7 @@ if (absl::StartsWith(s, &quot;Hello World&quot;)) { /* do something */ }</code><
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-string-find-startswith.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -3957,8 +3957,8 @@ accept4(sockfd, addr, addrlen, SOCK_NONBLOCK | SOCK_CLOEXEC);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-accept4.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>android-cloexec-creat</key>
@@ -3978,7 +3978,7 @@ int fd = open(path, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, mode);</code></pre
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-creat.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -3999,8 +3999,8 @@ int fd = fcntl(oldfd, F_DUPFD_CLOEXEC);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-dup.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>android-cloexec-epoll-create</key>
@@ -4020,8 +4020,8 @@ epoll_create1(EPOLL_CLOEXEC);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-epoll-create.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>android-cloexec-epoll-create1</key>
@@ -4041,8 +4041,8 @@ epoll_create1(EPOLL_CLOEXEC);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-epoll-create1.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>android-cloexec-fopen</key>
@@ -4062,8 +4062,8 @@ fopen(&quot;fn&quot;, &quot;re&quot;);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-fopen.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>android-cloexec-inotify-init</key>
@@ -4083,8 +4083,8 @@ inotify_init1(IN_CLOEXEC);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-inotify-init.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>android-cloexec-inotify-init1</key>
@@ -4104,8 +4104,8 @@ inotify_init1(IN_NONBLOCK | IN_CLOEXEC);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-inotify-init1.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>android-cloexec-memfd-create</key>
@@ -4125,8 +4125,8 @@ memfd_create(name, MFD_ALLOW_SEALING | MFD_CLOEXEC);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-memfd-create.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>android-cloexec-open</key>
@@ -4150,8 +4150,8 @@ openat(0, &quot;filename&quot;, O_RDWR | O_CLOEXEC);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-open.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>android-cloexec-socket</key>
@@ -4171,8 +4171,8 @@ socket(domain, type, SOCK_STREAM | SOCK_CLOEXEC);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-socket.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>android-comparison-in-temp-failure-retry</key>
@@ -4226,8 +4226,8 @@ f(/*bar=*/true);
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-argument-comment.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-assert-side-effect</key>
@@ -4251,8 +4251,8 @@ f(/*bar=*/true);
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-assert-side-effect.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-bool-pointer-implicit-conversion</key>
@@ -4271,8 +4271,8 @@ if (p) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-bool-pointer-implicit-conversion.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-copy-constructor-init</key>
@@ -4299,8 +4299,8 @@ class X2 : public Copyable {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-copy-constructor-init.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-dangling-handle</key>
@@ -4361,8 +4361,8 @@ string_view f() {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-exception-escape.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-fold-init-type</key>
@@ -4408,8 +4408,8 @@ nb::A a;
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-forward-declaration-namespace.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-forwarding-reference-overload</key>
@@ -4446,8 +4446,8 @@ public:
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-forwarding-reference-overload.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-inaccurate-erase</key>
@@ -4462,8 +4462,8 @@ public:
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-inaccurate-erase.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-incorrect-roundings</key>
@@ -4484,7 +4484,7 @@ public:
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-incorrect-roundings.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
   <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-integer-division</key>
@@ -4525,8 +4525,8 @@ d = (int)(i / 32) - 8;</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-integer-division.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-lambda-function-name</key>
@@ -4552,7 +4552,7 @@ Now called from FancyFunction</code></pre>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-lambda-function-name.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
   <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-macro-parentheses</key>
@@ -4569,8 +4569,8 @@ Now called from FancyFunction</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-macro-parentheses.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-macro-repeated-side-effects</key>
@@ -4584,8 +4584,8 @@ Now called from FancyFunction</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-macro-repeated-side-effects.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-misplaced-operator-in-strlen-in-alloc</key>
@@ -4616,7 +4616,7 @@ Now called from FancyFunction</code></pre>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-misplaced-operator-in-strlen-in-alloc.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
   <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-misplaced-widening-cast</key>
@@ -4692,8 +4692,8 @@ foo(s);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-move-forwarding-reference.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-multiple-statement-macro</key>
@@ -4711,8 +4711,8 @@ if (do_increment)
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-multiple-statement-macro.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-parent-virtual-call</key>
@@ -4766,8 +4766,8 @@ int d = sizeof(std_array); // no warning, probably intended.</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-sizeof-container.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-sizeof-expression</key>
@@ -4907,8 +4907,8 @@ void getInt(int* dst) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-string-constructor.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-string-integer-assignment</key>
@@ -4936,8 +4936,8 @@ s = static_cast&lt;char&gt;(6);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-string-integer-assignment.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-string-literal-with-embedded-nul</key>
@@ -4962,7 +4962,7 @@ if (str == &quot;\0abc&quot;) return;   // This expression is always true</code>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-string-literal-with-embedded-nul.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
   <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-suspicious-enum-usage</key>
@@ -5032,7 +5032,7 @@ flag |=
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-suspicious-enum-usage.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -5074,8 +5074,8 @@ flag |=
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-suspicious-memset-usage.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-suspicious-missing-comma</key>
@@ -5172,7 +5172,7 @@ Token t = readNextToken();</code></pre>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-suspicious-semicolon.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
   <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-suspicious-string-compare</key>
@@ -5211,8 +5211,8 @@ if (strcmp(...) != 0)  // Won&#39;t warn</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-suspicious-string-compare.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-swapped-arguments</key>
@@ -5226,8 +5226,8 @@ if (strcmp(...) != 0)  // Won&#39;t warn</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-swapped-arguments.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-terminating-continue</key>
@@ -5269,8 +5269,8 @@ do {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-throw-keyword-missing.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-undefined-memory-manipulation</key>
@@ -5285,7 +5285,7 @@ do {
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-undefined-memory-manipulation.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
   <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-undelegated-constructor</key>
@@ -5300,8 +5300,8 @@ do {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-undelegated-constructor.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-unused-raii</key>
@@ -5443,7 +5443,7 @@ std::string str = &quot;&quot;;
 f(std::move(str));</code></pre>
 </blockquote>
 <p>The check will assume that the last line causes a move, even though, in this particular case, it does not. Again, this is intentional.</p>
-<p>When analyzing the order in which moves, uses and reinitializations happen (see section <a href="#unsequenced-moves-uses-and-reinitializations">Unsequenced moves, uses, and reinitializations</a>), the move is assumed to occur in whichever function the result of the <code>std::move</code> is passed to.</p>
+<p>When analyzing the order in which moves, uses and reinitializations happen (see section <a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-use-after-move.html#unsequenced-moves-uses-and-reinitializations">Unsequenced moves, uses, and reinitializations</a>), the move is assumed to occur in whichever function the result of the <code>std::move</code> is passed to.</p>
 <h2 id="use">Use</h2>
 <p>Any occurrence of the moved variable that is not a reinitialization (see below) is considered to be a use.</p>
 <p>An exception to this are objects of type <code>std::unique_ptr</code>, <code>std::shared_ptr</code> and <code>std::weak_ptr</code>, which have defined move behavior (objects of these classes are guaranteed to be empty after they have been moved from). Therefore, an object of these classes will only be considered to be used if it is dereferenced, i.e. if <code>operator*</code>, <code>operator-&gt;</code> or <code>operator[]</code> (in the case of <code>std::unique_ptr&lt;T []&gt;</code>) is called on it.</p>
@@ -5475,7 +5475,7 @@ s.i = 99;</code></pre>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-use-after-move.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
   <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>bugprone-virtual-near-miss</key>
@@ -5512,11 +5512,11 @@ struct Derived : Base {
 
 </div>
 <h1 id="cert-dcl03-c">cert-dcl03-c</h1>
-<p>The cert-dcl03-c check is an alias, please see <a href="misc-static-assert.html">misc-static-assert</a> for more information.</p>
+<p>The cert-dcl03-c check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-static-assert.html">misc-static-assert</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-dcl03-c.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -5546,11 +5546,11 @@ struct Derived : Base {
 
 </div>
 <h1 id="cert-dcl54-cpp">cert-dcl54-cpp</h1>
-<p>The cert-dcl54-cpp check is an alias, please see <a href="misc-new-delete-overloads.html">misc-new-delete-overloads</a> for more information.</p>
+<p>The cert-dcl54-cpp check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-new-delete-overloads.html">misc-new-delete-overloads</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-dcl54-cpp.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -5584,11 +5584,11 @@ struct Derived : Base {
 
 </div>
 <h1 id="cert-dcl59-cpp">cert-dcl59-cpp</h1>
-<p>The cert-dcl59-cpp check is an alias, please see <a href="google-build-namespaces.html">google-build-namespaces</a> for more information.</p>
+<p>The cert-dcl59-cpp check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/google-build-namespaces.html">google-build-namespaces</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-dcl59-cpp.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -5602,12 +5602,12 @@ struct Derived : Base {
 
 </div>
 <h1 id="cert-err09-cpp">cert-err09-cpp</h1>
-<p>The cert-err09-cpp check is an alias, please see <a href="misc-throw-by-value-catch-by-reference.html">misc-throw-by-value-catch-by-reference</a> for more information.</p>
+<p>The cert-err09-cpp check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-throw-by-value-catch-by-reference.html">misc-throw-by-value-catch-by-reference</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-err09-cpp.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>cert-err61-cpp</key>
@@ -5620,12 +5620,12 @@ struct Derived : Base {
 
 </div>
 <h1 id="cert-err61-cpp">cert-err61-cpp</h1>
-<p>The cert-err61-cpp check is an alias, please see <a href="misc-throw-by-value-catch-by-reference.html">misc-throw-by-value-catch-by-reference</a> for more information.</p>
+<p>The cert-err61-cpp check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-throw-by-value-catch-by-reference.html">misc-throw-by-value-catch-by-reference</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-err61-cpp.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>cert-fio38-c</key>
@@ -5638,7 +5638,7 @@ struct Derived : Base {
 
 </div>
 <h1 id="cert-fio38-c">cert-fio38-c</h1>
-<p>The cert-fio38-c check is an alias, please see <a href="misc-non-copyable-objects.html">misc-non-copyable-objects</a> for more information.</p>
+<p>The cert-fio38-c check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-non-copyable-objects.html">misc-non-copyable-objects</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-fio38-c.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
@@ -5656,7 +5656,7 @@ struct Derived : Base {
 
 </div>
 <h1 id="cert-msc30-c">cert-msc30-c</h1>
-<p>The cert-msc30-c check is an alias, please see <a href="cert-msc50-cpp.html">cert-msc50-cpp</a> for more information.</p>
+<p>The cert-msc30-c check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-msc50-cpp.html">cert-msc50-cpp</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-msc30-c.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
@@ -5674,12 +5674,12 @@ struct Derived : Base {
 
 </div>
 <h1 id="cert-msc32-c">cert-msc32-c</h1>
-<p>The cert-msc32-c check is an alias, please see <a href="cert-msc51-cpp.html">cert-msc51-cpp</a> for more information.</p>
+<p>The cert-msc32-c check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-msc51-cpp.html">cert-msc51-cpp</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-msc32-c.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>INFO</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>cert-msc50-cpp</key>
@@ -5693,8 +5693,8 @@ struct Derived : Base {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-msc50-cpp.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>INFO</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>cert-msc51-cpp</key>
@@ -5726,8 +5726,8 @@ struct Derived : Base {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-msc51-cpp.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>INFO</severity>
+  <type>VULNERABILITY</type>
   </rule>
 <rule>
   <key>cert-oop11-cpp</key>
@@ -5740,11 +5740,11 @@ struct Derived : Base {
 
 </div>
 <h1 id="cert-oop11-cpp">cert-oop11-cpp</h1>
-<p>The cert-oop11-cpp check is an alias, please see <a href="performance-move-constructor-init.html">performance-move-constructor-init</a> for more information.</p>
+<p>The cert-oop11-cpp check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-move-constructor-init.html">performance-move-constructor-init</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-oop11-cpp.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -5801,11 +5801,11 @@ some_operation();</code></pre>
 
 </div>
 <h1 id="cppcoreguidelines-avoid-magic-numbers">cppcoreguidelines-avoid-magic-numbers</h1>
-<p>The cppcoreguidelines-avoid-magic-numbers check is an alias, please see <a href="readability-magic-numbers.html">readability-magic-numbers</a> for more information.</p>
+<p>The cppcoreguidelines-avoid-magic-numbers check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-magic-numbers.html">readability-magic-numbers</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-avoid-magic-numbers.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -5819,11 +5819,11 @@ some_operation();</code></pre>
 
 </div>
 <h1 id="cppcoreguidelines-c-copy-assignment-signature">cppcoreguidelines-c-copy-assignment-signature</h1>
-<p>The cppcoreguidelines-c-copy-assignment-signature check is an alias, please see <a href="misc-unconventional-assign-operator.html">misc-unconventional-assign-operator</a> for more information.</p>
+<p>The cppcoreguidelines-c-copy-assignment-signature check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-unconventional-assign-operator.html">misc-unconventional-assign-operator</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-c-copy-assignment-signature.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6057,7 +6057,7 @@ foo(0); // no warning</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/fuchsia-default-arguments.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6071,11 +6071,11 @@ foo(0); // no warning</code></pre>
 
 </div>
 <h1 id="fuchsia-header-anon-namespaces">fuchsia-header-anon-namespaces</h1>
-<p>The fuchsia-header-anon-namespaces check is an alias, please see <a href="google-build-namespaces.html">google-build-namespace</a> for more information.</p>
+<p>The fuchsia-header-anon-namespaces check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/google-build-namespaces.html">google-build-namespace</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/fuchsia-header-anon-namespaces.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6120,7 +6120,7 @@ class Good_Child1 : public Interface_A, Interface_B {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/fuchsia-multiple-inheritance.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6141,7 +6141,7 @@ B &amp;operator=(B &amp;&amp;Other) // No warning</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/fuchsia-overloaded-operator.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6168,7 +6168,7 @@ B &amp;operator=(B &amp;&amp;Other) // No warning</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/fuchsia-restrict-system-includes.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6213,7 +6213,7 @@ static C(get_i())   // Warning, as the constructor is dynamically initialized</c
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/fuchsia-statically-constructed-objects.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6246,7 +6246,7 @@ auto fn(const T1 &amp;lhs, const T2 &amp;rhs) -&gt; decltype(lhs + rhs) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/fuchsia-trailing-return.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6264,7 +6264,7 @@ auto fn(const T1 &amp;lhs, const T2 &amp;rhs) -&gt; decltype(lhs + rhs) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/fuchsia-virtual-inheritance.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6297,7 +6297,7 @@ auto fn(const T1 &amp;lhs, const T2 &amp;rhs) -&gt; decltype(lhs + rhs) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-objc-avoid-throwing-exception.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6325,7 +6325,7 @@ auto fn(const T1 &amp;lhs, const T2 &amp;rhs) -&gt; decltype(lhs + rhs) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-objc-global-variable-declaration.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6339,11 +6339,11 @@ auto fn(const T1 &amp;lhs, const T2 &amp;rhs) -&gt; decltype(lhs + rhs) {
 
 </div>
 <h1 id="google-readability-braces-around-statements">google-readability-braces-around-statements</h1>
-<p>The google-readability-braces-around-statements check is an alias, please see <a href="readability-braces-around-statements.html">readability-braces-around-statements</a> for more information.</p>
+<p>The google-readability-braces-around-statements check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-braces-around-statements.html">readability-braces-around-statements</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-readability-braces-around-statements.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6357,11 +6357,11 @@ auto fn(const T1 &amp;lhs, const T2 &amp;rhs) -&gt; decltype(lhs + rhs) {
 
 </div>
 <h1 id="google-readability-function-size">google-readability-function-size</h1>
-<p>The google-readability-function-size check is an alias, please see <a href="readability-function-size.html">readability-function-size</a> for more information.</p>
+<p>The google-readability-function-size check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-function-size.html">readability-function-size</a> for more information.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-readability-function-size.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6372,7 +6372,7 @@ auto fn(const T1 &amp;lhs, const T2 &amp;rhs) -&gt; decltype(lhs + rhs) {
 <p>clang-tidy - hicpp-avoid-goto</p>
 </div>
 <h1 id="hicpp-avoid-goto">hicpp-avoid-goto</h1>
-<p>The <span class="title-ref">hicpp-avoid-goto</span> check is an alias to <a href="cppcoreguidelines-avoid-goto.html">cppcoreguidelines-avoid-goto</a>. Rule <a href="http://www.codingstandard.com/rule/6-3-1-ensure-that-the-labels-for-a-jump-statement-or-a-switch-condition-appear-later-in-the-same-or-an-enclosing-block/">6.3.1 High Integrity C++</a> requires that <code>goto</code> only skips parts of a block and is not used for other reasons.</p>
+<p>The <span class="title-ref">hicpp-avoid-goto</span> check is an alias to <a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-avoid-goto.html">cppcoreguidelines-avoid-goto</a>. Rule <a href="http://www.codingstandard.com/rule/6-3-1-ensure-that-the-labels-for-a-jump-statement-or-a-switch-condition-appear-later-in-the-same-or-an-enclosing-block/">6.3.1 High Integrity C++</a> requires that <code>goto</code> only skips parts of a block and is not used for other reasons.</p>
 <p>Both coding guidelines implement the same exception to the usage of <code>goto</code>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-avoid-goto.html" target="_blank">clang.llvm.org</a></p>
@@ -6391,11 +6391,11 @@ auto fn(const T1 &amp;lhs, const T2 &amp;rhs) -&gt; decltype(lhs + rhs) {
 
 </div>
 <h1 id="hicpp-braces-around-statements">hicpp-braces-around-statements</h1>
-<p>The <span class="title-ref">hicpp-braces-around-statements</span> check is an alias, please see <a href="readability-braces-around-statements.html">readability-braces-around-statements</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/6-1-1-enclose-the-body-of-a-selection-or-an-iteration-statement-in-a-compound-statement/">rule 6.1.1</a>.</p>
+<p>The <span class="title-ref">hicpp-braces-around-statements</span> check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-braces-around-statements.html">readability-braces-around-statements</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/6-1-1-enclose-the-body-of-a-selection-or-an-iteration-statement-in-a-compound-statement/">rule 6.1.1</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-braces-around-statements.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6409,11 +6409,11 @@ auto fn(const T1 &amp;lhs, const T2 &amp;rhs) -&gt; decltype(lhs + rhs) {
 
 </div>
 <h1 id="hicpp-deprecated-headers">hicpp-deprecated-headers</h1>
-<p>The <span class="title-ref">hicpp-deprecated-headers</span> check is an alias, please see <a href="modernize-deprecated-headers.html">modernize-deprecated-headers</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/1-3-3-do-not-use-the-c-standard-library-h-headers/">rule 1.3.3</a>.</p>
+<p>The <span class="title-ref">hicpp-deprecated-headers</span> check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-deprecated-headers.html">modernize-deprecated-headers</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/1-3-3-do-not-use-the-c-standard-library-h-headers/">rule 1.3.3</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-deprecated-headers.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6445,7 +6445,7 @@ void throwing2() noexcept(false) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-exception-baseclass.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6459,12 +6459,12 @@ void throwing2() noexcept(false) {
 
 </div>
 <h1 id="hicpp-explicit-conversions">hicpp-explicit-conversions</h1>
-<p>This check is an alias for <a href="google-explicit-constructor.html">google-explicit-constructor</a>. Used to enforce parts of <a href="http://www.codingstandard.com/rule/5-4-1-only-use-casting-forms-static_cast-excl-void-dynamic_cast-or-explicit-constructor-call/">rule 5.4.1</a>. This check will enforce that constructors and conversion operators are marked <span class="title-ref">explicit</span>. Other forms of casting checks are implemented in other places. The following checks can be used to check for more forms of casting:</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/google-explicit-constructor.html">google-explicit-constructor</a>. Used to enforce parts of <a href="http://www.codingstandard.com/rule/5-4-1-only-use-casting-forms-static_cast-excl-void-dynamic_cast-or-explicit-constructor-call/">rule 5.4.1</a>. This check will enforce that constructors and conversion operators are marked <span class="title-ref">explicit</span>. Other forms of casting checks are implemented in other places. The following checks can be used to check for more forms of casting:</p>
 <ul>
-<li><a href="cppcoreguidelines-pro-type-static-cast-downcast.html">cppcoreguidelines-pro-type-static-cast-downcast</a></li>
-<li><a href="cppcoreguidelines-pro-type-reinterpret-cast.html">cppcoreguidelines-pro-type-reinterpret-cast</a></li>
-<li><a href="cppcoreguidelines-pro-type-const-cast.html">cppcoreguidelines-pro-type-const-cast</a></li>
-<li><a href="cppcoreguidelines-pro-type-cstyle-cast.html">cppcoreguidelines-pro-type-cstyle-cast</a></li>
+<li><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-static-cast-downcast.html">cppcoreguidelines-pro-type-static-cast-downcast</a></li>
+<li><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-reinterpret-cast.html">cppcoreguidelines-pro-type-reinterpret-cast</a></li>
+<li><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-const-cast.html">cppcoreguidelines-pro-type-const-cast</a></li>
+<li><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-cstyle-cast.html">cppcoreguidelines-pro-type-cstyle-cast</a></li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-explicit-conversions.html" target="_blank">clang.llvm.org</a></p>
@@ -6483,7 +6483,7 @@ void throwing2() noexcept(false) {
 
 </div>
 <h1 id="hicpp-function-size">hicpp-function-size</h1>
-<p>This check is an alias for <a href="readability-function-size.html">readability-function-size</a>. Useful to enforce multiple sections on function complexity.</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-function-size.html">readability-function-size</a>. Useful to enforce multiple sections on function complexity.</p>
 <ul>
 <li><a href="http://www.codingstandard.com/rule/8-2-2-do-not-declare-functions-with-an-excessive-number-of-parameters/">rule 8.2.2</a></li>
 <li><a href="http://www.codingstandard.com/rule/8-3-1-do-not-write-functions-with-an-excessive-mccabe-cyclomatic-complexity/">rule 8.3.1</a></li>
@@ -6492,7 +6492,7 @@ void throwing2() noexcept(false) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-function-size.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6506,13 +6506,13 @@ void throwing2() noexcept(false) {
 
 </div>
 <h1 id="hicpp-invalid-access-moved">hicpp-invalid-access-moved</h1>
-<p>This check is an alias for <a href="bugprone-use-after-move.html">bugprone-use-after-move</a>.</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-use-after-move.html">bugprone-use-after-move</a>.</p>
 <p>Implements parts of the <a href="http://www.codingstandard.com/rule/8-4-1-do-not-access-an-invalid-object-or-an-object-with-indeterminate-value/">rule 8.4.1</a> to check if moved-from objects are accessed.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-invalid-access-moved.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
   <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>hicpp-member-init</key>
@@ -6525,7 +6525,7 @@ void throwing2() noexcept(false) {
 
 </div>
 <h1 id="hicpp-member-init">hicpp-member-init</h1>
-<p>This check is an alias for <a href="cppcoreguidelines-pro-type-member-init.html">cppcoreguidelines-pro-type-member-init</a>. Implements the check for <a href="http://www.codingstandard.com/rule/12-4-2-ensure-that-a-constructor-initializes-explicitly-all-base-classes-and-non-static-data-members/">rule 12.4.2</a> to initialize class members in the right order.</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-member-init.html">cppcoreguidelines-pro-type-member-init</a>. Implements the check for <a href="http://www.codingstandard.com/rule/12-4-2-ensure-that-a-constructor-initializes-explicitly-all-base-classes-and-non-static-data-members/">rule 12.4.2</a> to initialize class members in the right order.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-member-init.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
@@ -6543,11 +6543,11 @@ void throwing2() noexcept(false) {
 
 </div>
 <h1 id="hicpp-move-const-arg">hicpp-move-const-arg</h1>
-<p>The <span class="title-ref">hicpp-move-const-arg</span> check is an alias, please see <a href="performance-move-const-arg.html">performance-move-const-arg</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/17-3-1-do-not-use-stdmove-on-objects-declared-with-const-or-const-type/">rule 17.3.1</a>.</p>
+<p>The <span class="title-ref">hicpp-move-const-arg</span> check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-move-const-arg.html">performance-move-const-arg</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/17-3-1-do-not-use-stdmove-on-objects-declared-with-const-or-const-type/">rule 17.3.1</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-move-const-arg.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6634,12 +6634,12 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-named-parameter">hicpp-named-parameter</h1>
-<p>This check is an alias for <a href="readability-named-parameter.html">readability-named-parameter</a>.</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-named-parameter.html">readability-named-parameter</a>.</p>
 <p>Implements <a href="http://www.codingstandard.com/rule/8-2-1-make-parameter-names-absent-or-identical-in-all-declarations/">rule 8.2.1</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-named-parameter.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6653,11 +6653,11 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-new-delete-operators">hicpp-new-delete-operators</h1>
-<p>This check is an alias for <a href="misc-new-delete-overloads.html">misc-new-delete-overloads</a>. Implements <a href="http://www.codingstandard.com/section/12-3-free-store/">rule 12.3.1</a> to ensure the <span class="title-ref">new</span> and <span class="title-ref">delete</span> operators have the correct signature.</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-new-delete-overloads.html">misc-new-delete-overloads</a>. Implements <a href="http://www.codingstandard.com/section/12-3-free-store/">rule 12.3.1</a> to ensure the <span class="title-ref">new</span> and <span class="title-ref">delete</span> operators have the correct signature.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-new-delete-operators.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6671,11 +6671,11 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-no-array-decay">hicpp-no-array-decay</h1>
-<p>The <span class="title-ref">hicpp-no-array-decay</span> check is an alias, please see <a href="cppcoreguidelines-pro-bounds-array-to-pointer-decay.html">cppcoreguidelines-pro-bounds-array-to-pointer-decay</a> for more information. It enforces the <a href="http://www.codingstandard.com/section/4-1-array-to-pointer-conversion/">rule 4.1.1</a>.</p>
+<p>The <span class="title-ref">hicpp-no-array-decay</span> check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-bounds-array-to-pointer-decay.html">cppcoreguidelines-pro-bounds-array-to-pointer-decay</a> for more information. It enforces the <a href="http://www.codingstandard.com/section/4-1-array-to-pointer-conversion/">rule 4.1.1</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-no-array-decay.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6691,7 +6691,7 @@ switch(i) {}</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-no-assembler.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6705,11 +6705,11 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-no-malloc">hicpp-no-malloc</h1>
-<p>The <span class="title-ref">hicpp-no-malloc</span> check is an alias, please see <a href="cppcoreguidelines-no-malloc.html">cppcoreguidelines-no-malloc</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/5-3-2-allocate-memory-using-new-and-release-it-using-delete/">rule 5.3.2</a>.</p>
+<p>The <span class="title-ref">hicpp-no-malloc</span> check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-no-malloc.html">cppcoreguidelines-no-malloc</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/5-3-2-allocate-memory-using-new-and-release-it-using-delete/">rule 5.3.2</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-no-malloc.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6723,7 +6723,7 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-noexcept-move">hicpp-noexcept-move</h1>
-<p>This check is an alias for <a href="misc-noexcept-moveconstructor.html">misc-noexcept-moveconstructor</a>. Checks <a href="http://www.codingstandard.com/rule/12-5-4-declare-noexcept-the-move-constructor-and-move-assignment-operator">rule 12.5.4</a> to mark move assignment and move construction <span class="title-ref">noexcept</span>.</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-noexcept-moveconstructor.html">misc-noexcept-moveconstructor</a>. Checks <a href="http://www.codingstandard.com/rule/12-5-4-declare-noexcept-the-move-constructor-and-move-assignment-operator">rule 12.5.4</a> to mark move assignment and move construction <span class="title-ref">noexcept</span>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-noexcept-move.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
@@ -6743,7 +6743,7 @@ switch(i) {}</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-signed-bitwise.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6757,7 +6757,7 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-special-member-functions">hicpp-special-member-functions</h1>
-<p>This check is an alias for <a href="cppcoreguidelines-special-member-functions.html">cppcoreguidelines-special-member-functions</a>. Checks that special member functions have the correct signature, according to <a href="http://www.codingstandard.com/rule/12-5-7-declare-assignment-operators-with-the-ref-qualifier/">rule 12.5.7</a>.</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-special-member-functions.html">cppcoreguidelines-special-member-functions</a>. Checks that special member functions have the correct signature, according to <a href="http://www.codingstandard.com/rule/12-5-7-declare-assignment-operators-with-the-ref-qualifier/">rule 12.5.7</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-special-member-functions.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
@@ -6775,11 +6775,11 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-static-assert">hicpp-static-assert</h1>
-<p>The <span class="title-ref">hicpp-static-assert</span> check is an alias, please see <a href="misc-static-assert.html">misc-static-assert</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/6-1-1-enclose-the-body-of-a-selection-or-an-iteration-statement-in-a-compound-statement/">rule 7.1.10</a>.</p>
+<p>The <span class="title-ref">hicpp-static-assert</span> check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-static-assert.html">misc-static-assert</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/6-1-1-enclose-the-body-of-a-selection-or-an-iteration-statement-in-a-compound-statement/">rule 7.1.10</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-static-assert.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6793,7 +6793,7 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-undelegated-constructor">hicpp-undelegated-constructor</h1>
-<p>This check is an alias for <a href="bugprone-undelegated-constructor.html">bugprone-undelegated-constructor</a>. Partially implements <a href="http://www.codingstandard.com/rule/12-4-5-use-delegating-constructors-to-reduce-code-duplication/">rule 12.4.5</a> to find misplaced constructor calls inside a constructor.</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-undelegated-constructor.html">bugprone-undelegated-constructor</a>. Partially implements <a href="http://www.codingstandard.com/rule/12-4-5-use-delegating-constructors-to-reduce-code-duplication/">rule 12.4.5</a> to find misplaced constructor calls inside a constructor.</p>
 <pre class="sourceCode c++"><code>struct Ctor {
   Ctor();
   Ctor(int);
@@ -6809,8 +6809,8 @@ switch(i) {}</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-undelegated-constructor.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>hicpp-use-auto</key>
@@ -6823,11 +6823,11 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-use-auto">hicpp-use-auto</h1>
-<p>The <span class="title-ref">hicpp-use-auto</span> check is an alias, please see <a href="modernize-use-auto.html">modernize-use-auto</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/7-1-8-use-auto-id-expr-when-declaring-a-variable-to-have-the-same-type-as-its-initializer-function-call/">rule 7.1.8</a>.</p>
+<p>The <span class="title-ref">hicpp-use-auto</span> check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-auto.html">modernize-use-auto</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/7-1-8-use-auto-id-expr-when-declaring-a-variable-to-have-the-same-type-as-its-initializer-function-call/">rule 7.1.8</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-use-auto.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6841,11 +6841,11 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-use-emplace">hicpp-use-emplace</h1>
-<p>The <span class="title-ref">hicpp-use-emplace</span> check is an alias, please see <a href="modernize-use-emplace.html">modernize-use-emplace</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/17-4-2-use-api-calls-that-construct-objects-in-place/">rule 17.4.2</a>.</p>
+<p>The <span class="title-ref">hicpp-use-emplace</span> check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-emplace.html">modernize-use-emplace</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/17-4-2-use-api-calls-that-construct-objects-in-place/">rule 17.4.2</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-use-emplace.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6859,11 +6859,11 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-use-equals-default">hicpp-use-equals-default</h1>
-<p>This check is an alias for <a href="modernize-use-equals-default.html">modernize-use-equals-default</a>. Implements <a href="http://www.codingstandard.com/rule/12-5-1-define-explicitly-default-or-delete-implicit-special-member-functions-of-concrete-classes/">rule 12.5.1</a> to explicitly default special member functions.</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-equals-default.html">modernize-use-equals-default</a>. Implements <a href="http://www.codingstandard.com/rule/12-5-1-define-explicitly-default-or-delete-implicit-special-member-functions-of-concrete-classes/">rule 12.5.1</a> to explicitly default special member functions.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-use-equals-default.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6877,11 +6877,11 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-use-equals-delete">hicpp-use-equals-delete</h1>
-<p>This check is an alias for <a href="modernize-use-equals-delete.html">modernize-use-equals-delete</a>. Implements <a href="http://www.codingstandard.com/rule/12-5-1-define-explicitly-default-or-delete-implicit-special-member-functions-of-concrete-classes/">rule 12.5.1</a> to explicitly default or delete special member functions.</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-equals-delete.html">modernize-use-equals-delete</a>. Implements <a href="http://www.codingstandard.com/rule/12-5-1-define-explicitly-default-or-delete-implicit-special-member-functions-of-concrete-classes/">rule 12.5.1</a> to explicitly default or delete special member functions.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-use-equals-delete.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6895,11 +6895,11 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-use-noexcept">hicpp-use-noexcept</h1>
-<p>The <span class="title-ref">hicpp-use-noexcept</span> check is an alias, please see <a href="modernize-use-noexcept.html">modernize-use-noexcept</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/1-3-5-do-not-use-throw-exception-specifications/">rule 1.3.5</a>.</p>
+<p>The <span class="title-ref">hicpp-use-noexcept</span> check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-noexcept.html">modernize-use-noexcept</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/1-3-5-do-not-use-throw-exception-specifications/">rule 1.3.5</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-use-noexcept.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6913,11 +6913,11 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-use-nullptr">hicpp-use-nullptr</h1>
-<p>The <span class="title-ref">hicpp-use-nullptr</span> check is an alias, please see <a href="modernize-use-nullptr.html">modernize-use-nullptr</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/2-5-3-use-nullptr-for-the-null-pointer-constant/">rule 2.5.3</a>.</p>
+<p>The <span class="title-ref">hicpp-use-nullptr</span> check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-nullptr.html">modernize-use-nullptr</a> for more information. It enforces the <a href="http://www.codingstandard.com/rule/2-5-3-use-nullptr-for-the-null-pointer-constant/">rule 2.5.3</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-use-nullptr.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6931,11 +6931,11 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-use-override">hicpp-use-override</h1>
-<p>This check is an alias for <a href="modernize-use-override.html">modernize-use-override</a>. Implements <a href="http://www.codingstandard.com/section/10-2-virtual-functions/">rule 10.2.1</a> to declare a virtual function <span class="title-ref">override</span> when overriding.</p>
+<p>This check is an alias for <a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-override.html">modernize-use-override</a>. Implements <a href="http://www.codingstandard.com/section/10-2-virtual-functions/">rule 10.2.1</a> to declare a virtual function <span class="title-ref">override</span> when overriding.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-use-override.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -6949,7 +6949,7 @@ switch(i) {}</code></pre>
 
 </div>
 <h1 id="hicpp-vararg">hicpp-vararg</h1>
-<p>The <span class="title-ref">hicpp-vararg</span> check is an alias, please see <a href="cppcoreguidelines-pro-type-vararg.html">cppcoreguidelines-pro-type-vararg</a> for more information. It enforces the <a href="http://www.codingstandard.com/section/14-1-template-declarations/">rule 14.1.1</a>.</p>
+<p>The <span class="title-ref">hicpp-vararg</span> check is an alias, please see <a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-vararg.html">cppcoreguidelines-pro-type-vararg</a> for more information. It enforces the <a href="http://www.codingstandard.com/section/14-1-template-declarations/">rule 14.1.1</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-vararg.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
@@ -6988,7 +6988,7 @@ std::random_shuffle(vec.begin(), vec.end(), randomFunc);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-replace-random-shuffle.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7014,7 +7014,7 @@ Foo bar() {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-return-braced-init-list.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7038,7 +7038,7 @@ Foo bar() {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-unary-static-assert.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7089,7 +7089,7 @@ struct A {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-default-member-init.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7128,7 +7128,7 @@ A::~A() = default;</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-equals-default.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7156,7 +7156,7 @@ private:
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-equals-delete.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7212,7 +7212,7 @@ struct bar {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-noexcept.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7248,7 +7248,7 @@ std::map&lt;const char *, std::string, std::greater&lt;std::string&gt;&gt; s;</c
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-transparent-functors.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7310,7 +7310,7 @@ int main() {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-uncaught-exceptions.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7360,8 +7360,8 @@ MPI_Send(&amp;buf, 1, MPI_CHAR, 0, 0, MPI_COMM_WORLD);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/mpi-type-mismatch.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>objc-avoid-nserror-init</key>
@@ -7377,8 +7377,8 @@ MPI_Send(&amp;buf, 1, MPI_CHAR, 0, 0, MPI_COMM_WORLD);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/objc-avoid-nserror-init.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>objc-avoid-spinlock</key>
@@ -7400,7 +7400,7 @@ MPI_Send(&amp;buf, 1, MPI_CHAR, 0, 0, MPI_COMM_WORLD);</code></pre>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/objc-avoid-spinlock.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
   <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>objc-forbidden-subclassing</key>
@@ -7427,8 +7427,8 @@ MPI_Send(&amp;buf, 1, MPI_CHAR, 0, 0, MPI_COMM_WORLD);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/objc-forbidden-subclassing.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <severity>MINOR</severity>
+  <type>BUG</type>
   </rule>
 <rule>
   <key>objc-property-declaration</key>
@@ -7466,7 +7466,7 @@ MPI_Send(&amp;buf, 1, MPI_CHAR, 0, 0, MPI_COMM_WORLD);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/objc-property-declaration.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7487,7 +7487,7 @@ for (const pair&lt;int, vector&lt;string&gt;&gt;&amp; p : my_map) {}
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-implicit-conversion-in-loop.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7515,7 +7515,7 @@ auto c = s.count(43);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-inefficient-algorithm.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7559,7 +7559,7 @@ void g() {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-inefficient-string-concatenation.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7602,7 +7602,7 @@ for (auto element : data) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-inefficient-vector-operation.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7638,7 +7638,7 @@ f(std::move(s));  // Warning: passing result of std::move as a const reference a
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-move-const-arg.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7659,7 +7659,7 @@ f(std::move(s));  // Warning: passing result of std::move as a const reference a
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-move-constructor-init.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7675,7 +7675,7 @@ f(std::move(s));  // Warning: passing result of std::move as a const reference a
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-noexcept-move-constructor.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7698,7 +7698,7 @@ std::asin(a);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-type-promotion-in-math-fn.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>MINOR</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7730,7 +7730,7 @@ vec_add(a, b);       // Power</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/portability-simd-intrinsics.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7748,7 +7748,7 @@ if (p)
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-delete-null-pointer.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7849,7 +7849,7 @@ void conversionsFromBool() {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-implicit-bool-conversion.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7924,7 +7924,7 @@ for (int mm = 1; mm &lt;= MONTHS_IN_A_YEAR; ++mm) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-magic-numbers.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7955,7 +7955,7 @@ if (cond1)
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-misleading-indentation.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -7986,7 +7986,7 @@ if (cond1)
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-misplaced-array-index.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -8032,7 +8032,7 @@ int f3(struct S *p) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-non-const-parameter.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -8062,7 +8062,7 @@ extern int X;</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-redundant-declaration.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -8087,7 +8087,7 @@ int i = (*p)(10, 50);</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-redundant-function-ptr-dereference.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -8111,7 +8111,7 @@ private:
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-redundant-member-init.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -8134,7 +8134,7 @@ char c = s.data()[i];  // char c = s[i];</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-simplify-subscript-expr.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -8163,7 +8163,7 @@ C::x;</code></pre>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-static-accessed-through-instance.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -8211,7 +8211,7 @@ if (str1.compare(&quot;foo&quot;) == 0) {
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-string-compare.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
   </rule>
 <rule>
@@ -8253,6 +8253,6 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/zircon-temporary-objects.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
   <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+  <type>BUG</type>
   </rule>
 </rules>
