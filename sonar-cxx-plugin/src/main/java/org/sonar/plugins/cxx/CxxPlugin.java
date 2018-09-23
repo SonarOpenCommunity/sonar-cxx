@@ -161,7 +161,7 @@ public final class CxxPlugin implements Plugin {
         .name("Parse error recovery")
         .description("Defines mode for error handling of report files and parsing errors. `False' (strict) breaks after"
           + " an error or 'True' (tolerant=default) continues. See <a href='https://github.com/SonarOpenCommunity/"
-          +"sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>"
+          + "sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>"
           + "sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
@@ -177,13 +177,31 @@ public final class CxxPlugin implements Plugin {
         .type(PropertyType.BOOLEAN)
         .index(8)
         .build(),
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxSquidSensor.REPORT_PATH_KEY)
+        .name("Path(s) to MSBuild log(s)")
+        .description("Extract includes, defines and compiler options from the build log. This works only"
+          + " if the produced log during compilation adds enough information (MSBuild verbosity set to"
+          + " detailed or diagnostic)."
+          + USE_ANT_STYLE_WILDCARDS)
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .index(9)
+        .build(),
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxSquidSensor.REPORT_CHARSET_DEF)
+        .defaultValue(CxxSquidSensor.DEFAULT_CHARSET_DEF)
+        .name("MSBuild log encoding")
+        .description("The encoding to use when reading a MSBuild log. Leave empty to use default UTF-8.")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .index(10)
+        .build(),
       PropertyDefinition.builder(CxxPlugin.JSON_COMPILATION_DATABASE_KEY)
         .subCategory(subcateg)
         .name("JSON Compilation Database")
         .description("JSON Compilation Database file to use as specification for what defines and includes should be "
           + "used for source files.")
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(9)
+        .index(11)
         .build()
     ));
   }

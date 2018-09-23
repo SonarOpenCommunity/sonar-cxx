@@ -81,7 +81,6 @@ public class CxxSquidSensor implements Sensor {
    */
   public static final String REPORT_PATH_KEY = "compiler.reportPath";
   public static final String REPORT_CHARSET_DEF = "compiler.charset";
-  public static final String PARSER_KEY_DEF = "compiler.parser";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
   
   public static final String CPD_IGNORE_LITERALS_KEY = "cpd.ignoreLiterals";
@@ -197,7 +196,7 @@ public class CxxSquidSensor implements Sensor {
       List<File> reports = CxxReportSensor.getReports(context.config(), fs.baseDir(),
         this.language.getPluginProperty(REPORT_PATH_KEY));
       cxxConf.setCompilationPropertiesWithBuildLog(reports,
-        this.language.getStringOption(PARSER_KEY_DEF).orElse(""),
+        "Visual C++",
         this.language.getStringOption(REPORT_CHARSET_DEF)
           .orElse(DEFAULT_CHARSET_DEF));
     }
