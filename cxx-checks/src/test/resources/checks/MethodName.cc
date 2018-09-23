@@ -36,6 +36,24 @@ class My_Class {
   
   ~My_Class();
   ~My_Class() {} // not an error
+
+  class My_Inner_Class {
+    My_Inner_Class();
+    ~My_Inner_Class();
+  };
+
+  template<typename T>
+  class My_Inner_Class_With_Template {
+    My_Inner_Class_With_Template();
+    ~My_Inner_Class_With_Template();
+
+    class Third_Level_Nested_Class {
+      Third_Level_Nested_Class();
+      ~Third_Level_Nested_Class()
+
+      void Third_Level_Nested_Class_getX();
+    };
+  };
 };
 
 My_Class::My_Class() // not an error
@@ -43,6 +61,39 @@ My_Class::My_Class() // not an error
 }
 
 test::My_Class::~My_Class() // not an error
+{
+}
+
+test::My_Class::My_Inner_Class::My_Inner_Class() // not an error
+{
+}
+
+test::My_Class::My_Inner_Class::~My_Inner_Class() // not an error
+{
+}
+
+template<typename T>
+My_Class::My_Inner_Class_With_Template<T>::My_Inner_Class_With_Template() // not an error
+{
+}
+
+template<typename T>
+My_Class::My_Inner_Class_With_Template<T>::~My_Inner_Class_With_Template() // not an error
+{
+}
+
+template<typename T>
+My_Class::My_Inner_Class_With_Template<T>::Third_Level_Nested_Class::Third_Level_Nested_Class() // not an error
+{
+}
+
+template<typename T>
+My_Class::My_Inner_Class_With_Template<T>::Third_Level_Nested_Class::Third_Level_Nested_Class() // not an error
+{
+}
+
+template<typename T>
+void My_Class::My_Inner_Class_With_Template<T>::Third_Level_Nested_Class::Third_Level_Nested_Class_getX() // error
 {
 }
 

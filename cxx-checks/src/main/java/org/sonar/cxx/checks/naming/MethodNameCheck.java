@@ -19,10 +19,11 @@
  */
 package org.sonar.cxx.checks.naming;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
+import java.util.Optional;
 import java.util.regex.Pattern;
+
 import javax.annotation.Nullable;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -31,6 +32,10 @@ import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.checks.SquidCheck;
+
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.GenericTokenType;
+import com.sonar.sslr.api.Grammar;
 
 /**
  * MethodNameCheck
@@ -111,6 +116,22 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
     return result;
   }
 
+  private static Optional<AstNode> getMostNestedTypeName(AstNode nestedNameSpecifier) {
+    Optional<AstNode> result = Optional.empty();
+    for (AstNode child : nestedNameSpecifier.getChildren()) {
+      if (
+          // type name was recognized by parser (most probably the least nested type)
+          child.is(CxxGrammarImpl.typeName) ||
+          // type name was recognized as template
+          child.is(CxxGrammarImpl.simpleTemplateId) ||
+          // type name was recognized, but not properly typed
+          GenericTokenType.IDENTIFIER.equals(child.getToken().getType())) {
+        result = Optional.of(child);
+      }
+    }
+    return result;
+  }
+
   private static @Nullable
   AstNode getOutsideMemberDeclaration(AstNode declId) {
     AstNode nestedNameSpecifier = declId.getFirstDescendant(CxxGrammarImpl.nestedNameSpecifier);
@@ -118,9 +139,9 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
     if (nestedNameSpecifier != null) {
       AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
       if (idNode != null) {
-        AstNode className = nestedNameSpecifier.getFirstDescendant(CxxGrammarImpl.className);
+        Optional<AstNode> typeName = getMostNestedTypeName(nestedNameSpecifier);
         // if class name is equal to method name then it is a ctor or dtor
-        if ((className != null) && !className.getTokenValue().equals(idNode.getTokenValue())) {
+        if (typeName.isPresent() && !typeName.get().getTokenValue().equals(idNode.getTokenValue())) {
           result = idNode;
         }
       }
