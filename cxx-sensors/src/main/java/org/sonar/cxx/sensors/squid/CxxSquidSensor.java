@@ -79,8 +79,8 @@ public class CxxSquidSensor implements Sensor {
   /**
    * the following settings are in use by the feature to read configuration settings from the VC compiler report
    */
-  public static final String REPORT_PATH_KEY = "compiler.reportPath";
-  public static final String REPORT_CHARSET_DEF = "compiler.charset";
+  public static final String REPORT_PATH_KEY = "msbuild.reportPath";
+  public static final String REPORT_CHARSET_DEF = "msbuild.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
   
   public static final String CPD_IGNORE_LITERALS_KEY = "cpd.ignoreLiterals";
