@@ -16,6 +16,8 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import cgi
+import json
 import os
 import re
 import subprocess
@@ -266,6 +268,141 @@ def rstfiles_to_rules_xml(directory, fix_urls):
                 rules.append(rstfile_to_rule(rst_file_path, fix_urls))
     write_rules_xml(rules, sys.stdout)
 
+
+def contains_required_fields(entry_value):
+    FIELDS = ["!name", "!anonymous", "!superclasses",
+              "Class", "DefaultSeverity", "Text"]
+    for field in FIELDS:
+        if field not in entry_value:
+            return False
+    return True
+
+
+def collect_warnings(data, diag_group_id, warnings_in_group):
+    diag_group = data[diag_group_id]
+
+    for entry_key in data:
+        entry_value = data[entry_key]
+        if entry_key == "!tablegen_json_version":
+            continue
+
+        if not contains_required_fields(entry_value):
+            continue
+
+        if "Diagnostic" not in entry_value["!superclasses"]:
+            continue
+
+        if "InGroup" not in entry_value["!superclasses"]:
+            continue
+
+        group_key = entry_value["Group"]["def"]
+        if group_key == diag_group_id:
+            warnings_in_group.append(entry_value)
+
+    sub_groups = diag_group["SubGroups"]
+    for sub_group in sub_groups:
+        sub_group_id = sub_group["def"]
+        collect_warnings(data, sub_group_id, warnings_in_group)
+
+
+# see DiagClass in JSON
+# see http://clang.llvm.org/docs/DiagnosticsReference.html for the
+# printable mappings
+DIAG_CLASS = {"CLASS_EXTENSION": {"weight": 0, "sonarqube_type": "CODE_SMELL", "printable": "warning"},
+              "CLASS_NOTE": {"weight": 0, "sonarqube_type": "CODE_SMELL", "printable": "note"},
+              "CLASS_REMARK": {"weight": 0, "sonarqube_type": "CODE_SMELL", "printable": "remark"},
+              "CLASS_WARNING": {"weight": 0, "sonarqube_type": "CODE_SMELL", "printable": "warning"},
+              "CLASS_ERROR": {"weight": 1, "sonarqube_type": "BUG", "printable": "error"}
+              }
+
+# see Severity in JSON
+# SEV_Ignored means, that the corresponding diagnostics is disabled in clang by default
+# this fact doesn't make any statement about the real severity, so we use MAJOR
+SEVERITY = {"SEV_Remark": {"weight": 0, "sonarqube_severity": "INFO"},
+            "SEV_Ignored": {"weight": 1, "sonarqube_severity": "MAJOR"},
+            "SEV_Warning": {"weight": 1, "sonarqube_severity": "MAJOR"},
+            "SEV_Error": {"weight": 2, "sonarqube_severity": "CRITICAL"},
+            "SEV_Fatal": {"weight": 3, "sonarqube_severity": "BLOCKER"}
+            }
+
+
+def calculate_rule_type_and_severity(diagnostics):
+    max_class = "CLASS_EXTENSION"
+    max_severity = "SEV_Ignored"
+
+    for diagnostic in diagnostics:
+        diag_class = diagnostic["Class"]["def"]
+        diag_severity = diagnostic["DefaultSeverity"]["def"]
+
+        if DIAG_CLASS[diag_class]["weight"] >= DIAG_CLASS[max_class]["weight"]:
+            max_class = diag_class
+        if SEVERITY[diag_severity]["weight"] >= SEVERITY[max_severity]["weight"]:
+            max_severity = diag_severity
+
+    return DIAG_CLASS[max_class]["sonarqube_type"], SEVERITY[max_severity]["sonarqube_severity"]
+
+
+def generate_description(diag_group_name, diagnostics):
+    html_lines = ["<p>Diagnostic text:</p>", "<ul>"]
+    all_diagnostics_are_remarks = True
+    for diagnostic in sorted(diagnostics, key=lambda k: k['Text']):
+        diag_class = diagnostic["Class"]["def"]
+        all_diagnostics_are_remarks = all_diagnostics_are_remarks and (
+            diag_class == "CLASS_REMARK")
+        diag_text = diagnostic["Text"]
+        diag_class_printable = DIAG_CLASS[diag_class]["printable"]
+        diag_text_escaped = cgi.escape(diag_text)
+        html_lines.append("<li>%s: %s</li>" %
+                          (diag_class_printable, diag_text_escaped))
+    html_lines.append("</ul>")
+    html_lines.append("<h2>References</h2>")
+    anchor_prefix = "r" if all_diagnostics_are_remarks else "w"
+    html_lines.append('<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#%s%s" target="_blank">Diagnostic flags in Clang</a></p>' %
+                      (anchor_prefix, diag_group_name))
+    return "\n".join(html_lines)
+
+
+def diagnostics_to_rules_xml(json_file):
+    rules = et.Element('rules')
+
+    with open(json_file) as f:
+        data = json.load(f)
+        diag_groups = data["!instanceof"]["DiagGroup"]
+        for diag_group_id in sorted(diag_groups):
+            if not data[diag_group_id]["GroupName"]:
+                continue
+
+            # colleact all Diagnostics included into this DiagGroup
+            warnings_in_group = []
+            collect_warnings(data, diag_group_id, warnings_in_group)
+
+            if not warnings_in_group:
+                continue
+
+            # for each DiagGroup calculate the rule type and severity
+            rule_type, rule_severity = calculate_rule_type_and_severity(
+                warnings_in_group)
+
+            group_name_escaped = data[diag_group_id]["GroupName"].replace(
+                "++", "-").replace("#", "-").replace("--", "-")
+            rule_name = "clang-diagnostic-" + data[diag_group_id]["GroupName"]
+            rule_key = "clang-diagnostic-" + data[diag_group_id]["GroupName"]
+            rule_description = generate_description(
+                group_name_escaped, warnings_in_group)
+
+            rule = et.Element('rule')
+            et.SubElement(rule, 'key').text = rule_key
+            et.SubElement(rule, 'name').text = rule_name
+            et.SubElement(rule, 'description').append(CDATA(rule_description))
+            et.SubElement(rule, 'severity').text = rule_severity
+            et.SubElement(rule, 'type').text = rule_type
+            rules.append(rule)
+
+    write_rules_xml(rules, sys.stdout)
+
+#
+# GENERATION OF RULES FROM CLANG-TIDY DOCUMENTATION (RST FILES)
+#
 # 0. install pandoc
 # see https://pandoc.org/
 #
@@ -286,12 +423,37 @@ def rstfiles_to_rules_xml(directory, fix_urls):
 # python utils_createrules.py comparerules clangtidy.xml clangtidy_new.xml
 # meld clangtidy.xml clangtidy_new.xml.comparable
 
+#
+# GENERATION OF RULES FROM CLANG DIAGNOSTICS
+#
+# 0. check out clang source code
+#    https://clang.llvm.org/get_started.html
+#    perform 1. Get the required tools
+#            2. Check out LLVM
+#            3. Check out Clang
+#            7. Build LLVM and Clang
+#
+# 1. use the TableGen (https://llvm.org/docs/TableGen/index.html) for generation of the list of diagnostics
+#
+#    cd <src_dir>/tools/clang/include/clang/Basic/
+#    <src_dir>/build/bin/llvm-tblgen -dump-json <src_dir>/tools/clang/include/clang/Basic/Diagnostic.td > output.json
+#
+# 2. generate the new version of the rules file
+#
+#    python clangtidy_createrules.py diagnostics output.json > clangtidy_new.xml
+#
+# 3. compare the new version with the old one, extend the old XML
+#
+#    python utils_createrules.py comparerules clangtidy.xml clangtidy_new.xml
+#    meld clangtidy.xml clangtidy_new.xml.comparable
+
 
 def print_usage_and_exit():
     script_name = os.path.basename(sys.argv[0])
     print """Usage: %s rules <path to clang-tidy source directory with RST files>
        %s rules_fixurls <path to clang-tidy source directory with RST files>
-       see the source code for inline documentation""" % (script_name, script_name)
+       %s diagnostics <path to the JSON diagnostics descriptions>
+       see the source code for inline documentation""" % (script_name, script_name, script_name)
     sys.exit(1)
 
 
@@ -305,5 +467,7 @@ if __name__ == "__main__":
         rstfiles_to_rules_xml(sys.argv[2], False)
     elif sys.argv[1] == "rules_fixurls":
         rstfiles_to_rules_xml(sys.argv[2], True)
+    elif sys.argv[1] == "diagnostics":
+        diagnostics_to_rules_xml(sys.argv[2])
     else:
         print_usage_and_exit()

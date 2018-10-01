@@ -41,6 +41,6 @@ public class CxxClangTidyRuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxClangTidyRuleRepository.getRepositoryKey(language));
-    assertEquals(311, repo.rules().size());
+    assertEquals(1014, repo.rules().size());
   }
 }
