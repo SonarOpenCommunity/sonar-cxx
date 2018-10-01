@@ -19,7 +19,7 @@
  */
 
 /**
- * Package with sensor to evaluate compiler specific report files.
+ * Package with base class for sensors to evaluate compiler specific report files.
  */
 @ParametersAreNonnullByDefault
 package org.sonar.cxx.sensors.compiler;

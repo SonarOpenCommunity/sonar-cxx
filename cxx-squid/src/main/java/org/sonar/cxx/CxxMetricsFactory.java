@@ -52,7 +52,8 @@ public class CxxMetricsFactory {
     // Introduce metric keys for sensors - number of issues per file / per module
     CLANG_SA_SENSOR_ISSUES_KEY("ClangSA"),
     CLANG_TIDY_SENSOR_ISSUES_KEY("Clang-Tidy"),
-    COMPILER_SENSOR_ISSUES_KEY("Compiler"),
+    VC_SENSOR_ISSUES_KEY("Compiler-VC"),
+    GCC_SENSOR_ISSUES_KEY("Compiler-GCC"),
     CPPCHECK_SENSOR_ISSUES_KEY("CppCheck"),
     DRMEMORY_SENSOR_ISSUES_KEY("DrMemory"),
     OTHER_SENSOR_ISSUES_KEY("other"),
@@ -104,7 +105,8 @@ public class CxxMetricsFactory {
 
     addSensorMetric(Key.CLANG_SA_SENSOR_ISSUES_KEY, "ClangSA issues", domain, langPropertiesKey, metrics);
     addSensorMetric(Key.CLANG_TIDY_SENSOR_ISSUES_KEY, "ClangTidy issues", domain, langPropertiesKey, metrics);
-    addSensorMetric(Key.COMPILER_SENSOR_ISSUES_KEY, "Compiler issues", domain, langPropertiesKey, metrics);
+    addSensorMetric(Key.VC_SENSOR_ISSUES_KEY, "VC compiler issues", domain, langPropertiesKey, metrics);
+    addSensorMetric(Key.GCC_SENSOR_ISSUES_KEY, "GCC compiler issues", domain, langPropertiesKey, metrics);
     addSensorMetric(Key.CPPCHECK_SENSOR_ISSUES_KEY, "CppCheck issues", domain, langPropertiesKey, metrics);
     addSensorMetric(Key.DRMEMORY_SENSOR_ISSUES_KEY, "DrMemory issues", domain, langPropertiesKey, metrics);
     addSensorMetric(Key.OTHER_SENSOR_ISSUES_KEY, "Other tools issues", domain, langPropertiesKey, metrics);

@@ -17,24 +17,11 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarQubeSide;
-import org.sonar.api.SonarRuntime;
-import org.sonar.api.internal.SonarRuntimeImpl;
-import org.sonar.api.utils.Version;
+/**
+ * Package with sensor to evaluate GCC compiler specific report files.
+ */
+@ParametersAreNonnullByDefault
+package org.sonar.cxx.sensors.compiler.gcc;
 
-public class CxxPluginTest {
-
-  @Test
-  public void testGetExtensions() throws Exception {
-    SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(Version.create(6, 5), SonarQubeSide.SCANNER);
-    Plugin.Context context = new Plugin.Context(runtime);
-    CxxPlugin plugin = new CxxPlugin();
-    plugin.define(context);
-    assertThat(context.getExtensions()).hasSize(80);
-  }
-}
+import javax.annotation.ParametersAreNonnullByDefault;

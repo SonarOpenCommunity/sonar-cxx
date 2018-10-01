@@ -19,15 +19,14 @@
  */
 package org.sonar.cxx.sensors.squid;
 
+import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-
 import javax.annotation.Nullable;
-
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.CheckFactory;
@@ -47,7 +46,6 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.api.CxxMetric;
-import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
 import org.sonar.cxx.sensors.visitors.CxxCpdVisitor;
@@ -63,14 +61,13 @@ import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.indexer.QueryByType;
 
-import com.sonar.sslr.api.Grammar;
-
 /**
  * {@inheritDoc}
  */
 public class CxxSquidSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
+  
   public static final String DEFINES_KEY = "defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
@@ -79,6 +76,13 @@ public class CxxSquidSensor implements Sensor {
   public static final String MISSING_INCLUDE_WARN = "missingIncludeWarnings";
   public static final String JSON_COMPILATION_DATABASE_KEY = "jsonCompilationDatabase";
 
+  /**
+   * the following settings are in use by the feature to read configuration settings from the VC compiler report
+   */
+  public static final String REPORT_PATH_KEY = "msbuild.reportPath";
+  public static final String REPORT_CHARSET_DEF = "msbuild.charset";
+  public static final String DEFAULT_CHARSET_DEF = "UTF-8";
+  
   public static final String CPD_IGNORE_LITERALS_KEY = "cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "cpd.ignoreIdentifiers";
 
@@ -187,14 +191,14 @@ public class CxxSquidSensor implements Sensor {
       }
     }
 
-    String filePaths = this.language.getStringOption(CxxCompilerSensor.REPORT_PATH_KEY).orElse("");
+    String filePaths = this.language.getStringOption(REPORT_PATH_KEY).orElse("");
     if (filePaths != null && !"".equals(filePaths)) {
       List<File> reports = CxxReportSensor.getReports(context.config(), fs.baseDir(),
-        this.language.getPluginProperty(CxxCompilerSensor.REPORT_PATH_KEY));
+        this.language.getPluginProperty(REPORT_PATH_KEY));
       cxxConf.setCompilationPropertiesWithBuildLog(reports,
-        this.language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF).orElse(""),
-        this.language.getStringOption(CxxCompilerSensor.REPORT_CHARSET_DEF)
-          .orElse(CxxCompilerSensor.DEFAULT_CHARSET_DEF));
+        "Visual C++",
+        this.language.getStringOption(REPORT_CHARSET_DEF)
+          .orElse(DEFAULT_CHARSET_DEF));
     }
 
     return cxxConf;

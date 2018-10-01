@@ -19,156 +19,104 @@
  */
 package org.sonar.cxx.sensors.compiler;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.io.File;
 import javax.xml.stream.XMLStreamException;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import org.assertj.core.api.SoftAssertions;
-import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
-import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.utils.log.LogTester;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCompilerSensorTest {
 
   private DefaultFileSystem fs;
-  private RulesProfile profile;
   private CxxLanguage language;
-  private MapSettings settings = new MapSettings();
+  SensorContextTester context;
+  CxxCompilerSensorMock sensor;
+
+  @Rule
+  public LogTester logTester = new LogTester();
+
+  private class CxxCompilerSensorMock extends CxxCompilerSensor {
+
+    private String regex = "";
+
+    public CxxCompilerSensorMock(CxxLanguage language) {
+      super(language, "cxx.reportPath", "cxx.XXX");
+    }
+
+    @Override
+    public void describe(SensorDescriptor descriptor) {
+    }
+
+    @Override
+    protected String getCompilerKey() {
+      return "XXX";
+    }
+
+    @Override
+    protected String getCharset(final SensorContext context) {
+      return "UTF-8";
+    }
+
+    @Override
+    protected String getRegex(final SensorContext context) {
+      return regex;
+    }
+
+    @Override
+    protected CxxMetricsFactory.Key getMetricKey() {
+      return CxxMetricsFactory.Key.OTHER_SENSOR_ISSUES_KEY;
+    }
+
+    public void testProcessReport(final SensorContext context, File report) throws XMLStreamException {
+      processReport(context, report);
+    }
+
+    public void setRegex(String regex) {
+      this.regex = regex;
+    }
+  }
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    profile = mock(RulesProfile.class);
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxCompilerSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxCompilerSensor.REPORT_PATH_KEY);
-    when(language.getPluginProperty(CxxCompilerSensor.PARSER_KEY_DEF)).thenReturn("sonar.cxx." + CxxCompilerSensor.PARSER_KEY_DEF);
-    when(language.getPluginProperty(CxxCompilerSensor.REPORT_CHARSET_DEF)).thenReturn("sonar.cxx." + CxxCompilerSensor.REPORT_CHARSET_DEF);
-    when(language.getPluginProperty(CxxCompilerSensor.REPORT_REGEX_DEF)).thenReturn("sonar.cxx." + CxxCompilerSensor.REPORT_REGEX_DEF);
+    context = SensorContextTester.create(fs.baseDir());
+    sensor = new CxxCompilerSensorMock(language);
   }
 
   @Test
-  public void shouldReportCorrectGccViolations() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.REPORT_PATH_KEY), "compiler-reports/build.gcclog");
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.PARSER_KEY_DEF), CxxCompilerGccParser.KEY_GCC);
-    context.setSettings(settings);
-
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/zipmanager.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
-
-    CxxCompilerSensor sensor = new CxxCompilerGccSensor(language);
-    sensor.execute(context);
-    assertThat(context.allIssues()).hasSize(4);
+  public void testFileNotFound() throws XMLStreamException {
+    File report = new File("");
+    sensor.testProcessReport(context, report);
+    String log = logTester.logs().toString();
+    assertThat(log.contains("FileNotFoundException")).isTrue();
   }
 
   @Test
-  public void shouldReportACorrectVcViolations() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.REPORT_PATH_KEY), "compiler-reports/BuildLog.htm");
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.PARSER_KEY_DEF), CxxCompilerVcParser.KEY_VC);
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.REPORT_CHARSET_DEF), "UTF-16");
-    context.setSettings(settings);
-
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "zipmanager.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
-
-    CxxCompilerSensor sensor = new CxxCompilerVcSensor(language);
-    sensor.execute(context);
-    assertThat(context.allIssues()).hasSize(9);
+  public void testRegexInvalid() throws XMLStreamException {
+    File report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
+    sensor.setRegex("*");
+    sensor.testProcessReport(context, report);
+    String log = logTester.logs().toString();
+    assertThat(log.contains("PatternSyntaxException")).isTrue();
   }
 
   @Test
-  public void shouldReportBCorrectVcViolations() {
-    when(language.getStringOption(language.getPluginProperty(CxxCompilerSensor.REPORT_CHARSET_DEF))).thenReturn(Optional.of("UTF-8"));
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.REPORT_PATH_KEY), "compiler-reports/VC-report.vclog");
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.PARSER_KEY_DEF), CxxCompilerVcParser.KEY_VC);
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.REPORT_CHARSET_DEF), "UTF-8");
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.REPORT_REGEX_DEF), "^.*>(?<filename>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)$");
-    context.setSettings(settings);
-
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "Server/source/zip/zipmanager.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
-
-    CxxCompilerSensor sensor = new CxxCompilerVcSensor(language);
-    sensor.execute(context);
-    assertThat(context.allIssues()).hasSize(9);
+  public void testRegexNamedGroupMissing() throws XMLStreamException {
+    File report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
+    sensor.setRegex(".*");
+    sensor.testProcessReport(context, report);
+    String log = logTester.logs().toString();
+    assertThat(log.contains("No group with name")).isTrue();
   }
 
-  @Test
-  public void shouldReportCorrectVcViolations() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.REPORT_PATH_KEY), "compiler-reports/VC-report.vclog");
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.PARSER_KEY_DEF), CxxCompilerVcParser.KEY_VC);
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.REPORT_CHARSET_DEF), "UTF-8");
-    settings.setProperty(language.getPluginProperty(CxxCompilerSensor.REPORT_REGEX_DEF), "^(.*)\\((\\d+)\\):\\x20warning\\x20(C\\d+):(.*)$");
-    context.setSettings(settings);
-
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "Server/source/zip/zipmanager.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
-
-    CxxCompilerSensor sensor = new CxxCompilerVcSensor(language);
-    sensor.execute(context);
-    assertThat(context.allIssues()).hasSize(9);
-  }
-
-  @Test
-  public void shouldReportWarningsWithoutFileAndLineInformation() throws XMLStreamException {
-    List<CompilerParser.Warning> warnings = Arrays.asList(
-      new CompilerParser.Warning("filename1", "line1", "id1", "msg2"),
-      new CompilerParser.Warning("filename1", null, "id2", "msg1"),
-      new CompilerParser.Warning(null, null, "id3", "msg1"),
-      new CompilerParser.Warning(null, null, "id4", null)
-    );
-
-    MockCxxCompilerSensor sensor = new MockCxxCompilerSensor(language, fs, profile, warnings);
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    sensor.processReport(context, null);
-
-    Assert.assertTrue(warnings.containsAll(sensor.savedWarnings));
-  }
-
-  @Test
-  public void sensorDescriptorGcc() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxCompilerGccSensor sensor = new CxxCompilerGccSensor(language);
-    sensor.describe(descriptor);
-
-    SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CxxCompilerGccSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories())
-        .containsOnly(CxxCompilerGccRuleRepository.getRepositoryKey(language));
-    softly.assertAll();
-  }
-
-  @Test
-  public void sensorDescriptorVc() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxCompilerVcSensor sensor = new CxxCompilerVcSensor(language);
-    sensor.describe(descriptor);
-
-    SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CxxCompilerVcSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories())
-        .containsOnly(CxxCompilerVcRuleRepository.getRepositoryKey(language));
-    softly.assertAll();
-  }
 }

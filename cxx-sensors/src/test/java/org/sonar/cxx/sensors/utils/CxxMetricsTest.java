@@ -77,10 +77,10 @@ public class CxxMetricsTest {
   @Test
   public void getMetricsTest() {
     List<Metric> list = CxxMetricsFactory.generateList(language.getKey(), language.getPropertiesKey());
-    assertThat(list.size()).isEqualTo(23);
+    assertThat(list.size()).isEqualTo(24);
 
     Map<CxxMetricsFactory.Key, Metric<?>> map = CxxMetricsFactory.generateMap(language.getKey(), language.getPropertiesKey());
-    assertThat(map.size()).isEqualTo(23);
+    assertThat(map.size()).isEqualTo(24);
   }
 
   @Test
