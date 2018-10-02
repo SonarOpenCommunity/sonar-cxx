@@ -130,15 +130,39 @@ public class ExpressionTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.decltypeSpecifier);
     mockRule(CxxGrammarImpl.simpleTemplateId);
 
-    assertThat(p).matches(":: typeName ::");
+    // basic
+    assertThat(p).matches("::");
     assertThat(p).matches("typeName ::");
-    assertThat(p).matches(":: namespaceName ::");
     assertThat(p).matches("namespaceName ::");
     assertThat(p).matches("decltypeSpecifier ::");
-    assertThat(p).matches("typeName :: foo ::");
-    assertThat(p).matches("namespaceName :: simpleTemplateId ::");
-  }
 
+    // nested-name-specifier identifier ::
+    assertThat(p).matches(":: foo ::");
+    assertThat(p).matches("typeName :: foo ::");
+    assertThat(p).matches("namespaceName :: foo ::");
+    assertThat(p).matches("decltypeSpecifier :: foo ::");
+
+    // nested-name-specifier simple-template-id ::
+    assertThat(p).matches(":: simpleTemplateId ::");
+    assertThat(p).matches("typeName :: simpleTemplateId ::");
+    assertThat(p).matches("namespaceName :: simpleTemplateId ::");
+    assertThat(p).matches("decltypeSpecifier :: simpleTemplateId ::");
+
+    // nested-name-specifier template simple-template-id ::
+    assertThat(p).matches(":: template simpleTemplateId ::");
+    assertThat(p).matches("typeName :: template simpleTemplateId ::");
+    assertThat(p).matches("namespaceName :: template simpleTemplateId ::");
+    assertThat(p).matches("decltypeSpecifier :: template simpleTemplateId ::");
+    
+    // some deeper nested tests
+    assertThat(p).matches(":: foo1 :: foo2 :: foo3 :: foo4 ::");
+    assertThat(p).matches("typeName :: foo2 :: foo3 :: foo4 ::");
+    assertThat(p).matches("namespaceName :: foo2 :: foo3 :: foo4 ::");
+    assertThat(p).matches("decltypeSpecifier :: foo2 :: foo3 :: foo4 ::");
+    assertThat(p).matches(":: foo1 :: simpleTemplateId :: foo2 :: simpleTemplateId ::");
+    assertThat(p).matches(":: foo1 :: template simpleTemplateId :: foo2 :: template simpleTemplateId ::");
+  }
+  
   @Test
   public void postfixExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.postfixExpression));
