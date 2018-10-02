@@ -23,7 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,6 +44,8 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
+import org.sonar.api.utils.log.LogTester;
+import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
@@ -51,6 +55,9 @@ import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
 import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
 
 public class CxxSquidSensorTest {
+
+  @org.junit.Rule
+  public LogTester logTester = new LogTester();
 
   private CxxSquidSensor sensor;
   private CxxLanguage language;
@@ -65,6 +72,7 @@ public class CxxSquidSensorTest {
     when(fileLinesContextFactory.createFor(Mockito.any(InputFile.class))).thenReturn(fileLinesContext);
     when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY))
       .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
+
 
     sensor = new CxxSquidSensor(
       language,
@@ -250,5 +258,54 @@ public class CxxSquidSensorTest {
     sensor.execute(context);
 
     assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(1);
+  }
+
+
+  @Test
+  public void testLogOfParsingErrors() throws IOException {
+    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/parsing-errors");
+    DefaultInputFile inputFile = buildTestInputFile(baseDir, "syntaxerror.cc");
+
+    SensorContextTester context = SensorContextTester.create(baseDir);
+    context.fileSystem().add(inputFile);
+
+    when(language.getBooleanOption(CxxSquidSensor.ERROR_RECOVERY_KEY)).thenReturn(Optional.of(true));
+    logTester.setLevel(LoggerLevel.DEBUG);
+
+    sensor.execute(context);
+
+    List<String> warnEntries = logTester.logs(LoggerLevel.WARN);
+    List<String> debugEntries = logTester.logs(LoggerLevel.DEBUG);
+
+    SoftAssertions softly = new SoftAssertions();
+
+    softly.assertThat(warnEntries).contains("Module \"projectKey\": " + CxxSquidSensor.PARSING_ERROR_MSG);
+
+    BiFunction<String, Integer, String> asTraceEntry = (msg, lineNr) -> String.format("[%s:%d]: %s",
+        new File(inputFile.uri()).getAbsolutePath(), lineNr, msg);
+
+    softly.assertThat(debugEntries).contains(asTraceEntry.apply("skip declaration: namespace X {", 1));
+    softly.assertThat(debugEntries).contains(asTraceEntry.apply("skip declaration: void test :: f1 ( ) {", 2));
+    softly.assertThat(debugEntries).contains(asTraceEntry.apply("   syntax error: i = unsigend int ( i + 1 ) ", 7));
+    softly.assertThat(debugEntries).contains(asTraceEntry.apply("skip declaration: void test :: f3 ( ) {", 14));
+    softly.assertThat(debugEntries).contains(asTraceEntry.apply("   syntax error: int i = 0 i ++ ", 16));
+
+    softly.assertAll();
+  }
+
+  @Test
+  public void testLogOfParsingErrors_NoLogs() throws IOException {
+    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/codechunks-project");
+    DefaultInputFile inputFile0 = buildTestInputFile(baseDir, "code_chunks.cc");
+
+    SensorContextTester context = SensorContextTester.create(baseDir);
+    context.fileSystem().add(inputFile0);
+
+    when(language.getBooleanOption(CxxSquidSensor.ERROR_RECOVERY_KEY)).thenReturn(Optional.of(true));
+
+    sensor.execute(context);
+
+    List<String> warnEntries = logTester.logs(LoggerLevel.WARN);
+    assertThat(warnEntries).doesNotContain("Module \"projectKey\": " + CxxSquidSensor.PARSING_ERROR_MSG);
   }
 }

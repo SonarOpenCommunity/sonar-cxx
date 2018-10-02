@@ -30,16 +30,15 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
-import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
     extends SquidAstVisitor<GRAMMAR> implements AstVisitor {
 
-  private final SquidAstVisitorContext<?> context;
   private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);
+  private boolean parsingErrorDetected = false;
 
-  public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context) {
-    this.context = context;
+  public boolean isParsingErrorDetected() {
+    return parsingErrorDetected;
   }
 
   @Override
@@ -49,6 +48,13 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
 
   @Override
   public void visitNode(AstNode node) {
+    parsingErrorDetected = true;
+    if (LOG.isDebugEnabled()) {
+      logParsingError(node);
+    }
+  }
+
+  private void logParsingError(AstNode node) {
     List<AstNode> children = node.getChildren();
     StringBuilder sb = new StringBuilder();
     int identifierLine = -1;
@@ -64,8 +70,8 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
       } else if (type.equals(CxxPunctuator.CURLBR_LEFT)) {
         // part with CURLBR_LEFT is typically an ignored declaration
         if (identifierLine != -1) {
-          LOG.warn("[{}:{}]: skip declaration: {}",
-            context.getFile(), identifierLine, sb.toString());
+          LOG.debug("[{}:{}]: skip declaration: {}",
+            getContext().getFile(), identifierLine, sb.toString());
           sb.setLength(0);
           identifierLine = -1;
         }
@@ -79,8 +85,8 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
 
     if (identifierLine != -1 && sb.length() > 0) {
       // part without CURLBR_LEFT is typically a syntax error
-      LOG.warn("[{}:{}]:    syntax error: {}",
-        context.getFile(), identifierLine, sb.toString());
+      LOG.debug("[{}:{}]:    syntax error: {}",
+        getContext().getFile(), identifierLine, sb.toString());
     }
   }
 }
