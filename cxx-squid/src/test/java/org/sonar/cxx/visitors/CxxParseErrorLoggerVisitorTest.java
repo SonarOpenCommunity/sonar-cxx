@@ -28,6 +28,7 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.utils.log.LogTester;
+import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 
@@ -36,28 +37,31 @@ public class CxxParseErrorLoggerVisitorTest {
   @org.junit.Rule
   public LogTester logTester = new LogTester();
 
+  private InputFile inputFile;
   private SensorContextTester context;
 
   @Before
   public void scanFile() {
     String dir = "src/test/resources/visitors";
 
-    InputFile inputFile = TestInputFileBuilder.create("", dir + "/syntaxerror.cc").build();
+    inputFile = TestInputFileBuilder.create("", dir + "/syntaxerror.cc").build();
 
     context = SensorContextTester.create(new File(dir));
     context.fileSystem().add(inputFile);
 
+    logTester.setLevel(LoggerLevel.DEBUG);
     CxxAstScanner.scanSingleFile(inputFile, context, CxxFileTesterHelper.mockCxxLanguage());
   }
 
   @Test
-  public void handleParseErrorTest() throws Exception {
+  public void handleParseErrorLoggerLevelDebugTest() throws Exception {
     List<String> log = logTester.logs();
-    assertThat(log.size()).isEqualTo(8);
-    assertThat(log.get(3)).contains("skip declaration: namespace X {");
-    assertThat(log.get(4)).contains("skip declaration: void test :: f1 ( ) {");
-    assertThat(log.get(5)).contains("syntax error: i = unsigend int ( i + 1 )");
-    assertThat(log.get(6)).contains("skip declaration: void test :: f3 ( ) {");
-    assertThat(log.get(7)).contains("syntax error: int i = 0 i ++");
+    assertThat(log.size()).isEqualTo(13);
+    assertThat(log.get(7)).contains("Syntax error in a file detected.");
+    assertThat(log.get(8)).contains("skip declaration: namespace X {");
+    assertThat(log.get(9)).contains("skip declaration: void test :: f1 ( ) {");
+    assertThat(log.get(10)).contains("syntax error: i = unsigend int ( i + 1 )");
+    assertThat(log.get(11)).contains("skip declaration: void test :: f3 ( ) {");
+    assertThat(log.get(12)).contains("syntax error: int i = 0 i ++");
   }
 }
