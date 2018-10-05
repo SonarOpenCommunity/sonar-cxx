@@ -53,6 +53,7 @@ import org.sonar.cxx.sensors.visitors.CxxFileLinesVisitor;
 import org.sonar.cxx.sensors.visitors.CxxHighlighterVisitor;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
+import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.SquidAstVisitor;
@@ -67,7 +68,7 @@ import org.sonar.squidbridge.indexer.QueryByType;
 public class CxxSquidSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
-  
+
   public static final String DEFINES_KEY = "defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
@@ -82,9 +83,14 @@ public class CxxSquidSensor implements Sensor {
   public static final String REPORT_PATH_KEY = "msbuild.reportPath";
   public static final String REPORT_CHARSET_DEF = "msbuild.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
-  
+
   public static final String CPD_IGNORE_LITERALS_KEY = "cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "cpd.ignoreIdentifiers";
+
+  public static final String PARSING_ERROR_MSG = "Syntax errors were detected. "
+      + "Syntax errors could cause invalid metrics. "
+      + "Root cause are typically missing includes, missing macros or compiler specific extensions. "
+      + "Turn debug info on to get details.";
 
   public static final String KEY = "Squid";
 
@@ -140,6 +146,9 @@ public class CxxSquidSensor implements Sensor {
         this.language.getBooleanOption(CPD_IGNORE_LITERALS_KEY).orElse(Boolean.FALSE),
         this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
 
+    final CxxParseErrorLoggerVisitor<Grammar> parsingErrorVisitor = new CxxParseErrorLoggerVisitor<>();
+    visitors.add(parsingErrorVisitor);
+
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
@@ -158,6 +167,19 @@ public class CxxSquidSensor implements Sensor {
 
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles, context);
+
+    if (parsingErrorVisitor.isParsingErrorDetected()) {
+      warnAboutParsingErrors(context);
+    }
+  }
+
+  private void warnAboutParsingErrors(SensorContext context) {
+    String moduleKey = context.module().key();
+    if (moduleKey != null && !moduleKey.isEmpty()) {
+      LOG.warn("Module \"{}\": {}", moduleKey, PARSING_ERROR_MSG);
+    } else {
+      LOG.warn(PARSING_ERROR_MSG);
+    }
   }
 
   private CxxConfiguration createConfiguration(FileSystem fs, SensorContext context) {
