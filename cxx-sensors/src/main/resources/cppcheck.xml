@@ -6112,9 +6112,15 @@ Did you intend to pass 'arg2'?
   </rule>
   <rule>
     <key>unmatchedSuppression</key>
-    <name>Unmatched suppression: unusedFunction</name>
+    <name>Unmatched suppression</name>
     <description>
-      Unmatched suppression: unusedFunction.
+      <![CDATA[
+<p>cppcheck produces the warning "Unmatched suppression: <code>cppcheck-error-id</code>" if</p>
+<ol>
+<li>user suppressed <code>cppcheck-error-id</code> by means of command-line arguments or inline suppression, but...</li>
+<li>this <code>cppcheck-error-id</code> didn't appear while static code analysis</li>
+</ol>
+    ]]>
     </description>
     <internalKey>unmatchedSuppression</internalKey>
     <severity>MAJOR</severity>
