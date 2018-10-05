@@ -36,15 +36,21 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
   extends SquidAstVisitor<GRAMMAR> implements AstVisitor {
 
   private static final String SYNTAX_ERROR_MSG
-    = "Syntax error in a file detected. Syntax errors could cause invalid software metric values."
+    = "Source code parser: {} syntax error(s) detected. Syntax errors could cause invalid software metric values."
     + " Root cause are typically missing includes, missing macros or compiler specific extensions."
     + " Turn debug info on to get more details.";
   private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);
   private final SquidAstVisitorContext<?> context;
-  private static boolean firstError = true;
+  private static int errors = 0;
 
   public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context) {
     this.context = context;
+  }
+
+  public static void finalReport() {
+    if (!LOG.isDebugEnabled() && (errors > 0)) {
+      LOG.warn(SYNTAX_ERROR_MSG, errors);
+    }
   }
 
   @Override
@@ -54,10 +60,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
 
   @Override
   public void visitNode(AstNode node) {
-    if (firstError) {
-      firstError = false;
-      LOG.warn(SYNTAX_ERROR_MSG);
-    }
+    errors++;
     if (!LOG.isDebugEnabled()) {
       return;
     }

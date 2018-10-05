@@ -19,12 +19,11 @@
  */
 package org.sonar.plugins.cxx;
 
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.annotation.Nullable;
-
 import org.sonar.api.Plugin;
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.rule.CheckFactory;
@@ -40,6 +39,7 @@ import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.AggregateMeasureComputer;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.DensityMeasureComputer;
+import org.sonar.cxx.postjobs.FinalReport;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
 import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
@@ -72,8 +72,6 @@ import org.sonar.cxx.sensors.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.cxx.sensors.veraxx.CxxVeraxxSensor;
 import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
 import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
-
-import com.google.common.collect.ImmutableList;
 
 /**
  * {@inheritDoc}
@@ -585,7 +583,7 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxClangTidySensorImpl.class);
     l.add(CxxClangSASensorImpl.class);
     l.add(CxxExternalRulesSensorImpl.class);
-
+     
     // test sensors
     l.add(CxxXunitSensorImpl.class);
     l.add(CxxUnitTestResultsImportSensorImpl.class);
@@ -604,6 +602,9 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxClangTidyRuleRepositoryImpl.class);
     l.add(CxxClangSARuleRepositoryImpl.class);
 
+    // post jobs
+    l.add(FinalReport.class);
+    
     return l;
   }
 

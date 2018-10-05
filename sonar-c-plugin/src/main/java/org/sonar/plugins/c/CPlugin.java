@@ -22,9 +22,7 @@ package org.sonar.plugins.c;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.annotation.Nullable;
-
 import org.sonar.api.Plugin;
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.rule.CheckFactory;
@@ -40,6 +38,7 @@ import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.AggregateMeasureComputer;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.DensityMeasureComputer;
+import org.sonar.cxx.postjobs.FinalReport;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
 import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
@@ -553,6 +552,9 @@ public final class CPlugin implements Plugin {
     l.add(CxxClangTidyRuleRepositoryImpl.class);
     l.add(CxxClangSARuleRepositoryImpl.class);
 
+    // post jobs
+    l.add(FinalReport.class);
+    
     return l;
   }
 

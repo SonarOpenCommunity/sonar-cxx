@@ -36,7 +36,6 @@ public class CxxParseErrorLoggerVisitorTest {
 
   @org.junit.Rule
   public LogTester logTester = new LogTester();
-  private SensorContextTester context;
 
   @Before
   public void scanFile() {
@@ -44,7 +43,7 @@ public class CxxParseErrorLoggerVisitorTest {
 
     InputFile inputFile = TestInputFileBuilder.create("", dir + "/syntaxerror.cc").build();
 
-    context = SensorContextTester.create(new File(dir));
+    SensorContextTester context = SensorContextTester.create(new File(dir));
     context.fileSystem().add(inputFile);
 
     logTester.setLevel(LoggerLevel.DEBUG);
