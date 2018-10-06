@@ -51,7 +51,7 @@ public class CxxParseErrorLoggerVisitorTest {
   }
 
   @Test
-  public void handleParseError() throws Exception {
+  public void handleParseErrorTest() throws Exception {
     List<String> log = logTester.logs(LoggerLevel.DEBUG);
     assertThat(log.size()).isEqualTo(12);
     assertThat(log.get(7)).contains("skip declaration: namespace X {");

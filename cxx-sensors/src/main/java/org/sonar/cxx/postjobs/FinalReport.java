@@ -22,9 +22,14 @@ package org.sonar.cxx.postjobs;
 import org.sonar.api.batch.postjob.PostJob;
 import org.sonar.api.batch.postjob.PostJobContext;
 import org.sonar.api.batch.postjob.PostJobDescriptor;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 
 public class FinalReport implements PostJob {
+
+  private static final String DEBUG_INFO_MSG = "Turn debug info on to get more details (sonar-scanner -X -Dsonar.verbose=true ...).";
+  private static final Logger LOG = Loggers.get(FinalReport.class);
 
   @Override
   public void describe(PostJobDescriptor descriptor) {
@@ -34,6 +39,10 @@ public class FinalReport implements PostJob {
   @Override
   public void execute(PostJobContext context) {
     CxxParseErrorLoggerVisitor.finalReport();
+
+    if (!LOG.isDebugEnabled()) {
+      LOG.info(DEBUG_INFO_MSG);
+    }
   }
 
 }
