@@ -19,12 +19,11 @@
  */
 package org.sonar.plugins.cxx;
 
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.annotation.Nullable;
-
 import org.sonar.api.Plugin;
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.rule.CheckFactory;
@@ -40,6 +39,7 @@ import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.AggregateMeasureComputer;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.DensityMeasureComputer;
+import org.sonar.cxx.postjobs.FinalReport;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
 import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
@@ -72,8 +72,6 @@ import org.sonar.cxx.sensors.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.cxx.sensors.veraxx.CxxVeraxxSensor;
 import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
 import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
-
-import com.google.common.collect.ImmutableList;
 
 /**
  * {@inheritDoc}
@@ -387,7 +385,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(1)
-        .build(),      
+        .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcSensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxCompilerVcSensor.DEFAULT_CHARSET_DEF)
         .name("VC Report Encoding")
@@ -421,7 +419,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(5)
-        .build(),      
+        .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxCompilerVcSensor.DEFAULT_CHARSET_DEF)
         .name("GCC Report Encoding")
@@ -604,10 +602,14 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxClangTidyRuleRepositoryImpl.class);
     l.add(CxxClangSARuleRepositoryImpl.class);
 
+    // post jobs
+    l.add(FinalReport.class);
+
     return l;
   }
 
   public static class CxxMetricsImp implements Metrics {
+
     private static final List<Metric> METRICS = CxxMetricsFactory.generateList(CppLanguage.KEY, CppLanguage.PROPSKEY);
 
     public CxxMetricsImp(Configuration settings) {
@@ -620,12 +622,14 @@ public final class CxxPlugin implements Plugin {
   }
 
   public static class AggregateMeasureComputerImpl extends AggregateMeasureComputer {
+
     public AggregateMeasureComputerImpl() {
       super(CppLanguage.KEY, CppLanguage.PROPSKEY);
     }
   }
 
   public static class DensityMeasureComputerImpl extends DensityMeasureComputer {
+
     public DensityMeasureComputerImpl() {
       super(CppLanguage.KEY, CppLanguage.PROPSKEY);
     }
@@ -828,7 +832,7 @@ public final class CxxPlugin implements Plugin {
   public static class CxxUnitTestResultsImportSensorImpl extends CxxUnitTestResultsImportSensor {
 
     public CxxUnitTestResultsImportSensorImpl(Configuration settings,
-        CxxUnitTestResultsAggregator unitTestResultsAggregator) {
+      CxxUnitTestResultsAggregator unitTestResultsAggregator) {
       super(unitTestResultsAggregator, new CppLanguage(settings));
     }
   }
