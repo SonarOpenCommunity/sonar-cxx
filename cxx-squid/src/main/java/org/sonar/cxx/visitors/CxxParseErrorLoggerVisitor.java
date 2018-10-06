@@ -40,7 +40,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
     + " Root cause are typically missing includes, missing macros or compiler specific extensions.";
   private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);
   private final SquidAstVisitorContext<?> context;
-  private static int errors = 0;
+  public static int errors = 0;
 
   public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context) {
     this.context = context;

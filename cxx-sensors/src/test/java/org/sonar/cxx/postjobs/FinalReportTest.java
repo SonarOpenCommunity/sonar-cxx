@@ -32,7 +32,9 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 
 public class FinalReportTest {
 
@@ -53,13 +55,16 @@ public class FinalReportTest {
     SensorContextTester context = SensorContextTester.create(new File(dir));
     context.fileSystem().add(inputFile);
 
+    CxxParseErrorLoggerVisitor.errors = 0;
+    CxxPreprocessor.missingIncludeFilesCounter = 0;
     CxxAstScanner.scanSingleFile(inputFile, context, TestUtils.mockCxxLanguage());
 
     FinalReport postjob = new FinalReport();
     postjob.execute(postJobContext);
 
     List<String> log = logTester.logs(LoggerLevel.WARN);
-    assertThat(log.size()).isEqualTo(1);
-    assertThat(log.get(0)).contains("syntax error(s) detected");
+    assertThat(log.size()).isEqualTo(2);
+    assertThat(log.get(0)).contains("include directive error(s)");
+    assertThat(log.get(1)).contains("syntax error(s) detected");
   }
 }
