@@ -675,10 +675,7 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     if (includedFile == null) {
-      if (conf.getMissingIncludeWarningsEnabled()) {
-        LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '"
-          + token.getValue() + "'");
-      }
+      LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '" + token.getValue() + "'");
       if (currentFile != null) {
         missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
       }

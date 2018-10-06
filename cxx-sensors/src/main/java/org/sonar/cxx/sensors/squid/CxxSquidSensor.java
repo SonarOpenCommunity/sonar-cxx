@@ -73,7 +73,6 @@ public class CxxSquidSensor implements Sensor {
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = "forceIncludes";
   public static final String C_FILES_PATTERNS_KEY = "cFilesPatterns";
-  public static final String MISSING_INCLUDE_WARN = "missingIncludeWarnings";
   public static final String JSON_COMPILATION_DATABASE_KEY = "jsonCompilationDatabase";
 
   /**
@@ -178,8 +177,6 @@ public class CxxSquidSensor implements Sensor {
     //    or createStringArray(settings.getStringArray(C_FILES_PATTERNS_KEY), DEFAULT_C_FILES)
     cxxConf.setCFilesPatterns(this.language.getStringArrayOption(C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(this.language.getHeaderFileSuffixes());
-    cxxConf.setMissingIncludeWarningsEnabled(this.language.getBooleanOption(MISSING_INCLUDE_WARN)
-      .orElse(Boolean.FALSE));
     cxxConf.setJsonCompilationDatabaseFile(this.language.getStringOption(JSON_COMPILATION_DATABASE_KEY)
       .orElse(null));
 

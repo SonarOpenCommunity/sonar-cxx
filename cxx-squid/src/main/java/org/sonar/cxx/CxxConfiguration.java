@@ -48,7 +48,6 @@ public class CxxConfiguration extends SquidConfiguration {
   private String baseDir;
   private boolean errorRecoveryEnabled = true;
   private List<String> cFilesPatterns = new ArrayList<>();
-  private boolean missingIncludeWarningsEnabled = true;
   private String jsonCompilationDatabaseFile;
   private CxxCompilationUnitSettings globalCompilationUnitSettings;
   private final Map<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
@@ -207,14 +206,6 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public List<String> getHeaderFileSuffixes() {
     return new ArrayList<>(this.headerFileSuffixes);
-  }
-
-  public void setMissingIncludeWarningsEnabled(boolean enabled) {
-    this.missingIncludeWarningsEnabled = enabled;
-  }
-
-  public boolean getMissingIncludeWarningsEnabled() {
-    return this.missingIncludeWarningsEnabled;
   }
 
   public String getJsonCompilationDatabaseFile() {

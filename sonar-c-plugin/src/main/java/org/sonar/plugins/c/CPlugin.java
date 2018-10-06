@@ -86,7 +86,6 @@ public final class CPlugin implements Plugin {
   public static final String ERROR_RECOVERY_KEY = LANG_PROP_PREFIX + "errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = LANG_PROP_PREFIX + "forceIncludes";
   public static final String C_FILES_PATTERNS_KEY = LANG_PROP_PREFIX + "cFilesPatterns";
-  public static final String MISSING_INCLUDE_WARN = LANG_PROP_PREFIX + "missingIncludeWarnings";
   public static final String JSON_COMPILATION_DATABASE_KEY = LANG_PROP_PREFIX + "jsonCompilationDatabase";
   public static final String CPD_IGNORE_LITERALS_KEY = LANG_PROP_PREFIX + "cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = LANG_PROP_PREFIX + "cpd.ignoreIdentifiers";
@@ -157,15 +156,6 @@ public final class CPlugin implements Plugin {
         .type(PropertyType.BOOLEAN)
         .index(7)
         .build(),
-      PropertyDefinition.builder(CPlugin.MISSING_INCLUDE_WARN)
-        .defaultValue("True")
-        .name("Missing include warnings")
-        .description("Enables/disables the warnings when included files could not be found.")
-        .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .type(PropertyType.BOOLEAN)
-        .index(8)
-        .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxSquidSensor.REPORT_PATH_KEY)
         .name("MSBuild log(s)")
         .description("Extract includes, defines and compiler options from the build log. This works only"
@@ -183,7 +173,7 @@ public final class CPlugin implements Plugin {
         .description("The encoding to use when reading a MSBuild log. Leave empty to use default UTF-8.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(10)
+        .index(9)
         .build(),
       PropertyDefinition.builder(CPlugin.JSON_COMPILATION_DATABASE_KEY)
         .subCategory(subcateg)
@@ -191,7 +181,7 @@ public final class CPlugin implements Plugin {
         .description("JSON Compilation Database file to use as specification for what defines "
           + "and includes should be used for source files.")
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(11)
+        .index(10)
         .build()
     ));
   }
