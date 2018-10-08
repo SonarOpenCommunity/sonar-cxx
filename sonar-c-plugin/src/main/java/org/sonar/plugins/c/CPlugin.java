@@ -174,6 +174,7 @@ public final class CPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(9)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxSquidSensor.REPORT_CHARSET_DEF)
@@ -206,6 +207,7 @@ public final class CPlugin implements Plugin {
       )
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .multiValues(true)
       .index(1)
       .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCppCheckRuleRepository.CUSTOM_RULES_KEY)
@@ -222,6 +224,7 @@ public final class CPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(3)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxValgrindRuleRepository.CUSTOM_RULES_KEY)
@@ -238,6 +241,7 @@ public final class CPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(5)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxPCLintSensor.REPORT_PATH_KEY)
@@ -246,6 +250,7 @@ public final class CPlugin implements Plugin {
           + "projects root." + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(5)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxPCLintRuleRepository.CUSTOM_RULES_KEY)
@@ -262,6 +267,7 @@ public final class CPlugin implements Plugin {
           + "relative to projects root." + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(7)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxRatsRuleRepository.CUSTOM_RULES_KEY)
@@ -278,6 +284,7 @@ public final class CPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(9)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxRuleRepository.CUSTOM_RULES_KEY)
@@ -296,6 +303,7 @@ public final class CPlugin implements Plugin {
           + "here</a> for details.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(11)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxOtherRepository.RULES_KEY)
@@ -314,6 +322,7 @@ public final class CPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS_2)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(13)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_CHARSET_DEF)
@@ -338,6 +347,7 @@ public final class CPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS_2)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(16)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSARuleRepository.CUSTOM_RULES_KEY)
@@ -359,6 +369,7 @@ public final class CPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(1)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcSensor.REPORT_CHARSET_DEF)
@@ -393,6 +404,7 @@ public final class CPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(5)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_CHARSET_DEF)
@@ -434,6 +446,7 @@ public final class CPlugin implements Plugin {
           + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(1)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.REPORT_PATH_KEY)
@@ -443,6 +456,7 @@ public final class CPlugin implements Plugin {
           + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(6)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.XSLT_URL_KEY)

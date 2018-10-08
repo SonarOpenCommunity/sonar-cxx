@@ -132,11 +132,11 @@ public abstract class CxxReportSensor implements Sensor {
       return reports;
     }
 
-    String reportPathString = settings.get(genericReportKeyData).orElse("");
-    if (reportPathString.isEmpty()) {
+    String[] reportPathString = settings.getStringArray(genericReportKeyData);
+    if (reportPathString.length == 0) {
       LOG.info("Undefined report path value for key '{}'", genericReportKeyData);
     } else {
-      List<String> reportPaths = Arrays.asList(splitProperty(reportPathString));
+      List<String> reportPaths = Arrays.asList(reportPathString);
 
       List<String> includes = normalizeReportPaths(moduleBaseDir, reportPaths);
       if (LOG.isDebugEnabled()) {
