@@ -102,7 +102,7 @@ public enum CppPunctuator implements TokenType {
   AL_BITOR("bitor"),
   AL_COMPL("compl"),
   AL_NOT("not"),
-  AL_NOT_EQ("not_eq "),
+  AL_NOT_EQ("not_eq"),
   AL_OR("or"),
   AL_OR_EQ("or_eq"),
   AL_AL_XOR("xor"),

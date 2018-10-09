@@ -109,7 +109,7 @@ public enum CxxKeyword implements TokenType {
   BITOR("bitor"),
   COMPL("compl"),
   NOT("not"),
-  NOT_EQ("not_eq "),
+  NOT_EQ("not_eq"),
   OR("or"),
   OR_EQ("or_eq"),
   XOR("xor"),
