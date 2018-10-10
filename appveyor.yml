@@ -19,14 +19,14 @@ install:
 
       if (!(Test-Path -Path "C:\sonar-scanner" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.1.0.1141.zip',
+          'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.1.0.1141.zip',
           'C:\sonar-scanner-dist.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonar-scanner-dist.zip", "C:\sonar-scanner")
       }
       if (!(Test-Path -Path "C:\sonarqube" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.7.5.zip',
+          'https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.5.zip',
           'C:\sonarqube-6.7.5.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-6.7.5.zip", "C:\sonarqube")
