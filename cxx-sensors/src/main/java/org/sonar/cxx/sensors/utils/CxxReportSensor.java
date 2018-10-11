@@ -22,7 +22,9 @@ package org.sonar.cxx.sensors.utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -36,7 +38,6 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 
 import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 
 /**
@@ -115,52 +116,45 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   /**
-   * getReports
+   * Use the given {@link Configuration} object in order to get a list of Ant
+   * patterns referenced by key <code>reportPathKey</code>. Apply
+   * <code>moduleBaseDir</code> in order to make relative Ant patterns to
+   * absolute ones. Resolve Ant patterns and returns the list of existing files.
    *
-   * @param settings of the C++ project
-   * @param moduleBaseDir location of sonar properties file
-   * @param genericReportKeyData full path of XML report
-   * @return File
+   * @param settings
+   *          project (module) configuration
+   * @param moduleBaseDir
+   *          project (module) base directory
+   * @param reportPathKey
+   *          configuration key for the external reports (CSV list of Ant
+   *          patterns)
+   * @return List<File> list of report paths
    */
-  public static List<File> getReports(Configuration settings,
-    final File moduleBaseDir,
-    @Nullable String genericReportKeyData) {
-
-    List<File> reports = new ArrayList<>();
-
-    if (Strings.isNullOrEmpty(genericReportKeyData)) {
-      return reports;
+  public static List<File> getReports(Configuration settings, final File moduleBaseDir, String reportPathKey) {
+    String[] reportPaths = settings.getStringArray(reportPathKey);
+    if (reportPaths == null || reportPaths.length == 0) {
+      LOG.info("Undefined report path value for key '{}'", reportPathKey);
+      return Collections.emptyList();
     }
 
-    String[] reportPathString = settings.getStringArray(genericReportKeyData);
-    if (reportPathString.length == 0) {
-      LOG.info("Undefined report path value for key '{}'", genericReportKeyData);
-    } else {
-      List<String> reportPaths = Arrays.asList(reportPathString);
+    List<String> normalizedReportPaths = normalizeReportPaths(moduleBaseDir, reportPaths);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Scanner uses normalized report path(s): '{}'", String.join(", ", normalizedReportPaths));
+    }
+    // Includes array cannot contain null elements
+    DirectoryScanner directoryScanner = new DirectoryScanner();
+    directoryScanner.setIncludes(normalizedReportPaths.toArray(new String[normalizedReportPaths.size()]));
+    directoryScanner.scan();
+    String[] existingReportPaths = directoryScanner.getIncludedFiles();
 
-      List<String> includes = normalizeReportPaths(moduleBaseDir, reportPaths);
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Scanner uses report paths: '{}'", includes);
-      }
-      // Includes array cannot contain null elements
-      DirectoryScanner directoryScanner = new DirectoryScanner();
-      directoryScanner.setIncludes(includes.toArray(new String[includes.size()]));
-      directoryScanner.scan();
-
-      String[] includeFiles = directoryScanner.getIncludedFiles();
-      LOG.info("Scanner found '{}' report files", includeFiles.length);
-      for (String found : includeFiles) {
-        reports.add(new File(found));
-      }
-
-      if (reports.isEmpty() && !includes.isEmpty()) {
-        LOG.warn("Cannot find a report for '{}={}'", genericReportKeyData, includes.get(0));
-      } else {
-        LOG.info("Parser will parse '{}' report files", reports.size());
-      }
+    if (existingReportPaths.length == 0) {
+      LOG.warn("Property '{}': cannot find any files matching the Ant pattern(s) '{}'", reportPathKey,
+          String.join(", ", normalizedReportPaths));
+      return Collections.emptyList();
     }
 
-    return reports;
+    LOG.info("Parser will parse '{}' report file(s)", existingReportPaths.length);
+    return Arrays.stream(existingReportPaths).map(File::new).collect(Collectors.toList());
   }
 
   /**
@@ -168,7 +162,7 @@ public abstract class CxxReportSensor implements Sensor {
    * @param reportPaths
    * @return
    */
-  private static List<String> normalizeReportPaths(final File moduleBaseDir, List<String> reportPaths) {
+  private static List<String> normalizeReportPaths(final File moduleBaseDir, String[] reportPaths) {
     List<String> includes = new ArrayList<>();
     for (String reportPath : reportPaths) {
 

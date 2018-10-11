@@ -19,11 +19,13 @@
  */
 package org.sonar.cxx.sensors.coverage;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
@@ -113,14 +115,16 @@ public class CxxCoberturaSensorTest {
   public void shouldReportNoCoverageSaved() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
-    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/cobertura/specific-cases/does-not-exist.xml");
+    final String reportPathValue = "coverage-reports/cobertura/specific-cases/does-not-exist.xml";
+    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), reportPathValue);
     context.setSettings(settings);
 
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
 
     List<String> log = logTester.logs();
-    assertThat(log.contains("Scanner found '0' report files")).isTrue();
+    assertThat(log).contains("Property 'sonar.cxx.coverage.reportPath': cannot find any files matching the Ant pattern(s) '"
+        + new File(fs.baseDir(), reportPathValue).getAbsolutePath() + "'");
   }
 
   @Test
