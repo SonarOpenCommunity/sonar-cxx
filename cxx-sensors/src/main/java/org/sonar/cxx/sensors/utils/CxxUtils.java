@@ -31,6 +31,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -49,35 +50,18 @@ public final class CxxUtils {
   }
 
   /**
-   * Normalize the given path to pass it to sonar. Return null if normalization has failed.
-   *
-   * @param filename
-   * @return normalized path
+   * @return returns canonical path if given file name could be resolved for the
+   *         given module, <code>null</code> otherwise
    */
-  public static String normalizePath(String filename) {
+  public static String normalizePathFull(SensorContext sensorContext, String filename) {
     try {
-      return new File(filename).getCanonicalPath();
-    } catch (java.io.IOException e) {
-      LOG.error("path normalizing of '{}' failed: '{}'", filename, e);
+      return sensorContext.fileSystem().resolvePath(filename.trim()).getAbsolutePath();
+    } catch (Exception e) {
+      LOG.debug("path normalizing of '{}' failed with root cause '{}' (module '{}', base dir '{}')", filename,
+          ExceptionUtils.getRootCauseMessage(e), sensorContext.module().key(),
+          sensorContext.fileSystem().baseDir().getAbsolutePath());
       return null;
     }
-  }
-
-  /**
-   * @param filename
-   * @param baseDir
-   * @return returns case sensitive full path
-   */
-  public static String normalizePathFull(String filename, String baseDir) {
-    File targetfile = new java.io.File(filename.trim());
-    String filePath;
-    if (targetfile.isAbsolute()) {
-      filePath = normalizePath(filename);
-    } else {
-      // RATS, CppCheck and Vera++ provide names like './file.cpp' - add input folder for index check
-      filePath = normalizePath(baseDir + File.separator + filename);
-    }
-    return filePath;
   }
 
   /**

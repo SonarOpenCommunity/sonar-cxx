@@ -63,7 +63,7 @@ public class CoberturaParser extends CxxCoverageParser {
 
     StaxParser packageParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
       rootCursor.advance();
-      collectPackageMeasures(baseDir, rootCursor.descendantElementCursor("package"), coverageData);
+      collectPackageMeasures(context, rootCursor.descendantElementCursor("package"), coverageData);
     });
     packageParser.parse(report);
   }
@@ -78,19 +78,19 @@ public class CoberturaParser extends CxxCoverageParser {
     }
   }
 
-  private static void collectPackageMeasures(final String baseDir, SMInputCursor pack,
+  private static void collectPackageMeasures(SensorContext sensorContext, SMInputCursor pack,
     Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (pack.getNext() != null) {
-      collectFileMeasures(baseDir, pack.descendantElementCursor("class"), coverageData);
+      collectFileMeasures(sensorContext, pack.descendantElementCursor("class"), coverageData);
     }
   }
 
-  private static void collectFileMeasures(final String baseDir, SMInputCursor clazz,
+  private static void collectFileMeasures(SensorContext sensorContext, SMInputCursor clazz,
     Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (clazz.getNext() != null) {
-      String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), baseDir);
+      String normalPath = CxxUtils.normalizePathFull(sensorContext, clazz.getAttrValue("filename"));
       if (normalPath != null) {
         CoverageMeasures builder = coverageData.get(normalPath);
         if (builder == null) {
