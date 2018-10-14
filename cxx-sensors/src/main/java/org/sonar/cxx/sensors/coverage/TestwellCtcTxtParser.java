@@ -32,10 +32,10 @@ import java.util.regex.Matcher;
 
 import java.math.BigDecimal;
 
-import org.sonar.api.batch.sensor.SensorContext;
+import org.apache.commons.io.FilenameUtils;
+
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.sensors.utils.CxxUtils;
 
 import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.FILE_HEADER;
 import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.FILE_RESULT;
@@ -50,31 +50,31 @@ import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.SECTION_SEP;
 public class TestwellCtcTxtParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(TestwellCtcTxtParser.class);
-  
+
   private Scanner scanner;
-  
+
   private static final int FROM_START = 0;
   private static final int CONDS_FALSE = 1;
   private static final int CONDS_TRUE = 2;
   private static final int LINE_NR_GROUP = 3;
 
-  
+
 
   public TestwellCtcTxtParser() {
-    // no operation but necessary for list of coverage parsers 
+    // no operation but necessary for list of coverage parsers
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData) {
+  public void processReport(File report, final Map<String, CoverageMeasures> coverageData) {
     LOG.debug("Parsing 'Testwell CTC++' textual format");
 
     try (Scanner s = new Scanner(report).useDelimiter(SECTION_SEP)) {
       scanner = s;
       Matcher headerMatcher = FILE_HEADER.matcher(scanner.next());
-      while (parseUnit(coverageData, headerMatcher, context)) {
+      while (parseUnit(coverageData, headerMatcher)) {
         headerMatcher.reset(scanner.next());
       }
     } catch (FileNotFoundException e) {
@@ -84,37 +84,44 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
     }
   }
 
-  private boolean parseUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher, SensorContext sensorContext) {
+  private boolean parseUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher) {
     LOG.debug(headerMatcher.toString());
 
     if (headerMatcher.find(FROM_START)) {
-      parseFileUnit(coverageData, headerMatcher, sensorContext);
+      parseFileUnit(coverageData, headerMatcher);
     } else {
       return false;
     }
     return true;
   }
 
-  private void parseFileUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher, SensorContext sensorContext) {
+  private void parseFileUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher) {
     LOG.debug("Parsing file section...");
 
-    String filePath = CxxUtils.normalizePathFull(sensorContext, headerMatcher.group(1));
-    addLines(filePath, coverageData);
+    String normalFilename;
+    String filename = headerMatcher.group(1);
+    if (new File(filename).isAbsolute()) {
+      normalFilename = FilenameUtils.normalize(filename);
+    } else {
+      normalFilename = FilenameUtils.normalize("./" + filename);
+    }
+    File file = new File(normalFilename);
+    addLines(file, coverageData);
   }
 
-  private void addLines(String filePath, final Map<String, CoverageMeasures> coverageData) {
+  private void addLines(File file, final Map<String, CoverageMeasures> coverageData) {
     LOG.debug("Parsing function sections...");
 
     CoverageMeasures coverageMeasures = CoverageMeasures.create();
     for (String nextLine = scanner.next(); !FILE_RESULT.matcher(nextLine).find(); nextLine = scanner.next()) {
       parseLineSection(coverageMeasures, nextLine);
     }
-    coverageData.put(filePath, coverageMeasures);
+    coverageData.put(file.getPath(), coverageMeasures);
   }
 
   private void parseLineSection(CoverageMeasures coverageMeasures, String nextLine) {
     LOG.debug("Found line section...");
-    
+
     Matcher lineMatcher = LINE_RESULT.matcher(nextLine);
     if (lineMatcher.find(FROM_START)) {
       addEachLine(coverageMeasures, lineMatcher);

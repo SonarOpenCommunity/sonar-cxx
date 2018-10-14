@@ -21,11 +21,12 @@ package org.sonar.cxx.sensors.coverage;
 
 import java.io.File;
 import java.util.Map;
+
 import javax.xml.stream.XMLStreamException;
-import org.sonar.api.batch.sensor.SensorContext;
 
 /**
- * The interface a coverage report parser has to implement in order to be used by CxxCoverageSensor
+ * The interface a coverage report parser has to implement in order to be used
+ * by CxxCoverageSensor
  */
 public interface CoverageParser {
 
@@ -39,11 +40,14 @@ public interface CoverageParser {
    * @param coverageData
    *          A Map mapping source file names to coverage measures. Has to be
    *          used to store the results into. Source file names might be
-   *          relative. In such case they will be resolved agains the base
-   *          directory of SonarQube module/project.
+   *          relative. In such case they will be resolved against the base
+   *          directory of SonarQube module/project.<br>
+   *
+   *          <b>ATTENTION!</b> This map is shared between modules in
+   *          multi-module projects. Don't try to resolve paths against some
+   *          specific module!
    * @throws XMLStreamException
    *           javax.xml.stream.XMLStreamException
    */
-  void processReport(final SensorContext context, File report, Map<String, CoverageMeasures> coverageData)
-    throws XMLStreamException;
+  void processReport(File report, Map<String, CoverageMeasures> coverageData) throws XMLStreamException;
 }

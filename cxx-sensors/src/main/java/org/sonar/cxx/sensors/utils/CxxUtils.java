@@ -31,7 +31,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -47,15 +46,6 @@ public final class CxxUtils {
 
   private CxxUtils() {
     // only static methods
-  }
-
-  /**
-   * @return absolute, resolved and normalized <code>path</code> against the
-   *         base directory of the given SonarQube module, represented by
-   *         <code>sensorContext</code>
-   */
-  public static String normalizePathFull(SensorContext sensorContext, String path) {
-    return sensorContext.fileSystem().baseDir().getAbsoluteFile().toPath().resolve(path.trim()).normalize().toString();
   }
 
   /**

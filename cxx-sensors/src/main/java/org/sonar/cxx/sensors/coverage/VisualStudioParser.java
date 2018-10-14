@@ -24,7 +24,6 @@ import java.util.Map;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.StaxParser;
@@ -37,14 +36,14 @@ public class VisualStudioParser extends CxxCoverageParser {
   private static final Logger LOG = Loggers.get(VisualStudioParser.class);
 
   public VisualStudioParser() {
-    // no operation but necessary for list of coverage parsers 
+    // no operation but necessary for list of coverage parsers
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData)
+  public void processReport(File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     LOG.debug("Parsing 'Visual Studio' format");
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
