@@ -189,8 +189,12 @@ public class CxxCoverageSensor extends CxxReportSensor {
             CxxUtils.validateRecovery(ex, getLanguage());
           }
           LOG.info("Saved '{}' coverage measures for file '{}'", measures.size(), filePath);
-        } else  if (LOG.isDebugEnabled()) {
-          LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+        } else {
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+          } else if (filePath.startsWith(context.fileSystem().baseDir().getAbsolutePath())) {
+            LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);
+          }
         }
       } else {
         if (LOG.isDebugEnabled()) {
