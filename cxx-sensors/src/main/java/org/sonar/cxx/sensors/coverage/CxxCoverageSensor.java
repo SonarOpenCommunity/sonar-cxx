@@ -165,9 +165,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
   private void saveMeasures(SensorContext context,
     Map<String, CoverageMeasures> coverageMeasures) {
     for (Map.Entry<String, CoverageMeasures> entry : coverageMeasures.entrySet()) {
-      String filePath = PathUtils.sanitize(entry.getKey());
+      final String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath != null) {
-        filePath = CxxUtils.normalizePathFull(context, filePath);
         InputFile cxxFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(filePath));
         if (LOG.isDebugEnabled()) {
           LOG.debug("save coverage measure for file: '{}' cxxFile = '{}'", filePath, cxxFile);
@@ -190,12 +189,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
             CxxUtils.validateRecovery(ex, getLanguage());
           }
           LOG.info("Saved '{}' coverage measures for file '{}'", measures.size(), filePath);
-        } else {
-          if (LOG.isDebugEnabled()) {
-            LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
-          } else if (filePath.startsWith(context.fileSystem().baseDir().getAbsolutePath())) {
-            LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);
-          }
+        } else  if (LOG.isDebugEnabled()) {
+          LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
         }
       } else {
         if (LOG.isDebugEnabled()) {

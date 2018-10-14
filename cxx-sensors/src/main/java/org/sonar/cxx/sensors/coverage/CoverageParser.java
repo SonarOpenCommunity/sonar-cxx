@@ -32,10 +32,17 @@ public interface CoverageParser {
   /**
    * Parses the given report and stores the results in the according builder
    *
-   * @param context of sensor
-   * @param report with coverage data
-   * @param coverageData A Map mapping source file names to coverage measures. Has to be used to store the results into.
-   * @throws XMLStreamException javax.xml.stream.XMLStreamException
+   * @param context
+   *          of sensor
+   * @param report
+   *          with coverage data
+   * @param coverageData
+   *          A Map mapping source file names to coverage measures. Has to be
+   *          used to store the results into. Source file names might be
+   *          relative. In such case they will be resolved agains the base
+   *          directory of SonarQube module/project.
+   * @throws XMLStreamException
+   *           javax.xml.stream.XMLStreamException
    */
   void processReport(final SensorContext context, File report, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException;

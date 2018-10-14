@@ -50,18 +50,12 @@ public final class CxxUtils {
   }
 
   /**
-   * @return returns canonical path if given file name could be resolved for the
-   *         given module, <code>null</code> otherwise
+   * @return absolute, resolved and normalized <code>path</code> against the
+   *         base directory of the given SonarQube module, represented by
+   *         <code>sensorContext</code>
    */
-  public static String normalizePathFull(SensorContext sensorContext, String filename) {
-    try {
-      return sensorContext.fileSystem().resolvePath(filename.trim()).getAbsolutePath();
-    } catch (Exception e) {
-      LOG.debug("path normalizing of '{}' failed with root cause '{}' (module '{}', base dir '{}')", filename,
-          ExceptionUtils.getRootCauseMessage(e), sensorContext.module().key(),
-          sensorContext.fileSystem().baseDir().getAbsolutePath());
-      return null;
-    }
+  public static String normalizePathFull(SensorContext sensorContext, String path) {
+    return sensorContext.fileSystem().baseDir().getAbsoluteFile().toPath().resolve(path.trim()).normalize().toString();
   }
 
   /**

@@ -32,11 +32,10 @@ import java.util.regex.Matcher;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.io.FilenameUtils;
-
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.sensors.utils.CxxUtils;
 
 import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.FILE_HEADER;
 import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.FILE_RESULT;
@@ -75,7 +74,7 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
     try (Scanner s = new Scanner(report).useDelimiter(SECTION_SEP)) {
       scanner = s;
       Matcher headerMatcher = FILE_HEADER.matcher(scanner.next());
-      while (parseUnit(coverageData, headerMatcher)) {
+      while (parseUnit(coverageData, headerMatcher, context)) {
         headerMatcher.reset(scanner.next());
       }
     } catch (FileNotFoundException e) {
@@ -85,39 +84,32 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
     }
   }
 
-  private boolean parseUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher) {
+  private boolean parseUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher, SensorContext sensorContext) {
     LOG.debug(headerMatcher.toString());
 
     if (headerMatcher.find(FROM_START)) {
-      parseFileUnit(coverageData, headerMatcher);
+      parseFileUnit(coverageData, headerMatcher, sensorContext);
     } else {
       return false;
     }
     return true;
   }
 
-  private void parseFileUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher) {
+  private void parseFileUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher, SensorContext sensorContext) {
     LOG.debug("Parsing file section...");
 
-    String normalFilename;
-    String filename = headerMatcher.group(1);
-    if (new File(filename).isAbsolute()) {
-      normalFilename = FilenameUtils.normalize(filename);
-    } else {
-      normalFilename = FilenameUtils.normalize("./" + filename);
-    }
-    File file = new File(normalFilename);
-    addLines(file, coverageData);
+    String filePath = CxxUtils.normalizePathFull(sensorContext, headerMatcher.group(1));
+    addLines(filePath, coverageData);
   }
 
-  private void addLines(File file, final Map<String, CoverageMeasures> coverageData) {
+  private void addLines(String filePath, final Map<String, CoverageMeasures> coverageData) {
     LOG.debug("Parsing function sections...");
 
     CoverageMeasures coverageMeasures = CoverageMeasures.create();
     for (String nextLine = scanner.next(); !FILE_RESULT.matcher(nextLine).find(); nextLine = scanner.next()) {
       parseLineSection(coverageMeasures, nextLine);
     }
-    coverageData.put(file.getPath(), coverageMeasures);
+    coverageData.put(filePath, coverageMeasures);
   }
 
   private void parseLineSection(CoverageMeasures coverageMeasures, String nextLine) {
