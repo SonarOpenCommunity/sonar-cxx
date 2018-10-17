@@ -183,6 +183,7 @@ public final class CxxPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(9)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxSquidSensor.REPORT_CHARSET_DEF)
@@ -215,6 +216,7 @@ public final class CxxPlugin implements Plugin {
       )
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .multiValues(true)
       .index(1)
       .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCppCheckRuleRepository.CUSTOM_RULES_KEY)
@@ -231,6 +233,7 @@ public final class CxxPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(3)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxValgrindRuleRepository.CUSTOM_RULES_KEY)
@@ -247,6 +250,7 @@ public final class CxxPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(5)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxPCLintSensor.REPORT_PATH_KEY)
@@ -255,6 +259,7 @@ public final class CxxPlugin implements Plugin {
           + "  root." + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(5)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxPCLintRuleRepository.CUSTOM_RULES_KEY)
@@ -271,6 +276,7 @@ public final class CxxPlugin implements Plugin {
           + " relative to projects root." + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(7)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxRatsRuleRepository.CUSTOM_RULES_KEY)
@@ -287,6 +293,7 @@ public final class CxxPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(9)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxRuleRepository.CUSTOM_RULES_KEY)
@@ -304,6 +311,7 @@ public final class CxxPlugin implements Plugin {
           + "/wiki/Extending-the-code-analysis'>here</a> for details.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(11)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxOtherRepository.RULES_KEY)
@@ -321,6 +329,7 @@ public final class CxxPlugin implements Plugin {
           + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(13)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_CHARSET_DEF)
@@ -345,6 +354,7 @@ public final class CxxPlugin implements Plugin {
           + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(16)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSARuleRepository.CUSTOM_RULES_KEY)
@@ -384,6 +394,7 @@ public final class CxxPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(1)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcSensor.REPORT_CHARSET_DEF)
@@ -418,6 +429,7 @@ public final class CxxPlugin implements Plugin {
           + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(5)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_CHARSET_DEF)
@@ -455,7 +467,6 @@ public final class CxxPlugin implements Plugin {
 
     properties.add(
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.REPORT_PATH_KEY)
-        .multiValues(true)
         .name("Unit test coverage report(s)")
         .description("List of paths to reports containing unit test coverage data, relative to projects root."
           + " The values are separated by commas."
@@ -463,6 +474,7 @@ public final class CxxPlugin implements Plugin {
           + "here</a> for supported formats.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(1)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.REPORT_PATH_KEY)
@@ -472,6 +484,7 @@ public final class CxxPlugin implements Plugin {
           + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .multiValues(true)
         .index(2)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.XSLT_URL_KEY)
@@ -500,6 +513,15 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(5)
+        .build(),
+      PropertyDefinition.builder(LANG_PROP_PREFIX
+        + UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
+        .multiValues(true)
+        .name("NUnit Test Reports Paths")
+        .description("Example: \"TestResult.xml\", \"TestResult1.xml,TestResult2.xml\" or \"C:/TestResult.xml\"")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .index(6)
         .build()
     );
     return properties.build();

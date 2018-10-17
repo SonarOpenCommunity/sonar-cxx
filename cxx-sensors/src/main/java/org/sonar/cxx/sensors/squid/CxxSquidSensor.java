@@ -67,7 +67,7 @@ import org.sonar.squidbridge.indexer.QueryByType;
 public class CxxSquidSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
-  
+
   public static final String DEFINES_KEY = "defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
@@ -82,7 +82,7 @@ public class CxxSquidSensor implements Sensor {
   public static final String REPORT_PATH_KEY = "msbuild.reportPath";
   public static final String REPORT_CHARSET_DEF = "msbuild.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
-  
+
   public static final String CPD_IGNORE_LITERALS_KEY = "cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "cpd.ignoreIdentifiers";
 
@@ -191,14 +191,13 @@ public class CxxSquidSensor implements Sensor {
       }
     }
 
-    String filePaths = this.language.getStringOption(REPORT_PATH_KEY).orElse("");
-    if (filePaths != null && !"".equals(filePaths)) {
+    final String[] buildLogPaths = language.getStringArrayOption(REPORT_PATH_KEY);
+    final boolean buildLogPathsDefined = buildLogPaths != null && buildLogPaths.length != 0;
+    if (buildLogPathsDefined) {
       List<File> reports = CxxReportSensor.getReports(context.config(), fs.baseDir(),
-        this.language.getPluginProperty(REPORT_PATH_KEY));
-      cxxConf.setCompilationPropertiesWithBuildLog(reports,
-        "Visual C++",
-        this.language.getStringOption(REPORT_CHARSET_DEF)
-          .orElse(DEFAULT_CHARSET_DEF));
+          this.language.getPluginProperty(REPORT_PATH_KEY));
+      cxxConf.setCompilationPropertiesWithBuildLog(reports, "Visual C++",
+          this.language.getStringOption(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF));
     }
 
     return cxxConf;
