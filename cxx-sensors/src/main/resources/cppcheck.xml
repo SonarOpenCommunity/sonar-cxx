@@ -8951,7 +8951,6 @@ Obsolete function 'QString::vsprintf' called. It is recommended to use
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <internalKey>QString::vsprintfCalled</internalKey>
@@ -8972,7 +8971,6 @@ Obsolete function 'asctime_s' called. It is recommended to use
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <internalKey>asctime_sCalled</internalKey>
@@ -8993,7 +8991,6 @@ suspicious as the same code is executed regardless of the condition.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <internalKey>duplicateValueTernary</internalKey>
@@ -9014,7 +9011,6 @@ inner condition).
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -9031,7 +9027,6 @@ inner condition).
       <![CDATA[
       The function overrides a function in a base class but is not marked with a 'override' specifier.
     ]]>
-      <![CDATA[]]>
     </description>
     <internalKey>missingOverride</internalKey>
     <severity>MINOR</severity>
@@ -9051,7 +9046,6 @@ has dynamic memory/resource allocation(s).
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <internalKey>noDestructor</internalKey>
@@ -9072,7 +9066,6 @@ has dynamic memory/resource allocation(s).
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <internalKey>noOperatorEq</internalKey>
@@ -9094,7 +9087,6 @@ examine this code carefully to determine if it is correct.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <internalKey>oppositeExpression</internalKey>
@@ -9110,7 +9102,6 @@ examine this code carefully to determine if it is correct.
       <![CDATA[
       Call of pure virtual function in constructor. The call will fail during runtime.
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>bug</tag>
     <internalKey>pureVirtualCall</internalKey>
@@ -9131,7 +9122,6 @@ use 'qInstallMessageHandler' instead.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <internalKey>qInstallMsgHandlerCalled</internalKey>
@@ -9152,7 +9142,6 @@ Obsolete function 'qrand' called. It is recommended to use
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <internalKey>qrandCalled</internalKey>
@@ -9173,7 +9162,6 @@ Obsolete function 'qsrand' called. It is recommended to use
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <internalKey>qsrandCalled</internalKey>
@@ -9194,7 +9182,6 @@ Obsolete function 'std::asctime_s' called. It is recommended to use
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <internalKey>std::asctime_sCalled</internalKey>
@@ -9215,7 +9202,6 @@ instead.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>cwe</tag>
     <internalKey>umaskCalled</internalKey>
@@ -9231,7 +9217,6 @@ instead.
       <![CDATA[
       Call of pure virtual function in constructor. Dynamic binding is not used.
     ]]>
-      <![CDATA[]]>
     </description>
     <tag>bug</tag>
     <internalKey>virtualCallInConstructor</internalKey>
@@ -9240,34 +9225,144 @@ instead.
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-</rules>
-
-<!-- ########### Deprecated as of 1.63 ########### -->
-<!-- tooBigSleepTime -->
-<!-- dangerousUsageStrtol -->
-<!-- wrongcctypecall -->
-
-<!-- ########### Deprecated as of 1.63.1 ########### -->
-<!-- dangerousUsageStrtol -->
-<!-- conditionAlwaysTrueFalse -->
-<!-- sizeArgumentAsChar -->
-<!-- complexPatternError -->
-<!-- missingPercentCharacter -->
-<!-- redundantStrcpyInSwitch -->
-<!-- stlcstrthrow -->
-<!-- wrongcctypecall -->
-<!-- debug -->
-<!-- strncatUsage -->
-<!-- invalidScanfFormatWidth -->
-<!-- leakconfiguration -->
-<!-- missingScanfFormatWidth -->
-<!-- redundantOperationInSwitch -->
-<!-- unknownPattern -->
-<!-- invalidFree -->
-<!-- invalidLengthModifierError -->
-<!-- tooBigSleepTime -->
-<!-- class_X_Y -->
-
-<!-- ########### Deprecated as of 1.64 ########### -->
-<!-- duplicateBranch -->
-
+  <rule>
+    <key>QString::sprintfCalled</key>
+    <name>Obsolete function 'QString::sprintf' called. It is recommended to use 'QString::asprintf', 'QString::arg' or 'QTextStream' instead</name>
+    <description>
+      <![CDATA[
+      <p>
+Obsolete function 'QString::sprintf' called. It is recommended to use
+'QString::asprintf', 'QString::arg' or 'QTextStream' instead.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>QString::sprintfCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>containerOutOfBounds</key>
+    <name>Out of bounds access of item in container 'var'</name>
+    <description>
+      <![CDATA[
+      <p>
+Out of bounds access of item in container 'var'
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>containerOutOfBounds</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>incorrectCharBooleanError</key>
+    <name>Conversion of char literal 'x' to bool always evaluates to true</name>
+    <description>
+      <![CDATA[
+      <p>
+Conversion of char literal 'x' to bool always evaluates to true.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>incorrectCharBooleanError</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>mismatchingContainerExpression</key>
+    <name>Iterators to containers from different expressions 'v1' and 'v2' are used together</name>
+    <description>
+      <![CDATA[
+      <p>
+Iterators to containers from different expressions 'v1' and 'v2' are
+used together.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>mismatchingContainerExpression</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>sameIteratorExpression</key>
+    <name>Same iterators expression are used for algorithm</name>
+    <description>
+      <![CDATA[
+      <p>
+Same iterators expression are used for algorithm.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>sameIteratorExpression</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>useStlAlgorithm</key>
+    <name>Consider using  algorithm instead of a raw loop</name>
+    <description>
+      <![CDATA[
+      <p>
+Consider using  algorithm instead of a raw loop.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>useStlAlgorithm</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>wxString::StripCalled</key>
+    <name>This is the same as wxString::Trim() except that it doesn't change this string. This is a wxWidgets 1.xx compatibility function; you should not use it in new code</name>
+    <description>
+      <![CDATA[
+      <p>
+This is the same as wxString::Trim() except that it doesn't change
+this string. This is a wxWidgets 1.xx compatibility function; you
+should not use it in new code.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>wxString::StripCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  </rules>
