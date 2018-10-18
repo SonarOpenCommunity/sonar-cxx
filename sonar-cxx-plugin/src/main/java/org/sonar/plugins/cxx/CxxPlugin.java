@@ -90,7 +90,6 @@ public final class CxxPlugin implements Plugin {
   public static final String ERROR_RECOVERY_KEY = LANG_PROP_PREFIX + "errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = LANG_PROP_PREFIX + "forceIncludes";
   public static final String C_FILES_PATTERNS_KEY = LANG_PROP_PREFIX + "cFilesPatterns";
-  public static final String MISSING_INCLUDE_WARN = LANG_PROP_PREFIX + "missingIncludeWarnings";
   public static final String JSON_COMPILATION_DATABASE_KEY = LANG_PROP_PREFIX + "jsonCompilationDatabase";
   public static final String CPD_IGNORE_LITERALS_KEY = LANG_PROP_PREFIX + "cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = LANG_PROP_PREFIX + "cpd.ignoreIdentifiers";
@@ -166,15 +165,6 @@ public final class CxxPlugin implements Plugin {
         .type(PropertyType.BOOLEAN)
         .index(7)
         .build(),
-      PropertyDefinition.builder(CxxPlugin.MISSING_INCLUDE_WARN)
-        .defaultValue(Boolean.TRUE.toString())
-        .name("Missing include warnings")
-        .description("Enables/disables the warnings when included files could not be found.")
-        .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .type(PropertyType.BOOLEAN)
-        .index(8)
-        .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxSquidSensor.REPORT_PATH_KEY)
         .name("Path(s) to MSBuild log(s)")
         .description("Extract includes, defines and compiler options from the build log. This works only"
@@ -184,7 +174,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(9)
+        .index(8)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxSquidSensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxSquidSensor.DEFAULT_CHARSET_DEF)
@@ -192,7 +182,7 @@ public final class CxxPlugin implements Plugin {
         .description("The encoding to use when reading a MSBuild log. Leave empty to use default UTF-8.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(10)
+        .index(9)
         .build(),
       PropertyDefinition.builder(CxxPlugin.JSON_COMPILATION_DATABASE_KEY)
         .subCategory(subcateg)
@@ -200,7 +190,7 @@ public final class CxxPlugin implements Plugin {
         .description("JSON Compilation Database file to use as specification for what defines and includes should be "
           + "used for source files.")
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(11)
+        .index(10)
         .build()
     ));
   }
@@ -260,7 +250,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(5)
+        .index(6)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxPCLintRuleRepository.CUSTOM_RULES_KEY)
         .name("PC-lint custom rules")
@@ -268,7 +258,7 @@ public final class CxxPlugin implements Plugin {
           + EXTENDING_THE_CODE_ANALYSIS)
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(6)
+        .index(7)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxRatsSensor.REPORT_PATH_KEY)
         .name("RATS report(s)")
@@ -277,7 +267,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(7)
+        .index(8)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxRatsRuleRepository.CUSTOM_RULES_KEY)
         .name("RATS custom rules")
@@ -285,7 +275,7 @@ public final class CxxPlugin implements Plugin {
           + EXTENDING_THE_CODE_ANALYSIS)
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(8)
+        .index(9)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxSensor.REPORT_PATH_KEY)
         .name("Vera++ report(s)")
@@ -294,7 +284,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(9)
+        .index(10)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxRuleRepository.CUSTOM_RULES_KEY)
         .name("Vera++ custom rules")
@@ -302,7 +292,7 @@ public final class CxxPlugin implements Plugin {
           + EXTENDING_THE_CODE_ANALYSIS)
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(10)
+        .index(11)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxOtherSensor.REPORT_PATH_KEY)
         .name("External checkers report(s)")
@@ -312,7 +302,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(11)
+        .index(12)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxOtherRepository.RULES_KEY)
         .name("External rules")
@@ -321,7 +311,7 @@ public final class CxxPlugin implements Plugin {
         .type(PropertyType.TEXT)
         .multiValues(true)
         .subCategory(subcateg)
-        .index(12)
+        .index(13)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_PATH_KEY)
         .name("Clang-Tidy analyzer report(s)")
@@ -330,7 +320,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(13)
+        .index(14)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxClangTidySensor.DEFAULT_CHARSET_DEF)
@@ -338,7 +328,7 @@ public final class CxxPlugin implements Plugin {
         .description("The encoding to use when reading the clang-tidy report. Leave empty to use parser's default UTF-8.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(14)
+        .index(15)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidyRuleRepository.CUSTOM_RULES_KEY)
         .name("Clang-Tidy custom rules")
@@ -346,7 +336,7 @@ public final class CxxPlugin implements Plugin {
           + EXTENDING_THE_CODE_ANALYSIS)
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(15)
+        .index(16)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSASensor.REPORT_PATH_KEY)
         .name("Clang Static analyzer analyzer report(s)")
@@ -355,14 +345,14 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(16)
+        .index(17)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSARuleRepository.CUSTOM_RULES_KEY)
         .name("Clang-SA custom rules")
         .description("NO DESC")
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(17)
+        .index(18)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionComplexityVisitor.FUNCTION_COMPLEXITY_THRESHOLD_KEY)
         .defaultValue("10")
@@ -371,7 +361,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .type(PropertyType.INTEGER)
-        .index(18)
+        .index(19)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionSizeVisitor.FUNCTION_SIZE_THRESHOLD_KEY)
         .defaultValue("20")
@@ -380,7 +370,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .type(PropertyType.INTEGER)
-        .index(19)
+        .index(20)
         .build()
     ));
   }

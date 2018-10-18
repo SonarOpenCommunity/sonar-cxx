@@ -1,3 +1,5 @@
+#include <invalid.h>
+
 namespace X {
    void test::f1() {
       int i = 0;

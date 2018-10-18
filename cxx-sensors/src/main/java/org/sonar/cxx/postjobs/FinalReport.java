@@ -24,6 +24,7 @@ import org.sonar.api.batch.postjob.PostJobContext;
 import org.sonar.api.batch.postjob.PostJobDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 
 public class FinalReport implements PostJob {
@@ -38,6 +39,7 @@ public class FinalReport implements PostJob {
 
   @Override
   public void execute(PostJobContext context) {
+    CxxPreprocessor.finalReport();
     CxxParseErrorLoggerVisitor.finalReport();
 
     if (!LOG.isDebugEnabled()) {

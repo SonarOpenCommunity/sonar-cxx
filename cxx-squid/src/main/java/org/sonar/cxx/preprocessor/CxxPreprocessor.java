@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.sonar.sslr.api.AstNode;
@@ -84,6 +85,10 @@ public class CxxPreprocessor extends Preprocessor {
 
   private static final String CPLUSPLUS = "__cplusplus";
   private static final String EVALUATED_TO_FALSE = "[{}:{}]: '{}' evaluated to false, skipping tokens that follow";
+  private static final String MISSING_INCLUDE_MSG
+    = "Preprocessor: {} include directive error(s). This is only relevant if parser creates syntax errors. "
+    + " The preprocessor searches for include files in the with 'sonar.cxx.includeDirectories'"
+    + " defined directories and order.";
   private final CxxLanguage language;
   private File currentContextFile;
   private String rootFilePath;
@@ -230,6 +235,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
   private final Multimap<String, Include> includedFiles = HashMultimap.create();
   private final Multimap<String, Include> missingIncludeFiles = HashMultimap.create();
+  private static int missingIncludeFilesCounter = 0;
 
   private State currentFileState = new State(null);
   private final Deque<State> globalStateStack = new LinkedList<>();
@@ -283,6 +289,17 @@ public class CxxPreprocessor extends Preprocessor {
     } finally {
       getMacros().setHighPrio(false);
     }
+  }
+
+  public static void finalReport() {
+    if (missingIncludeFilesCounter != 0) {
+      LOG.warn(MISSING_INCLUDE_MSG, missingIncludeFilesCounter);
+    }
+  }
+
+  @VisibleForTesting
+  public static void resetReport() {
+    missingIncludeFilesCounter = 0;
   }
 
   private void registerMacros(Map<String, String> standardMacros) {
@@ -675,9 +692,9 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     if (includedFile == null) {
-      if (conf.getMissingIncludeWarningsEnabled()) {
-        LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '"
-          + token.getValue() + "'");
+      missingIncludeFilesCounter++;
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("[" + filename + ":" + token.getLine() + "]: cannot find include file '" + token.getValue() + "'");
       }
       if (currentFile != null) {
         missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
