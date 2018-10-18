@@ -165,7 +165,7 @@ public final class CPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(9)
+        .index(8)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxSquidSensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxSquidSensor.DEFAULT_CHARSET_DEF)
@@ -241,7 +241,7 @@ public final class CPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(5)
+        .index(6)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxPCLintRuleRepository.CUSTOM_RULES_KEY)
         .name("PC-lint custom rules")
@@ -249,7 +249,7 @@ public final class CPlugin implements Plugin {
           + EXTENDING_THE_CODE_ANALYSIS)
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(6)
+        .index(7)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxRatsSensor.REPORT_PATH_KEY)
         .name("RATS report(s)")
@@ -258,7 +258,7 @@ public final class CPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(7)
+        .index(8)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxRatsRuleRepository.CUSTOM_RULES_KEY)
         .name("RATS custom rules")
@@ -266,7 +266,7 @@ public final class CPlugin implements Plugin {
           + EXTENDING_THE_CODE_ANALYSIS)
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(8)
+        .index(9)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxSensor.REPORT_PATH_KEY)
         .name("Vera++ report(s)")
@@ -275,7 +275,7 @@ public final class CPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(9)
+        .index(10)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxRuleRepository.CUSTOM_RULES_KEY)
         .name("Vera++ custom rules")
@@ -283,7 +283,7 @@ public final class CPlugin implements Plugin {
           + EXTENDING_THE_CODE_ANALYSIS)
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(10)
+        .index(11)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxOtherSensor.REPORT_PATH_KEY)
         .name("External checkers report(s)")
@@ -294,7 +294,7 @@ public final class CPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(11)
+        .index(12)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxOtherRepository.RULES_KEY)
         .name("External rules")
@@ -304,7 +304,7 @@ public final class CPlugin implements Plugin {
         .type(PropertyType.TEXT)
         .multiValues(true)
         .subCategory(subcateg)
-        .index(12)
+        .index(13)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_PATH_KEY)
         .name("Clang-Tidy analyzer report(s)")
@@ -313,7 +313,7 @@ public final class CPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(13)
+        .index(14)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxClangTidySensor.DEFAULT_CHARSET_DEF)
@@ -321,7 +321,7 @@ public final class CPlugin implements Plugin {
         .description("The encoding to use when reading the clang-tidy report. Leave empty to use parser's default UTF-8.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(14)
+        .index(15)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidyRuleRepository.CUSTOM_RULES_KEY)
         .name("Clang-Tidy custom rules")
@@ -329,7 +329,7 @@ public final class CPlugin implements Plugin {
           + EXTENDING_THE_CODE_ANALYSIS)
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(15)
+        .index(16)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSASensor.REPORT_PATH_KEY)
         .name("Clang Static analyzer analyzer report(s)")
@@ -338,14 +338,14 @@ public final class CPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(16)
+        .index(17)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSARuleRepository.CUSTOM_RULES_KEY)
         .name("Clang-SA custom rules")
         .description("NO DESC")
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(17)
+        .index(18)
         .build()
     ));
   }
@@ -447,7 +447,7 @@ public final class CPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(6)
+        .index(2)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.XSLT_URL_KEY)
         .name("XSLT transformer")
@@ -456,7 +456,7 @@ public final class CPlugin implements Plugin {
           + " to perform the according transformation.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(7)
+        .index(3)
         .build()
     ));
   }
