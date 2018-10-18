@@ -55,8 +55,8 @@ public class FinalReportTest {
     SensorContextTester context = SensorContextTester.create(new File(dir));
     context.fileSystem().add(inputFile);
 
-    CxxParseErrorLoggerVisitor.errors = 0;
-    CxxPreprocessor.missingIncludeFilesCounter = 0;
+    CxxParseErrorLoggerVisitor.resetReport();
+    CxxPreprocessor.resetReport();
     CxxAstScanner.scanSingleFile(inputFile, context, TestUtils.mockCxxLanguage());
 
     FinalReport postjob = new FinalReport();

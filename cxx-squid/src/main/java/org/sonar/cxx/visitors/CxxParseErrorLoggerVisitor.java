@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.visitors;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstVisitor;
 import com.sonar.sslr.api.GenericTokenType;
@@ -40,7 +41,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
     + " Root cause are typically missing includes, missing macros or compiler specific extensions.";
   private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);
   private final SquidAstVisitorContext<?> context;
-  public static int errors = 0;
+  private static int errors = 0;
 
   public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context) {
     this.context = context;
@@ -50,6 +51,11 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
     if (errors != 0) {
       LOG.warn(SYNTAX_ERROR_MSG, errors);
     }
+  }
+
+  @VisibleForTesting
+  public static void resetReport() {
+    errors = 0;
   }
 
   @Override

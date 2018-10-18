@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.sonar.sslr.api.AstNode;
@@ -234,7 +235,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
   private final Multimap<String, Include> includedFiles = HashMultimap.create();
   private final Multimap<String, Include> missingIncludeFiles = HashMultimap.create();
-  public static int missingIncludeFilesCounter = 0;
+  private static int missingIncludeFilesCounter = 0;
 
   private State currentFileState = new State(null);
   private final Deque<State> globalStateStack = new LinkedList<>();
@@ -295,7 +296,12 @@ public class CxxPreprocessor extends Preprocessor {
       LOG.warn(MISSING_INCLUDE_MSG, missingIncludeFilesCounter);
     }
   }
-  
+
+  @VisibleForTesting
+  public static void resetReport() {
+    missingIncludeFilesCounter = 0;
+  }
+
   private void registerMacros(Map<String, String> standardMacros) {
     for (Map.Entry<String, String> entry : standardMacros.entrySet()) {
       Token bodyToken;
