@@ -490,8 +490,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(binaryOperator).is( // todo
       b.firstOf(
-        "||", "&&", "&", "|", "^", "==", "!=", "<=", "<", ">=", ">",
-        "<<", ">>", "*", "/", "+", "-", assignmentOperator
+        "||", CxxKeyword.OR, "&&", CxxKeyword.AND, "&", CxxKeyword.BITAND, "|", CxxKeyword.BITOR, "^", CxxKeyword.XOR,
+        "==", "!=", CxxKeyword.NOT_EQ, "<=", "<", ">=", ">", "<<", ">>", "*", "/", "+", "-", assignmentOperator
       )
     );
 
@@ -575,9 +575,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(foldOperator).is(
       b.firstOf( // C++
-        "+", "-", "*", "/", "%", "ˆ", "&", "|", "<<", ">>",
-        "+=", "-=", "*=", "/=", "%=", "ˆ=", "&=", "|=", "<<=", ">>=", "=",
-        "==", "!=", "<", ">", "<=", ">=", "&&", "||", ",", ".*", "->*"
+        "+", "-", "*", "/", "%", "ˆ", CxxKeyword.XOR, "&", CxxKeyword.BITAND, "|", CxxKeyword.BITOR, "<<", ">>",
+        "+=", "-=", "*=", "/=", "%=", "ˆ=", CxxKeyword.XOR_EQ, "&=", CxxKeyword.AND_EQ, "|=", CxxKeyword.OR_EQ, "<<=", ">>=", "=",
+        "==", "!=", CxxKeyword.NOT_EQ, "<", ">", "<=", ">=", "&&", CxxKeyword.AND, "||", CxxKeyword.OR, ",", ".*", "->*"
       )
     );
 
@@ -658,7 +658,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     ).skipIfOneChild();
 
     b.rule(unaryOperator).is(
-      b.firstOf("*", "&", "+", "-", "!", "~") // C++
+      b.firstOf("*", "&", "+", "-", "!", CxxKeyword.NOT, "~", CxxKeyword.COMPL) // C++
     );
 
     b.rule(newExpression).is(
@@ -773,7 +773,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     ).skipIfOneChild();
 
     b.rule(assignmentOperator).is(
-      b.firstOf("=", "*=", "/=", "%=", "+=", "-=", ">>=", "<<=", "&=", "^=", "|=") // C++
+      b.firstOf("=", "*=", "/=", "%=", "+=", "-=", ">>=", "<<=", "&=", CxxKeyword.AND_EQ, "^=", CxxKeyword.XOR_EQ, "|=", CxxKeyword.OR_EQ) // C++
     );
 
     b.rule(expression).is(
