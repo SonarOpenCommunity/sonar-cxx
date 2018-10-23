@@ -34,7 +34,6 @@ import java.math.BigDecimal;
 
 import org.apache.commons.io.FilenameUtils;
 
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
@@ -51,25 +50,25 @@ import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.SECTION_SEP;
 public class TestwellCtcTxtParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(TestwellCtcTxtParser.class);
-  
+
   private Scanner scanner;
-  
+
   private static final int FROM_START = 0;
   private static final int CONDS_FALSE = 1;
   private static final int CONDS_TRUE = 2;
   private static final int LINE_NR_GROUP = 3;
 
-  
+
 
   public TestwellCtcTxtParser() {
-    // no operation but necessary for list of coverage parsers 
+    // no operation but necessary for list of coverage parsers
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData) {
+  public void processReport(File report, final Map<String, CoverageMeasures> coverageData) {
     LOG.debug("Parsing 'Testwell CTC++' textual format");
 
     try (Scanner s = new Scanner(report).useDelimiter(SECTION_SEP)) {
@@ -122,7 +121,7 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
 
   private void parseLineSection(CoverageMeasures coverageMeasures, String nextLine) {
     LOG.debug("Found line section...");
-    
+
     Matcher lineMatcher = LINE_RESULT.matcher(nextLine);
     if (lineMatcher.find(FROM_START)) {
       addEachLine(coverageMeasures, lineMatcher);

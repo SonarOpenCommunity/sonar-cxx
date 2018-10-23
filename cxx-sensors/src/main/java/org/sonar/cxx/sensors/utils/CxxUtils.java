@@ -49,38 +49,6 @@ public final class CxxUtils {
   }
 
   /**
-   * Normalize the given path to pass it to sonar. Return null if normalization has failed.
-   *
-   * @param filename
-   * @return normalized path
-   */
-  public static String normalizePath(String filename) {
-    try {
-      return new File(filename).getCanonicalPath();
-    } catch (java.io.IOException e) {
-      LOG.error("path normalizing of '{}' failed: '{}'", filename, e);
-      return null;
-    }
-  }
-
-  /**
-   * @param filename
-   * @param baseDir
-   * @return returns case sensitive full path
-   */
-  public static String normalizePathFull(String filename, String baseDir) {
-    File targetfile = new java.io.File(filename.trim());
-    String filePath;
-    if (targetfile.isAbsolute()) {
-      filePath = normalizePath(filename);
-    } else {
-      // RATS, CppCheck and Vera++ provide names like './file.cpp' - add input folder for index check
-      filePath = normalizePath(baseDir + File.separator + filename);
-    }
-    return filePath;
-  }
-
-  /**
    * transformFile
    *
    * @param stylesheetFile

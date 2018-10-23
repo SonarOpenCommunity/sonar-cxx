@@ -100,20 +100,20 @@ public class CxxCoverageSensor extends CxxReportSensor {
       }
 
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
-      coverageMeasures = processReports(context, reports, this.cache.unitCoverageCache());
+      coverageMeasures = processReports(reports, this.cache.unitCoverageCache());
       saveMeasures(context, coverageMeasures);
     }
   }
 
-  private Map<String, CoverageMeasures> processReports(final SensorContext context, List<File> reports,
-    Map<String, Map<String, CoverageMeasures>> cacheCov) {
+  private Map<String, CoverageMeasures> processReports(List<File> reports,
+      Map<String, Map<String, CoverageMeasures>> cacheCov) {
     Map<String, CoverageMeasures> measuresTotal = new HashMap<>();
 
     for (File report : reports) {
       if (!cacheCov.containsKey(report.getAbsolutePath())) {
         for (CoverageParser parser : parsers) {
           try {
-            parseCoverageReport(parser, context, report, measuresTotal);
+            parseCoverageReport(parser, report, measuresTotal);
             if (LOG.isDebugEnabled()) {
               LOG.debug("cached measures for '{}' : current cache content data = '{}'", report.getAbsolutePath(),
                 cacheCov.size());
@@ -145,11 +145,11 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * @param measuresTotal
    * @return true if report was parsed and results are available otherwise false
    */
-  private static void parseCoverageReport(CoverageParser parser, final SensorContext context, File report,
-    Map<String, CoverageMeasures> measuresTotal) {
+  private static void parseCoverageReport(CoverageParser parser, File report,
+      Map<String, CoverageMeasures> measuresTotal) {
     Map<String, CoverageMeasures> measuresForReport = new HashMap<>();
     try {
-      parser.processReport(context, report, measuresForReport);
+      parser.processReport(report, measuresForReport);
     } catch (XMLStreamException e) {
       throw new EmptyReportException("Coverage report" + report + "cannot be parsed by" + parser, e);
     }
@@ -165,9 +165,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
   private void saveMeasures(SensorContext context,
     Map<String, CoverageMeasures> coverageMeasures) {
     for (Map.Entry<String, CoverageMeasures> entry : coverageMeasures.entrySet()) {
-      String filePath = PathUtils.sanitize(entry.getKey());
+      final String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath != null) {
-        filePath = CxxUtils.normalizePathFull(filePath, context.fileSystem().baseDir().getAbsolutePath());
         InputFile cxxFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(filePath));
         if (LOG.isDebugEnabled()) {
           LOG.debug("save coverage measure for file: '{}' cxxFile = '{}'", filePath, cxxFile);

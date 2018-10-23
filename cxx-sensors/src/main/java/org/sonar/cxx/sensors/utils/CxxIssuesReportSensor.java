@@ -77,6 +77,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'",
         context.fileSystem().baseDir(), getReportPathKey());
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
+      notFoundFiles.clear();
       violationsPerFileCount.clear();
       violationsPerModuleCount = 0;
 
@@ -158,15 +159,14 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   public InputFile getInputFileIfInProject(SensorContext sensorContext, String path) {
-    String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
-    String normalPath = CxxUtils.normalizePathFull(path, root);
-    if (normalPath == null || notFoundFiles.contains(normalPath)) {
+    if (notFoundFiles.contains(path)) {
       return null;
     }
-    InputFile inputFile = sensorContext.fileSystem()
-        .inputFile(sensorContext.fileSystem().predicates().hasAbsolutePath(normalPath));
+    final InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(path));
     if (inputFile == null) {
-      notFoundFiles.add(normalPath);
+      LOG.debug("Path '{}' couldn't be found in module '{}' base dir '{}'", path, sensorContext.module().key(),
+          sensorContext.fileSystem().baseDir());
+      notFoundFiles.add(path);
     }
     return inputFile;
   }

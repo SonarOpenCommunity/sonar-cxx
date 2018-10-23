@@ -20,17 +20,17 @@
 package org.sonar.cxx.sensors.coverage;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.StaxParser;
 
 /**
@@ -39,7 +39,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 public class CoberturaParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(CoberturaParser.class);
-  private String baseDir;
+  private Optional<Path> baseDir;
   private static final Pattern conditionsPattern = Pattern.compile("\\((.*?)\\)");
 
   public CoberturaParser() {
@@ -50,10 +50,10 @@ public class CoberturaParser extends CxxCoverageParser {
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData)
+  public void processReport(File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     LOG.debug("Parsing 'Cobertura' format");
-    baseDir = context.fileSystem().baseDir().getAbsolutePath();
+    baseDir = Optional.empty();
 
     StaxParser sourceParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
       rootCursor.advance();
@@ -63,7 +63,7 @@ public class CoberturaParser extends CxxCoverageParser {
 
     StaxParser packageParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
       rootCursor.advance();
-      collectPackageMeasures(baseDir, rootCursor.descendantElementCursor("package"), coverageData);
+      collectPackageMeasures(rootCursor.descendantElementCursor("package"), coverageData);
     });
     packageParser.parse(report);
   }
@@ -72,33 +72,37 @@ public class CoberturaParser extends CxxCoverageParser {
     while (source.getNext() != null) {
       String sourceValue = source.getElemStringValue().trim();
       if (!sourceValue.isEmpty()) {
-        baseDir = Paths.get(baseDir).resolve(sourceValue).normalize().toString();
+        baseDir = Optional.of(Paths.get(sourceValue));
         break;
       }
     }
   }
 
-  private static void collectPackageMeasures(final String baseDir, SMInputCursor pack,
-    Map<String, CoverageMeasures> coverageData)
-    throws XMLStreamException {
+  private void collectPackageMeasures(SMInputCursor pack, Map<String, CoverageMeasures> coverageData)
+      throws XMLStreamException {
     while (pack.getNext() != null) {
-      collectFileMeasures(baseDir, pack.descendantElementCursor("class"), coverageData);
+      collectFileMeasures(pack.descendantElementCursor("class"), coverageData);
     }
   }
 
-  private static void collectFileMeasures(final String baseDir, SMInputCursor clazz,
-    Map<String, CoverageMeasures> coverageData)
-    throws XMLStreamException {
+  private String buildPath(String filename) {
+    Path result = Paths.get(filename);
+    if (baseDir.isPresent()) {
+      result = baseDir.get().resolve(result);
+    }
+    return result.normalize().toString();
+  }
+
+  private void collectFileMeasures(SMInputCursor clazz, Map<String, CoverageMeasures> coverageData)
+      throws XMLStreamException {
     while (clazz.getNext() != null) {
-      String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), baseDir);
-      if (normalPath != null) {
-        CoverageMeasures builder = coverageData.get(normalPath);
-        if (builder == null) {
-          builder = CoverageMeasures.create();
-          coverageData.put(normalPath, builder);
-        }
-        collectFileData(clazz, builder);
+      String normalPath = buildPath(clazz.getAttrValue("filename"));
+      CoverageMeasures builder = coverageData.get(normalPath);
+      if (builder == null) {
+        builder = CoverageMeasures.create();
+        coverageData.put(normalPath, builder);
       }
+      collectFileData(clazz, builder);
     }
   }
 
