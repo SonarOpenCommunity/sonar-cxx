@@ -262,7 +262,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
   // Overloading
   operatorFunctionId,
-  operator,
+  overloadableOperator,
   literalOperatorId,
 
   // Templates
@@ -732,27 +732,27 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     ).skipIfOneChild();
 
     b.rule(equalityExpression).is(
-      relationalExpression, b.zeroOrMore(b.firstOf("==", "!="), relationalExpression) // C++
+      relationalExpression, b.zeroOrMore(b.firstOf("==", "!=", CxxKeyword.NOT_EQ), relationalExpression) // C++
     ).skipIfOneChild();
 
     b.rule(andExpression).is(
-      equalityExpression, b.zeroOrMore("&", equalityExpression) // C++
+      equalityExpression, b.zeroOrMore(b.firstOf("&", CxxKeyword.BITAND), equalityExpression) // C++
     ).skipIfOneChild();
 
     b.rule(exclusiveOrExpression).is(
-      andExpression, b.zeroOrMore("^", andExpression) // C++
+      andExpression, b.zeroOrMore(b.firstOf("^", CxxKeyword.XOR), andExpression) // C++
     ).skipIfOneChild();
 
     b.rule(inclusiveOrExpression).is(
-      exclusiveOrExpression, b.zeroOrMore("|", exclusiveOrExpression) // C++
+      exclusiveOrExpression, b.zeroOrMore(b.firstOf("|", CxxKeyword.BITOR), exclusiveOrExpression) // C++
     ).skipIfOneChild();
 
     b.rule(logicalAndExpression).is(
-      inclusiveOrExpression, b.zeroOrMore("&&", inclusiveOrExpression) // C++
+      inclusiveOrExpression, b.zeroOrMore(b.firstOf("&&", CxxKeyword.AND), inclusiveOrExpression) // C++
     ).skipIfOneChild();
 
     b.rule(logicalOrExpression).is(
-      logicalAndExpression, b.zeroOrMore("||", logicalAndExpression) // C++
+      logicalAndExpression, b.zeroOrMore(b.firstOf("||", CxxKeyword.OR), logicalAndExpression) // C++
     ).skipIfOneChild();
 
     b.rule(conditionalExpression).is(
@@ -1743,21 +1743,22 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   //
   private static void overloading(LexerfulGrammarBuilder b) {
     b.rule(operatorFunctionId).is(
-      CxxKeyword.OPERATOR, operator // C++ //todo wrong
+      CxxKeyword.OPERATOR, overloadableOperator // C++ //todo wrong
     );
 
-    b.rule(operator).is( // C++ todo optimize new/delete?
+    b.rule(overloadableOperator).is( // C++ todo optimize new/delete?
       b.firstOf(
         b.sequence(CxxKeyword.NEW, "[", "]"),
         b.sequence(CxxKeyword.DELETE, "[", "]"),
         CxxKeyword.NEW, CxxKeyword.DELETE,
-        "+", "-", "*", "/", "%", "^", "&", "|", "~",
-        "!", "=", "<", ">", "+=", "-=", "*=", "/=", "%=",
-        "^=", "&=", "|=", "<<", ">>", ">>=", "<<=", "==", "!=",
-        "<=", ">=", "&&", "||", "++", "--", ",", "->*", "->",
+        "+", "-", "*", "/", "%", "^", CxxKeyword.XOR, "&", CxxKeyword.BITAND, "|", CxxKeyword.BITOR, "~",
+        CxxKeyword.COMPL, "!", CxxKeyword.NOT, "=", "<", ">", "+=", "-=", "*=", "/=", "%=", "^=", CxxKeyword.XOR_EQ,
+        "&=", CxxKeyword.AND_EQ, "|=", CxxKeyword.OR_EQ, "<<", ">>", ">>=", "<<=", "==", "!=", CxxKeyword.NOT_EQ,
+        "<=", ">=", "&&", CxxKeyword.AND, "||", CxxKeyword.OR, "++", "--", ",", "->*", "->",
         b.sequence("(", ")"),
         b.sequence("[", "]")
       )
+      // c++ todo missing optional < template-argument-list > ?
     );
 
     b.rule(literalOperatorId).is(

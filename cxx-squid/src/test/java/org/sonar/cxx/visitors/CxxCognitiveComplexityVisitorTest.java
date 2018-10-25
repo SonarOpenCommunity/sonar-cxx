@@ -116,6 +116,11 @@ public class CxxCognitiveComplexityVisitorTest {
   }
 
   @Test
+  public void binary_logical_mixed_alternative() throws UnsupportedEncodingException, IOException {
+    assertThat(testFile("src/test/resources/visitors/binary_logical_mixed_alternative.cc")).isEqualTo(4);
+  }
+
+  @Test
   public void binary_logical_not() throws UnsupportedEncodingException, IOException {
     assertThat(testFile("src/test/resources/visitors/binary_logical_not.cc")).isEqualTo(3);
   }

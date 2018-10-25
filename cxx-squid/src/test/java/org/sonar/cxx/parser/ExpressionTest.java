@@ -411,6 +411,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
 
     assertThat(p).matches("logicalAndExpression");
     assertThat(p).matches("logicalAndExpression || logicalAndExpression");
+    assertThat(p).matches("logicalAndExpression or logicalAndExpression");
   }
 
   @Test
@@ -455,6 +456,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
 
     assertThat(p).matches("inclusiveOrExpression");
     assertThat(p).matches("inclusiveOrExpression && inclusiveOrExpression");
+    assertThat(p).matches("inclusiveOrExpression and inclusiveOrExpression");
   }
 
   @Test
@@ -464,6 +466,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
 
     assertThat(p).matches("exclusiveOrExpression");
     assertThat(p).matches("exclusiveOrExpression | exclusiveOrExpression");
+    assertThat(p).matches("exclusiveOrExpression bitor exclusiveOrExpression");
   }
 
   @Test
@@ -473,6 +476,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
 
     assertThat(p).matches("andExpression");
     assertThat(p).matches("andExpression ^ andExpression");
+    assertThat(p).matches("andExpression xor andExpression");
   }
 
   @Test
@@ -482,6 +486,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
 
     assertThat(p).matches("equalityExpression");
     assertThat(p).matches("equalityExpression & equalityExpression");
+    assertThat(p).matches("equalityExpression bitand equalityExpression");
   }
 
   @Test
@@ -492,6 +497,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
     assertThat(p).matches("relationalExpression");
     assertThat(p).matches("relationalExpression == relationalExpression");
     assertThat(p).matches("relationalExpression != relationalExpression");
+    assertThat(p).matches("relationalExpression not_eq relationalExpression");
   }
 
   @Test

@@ -733,7 +733,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     StringBuilder builder = new StringBuilder(
       operatorFunctionId.getTokenValue());
     AstNode operator = operatorFunctionId
-      .getFirstDescendant(CxxGrammarImpl.operator);
+      .getFirstDescendant(CxxGrammarImpl.overloadableOperator);
 
     if (operator != null) {
 

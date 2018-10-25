@@ -50,6 +50,8 @@ public class CxxComplexityConstants {
       CxxKeyword.DEFAULT,
       CxxPunctuator.AND,
       CxxPunctuator.OR,
+      CxxKeyword.AND,
+      CxxKeyword.OR,
       CxxPunctuator.QUEST };
 
 }
