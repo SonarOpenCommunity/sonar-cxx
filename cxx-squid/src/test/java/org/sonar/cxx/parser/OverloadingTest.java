@@ -33,7 +33,7 @@ public class OverloadingTest extends ParserBaseTestHelper {
 
   @Test
   public void operator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.operator));
+    p.setRootRule(g.rule(CxxGrammarImpl.overloadableOperator));
 
     assertThat(p).matches("new");
     assertThat(p).matches("new[]");

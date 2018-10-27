@@ -106,6 +106,13 @@ public class CxxAstScannerTest {
   }
 
   @Test
+  public void complexity_alternative() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/complexity_alternative.cc", ".", "");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
+    assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
+  }
+
+  @Test
   public void complexity_macro() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/complexity_macro.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());

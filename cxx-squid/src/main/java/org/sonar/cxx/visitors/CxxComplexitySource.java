@@ -66,8 +66,9 @@ public class CxxComplexitySource {
       return "switch label";
     } else if (nodeType == CxxKeyword.GOTO) {
       return "goto statement";
-    } else if (nodeType == CxxPunctuator.AND || nodeType == CxxPunctuator.OR
-        || nodeType == CxxGrammarImpl.logicalAndExpression || nodeType == CxxGrammarImpl.logicalOrExpression) {
+    } else if (nodeType == CxxPunctuator.AND || nodeType == CxxPunctuator.OR || nodeType == CxxKeyword.AND
+        || nodeType == CxxKeyword.OR || nodeType == CxxGrammarImpl.logicalAndExpression
+        || nodeType == CxxGrammarImpl.logicalOrExpression) {
       return "logical operator";
     } else if (nodeType == CxxPunctuator.QUEST) {
       return "conditional operator";
