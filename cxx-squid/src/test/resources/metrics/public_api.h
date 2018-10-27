@@ -1,136 +1,150 @@
 #define TEST_MACRO() \
-	macro
+    macro
 
 /**
  testClass doc
  */
 class testClass
 {
-	void defaultMethod();
+    void defaultMethod();
 
 public:
-	// comment
-	
-	/// aliasDeclaration
-	using aliasDeclaration = int;
+    // comment
 
-	/** publicMethod doc */
-	void publicMethod();
-	
-	/// classEnum doc
-	enum classEnum {
-		classEnumValue ///< classEnumValue doc
-	}
-	/// block enumVar doc
-	enumVar; ///< inline enumVar doc, invalid ?
-	 
-	 /**
-	 publicAttribute doc
-	 */
-	int publicAttribute;
-	 
-	int inlineCommentedAttr; //!< inlineCommentedAttr comment 
+    /// aliasDeclaration
+    using aliasDeclaration = int;
 
-	void inlinePublicMethod(); //!< inlinePublicMethod comment
-	
-	int attr1, //!< attr1 doc 
-	attr2; ///< attr2 doc
+    /** publicMethod doc */
+    void publicMethod();
 
-	// ignore friend declaration
-	template<typename S> friend S& operator<<(S&, A const&);
+    /// classEnum doc
+    enum classEnum {
+        classEnumValue ///< classEnumValue doc
+    }
+    /// block enumVar doc
+    enumVar; ///< inline enumVar doc, invalid ?
 
-	friend class friendClass;
+    /**
+     publicAttribute doc
+     */
+    int publicAttribute;
 
-  // ignore deleted methods
-	A(A const&) = delete;
+    int inlineCommentedAttr; //!< inlineCommentedAttr comment 
 
-  // ignore defaulted methods
-	A& operator=(A const&) = default;
+    void inlinePublicMethod(); //!< inlinePublicMethod comment
 
-	/**
-	 * publicDefinedMethod comment
-	 */
-	void publicDefinedMethod() { }
+    int attr1, //!< attr1 doc 
+        attr2; ///< attr2 doc
+
+    // ignore friend declaration
+    template<typename S> friend S& operator<<(S&, A const&);
+
+    friend class friendClass;
+
+    // ignore deleted methods
+    A(A const&) = delete;
+
+    // ignore defaulted methods
+    A& operator=(A const&) = default;
+
+    /**
+     * publicDefinedMethod comment
+     */
+    void publicDefinedMethod() { }
+
+    /**
+     * publicDeclaredMethod comment
+     */
+    void publicDeclaredMethod();
+
 protected:
-	/**
-	 protectedMethod doc
-	 */
-	virtual void protectedMethod();
 
-	virtual void overriddenMethod() override; // no doc is OK, it could come from ancestor
+    /**
+     protectedMethod doc
+     */
+    virtual void protectedMethod();
 
-	/**
-	  protectedStruct doc
-	*/
-	struct protectedStruct {
-	   int protectedStructField; ///< protectedStructField doc
-	   int protectedStructField2; ///< protectedStructField2 doc  
-	};
-	 
-	/*!
-	  protectedClass doc
-	*/
-	class protectedClass {
-	};
-	 
-	/**
-	  operator doc
-	*/
-	value_t& operator[](std::size_t idx);
-	 
+    virtual void overriddenMethod() override; // no doc is OK, it could come from ancestor
+
+    /**
+     protectedStruct doc
+     */
+    struct protectedStruct {
+        int protectedStructField; ///< protectedStructField doc
+        int protectedStructField2; ///< protectedStructField2 doc  
+    };
+
+    /*!
+     protectedClass doc
+     */
+    class protectedClass {
+    };
+
+    /**
+     operator doc
+     */
+    value_t& operator[](std::size_t idx);
+
 private:
-	void privateMethod();
-	
-	enum privateEnum {
-		privateEnumVal
-	};
-	
-	struct privateStruct {
-		int privateStructField;
-	};
-	
-	class privateClass {
-		int i;
-	};
-	
-	union privateUnion {
-		int u;
-	};
-	
-	using privateAliasDeclaration = int;
+
+    void privateMethod();
+
+    enum privateEnum {
+        privateEnumVal
+    };
+
+    struct privateStruct {
+        int privateStructField;
+    };
+
+    class privateClass {
+        int i;
+    };
+
+    union privateUnion {
+        int u;
+    };
+
+    using privateAliasDeclaration = int;
 
 public:
-	int inlineCommentedLastAttr; //!< inlineCommentedLastAttr comment
+
+    int inlineCommentedLastAttr; //!< inlineCommentedLastAttr comment
 };
+
+inline void testClass::publicDeclaredMethod() {
+   // This method is defined and documented inside testClass
+   // and should not be marked as undocumented here.
+}
 
 /// testStruct doc
 struct testStruct {
-	int testField; /**< inline testField comment */
-	
-	/// testTypeDef
-	///
+    int testField; /**< inline testField comment */
+
+    /// testTypeDef
+    ///
     typedef toto<T> testTypeDef;
 
     /**
      * bitfield doc
      */
-    unsigned int bitfield:1;
+    unsigned int bitfield : 1;
 
 private:
-    void private_def(){}
+    void private_def() {}
 };
 
 /**
  globalVar doc
-*/
-extern int globalVar; 
+ */
+extern int globalVar;
 
 int globalVarInline; //!< globalVarInline doc 
 
 int
 /**
-globalVar1 doc
-*/
+ globalVar1 doc
+ */
 globalVar1,
 globalVar2, ///< globalVar2 doc
 globalVar3; /*!< globalVar3 doc */
@@ -146,24 +160,24 @@ typedef int testType; ///< testType doc
 
 /**
  testEnum doc
-*/
+ */
 enum testEnum
 {
-  /**
-  enum_val doc
-  */
-  enum_val
+    /**
+     enum_val doc
+     */
+    enum_val
 };
 
 enum testEnum enumVar1, ///< enumVar1 doc
-/**
- enumVar2 doc
-*/ 
-enumVar2;
+   /**
+    enumVar2 doc
+    */
+    enumVar2;
 
 /*!
  testUnion doc
-*/
+ */
 union testUnion
 {
 
@@ -173,7 +187,7 @@ union testUnion
  * <unnamed> doc
  */
 struct {
-	int testField2; /**< inline testField2 comment */
+    int testField2; /**< inline testField2 comment */
 } testUnnamedStructVar; ///< testUnnamedStructVar doc
 
 int lastVar; ///< lastVar doc

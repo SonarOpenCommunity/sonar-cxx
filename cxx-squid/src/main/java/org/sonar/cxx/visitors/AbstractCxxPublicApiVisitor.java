@@ -503,6 +503,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
   private void visitFunctionDefinition(AstNode functionDef) {
     if (isPublicApiMember(functionDef)) {
+      
       // filter out deleted and defaulted methods
       AstNode functionBodyNode = functionDef
         .getFirstChild(CxxGrammarImpl.functionBody);
@@ -816,8 +817,15 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
           return false;
         }
       }
+      
+      if (node.getType().equals(CxxGrammarImpl.functionDefinition)) {
+        // filter out function definitions with nested name specifier: should be documented inside of class
+        AstNode declarator = node.getFirstChild(CxxGrammarImpl.declarator);
+        if ((declarator != null) && declarator.hasDescendant(CxxGrammarImpl.nestedNameSpecifier)) {
+          return false;
+        }
+      }
 
-      // method or function outside of class
       return true;
     }
   }

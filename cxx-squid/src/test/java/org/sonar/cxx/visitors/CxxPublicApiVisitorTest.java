@@ -121,7 +121,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void to_delete() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/public_api.h", true)).isEqualTo(tuple(43, 0));
+    assertThat(testFile("src/test/resources/metrics/public_api.h", true)).isEqualTo(tuple(44, 0));
 
   }
 
@@ -132,7 +132,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void template() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/template.h", false)).isEqualTo(tuple(14, 4));
+    assertThat(testFile("src/test/resources/metrics/template.h", false)).isEqualTo(tuple(13, 4));
   }
 
   @Test
@@ -161,6 +161,7 @@ public class CxxPublicApiVisitorTest {
     final Map<String, String> expectedIdCommentMap = new HashMap<>();
 
     expectedIdCommentMap.put("publicDefinedMethod", "publicDefinedMethod");
+    expectedIdCommentMap.put("publicDeclaredMethod", "publicDeclaredMethod");
     expectedIdCommentMap.put("aliasDeclaration", "aliasDeclaration");
     expectedIdCommentMap.put("publicMethod", "publicMethod");
     expectedIdCommentMap.put("testStruct", "testStruct");
