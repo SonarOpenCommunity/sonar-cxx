@@ -34,7 +34,7 @@ class DocumentedClass {
   public:
 
     DocumentedClass() = default;
-    DocumentedClass& operator(const DocumentedClass&) = delete;
+    DocumentedClass&amp; operator(const DocumentedClass&amp;) = delete;
 
     int commentedVar; ///< documentation
 
@@ -51,6 +51,6 @@ class DocumentedClass {
 
 void DocumentedClass::apiMethod()
 {
-   // documentation should be inside of the class
+   // documentation should be within the class definition
 }
 </pre>
