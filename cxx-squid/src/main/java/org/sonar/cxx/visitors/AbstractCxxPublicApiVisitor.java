@@ -26,7 +26,6 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
@@ -53,11 +52,10 @@ import org.sonar.squidbridge.checks.SquidCheck;
  * </ul>
  * <p>
  * Public API items are considered documented if they have Doxygen comments.<br>
- * Function arguments are not counted since they can be documented in function
- * documentation and this visitor does not parse Doxygen comments.<br>
+ * Function arguments are not counted since they can be documented in function documentation and this visitor does not
+ * parse Doxygen comments.<br>
  * This visitor should be applied only on header files.<br>
- * Currently, no filtering is applied using preprocessing directive, e.g
- * <code>#define DLLEXPORT</code>.<br>
+ * Currently, no filtering is applied using preprocessing directive, e.g <code>#define DLLEXPORT</code>.<br>
  * <p>
  * Limitation: only "in front of the declaration" comments are considered.
  *
@@ -91,12 +89,12 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   @Override
   public void init() {
     subscribeTo(
-        CxxGrammarImpl.classSpecifier,
-        CxxGrammarImpl.memberDeclaration,
-        CxxGrammarImpl.functionDefinition,
-        CxxGrammarImpl.enumSpecifier,
-        CxxGrammarImpl.initDeclaratorList,
-        CxxGrammarImpl.aliasDeclaration);
+      CxxGrammarImpl.classSpecifier,
+      CxxGrammarImpl.memberDeclaration,
+      CxxGrammarImpl.functionDefinition,
+      CxxGrammarImpl.enumSpecifier,
+      CxxGrammarImpl.initDeclaratorList,
+      CxxGrammarImpl.aliasDeclaration);
   }
 
   @Override
@@ -503,7 +501,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
   private void visitFunctionDefinition(AstNode functionDef) {
     if (isPublicApiMember(functionDef)) {
-      
+
       // filter out deleted and defaulted methods
       AstNode functionBodyNode = functionDef
         .getFirstChild(CxxGrammarImpl.functionBody);
@@ -817,8 +815,8 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
           return false;
         }
       }
-      
-      if (node.getType().equals(CxxGrammarImpl.functionDefinition)) {
+
+      if (node.is(CxxGrammarImpl.functionDefinition)) {
         // filter out function definitions with nested name specifier: should be documented inside of class
         AstNode declarator = node.getFirstChild(CxxGrammarImpl.declarator);
         if ((declarator != null) && declarator.hasDescendant(CxxGrammarImpl.nestedNameSpecifier)) {
@@ -831,8 +829,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   }
 
   /**
-   * Check if inline Doxygen documentation is attached to the given token at
-   * specified line
+   * Check if inline Doxygen documentation is attached to the given token at specified line
    *
    * @param token the token to inspect
    * @param line line of the inlined documentation
