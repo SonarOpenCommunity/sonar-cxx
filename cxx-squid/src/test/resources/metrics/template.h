@@ -56,13 +56,12 @@ public:
    void functionTest2();
 };
 
-/**
- * @brief DOCUMENTATION
- */
 template <class U>
 template <class T>
 void TestClass2::functionTest2()
 {
+   // This method is defined and documented inside TestClass2
+   // and should not be marked as undocumented here.
 }
 
 /**

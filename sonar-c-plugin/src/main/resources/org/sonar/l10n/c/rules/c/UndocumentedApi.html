@@ -1,17 +1,42 @@
 <p>
-Public APIs have to be documented in order to be used by customers.<br>
-APIs documentation is typically generated using a tool, such as <a href="http://www.stack.nl/~dimitri/doxygen/index.html">Doxygen</a>.
+  Public APIs have to be documented in order to be used by customers.<br>
+  APIs documentation is typically generated using a tool, such as <a href="http://www.stack.nl/~dimitri/doxygen/index.html">Doxygen</a>.
 </p>
+
+<p>Exceptions that do not require documentation:</p>
+<ul>
+  <li>Member functions marked with identifier <b>override</b>. Assumption is that they are documented in the base class.</li>
+  <li>Member functions marked with specifier <b>delete</b> or <b>default</b>.</li>
+  <li>Member functions defined outside of a class/struct. Assumption is that they are already documented inside of the class.</li>
+</ul>
+
+<p>Following items are considered as public API:</p>
+<ul>
+  <li>classes/structures/unions</li>
+  <li>class/structure/union members (public and protected only)</li>
+  <li>template declarations</li>
+  <li>enumeration declarations</li>
+  <li>enumeration definitions</li>
+  <li>typedef/alias declarations</li>  
+  <li>functions (global scope)</li>
+  <li>variables (global scope)</li>  
+</ul>
 
 <p>The following code illustrates a well documented class:</p>
 
 <pre>
 /**
   class documentation
-/*
+ */
 class DocumentedClass {
   public:
+
+    DocumentedClass() = default;
+    DocumentedClass&amp; operator(const DocumentedClass&amp;) = delete;
+
     int commentedVar; ///< documentation
+
+    void apiFromBaseClass() = override;
 
     /**
       apiMethod documentation
@@ -21,4 +46,9 @@ class DocumentedClass {
   private:
     void notInApiMethod();
 };
+
+void DocumentedClass::apiMethod()
+{
+   // documentation should be within the class definition
+}
 </pre>

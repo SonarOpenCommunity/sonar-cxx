@@ -31,10 +31,9 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.groups.Tuple;
 import static org.assertj.core.groups.Tuple.tuple;
-import static org.mockito.Mockito.when;
-
 import org.fest.assertions.Fail;
 import org.junit.Test;
+import static org.mockito.Mockito.when;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxAstScanner;
@@ -58,6 +57,7 @@ public class CxxPublicApiVisitorTest {
   }
 
   private class TestPublicApiVisitor extends AbstractCxxPublicApiVisitor<Grammar> {
+
     final Map<String, List<Token>> idCommentMap = new HashMap<>();
     boolean checkDoubleIDs = false;
 
@@ -95,7 +95,7 @@ public class CxxPublicApiVisitorTest {
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("#API: {} UNDOC: {}",
-          file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+        file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
     }
 
     return new Tuple(file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
@@ -104,9 +104,9 @@ public class CxxPublicApiVisitorTest {
   @Test
   public void test_no_matching_suffix() throws IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".",
-        "");
+      "");
     CxxLanguage language = CxxFileTesterHelper.mockCxxLanguage();
-    when(language.getHeaderFileSuffixes()).thenReturn(new String[] { ".hpp" });
+    when(language.getHeaderFileSuffixes()).thenReturn(new String[]{".hpp"});
 
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, language);
 
@@ -121,7 +121,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void to_delete() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/public_api.h", true)).isEqualTo(tuple(43, 0));
+    assertThat(testFile("src/test/resources/metrics/public_api.h", true)).isEqualTo(tuple(44, 0));
 
   }
 
@@ -132,7 +132,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void template() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/template.h", false)).isEqualTo(tuple(14, 4));
+    assertThat(testFile("src/test/resources/metrics/template.h", false)).isEqualTo(tuple(13, 4));
   }
 
   @Test
@@ -161,6 +161,7 @@ public class CxxPublicApiVisitorTest {
     final Map<String, String> expectedIdCommentMap = new HashMap<>();
 
     expectedIdCommentMap.put("publicDefinedMethod", "publicDefinedMethod");
+    expectedIdCommentMap.put("publicDeclaredMethod", "publicDeclaredMethod");
     expectedIdCommentMap.put("aliasDeclaration", "aliasDeclaration");
     expectedIdCommentMap.put("publicMethod", "publicMethod");
     expectedIdCommentMap.put("testStruct", "testStruct");
