@@ -187,6 +187,11 @@
       <name>rufinio</name>
       <email/>
     </developer>
+    <developer>
+      <id>moriarty</id>
+      <name>Alex Moriarty</name>
+      <email/>
+    </developer>
   </developers>
 
   <modules>
