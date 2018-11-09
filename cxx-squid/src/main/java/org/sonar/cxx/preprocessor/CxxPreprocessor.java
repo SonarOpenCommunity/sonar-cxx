@@ -86,7 +86,7 @@ public class CxxPreprocessor extends Preprocessor {
   private static final String CPLUSPLUS = "__cplusplus";
   private static final String EVALUATED_TO_FALSE = "[{}:{}]: '{}' evaluated to false, skipping tokens that follow";
   private static final String MISSING_INCLUDE_MSG
-    = "Preprocessor: {} include directive error(s). This is only relevant if parser creates syntax errors. "
+    = "Preprocessor: {} include directive error(s). This is only relevant if parser creates syntax errors."
     + " The preprocessor searches for include files in the with 'sonar.cxx.includeDirectories'"
     + " defined directories and order.";
   private final CxxLanguage language;
