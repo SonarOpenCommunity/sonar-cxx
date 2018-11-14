@@ -40,14 +40,17 @@ public class JsonCompilationDatabase {
 
   private static final Logger LOG = Loggers.get(JsonCompilationDatabase.class);
 
+  private JsonCompilationDatabase() { /* utility class is not meant to be instantiated */ }
+
   /**
-   * JsonCompilationDatabase
+   * Set up the given CxxConfiguration from the JSON compilation database
    *
    * @param config
    * @param compileCommandsFile
    * @throws IOException
    */
-  public JsonCompilationDatabase(CxxConfiguration config, File compileCommandsFile) throws IOException {
+  public static void parse(CxxConfiguration config, File compileCommandsFile) throws IOException {
+
     LOG.debug("Parsing 'JSON Compilation Database' format");
 
     ObjectMapper mapper = new ObjectMapper();

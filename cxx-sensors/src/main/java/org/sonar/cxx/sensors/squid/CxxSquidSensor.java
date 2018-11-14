@@ -182,7 +182,7 @@ public class CxxSquidSensor implements Sensor {
 
     if (cxxConf.getJsonCompilationDatabaseFile() != null) {
       try {
-        new JsonCompilationDatabase(cxxConf, new File(cxxConf.getJsonCompilationDatabaseFile()));
+        JsonCompilationDatabase.parse(cxxConf, new File(cxxConf.getJsonCompilationDatabaseFile()));
       } catch (IOException e) {
         LOG.debug("Cannot access Json DB File: {}", e);
       }

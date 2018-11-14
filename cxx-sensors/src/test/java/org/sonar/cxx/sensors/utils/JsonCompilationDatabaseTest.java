@@ -37,7 +37,7 @@ public class JsonCompilationDatabaseTest {
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
-    new JsonCompilationDatabase(conf, file);
+    JsonCompilationDatabase.parse(conf, file);
 
     CxxCompilationUnitSettings cus = conf.getGlobalCompilationUnitSettings();
 
@@ -52,7 +52,7 @@ public class JsonCompilationDatabaseTest {
   public void testExtensionSettings() throws Exception {
     CxxConfiguration conf = new CxxConfiguration();
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
-    new JsonCompilationDatabase(conf, file);
+    JsonCompilationDatabase.parse(conf, file);
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-extension.cpp");
@@ -73,7 +73,7 @@ public class JsonCompilationDatabaseTest {
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
-    new JsonCompilationDatabase(conf, file);
+    JsonCompilationDatabase.parse(conf, file);
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-with-command.cpp");
@@ -99,7 +99,7 @@ public class JsonCompilationDatabaseTest {
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
-    new JsonCompilationDatabase(conf, file);
+    JsonCompilationDatabase.parse(conf, file);
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-with-arguments.cpp");
@@ -125,7 +125,7 @@ public class JsonCompilationDatabaseTest {
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
-    new JsonCompilationDatabase(conf, file);
+    JsonCompilationDatabase.parse(conf, file);
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("unknown.cpp");
@@ -142,7 +142,7 @@ public class JsonCompilationDatabaseTest {
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/invalid.json");
 
-    new JsonCompilationDatabase(conf, file);
+    JsonCompilationDatabase.parse(conf, file);
   }
 
   @Test(expected = FileNotFoundException.class)
@@ -151,6 +151,6 @@ public class JsonCompilationDatabaseTest {
 
     File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/not-found.json");
 
-    new JsonCompilationDatabase(conf, file);
+    JsonCompilationDatabase.parse(conf, file);
   }
 }
