@@ -41,8 +41,8 @@ import java.nio.charset.Charset;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
-import java.util.Collections; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -93,7 +93,6 @@ public class CxxPreprocessor extends Preprocessor {
   private File currentContextFile;
   private String rootFilePath;
 
-//@todo: deprecated Preprocessor
   private static class State {
 
     private boolean skipPreprocessorDirectives;
@@ -664,7 +663,7 @@ public class CxxPreprocessor extends Preprocessor {
     getMacros().put(macro.name, macro);
 
     return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-      new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+      new ArrayList<Token>());
   }
 
   private void parseIncludeLine(String includeLine, String filename, Charset charset) {
@@ -719,24 +718,24 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-      new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+      new ArrayList<Token>());
   }
 
-  PreprocessorAction handleUndefLine(AstNode ast, Token token) { //@todo: deprecated PreprocessorAction
+  PreprocessorAction handleUndefLine(AstNode ast, Token token) {
     String macroName = ast.getFirstDescendant(IDENTIFIER).getTokenValue();
     getMacros().removeLowPrio(macroName);
     return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-      new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+      new ArrayList<Token>());
   }
 
-  PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) {//@todo:deprecated
+  PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) {
     //
     // Every identifier and every keyword can be a macro instance.
     // Pipe the resulting string through a lexer to create proper Tokens
     // and to expand recursively all macros which may be in there.
     //
 
-    PreprocessorAction ppaction = PreprocessorAction.NO_OPERATION; //@todo: deprecated PreprocessorAction
+    PreprocessorAction ppaction = PreprocessorAction.NO_OPERATION;
     Macro macro = getMacro(curr.getValue());
     if (macro != null) {
       List<Token> replTokens = new LinkedList<>();
@@ -761,13 +760,13 @@ public class CxxPreprocessor extends Preprocessor {
         getMacros().disable(macro.name);
         while (!replTokens.isEmpty()) {
           Token c = replTokens.get(0);
-          PreprocessorAction action = PreprocessorAction.NO_OPERATION; //@todo: deprecated PreprocessorAction
+          PreprocessorAction action = PreprocessorAction.NO_OPERATION;
           if (c.getType().equals(IDENTIFIER)) {
             List<Token> rest = new ArrayList(replTokens);
             rest.addAll(tokens.subList(tokensConsumed, tokens.size()));
             action = handleIdentifiersAndKeywords(rest, c, filename);
           }
-          if (action.equals(PreprocessorAction.NO_OPERATION)) { //@todo: deprecated PreprocessorAction
+          if (action.equals(PreprocessorAction.NO_OPERATION)) {
             replTokens.remove(0);
             outTokens.add(c);
           } else {
@@ -794,7 +793,7 @@ public class CxxPreprocessor extends Preprocessor {
             filename, curr.getLine());
         }
 
-        ppaction = new PreprocessorAction( //@todo: deprecated PreprocessorAction
+        ppaction = new PreprocessorAction(
           tokensConsumed,
           Collections.singletonList(Trivia.createSkippedText(tokens.subList(0, tokensConsumed))),
           replTokens);

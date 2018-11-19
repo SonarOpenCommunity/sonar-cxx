@@ -95,7 +95,7 @@ public final class CxxAstScanner {
       throw new IllegalArgumentException("File '" + file + "' not found.");
     }
     AstScanner<Grammar> scanner = create(language, cxxConfig, visitors);
-    scanner.scanFile(file.file()); //@todo: deprecated file.file()
+    scanner.scanFile(file.file());
     Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
     if (sources.size() != 1) {
       throw new IllegalStateException("Only one SourceFile was expected whereas "

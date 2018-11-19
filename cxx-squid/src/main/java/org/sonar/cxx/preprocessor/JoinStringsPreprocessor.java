@@ -25,17 +25,14 @@ import java.util.List;
 
 import org.sonar.cxx.api.CxxTokenType;
 
-//@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.api.PreprocessorAction;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 
-// @todo deprecated PreprocessorAction
 public class JoinStringsPreprocessor extends Preprocessor {
 
   @Override
-  // @todo deprecated PreprocessorAction
   public PreprocessorAction process(List<Token> tokens) {
 
     int nrOfAdjacentStringLiterals = 0;
@@ -49,7 +46,6 @@ public class JoinStringsPreprocessor extends Preprocessor {
     }
 
     if (nrOfAdjacentStringLiterals < 2) {
-      // @todo deprecated PreprocessorAction
       return PreprocessorAction.NO_OPERATION;
     }
 
@@ -63,7 +59,6 @@ public class JoinStringsPreprocessor extends Preprocessor {
         .setURI(firstToken.getURI()).setType(CxxTokenType.STRING).setValueAndOriginalValue(concatenatedLiteral)
         .setGeneratedCode(isGenerated).build();
 
-    // @todo deprecated PreprocessorAction
     return new PreprocessorAction(nrOfAdjacentStringLiterals, Collections.singletonList(trivia),
         Collections.singletonList(tokenToInject));
   }

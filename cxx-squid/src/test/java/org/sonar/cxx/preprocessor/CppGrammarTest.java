@@ -34,7 +34,7 @@ public class CppGrammarTest {
   private final Grammar g = p.getGrammar();
 
   private void mockRule(GrammarRuleKey key) {
-    g.rule(key).mock(); //@todo deprecated mock
+    g.rule(key).mock();
   }
 
   @Test
@@ -338,13 +338,13 @@ public class CppGrammarTest {
     assertThat(p).matches("#if 0   // Re-enable once PR13021 is fixed.");
     assertThat(p).matches("#if ((OSVER(NTDDI_VERSION) == NTDDI_WIN2K) && (1))");
 
-    assert (p.parse("#if A (4, 1)").findFirstChild(CppGrammar.functionlikeMacro) != null); //@todo deprecated findFirstChild
-    assert (p.parse("#if A ()").findFirstChild(CppGrammar.functionlikeMacro) != null); //@todo deprecated findFirstChild
-    assert (p.parse("#if A()").findFirstChild(CppGrammar.functionlikeMacro) != null); //@todo deprecated findFirstChild
+    assert (p.parse("#if A (4, 1)").findFirstChild(CppGrammar.functionlikeMacro) != null);
+    assert (p.parse("#if A ()").findFirstChild(CppGrammar.functionlikeMacro) != null);
+    assert (p.parse("#if A()").findFirstChild(CppGrammar.functionlikeMacro) != null);
 
-    assert (p.parse("#if defined(A)").findFirstChild(CppGrammar.definedExpression) != null); //@todo deprecated findFirstChild
-    assert (p.parse("#if defined (A)").findFirstChild(CppGrammar.definedExpression) != null); //@todo deprecated findFirstChild
-    assert (p.parse("#if defined A").findFirstChild(CppGrammar.definedExpression) != null); //@todo deprecated findFirstChild
+    assert (p.parse("#if defined(A)").findFirstChild(CppGrammar.definedExpression) != null);
+    assert (p.parse("#if defined (A)").findFirstChild(CppGrammar.definedExpression) != null);
+    assert (p.parse("#if defined A").findFirstChild(CppGrammar.definedExpression) != null);
   }
 
   @Test

@@ -41,6 +41,6 @@ public class ParserBaseTestHelper {
   }
 
   void mockRule(GrammarRuleKey key) {
-    g.rule(key).mock(); //@ToDo deprecated mock
+    g.rule(key).mock();
   }
 }

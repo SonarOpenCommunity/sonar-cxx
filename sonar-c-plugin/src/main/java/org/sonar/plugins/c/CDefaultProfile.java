@@ -19,8 +19,8 @@
  */
 package org.sonar.plugins.c;
 
-import org.sonar.api.profiles.AnnotationProfileParser; //@todo: deprecated AnnotationProfileParser
-import org.sonar.api.profiles.ProfileDefinition; //@todo: deprecated ProfileDefinition
+import org.sonar.api.profiles.AnnotationProfileParser;
+import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.api.rules.ActiveRule;
@@ -33,7 +33,7 @@ import org.sonar.cxx.CxxLanguage;
 public class CDefaultProfile extends ProfileDefinition {
 
   private final XMLProfileParser xmlProfileParser;
-  private final AnnotationProfileParser annotationProfileParser; //@todo: deprecated AnnotationProfileParser
+  private final AnnotationProfileParser annotationProfileParser;
   private static final String NAME = "Sonar way";
   private final CxxLanguage language;
 
@@ -42,7 +42,7 @@ public class CDefaultProfile extends ProfileDefinition {
    */
   public CDefaultProfile(
     XMLProfileParser xmlProfileParser,
-    AnnotationProfileParser annotationProfileParser, //@todo: deprecated AnnotationProfileParser
+    AnnotationProfileParser annotationProfileParser,
     CxxLanguage language) {
     this.annotationProfileParser = annotationProfileParser;
     this.xmlProfileParser = xmlProfileParser;
