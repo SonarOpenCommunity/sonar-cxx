@@ -50,7 +50,7 @@ public class TestFile {
   }
 
   public String getKey() {
-    return inputFile.absolutePath(); //@todo: deprecated absolutePath
+    return inputFile.absolutePath();
   }
 
   public int getErrors() {

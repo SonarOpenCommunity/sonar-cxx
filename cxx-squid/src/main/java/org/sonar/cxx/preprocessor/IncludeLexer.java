@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.preprocessor;
 
-//@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.channel.BlackHoleChannel;
@@ -33,11 +32,11 @@ public final class IncludeLexer {
   private IncludeLexer() {
   }
 
-  public static Lexer create(Preprocessor... preprocessors) { //@todo deprecated Preprocessor
+  public static Lexer create(Preprocessor... preprocessors) {
     return create(new CxxConfiguration(), preprocessors);
   }
 
-  public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) { //@todo deprecated Preprocessor
+  public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) {
     Lexer.Builder builder = Lexer.builder()
       .withCharset(conf.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)
@@ -46,7 +45,7 @@ public final class IncludeLexer {
       .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
       .withChannel(new BlackHoleChannel(".*"));
 
-    for (Preprocessor preprocessor : preprocessors) { //@todo deprecated Preprocessor
+    for (Preprocessor preprocessor : preprocessors) {
       builder.withPreprocessor(preprocessor);
     }
 

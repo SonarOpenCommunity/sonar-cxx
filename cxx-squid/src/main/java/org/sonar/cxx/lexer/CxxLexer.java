@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.lexer;
 
-//@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.channel.BlackHoleChannel;
@@ -54,11 +53,11 @@ public final class CxxLexer {
   private CxxLexer() {
   }
 
-  public static Lexer create(Preprocessor... preprocessors) { //@todo deprecated Preprocessor
+  public static Lexer create(Preprocessor... preprocessors) {
     return create(new CxxConfiguration(), preprocessors);
   }
 
-  public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) { //@todo deprecated Preprocessor
+  public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) {
 
     //
     // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
@@ -107,7 +106,7 @@ public final class CxxLexer {
       .withChannel(new PunctuatorChannel(CxxPunctuator.values()))
       .withChannel(new UnknownCharacterChannel());
 
-    for (Preprocessor preprocessor : preprocessors) { //@todo deprecated Preprocessor
+    for (Preprocessor preprocessor : preprocessors) {
       builder.withPreprocessor(preprocessor);
     }
 
