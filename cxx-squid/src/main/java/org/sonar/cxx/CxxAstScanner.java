@@ -58,6 +58,7 @@ import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
+import static java.lang.Math.min;
 
 public final class CxxAstScanner {
 
@@ -247,14 +248,14 @@ public final class CxxAstScanner {
   public static String intersectingConcatenate(String a, String b) {
 
     // find length of maximum possible match
-    int len_a = a.length();
-    int len_b = b.length();
-    int max_match = (len_a > len_b) ? len_b : len_a;
+    int lenOfA = a.length();
+    int lenOfB = b.length();
+    int max = min(lenOfB, lenOfA);
 
     // search down from maximum match size, to get longest possible intersection
-    for (int size = max_match; size > 0; size--) {
-      if (a.regionMatches(len_a - size, b, 0, size)) {
-        return a + b.substring(size, len_b);
+    for (int size = max; size > 0; size--) {
+      if (a.regionMatches(lenOfA - size, b, 0, size)) {
+        return a + b.substring(size, lenOfB);
       }
     }
 

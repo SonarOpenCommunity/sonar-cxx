@@ -128,7 +128,7 @@ public class CxxMetricsFactory {
 
 
   private static void addFunctonSizeMetrics(String langKey, final Map<CxxMetricsFactory.Key, Metric<?>> metrics) {
-    final Metric<Integer> BIG_FUNCTIONS = new Metric.Builder(
+    final Metric<Integer> bigFunctions = new Metric.Builder(
         Key.BIG_FUNCTIONS_KEY.getLanguageSpecificKey(langKey), "Big Functions",
         Metric.ValueType.INT)
         .setDescription("Number of functions with too many lines")
@@ -136,9 +136,9 @@ public class CxxMetricsFactory {
         .setQualitative(Boolean.FALSE)
         .setDomain(CoreMetrics.DOMAIN_SIZE)
         .create();
-    metrics.put(Key.BIG_FUNCTIONS_KEY, BIG_FUNCTIONS);
+    metrics.put(Key.BIG_FUNCTIONS_KEY, bigFunctions);
 
-    final Metric<Integer> BIG_FUNCTIONS_LOC = new Metric.Builder(
+    final Metric<Integer> bigFunctionsLoc = new Metric.Builder(
         Key.BIG_FUNCTIONS_LOC_KEY.getLanguageSpecificKey(langKey), "Big Functions Lines of Code",
         Metric.ValueType.INT)
         .setDescription("Number of lines of code in functions with too many lines")
@@ -146,9 +146,9 @@ public class CxxMetricsFactory {
         .setQualitative(Boolean.FALSE)
         .setDomain(CoreMetrics.DOMAIN_SIZE)
         .create();
-    metrics.put(Key.BIG_FUNCTIONS_LOC_KEY, BIG_FUNCTIONS_LOC);
+    metrics.put(Key.BIG_FUNCTIONS_LOC_KEY, bigFunctionsLoc);
 
-    final Metric<Double> BIG_FUNCTIONS_PERC = new Metric.Builder(
+    final Metric<Double> bigFunctionsPerc = new Metric.Builder(
         Key.BIG_FUNCTIONS_PERC_KEY.getLanguageSpecificKey(langKey), "Big Functions (%)",
         Metric.ValueType.PERCENT)
         .setDescription("% of functions with too many lines")
@@ -156,9 +156,9 @@ public class CxxMetricsFactory {
         .setQualitative(Boolean.FALSE)
         .setDomain(CoreMetrics.DOMAIN_SIZE)
         .create();
-    metrics.put(Key.BIG_FUNCTIONS_PERC_KEY, BIG_FUNCTIONS_PERC);
+    metrics.put(Key.BIG_FUNCTIONS_PERC_KEY, bigFunctionsPerc);
 
-    final Metric<Double> BIG_FUNCTIONS_LOC_PERC = new Metric.Builder(
+    final Metric<Double> bigFunctionsLocPerc = new Metric.Builder(
         Key.BIG_FUNCTIONS_LOC_PERC_KEY.getLanguageSpecificKey(langKey), "Big Functions Lines of Code (%)",
         Metric.ValueType.PERCENT)
         .setDescription("% of lines of code in functions with too many lines")
@@ -166,9 +166,9 @@ public class CxxMetricsFactory {
         .setQualitative(Boolean.FALSE)
         .setDomain(CoreMetrics.DOMAIN_SIZE)
         .create();
-    metrics.put(Key.BIG_FUNCTIONS_LOC_PERC_KEY, BIG_FUNCTIONS_LOC_PERC);
+    metrics.put(Key.BIG_FUNCTIONS_LOC_PERC_KEY, bigFunctionsLocPerc);
 
-    final Metric<Integer> LOC_IN_FUNCTIONS = new Metric.Builder(
+    final Metric<Integer> locInFunctions = new Metric.Builder(
         Key.LOC_IN_FUNCTIONS_KEY.getLanguageSpecificKey(langKey), "Lines of Code in Functions",
         Metric.ValueType.INT)
         .setDescription("Number of lines of code in function bodies")
@@ -176,12 +176,12 @@ public class CxxMetricsFactory {
         .setQualitative(Boolean.FALSE)
         .setDomain(CoreMetrics.DOMAIN_SIZE)
         .create();
-    metrics.put(Key.LOC_IN_FUNCTIONS_KEY, LOC_IN_FUNCTIONS);
+    metrics.put(Key.LOC_IN_FUNCTIONS_KEY, locInFunctions);
   }
 
   private static void addFunctionComplexityMetrics(String langKey,
       final Map<CxxMetricsFactory.Key, Metric<?>> metrics) {
-    final Metric<Integer> COMPLEX_FUNCTIONS = new Metric.Builder(
+    final Metric<Integer> complexFunctions = new Metric.Builder(
         Key.COMPLEX_FUNCTIONS_KEY.getLanguageSpecificKey(langKey), "Complex Functions",
         Metric.ValueType.INT)
         .setDescription("Number of functions with high cyclomatic complexity")
@@ -189,9 +189,9 @@ public class CxxMetricsFactory {
         .setQualitative(Boolean.FALSE)
         .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
         .create();
-    metrics.put(Key.COMPLEX_FUNCTIONS_KEY, COMPLEX_FUNCTIONS);
+    metrics.put(Key.COMPLEX_FUNCTIONS_KEY, complexFunctions);
 
-    final Metric<Double> COMPLEX_FUNCTIONS_PERC = new Metric.Builder(
+    final Metric<Double> complexFunctionsPerc = new Metric.Builder(
        Key.COMPLEX_FUNCTIONS_PERC_KEY.getLanguageSpecificKey(langKey), "Complex Functions (%)",
        Metric.ValueType.PERCENT)
         .setDescription("% of functions with high cyclomatic complexity")
@@ -199,9 +199,9 @@ public class CxxMetricsFactory {
         .setQualitative(Boolean.FALSE)
         .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
         .create();
-    metrics.put(Key.COMPLEX_FUNCTIONS_PERC_KEY, COMPLEX_FUNCTIONS_PERC);
+    metrics.put(Key.COMPLEX_FUNCTIONS_PERC_KEY, complexFunctionsPerc);
 
-    final Metric<Integer> COMPLEX_FUNCTIONS_LOC = new Metric.Builder(
+    final Metric<Integer> complexFunctionsLoc = new Metric.Builder(
        Key.COMPLEX_FUNCTIONS_LOC_KEY.getLanguageSpecificKey(langKey), "Complex Functions Lines of Code",
        Metric.ValueType.INT)
         .setDescription("Number of lines of code in functions with high cyclomatic complexity")
@@ -209,9 +209,9 @@ public class CxxMetricsFactory {
         .setQualitative(Boolean.FALSE)
         .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
         .create();
-    metrics.put(Key.COMPLEX_FUNCTIONS_LOC_KEY, COMPLEX_FUNCTIONS_LOC);
+    metrics.put(Key.COMPLEX_FUNCTIONS_LOC_KEY, complexFunctionsLoc);
 
-    final Metric<Double> COMPLEX_FUNCTIONS_LOC_PERC = new Metric.Builder(
+    final Metric<Double> complexFunctionsLocPerc = new Metric.Builder(
        Key.COMPLEX_FUNCTIONS_LOC_PERC_KEY.getLanguageSpecificKey(langKey), "Complex Functions Lines of Code (%)",
        Metric.ValueType.PERCENT)
         .setDescription("% of lines of code in functions with high cyclomatic complexity")
@@ -219,21 +219,21 @@ public class CxxMetricsFactory {
         .setQualitative(Boolean.FALSE)
         .setDomain(CoreMetrics.DOMAIN_COMPLEXITY)
         .create();
-    metrics.put(Key.COMPLEX_FUNCTIONS_LOC_PERC_KEY, COMPLEX_FUNCTIONS_LOC_PERC);
+    metrics.put(Key.COMPLEX_FUNCTIONS_LOC_PERC_KEY, complexFunctionsLocPerc);
   }
 
   private static void addPublicAPIMetrics(String langPropertiesKey, final String domain,
       final Map<CxxMetricsFactory.Key, Metric<?>> metrics) {
-    final Metric<Integer> PUBLIC_API = new Metric.Builder(Key.PUBLIC_API_KEY.getLanguageSpecificKey(langPropertiesKey),
+    final Metric<Integer> publicApi = new Metric.Builder(Key.PUBLIC_API_KEY.getLanguageSpecificKey(langPropertiesKey),
         "Public API", Metric.ValueType.INT)
         .setDescription("Public API")
         .setDirection(Metric.DIRECTION_WORST)
          .setQualitative(Boolean.FALSE)
          .setDomain(domain)
          .create();
-    metrics.put(Key.PUBLIC_API_KEY, PUBLIC_API);
+    metrics.put(Key.PUBLIC_API_KEY, publicApi);
 
-    final Metric<Double> PUBLIC_DOCUMENTED_API_DENSITY = new Metric.Builder(
+    final Metric<Double> publicDocumentedApiDensity = new Metric.Builder(
         Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY.getLanguageSpecificKey(langPropertiesKey), "Public Documented API (%)",
         Metric.ValueType.PERCENT)
         .setDescription("Public documented classes and functions balanced by ncloc")
@@ -244,9 +244,9 @@ public class CxxMetricsFactory {
         .setBestValue(100.0)
         .setOptimizedBestValue(Boolean.TRUE)
         .create();
-    metrics.put(Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY, PUBLIC_DOCUMENTED_API_DENSITY);
+    metrics.put(Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY, publicDocumentedApiDensity);
 
-    final Metric<Integer> PUBLIC_UNDOCUMENTED_API = new Metric.Builder(
+    final Metric<Integer> publicUndocumentedApi = new Metric.Builder(
         Key.PUBLIC_UNDOCUMENTED_API_KEY.getLanguageSpecificKey(langPropertiesKey), "Public Undocumented API",
         Metric.ValueType.INT)
         .setDescription("Public undocumented classes, functions and variables")
@@ -256,7 +256,7 @@ public class CxxMetricsFactory {
         .setBestValue(0.0)
         .setOptimizedBestValue(Boolean.TRUE)
         .create();
-    metrics.put(Key.PUBLIC_UNDOCUMENTED_API_KEY, PUBLIC_UNDOCUMENTED_API);
+    metrics.put(Key.PUBLIC_UNDOCUMENTED_API_KEY, publicUndocumentedApi);
   }
 
   private static void addSensorMetric(Key metricKey, String description, String domain, String langPropertiesKey,
