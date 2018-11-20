@@ -111,8 +111,8 @@ public final class CPlugin implements Plugin {
         .build(),
       PropertyDefinition.builder(INCLUDE_DIRECTORIES_KEY)
         .name("Include directories")
-        .description("Comma-separated list of directories to search the included files in. May be defined either relative"
-          + " to projects root or absolute.")
+        .description("Comma-separated list of directories to search the included files in. May be defined either"
+          + " relative to projects root or absolute.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(3)
@@ -127,8 +127,8 @@ public final class CPlugin implements Plugin {
         .build(),
       PropertyDefinition.builder(DEFINES_KEY)
         .name("Default macros")
-        .description("Additional macro definitions (one per line) to use when analysing the source code. Use to provide "
-          + "macros which cannot be resolved by other means."
+        .description("Additional macro definitions (one per line) to use when analysing the source code."
+          + " Use to provide macros which cannot be resolved by other means."
           + " Use the 'force includes' setting to inject more complex, multi-line macros.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
@@ -253,8 +253,8 @@ public final class CPlugin implements Plugin {
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxRatsSensor.REPORT_PATH_KEY)
         .name("RATS report(s)")
-        .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/> reports(s),"
-          + "relative to projects root." + USE_ANT_STYLE_WILDCARDS_1)
+        .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/>"
+          + " reports(s), relative to projects root." + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
@@ -270,8 +270,8 @@ public final class CPlugin implements Plugin {
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxSensor.REPORT_PATH_KEY)
         .name("Vera++ report(s)")
-        .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s), relative to projects root."
-          + USE_ANT_STYLE_WILDCARDS_1)
+        .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s),"
+          + " relative to projects root." + USE_ANT_STYLE_WILDCARDS_1)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
@@ -318,7 +318,8 @@ public final class CPlugin implements Plugin {
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxClangTidySensor.DEFAULT_CHARSET_DEF)
         .name("Encoding")
-        .description("The encoding to use when reading the clang-tidy report. Leave empty to use parser's default UTF-8.")
+        .description("The encoding to use when reading the clang-tidy report."
+          + " Leave empty to use parser's default UTF-8.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(15)
@@ -372,8 +373,8 @@ public final class CPlugin implements Plugin {
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcSensor.REPORT_REGEX_DEF)
         .name("VC Regular Expression")
-        .description("Regular expression to identify the four named groups of the compiler warning message: &lt;file&gt;, &lt;line&gt;, &lt;id&gt;,"
-          + " &lt;message&gt;. Leave empty to use parser's default."
+        .description("Regular expression to identify the four named groups of the compiler warning message:"
+          + " &lt;file&gt;, &lt;line&gt;, &lt;id&gt;, &lt;message&gt;. Leave empty to use parser's default."
           + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
           + "this page</a> for details regarding the different regular expression that can be use per compiler.")
         .subCategory(subcateg)
@@ -407,8 +408,8 @@ public final class CPlugin implements Plugin {
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_REGEX_DEF)
         .name("GCC Regular Expression")
-        .description("Regular expression to identify the four named groups of the compiler warning message: <file>, <line>, <id>,"
-          + " <message>. Leave empty to use parser's default."
+        .description("Regular expression to identify the four named groups of the compiler warning message:"
+          + " <file>, <line>, <id>, <message>. Leave empty to use parser's default."
           + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
           + "this page</a> for details regarding the different regular expression that can be use per compiler.")
         .subCategory(subcateg)

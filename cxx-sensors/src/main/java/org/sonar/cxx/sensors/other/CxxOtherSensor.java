@@ -120,7 +120,8 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
       String inputKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + INPUT_KEY);
       String outputKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY);
 
-      String stylesheet = stylesheetKey == null ? null : resolveFilename(baseDir.getAbsolutePath(), context.config().get(stylesheetKey).orElse(null));
+      String stylesheet = stylesheetKey == null ? null : resolveFilename(baseDir.getAbsolutePath(),
+        context.config().get(stylesheetKey).orElse(null));
       List<File> inputs = inputKey == null ? new ArrayList<>() : getReports(context.config(), baseDir, inputKey);
       String[] outputStrings = outputKey == null ? null : context.config().getStringArray(outputKey);
       List<String> outputs = outputStrings == null ? new ArrayList<>() : Arrays.asList(outputStrings);
@@ -203,7 +204,8 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
     for (int j = 0; j < inputs.size(); j++) {
       try {
         String normalizedOutputFilename = resolveFilename(baseDir, outputs.get(j));
-        CxxUtils.transformFile(new StreamSource(new File(stylesheet)), inputs.get(j), new File(normalizedOutputFilename));
+        CxxUtils.transformFile(new StreamSource(new File(stylesheet)), inputs.get(j),
+          new File(normalizedOutputFilename));
       } catch (TransformerException e) {
         String msg = new StringBuilder()
           .append("Cannot transform report files: '")

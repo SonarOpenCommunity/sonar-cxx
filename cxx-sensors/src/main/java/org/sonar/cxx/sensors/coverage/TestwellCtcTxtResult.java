@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-/*
+ /*
  * Derived from https://github.com/Londran/sonar-ctc/blob/master/src/main/java/org/sonar/plugins/ctc/api/parser/CtcResult.java
  */
 package org.sonar.cxx.sensors.coverage;
@@ -39,12 +39,21 @@ public enum TestwellCtcTxtResult {
   FILE_COND("^\\Q***TER\\E +\\d+ % \\( *(\\d+)/ *(\\d+)\\) of FILE (?:.*)$"),
   FILE_STMT("^ {6} +\\d+ % \\( *(\\d+)/ *(\\d+)\\) statement.*$");
 
-  public static final Pattern REPORT_HEADER = Pattern.compile(String.join("\\s+", MON_SYM.patternString, MON_DAT.patternString, LIS_DTE.patternString, COV_VIW.patternString), Pattern.MULTILINE);
-  public static final Pattern REPORT_FOOTER = Pattern.compile(String.join("\\s+", SRC_FLS.patternString, HDR_EXT.patternString, FKT_EXT.patternString, SRC_LNS.patternString), Pattern.MULTILINE);
-  public static final Pattern FILE_HEADER = Pattern.compile(String.join("\\s+", FILE_MONI.patternString, FILE_INST.patternString), Pattern.MULTILINE);
-  public static final Pattern SECTION_SEP = Pattern.compile("^-{77}|={77}$", Pattern.MULTILINE);
-  public static final Pattern LINE_RESULT = Pattern.compile("^(?: {10}| *([0-9Ee]+)) (?: {10}| *([0-9Ee]+)) -? *([0-9Ee]+) *(?:}([+-]+))?(.*)$", Pattern.MULTILINE);
-  public static final Pattern FILE_RESULT = Pattern.compile(String.join("\\s+", FILE_COND.patternString, FILE_STMT.patternString), Pattern.MULTILINE);
+  public static final Pattern REPORT_HEADER
+    = Pattern.compile(String.join("\\s+", MON_SYM.patternString, MON_DAT.patternString,
+      LIS_DTE.patternString, COV_VIW.patternString), Pattern.MULTILINE);
+  public static final Pattern REPORT_FOOTER
+    = Pattern.compile(String.join("\\s+", SRC_FLS.patternString, HDR_EXT.patternString, FKT_EXT.patternString,
+      SRC_LNS.patternString), Pattern.MULTILINE);
+  public static final Pattern FILE_HEADER
+    = Pattern.compile(String.join("\\s+", FILE_MONI.patternString, FILE_INST.patternString), Pattern.MULTILINE);
+  public static final Pattern SECTION_SEP
+    = Pattern.compile("^-{77}|={77}$", Pattern.MULTILINE);
+  public static final Pattern LINE_RESULT
+    = Pattern.compile("^(?: {10}| *([0-9Ee]+)) (?: {10}| *([0-9Ee]+)) -? *([0-9Ee]+) *(?:}([+-]+))?(.*)$",
+      Pattern.MULTILINE);
+  public static final Pattern FILE_RESULT
+    = Pattern.compile(String.join("\\s+", FILE_COND.patternString, FILE_STMT.patternString), Pattern.MULTILINE);
 
   private final String patternString;
 

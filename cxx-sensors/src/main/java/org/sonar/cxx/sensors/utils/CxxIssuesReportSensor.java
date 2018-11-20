@@ -43,8 +43,8 @@ import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
 
 /**
- * This class is used as base for all sensors which import external reports,
- * which contain issues. It hosts common logic such as saving issues in SonarQube
+ * This class is used as base for all sensors which import external reports, which contain issues. It hosts common logic
+ * such as saving issues in SonarQube
  */
 public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
@@ -63,8 +63,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     this.ruleRepositoryKey = ruleRepositoryKey;
   }
 
-  public String getRuleRepositoryKey()
-  {
+  public String getRuleRepositoryKey() {
     return ruleRepositoryKey;
   }
 
@@ -87,7 +86,6 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
         executeReport(context, report, prevViolationsCount);
       }
 
-
       Metric<Integer> metric = getLanguage().getMetric(this.getMetricKey());
       LOG.info("{} processed = {}", metric.getKey(), violationsPerModuleCount);
 
@@ -103,7 +101,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       // (possible for hierarchical multi-module projects)
       // don't publish 0 as module metric,
       // let AggregateMeasureComputer calculate the correct value
-      if ( violationsPerModuleCount != 0 ) {
+      if (violationsPerModuleCount != 0) {
         context.<Integer>newMeasure()
           .forMetric(metric)
           .on(context.module())
@@ -162,23 +160,24 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     if (notFoundFiles.contains(path)) {
       return null;
     }
-    final InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(path));
+    final InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.
+      fileSystem().predicates().hasPath(path));
     if (inputFile == null) {
       LOG.debug("Path '{}' couldn't be found in module '{}' base dir '{}'", path, sensorContext.module().key(),
-          sensorContext.fileSystem().baseDir());
+        sensorContext.fileSystem().baseDir());
       notFoundFiles.add(path);
     }
     return inputFile;
   }
 
   private NewIssueLocation createNewIssueLocationFile(SensorContext sensorContext, NewIssue newIssue,
-      CxxReportLocation location, Set<InputFile> affectedFiles) {
+    CxxReportLocation location, Set<InputFile> affectedFiles) {
     InputFile inputFile = getInputFileIfInProject(sensorContext, location.getFile());
     if (inputFile != null) {
       int lines = inputFile.lines();
       int lineNr = Integer.max(1, getLineAsInt(location.getLine(), lines));
       NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(lineNr))
-          .message(location.getInfo());
+        .message(location.getInfo());
       affectedFiles.add(inputFile);
       return newIssueLocation;
     } else {
@@ -188,7 +187,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
-      CxxReportLocation location) {
+    CxxReportLocation location) {
     return newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
   }
 
@@ -206,7 +205,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     for (CxxReportLocation location : issue.getLocations()) {
       if (location.getFile() != null && !location.getFile().isEmpty()) {
         NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location,
-            affectedFiles);
+          affectedFiles);
         if (newIssueLocation != null) {
           newIssueLocations.add(newIssueLocation);
         }

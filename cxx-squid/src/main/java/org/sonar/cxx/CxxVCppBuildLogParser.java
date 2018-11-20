@@ -56,14 +56,14 @@ public class CxxVCppBuildLogParser {
   private static final String CPPWINRTVERSION = "__cplusplus_winrt=201009";
   private static final String CPPVERSION = "__cplusplus=199711L";
 
-  private static final Pattern[] includePatterns = { Pattern.compile("/I\"(.*?)\""),
-      Pattern.compile("/I([^\\s\"]+) ") };
-  private static final Pattern[] definePatterns = { Pattern.compile("[/-]D\\s([^\\s]+)"),
-      Pattern.compile("[/-]D([^\\s]+)") };
+  private static final Pattern[] includePatterns = {Pattern.compile("/I\"(.*?)\""),
+    Pattern.compile("/I([^\\s\"]+) ")};
+  private static final Pattern[] definePatterns = {Pattern.compile("[/-]D\\s([^\\s]+)"),
+    Pattern.compile("[/-]D([^\\s]+)")};
   private static final Pattern pathToCLPattern = Pattern.compile("^.*\\\\bin\\\\.*CL.exe\\x20.*$");
   private static final Pattern plattformX86Pattern = Pattern.compile("Building solution configuration \".*\\|x64\".");
   private static final Pattern toolsetV141Pattern = Pattern
-      .compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
+    .compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
 
   /**
    * CxxVCppBuildLogParser (ctor)
@@ -72,7 +72,7 @@ public class CxxVCppBuildLogParser {
    * @param uniqueDefinesIn
    */
   public CxxVCppBuildLogParser(Map<String, List<String>> uniqueIncludesIn,
-      Map<String, Set<String>> uniqueDefinesIn) {
+    Map<String, Set<String>> uniqueDefinesIn) {
     uniqueIncludes = uniqueIncludesIn;
     uniqueDefines = uniqueDefinesIn;
   }
@@ -203,7 +203,7 @@ public class CxxVCppBuildLogParser {
       setPlatformToolset("V140");
       return true;
     } else if (line.contains("\\V141\\Microsoft.CppBuild.targets")
-        || toolsetV141Pattern.matcher(line).matches()) {
+      || toolsetV141Pattern.matcher(line).matches()) {
       setPlatformToolset("V141");
       return true;
     } else {
@@ -254,7 +254,6 @@ public class CxxVCppBuildLogParser {
         addMacro(macroElem, fileElement);
       }
     }
-
 
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.100).aspx
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.110).aspx
@@ -361,7 +360,8 @@ public class CxxVCppBuildLogParser {
     addMacro("__TIMESTAMP__=\"??? ?? ???? ??:??:??\"", fileElement);
     // _M_IX86
     //    /GB _M_IX86 = 600 Blend
-    //    /G5 _M_IX86 = 500 (Default. Future compilers will emit a different value to reflect the dominant processor.) Pentium
+    //    /G5 _M_IX86 = 500 (Default. Future compilers will emit a different value to reflect the
+    //                         dominant processor.) Pentium
     //    /G6 _M_IX86 = 600  Pentium Pro, Pentium II, and Pentium III
     //    /G3 _M_IX86 = 300  80386
     //    /G4 _M_IX86 = 400  80486
@@ -407,7 +407,8 @@ public class CxxVCppBuildLogParser {
       || line.contains("/arch:AVX ")
       || line.contains("/arch:VFPv4 ")
       || line.contains("/arch:ARMv7VE ")) {
-      // In the range 30-39 if no /arch ARM option was specified, indicating the default architecture for ARM was used (VFPv3).
+      // In the range 30-39 if no /arch ARM option was specified, indicating the default architecture
+      //   for ARM was used (VFPv3).
       // In the range 40-49 if /arch:VFPv4 was used.
       addMacro("_M_ARM_FP", fileElement);
     }
@@ -457,7 +458,8 @@ public class CxxVCppBuildLogParser {
       }
     }
 
-    //_MSC_EXTENSIONS This macro is defined when you compile with the /Ze compiler option (the default). Its value, when defined, is 1.
+    //_MSC_EXTENSIONS This macro is defined when you compile with the /Ze compiler option (the default).
+    //Its value, when defined, is 1.
     if (line.contains("/Ze ")) {
       addMacro("_MSC_EXTENSIONS", fileElement);
     }

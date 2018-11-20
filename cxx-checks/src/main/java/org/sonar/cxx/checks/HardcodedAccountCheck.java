@@ -35,7 +35,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * HardcodedAccountCheck
-  *
+ *
  */
 @Rule(
   key = "HardcodedAccount",
@@ -59,7 +59,7 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
 
   /**
    * regularExpression
-  *
+   *
    */
   @RuleProperty(
     key = "regularExpression",
