@@ -34,14 +34,14 @@ public class MapChainTest {
   public void gettingHighPrioMapping() {
     mc.setHighPrio(true);
     mc.put("k", "v");
-    assertEquals(mc.get("k"), "v");
+    assertEquals("v", mc.get("k"));
   }
 
   @Test
   public void gettingLowPrioMapping() {
     mc.setHighPrio(false);
     mc.put("k", "v");
-    assertEquals(mc.get("k"), "v");
+    assertEquals("v", mc.get("k"));
   }
 
   @Test
@@ -49,7 +49,7 @@ public class MapChainTest {
     mc.setHighPrio(false);
     mc.put("k", "v");
     mc.removeLowPrio("k");
-    assertEquals(mc.get("k"), null);
+    assertEquals(null, mc.get("k"));
   }
 
   @Test
@@ -58,12 +58,12 @@ public class MapChainTest {
     mc.put("k", "vlow");
     mc.setHighPrio(true);
     mc.put("k", "vhigh");
-    assertEquals(mc.get("k"), "vhigh");
+    assertEquals("vhigh", mc.get("k"));
   }
 
   @Test
   public void gettingOverwrittenMapping() {
-    assertEquals(mc.get("k"), null);
+    assertEquals(null, mc.get("k"));
   }
 
   @Test
@@ -71,7 +71,7 @@ public class MapChainTest {
     mc.setHighPrio(false);
     mc.put("k", "v");
     mc.clearLowPrio();
-    assertEquals(mc.get("k"), null);
+    assertEquals(null, mc.get("k"));
   }
 
   @Test
@@ -79,7 +79,7 @@ public class MapChainTest {
     mc.setHighPrio(true);
     mc.put("k", "v");
     mc.clearLowPrio();
-    assertEquals(mc.get("k"), "v");
+    assertEquals("v", mc.get("k"));
   }
 
   @Test
@@ -92,8 +92,8 @@ public class MapChainTest {
     mc.disable("khigh");
     mc.disable("klow");
 
-    assertEquals(mc.get("khigh"), null);
-    assertEquals(mc.get("klow"), null);
+    assertEquals(null, mc.get("khigh"));
+    assertEquals(null, mc.get("klow"));
   }
 
   @Test
@@ -108,7 +108,7 @@ public class MapChainTest {
     mc.enable("khigh");
     mc.enable("klow");
 
-    assertEquals(mc.get("khigh"), "vhigh");
-    assertEquals(mc.get("klow"), "vlow");
+    assertEquals("vhigh", mc.get("khigh"));
+    assertEquals("vlow", mc.get("klow"));
   }
 }
