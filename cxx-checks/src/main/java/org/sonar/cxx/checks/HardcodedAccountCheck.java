@@ -55,7 +55,7 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
    *
    */
   private static final String DEFAULT_REGULAR_EXPRESSION = "\\bDSN\\b.*=.*;\\b(UID|PWD)\\b=.*;";
-  private static volatile Matcher reg;
+  private static Matcher reg;
 
   /**
    * regularExpression

@@ -34,7 +34,7 @@ import org.sonar.squidbridge.api.SourceProject;
 
 public final class CxxParser {
 
-  private static volatile CxxPreprocessor cxxpp;
+  private static CxxPreprocessor cxxpp;
 
   private CxxParser() {
   }
