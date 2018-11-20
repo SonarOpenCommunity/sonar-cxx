@@ -39,44 +39,45 @@ import com.sonar.sslr.api.Grammar;
 
 public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocatitionSquidCheck<G> {
 
-  private static final AstNodeType[] DESCENDANT_TYPES = new AstNodeType[] {
-      CxxGrammarImpl.handler,
-      CxxGrammarImpl.iterationStatement,
-      CxxGrammarImpl.lambdaExpression,
-      CxxGrammarImpl.logicalAndExpression,
-      CxxGrammarImpl.logicalOrExpression,
-      CxxGrammarImpl.selectionStatement,
-      CxxKeyword.ELSE,
-      CxxKeyword.GOTO,
-      CxxPunctuator.QUEST,
-      IDENTIFIER };
+  private static final AstNodeType[] DESCENDANT_TYPES = new AstNodeType[]{
+    CxxGrammarImpl.handler,
+    CxxGrammarImpl.iterationStatement,
+    CxxGrammarImpl.lambdaExpression,
+    CxxGrammarImpl.logicalAndExpression,
+    CxxGrammarImpl.logicalOrExpression,
+    CxxGrammarImpl.selectionStatement,
+    CxxKeyword.ELSE,
+    CxxKeyword.GOTO,
+    CxxPunctuator.QUEST,
+    IDENTIFIER};
 
-  private static final AstNodeType[] INCREMENT_TYPES = new AstNodeType[] {
-      CxxGrammarImpl.handler,
-      CxxGrammarImpl.iterationStatement,
-      CxxGrammarImpl.logicalAndExpression,
-      CxxGrammarImpl.logicalOrExpression,
-      CxxGrammarImpl.selectionStatement,
-      CxxKeyword.ELSE,
-      CxxKeyword.GOTO,
-      CxxPunctuator.QUEST };
+  private static final AstNodeType[] INCREMENT_TYPES = new AstNodeType[]{
+    CxxGrammarImpl.handler,
+    CxxGrammarImpl.iterationStatement,
+    CxxGrammarImpl.logicalAndExpression,
+    CxxGrammarImpl.logicalOrExpression,
+    CxxGrammarImpl.selectionStatement,
+    CxxKeyword.ELSE,
+    CxxKeyword.GOTO,
+    CxxPunctuator.QUEST};
 
-  private static final AstNodeType[] NESTING_LEVEL_TYPES = new AstNodeType[] {
-      CxxGrammarImpl.handler,
-      CxxGrammarImpl.iterationStatement,
-      CxxGrammarImpl.lambdaExpression,
-      CxxGrammarImpl.selectionStatement,
-      CxxPunctuator.QUEST };
+  private static final AstNodeType[] NESTING_LEVEL_TYPES = new AstNodeType[]{
+    CxxGrammarImpl.handler,
+    CxxGrammarImpl.iterationStatement,
+    CxxGrammarImpl.lambdaExpression,
+    CxxGrammarImpl.selectionStatement,
+    CxxPunctuator.QUEST};
 
-  private static final AstNodeType[] NESTING_INCREMENTS_TYPES = new AstNodeType[] {
-      CxxGrammarImpl.handler,
-      CxxGrammarImpl.iterationStatement,
-      CxxGrammarImpl.selectionStatement,
-      CxxPunctuator.QUEST };
+  private static final AstNodeType[] NESTING_INCREMENTS_TYPES = new AstNodeType[]{
+    CxxGrammarImpl.handler,
+    CxxGrammarImpl.iterationStatement,
+    CxxGrammarImpl.selectionStatement,
+    CxxPunctuator.QUEST};
 
-  private Deque<CxxComplexityScope> complexityScopes;
+  private Deque<CxxComplexityScope> complexityScopes = null;
 
   private static final Set<AstNodeType> SUBSCRIPTION_NODES = new HashSet<>();
+
   static {
     SUBSCRIPTION_NODES.add(CxxGrammarImpl.functionDefinition);
     SUBSCRIPTION_NODES.addAll(Arrays.asList(DESCENDANT_TYPES));
@@ -148,6 +149,6 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
 
   private static boolean isElseIf(AstNode node) {
     return node.is(CxxGrammarImpl.selectionStatement) && node.getToken().getType().equals(CxxKeyword.IF)
-        && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
+      && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
   }
 }

@@ -34,9 +34,9 @@ public class StringLiteralsChannel extends Channel<Lexer> {
 
   private final StringBuilder sb = new StringBuilder();
 
-  private int index;
+  private int index = 0;
   private char ch = ' ';
-  private boolean isRawString;
+  private boolean isRawString = false;
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {

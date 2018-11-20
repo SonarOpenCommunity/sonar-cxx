@@ -34,7 +34,7 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
 
   private final StringBuilder sb = new StringBuilder();
 
-  private int index;
+  private int index = 0;
   private char ch = ' ';
 
   @Override

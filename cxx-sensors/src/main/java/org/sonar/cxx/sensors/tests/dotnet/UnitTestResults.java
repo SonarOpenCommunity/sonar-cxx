@@ -29,12 +29,12 @@ import javax.annotation.Nullable;
 
 public class UnitTestResults {
 
-  private int tests;
-  private int passed;
-  private int skipped;
-  private int failures;
-  private int errors;
-  private Long executionTime;
+  private int tests = 0;
+  private int passed = 0;
+  private int skipped = 0;
+  private int failures = 0;
+  private int errors = 0;
+  private Long executionTime = null;
 
   public void add(int tests, int passed, int skipped, int failures, int errors, @Nullable Long executionTime) {
     this.tests += tests;

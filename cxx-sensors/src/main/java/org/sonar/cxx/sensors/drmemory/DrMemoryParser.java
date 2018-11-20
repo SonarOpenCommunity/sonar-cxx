@@ -56,8 +56,8 @@ public final class DrMemoryParser {
     LEAK("MemoryLeak", "LEAK"),
     UNRECOGNIZED("Dr Memory unrecognized error", "");
 
-    private String id;
-    private String title;
+    private final String id;
+    private final String title;
 
     DrMemoryErrorType(String id, String title) {
       this.id = id;
@@ -78,7 +78,7 @@ public final class DrMemoryParser {
     public static class Location {
 
       private String file = "";
-      private Integer line;
+      private Integer line = 0;
 
       public String getFile() {
         return file;

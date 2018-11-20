@@ -35,7 +35,7 @@ public class MapChain<K, V> {
   private final Map<K, V> lowPrioMap = new HashMap<>();
   private final Map<K, V> highPrioDisabled = new HashMap<>();
   private final Map<K, V> lowPrioDisabled = new HashMap<>();
-  private boolean isHighPrioEnabled;
+  private boolean isHighPrioEnabled = false;
 
   /**
    * get
