@@ -192,9 +192,9 @@ public class CxxSquidSensor implements Sensor {
     final boolean buildLogPathsDefined = buildLogPaths != null && buildLogPaths.length != 0;
     if (buildLogPathsDefined) {
       List<File> reports = CxxReportSensor.getReports(context.config(), fs.baseDir(),
-          this.language.getPluginProperty(REPORT_PATH_KEY));
+        this.language.getPluginProperty(REPORT_PATH_KEY));
       cxxConf.setCompilationPropertiesWithBuildLog(reports, "Visual C++",
-          this.language.getStringOption(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF));
+        this.language.getStringOption(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF));
     }
 
     return cxxConf;
@@ -204,8 +204,7 @@ public class CxxSquidSensor implements Sensor {
     // don't publish metrics on modules, which were not analyzed
     // otherwise hierarchical multi-module projects will contain wrong metrics ( == 0)
     // see also AggregateMeasureComputer
-    if (squidSourceFiles.isEmpty())
-    {
+    if (squidSourceFiles.isEmpty()) {
       return;
     }
 
@@ -243,41 +242,40 @@ public class CxxSquidSensor implements Sensor {
     context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY).on(inputFile)
       .withValue(squidFile.getInt(CxxMetric.COMPLEXITY)).save();
     context.<Integer>newMeasure().forMetric(CoreMetrics.COGNITIVE_COMPLEXITY).on(inputFile)
-        .withValue(squidFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY)).save();
+      .withValue(squidFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY)).save();
     context.<Integer>newMeasure().forMetric(CoreMetrics.COMMENT_LINES).on(inputFile)
       .withValue(squidFile.getInt(CxxMetric.COMMENT_LINES)).save();
 
     // CUSTOM METRICS
     // non-core metrics are not aggregated automatically,
     // see AggregateMeasureComputer
-
     // 1. PUBLIC API
     // PUBLIC_DOCUMENTED_API_DENSITY_KEY is calculated by means of
     // DensityMeasureComputer
     context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_API_KEY))
-        .on(inputFile).withValue(squidFile.getInt(CxxMetric.PUBLIC_API)).save();
+      .on(inputFile).withValue(squidFile.getInt(CxxMetric.PUBLIC_API)).save();
     context.<Integer>newMeasure()
-        .forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY)).on(inputFile)
-        .withValue(squidFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).save();
+      .forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY)).on(inputFile)
+      .withValue(squidFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).save();
 
     // 2. FUNCTION COMPLEXITY
     // COMPLEX_FUNCTIONS_PERC_KEY and COMPLEX_FUNCTIONS_LOC_PERC_KEY
     // are calculated by means of by means of DensityMeasureComputer
     context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_KEY))
-        .on(inputFile).withValue(squidFile.getInt(CxxMetric.COMPLEX_FUNCTIONS)).save();
+      .on(inputFile).withValue(squidFile.getInt(CxxMetric.COMPLEX_FUNCTIONS)).save();
     context.<Integer>newMeasure()
-        .forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_KEY)).on(inputFile)
-        .withValue(squidFile.getInt(CxxMetric.COMPLEX_FUNCTIONS_LOC)).save();
+      .forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_KEY)).on(inputFile)
+      .withValue(squidFile.getInt(CxxMetric.COMPLEX_FUNCTIONS_LOC)).save();
 
     // 2. FUNCTION SIZE
     // BIG_FUNCTIONS_PERC_KEY and BIG_FUNCTIONS_LOC_PERC_KEY
     // are calculated by means of by means of DensityMeasureComputer
     context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY))
-    .on(inputFile).withValue(squidFile.getInt(CxxMetric.LOC_IN_FUNCTIONS)).save();
+      .on(inputFile).withValue(squidFile.getInt(CxxMetric.LOC_IN_FUNCTIONS)).save();
     context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_KEY))
-        .on(inputFile).withValue(squidFile.getInt(CxxMetric.BIG_FUNCTIONS)).save();
+      .on(inputFile).withValue(squidFile.getInt(CxxMetric.BIG_FUNCTIONS)).save();
     context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY))
-        .on(inputFile).withValue(squidFile.getInt(CxxMetric.BIG_FUNCTIONS_LOC)).save();
+      .on(inputFile).withValue(squidFile.getInt(CxxMetric.BIG_FUNCTIONS_LOC)).save();
   }
 
   private int saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext sensorContext) {
@@ -290,9 +288,9 @@ public class CxxSquidSensor implements Sensor {
         }
 
         NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(this.language.getRepositoryKey(),
-            checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()).rule()));
+          checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()).rule()));
         NewIssueLocation location = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
-            .message(message.getText(Locale.ENGLISH));
+          .message(message.getText(Locale.ENGLISH));
 
         newIssue.at(location);
         newIssue.save();
@@ -303,12 +301,12 @@ public class CxxSquidSensor implements Sensor {
     if (MultiLocatitionSquidCheck.hasMultiLocationCheckMessages(squidFile)) {
       for (CxxReportIssue issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(squidFile)) {
         final NewIssue newIssue = sensorContext.newIssue()
-            .forRule(RuleKey.of(language.getRepositoryKey(), issue.getRuleId()));
+          .forRule(RuleKey.of(language.getRepositoryKey(), issue.getRuleId()));
         int locationNr = 0;
         for (CxxReportLocation location : issue.getLocations()) {
           final Integer line = Integer.valueOf(location.getLine());
           final NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
-              .message(location.getInfo());
+            .message(location.getInfo());
           if (locationNr == 0) {
             newIssue.at(newIssueLocation);
           } else {
