@@ -57,7 +57,7 @@ public class CxxComplexityScope {
   }
 
   public String getStartingLine() {
-    return Integer.valueOf(startingLine).toString();
+    return Integer.toString(startingLine);
   }
 
   public void increaseNesting() {

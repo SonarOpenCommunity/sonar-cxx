@@ -40,7 +40,7 @@ public class CxxComplexitySource {
   }
 
   public String getLine() {
-    return Integer.valueOf(line).toString();
+    return Integer.toString(line);
   }
 
   private String getNodeDescripton() {
