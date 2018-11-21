@@ -57,7 +57,7 @@ public enum TestwellCtcTxtResult {
 
   private final String patternString;
 
-  private TestwellCtcTxtResult(String key) {
+  TestwellCtcTxtResult(String key) {
     patternString = key;
   }
 
