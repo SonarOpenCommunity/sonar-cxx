@@ -82,7 +82,8 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
 
       Double executionTime = readExecutionTimeFromDirectlyNestedTestSuiteTags(xmlParserHelper);
 
-      unitTestResults.add(tests, passed, skipped, failures, errors, executionTime != null ? (long) executionTime.doubleValue() : null);
+      unitTestResults.add(tests, passed, skipped, failures, errors,
+        executionTime != null ? (long) executionTime.doubleValue() : null);
     }
 
     @CheckForNull

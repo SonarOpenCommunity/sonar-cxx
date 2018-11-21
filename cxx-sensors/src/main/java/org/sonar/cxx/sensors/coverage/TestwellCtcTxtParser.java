@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-/*
+ /*
  * Derived from https://github.com/Londran/sonar-ctc/blob/master/src/main/java/org/sonar/plugins/ctc/api/parser/CtcTextParser.java
  */
 package org.sonar.cxx.sensors.coverage;
@@ -42,8 +42,6 @@ import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.FILE_RESULT;
 import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.LINE_RESULT;
 import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.SECTION_SEP;
 
-
-
 /**
  * {@inheritDoc}
  */
@@ -57,8 +55,6 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
   private static final int CONDS_FALSE = 1;
   private static final int CONDS_TRUE = 2;
   private static final int LINE_NR_GROUP = 3;
-
-
 
   public TestwellCtcTxtParser() {
     // no operation but necessary for list of coverage parsers

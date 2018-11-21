@@ -89,7 +89,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     String errorMsg = createErrorMsg(error, stack, stackNr);
     // set the last own frame as a primary location
     CxxReportIssue issue = new CxxReportIssue(error.getKind(), lastOwnFrame.getPath(),
-        lastOwnFrame.getLine(), errorMsg);
+      lastOwnFrame.getLine(), errorMsg);
     // add all frames as secondary locations
     for (ValgrindFrame frame : stack.getFrames()) {
       Boolean frameIsInProject = frameIsInProject(context, frame);

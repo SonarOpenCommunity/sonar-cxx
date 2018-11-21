@@ -88,7 +88,7 @@ public enum CxxPunctuator implements TokenType {
 
   private final String value;
 
-  private CxxPunctuator(String word) {
+  CxxPunctuator(String word) {
     this.value = word;
   }
 

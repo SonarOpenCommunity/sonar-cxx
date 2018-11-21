@@ -92,13 +92,11 @@ public final class ExpressionEvaluator {
     return evalComplexAst(exprAst);
   }
 
-  private boolean evalToBoolean(AstNode exprAst)
-  {
+  private boolean evalToBoolean(AstNode exprAst) {
     return !BigInteger.ZERO.equals(evalToInt(exprAst));
   }
 
-  private boolean evalToBoolean(String constExpr, @Nullable AstNode exprAst)
-  {
+  private boolean evalToBoolean(String constExpr, @Nullable AstNode exprAst) {
     return !BigInteger.ZERO.equals(evalToInt(constExpr, exprAst));
   }
 
@@ -114,17 +112,15 @@ public final class ExpressionEvaluator {
     } else if (nodeType.equals(GenericTokenType.IDENTIFIER)) {
 
       final String id = exprAst.getTokenValue();
-      if (macroEvaluationStack.contains(id))
-      {
-        if (LOG.isDebugEnabled())
-        {
-          LOG.debug("ExpressionEvaluator: self-referential macro '{}' detected; assume true; evaluation stack = ['{} <- {}']", id, id, String.join(" <- ", macroEvaluationStack));
+      if (macroEvaluationStack.contains(id)) {
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("ExpressionEvaluator: self-referential macro '{}' detected;"
+            + " assume true; evaluation stack = ['{} <- {}']", id, id, String.join(" <- ", macroEvaluationStack));
         }
         return BigInteger.ONE;
       }
       final String value = preprocessor.valueOf(id);
-      if (value == null)
-      {
+      if (value == null) {
         return BigInteger.ZERO;
       }
 

@@ -51,7 +51,7 @@ import com.sonar.sslr.api.Grammar;
 public class MethodNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "^[A-Z][A-Za-z0-9]{2,30}$";
-  private Pattern pattern;
+  private Pattern pattern = null;
 
   /**
    * format
@@ -119,13 +119,12 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
   private static Optional<AstNode> getMostNestedTypeName(AstNode nestedNameSpecifier) {
     Optional<AstNode> result = Optional.empty();
     for (AstNode child : nestedNameSpecifier.getChildren()) {
-      if (
-          // type name was recognized by parser (most probably the least nested type)
-          child.is(CxxGrammarImpl.typeName) ||
-          // type name was recognized as template
-          child.is(CxxGrammarImpl.simpleTemplateId) ||
-          // type name was recognized, but not properly typed
-          GenericTokenType.IDENTIFIER.equals(child.getToken().getType())) {
+      if ( // type name was recognized by parser (most probably the least nested type)
+        child.is(CxxGrammarImpl.typeName)
+        || // type name was recognized as template
+        child.is(CxxGrammarImpl.simpleTemplateId)
+        || // type name was recognized, but not properly typed
+        GenericTokenType.IDENTIFIER.equals(child.getToken().getType())) {
         result = Optional.of(child);
       }
     }

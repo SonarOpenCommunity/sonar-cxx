@@ -39,7 +39,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 public class BullseyeParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(BullseyeParser.class);
-  private static volatile String prevLine;
+  private static String prevLine;
   private static int totalconditions;
   private static int totalcoveredconditions;
 

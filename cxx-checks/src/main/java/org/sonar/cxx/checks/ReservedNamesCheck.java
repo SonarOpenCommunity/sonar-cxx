@@ -51,7 +51,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 @SqaleConstantRemediation("5min")
 public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
-  private static volatile String[] keywords = CxxKeyword.keywordValues();
+  private static String[] keywords = CxxKeyword.keywordValues();
   private Charset charset = Charset.forName("UTF-8");
   private static final Pattern defineDeclarationPattern = Pattern.compile("^\\s*#define\\s+([^\\s(]+).*$");
 

@@ -57,7 +57,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
   private static final String DEFAULT_MESSAGE = "The regular expression matches this line";
 
   private Charset charset = Charset.forName("UTF-8");
-  private Pattern pattern;
+  private Pattern pattern = null;
 
   /**
    * matchFilePattern

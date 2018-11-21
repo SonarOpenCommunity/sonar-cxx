@@ -110,7 +110,7 @@ public enum CppPunctuator implements TokenType {
 
   private final String value;
 
-  private CppPunctuator(String word) {
+  CppPunctuator(String word) {
     this.value = word;
   }
 

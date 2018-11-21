@@ -19,39 +19,38 @@
  */
 package org.sonar.cxx;
 
+import com.sonar.sslr.api.AstNodeType;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 
-import com.sonar.sslr.api.AstNodeType;
-
 public class CxxComplexityConstants {
 
-  private CxxComplexityConstants() {
-    /* utility class */
-  }
-
   /**
-   * From original SonarQube documentation: <blockquote>The complexity is
-   * measured by the number of if, while, do, for, ?:, catch, switch, case
-   * statements, and operators && and || (plus one) in the body of a
-   * constructor, method, static initializer, or instance initializer.
+   * From original SonarQube documentation: <blockquote>The complexity is measured by the number of if, while, do, for,
+   * ?:, catch, switch, case statements, and operators && and || (plus one) in the body of a constructor, method, static
+   * initializer, or instance initializer.
    * </blockquote>
    *
    * @see CyclomaticComplexityExclusionAstNodeTypes
    */
-  public static final AstNodeType[] CyclomaticComplexityAstNodeTypes = new AstNodeType[] {
-      CxxGrammarImpl.functionDefinition,
-      CxxKeyword.IF,
-      CxxKeyword.FOR,
-      CxxKeyword.WHILE,
-      CxxKeyword.CATCH,
-      CxxKeyword.CASE,
-      CxxKeyword.DEFAULT,
-      CxxPunctuator.AND,
-      CxxPunctuator.OR,
-      CxxKeyword.AND,
-      CxxKeyword.OR,
-      CxxPunctuator.QUEST };
+  public static final AstNodeType[] CyclomaticComplexityAstNodeTypes = new AstNodeType[]{
+    CxxGrammarImpl.functionDefinition,
+    CxxKeyword.IF,
+    CxxKeyword.FOR,
+    CxxKeyword.WHILE,
+    CxxKeyword.CATCH,
+    CxxKeyword.CASE,
+    CxxKeyword.DEFAULT,
+    CxxPunctuator.AND,
+    CxxPunctuator.OR,
+    CxxKeyword.AND,
+    CxxKeyword.OR,
+    CxxPunctuator.QUEST
+  };
+
+  private CxxComplexityConstants() {
+    /* utility class */
+  }
 
 }

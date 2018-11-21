@@ -54,7 +54,7 @@ public class HardcodedIpCheck extends SquidCheck<Grammar> {
 //  (?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?))(?::(\d{2,5}))?(?:\s|$)
   private static final String DEFAULT_REGULAR_EXPRESSION
     = "^.*((?<![\\d|\\.])(?:\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b\\.){3}\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b(?!\\d|\\.)).*$";
-  private static volatile Matcher IP;
+  private static Matcher IP;
 
   @RuleProperty(
     key = "regularExpression",

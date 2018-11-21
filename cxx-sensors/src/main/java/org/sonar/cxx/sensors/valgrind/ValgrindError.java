@@ -26,8 +26,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * Represents an error found by valgrind. It always has an id, a descriptive
- * text and a stack trace.
+ * Represents an error found by valgrind. It always has an id, a descriptive text and a stack trace.
  */
 class ValgrindError {
 
@@ -48,10 +47,9 @@ class ValgrindError {
     this.stacks = Collections.unmodifiableList(stacks);
   }
 
-
   /**
-   * For debug prints only; SonarQube cannot deal with long/multi-line error
-   * messages. Formats like Markdown or HTML are not supported.
+   * For debug prints only; SonarQube cannot deal with long/multi-line error messages. Formats like Markdown or HTML are
+   * not supported.
    *
    * For the sake of readability each ValgrindStack will be saved as a separate NewIssue.
    *
@@ -69,7 +67,6 @@ class ValgrindError {
     return sb.toString();
   }
 
-
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -83,19 +80,19 @@ class ValgrindError {
     }
     ValgrindError other = (ValgrindError) obj;
     return new EqualsBuilder()
-        .append(kind, other.kind)
-        .append(text, other.text)
-        .append(stacks, other.stacks)
-        .isEquals();
+      .append(kind, other.kind)
+      .append(text, other.text)
+      .append(stacks, other.stacks)
+      .isEquals();
   }
 
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
-        .append(kind)
-        .append(text)
-        .append(stacks)
-        .toHashCode();
+      .append(kind)
+      .append(text)
+      .append(stacks)
+      .toHashCode();
   }
 
   String getKind() {

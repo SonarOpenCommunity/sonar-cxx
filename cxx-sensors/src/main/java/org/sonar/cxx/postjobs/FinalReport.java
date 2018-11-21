@@ -29,7 +29,8 @@ import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 
 public class FinalReport implements PostJob {
 
-  private static final String DEBUG_INFO_MSG = "Turn debug info on to get more details (sonar-scanner -X -Dsonar.verbose=true ...).";
+  private static final String DEBUG_INFO_MSG
+    = "Turn debug info on to get more details (sonar-scanner -X -Dsonar.verbose=true ...).";
   private static final Logger LOG = Loggers.get(FinalReport.class);
 
   @Override

@@ -68,7 +68,7 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
   public int max = DEFAULT_MAX;
 
   private final Set<AstNode> checkedNodes = new HashSet<>();
-  private int nestingLevel;
+  private int nestingLevel = 0;
 
   @Override
   public void init() {

@@ -32,7 +32,8 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   public static final String REPORT_REGEX_DEF = "vc.regex";
   public static final String REPORT_CHARSET_DEF = "vc.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
-  public static final String DEFAULT_REGEX_DEF = "(.*>)?(?<file>.*)\\((?<line>\\d+)\\)\\x20:\\x20warning\\x20(?<id>C\\d+):(?<message>.*)";
+  public static final String DEFAULT_REGEX_DEF
+    = "(.*>)?(?<file>.*)\\((?<line>\\d+)\\)\\x20:\\x20warning\\x20(?<id>C\\d+):(?<message>.*)";
 
   public CxxCompilerVcSensor(CxxLanguage language) {
     super(language, REPORT_PATH_KEY, CxxCompilerVcRuleRepository.getRepositoryKey(language));

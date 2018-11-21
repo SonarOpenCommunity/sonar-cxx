@@ -61,8 +61,8 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
   private static final String DEFAULT_MESSAGE = "The regular expression matches this file";
 
   private Charset charset = Charset.forName("UTF-8");
-  private CharsetDecoder decoder;
-  private Pattern pattern;
+  private CharsetDecoder decoder = null;
+  private Pattern pattern = null;
 
   /**
    * matchFilePattern

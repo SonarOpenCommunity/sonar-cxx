@@ -70,8 +70,10 @@ public class CLanguage extends CxxLanguage {
   public CLanguage(Configuration settings) {
     super(KEY, NAME, PROPSKEY, settings);
 
-    sourceSuffixes = createStringArray(settings.getStringArray(CPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES);
-    headerSuffixes = createStringArray(settings.getStringArray(CPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
+    sourceSuffixes
+      = createStringArray(settings.getStringArray(CPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES);
+    headerSuffixes
+      = createStringArray(settings.getStringArray(CPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
   }
 
@@ -95,7 +97,6 @@ public class CLanguage extends CxxLanguage {
     return headerSuffixes.clone();
   }
 
-
   private static String[] createStringArray(String[] values, String defaultValues) {
     if (values.length == 0) {
       return defaultValues.split(",");
@@ -113,51 +114,51 @@ public class CLanguage extends CxxLanguage {
   @Override
   public List<Class> getChecks() {
     return new ArrayList<Class>(Arrays.asList(
-        org.sonar.cxx.checks.BooleanEqualityComparisonCheck.class,
-        org.sonar.cxx.checks.CollapsibleIfCandidateCheck.class,
-        org.sonar.cxx.checks.CommentedCodeCheck.class,
-        org.sonar.cxx.checks.HardcodedAccountCheck.class,
-        org.sonar.cxx.checks.HardcodedIpCheck.class,
-        org.sonar.cxx.checks.MagicNumberCheck.class,
-        org.sonar.cxx.checks.MissingCurlyBracesCheck.class,
-        org.sonar.cxx.checks.NestedStatementsCheck.class,
-        org.sonar.cxx.checks.ReservedNamesCheck.class,
-        org.sonar.cxx.checks.SafetyTagCheck.class,
-        org.sonar.cxx.checks.StringLiteralDuplicatedCheck.class,
-        org.sonar.cxx.checks.SwitchLastCaseIsDefaultCheck.class,
-        org.sonar.cxx.checks.UnnamedNamespaceInHeaderCheck.class,
-        org.sonar.cxx.checks.UseCorrectIncludeCheck.class,
-        org.sonar.cxx.checks.UseCorrectTypeCheck.class,
-        org.sonar.cxx.checks.UselessParenthesesCheck.class,
-        org.sonar.cxx.checks.UsingNamespaceInHeaderCheck.class,
-        org.sonar.cxx.checks.api.UndocumentedApiCheck.class,
-        org.sonar.cxx.checks.error.MissingIncludeFileCheck.class,
-        org.sonar.cxx.checks.error.ParsingErrorCheck.class,
-        org.sonar.cxx.checks.error.ParsingErrorRecoveryCheck.class,
-        org.sonar.cxx.checks.file.FileEncodingCheck.class,
-        org.sonar.cxx.checks.file.MissingNewLineAtEndOfFileCheck.class,
-        org.sonar.cxx.checks.file.TabCharacterCheck.class,
-        org.sonar.cxx.checks.metrics.ClassComplexityCheck.class,
-        org.sonar.cxx.checks.metrics.FileComplexityCheck.class,
-        org.sonar.cxx.checks.metrics.FunctionCognitiveComplexityCheck.class,
-        org.sonar.cxx.checks.metrics.FunctionComplexityCheck.class,
-        org.sonar.cxx.checks.metrics.TooLongLineCheck.class,
-        org.sonar.cxx.checks.metrics.TooManyLinesOfCodeInFileCheck.class,
-        org.sonar.cxx.checks.metrics.TooManyLinesOfCodeInFunctionCheck.class,
-        org.sonar.cxx.checks.metrics.TooManyParametersCheck.class,
-        org.sonar.cxx.checks.metrics.TooManyStatementsPerLineCheck.class,
-        org.sonar.cxx.checks.naming.ClassNameCheck.class,
-        org.sonar.cxx.checks.naming.FileNameCheck.class,
-        org.sonar.cxx.checks.naming.FunctionNameCheck.class,
-        org.sonar.cxx.checks.naming.MethodNameCheck.class,
-        org.sonar.cxx.checks.regex.CommentRegularExpressionCheck.class,
-        org.sonar.cxx.checks.regex.FileHeaderCheck.class,
-        org.sonar.cxx.checks.regex.FileRegularExpressionCheck.class,
-        org.sonar.cxx.checks.regex.FixmeTagPresenceCheck.class,
-        org.sonar.cxx.checks.regex.LineRegularExpressionCheck.class,
-        org.sonar.cxx.checks.regex.NoSonarCheck.class,
-        org.sonar.cxx.checks.regex.TodoTagPresenceCheck.class,
-        org.sonar.cxx.checks.xpath.XPathCheck.class
+      org.sonar.cxx.checks.BooleanEqualityComparisonCheck.class,
+      org.sonar.cxx.checks.CollapsibleIfCandidateCheck.class,
+      org.sonar.cxx.checks.CommentedCodeCheck.class,
+      org.sonar.cxx.checks.HardcodedAccountCheck.class,
+      org.sonar.cxx.checks.HardcodedIpCheck.class,
+      org.sonar.cxx.checks.MagicNumberCheck.class,
+      org.sonar.cxx.checks.MissingCurlyBracesCheck.class,
+      org.sonar.cxx.checks.NestedStatementsCheck.class,
+      org.sonar.cxx.checks.ReservedNamesCheck.class,
+      org.sonar.cxx.checks.SafetyTagCheck.class,
+      org.sonar.cxx.checks.StringLiteralDuplicatedCheck.class,
+      org.sonar.cxx.checks.SwitchLastCaseIsDefaultCheck.class,
+      org.sonar.cxx.checks.UnnamedNamespaceInHeaderCheck.class,
+      org.sonar.cxx.checks.UseCorrectIncludeCheck.class,
+      org.sonar.cxx.checks.UseCorrectTypeCheck.class,
+      org.sonar.cxx.checks.UselessParenthesesCheck.class,
+      org.sonar.cxx.checks.UsingNamespaceInHeaderCheck.class,
+      org.sonar.cxx.checks.api.UndocumentedApiCheck.class,
+      org.sonar.cxx.checks.error.MissingIncludeFileCheck.class,
+      org.sonar.cxx.checks.error.ParsingErrorCheck.class,
+      org.sonar.cxx.checks.error.ParsingErrorRecoveryCheck.class,
+      org.sonar.cxx.checks.file.FileEncodingCheck.class,
+      org.sonar.cxx.checks.file.MissingNewLineAtEndOfFileCheck.class,
+      org.sonar.cxx.checks.file.TabCharacterCheck.class,
+      org.sonar.cxx.checks.metrics.ClassComplexityCheck.class,
+      org.sonar.cxx.checks.metrics.FileComplexityCheck.class,
+      org.sonar.cxx.checks.metrics.FunctionCognitiveComplexityCheck.class,
+      org.sonar.cxx.checks.metrics.FunctionComplexityCheck.class,
+      org.sonar.cxx.checks.metrics.TooLongLineCheck.class,
+      org.sonar.cxx.checks.metrics.TooManyLinesOfCodeInFileCheck.class,
+      org.sonar.cxx.checks.metrics.TooManyLinesOfCodeInFunctionCheck.class,
+      org.sonar.cxx.checks.metrics.TooManyParametersCheck.class,
+      org.sonar.cxx.checks.metrics.TooManyStatementsPerLineCheck.class,
+      org.sonar.cxx.checks.naming.ClassNameCheck.class,
+      org.sonar.cxx.checks.naming.FileNameCheck.class,
+      org.sonar.cxx.checks.naming.FunctionNameCheck.class,
+      org.sonar.cxx.checks.naming.MethodNameCheck.class,
+      org.sonar.cxx.checks.regex.CommentRegularExpressionCheck.class,
+      org.sonar.cxx.checks.regex.FileHeaderCheck.class,
+      org.sonar.cxx.checks.regex.FileRegularExpressionCheck.class,
+      org.sonar.cxx.checks.regex.FixmeTagPresenceCheck.class,
+      org.sonar.cxx.checks.regex.LineRegularExpressionCheck.class,
+      org.sonar.cxx.checks.regex.NoSonarCheck.class,
+      org.sonar.cxx.checks.regex.TodoTagPresenceCheck.class,
+      org.sonar.cxx.checks.xpath.XPathCheck.class
     ));
   }
 

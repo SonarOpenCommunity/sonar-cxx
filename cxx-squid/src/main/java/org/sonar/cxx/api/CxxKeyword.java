@@ -119,14 +119,16 @@ public enum CxxKeyword implements TokenType {
   GCNEW("gcnew");
   private final String value;
 
-  private CxxKeyword(String value) {
+  CxxKeyword(String value) {
     this.value = value;
   }
 
+  @Override
   public String getName() {
     return name();
   }
 
+  @Override
   public String getValue() {
     return value;
   }

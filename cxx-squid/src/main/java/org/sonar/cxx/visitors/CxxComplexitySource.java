@@ -31,6 +31,11 @@ import com.sonar.sslr.api.TokenType;
  */
 public class CxxComplexitySource {
 
+  private final int line;
+  private final AstNodeType nodeType;
+  private final TokenType tokenType;
+  private final int nesting;
+
   public CxxComplexitySource(int line, AstNodeType nodeType, TokenType tokenType, int nesting) {
     super();
     this.line = line;
@@ -40,17 +45,17 @@ public class CxxComplexitySource {
   }
 
   public String getLine() {
-    return Integer.valueOf(line).toString();
+    return Integer.toString(line);
   }
 
   private String getNodeDescripton() {
     if (nodeType == CxxGrammarImpl.functionDefinition) {
       return "function definition";
     } else if (nodeType == CxxKeyword.IF
-        || (nodeType == CxxGrammarImpl.selectionStatement && tokenType == CxxKeyword.IF)) {
+      || (nodeType == CxxGrammarImpl.selectionStatement && tokenType == CxxKeyword.IF)) {
       return "if statement";
     } else if (nodeType == CxxKeyword.SWITCH
-        || (nodeType == CxxGrammarImpl.selectionStatement && tokenType == CxxKeyword.SWITCH)) {
+      || (nodeType == CxxGrammarImpl.selectionStatement && tokenType == CxxKeyword.SWITCH)) {
       return "switch statement";
     } else if (nodeType == CxxKeyword.ELSE) {
       return "else statement";
@@ -67,8 +72,8 @@ public class CxxComplexitySource {
     } else if (nodeType == CxxKeyword.GOTO) {
       return "goto statement";
     } else if (nodeType == CxxPunctuator.AND || nodeType == CxxPunctuator.OR || nodeType == CxxKeyword.AND
-        || nodeType == CxxKeyword.OR || nodeType == CxxGrammarImpl.logicalAndExpression
-        || nodeType == CxxGrammarImpl.logicalOrExpression) {
+      || nodeType == CxxKeyword.OR || nodeType == CxxGrammarImpl.logicalAndExpression
+      || nodeType == CxxGrammarImpl.logicalOrExpression) {
       return "logical operator";
     } else if (nodeType == CxxPunctuator.QUEST) {
       return "conditional operator";
@@ -81,12 +86,8 @@ public class CxxComplexitySource {
       return "+1: " + getNodeDescripton();
     } else {
       return new StringBuilder().append("+").append(1 + nesting).append(": ").append(getNodeDescripton())
-          .append(" (incl ").append(nesting).append(" for nesting)").toString();
+        .append(" (incl ").append(nesting).append(" for nesting)").toString();
     }
   }
 
-  private final int line;
-  private final AstNodeType nodeType;
-  private final TokenType tokenType;
-  private final int nesting;
 }

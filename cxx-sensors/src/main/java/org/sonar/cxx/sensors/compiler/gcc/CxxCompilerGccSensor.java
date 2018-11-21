@@ -32,7 +32,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   public static final String REPORT_REGEX_DEF = "gcc.regex";
   public static final String REPORT_CHARSET_DEF = "gcc.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
-  public static final String DEFAULT_REGEX_DEF = "(?<file>.*):(?<line>[0-9]+):[0-9]+:\\x20warning:\\x20(?<message>.*)\\x20\\[(?<id>.*)\\]";
+  public static final String DEFAULT_REGEX_DEF
+    = "(?<file>.*):(?<line>[0-9]+):[0-9]+:\\x20warning:\\x20(?<message>.*)\\x20\\[(?<id>.*)\\]";
 
   public CxxCompilerGccSensor(CxxLanguage language) {
     super(language, REPORT_PATH_KEY, CxxCompilerGccRuleRepository.getRepositoryKey(language));

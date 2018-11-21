@@ -807,7 +807,8 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
             return false;
 
           } else {
-            LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(), enclosingSpecifierNode.getTokenLine());
+            LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(),
+              enclosingSpecifierNode.getTokenLine());
             return false;
           }
         } else {

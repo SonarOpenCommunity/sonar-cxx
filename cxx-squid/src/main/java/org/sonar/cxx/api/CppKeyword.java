@@ -45,7 +45,7 @@ public enum CppKeyword implements TokenType {
 
   private final String value;
 
-  private CppKeyword(String value) {
+  CppKeyword(String value) {
     this.value = value;
   }
 
