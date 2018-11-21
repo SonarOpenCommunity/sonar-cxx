@@ -17,7 +17,6 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.sonar.cxx.visitors;
 
 import java.util.Collections;
@@ -27,10 +26,15 @@ import java.util.List;
 import com.sonar.sslr.api.AstNode;
 
 /**
- * Describe a code scope (function definition, class definition, entire file
- * etc) in terms of complexity sources
+ * Describe a code scope (function definition, class definition, entire file etc) in terms of complexity sources
  */
 public class CxxComplexityScope {
+
+  private List<CxxComplexitySource> sources;
+  private int complexity;
+  private int nesting;
+  private int startingLine;
+
   public CxxComplexityScope(int startingLine) {
     this.sources = new LinkedList<>();
     this.complexity = 0;
@@ -68,8 +72,4 @@ public class CxxComplexityScope {
     --nesting;
   }
 
-  private List<CxxComplexitySource> sources;
-  private int complexity;
-  private int nesting;
-  private int startingLine;
 }

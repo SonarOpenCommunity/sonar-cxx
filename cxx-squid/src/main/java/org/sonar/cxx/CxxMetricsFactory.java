@@ -71,12 +71,14 @@ public class CxxMetricsFactory {
     BIG_FUNCTIONS_LOC_PERC_KEY("perc_loc_in_big_functions"),
     LOC_IN_FUNCTIONS_KEY("loc_in_functions");
 
-    String getLanguageSpecificKey(String langPropertiesKey) {
-      return langPropertiesKey.toUpperCase(Locale.ENGLISH) + "-" + key;
-    }
+    private final String key;
 
     Key(final String key) {
       this.key = key.toUpperCase(Locale.ENGLISH);
+    }
+
+    String getLanguageSpecificKey(String langPropertiesKey) {
+      return langPropertiesKey.toUpperCase(Locale.ENGLISH) + "-" + key;
     }
 
     @Override
@@ -84,7 +86,6 @@ public class CxxMetricsFactory {
       return key;
     }
 
-    private final String key;
   }
 
   /**
