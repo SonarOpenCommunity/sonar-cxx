@@ -45,7 +45,6 @@ install:
         $env:VCVARS_PLATFORM="amd64"
         $env:LANG_PLATFORM="-x64"
       }
-  - cmd: SET    
   - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-3.2.0.1227\bin;%PATH%
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
   - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.2.5
@@ -54,7 +53,6 @@ install:
   - cmd: SET
 
 build_script:
-  - set
   - dir
   - echo on
   # SONAR-7154 : workaround
