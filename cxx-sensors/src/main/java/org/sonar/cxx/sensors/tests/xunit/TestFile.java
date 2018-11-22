@@ -24,9 +24,8 @@ import java.util.List;
 import org.sonar.api.batch.fs.InputFile;
 
 /**
- * Represents a test file in Sonar, i.e. a source code file which implements
- * tests. Holds all test cases along with all measures collected from the
- * reports.
+ * Represents a test file in Sonar, i.e. a source code file which implements tests. Holds all test cases along with all
+ * measures collected from the reports.
  */
 public class TestFile {
 
@@ -36,21 +35,16 @@ public class TestFile {
   private long time;
   private int failures;
   private final List<TestCase> testCases;
-  private InputFile inputFile;
+  private final InputFile inputFile;
 
   /**
-   * Creates a test file instance which corresponds and represents the passed
-   * InputFile instance
+   * Creates a test file instance which corresponds and represents the passed InputFile instance
    *
    * @param inputFile The InputFile in SQ which this TestFile proxies
    */
   public TestFile(InputFile inputFile) {
     this.inputFile = inputFile;
     this.testCases = new ArrayList<>();
-  }
-
-  public String getKey() {
-    return inputFile.absolutePath();
   }
 
   public int getErrors() {
@@ -74,8 +68,7 @@ public class TestFile {
   }
 
   /**
-   * Adds the given test case to this test file maintaining the internal
-   * statistics
+   * Adds the given test case to this test file maintaining the internal statistics
    *
    * @param tc the test case to add
    */
