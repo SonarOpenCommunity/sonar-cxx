@@ -43,6 +43,7 @@ public class XunitReportParserTest {
     ioMap.put("xunit-result-skippedonly.xml", 1);
     ioMap.put("xunit-result_with_emptyFileName.xml", 3);
     ioMap.put("nested_testsuites.xml", 2);
+    ioMap.put("xunit-result-no-testsuite.xml", 0);
 
     for (Map.Entry<String, Integer> entry : ioMap.entrySet()) {
       parserHandler = new XunitReportParser();
