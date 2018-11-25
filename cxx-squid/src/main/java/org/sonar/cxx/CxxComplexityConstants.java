@@ -24,7 +24,7 @@ import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 
-public class CxxComplexityConstants {
+public final class CxxComplexityConstants {
 
   /**
    * From original SonarQube documentation: <blockquote>The complexity is measured by the number of if, while, do, for,
@@ -34,7 +34,7 @@ public class CxxComplexityConstants {
    *
    * @see CyclomaticComplexityExclusionAstNodeTypes
    */
-  public static final AstNodeType[] CyclomaticComplexityAstNodeTypes = new AstNodeType[]{
+  private static final AstNodeType[] CYCLOMATIC_COMPLEXITY_TYPES = new AstNodeType[]{
     CxxGrammarImpl.functionDefinition,
     CxxKeyword.IF,
     CxxKeyword.FOR,
@@ -48,6 +48,10 @@ public class CxxComplexityConstants {
     CxxKeyword.OR,
     CxxPunctuator.QUEST
   };
+
+  public static final AstNodeType[] getCyclomaticComplexityTypes() {
+    return CYCLOMATIC_COMPLEXITY_TYPES;
+  }
 
   private CxxComplexityConstants() {
     /* utility class */

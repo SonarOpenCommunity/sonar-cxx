@@ -51,7 +51,7 @@ import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 public class CxxLexerWithPreprocessingTest {
 
   private static Lexer lexer;
-  private CxxLanguage language;
+  private final CxxLanguage language;
 
   public CxxLexerWithPreprocessingTest() {
     language = CxxFileTesterHelper.mockCxxLanguage();

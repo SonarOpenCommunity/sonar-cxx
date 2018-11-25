@@ -34,7 +34,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 public class CustomCxxRulesDefinitionTest {
 
-  private static final CxxLanguage language = TestUtils.mockCxxLanguage();
+  private static final CxxLanguage LANGUAGE = TestUtils.mockCxxLanguage();
   private static final String REPOSITORY_NAME = "Custom Rule Repository";
   private static final String REPOSITORY_KEY = "CustomRuleRepository";
 
@@ -49,7 +49,7 @@ public class CustomCxxRulesDefinitionTest {
     RulesDefinition.Repository repository = context.repository(REPOSITORY_KEY);
 
     assertThat(repository.name()).isEqualTo(REPOSITORY_NAME);
-    assertThat(repository.language()).isEqualTo(language.getKey());
+    assertThat(repository.language()).isEqualTo(LANGUAGE.getKey());
     assertThat(repository.rules()).hasSize(1);
 
     RulesDefinition.Rule alertUseRule = repository.rule(RULE_KEY);
@@ -98,7 +98,7 @@ public class CustomCxxRulesDefinitionTest {
 
     @Override
     public CxxLanguage getLanguage() {
-      return language;
+      return LANGUAGE;
     }
   }
 

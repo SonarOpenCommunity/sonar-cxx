@@ -25,7 +25,7 @@ import org.sonar.api.config.internal.MapSettings;
 
 public class CxxCheckListTest {
 
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
 
   @Test
   public void count() {

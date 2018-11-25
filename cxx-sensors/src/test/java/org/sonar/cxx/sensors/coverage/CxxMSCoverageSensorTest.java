@@ -39,7 +39,7 @@ public class CxxMSCoverageSensorTest {
   private DefaultFileSystem fs;
   private SensorContextTester context;
   private CxxLanguage language;
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {

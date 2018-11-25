@@ -39,7 +39,7 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 public class CxxPCLintSensorTest {
 
   private DefaultFileSystem fs;
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
   private CxxLanguage language;
 
   @Before
@@ -102,7 +102,7 @@ public class CxxPCLintSensorTest {
     CxxPCLintSensor sensor = new CxxPCLintSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(2);
-    ArrayList<Issue> issuesList = new ArrayList<Issue>(context.allIssues());
+    ArrayList<Issue> issuesList = new ArrayList<>(context.allIssues());
     assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("M5-0-19");
     assertThat(issuesList.get(1).ruleKey().rule()).isEqualTo("M18-4-1");
   }

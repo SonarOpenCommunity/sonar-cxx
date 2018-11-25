@@ -26,7 +26,7 @@ import org.sonar.api.config.internal.MapSettings;
 
 public class CppLanguageTest {
 
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
 
   @Test
   public void shouldReturnConfiguredFileSuffixes() {

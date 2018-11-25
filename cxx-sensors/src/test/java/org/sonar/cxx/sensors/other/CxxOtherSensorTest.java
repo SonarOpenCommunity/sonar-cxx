@@ -42,7 +42,7 @@ public class CxxOtherSensorTest {
   private CxxOtherSensor sensor;
   private DefaultFileSystem fs;
   private CxxLanguage language;
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
   @Rule
   public LogTester logTester = new LogTester();
 

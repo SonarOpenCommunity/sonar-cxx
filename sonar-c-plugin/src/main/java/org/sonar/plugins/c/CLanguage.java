@@ -113,7 +113,7 @@ public class CLanguage extends CxxLanguage {
 
   @Override
   public List<Class> getChecks() {
-    return new ArrayList<Class>(Arrays.asList(
+    return new ArrayList<>(Arrays.asList(
       org.sonar.cxx.checks.BooleanEqualityComparisonCheck.class,
       org.sonar.cxx.checks.CollapsibleIfCandidateCheck.class,
       org.sonar.cxx.checks.CommentedCodeCheck.class,

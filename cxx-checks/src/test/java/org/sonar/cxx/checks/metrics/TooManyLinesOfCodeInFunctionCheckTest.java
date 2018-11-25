@@ -30,7 +30,7 @@ import java.io.UnsupportedEncodingException;
 
 public class TooManyLinesOfCodeInFunctionCheckTest {
 
-  private TooManyLinesOfCodeInFunctionCheck check = new TooManyLinesOfCodeInFunctionCheck();
+  private final TooManyLinesOfCodeInFunctionCheck check = new TooManyLinesOfCodeInFunctionCheck();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion

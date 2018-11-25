@@ -54,26 +54,14 @@ public class BullseyeParser extends CxxCoverageParser {
   public void processReport(File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     LOG.debug("Parsing 'Bullseye' format");
-    StaxParser topLevelparser = new StaxParser(new StaxParser.XmlStreamHandler() {
-      /**
-       * {@inheritDoc}
-       */
-      @Override
-      public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        rootCursor.advance();
-        collectCoverageLeafNodes(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("src"), coverageData);
-      }
+    StaxParser topLevelparser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+      rootCursor.advance();
+      collectCoverageLeafNodes(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("src"), coverageData);
     });
 
-    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-      /**
-       * {@inheritDoc}
-       */
-      @Override
-      public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        rootCursor.advance();
-        collectCoverage2(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("folder"), coverageData);
-      }
+    StaxParser parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+      rootCursor.advance();
+      collectCoverage2(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("folder"), coverageData);
     });
 
     topLevelparser.parse(report);

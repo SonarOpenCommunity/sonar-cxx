@@ -227,11 +227,11 @@ public class CxxVCppBuildLogParser {
       fileElement = currentProjectPath.resolve(path).toAbsolutePath().toString();
 
       if (!uniqueDefines.containsKey(fileElement)) {
-        uniqueDefines.put(fileElement, new HashSet<String>());
+        uniqueDefines.put(fileElement, new HashSet<>());
       }
 
       if (!uniqueIncludes.containsKey(fileElement)) {
-        uniqueIncludes.put(fileElement, new ArrayList<String>());
+        uniqueIncludes.put(fileElement, new ArrayList<>());
       }
 
       parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);

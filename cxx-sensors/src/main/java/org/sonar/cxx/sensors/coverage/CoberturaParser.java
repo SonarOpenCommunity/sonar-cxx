@@ -40,7 +40,7 @@ public class CoberturaParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(CoberturaParser.class);
   private Optional<Path> baseDir;
-  private static final Pattern conditionsPattern = Pattern.compile("\\((.*?)\\)");
+  private static final Pattern CONDITION_PATTERN = Pattern.compile("\\((.*?)\\)");
 
   public CoberturaParser() {
     // no operation but necessary for list of coverage parsers
@@ -122,7 +122,7 @@ public class CoberturaParser extends CxxCoverageParser {
       String isBranch = line.getAttrValue("branch");
       String text = line.getAttrValue("condition-coverage");
       if (text != null && "true".equals(isBranch) && !text.trim().isEmpty()) {
-        Matcher m = conditionsPattern.matcher(text);
+        Matcher m = CONDITION_PATTERN.matcher(text);
         if (m.find()) {
           String[] conditions = m.group(1).split("/");
           builder.setConditions(lineId, Integer.parseInt(conditions[1]), Integer.parseInt(conditions[0]));

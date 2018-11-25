@@ -94,7 +94,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     public CommentLocation(Token token) {
       super(token);
       String value = token.getValue();
-      String[] lines = CxxUtils.EOLPattern.split(value, -1);
+      String[] lines = CxxUtils.EOL_PATTERN.split(value, -1);
 
       if (lines.length > 1) {
         endLine = token.getLine() + lines.length - 1;
@@ -105,11 +105,11 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
 
   private static class PreprocessorDirectiveLocation extends TokenLocation {
 
-    public static final Pattern preprocessorPattern = Pattern.compile("^[ \t]*#[ \t]*\\w+");
+    public static final Pattern PREPROCESSOR_PATTERN = Pattern.compile("^[ \t]*#[ \t]*\\w+");
 
     PreprocessorDirectiveLocation(Token token) {
       super(token);
-      Matcher m = preprocessorPattern.matcher(token.getValue());
+      Matcher m = PREPROCESSOR_PATTERN.matcher(token.getValue());
       if (m.find()) {
         endLineOffset = startLineOffset + (m.end() - m.start());
       } else {
@@ -142,10 +142,9 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     }
   }
 
-
   private Optional<Trivia> getTriviaWithConcatenatedLiterals(Token stringToken) {
     return stringToken.getTrivia().stream()
-        .filter(t -> t.isSkippedText() && CxxTokenType.STRING.equals(t.getToken().getType())).findFirst();
+      .filter(t -> t.isSkippedText() && CxxTokenType.STRING.equals(t.getToken().getType())).findFirst();
   }
 
   @Override

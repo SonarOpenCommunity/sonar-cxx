@@ -40,7 +40,7 @@ public abstract class CxxLanguage extends AbstractLanguage {
   private final String propertiesKey;
   private final Configuration settings;
   private final Map<CxxMetricsFactory.Key, Metric<?>> langSpecificMetrics;
-  public static final Pattern EOLPattern = Pattern.compile("\\R");
+  public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
   public CxxLanguage(String key, String propertiesKey, Configuration settings) {
     super(key);
@@ -102,7 +102,7 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public String[] getStringLinesOption(String key) {
     Optional<String> value = this.settings.get(getPluginProperty(key));
     if (value.isPresent()) {
-      return EOLPattern.split(value.get(), -1);
+      return EOL_PATTERN.split(value.get(), -1);
     }
     return new String[0];
   }

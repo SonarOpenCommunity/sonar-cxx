@@ -36,11 +36,11 @@ public class TestCase {
   private String status = STATUS_OK;
   private final String stackTrace;
   private final String errorMessage;
-  private int time;
-  private String classname;
-  private String tcFilename;
-  private String tsName;
-  private String tsFilename;
+  private final int time;
+  private final String classname;
+  private final String tcFilename;
+  private final String tsName;
+  private final String tsFilename;
 
   /**
    * Constructs a testcase instance out of following parameters

@@ -170,7 +170,7 @@ public class StaxParser {
 
   private static class ISOControlCharAwareInputStream extends InputStream {
 
-    private InputStream inputToCheck;
+    private final InputStream inputToCheck;
 
     public ISOControlCharAwareInputStream(InputStream inputToCheck) {
       super();

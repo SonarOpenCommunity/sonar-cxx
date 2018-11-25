@@ -33,7 +33,7 @@ import org.sonar.api.config.internal.MapSettings;
 public class CxxReportSensor_getReports_Test {
 
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
 
   @Rule
   public TemporaryFolder base = new TemporaryFolder();

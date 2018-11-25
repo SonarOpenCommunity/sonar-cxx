@@ -83,7 +83,7 @@ public class ValgrindStackTest {
 
   @Test
   public void stringRepresentationShouldResembleValgrindsStandard() {
-    Map<String, ValgrindStack> ioMap = new HashMap<String, ValgrindStack>();
+    Map<String, ValgrindStack> ioMap = new HashMap<>();
 
     ValgrindFrame frame = new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", "1");
     ValgrindStack stack = new ValgrindStack();

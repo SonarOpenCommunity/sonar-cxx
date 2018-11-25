@@ -54,7 +54,7 @@ public class CxxValgrindSensorTest {
   public void shouldNotThrowWhenGivenValidData() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     sensor.execute(context);
-    assertThat(context.allAnalysisErrors().size() == 0).isTrue();
+    assertThat(context.allAnalysisErrors().isEmpty()).isTrue();
   }
 
   @Test

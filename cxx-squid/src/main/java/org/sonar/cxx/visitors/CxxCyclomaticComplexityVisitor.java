@@ -43,7 +43,7 @@ import com.sonar.sslr.api.Token;
  */
 public class CxxCyclomaticComplexityVisitor<G extends Grammar> extends SquidAstVisitor<G> {
 
-  private ComplexityVisitor<G> visitor;
+  private final ComplexityVisitor<G> visitor;
 
   public CxxCyclomaticComplexityVisitor(ComplexityVisitor<G> visitor) {
     this.visitor = visitor;

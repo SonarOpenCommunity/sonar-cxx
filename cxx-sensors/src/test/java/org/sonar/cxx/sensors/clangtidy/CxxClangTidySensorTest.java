@@ -40,8 +40,8 @@ public class CxxClangTidySensorTest {
 
   private DefaultFileSystem fs;
   private CxxLanguage language;
-  private MapSettings settings = new MapSettings();
-  private String[] reportName = {"clang-tidy-reports/cpd.report.txt"};
+  private final MapSettings settings = new MapSettings();
+  private final String[] reportName = {"clang-tidy-reports/cpd.report.txt"};
 
   @Before
   public void setUp() {

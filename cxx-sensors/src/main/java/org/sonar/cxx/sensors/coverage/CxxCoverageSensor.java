@@ -89,9 +89,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
     LOG.info("Searching coverage reports by path with basedir '{}' and search prop '{}'",
       context.fileSystem().baseDir(), getReportPathKey());
     LOG.info("Searching for coverage reports '{}'", Arrays.toString(reportsKey));
-
-    Map<String, CoverageMeasures> coverageMeasures = null;
-
     LOG.info("Coverage BaseDir '{}' ", context.fileSystem().baseDir());
 
     if (context.config().hasKey(getReportPathKey())) {
@@ -100,7 +97,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
       }
 
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
-      coverageMeasures = processReports(reports, this.cache.unitCoverageCache());
+      Map<String, CoverageMeasures> coverageMeasures = processReports(reports, this.cache.unitCoverageCache());
       saveMeasures(context, coverageMeasures);
     }
   }

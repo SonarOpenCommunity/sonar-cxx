@@ -31,12 +31,12 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 class ValgrindFrame {
 
-  private String ip;
-  private String obj;
-  private String fn;
-  private String dir;
-  private String file;
-  private String line;
+  private final String ip;
+  private final String obj;
+  private final String fn;
+  private final String dir;
+  private final String file;
+  private final String line;
 
   /**
    * Constructs a stack frame with given attributes. Its perfectly valid if some

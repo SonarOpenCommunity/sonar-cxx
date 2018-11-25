@@ -37,8 +37,8 @@ import org.sonar.cxx.sensors.utils.CxxUtils;
 public final class DrMemoryParser {
 
   private static final Logger LOG = Loggers.get(DrMemoryParser.class);
-  public static final Pattern rx_message_finder = Pattern.compile("^Error #\\d+:(.*)");
-  public static final Pattern rx_file_finder = Pattern.compile("^.*\\[(.*):(\\d+)\\]$");
+  public static final Pattern RX_MESSAGE_FINDER = Pattern.compile("^Error #\\d+:(.*)");
+  public static final Pattern RX_FILE_FINDER = Pattern.compile("^.*\\[(.*):(\\d+)\\]$");
   public static final int TOP_COUNT = 4;
 
   /**
@@ -103,7 +103,7 @@ public final class DrMemoryParser {
     }
 
     private DrMemoryErrorType type = DrMemoryErrorType.UNRECOGNIZED;
-    private List<Location> stackTrace = new ArrayList<>();
+    private final List<Location> stackTrace = new ArrayList<>();
     private String message = "";
 
     public DrMemoryErrorType getType() {
@@ -149,15 +149,15 @@ public final class DrMemoryParser {
     List<String> elements = getElements(file, charset);
 
     for (String element : elements) {
-      Matcher m = rx_message_finder.matcher(element);
+      Matcher m = RX_MESSAGE_FINDER.matcher(element);
 
       if (m.find()) {
         DrMemoryError error = new DrMemoryError();
         error.type = extractErrorType(m.group(1));
-        String[] elementSplitted = CxxUtils.EOLPattern.split(element);
+        String[] elementSplitted = CxxUtils.EOL_PATTERN.split(element);
         error.message = elementSplitted[0];
         for (String elementPart : elementSplitted) {
-          Matcher locationMatcher = rx_file_finder.matcher(elementPart);
+          Matcher locationMatcher = RX_FILE_FINDER.matcher(elementPart);
           if (locationMatcher.find()) {
             Location location = new Location();
             location.file = locationMatcher.group(1);
