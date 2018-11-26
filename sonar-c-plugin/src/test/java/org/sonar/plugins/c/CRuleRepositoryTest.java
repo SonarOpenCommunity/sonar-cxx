@@ -27,7 +27,7 @@ import org.sonar.cxx.CxxLanguage;
 
 public class CRuleRepositoryTest {
 
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
 
   @Test
   public void rulesTest() {

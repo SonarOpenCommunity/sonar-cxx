@@ -36,8 +36,8 @@ import org.sonar.api.config.internal.MapSettings;
 public class CxxReportPatternMatchingTest {
 
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
-  private MapSettings settings = new MapSettings();
-  private List<String[]> examples = new LinkedList<>();
+  private final MapSettings settings = new MapSettings();
+  private final List<String[]> examples = new LinkedList<>();
 
   @Rule
   public TemporaryFolder base = new TemporaryFolder();

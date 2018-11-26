@@ -136,9 +136,9 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
       result = true;
 
       Iterator<String> it = lines.iterator();
-      for (int i = 0; i < expectedLines.length; i++) {
+      for (String expectedLine : expectedLines) {
         String line = it.next();
-        if (!line.equals(expectedLines[i])) {
+        if (!line.equals(expectedLine)) {
           result = false;
           break;
         }

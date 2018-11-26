@@ -33,7 +33,6 @@ import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
 
-import com.sonar.sslr.api.Grammar;
 
 public class CxxFunctionComplexityVisitorTest {
 

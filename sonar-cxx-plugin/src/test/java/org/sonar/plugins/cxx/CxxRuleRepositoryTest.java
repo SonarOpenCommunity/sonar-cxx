@@ -26,7 +26,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 
 public class CxxRuleRepositoryTest {
 
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
 
   @Test
   public void rulesTest() {

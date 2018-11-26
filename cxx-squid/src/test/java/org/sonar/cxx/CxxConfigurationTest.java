@@ -36,7 +36,7 @@ public class CxxConfigurationTest {
   @Test
   public void emptyValueShouldReturnNoDirsOrDefines() {
     CxxConfiguration config = new CxxConfiguration();
-    config.setCompilationPropertiesWithBuildLog(new ArrayList<File>(), vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(new ArrayList<>(), vcKey, vcCharSet);
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     softly.assertThat(config.getDefines().size()).isEqualTo(0);
@@ -58,7 +58,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration();
     String[] data = {"dir1", "dir2"};
     config.setIncludeDirectories(data);
-    config.setCompilationPropertiesWithBuildLog(new ArrayList<File>(), vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(new ArrayList<>(), vcKey, vcCharSet);
     assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
   }
 

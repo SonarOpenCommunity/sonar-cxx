@@ -30,10 +30,10 @@ import com.sonar.sslr.api.AstNode;
  */
 public class CxxComplexityScope {
 
-  private List<CxxComplexitySource> sources;
+  private final List<CxxComplexitySource> sources;
   private int complexity;
   private int nesting;
-  private int startingLine;
+  private final int startingLine;
 
   public CxxComplexityScope(int startingLine) {
     this.sources = new LinkedList<>();

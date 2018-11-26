@@ -36,7 +36,7 @@ public class TestFile {
   private long time;
   private int failures;
   private final List<TestCase> testCases;
-  private InputFile inputFile;
+  private final InputFile inputFile;
 
   /**
    * Creates a test file instance which corresponds and represents the passed

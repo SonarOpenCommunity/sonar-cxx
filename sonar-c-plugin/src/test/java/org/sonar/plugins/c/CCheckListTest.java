@@ -26,7 +26,7 @@ import org.sonar.cxx.CxxLanguage;
 
 public class CCheckListTest {
 
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
 
   @Test
   public void count() {

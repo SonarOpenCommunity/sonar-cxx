@@ -29,7 +29,7 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR>
     implements AstVisitor {
 
-  private SquidAstVisitorContext<?> context;
+  private final SquidAstVisitorContext<?> context;
 
   public CxxFileVisitor(SquidAstVisitorContext<?> context) {
     this.context = context;

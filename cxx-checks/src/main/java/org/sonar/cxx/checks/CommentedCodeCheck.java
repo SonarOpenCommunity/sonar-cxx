@@ -56,7 +56,7 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
 
   private final CodeRecognizer codeRecognizer = new CodeRecognizer(THRESHOLD, new CxxRecognizer());
 
-  private final Pattern EOLPattern = Pattern.compile("\\R");
+  private static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
   private static class CxxRecognizer implements LanguageFootprint {
 
@@ -85,7 +85,7 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
         && !value.startsWith("/*!")
         && !value.startsWith("/*@")
         && !value.startsWith("//@")) {
-        String[] lines = EOLPattern.split(getContext().getCommentAnalyser().getContents(value));
+        String[] lines = EOL_PATTERN.split(getContext().getCommentAnalyser().getContents(value));
 
         for (int lineOffset = 0; lineOffset < lines.length; lineOffset++) {
           if (codeRecognizer.isLineOfCode(lines[lineOffset])) {

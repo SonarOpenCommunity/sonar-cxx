@@ -97,24 +97,18 @@ public class CxxLint {
 
   /**
    * @param args the command line arguments
-   * @throws IOException
-   * @throws UnsupportedEncodingException
-   * @throws IllegalAccessException
-   * @throws InstantiationException
-   * @throws java.Exception
    */
   public static void main(String[] args) {
 
     CommandLineParser commandlineParser = new DefaultParser();
     Options options = createCommandLineOptions();
-    CommandLine parsedArgs = null;
     String settingsFile = "";
     String encodingOfFile = "UTF-8";
     File targetFile = null;
     boolean isNotOptionS = true;
 
     try {
-      parsedArgs = commandlineParser.parse(createCommandLineOptions(), args);
+      CommandLine parsedArgs = commandlineParser.parse(createCommandLineOptions(), args);
       if (!parsedArgs.hasOption("f")) {
         throw new ParseException("f option mandatory");
       } else {
@@ -423,8 +417,8 @@ public class CxxLint {
       || "V140".equals(platformToolset)) {
       HashMap<String, List<String>> uniqueIncludes = new HashMap<>();
       HashMap<String, Set<String>> uniqueDefines = new HashMap<>();
-      uniqueDefines.put(fileToAnalyse, new HashSet<String>());
-      uniqueIncludes.put(fileToAnalyse, new ArrayList<String>());
+      uniqueDefines.put(fileToAnalyse, new HashSet<>());
+      uniqueIncludes.put(fileToAnalyse, new ArrayList<>());
       CxxVCppBuildLogParser lineOptionsParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
       lineOptionsParser.setPlatform(platform);
       lineOptionsParser.setPlatformToolset(platformToolset);

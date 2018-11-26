@@ -39,7 +39,7 @@ public class CxxReportSensorTest {
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
 
   private File baseDir;
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
 
   private class CxxReportSensorImpl extends CxxReportSensor {
 

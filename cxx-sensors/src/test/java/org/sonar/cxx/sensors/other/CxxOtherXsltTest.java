@@ -36,7 +36,7 @@ public class CxxOtherXsltTest {
 
   private FileSystem fs;
   private CxxLanguage language;
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
 
   ;
 

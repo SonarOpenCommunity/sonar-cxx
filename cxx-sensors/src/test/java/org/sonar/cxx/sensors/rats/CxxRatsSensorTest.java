@@ -38,7 +38,7 @@ public class CxxRatsSensorTest {
   private CxxRatsSensor sensor;
   private DefaultFileSystem fs;
   private CxxLanguage language;
-  private MapSettings settings = new MapSettings();
+  private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {

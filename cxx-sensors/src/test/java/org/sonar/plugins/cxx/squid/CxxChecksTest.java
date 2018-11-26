@@ -66,7 +66,7 @@ public class CxxChecksTest {
   @Test
   public void shouldReturnDefaultChecks() {
     CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
-    checks.addChecks(DEFAULT_REPOSITORY_KEY, new ArrayList<Class>(Collections.singletonList(MyRule.class)));
+    checks.addChecks(DEFAULT_REPOSITORY_KEY, new ArrayList<>(Collections.singletonList(MyRule.class)));
 
     SquidAstVisitor<Grammar> defaultCheck = check(checks, DEFAULT_REPOSITORY_KEY, DEFAULT_RULE_KEY);
 
@@ -100,7 +100,7 @@ public class CxxChecksTest {
   @Test
   public void shouldNotReturnRuleKeyIfCheckDoesNotExists() {
     CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
-    checks.addChecks(DEFAULT_REPOSITORY_KEY, new ArrayList<Class>(Collections.singletonList(MyRule.class)));
+    checks.addChecks(DEFAULT_REPOSITORY_KEY, new ArrayList<>(Collections.singletonList(MyRule.class)));
     assertThat(checks.ruleKey(new MyCustomRule())).isNull();
   }
 

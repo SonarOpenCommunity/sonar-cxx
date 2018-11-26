@@ -43,14 +43,14 @@ import org.sonar.squidbridge.checks.SquidCheck;
 @NoSqale
 public class NoSonarCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 
-  private static final Pattern EOLPattern = Pattern.compile("\\R");
+  private static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
   @Override
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
       if (trivia.isComment()) {
-        String[] commentLines = EOLPattern
-            .split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue()), -1);
+        String[] commentLines = EOL_PATTERN
+          .split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue()), -1);
         int line = trivia.getToken().getLine();
 
         for (String commentLine : commentLines) {

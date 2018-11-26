@@ -19,33 +19,29 @@
  */
 package org.sonar.cxx.checks.metrics;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.Grammar;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Optional;
-
 import org.sonar.cxx.CxxComplexityConstants;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.visitors.CxxComplexityScope;
 import org.sonar.cxx.visitors.CxxComplexitySource;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.Grammar;
-
 /**
- * This is an enhanced version of
- * org.sonar.squidbridge.metrics.ComplexityVisitor, which is used in order to
- * compute the Cyclomatic Complexity.
+ * This is an enhanced version of org.sonar.squidbridge.metrics.ComplexityVisitor, which is used in order to compute the
+ * Cyclomatic Complexity.
  *
  * @param <G>
  */
 public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends MultiLocatitionSquidCheck<G> {
 
   /**
-   * Stack for tracking the nested scopes (e.g. declaration of classes can be
-   * nested). Complexity of the inner scopes is added to the complexity of outer
-   * scopes.
+   * Stack for tracking the nested scopes (e.g. declaration of classes can be nested). Complexity of the inner scopes is
+   * added to the complexity of outer scopes.
    */
   private Deque<CxxComplexityScope> complexityScopes;
 
@@ -55,10 +51,8 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
   protected abstract int getMaxComplexity();
 
   /**
-   * @return valid AstNodeType if complexity is calculated for some language
-   *         constructs only (e.g. function definition, class definition etc).
-   *         Return Optional.empty() if the complexity is calculated for entire
-   *         file.
+   * @return valid AstNodeType if complexity is calculated for some language constructs only (e.g. function definition,
+   * class definition etc). Return Optional.empty() if the complexity is calculated for entire file.
    */
   protected abstract Optional<AstNodeType> getScopeType();
 
@@ -69,7 +63,7 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
 
   @Override
   public void init() {
-    subscribeTo(CxxComplexityConstants.CyclomaticComplexityAstNodeTypes);
+    subscribeTo(CxxComplexityConstants.getCyclomaticComplexityTypes());
     final Optional<AstNodeType> scopeType = getScopeType();
     if (scopeType.isPresent()) {
       final AstNodeType additionalNode = scopeType.get();
@@ -106,7 +100,7 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
       complexityScopes.addFirst(new CxxComplexityScope(astNode.getTokenLine()));
     }
 
-    if (astNode.is(CxxComplexityConstants.CyclomaticComplexityAstNodeTypes)) {
+    if (astNode.is(CxxComplexityConstants.getCyclomaticComplexityTypes())) {
       // for nested scopes (e.g. nested classes) the inner classes
       // add complexity to the outer ones
       for (CxxComplexityScope scope : complexityScopes) {
@@ -135,7 +129,7 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
     if (scope.getComplexity() > maxComplexity) {
       final StringBuilder msg = new StringBuilder();
       msg.append("The Cyclomatic Complexity of this ").append(getScopeName()).append(" is ").append(currentComplexity)
-          .append(" which is greater than ").append(maxComplexity).append(" authorized.");
+        .append(" which is greater than ").append(maxComplexity).append(" authorized.");
 
       final CxxReportIssue issue = new CxxReportIssue(getRuleKey(), null, scope.getStartingLine(), msg.toString());
       for (CxxComplexitySource source : scope.getSources()) {

@@ -66,37 +66,31 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
     throws javax.xml.stream.XMLStreamException {
     LOG.debug("Parsing 'Vera++' format");
     try {
-      StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
-          try {
-            rootCursor.advance();
-          } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-            throw new EmptyReportException("Cannot read vera++ report ", eofExc);
-          }
+      StaxParser parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+        try {
+          rootCursor.advance();
+        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
+          throw new EmptyReportException("Cannot read vera++ report ", eofExc);
+        }
 
-          SMInputCursor fileCursor = rootCursor.childElementCursor("file");
-          while (fileCursor.getNext() != null) {
-            String name = fileCursor.getAttrValue("name");
+        SMInputCursor fileCursor = rootCursor.childElementCursor("file");
+        while (fileCursor.getNext() != null) {
+          String name = fileCursor.getAttrValue("name");
 
-            SMInputCursor errorCursor = fileCursor.childElementCursor("error");
-            while (errorCursor.getNext() != null) {
-              if (!"error".equals(name)) {
-                String line = errorCursor.getAttrValue("line");
-                String message = errorCursor.getAttrValue("message");
-                String source = errorCursor.getAttrValue("source");
+          SMInputCursor errorCursor = fileCursor.childElementCursor("error");
+          while (errorCursor.getNext() != null) {
+            if (!"error".equals(name)) {
+              String line = errorCursor.getAttrValue("line");
+              String message = errorCursor.getAttrValue("message");
+              String source = errorCursor.getAttrValue("source");
 
-                CxxReportIssue issue = new CxxReportIssue(source, name, line, message);
-                saveUniqueViolation(context, issue);
-              } else {
-                if (LOG.isDebugEnabled()) {
-                  LOG.debug("Error in file '{}', with message '{}'",
-                    name + "(" + errorCursor.getAttrValue("line") + ")",
-                    errorCursor.getAttrValue("message"));
-                }
+              CxxReportIssue issue = new CxxReportIssue(source, name, line, message);
+              saveUniqueViolation(context, issue);
+            } else {
+              if (LOG.isDebugEnabled()) {
+                LOG.debug("Error in file '{}', with message '{}'",
+                  name + "(" + errorCursor.getAttrValue("line") + ")",
+                  errorCursor.getAttrValue("message"));
               }
             }
           }

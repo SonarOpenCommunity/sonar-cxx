@@ -38,7 +38,7 @@ public class CxxFunctionComplexityVisitor<G extends Grammar> extends SquidAstVis
 
   public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "funccomplexity.threshold";
 
-  private int cyclomaticComplexityThreshold;
+  private final int cyclomaticComplexityThreshold;
 
   private int complexFunctions;
   private int complexFunctionsLoc;

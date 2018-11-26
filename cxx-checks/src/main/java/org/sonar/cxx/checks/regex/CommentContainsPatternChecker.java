@@ -56,9 +56,9 @@ public class CommentContainsPatternChecker {
     description = "The violation message")
   private final String message;
 
-  private Pattern p;
+  private final Pattern p;
 
-  private static final Pattern EOLPattern = Pattern.compile("\\R");
+  private static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
   /**
    * CommentContainsPatternChecker
@@ -88,7 +88,7 @@ public class CommentContainsPatternChecker {
       String comment = triviaToken.getOriginalValue();
       int line = triviaToken.getLine();
       if (indexOfIgnoreCase(comment) != -1) {
-        String[] lines = EOLPattern.split(comment);
+        String[] lines = EOL_PATTERN.split(comment);
 
         for (int i = 0; i < lines.length; i++) {
           int start = indexOfIgnoreCase(lines[i]);

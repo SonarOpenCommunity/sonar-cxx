@@ -46,15 +46,9 @@ public class VisualStudioParser extends CxxCoverageParser {
   public void processReport(File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     LOG.debug("Parsing 'Visual Studio' format");
-    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-      /**
-       * {@inheritDoc}
-       */
-      @Override
-      public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        rootCursor.advance();
-        collectModuleMeasures(rootCursor.descendantElementCursor("module"), coverageData);
-      }
+    StaxParser parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+      rootCursor.advance();
+      collectModuleMeasures(rootCursor.descendantElementCursor("module"), coverageData);
     });
     parser.parse(report);
   }
