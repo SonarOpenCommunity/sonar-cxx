@@ -52,14 +52,12 @@ public class XunitReportParser implements XmlStreamHandler {
   public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
     SMInputCursor testSuiteCursor = rootCursor.constructDescendantCursor(new ElementFilter("testsuite"));
     try {
-      testSuiteCursor.getNext();
+      while (testSuiteCursor.getNext() != null) {
+        parseTestSuiteTag(testSuiteCursor);
+      }
     } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
       throw new EmptyReportException("Cannot read Xunit report", eofExc);
     }
-
-    do {
-      parseTestSuiteTag(testSuiteCursor);
-    } while (testSuiteCursor.getNext() != null);
   }
 
   public void parseTestSuiteTag(SMInputCursor testSuiteCursor)
