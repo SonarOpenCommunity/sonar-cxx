@@ -24,6 +24,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.sonar.check.Priority;
@@ -49,7 +50,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
 
   private static final String REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
   private Pattern pattern = null;
-  private Charset charset = Charset.forName("UTF-8");
+  private Charset charset = StandardCharsets.UTF_8;
 
   @Override
   public void init() {

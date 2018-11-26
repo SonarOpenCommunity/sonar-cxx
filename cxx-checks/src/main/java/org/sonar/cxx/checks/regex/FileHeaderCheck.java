@@ -24,6 +24,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -72,7 +73,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
     defaultValue = "false")
   public boolean isRegularExpression;
 
-  private Charset charset = Charset.forName("UTF-8");
+  private Charset charset = StandardCharsets.UTF_8;
   private String[] expectedLines = null;
   private Pattern searchPattern = null;
 

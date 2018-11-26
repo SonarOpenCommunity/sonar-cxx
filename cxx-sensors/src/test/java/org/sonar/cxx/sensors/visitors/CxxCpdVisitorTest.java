@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,7 +53,7 @@ public class CxxCpdVisitorTest {
 
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     inputFile = TestInputFileBuilder.create("moduleKey", baseDir, target).setType(InputFile.Type.MAIN)
-      .setContents(content).setCharset(Charset.forName("UTF-8")).build();
+      .setContents(content).setCharset(StandardCharsets.UTF_8).build();
 
     context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);

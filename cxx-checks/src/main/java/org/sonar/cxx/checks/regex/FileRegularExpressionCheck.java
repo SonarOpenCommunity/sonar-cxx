@@ -29,6 +29,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -60,7 +61,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
   private static final boolean DEFAULT_INVERT_REGULAR_EXPRESSION = false;
   private static final String DEFAULT_MESSAGE = "The regular expression matches this file";
 
-  private Charset charset = Charset.forName("UTF-8");
+  private Charset charset = StandardCharsets.UTF_8;
   private CharsetDecoder decoder = null;
   private Pattern pattern = null;
 

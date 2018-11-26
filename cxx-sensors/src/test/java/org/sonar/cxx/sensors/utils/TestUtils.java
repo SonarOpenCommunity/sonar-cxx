@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +90,7 @@ public class TestUtils {
     List<File> sourceDirs,
     List<File> testDirs) {
     DefaultFileSystem fs = new DefaultFileSystem(baseDir);
-    fs.setEncoding(Charset.forName("UTF-8"));
+    fs.setEncoding(StandardCharsets.UTF_8);
     scanDirs(fs, sourceDirs, Type.MAIN);
     scanDirs(fs, testDirs, Type.TEST);
     return fs;

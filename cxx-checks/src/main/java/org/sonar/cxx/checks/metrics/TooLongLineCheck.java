@@ -24,6 +24,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
@@ -68,7 +69,7 @@ public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetA
     defaultValue = "" + DEFAULT_TAB_WIDTH)
   public int tabWidth = DEFAULT_TAB_WIDTH;
 
-  private Charset charset = Charset.forName("UTF-8");
+  private Charset charset = StandardCharsets.UTF_8;
 
   @Override
   public void setCharset(Charset charset) {
