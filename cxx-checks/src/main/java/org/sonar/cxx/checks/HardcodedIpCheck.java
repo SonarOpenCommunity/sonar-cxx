@@ -24,6 +24,8 @@ import com.sonar.sslr.api.Grammar;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -54,42 +56,35 @@ public class HardcodedIpCheck extends SquidCheck<Grammar> {
 //  (?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?))(?::(\d{2,5}))?(?:\s|$)
   private static final String DEFAULT_REGULAR_EXPRESSION
     = "^.*((?<![\\d|\\.])(?:\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b\\.){3}\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b(?!\\d|\\.)).*$";
-  private static Matcher IP;
+  private Pattern pattern;
 
   @RuleProperty(
     key = "regularExpression",
     description = "The regular expression",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
-  public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
+  private String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
-  public String getRegularExpression() {
-    return regularExpression;
-  }
-
-  @SuppressWarnings("squid:S2696") // ... initialize SquidAstVisitor
   @Override
   public void init() {
-    String regEx = getRegularExpression();
-    Objects.requireNonNull(regEx, "getRegularExpression() should not return null");
+    Objects.requireNonNull(regularExpression, "getRegularExpression() should not return null");
 
-    if (!regEx.isEmpty()) {
+    if (!regularExpression.isEmpty()) {
       try {
-        IP = Pattern.compile(regEx).matcher("");
-      } catch (RuntimeException e) {
-        throw new IllegalStateException("Unable to compile regular expression: " + regEx, e);
+        pattern = Pattern.compile(regularExpression);
+      } catch (PatternSyntaxException e) {
+        throw new IllegalStateException("Unable to compile regular expression: " + regularExpression, e);
       }
+      subscribeTo(CxxGrammarImpl.LITERAL);
     }
-    subscribeTo(CxxGrammarImpl.LITERAL);
   }
 
   @Override
   public void visitNode(AstNode node) {
-    if (node.is(CxxGrammarImpl.LITERAL)) {
-      IP.reset(node.getTokenOriginalValue());
-      if (IP.find()) {
-        String ip = IP.group(0).replaceAll("\"", "");
-        getContext().createLineViolation(this, "Make this IP \"" + ip + "\" address configurable.", node);
-      }
+    final String tokenValue = node.getTokenOriginalValue();
+    final Matcher matcher = pattern.matcher(tokenValue);
+    if (matcher.find()) {
+      final String ip = tokenValue.replaceAll("\"", "");
+      getContext().createLineViolation(this, "Make this IP \"" + ip + "\" address configurable.", node);
     }
   }
 

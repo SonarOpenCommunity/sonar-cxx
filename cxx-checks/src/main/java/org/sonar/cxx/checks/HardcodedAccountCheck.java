@@ -24,6 +24,8 @@ import com.sonar.sslr.api.Grammar;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -55,45 +57,35 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
    *
    */
   private static final String DEFAULT_REGULAR_EXPRESSION = "\\bDSN\\b.*=.*;\\b(UID|PWD)\\b=.*;";
-  private static Matcher reg;
 
-  /**
-   * regularExpression
-   *
-   */
   @RuleProperty(
     key = "regularExpression",
     description = "literal regular expression rule",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
-  public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
+  private String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
-  public String getRegularExpression() {
-    return regularExpression;
-  }
+  private Pattern pattern;
 
-  @SuppressWarnings("squid:S2696") // ... initialize SquidAstVisitor
   @Override
   public void init() {
-    String regEx = getRegularExpression();
     Objects.requireNonNull(regularExpression, "getRegularExpression() should not return null");
 
-    if (null != regEx && !regEx.isEmpty()) {
+    if (!regularExpression.isEmpty()) {
       try {
-        reg = Pattern.compile(regEx).matcher("");
-      } catch (RuntimeException e) {
-        throw new IllegalStateException("Unable to compile regular expression: " + regEx, e);
+        pattern = Pattern.compile(regularExpression);
+      } catch (PatternSyntaxException e) {
+        throw new IllegalStateException("Unable to compile regular expression: " + regularExpression, e);
       }
+      subscribeTo(CxxGrammarImpl.LITERAL);
     }
-    subscribeTo(CxxGrammarImpl.LITERAL);
   }
 
   @Override
   public void visitNode(AstNode node) {
-    if (node.is(CxxGrammarImpl.LITERAL)) {
-      reg.reset(node.getTokenOriginalValue().replaceAll("\\s", ""));
-      if (reg.find()) {
-        getContext().createLineViolation(this, "Do not hard code sensitive data in programs.", node);
-      }
+    final String tokenValue = node.getTokenOriginalValue().replaceAll("\\s", "");
+    final Matcher matcher = pattern.matcher(tokenValue);
+    if (matcher.find()) {
+      getContext().createLineViolation(this, "Do not hard code sensitive data in programs.", node);
     }
   }
 }

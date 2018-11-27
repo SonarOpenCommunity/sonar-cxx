@@ -39,9 +39,9 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 public class BullseyeParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(BullseyeParser.class);
-  private static String prevLine;
-  private static int totalconditions;
-  private static int totalcoveredconditions;
+  private String prevLine;
+  private int totalconditions;
+  private int totalcoveredconditions;
 
   public BullseyeParser() {
     // no operation but necessary for list of coverage parsers
@@ -68,7 +68,7 @@ public class BullseyeParser extends CxxCoverageParser {
     parser.parse(report);
   }
 
-  private static void collectCoverageLeafNodes(String refPath, SMInputCursor folder,
+  private void collectCoverageLeafNodes(String refPath, SMInputCursor folder,
     final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
 
@@ -80,7 +80,7 @@ public class BullseyeParser extends CxxCoverageParser {
     }
   }
 
-  private static void recTreeTopWalk(File fileName, SMInputCursor folder,
+  private void recTreeTopWalk(File fileName, SMInputCursor folder,
     final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     SMInputCursor child = folder.childElementCursor();
@@ -92,7 +92,7 @@ public class BullseyeParser extends CxxCoverageParser {
     }
   }
 
-  private static void collectCoverage2(String refPath, SMInputCursor folder,
+  private void collectCoverage2(String refPath, SMInputCursor folder,
     final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
 
@@ -107,7 +107,7 @@ public class BullseyeParser extends CxxCoverageParser {
     }
   }
 
-  private static void probWalk(SMInputCursor prob, CoverageMeasures fileMeasuresBuilderIn) throws XMLStreamException {
+  private void probWalk(SMInputCursor prob, CoverageMeasures fileMeasuresBuilderIn) throws XMLStreamException {
     String line = prob.getAttrValue("line");
     String kind = prob.getAttrValue("kind");
     String event = prob.getAttrValue("event");
@@ -118,7 +118,7 @@ public class BullseyeParser extends CxxCoverageParser {
     prevLine = line;
   }
 
-  private static void funcWalk(SMInputCursor func, CoverageMeasures fileMeasuresBuilderIn) throws XMLStreamException {
+  private void funcWalk(SMInputCursor func, CoverageMeasures fileMeasuresBuilderIn) throws XMLStreamException {
     SMInputCursor prob = func.childElementCursor();
     while (prob.getNext() != null) {
       probWalk(prob, fileMeasuresBuilderIn);
@@ -126,14 +126,14 @@ public class BullseyeParser extends CxxCoverageParser {
     saveConditions(fileMeasuresBuilderIn);
   }
 
-  private static void fileWalk(SMInputCursor file, CoverageMeasures fileMeasuresBuilderIn) throws XMLStreamException {
+  private void fileWalk(SMInputCursor file, CoverageMeasures fileMeasuresBuilderIn) throws XMLStreamException {
     SMInputCursor func = file.childElementCursor();
     while (func.getNext() != null) {
       funcWalk(func, fileMeasuresBuilderIn);
     }
   }
 
-  private static void recTreeWalk(String refPath, SMInputCursor folder, List<String> path,
+  private void recTreeWalk(String refPath, SMInputCursor folder, List<String> path,
     final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
 
@@ -160,7 +160,7 @@ public class BullseyeParser extends CxxCoverageParser {
     }
   }
 
-  private static void saveConditions(CoverageMeasures fileMeasuresBuilderIn) {
+  private void saveConditions(CoverageMeasures fileMeasuresBuilderIn) {
     if (totalconditions > 0) {
       if (totalcoveredconditions == 0) {
         fileMeasuresBuilderIn.setHits(Integer.parseInt(prevLine), 0);
@@ -173,7 +173,7 @@ public class BullseyeParser extends CxxCoverageParser {
     totalcoveredconditions = 0;
   }
 
-  private static void updateMeasures(String kind, String event, String line, CoverageMeasures fileMeasuresBuilderIn) {
+  private void updateMeasures(String kind, String event, String line, CoverageMeasures fileMeasuresBuilderIn) {
 
     switch (kind.toLowerCase(Locale.ENGLISH)) {
       case "decision":
@@ -207,7 +207,7 @@ public class BullseyeParser extends CxxCoverageParser {
   /**
    * @param event
    */
-  private static void setTotalCoveredConditions(String event) {
+  private void setTotalCoveredConditions(String event) {
     switch (event.toLowerCase(Locale.ENGLISH)) {
       case "full":
         totalcoveredconditions += 2;
