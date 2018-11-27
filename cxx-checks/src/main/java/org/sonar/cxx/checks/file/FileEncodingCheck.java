@@ -23,6 +23,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -45,7 +46,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final Logger LOG = Loggers.get(FileEncodingCheck.class);
-  private Charset charset = Charset.forName("UTF-8");
+  private Charset charset = StandardCharsets.UTF_8;
 
   @Override
   public void setCharset(Charset charset) {

@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
@@ -126,7 +127,7 @@ public class CxxFileLinesVisitorTest {
   public void TestLinesOfCode() throws UnsupportedEncodingException, IOException {
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(Charset.forName("UTF-8")).setLanguage(language.getKey())
+      .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
       .setType(InputFile.Type.MAIN).build();
 
     SensorContextTester sensorContext = SensorContextTester.create(baseDir);
@@ -147,7 +148,7 @@ public class CxxFileLinesVisitorTest {
   public void TestLinesOfComments() throws UnsupportedEncodingException, IOException {
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(Charset.forName("UTF-8")).setLanguage(language.getKey())
+      .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
       .setType(InputFile.Type.MAIN).build();
 
     SensorContextTester sensorContext = SensorContextTester.create(baseDir);
@@ -167,7 +168,7 @@ public class CxxFileLinesVisitorTest {
 
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(Charset.forName("UTF-8")).setLanguage(language.getKey())
+      .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
       .setType(InputFile.Type.MAIN).build();
 
     SensorContextTester sensorContext = SensorContextTester.create(baseDir);

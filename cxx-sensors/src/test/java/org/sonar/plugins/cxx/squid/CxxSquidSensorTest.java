@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx.squid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Optional;
 
@@ -78,7 +79,7 @@ public class CxxSquidSensorTest {
     File target = new File(baseDir, fileName);
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(Charset.forName("UTF-8")).setLanguage(language.getKey())
+      .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
       .setType(InputFile.Type.MAIN).build();
     return inputFile;
   }

@@ -22,6 +22,7 @@ package org.sonar.cxx.sensors.visitors;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,7 +48,7 @@ public class CxxHighlighterTest {
 
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target)
-      .setContents(content).setCharset(Charset.forName("UTF-8")).build();
+      .setContents(content).setCharset(StandardCharsets.UTF_8).build();
 
     context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);

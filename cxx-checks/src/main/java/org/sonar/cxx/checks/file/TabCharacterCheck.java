@@ -24,6 +24,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
@@ -48,7 +49,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final boolean DEFAULT_CREATE_LINE_VIOLATION = false;
-  private Charset charset = Charset.forName("UTF-8");
+  private Charset charset = StandardCharsets.UTF_8;
 
   /**
    * createLineViolation

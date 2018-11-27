@@ -22,6 +22,7 @@ package org.sonar.cxx.checks.regex;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -51,7 +52,7 @@ public class FileRegularExpressionCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void fileRegExInvertWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
-    Charset charset = Charset.forName("UTF-8");
+    Charset charset = StandardCharsets.UTF_8;
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.regularExpression = "stdafx\\.h";
     check.invertRegularExpression = true;
@@ -69,12 +70,12 @@ public class FileRegularExpressionCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void fileRegExCodingErrorActionReplace() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
-    Charset charset = Charset.forName("US-ASCII");
+    Charset charset = StandardCharsets.US_ASCII;
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".", Charset.forName("US-ASCII"));
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".", StandardCharsets.US_ASCII);
 
     SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
@@ -86,7 +87,7 @@ public class FileRegularExpressionCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void fileRegExWithFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
-    Charset charset = Charset.forName("UTF-8");
+    Charset charset = StandardCharsets.UTF_8;
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
@@ -104,7 +105,7 @@ public class FileRegularExpressionCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void fileRegExInvertWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
-    Charset charset = Charset.forName("UTF-8");
+    Charset charset = StandardCharsets.UTF_8;
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.matchFilePattern = "/**/*.h"; // all files with not .h file extension
     check.invertFilePattern = true;
