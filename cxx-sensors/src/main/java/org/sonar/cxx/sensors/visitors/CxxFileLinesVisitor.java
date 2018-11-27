@@ -19,17 +19,9 @@
  */
 package org.sonar.cxx.sensors.visitors;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import com.sonar.sslr.api.AstAndTokenVisitor;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.Trivia;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -45,6 +37,15 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.squidbridge.SquidAstVisitor;
 
+import com.google.common.collect.Sets;
+import com.sonar.sslr.api.AstAndTokenVisitor;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.GenericTokenType;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.api.TokenType;
+import com.sonar.sslr.api.Trivia;
+
 /**
  * Visitor that computes {@link CoreMetrics#NCLOC_DATA_KEY} and {@link CoreMetrics#COMMENT_LINES_DATA_KEY} metrics used
  * by the DevCockpit.
@@ -55,19 +56,11 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
   private final CxxLanguage language;
   private final FileLinesContextFactory fileLinesContextFactory;
-  private static final Set<Integer> LINES_OF_CODE = Sets.newHashSet();
-  private static final Set<Integer> LINES_OF_COMMENTS = Sets.newHashSet();
-  private static final Set<Integer> EXECUTABLE_LINES = Sets.newHashSet();
   private final FileSystem fileSystem;
-  private static int isWithinFunctionDefinition;
-  private static final Set<String> IGNORE_TOKEN = Sets.newHashSet(";", "{", "}", "(", ")", "[", "]");
-  private static final AstNodeType[] NODES_TO_VISIT = {
-    CxxGrammarImpl.labeledStatement,
-    CxxGrammarImpl.expressionStatement,
-    CxxGrammarImpl.iterationStatement,
-    CxxGrammarImpl.jumpStatement,
-    CxxGrammarImpl.assignmentExpression,
-    CxxGrammarImpl.lambdaExpression};
+  private List<Integer> linesOfCode;
+  private List<Integer> linesOfComments;
+  private List<Integer> executableLines;
+  private int isWithinFunctionDefinition;
 
   /**
    * CxxFileLinesVisitor generates sets for linesOfCode, linesOfComments, executableLines
@@ -85,9 +78,54 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
   @Override
   public void init() {
-    subscribeTo(CxxGrammarImpl.functionDefinition);
-    for (AstNodeType nodeType : NODES_TO_VISIT) {
-      subscribeTo(nodeType);
+    subscribeTo(CxxGrammarImpl.functionDefinition,
+        CxxGrammarImpl.labeledStatement,
+        CxxGrammarImpl.expressionStatement,
+        CxxGrammarImpl.iterationStatement,
+        CxxGrammarImpl.jumpStatement,
+        CxxGrammarImpl.assignmentExpression,
+        CxxGrammarImpl.lambdaExpression);
+  }
+
+  static boolean isCodeToken(Token token) {
+    final TokenType type = token.getType();
+    if (!(type instanceof CxxPunctuator)) {
+      return true;
+    }
+
+    switch ((CxxPunctuator) type) {
+    case SEMICOLON:
+    case BR_LEFT:
+    case BR_RIGHT:
+    case CURLBR_LEFT:
+    case CURLBR_RIGHT:
+    case SQBR_LEFT:
+    case SQBR_RIGHT:
+      return false;
+
+    default:
+      return true;
+    }
+  }
+
+  static boolean isExecutableToken(Token token) {
+    final TokenType type = token.getType();
+    return !CxxPunctuator.CURLBR_LEFT.equals(type) && !CxxKeyword.DEFAULT.equals(type) && !CxxKeyword.CASE.equals(type);
+  }
+
+  static void addLineNumber(List<Integer> collection, int lineNr) {
+    // use the fact, that we iterate over tokens from top to bottom.
+    // if the line was already visited its index was put at the end of
+    // collection.
+    //
+    // don't use Set, because Set would sort elements on each insert
+    // since we potentially insert line number for each token it would create
+    // large run-time overhead
+    //
+    // we sort/filter duplicates only once - on leaveFile(AstNode)
+    //
+    if (collection.isEmpty() || collection.get(collection.size() - 1) != lineNr) {
+      collection.add(lineNr);
     }
   }
 
@@ -97,14 +135,14 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       return;
     }
 
-    if ((isWithinFunctionDefinition != 0) && !IGNORE_TOKEN.contains(token.getType().getValue())) {
-      LINES_OF_CODE.add(token.getLine());
+    if ((isWithinFunctionDefinition != 0) && isCodeToken(token)) {
+      addLineNumber(linesOfCode, token.getLine());
     }
 
     List<Trivia> trivias = token.getTrivia();
     for (Trivia trivia : trivias) {
       if (trivia.isComment()) {
-        LINES_OF_COMMENTS.add(trivia.getToken().getLine());
+        addLineNumber(linesOfComments, trivia.getToken().getLine());
       }
     }
   }
@@ -133,14 +171,13 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   /**
    * @param astNode
    */
-  private static void visitStatement(AstNode astNode) {
+  private void visitStatement(AstNode astNode) {
     if (astNode.hasDirectChildren(CxxGrammarImpl.declarationStatement)
       && !astNode.hasDescendant(CxxGrammarImpl.initializer)) {
       return;
     }
-    String value = astNode.getTokenValue();
-    if (value != null && !"{".equals(value) && !"default".equals(value) && !"case".equals(value)) {
-      EXECUTABLE_LINES.add(astNode.getTokenLine());
+    if (isExecutableToken(astNode.getToken())) {
+      addLineNumber(executableLines, astNode.getTokenLine());
     }
   }
 
@@ -151,17 +188,11 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     }
   }
 
-  /**
-   *
-   */
-  private static void increaseFunctionDefinition() {
+  private void increaseFunctionDefinition() {
     isWithinFunctionDefinition++;
   }
 
-  /**
-   *
-   */
-  private static void decreaseFunctionDefinitions() {
+  private void decreaseFunctionDefinitions() {
     isWithinFunctionDefinition--;
   }
 
@@ -185,9 +216,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
   @Override
   public void visitFile(AstNode astNode) {
-    LINES_OF_CODE.clear();
-    LINES_OF_COMMENTS.clear();
-    EXECUTABLE_LINES.clear();
+    linesOfCode = new ArrayList<>();
+    linesOfComments = new ArrayList<>();
+    executableLines = new ArrayList<>();
   }
 
   @Override
@@ -199,7 +230,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     FileLinesContext fileLinesContext = fileLinesContextFactory.createFor(inputFile);
 
     try {
-      LINES_OF_CODE.stream().forEach(
+      linesOfCode.stream().sequential().distinct().forEach(
         line -> fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1)
       );
     } catch (IllegalArgumentException e) {
@@ -207,7 +238,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       CxxUtils.validateRecovery(e, language);
     }
     try {
-      LINES_OF_COMMENTS.stream().forEach(
+      linesOfComments.stream().sequential().distinct().forEach(
         line -> fileLinesContext.setIntValue(CoreMetrics.COMMENT_LINES_DATA_KEY, line, 1)
       );
     } catch (IllegalArgumentException e) {
@@ -215,7 +246,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       CxxUtils.validateRecovery(e, language);
     }
     try {
-      EXECUTABLE_LINES.stream().forEach(
+      executableLines.stream().sequential().distinct().forEach(
         line -> fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, line, 1)
       );
     } catch (IllegalArgumentException e) {
@@ -227,22 +258,14 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     if (LOG.isDebugEnabled()) {
       LOG.debug("CxxFileLinesVisitor: '{}'", inputFile.uri().getPath());
       LOG.debug("   lines:           '{}'", inputFile.lines());
-      LOG.debug("   executableLines: '{}'", EXECUTABLE_LINES);
-      LOG.debug("   linesOfCode:     '{}'", LINES_OF_CODE);
-      LOG.debug("   linesOfComments: '{}'", LINES_OF_COMMENTS);
+      LOG.debug("   executableLines: '{}'", Sets.newHashSet(executableLines));
+      LOG.debug("   linesOfCode:     '{}'", Sets.newHashSet(linesOfCode));
+      LOG.debug("   linesOfComments: '{}'", Sets.newHashSet(linesOfComments));
     }
-  }
 
-  public Set<Integer> getLinesOfCode() {
-    return ImmutableSet.copyOf(LINES_OF_CODE);
-  }
-
-  public Set<Integer> getLinesOfComments() {
-    return ImmutableSet.copyOf(LINES_OF_COMMENTS);
-  }
-
-  public Set<Integer> getExecutableLines() {
-    return ImmutableSet.copyOf(EXECUTABLE_LINES);
+    linesOfCode = null;
+    linesOfComments = null;
+    executableLines = null;
   }
 
 }

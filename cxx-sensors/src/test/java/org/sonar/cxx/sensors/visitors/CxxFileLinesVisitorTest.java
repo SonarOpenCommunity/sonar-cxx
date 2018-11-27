@@ -29,7 +29,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.assertj.core.api.SoftAssertions;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
@@ -39,6 +41,7 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.cxx.CxxAstScanner;
@@ -50,7 +53,54 @@ public class CxxFileLinesVisitorTest {
 
   private CxxLanguage language;
   private FileLinesContextFactory fileLinesContextFactory;
-  private FileLinesContext fileLinesContext;
+  private class FileLinesContextForTesting implements FileLinesContext
+  {
+    public final Set<Integer> executableLines = new HashSet<>();
+    public final Set<Integer> linesOfCode = new HashSet<>();
+    public final Set<Integer> linesOfComments = new HashSet<>();
+
+    @Override
+    public void setIntValue(String metricKey, int line, int value) {
+      Assert.assertEquals(1, value);
+
+      switch (metricKey) {
+      case CoreMetrics.NCLOC_DATA_KEY:
+        linesOfCode.add(line);
+        break;
+      case CoreMetrics.COMMENT_LINES_DATA_KEY:
+        linesOfComments.add(line);
+        break;
+      case CoreMetrics.EXECUTABLE_LINES_DATA_KEY:
+        executableLines.add(line);
+        break;
+      default:
+        Assert.fail("Unsupported metric key " + metricKey);
+      }
+    }
+
+    @Override
+    public Integer getIntValue(String metricKey, int line) {
+      Assert.fail("unexpected method called: getIntValue()");
+      return null;
+    }
+
+    @Override
+    public void setStringValue(String metricKey, int line, String value) {
+      Assert.fail("unexpected method called: setStringValue()");
+    }
+
+    @Override
+    public String getStringValue(String metricKey, int line) {
+      Assert.fail("unexpected method called: getStringValue()");
+      return null;
+    }
+
+    @Override
+    public void save() {
+    }
+  }
+
+  private FileLinesContextForTesting fileLinesContext;
   private File baseDir;
   private File target;
   private Set<Integer> testLines;
@@ -59,7 +109,7 @@ public class CxxFileLinesVisitorTest {
   public void setUp() {
     language = TestUtils.mockCxxLanguage();
     fileLinesContextFactory = mock(FileLinesContextFactory.class);
-    fileLinesContext = mock(FileLinesContext.class);
+    fileLinesContext = new FileLinesContextForTesting();
 
     when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY))
       .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
@@ -89,7 +139,7 @@ public class CxxFileLinesVisitorTest {
     CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(visitor.getLinesOfCode()).containsExactlyInAnyOrderElementsOf(testLines);
+    softly.assertThat(fileLinesContext.linesOfCode).containsExactlyInAnyOrderElementsOf(testLines);
     softly.assertAll();
   }
 
@@ -109,7 +159,7 @@ public class CxxFileLinesVisitorTest {
 
     CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
 
-    assertThat(visitor.getLinesOfComments()).containsExactlyInAnyOrder(48, 1, 33, 97, 35, 117, 102, 7, 119, 106, 13);
+    assertThat(fileLinesContext.linesOfComments).containsExactlyInAnyOrder(48, 1, 33, 97, 35, 117, 102, 7, 119, 106, 13);
   }
 
   @Test
@@ -129,7 +179,7 @@ public class CxxFileLinesVisitorTest {
 
     CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
 
-    assertThat(visitor.getExecutableLines()).containsExactlyInAnyOrder(10, 26, 34, 35, 56, 59, 69, 70, 72, 73,
+    assertThat(fileLinesContext.executableLines).containsExactlyInAnyOrder(10, 26, 34, 35, 56, 59, 69, 70, 72, 73,
       75, 76, 79, 87, 90, 98, 102, 118, 119, 126);
   }
 }
