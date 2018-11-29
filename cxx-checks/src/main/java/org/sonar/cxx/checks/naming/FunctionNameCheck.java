@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.checks.utils.CheckUtils;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
@@ -69,7 +70,7 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
 
   @Override
   public void init() {
-    pattern = Pattern.compile(format);
+    pattern = CheckUtils.compileUserRegexp(format);
     subscribeTo(CxxGrammarImpl.functionDefinition);
   }
 

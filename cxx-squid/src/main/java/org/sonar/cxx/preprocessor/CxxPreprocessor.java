@@ -914,7 +914,7 @@ public class CxxPreprocessor extends Preprocessor {
           Token c = replTokens.get(0);
           PreprocessorAction action = PreprocessorAction.NO_OPERATION;
           if (c.getType().equals(IDENTIFIER)) {
-            List<Token> rest = new ArrayList(replTokens);
+            List<Token> rest = new ArrayList<>(replTokens);
             rest.addAll(tokens.subList(tokensConsumed, tokens.size()));
             action = handleIdentifiersAndKeywords(rest, c, filename);
           }

@@ -23,6 +23,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
+import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
@@ -63,9 +64,12 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (isHeader
-      && "using".equals(node.getTokenValue()) && node.getFirstChild().getChildren().toString().contains("namespace")) {
-      getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
+    if (isHeader && CxxKeyword.USING.equals(node.getToken().getType())) {
+      final boolean containsNamespace = node.getFirstChild().getChildren().stream()
+          .anyMatch(childNode -> CxxKeyword.NAMESPACE.equals(childNode.getToken().getType()));
+      if (containsNamespace) {
+        getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
+      }
     }
   }
 

@@ -27,6 +27,7 @@ import java.util.List;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import static org.sonar.cxx.checks.utils.CheckUtils.isSwitchStatement;
+import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
@@ -48,7 +49,6 @@ public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
 
   private static final String MISSING_DEFAULT_CASE_MESSAGE = "Add a default case to this switch.";
   private static final String DEFAULT_CASE_IS_NOT_LAST_MESSAGE = "Move this default to the end of the switch.";
-  private static final String DEFAULT_CASE_TOKENVALUE = "default";
 
   private static void getSwitchCases(List<AstNode> result, AstNode node) {
     if (isSwitchStatement(node)) {
@@ -76,7 +76,7 @@ public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
       AstNode defaultCase = null;
 
       for (AstNode switchCase : switchCases) {
-        if (switchCase.getTokenValue().equals(DEFAULT_CASE_TOKENVALUE)) {
+        if (CxxKeyword.DEFAULT.equals(switchCase.getToken().getType())) {
           defaultCase = switchCase;
           break;
         }

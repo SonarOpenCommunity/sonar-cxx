@@ -21,11 +21,31 @@ package org.sonar.cxx.checks.utils;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
+import java.util.Objects;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 
 public class CheckUtils {
+
+  public static Pattern compileUserRegexp(String regexp, int flags) {
+    Objects.requireNonNull(regexp, "regular expression has to be non null");
+    if (regexp.isEmpty()) {
+      throw new IllegalStateException("Empty regular expression");
+    }
+    try {
+      return Pattern.compile(regexp, flags);
+    } catch (PatternSyntaxException e) {
+      throw new IllegalStateException("Unable to compile the regular expression: \"" + regexp + "\"", e);
+    }
+  }
+
+  public static Pattern compileUserRegexp(String regexp) {
+    return compileUserRegexp(regexp, 0);
+  }
 
   public static boolean isIfStatement(AstNode node) {
     if (node.is(CxxGrammarImpl.selectionStatement)) {

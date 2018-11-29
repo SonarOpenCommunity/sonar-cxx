@@ -23,7 +23,6 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.charset.StandardCharsets;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.tag.Tag;
@@ -45,21 +44,15 @@ public class MissingNewLineAtEndOfFileCheck extends SquidCheck<Grammar> {
       return false;
     }
     randomAccessFile.seek(randomAccessFile.length() - 1);
-    byte[] chars = new byte[1];
-    if (randomAccessFile.read(chars) < 1) {
-      return false;
-    }
-    String ch = new String(chars, StandardCharsets.UTF_8);
-    return "\n".equals(ch) || "\r".equals(ch);
+    byte lastByte = randomAccessFile.readByte();
+    return lastByte == '\n' || lastByte == '\r';
   }
 
   @Override
   public void visitFile(AstNode astNode) {
-    try {
-      try (RandomAccessFile randomAccessFile = new RandomAccessFile(getContext().getFile(), "r")) {
-        if (!endsWithNewline(randomAccessFile)) {
-          getContext().createFileViolation(this, "Add a new line at the end of this file.");
-        }
+    try (RandomAccessFile randomAccessFile = new RandomAccessFile(getContext().getFile(), "r")) {
+      if (!endsWithNewline(randomAccessFile)) {
+        getContext().createFileViolation(this, "Add a new line at the end of this file.");
       }
     } catch (IOException e) {
       throw new IllegalStateException(e);

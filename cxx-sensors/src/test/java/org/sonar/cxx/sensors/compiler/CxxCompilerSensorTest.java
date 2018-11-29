@@ -55,9 +55,18 @@ public class CxxCompilerSensorTest {
   @Test
   public void testFileNotFound() throws XMLStreamException {
     File report = new File("");
+    sensor.setRegex("*");
     sensor.testProcessReport(context, report);
     String log = logTester.logs().toString();
     assertThat(log.contains("FileNotFoundException")).isTrue();
+  }
+
+  @Test
+  public void testRegexEmpty() throws XMLStreamException {
+    File report = new File("");
+    sensor.testProcessReport(context, report);
+    String log = logTester.logs().toString();
+    assertThat(log.contains("empty custom regular expression")).isTrue();
   }
 
   @Test

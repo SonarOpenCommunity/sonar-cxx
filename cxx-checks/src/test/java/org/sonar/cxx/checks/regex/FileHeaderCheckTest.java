@@ -170,8 +170,8 @@ public class FileHeaderCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void should_fail_with_bad_regular_expression() {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("[" + FileHeaderCheck.class.getSimpleName() + "] Unable to compile the regular expression: *");
+    thrown.expect(IllegalStateException.class);
+    thrown.expectMessage("Unable to compile the regular expression: \"*\"");
 
     FileHeaderCheck check = new FileHeaderCheck();
     check.headerFormat = "*";

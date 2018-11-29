@@ -49,17 +49,8 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
-  private Pattern pattern = null;
+  private static Pattern pattern = Pattern.compile(REGULAR_EXPRESSION, Pattern.DOTALL);
   private Charset charset = StandardCharsets.UTF_8;
-
-  @Override
-  public void init() {
-    try {
-      pattern = Pattern.compile(REGULAR_EXPRESSION, Pattern.DOTALL);
-    } catch (RuntimeException e) {
-      throw new IllegalStateException("Unable to compile regular expression: " + REGULAR_EXPRESSION, e);
-    }
-  }
 
   @Override
   public void visitFile(AstNode astNode) {
