@@ -42,11 +42,11 @@ import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
+import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.cxx.preprocessor.SourceCodeProvider;
 import org.sonar.squidbridge.SquidAstVisitorContext;
-import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 
 public class CxxLexerWithPreprocessingTest {
 

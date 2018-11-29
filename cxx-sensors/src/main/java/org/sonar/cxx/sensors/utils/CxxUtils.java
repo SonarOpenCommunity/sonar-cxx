@@ -23,7 +23,6 @@ import java.io.File;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import javax.xml.XMLConstants;
-
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;

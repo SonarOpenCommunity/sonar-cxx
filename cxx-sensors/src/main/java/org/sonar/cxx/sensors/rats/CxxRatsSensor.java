@@ -21,9 +21,7 @@ package org.sonar.cxx.sensors.rats;
 
 import java.io.File;
 import java.util.List;
-
 import javax.annotation.Nullable;
-
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaders;

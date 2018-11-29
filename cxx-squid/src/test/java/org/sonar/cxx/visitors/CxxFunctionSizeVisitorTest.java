@@ -19,13 +19,11 @@
  */
 package org.sonar.cxx.visitors;
 
-import static org.mockito.Mockito.when;
-
 import java.io.IOException;
 import java.util.Optional;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
+import static org.mockito.Mockito.when;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;

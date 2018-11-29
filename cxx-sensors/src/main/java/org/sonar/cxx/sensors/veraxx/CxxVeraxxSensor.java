@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.veraxx;
 
 import java.io.File;
-
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;

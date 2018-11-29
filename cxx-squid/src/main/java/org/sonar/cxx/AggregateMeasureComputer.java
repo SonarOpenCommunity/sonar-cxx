@@ -20,7 +20,6 @@
 package org.sonar.cxx;
 
 import java.util.Map;
-
 import org.sonar.api.ce.measure.Component;
 import org.sonar.api.ce.measure.Measure;
 import org.sonar.api.ce.measure.MeasureComputer;

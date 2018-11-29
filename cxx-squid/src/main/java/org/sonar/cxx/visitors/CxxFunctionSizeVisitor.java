@@ -19,6 +19,8 @@
  */
 package org.sonar.cxx.visitors;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -27,9 +29,6 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
-
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
 
 public class CxxFunctionSizeVisitor<G extends Grammar> extends SquidAstVisitor<G> {
 

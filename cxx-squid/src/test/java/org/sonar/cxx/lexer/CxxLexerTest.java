@@ -21,27 +21,24 @@ package org.sonar.cxx.lexer;
 
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.impl.Lexer;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.assertj.core.api.SoftAssertions;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.mockito.Mockito.mock;
-
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.mockito.Mockito.mock;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
+import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.squidbridge.SquidAstVisitorContext;
-import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 
 public class CxxLexerTest {
 

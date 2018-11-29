@@ -29,9 +29,7 @@ import java.math.BigInteger;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.annotation.Nullable;
-
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxConfiguration;

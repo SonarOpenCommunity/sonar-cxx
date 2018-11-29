@@ -19,16 +19,15 @@
  */
 package org.sonar.cxx.checks.naming;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
-import org.sonar.cxx.CxxAstScanner;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import org.junit.Rule;
+import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class FileNameCheckTest {
 

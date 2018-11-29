@@ -19,10 +19,8 @@
  */
 package org.sonar.cxx;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.Map;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.api.ce.measure.Component;
 import org.sonar.api.ce.measure.Component.Type;

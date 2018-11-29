@@ -19,15 +19,15 @@
  */
 package org.sonar.cxx.sensors.utils;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nullable;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.sensor.Sensor;
@@ -36,9 +36,6 @@ import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 
 /**
  * This class is used as base for all sensors which import reports. It hosts

@@ -25,7 +25,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // mailto:info AT sonarsource DOT com
 
 import java.io.File;
-
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;

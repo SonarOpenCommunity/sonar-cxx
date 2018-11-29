@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.drmemory;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;

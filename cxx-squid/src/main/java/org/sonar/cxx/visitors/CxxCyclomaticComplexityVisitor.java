@@ -19,18 +19,15 @@
  */
 package org.sonar.cxx.visitors;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import org.sonar.squidbridge.SquidAstVisitor;
-import org.sonar.squidbridge.SquidAstVisitorContext;
-import org.sonar.squidbridge.metrics.ComplexityVisitor;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import java.util.List;
+import javax.annotation.Nullable;
+import org.sonar.squidbridge.SquidAstVisitor;
+import org.sonar.squidbridge.SquidAstVisitorContext;
+import org.sonar.squidbridge.metrics.ComplexityVisitor;
 
 /**
  * Decorator for {@link org.sonar.squidbridge.metrics.ComplexityVisitor} in

@@ -19,9 +19,9 @@
  */
 package org.sonar.cxx.visitors;
 
+import com.sonar.sslr.api.Grammar;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.sonar.api.utils.AnnotationUtils;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.squidbridge.SquidAstVisitorContext;
@@ -29,8 +29,6 @@ import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.SquidCheck;
 import org.sonar.squidbridge.measures.CalculatedMetricFormula;
 import org.sonar.squidbridge.measures.MetricDef;
-
-import com.sonar.sslr.api.Grammar;
 
 /**
  * Derivation of {@link SquidCheck}, which can create issues with multiple

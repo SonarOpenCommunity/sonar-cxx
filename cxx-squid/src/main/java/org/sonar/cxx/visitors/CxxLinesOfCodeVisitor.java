@@ -22,11 +22,9 @@ package org.sonar.cxx.visitors;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import static com.sonar.sslr.api.GenericTokenType.EOF;
-
-import java.util.regex.Pattern;
-
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import java.util.regex.Pattern;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.measures.MetricDef;
 

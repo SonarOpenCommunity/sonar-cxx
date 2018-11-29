@@ -19,12 +19,10 @@
  */
 package org.sonar.cxx.checks.metrics;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Set;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;

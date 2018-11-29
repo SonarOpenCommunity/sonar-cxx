@@ -19,11 +19,8 @@
  */
 package org.sonar.cxx.sensors.drmemory;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;

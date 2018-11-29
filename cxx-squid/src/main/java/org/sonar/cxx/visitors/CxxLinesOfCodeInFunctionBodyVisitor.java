@@ -19,16 +19,14 @@
  */
 package org.sonar.cxx.visitors;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstVisitor;
+import com.sonar.sslr.api.Grammar;
 import java.util.List;
-
 import org.sonar.cxx.api.CppPunctuator;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
-
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstVisitor;
-import com.sonar.sslr.api.Grammar;
 
 /**
  * Visitor that computes the NCLOCs in function body, leading and trailing {} do not count

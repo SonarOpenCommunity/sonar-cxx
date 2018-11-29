@@ -19,14 +19,14 @@
  */
 package org.sonar.cxx.checks.metrics;
 
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.squidbridge.api.SourceFile;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class TooManyLinesOfCodeInFunctionCheckTest {
 

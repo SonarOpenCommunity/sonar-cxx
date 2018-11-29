@@ -19,9 +19,8 @@
  */
 package org.sonar.cxx.lexer;
 
-import org.sonar.cxx.api.CxxTokenType;
-
 import com.sonar.sslr.api.TokenType;
+import org.sonar.cxx.api.CxxTokenType;
 
 
 public final class LiteralValuesBuilder {

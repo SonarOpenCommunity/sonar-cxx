@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.checks.metrics;
 
+import com.sonar.sslr.api.Grammar;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -29,8 +30,6 @@ import org.sonar.cxx.visitors.CxxComplexityScope;
 import org.sonar.cxx.visitors.CxxComplexitySource;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
-
-import com.sonar.sslr.api.Grammar;
 
 @Rule(
   key = "FunctionCognitiveComplexity",

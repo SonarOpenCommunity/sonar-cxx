@@ -20,12 +20,11 @@
 package org.sonar.cxx.checks.naming;
 
 import org.junit.Test;
-import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.sonar.cxx.CxxAstScanner;
-
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class MethodNameCheckTest {
 

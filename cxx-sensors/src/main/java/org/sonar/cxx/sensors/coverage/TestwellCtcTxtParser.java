@@ -24,19 +24,14 @@ package org.sonar.cxx.sensors.coverage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-
-import java.util.NoSuchElementException;
+import java.math.BigDecimal;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
-
-import java.math.BigDecimal;
-
 import org.apache.commons.io.FilenameUtils;
-
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-
 import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.FILE_HEADER;
 import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.FILE_RESULT;
 import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.LINE_RESULT;

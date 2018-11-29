@@ -19,16 +19,14 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.sonar.cxx.api.CxxTokenType;
-
 import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.api.PreprocessorAction;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.sonar.cxx.api.CxxTokenType;
 
 public class JoinStringsPreprocessor extends Preprocessor {
 

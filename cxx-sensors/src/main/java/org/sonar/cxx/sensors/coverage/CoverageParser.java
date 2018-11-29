@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.coverage;
 
 import java.io.File;
 import java.util.Map;
-
 import javax.xml.stream.XMLStreamException;
 
 /**

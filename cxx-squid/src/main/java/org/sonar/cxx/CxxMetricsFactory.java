@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 

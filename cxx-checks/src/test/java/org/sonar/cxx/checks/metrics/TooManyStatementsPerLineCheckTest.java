@@ -22,7 +22,6 @@ package org.sonar.cxx.checks.metrics;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;

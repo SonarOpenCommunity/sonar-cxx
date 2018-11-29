@@ -20,9 +20,9 @@
 package org.sonar.cxx.api;
 
 import com.sonar.sslr.api.AstNode;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
-import org.assertj.core.api.SoftAssertions;
 
 public class CxxPunctuatorTest {
 
