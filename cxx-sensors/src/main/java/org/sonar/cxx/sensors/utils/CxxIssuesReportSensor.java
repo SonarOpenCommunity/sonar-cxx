@@ -47,6 +47,11 @@ import org.sonar.cxx.utils.CxxReportLocation;
 public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxIssuesReportSensor.class);
+
+  private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
+    CxxReportLocation location) {
+    return newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
+  }
   private final Set<String> notFoundFiles = new HashSet<>();
   private final Set<CxxReportIssue> uniqueIssues = new HashSet<>();
   private final Map<InputFile, Integer> violationsPerFileCount = new HashMap<>();
@@ -182,11 +187,6 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       LOG.warn("Cannot find the file '{}', skipping violations", location.getFile());
       return null;
     }
-  }
-
-  private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
-    CxxReportLocation location) {
-    return newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
   }
 
   /**

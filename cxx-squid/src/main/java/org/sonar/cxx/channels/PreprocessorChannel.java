@@ -29,28 +29,6 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
   private static final char EOF = (char) -1;
 
-  @Override
-  public boolean consume(CodeReader code, Lexer output) {
-    int line = code.getLinePosition();
-    int column = code.getColumnPosition();
-
-    char ch = code.charAt(0);
-    if ((ch != '#')) {
-      return false;
-    }
-
-    String tokenValue = read(code);
-    output.addToken(Token.builder()
-      .setLine(line)
-      .setColumn(column)
-      .setURI(output.getURI())
-      .setValueAndOriginalValue(tokenValue)
-      .setType(CxxTokenType.PREPROCESSOR)
-      .build());
-
-    return true;
-  }
-
   private static String read(CodeReader code) {
     StringBuilder sb = new StringBuilder();
     char ch;
@@ -103,5 +81,27 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
   private static boolean isNewline(char ch) {
     return (ch == '\n') || (ch == '\r');
+  }
+
+  @Override
+  public boolean consume(CodeReader code, Lexer output) {
+    int line = code.getLinePosition();
+    int column = code.getColumnPosition();
+
+    char ch = code.charAt(0);
+    if ((ch != '#')) {
+      return false;
+    }
+
+    String tokenValue = read(code);
+    output.addToken(Token.builder()
+      .setLine(line)
+      .setColumn(column)
+      .setURI(output.getURI())
+      .setValueAndOriginalValue(tokenValue)
+      .setType(CxxTokenType.PREPROCESSOR)
+      .build());
+
+    return true;
   }
 }

@@ -35,10 +35,10 @@ import org.sonar.api.resources.AbstractLanguage;
 public abstract class CxxLanguage extends AbstractLanguage {
 
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
+  public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
   private final String propertiesKey;
   private final Configuration settings;
   private final Map<CxxMetricsFactory.Key, Metric<?>> langSpecificMetrics;
-  public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
   public CxxLanguage(String key, String propertiesKey, Configuration settings) {
     super(key);

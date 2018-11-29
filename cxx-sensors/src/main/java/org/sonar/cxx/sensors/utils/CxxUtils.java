@@ -44,10 +44,6 @@ public final class CxxUtils {
   public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
   private static final Logger LOG = Loggers.get(CxxUtils.class);
 
-  private CxxUtils() {
-    // only static methods
-  }
-
   /**
    * transformFile
    *
@@ -88,5 +84,9 @@ public final class CxxUtils {
     }
     LOG.info("Recovery is disabled, failing analysis : '{}'", ex.toString());
     throw new IllegalStateException(ex.getMessage(), ex.getCause());
+  }
+
+  private CxxUtils() {
+    // only static methods
   }
 }

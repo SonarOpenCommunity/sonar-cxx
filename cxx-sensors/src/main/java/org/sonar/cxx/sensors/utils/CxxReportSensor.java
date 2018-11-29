@@ -38,31 +38,11 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 
 /**
- * This class is used as base for all sensors which import reports. It hosts
- * common logic such as finding the reports.
+ * This class is used as base for all sensors which import reports. It hosts common logic such as finding the reports.
  */
 public abstract class CxxReportSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
-  private final CxxLanguage language;
-  private final String propertiesKeyPathToReports;
-
-  /**
-   * {@inheritDoc}
-   */
-  protected CxxReportSensor(CxxLanguage language, String propertiesKeyPathToReports) {
-    this.language = language;
-    this.propertiesKeyPathToReports = language.getPluginProperty(propertiesKeyPathToReports);
-  }
-
-  public CxxLanguage getLanguage() {
-    return language;
-  }
-
-  public String getReportPathKey()
-  {
-    return propertiesKeyPathToReports;
-  }
 
   /**
    * Get string property from configuration. If the string is not set or empty, return the default value.
@@ -78,11 +58,6 @@ public abstract class CxxReportSensor implements Sensor {
       return def;
     }
     return s;
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
   }
 
   /**
@@ -113,18 +88,13 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   /**
-   * Use the given {@link Configuration} object in order to get a list of Ant
-   * patterns referenced by key <code>reportPathKey</code>. Apply
-   * <code>moduleBaseDir</code> in order to make relative Ant patterns to
-   * absolute ones. Resolve Ant patterns and returns the list of existing files.
+   * Use the given {@link Configuration} object in order to get a list of Ant patterns referenced by key
+   * <code>reportPathKey</code>. Apply <code>moduleBaseDir</code> in order to make relative Ant patterns to absolute
+   * ones. Resolve Ant patterns and returns the list of existing files.
    *
-   * @param settings
-   *          project (module) configuration
-   * @param moduleBaseDir
-   *          project (module) base directory
-   * @param reportPathKey
-   *          configuration key for the external reports (CSV list of Ant
-   *          patterns)
+   * @param settings project (module) configuration
+   * @param moduleBaseDir project (module) base directory
+   * @param reportPathKey configuration key for the external reports (CSV list of Ant patterns)
    * @return List<File> list of report paths
    */
   public static List<File> getReports(Configuration settings, final File moduleBaseDir, String reportPathKey) {
@@ -146,7 +116,7 @@ public abstract class CxxReportSensor implements Sensor {
 
     if (existingReportPaths.length == 0) {
       LOG.warn("Property '{}': cannot find any files matching the Ant pattern(s) '{}'", reportPathKey,
-          String.join(", ", normalizedReportPaths));
+        String.join(", ", normalizedReportPaths));
       return Collections.emptyList();
     }
 
@@ -185,6 +155,29 @@ public abstract class CxxReportSensor implements Sensor {
    */
   public static String[] splitProperty(String property) {
     return Iterables.toArray(Splitter.on(',').split(property), String.class);
+  }
+  private final CxxLanguage language;
+  private final String propertiesKeyPathToReports;
+
+  /**
+   * {@inheritDoc}
+   */
+  protected CxxReportSensor(CxxLanguage language, String propertiesKeyPathToReports) {
+    this.language = language;
+    this.propertiesKeyPathToReports = language.getPluginProperty(propertiesKeyPathToReports);
+  }
+
+  public CxxLanguage getLanguage() {
+    return language;
+  }
+
+  public String getReportPathKey() {
+    return propertiesKeyPathToReports;
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
   }
 
 }

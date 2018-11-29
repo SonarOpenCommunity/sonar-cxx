@@ -57,6 +57,10 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
   private static final boolean DEFAULT_INVERT_REGULAR_EXPRESSION = false;
   private static final String DEFAULT_MESSAGE = "The regular expression matches this line";
 
+  private static boolean compare(boolean invert, boolean condition) {
+    return invert ? !condition : condition;
+  }
+
   private Charset charset = StandardCharsets.UTF_8;
   private Pattern pattern = null;
 
@@ -146,7 +150,4 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return true;
   }
 
-  private static boolean compare(boolean invert, boolean condition) {
-    return invert ? !condition : condition;
-  }
 }

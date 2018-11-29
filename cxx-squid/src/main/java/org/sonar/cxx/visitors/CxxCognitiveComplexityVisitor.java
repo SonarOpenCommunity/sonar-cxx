@@ -71,8 +71,6 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
     CxxGrammarImpl.selectionStatement,
     CxxPunctuator.QUEST};
 
-  private Deque<CxxComplexityScope> complexityScopes = null;
-
   private static final Set<AstNodeType> SUBSCRIPTION_NODES = new HashSet<>();
 
   static {
@@ -82,6 +80,12 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
     SUBSCRIPTION_NODES.addAll(Arrays.asList(NESTING_LEVEL_TYPES));
     SUBSCRIPTION_NODES.addAll(Arrays.asList(NESTING_INCREMENTS_TYPES));
   }
+
+  private static boolean isElseIf(AstNode node) {
+    return node.is(CxxGrammarImpl.selectionStatement) && node.getToken().getType().equals(CxxKeyword.IF)
+      && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
+  }
+  private Deque<CxxComplexityScope> complexityScopes = null;
 
   protected void analyzeComplexity(CxxComplexityScope scope) {
     SourceCode code = getContext().peekSourceCode();
@@ -144,8 +148,4 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
     }
   }
 
-  private static boolean isElseIf(AstNode node) {
-    return node.is(CxxGrammarImpl.selectionStatement) && node.getToken().getType().equals(CxxKeyword.IF)
-      && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
-  }
 }

@@ -51,8 +51,6 @@ class ValgrindReportParser {
 
   private static class ValgrindReportStreamHandler implements StaxParser.XmlStreamHandler {
 
-    private final Set<ValgrindError> valgrindErrors = new HashSet<>();
-
     private static ValgrindStack parseStackTag(SMInputCursor child) throws XMLStreamException {
       ValgrindStack stack = new ValgrindStack();
       SMInputCursor frameCursor = child.childElementCursor("frame");
@@ -123,6 +121,7 @@ class ValgrindReportParser {
 
       return new ValgrindError(kind, text, stacks);
     }
+    private final Set<ValgrindError> valgrindErrors = new HashSet<>();
 
     /**
      * {@inheritDoc}

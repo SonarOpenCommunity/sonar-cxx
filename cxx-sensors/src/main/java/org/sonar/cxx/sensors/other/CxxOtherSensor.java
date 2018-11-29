@@ -57,6 +57,59 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
   public static final String INPUT_KEY = ".inputs";
   public static final String OUTPUT_KEY = ".outputs";
 
+  private static boolean checkInput(String inputKey, String outputKey, @Nullable List<File> inputs,
+    @Nullable List<String> outputs) {
+    return isValidInput(inputKey, inputs) && isValidOutput(outputKey, outputs) && hasCorrectSize(inputs, outputs);
+  }
+
+  /**
+   * @param inputs
+   * @param outputs
+   * @return
+   */
+  private static boolean hasCorrectSize(List<File> inputs, List<String> outputs) {
+    if (inputs.size() != outputs.size()) {
+      LOG.error("Number of source XML files is not equal to the the number of output files.");
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * @param outputKey
+   * @param outputs
+   * @return
+   */
+  private static boolean isValidOutput(@Nullable String outputKey, @Nullable List<String> outputs) {
+    if ((outputKey == null) || (outputs == null) || (outputs.isEmpty())) {
+      if (outputKey != null) {
+        LOG.error(outputKey + " file is not defined.");
+      } else {
+        LOG.error("outputKey is not defined.");
+      }
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * @param inputKey
+   * @param inputs
+   */
+  private static boolean isValidInput(@Nullable String inputKey, @Nullable List<File> inputs) {
+
+    if ((inputKey == null) || (inputs == null) || (inputs.isEmpty())) {
+      if (inputKey != null) {
+        LOG.error(inputKey + " file is not defined.");
+      } else {
+        LOG.error("inputKey is not defined.");
+      }
+      return false;
+    }
+
+    return true;
+  }
+
   /**
    * CxxOtherSensor for Other Sensor
    *
@@ -143,59 +196,6 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
 
       transformFileList(baseDir.getAbsolutePath(), stylesheet, inputs, outputs);
     }
-  }
-
-  private static boolean checkInput(String inputKey, String outputKey, @Nullable List<File> inputs,
-    @Nullable List<String> outputs) {
-    return isValidInput(inputKey, inputs) && isValidOutput(outputKey, outputs) && hasCorrectSize(inputs, outputs);
-  }
-
-  /**
-   * @param inputs
-   * @param outputs
-   * @return
-   */
-  private static boolean hasCorrectSize(List<File> inputs, List<String> outputs) {
-    if (inputs.size() != outputs.size()) {
-      LOG.error("Number of source XML files is not equal to the the number of output files.");
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * @param outputKey
-   * @param outputs
-   * @return
-   */
-  private static boolean isValidOutput(@Nullable String outputKey, @Nullable List<String> outputs) {
-    if ((outputKey == null) || (outputs == null) || (outputs.isEmpty())) {
-      if (outputKey != null) {
-        LOG.error(outputKey + " file is not defined.");
-      } else {
-        LOG.error("outputKey is not defined.");
-      }
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * @param inputKey
-   * @param inputs
-   */
-  private static boolean isValidInput(@Nullable String inputKey, @Nullable List<File> inputs) {
-
-    if ((inputKey == null) || (inputs == null) || (inputs.isEmpty())) {
-      if (inputKey != null) {
-        LOG.error(inputKey + " file is not defined.");
-      } else {
-        LOG.error("inputKey is not defined.");
-      }
-      return false;
-    }
-
-    return true;
   }
 
   private void transformFileList(final String baseDir, String stylesheet, List<File> inputs, List<String> outputs) {

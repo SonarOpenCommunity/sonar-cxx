@@ -45,6 +45,13 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxClangSASensor.class);
   public static final String REPORT_PATH_KEY = "clangsa.reportPath";
 
+  private static NSObject require(@Nullable NSObject object, String errorMsg) {
+    if (object == null) {
+      throw new IllegalArgumentException(errorMsg);
+    }
+    return object;
+  }
+
   /**
    * CxxClangSASensor for Clang Static Analyzer Sensor
    *
@@ -61,13 +68,6 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
       .onlyOnLanguage(getLanguage().getKey())
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
-  }
-
-  private static NSObject require(@Nullable NSObject object, String errorMsg) {
-    if (object == null) {
-      throw new IllegalArgumentException(errorMsg);
-    }
-    return object;
   }
 
   @Override

@@ -47,9 +47,6 @@ public final class CppLexer {
   private static final String UD_SUFFIX = "([_a-zA-Z]([_a-zA-Z0-9]*+))";
   private static final String HEXDIGIT_SEQUENCE = "([0-9a-fA-F]([']?+[0-9a-fA-F]++)*+)";
 
-  private CppLexer() {
-  }
-
   public static Lexer create() {
     return create(new CxxConfiguration());
   }
@@ -68,16 +65,16 @@ public final class CppLexer {
       .withChannel(new CharacterLiteralsChannel())
       .withChannel(new StringLiteralsChannel())
       // C++ Standard, Section 2.14.4 "Floating literals"
-      .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+\\.([0-9]([']?+[0-9]++)*+)*+" 
+      .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+\\.([0-9]([']?+[0-9]++)*+)*+"
         + opt(EXPONENT) + opt(UD_SUFFIX)))
-      .withChannel(regexp(CxxTokenType.NUMBER, "\\.[0-9]([']?+[0-9]++)*+" 
+      .withChannel(regexp(CxxTokenType.NUMBER, "\\.[0-9]([']?+[0-9]++)*+"
         + opt(EXPONENT) + opt(UD_SUFFIX)))
       .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+" + EXPONENT + opt(UD_SUFFIX)))
-      .withChannel(regexp(CxxTokenType.NUMBER, HEX_PREFIX + HEXDIGIT_SEQUENCE 
+      .withChannel(regexp(CxxTokenType.NUMBER, HEX_PREFIX + HEXDIGIT_SEQUENCE
         + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
-      .withChannel(regexp(CxxTokenType.NUMBER, HEX_PREFIX + HEXDIGIT_SEQUENCE + "." 
+      .withChannel(regexp(CxxTokenType.NUMBER, HEX_PREFIX + HEXDIGIT_SEQUENCE + "."
         + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
-      .withChannel(regexp(CxxTokenType.NUMBER, HEX_PREFIX + opt(HEXDIGIT_SEQUENCE) + "." + HEXDIGIT_SEQUENCE 
+      .withChannel(regexp(CxxTokenType.NUMBER, HEX_PREFIX + opt(HEXDIGIT_SEQUENCE) + "." + HEXDIGIT_SEQUENCE
         + BINARY_EXPONENT + opt(UD_SUFFIX))) // since C++17
       // C++ Standard, Section 2.14.2 "Integer literals"
       .withChannel(regexp(CxxTokenType.NUMBER, "[1-9]([']?+[0-9]++)*+" + opt(UD_SUFFIX))) // Decimal literals
@@ -92,5 +89,8 @@ public final class CppLexer {
       .withChannel(new UnknownCharacterChannel());
 
     return builder.build();
+  }
+
+  private CppLexer() {
   }
 }

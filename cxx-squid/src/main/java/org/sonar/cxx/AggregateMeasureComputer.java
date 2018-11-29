@@ -28,61 +28,22 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 /**
- * SonarQube supports hierarchical multi-module projects. It is not enough to
- * calculate a metric M for the file and/or for the corresponding module. The
- * same metric has to be calculated/propagated/aggregated for all parent modules
- * and the root project.
+ * SonarQube supports hierarchical multi-module projects. It is not enough to calculate a metric M for the file and/or
+ * for the corresponding module. The same metric has to be calculated/propagated/aggregated for all parent modules and
+ * the root project.
  *
- * This {@link MeasureComputer} is executed on Compute Engine (server-side). For
- * each metric M in the given set of metrics the sum on the hierarchy level L is
- * calculated. The sum is persisted as aggregated metric M on the level (L-1).
+ * This {@link MeasureComputer} is executed on Compute Engine (server-side). For each metric M in the given set of
+ * metrics the sum on the hierarchy level L is calculated. The sum is persisted as aggregated metric M on the level
+ * (L-1).
  *
- * Some CXX sensors (see CxxReportSensor) can create issues on the whole module.
- * Such sensors have to aggregate the corresponding module Metric by themselves.
- * {@link AggregateMeasureComputer} doesn't recalculate already aggregated
+ * Some CXX sensors (see CxxReportSensor) can create issues on the whole module. Such sensors have to aggregate the
+ * corresponding module Metric by themselves. {@link AggregateMeasureComputer} doesn't recalculate already aggregated
  * metrics.
  *
  */
 public class AggregateMeasureComputer implements MeasureComputer {
 
   private static final Logger LOG = Loggers.get(AggregateMeasureComputer.class);
-
-  private final String[] metricKeys;
-
-  public AggregateMeasureComputer(String languageKey, String languagePropsKey) {
-    final Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap(languageKey, languagePropsKey);
-
-    metricKeys = new String[] {
-        // public API
-        metrics.get(CxxMetricsFactory.Key.PUBLIC_API_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY).key(),
-
-        // sensors
-        metrics.get(CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.CLANG_TIDY_SENSOR_ISSUES_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.VC_SENSOR_ISSUES_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.GCC_SENSOR_ISSUES_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.DRMEMORY_SENSOR_ISSUES_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.OTHER_SENSOR_ISSUES_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.PCLINT_SENSOR_ISSUES_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.RATS_SENSOR_ISSUES_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.SQUID_SENSOR_ISSUES_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.VALGRIND_SENSOR_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.VERAXX_SENSOR_KEY).key(),
-
-        // complexity
-        metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_KEY).key(),
-
-        metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY).key(),
-        metrics.get(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY).key(), };
-  }
-
-  public String[] getAggregatedMetrics() {
-    return metricKeys.clone();
-  }
 
   private static void compute(MeasureComputerContext context, String metricKey) {
     final Component component = context.getComponent();
@@ -93,7 +54,7 @@ public class AggregateMeasureComputer implements MeasureComputer {
     final Measure existingMeasure = context.getMeasure(metricKey);
     if (existingMeasure != null) {
       LOG.debug("Component {}: measure {} already calculated, value = {}", component.getKey(), metricKey,
-          existingMeasure.getIntValue());
+        existingMeasure.getIntValue());
       return;
     }
     Iterable<Measure> childrenMeasures = context.getChildrenMeasures(metricKey);
@@ -109,6 +70,40 @@ public class AggregateMeasureComputer implements MeasureComputer {
     }
     LOG.info("Component {}: add measure {}, value {}", component.getKey(), metricKey, aggregation);
     context.addMeasure(metricKey, aggregation);
+  }
+
+  private final String[] metricKeys;
+
+  public AggregateMeasureComputer(String languageKey, String languagePropsKey) {
+    final Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap(languageKey, languagePropsKey);
+
+    metricKeys = new String[]{
+      // public API
+      metrics.get(CxxMetricsFactory.Key.PUBLIC_API_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY).key(),
+      // sensors
+      metrics.get(CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.CLANG_TIDY_SENSOR_ISSUES_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.VC_SENSOR_ISSUES_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.GCC_SENSOR_ISSUES_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.DRMEMORY_SENSOR_ISSUES_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.OTHER_SENSOR_ISSUES_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.PCLINT_SENSOR_ISSUES_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.RATS_SENSOR_ISSUES_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.SQUID_SENSOR_ISSUES_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.VALGRIND_SENSOR_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.VERAXX_SENSOR_KEY).key(),
+      // complexity
+      metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY).key(),
+      metrics.get(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY).key(),};
+  }
+
+  public String[] getAggregatedMetrics() {
+    return metricKeys.clone();
   }
 
   @Override

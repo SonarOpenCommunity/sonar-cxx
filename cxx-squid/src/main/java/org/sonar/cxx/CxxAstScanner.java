@@ -59,9 +59,6 @@ import org.sonar.squidbridge.metrics.LinesVisitor;
 
 public final class CxxAstScanner {
 
-  private CxxAstScanner() {
-  }
-
   /**
    * Helper method for testing checks without having to deploy them on a Sonar instance.
    *
@@ -253,5 +250,7 @@ public final class CxxAstScanner {
     // Didn't find any intersection. Fall back to straight concatenation.
     return a + b;
   }
-}
 
+  private CxxAstScanner() {
+  }
+}

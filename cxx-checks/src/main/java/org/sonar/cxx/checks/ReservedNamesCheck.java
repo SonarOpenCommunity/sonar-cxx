@@ -52,9 +52,8 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String[] keywords = CxxKeyword.keywordValues();
-  private Charset charset = StandardCharsets.UTF_8;
   private static final Pattern DEFINE_DECLARATION_PATTERN = Pattern.compile("^\\s*#define\\s+([^\\s(]+).*$");
-
+  private Charset charset = StandardCharsets.UTF_8;
 
   @Override
   public void visitFile(AstNode astNode) {

@@ -27,9 +27,6 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 
 public class CheckUtils {
 
-  private CheckUtils() {
-  }
-
   public static boolean isIfStatement(AstNode node) {
     if (node.is(CxxGrammarImpl.selectionStatement)) {
       return node.getToken().getType().equals(CxxKeyword.IF);
@@ -55,6 +52,9 @@ public class CheckUtils {
       return node.getToken().getType().equals(GenericTokenType.IDENTIFIER);
     }
     return false;
+  }
+
+  private CheckUtils() {
   }
 
 }

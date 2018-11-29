@@ -63,20 +63,6 @@ public class CustomCxxRulesDefinitionTest {
     }
   }
 
-  @Rule(
-    key = RULE_KEY,
-    name = RULE_NAME,
-    description = "desc",
-    tags = {Tag.BUG})
-  public class MyCustomRule extends SquidCheck<Grammar> {
-
-    @RuleProperty(
-      key = "customParam",
-      description = "Custom parameter",
-      defaultValue = "value")
-    public String customParam = "value";
-  }
-
   public static class MyCustomPlSqlRulesDefinition extends CustomCxxRulesDefinition {
 
     @Override
@@ -100,6 +86,20 @@ public class CustomCxxRulesDefinitionTest {
     public CxxLanguage getLanguage() {
       return LANGUAGE;
     }
+  }
+
+  @Rule(
+    key = RULE_KEY,
+    name = RULE_NAME,
+    description = "desc",
+    tags = {Tag.BUG})
+  public class MyCustomRule extends SquidCheck<Grammar> {
+
+    @RuleProperty(
+      key = "customParam",
+      description = "Custom parameter",
+      defaultValue = "value")
+    public String customParam = "value";
   }
 
 }

@@ -44,12 +44,11 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(TestwellCtcTxtParser.class);
 
-  private Scanner scanner;
-
   private static final int FROM_START = 0;
   private static final int CONDS_FALSE = 1;
   private static final int CONDS_TRUE = 2;
   private static final int LINE_NR_GROUP = 3;
+  private Scanner scanner;
 
   public TestwellCtcTxtParser() {
     // no operation but necessary for list of coverage parsers

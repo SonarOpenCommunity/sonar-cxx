@@ -41,22 +41,6 @@ import org.sonar.squidbridge.checks.SquidCheck;
 @SqaleConstantRemediation("5min")
 public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
 
-  @Override
-  public void init() {
-    subscribeTo(CxxGrammarImpl.selectionStatement);
-  }
-
-  @Override
-  public void visitNode(AstNode node) {
-    if (!hasElseClause(node) && !hasDeclaration(node)) {
-      AstNode enclosingIfStatement = getEnclosingIfStatement(node);
-      if (enclosingIfStatement != null && !hasElseClause(enclosingIfStatement)
-        && hasSingleTrueStatement(enclosingIfStatement) && !hasDeclaration(enclosingIfStatement)) {
-        getContext().createLineViolation(this, "Merge this if statement with the enclosing one.", node);
-      }
-    }
-  }
-
   private static boolean hasElseClause(AstNode node) {
     return node.hasDirectChildren(CxxKeyword.ELSE);
   }
@@ -93,6 +77,22 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
     return statement.hasDirectChildren(CxxGrammarImpl.compoundStatement)
       ? statement.getFirstChild(CxxGrammarImpl.compoundStatement).getFirstChild(CxxGrammarImpl.statementSeq)
         .getChildren().size() == 1 : true;
+  }
+
+  @Override
+  public void init() {
+    subscribeTo(CxxGrammarImpl.selectionStatement);
+  }
+
+  @Override
+  public void visitNode(AstNode node) {
+    if (!hasElseClause(node) && !hasDeclaration(node)) {
+      AstNode enclosingIfStatement = getEnclosingIfStatement(node);
+      if (enclosingIfStatement != null && !hasElseClause(enclosingIfStatement)
+        && hasSingleTrueStatement(enclosingIfStatement) && !hasDeclaration(enclosingIfStatement)) {
+        getContext().createLineViolation(this, "Merge this if statement with the enclosing one.", node);
+      }
+    }
   }
 
 }

@@ -80,6 +80,294 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
   private static final String TOKEN_OVERRIDE = "override";
 
+  private static boolean isTypedef(AstNode declaratorList) {
+    AstNode simpleDeclSpezifierSeq = declaratorList.getPreviousSibling();
+    if (simpleDeclSpezifierSeq != null) {
+      AstNode firstDeclSpecifier = simpleDeclSpezifierSeq.getFirstChild(CxxGrammarImpl.declSpecifier);
+      if (firstDeclSpecifier != null && firstDeclSpecifier.getToken().getType().equals(CxxKeyword.TYPEDEF)) {
+        AstNode classSpefifier = firstDeclSpecifier.getNextSibling();
+        if (classSpefifier != null) {
+          TokenType type = classSpefifier.getToken().getType();
+          if (type.equals(CxxKeyword.STRUCT)
+            || type.equals(CxxKeyword.CLASS)
+            || type.equals(CxxKeyword.UNION)
+            || type.equals(CxxKeyword.ENUM)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  private static boolean isFriendDeclarationList(AstNode declaratorList) {
+    AstNode simpleDeclNode = declaratorList
+      .getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
+
+    if (simpleDeclNode == null) {
+      LOG.warn("No simple declaration found for declarator list at {}",
+        declaratorList.getTokenLine());
+      return false;
+    }
+
+    AstNode declSpecifierSeq = simpleDeclNode
+      .getFirstChild(CxxGrammarImpl.declSpecifierSeq);
+
+    if (declSpecifierSeq == null) {
+      return false;
+    }
+
+    List<AstNode> declSpecifiers = declSpecifierSeq
+      .getChildren(CxxGrammarImpl.declSpecifier);
+
+    for (AstNode declSpecifier : declSpecifiers) {
+      AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
+      if (friendNode != null) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private static AstNode getTypedefNode(AstNode classSpecifier) {
+    AstNode declSpecifier = classSpecifier.getFirstAncestor(CxxGrammarImpl.declSpecifier);
+    if (declSpecifier != null) {
+      declSpecifier = declSpecifier.getPreviousSibling();
+      if (declSpecifier != null) {
+        AstNode typedef = declSpecifier.getFirstChild();
+        if (typedef != null && typedef.getToken().getType().equals(CxxKeyword.TYPEDEF)) {
+          return typedef;
+        }
+      }
+    }
+    return null;
+  }
+
+  private static boolean isFriendMemberDeclaration(AstNode memberDeclaration) {
+    AstNode simpleDeclNode = memberDeclaration
+      .getFirstDescendant(CxxGrammarImpl.simpleDeclaration);
+
+    if (simpleDeclNode == null) {
+      LOG.warn("No simple declaration found for declarator list at {}",
+        memberDeclaration.getTokenLine());
+      return false;
+    }
+
+    AstNode declSpecifierSeq = simpleDeclNode
+      .getFirstChild(CxxGrammarImpl.declSpecifierSeq);
+
+    if (declSpecifierSeq != null) {
+      List<AstNode> declSpecifiers = declSpecifierSeq
+        .getChildren(CxxGrammarImpl.declSpecifier);
+
+      for (AstNode declSpecifier : declSpecifiers) {
+        AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
+        if (friendNode != null) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private static boolean isDefaultOrDeleteFunctionBody(AstNode functionBodyNode) {
+    boolean defaultOrDelete = false;
+    List<AstNode> functionBody = functionBodyNode.getChildren();
+
+    // look for exact sub AST
+    if ((functionBody.size() == 3)
+      && functionBody.get(0).is(CxxPunctuator.ASSIGN)
+      && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
+
+      AstNode bodyType = functionBody.get(1);
+
+      if (bodyType.is(CxxKeyword.DELETE)
+        || bodyType.is(CxxKeyword.DEFAULT)) {
+        defaultOrDelete = true;
+      }
+    }
+    return defaultOrDelete;
+  }
+
+  private static boolean isOverriddenMethod(AstNode memberDeclarator) {
+    List<AstNode> modifiers = memberDeclarator.getDescendants(CxxGrammarImpl.virtSpecifier);
+
+    for (AstNode modifier : modifiers) {
+      AstNode modifierId = modifier.getFirstChild();
+
+      if (TOKEN_OVERRIDE.equals(modifierId.getTokenValue())) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  // XXX may go to a utility class
+  private static String getOperatorId(AstNode operatorFunctionId) {
+
+    StringBuilder builder = new StringBuilder(
+      operatorFunctionId.getTokenValue());
+    AstNode operator = operatorFunctionId
+      .getFirstDescendant(CxxGrammarImpl.overloadableOperator);
+
+    if (operator != null) {
+
+      AstNode opNode = operator.getFirstChild();
+      while (opNode != null) {
+        builder.append(opNode.getTokenValue());
+        opNode = opNode.getNextSibling();
+      }
+    }
+
+    return builder.toString();
+  }
+
+  private static List<Token> getDeclaratorInlineComment(AstNode declarator) {
+    List<Token> comments;
+
+    // inline comments are attached to the next AST node (not sibling,
+    // because the last attribute inline comment is attached to the next
+    // node of the parent)
+    AstNode next = declarator.getNextAstNode();
+
+    // inline documentation may be on the next definition token
+    // or next curly brace
+    if (next != null) {
+      // discard COMMA and SEMICOLON
+      if (next.getToken().getType().equals(CxxPunctuator.COMMA)
+        || next.getToken().getType().equals(CxxPunctuator.SEMICOLON)) {
+        next = next.getNextAstNode();
+      }
+
+      comments = getInlineDocumentation(next.getToken(),
+        declarator.getTokenLine());
+    } else {
+      // could happen on parse error ?
+      comments = new ArrayList<>();
+    }
+
+    return comments;
+  }
+
+  private static boolean isPublicApiMember(AstNode node) {
+    AstNode access = node;
+
+    // retrieve the accessSpecifier
+    do {
+      access = access.getPreviousAstNode();
+    } while (access != null
+      && !access.getType().equals(CxxGrammarImpl.accessSpecifier));
+
+    if (access != null) {
+      return access.getToken().getType().equals(CxxKeyword.PUBLIC)
+        || access.getToken().getType().equals(CxxKeyword.PROTECTED);
+    } else {
+      AstNode classSpecifier = node
+        .getFirstAncestor(CxxGrammarImpl.classSpecifier);
+
+      if (classSpecifier != null) {
+
+        AstNode enclosingSpecifierNode = classSpecifier
+          .getFirstDescendant(CxxKeyword.STRUCT, CxxKeyword.CLASS,
+            CxxKeyword.ENUM, CxxKeyword.UNION);
+
+        if (enclosingSpecifierNode != null) {
+          TokenType type = enclosingSpecifierNode.getToken().getType();
+          if (type.equals(CxxKeyword.STRUCT) || type.equals(CxxKeyword.UNION)) {
+            // struct and union members have public access, thus access level
+            // is the access level of the enclosing classSpecifier
+            return isPublicApiMember(classSpecifier);
+
+          } else if (type.equals(CxxKeyword.CLASS)) {
+            // default access in classes is private
+            return false;
+
+          } else {
+            LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(),
+              enclosingSpecifierNode.getTokenLine());
+            return false;
+          }
+        } else {
+          LOG.error("isPublicApiMember: failed to get enclosing classSpecifier for node at {}", node.getTokenLine());
+          return false;
+        }
+      }
+
+      if (node.is(CxxGrammarImpl.functionDefinition)) {
+        // filter out function definitions with nested name specifier: should be documented inside of class
+        AstNode declarator = node.getFirstChild(CxxGrammarImpl.declarator);
+        if ((declarator != null) && declarator.hasDescendant(CxxGrammarImpl.nestedNameSpecifier)) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+  }
+
+  /**
+   * Check if inline Doxygen documentation is attached to the given token at specified line
+   *
+   * @param token the token to inspect
+   * @param line line of the inlined documentation
+   * @return true if documentation is found for specified line, false otherwise
+   */
+  private static List<Token> getInlineDocumentation(Token token, int line) {
+    List<Token> comments = new ArrayList<>();
+
+    for (Trivia trivia : token.getTrivia()) {
+      if (trivia.isComment()) {
+        Token triviaToken = trivia.getToken();
+        if ((triviaToken != null)
+          && (triviaToken.getLine() == line)
+          && (isDoxygenInlineComment(triviaToken.getValue()))) {
+          comments.add(triviaToken);
+          if (LOG.isTraceEnabled()) {
+            LOG.trace("Inline doc: " + triviaToken.getValue());
+          }
+        }
+      }
+    }
+    return comments;
+  }
+
+  private static List<Token> getBlockDocumentation(AstNode node) {
+    List<Token> commentTokens = new ArrayList<>();
+
+    Token token = node.getToken();
+    for (Trivia trivia : token.getTrivia()) {
+      if (trivia.isComment()) {
+        Token triviaToken = trivia.getToken();
+        if (triviaToken != null) {
+          String comment = triviaToken.getValue();
+          if (LOG.isTraceEnabled()) {
+            LOG.trace("Doc: {}\n", comment);
+          }
+          if (isDoxygenCommentBlock(comment)
+            && !isDoxygenInlineComment(comment)) {
+            commentTokens.add(triviaToken);
+          }
+        }
+      }
+    }
+
+    return commentTokens;
+  }
+
+  private static boolean isDoxygenInlineComment(String comment) {
+
+    return comment.startsWith("/*!<") || comment.startsWith("/**<")
+      || comment.startsWith("//!<") || comment.startsWith("///<");
+  }
+
+  private static boolean isDoxygenCommentBlock(String comment) {
+
+    return comment.startsWith("/**") || comment.startsWith("/*!")
+      || comment.startsWith("///") || comment.startsWith("//!");
+  }
+
   private List<String> headerFileSuffixes;
 
   private boolean skipFile = true;
@@ -223,56 +511,6 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     }
   }
 
-  private static boolean isTypedef(AstNode declaratorList) {
-    AstNode simpleDeclSpezifierSeq = declaratorList.getPreviousSibling();
-    if (simpleDeclSpezifierSeq != null) {
-      AstNode firstDeclSpecifier = simpleDeclSpezifierSeq.getFirstChild(CxxGrammarImpl.declSpecifier);
-      if (firstDeclSpecifier != null && firstDeclSpecifier.getToken().getType().equals(CxxKeyword.TYPEDEF)) {
-        AstNode classSpefifier = firstDeclSpecifier.getNextSibling();
-        if (classSpefifier != null) {
-          TokenType type = classSpefifier.getToken().getType();
-          if (type.equals(CxxKeyword.STRUCT)
-            || type.equals(CxxKeyword.CLASS)
-            || type.equals(CxxKeyword.UNION)
-            || type.equals(CxxKeyword.ENUM)) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-
-  private static boolean isFriendDeclarationList(AstNode declaratorList) {
-    AstNode simpleDeclNode = declaratorList
-      .getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
-
-    if (simpleDeclNode == null) {
-      LOG.warn("No simple declaration found for declarator list at {}",
-        declaratorList.getTokenLine());
-      return false;
-    }
-
-    AstNode declSpecifierSeq = simpleDeclNode
-      .getFirstChild(CxxGrammarImpl.declSpecifierSeq);
-
-    if (declSpecifierSeq == null) {
-      return false;
-    }
-
-    List<AstNode> declSpecifiers = declSpecifierSeq
-      .getChildren(CxxGrammarImpl.declSpecifier);
-
-    for (AstNode declSpecifier : declSpecifiers) {
-      AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
-      if (friendNode != null) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   private void visitSingleDeclarator(AstNode declaration,
     AstNode declarator) {
 
@@ -332,20 +570,6 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
         visitPublicApi(declaratorId, declaratorId.getTokenValue(), comments);
       }
     }
-  }
-
-  private static AstNode getTypedefNode(AstNode classSpecifier) {
-    AstNode declSpecifier = classSpecifier.getFirstAncestor(CxxGrammarImpl.declSpecifier);
-    if (declSpecifier != null) {
-      declSpecifier = declSpecifier.getPreviousSibling();
-      if (declSpecifier != null) {
-        AstNode typedef = declSpecifier.getFirstChild();
-        if (typedef != null && typedef.getToken().getType().equals(CxxKeyword.TYPEDEF)) {
-          return typedef;
-        }
-      }
-    }
-    return null;
   }
 
   private void visitClassSpecifier(AstNode classSpecifier) {
@@ -444,33 +668,6 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     }
   }
 
-  private static boolean isFriendMemberDeclaration(AstNode memberDeclaration) {
-    AstNode simpleDeclNode = memberDeclaration
-      .getFirstDescendant(CxxGrammarImpl.simpleDeclaration);
-
-    if (simpleDeclNode == null) {
-      LOG.warn("No simple declaration found for declarator list at {}",
-        memberDeclaration.getTokenLine());
-      return false;
-    }
-
-    AstNode declSpecifierSeq = simpleDeclNode
-      .getFirstChild(CxxGrammarImpl.declSpecifierSeq);
-
-    if (declSpecifierSeq != null) {
-      List<AstNode> declSpecifiers = declSpecifierSeq
-        .getChildren(CxxGrammarImpl.declSpecifier);
-
-      for (AstNode declSpecifier : declSpecifiers) {
-        AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
-        if (friendNode != null) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
   private void visitTemplateDeclaration(AstNode templateDeclaration) {
 
     if (isFriendMemberDeclaration(templateDeclaration.getParent())) {
@@ -512,39 +709,6 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
       visitMemberDeclarator(functionDef);
     }
-  }
-
-  private static boolean isDefaultOrDeleteFunctionBody(AstNode functionBodyNode) {
-    boolean defaultOrDelete = false;
-    List<AstNode> functionBody = functionBodyNode.getChildren();
-
-    // look for exact sub AST
-    if ((functionBody.size() == 3)
-      && functionBody.get(0).is(CxxPunctuator.ASSIGN)
-      && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
-
-      AstNode bodyType = functionBody.get(1);
-
-      if (bodyType.is(CxxKeyword.DELETE)
-        || bodyType.is(CxxKeyword.DEFAULT)) {
-        defaultOrDelete = true;
-      }
-    }
-    return defaultOrDelete;
-  }
-
-  private static boolean isOverriddenMethod(AstNode memberDeclarator) {
-    List<AstNode> modifiers = memberDeclarator.getDescendants(CxxGrammarImpl.virtSpecifier);
-
-    for (AstNode modifier : modifiers) {
-      AstNode modifierId = modifier.getFirstChild();
-
-      if (TOKEN_OVERRIDE.equals(modifierId.getTokenValue())) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   /**
@@ -724,170 +888,6 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
           comments);
       }
     }
-  }
-
-  // XXX may go to a utility class
-  private static String getOperatorId(AstNode operatorFunctionId) {
-
-    StringBuilder builder = new StringBuilder(
-      operatorFunctionId.getTokenValue());
-    AstNode operator = operatorFunctionId
-      .getFirstDescendant(CxxGrammarImpl.overloadableOperator);
-
-    if (operator != null) {
-
-      AstNode opNode = operator.getFirstChild();
-      while (opNode != null) {
-        builder.append(opNode.getTokenValue());
-        opNode = opNode.getNextSibling();
-      }
-    }
-
-    return builder.toString();
-  }
-
-  private static List<Token> getDeclaratorInlineComment(AstNode declarator) {
-    List<Token> comments;
-
-    // inline comments are attached to the next AST node (not sibling,
-    // because the last attribute inline comment is attached to the next
-    // node of the parent)
-    AstNode next = declarator.getNextAstNode();
-
-    // inline documentation may be on the next definition token
-    // or next curly brace
-    if (next != null) {
-      // discard COMMA and SEMICOLON
-      if (next.getToken().getType().equals(CxxPunctuator.COMMA)
-        || next.getToken().getType().equals(CxxPunctuator.SEMICOLON)) {
-        next = next.getNextAstNode();
-      }
-
-      comments = getInlineDocumentation(next.getToken(),
-        declarator.getTokenLine());
-    } else {
-      // could happen on parse error ?
-      comments = new ArrayList<>();
-    }
-
-    return comments;
-  }
-
-  private static boolean isPublicApiMember(AstNode node) {
-    AstNode access = node;
-
-    // retrieve the accessSpecifier
-    do {
-      access = access.getPreviousAstNode();
-    } while (access != null
-      && !access.getType().equals(CxxGrammarImpl.accessSpecifier));
-
-    if (access != null) {
-      return access.getToken().getType().equals(CxxKeyword.PUBLIC)
-        || access.getToken().getType().equals(CxxKeyword.PROTECTED);
-    } else {
-      AstNode classSpecifier = node
-        .getFirstAncestor(CxxGrammarImpl.classSpecifier);
-
-      if (classSpecifier != null) {
-
-        AstNode enclosingSpecifierNode = classSpecifier
-          .getFirstDescendant(CxxKeyword.STRUCT, CxxKeyword.CLASS,
-            CxxKeyword.ENUM, CxxKeyword.UNION);
-
-        if (enclosingSpecifierNode != null) {
-          TokenType type = enclosingSpecifierNode.getToken().getType();
-          if (type.equals(CxxKeyword.STRUCT) || type.equals(CxxKeyword.UNION)) {
-            // struct and union members have public access, thus access level
-            // is the access level of the enclosing classSpecifier
-            return isPublicApiMember(classSpecifier);
-
-          } else if (type.equals(CxxKeyword.CLASS)) {
-            // default access in classes is private
-            return false;
-
-          } else {
-            LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(),
-              enclosingSpecifierNode.getTokenLine());
-            return false;
-          }
-        } else {
-          LOG.error("isPublicApiMember: failed to get enclosing classSpecifier for node at {}", node.getTokenLine());
-          return false;
-        }
-      }
-
-      if (node.is(CxxGrammarImpl.functionDefinition)) {
-        // filter out function definitions with nested name specifier: should be documented inside of class
-        AstNode declarator = node.getFirstChild(CxxGrammarImpl.declarator);
-        if ((declarator != null) && declarator.hasDescendant(CxxGrammarImpl.nestedNameSpecifier)) {
-          return false;
-        }
-      }
-
-      return true;
-    }
-  }
-
-  /**
-   * Check if inline Doxygen documentation is attached to the given token at specified line
-   *
-   * @param token the token to inspect
-   * @param line line of the inlined documentation
-   * @return true if documentation is found for specified line, false otherwise
-   */
-  private static List<Token> getInlineDocumentation(Token token, int line) {
-    List<Token> comments = new ArrayList<>();
-
-    for (Trivia trivia : token.getTrivia()) {
-      if (trivia.isComment()) {
-        Token triviaToken = trivia.getToken();
-        if ((triviaToken != null)
-          && (triviaToken.getLine() == line)
-          && (isDoxygenInlineComment(triviaToken.getValue()))) {
-          comments.add(triviaToken);
-          if (LOG.isTraceEnabled()) {
-            LOG.trace("Inline doc: " + triviaToken.getValue());
-          }
-        }
-      }
-    }
-    return comments;
-  }
-
-  private static List<Token> getBlockDocumentation(AstNode node) {
-    List<Token> commentTokens = new ArrayList<>();
-
-    Token token = node.getToken();
-    for (Trivia trivia : token.getTrivia()) {
-      if (trivia.isComment()) {
-        Token triviaToken = trivia.getToken();
-        if (triviaToken != null) {
-          String comment = triviaToken.getValue();
-          if (LOG.isTraceEnabled()) {
-            LOG.trace("Doc: {}\n", comment);
-          }
-          if (isDoxygenCommentBlock(comment)
-            && !isDoxygenInlineComment(comment)) {
-            commentTokens.add(triviaToken);
-          }
-        }
-      }
-    }
-
-    return commentTokens;
-  }
-
-  private static boolean isDoxygenInlineComment(String comment) {
-
-    return comment.startsWith("/*!<") || comment.startsWith("/**<")
-      || comment.startsWith("//!<") || comment.startsWith("///<");
-  }
-
-  private static boolean isDoxygenCommentBlock(String comment) {
-
-    return comment.startsWith("/**") || comment.startsWith("/*!")
-      || comment.startsWith("///") || comment.startsWith("//!");
   }
 
   public final AbstractCxxPublicApiVisitor<G> withHeaderFileSuffixes(List<String> headerFileSuffixes) {

@@ -39,6 +39,29 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 public class BullseyeParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(BullseyeParser.class);
+
+  private static String ensureRefPathIsCorrect(@Nullable String refPath) {
+    if (refPath == null || refPath.isEmpty()) {
+      return refPath;
+    }
+    if (refPath.endsWith("\\") || refPath.endsWith("/")) {
+      return refPath.replace('\\', '/');
+    }
+    return refPath.replace('\\', '/') + "/";
+  }
+
+  /**
+   * @param path
+   * @param correctPath
+   * @return
+   */
+  private static String buildPath(List<String> path, String correctPath) {
+    String fileName = String.join(File.separator, path);
+    if (!(new File(fileName)).isAbsolute()) {
+      fileName = correctPath + fileName;
+    }
+    return PathUtils.sanitize(fileName);
+  }
   private String prevLine;
   private int totalconditions;
   private int totalcoveredconditions;
@@ -227,29 +250,6 @@ public class BullseyeParser extends CxxCoverageParser {
   @Override
   public String toString() {
     return getClass().getSimpleName();
-  }
-
-  private static String ensureRefPathIsCorrect(@Nullable String refPath) {
-    if (refPath == null || refPath.isEmpty()) {
-      return refPath;
-    }
-    if (refPath.endsWith("\\") || refPath.endsWith("/")) {
-      return refPath.replace('\\', '/');
-    }
-    return refPath.replace('\\', '/') + "/";
-  }
-
-  /**
-   * @param path
-   * @param correctPath
-   * @return
-   */
-  private static String buildPath(List<String> path, String correctPath) {
-    String fileName = String.join(File.separator, path);
-    if (!(new File(fileName)).isAbsolute()) {
-      fileName = correctPath + fileName;
-    }
-    return PathUtils.sanitize(fileName);
   }
 
 }

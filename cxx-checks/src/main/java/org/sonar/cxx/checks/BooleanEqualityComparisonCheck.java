@@ -39,6 +39,11 @@ import org.sonar.squidbridge.checks.SquidCheck;
 @SqaleConstantRemediation("5min")
 public class BooleanEqualityComparisonCheck extends SquidCheck<Grammar> {
 
+  private static boolean hasBooleanLiteralOperand(AstNode node) {
+    return node.hasDirectChildren(CxxGrammarImpl.LITERAL, CxxGrammarImpl.BOOL)
+      && node.hasDescendant(CxxKeyword.TRUE, CxxKeyword.FALSE);
+  }
+
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.equalityExpression);
@@ -52,11 +57,6 @@ public class BooleanEqualityComparisonCheck extends SquidCheck<Grammar> {
         "Remove the unnecessary boolean comparison to simplify this expression.",
         node);
     }
-  }
-
-  private static boolean hasBooleanLiteralOperand(AstNode node) {
-    return node.hasDirectChildren(CxxGrammarImpl.LITERAL, CxxGrammarImpl.BOOL)
-      && node.hasDescendant(CxxKeyword.TRUE, CxxKeyword.FALSE);
   }
 
 }

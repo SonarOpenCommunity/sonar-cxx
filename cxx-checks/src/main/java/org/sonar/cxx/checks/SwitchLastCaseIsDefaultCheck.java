@@ -50,6 +50,20 @@ public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
   private static final String DEFAULT_CASE_IS_NOT_LAST_MESSAGE = "Move this default to the end of the switch.";
   private static final String DEFAULT_CASE_TOKENVALUE = "default";
 
+  private static void getSwitchCases(List<AstNode> result, AstNode node) {
+    if (isSwitchStatement(node)) {
+      return;
+    }
+    if (node.is(CxxGrammarImpl.labeledStatement)) {
+      result.add(node);
+    }
+    if (node.hasChildren()) {
+      for (AstNode child : node.getChildren()) {
+        getSwitchCases(result, child);
+      }
+    }
+  }
+
   @Override
   public void init() {
     subscribeTo(CHECKED_TYPES);
@@ -85,20 +99,6 @@ public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
     }
 
     return cases;
-  }
-
-  private static void getSwitchCases(List<AstNode> result, AstNode node) {
-    if (isSwitchStatement(node)) {
-      return;
-    }
-    if (node.is(CxxGrammarImpl.labeledStatement)) {
-      result.add(node);
-    }
-    if (node.hasChildren()) {
-      for (AstNode child : node.getChildren()) {
-        getSwitchCases(result, child);
-      }
-    }
   }
 
 }

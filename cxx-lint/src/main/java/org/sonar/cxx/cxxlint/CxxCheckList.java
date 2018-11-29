@@ -29,9 +29,6 @@ public final class CxxCheckList {
 
   public static final String DEFAULT_PROFILE = "Sonar way";
 
-  private CxxCheckList() {
-  }
-
   public static List<Class> getChecks() {
     return new ArrayList<>(Arrays.asList(
       org.sonar.cxx.checks.BooleanEqualityComparisonCheck.class,
@@ -80,6 +77,9 @@ public final class CxxCheckList {
       org.sonar.cxx.checks.regex.TodoTagPresenceCheck.class,
       org.sonar.cxx.checks.xpath.XPathCheck.class
     ));
+  }
+
+  private CxxCheckList() {
   }
 
 }

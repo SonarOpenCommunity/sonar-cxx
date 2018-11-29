@@ -48,33 +48,6 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class MethodNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "^[A-Z][A-Za-z0-9]{2,30}$";
-  private Pattern pattern = null;
-
-  /**
-   * format
-   */
-  @RuleProperty(
-    key = "format",
-    defaultValue = "" + DEFAULT)
-  public String format = DEFAULT;
-
-  @Override
-  public void init() {
-    pattern = Pattern.compile(format);
-    subscribeTo(CxxGrammarImpl.functionDefinition);
-  }
-
-  @Override
-  public void visitNode(AstNode astNode) {
-    AstNode idNode = getMethodName(astNode);
-    if (idNode != null) {
-      String identifier = idNode.getTokenValue();
-      if (!pattern.matcher(identifier).matches()) {
-        getContext().createLineViolation(this,
-          "Rename method \"{0}\" to match the regular expression {1}.", idNode, identifier, format);
-      }
-    }
-  }
 
   private static @Nullable
   AstNode getMethodName(AstNode functionDefinition) {
@@ -143,6 +116,32 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
       }
     }
     return result;
+  }
+  private Pattern pattern = null;
+  /**
+   * format
+   */
+  @RuleProperty(
+    key = "format",
+    defaultValue = "" + DEFAULT)
+  public String format = DEFAULT;
+
+  @Override
+  public void init() {
+    pattern = Pattern.compile(format);
+    subscribeTo(CxxGrammarImpl.functionDefinition);
+  }
+
+  @Override
+  public void visitNode(AstNode astNode) {
+    AstNode idNode = getMethodName(astNode);
+    if (idNode != null) {
+      String identifier = idNode.getTokenValue();
+      if (!pattern.matcher(identifier).matches()) {
+        getContext().createLineViolation(this,
+          "Rename method \"{0}\" to match the regular expression {1}.", idNode, identifier, format);
+      }
+    }
   }
 
 }

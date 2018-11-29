@@ -29,25 +29,54 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 /**
- * SonarQube supports hierarchical multi-module projects. It is not enough to
- * calculate a metric M for the file and/or for the corresponding module. The
- * same metric has to be calculated/propagated/aggregated for all parent modules
- * and the root project.
+ * SonarQube supports hierarchical multi-module projects. It is not enough to calculate a metric M for the file and/or
+ * for the corresponding module. The same metric has to be calculated/propagated/aggregated for all parent modules and
+ * the root project.
  *
- * This {@link MeasureComputer} is executed on Compute Engine (server-side). For
- * a pair of existing metrics VALUE_METRIC_KEY and TOTAL_METRIC_KEY it
- * calculates the PERCENT_OF_VALUE_IN_TOTAL_METRIC. This calculation takes place
- * on each hierarchy level of SonarQube project.
+ * This {@link MeasureComputer} is executed on Compute Engine (server-side). For a pair of existing metrics
+ * VALUE_METRIC_KEY and TOTAL_METRIC_KEY it calculates the PERCENT_OF_VALUE_IN_TOTAL_METRIC. This calculation takes
+ * place on each hierarchy level of SonarQube project.
  *
- * REQUIREMENT: input metrics VALUE_METRIC_KEY and TOTAL_METRIC_KEY must be
- * already calculated and propagated/aggregated on each level.
- * AggregateMeasureComputer must have already run.
+ * REQUIREMENT: input metrics VALUE_METRIC_KEY and TOTAL_METRIC_KEY must be already calculated and propagated/aggregated
+ * on each level. AggregateMeasureComputer must have already run.
  *
  * See also {@link AggregateMeasureComputer}
  */
 public class DensityMeasureComputer implements MeasureComputer {
 
   private static final Logger LOG = Loggers.get(DensityMeasureComputer.class);
+
+  private static void compute(MeasureComputerContext context, String valueKey, String totalKey, String densityKey,
+    boolean calculateReminingPercent) {
+    final Component component = context.getComponent();
+
+    final Measure valueMeasure = context.getMeasure(valueKey);
+    final Measure totalMeasure = context.getMeasure(totalKey);
+    if (valueMeasure == null || totalMeasure == null) {
+      LOG.error("Component {}: not enough data to calcualte measure {}", context.getComponent().getKey(), densityKey);
+      return;
+    }
+    final Measure existingMeasure = context.getMeasure(densityKey);
+    if (existingMeasure != null) {
+      LOG.error("Component {}: measure {} already calculated, value = {}", component.getKey(), densityKey,
+        existingMeasure.getDoubleValue());
+      return;
+    }
+
+    int value = valueMeasure.getIntValue();
+    final int total = totalMeasure.getIntValue();
+    if (calculateReminingPercent) {
+      value = Integer.max(total - value, 0);
+    }
+
+    double density = 0.0;
+    if (total >= value && total != 0) {
+      density = (double) value / (double) total * 100.0;
+    }
+
+    LOG.info("Component {}: add measure {}, value {}", component.getKey(), densityKey, density);
+    context.addMeasure(densityKey, density);
+  }
 
   private final String publicAPIKey;
   private final String publicUndocumentedAPIKey;
@@ -87,10 +116,10 @@ public class DensityMeasureComputer implements MeasureComputer {
 
     locInFunctionsKey = metrics.get(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY).key();
 
-    inputMetrics = new String[] { publicAPIKey, publicUndocumentedAPIKey, CoreMetrics.FUNCTIONS_KEY, locInFunctionsKey,
-        complexFunctionsKey, complexFunctionsLocKey, bigFunctionsKey, bigFunctionsLocKey };
-    outputMetrics = new String[] { publicDocumentedAPIDensityKey, complexFunctionsPercKey, complexFunctionsLocPercKey,
-        bigFunctionsPercKey, bigFunctionsLocPercKey };
+    inputMetrics = new String[]{publicAPIKey, publicUndocumentedAPIKey, CoreMetrics.FUNCTIONS_KEY, locInFunctionsKey,
+      complexFunctionsKey, complexFunctionsLocKey, bigFunctionsKey, bigFunctionsLocKey};
+    outputMetrics = new String[]{publicDocumentedAPIDensityKey, complexFunctionsPercKey, complexFunctionsLocPercKey,
+      bigFunctionsPercKey, bigFunctionsLocPercKey};
   }
 
   public String[] getInputMetrics() {
@@ -113,38 +142,6 @@ public class DensityMeasureComputer implements MeasureComputer {
     compute(context, complexFunctionsLocKey, locInFunctionsKey, complexFunctionsLocPercKey, false);
     compute(context, bigFunctionsKey, CoreMetrics.FUNCTIONS_KEY, bigFunctionsPercKey, false);
     compute(context, bigFunctionsLocKey, locInFunctionsKey, bigFunctionsLocPercKey, false);
-  }
-
-  private static void compute(MeasureComputerContext context, String valueKey, String totalKey, String densityKey,
-      boolean calculateReminingPercent) {
-    final Component component = context.getComponent();
-
-    final Measure valueMeasure = context.getMeasure(valueKey);
-    final Measure totalMeasure = context.getMeasure(totalKey);
-    if (valueMeasure == null || totalMeasure == null) {
-      LOG.error("Component {}: not enough data to calcualte measure {}", context.getComponent().getKey(), densityKey);
-      return;
-    }
-    final Measure existingMeasure = context.getMeasure(densityKey);
-    if (existingMeasure != null) {
-      LOG.error("Component {}: measure {} already calculated, value = {}", component.getKey(), densityKey,
-          existingMeasure.getDoubleValue());
-      return;
-    }
-
-    int value = valueMeasure.getIntValue();
-    final int total = totalMeasure.getIntValue();
-    if (calculateReminingPercent) {
-      value = Integer.max(total - value, 0);
-    }
-
-    double density = 0.0;
-    if (total >= value && total != 0) {
-      density = (double) value / (double) total * 100.0;
-    }
-
-    LOG.info("Component {}: add measure {}, value {}", component.getKey(), densityKey, density);
-    context.addMeasure(densityKey, density);
   }
 
 }

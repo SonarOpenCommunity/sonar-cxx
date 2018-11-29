@@ -36,9 +36,10 @@ import org.sonar.squidbridge.measures.MetricDef;
 public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
   extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
+  public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
+
   private final MetricDef metric;
   private int lastTokenLine;
-  public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
   public CxxLinesOfCodeVisitor(MetricDef metric) {
     this.metric = metric;

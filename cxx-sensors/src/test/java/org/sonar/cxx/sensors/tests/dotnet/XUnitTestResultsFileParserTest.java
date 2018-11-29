@@ -23,7 +23,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-
 import java.io.File;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Rule;
@@ -35,10 +34,9 @@ import org.sonar.api.utils.log.LoggerLevel;
 
 public class XUnitTestResultsFileParserTest {
 
+  private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/xunit-reports/xunit/";
   @Rule
   public ExpectedException thrown = ExpectedException.none();
-
-  private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/xunit-reports/xunit/";
 
   @Rule
   public LogTester logTester = new LogTester();

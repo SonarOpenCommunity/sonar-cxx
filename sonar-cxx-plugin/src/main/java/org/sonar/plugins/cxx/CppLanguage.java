@@ -64,6 +64,13 @@ public class CppLanguage extends CxxLanguage {
   public static final String REPOSITORY_KEY = "cxx";
   public static final String DEFAULT_PROFILE = "Sonar way";
 
+  private static String[] createStringArray(String[] values, String defaultValues) {
+    if (values.length == 0) {
+      return defaultValues.split(",");
+    }
+    return values;
+  }
+
   private final String[] sourceSuffixes;
   private final String[] headerSuffixes;
   private final String[] fileSuffixes;
@@ -144,19 +151,12 @@ public class CppLanguage extends CxxLanguage {
       org.sonar.cxx.checks.regex.NoSonarCheck.class,
       org.sonar.cxx.checks.regex.TodoTagPresenceCheck.class,
       org.sonar.cxx.checks.xpath.XPathCheck.class
-      ));
+    ));
   }
 
   @Override
   public String getRepositoryKey() {
     return REPOSITORY_KEY;
-  }
-
-  private static String[] createStringArray(String[] values, String defaultValues) {
-    if (values.length == 0) {
-      return defaultValues.split(",");
-    }
-    return values;
   }
 
   private String[] mergeArrays(String[] array1, String[] array2) {

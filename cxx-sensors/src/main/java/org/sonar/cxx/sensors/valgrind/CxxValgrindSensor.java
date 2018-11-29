@@ -38,6 +38,16 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxValgrindSensor.class);
   public static final String REPORT_PATH_KEY = "valgrind.reportPath";
 
+  private static String createErrorMsg(ValgrindError error, ValgrindStack stack, int stackNr) {
+    StringBuilder errorMsg = new StringBuilder();
+    errorMsg.append(error.getText());
+    if (error.getStacks().size() > 1) {
+      errorMsg.append(" (Stack ").append(stackNr).append(")");
+    }
+    errorMsg.append("\n\n").append(stack);
+    return errorMsg.toString();
+  }
+
   /**
    * CxxValgrindSensor for Valgrind Sensor
    *
@@ -62,16 +72,6 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     LOG.debug("Parsing 'Valgrind' format");
     ValgrindReportParser parser = new ValgrindReportParser();
     saveErrors(context, parser.processReport(report));
-  }
-
-  private static String createErrorMsg(ValgrindError error, ValgrindStack stack, int stackNr) {
-    StringBuilder errorMsg = new StringBuilder();
-    errorMsg.append(error.getText());
-    if (error.getStacks().size() > 1) {
-      errorMsg.append(" (Stack ").append(stackNr).append(")");
-    }
-    errorMsg.append("\n\n").append(stack);
-    return errorMsg.toString();
   }
 
   private Boolean frameIsInProject(SensorContext context, ValgrindFrame frame) {

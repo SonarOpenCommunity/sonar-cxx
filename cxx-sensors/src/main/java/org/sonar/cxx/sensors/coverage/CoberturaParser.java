@@ -39,8 +39,33 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 public class CoberturaParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(CoberturaParser.class);
-  private Optional<Path> baseDir;
   private static final Pattern CONDITION_PATTERN = Pattern.compile("\\((.*?)\\)");
+
+  private static void collectFileData(SMInputCursor clazz, CoverageMeasures builder) throws XMLStreamException {
+    SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
+
+    while (line.getNext() != null) {
+      int lineId = Integer.parseInt(line.getAttrValue("number"));
+      long noHits = Long.parseLong(line.getAttrValue("hits"));
+      if (noHits > Integer.MAX_VALUE) {
+        LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by Sonar ({})",
+          noHits, Integer.MAX_VALUE);
+        noHits = Integer.MAX_VALUE;
+      }
+      builder.setHits(lineId, (int) noHits);
+
+      String isBranch = line.getAttrValue("branch");
+      String text = line.getAttrValue("condition-coverage");
+      if (text != null && "true".equals(isBranch) && !text.trim().isEmpty()) {
+        Matcher m = CONDITION_PATTERN.matcher(text);
+        if (m.find()) {
+          String[] conditions = m.group(1).split("/");
+          builder.setConditions(lineId, Integer.parseInt(conditions[1]), Integer.parseInt(conditions[0]));
+        }
+      }
+    }
+  }
+  private Optional<Path> baseDir;
 
   public CoberturaParser() {
     // no operation but necessary for list of coverage parsers
@@ -79,7 +104,7 @@ public class CoberturaParser extends CxxCoverageParser {
   }
 
   private void collectPackageMeasures(SMInputCursor pack, Map<String, CoverageMeasures> coverageData)
-      throws XMLStreamException {
+    throws XMLStreamException {
     while (pack.getNext() != null) {
       collectFileMeasures(pack.descendantElementCursor("class"), coverageData);
     }
@@ -94,7 +119,7 @@ public class CoberturaParser extends CxxCoverageParser {
   }
 
   private void collectFileMeasures(SMInputCursor clazz, Map<String, CoverageMeasures> coverageData)
-      throws XMLStreamException {
+    throws XMLStreamException {
     while (clazz.getNext() != null) {
       String normalPath = buildPath(clazz.getAttrValue("filename"));
       CoverageMeasures builder = coverageData.get(normalPath);
@@ -103,31 +128,6 @@ public class CoberturaParser extends CxxCoverageParser {
         coverageData.put(normalPath, builder);
       }
       collectFileData(clazz, builder);
-    }
-  }
-
-  private static void collectFileData(SMInputCursor clazz, CoverageMeasures builder) throws XMLStreamException {
-    SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
-
-    while (line.getNext() != null) {
-      int lineId = Integer.parseInt(line.getAttrValue("number"));
-      long noHits = Long.parseLong(line.getAttrValue("hits"));
-      if (noHits > Integer.MAX_VALUE) {
-        LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by Sonar ({})",
-          noHits, Integer.MAX_VALUE);
-        noHits = Integer.MAX_VALUE;
-      }
-      builder.setHits(lineId, (int) noHits);
-
-      String isBranch = line.getAttrValue("branch");
-      String text = line.getAttrValue("condition-coverage");
-      if (text != null && "true".equals(isBranch) && !text.trim().isEmpty()) {
-        Matcher m = CONDITION_PATTERN.matcher(text);
-        if (m.find()) {
-          String[] conditions = m.group(1).split("/");
-          builder.setConditions(lineId, Integer.parseInt(conditions[1]), Integer.parseInt(conditions[0]));
-        }
-      }
     }
   }
 

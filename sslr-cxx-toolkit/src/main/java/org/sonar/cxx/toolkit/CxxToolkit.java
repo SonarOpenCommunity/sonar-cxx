@@ -23,12 +23,12 @@ import org.sonar.sslr.toolkit.Toolkit;
 
 public final class CxxToolkit {
 
-  private CxxToolkit() {
-  }
-
   public static void main(String[] args) {
     Toolkit toolkit = new Toolkit("SSLR :: Cxx :: Toolkit", new CxxConfigurationModel());
     toolkit.run();
+  }
+
+  private CxxToolkit() {
   }
 
 }

@@ -30,6 +30,20 @@ import org.sonar.cxx.api.CxxTokenType;
 
 public class JoinStringsPreprocessor extends Preprocessor {
 
+  private static String stripQuotes(String str) {
+    return str.substring(str.indexOf('"') + 1, str.lastIndexOf('"'));
+  }
+
+  private static String concatenateStringLiterals(List<Token> concatenatedTokens) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("\"");
+    for (Token t : concatenatedTokens) {
+      sb.append(stripQuotes(t.getValue()));
+    }
+    sb.append("\"");
+    return sb.toString();
+  }
+
   @Override
   public PreprocessorAction process(List<Token> tokens) {
 
@@ -54,24 +68,10 @@ public class JoinStringsPreprocessor extends Preprocessor {
     Trivia trivia = Trivia.createSkippedText(concatenatedTokens);
     Token firstToken = tokens.get(0);
     Token tokenToInject = Token.builder().setLine(firstToken.getLine()).setColumn(firstToken.getColumn())
-        .setURI(firstToken.getURI()).setType(CxxTokenType.STRING).setValueAndOriginalValue(concatenatedLiteral)
-        .setGeneratedCode(isGenerated).build();
+      .setURI(firstToken.getURI()).setType(CxxTokenType.STRING).setValueAndOriginalValue(concatenatedLiteral)
+      .setGeneratedCode(isGenerated).build();
 
     return new PreprocessorAction(nrOfAdjacentStringLiterals, Collections.singletonList(trivia),
-        Collections.singletonList(tokenToInject));
-  }
-
-  private static String stripQuotes(String str) {
-    return str.substring(str.indexOf('"') + 1, str.lastIndexOf('"'));
-  }
-
-  private static String concatenateStringLiterals(List<Token> concatenatedTokens) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("\"");
-    for (Token t : concatenatedTokens) {
-      sb.append(stripQuotes(t.getValue()));
-    }
-    sb.append("\"");
-    return sb.toString();
+      Collections.singletonList(tokenToInject));
   }
 }

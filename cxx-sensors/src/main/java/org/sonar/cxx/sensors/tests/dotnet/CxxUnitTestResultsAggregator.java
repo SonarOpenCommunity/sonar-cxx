@@ -23,7 +23,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-
 import java.io.File;
 import org.sonar.api.batch.ScannerSide;
 import org.sonar.api.utils.log.Logger;
@@ -36,45 +35,6 @@ import org.sonar.api.utils.log.Loggers;
 public class CxxUnitTestResultsAggregator {
 
   private static final Logger LOG = Loggers.get(CxxUnitTestResultsAggregator.class);
-  private final VisualStudioTestResultsFileParser visualStudioTestResultsFileParser;
-  private final XUnitTestResultsFileParser xunitTestResultsFileParser;
-  private final NUnitTestResultsFileParser nunitTestResultsFileParser;
-
-  /**
-   * CxxUnitTestResultsAggregator
-   * @param language C or C++
-   * @param settings SQ Configuration
-   */
-  public CxxUnitTestResultsAggregator() {
-    this(new VisualStudioTestResultsFileParser(), new XUnitTestResultsFileParser(), new NUnitTestResultsFileParser());
-  }
-
-  CxxUnitTestResultsAggregator(VisualStudioTestResultsFileParser visualStudioTestResultsFileParser,
-      XUnitTestResultsFileParser xunitTestResultsFileParser, NUnitTestResultsFileParser nunitTestResultsFileParser) {
-    this.visualStudioTestResultsFileParser = visualStudioTestResultsFileParser;
-    this.xunitTestResultsFileParser = xunitTestResultsFileParser;
-    this.nunitTestResultsFileParser = nunitTestResultsFileParser;
-  }
-
-  UnitTestResults aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, UnitTestResults unitTestResults,
-      UnitTestConfiguration unitTestConf) {
-    if (unitTestConf.hasVisualStudioTestResultsFile()) {
-      aggregate(wildcardPatternFileProvider, unitTestConf.getVisualStudioTestResultsFiles(),
-          visualStudioTestResultsFileParser, unitTestResults);
-    }
-
-    if (unitTestConf.hasXUnitTestResultsFile()) {
-      aggregate(wildcardPatternFileProvider, unitTestConf.getXUnitTestResultsFiles(), xunitTestResultsFileParser,
-          unitTestResults);
-    }
-
-    if (unitTestConf.hasNUnitTestResultsFile()) {
-      aggregate(wildcardPatternFileProvider, unitTestConf.getNUnitTestResultsFiles(), nunitTestResultsFileParser,
-          unitTestResults);
-    }
-
-    return unitTestResults;
-  }
 
   private static void aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, String[] reportPaths,
     UnitTestResultsParser parser, UnitTestResults unitTestResults) {
@@ -87,4 +47,45 @@ public class CxxUnitTestResultsAggregator {
       }
     }
   }
+  private final VisualStudioTestResultsFileParser visualStudioTestResultsFileParser;
+  private final XUnitTestResultsFileParser xunitTestResultsFileParser;
+  private final NUnitTestResultsFileParser nunitTestResultsFileParser;
+
+  /**
+   * CxxUnitTestResultsAggregator
+   *
+   * @param language C or C++
+   * @param settings SQ Configuration
+   */
+  public CxxUnitTestResultsAggregator() {
+    this(new VisualStudioTestResultsFileParser(), new XUnitTestResultsFileParser(), new NUnitTestResultsFileParser());
+  }
+
+  CxxUnitTestResultsAggregator(VisualStudioTestResultsFileParser visualStudioTestResultsFileParser,
+    XUnitTestResultsFileParser xunitTestResultsFileParser, NUnitTestResultsFileParser nunitTestResultsFileParser) {
+    this.visualStudioTestResultsFileParser = visualStudioTestResultsFileParser;
+    this.xunitTestResultsFileParser = xunitTestResultsFileParser;
+    this.nunitTestResultsFileParser = nunitTestResultsFileParser;
+  }
+
+  UnitTestResults aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, UnitTestResults unitTestResults,
+    UnitTestConfiguration unitTestConf) {
+    if (unitTestConf.hasVisualStudioTestResultsFile()) {
+      aggregate(wildcardPatternFileProvider, unitTestConf.getVisualStudioTestResultsFiles(),
+        visualStudioTestResultsFileParser, unitTestResults);
+    }
+
+    if (unitTestConf.hasXUnitTestResultsFile()) {
+      aggregate(wildcardPatternFileProvider, unitTestConf.getXUnitTestResultsFiles(), xunitTestResultsFileParser,
+        unitTestResults);
+    }
+
+    if (unitTestConf.hasNUnitTestResultsFile()) {
+      aggregate(wildcardPatternFileProvider, unitTestConf.getNUnitTestResultsFiles(), nunitTestResultsFileParser,
+        unitTestResults);
+    }
+
+    return unitTestResults;
+  }
+
 }

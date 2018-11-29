@@ -35,12 +35,17 @@ public class CxxOtherRepository implements RulesDefinition {
   private static final Logger LOG = Loggers.get(CxxOtherRepository.class);
   private static final String KEY = "other";
   public static final String RULES_KEY = "other.rules";
-  private final RulesDefinitionXmlLoader xmlRuleLoader;
   private static final String NAME = "Other";
+
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+  private final RulesDefinitionXmlLoader xmlRuleLoader;
   private final CxxLanguage language;
 
   /**
    * CxxOtherRepository
+   *
    * @param xmlRuleLoader to load rules from XML file
    * @param language for C or C++
    */
@@ -49,14 +54,10 @@ public class CxxOtherRepository implements RulesDefinition {
     this.language = language;
   }
 
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
-  }
-
   @Override
   public void define(Context context) {
     NewRepository repository = context.createRepository(getRepositoryKey(language), this.language.getKey())
-        .setName(NAME);
+      .setName(NAME);
 
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
     for (String ruleDefs : this.language.getStringArrayOption(RULES_KEY)) {

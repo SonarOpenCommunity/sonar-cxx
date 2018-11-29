@@ -25,6 +25,10 @@ import org.sonar.sslr.channel.CodeReader;
 
 public class BackslashChannel extends Channel<Lexer> {
 
+  private static boolean isNewLine(char ch) {
+    return (ch == '\n') || (ch == '\r');
+  }
+
   @Override
   public boolean consume(CodeReader code, Lexer output) {
     char ch = (char) code.peek();
@@ -36,10 +40,6 @@ public class BackslashChannel extends Channel<Lexer> {
     }
 
     return false;
-  }
-
-  private static boolean isNewLine(char ch) {
-    return (ch == '\n') || (ch == '\r');
   }
 
 }

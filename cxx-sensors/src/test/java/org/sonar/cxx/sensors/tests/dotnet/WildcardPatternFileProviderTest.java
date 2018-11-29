@@ -23,7 +23,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-
 import com.google.common.base.Joiner;
 import java.io.File;
 import java.util.Set;
@@ -35,6 +34,18 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
 public class WildcardPatternFileProviderTest {
+
+  private static String path(String... elements) {
+    return Joiner.on(File.separator).join(elements);
+  }
+
+  private static Set<File> listFiles(String pattern) {
+    return listFiles(pattern, null);
+  }
+
+  private static Set<File> listFiles(String pattern, File baseDir) {
+    return new WildcardPatternFileProvider(baseDir, File.separator).listFiles(pattern);
+  }
 
   @Rule
   public TemporaryFolder tmp = new TemporaryFolder();
@@ -182,18 +193,6 @@ public class WildcardPatternFileProviderTest {
     thrown.expectMessage("Cannot contain '.' or '..' after the first wildcard.");
 
     listFiles(path("*", "..", "foo.txt"), tmp.getRoot());
-  }
-
-  private static String path(String... elements) {
-    return Joiner.on(File.separator).join(elements);
-  }
-
-  private static Set<File> listFiles(String pattern) {
-    return listFiles(pattern, null);
-  }
-
-  private static Set<File> listFiles(String pattern, File baseDir) {
-    return new WildcardPatternFileProvider(baseDir, File.separator).listFiles(pattern);
   }
 
 }

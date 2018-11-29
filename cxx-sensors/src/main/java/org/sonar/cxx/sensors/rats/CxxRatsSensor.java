@@ -44,6 +44,13 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
   public static final String REPORT_PATH_KEY = "rats.reportPath";
 
+  private static String getVulnerabilityType(@Nullable Element child) {
+    if (child != null) {
+      return child.getTextTrim();
+    }
+    return MISSING_RATS_TYPE;
+  }
+
   /**
    * CxxRatsSensor for RATS Sensor
    *
@@ -93,13 +100,6 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
       // when RATS fails the XML file might be incomplete
       LOG.error("Ignore incomplete XML output from RATS '{}'", CxxUtils.getStackTrace(e));
     }
-  }
-
-  private static String getVulnerabilityType(@Nullable Element child) {
-    if (child != null) {
-      return child.getTextTrim();
-    }
-    return MISSING_RATS_TYPE;
   }
 
   @Override

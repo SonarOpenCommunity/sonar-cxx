@@ -41,24 +41,6 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
 
   private static class Parser {
 
-    private final File file;
-    private final UnitTestResults unitTestResults;
-
-    public Parser(File file, UnitTestResults unitTestResults) {
-      this.file = file;
-      this.unitTestResults = unitTestResults;
-    }
-
-    public void parse() {
-      try (XmlParserHelper xmlParserHelper = new XmlParserHelper(file)) {
-        if (checkRootTag(xmlParserHelper)) {
-          handleTestResultsTag(xmlParserHelper);
-        }
-      } catch (IOException e) {
-        throw new IllegalStateException("Unable to close report", e);
-      }
-    }
-
     private static boolean checkRootTag(XmlParserHelper xmlParserHelper) {
       try {
         xmlParserHelper.checkRootTag("test-results");
@@ -67,23 +49,6 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
         LOG.warn("One of the assemblies contains no test result, please make sure this is expected.");
         return false;
       }
-    }
-
-    private void handleTestResultsTag(XmlParserHelper xmlParserHelper) {
-      int total = xmlParserHelper.getRequiredIntAttribute("total");
-      int errors = xmlParserHelper.getRequiredIntAttribute("errors");
-      int failures = xmlParserHelper.getRequiredIntAttribute("failures");
-      int inconclusive = xmlParserHelper.getRequiredIntAttribute("inconclusive");
-      int ignored = xmlParserHelper.getRequiredIntAttribute("ignored");
-
-      int tests = total - inconclusive;
-      int passed = total - errors - failures - inconclusive;
-      int skipped = inconclusive + ignored;
-
-      Double executionTime = readExecutionTimeFromDirectlyNestedTestSuiteTags(xmlParserHelper);
-
-      unitTestResults.add(tests, passed, skipped, failures, errors,
-        executionTime != null ? (long) executionTime.doubleValue() : null);
     }
 
     @CheckForNull
@@ -110,6 +75,42 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
 
       return executionTime;
     }
+
+    private final File file;
+    private final UnitTestResults unitTestResults;
+
+    public Parser(File file, UnitTestResults unitTestResults) {
+      this.file = file;
+      this.unitTestResults = unitTestResults;
+    }
+
+    public void parse() {
+      try (XmlParserHelper xmlParserHelper = new XmlParserHelper(file)) {
+        if (checkRootTag(xmlParserHelper)) {
+          handleTestResultsTag(xmlParserHelper);
+        }
+      } catch (IOException e) {
+        throw new IllegalStateException("Unable to close report", e);
+      }
+    }
+
+    private void handleTestResultsTag(XmlParserHelper xmlParserHelper) {
+      int total = xmlParserHelper.getRequiredIntAttribute("total");
+      int errors = xmlParserHelper.getRequiredIntAttribute("errors");
+      int failures = xmlParserHelper.getRequiredIntAttribute("failures");
+      int inconclusive = xmlParserHelper.getRequiredIntAttribute("inconclusive");
+      int ignored = xmlParserHelper.getRequiredIntAttribute("ignored");
+
+      int tests = total - inconclusive;
+      int passed = total - errors - failures - inconclusive;
+      int skipped = inconclusive + ignored;
+
+      Double executionTime = readExecutionTimeFromDirectlyNestedTestSuiteTags(xmlParserHelper);
+
+      unitTestResults.add(tests, passed, skipped, failures, errors,
+        executionTime != null ? (long) executionTime.doubleValue() : null);
+    }
+
   }
 
 }

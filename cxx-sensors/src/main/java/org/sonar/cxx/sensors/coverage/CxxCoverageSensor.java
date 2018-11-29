@@ -50,6 +50,30 @@ public class CxxCoverageSensor extends CxxReportSensor {
   // Configuration properties before SQ 6.2
   public static final String REPORT_PATH_KEY = "coverage.reportPath";
 
+  /**
+   * @param parser
+   * @param context
+   * @param report
+   * @param measuresTotal
+   * @return true if report was parsed and results are available otherwise false
+   */
+  private static void parseCoverageReport(CoverageParser parser, File report,
+    Map<String, CoverageMeasures> measuresTotal) {
+    Map<String, CoverageMeasures> measuresForReport = new HashMap<>();
+    try {
+      parser.processReport(report, measuresForReport);
+    } catch (XMLStreamException e) {
+      throw new EmptyReportException("Coverage report" + report + "cannot be parsed by" + parser, e);
+    }
+
+    if (measuresForReport.isEmpty()) {
+      throw new EmptyReportException("Coverage report " + report + " result is empty (parsed by " + parser + ")");
+    }
+
+    measuresTotal.putAll(measuresForReport);
+    LOG.info("Added coverage report '{}' (parsed by: {})", report, parser);
+  }
+
   private final List<CoverageParser> parsers = new LinkedList<>();
   private final CxxCoverageCache cache;
 
@@ -101,7 +125,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
 
   private Map<String, CoverageMeasures> processReports(List<File> reports,
-      Map<String, Map<String, CoverageMeasures>> cacheCov) {
+    Map<String, Map<String, CoverageMeasures>> cacheCov) {
     Map<String, CoverageMeasures> measuresTotal = new HashMap<>();
 
     for (File report : reports) {
@@ -131,30 +155,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
       }
     }
     return measuresTotal;
-  }
-
-  /**
-   * @param parser
-   * @param context
-   * @param report
-   * @param measuresTotal
-   * @return true if report was parsed and results are available otherwise false
-   */
-  private static void parseCoverageReport(CoverageParser parser, File report,
-      Map<String, CoverageMeasures> measuresTotal) {
-    Map<String, CoverageMeasures> measuresForReport = new HashMap<>();
-    try {
-      parser.processReport(report, measuresForReport);
-    } catch (XMLStreamException e) {
-      throw new EmptyReportException("Coverage report" + report + "cannot be parsed by" + parser, e);
-    }
-
-    if (measuresForReport.isEmpty()) {
-      throw new EmptyReportException("Coverage report " + report + " result is empty (parsed by " + parser + ")");
-    }
-
-    measuresTotal.putAll(measuresForReport);
-    LOG.info("Added coverage report '{}' (parsed by: {})", report, parser);
   }
 
   private void saveMeasures(SensorContext context,
@@ -208,8 +208,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
       newCoverage.lineHits(measure.getLine(), measure.getHits());
       newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
       if (LOG.isDebugEnabled()) {
-        LOG.debug("line '{}' Hits '{}' Conditions '{}:{}'",measure.getLine(), measure.getHits(),
-                                                           measure.getConditions(), measure.getCoveredConditions() );
+        LOG.debug("line '{}' Hits '{}' Conditions '{}:{}'", measure.getLine(), measure.getHits(),
+          measure.getConditions(), measure.getCoveredConditions());
       }
     } catch (RuntimeException ex) {
       LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ",

@@ -34,10 +34,9 @@ import org.sonar.api.utils.log.LoggerLevel;
 
 public class NUnitTestResultsFileParserTest {
 
+  private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/xunit-reports/nunit/";
   @Rule
   public ExpectedException thrown = ExpectedException.none();
-
-  private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/xunit-reports/nunit/";
 
   @Rule
   public LogTester logTester = new LogTester();

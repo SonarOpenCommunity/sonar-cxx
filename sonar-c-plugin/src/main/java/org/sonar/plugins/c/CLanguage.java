@@ -63,6 +63,13 @@ public class CLanguage extends CxxLanguage {
   public static final String REPOSITORY_KEY = "c";
   public static final String DEFAULT_PROFILE = "Sonar way";
 
+  private static String[] createStringArray(String[] values, String defaultValues) {
+    if (values.length == 0) {
+      return defaultValues.split(",");
+    }
+    return values;
+  }
+
   private final String[] sourceSuffixes;
   private final String[] headerSuffixes;
   private final String[] fileSuffixes;
@@ -95,13 +102,6 @@ public class CLanguage extends CxxLanguage {
   @Override
   public String[] getHeaderFileSuffixes() {
     return headerSuffixes.clone();
-  }
-
-  private static String[] createStringArray(String[] values, String defaultValues) {
-    if (values.length == 0) {
-      return defaultValues.split(",");
-    }
-    return values;
   }
 
   private String[] mergeArrays(String[] array1, String[] array2) {

@@ -39,11 +39,6 @@ import org.sonar.cxx.utils.CxxReportLocation;
 public class CppcheckParserV2 implements CppcheckParser {
 
   private static final Logger LOG = Loggers.get(CppcheckParserV2.class);
-  private final CxxCppCheckSensor sensor;
-
-  public CppcheckParserV2(CxxCppCheckSensor sensor) {
-    this.sensor = sensor;
-  }
 
   private static String requireAttributeSet(@Nullable String attributeValue, String errorMsg) {
     if (attributeValue == null || attributeValue.isEmpty()) {
@@ -57,6 +52,11 @@ public class CppcheckParserV2 implements CppcheckParser {
       return "[inconclusive] " + msg;
     }
     return msg;
+  }
+  private final CxxCppCheckSensor sensor;
+
+  public CppcheckParserV2(CxxCppCheckSensor sensor) {
+    this.sensor = sensor;
   }
 
   /**
@@ -104,9 +104,9 @@ public class CppcheckParserV2 implements CppcheckParser {
 
       private void processErrorTag(final SensorContext context, SMInputCursor errorCursor) throws XMLStreamException {
         String id = requireAttributeSet(errorCursor.getAttrValue("id"),
-            "Missing mandatory attribute /results/errors/error[@id]");
+          "Missing mandatory attribute /results/errors/error[@id]");
         String msg = requireAttributeSet(errorCursor.getAttrValue("msg"),
-            "Missing mandatory attribute /results/errors/error[@msg]");
+          "Missing mandatory attribute /results/errors/error[@msg]");
         boolean isInconclusive = "true".equals(errorCursor.getAttrValue("inconclusive"));
         String issueText = createIssueText(msg, isInconclusive);
         CxxReportIssue issue = null;
@@ -159,7 +159,7 @@ public class CppcheckParserV2 implements CppcheckParser {
 
               StringBuilder extendedInfo = new StringBuilder();
               extendedInfo.append(makeRelativePath(file, primaryFile)).append(":").append(line).append(" ")
-                  .append(info);
+                .append(info);
               issue.addLocation(primaryFile, primaryLine, extendedInfo.toString());
             }
           }

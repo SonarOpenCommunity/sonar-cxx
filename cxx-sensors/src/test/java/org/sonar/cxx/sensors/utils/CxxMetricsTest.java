@@ -35,6 +35,32 @@ public class CxxMetricsTest {
 
   private CxxLanguage language;
 
+  @Before
+  public void setUp() {
+    language = new CxxLanguageImpl(new MapSettings().asConfig());
+  }
+
+  @Test
+  public void getMetricsTest() {
+    List<Metric> list = CxxMetricsFactory.generateList(language.getKey(), language.getPropertiesKey());
+    assertThat(list.size()).isEqualTo(24);
+
+    Map<CxxMetricsFactory.Key, Metric<?>> map = CxxMetricsFactory.generateMap(language.getKey(), language.getPropertiesKey());
+    assertThat(map.size()).isEqualTo(24);
+  }
+
+  @Test
+  public void getMetricTest() {
+    Metric<Integer> metric0 = language.getMetric(CxxMetricsFactory.Key.PUBLIC_API_KEY);
+    assertThat(metric0).isNotNull();
+
+    Metric<Integer> metric1 = language.getMetric(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY);
+    assertThat(metric1).isNotNull();
+
+    Metric<Double> metric2 = language.getMetric(CxxMetricsFactory.Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY);
+    assertThat(metric2).isNotNull();
+  }
+
   public class CxxLanguageImpl extends CxxLanguage {
 
     public CxxLanguageImpl(Configuration settings) {
@@ -66,31 +92,5 @@ public class CxxMetricsTest {
       return "cxx";
     }
 
-  }
-
-  @Before
-  public void setUp() {
-    language = new CxxLanguageImpl(new MapSettings().asConfig());
-  }
-
-  @Test
-  public void getMetricsTest() {
-    List<Metric> list = CxxMetricsFactory.generateList(language.getKey(), language.getPropertiesKey());
-    assertThat(list.size()).isEqualTo(24);
-
-    Map<CxxMetricsFactory.Key, Metric<?>> map = CxxMetricsFactory.generateMap(language.getKey(), language.getPropertiesKey());
-    assertThat(map.size()).isEqualTo(24);
-  }
-
-  @Test
-  public void getMetricTest() {
-    Metric<Integer> metric0 = language.getMetric(CxxMetricsFactory.Key.PUBLIC_API_KEY);
-    assertThat(metric0).isNotNull();
-
-    Metric<Integer> metric1 = language.getMetric(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY);
-    assertThat(metric1).isNotNull();
-
-    Metric<Double> metric2 = language.getMetric(CxxMetricsFactory.Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY);
-    assertThat(metric2).isNotNull();
   }
 }

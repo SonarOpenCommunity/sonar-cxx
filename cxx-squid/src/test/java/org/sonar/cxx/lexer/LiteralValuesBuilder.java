@@ -22,25 +22,25 @@ package org.sonar.cxx.lexer;
 import com.sonar.sslr.api.TokenType;
 import org.sonar.cxx.api.CxxTokenType;
 
-
 public final class LiteralValuesBuilder {
-  String lexerValue;
-  String tokenValue;
-  TokenType tokenType;
-
-  LiteralValuesBuilder (Builder builder) {
-    this.lexerValue = builder.lexerValue;
-    this.tokenValue = builder.tokenValue;
-    this.tokenType = builder .tokenType;
-  }
 
   public static Builder builder(String key) {
     return new Builder(key);
   }
+  String lexerValue;
+  String tokenValue;
+  TokenType tokenType;
+
+  LiteralValuesBuilder(Builder builder) {
+    this.lexerValue = builder.lexerValue;
+    this.tokenValue = builder.tokenValue;
+    this.tokenType = builder.tokenType;
+  }
 
   public static class Builder {
+
     private final String lexerValue;
-    private String tokenValue ="";
+    private String tokenValue = "";
     private TokenType tokenType = CxxTokenType.NUMBER;
 
     private Builder(String lexerValue) {
