@@ -43,7 +43,6 @@ import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
 public class FunctionComplexityCheck extends CxxCyclomaticComplexityCheck<Grammar> {
 
   // TODO MultiLineSquidCheck<Grammar>
-
   private static final int DEFAULT_MAX = 10;
 
   @RuleProperty(

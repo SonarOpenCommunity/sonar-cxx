@@ -77,8 +77,8 @@ public class TestUtils {
   }
 
   /**
-   * Mocks the filesystem given the root directory and lists of source and tests
-   * directories. The latter are given just as in sonar-project.properties
+   * Mocks the filesystem given the root directory and lists of source and tests directories. The latter are given just
+   * as in sonar-project.properties
    *
    * @param baseDir project root directory
    * @param sourceDirs List of source directories, relative to baseDir.
@@ -105,7 +105,7 @@ public class TestUtils {
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
     when(language.getFileSuffixes())
       .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
-    when(language.getHeaderFileSuffixes()).thenReturn(new String[] { ".hpp", ".h", ".hxx", ".hh" });
+    when(language.getHeaderFileSuffixes()).thenReturn(new String[]{".hpp", ".h", ".hxx", ".hh"});
 
     Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap("cxx", "cxx");
     metrics.forEach((key, value) -> when(language.getMetric(same(key))).thenReturn((Metric<Serializable>) value));
@@ -142,8 +142,7 @@ public class TestUtils {
   }
 
   /**
-   * Search for a test resource in the classpath. For example
-   * getResource("org/sonar/MyClass/foo.txt");
+   * Search for a test resource in the classpath. For example getResource("org/sonar/MyClass/foo.txt");
    *
    * @param path the starting slash is optional
    * @return the resource. Null if resource not found

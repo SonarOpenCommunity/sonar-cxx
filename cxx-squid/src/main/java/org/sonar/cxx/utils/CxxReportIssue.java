@@ -30,6 +30,7 @@ import javax.annotation.Nullable;
  * Issue with one or multiple locations
  */
 public class CxxReportIssue {
+
   private final String ruleId;
   private final List<CxxReportLocation> locations;
 

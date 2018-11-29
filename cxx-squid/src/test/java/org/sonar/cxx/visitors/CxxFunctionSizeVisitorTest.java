@@ -31,7 +31,6 @@ import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
 
-
 public class CxxFunctionSizeVisitorTest {
 
   @Test
@@ -41,7 +40,7 @@ public class CxxFunctionSizeVisitorTest {
     when(language.getIntegerOption(CxxFunctionSizeVisitor.FUNCTION_SIZE_THRESHOLD_KEY)).thenReturn(Optional.of(5));
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/FunctionComplexity.cc",
-        ".", "");
+      ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, language);
 
     SoftAssertions softly = new SoftAssertions();

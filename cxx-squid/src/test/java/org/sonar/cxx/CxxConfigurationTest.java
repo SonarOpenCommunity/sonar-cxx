@@ -209,7 +209,7 @@ public class CxxConfigurationTest {
     softly.assertThat(defines.contains("_MSC_FULL_VER 180031101")).isTrue();
     softly.assertThat(defines.contains("_ATL_VER 0x0C00")).isTrue();
     softly.assertAll();
-    }
+  }
 
   @Test
   public void shouldHandleSpecificV140OptionsCorrectly() {

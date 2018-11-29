@@ -47,7 +47,7 @@ public class DensityMeasureComputerTest {
   private static TestMeasureComputerContext createContext(DensityMeasureComputer computer) {
     final TestComponent component = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
     return new TestMeasureComputerContext(component, new TestSettings(), new MeasureComputerDefinitionBuilderImpl()
-        .setInputMetrics(computer.getInputMetrics()).setOutputMetrics(computer.getOutputMetrics()).build());
+      .setInputMetrics(computer.getInputMetrics()).setOutputMetrics(computer.getOutputMetrics()).build());
   }
 
   @Test

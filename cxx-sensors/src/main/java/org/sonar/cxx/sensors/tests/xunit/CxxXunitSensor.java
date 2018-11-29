@@ -54,6 +54,7 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   /**
    * CxxXunitSensor
+   *
    * @param language for C or C++
    */
   public CxxXunitSensor(CxxLanguage language) {

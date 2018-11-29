@@ -56,7 +56,7 @@ public class FunctionCognitiveComplexityCheck extends CxxCognitiveComplexityVisi
     if (scope.getComplexity() > max) {
       final StringBuilder msg = new StringBuilder();
       msg.append("The Cognitive Complexity of this function is ").append(scope.getComplexity())
-          .append(" which is greater than ").append(max).append(" authorized.");
+        .append(" which is greater than ").append(max).append(" authorized.");
 
       final CxxReportIssue issue = new CxxReportIssue(getRuleKey(), null, scope.getStartingLine(), msg.toString());
       for (CxxComplexitySource source : scope.getSources()) {

@@ -31,19 +31,15 @@ import org.sonar.sslr.grammar.GrammarRuleKey;
 import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
 
 /**
- * Parsing expression grammar
- * (PEG)[https://en.wikipedia.org/wiki/Parsing_expression_grammar]
+ * Parsing expression grammar (PEG)[https://en.wikipedia.org/wiki/Parsing_expression_grammar]
  *
- * The fundamental difference between context-free grammars and parsing
- * expression grammars is that the PEG's choice operator is ordered. If the
- * first alternative succeeds, the second alternative is ignored. The
- * consequence is that if a CFG is transliterated directly to a PEG, any
- * ambiguity in the former is resolved by deterministically picking one parse
- * tree from the possible parses.
+ * The fundamental difference between context-free grammars and parsing expression grammars is that the PEG's choice
+ * operator is ordered. If the first alternative succeeds, the second alternative is ignored. The consequence is that if
+ * a CFG is transliterated directly to a PEG, any ambiguity in the former is resolved by deterministically picking one
+ * parse tree from the possible parses.
  *
- * By carefully choosing the order in which the grammar alternatives are
- * specified, a programmer has a great deal of control over which parse tree is
- * selected.
+ * By carefully choosing the order in which the grammar alternatives are specified, a programmer has a great deal of
+ * control over which parse tree is selected.
  *
  */
 /**
@@ -56,10 +52,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   BOOL,
   NULLPTR,
   LITERAL,
-
   // Top level components
   translationUnit,
-
   // Expressions
   primaryExpression,
   idExpression,
@@ -108,7 +102,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   assignmentOperator,
   expression,
   constantExpression,
-
   // Statements
   statement,
   emptyStatement,
@@ -124,7 +117,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   forRangeInitializer,
   jumpStatement,
   declarationStatement,
-
   // Declarations
   declarationSeq,
   declaration,
@@ -194,7 +186,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   attributeArgumentClause,
   balancedTokenSeq,
   balancedToken,
-
   // Declarators
   initDeclaratorList,
   initDeclarator,
@@ -227,7 +218,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   initializerList,
   bracedInitList,
   exprOrBracedInitList,
-
   // Classes
   className,
   classSpecifier,
@@ -242,7 +232,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   virtSpecifierSeq,
   virtSpecifier,
   pureSpecifier,
-
   // Derived classes
   baseClause,
   baseSpecifierList,
@@ -250,7 +239,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   classOrDecltype,
   baseTypeSpecifier,
   accessSpecifier,
-
   // Special member functions
   conversionFunctionId,
   conversionTypeId,
@@ -259,12 +247,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   memInitializerList,
   memInitializer,
   memInitializerId,
-
   // Overloading
   operatorFunctionId,
   overloadableOperator,
   literalOperatorId,
-
   // Templates
   templateDeclaration,
   templateParameterList,
@@ -288,7 +274,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   explicitInstantiation,
   explicitSpecialization,
   deductionGuide,
-
   // Exception handling
   tryBlock,
   functionTryBlock,
@@ -298,7 +283,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   throwExpression,
   typeIdList,
   noexceptSpecifier,
-
   // Microsoft Extension: C++/CLI
   cliTopLevelVisibility,
   cliFinallyClause,
@@ -342,11 +326,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   cliPositionArgument,
   cliNamedArgument,
   cliAttributeArgumentExpression,
-
   // Microsoft Extension: Attributed ATL
   vcAtlDeclaration,
   vcAtlAttribute,
-
   // CUDA extension
   cudaKernel;
 
@@ -1758,7 +1740,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence("(", ")"),
         b.sequence("[", "]")
       )
-      // c++ todo missing optional < template-argument-list > ?
+    // c++ todo missing optional < template-argument-list > ?
     );
 
     b.rule(literalOperatorId).is(

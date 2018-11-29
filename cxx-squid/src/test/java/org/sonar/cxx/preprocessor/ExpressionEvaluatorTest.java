@@ -309,7 +309,6 @@ public class ExpressionEvaluatorTest {
     softly.assertAll();
   }
 
-
   @Test
   public void identifier_undefined() {
     assertFalse(eval("LALA"));

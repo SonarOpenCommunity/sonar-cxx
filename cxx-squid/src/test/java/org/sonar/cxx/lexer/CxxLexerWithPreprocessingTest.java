@@ -62,12 +62,12 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void escaping_newline() {
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(lexer.lex("line\\\r\nline")).as("dos style").noneMatch(token ->
-      token.getValue().contentEquals("\\") && token.getType().equals(GenericTokenType.UNKNOWN_CHAR));
-    softly.assertThat(lexer.lex("line\\\rline")).as("mac(old) style").noneMatch(token ->
-      token.getValue().contentEquals("\\") && token.getType().equals(GenericTokenType.UNKNOWN_CHAR));
-    softly.assertThat(lexer.lex("line\\\nline")).as("unix style").noneMatch(token ->
-      token.getValue().contentEquals("\\") && token.getType().equals(GenericTokenType.UNKNOWN_CHAR));
+    softly.assertThat(lexer.lex("line\\\r\nline")).as("dos style").noneMatch(token
+      -> token.getValue().contentEquals("\\") && token.getType().equals(GenericTokenType.UNKNOWN_CHAR));
+    softly.assertThat(lexer.lex("line\\\rline")).as("mac(old) style").noneMatch(token
+      -> token.getValue().contentEquals("\\") && token.getType().equals(GenericTokenType.UNKNOWN_CHAR));
+    softly.assertThat(lexer.lex("line\\\nline")).as("unix style").noneMatch(token
+      -> token.getValue().contentEquals("\\") && token.getType().equals(GenericTokenType.UNKNOWN_CHAR));
     softly.assertThat(lexer.lex("line\\\n    line")).hasSize(3);
     softly.assertAll();
   }
@@ -75,12 +75,12 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void joining_strings() {
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(lexer.lex("\"string\"")).anySatisfy(token ->
-      assertThat(token).isValue("\"string\"").hasType(CxxTokenType.STRING));
-    softly.assertThat(lexer.lex("\"string\"\"string\"")).anySatisfy(token ->
-      assertThat(token).isValue("\"stringstring\"").hasType(CxxTokenType.STRING));
-    softly.assertThat(lexer.lex("\"string\"\n\"string\"")).anySatisfy(token ->
-      assertThat(token).isValue("\"stringstring\"").hasType(CxxTokenType.STRING));
+    softly.assertThat(lexer.lex("\"string\"")).anySatisfy(token
+      -> assertThat(token).isValue("\"string\"").hasType(CxxTokenType.STRING));
+    softly.assertThat(lexer.lex("\"string\"\"string\"")).anySatisfy(token
+      -> assertThat(token).isValue("\"stringstring\"").hasType(CxxTokenType.STRING));
+    softly.assertThat(lexer.lex("\"string\"\n\"string\"")).anySatisfy(token
+      -> assertThat(token).isValue("\"stringstring\"").hasType(CxxTokenType.STRING));
     softly.assertThat(lexer.lex("\"string\"\"string\"")).hasSize(2); // string + EOF
     softly.assertAll();
   }
@@ -90,7 +90,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define lala \"haha\"\nlala");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("\"haha\"").hasType(CxxTokenType.STRING));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"haha\"").hasType(CxxTokenType.STRING));
     softly.assertAll();
   }
 
@@ -99,7 +99,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define plus(a, b) a + b\n plus(1, 2)");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(4);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
 
@@ -108,8 +108,8 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define wrapper(...) __VA_ARGS__\n wrapper(1, 2)");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(4);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("2").hasType(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("2").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
 
@@ -118,8 +118,8 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define wrapper(args...) args\n wrapper(1, 2)");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(4);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("2").hasType(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("2").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
 
@@ -128,8 +128,8 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define wrapper(...) (__VA_ARGS__)\n wrapper()");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(3);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("(").hasType(CxxPunctuator.BR_LEFT));
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue(")").hasType(CxxPunctuator.BR_RIGHT));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("(").hasType(CxxPunctuator.BR_LEFT));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue(")").hasType(CxxPunctuator.BR_RIGHT));
     softly.assertAll();
   }
 
@@ -138,7 +138,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define M() 0\n M()");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("0").hasType(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("0").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
 
@@ -147,7 +147,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define neg(a) -a\n neg((1))");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(5);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("(").hasType(CxxPunctuator.BR_LEFT));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("(").hasType(CxxPunctuator.BR_LEFT));
     softly.assertAll();
   }
 
@@ -156,7 +156,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define str(a) # a\n str(x)");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("\"x\"").hasType(CxxTokenType.STRING));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"x\"").hasType(CxxTokenType.STRING));
     softly.assertAll();
   }
 
@@ -165,7 +165,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define concat(a,b) a ## b\n concat(x,y)");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // xy + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("xy").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("xy").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -174,7 +174,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define hashhash c ## c\n hashhash");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // cc + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("cc").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("cc").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -183,7 +183,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define concat(a,b) a ## ## ## b\n concat(x,y)");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // xy + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("xy").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("xy").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -192,7 +192,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define concat(a,b) c ## c ## c ## c\n concat(x,y)");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // cccc + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("cccc").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("cccc").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -211,27 +211,27 @@ public class CxxLexerWithPreprocessingTest {
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // yes + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("yes").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("yes").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
-  @Test 
+  @Test
   public void expanding_hashhash_operator_sampleFromCPPStandard() {
     // TODO: think about implementing this behavior. This is a sample from the standard, which is
     // not working yet. Because the current implementation throws away all 'irrelevant'
     // preprocessor directives too early, I guess.
 
-     List<Token> tokens = lexer.lex("#define hash_hash(x) # ## #\n"
-     + "#define mkstr(a) # a\n"
-     + "#define in_between(a) mkstr(a)\n"
-     + "#define join(c, d) in_between(c hash_hash(x) d)\n"
-     + "join(x,y)");
-     
-     SoftAssertions softly = new SoftAssertions();
-     softly.assertThat(tokens).hasSize(2); //"x ## y" + EOF
+    List<Token> tokens = lexer.lex("#define hash_hash(x) # ## #\n"
+      + "#define mkstr(a) # a\n"
+      + "#define in_between(a) mkstr(a)\n"
+      + "#define join(c, d) in_between(c hash_hash(x) d)\n"
+      + "join(x,y)");
+
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(2); //"x ## y" + EOF
 //     softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("\"x ## y\"").hasType(CxxTokenType.STRING));
-     softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("\"x y\"").hasType(CxxTokenType.STRING));
-     softly.assertAll();
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"x y\"").hasType(CxxTokenType.STRING));
+    softly.assertAll();
   }
 
   @Test
@@ -239,7 +239,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define str(a) # a\n str(\"x\")");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("\"\\\"x\\\"\"").hasType(CxxTokenType.STRING));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"\\\"x\\\"\"").hasType(CxxTokenType.STRING));
     softly.assertAll();
   }
 
@@ -250,7 +250,7 @@ public class CxxLexerWithPreprocessingTest {
       + "M2");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("\"a\"").hasType(CxxTokenType.STRING));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"a\"").hasType(CxxTokenType.STRING));
     softly.assertAll();
   }
 
@@ -261,8 +261,8 @@ public class CxxLexerWithPreprocessingTest {
       + "M2");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(5);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("\"a\"").hasType(CxxTokenType.STRING));
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("foo").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"a\"").hasType(CxxTokenType.STRING));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("foo").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -273,8 +273,8 @@ public class CxxLexerWithPreprocessingTest {
       + "M2");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(5);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("M1").hasType(GenericTokenType.IDENTIFIER));
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("foo").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("M1").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("foo").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -285,7 +285,7 @@ public class CxxLexerWithPreprocessingTest {
       + "X");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // string + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("\"hello, world\"").hasType(CxxTokenType.STRING));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"hello, world\"").hasType(CxxTokenType.STRING));
     softly.assertAll();
   }
 
@@ -296,7 +296,7 @@ public class CxxLexerWithPreprocessingTest {
       + "N");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // string + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("\"ABC\"").hasType(CxxTokenType.STRING));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"ABC\"").hasType(CxxTokenType.STRING));
     softly.assertAll();
   }
 
@@ -306,7 +306,7 @@ public class CxxLexerWithPreprocessingTest {
       + "\"A\" M");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // string + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("\"AB\"").hasType(CxxTokenType.STRING));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"AB\"").hasType(CxxTokenType.STRING));
     softly.assertAll();
   }
 
@@ -316,15 +316,15 @@ public class CxxLexerWithPreprocessingTest {
       + "CODE(new B())");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(5);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("new").hasType(CxxKeyword.NEW));
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("B").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("new").hasType(CxxKeyword.NEW));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("B").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
   @Test
   public void bodyless_defines() {
-    assertThat(lexer.lex("#define M\n" + "M")).noneMatch(token ->token.getValue().contentEquals("M"))
-                                              .noneMatch(token ->token.getType().equals(GenericTokenType.IDENTIFIER));
+    assertThat(lexer.lex("#define M\n" + "M")).noneMatch(token -> token.getValue().contentEquals("M"))
+      .noneMatch(token -> token.getType().equals(GenericTokenType.IDENTIFIER));
   }
 
   @Test
@@ -337,7 +337,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("M");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("body").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("body").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -351,7 +351,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("minus(1, 2)");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(4);
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
 
@@ -361,7 +361,7 @@ public class CxxLexerWithPreprocessingTest {
       + "new");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // identifier + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("new_debug").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("new_debug").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -371,7 +371,7 @@ public class CxxLexerWithPreprocessingTest {
       + "macro(a)");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // identifier + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -381,8 +381,8 @@ public class CxxLexerWithPreprocessingTest {
       + "X(new)");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(6); // new + X + ( + new + ) + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("new").hasType(CxxKeyword.NEW));
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("X").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("new").hasType(CxxKeyword.NEW));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("X").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -392,7 +392,7 @@ public class CxxLexerWithPreprocessingTest {
       + "X(new)");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // kw + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("new").hasType(CxxKeyword.NEW));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("new").hasType(CxxKeyword.NEW));
     softly.assertAll();
   }
 
@@ -412,7 +412,7 @@ public class CxxLexerWithPreprocessingTest {
       + "A");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // B + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("B").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("B").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -432,8 +432,8 @@ public class CxxLexerWithPreprocessingTest {
       + "#endif\n");
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(tokens).noneMatch(token ->token.getValue().contentEquals("111") && token.getType().equals(CxxTokenType.NUMBER)); 
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("222").hasType(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).noneMatch(token -> token.getValue().contentEquals("111") && token.getType().equals(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("222").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
 
@@ -447,8 +447,8 @@ public class CxxLexerWithPreprocessingTest {
       + "#endif\n");
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(tokens).noneMatch(token ->token.getValue().contentEquals("222") && token.getType().equals(CxxTokenType.NUMBER)); 
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("111").hasType(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).noneMatch(token -> token.getValue().contentEquals("222") && token.getType().equals(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("111").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
 
@@ -462,7 +462,7 @@ public class CxxLexerWithPreprocessingTest {
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // 111 + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("111").hasType(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("111").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
 
@@ -477,7 +477,7 @@ public class CxxLexerWithPreprocessingTest {
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // 222 + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("222").hasType(CxxTokenType.NUMBER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("222").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
 
@@ -498,7 +498,7 @@ public class CxxLexerWithPreprocessingTest {
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // nota + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("nota").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("nota").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -512,7 +512,7 @@ public class CxxLexerWithPreprocessingTest {
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // nota + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("nota").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("nota").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -526,7 +526,7 @@ public class CxxLexerWithPreprocessingTest {
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // a + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -541,7 +541,7 @@ public class CxxLexerWithPreprocessingTest {
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // a + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -555,7 +555,7 @@ public class CxxLexerWithPreprocessingTest {
 
     SoftAssertions softly = new SoftAssertions();
     assertThat(tokens).hasSize(2); // nota + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("nota").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("nota").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -573,7 +573,7 @@ public class CxxLexerWithPreprocessingTest {
 
     SoftAssertions softly = new SoftAssertions();
     assertThat(tokens).hasSize(2); // nota + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("nota").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("nota").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -586,7 +586,7 @@ public class CxxLexerWithPreprocessingTest {
     // belong to the replacement string
     List<Token> tokens = lexer.lex("#define macro ()\n"
       + "macro\n");
-    assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("(").hasType(CxxPunctuator.BR_LEFT));
+    assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("(").hasType(CxxPunctuator.BR_LEFT));
   }
 
   @Test
@@ -598,7 +598,7 @@ public class CxxLexerWithPreprocessingTest {
       + "#endif\n");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // a + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -620,7 +620,7 @@ public class CxxLexerWithPreprocessingTest {
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // goodvalue + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("goodvalue").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("goodvalue").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -634,7 +634,7 @@ public class CxxLexerWithPreprocessingTest {
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // elif + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("elif").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("elif").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -646,7 +646,7 @@ public class CxxLexerWithPreprocessingTest {
       + "external");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // external + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("external").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("external").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -669,7 +669,7 @@ public class CxxLexerWithPreprocessingTest {
       + "a\n");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // a + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -684,7 +684,7 @@ public class CxxLexerWithPreprocessingTest {
       + "#endif");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // falsecase + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("falsecase").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("falsecase").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -698,7 +698,7 @@ public class CxxLexerWithPreprocessingTest {
       + "#endif");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // falsecase + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("truecase").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("truecase").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -712,7 +712,7 @@ public class CxxLexerWithPreprocessingTest {
       + "#endif");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // falsecase + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("falsecase").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("falsecase").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -728,7 +728,7 @@ public class CxxLexerWithPreprocessingTest {
       + "endif\n");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // truecase + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("truecase").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("truecase").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -737,7 +737,7 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("__DATE__");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // date + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).hasType(CxxTokenType.STRING));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).hasType(CxxTokenType.STRING));
     softly.assertAll();
   }
 
@@ -753,7 +753,7 @@ public class CxxLexerWithPreprocessingTest {
       + "#endif");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // ifbody + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("ifbody").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("ifbody").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -771,7 +771,7 @@ public class CxxLexerWithPreprocessingTest {
       + "#endif\n");
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // case2 + EOF
-    softly.assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("case2").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("case2").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 
@@ -785,6 +785,6 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define A B(cf)\n"
       + "#define B(n) 0x##n\n"
       + "A");
-    assertThat(tokens).anySatisfy(token ->assertThat(token).isValue("0xcf").hasType(CxxKeyword.INT));
+    assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("0xcf").hasType(CxxKeyword.INT));
   }
 }

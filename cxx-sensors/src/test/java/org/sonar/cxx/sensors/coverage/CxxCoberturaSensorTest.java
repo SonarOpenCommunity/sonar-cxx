@@ -123,7 +123,7 @@ public class CxxCoberturaSensorTest {
 
     List<String> log = logTester.logs();
     assertThat(log).contains("Property 'sonar.cxx.coverage.reportPath': cannot find any files matching the Ant pattern(s) '"
-        + new File(fs.baseDir(), reportPathValue).getAbsolutePath() + "'");
+      + new File(fs.baseDir(), reportPathValue).getAbsolutePath() + "'");
   }
 
   @Test

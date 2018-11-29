@@ -38,8 +38,8 @@ public class AggregateMeasureComputerTest {
 
   private static TestMeasureComputerContext createContext(AggregateMeasureComputer aggregator, Component component) {
     return new TestMeasureComputerContext(component, new TestSettings(),
-        new MeasureComputerDefinitionBuilderImpl().setInputMetrics(aggregator.getAggregatedMetrics())
-            .setOutputMetrics(aggregator.getAggregatedMetrics()).build());
+      new MeasureComputerDefinitionBuilderImpl().setInputMetrics(aggregator.getAggregatedMetrics())
+        .setOutputMetrics(aggregator.getAggregatedMetrics()).build());
   }
 
   @Test

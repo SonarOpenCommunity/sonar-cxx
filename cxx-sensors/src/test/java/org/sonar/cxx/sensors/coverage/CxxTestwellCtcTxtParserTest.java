@@ -55,10 +55,10 @@ public class CxxTestwellCtcTxtParserTest {
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
-    
+
     softly.assertThat(context.lineHits("ProjectKey:HGBuildNumberLookup.cpp", 42)).isEqualTo(10);
     softly.assertAll();
-    
+
   }
 
   @Test
@@ -71,10 +71,10 @@ public class CxxTestwellCtcTxtParserTest {
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
-    
+
     softly.assertThat(context.coveredConditions("ProjectKey:HGBuildNumberLookup.cpp", 50)).isEqualTo(1);
     softly.assertAll();
-    
+
   }
 
   @Test
@@ -87,10 +87,10 @@ public class CxxTestwellCtcTxtParserTest {
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
-    
+
     softly.assertThat(context.coveredConditions("ProjectKey:HGBuildNumberLookup.cpp", 56)).isEqualTo(2);
     softly.assertAll();
-    
+
   }
 
   @Test
@@ -105,7 +105,7 @@ public class CxxTestwellCtcTxtParserTest {
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
-    
+
     softly.assertThat(context.lineHits("ProjectKey:test-wildmatch.c", 3)).isEqualTo(209);
     softly.assertAll();
 
@@ -123,7 +123,7 @@ public class CxxTestwellCtcTxtParserTest {
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
-    
+
     softly.assertThat(context.coveredConditions("ProjectKey:test-wildmatch.c", 6)).isEqualTo(2);
     softly.assertAll();
 
@@ -141,7 +141,7 @@ public class CxxTestwellCtcTxtParserTest {
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
-    
+
     softly.assertThat(context.conditions("ProjectKey:credential-store.c", 78)).isEqualTo(8);
     softly.assertAll();
 
@@ -157,7 +157,7 @@ public class CxxTestwellCtcTxtParserTest {
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
-    
+
     softly.assertThat(context.lineHits("ProjectKey:test-wildmatch.c", 3)).isNull();
     softly.assertAll();
 

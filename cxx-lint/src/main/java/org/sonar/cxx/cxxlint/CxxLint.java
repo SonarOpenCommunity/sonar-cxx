@@ -136,7 +136,6 @@ public class CxxLint {
       return;
     }
 
-
     try {
       File parent = targetFile.getParentFile();
       SensorContextTester sensorContext = SensorContextTester.create(parent.toPath());
@@ -234,7 +233,7 @@ public class CxxLint {
       LOG.info("LOC: {}", file.getInt(CxxMetric.LINES_OF_CODE));
       LOG.info("COMPLEXITY: {}", file.getInt(CxxMetric.COMPLEXITY));
 
-    } catch (InstantiationException | IllegalAccessException |NullPointerException ex) {
+    } catch (InstantiationException | IllegalAccessException | NullPointerException ex) {
       LOG.error("{}", ex);
     }
 

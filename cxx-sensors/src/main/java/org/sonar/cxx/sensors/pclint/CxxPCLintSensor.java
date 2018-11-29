@@ -50,8 +50,8 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
   public static final String REPORT_PATH_KEY = "pclint.reportPath";
   public static final Pattern MISRA_RULE_PATTERN = Pattern.compile(
-      // Rule nn.nn -or- Rule nn-nn-nn
-      "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])");
+    // Rule nn.nn -or- Rule nn-nn-nn
+    "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])");
 
   /**
    * CxxPCLintSensor for PC-lint Sensor

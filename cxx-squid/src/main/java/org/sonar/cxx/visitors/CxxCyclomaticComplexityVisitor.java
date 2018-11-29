@@ -30,11 +30,11 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.sonar.squidbridge.metrics.ComplexityVisitor;
 
 /**
- * Decorator for {@link org.sonar.squidbridge.metrics.ComplexityVisitor} in
- * order to prevent visiting of generated {@link com.sonar.sslr.api.AstNode}s
+ * Decorator for {@link org.sonar.squidbridge.metrics.ComplexityVisitor} in order to prevent visiting of generated
+ * {@link com.sonar.sslr.api.AstNode}s
  *
- * Inheritance is not possible, since the class
- * {@link org.sonar.squidbridge.metrics.ComplexityVisitor} is marked as final
+ * Inheritance is not possible, since the class {@link org.sonar.squidbridge.metrics.ComplexityVisitor} is marked as
+ * final
  *
  * @param <G>
  */

@@ -23,7 +23,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-
 import java.io.File;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -60,7 +59,7 @@ public class CxxUnitTestResultsImportSensor implements Sensor {
 
   void analyze(SensorContext context, UnitTestResults unitTestResults, UnitTestConfiguration unitTestConf) {
     UnitTestResults aggregatedResults = unitTestResultsAggregator.aggregate(wildcardPatternFileProvider,
-        unitTestResults, unitTestConf);
+      unitTestResults, unitTestConf);
 
     context.<Integer>newMeasure()
       .forMetric(CoreMetrics.TESTS)
