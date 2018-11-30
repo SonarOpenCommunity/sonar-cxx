@@ -28,12 +28,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.WildcardPattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.checks.utils.CheckUtils;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.annotations.RuleTemplate;
@@ -111,11 +111,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @Override
   public void init() {
-    try {
-      pattern = Pattern.compile(regularExpression);
-    } catch (PatternSyntaxException e) {
-      throw new IllegalStateException(e);
-    }
+    pattern = CheckUtils.compileUserRegexp(regularExpression);
   }
 
   @Override

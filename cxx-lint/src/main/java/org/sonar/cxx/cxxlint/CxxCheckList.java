@@ -29,6 +29,13 @@ public final class CxxCheckList {
 
   public static final String DEFAULT_PROFILE = "Sonar way";
 
+  /**
+   * skip the following checks because they don't have reasonable defaults
+   * <ul>
+   * <li>org.sonar.cxx.checks.regex.FileRegularExpressionCheck.class</li>
+   * <li>org.sonar.cxx.checks.regex.LineRegularExpressionCheck.class</li>
+   * </ul>
+   */
   public static List<Class> getChecks() {
     return new ArrayList<>(Arrays.asList(
       org.sonar.cxx.checks.BooleanEqualityComparisonCheck.class,
@@ -70,9 +77,7 @@ public final class CxxCheckList {
       org.sonar.cxx.checks.naming.MethodNameCheck.class,
       org.sonar.cxx.checks.regex.CommentRegularExpressionCheck.class,
       org.sonar.cxx.checks.regex.FileHeaderCheck.class,
-      org.sonar.cxx.checks.regex.FileRegularExpressionCheck.class,
       org.sonar.cxx.checks.regex.FixmeTagPresenceCheck.class,
-      org.sonar.cxx.checks.regex.LineRegularExpressionCheck.class,
       org.sonar.cxx.checks.regex.NoSonarCheck.class,
       org.sonar.cxx.checks.regex.TodoTagPresenceCheck.class,
       org.sonar.cxx.checks.xpath.XPathCheck.class

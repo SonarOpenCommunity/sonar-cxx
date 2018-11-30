@@ -23,12 +23,12 @@ import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.checks.utils.CheckUtils;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
@@ -80,42 +80,19 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
     defaultValue = DEFAULT_NAME_SUFFIX)
   public String suffix = DEFAULT_NAME_SUFFIX;
 
-  public String getRegularExpression() {
-    return regularExpression;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public String getSuffix() {
-    return suffix;
-  }
-
   @Override
   public void init() {
-    String regEx = getRegularExpression();
-    Objects.requireNonNull(regEx, "getRegularExpression() should not return null");
-
-    if (!regEx.isEmpty()) {
-      try {
-        pattern = Pattern.compile(regEx, Pattern.DOTALL);
-      } catch (RuntimeException e) {
-        throw new IllegalStateException("Unable to compile regular expression: " + regEx, e);
-      }
-    }
+    pattern = CheckUtils.compileUserRegexp(regularExpression, Pattern.DOTALL);
   }
 
   @Override
   public void visitToken(Token token) {
-    if (pattern != null) {
-      for (Trivia trivia : token.getTrivia()) {
-        if (trivia.isComment()) {
-          String comment = trivia.getToken().getOriginalValue();
-          Matcher regexMatcher = pattern.matcher(comment);
-          if (regexMatcher.find() && !getContext().getFile().getName().contains(getSuffix())) {
-            getContext().createLineViolation(this, getMessage() + " : " + regexMatcher.group(0), trivia.getToken());
-          }
+    for (Trivia trivia : token.getTrivia()) {
+      if (trivia.isComment()) {
+        String comment = trivia.getToken().getOriginalValue();
+        Matcher regexMatcher = pattern.matcher(comment);
+        if (regexMatcher.find() && !getContext().getFile().getName().contains(suffix)) {
+          getContext().createLineViolation(this, message + " : " + regexMatcher.group(0), trivia.getToken());
         }
       }
     }

@@ -24,10 +24,10 @@ import com.sonar.sslr.api.Grammar;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.checks.utils.CheckUtils;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
@@ -65,16 +65,8 @@ public class HardcodedIpCheck extends SquidCheck<Grammar> {
 
   @Override
   public void init() {
-    Objects.requireNonNull(regularExpression, "getRegularExpression() should not return null");
-
-    if (!regularExpression.isEmpty()) {
-      try {
-        pattern = Pattern.compile(regularExpression);
-      } catch (PatternSyntaxException e) {
-        throw new IllegalStateException("Unable to compile regular expression: " + regularExpression, e);
-      }
-      subscribeTo(CxxGrammarImpl.LITERAL);
-    }
+    pattern = CheckUtils.compileUserRegexp(regularExpression);
+    subscribeTo(CxxGrammarImpl.LITERAL);
   }
 
   @Override

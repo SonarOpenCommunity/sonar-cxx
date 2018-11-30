@@ -23,13 +23,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.util.Files;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,7 +76,7 @@ public class CxxFileLinesVisitorTest {
 
   @Test
   public void TestLinesOfCode() throws UnsupportedEncodingException, IOException {
-    String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
+    String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
       .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
       .setType(InputFile.Type.MAIN).build();
@@ -97,7 +97,7 @@ public class CxxFileLinesVisitorTest {
 
   @Test
   public void TestLinesOfComments() throws UnsupportedEncodingException, IOException {
-    String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
+    String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
       .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
       .setType(InputFile.Type.MAIN).build();
@@ -117,7 +117,7 @@ public class CxxFileLinesVisitorTest {
   @Test
   public void TestExecutableLinesOfCode() throws UnsupportedEncodingException, IOException {
 
-    String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
+    String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
       .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
       .setType(InputFile.Type.MAIN).build();

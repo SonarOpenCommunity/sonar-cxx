@@ -22,9 +22,9 @@ package org.sonar.cxx.sensors.visitors;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.util.Files;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
@@ -45,7 +45,7 @@ public class CxxHighlighterTest {
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
     target = new File(baseDir, "highlighter.cc");
 
-    String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
+    String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target)
       .setContents(content).setCharset(StandardCharsets.UTF_8).build();
 

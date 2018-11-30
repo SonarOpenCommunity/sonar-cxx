@@ -21,23 +21,18 @@ package org.sonar.cxx.checks.regex;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import java.io.File;
-import java.io.FileInputStream;
+import com.google.common.io.Files;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.WildcardPattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.checks.utils.CheckUtils;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.annotations.RuleTemplate;
@@ -66,7 +61,6 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
   }
 
   private Charset charset = StandardCharsets.UTF_8;
-  private CharsetDecoder decoder = null;
   private Pattern pattern = null;
 
   /**
@@ -116,16 +110,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @Override
   public void init() {
-    try {
-      pattern = Pattern.compile(regularExpression);
-      decoder = charset.newDecoder();
-      decoder.onMalformedInput(CodingErrorAction.REPLACE);
-      decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
-    } catch (PatternSyntaxException ex) {
-      throw new IllegalStateException(ex);
-    } catch (IllegalArgumentException ex2) {
-      throw new IllegalStateException(ex2);
-    }
+    pattern = CheckUtils.compileUserRegexp(regularExpression);
   }
 
   @Override
@@ -139,7 +124,8 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
       if (!compare(invertFilePattern, matchFile())) {
         return;
       }
-      Matcher matcher = pattern.matcher(fromFile(getContext().getFile()));
+      final String fileContent = Files.toString(getContext().getFile(), charset);
+      Matcher matcher = pattern.matcher(fileContent);
       if (compare(invertRegularExpression, matcher.find())) {
         getContext().createFileViolation(this, message);
       }
@@ -157,12 +143,5 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return true;
   }
 
-  private CharSequence fromFile(File file) throws IOException {
-    try (FileInputStream input = new FileInputStream(file)) {
-      FileChannel channel = input.getChannel();
-      ByteBuffer bbuf = channel.map(FileChannel.MapMode.READ_ONLY, 0, (int) channel.size());
-      return decoder.decode(bbuf);
-    }
-  }
 
 }

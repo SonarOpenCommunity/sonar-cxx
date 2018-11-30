@@ -204,7 +204,7 @@ public final class CxxAstScanner {
       .subscribeTo(CxxGrammarImpl.statement)
       .build());
 
-    builder.withSquidAstVisitor(new CxxCyclomaticComplexityVisitor(ComplexityVisitor.<Grammar>builder()
+    builder.withSquidAstVisitor(new CxxCyclomaticComplexityVisitor<Grammar>(ComplexityVisitor.<Grammar>builder()
       .setMetricDef(CxxMetric.COMPLEXITY)
       .subscribeTo(CxxComplexityConstants.getCyclomaticComplexityTypes())
       .build()));

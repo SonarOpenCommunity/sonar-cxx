@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.checks.utils.CheckUtils;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
@@ -92,7 +93,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
     key = "isRegularExpression",
     description = "Whether the headerFormat is a regular expression",
     defaultValue = "false")
-  public boolean isRegularExpression;
+  public boolean isRegularExpression = false;
 
   private Charset charset = StandardCharsets.UTF_8;
   private String[] expectedLines = null;
@@ -106,17 +107,9 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
   @Override
   public void init() {
     if (isRegularExpression) {
-      if (searchPattern == null) {
-        try {
-          searchPattern = Pattern.compile(headerFormat, Pattern.DOTALL);
-        } catch (IllegalArgumentException e) {
-          throw new IllegalArgumentException("[" + getClass().getSimpleName()
-            + "] Unable to compile the regular expression: "
-            + headerFormat, e);
-        }
-      }
+      searchPattern = CheckUtils.compileUserRegexp(headerFormat, Pattern.DOTALL);
     } else {
-      expectedLines = headerFormat.split("(?:\r)?\n|\r");
+      expectedLines = headerFormat.split("\\R");
     }
   }
 

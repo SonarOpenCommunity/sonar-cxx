@@ -23,9 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.util.Files;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.fs.InputFile;
@@ -44,13 +44,12 @@ public class CxxCpdVisitorTest {
   private CxxLanguage language;
 
   @Before
-  @SuppressWarnings("unchecked")
   public void scanFile() throws UnsupportedEncodingException, IOException {
     language = TestUtils.mockCxxLanguage();
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
     File target = new File(baseDir, "cpd.cc");
 
-    String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
+    String content = Files.contentOf(target, StandardCharsets.UTF_8);
     inputFile = TestInputFileBuilder.create("moduleKey", baseDir, target).setType(InputFile.Type.MAIN)
       .setContents(content).setCharset(StandardCharsets.UTF_8).build();
 

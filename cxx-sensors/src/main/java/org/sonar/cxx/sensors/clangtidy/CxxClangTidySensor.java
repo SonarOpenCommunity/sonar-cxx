@@ -43,6 +43,9 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   public static final String REPORT_CHARSET_DEF = "clangtidy.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
 
+  private static final String regex = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): ([^]]+) \\[([^]]+)\\]";
+  private static final Pattern pattern = Pattern.compile(regex);
+
   /**
    * CxxClangTidySensor for clang-tidy Sensor
    *
@@ -74,8 +77,6 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
       //   [clang-diagnostic-writable-strings]
       // <path>:<line>:<column>: <level>: <message> [<checkname>]
       // relative paths
-      final String regex = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): ([^]]+) \\[([^]]+)\\]";
-      final Pattern pattern = Pattern.compile(regex);
 
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();

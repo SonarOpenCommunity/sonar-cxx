@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.checks.utils.CheckUtils;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.NoSqale;
@@ -64,7 +65,7 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
     key = "regularExpression",
     description = "Type regular expression rule",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
-  public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
+  private String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   /**
    * message
@@ -73,26 +74,13 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
     key = "message",
     description = "The violation message",
     defaultValue = DEFAULT_MESSAGE)
-  public String message = DEFAULT_MESSAGE;
+  private String message = DEFAULT_MESSAGE;
 
-  public String getRegularExpression() {
-    return regularExpression;
-  }
-
-  public String getMessage() {
-    return message;
-  }
 
   @Override
   public void init() {
+    pattern = CheckUtils.compileUserRegexp(regularExpression, Pattern.DOTALL);
     subscribeTo(CHECKED_TYPES);
-    if (null != regularExpression && !regularExpression.isEmpty()) {
-      try {
-        pattern = Pattern.compile(regularExpression, Pattern.DOTALL);
-      } catch (RuntimeException e) {
-        throw new IllegalStateException("Unable to compile regular expression: " + regularExpression, e);
-      }
-    }
   }
 
   @Override
@@ -103,7 +91,7 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (node.is(CHECKED_TYPES) && pattern.matcher(node.getTokenOriginalValue()).find()) {
+    if (pattern.matcher(node.getTokenOriginalValue()).find()) {
       visitOccurence(node.getTokenOriginalValue(), node.getTokenLine());
     }
   }

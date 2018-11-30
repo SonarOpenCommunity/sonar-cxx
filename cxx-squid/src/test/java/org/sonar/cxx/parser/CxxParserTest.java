@@ -22,6 +22,7 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -46,12 +47,9 @@ public class CxxParserTest extends ParserBaseTestHelper {
   String rootDir = "src/test/resources/parser";
   File erroneousSources = null;
 
-  public CxxParserTest() {
+  public CxxParserTest() throws URISyntaxException {
     super();
-    try {
-      erroneousSources = new File(CxxParserTest.class.getResource(errSources).toURI());
-    } catch (java.net.URISyntaxException e) {
-    }
+    erroneousSources = new File(CxxParserTest.class.getResource(errSources).toURI());
   }
 
   @Test
@@ -148,11 +146,9 @@ public class CxxParserTest extends ParserBaseTestHelper {
 
     conf.setCFilesPatterns(new String[]{""});
     p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
-    try {
-      AstNode root = p.parse(cfile);
-      assertThat(root.getNumberOfChildren()).isEqualTo(2);
-    } catch (com.sonar.sslr.api.RecognitionException re) {
-    }
+
+    AstNode root0 = p.parse(cfile);
+    assertThat(root0.getNumberOfChildren()).isEqualTo(2);
 
     conf.setCFilesPatterns(new String[]{"*.c"});
     p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
