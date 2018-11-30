@@ -19,10 +19,14 @@
  */
 package org.sonar.cxx.sensors.clangsa;
 
+import com.dd.plist.NSArray;
+import com.dd.plist.NSDictionary;
+import com.dd.plist.NSNumber;
+import com.dd.plist.NSObject;
+import com.dd.plist.NSString;
+import com.dd.plist.PropertyListParser;
 import java.io.File;
-
 import javax.annotation.Nullable;
-
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
@@ -32,13 +36,6 @@ import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
-import com.dd.plist.NSArray;
-import com.dd.plist.NSDictionary;
-import com.dd.plist.NSNumber;
-import com.dd.plist.NSObject;
-import com.dd.plist.NSString;
-import com.dd.plist.PropertyListParser;
-
 /**
  * Sensor for Clang Static Analyzer.
  *
@@ -47,6 +44,13 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxClangSASensor.class);
   public static final String REPORT_PATH_KEY = "clangsa.reportPath";
+
+  private static NSObject require(@Nullable NSObject object, String errorMsg) {
+    if (object == null) {
+      throw new IllegalArgumentException(errorMsg);
+    }
+    return object;
+  }
 
   /**
    * CxxClangSASensor for Clang Static Analyzer Sensor
@@ -64,13 +68,6 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
       .onlyOnLanguage(getLanguage().getKey())
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
-  }
-
-  private static NSObject require(@Nullable NSObject object, String errorMsg) {
-    if (object == null) {
-      throw new IllegalArgumentException(errorMsg);
-    }
-    return object;
   }
 
   @Override

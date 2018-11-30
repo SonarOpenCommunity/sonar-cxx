@@ -23,7 +23,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-
 public class ParseErrorException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;

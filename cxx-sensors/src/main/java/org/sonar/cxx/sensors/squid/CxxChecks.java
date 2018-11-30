@@ -34,15 +34,15 @@ import org.sonar.squidbridge.SquidAstVisitor;
 
 public final class CxxChecks {
 
+  public static CxxChecks createCxxCheck(CheckFactory checkFactory) {
+    return new CxxChecks(checkFactory);
+  }
+
   private final CheckFactory checkFactory;
   private final Set<Checks<SquidAstVisitor<Grammar>>> checksByRepository = new HashSet<>();
 
   private CxxChecks(CheckFactory checkFactory) {
     this.checkFactory = checkFactory;
-  }
-
-  public static CxxChecks createCxxCheck(CheckFactory checkFactory) {
-    return new CxxChecks(checkFactory);
   }
 
   @SuppressWarnings("rawtypes")

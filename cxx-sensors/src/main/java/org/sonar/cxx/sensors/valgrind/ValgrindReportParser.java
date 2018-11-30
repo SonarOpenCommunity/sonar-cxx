@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -51,8 +50,6 @@ class ValgrindReportParser {
   }
 
   private static class ValgrindReportStreamHandler implements StaxParser.XmlStreamHandler {
-
-    private final Set<ValgrindError> valgrindErrors = new HashSet<>();
 
     private static ValgrindStack parseStackTag(SMInputCursor child) throws XMLStreamException {
       ValgrindStack stack = new ValgrindStack();
@@ -124,6 +121,7 @@ class ValgrindReportParser {
 
       return new ValgrindError(kind, text, stacks);
     }
+    private final Set<ValgrindError> valgrindErrors = new HashSet<>();
 
     /**
      * {@inheritDoc}

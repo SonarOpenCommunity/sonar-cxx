@@ -19,12 +19,10 @@
  */
 package org.sonar.cxx.checks.metrics;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Set;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -53,10 +51,10 @@ public class FileComplexityCheckTest {
     CxxReportIssue actualIssue = issues.iterator().next();
     softly.assertThat(actualIssue.getRuleId()).isEqualTo("FileComplexity");
     softly.assertThat(actualIssue.getLocations()).containsOnly(
-        new CxxReportLocation(null, "1",
-            "The Cyclomatic Complexity of this file is 2 which is greater than 1 authorized."),
-        new CxxReportLocation(null, "3", "+1: function definition"),
-        new CxxReportLocation(null, "5", "+1: function definition"));
+      new CxxReportLocation(null, "1",
+        "The Cyclomatic Complexity of this file is 2 which is greater than 1 authorized."),
+      new CxxReportLocation(null, "3", "+1: function definition"),
+      new CxxReportLocation(null, "5", "+1: function definition"));
     softly.assertAll();
   }
 

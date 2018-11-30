@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
@@ -124,7 +123,7 @@ public class CxxCoberturaSensorTest {
 
     List<String> log = logTester.logs();
     assertThat(log).contains("Property 'sonar.cxx.coverage.reportPath': cannot find any files matching the Ant pattern(s) '"
-        + new File(fs.baseDir(), reportPathValue).getAbsolutePath() + "'");
+      + new File(fs.baseDir(), reportPathValue).getAbsolutePath() + "'");
   }
 
   @Test

@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.other;
 
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Rule;

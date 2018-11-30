@@ -26,9 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
-
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.issue.NewIssue;
@@ -49,6 +47,11 @@ import org.sonar.cxx.utils.CxxReportLocation;
 public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxIssuesReportSensor.class);
+
+  private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
+    CxxReportLocation location) {
+    return newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
+  }
   private final Set<String> notFoundFiles = new HashSet<>();
   private final Set<CxxReportIssue> uniqueIssues = new HashSet<>();
   private final Map<InputFile, Integer> violationsPerFileCount = new HashMap<>();
@@ -184,11 +187,6 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       LOG.warn("Cannot find the file '{}', skipping violations", location.getFile());
       return null;
     }
-  }
-
-  private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
-    CxxReportLocation location) {
-    return newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
   }
 
   /**

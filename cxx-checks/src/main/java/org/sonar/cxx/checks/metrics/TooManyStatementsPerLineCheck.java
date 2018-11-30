@@ -47,8 +47,24 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   private static final boolean DEFAULT_EXCLUDE_CASE_BREAK = false;
 
   /**
-   * excludeCaseBreak - Exclude 'break' statement if it is on the same line as
-   * the switch label (case: or default:)
+   * Exclude subsequent generated nodes, if they are consecutive and on the same line.
+   */
+  private static boolean isGeneratedNodeExcluded(AstNode astNode) {
+    AstNode prev = astNode.getPreviousAstNode();
+    return prev != null
+      && prev.getTokenLine() == astNode.getTokenLine()
+      && prev.isCopyBookOrGeneratedNode();
+  }
+
+  /**
+   * Exclude type alias definitions inside of blocks ( ... { using a = b; ... } ... )
+   */
+  private static boolean isTypeAlias(AstNode astNode) {
+    return astNode.getFirstDescendant(CxxGrammarImpl.aliasDeclaration) != null;
+  }
+
+  /**
+   * excludeCaseBreak - Exclude 'break' statement if it is on the same line as the switch label (case: or default:)
    */
   @RuleProperty(
     key = "excludeCaseBreak",
@@ -64,17 +80,6 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.statement);
-  }
-
-  /**
-   * Exclude subsequent generated nodes, if they are consecutive and on the same
-   * line.
-   */
-  private static boolean isGeneratedNodeExcluded(AstNode astNode) {
-    AstNode prev = astNode.getPreviousAstNode();
-    return prev != null
-      && prev.getTokenLine() == astNode.getTokenLine()
-      && prev.isCopyBookOrGeneratedNode();
   }
 
   /**
@@ -97,14 +102,6 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
       }
     }
     return exclude;
-  }
-
-  /**
-   * Exclude type alias definitions inside of blocks ( ... { using a = b; ... }
-   * ... )
-   */
-  private static boolean isTypeAlias(AstNode astNode) {
-    return astNode.getFirstDescendant(CxxGrammarImpl.aliasDeclaration) != null;
   }
 
   /**

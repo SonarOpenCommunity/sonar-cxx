@@ -24,7 +24,6 @@ import java.util.Scanner;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
@@ -65,7 +64,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(final SensorContext context, File report) {
     final String reportCharset = getContextStringProperty(context,
-        getLanguage().getPluginProperty(REPORT_CHARSET_DEF), DEFAULT_CHARSET_DEF);
+      getLanguage().getPluginProperty(REPORT_CHARSET_DEF), DEFAULT_CHARSET_DEF);
     LOG.debug("Parsing 'clang-tidy' report, CharSet= '{}'", reportCharset);
 
     try (Scanner scanner = new Scanner(report, reportCharset)) {

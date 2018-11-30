@@ -20,16 +20,14 @@
 package org.sonar.cxx;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
-
 import org.sonar.api.config.Configuration;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.AbstractLanguage;
-
-import java.util.Collections;
 
 /**
  * {@inheritDoc}
@@ -37,10 +35,10 @@ import java.util.Collections;
 public abstract class CxxLanguage extends AbstractLanguage {
 
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
+  public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
   private final String propertiesKey;
   private final Configuration settings;
   private final Map<CxxMetricsFactory.Key, Metric<?>> langSpecificMetrics;
-  public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
   public CxxLanguage(String key, String propertiesKey, Configuration settings) {
     super(key);

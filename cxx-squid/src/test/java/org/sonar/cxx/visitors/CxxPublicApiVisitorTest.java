@@ -56,24 +56,6 @@ public class CxxPublicApiVisitorTest {
     return fileName.substring(lastIndexOf);
   }
 
-  private class TestPublicApiVisitor extends AbstractCxxPublicApiVisitor<Grammar> {
-
-    final Map<String, List<Token>> idCommentMap = new HashMap<>();
-    boolean checkDoubleIDs = false;
-
-    TestPublicApiVisitor(boolean checkDoubleIDs) {
-      this.checkDoubleIDs = checkDoubleIDs;
-    }
-
-    @Override
-    protected void onPublicApi(AstNode node, String id, List<Token> comments) {
-      if (checkDoubleIDs && idCommentMap.containsKey(id)) {
-        Fail.fail("DOUBLE ID: " + id);
-      }
-      idCommentMap.put(id, comments);
-    }
-  }
-
   /**
    * Check that CxxPublicApiVisitor correctly counts API for given file.
    *
@@ -246,6 +228,24 @@ public class CxxPublicApiVisitorTest {
     assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(
       expectedIdCommentMap.keySet().size());
     assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
+  }
+
+  private class TestPublicApiVisitor extends AbstractCxxPublicApiVisitor<Grammar> {
+
+    final Map<String, List<Token>> idCommentMap = new HashMap<>();
+    boolean checkDoubleIDs = false;
+
+    TestPublicApiVisitor(boolean checkDoubleIDs) {
+      this.checkDoubleIDs = checkDoubleIDs;
+    }
+
+    @Override
+    protected void onPublicApi(AstNode node, String id, List<Token> comments) {
+      if (checkDoubleIDs && idCommentMap.containsKey(id)) {
+        Fail.fail("DOUBLE ID: " + id);
+      }
+      idCommentMap.put(id, comments);
+    }
   }
 
 }

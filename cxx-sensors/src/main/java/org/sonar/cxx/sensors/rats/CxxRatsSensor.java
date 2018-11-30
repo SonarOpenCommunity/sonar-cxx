@@ -21,9 +21,7 @@ package org.sonar.cxx.sensors.rats;
 
 import java.io.File;
 import java.util.List;
-
 import javax.annotation.Nullable;
-
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaders;
@@ -45,6 +43,13 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxRatsSensor.class);
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
   public static final String REPORT_PATH_KEY = "rats.reportPath";
+
+  private static String getVulnerabilityType(@Nullable Element child) {
+    if (child != null) {
+      return child.getTextTrim();
+    }
+    return MISSING_RATS_TYPE;
+  }
 
   /**
    * CxxRatsSensor for RATS Sensor
@@ -95,13 +100,6 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
       // when RATS fails the XML file might be incomplete
       LOG.error("Ignore incomplete XML output from RATS '{}'", CxxUtils.getStackTrace(e));
     }
-  }
-
-  private static String getVulnerabilityType(@Nullable Element child) {
-    if (child != null) {
-      return child.getTextTrim();
-    }
-    return MISSING_RATS_TYPE;
   }
 
   @Override

@@ -26,7 +26,6 @@ import com.sonar.sslr.api.Grammar;
 import java.beans.Statement;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
@@ -43,7 +42,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -137,7 +135,6 @@ public class CxxLint {
       formatter.printHelp("java -jar CxxLint-<sersion>.jar -f filetoanalyse", options);
       return;
     }
-
 
     try {
       File parent = targetFile.getParentFile();
@@ -236,7 +233,7 @@ public class CxxLint {
       LOG.info("LOC: {}", file.getInt(CxxMetric.LINES_OF_CODE));
       LOG.info("COMPLEXITY: {}", file.getInt(CxxMetric.COMPLEXITY));
 
-    } catch (InstantiationException | IllegalAccessException |NullPointerException ex) {
+    } catch (InstantiationException | IllegalAccessException | NullPointerException ex) {
       LOG.error("{}", ex);
     }
 

@@ -33,16 +33,16 @@ public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
   public static final String CUSTOM_RULES_KEY = "rats.customRules";
   private static final String NAME = "RATS";
 
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+
   /**
    * {@inheritDoc}
    */
   public CxxRatsRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-                                  CxxLanguage language) {
+    CxxLanguage language) {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
-  }
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
   }
 
   @Override

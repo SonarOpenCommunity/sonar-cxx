@@ -40,12 +40,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
     = "Source code parser: {} syntax error(s) detected. Syntax errors could cause invalid software metric values."
     + " Root cause are typically missing includes, missing macros or compiler specific extensions.";
   private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);
-  private final SquidAstVisitorContext<?> context;
   private static int errors = 0;
-
-  public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context) {
-    this.context = context;
-  }
 
   public static void finalReport() {
     if (errors != 0) {
@@ -56,6 +51,11 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
   @VisibleForTesting
   public static void resetReport() {
     errors = 0;
+  }
+  private final SquidAstVisitorContext<?> context;
+
+  public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context) {
+    this.context = context;
   }
 
   @Override

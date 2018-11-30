@@ -21,10 +21,9 @@ package org.sonar.cxx.api;
 
 import com.sonar.sslr.api.AstNode;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
-
-import org.assertj.core.api.SoftAssertions;
 
 public class CppPunctuatorTest {
 

@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.api.CxxKeyword;
@@ -53,9 +52,8 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String[] keywords = CxxKeyword.keywordValues();
-  private Charset charset = StandardCharsets.UTF_8;
   private static final Pattern DEFINE_DECLARATION_PATTERN = Pattern.compile("^\\s*#define\\s+([^\\s(]+).*$");
-
+  private Charset charset = StandardCharsets.UTF_8;
 
   @Override
   public void visitFile(AstNode astNode) {

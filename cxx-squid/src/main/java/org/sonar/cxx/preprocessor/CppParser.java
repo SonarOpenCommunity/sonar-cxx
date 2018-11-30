@@ -25,9 +25,6 @@ import org.sonar.cxx.CxxConfiguration;
 
 public final class CppParser {
 
-  private CppParser() {
-  }
-
   public static Parser<Grammar> create(CxxConfiguration conf) {
     return Parser.builder(CppGrammar.create())
       .withLexer(CppLexer.create(conf))
@@ -41,5 +38,8 @@ public final class CppParser {
       .build();
     parser.setRootRule(grammar.rule(CppGrammar.constantExpression));
     return parser;
+  }
+
+  private CppParser() {
   }
 }

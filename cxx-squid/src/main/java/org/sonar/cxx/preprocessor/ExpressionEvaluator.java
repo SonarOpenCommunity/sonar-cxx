@@ -29,9 +29,7 @@ import java.math.BigInteger;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.annotation.Nullable;
-
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxConfiguration;
@@ -43,6 +41,118 @@ public final class ExpressionEvaluator {
   private static final BigInteger UINT64_MAX = new BigInteger("FFFFFFFFFFFFFFFF", 16);
   private static final Logger LOG = Loggers.get(ExpressionEvaluator.class);
 
+  public static boolean eval(CxxConfiguration conf, CxxPreprocessor preprocessor, String constExpr) {
+    return new ExpressionEvaluator(conf, preprocessor).evalToBoolean(constExpr, null);
+  }
+
+  public static boolean eval(CxxConfiguration conf, CxxPreprocessor preprocessor, AstNode constExpr) {
+    return new ExpressionEvaluator(conf, preprocessor).evalToBoolean(constExpr);
+  }
+
+  // ///////////////// Primitives //////////////////////
+  private static BigInteger evalBool(String boolValue) {
+    return "true".equalsIgnoreCase(boolValue) ? BigInteger.ONE : BigInteger.ZERO;
+  }
+
+  private static BigInteger evalNumber(String intValue) {
+    // the if expressions aren't allowed to contain floats
+    BigInteger number;
+    try {
+      number = decode(intValue);
+    } catch (java.lang.NumberFormatException nfe) {
+      LOG.warn("Cannot decode the number '{}' falling back to value '{}' instead", intValue, BigInteger.ONE);
+      number = BigInteger.ONE;
+    }
+
+    return number;
+  }
+
+  private static BigInteger evalCharacter(String charValue) {
+    // TODO: replace this simplification by something more sane
+    return "'\0'".equals(charValue) ? BigInteger.ZERO : BigInteger.ONE;
+  }
+
+  private static AstNode getNextOperand(@Nullable AstNode node) {
+    AstNode sibling = node;
+    if (sibling != null) {
+      sibling = sibling.getNextSibling();
+      if (sibling != null) {
+        sibling = sibling.getNextSibling();
+      }
+    }
+    return sibling;
+  }
+
+  public static BigInteger decode(String number) {
+
+    // This function is only responsible for providing a string and a radix to BigInteger.
+    // The lexer ensures that the number has a valid format.
+    int radix = 10;
+    int begin = 0;
+    if (number.length() > 2) {
+      if (number.charAt(0) == '0') {
+        switch (number.charAt(1)) {
+          case 'x':
+          case 'X':
+            radix = 16; // 0x...
+            begin = 2;
+            break;
+          case 'b':
+          case 'B':
+            radix = 2; // 0b...
+            begin = 2;
+            break;
+          default:
+            radix = 8; // 0...
+            break;
+        }
+      }
+    }
+
+    StringBuilder sb = new StringBuilder(number.length());
+    boolean suffix = false;
+    for (int index = begin; index < number.length() && !suffix; index++) {
+      char c = number.charAt(index);
+      switch (c) {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+
+        case 'a':
+        case 'b':
+        case 'c':
+        case 'd':
+        case 'e':
+        case 'f':
+
+        case 'A':
+        case 'B':
+        case 'C':
+        case 'D':
+        case 'E':
+        case 'F':
+          sb.append(c);
+          break;
+
+        case '\'': // ignore digit separator
+          break;
+
+        default: // suffix
+          suffix = true;
+          break;
+      }
+    }
+
+    return new BigInteger(sb.toString(), radix);
+  }
+
   private final Parser<Grammar> parser;
   private final CxxPreprocessor preprocessor;
   private final Deque<String> macroEvaluationStack;
@@ -52,14 +162,6 @@ public final class ExpressionEvaluator {
 
     this.preprocessor = preprocessor;
     macroEvaluationStack = new LinkedList<>();
-  }
-
-  public static boolean eval(CxxConfiguration conf, CxxPreprocessor preprocessor, String constExpr) {
-    return new ExpressionEvaluator(conf, preprocessor).evalToBoolean(constExpr, null);
-  }
-
-  public static boolean eval(CxxConfiguration conf, CxxPreprocessor preprocessor, AstNode constExpr) {
-    return new ExpressionEvaluator(conf, preprocessor).evalToBoolean(constExpr);
   }
 
   private BigInteger evalToInt(String constExpr, @Nullable AstNode exprAst) {
@@ -186,40 +288,6 @@ public final class ExpressionEvaluator {
         + exprAst.getToken() + "', assuming 0");
       return BigInteger.ZERO;
     }
-  }
-
-  // ///////////////// Primitives //////////////////////
-  private static BigInteger evalBool(String boolValue) {
-    return "true".equalsIgnoreCase(boolValue) ? BigInteger.ONE : BigInteger.ZERO;
-  }
-
-  private static BigInteger evalNumber(String intValue) {
-    // the if expressions aren't allowed to contain floats
-    BigInteger number;
-    try {
-      number = decode(intValue);
-    } catch (java.lang.NumberFormatException nfe) {
-      LOG.warn("Cannot decode the number '{}' falling back to value '{}' instead", intValue, BigInteger.ONE);
-      number = BigInteger.ONE;
-    }
-
-    return number;
-  }
-
-  private static BigInteger evalCharacter(String charValue) {
-    // TODO: replace this simplification by something more sane
-    return "'\0'".equals(charValue) ? BigInteger.ZERO : BigInteger.ONE;
-  }
-
-  private static AstNode getNextOperand(@Nullable AstNode node) {
-    AstNode sibling = node;
-    if (sibling != null) {
-      sibling = sibling.getNextSibling();
-      if (sibling != null) {
-        sibling = sibling.getNextSibling();
-      }
-    }
-    return sibling;
   }
 
   // ////////////// logical expressions ///////////////////////////
@@ -497,73 +565,4 @@ public final class ExpressionEvaluator {
     return preprocessor.expandHasIncludeExpression(exprAst) ? BigInteger.ONE : BigInteger.ZERO;
   }
 
-  public static BigInteger decode(String number) {
-
-    // This function is only responsible for providing a string and a radix to BigInteger.
-    // The lexer ensures that the number has a valid format.
-    int radix = 10;
-    int begin = 0;
-    if (number.length() > 2) {
-      if (number.charAt(0) == '0') {
-        switch (number.charAt(1)) {
-          case 'x':
-          case 'X':
-            radix = 16; // 0x...
-            begin = 2;
-            break;
-          case 'b':
-          case 'B':
-            radix = 2; // 0b...
-            begin = 2;
-            break;
-          default:
-            radix = 8; // 0...
-            break;
-        }
-      }
-    }
-
-    StringBuilder sb = new StringBuilder(number.length());
-    boolean suffix = false;
-    for (int index = begin; index < number.length() && !suffix; index++) {
-      char c = number.charAt(index);
-      switch (c) {
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-
-        case 'a':
-        case 'b':
-        case 'c':
-        case 'd':
-        case 'e':
-        case 'f':
-
-        case 'A':
-        case 'B':
-        case 'C':
-        case 'D':
-        case 'E':
-        case 'F':
-          sb.append(c);
-          break;
-
-        case '\'': // ignore digit separator
-          break;
-
-        default: // suffix
-          suffix = true;
-          break;
-      }
-    }
-
-    return new BigInteger(sb.toString(), radix);
-  }
 }

@@ -24,7 +24,6 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
-
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,77 +45,6 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
 
   private NewHighlighting newHighlighting;
   private final SensorContext context;
-
-  private static class TokenLocation {
-
-    protected int startLine;
-    protected int startLineOffset;
-    protected int endLine;
-    protected int endLineOffset;
-
-    public TokenLocation(Token token) {
-      startLine = token.getLine();
-      startLineOffset = token.getColumn();
-      endLine = this.startLine;
-      endLineOffset = startLineOffset + token.getValue().length();
-    }
-
-    public int startLine() {
-      return startLine;
-    }
-
-    public int startLineOffset() {
-      return startLineOffset;
-    }
-
-    public int endLine() {
-      return endLine;
-    }
-
-    public int endLineOffset() {
-      return endLineOffset;
-    }
-
-    public boolean overlaps(@Nullable TokenLocation other) {
-      if (other != null) {
-        return !(startLineOffset() > other.endLineOffset()
-          || other.startLineOffset() > endLineOffset()
-          || startLine() > other.endLine()
-          || other.startLine() > endLine());
-      }
-      return false;
-    }
-
-  }
-
-  private static class CommentLocation extends TokenLocation {
-
-    public CommentLocation(Token token) {
-      super(token);
-      String value = token.getValue();
-      String[] lines = CxxUtils.EOL_PATTERN.split(value, -1);
-
-      if (lines.length > 1) {
-        endLine = token.getLine() + lines.length - 1;
-        endLineOffset = lines[lines.length - 1].length();
-      }
-    }
-  }
-
-  private static class PreprocessorDirectiveLocation extends TokenLocation {
-
-    public static final Pattern PREPROCESSOR_PATTERN = Pattern.compile("^[ \t]*#[ \t]*\\w+");
-
-    PreprocessorDirectiveLocation(Token token) {
-      super(token);
-      Matcher m = PREPROCESSOR_PATTERN.matcher(token.getValue());
-      if (m.find()) {
-        endLineOffset = startLineOffset + (m.end() - m.start());
-      } else {
-        endLineOffset = startLineOffset;
-      }
-    }
-  }
 
   public CxxHighlighterVisitor(SensorContext context) {
     this.context = context;
@@ -194,6 +122,77 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       }
     }
     return current;
+  }
+
+  private static class TokenLocation {
+
+    protected int startLine;
+    protected int startLineOffset;
+    protected int endLine;
+    protected int endLineOffset;
+
+    public TokenLocation(Token token) {
+      startLine = token.getLine();
+      startLineOffset = token.getColumn();
+      endLine = this.startLine;
+      endLineOffset = startLineOffset + token.getValue().length();
+    }
+
+    public int startLine() {
+      return startLine;
+    }
+
+    public int startLineOffset() {
+      return startLineOffset;
+    }
+
+    public int endLine() {
+      return endLine;
+    }
+
+    public int endLineOffset() {
+      return endLineOffset;
+    }
+
+    public boolean overlaps(@Nullable TokenLocation other) {
+      if (other != null) {
+        return !(startLineOffset() > other.endLineOffset()
+          || other.startLineOffset() > endLineOffset()
+          || startLine() > other.endLine()
+          || other.startLine() > endLine());
+      }
+      return false;
+    }
+
+  }
+
+  private static class CommentLocation extends TokenLocation {
+
+    public CommentLocation(Token token) {
+      super(token);
+      String value = token.getValue();
+      String[] lines = CxxUtils.EOL_PATTERN.split(value, -1);
+
+      if (lines.length > 1) {
+        endLine = token.getLine() + lines.length - 1;
+        endLineOffset = lines[lines.length - 1].length();
+      }
+    }
+  }
+
+  private static class PreprocessorDirectiveLocation extends TokenLocation {
+
+    public static final Pattern PREPROCESSOR_PATTERN = Pattern.compile("^[ \t]*#[ \t]*\\w+");
+
+    PreprocessorDirectiveLocation(Token token) {
+      super(token);
+      Matcher m = PREPROCESSOR_PATTERN.matcher(token.getValue());
+      if (m.find()) {
+        endLineOffset = startLineOffset + (m.end() - m.start());
+      } else {
+        endLineOffset = startLineOffset;
+      }
+    }
   }
 
 }

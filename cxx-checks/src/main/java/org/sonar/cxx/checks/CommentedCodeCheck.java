@@ -54,25 +54,9 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
 
   private static final double THRESHOLD = 0.94;
 
-  private final CodeRecognizer codeRecognizer = new CodeRecognizer(THRESHOLD, new CxxRecognizer());
-
   private static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
-  private static class CxxRecognizer implements LanguageFootprint {
-
-    @Override
-    public Set<Detector> getDetectors() {
-      Set<Detector> detectors = new HashSet<>();
-
-      detectors.add(new EndWithDetector(0.95, '}', ';', '{'));
-      detectors.add(new KeywordsDetector(0.7, "||", "&&"));
-      detectors.add(new KeywordsDetector(0.3, CppKeyword.keywordValues()));
-      detectors.add(new ContainsDetector(0.95, "for(", "if(", "while(", "catch(", "switch(", "try{", "else{"));
-
-      return detectors;
-    }
-
-  }
+  private final CodeRecognizer codeRecognizer = new CodeRecognizer(THRESHOLD, new CxxRecognizer());
 
   @Override
   public void visitToken(Token token) {
@@ -96,6 +80,22 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
         }
       }
     }
+  }
+
+  private static class CxxRecognizer implements LanguageFootprint {
+
+    @Override
+    public Set<Detector> getDetectors() {
+      Set<Detector> detectors = new HashSet<>();
+
+      detectors.add(new EndWithDetector(0.95, '}', ';', '{'));
+      detectors.add(new KeywordsDetector(0.7, "||", "&&"));
+      detectors.add(new KeywordsDetector(0.3, CppKeyword.keywordValues()));
+      detectors.add(new ContainsDetector(0.95, "for(", "if(", "while(", "catch(", "switch(", "try{", "else{"));
+
+      return detectors;
+    }
+
   }
 
 }

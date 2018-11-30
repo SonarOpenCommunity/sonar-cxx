@@ -19,10 +19,8 @@
  */
 package org.sonar.cxx;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.Map;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.api.ce.measure.Component.Type;
 import org.sonar.api.ce.measure.test.TestComponent;
@@ -49,7 +47,7 @@ public class DensityMeasureComputerTest {
   private static TestMeasureComputerContext createContext(DensityMeasureComputer computer) {
     final TestComponent component = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
     return new TestMeasureComputerContext(component, new TestSettings(), new MeasureComputerDefinitionBuilderImpl()
-        .setInputMetrics(computer.getInputMetrics()).setOutputMetrics(computer.getOutputMetrics()).build());
+      .setInputMetrics(computer.getInputMetrics()).setOutputMetrics(computer.getOutputMetrics()).build());
   }
 
   @Test

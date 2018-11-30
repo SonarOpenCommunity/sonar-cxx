@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -31,9 +30,9 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.CheckForNull;
 import org.apache.tools.ant.DirectoryScanner;
+import static org.mockito.ArgumentMatchers.same;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.same;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
@@ -78,8 +77,8 @@ public class TestUtils {
   }
 
   /**
-   * Mocks the filesystem given the root directory and lists of source and tests
-   * directories. The latter are given just as in sonar-project.properties
+   * Mocks the filesystem given the root directory and lists of source and tests directories. The latter are given just
+   * as in sonar-project.properties
    *
    * @param baseDir project root directory
    * @param sourceDirs List of source directories, relative to baseDir.
@@ -106,7 +105,7 @@ public class TestUtils {
     when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
     when(language.getFileSuffixes())
       .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
-    when(language.getHeaderFileSuffixes()).thenReturn(new String[] { ".hpp", ".h", ".hxx", ".hh" });
+    when(language.getHeaderFileSuffixes()).thenReturn(new String[]{".hpp", ".h", ".hxx", ".hh"});
 
     Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap("cxx", "cxx");
     metrics.forEach((key, value) -> when(language.getMetric(same(key))).thenReturn((Metric<Serializable>) value));
@@ -143,8 +142,7 @@ public class TestUtils {
   }
 
   /**
-   * Search for a test resource in the classpath. For example
-   * getResource("org/sonar/MyClass/foo.txt");
+   * Search for a test resource in the classpath. For example getResource("org/sonar/MyClass/foo.txt");
    *
    * @param path the starting slash is optional
    * @return the resource. Null if resource not found

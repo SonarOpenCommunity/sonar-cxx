@@ -19,10 +19,9 @@
  */
 package org.sonar.cxx.checks.error;
 
-import static org.hamcrest.Matchers.containsString;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import static org.hamcrest.Matchers.containsString;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;

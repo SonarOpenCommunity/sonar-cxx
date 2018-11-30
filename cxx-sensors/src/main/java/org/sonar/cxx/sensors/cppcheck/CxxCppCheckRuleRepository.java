@@ -33,16 +33,16 @@ public class CxxCppCheckRuleRepository extends CxxAbstractRuleRepository {
   public static final String CUSTOM_RULES_KEY = "cppcheck.customRules";
   private static final String NAME = "Cppcheck";
 
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+
   /**
    * {@inheritDoc}
    */
   public CxxCppCheckRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-                                      CxxLanguage language) {
+    CxxLanguage language) {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
-  }
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
   }
 
   @Override

@@ -19,11 +19,9 @@
  */
 package org.sonar.cxx.tag;
 
-import org.junit.Test;
-
 import java.lang.reflect.Constructor;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 
 public class TagTest {
 

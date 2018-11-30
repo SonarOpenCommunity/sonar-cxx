@@ -36,46 +36,6 @@ import org.sonar.cxx.sensors.utils.StaxParser.XmlStreamHandler;
  */
 public class XunitReportParser implements XmlStreamHandler {
 
-  private final List<TestCase> testCases = new LinkedList<>();
-
-  /**
-   * Returns successfully parsed testcases.
-   */
-  public List<TestCase> getTestCases() {
-    return new LinkedList<>(testCases);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-    SMInputCursor testSuiteCursor = rootCursor.constructDescendantCursor(new ElementFilter("testsuite"));
-    try {
-      while (testSuiteCursor.getNext() != null) {
-        parseTestSuiteTag(testSuiteCursor);
-      }
-    } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-      throw new EmptyReportException("Cannot read Xunit report", eofExc);
-    }
-  }
-
-  public void parseTestSuiteTag(SMInputCursor testSuiteCursor)
-    throws XMLStreamException {
-    String testSuiteName = testSuiteCursor.getAttrValue("name");
-    String testSuiteFName = testSuiteCursor.getAttrValue("filename");
-
-    SMInputCursor childCursor = testSuiteCursor.childElementCursor();
-    while (childCursor.getNext() != null) {
-      String elementName = childCursor.getLocalName();
-      if ("testsuite".equals(elementName)) {
-        parseTestSuiteTag(childCursor);
-      } else if ("testcase".equals(elementName)) {
-        testCases.add(parseTestCaseTag(childCursor, testSuiteName, testSuiteFName));
-      }
-    }
-  }
-
   private static TestCase parseTestCaseTag(SMInputCursor testCaseCursor, String tsName, String tsFilename)
     throws XMLStreamException {
     String classname = testCaseCursor.getAttrValue("classname");
@@ -138,4 +98,45 @@ public class XunitReportParser implements XmlStreamHandler {
     }
     return name;
   }
+
+  private final List<TestCase> testCases = new LinkedList<>();
+
+  /**
+   * Returns successfully parsed testcases.
+   */
+  public List<TestCase> getTestCases() {
+    return new LinkedList<>(testCases);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
+    SMInputCursor testSuiteCursor = rootCursor.constructDescendantCursor(new ElementFilter("testsuite"));
+    try {
+      while (testSuiteCursor.getNext() != null) {
+        parseTestSuiteTag(testSuiteCursor);
+      }
+    } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
+      throw new EmptyReportException("Cannot read Xunit report", eofExc);
+    }
+  }
+
+  public void parseTestSuiteTag(SMInputCursor testSuiteCursor)
+    throws XMLStreamException {
+    String testSuiteName = testSuiteCursor.getAttrValue("name");
+    String testSuiteFName = testSuiteCursor.getAttrValue("filename");
+
+    SMInputCursor childCursor = testSuiteCursor.childElementCursor();
+    while (childCursor.getNext() != null) {
+      String elementName = childCursor.getLocalName();
+      if ("testsuite".equals(elementName)) {
+        parseTestSuiteTag(childCursor);
+      } else if ("testcase".equals(elementName)) {
+        testCases.add(parseTestCaseTag(childCursor, testSuiteName, testSuiteFName));
+      }
+    }
+  }
+
 }

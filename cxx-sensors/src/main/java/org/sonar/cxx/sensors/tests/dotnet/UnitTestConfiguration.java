@@ -22,12 +22,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-
-// origin https://github.com/SonarSource/sonar-dotnet-tests-library/
-// SonarQube .NET Tests Library
-// Copyright (C) 2014-2017 SonarSource SA
-// mailto:info AT sonarsource DOT com
-
 import org.sonar.cxx.CxxLanguage;
 
 public class UnitTestConfiguration {

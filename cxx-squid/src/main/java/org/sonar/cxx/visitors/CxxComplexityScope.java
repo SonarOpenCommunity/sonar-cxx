@@ -19,11 +19,10 @@
  */
 package org.sonar.cxx.visitors;
 
+import com.sonar.sslr.api.AstNode;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.sonar.sslr.api.AstNode;
 
 /**
  * Describe a code scope (function definition, class definition, entire file etc) in terms of complexity sources

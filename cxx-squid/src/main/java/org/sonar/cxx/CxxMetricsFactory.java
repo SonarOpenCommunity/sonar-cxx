@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 
@@ -37,56 +36,6 @@ import org.sonar.api.measures.Metric;
  *
  */
 public class CxxMetricsFactory {
-
-  private CxxMetricsFactory() {
-  }
-
-  public enum Key {
-    // Introduce own documentation metrics, after they has been removed from SQ core
-    // see https://jira.sonarsource.com/browse/SONAR-8328
-    PUBLIC_API_KEY("public_api"),
-    PUBLIC_UNDOCUMENTED_API_KEY("public_undocumented_api"),
-    PUBLIC_DOCUMENTED_API_DENSITY_KEY("public_documented_api_density"),
-    // Introduce metric keys for sensors - number of issues per file / per module
-    CLANG_SA_SENSOR_ISSUES_KEY("ClangSA"),
-    CLANG_TIDY_SENSOR_ISSUES_KEY("Clang-Tidy"),
-    VC_SENSOR_ISSUES_KEY("Compiler-VC"),
-    GCC_SENSOR_ISSUES_KEY("Compiler-GCC"),
-    CPPCHECK_SENSOR_ISSUES_KEY("CppCheck"),
-    DRMEMORY_SENSOR_ISSUES_KEY("DrMemory"),
-    OTHER_SENSOR_ISSUES_KEY("other"),
-    PCLINT_SENSOR_ISSUES_KEY("PC-Lint"),
-    RATS_SENSOR_ISSUES_KEY("Rats"),
-    SQUID_SENSOR_ISSUES_KEY("Squid"),
-    VALGRIND_SENSOR_KEY("Valgrind"),
-    VERAXX_SENSOR_KEY("Vera++"),
-    // Introduce additional complexity metrics
-    COMPLEX_FUNCTIONS_KEY("complex_functions"),
-    COMPLEX_FUNCTIONS_PERC_KEY("perc_complex_functions"),
-    COMPLEX_FUNCTIONS_LOC_KEY("loc_in_complex_functions"),
-    COMPLEX_FUNCTIONS_LOC_PERC_KEY("perc_loc_in_complex_functions"),
-    BIG_FUNCTIONS_KEY("big_functions"),
-    BIG_FUNCTIONS_LOC_KEY("loc_in_big_functions"),
-    BIG_FUNCTIONS_PERC_KEY("perc_big_functions"),
-    BIG_FUNCTIONS_LOC_PERC_KEY("perc_loc_in_big_functions"),
-    LOC_IN_FUNCTIONS_KEY("loc_in_functions");
-
-    private final String key;
-
-    Key(final String key) {
-      this.key = key.toUpperCase(Locale.ENGLISH);
-    }
-
-    String getLanguageSpecificKey(String langPropertiesKey) {
-      return langPropertiesKey.toUpperCase(Locale.ENGLISH) + "-" + key;
-    }
-
-    @Override
-    public String toString() {
-      return key;
-    }
-
-  }
 
   /**
    * Generate a map <code>{ language independent metric key : language dependent Metric object }</code>
@@ -264,5 +213,55 @@ public class CxxMetricsFactory {
       .setOptimizedBestValue(Boolean.TRUE)
       .create();
     metrics.put(metricKey, metric);
+  }
+
+  private CxxMetricsFactory() {
+  }
+
+  public enum Key {
+    // Introduce own documentation metrics, after they has been removed from SQ core
+    // see https://jira.sonarsource.com/browse/SONAR-8328
+    PUBLIC_API_KEY("public_api"),
+    PUBLIC_UNDOCUMENTED_API_KEY("public_undocumented_api"),
+    PUBLIC_DOCUMENTED_API_DENSITY_KEY("public_documented_api_density"),
+    // Introduce metric keys for sensors - number of issues per file / per module
+    CLANG_SA_SENSOR_ISSUES_KEY("ClangSA"),
+    CLANG_TIDY_SENSOR_ISSUES_KEY("Clang-Tidy"),
+    VC_SENSOR_ISSUES_KEY("Compiler-VC"),
+    GCC_SENSOR_ISSUES_KEY("Compiler-GCC"),
+    CPPCHECK_SENSOR_ISSUES_KEY("CppCheck"),
+    DRMEMORY_SENSOR_ISSUES_KEY("DrMemory"),
+    OTHER_SENSOR_ISSUES_KEY("other"),
+    PCLINT_SENSOR_ISSUES_KEY("PC-Lint"),
+    RATS_SENSOR_ISSUES_KEY("Rats"),
+    SQUID_SENSOR_ISSUES_KEY("Squid"),
+    VALGRIND_SENSOR_KEY("Valgrind"),
+    VERAXX_SENSOR_KEY("Vera++"),
+    // Introduce additional complexity metrics
+    COMPLEX_FUNCTIONS_KEY("complex_functions"),
+    COMPLEX_FUNCTIONS_PERC_KEY("perc_complex_functions"),
+    COMPLEX_FUNCTIONS_LOC_KEY("loc_in_complex_functions"),
+    COMPLEX_FUNCTIONS_LOC_PERC_KEY("perc_loc_in_complex_functions"),
+    BIG_FUNCTIONS_KEY("big_functions"),
+    BIG_FUNCTIONS_LOC_KEY("loc_in_big_functions"),
+    BIG_FUNCTIONS_PERC_KEY("perc_big_functions"),
+    BIG_FUNCTIONS_LOC_PERC_KEY("perc_loc_in_big_functions"),
+    LOC_IN_FUNCTIONS_KEY("loc_in_functions");
+
+    private final String key;
+
+    Key(final String key) {
+      this.key = key.toUpperCase(Locale.ENGLISH);
+    }
+
+    String getLanguageSpecificKey(String langPropertiesKey) {
+      return langPropertiesKey.toUpperCase(Locale.ENGLISH) + "-" + key;
+    }
+
+    @Override
+    public String toString() {
+      return key;
+    }
+
   }
 }

@@ -35,24 +35,6 @@ public class VisualStudioParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(VisualStudioParser.class);
 
-  public VisualStudioParser() {
-    // no operation but necessary for list of coverage parsers
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void processReport(File report, final Map<String, CoverageMeasures> coverageData)
-    throws XMLStreamException {
-    LOG.debug("Parsing 'Visual Studio' format");
-    StaxParser parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
-      rootCursor.advance();
-      collectModuleMeasures(rootCursor.descendantElementCursor("module"), coverageData);
-    });
-    parser.parse(report);
-  }
-
   private static void collectModuleMeasures(SMInputCursor module, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (module.getNext() != null) {
@@ -120,6 +102,24 @@ public class VisualStudioParser extends CxxCoverageParser {
         startLine++;
       }
     }
+  }
+
+  public VisualStudioParser() {
+    // no operation but necessary for list of coverage parsers
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void processReport(File report, final Map<String, CoverageMeasures> coverageData)
+    throws XMLStreamException {
+    LOG.debug("Parsing 'Visual Studio' format");
+    StaxParser parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+      rootCursor.advance();
+      collectModuleMeasures(rootCursor.descendantElementCursor("module"), coverageData);
+    });
+    parser.parse(report);
   }
 
   @Override

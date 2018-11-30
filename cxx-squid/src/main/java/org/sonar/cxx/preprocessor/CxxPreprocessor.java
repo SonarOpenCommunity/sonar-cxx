@@ -89,93 +89,303 @@ public class CxxPreprocessor extends Preprocessor {
     = "Preprocessor: {} include directive error(s). This is only relevant if parser creates syntax errors."
     + " The preprocessor searches for include files in the with 'sonar.cxx.includeDirectories'"
     + " defined directories and order.";
+  private static final Logger LOG = Loggers.get(CxxPreprocessor.class);
+  private static final String VARIADICPARAMETER = "__VA_ARGS__";
+  private static int missingIncludeFilesCounter = 0;
+
+  public static void finalReport() {
+    if (missingIncludeFilesCounter != 0) {
+      LOG.warn(MISSING_INCLUDE_MSG, missingIncludeFilesCounter);
+    }
+  }
+
+  @VisibleForTesting
+  public static void resetReport() {
+    missingIncludeFilesCounter = 0;
+  }
+
+  private static List<Token> stripEOF(List<Token> tokens) {
+    if (tokens.get(tokens.size() - 1).getType().equals(EOF)) {
+      return tokens.subList(0, tokens.size() - 1);
+    } else {
+      return tokens;
+    }
+  }
+
+  private static String serialize(List<Token> tokens) {
+    return serialize(tokens, " ");
+  }
+
+  private static String serialize(List<Token> tokens, String spacer) {
+    StringJoiner js = new StringJoiner(spacer);
+    for (Token t : tokens) {
+      js.add(t.getValue());
+    }
+    return js.toString();
+  }
+
+  private static int matchArguments(List<Token> tokens, List<Token> arguments) {
+    List<Token> rest = new ArrayList<>(tokens);
+    try {
+      rest = match(rest, "(");
+    } catch (MismatchException me) {
+      return 0;
+    }
+
+    try {
+      do {
+        rest = matchArgument(rest, arguments);
+        try {
+          rest = match(rest, ",");
+        } catch (MismatchException me) {
+          break;
+        }
+      } while (true);
+    } catch (MismatchException me) {
+    }
+    try {
+      rest = match(rest, ")");
+    } catch (MismatchException me) {
+      LOG.error("MismatchException : '{}' rest: '{}'", me.getMessage(), rest);
+      return 0;
+    }
+    return tokens.size() - rest.size();
+  }
+
+  private static List<Token> match(List<Token> tokens, String str) throws MismatchException {
+    if (!tokens.get(0).getValue().equals(str)) {
+      throw new MismatchException("Mismatch: expected '" + str + "' got: '"
+        + tokens.get(0).getValue() + "'" + " [" + tokens.get(0).getURI() + "("
+        + tokens.get(0).getLine() + "," + tokens.get(0).getColumn() + ")]");
+    }
+    return tokens.subList(1, tokens.size());
+  }
+
+  private static List<Token> matchArgument(List<Token> tokens, List<Token> arguments) throws MismatchException {
+    int nestingLevel = 0;
+    int tokensConsumed = 0;
+    int noTokens = tokens.size();
+    Token firstToken = tokens.get(0);
+    Token currToken = firstToken;
+    String curr = currToken.getValue();
+    List<Token> matchedTokens = new LinkedList<>();
+
+    while (true) {
+      if (nestingLevel == 0 && (",".equals(curr) || ")".equals(curr))) {
+        if (tokensConsumed > 0) {
+          arguments.add(Token.builder()
+            .setLine(firstToken.getLine())
+            .setColumn(firstToken.getColumn())
+            .setURI(firstToken.getURI())
+            .setValueAndOriginalValue(serialize(matchedTokens).trim())
+            .setType(STRING)
+            .build());
+        }
+        return tokens.subList(tokensConsumed, noTokens);
+      }
+
+      if ("(".equals(curr)) {
+        nestingLevel++;
+      } else if (")".equals(curr)) {
+        nestingLevel--;
+      }
+
+      tokensConsumed++;
+      if (tokensConsumed == noTokens) {
+        throw new MismatchException("reached the end of the stream while matching a macro argument");
+      }
+
+      matchedTokens.add(currToken);
+      currToken = tokens.get(tokensConsumed);
+      curr = currToken.getValue();
+    }
+  }
+
+  private static List<Token> evaluateHashhashOperators(List<Token> tokens) {
+    List<Token> newTokens = new ArrayList<>();
+
+    Iterator<Token> it = tokens.iterator();
+    while (it.hasNext()) {
+      Token curr = it.next();
+      if ("##".equals(curr.getValue())) {
+        Token pred = predConcatToken(newTokens);
+        Token succ = succConcatToken(it);
+        if (pred != null && succ != null) {
+          newTokens.add(Token.builder()
+            .setLine(pred.getLine())
+            .setColumn(pred.getColumn())
+            .setURI(pred.getURI())
+            .setValueAndOriginalValue(pred.getValue() + succ.getValue())
+            .setType(pred.getType())
+            .setGeneratedCode(true)
+            .build());
+        } else {
+          LOG.error("Missing data : succ ='{}' or pred = '{}'", succ, pred);
+        }
+      } else {
+        newTokens.add(curr);
+      }
+    }
+
+    return newTokens;
+  }
+
+  @Nullable
+  private static Token predConcatToken(List<Token> tokens) {
+    while (!tokens.isEmpty()) {
+      Token last = tokens.remove(tokens.size() - 1);
+      if (!last.getType().equals(WS)) {
+        if (!tokens.isEmpty()) {
+          Token pred = tokens.get(tokens.size() - 1);
+          if (!pred.getType().equals(WS) && !pred.hasTrivia()) {
+            // Needed to paste tokens 0 and x back together after #define N(hex) 0x ## hex
+            tokens.remove(tokens.size() - 1);
+            String replacement = pred.getValue() + last.getValue();
+            last = Token.builder()
+              .setLine(pred.getLine())
+              .setColumn(pred.getColumn())
+              .setURI(pred.getURI())
+              .setValueAndOriginalValue(replacement)
+              .setType(pred.getType())
+              .setGeneratedCode(true)
+              .build();
+          }
+        }
+        return last;
+      }
+    }
+    return null;
+  }
+
+  @Nullable
+  private static Token succConcatToken(Iterator<Token> it) {
+    Token succ = null;
+    while (it.hasNext()) {
+      succ = it.next();
+      if (!"##".equals(succ.getValue()) && !succ.getType().equals(WS)) {
+        break;
+      }
+    }
+    return succ;
+  }
+
+  private static String quote(String str) {
+    StringBuilder result = new StringBuilder(2 * str.length());
+    boolean addBlank = false;
+    boolean ignoreNextBlank = false;
+    for (int i = 0; i < str.length(); i++) {
+      char c = str.charAt(i);
+      if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') { // token
+        if (addBlank) {
+          result.append(' ');
+          addBlank = false;
+        }
+        result.append(c);
+      } else { // special characters
+        switch (c) {
+          case ' ':
+            if (ignoreNextBlank) {
+              ignoreNextBlank = false;
+            } else {
+              addBlank = true;
+            }
+            break;
+          case '\"':
+            if (addBlank) {
+              result.append(' ');
+              addBlank = false;
+            }
+            result.append("\\\"");
+            break;
+          case '\\':
+            result.append("\\\\");
+            addBlank = false;
+            ignoreNextBlank = true;
+            break;
+          default: // operator
+            result.append(c);
+            addBlank = false;
+            ignoreNextBlank = true;
+            break;
+        }
+      }
+    }
+    return result.toString();
+  }
+
+  private static String encloseWithQuotes(String str) {
+    return "\"" + str + "\"";
+  }
+
+  private static List<Token> reallocate(List<Token> tokens, Token token) {
+    List<Token> reallocated = new LinkedList<>();
+    int currColumn = token.getColumn();
+    for (Token t : tokens) {
+      reallocated.add(Token.builder()
+        .setLine(token.getLine())
+        .setColumn(currColumn)
+        .setURI(token.getURI())
+        .setValueAndOriginalValue(t.getValue())
+        .setType(t.getType())
+        .setGeneratedCode(true)
+        .build());
+      currColumn += t.getValue().length() + 1;
+    }
+
+    return reallocated;
+  }
+
+  private static Macro parseMacroDefinition(AstNode defineLineAst) {
+    AstNode ast = defineLineAst.getFirstChild();
+    AstNode nameNode = ast.getFirstDescendant(CppGrammar.ppToken);
+    String macroName = nameNode.getTokenValue();
+
+    AstNode paramList = ast.getFirstDescendant(CppGrammar.parameterList);
+    List<Token> macroParams = paramList == null
+      ? "objectlikeMacroDefinition".equals(ast.getName()) ? null : new LinkedList<>() : getParams(paramList);
+
+    AstNode vaargs = ast.getFirstDescendant(CppGrammar.variadicparameter);
+    if ((vaargs != null) && (macroParams != null)) {
+      AstNode identifier = vaargs.getFirstChild(IDENTIFIER);
+      macroParams.add(identifier == null
+        ? Token.builder()
+          .setLine(vaargs.getToken().getLine())
+          .setColumn(vaargs.getToken().getColumn())
+          .setURI(vaargs.getToken().getURI())
+          .setValueAndOriginalValue(VARIADICPARAMETER)
+          .setType(IDENTIFIER)
+          .setGeneratedCode(true)
+          .build()
+        : identifier.getToken());
+    }
+
+    AstNode replList = ast.getFirstDescendant(CppGrammar.replacementList);
+    List<Token> macroBody = replList == null
+      ? new LinkedList<>() : replList.getTokens().subList(0, replList.getTokens().size() - 1);
+
+    return new Macro(macroName, macroParams, macroBody, vaargs != null);
+  }
+
+  private static List<Token> getParams(AstNode identListAst) {
+    List<Token> params = new ArrayList<>();
+    for (AstNode node : identListAst.getChildren(IDENTIFIER)) {
+      params.add(node.getToken());
+    }
+
+    return params;
+  }
+
+  private static String getMacroName(AstNode ast) {
+    return ast.getFirstDescendant(IDENTIFIER).getTokenValue();
+  }
+
+  private static String stripQuotes(String str) {
+    return str.substring(1, str.length() - 1);
+  }
   private final CxxLanguage language;
   private File currentContextFile;
   private String rootFilePath;
 
-  private static class State {
-
-    private boolean skipPreprocessorDirectives;
-    private boolean conditionWasTrue;
-    private int conditionalInclusionCounter;
-    private File includeUnderAnalysis;
-
-    public State(@Nullable File includeUnderAnalysis) {
-      this.skipPreprocessorDirectives = false;
-      this.conditionWasTrue = false;
-      this.conditionalInclusionCounter = 0;
-      this.includeUnderAnalysis = includeUnderAnalysis;
-    }
-
-    /**
-     * reset preprocessor state
-     */
-    public final void reset() {
-      skipPreprocessorDirectives = false;
-      conditionWasTrue = false;
-      conditionalInclusionCounter = 0;
-      includeUnderAnalysis = null;
-    }
-  }
-
-  static class MismatchException extends Exception {
-
-    private static final long serialVersionUID = 1960113363232807009L;
-
-    MismatchException(String message) {
-      super(message);
-    }
-
-    MismatchException(Throwable cause) {
-      super(cause);
-    }
-
-    MismatchException(String message, Throwable cause) {
-      super(message, cause);
-    }
-
-    MismatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-      super(message, cause, enableSuppression, writableStackTrace);
-    }
-  }
-
-  static final class Macro {
-
-    private final String name;
-    private final List<Token> params;
-    private final List<Token> body;
-    private final boolean isVariadic;
-
-    public Macro(String name, @Nullable List<Token> params, @Nullable List<Token> body, boolean variadic) {
-      this.name = name;
-      if (params == null) {
-        this.params = null;
-      } else {
-        this.params = params.stream().collect(Collectors.toList());
-      }
-      if (body == null) {
-        this.body = null;
-      } else {
-        this.body = body.stream().collect(Collectors.toList());
-      }
-      this.isVariadic = variadic;
-    }
-
-    @Override
-    public String toString() {
-      return name
-        + (params == null ? "" : "(" + serialize(params, ", ") + (isVariadic ? "..." : "") + ")")
-        + " -> '" + serialize(body) + "'";
-    }
-
-    public boolean checkArgumentsCount(int count) {
-      return isVariadic
-        ? count >= params.size() - 1
-        : count == params.size();
-    }
-  }
-
-  private static final Logger LOG = Loggers.get(CxxPreprocessor.class);
   private Parser<Grammar> pplineParser;
   private final MapChain<String, Macro> fixedMacros = new MapChain<>();
   private MapChain<String, Macro> unitMacros;
@@ -186,55 +396,8 @@ public class CxxPreprocessor extends Preprocessor {
   private List<String> cFilesPatterns;
   private CxxConfiguration conf;
   private CxxCompilationUnitSettings compilationUnitSettings;
-  private static final String VARIADICPARAMETER = "__VA_ARGS__";
-
-  public static class Include {
-
-    private final int line;
-    private final String path;
-
-    Include(int line, String path) {
-      this.line = line;
-      this.path = path;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-
-      Include that = (Include) o;
-
-      if (line != that.line) {
-        return false;
-      }
-      if (path != null ? !path.equals(that.path) : that.path != null) {
-        return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      return 31 * line + (path != null ? path.hashCode() : 0);
-    }
-
-    public String getPath() {
-      return path;
-    }
-
-    public int getLine() {
-      return line;
-    }
-  }
   private final Multimap<String, Include> includedFiles = HashMultimap.create();
   private final Multimap<String, Include> missingIncludeFiles = HashMultimap.create();
-  private static int missingIncludeFilesCounter = 0;
 
   private State currentFileState = new State(null);
   private final Deque<State> globalStateStack = new LinkedList<>();
@@ -288,17 +451,6 @@ public class CxxPreprocessor extends Preprocessor {
     } finally {
       getMacros().setHighPrio(false);
     }
-  }
-
-  public static void finalReport() {
-    if (missingIncludeFilesCounter != 0) {
-      LOG.warn(MISSING_INCLUDE_MSG, missingIncludeFilesCounter);
-    }
-  }
-
-  @VisibleForTesting
-  public static void resetReport() {
-    missingIncludeFilesCounter = 0;
   }
 
   private void registerMacros(Map<String, String> standardMacros) {
@@ -533,7 +685,7 @@ public class CxxPreprocessor extends Preprocessor {
       try {
         currentFileState.skipPreprocessorDirectives = false;
         currentFileState.skipPreprocessorDirectives = !ExpressionEvaluator.eval(conf, this,
-            ast.getFirstDescendant(CppGrammar.constantExpression));
+          ast.getFirstDescendant(CppGrammar.constantExpression));
       } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
           filename, token.getLine(), token.getValue());
@@ -568,7 +720,7 @@ public class CxxPreprocessor extends Preprocessor {
           }
           currentFileState.skipPreprocessorDirectives = false;
           currentFileState.skipPreprocessorDirectives = !ExpressionEvaluator.eval(conf, this,
-              ast.getFirstDescendant(CppGrammar.constantExpression));
+            ast.getFirstDescendant(CppGrammar.constantExpression));
         } catch (EvaluationException e) {
           LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
             filename, token.getLine(), token.getValue());
@@ -864,103 +1016,6 @@ public class CxxPreprocessor extends Preprocessor {
     return tokens;
   }
 
-  private static List<Token> stripEOF(List<Token> tokens) {
-    if (tokens.get(tokens.size() - 1).getType().equals(EOF)) {
-      return tokens.subList(0, tokens.size() - 1);
-    } else {
-      return tokens;
-    }
-  }
-
-  private static String serialize(List<Token> tokens) {
-    return serialize(tokens, " ");
-  }
-
-  private static String serialize(List<Token> tokens, String spacer) {
-    StringJoiner js = new StringJoiner(spacer);
-    for (Token t : tokens) {
-      js.add(t.getValue());
-    }
-    return js.toString();
-  }
-
-  private static int matchArguments(List<Token> tokens, List<Token> arguments) {
-    List<Token> rest = new ArrayList<>(tokens);
-    try {
-      rest = match(rest, "(");
-    } catch (MismatchException me) {
-      return 0;
-    }
-
-    try {
-      do {
-        rest = matchArgument(rest, arguments);
-        try {
-          rest = match(rest, ",");
-        } catch (MismatchException me) {
-          break;
-        }
-      } while (true);
-    } catch (MismatchException me) {
-    }
-    try {
-      rest = match(rest, ")");
-    } catch (MismatchException me) {
-      LOG.error("MismatchException : '{}' rest: '{}'", me.getMessage(), rest);
-      return 0;
-    }
-    return tokens.size() - rest.size();
-  }
-
-  private static List<Token> match(List<Token> tokens, String str) throws MismatchException {
-    if (!tokens.get(0).getValue().equals(str)) {
-      throw new MismatchException("Mismatch: expected '" + str + "' got: '"
-        + tokens.get(0).getValue() + "'" + " [" + tokens.get(0).getURI() + "("
-        + tokens.get(0).getLine() + "," + tokens.get(0).getColumn() + ")]");
-    }
-    return tokens.subList(1, tokens.size());
-  }
-
-  private static List<Token> matchArgument(List<Token> tokens, List<Token> arguments) throws MismatchException {
-    int nestingLevel = 0;
-    int tokensConsumed = 0;
-    int noTokens = tokens.size();
-    Token firstToken = tokens.get(0);
-    Token currToken = firstToken;
-    String curr = currToken.getValue();
-    List<Token> matchedTokens = new LinkedList<>();
-
-    while (true) {
-      if (nestingLevel == 0 && (",".equals(curr) || ")".equals(curr))) {
-        if (tokensConsumed > 0) {
-          arguments.add(Token.builder()
-            .setLine(firstToken.getLine())
-            .setColumn(firstToken.getColumn())
-            .setURI(firstToken.getURI())
-            .setValueAndOriginalValue(serialize(matchedTokens).trim())
-            .setType(STRING)
-            .build());
-        }
-        return tokens.subList(tokensConsumed, noTokens);
-      }
-
-      if ("(".equals(curr)) {
-        nestingLevel++;
-      } else if (")".equals(curr)) {
-        nestingLevel--;
-      }
-
-      tokensConsumed++;
-      if (tokensConsumed == noTokens) {
-        throw new MismatchException("reached the end of the stream while matching a macro argument");
-      }
-
-      matchedTokens.add(currToken);
-      currToken = tokens.get(tokensConsumed);
-      curr = currToken.getValue();
-    }
-  }
-
   private List<Token> replaceParams(List<Token> body, List<Token> parameters, List<Token> arguments) {
     // Replace all parameters by according arguments
     // "Stringify" the argument if the according parameter is preceded by an #
@@ -1079,183 +1134,9 @@ public class CxxPreprocessor extends Preprocessor {
     return newTokens;
   }
 
-  private static List<Token> evaluateHashhashOperators(List<Token> tokens) {
-    List<Token> newTokens = new ArrayList<>();
-
-    Iterator<Token> it = tokens.iterator();
-    while (it.hasNext()) {
-      Token curr = it.next();
-      if ("##".equals(curr.getValue())) {
-        Token pred = predConcatToken(newTokens);
-        Token succ = succConcatToken(it);
-        if (pred != null && succ != null) {
-          newTokens.add(Token.builder()
-            .setLine(pred.getLine())
-            .setColumn(pred.getColumn())
-            .setURI(pred.getURI())
-            .setValueAndOriginalValue(pred.getValue() + succ.getValue())
-            .setType(pred.getType())
-            .setGeneratedCode(true)
-            .build());
-        } else {
-          LOG.error("Missing data : succ ='{}' or pred = '{}'", succ, pred);
-        }
-      } else {
-        newTokens.add(curr);
-      }
-    }
-
-    return newTokens;
-  }
-
-  @Nullable
-  private static Token predConcatToken(List<Token> tokens) {
-    while (!tokens.isEmpty()) {
-      Token last = tokens.remove(tokens.size() - 1);
-      if (!last.getType().equals(WS)) {
-        if (!tokens.isEmpty()) {
-          Token pred = tokens.get(tokens.size() - 1);
-          if (!pred.getType().equals(WS) && !pred.hasTrivia()) {
-            // Needed to paste tokens 0 and x back together after #define N(hex) 0x ## hex
-            tokens.remove(tokens.size() - 1);
-            String replacement = pred.getValue() + last.getValue();
-            last = Token.builder()
-              .setLine(pred.getLine())
-              .setColumn(pred.getColumn())
-              .setURI(pred.getURI())
-              .setValueAndOriginalValue(replacement)
-              .setType(pred.getType())
-              .setGeneratedCode(true)
-              .build();
-          }
-        }
-        return last;
-      }
-    }
-    return null;
-  }
-
-  @Nullable
-  private static Token succConcatToken(Iterator<Token> it) {
-    Token succ = null;
-    while (it.hasNext()) {
-      succ = it.next();
-      if (!"##".equals(succ.getValue()) && !succ.getType().equals(WS)) {
-        break;
-      }
-    }
-    return succ;
-  }
-
-  private static String quote(String str) {
-    StringBuilder result = new StringBuilder(2 * str.length());
-    boolean addBlank = false;
-    boolean ignoreNextBlank = false;
-    for (int i = 0; i < str.length(); i++) {
-      char c = str.charAt(i);
-      if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') { // token
-        if (addBlank) {
-          result.append(' ');
-          addBlank = false;
-        }
-        result.append(c);
-      } else { // special characters
-        switch (c) {
-          case ' ':
-            if (ignoreNextBlank) {
-              ignoreNextBlank = false;
-            } else {
-              addBlank = true;
-            }
-            break;
-          case '\"':
-            if (addBlank) {
-              result.append(' ');
-              addBlank = false;
-            }
-            result.append("\\\"");
-            break;
-          case '\\':
-            result.append("\\\\");
-            addBlank = false;
-            ignoreNextBlank = true;
-            break;
-          default: // operator
-            result.append(c);
-            addBlank = false;
-            ignoreNextBlank = true;
-            break;
-        }
-      }
-    }
-    return result.toString();
-  }
-
-  private static String encloseWithQuotes(String str) {
-    return "\"" + str + "\"";
-  }
-
-  private static List<Token> reallocate(List<Token> tokens, Token token) {
-    List<Token> reallocated = new LinkedList<>();
-    int currColumn = token.getColumn();
-    for (Token t : tokens) {
-      reallocated.add(Token.builder()
-        .setLine(token.getLine())
-        .setColumn(currColumn)
-        .setURI(token.getURI())
-        .setValueAndOriginalValue(t.getValue())
-        .setType(t.getType())
-        .setGeneratedCode(true)
-        .build());
-      currColumn += t.getValue().length() + 1;
-    }
-
-    return reallocated;
-  }
-
   private Macro parseMacroDefinition(String macroDef) {
     return parseMacroDefinition(pplineParser.parse(macroDef)
       .getFirstDescendant(CppGrammar.defineLine));
-  }
-
-  private static Macro parseMacroDefinition(AstNode defineLineAst) {
-    AstNode ast = defineLineAst.getFirstChild();
-    AstNode nameNode = ast.getFirstDescendant(CppGrammar.ppToken);
-    String macroName = nameNode.getTokenValue();
-
-    AstNode paramList = ast.getFirstDescendant(CppGrammar.parameterList);
-    List<Token> macroParams = paramList == null
-      ? "objectlikeMacroDefinition".equals(ast.getName()) ? null : new LinkedList<>() : getParams(paramList);
-
-    AstNode vaargs = ast.getFirstDescendant(CppGrammar.variadicparameter);
-    if ((vaargs != null) && (macroParams != null)) {
-      AstNode identifier = vaargs.getFirstChild(IDENTIFIER);
-      macroParams.add(identifier == null
-        ? Token.builder()
-          .setLine(vaargs.getToken().getLine())
-          .setColumn(vaargs.getToken().getColumn())
-          .setURI(vaargs.getToken().getURI())
-          .setValueAndOriginalValue(VARIADICPARAMETER)
-          .setType(IDENTIFIER)
-          .setGeneratedCode(true)
-          .build()
-        : identifier.getToken());
-    }
-
-    AstNode replList = ast.getFirstDescendant(CppGrammar.replacementList);
-    List<Token> macroBody = replList == null
-      ? new LinkedList<>() : replList.getTokens().subList(0, replList.getTokens().size() - 1);
-
-    return new Macro(macroName, macroParams, macroBody, vaargs != null);
-  }
-
-  private static List<Token> getParams(AstNode identListAst) {
-    List<Token> params = new ArrayList<>();
-    for (AstNode node : identListAst.getChildren(IDENTIFIER)) {
-      params.add(node.getToken());
-    }
-
-    return params;
   }
 
   private File findIncludedFile(AstNode ast, Token token, String currFileName) {
@@ -1328,19 +1209,138 @@ public class CxxPreprocessor extends Preprocessor {
     return includedFile;
   }
 
-  private static String getMacroName(AstNode ast) {
-    return ast.getFirstDescendant(IDENTIFIER).getTokenValue();
-  }
-
-  private static String stripQuotes(String str) {
-    return str.substring(1, str.length() - 1);
-  }
-
   private File getFileUnderAnalysis() {
     if (currentFileState.includeUnderAnalysis == null) {
       return context.getFile();
     }
     return currentFileState.includeUnderAnalysis;
+  }
+
+  private static class State {
+
+    private boolean skipPreprocessorDirectives;
+    private boolean conditionWasTrue;
+    private int conditionalInclusionCounter;
+    private File includeUnderAnalysis;
+
+    public State(@Nullable File includeUnderAnalysis) {
+      this.skipPreprocessorDirectives = false;
+      this.conditionWasTrue = false;
+      this.conditionalInclusionCounter = 0;
+      this.includeUnderAnalysis = includeUnderAnalysis;
+    }
+
+    /**
+     * reset preprocessor state
+     */
+    public final void reset() {
+      skipPreprocessorDirectives = false;
+      conditionWasTrue = false;
+      conditionalInclusionCounter = 0;
+      includeUnderAnalysis = null;
+    }
+  }
+
+  static class MismatchException extends Exception {
+
+    private static final long serialVersionUID = 1960113363232807009L;
+
+    MismatchException(String message) {
+      super(message);
+    }
+
+    MismatchException(Throwable cause) {
+      super(cause);
+    }
+
+    MismatchException(String message, Throwable cause) {
+      super(message, cause);
+    }
+
+    MismatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+      super(message, cause, enableSuppression, writableStackTrace);
+    }
+  }
+
+  static final class Macro {
+
+    private final String name;
+    private final List<Token> params;
+    private final List<Token> body;
+    private final boolean isVariadic;
+
+    public Macro(String name, @Nullable List<Token> params, @Nullable List<Token> body, boolean variadic) {
+      this.name = name;
+      if (params == null) {
+        this.params = null;
+      } else {
+        this.params = params.stream().collect(Collectors.toList());
+      }
+      if (body == null) {
+        this.body = null;
+      } else {
+        this.body = body.stream().collect(Collectors.toList());
+      }
+      this.isVariadic = variadic;
+    }
+
+    @Override
+    public String toString() {
+      return name
+        + (params == null ? "" : "(" + serialize(params, ", ") + (isVariadic ? "..." : "") + ")")
+        + " -> '" + serialize(body) + "'";
+    }
+
+    public boolean checkArgumentsCount(int count) {
+      return isVariadic
+        ? count >= params.size() - 1
+        : count == params.size();
+    }
+  }
+
+  public static class Include {
+
+    private final int line;
+    private final String path;
+
+    Include(int line, String path) {
+      this.line = line;
+      this.path = path;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+
+      Include that = (Include) o;
+
+      if (line != that.line) {
+        return false;
+      }
+      if (path != null ? !path.equals(that.path) : that.path != null) {
+        return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 31 * line + (path != null ? path.hashCode() : 0);
+    }
+
+    public String getPath() {
+      return path;
+    }
+
+    public int getLine() {
+      return line;
+    }
   }
 
   static class PreprocessorRuntimeException extends RuntimeException {

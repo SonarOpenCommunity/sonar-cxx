@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.drmemory;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
@@ -46,6 +45,12 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   public static final String REPORT_PATH_KEY = "drmemory.reportPath";
   private static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
+
+  private static String getFrameText(Location frame, int frameNr) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("#").append(frameNr).append(" ").append(frame.getFile()).append(":").append(frame.getLine());
+    return sb.toString();
+  }
 
   /**
    * CxxDrMemorySensor for Doctor Memory Sensor
@@ -78,12 +83,6 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
     return null;
   }
 
-  private static String getFrameText(Location frame, int frameNr) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("#").append(frameNr).append(" ").append(frame.getFile()).append(":").append(frame.getLine());
-    return sb.toString();
-  }
-
   @Override
   protected void processReport(final SensorContext context, File report) {
     LOG.debug("Parsing 'Dr Memory' format");
@@ -91,7 +90,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
     for (DrMemoryError error : DrMemoryParser.parse(report, DEFAULT_CHARSET_DEF)) {
       if (error.getStackTrace().isEmpty()) {
         CxxReportIssue moduleIssue = new CxxReportIssue(error.getType().getId(), null,
-            null, error.getMessage());
+          null, error.getMessage());
         saveUniqueViolation(context, moduleIssue);
       } else {
         Location lastOwnFrame = getLastOwnFrame(context, error);
@@ -100,7 +99,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
           continue;
         }
         CxxReportIssue fileIssue = new CxxReportIssue(error.getType().getId(),
-            lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), error.getMessage());
+          lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), error.getMessage());
 
         // add all frames as secondary locations
         int frameNr = 0;

@@ -32,6 +32,10 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 class ValgrindStack {
 
+  private static boolean isInside(String path, String folder) {
+    return (path == null || "".equals(path)) ? false : path.startsWith(folder);
+  }
+
   private final List<ValgrindFrame> frames = new ArrayList<>();
 
   /**
@@ -60,8 +64,8 @@ class ValgrindStack {
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
-        .append(frames)
-        .toHashCode();
+      .append(frames)
+      .toHashCode();
   }
 
   @Override
@@ -77,13 +81,12 @@ class ValgrindStack {
     }
     ValgrindStack other = (ValgrindStack) obj;
     return new EqualsBuilder()
-        .append(frames, other.frames)
-        .isEquals();
+      .append(frames, other.frames)
+      .isEquals();
   }
 
   /**
-   * Returns the last frame (counted from the bottom of the stack) of a function
-   * which is in 'our' code
+   * Returns the last frame (counted from the bottom of the stack) of a function which is in 'our' code
    *
    * @param basedir
    * @return ValgrindFrame frame or null
@@ -97,10 +100,6 @@ class ValgrindStack {
       }
     }
     return null;
-  }
-
-  private static boolean isInside(String path, String folder) {
-    return (path == null || "".equals(path)) ? false : path.startsWith(folder);
   }
 
 }

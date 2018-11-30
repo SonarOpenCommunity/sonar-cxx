@@ -23,7 +23,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,49 +42,6 @@ public class WildcardPatternFileProvider {
   private static final String RECURSIVE_PATTERN = "**";
   private static final String ZERO_OR_MORE_PATTERN = "*";
   private static final String ANY_PATTERN = "?";
-
-  private final File baseDir;
-  private final String directorySeparator;
-
-  public WildcardPatternFileProvider(File baseDir, String directorySeparator) {
-    this.baseDir = baseDir;
-    this.directorySeparator = directorySeparator;
-  }
-
-  Set<File> listFiles(String pattern) {
-    List<String> elements = Arrays.asList(pattern.split(Pattern.quote(directorySeparator)));
-
-    List<String> elementsTillFirstWildcard = elementsTillFirstWildcard(elements);
-    String pathTillFirstWildcardElement = toPath(elementsTillFirstWildcard);
-    File fileTillFirstWildcardElement = new File(pathTillFirstWildcardElement);
-
-    File absoluteFileTillFirstWildcardElement = fileTillFirstWildcardElement.isAbsolute()
-      ? fileTillFirstWildcardElement : new File(baseDir, pathTillFirstWildcardElement);
-
-    List<String> wildcardElements = elements.subList(elementsTillFirstWildcard.size(), elements.size());
-    if (wildcardElements.isEmpty()) {
-      return absoluteFileTillFirstWildcardElement.exists()
-        ? new HashSet<>(Arrays.asList(absoluteFileTillFirstWildcardElement)) : Collections.emptySet();
-    }
-    checkNoCurrentOrParentFolderAccess(wildcardElements);
-
-    WildcardPattern wildcardPattern = WildcardPattern.create(toPath(wildcardElements), directorySeparator);
-
-    Set<File> result = new HashSet<>();
-    for (File file : listFiles(absoluteFileTillFirstWildcardElement)) {
-      String relativePath = relativize(absoluteFileTillFirstWildcardElement, file);
-
-      if (wildcardPattern.match(relativePath)) {
-        result.add(file);
-      }
-    }
-
-    return result;
-  }
-
-  private String toPath(List<String> elements) {
-    return elements.stream().collect(Collectors.joining(directorySeparator));
-  }
 
   private static List<String> elementsTillFirstWildcard(List<String> elements) {
     List<String> result = new ArrayList<>();
@@ -139,6 +95,48 @@ public class WildcardPatternFileProvider {
 
   private static String relativize(File parent, File file) {
     return file.getAbsolutePath().substring(parent.getAbsolutePath().length() + 1);
+  }
+  private final File baseDir;
+  private final String directorySeparator;
+
+  public WildcardPatternFileProvider(File baseDir, String directorySeparator) {
+    this.baseDir = baseDir;
+    this.directorySeparator = directorySeparator;
+  }
+
+  Set<File> listFiles(String pattern) {
+    List<String> elements = Arrays.asList(pattern.split(Pattern.quote(directorySeparator)));
+
+    List<String> elementsTillFirstWildcard = elementsTillFirstWildcard(elements);
+    String pathTillFirstWildcardElement = toPath(elementsTillFirstWildcard);
+    File fileTillFirstWildcardElement = new File(pathTillFirstWildcardElement);
+
+    File absoluteFileTillFirstWildcardElement = fileTillFirstWildcardElement.isAbsolute()
+      ? fileTillFirstWildcardElement : new File(baseDir, pathTillFirstWildcardElement);
+
+    List<String> wildcardElements = elements.subList(elementsTillFirstWildcard.size(), elements.size());
+    if (wildcardElements.isEmpty()) {
+      return absoluteFileTillFirstWildcardElement.exists()
+        ? new HashSet<>(Arrays.asList(absoluteFileTillFirstWildcardElement)) : Collections.emptySet();
+    }
+    checkNoCurrentOrParentFolderAccess(wildcardElements);
+
+    WildcardPattern wildcardPattern = WildcardPattern.create(toPath(wildcardElements), directorySeparator);
+
+    Set<File> result = new HashSet<>();
+    for (File file : listFiles(absoluteFileTillFirstWildcardElement)) {
+      String relativePath = relativize(absoluteFileTillFirstWildcardElement, file);
+
+      if (wildcardPattern.match(relativePath)) {
+        result.add(file);
+      }
+    }
+
+    return result;
+  }
+
+  private String toPath(List<String> elements) {
+    return elements.stream().collect(Collectors.joining(directorySeparator));
   }
 
 }

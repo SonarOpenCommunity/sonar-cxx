@@ -55,6 +55,38 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   private static final String DEFINES_PROPERTY_KEY = "sonar.cxx.defines";
   private static final String INCLUDE_DIRECTORIES_PROPERTY_KEY = "sonar.cxx.includeDirectories";
   private static final String FORCE_INCLUDES_PROPERTY_KEY = "sonar.cxx.forceIncludes";
+
+  @VisibleForTesting
+  static String getPropertyOrDefaultValue(String propertyKey, String defaultValue) {
+    String propertyValue = System.getProperty(propertyKey);
+
+    if (propertyValue == null) {
+      LOG.info("The property '{}' is not set, using the default value '{}'.", propertyKey, defaultValue);
+      return defaultValue;
+    } else {
+      LOG.info("The property '{}' is set, using its value '{}'.", propertyKey, defaultValue);
+      return propertyValue;
+    }
+  }
+
+  static String[] getStringLines(@Nullable String value) {
+    if (value == null || value.isEmpty()) {
+      return new String[0];
+    }
+    return value.split("\\\\n\\\\", -1);
+  }
+
+  static String[] getStringArray(@Nullable String value) {
+    if (value != null) {
+      String[] strings = value.split(",");
+      String[] result = new String[strings.length];
+      for (int index = 0; index < strings.length; index++) {
+        result[index] = strings[index].trim();
+      }
+      return result;
+    }
+    return new String[0];
+  }
   private final MapSettings settings = new MapSettings();
 
   @VisibleForTesting
@@ -119,38 +151,6 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
     config.setIncludeDirectories(getStringArray(includeDirectories.getValue()));
     config.setForceIncludeFiles(getStringArray(forceIncludes.getValue()));
     return config;
-  }
-
-  @VisibleForTesting
-  static String getPropertyOrDefaultValue(String propertyKey, String defaultValue) {
-    String propertyValue = System.getProperty(propertyKey);
-
-    if (propertyValue == null) {
-      LOG.info("The property '{}' is not set, using the default value '{}'.", propertyKey, defaultValue);
-      return defaultValue;
-    } else {
-      LOG.info("The property '{}' is set, using its value '{}'.", propertyKey, defaultValue);
-      return propertyValue;
-    }
-  }
-
-  static String[] getStringLines(@Nullable String value) {
-    if (value == null || value.isEmpty()) {
-      return new String[0];
-    }
-    return value.split("\\\\n\\\\", -1);
-  }
-
-  static String[] getStringArray(@Nullable String value) {
-    if (value != null) {
-      String[] strings = value.split(",");
-      String[] result = new String[strings.length];
-      for (int index = 0; index < strings.length; index++) {
-        result[index] = strings[index].trim();
-      }
-      return result;
-    }
-    return new String[0];
   }
 
 }

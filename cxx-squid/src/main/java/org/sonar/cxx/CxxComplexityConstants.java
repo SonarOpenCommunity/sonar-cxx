@@ -49,7 +49,7 @@ public final class CxxComplexityConstants {
     CxxPunctuator.QUEST
   };
 
-  public static final AstNodeType[] getCyclomaticComplexityTypes() {
+  public static AstNodeType[] getCyclomaticComplexityTypes() {
     return CYCLOMATIC_COMPLEXITY_TYPES;
   }
 

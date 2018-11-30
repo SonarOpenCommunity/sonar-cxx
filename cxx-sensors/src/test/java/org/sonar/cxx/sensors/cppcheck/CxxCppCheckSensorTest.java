@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.cppcheck;
 
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -93,8 +92,7 @@ public class CxxCppCheckSensorTest {
 
     // assert that all all issues were filed on on the module
     final String moduleKey = context.module().key();
-    for ( Issue issue : context.allIssues() )
-    {
+    for (Issue issue : context.allIssues()) {
       softly.assertThat(issue.primaryLocation().inputComponent().key()).isEqualTo(moduleKey);
     }
     softly.assertAll();
@@ -114,7 +112,7 @@ public class CxxCppCheckSensorTest {
     // the total number of cppcheck issues
     final String moduleKey = context.module().key();
     Measure<Integer> nrOfIssuesMetric = context.<Integer>measure(moduleKey,
-        language.getMetric(CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY));
+      language.getMetric(CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY));
     assertThat(nrOfIssuesMetric.value()).isEqualTo(3);
   }
 

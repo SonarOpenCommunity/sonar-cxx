@@ -44,6 +44,40 @@ public class CxxCompilerSensorTest {
   @Rule
   public LogTester logTester = new LogTester();
 
+  @Before
+  public void setUp() {
+    fs = TestUtils.mockFileSystem();
+    language = TestUtils.mockCxxLanguage();
+    context = SensorContextTester.create(fs.baseDir());
+    sensor = new CxxCompilerSensorMock(language);
+  }
+
+  @Test
+  public void testFileNotFound() throws XMLStreamException {
+    File report = new File("");
+    sensor.testProcessReport(context, report);
+    String log = logTester.logs().toString();
+    assertThat(log.contains("FileNotFoundException")).isTrue();
+  }
+
+  @Test
+  public void testRegexInvalid() throws XMLStreamException {
+    File report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
+    sensor.setRegex("*");
+    sensor.testProcessReport(context, report);
+    String log = logTester.logs().toString();
+    assertThat(log.contains("PatternSyntaxException")).isTrue();
+  }
+
+  @Test
+  public void testRegexNamedGroupMissing() throws XMLStreamException {
+    File report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
+    sensor.setRegex(".*");
+    sensor.testProcessReport(context, report);
+    String log = logTester.logs().toString();
+    assertThat(log.contains("No group with name")).isTrue();
+  }
+
   private class CxxCompilerSensorMock extends CxxCompilerSensor {
 
     private String regex = "";
@@ -83,40 +117,6 @@ public class CxxCompilerSensorTest {
     public void setRegex(String regex) {
       this.regex = regex;
     }
-  }
-
-  @Before
-  public void setUp() {
-    fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
-    context = SensorContextTester.create(fs.baseDir());
-    sensor = new CxxCompilerSensorMock(language);
-  }
-
-  @Test
-  public void testFileNotFound() throws XMLStreamException {
-    File report = new File("");
-    sensor.testProcessReport(context, report);
-    String log = logTester.logs().toString();
-    assertThat(log.contains("FileNotFoundException")).isTrue();
-  }
-
-  @Test
-  public void testRegexInvalid() throws XMLStreamException {
-    File report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
-    sensor.setRegex("*");
-    sensor.testProcessReport(context, report);
-    String log = logTester.logs().toString();
-    assertThat(log.contains("PatternSyntaxException")).isTrue();
-  }
-
-  @Test
-  public void testRegexNamedGroupMissing() throws XMLStreamException {
-    File report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
-    sensor.setRegex(".*");
-    sensor.testProcessReport(context, report);
-    String log = logTester.logs().toString();
-    assertThat(log.contains("No group with name")).isTrue();
   }
 
 }

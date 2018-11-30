@@ -39,7 +39,16 @@ import org.sonar.squidbridge.checks.SquidCheck;
 //similar Vera++ rule T018
 public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
-  private static final String[] DEFAULT_NAME_SUFFIX = new String[] { ".h", ".hh", ".hpp", ".H" };
+  private static final String[] DEFAULT_NAME_SUFFIX = new String[]{".h", ".hh", ".hpp", ".H"};
+
+  private static boolean isHeader(String name) {
+    for (String suff : DEFAULT_NAME_SUFFIX) {
+      if (name.endsWith(suff)) {
+        return true;
+      }
+    }
+    return false;
+  }
   private Boolean isHeader = false;
 
   @Override
@@ -60,12 +69,4 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
     }
   }
 
-  private static boolean isHeader(String name) {
-    for (String suff : DEFAULT_NAME_SUFFIX) {
-      if (name.endsWith(suff)) {
-        return true;
-      }
-    }
-    return false;
-  }
 }

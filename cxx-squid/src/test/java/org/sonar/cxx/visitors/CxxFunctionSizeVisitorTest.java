@@ -19,20 +19,17 @@
  */
 package org.sonar.cxx.visitors;
 
-import static org.mockito.Mockito.when;
-
 import java.io.IOException;
 import java.util.Optional;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
+import static org.mockito.Mockito.when;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
-
 
 public class CxxFunctionSizeVisitorTest {
 
@@ -43,7 +40,7 @@ public class CxxFunctionSizeVisitorTest {
     when(language.getIntegerOption(CxxFunctionSizeVisitor.FUNCTION_SIZE_THRESHOLD_KEY)).thenReturn(Optional.of(5));
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/FunctionComplexity.cc",
-        ".", "");
+      ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, language);
 
     SoftAssertions softly = new SoftAssertions();

@@ -20,6 +20,7 @@
 package org.sonar.cxx.preprocessor;
 
 public class EvaluationException extends RuntimeException {
+
   private static final long serialVersionUID = 336015352128912495L;
 
   public EvaluationException(String message) {

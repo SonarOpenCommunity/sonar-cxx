@@ -43,6 +43,10 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
   private static final Logger LOG = Loggers.get(CxxAbstractRuleRepository.class);
 
+  public static String getRepositoryKey(String key, CxxLanguage lang) {
+    return key + lang.getRepositorySuffix();
+  }
+
   private final ServerFileSystem fileSystem;
   private final RulesDefinitionXmlLoader xmlRuleLoader;
   protected final String repositoryKey;
@@ -66,10 +70,6 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     this.repositoryName = name;
     this.customRepositoryKey = customKey;
     this.language = language;
-  }
-
-  public static String getRepositoryKey(String key, CxxLanguage lang) {
-    return key + lang.getRepositorySuffix();
   }
 
   @Override

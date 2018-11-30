@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.visitors;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashSet;
@@ -30,14 +29,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
@@ -54,52 +51,6 @@ public class CxxFileLinesVisitorTest {
 
   private CxxLanguage language;
   private FileLinesContextFactory fileLinesContextFactory;
-  private class FileLinesContextForTesting implements FileLinesContext
-  {
-    public final Set<Integer> executableLines = new HashSet<>();
-    public final Set<Integer> linesOfCode = new HashSet<>();
-    public final Set<Integer> linesOfComments = new HashSet<>();
-
-    @Override
-    public void setIntValue(String metricKey, int line, int value) {
-      Assert.assertEquals(1, value);
-
-      switch (metricKey) {
-      case CoreMetrics.NCLOC_DATA_KEY:
-        linesOfCode.add(line);
-        break;
-      case CoreMetrics.COMMENT_LINES_DATA_KEY:
-        linesOfComments.add(line);
-        break;
-      case CoreMetrics.EXECUTABLE_LINES_DATA_KEY:
-        executableLines.add(line);
-        break;
-      default:
-        Assert.fail("Unsupported metric key " + metricKey);
-      }
-    }
-
-    @Override
-    public Integer getIntValue(String metricKey, int line) {
-      Assert.fail("unexpected method called: getIntValue()");
-      return null;
-    }
-
-    @Override
-    public void setStringValue(String metricKey, int line, String value) {
-      Assert.fail("unexpected method called: setStringValue()");
-    }
-
-    @Override
-    public String getStringValue(String metricKey, int line) {
-      Assert.fail("unexpected method called: getStringValue()");
-      return null;
-    }
-
-    @Override
-    public void save() {
-    }
-  }
 
   private FileLinesContextForTesting fileLinesContext;
   private File baseDir;
@@ -118,9 +69,9 @@ public class CxxFileLinesVisitorTest {
     target = new File(baseDir, "ncloc.cc");
 
     testLines = Stream.of(8, 10, 14, 16, 17, 21, 22, 23, 26, 31, 34, 35, 42, 44, 45, 49, 51, 53, 55, 56,
-        58, 59, 63, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 79, 82, 84, 86, 87, 89,
-        90, 95, 98, 99, 100, 102, 107, 108, 109, 110, 111, 113, 115, 118, 119, 124, 126)
-        .collect(Collectors.toCollection(HashSet::new));
+      58, 59, 63, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 79, 82, 84, 86, 87, 89,
+      90, 95, 98, 99, 100, 102, 107, 108, 109, 110, 111, 113, 115, 118, 119, 124, 126)
+      .collect(Collectors.toCollection(HashSet::new));
   }
 
   @Test
@@ -182,5 +133,52 @@ public class CxxFileLinesVisitorTest {
 
     assertThat(fileLinesContext.executableLines).containsExactlyInAnyOrder(10, 26, 34, 35, 56, 59, 69, 70, 72, 73,
       75, 76, 79, 87, 90, 98, 102, 118, 119, 126);
+  }
+
+  private class FileLinesContextForTesting implements FileLinesContext {
+
+    public final Set<Integer> executableLines = new HashSet<>();
+    public final Set<Integer> linesOfCode = new HashSet<>();
+    public final Set<Integer> linesOfComments = new HashSet<>();
+
+    @Override
+    public void setIntValue(String metricKey, int line, int value) {
+      Assert.assertEquals(1, value);
+
+      switch (metricKey) {
+        case CoreMetrics.NCLOC_DATA_KEY:
+          linesOfCode.add(line);
+          break;
+        case CoreMetrics.COMMENT_LINES_DATA_KEY:
+          linesOfComments.add(line);
+          break;
+        case CoreMetrics.EXECUTABLE_LINES_DATA_KEY:
+          executableLines.add(line);
+          break;
+        default:
+          Assert.fail("Unsupported metric key " + metricKey);
+      }
+    }
+
+    @Override
+    public Integer getIntValue(String metricKey, int line) {
+      Assert.fail("unexpected method called: getIntValue()");
+      return null;
+    }
+
+    @Override
+    public void setStringValue(String metricKey, int line, String value) {
+      Assert.fail("unexpected method called: setStringValue()");
+    }
+
+    @Override
+    public String getStringValue(String metricKey, int line) {
+      Assert.fail("unexpected method called: getStringValue()");
+      return null;
+    }
+
+    @Override
+    public void save() {
+    }
   }
 }

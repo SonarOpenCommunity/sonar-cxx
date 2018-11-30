@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.checks.metrics;
 
+import com.sonar.sslr.api.Grammar;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -29,8 +30,6 @@ import org.sonar.cxx.visitors.CxxComplexityScope;
 import org.sonar.cxx.visitors.CxxComplexitySource;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
-
-import com.sonar.sslr.api.Grammar;
 
 @Rule(
   key = "FunctionCognitiveComplexity",
@@ -57,7 +56,7 @@ public class FunctionCognitiveComplexityCheck extends CxxCognitiveComplexityVisi
     if (scope.getComplexity() > max) {
       final StringBuilder msg = new StringBuilder();
       msg.append("The Cognitive Complexity of this function is ").append(scope.getComplexity())
-          .append(" which is greater than ").append(max).append(" authorized.");
+        .append(" which is greater than ").append(max).append(" authorized.");
 
       final CxxReportIssue issue = new CxxReportIssue(getRuleKey(), null, scope.getStartingLine(), msg.toString());
       for (CxxComplexitySource source : scope.getSources()) {

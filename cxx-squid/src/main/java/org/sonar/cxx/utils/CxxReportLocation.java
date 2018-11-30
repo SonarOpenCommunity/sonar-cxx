@@ -23,10 +23,10 @@ import java.util.Objects;
 import javax.annotation.Nullable;
 
 /**
- * Each issues in SonarQube might have multiple locations; Encapsulate its
- * properties in this structure
+ * Each issues in SonarQube might have multiple locations; Encapsulate its properties in this structure
  */
 public class CxxReportLocation {
+
   private final String file;
   private final String line;
   private final String info;

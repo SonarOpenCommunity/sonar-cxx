@@ -564,6 +564,11 @@ public final class CPlugin implements Plugin {
     return l;
   }
 
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
+
   public static class CxxMetricsImp implements Metrics {
 
     private static final List<Metric> METRICS = CxxMetricsFactory.generateList(CLanguage.KEY, CLanguage.PROPSKEY);
@@ -793,8 +798,4 @@ public final class CPlugin implements Plugin {
     }
   }
 
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
-  }
 }

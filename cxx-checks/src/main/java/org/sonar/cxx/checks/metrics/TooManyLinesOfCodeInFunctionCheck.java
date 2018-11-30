@@ -61,7 +61,7 @@ public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> {
     if (lineCount > max) {
       getContext().createLineViolation(this,
         "The number of code lines in this function is {0,number,integer} which is greater than "
-          + "{1,number,integer} authorized.",
+        + "{1,number,integer} authorized.",
         node, lineCount, max);
     }
   }

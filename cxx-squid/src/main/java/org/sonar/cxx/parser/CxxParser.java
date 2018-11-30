@@ -36,9 +36,6 @@ public final class CxxParser {
 
   private static CxxPreprocessor cxxpp;
 
-  private CxxParser() {
-  }
-
   public static void finishedParsing(File path) {
     cxxpp.finishedPreprocessing(path);
   }
@@ -66,5 +63,8 @@ public final class CxxParser {
     return Parser.builder(CxxGrammarImpl.create(conf))
       .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
       .build();
+  }
+
+  private CxxParser() {
   }
 }

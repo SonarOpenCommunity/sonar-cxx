@@ -32,9 +32,10 @@ import org.sonar.cxx.CxxLanguage;
  */
 public class CxxDefaultProfile extends ProfileDefinition {
 
+  private static final String NAME = "Sonar way";
+
   private final XMLProfileParser xmlProfileParser;
   private final AnnotationProfileParser annotationProfileParser;
-  private static final String NAME = "Sonar way";
   private final CxxLanguage lang;
 
   /**

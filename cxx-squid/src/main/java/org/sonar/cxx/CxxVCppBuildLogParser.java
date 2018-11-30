@@ -48,11 +48,6 @@ public class CxxVCppBuildLogParser {
 
   private static final Logger LOG = Loggers.get(CxxVCppBuildLogParser.class);
 
-  private final Map<String, List<String>> uniqueIncludes;
-  private final Map<String, Set<String>> uniqueDefines;
-
-  private String platformToolset = "V120";
-  private String platform = "Win32";
   private static final String CPPWINRTVERSION = "__cplusplus_winrt=201009";
   private static final String CPPVERSION = "__cplusplus=199711L";
 
@@ -64,6 +59,19 @@ public class CxxVCppBuildLogParser {
   private static final Pattern plattformX86Pattern = Pattern.compile("Building solution configuration \".*\\|x64\".");
   private static final Pattern toolsetV141Pattern = Pattern
     .compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
+
+  private static List<String> getMatches(Pattern pattern, String text) {
+    List<String> matches = new ArrayList<>();
+    Matcher m = pattern.matcher(text);
+    while (m.find()) {
+      matches.add(m.group(1));
+    }
+    return matches;
+  }
+  private final Map<String, List<String>> uniqueIncludes;
+  private final Map<String, Set<String>> uniqueDefines;
+  private String platformToolset = "V120";
+  private String platform = "Win32";
 
   /**
    * CxxVCppBuildLogParser (ctor)
@@ -274,15 +282,6 @@ public class CxxVCppBuildLogParser {
     } else {
       // do nothing
     }
-  }
-
-  private static List<String> getMatches(Pattern pattern, String text) {
-    List<String> matches = new ArrayList<>();
-    Matcher m = pattern.matcher(text);
-    while (m.find()) {
-      matches.add(m.group(1));
-    }
-    return matches;
   }
 
   private void parseInclude(String element, String project, String fileElement) {

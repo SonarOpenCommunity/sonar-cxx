@@ -19,11 +19,9 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.File;
 import java.util.List;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -40,22 +38,6 @@ public class CxxReportSensorTest {
 
   private File baseDir;
   private final MapSettings settings = new MapSettings();
-
-  private class CxxReportSensorImpl extends CxxReportSensor {
-
-    public CxxReportSensorImpl(CxxLanguage language, MapSettings settings) {
-      super(language, "test.report");
-    }
-
-    @Override
-    public void execute(SensorContext sc) {
-    }
-
-    @Override
-    public void describe(SensorDescriptor descriptor) {
-      descriptor.onlyOnLanguage("c++").name("CxxReportSensorTest");
-    }
-  };
 
   @Before
   public void init() {
@@ -120,6 +102,22 @@ public class CxxReportSensorTest {
     assertThat(reports.get(0).exists()).isTrue();
     assertThat(reports.get(0).isAbsolute()).isTrue();
     assertThat(reports.size() == 5).isTrue();
+  }
+
+  private class CxxReportSensorImpl extends CxxReportSensor {
+
+    public CxxReportSensorImpl(CxxLanguage language, MapSettings settings) {
+      super(language, "test.report");
+    }
+
+    @Override
+    public void execute(SensorContext sc) {
+    }
+
+    @Override
+    public void describe(SensorDescriptor descriptor) {
+      descriptor.onlyOnLanguage("c++").name("CxxReportSensorTest");
+    }
   }
 
 }

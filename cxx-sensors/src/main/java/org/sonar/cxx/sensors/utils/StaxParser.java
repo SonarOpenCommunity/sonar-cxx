@@ -154,20 +154,6 @@ public class StaxParser {
     }
   }
 
-  /**
-   * XmlStreamHandler: Simple interface for handling XML stream to parse
-   */
-  public interface XmlStreamHandler {
-
-    /**
-     * stream:
-     *
-     * @param rootCursor - org.codehaus.staxmate.i.SMHierarchicCursor
-     * @exception XMLStreamException javax.xml.stream.XMLStreamException
-     */
-    void stream(SMHierarchicCursor rootCursor) throws XMLStreamException;
-  }
-
   private static class ISOControlCharAwareInputStream extends InputStream {
 
     private final InputStream inputToCheck;
@@ -235,5 +221,19 @@ public class StaxParser {
         }
       }
     }
+  }
+
+  /**
+   * XmlStreamHandler: Simple interface for handling XML stream to parse
+   */
+  public interface XmlStreamHandler {
+
+    /**
+     * stream:
+     *
+     * @param rootCursor - org.codehaus.staxmate.i.SMHierarchicCursor
+     * @exception XMLStreamException javax.xml.stream.XMLStreamException
+     */
+    void stream(SMHierarchicCursor rootCursor) throws XMLStreamException;
   }
 }

@@ -33,16 +33,16 @@ public class CxxClangSARuleRepository extends CxxAbstractRuleRepository {
   public static final String CUSTOM_RULES_KEY = "clangsa.customRules";
   private static final String NAME = "Clang-SA";
 
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+
   /**
    * {@inheritDoc}
    */
   public CxxClangSARuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
     CxxLanguage language) {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
-  }
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
   }
 
   @Override

@@ -24,12 +24,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
-
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
-
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.measures.CoreMetrics;
@@ -56,6 +54,7 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   /**
    * CxxXunitSensor
+   *
    * @param language for C or C++
    */
   public CxxXunitSensor(CxxLanguage language) {

@@ -19,23 +19,20 @@
  */
 package org.sonar.cxx.visitors;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
-
+import com.sonar.sslr.api.Grammar;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
-
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.api.SourceCode;
-
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.Grammar;
 
 public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocatitionSquidCheck<G> {
 
@@ -74,8 +71,6 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
     CxxGrammarImpl.selectionStatement,
     CxxPunctuator.QUEST};
 
-  private Deque<CxxComplexityScope> complexityScopes = null;
-
   private static final Set<AstNodeType> SUBSCRIPTION_NODES = new HashSet<>();
 
   static {
@@ -85,6 +80,12 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
     SUBSCRIPTION_NODES.addAll(Arrays.asList(NESTING_LEVEL_TYPES));
     SUBSCRIPTION_NODES.addAll(Arrays.asList(NESTING_INCREMENTS_TYPES));
   }
+
+  private static boolean isElseIf(AstNode node) {
+    return node.is(CxxGrammarImpl.selectionStatement) && node.getToken().getType().equals(CxxKeyword.IF)
+      && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
+  }
+  private Deque<CxxComplexityScope> complexityScopes = null;
 
   protected void analyzeComplexity(CxxComplexityScope scope) {
     SourceCode code = getContext().peekSourceCode();
@@ -147,8 +148,4 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
     }
   }
 
-  private static boolean isElseIf(AstNode node) {
-    return node.is(CxxGrammarImpl.selectionStatement) && node.getToken().getType().equals(CxxKeyword.IF)
-      && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
-  }
 }

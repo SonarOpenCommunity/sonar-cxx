@@ -33,16 +33,16 @@ public class CxxCompilerGccRuleRepository extends CxxAbstractRuleRepository {
   public static final String CUSTOM_RULES_KEY = "compiler-gcc.customRules";
   private static final String NAME = "Compiler-GCC";
 
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+
   /**
    * {@inheritDoc}
    */
   public CxxCompilerGccRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-                                        CxxLanguage language) {
+    CxxLanguage language) {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
-  }
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
   }
 
   @Override

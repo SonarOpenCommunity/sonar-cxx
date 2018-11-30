@@ -21,7 +21,6 @@ package org.sonar.cxx.checks;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;

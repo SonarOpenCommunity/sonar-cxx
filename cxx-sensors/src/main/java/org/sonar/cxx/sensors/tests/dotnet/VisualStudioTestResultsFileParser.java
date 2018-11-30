@@ -23,7 +23,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -46,6 +45,10 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
   }
 
   private static class Parser {
+
+    private static void checkRootTag(XmlParserHelper xmlParserHelper) {
+      xmlParserHelper.checkRootTag("TestRun");
+    }
 
     private final File file;
     private final UnitTestResults unitTestResults;
@@ -135,10 +138,6 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
       matcher.appendTail(sb);
 
       return sb.toString();
-    }
-
-    private static void checkRootTag(XmlParserHelper xmlParserHelper) {
-      xmlParserHelper.checkRootTag("TestRun");
     }
 
   }

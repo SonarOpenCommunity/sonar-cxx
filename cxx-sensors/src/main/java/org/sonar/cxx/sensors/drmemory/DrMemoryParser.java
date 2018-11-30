@@ -42,100 +42,6 @@ public final class DrMemoryParser {
   public static final int TOP_COUNT = 4;
 
   /**
-   * DrMemory supported error types
-   *
-   */
-  public enum DrMemoryErrorType {
-    UNADRESSABLE_ACCESS("UnadressableAccess", "UNADDRESSABLE ACCESS"),
-    UNINITIALIZE_READ("UninitializedRead", "UNINITIALIZED READ"),
-    INVALID_HEAP_ARGUMENT("InvalidHeapArgument", "INVALID HEAP ARGUMENT"),
-    GDI_USAGE_ERROR("GdiUsageError", "GDI Usage Error"),
-    HANDLE_LEAK("HandleLeak", "HANDLE LEAK"),
-    WARNING("DrMemoryWarning", "WARNING"),
-    POSSIBLE_LEAK("PossibleMemoryLeak", "POSSIBLE LEAK"),
-    LEAK("MemoryLeak", "LEAK"),
-    UNRECOGNIZED("Dr Memory unrecognized error", "");
-
-    private final String id;
-    private final String title;
-
-    DrMemoryErrorType(String id, String title) {
-      this.id = id;
-      this.title = title;
-    }
-
-    public String getId() {
-      return id;
-    }
-
-    public String getTitle() {
-      return title;
-    }
-  }
-
-  public static class DrMemoryError {
-
-    public static class Location {
-
-      private String file = "";
-      private Integer line = 0;
-
-      public String getFile() {
-        return file;
-      }
-
-      public void setFile(String file) {
-        this.file = file;
-      }
-
-      public Integer getLine() {
-        return line;
-      }
-
-      public void setLine(Integer line) {
-        this.line = line;
-      }
-
-      @Override
-      public String toString() {
-        return "Location [file=" + file + ", line=" + line + "]";
-      }
-    }
-
-    private DrMemoryErrorType type = DrMemoryErrorType.UNRECOGNIZED;
-    private final List<Location> stackTrace = new ArrayList<>();
-    private String message = "";
-
-    public DrMemoryErrorType getType() {
-      return type;
-    }
-
-    public void setType(DrMemoryErrorType type) {
-      this.type = type;
-    }
-
-    public List<Location> getStackTrace() {
-      return Collections.unmodifiableList(stackTrace);
-    }
-
-    public String getMessage() {
-      return message;
-    }
-
-    public void setMessage(String message) {
-      this.message = message;
-    }
-
-    @Override
-    public String toString() {
-      return "DrMemoryError [type=" + type + ", stackTrace=" + stackTrace + ", message=" + message + "]";
-    }
-  }
-
-  private DrMemoryParser() {
-  }
-
-  /**
    * DrMemory parser
    *
    * @param file with findings
@@ -229,5 +135,99 @@ public final class DrMemoryParser {
       LOG.error(msg);
     }
     return list;
+  }
+
+  private DrMemoryParser() {
+  }
+
+  public static class DrMemoryError {
+
+    public static class Location {
+
+      private String file = "";
+      private Integer line = 0;
+
+      public String getFile() {
+        return file;
+      }
+
+      public void setFile(String file) {
+        this.file = file;
+      }
+
+      public Integer getLine() {
+        return line;
+      }
+
+      public void setLine(Integer line) {
+        this.line = line;
+      }
+
+      @Override
+      public String toString() {
+        return "Location [file=" + file + ", line=" + line + "]";
+      }
+    }
+
+    private DrMemoryErrorType type = DrMemoryErrorType.UNRECOGNIZED;
+    private final List<Location> stackTrace = new ArrayList<>();
+    private String message = "";
+
+    public DrMemoryErrorType getType() {
+      return type;
+    }
+
+    public void setType(DrMemoryErrorType type) {
+      this.type = type;
+    }
+
+    public List<Location> getStackTrace() {
+      return Collections.unmodifiableList(stackTrace);
+    }
+
+    public String getMessage() {
+      return message;
+    }
+
+    public void setMessage(String message) {
+      this.message = message;
+    }
+
+    @Override
+    public String toString() {
+      return "DrMemoryError [type=" + type + ", stackTrace=" + stackTrace + ", message=" + message + "]";
+    }
+  }
+
+  /**
+   * DrMemory supported error types
+   *
+   */
+  public enum DrMemoryErrorType {
+    UNADRESSABLE_ACCESS("UnadressableAccess", "UNADDRESSABLE ACCESS"),
+    UNINITIALIZE_READ("UninitializedRead", "UNINITIALIZED READ"),
+    INVALID_HEAP_ARGUMENT("InvalidHeapArgument", "INVALID HEAP ARGUMENT"),
+    GDI_USAGE_ERROR("GdiUsageError", "GDI Usage Error"),
+    HANDLE_LEAK("HandleLeak", "HANDLE LEAK"),
+    WARNING("DrMemoryWarning", "WARNING"),
+    POSSIBLE_LEAK("PossibleMemoryLeak", "POSSIBLE LEAK"),
+    LEAK("MemoryLeak", "LEAK"),
+    UNRECOGNIZED("Dr Memory unrecognized error", "");
+
+    private final String id;
+    private final String title;
+
+    DrMemoryErrorType(String id, String title) {
+      this.id = id;
+      this.title = title;
+    }
+
+    public String getId() {
+      return id;
+    }
+
+    public String getTitle() {
+      return title;
+    }
   }
 }

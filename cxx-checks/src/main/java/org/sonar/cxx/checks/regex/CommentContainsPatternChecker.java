@@ -41,6 +41,8 @@ import org.sonar.squidbridge.checks.SquidCheck;
 @NoSqale
 public class CommentContainsPatternChecker {
 
+  private static final Pattern EOL_PATTERN = Pattern.compile("\\R");
+
   @RuleProperty(
     key = "check",
     description = "The Squid check")
@@ -57,8 +59,6 @@ public class CommentContainsPatternChecker {
   private final String message;
 
   private final Pattern p;
-
-  private static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
   /**
    * CommentContainsPatternChecker

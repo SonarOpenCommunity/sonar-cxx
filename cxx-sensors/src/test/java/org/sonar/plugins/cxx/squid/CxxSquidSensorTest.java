@@ -21,16 +21,14 @@ package org.sonar.plugins.cxx.squid;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.ArgumentMatchers.same;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 import org.sonar.api.batch.fs.InputFile;
@@ -74,8 +72,7 @@ public class CxxSquidSensorTest {
       null);
   }
 
-  private DefaultInputFile buildTestInputFile(File baseDir, String fileName) throws IOException
-  {
+  private DefaultInputFile buildTestInputFile(File baseDir, String fileName) throws IOException {
     File target = new File(baseDir, fileName);
     String content = new String(Files.readAllBytes(target.toPath()), "UTF-8");
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
@@ -160,9 +157,9 @@ public class CxxSquidSensorTest {
 
     final Metric<Integer> API = language.<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_API_KEY);
     final Metric<Integer> UNDOCUMENTED_API = language
-        .<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY);
+      .<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY);
     final Metric<Double> DOCUMENTED_API_DENSITY = language
-        .<Double>getMetric(CxxMetricsFactory.Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY);
+      .<Double>getMetric(CxxMetricsFactory.Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(context.measure(inputFile.key(), API).value()).isEqualTo(8);

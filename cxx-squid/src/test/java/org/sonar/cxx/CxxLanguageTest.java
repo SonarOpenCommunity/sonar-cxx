@@ -30,8 +30,6 @@ import org.sonar.api.config.internal.MapSettings;
 
 public class CxxLanguageTest {
 
-  private MapSettings settings;
-
   private static final String KEY = "c++";
   private static final String NAME = "c++";
   private static final String PLUGIN_ID = "cxx";
@@ -42,65 +40,11 @@ public class CxxLanguageTest {
    * Default cxx header files suffixes
    */
   public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
+  private MapSettings settings;
 
   @Before
   public void setUp() {
     settings = new MapSettings();
-  }
-
-  private class CppLanguage extends CxxLanguage {
-
-    private final String[] sourceSuffixes;
-    private final String[] headerSuffixes;
-    private final String[] fileSuffixes;
-
-    public CppLanguage(Configuration settings) {
-      super(KEY, NAME, PLUGIN_ID, settings);
-
-      sourceSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.sources"), SOURCE_SUFFIXES);
-      headerSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.headers"), HEADER_SUFFIXES);
-      fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
-    }
-
-    @Override
-    public String[] getFileSuffixes() {
-      return fileSuffixes.clone();
-    }
-
-    @Override
-    public String[] getSourceFileSuffixes() {
-      return sourceSuffixes.clone();
-    }
-
-    @Override
-    public String[] getHeaderFileSuffixes() {
-      return headerSuffixes.clone();
-    }
-
-    @Override
-    public List<Class> getChecks() {
-      return new ArrayList<>();
-    }
-
-    private String[] createStringArray(String[] values, String defaultValues) {
-      if (values.length == 0) {
-        return defaultValues.split(",");
-      }
-      return values;
-    }
-
-    private String[] mergeArrays(String[] array1, String[] array2) {
-      String[] result = new String[array1.length + array2.length];
-      System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
-      System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);
-      return result;
-    }
-
-    @Override
-    public String getRepositoryKey() {
-      return PLUGIN_ID;
-
-    }
   }
 
   @Test
@@ -161,6 +105,61 @@ public class CxxLanguageTest {
   public void testHasKey() throws Exception {
     CppLanguage language = new CppLanguage(settings.asConfig());
     assertThat(language.hasKey("sonar.cxx.errorRecoveryEnabled")).isEqualTo(Boolean.FALSE);
+  }
+
+  private class CppLanguage extends CxxLanguage {
+
+    private final String[] sourceSuffixes;
+    private final String[] headerSuffixes;
+    private final String[] fileSuffixes;
+
+    public CppLanguage(Configuration settings) {
+      super(KEY, NAME, PLUGIN_ID, settings);
+
+      sourceSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.sources"), SOURCE_SUFFIXES);
+      headerSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.headers"), HEADER_SUFFIXES);
+      fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
+    }
+
+    @Override
+    public String[] getFileSuffixes() {
+      return fileSuffixes.clone();
+    }
+
+    @Override
+    public String[] getSourceFileSuffixes() {
+      return sourceSuffixes.clone();
+    }
+
+    @Override
+    public String[] getHeaderFileSuffixes() {
+      return headerSuffixes.clone();
+    }
+
+    @Override
+    public List<Class> getChecks() {
+      return new ArrayList<>();
+    }
+
+    private String[] createStringArray(String[] values, String defaultValues) {
+      if (values.length == 0) {
+        return defaultValues.split(",");
+      }
+      return values;
+    }
+
+    private String[] mergeArrays(String[] array1, String[] array2) {
+      String[] result = new String[array1.length + array2.length];
+      System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
+      System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);
+      return result;
+    }
+
+    @Override
+    public String getRepositoryKey() {
+      return PLUGIN_ID;
+
+    }
   }
 
 }

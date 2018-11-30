@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.pclint;
 import java.util.ArrayList;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;

@@ -20,11 +20,10 @@
 package org.sonar.cxx.sensors.coverage;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
-
-import org.assertj.core.api.SoftAssertions;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -90,7 +89,7 @@ public class CxxMSCoverageSensorTest {
     assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", 1)).isNull();
 
   }
-  
+
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
@@ -98,10 +97,10 @@ public class CxxMSCoverageSensorTest {
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions(); 
+    SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CoverageSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
     softly.assertAll();
   }
-  
+
 }

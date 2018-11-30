@@ -33,16 +33,16 @@ public class CxxVeraxxRuleRepository extends CxxAbstractRuleRepository {
   public static final String CUSTOM_RULES_KEY = "vera++.customRules";
   private static final String NAME = "Vera++";
 
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+
   /**
    * {@inheritDoc}
    */
   public CxxVeraxxRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-                                   CxxLanguage language) {
+    CxxLanguage language) {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
-  }
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
   }
 
   @Override

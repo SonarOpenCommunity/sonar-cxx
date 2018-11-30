@@ -28,16 +28,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
-
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.squidbridge.SquidAstVisitorContext;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class CxxParserTest extends ParserBaseTestHelper {
 
@@ -59,30 +57,32 @@ public class CxxParserTest extends ParserBaseTestHelper {
   @Test
   public void testParsingOnDiverseSourceFiles() {
     Collection<File> files = listFiles(goodFiles, new String[]{"cc", "cpp", "hpp"});
-    HashMap<String,Integer> map = new HashMap<String,Integer>() {
+    HashMap<String, Integer> map = new HashMap<String, Integer>() {
       private static final long serialVersionUID = 6029310517902718597L;
+
       {
-          put("ignore.hpp", 2);
-          put("ignore1.cpp", 2);
-          put("ignoreparam.hpp", 4);
-          put("ignoreparam1.cpp", 2);
-          put("inbuf1.cpp", 2);
-          put("io1.cpp", 3);
-          put("outbuf1.cpp", 2);
-          put("outbuf1.hpp", 2);
-          put("outbuf1x.cpp", 2);
-          put("outbuf1x.hpp", 4);
-          put("outbuf2.cpp", 2);
-          put("outbuf2.hpp", 3);
-          put("outbuf3.cpp", 2);
-          put("outbuf3.hpp", 2);
-          put("outbuf2.cpp", 2);
-        }};
+        put("ignore.hpp", 2);
+        put("ignore1.cpp", 2);
+        put("ignoreparam.hpp", 4);
+        put("ignoreparam1.cpp", 2);
+        put("inbuf1.cpp", 2);
+        put("io1.cpp", 3);
+        put("outbuf1.cpp", 2);
+        put("outbuf1.hpp", 2);
+        put("outbuf1x.cpp", 2);
+        put("outbuf1x.hpp", 4);
+        put("outbuf2.cpp", 2);
+        put("outbuf2.hpp", 3);
+        put("outbuf3.cpp", 2);
+        put("outbuf3.hpp", 2);
+        put("outbuf2.cpp", 2);
+      }
+    };
     for (File file : files) {
       AstNode root = p.parse(file);
       CxxParser.finishedParsing(file);
       if (map.containsKey(file.getName())) {
-        assertThat(root.getNumberOfChildren()).as("check number of nodes for file %s",file.getName()).isEqualTo(map.get(file.getName())); 
+        assertThat(root.getNumberOfChildren()).as("check number of nodes for file %s", file.getName()).isEqualTo(map.get(file.getName()));
       } else {
         assertThat(root.hasChildren()).isTrue();
       }
@@ -109,14 +109,16 @@ public class CxxParserTest extends ParserBaseTestHelper {
       "resources\\parser\\preprocessor")
     );
 
-    HashMap<String,Integer> map = new HashMap<String,Integer>() {
+    HashMap<String, Integer> map = new HashMap<String, Integer>() {
       private static final long serialVersionUID = 1433381506274827684L;
+
       {
         put("variadic_macros.cpp", 2);
         put("apply_wrap.hpp", 1);
         put("boost_macros_short.hpp", 1);
         put("boost_macros.hpp", 1);
-      }};
+      }
+    };
 
     p = CxxParser.create(mock(SquidAstVisitorContext.class), conf, CxxFileTesterHelper.mockCxxLanguage());
     Collection<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"});
@@ -124,7 +126,7 @@ public class CxxParserTest extends ParserBaseTestHelper {
       AstNode root = p.parse(file);
       CxxParser.finishedParsing(file);
       if (map.containsKey(file.getName())) {
-        assertThat(root.getNumberOfChildren()).as("check number of nodes for file %s",file.getName()).isEqualTo(map.get(file.getName())); 
+        assertThat(root.getNumberOfChildren()).as("check number of nodes for file %s", file.getName()).isEqualTo(map.get(file.getName()));
       } else {
         assertThat(root.hasChildren()).isTrue();
       }
@@ -155,14 +157,16 @@ public class CxxParserTest extends ParserBaseTestHelper {
     conf.setCFilesPatterns(new String[]{"*.c"});
     p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
     AstNode root = p.parse(cfile);
-    assertThat(root.getNumberOfChildren()).isEqualTo(2);  
+    assertThat(root.getNumberOfChildren()).isEqualTo(2);
   }
 
   @Test
   public void testParseErrorRecoveryDisabled() {
     // The error recovery works, if:
     // - a syntacticly incorrect file causes a parse error when recovery is disabled
-    assertThatThrownBy(() -> {p.parse(erroneousSources);}).isInstanceOf(com.sonar.sslr.api.RecognitionException.class);
+    assertThatThrownBy(() -> {
+      p.parse(erroneousSources);
+    }).isInstanceOf(com.sonar.sslr.api.RecognitionException.class);
   }
 
   @SuppressWarnings("unchecked")

@@ -46,6 +46,17 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class FunctionNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "^[a-z_][a-z0-9_]{2,30}$";
+
+  private static boolean isFunctionDefinition(AstNode declId) {
+    boolean isFunction = false;
+    // not method inside of class
+    // not a nested name - not method outside of class
+    if ((declId.getFirstAncestor(CxxGrammarImpl.memberDeclaration) == null)
+      && (!declId.hasDirectChildren(CxxGrammarImpl.nestedNameSpecifier))) {
+      isFunction = true;
+    }
+    return isFunction;
+  }
   private Pattern pattern = null;
 
   /**
@@ -75,17 +86,6 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
         }
       }
     }
-  }
-
-  private static boolean isFunctionDefinition(AstNode declId) {
-    boolean isFunction = false;
-    // not method inside of class
-    // not a nested name - not method outside of class
-    if ((declId.getFirstAncestor(CxxGrammarImpl.memberDeclaration) == null)
-      && (!declId.hasDirectChildren(CxxGrammarImpl.nestedNameSpecifier))) {
-      isFunction = true;
-    }
-    return isFunction;
   }
 
 }

@@ -19,19 +19,19 @@
  */
 package org.sonar.cxx.lexer;
 
-import org.assertj.core.api.AbstractAssert;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
+import org.assertj.core.api.AbstractAssert;
 
 public class LexerAssert extends AbstractAssert<LexerAssert, Token> {
+
+  public static LexerAssert assertThat(Token actual) {
+    return new LexerAssert(actual);
+  }
 
   public LexerAssert(Token actual) {
     super(actual, LexerAssert.class);
 
-  }
-
-  public static LexerAssert assertThat(Token actual) {
-    return new LexerAssert(actual);
   }
 
   public LexerAssert hasType(TokenType type) {
@@ -88,12 +88,12 @@ public class LexerAssert extends AbstractAssert<LexerAssert, Token> {
     return this;
   }
 
-    public LexerAssert isComment() {
-      isNotNull();
-      Boolean exists = actual.getTrivia().get(0).isComment();
-      if (!exists) {
-         failWithMessage("Expected the Token isComment but was <%s>", exists);
-      }
+  public LexerAssert isComment() {
+    isNotNull();
+    Boolean exists = actual.getTrivia().get(0).isComment();
+    if (!exists) {
+      failWithMessage("Expected the Token isComment but was <%s>", exists);
+    }
     return this;
   }
 

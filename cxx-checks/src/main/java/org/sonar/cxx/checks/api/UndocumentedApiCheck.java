@@ -48,8 +48,8 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
  * </ul>
  * <p>
  * Public API items are considered documented if they have Doxygen comments.<br>
- * Function arguments are not counted since they can be documented in function
- * documentation and this visitor does not parse Doxygen comments.<br>
+ * Function arguments are not counted since they can be documented in function documentation and this visitor does not
+ * parse Doxygen comments.<br>
  * This visitor should be applied only on header files.<br>
  * Currently, no filtering is applied using preprocessing directive.<br>
  * <p>

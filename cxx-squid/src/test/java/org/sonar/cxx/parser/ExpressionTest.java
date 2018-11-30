@@ -153,7 +153,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
     assertThat(p).matches("typeName :: template simpleTemplateId ::");
     assertThat(p).matches("namespaceName :: template simpleTemplateId ::");
     assertThat(p).matches("decltypeSpecifier :: template simpleTemplateId ::");
-    
+
     // some deeper nested tests
     assertThat(p).matches(":: foo1 :: foo2 :: foo3 :: foo4 ::");
     assertThat(p).matches("typeName :: foo2 :: foo3 :: foo4 ::");
@@ -162,7 +162,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
     assertThat(p).matches(":: foo1 :: simpleTemplateId :: foo2 :: simpleTemplateId ::");
     assertThat(p).matches(":: foo1 :: template simpleTemplateId :: foo2 :: template simpleTemplateId ::");
   }
-  
+
   @Test
   public void postfixExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.postfixExpression));

@@ -43,7 +43,6 @@ import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 import org.sonar.cxx.visitors.CxxPublicApiVisitor;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.CommentAnalyser;
-import org.sonar.squidbridge.SourceCodeBuilderCallback;
 import org.sonar.squidbridge.SourceCodeBuilderVisitor;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.SquidAstVisitorContextImpl;
@@ -59,9 +58,6 @@ import org.sonar.squidbridge.metrics.CounterVisitor;
 import org.sonar.squidbridge.metrics.LinesVisitor;
 
 public final class CxxAstScanner {
-
-  private CxxAstScanner() {
-  }
 
   /**
    * Helper method for testing checks without having to deploy them on a Sonar instance.
@@ -254,5 +250,7 @@ public final class CxxAstScanner {
     // Didn't find any intersection. Fall back to straight concatenation.
     return a + b;
   }
-}
 
+  private CxxAstScanner() {
+  }
+}

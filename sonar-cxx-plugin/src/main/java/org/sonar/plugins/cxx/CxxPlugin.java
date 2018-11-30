@@ -622,6 +622,11 @@ public final class CxxPlugin implements Plugin {
     return l;
   }
 
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
+
   public static class CxxMetricsImp implements Metrics {
 
     private static final List<Metric> METRICS = CxxMetricsFactory.generateList(CppLanguage.KEY, CppLanguage.PROPSKEY);
@@ -858,8 +863,4 @@ public final class CxxPlugin implements Plugin {
     }
   }
 
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
-  }
 }

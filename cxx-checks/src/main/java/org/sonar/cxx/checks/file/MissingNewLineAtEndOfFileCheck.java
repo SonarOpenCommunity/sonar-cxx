@@ -40,19 +40,6 @@ import org.sonar.squidbridge.checks.SquidCheck;
 @SqaleConstantRemediation("1min")
 public class MissingNewLineAtEndOfFileCheck extends SquidCheck<Grammar> {
 
-  @Override
-  public void visitFile(AstNode astNode) {
-    try {
-      try (RandomAccessFile randomAccessFile = new RandomAccessFile(getContext().getFile(), "r")) {
-        if (!endsWithNewline(randomAccessFile)) {
-          getContext().createFileViolation(this, "Add a new line at the end of this file.");
-        }
-      }
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
-  }
-
   private static boolean endsWithNewline(RandomAccessFile randomAccessFile) throws IOException {
     if (randomAccessFile.length() < 1) {
       return false;
@@ -64,6 +51,19 @@ public class MissingNewLineAtEndOfFileCheck extends SquidCheck<Grammar> {
     }
     String ch = new String(chars, StandardCharsets.UTF_8);
     return "\n".equals(ch) || "\r".equals(ch);
+  }
+
+  @Override
+  public void visitFile(AstNode astNode) {
+    try {
+      try (RandomAccessFile randomAccessFile = new RandomAccessFile(getContext().getFile(), "r")) {
+        if (!endsWithNewline(randomAccessFile)) {
+          getContext().createFileViolation(this, "Add a new line at the end of this file.");
+        }
+      }
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
 }
