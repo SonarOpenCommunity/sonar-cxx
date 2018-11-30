@@ -50,4 +50,5 @@ public class ReservedNamesCheckTest {
       .next().atLine(19)
       .next().atLine(20);
   }
+
 }

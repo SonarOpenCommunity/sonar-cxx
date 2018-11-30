@@ -42,4 +42,5 @@ public class TooManyLinesOfCodeInFunctionCheckTest {
       .next().atLine(21)
       .noMore();
   }
+
 }

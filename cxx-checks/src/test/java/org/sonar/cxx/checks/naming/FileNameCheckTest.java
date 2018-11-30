@@ -31,9 +31,9 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class FileNameCheckTest {
 
-  private final FileNameCheck check = new FileNameCheck();
   @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
+  private final FileNameCheck check = new FileNameCheck();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion

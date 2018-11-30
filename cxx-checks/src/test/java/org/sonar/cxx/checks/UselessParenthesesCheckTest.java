@@ -41,4 +41,5 @@ public class UselessParenthesesCheckTest {
       .next().atLine(4).withMessage("Remove those useless parentheses.")
       .next().atLine(5);
   }
+
 }
