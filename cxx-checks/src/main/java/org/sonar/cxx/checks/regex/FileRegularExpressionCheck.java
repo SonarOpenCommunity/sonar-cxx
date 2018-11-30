@@ -56,13 +56,6 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
   private static final boolean DEFAULT_INVERT_REGULAR_EXPRESSION = false;
   private static final String DEFAULT_MESSAGE = "The regular expression matches this file";
 
-  private static boolean compare(boolean invert, boolean condition) {
-    return invert ? !condition : condition;
-  }
-
-  private Charset charset = StandardCharsets.UTF_8;
-  private Pattern pattern = null;
-
   /**
    * matchFilePattern
    */
@@ -107,6 +100,12 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     description = "The violation message",
     defaultValue = DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
+  private Charset charset = StandardCharsets.UTF_8;
+  private Pattern pattern = null;
+
+  private static boolean compare(boolean invert, boolean condition) {
+    return invert ? !condition : condition;
+  }
 
   @Override
   public void init() {
@@ -142,6 +141,5 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     }
     return true;
   }
-
 
 }

@@ -31,6 +31,9 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 
 public class CheckUtils {
 
+  private CheckUtils() {
+  }
+
   public static Pattern compileUserRegexp(String regexp, int flags) {
     Objects.requireNonNull(regexp, "regular expression has to be non null");
     if (regexp.isEmpty()) {
@@ -72,9 +75,6 @@ public class CheckUtils {
       return node.getToken().getType().equals(GenericTokenType.IDENTIFIER);
     }
     return false;
-  }
-
-  private CheckUtils() {
   }
 
 }

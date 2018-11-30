@@ -41,6 +41,8 @@ public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
   private static final String[] DEFAULT_NAME_SUFFIX = new String[]{".h", ".hh", ".hpp", ".H"};
 
+  private Boolean isHeader = false;
+
   private static boolean isHeader(String name) {
     for (String suff : DEFAULT_NAME_SUFFIX) {
       if (name.endsWith(suff)) {
@@ -49,7 +51,6 @@ public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
     }
     return false;
   }
-  private Boolean isHeader = false;
 
   @Override
   public void init() {

@@ -49,7 +49,6 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final boolean DEFAULT_CREATE_LINE_VIOLATION = false;
-  private Charset charset = StandardCharsets.UTF_8;
 
   /**
    * createLineViolation
@@ -59,6 +58,7 @@ public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharset
     description = "Create violations per line (default is one per file)",
     defaultValue = "" + DEFAULT_CREATE_LINE_VIOLATION)
   public boolean createLineViolation = DEFAULT_CREATE_LINE_VIOLATION;
+  private Charset charset = StandardCharsets.UTF_8;
 
   @Override
   public void setCharset(Charset charset) {

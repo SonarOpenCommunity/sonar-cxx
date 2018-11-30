@@ -93,4 +93,5 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
   public void setCharset(Charset charset) {
     this.charset = charset;
   }
+
 }

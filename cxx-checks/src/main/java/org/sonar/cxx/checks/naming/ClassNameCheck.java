@@ -46,7 +46,6 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class ClassNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "^[A-Z_][a-zA-Z0-9]+$";
-  private Pattern pattern = null;
 
   /**
    * format
@@ -55,6 +54,7 @@ public class ClassNameCheck extends SquidCheck<Grammar> {
     key = "format",
     defaultValue = "" + DEFAULT)
   public String format = DEFAULT;
+  private Pattern pattern = null;
 
   @Override
   public void init() {

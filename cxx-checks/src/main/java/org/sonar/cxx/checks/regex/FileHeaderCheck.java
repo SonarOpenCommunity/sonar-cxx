@@ -55,27 +55,6 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
   private static final String DEFAULT_HEADER_FORMAT = "";
   private static final String MESSAGE = "Add or update the header of this file.";
 
-  private static boolean matches(String[] expectedLines, List<String> lines) {
-    boolean result;
-
-    if (expectedLines.length <= lines.size()) {
-      result = true;
-
-      Iterator<String> it = lines.iterator();
-      for (String expectedLine : expectedLines) {
-        String line = it.next();
-        if (!line.equals(expectedLine)) {
-          result = false;
-          break;
-        }
-      }
-    } else {
-      result = false;
-    }
-
-    return result;
-  }
-
   /**
    * headerFormat
    */
@@ -98,6 +77,27 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
   private Charset charset = StandardCharsets.UTF_8;
   private String[] expectedLines = null;
   private Pattern searchPattern = null;
+
+  private static boolean matches(String[] expectedLines, List<String> lines) {
+    boolean result;
+
+    if (expectedLines.length <= lines.size()) {
+      result = true;
+
+      Iterator<String> it = lines.iterator();
+      for (String expectedLine : expectedLines) {
+        String line = it.next();
+        if (!line.equals(expectedLine)) {
+          result = false;
+          break;
+        }
+      }
+    } else {
+      result = false;
+    }
+
+    return result;
+  }
 
   @Override
   public void setCharset(Charset charset) {

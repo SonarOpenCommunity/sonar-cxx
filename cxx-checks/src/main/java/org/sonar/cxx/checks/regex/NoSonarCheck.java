@@ -61,4 +61,5 @@ public class NoSonarCheck extends SquidCheck<Grammar> implements AstAndTokenVisi
       }
     }
   }
+
 }

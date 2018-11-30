@@ -48,6 +48,10 @@ public class ClassComplexityCheck extends CxxCyclomaticComplexityCheck<Grammar> 
     defaultValue = "" + DEFAULT_MAXIMUM_CLASS_COMPLEXITY_THRESHOLD)
   private int max = DEFAULT_MAXIMUM_CLASS_COMPLEXITY_THRESHOLD;
 
+  public void setMaxComplexity(int threshold) {
+    this.max = threshold;
+  }
+
   @Override
   protected Optional<AstNodeType> getScopeType() {
     return Optional.of(CxxGrammarImpl.classSpecifier);
@@ -63,7 +67,4 @@ public class ClassComplexityCheck extends CxxCyclomaticComplexityCheck<Grammar> 
     return max;
   }
 
-  public void setMaxComplexity(int threshold) {
-    this.max = threshold;
-  }
 }

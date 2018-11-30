@@ -70,4 +70,5 @@ public class TooManyParametersCheck extends SquidCheck<Grammar> {
   public void setMax(int max) {
     this.max = max;
   }
+
 }
