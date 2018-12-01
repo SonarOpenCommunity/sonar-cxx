@@ -98,6 +98,14 @@ class ValgrindFrame {
       .toHashCode();
   }
 
+  public boolean isLocationKnown() {
+    return !("".equals(file) && "".equals(obj));
+  }
+
+  private String getLineStr() {
+    return "".equals(line) ? "" : ":" + line;
+  }
+
   String getPath() {
     return new File(dir, file).getPath();
   }
@@ -110,11 +118,4 @@ class ValgrindFrame {
     return line;
   }
 
-  public boolean isLocationKnown() {
-    return !("".equals(file) && "".equals(obj));
-  }
-
-  private String getLineStr() {
-    return "".equals(line) ? "" : ":" + line;
-  }
 }

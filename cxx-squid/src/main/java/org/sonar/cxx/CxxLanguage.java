@@ -121,4 +121,5 @@ public abstract class CxxLanguage extends AbstractLanguage {
     }
     return metric;
   }
+
 }

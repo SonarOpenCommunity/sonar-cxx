@@ -42,15 +42,9 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxDrMemorySensor extends CxxIssuesReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   public static final String REPORT_PATH_KEY = "drmemory.reportPath";
+  private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   private static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
-
-  private static String getFrameText(Location frame, int frameNr) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("#").append(frameNr).append(" ").append(frame.getFile()).append(":").append(frame.getLine());
-    return sb.toString();
-  }
 
   /**
    * CxxDrMemorySensor for Doctor Memory Sensor
@@ -59,6 +53,12 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
    */
   public CxxDrMemorySensor(CxxLanguage language) {
     super(language, REPORT_PATH_KEY, CxxDrMemoryRuleRepository.getRepositoryKey(language));
+  }
+
+  private static String getFrameText(Location frame, int frameNr) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("#").append(frameNr).append(" ").append(frame.getFile()).append(":").append(frame.getLine());
+    return sb.toString();
   }
 
   @Override
@@ -119,4 +119,5 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   protected CxxMetricsFactory.Key getMetricKey() {
     return CxxMetricsFactory.Key.DRMEMORY_SENSOR_ISSUES_KEY;
   }
+
 }

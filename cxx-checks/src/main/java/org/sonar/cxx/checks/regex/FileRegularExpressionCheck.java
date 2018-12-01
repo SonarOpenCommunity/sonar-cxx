@@ -19,9 +19,9 @@
  */
 package org.sonar.cxx.checks.regex;
 
+import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import com.google.common.io.Files;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

@@ -49,6 +49,15 @@ public enum CppKeyword implements TokenType {
     this.value = value;
   }
 
+  public static String[] keywordValues() {
+    CppKeyword[] keywordsEnum = CppKeyword.values();
+    String[] keywords = new String[keywordsEnum.length];
+    for (int i = 0; i < keywords.length; i++) {
+      keywords[i] = keywordsEnum[i].getValue();
+    }
+    return keywords;
+  }
+
   @Override
   public String getName() {
     return name();
@@ -62,15 +71,6 @@ public enum CppKeyword implements TokenType {
   @Override
   public boolean hasToBeSkippedFromAst(AstNode node) {
     return false;
-  }
-
-  public static String[] keywordValues() {
-    CppKeyword[] keywordsEnum = CppKeyword.values();
-    String[] keywords = new String[keywordsEnum.length];
-    for (int i = 0; i < keywords.length; i++) {
-      keywords[i] = keywordsEnum[i].getValue();
-    }
-    return keywords;
   }
 
 }

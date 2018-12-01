@@ -32,11 +32,11 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 class ValgrindStack {
 
+  private final List<ValgrindFrame> frames = new ArrayList<>();
+
   private static boolean isInside(String path, String folder) {
     return (path == null || "".equals(path)) ? false : path.startsWith(folder);
   }
-
-  private final List<ValgrindFrame> frames = new ArrayList<>();
 
   /**
    * Adds a stack frame to this call stack

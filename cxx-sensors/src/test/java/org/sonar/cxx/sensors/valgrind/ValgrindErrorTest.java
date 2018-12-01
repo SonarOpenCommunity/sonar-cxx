@@ -72,4 +72,5 @@ public class ValgrindErrorTest {
     String KIND = "kind";
     assertEquals(new ValgrindError(KIND, "", Collections.singletonList(new ValgrindStack())).getKind(), KIND);
   }
+
 }

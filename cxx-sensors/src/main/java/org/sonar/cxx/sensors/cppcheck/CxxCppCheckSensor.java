@@ -39,8 +39,8 @@ import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
  */
 public class CxxCppCheckSensor extends CxxIssuesReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxCppCheckSensor.class);
   public static final String REPORT_PATH_KEY = "cppcheck.reportPath";
+  private static final Logger LOG = Loggers.get(CxxCppCheckSensor.class);
 
   private final List<CppcheckParser> parsers = new LinkedList<>();
 
@@ -89,4 +89,5 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   protected CxxMetricsFactory.Key getMetricKey() {
     return CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY;
   }
+
 }

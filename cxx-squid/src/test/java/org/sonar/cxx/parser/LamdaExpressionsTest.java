@@ -183,4 +183,5 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
     assertThat(p).matches("( parameterDeclarationClause ) noexceptSpecifier attributeSpecifierSeq trailingReturnType"); // complex 5
     assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq trailingReturnType"); // complex 6
   }
+
 }

@@ -40,4 +40,5 @@ public class CxxRuleRepository implements RulesDefinition {
     new AnnotationBasedRulesDefinition(repository, CppLanguage.KEY).addRuleClasses(false, this.language.getChecks());
     repository.done();
   }
+
 }

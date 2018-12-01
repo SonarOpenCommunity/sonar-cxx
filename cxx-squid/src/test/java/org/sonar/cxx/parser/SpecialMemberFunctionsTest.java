@@ -69,4 +69,5 @@ public class SpecialMemberFunctionsTest extends ParserBaseTestHelper {
 
     assertThat(p).matches("theValue");
   }
+
 }

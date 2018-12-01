@@ -41,4 +41,5 @@ public class TestCaseTest {
       assertEquals(entry.getKey(), entry.getValue().getDetails());
     }
   }
+
 }

@@ -58,4 +58,5 @@ class CoverageMeasure {
   int getLine() {
     return this.line;
   }
+
 }

@@ -69,4 +69,5 @@ public class IncludeLexerTest {
     assertThat(tokens).hasSize(1);
     assertThat(tokens, hasToken("EOF", EOF));
   }
+
 }

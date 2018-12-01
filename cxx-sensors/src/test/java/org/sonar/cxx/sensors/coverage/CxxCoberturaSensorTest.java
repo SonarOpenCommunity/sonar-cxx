@@ -39,13 +39,14 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCoberturaSensorTest {
 
+  @org.junit.Rule
+  public LogTester logTester = new LogTester();
+
   private CxxCoverageSensor sensor;
   private DefaultFileSystem fs;
   private final Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
   private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
-  @org.junit.Rule
-  public LogTester logTester = new LogTester();
 
   @Before
   public void setUp() {
@@ -215,4 +216,5 @@ public class CxxCoberturaSensorTest {
     }
 
   }
+
 }

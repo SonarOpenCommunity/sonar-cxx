@@ -75,4 +75,5 @@ public class CppLexerTest {
     assertThat(tokens, hasToken("#", CppPunctuator.HASH));
     assertThat(tokens, hasToken("a", IDENTIFIER));
   }
+
 }

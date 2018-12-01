@@ -116,4 +116,5 @@ public class XUnitTestResultsFileParserTest {
     assertThat(results.errors()).isEqualTo(0);
     assertThat(results.executionTime()).isNull();
   }
+
 }

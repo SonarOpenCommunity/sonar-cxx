@@ -35,6 +35,11 @@ import org.junit.rules.TemporaryFolder;
 
 public class WildcardPatternFileProviderTest {
 
+  @Rule
+  public TemporaryFolder tmp = new TemporaryFolder();
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private static String path(String... elements) {
     return Joiner.on(File.separator).join(elements);
   }
@@ -46,12 +51,6 @@ public class WildcardPatternFileProviderTest {
   private static Set<File> listFiles(String pattern, File baseDir) {
     return new WildcardPatternFileProvider(baseDir, File.separator).listFiles(pattern);
   }
-
-  @Rule
-  public TemporaryFolder tmp = new TemporaryFolder();
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Before
   public void init() throws Exception {

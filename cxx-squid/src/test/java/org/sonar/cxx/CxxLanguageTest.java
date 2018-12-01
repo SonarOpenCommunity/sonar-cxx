@@ -30,16 +30,17 @@ import org.sonar.api.config.internal.MapSettings;
 
 public class CxxLanguageTest {
 
+  /**
+   * Default cxx header files suffixes
+   */
+  public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
+
   private static final String KEY = "c++";
   private static final String NAME = "c++";
   private static final String PLUGIN_ID = "cxx";
   private static final String SOURCE_SUFFIXES = ".cxx,.cpp,.cc,.c";
   private static final String HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
 
-  /**
-   * Default cxx header files suffixes
-   */
-  public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
   private MapSettings settings;
 
   @Before

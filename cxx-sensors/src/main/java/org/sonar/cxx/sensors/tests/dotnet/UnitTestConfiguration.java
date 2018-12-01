@@ -26,12 +26,11 @@ import org.sonar.cxx.CxxLanguage;
 
 public class UnitTestConfiguration {
 
-  private static final String EXIST_CONFIGURATION_PARAMETER = "Exist configuration parameter: '{}':'{}'";
-  private static final Logger LOG = Loggers.get(UnitTestConfiguration.class);
-
   public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "vstest.reportsPaths";
   public static final String XUNIT_TEST_RESULTS_PROPERTY_KEY = "xunit.reportsPaths";
   public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "nunit.reportsPaths";
+  private static final String EXIST_CONFIGURATION_PARAMETER = "Exist configuration parameter: '{}':'{}'";
+  private static final Logger LOG = Loggers.get(UnitTestConfiguration.class);
 
   private final Configuration config;
   private final String vsKeyEffective;

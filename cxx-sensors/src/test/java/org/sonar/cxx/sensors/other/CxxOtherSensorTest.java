@@ -38,12 +38,13 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxOtherSensorTest {
 
+  @Rule
+  public LogTester logTester = new LogTester();
+
   private CxxOtherSensor sensor;
   private DefaultFileSystem fs;
   private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
-  @Rule
-  public LogTester logTester = new LogTester();
 
   @Before
   public void setUp() {

@@ -28,6 +28,9 @@ import java.util.Map;
  */
 public final class StandardDefinitions {
 
+  private StandardDefinitions() {
+  }
+
   /**
    * macros
    *
@@ -96,6 +99,4 @@ public final class StandardDefinitions {
     return source;
   }
 
-  private StandardDefinitions() {
-  }
 }

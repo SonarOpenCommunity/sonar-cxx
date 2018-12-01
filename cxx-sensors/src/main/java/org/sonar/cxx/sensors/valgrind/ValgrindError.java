@@ -94,16 +94,16 @@ class ValgrindError {
       .toHashCode();
   }
 
-  String getKind() {
-    return this.kind;
-  }
-
   public String getText() {
     return text;
   }
 
   public List<ValgrindStack> getStacks() {
     return stacks;
+  }
+
+  String getKind() {
+    return this.kind;
   }
 
 }

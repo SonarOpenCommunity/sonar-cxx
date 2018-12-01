@@ -32,13 +32,14 @@ import java.util.Set;
  */
 public final class CoverageMeasures {
 
-  static CoverageMeasures create() {
-    return new CoverageMeasures();
-  }
   private final Map<Integer, CoverageMeasure> lineMeasures = new HashMap<>();
 
   private CoverageMeasures() {
     // empty
+  }
+
+  static CoverageMeasures create() {
+    return new CoverageMeasures();
   }
 
   void setHits(int lineId, int hits) {
@@ -78,4 +79,5 @@ public final class CoverageMeasures {
     });
     return ImmutableSet.copyOf(coveredConditionLines);
   }
+
 }

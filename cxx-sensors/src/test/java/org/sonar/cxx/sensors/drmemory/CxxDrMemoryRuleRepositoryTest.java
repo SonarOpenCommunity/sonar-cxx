@@ -47,4 +47,5 @@ public class CxxDrMemoryRuleRepositoryTest {
     List<Rule> rules = repo.rules();
     assertEquals(8, rules.size());
   }
+
 }

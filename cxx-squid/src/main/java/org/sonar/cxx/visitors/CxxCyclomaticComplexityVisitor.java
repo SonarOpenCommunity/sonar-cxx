@@ -98,4 +98,5 @@ public class CxxCyclomaticComplexityVisitor<G extends Grammar> extends SquidAstV
   public void destroy() {
     visitor.destroy();
   }
+
 }

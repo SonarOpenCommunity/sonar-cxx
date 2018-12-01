@@ -119,4 +119,5 @@ public class SourceCodeProvider {
     byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
     return new String(encoded, charset);
   }
+
 }

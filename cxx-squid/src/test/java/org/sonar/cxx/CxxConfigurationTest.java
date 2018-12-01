@@ -339,18 +339,6 @@ public class CxxConfigurationTest {
     softly.assertAll();
   }
 
-  private void ValidateDefaultAsserts(SoftAssertions softly, List<String> defines) {
-    softly.assertThat(defines.contains("_INTEGRAL_MAX_BITS 64")).isTrue();
-    softly.assertThat(defines.contains("_MSC_BUILD 1")).isTrue();
-    softly.assertThat(defines.contains("__COUNTER__ 0")).isTrue();
-    softly.assertThat(defines.contains("__DATE__ \"??? ?? ????\"")).isTrue();
-    softly.assertThat(defines.contains("__FILE__ \"file\"")).isTrue();
-    softly.assertThat(defines.contains("__LINE__ 1")).isTrue();
-    softly.assertThat(defines.contains("__TIME__ \"??:??:??\"")).isTrue();
-    softly.assertThat(defines.contains("__TIMESTAMP__ \"??? ?? ???? ??:??:??\"")).isTrue();
-    softly.assertAll();
-  }
-
   @Test
   public void shouldGetSourceFilesList() {
     CxxConfiguration config = new CxxConfiguration();
@@ -369,4 +357,17 @@ public class CxxConfigurationTest {
       Assertions.assertThat(files).contains(file.getName()).as(file.getName());
     }
   }
+
+  private void ValidateDefaultAsserts(SoftAssertions softly, List<String> defines) {
+    softly.assertThat(defines.contains("_INTEGRAL_MAX_BITS 64")).isTrue();
+    softly.assertThat(defines.contains("_MSC_BUILD 1")).isTrue();
+    softly.assertThat(defines.contains("__COUNTER__ 0")).isTrue();
+    softly.assertThat(defines.contains("__DATE__ \"??? ?? ????\"")).isTrue();
+    softly.assertThat(defines.contains("__FILE__ \"file\"")).isTrue();
+    softly.assertThat(defines.contains("__LINE__ 1")).isTrue();
+    softly.assertThat(defines.contains("__TIME__ \"??:??:??\"")).isTrue();
+    softly.assertThat(defines.contains("__TIMESTAMP__ \"??? ?? ???? ??:??:??\"")).isTrue();
+    softly.assertAll();
+  }
+
 }

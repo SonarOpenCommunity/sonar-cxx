@@ -121,10 +121,6 @@ public class CxxXunitSensorTest {
     assertThat(reportAfter).isNotSameAs(reportBefore);
   }
 
-  File cppunitReport() {
-    return new File(new File(fs.baseDir(), "xunit-reports"), "cppunit-report.xml");
-  }
-
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
@@ -134,4 +130,9 @@ public class CxxXunitSensorTest {
     assertThat(descriptor.name()).isEqualTo(language.getName() + " XunitSensor");
     assertThat(descriptor.isGlobal()).isTrue();
   }
+
+  File cppunitReport() {
+    return new File(new File(fs.baseDir(), "xunit-reports"), "cppunit-report.xml");
+  }
+
 }

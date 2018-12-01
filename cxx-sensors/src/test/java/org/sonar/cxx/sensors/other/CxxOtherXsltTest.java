@@ -96,4 +96,5 @@ public class CxxOtherXsltTest {
     Assert.assertTrue("The output file does not exist!", reportAfter.exists() && reportAfter.isFile());
     Assert.assertTrue("The input and output file is equal!", !FileUtils.contentEquals(reportBefore, reportAfter));
   }
+
 }

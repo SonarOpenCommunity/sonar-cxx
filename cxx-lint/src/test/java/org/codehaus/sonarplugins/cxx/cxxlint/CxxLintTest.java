@@ -63,4 +63,5 @@ public class CxxLintTest {
     CxxLint.main(args);
     assertThatCode(() -> CxxLint.main(args)).doesNotThrowAnyException();
   }
+
 }

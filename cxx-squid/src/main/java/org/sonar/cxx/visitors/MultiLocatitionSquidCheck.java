@@ -58,24 +58,12 @@ public class MultiLocatitionSquidCheck<G extends Grammar> extends SquidCheck<G> 
     return issues != null && !issues.isEmpty();
   }
 
-  private static void setMultiLocationViolation(SourceFile sourceFile, Set<CxxReportIssue> messages) {
-    sourceFile.addData(DataKey.FILE_VIOLATIONS_WITH_MULTIPLE_LOCATIONS, messages);
-  }
-
   public static void eraseMultilineCheckMessages(SourceFile sourceFile) {
     setMultiLocationViolation(sourceFile, null);
   }
 
-  /**
-   * @return the rule key of this check visitor
-   * @see org.sonar.check.Rule
-   */
-  protected String getRuleKey() {
-    org.sonar.check.Rule ruleAnnotation = AnnotationUtils.getAnnotation(this, org.sonar.check.Rule.class);
-    if (ruleAnnotation != null && ruleAnnotation.key() != null) {
-      return ruleAnnotation.key();
-    }
-    throw new IllegalStateException("Check must be annotated with @Rule( key = <key> )");
+  private static void setMultiLocationViolation(SourceFile sourceFile, Set<CxxReportIssue> messages) {
+    sourceFile.addData(DataKey.FILE_VIOLATIONS_WITH_MULTIPLE_LOCATIONS, messages);
   }
 
   private SourceFile getSourceFile() {
@@ -88,6 +76,18 @@ public class MultiLocatitionSquidCheck<G extends Grammar> extends SquidCheck<G> 
       throw new IllegalStateException("Unable to get SourceFile on source code '"
         + (c.peekSourceCode() == null ? "[NULL]" : c.peekSourceCode().getKey()) + "'");
     }
+  }
+
+  /**
+   * @return the rule key of this check visitor
+   * @see org.sonar.check.Rule
+   */
+  protected String getRuleKey() {
+    org.sonar.check.Rule ruleAnnotation = AnnotationUtils.getAnnotation(this, org.sonar.check.Rule.class);
+    if (ruleAnnotation != null && ruleAnnotation.key() != null) {
+      return ruleAnnotation.key();
+    }
+    throw new IllegalStateException("Check must be annotated with @Rule( key = <key> )");
   }
 
   /**
@@ -133,4 +133,5 @@ public class MultiLocatitionSquidCheck<G extends Grammar> extends SquidCheck<G> 
       return null;
     }
   }
+
 }

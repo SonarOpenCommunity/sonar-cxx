@@ -72,4 +72,5 @@ public class ExceptionHandlingTest extends ParserBaseTestHelper {
     assertThat(p).matches("noexcept");
     assertThat(p).matches("noexcept ( constantExpression )");
   }
+
 }

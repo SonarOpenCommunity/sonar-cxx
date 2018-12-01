@@ -62,4 +62,5 @@ public class CxxFunctionComplexityVisitorTest {
     softly.assertThat(file.getInt(CxxMetric.COMPLEX_FUNCTIONS_LOC)).isEqualTo(0);
     softly.assertAll();
   }
+
 }

@@ -74,4 +74,5 @@ public class CxxReportLocation {
     CxxReportLocation other = (CxxReportLocation) obj;
     return Objects.equals(file, other.file) && Objects.equals(info, other.info) && Objects.equals(line, other.line);
   }
+
 }

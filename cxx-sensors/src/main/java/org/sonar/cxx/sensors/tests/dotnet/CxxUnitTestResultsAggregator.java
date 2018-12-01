@@ -36,17 +36,6 @@ public class CxxUnitTestResultsAggregator {
 
   private static final Logger LOG = Loggers.get(CxxUnitTestResultsAggregator.class);
 
-  private static void aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, String[] reportPaths,
-    UnitTestResultsParser parser, UnitTestResults unitTestResults) {
-    for (String reportPathPattern : reportPaths) {
-      LOG.info("Report path pattern: '{}'", reportPathPattern);
-      if (!reportPathPattern.isEmpty()) {
-        for (File reportFile : wildcardPatternFileProvider.listFiles(reportPathPattern)) {
-          parser.accept(reportFile, unitTestResults);
-        }
-      }
-    }
-  }
   private final VisualStudioTestResultsFileParser visualStudioTestResultsFileParser;
   private final XUnitTestResultsFileParser xunitTestResultsFileParser;
   private final NUnitTestResultsFileParser nunitTestResultsFileParser;
@@ -66,6 +55,18 @@ public class CxxUnitTestResultsAggregator {
     this.visualStudioTestResultsFileParser = visualStudioTestResultsFileParser;
     this.xunitTestResultsFileParser = xunitTestResultsFileParser;
     this.nunitTestResultsFileParser = nunitTestResultsFileParser;
+  }
+
+  private static void aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, String[] reportPaths,
+    UnitTestResultsParser parser, UnitTestResults unitTestResults) {
+    for (String reportPathPattern : reportPaths) {
+      LOG.info("Report path pattern: '{}'", reportPathPattern);
+      if (!reportPathPattern.isEmpty()) {
+        for (File reportFile : wildcardPatternFileProvider.listFiles(reportPathPattern)) {
+          parser.accept(reportFile, unitTestResults);
+        }
+      }
+    }
   }
 
   UnitTestResults aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, UnitTestResults unitTestResults,

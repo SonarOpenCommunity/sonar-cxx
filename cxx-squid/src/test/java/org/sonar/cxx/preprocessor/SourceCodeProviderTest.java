@@ -189,4 +189,5 @@ public class SourceCodeProviderTest {
   public void getting_source_code2() throws IOException {
     assertEquals("source code", codeProvider.getSourceCode(expected2, Charset.defaultCharset()));
   }
+
 }

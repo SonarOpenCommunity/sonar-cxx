@@ -61,4 +61,5 @@ public class XunitReportParserTest {
     File report = TestUtils.loadResource(pathPrefix + "invalid-time-xunit-report.xml");
     parser.parse(report);
   }
+
 }

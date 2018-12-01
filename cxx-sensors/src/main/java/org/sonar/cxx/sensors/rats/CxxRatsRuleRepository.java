@@ -29,13 +29,9 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
 
-  private static final String KEY = "rats";
   public static final String CUSTOM_RULES_KEY = "rats.customRules";
+  private static final String KEY = "rats";
   private static final String NAME = "RATS";
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
-  }
 
   /**
    * {@inheritDoc}
@@ -45,8 +41,13 @@ public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
   }
 
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+
   @Override
   protected String fileName() {
     return "/rats.xml";
   }
+
 }

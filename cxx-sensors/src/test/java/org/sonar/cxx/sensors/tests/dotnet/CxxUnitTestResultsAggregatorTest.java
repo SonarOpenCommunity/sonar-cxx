@@ -43,13 +43,13 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxUnitTestResultsAggregatorTest {
 
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private CxxLanguage language;
   private final String key1 = "sonar.cxx." + UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY;
   private final String key2 = "sonar.cxx." + UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY;
   private final String key3 = "sonar.cxx." + UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY;
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Before
   public void setUp() {

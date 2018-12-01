@@ -29,13 +29,9 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxCppCheckRuleRepository extends CxxAbstractRuleRepository {
 
-  private static final String KEY = "cppcheck";
   public static final String CUSTOM_RULES_KEY = "cppcheck.customRules";
+  private static final String KEY = "cppcheck";
   private static final String NAME = "Cppcheck";
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
-  }
 
   /**
    * {@inheritDoc}
@@ -45,8 +41,13 @@ public class CxxCppCheckRuleRepository extends CxxAbstractRuleRepository {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
   }
 
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+
   @Override
   protected String fileName() {
     return "/cppcheck.xml";
   }
+
 }

@@ -81,15 +81,11 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
     SUBSCRIPTION_NODES.addAll(Arrays.asList(NESTING_INCREMENTS_TYPES));
   }
 
+  private Deque<CxxComplexityScope> complexityScopes = null;
+
   private static boolean isElseIf(AstNode node) {
     return node.is(CxxGrammarImpl.selectionStatement) && node.getToken().getType().equals(CxxKeyword.IF)
       && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
-  }
-  private Deque<CxxComplexityScope> complexityScopes = null;
-
-  protected void analyzeComplexity(CxxComplexityScope scope) {
-    SourceCode code = getContext().peekSourceCode();
-    code.setMeasure(CxxMetric.COGNITIVE_COMPLEXITY, scope.getComplexity());
   }
 
   @Override
@@ -146,6 +142,11 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
         scope.decreaseNesting();
       }
     }
+  }
+
+  protected void analyzeComplexity(CxxComplexityScope scope) {
+    SourceCode code = getContext().peekSourceCode();
+    code.setMeasure(CxxMetric.COGNITIVE_COMPLEXITY, scope.getComplexity());
   }
 
 }

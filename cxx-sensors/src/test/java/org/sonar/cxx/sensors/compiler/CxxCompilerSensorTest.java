@@ -36,13 +36,13 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCompilerSensorTest {
 
+  @Rule
+  public LogTester logTester = new LogTester();
+
   private DefaultFileSystem fs;
   private CxxLanguage language;
   SensorContextTester context;
   CxxCompilerSensorMock sensor;
-
-  @Rule
-  public LogTester logTester = new LogTester();
 
   @Before
   public void setUp() {

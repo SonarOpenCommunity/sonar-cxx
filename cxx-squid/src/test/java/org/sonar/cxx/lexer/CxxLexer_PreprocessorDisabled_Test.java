@@ -67,4 +67,5 @@ public class CxxLexer_PreprocessorDisabled_Test {
     softly.assertThat(lexer.lex("#define A B*/\n")).anySatisfy(token -> assertThat(token).isValue("#define A B*/").hasType(CxxTokenType.PREPROCESSOR));
     softly.assertAll();
   }
+
 }

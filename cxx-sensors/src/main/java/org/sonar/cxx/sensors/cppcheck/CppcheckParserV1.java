@@ -103,4 +103,5 @@ public class CppcheckParserV1 implements CppcheckParser {
   public String toString() {
     return getClass().getSimpleName();
   }
+
 }

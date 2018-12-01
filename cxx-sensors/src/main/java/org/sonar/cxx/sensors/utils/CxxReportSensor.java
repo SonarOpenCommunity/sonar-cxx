@@ -43,6 +43,16 @@ import org.sonar.cxx.CxxLanguage;
 public abstract class CxxReportSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
+  private final CxxLanguage language;
+  private final String propertiesKeyPathToReports;
+
+  /**
+   * {@inheritDoc}
+   */
+  protected CxxReportSensor(CxxLanguage language, String propertiesKeyPathToReports) {
+    this.language = language;
+    this.propertiesKeyPathToReports = language.getPluginProperty(propertiesKeyPathToReports);
+  }
 
   /**
    * Get string property from configuration. If the string is not set or empty, return the default value.
@@ -125,6 +135,14 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   /**
+   * @param property String with comma separated items
+   * @return
+   */
+  public static String[] splitProperty(String property) {
+    return Iterables.toArray(Splitter.on(',').split(property), String.class);
+  }
+
+  /**
    * @param moduleBaseDir
    * @param reportPaths
    * @return
@@ -147,24 +165,6 @@ public abstract class CxxReportSensor implements Sensor {
       LOG.debug("Normalized report includes to '{}'", includes);
     }
     return includes;
-  }
-
-  /**
-   * @param property String with comma separated items
-   * @return
-   */
-  public static String[] splitProperty(String property) {
-    return Iterables.toArray(Splitter.on(',').split(property), String.class);
-  }
-  private final CxxLanguage language;
-  private final String propertiesKeyPathToReports;
-
-  /**
-   * {@inheritDoc}
-   */
-  protected CxxReportSensor(CxxLanguage language, String propertiesKeyPathToReports) {
-    this.language = language;
-    this.propertiesKeyPathToReports = language.getPluginProperty(propertiesKeyPathToReports);
   }
 
   public CxxLanguage getLanguage() {

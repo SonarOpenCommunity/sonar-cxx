@@ -42,15 +42,9 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxClangSASensor extends CxxIssuesReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxClangSASensor.class);
   public static final String REPORT_PATH_KEY = "clangsa.reportPath";
 
-  private static NSObject require(@Nullable NSObject object, String errorMsg) {
-    if (object == null) {
-      throw new IllegalArgumentException(errorMsg);
-    }
-    return object;
-  }
+  private static final Logger LOG = Loggers.get(CxxClangSASensor.class);
 
   /**
    * CxxClangSASensor for Clang Static Analyzer Sensor
@@ -59,6 +53,13 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
    */
   public CxxClangSASensor(CxxLanguage language) {
     super(language, REPORT_PATH_KEY, CxxClangSARuleRepository.getRepositoryKey(language));
+  }
+
+  private static NSObject require(@Nullable NSObject object, String errorMsg) {
+    if (object == null) {
+      throw new IllegalArgumentException(errorMsg);
+    }
+    return object;
   }
 
   @Override
@@ -117,4 +118,5 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   protected CxxMetricsFactory.Key getMetricKey() {
     return CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY;
   }
+
 }

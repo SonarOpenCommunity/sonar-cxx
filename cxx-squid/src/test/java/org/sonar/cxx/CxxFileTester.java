@@ -26,4 +26,5 @@ public class CxxFileTester {
 
   public InputFile cxxFile;
   public SensorContextTester sensorContext;
+
 }

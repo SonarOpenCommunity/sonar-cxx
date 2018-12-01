@@ -56,6 +56,33 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   private static final String INCLUDE_DIRECTORIES_PROPERTY_KEY = "sonar.cxx.includeDirectories";
   private static final String FORCE_INCLUDES_PROPERTY_KEY = "sonar.cxx.forceIncludes";
 
+  private final MapSettings settings = new MapSettings();
+
+  @VisibleForTesting
+  ConfigurationProperty charsetProperty = new ConfigurationProperty("Charset", CHARSET_PROPERTY_KEY,
+    getPropertyOrDefaultValue(CHARSET_PROPERTY_KEY, "UTF-8"),
+    Validators.charsetValidator());
+
+  @VisibleForTesting
+  ConfigurationProperty errorRecoveryEnabled = new ConfigurationProperty("Error Recovery", ERROR_RECOVERY_PROPERTY_KEY,
+    getPropertyOrDefaultValue(ERROR_RECOVERY_PROPERTY_KEY, "false"),
+    Validators.booleanValidator());
+
+  @VisibleForTesting
+  ConfigurationProperty defines = new ConfigurationProperty("Defines", DEFINES_PROPERTY_KEY
+    + " (use \\n\\ as separator)",
+    getPropertyOrDefaultValue(DEFINES_PROPERTY_KEY, ""));
+
+  @VisibleForTesting
+  ConfigurationProperty includeDirectories = new ConfigurationProperty("Include Directories",
+    INCLUDE_DIRECTORIES_PROPERTY_KEY + " (use , as separator)",
+    getPropertyOrDefaultValue(INCLUDE_DIRECTORIES_PROPERTY_KEY, ""));
+
+  @VisibleForTesting
+  ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes", FORCE_INCLUDES_PROPERTY_KEY
+    + " (use , as separator)",
+    getPropertyOrDefaultValue(FORCE_INCLUDES_PROPERTY_KEY, ""));
+
   @VisibleForTesting
   static String getPropertyOrDefaultValue(String propertyKey, String defaultValue) {
     String propertyValue = System.getProperty(propertyKey);
@@ -87,32 +114,6 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
     }
     return new String[0];
   }
-  private final MapSettings settings = new MapSettings();
-
-  @VisibleForTesting
-  ConfigurationProperty charsetProperty = new ConfigurationProperty("Charset", CHARSET_PROPERTY_KEY,
-    getPropertyOrDefaultValue(CHARSET_PROPERTY_KEY, "UTF-8"),
-    Validators.charsetValidator());
-
-  @VisibleForTesting
-  ConfigurationProperty errorRecoveryEnabled = new ConfigurationProperty("Error Recovery", ERROR_RECOVERY_PROPERTY_KEY,
-    getPropertyOrDefaultValue(ERROR_RECOVERY_PROPERTY_KEY, "false"),
-    Validators.booleanValidator());
-
-  @VisibleForTesting
-  ConfigurationProperty defines = new ConfigurationProperty("Defines", DEFINES_PROPERTY_KEY
-    + " (use \\n\\ as separator)",
-    getPropertyOrDefaultValue(DEFINES_PROPERTY_KEY, ""));
-
-  @VisibleForTesting
-  ConfigurationProperty includeDirectories = new ConfigurationProperty("Include Directories",
-    INCLUDE_DIRECTORIES_PROPERTY_KEY + " (use , as separator)",
-    getPropertyOrDefaultValue(INCLUDE_DIRECTORIES_PROPERTY_KEY, ""));
-
-  @VisibleForTesting
-  ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes", FORCE_INCLUDES_PROPERTY_KEY
-    + " (use , as separator)",
-    getPropertyOrDefaultValue(FORCE_INCLUDES_PROPERTY_KEY, ""));
 
   @Override
   public List<ConfigurationProperty> getProperties() {

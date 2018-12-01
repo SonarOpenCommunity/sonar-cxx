@@ -74,4 +74,5 @@ public class JoinStringsPreprocessor extends Preprocessor {
     return new PreprocessorAction(nrOfAdjacentStringLiterals, Collections.singletonList(trivia),
       Collections.singletonList(tokenToInject));
   }
+
 }

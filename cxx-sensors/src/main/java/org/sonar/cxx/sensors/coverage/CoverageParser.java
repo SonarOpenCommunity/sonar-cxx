@@ -42,4 +42,5 @@ public interface CoverageParser {
    * @throws XMLStreamException javax.xml.stream.XMLStreamException
    */
   void processReport(File report, Map<String, CoverageMeasures> coverageData) throws XMLStreamException;
+
 }

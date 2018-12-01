@@ -43,4 +43,5 @@ public class ParserBaseTestHelper {
   void mockRule(GrammarRuleKey key) {
     g.rule(key).mock();
   }
+
 }

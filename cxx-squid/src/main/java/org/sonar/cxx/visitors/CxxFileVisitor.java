@@ -42,4 +42,5 @@ public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRA
   public void visitFile(AstNode node) {
     CxxParser.finishedParsing(context.getFile());
   }
+
 }

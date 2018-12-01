@@ -101,4 +101,5 @@ public class ValgrindReportParserTest {
     // error contains no stack-tag
     parser.processReport(absReportFile);
   }
+
 }

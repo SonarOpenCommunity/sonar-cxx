@@ -42,6 +42,12 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
   private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);
   private static int errors = 0;
 
+  private final SquidAstVisitorContext<?> context;
+
+  public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context) {
+    this.context = context;
+  }
+
   public static void finalReport() {
     if (errors != 0) {
       LOG.warn(SYNTAX_ERROR_MSG, errors);
@@ -51,11 +57,6 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
   @VisibleForTesting
   public static void resetReport() {
     errors = 0;
-  }
-  private final SquidAstVisitorContext<?> context;
-
-  public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context) {
-    this.context = context;
   }
 
   @Override
@@ -104,4 +105,5 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
         context.getFile(), identifierLine, sb.toString());
     }
   }
+
 }

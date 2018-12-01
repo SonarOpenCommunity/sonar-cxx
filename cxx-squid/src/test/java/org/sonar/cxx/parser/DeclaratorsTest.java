@@ -546,4 +546,5 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     assertThat(p).matches("{ initializerList }");
     assertThat(p).matches("{ initializerList , }");
   }
+
 }

@@ -41,6 +41,9 @@ public final class DrMemoryParser {
   private static final Pattern RX_FILE_FINDER = Pattern.compile("^.*\\[(.*):(\\d+)\\]$");
   private static final int TOP_COUNT = 4;
 
+  private DrMemoryParser() {
+  }
+
   /**
    * DrMemory parser
    *
@@ -77,20 +80,6 @@ public final class DrMemoryParser {
     }
 
     return result;
-  }
-
-  private static DrMemoryErrorType extractErrorType(String title) {
-    String cleanedTitle = clean(title);
-    for (DrMemoryErrorType drMemoryErrorType : DrMemoryErrorType.values()) {
-      if (cleanedTitle.startsWith(drMemoryErrorType.getTitle())) {
-        return drMemoryErrorType;
-      }
-    }
-    return DrMemoryErrorType.UNRECOGNIZED;
-  }
-
-  private static String clean(String title) {
-    return title.trim();
   }
 
   /**
@@ -137,7 +126,18 @@ public final class DrMemoryParser {
     return list;
   }
 
-  private DrMemoryParser() {
+  private static DrMemoryErrorType extractErrorType(String title) {
+    String cleanedTitle = clean(title);
+    for (DrMemoryErrorType drMemoryErrorType : DrMemoryErrorType.values()) {
+      if (cleanedTitle.startsWith(drMemoryErrorType.getTitle())) {
+        return drMemoryErrorType;
+      }
+    }
+    return DrMemoryErrorType.UNRECOGNIZED;
+  }
+
+  private static String clean(String title) {
+    return title.trim();
   }
 
   public static class DrMemoryError {
@@ -230,4 +230,5 @@ public final class DrMemoryParser {
       return title;
     }
   }
+
 }

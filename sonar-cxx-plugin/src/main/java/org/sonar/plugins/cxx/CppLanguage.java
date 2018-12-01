@@ -64,13 +64,6 @@ public class CppLanguage extends CxxLanguage {
   public static final String REPOSITORY_KEY = "cxx";
   public static final String DEFAULT_PROFILE = "Sonar way";
 
-  private static String[] createStringArray(String[] values, String defaultValues) {
-    if (values.length == 0) {
-      return defaultValues.split(",");
-    }
-    return values;
-  }
-
   private final String[] sourceSuffixes;
   private final String[] headerSuffixes;
   private final String[] fileSuffixes;
@@ -86,6 +79,13 @@ public class CppLanguage extends CxxLanguage {
     headerSuffixes = createStringArray(settings.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY),
       DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
+  }
+
+  private static String[] createStringArray(String[] values, String defaultValues) {
+    if (values.length == 0) {
+      return defaultValues.split(",");
+    }
+    return values;
   }
 
   @Override
@@ -165,4 +165,5 @@ public class CppLanguage extends CxxLanguage {
     System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);
     return result;
   }
+
 }

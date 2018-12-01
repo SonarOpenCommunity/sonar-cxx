@@ -64,4 +64,5 @@ public class CheckerData {
   public void setEnable(boolean active) {
     this.enabled = active;
   }
+
 }

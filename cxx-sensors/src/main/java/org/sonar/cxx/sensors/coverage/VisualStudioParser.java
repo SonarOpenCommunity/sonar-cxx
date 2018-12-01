@@ -35,6 +35,10 @@ public class VisualStudioParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(VisualStudioParser.class);
 
+  public VisualStudioParser() {
+    // no operation but necessary for list of coverage parsers
+  }
+
   private static void collectModuleMeasures(SMInputCursor module, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (module.getNext() != null) {
@@ -104,10 +108,6 @@ public class VisualStudioParser extends CxxCoverageParser {
     }
   }
 
-  public VisualStudioParser() {
-    // no operation but necessary for list of coverage parsers
-  }
-
   /**
    * {@inheritDoc}
    */
@@ -126,4 +126,5 @@ public class VisualStudioParser extends CxxCoverageParser {
   public String toString() {
     return getClass().getSimpleName();
   }
+
 }

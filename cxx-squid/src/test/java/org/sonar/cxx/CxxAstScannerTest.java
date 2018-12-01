@@ -124,4 +124,5 @@ public class CxxAstScannerTest {
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
     assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
   }
+
 }

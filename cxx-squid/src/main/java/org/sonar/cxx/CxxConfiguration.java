@@ -36,9 +36,9 @@ import org.sonar.squidbridge.api.SquidConfiguration;
 
 public class CxxConfiguration extends SquidConfiguration {
 
-  private static final Logger LOG = Loggers.get(CxxConfiguration.class);
   public static final String OVERALLINCLUDEKEY = "CxxOverallInclude";
   public static final String OVERALLDEFINEKEY = "CxxOverallDefine";
+  private static final Logger LOG = Loggers.get(CxxConfiguration.class);
 
   private boolean ignoreHeaderComments;
   private final Map<String, List<String>> uniqueIncludes = new HashMap<>();
@@ -279,4 +279,5 @@ public class CxxConfiguration extends SquidConfiguration {
   public Charset getEncoding() {
     return super.getCharset();
   }
+
 }

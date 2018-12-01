@@ -43,4 +43,5 @@ public class CxxVeraxxRuleRepositoryTest {
     RulesDefinition.Repository repo = context.repository(CxxVeraxxRuleRepository.getRepositoryKey(language));
     assertThat(repo.rules()).hasSize(28);
   }
+
 }

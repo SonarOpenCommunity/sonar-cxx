@@ -43,4 +43,5 @@ public class CxxClangSARuleRepositoryTest {
     RulesDefinition.Repository repo = context.repository(CxxClangSARuleRepository.getRepositoryKey(language));
     assertEquals(111, repo.rules().size());
   }
+
 }

@@ -46,38 +46,6 @@ public class DensityMeasureComputer implements MeasureComputer {
 
   private static final Logger LOG = Loggers.get(DensityMeasureComputer.class);
 
-  private static void compute(MeasureComputerContext context, String valueKey, String totalKey, String densityKey,
-    boolean calculateReminingPercent) {
-    final Component component = context.getComponent();
-
-    final Measure valueMeasure = context.getMeasure(valueKey);
-    final Measure totalMeasure = context.getMeasure(totalKey);
-    if (valueMeasure == null || totalMeasure == null) {
-      LOG.error("Component {}: not enough data to calcualte measure {}", context.getComponent().getKey(), densityKey);
-      return;
-    }
-    final Measure existingMeasure = context.getMeasure(densityKey);
-    if (existingMeasure != null) {
-      LOG.error("Component {}: measure {} already calculated, value = {}", component.getKey(), densityKey,
-        existingMeasure.getDoubleValue());
-      return;
-    }
-
-    int value = valueMeasure.getIntValue();
-    final int total = totalMeasure.getIntValue();
-    if (calculateReminingPercent) {
-      value = Integer.max(total - value, 0);
-    }
-
-    double density = 0.0;
-    if (total >= value && total != 0) {
-      density = (double) value / (double) total * 100.0;
-    }
-
-    LOG.info("Component {}: add measure {}, value {}", component.getKey(), densityKey, density);
-    context.addMeasure(densityKey, density);
-  }
-
   private final String publicAPIKey;
   private final String publicUndocumentedAPIKey;
   private final String publicDocumentedAPIDensityKey;
@@ -120,6 +88,38 @@ public class DensityMeasureComputer implements MeasureComputer {
       complexFunctionsKey, complexFunctionsLocKey, bigFunctionsKey, bigFunctionsLocKey};
     outputMetrics = new String[]{publicDocumentedAPIDensityKey, complexFunctionsPercKey, complexFunctionsLocPercKey,
       bigFunctionsPercKey, bigFunctionsLocPercKey};
+  }
+
+  private static void compute(MeasureComputerContext context, String valueKey, String totalKey, String densityKey,
+    boolean calculateReminingPercent) {
+    final Component component = context.getComponent();
+
+    final Measure valueMeasure = context.getMeasure(valueKey);
+    final Measure totalMeasure = context.getMeasure(totalKey);
+    if (valueMeasure == null || totalMeasure == null) {
+      LOG.error("Component {}: not enough data to calcualte measure {}", context.getComponent().getKey(), densityKey);
+      return;
+    }
+    final Measure existingMeasure = context.getMeasure(densityKey);
+    if (existingMeasure != null) {
+      LOG.error("Component {}: measure {} already calculated, value = {}", component.getKey(), densityKey,
+        existingMeasure.getDoubleValue());
+      return;
+    }
+
+    int value = valueMeasure.getIntValue();
+    final int total = totalMeasure.getIntValue();
+    if (calculateReminingPercent) {
+      value = Integer.max(total - value, 0);
+    }
+
+    double density = 0.0;
+    if (total >= value && total != 0) {
+      density = (double) value / (double) total * 100.0;
+    }
+
+    LOG.info("Component {}: add measure {}, value {}", component.getKey(), densityKey, density);
+    context.addMeasure(densityKey, density);
   }
 
   public String[] getInputMetrics() {

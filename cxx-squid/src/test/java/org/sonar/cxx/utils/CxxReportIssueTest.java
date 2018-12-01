@@ -57,4 +57,5 @@ public class CxxReportIssueTest {
     assertNotEquals(issue0, issue2);
     assertNotEquals(issue0.hashCode(), issue2.hashCode());
   }
+
 }

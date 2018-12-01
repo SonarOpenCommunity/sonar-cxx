@@ -27,27 +27,6 @@ import org.junit.Test;
 
 public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
 
-  private String serialize(AstNode root) {
-    List<String> values = new LinkedList<>();
-    iterate(root, values);
-    String s = String.join(" ", values);
-    return s;
-  }
-
-  private void iterate(AstNode node, List<String> values) {
-    while (node != null) {
-      AstNode child = node.getFirstChild();
-      if (child != null) {
-        iterate(child, values);
-      } else {
-        if (node.getType() instanceof CxxGrammarImpl == false) {
-          values.add(node.getTokenValue());
-        }
-      }
-      node = node.getNextSibling();
-    }
-  }
-
   @Test
   public void preprocessorDirectives() {
     assertThat(serialize(p.parse(
@@ -462,4 +441,26 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       + "r = OK;")))
       .isEqualTo("r = 0 ; EOF");
   }
+
+  private String serialize(AstNode root) {
+    List<String> values = new LinkedList<>();
+    iterate(root, values);
+    String s = String.join(" ", values);
+    return s;
+  }
+
+  private void iterate(AstNode node, List<String> values) {
+    while (node != null) {
+      AstNode child = node.getFirstChild();
+      if (child != null) {
+        iterate(child, values);
+      } else {
+        if (node.getType() instanceof CxxGrammarImpl == false) {
+          values.add(node.getTokenValue());
+        }
+      }
+      node = node.getNextSibling();
+    }
+  }
+
 }

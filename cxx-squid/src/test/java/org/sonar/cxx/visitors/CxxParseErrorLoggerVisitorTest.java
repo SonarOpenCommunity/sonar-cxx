@@ -60,4 +60,5 @@ public class CxxParseErrorLoggerVisitorTest {
     assertThat(log.get(10)).contains("skip declaration: void test :: f3 ( ) {");
     assertThat(log.get(11)).contains("syntax error: int i = 0 i ++");
   }
+
 }

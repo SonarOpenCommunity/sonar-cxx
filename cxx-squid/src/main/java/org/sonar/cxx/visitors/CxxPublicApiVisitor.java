@@ -100,4 +100,5 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
 
     totalAPINr++;
   }
+
 }
