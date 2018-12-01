@@ -48,4 +48,5 @@ public class ParsingErrorRecoveryCheck extends SquidCheck<Grammar> {
     getContext().createLineViolation(this, "C++ Parser can't read code. Declaration is skipped.",
       node.getToken().getLine());
   }
+
 }

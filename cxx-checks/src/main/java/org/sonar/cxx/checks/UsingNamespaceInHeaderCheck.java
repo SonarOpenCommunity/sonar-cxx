@@ -42,6 +42,8 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
   private static final String[] DEFAULT_NAME_SUFFIX = new String[]{".h", ".hh", ".hpp", ".H"};
 
+  private Boolean isHeader = false;
+
   private static boolean isHeader(String name) {
     for (String suff : DEFAULT_NAME_SUFFIX) {
       if (name.endsWith(suff)) {
@@ -50,7 +52,6 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
     }
     return false;
   }
-  private Boolean isHeader = false;
 
   @Override
   public void init() {
@@ -66,7 +67,7 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
   public void visitNode(AstNode node) {
     if (isHeader && CxxKeyword.USING.equals(node.getToken().getType())) {
       final boolean containsNamespace = node.getFirstChild().getChildren().stream()
-          .anyMatch(childNode -> CxxKeyword.NAMESPACE.equals(childNode.getToken().getType()));
+        .anyMatch(childNode -> CxxKeyword.NAMESPACE.equals(childNode.getToken().getType()));
       if (containsNamespace) {
         getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
       }

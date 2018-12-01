@@ -78,4 +78,5 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
       getContext().createLineViolation(this, "Do not hard code sensitive data in programs.", node);
     }
   }
+
 }

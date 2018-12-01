@@ -51,6 +51,10 @@ public class FunctionCognitiveComplexityCheck extends CxxCognitiveComplexityVisi
     defaultValue = "" + DEFAULT_MAX)
   private int max = DEFAULT_MAX;
 
+  public void setMaxComplexity(int max) {
+    this.max = max;
+  }
+
   @Override
   protected void analyzeComplexity(CxxComplexityScope scope) {
     if (scope.getComplexity() > max) {
@@ -66,7 +70,4 @@ public class FunctionCognitiveComplexityCheck extends CxxCognitiveComplexityVisi
     }
   }
 
-  public void setMaxComplexity(int max) {
-    this.max = max;
-  }
 }

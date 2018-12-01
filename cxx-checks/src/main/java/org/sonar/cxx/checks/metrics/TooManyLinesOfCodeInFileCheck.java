@@ -61,4 +61,5 @@ public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar> {
         + "Split it into smaller files.", linesOfCode, max);
     }
   }
+
 }

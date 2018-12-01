@@ -51,7 +51,6 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
   private static final String DEFAULT_MESSAGE = "Source files implementing risk mitigations shall use "
     + "special name suffix";
   private static final String DEFAULT_NAME_SUFFIX = "_SAFETY";
-  private Pattern pattern = null;
 
   /**
    * regularExpression
@@ -79,6 +78,7 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
     description = "The appropriate file name suffix",
     defaultValue = DEFAULT_NAME_SUFFIX)
   public String suffix = DEFAULT_NAME_SUFFIX;
+  private Pattern pattern = null;
 
   @Override
   public void init() {

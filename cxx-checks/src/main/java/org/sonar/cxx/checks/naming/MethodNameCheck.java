@@ -49,6 +49,14 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class MethodNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "^[A-Z][A-Za-z0-9]{2,30}$";
+  /**
+   * format
+   */
+  @RuleProperty(
+    key = "format",
+    defaultValue = "" + DEFAULT)
+  public String format = DEFAULT;
+  private Pattern pattern = null;
 
   private static @Nullable
   AstNode getMethodName(AstNode functionDefinition) {
@@ -118,14 +126,6 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
     }
     return result;
   }
-  private Pattern pattern = null;
-  /**
-   * format
-   */
-  @RuleProperty(
-    key = "format",
-    defaultValue = "" + DEFAULT)
-  public String format = DEFAULT;
 
   @Override
   public void init() {

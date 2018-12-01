@@ -48,6 +48,10 @@ public class FileComplexityCheck extends CxxCyclomaticComplexityCheck<Grammar> {
     defaultValue = "" + DEFAULT_MAX)
   private int max = DEFAULT_MAX;
 
+  public void setMaxComplexity(int max) {
+    this.max = max;
+  }
+
   @Override
   protected Optional<AstNodeType> getScopeType() {
     return Optional.empty();
@@ -63,7 +67,4 @@ public class FileComplexityCheck extends CxxCyclomaticComplexityCheck<Grammar> {
     return max;
   }
 
-  public void setMaxComplexity(int max) {
-    this.max = max;
-  }
 }

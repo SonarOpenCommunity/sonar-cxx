@@ -43,10 +43,6 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
   private static final String DEFAULT_XPATH_QUERY = "";
   private static final String DEFAULT_MESSAGE = "The XPath expression matches this piece of code";
 
-  private static boolean compare(boolean invert, boolean condition) {
-    return invert ? !condition : condition;
-  }
-
   @RuleProperty(
     key = "matchFilePattern",
     description = "Ant-style matching patterns for path",
@@ -71,6 +67,10 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
     description = "The violation message",
     defaultValue = DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
+
+  private static boolean compare(boolean invert, boolean condition) {
+    return invert ? !condition : condition;
+  }
 
   @Override
   public String getXPathQuery() {

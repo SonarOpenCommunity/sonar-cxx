@@ -45,6 +45,14 @@ import org.sonar.squidbridge.checks.AbstractOneStatementPerLineCheck;
 public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCheck<Grammar> {
 
   private static final boolean DEFAULT_EXCLUDE_CASE_BREAK = false;
+  /**
+   * excludeCaseBreak - Exclude 'break' statement if it is on the same line as the switch label (case: or default:)
+   */
+  @RuleProperty(
+    key = "excludeCaseBreak",
+    description = "Exclude 'break' statement if it is on the same line as the switch label (case: or default:)",
+    defaultValue = "" + DEFAULT_EXCLUDE_CASE_BREAK)
+  public boolean excludeCaseBreak = DEFAULT_EXCLUDE_CASE_BREAK;
 
   /**
    * Exclude subsequent generated nodes, if they are consecutive and on the same line.
@@ -63,15 +71,6 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
     return astNode.getFirstDescendant(CxxGrammarImpl.aliasDeclaration) != null;
   }
 
-  /**
-   * excludeCaseBreak - Exclude 'break' statement if it is on the same line as the switch label (case: or default:)
-   */
-  @RuleProperty(
-    key = "excludeCaseBreak",
-    description = "Exclude 'break' statement if it is on the same line as the switch label (case: or default:)",
-    defaultValue = "" + DEFAULT_EXCLUDE_CASE_BREAK)
-  public boolean excludeCaseBreak = DEFAULT_EXCLUDE_CASE_BREAK;
-
   @Override
   public com.sonar.sslr.api.Rule getStatementRule() {
     throw new UnsupportedOperationException();
@@ -80,6 +79,20 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.statement);
+  }
+
+  @Override
+  public boolean isExcluded(AstNode astNode) {
+    AstNode statementNode = astNode.getFirstChild();
+    return statementNode.is(CxxGrammarImpl.compoundStatement)
+      || statementNode.is(CxxGrammarImpl.emptyStatement)
+      || statementNode.is(CxxGrammarImpl.iterationStatement)
+      || statementNode.is(CxxGrammarImpl.labeledStatement)
+      || statementNode.is(CxxGrammarImpl.declaration)
+      || isTypeAlias(statementNode)
+      || (statementNode.isCopyBookOrGeneratedNode() && isGeneratedNodeExcluded(statementNode))
+      || (statementNode.is(CxxGrammarImpl.jumpStatement) && isBreakStatementExcluded(statementNode))
+      || isEmptyExpressionStatement(statementNode);
   }
 
   /**
@@ -119,17 +132,4 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
     return false;
   }
 
-  @Override
-  public boolean isExcluded(AstNode astNode) {
-    AstNode statementNode = astNode.getFirstChild();
-    return statementNode.is(CxxGrammarImpl.compoundStatement)
-      || statementNode.is(CxxGrammarImpl.emptyStatement)
-      || statementNode.is(CxxGrammarImpl.iterationStatement)
-      || statementNode.is(CxxGrammarImpl.labeledStatement)
-      || statementNode.is(CxxGrammarImpl.declaration)
-      || isTypeAlias(statementNode)
-      || (statementNode.isCopyBookOrGeneratedNode() && isGeneratedNodeExcluded(statementNode))
-      || (statementNode.is(CxxGrammarImpl.jumpStatement) && isBreakStatementExcluded(statementNode))
-      || isEmptyExpressionStatement(statementNode);
-  }
 }

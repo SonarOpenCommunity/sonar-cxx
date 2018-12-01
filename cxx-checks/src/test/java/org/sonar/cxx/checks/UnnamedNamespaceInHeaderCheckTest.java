@@ -39,4 +39,5 @@ public class UnnamedNamespaceInHeaderCheckTest {
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Unnamed namespaces are not allowed in header files.");
   }
+
 }

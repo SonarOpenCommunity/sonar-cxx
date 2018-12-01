@@ -35,8 +35,10 @@ public class BooleanEqualityComparisonCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void detected() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/BooleanEqualityComparisonCheck.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new BooleanEqualityComparisonCheck());
+    CxxFileTester tester = CxxFileTesterHelper
+      .CreateCxxFileTester("src/test/resources/checks/BooleanEqualityComparisonCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext,
+      CxxFileTesterHelper.mockCxxLanguage(), new BooleanEqualityComparisonCheck());
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(12).withMessage("Remove the unnecessary boolean comparison to simplify this expression.")
       .next().atLine(13)

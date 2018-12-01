@@ -44,15 +44,14 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
 
   private static final int MINIMAL_LITERAL_LENGTH = 7;
   private static final String[] ALLOWED_LITERAL_NAMES = {"nullptr"};
-
-  private final Map<String, Integer> firstOccurrence = new HashMap<>();
-  private final Map<String, Integer> literalsOccurrences = new HashMap<>();
-
   @RuleProperty(
     key = "minimalLiteralLength",
     description = "The minimal literal length",
     defaultValue = "" + MINIMAL_LITERAL_LENGTH)
   public int minimalLiteralLength = MINIMAL_LITERAL_LENGTH;
+
+  private final Map<String, Integer> firstOccurrence = new HashMap<>();
+  private final Map<String, Integer> literalsOccurrences = new HashMap<>();
 
   @Override
   public void init() {

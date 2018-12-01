@@ -76,7 +76,6 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
     defaultValue = DEFAULT_MESSAGE)
   private String message = DEFAULT_MESSAGE;
 
-
   @Override
   public void init() {
     pattern = CheckUtils.compileUserRegexp(regularExpression, Pattern.DOTALL);

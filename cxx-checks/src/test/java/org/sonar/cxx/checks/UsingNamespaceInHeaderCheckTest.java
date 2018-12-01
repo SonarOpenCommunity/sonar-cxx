@@ -40,4 +40,5 @@ public class UsingNamespaceInHeaderCheckTest {
       .next().atLine(11).withMessage("Using namespace are not allowed in header files.")
       .noMore();
   }
+
 }

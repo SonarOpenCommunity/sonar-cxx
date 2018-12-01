@@ -48,6 +48,15 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT = "^[a-z_][a-z0-9_]{2,30}$";
 
+  /**
+   * format
+   */
+  @RuleProperty(
+    key = "format",
+    defaultValue = "" + DEFAULT)
+  public String format = DEFAULT;
+  private Pattern pattern = null;
+
   private static boolean isFunctionDefinition(AstNode declId) {
     boolean isFunction = false;
     // not method inside of class
@@ -58,15 +67,6 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
     }
     return isFunction;
   }
-  private Pattern pattern = null;
-
-  /**
-   * format
-   */
-  @RuleProperty(
-    key = "format",
-    defaultValue = "" + DEFAULT)
-  public String format = DEFAULT;
 
   @Override
   public void init() {

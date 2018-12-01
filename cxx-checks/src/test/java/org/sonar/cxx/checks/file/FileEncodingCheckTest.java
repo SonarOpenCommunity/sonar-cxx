@@ -81,4 +81,5 @@ public class FileEncodingCheckTest {
       .next().withMessage("Not all characters of the file can be encoded with the predefined charset " + charset.name() + ".")
       .noMore();
   }
+
 }

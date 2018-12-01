@@ -45,22 +45,6 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
    */
   private Deque<CxxComplexityScope> complexityScopes;
 
-  /**
-   * @return the maximum allowed complexity for this scope
-   */
-  protected abstract int getMaxComplexity();
-
-  /**
-   * @return valid AstNodeType if complexity is calculated for some language constructs only (e.g. function definition,
-   * class definition etc). Return Optional.empty() if the complexity is calculated for entire file.
-   */
-  protected abstract Optional<AstNodeType> getScopeType();
-
-  /**
-   * @return the name of analyzed scope: "function", "class", "file" etc
-   */
-  protected abstract String getScopeName();
-
   @Override
   public void init() {
     subscribeTo(CxxComplexityConstants.getCyclomaticComplexityTypes());
@@ -138,4 +122,21 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
       createMultiLocationViolation(issue);
     }
   }
+
+  /**
+   * @return the maximum allowed complexity for this scope
+   */
+  protected abstract int getMaxComplexity();
+
+  /**
+   * @return valid AstNodeType if complexity is calculated for some language constructs only (e.g. function definition,
+   * class definition etc). Return Optional.empty() if the complexity is calculated for entire file.
+   */
+  protected abstract Optional<AstNodeType> getScopeType();
+
+  /**
+   * @return the name of analyzed scope: "function", "class", "file" etc
+   */
+  protected abstract String getScopeName();
+
 }

@@ -45,4 +45,5 @@ public class WrongIncludeCheckTest {
       .next().atLine(7)
       .noMore();
   }
+
 }

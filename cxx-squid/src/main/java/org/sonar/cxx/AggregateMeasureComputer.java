@@ -45,33 +45,6 @@ public class AggregateMeasureComputer implements MeasureComputer {
 
   private static final Logger LOG = Loggers.get(AggregateMeasureComputer.class);
 
-  private static void compute(MeasureComputerContext context, String metricKey) {
-    final Component component = context.getComponent();
-    if (component.getType() == Component.Type.FILE) {
-      LOG.debug("Component {}: FILE doesn't required an aggregation", component.getKey());
-      return;
-    }
-    final Measure existingMeasure = context.getMeasure(metricKey);
-    if (existingMeasure != null) {
-      LOG.debug("Component {}: measure {} already calculated, value = {}", component.getKey(), metricKey,
-        existingMeasure.getIntValue());
-      return;
-    }
-    Iterable<Measure> childrenMeasures = context.getChildrenMeasures(metricKey);
-    if (childrenMeasures == null || !childrenMeasures.iterator().hasNext()) {
-      LOG.debug("Component {}: measure {} is not set for children", component.getKey(), metricKey);
-      return;
-    }
-    int aggregation = 0;
-    for (Measure childMeasure : childrenMeasures) {
-      if (childMeasure != null) {
-        aggregation += childMeasure.getIntValue();
-      }
-    }
-    LOG.info("Component {}: add measure {}, value {}", component.getKey(), metricKey, aggregation);
-    context.addMeasure(metricKey, aggregation);
-  }
-
   private final String[] metricKeys;
 
   public AggregateMeasureComputer(String languageKey, String languagePropsKey) {
@@ -100,6 +73,33 @@ public class AggregateMeasureComputer implements MeasureComputer {
       metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_KEY).key(),
       metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY).key(),
       metrics.get(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY).key(),};
+  }
+
+  private static void compute(MeasureComputerContext context, String metricKey) {
+    final Component component = context.getComponent();
+    if (component.getType() == Component.Type.FILE) {
+      LOG.debug("Component {}: FILE doesn't required an aggregation", component.getKey());
+      return;
+    }
+    final Measure existingMeasure = context.getMeasure(metricKey);
+    if (existingMeasure != null) {
+      LOG.debug("Component {}: measure {} already calculated, value = {}", component.getKey(), metricKey,
+        existingMeasure.getIntValue());
+      return;
+    }
+    Iterable<Measure> childrenMeasures = context.getChildrenMeasures(metricKey);
+    if (childrenMeasures == null || !childrenMeasures.iterator().hasNext()) {
+      LOG.debug("Component {}: measure {} is not set for children", component.getKey(), metricKey);
+      return;
+    }
+    int aggregation = 0;
+    for (Measure childMeasure : childrenMeasures) {
+      if (childMeasure != null) {
+        aggregation += childMeasure.getIntValue();
+      }
+    }
+    LOG.info("Component {}: add measure {}, value {}", component.getKey(), metricKey, aggregation);
+    context.addMeasure(metricKey, aggregation);
   }
 
   public String[] getAggregatedMetrics() {

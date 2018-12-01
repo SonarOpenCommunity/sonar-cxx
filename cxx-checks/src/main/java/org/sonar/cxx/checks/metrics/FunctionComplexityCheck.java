@@ -51,6 +51,10 @@ public class FunctionComplexityCheck extends CxxCyclomaticComplexityCheck<Gramma
     defaultValue = "" + DEFAULT_MAX)
   private int max = DEFAULT_MAX;
 
+  public void setMaxComplexity(int max) {
+    this.max = max;
+  }
+
   @Override
   protected Optional<AstNodeType> getScopeType() {
     return Optional.of(CxxGrammarImpl.functionDefinition);
@@ -66,7 +70,4 @@ public class FunctionComplexityCheck extends CxxCyclomaticComplexityCheck<Gramma
     return max;
   }
 
-  public void setMaxComplexity(int max) {
-    this.max = max;
-  }
 }

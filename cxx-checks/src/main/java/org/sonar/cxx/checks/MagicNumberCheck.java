@@ -49,6 +49,12 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT_EXCEPTIONS
     = "0,1,0x0,0x00,.0,.1,0.0,1.0,0u,1u,0ul,1ul,1.0f,0.0f,0LL,1LL,0ULL,1ULL";
+  @RuleProperty(
+    key = "exceptions",
+    description = "Comma separated list of allowed values (excluding '-' and '+' signs)",
+    defaultValue = DEFAULT_EXCEPTIONS)
+  public String exceptions = DEFAULT_EXCEPTIONS;
+  private final Set<String> exceptionsSet = new HashSet<>();
 
   private static boolean isConstexpr(AstNode node) {
     AstNode decl = null;
@@ -98,12 +104,6 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
   private static boolean isNullPtr(AstNode node) {
     return "nullptr".equals(node.getTokenValue());
   }
-  @RuleProperty(
-    key = "exceptions",
-    description = "Comma separated list of allowed values (excluding '-' and '+' signs)",
-    defaultValue = DEFAULT_EXCEPTIONS)
-  public String exceptions = DEFAULT_EXCEPTIONS;
-  private final Set<String> exceptionsSet = new HashSet<>();
 
   @Override
   public void init() {
