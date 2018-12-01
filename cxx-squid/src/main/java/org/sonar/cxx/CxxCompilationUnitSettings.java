@@ -52,4 +52,5 @@ public class CxxCompilationUnitSettings {
       this.includes = new ArrayList<>(includes);
     }
   }
+
 }

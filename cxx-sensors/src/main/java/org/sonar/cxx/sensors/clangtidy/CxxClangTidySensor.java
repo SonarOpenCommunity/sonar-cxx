@@ -38,10 +38,10 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
   public static final String REPORT_PATH_KEY = "clangtidy.reportPath";
   public static final String REPORT_CHARSET_DEF = "clangtidy.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
+  private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
 
   private static final String regex = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): ([^]]+) \\[([^]]+)\\]";
   private static final Pattern pattern = Pattern.compile(regex);
@@ -104,4 +104,5 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   protected CxxMetricsFactory.Key getMetricKey() {
     return CxxMetricsFactory.Key.CLANG_TIDY_SENSOR_ISSUES_KEY;
   }
+
 }

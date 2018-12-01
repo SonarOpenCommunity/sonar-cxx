@@ -45,9 +45,9 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  */
 public class CxxXunitSensor extends CxxReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxXunitSensor.class);
   public static final String REPORT_PATH_KEY = "xunit.reportPath";
   public static final String XSLT_URL_KEY = "xunit.xsltURL";
+  private static final Logger LOG = Loggers.get(CxxXunitSensor.class);
   private static final double PERCENT_BASE = 100D;
 
   private final String xsltURL;
@@ -240,4 +240,5 @@ public class CxxXunitSensor extends CxxReportSensor {
 
     return transformed;
   }
+
 }

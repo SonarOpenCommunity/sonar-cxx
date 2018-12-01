@@ -42,8 +42,7 @@ public class XmlParserHelperTest {
     thrown.expectMessage("Error while parsing the XML file: ");
     thrown.expectMessage("invalid_prolog.txt");
 
-    try ( XmlParserHelper helper = new XmlParserHelper(new File(REPORT_PATH + "invalid_prolog.txt")) )
-    {
+    try (XmlParserHelper helper = new XmlParserHelper(new File(REPORT_PATH + "invalid_prolog.txt"))) {
       helper.nextStartTag();
     }
   }

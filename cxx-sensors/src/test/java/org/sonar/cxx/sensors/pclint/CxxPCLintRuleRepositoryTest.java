@@ -44,4 +44,5 @@ public class CxxPCLintRuleRepositoryTest {
     RulesDefinition.Repository repo = context.repository(CxxPCLintRuleRepository.getRepositoryKey(language));
     assertEquals(1590, repo.rules().size());
   }
+
 }

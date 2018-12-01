@@ -36,6 +36,8 @@ import org.sonar.cxx.sensors.utils.StaxParser.XmlStreamHandler;
  */
 public class XunitReportParser implements XmlStreamHandler {
 
+  private final List<TestCase> testCases = new LinkedList<>();
+
   private static TestCase parseTestCaseTag(SMInputCursor testCaseCursor, String tsName, String tsFilename)
     throws XMLStreamException {
     String classname = testCaseCursor.getAttrValue("classname");
@@ -98,8 +100,6 @@ public class XunitReportParser implements XmlStreamHandler {
     }
     return name;
   }
-
-  private final List<TestCase> testCases = new LinkedList<>();
 
   /**
    * Returns successfully parsed testcases.

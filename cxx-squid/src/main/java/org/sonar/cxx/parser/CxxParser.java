@@ -36,6 +36,9 @@ public final class CxxParser {
 
   private static CxxPreprocessor cxxpp;
 
+  private CxxParser() {
+  }
+
   public static void finishedParsing(File path) {
     cxxpp.finishedPreprocessing(path);
   }
@@ -65,6 +68,4 @@ public final class CxxParser {
       .build();
   }
 
-  private CxxParser() {
-  }
 }

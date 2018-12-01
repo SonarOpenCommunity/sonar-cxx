@@ -35,8 +35,18 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxValgrindSensor extends CxxIssuesReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxValgrindSensor.class);
   public static final String REPORT_PATH_KEY = "valgrind.reportPath";
+
+  private static final Logger LOG = Loggers.get(CxxValgrindSensor.class);
+
+  /**
+   * CxxValgrindSensor for Valgrind Sensor
+   *
+   * @param language defines settings C or C++
+   */
+  public CxxValgrindSensor(CxxLanguage language) {
+    super(language, REPORT_PATH_KEY, CxxValgrindRuleRepository.getRepositoryKey(language));
+  }
 
   private static String createErrorMsg(ValgrindError error, ValgrindStack stack, int stackNr) {
     StringBuilder errorMsg = new StringBuilder();
@@ -48,15 +58,6 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     return errorMsg.toString();
   }
 
-  /**
-   * CxxValgrindSensor for Valgrind Sensor
-   *
-   * @param language defines settings C or C++
-   */
-  public CxxValgrindSensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxValgrindRuleRepository.getRepositoryKey(language));
-  }
-
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
@@ -64,14 +65,6 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
       .onlyOnLanguage(getLanguage().getKey())
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
-  }
-
-  @Override
-  protected void processReport(final SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException {
-    LOG.debug("Parsing 'Valgrind' format");
-    ValgrindReportParser parser = new ValgrindReportParser();
-    saveErrors(context, parser.processReport(report));
   }
 
   private Boolean frameIsInProject(SensorContext context, ValgrindFrame frame) {
@@ -99,6 +92,19 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     return issue;
   }
 
+  @Override
+  protected void processReport(final SensorContext context, File report)
+    throws javax.xml.stream.XMLStreamException {
+    LOG.debug("Parsing 'Valgrind' format");
+    ValgrindReportParser parser = new ValgrindReportParser();
+    saveErrors(context, parser.processReport(report));
+  }
+
+  @Override
+  protected CxxMetricsFactory.Key getMetricKey() {
+    return CxxMetricsFactory.Key.VALGRIND_SENSOR_KEY;
+  }
+
   void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {
     for (ValgrindError error : valgrindErrors) {
       int stackNr = 0;
@@ -112,8 +118,4 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     }
   }
 
-  @Override
-  protected CxxMetricsFactory.Key getMetricKey() {
-    return CxxMetricsFactory.Key.VALGRIND_SENSOR_KEY;
-  }
 }

@@ -32,10 +32,10 @@ import org.sonar.api.config.internal.MapSettings;
 public class CxxReportSensor_getReports_Test {
 
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
-  private final MapSettings settings = new MapSettings();
 
   @Rule
   public TemporaryFolder base = new TemporaryFolder();
+  private final MapSettings settings = new MapSettings();
 
   @Test
   public void testAbsoluteInsideBasedir() throws IOException {
@@ -147,4 +147,5 @@ public class CxxReportSensor_getReports_Test {
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
     assertThat(reports.size()).isEqualTo(0);
   }
+
 }

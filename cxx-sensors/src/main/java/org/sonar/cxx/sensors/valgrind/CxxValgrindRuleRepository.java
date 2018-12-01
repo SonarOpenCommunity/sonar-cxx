@@ -29,13 +29,9 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxValgrindRuleRepository extends CxxAbstractRuleRepository {
 
-  private static final String KEY = "valgrind";
   public static final String CUSTOM_RULES_KEY = "valgrind.customRules";
+  private static final String KEY = "valgrind";
   private static final String NAME = "Valgrind";
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
-  }
 
   /**
    * {@inheritDoc}
@@ -45,8 +41,13 @@ public class CxxValgrindRuleRepository extends CxxAbstractRuleRepository {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
   }
 
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+
   @Override
   protected String fileName() {
     return "/valgrind.xml";
   }
+
 }

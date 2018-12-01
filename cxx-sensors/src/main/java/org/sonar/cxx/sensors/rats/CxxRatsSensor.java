@@ -40,16 +40,10 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxRatsSensor extends CxxIssuesReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxRatsSensor.class);
-  private static final String MISSING_RATS_TYPE = "fixed size global buffer";
   public static final String REPORT_PATH_KEY = "rats.reportPath";
 
-  private static String getVulnerabilityType(@Nullable Element child) {
-    if (child != null) {
-      return child.getTextTrim();
-    }
-    return MISSING_RATS_TYPE;
-  }
+  private static final Logger LOG = Loggers.get(CxxRatsSensor.class);
+  private static final String MISSING_RATS_TYPE = "fixed size global buffer";
 
   /**
    * CxxRatsSensor for RATS Sensor
@@ -58,6 +52,13 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
    */
   public CxxRatsSensor(CxxLanguage language) {
     super(language, REPORT_PATH_KEY, CxxRatsRuleRepository.getRepositoryKey(language));
+  }
+
+  private static String getVulnerabilityType(@Nullable Element child) {
+    if (child != null) {
+      return child.getTextTrim();
+    }
+    return MISSING_RATS_TYPE;
   }
 
   @Override
@@ -106,4 +107,5 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   protected CxxMetricsFactory.Key getMetricKey() {
     return CxxMetricsFactory.Key.RATS_SENSOR_ISSUES_KEY;
   }
+
 }

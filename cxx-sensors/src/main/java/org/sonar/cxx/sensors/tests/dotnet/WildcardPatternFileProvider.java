@@ -42,6 +42,13 @@ public class WildcardPatternFileProvider {
   private static final String RECURSIVE_PATTERN = "**";
   private static final String ZERO_OR_MORE_PATTERN = "*";
   private static final String ANY_PATTERN = "?";
+  private final File baseDir;
+  private final String directorySeparator;
+
+  public WildcardPatternFileProvider(File baseDir, String directorySeparator) {
+    this.baseDir = baseDir;
+    this.directorySeparator = directorySeparator;
+  }
 
   private static List<String> elementsTillFirstWildcard(List<String> elements) {
     List<String> result = new ArrayList<>();
@@ -96,12 +103,9 @@ public class WildcardPatternFileProvider {
   private static String relativize(File parent, File file) {
     return file.getAbsolutePath().substring(parent.getAbsolutePath().length() + 1);
   }
-  private final File baseDir;
-  private final String directorySeparator;
 
-  public WildcardPatternFileProvider(File baseDir, String directorySeparator) {
-    this.baseDir = baseDir;
-    this.directorySeparator = directorySeparator;
+  private String toPath(List<String> elements) {
+    return elements.stream().collect(Collectors.joining(directorySeparator));
   }
 
   Set<File> listFiles(String pattern) {
@@ -133,10 +137,6 @@ public class WildcardPatternFileProvider {
     }
 
     return result;
-  }
-
-  private String toPath(List<String> elements) {
-    return elements.stream().collect(Collectors.joining(directorySeparator));
   }
 
 }

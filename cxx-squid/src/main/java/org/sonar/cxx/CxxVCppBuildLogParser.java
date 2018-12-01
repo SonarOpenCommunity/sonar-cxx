@@ -60,14 +60,6 @@ public class CxxVCppBuildLogParser {
   private static final Pattern toolsetV141Pattern = Pattern
     .compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
 
-  private static List<String> getMatches(Pattern pattern, String text) {
-    List<String> matches = new ArrayList<>();
-    Matcher m = pattern.matcher(text);
-    while (m.find()) {
-      matches.add(m.group(1));
-    }
-    return matches;
-  }
   private final Map<String, List<String>> uniqueIncludes;
   private final Map<String, Set<String>> uniqueDefines;
   private String platformToolset = "V120";
@@ -83,6 +75,15 @@ public class CxxVCppBuildLogParser {
     Map<String, Set<String>> uniqueDefinesIn) {
     uniqueIncludes = uniqueIncludesIn;
     uniqueDefines = uniqueDefinesIn;
+  }
+
+  private static List<String> getMatches(Pattern pattern, String text) {
+    List<String> matches = new ArrayList<>();
+    Matcher m = pattern.matcher(text);
+    while (m.find()) {
+      matches.add(m.group(1));
+    }
+    return matches;
   }
 
   public void setPlatform(String platform) {
@@ -633,4 +634,5 @@ public class CxxVCppBuildLogParser {
     addMacro("_MFC_VER=0x0E00", fileElement);
     addMacro("_ATL_VER=0x0E00", fileElement);
   }
+
 }

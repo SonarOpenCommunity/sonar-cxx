@@ -75,4 +75,5 @@ public class AttributedAtlTest extends ParserBaseTestHelper {
       + "};"
     );
   }
+
 }

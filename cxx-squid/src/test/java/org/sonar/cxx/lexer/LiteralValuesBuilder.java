@@ -24,9 +24,6 @@ import org.sonar.cxx.api.CxxTokenType;
 
 public final class LiteralValuesBuilder {
 
-  public static Builder builder(String key) {
-    return new Builder(key);
-  }
   String lexerValue;
   String tokenValue;
   TokenType tokenType;
@@ -35,6 +32,10 @@ public final class LiteralValuesBuilder {
     this.lexerValue = builder.lexerValue;
     this.tokenValue = builder.tokenValue;
     this.tokenType = builder.tokenType;
+  }
+
+  public static Builder builder(String key) {
+    return new Builder(key);
   }
 
   public static class Builder {

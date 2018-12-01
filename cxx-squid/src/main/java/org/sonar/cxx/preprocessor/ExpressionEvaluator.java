@@ -40,6 +40,16 @@ public final class ExpressionEvaluator {
 
   private static final BigInteger UINT64_MAX = new BigInteger("FFFFFFFFFFFFFFFF", 16);
   private static final Logger LOG = Loggers.get(ExpressionEvaluator.class);
+  private final Parser<Grammar> parser;
+  private final CxxPreprocessor preprocessor;
+  private final Deque<String> macroEvaluationStack;
+
+  private ExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor) {
+    parser = CppParser.createConstantExpressionParser(conf);
+
+    this.preprocessor = preprocessor;
+    macroEvaluationStack = new LinkedList<>();
+  }
 
   public static boolean eval(CxxConfiguration conf, CxxPreprocessor preprocessor, String constExpr) {
     return new ExpressionEvaluator(conf, preprocessor).evalToBoolean(constExpr, null);
@@ -47,40 +57,6 @@ public final class ExpressionEvaluator {
 
   public static boolean eval(CxxConfiguration conf, CxxPreprocessor preprocessor, AstNode constExpr) {
     return new ExpressionEvaluator(conf, preprocessor).evalToBoolean(constExpr);
-  }
-
-  // ///////////////// Primitives //////////////////////
-  private static BigInteger evalBool(String boolValue) {
-    return "true".equalsIgnoreCase(boolValue) ? BigInteger.ONE : BigInteger.ZERO;
-  }
-
-  private static BigInteger evalNumber(String intValue) {
-    // the if expressions aren't allowed to contain floats
-    BigInteger number;
-    try {
-      number = decode(intValue);
-    } catch (java.lang.NumberFormatException nfe) {
-      LOG.warn("Cannot decode the number '{}' falling back to value '{}' instead", intValue, BigInteger.ONE);
-      number = BigInteger.ONE;
-    }
-
-    return number;
-  }
-
-  private static BigInteger evalCharacter(String charValue) {
-    // TODO: replace this simplification by something more sane
-    return "'\0'".equals(charValue) ? BigInteger.ZERO : BigInteger.ONE;
-  }
-
-  private static AstNode getNextOperand(@Nullable AstNode node) {
-    AstNode sibling = node;
-    if (sibling != null) {
-      sibling = sibling.getNextSibling();
-      if (sibling != null) {
-        sibling = sibling.getNextSibling();
-      }
-    }
-    return sibling;
   }
 
   public static BigInteger decode(String number) {
@@ -153,15 +129,38 @@ public final class ExpressionEvaluator {
     return new BigInteger(sb.toString(), radix);
   }
 
-  private final Parser<Grammar> parser;
-  private final CxxPreprocessor preprocessor;
-  private final Deque<String> macroEvaluationStack;
+  // ///////////////// Primitives //////////////////////
+  private static BigInteger evalBool(String boolValue) {
+    return "true".equalsIgnoreCase(boolValue) ? BigInteger.ONE : BigInteger.ZERO;
+  }
 
-  private ExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor) {
-    parser = CppParser.createConstantExpressionParser(conf);
+  private static BigInteger evalNumber(String intValue) {
+    // the if expressions aren't allowed to contain floats
+    BigInteger number;
+    try {
+      number = decode(intValue);
+    } catch (java.lang.NumberFormatException nfe) {
+      LOG.warn("Cannot decode the number '{}' falling back to value '{}' instead", intValue, BigInteger.ONE);
+      number = BigInteger.ONE;
+    }
 
-    this.preprocessor = preprocessor;
-    macroEvaluationStack = new LinkedList<>();
+    return number;
+  }
+
+  private static BigInteger evalCharacter(String charValue) {
+    // TODO: replace this simplification by something more sane
+    return "'\0'".equals(charValue) ? BigInteger.ZERO : BigInteger.ONE;
+  }
+
+  private static AstNode getNextOperand(@Nullable AstNode node) {
+    AstNode sibling = node;
+    if (sibling != null) {
+      sibling = sibling.getNextSibling();
+      if (sibling != null) {
+        sibling = sibling.getNextSibling();
+      }
+    }
+    return sibling;
   }
 
   private BigInteger evalToInt(String constExpr, @Nullable AstNode exprAst) {

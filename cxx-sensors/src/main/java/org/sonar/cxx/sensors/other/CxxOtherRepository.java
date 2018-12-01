@@ -32,14 +32,12 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxOtherRepository implements RulesDefinition {
 
+  public static final String RULES_KEY = "other.rules";
+
   private static final Logger LOG = Loggers.get(CxxOtherRepository.class);
   private static final String KEY = "other";
-  public static final String RULES_KEY = "other.rules";
   private static final String NAME = "Other";
 
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
-  }
   private final RulesDefinitionXmlLoader xmlRuleLoader;
   private final CxxLanguage language;
 
@@ -52,6 +50,10 @@ public class CxxOtherRepository implements RulesDefinition {
   public CxxOtherRepository(RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
     this.xmlRuleLoader = xmlRuleLoader;
     this.language = language;
+  }
+
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
   }
 
   @Override
@@ -72,4 +74,5 @@ public class CxxOtherRepository implements RulesDefinition {
 
     repository.done();
   }
+
 }

@@ -33,9 +33,8 @@ import org.sonar.squidbridge.checks.ChecksHelper;
 
 public class CxxFunctionComplexityVisitor<G extends Grammar> extends SquidAstVisitor<G> {
 
-  private static final Logger LOG = Loggers.get(CxxFunctionComplexityVisitor.class);
-
   public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "funccomplexity.threshold";
+  private static final Logger LOG = Loggers.get(CxxFunctionComplexityVisitor.class);
 
   private final int cyclomaticComplexityThreshold;
 

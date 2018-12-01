@@ -727,4 +727,5 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("[System::Diagnostics::DebuggerNonUserCodeAttribute]");
     assertThat(p).matches("[System::CodeDom::Compiler::GeneratedCodeAttribute(L\"System.Data.Design.TypedDataSetGenerator\", L\"4.0.0.0\")]");
   }
+
 }

@@ -40,4 +40,5 @@ public class CRuleRepository implements RulesDefinition {
     new AnnotationBasedRulesDefinition(repository, CLanguage.KEY).addRuleClasses(false, this.language.getChecks());
     repository.done();
   }
+
 }

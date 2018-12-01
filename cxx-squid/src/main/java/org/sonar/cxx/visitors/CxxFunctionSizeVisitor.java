@@ -32,9 +32,8 @@ import org.sonar.squidbridge.api.SourceFunction;
 
 public class CxxFunctionSizeVisitor<G extends Grammar> extends SquidAstVisitor<G> {
 
-  private static final Logger LOG = Loggers.get(CxxFunctionSizeVisitor.class);
-
   public static final String FUNCTION_SIZE_THRESHOLD_KEY = "funcsize.threshold";
+  private static final Logger LOG = Loggers.get(CxxFunctionSizeVisitor.class);
 
   private int sizeThreshold = 0;
 

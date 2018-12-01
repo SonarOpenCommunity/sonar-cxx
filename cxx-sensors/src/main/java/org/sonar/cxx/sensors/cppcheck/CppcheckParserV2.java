@@ -40,6 +40,12 @@ public class CppcheckParserV2 implements CppcheckParser {
 
   private static final Logger LOG = Loggers.get(CppcheckParserV2.class);
 
+  private final CxxCppCheckSensor sensor;
+
+  public CppcheckParserV2(CxxCppCheckSensor sensor) {
+    this.sensor = sensor;
+  }
+
   private static String requireAttributeSet(@Nullable String attributeValue, String errorMsg) {
     if (attributeValue == null || attributeValue.isEmpty()) {
       throw new IllegalArgumentException(errorMsg);
@@ -52,11 +58,6 @@ public class CppcheckParserV2 implements CppcheckParser {
       return "[inconclusive] " + msg;
     }
     return msg;
-  }
-  private final CxxCppCheckSensor sensor;
-
-  public CppcheckParserV2(CxxCppCheckSensor sensor) {
-    this.sensor = sensor;
   }
 
   /**
@@ -194,4 +195,5 @@ public class CppcheckParserV2 implements CppcheckParser {
   public String toString() {
     return getClass().getSimpleName();
   }
+
 }

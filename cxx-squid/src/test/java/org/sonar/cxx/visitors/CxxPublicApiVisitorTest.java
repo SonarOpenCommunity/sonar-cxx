@@ -56,33 +56,6 @@ public class CxxPublicApiVisitorTest {
     return fileName.substring(lastIndexOf);
   }
 
-  /**
-   * Check that CxxPublicApiVisitor correctly counts API for given file.
-   *
-   * @param fileName the file to use for test
-   * @param expectedApi expected number of API
-   * @param expectedUndoc expected number of undocumented API
-   * @param checkDouble if true, fails the test if two items with the same id are counted..
-   */
-  private Tuple testFile(String fileName, boolean checkDouble)
-    throws UnsupportedEncodingException, IOException {
-
-    TestPublicApiVisitor visitor = new TestPublicApiVisitor(checkDouble);
-
-    visitor.withHeaderFileSuffixes(Arrays
-      .asList(getFileExtension(fileName)));
-
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
-
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("#API: {} UNDOC: {}",
-        file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
-    }
-
-    return new Tuple(file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
-  }
-
   @Test
   public void test_no_matching_suffix() throws IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".",
@@ -228,6 +201,33 @@ public class CxxPublicApiVisitorTest {
     assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(
       expectedIdCommentMap.keySet().size());
     assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
+  }
+
+  /**
+   * Check that CxxPublicApiVisitor correctly counts API for given file.
+   *
+   * @param fileName the file to use for test
+   * @param expectedApi expected number of API
+   * @param expectedUndoc expected number of undocumented API
+   * @param checkDouble if true, fails the test if two items with the same id are counted..
+   */
+  private Tuple testFile(String fileName, boolean checkDouble)
+    throws UnsupportedEncodingException, IOException {
+
+    TestPublicApiVisitor visitor = new TestPublicApiVisitor(checkDouble);
+
+    visitor.withHeaderFileSuffixes(Arrays
+      .asList(getFileExtension(fileName)));
+
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
+
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("#API: {} UNDOC: {}",
+        file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+    }
+
+    return new Tuple(file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
   }
 
   private class TestPublicApiVisitor extends AbstractCxxPublicApiVisitor<Grammar> {

@@ -72,15 +72,6 @@ public class CxxSquidSensorTest {
       null);
   }
 
-  private DefaultInputFile buildTestInputFile(File baseDir, String fileName) throws IOException {
-    File target = new File(baseDir, fileName);
-    String content = Files.contentOf(target, StandardCharsets.UTF_8);
-    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
-      .setType(InputFile.Type.MAIN).build();
-    return inputFile;
-  }
-
   @Test
   public void testCollectingSquidMetrics() throws IOException {
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/codechunks-project");
@@ -249,4 +240,14 @@ public class CxxSquidSensorTest {
 
     assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(1);
   }
+
+  private DefaultInputFile buildTestInputFile(File baseDir, String fileName) throws IOException {
+    File target = new File(baseDir, fileName);
+    String content = Files.contentOf(target, StandardCharsets.UTF_8);
+    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
+      .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
+      .setType(InputFile.Type.MAIN).build();
+    return inputFile;
+  }
+
 }

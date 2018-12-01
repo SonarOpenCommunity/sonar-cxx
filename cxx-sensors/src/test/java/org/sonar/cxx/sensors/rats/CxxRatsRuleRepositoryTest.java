@@ -43,4 +43,5 @@ public class CxxRatsRuleRepositoryTest {
     RulesDefinition.Repository repo = context.repository(CxxRatsRuleRepository.getRepositoryKey(language));
     assertThat(repo.rules()).hasSize(313);
   }
+
 }

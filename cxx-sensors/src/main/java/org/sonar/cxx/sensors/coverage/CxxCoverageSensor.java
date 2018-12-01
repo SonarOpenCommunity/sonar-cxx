@@ -45,10 +45,29 @@ import org.sonar.cxx.sensors.utils.EmptyReportException;
  */
 public class CxxCoverageSensor extends CxxReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxCoverageSensor.class);
-
   // Configuration properties before SQ 6.2
   public static final String REPORT_PATH_KEY = "coverage.reportPath";
+
+  private static final Logger LOG = Loggers.get(CxxCoverageSensor.class);
+
+  private final List<CoverageParser> parsers = new LinkedList<>();
+  private final CxxCoverageCache cache;
+
+  /**
+   * {@inheritDoc}
+   *
+   * @param cache for all coverage data
+   * @param language for current analysis
+   * @param context for current file
+   */
+  public CxxCoverageSensor(CxxCoverageCache cache, CxxLanguage language, SensorContext context) {
+    super(language, REPORT_PATH_KEY);
+    this.cache = cache;
+    parsers.add(new CoberturaParser());
+    parsers.add(new BullseyeParser());
+    parsers.add(new VisualStudioParser());
+    parsers.add(new TestwellCtcTxtParser());
+  }
 
   /**
    * @param parser
@@ -72,25 +91,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
     measuresTotal.putAll(measuresForReport);
     LOG.info("Added coverage report '{}' (parsed by: {})", report, parser);
-  }
-
-  private final List<CoverageParser> parsers = new LinkedList<>();
-  private final CxxCoverageCache cache;
-
-  /**
-   * {@inheritDoc}
-   *
-   * @param cache for all coverage data
-   * @param language for current analysis
-   * @param context for current file
-   */
-  public CxxCoverageSensor(CxxCoverageCache cache, CxxLanguage language, SensorContext context) {
-    super(language, REPORT_PATH_KEY);
-    this.cache = cache;
-    parsers.add(new CoberturaParser());
-    parsers.add(new BullseyeParser());
-    parsers.add(new VisualStudioParser());
-    parsers.add(new TestwellCtcTxtParser());
   }
 
   @Override
@@ -217,4 +217,5 @@ public class CxxCoverageSensor extends CxxReportSensor {
       CxxUtils.validateRecovery(ex, getLanguage());
     }
   }
+
 }

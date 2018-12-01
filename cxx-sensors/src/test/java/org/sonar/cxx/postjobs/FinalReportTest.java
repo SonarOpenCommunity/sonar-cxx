@@ -67,4 +67,5 @@ public class FinalReportTest {
     assertThat(log.get(0)).contains("include directive error(s)");
     assertThat(log.get(1)).contains("syntax error(s) detected");
   }
+
 }

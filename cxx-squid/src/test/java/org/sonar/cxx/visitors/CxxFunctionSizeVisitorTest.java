@@ -61,4 +61,5 @@ public class CxxFunctionSizeVisitorTest {
     softly.assertThat(file.getInt(CxxMetric.BIG_FUNCTIONS_LOC)).isEqualTo(0);
     softly.assertAll();
   }
+
 }

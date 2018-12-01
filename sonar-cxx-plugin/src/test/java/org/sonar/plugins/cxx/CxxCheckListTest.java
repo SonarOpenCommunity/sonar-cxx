@@ -32,4 +32,5 @@ public class CxxCheckListTest {
     CppLanguage checks = new CppLanguage(settings.asConfig());
     assertThat(checks.getChecks().size()).isEqualTo(45);
   }
+
 }

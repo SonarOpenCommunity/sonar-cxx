@@ -79,10 +79,6 @@ import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
  */
 public final class CxxPlugin implements Plugin {
 
-  private static final String USE_ANT_STYLE_WILDCARDS
-    = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
-  private static final String EXTENDING_THE_CODE_ANALYSIS = " The used format is described <a href='"
-    + "https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.";
   public static final String LANG_PROP_PREFIX = "sonar.cxx.";
   public static final String SOURCE_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.sources";
   public static final String HEADER_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.headers";
@@ -94,6 +90,10 @@ public final class CxxPlugin implements Plugin {
   public static final String JSON_COMPILATION_DATABASE_KEY = LANG_PROP_PREFIX + "jsonCompilationDatabase";
   public static final String CPD_IGNORE_LITERALS_KEY = LANG_PROP_PREFIX + "cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = LANG_PROP_PREFIX + "cpd.ignoreIdentifiers";
+  private static final String USE_ANT_STYLE_WILDCARDS
+    = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
+  private static final String EXTENDING_THE_CODE_ANALYSIS = " The used format is described <a href='"
+    + "https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.";
 
   private static List<PropertyDefinition> generalProperties() {
     String subcateg = "(1) General";

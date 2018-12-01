@@ -29,6 +29,9 @@ import org.sonar.cxx.channels.PreprocessorChannel;
 
 public final class IncludeLexer {
 
+  private IncludeLexer() {
+  }
+
   public static Lexer create(Preprocessor... preprocessors) {
     return create(new CxxConfiguration(), preprocessors);
   }
@@ -49,6 +52,4 @@ public final class IncludeLexer {
     return builder.build();
   }
 
-  private IncludeLexer() {
-  }
 }

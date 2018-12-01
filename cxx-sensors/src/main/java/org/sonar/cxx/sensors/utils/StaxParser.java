@@ -236,4 +236,5 @@ public class StaxParser {
      */
     void stream(SMHierarchicCursor rootCursor) throws XMLStreamException;
   }
+
 }

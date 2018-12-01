@@ -40,6 +40,14 @@ public class BullseyeParser extends CxxCoverageParser {
 
   private static final Logger LOG = Loggers.get(BullseyeParser.class);
 
+  private String prevLine;
+  private int totalconditions;
+  private int totalcoveredconditions;
+
+  public BullseyeParser() {
+    // no operation but necessary for list of coverage parsers
+  }
+
   private static String ensureRefPathIsCorrect(@Nullable String refPath) {
     if (refPath == null || refPath.isEmpty()) {
       return refPath;
@@ -62,13 +70,6 @@ public class BullseyeParser extends CxxCoverageParser {
     }
     return PathUtils.sanitize(fileName);
   }
-  private String prevLine;
-  private int totalconditions;
-  private int totalcoveredconditions;
-
-  public BullseyeParser() {
-    // no operation but necessary for list of coverage parsers
-  }
 
   /**
    * {@inheritDoc}
@@ -89,6 +90,11 @@ public class BullseyeParser extends CxxCoverageParser {
 
     topLevelparser.parse(report);
     parser.parse(report);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
   }
 
   private void collectCoverageLeafNodes(String refPath, SMInputCursor folder,
@@ -245,11 +251,6 @@ public class BullseyeParser extends CxxCoverageParser {
       default:
         LOG.warn("BullseyeParser unknown probe event '{}'", event);
     }
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
   }
 
 }

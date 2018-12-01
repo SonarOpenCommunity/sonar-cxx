@@ -49,13 +49,22 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxOtherSensor extends CxxIssuesReportSensor {
 
-  private static final int MAX_STYLESHEETS = 10;
-  private static final Logger LOG = Loggers.get(CxxOtherSensor.class);
   public static final String REPORT_PATH_KEY = "other.reportPath";
   public static final String OTHER_XSLT_KEY = "other.xslt.";
   public static final String STYLESHEET_KEY = ".stylesheet";
   public static final String INPUT_KEY = ".inputs";
   public static final String OUTPUT_KEY = ".outputs";
+  private static final int MAX_STYLESHEETS = 10;
+  private static final Logger LOG = Loggers.get(CxxOtherSensor.class);
+
+  /**
+   * CxxOtherSensor for Other Sensor
+   *
+   * @param language defines settings C or C++
+   */
+  public CxxOtherSensor(CxxLanguage language) {
+    super(language, REPORT_PATH_KEY, CxxOtherRepository.getRepositoryKey(language));
+  }
 
   private static boolean checkInput(String inputKey, String outputKey, @Nullable List<File> inputs,
     @Nullable List<String> outputs) {
@@ -110,15 +119,6 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
     return true;
   }
 
-  /**
-   * CxxOtherSensor for Other Sensor
-   *
-   * @param language defines settings C or C++
-   */
-  public CxxOtherSensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxOtherRepository.getRepositoryKey(language));
-  }
-
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
@@ -158,11 +158,6 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
     });
 
     parser.parse(report);
-  }
-
-  @Override
-  protected CxxMetricsFactory.Key getMetricKey() {
-    return CxxMetricsFactory.Key.OTHER_SENSOR_ISSUES_KEY;
   }
 
   public void transformFiles(final File baseDir, SensorContext context) {
@@ -215,4 +210,10 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
       }
     }
   }
+
+  @Override
+  protected CxxMetricsFactory.Key getMetricKey() {
+    return CxxMetricsFactory.Key.OTHER_SENSOR_ISSUES_KEY;
+  }
+
 }

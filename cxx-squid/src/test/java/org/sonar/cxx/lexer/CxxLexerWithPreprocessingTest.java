@@ -787,4 +787,5 @@ public class CxxLexerWithPreprocessingTest {
       + "A");
     assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("0xcf").hasType(CxxKeyword.INT));
   }
+
 }

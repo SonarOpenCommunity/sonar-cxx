@@ -37,6 +37,9 @@ import org.sonar.api.measures.Metric;
  */
 public class CxxMetricsFactory {
 
+  private CxxMetricsFactory() {
+  }
+
   /**
    * Generate a map <code>{ language independent metric key : language dependent Metric object }</code>
    */
@@ -215,9 +218,6 @@ public class CxxMetricsFactory {
     metrics.put(metricKey, metric);
   }
 
-  private CxxMetricsFactory() {
-  }
-
   public enum Key {
     // Introduce own documentation metrics, after they has been removed from SQ core
     // see https://jira.sonarsource.com/browse/SONAR-8328
@@ -264,4 +264,5 @@ public class CxxMetricsFactory {
     }
 
   }
+
 }

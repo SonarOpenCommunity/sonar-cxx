@@ -47,11 +47,11 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxPCLintSensor extends CxxIssuesReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
   public static final String REPORT_PATH_KEY = "pclint.reportPath";
   public static final Pattern MISRA_RULE_PATTERN = Pattern.compile(
     // Rule nn.nn -or- Rule nn-nn-nn
     "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])");
+  private static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
 
   /**
    * CxxPCLintSensor for PC-lint Sensor
@@ -167,4 +167,5 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   protected CxxMetricsFactory.Key getMetricKey() {
     return CxxMetricsFactory.Key.PCLINT_SENSOR_ISSUES_KEY;
   }
+
 }

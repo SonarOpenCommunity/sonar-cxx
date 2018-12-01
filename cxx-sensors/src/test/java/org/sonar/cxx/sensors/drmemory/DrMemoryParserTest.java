@@ -36,4 +36,5 @@ public class DrMemoryParserTest {
     List<DrMemoryError> drMemoryErrors = DrMemoryParser.parse(file, StandardCharsets.UTF_8.name());
     Assert.assertEquals(733, drMemoryErrors.size());
   }
+
 }

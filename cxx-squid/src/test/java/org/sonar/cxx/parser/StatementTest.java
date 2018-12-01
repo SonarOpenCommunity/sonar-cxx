@@ -287,4 +287,5 @@ public class StatementTest extends ParserBaseTestHelper {
 
     assertThat(p).matches("return foo()->i;");
   }
+
 }

@@ -47,8 +47,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
     final String reportCharset = getCharset(context);
     final String reportRegEx = getRegex(context);
 
-    if (reportRegEx.isEmpty())
-    {
+    if (reportRegEx.isEmpty()) {
       LOG.error("processReport terminated because of empty custom regular expression");
       return;
     }

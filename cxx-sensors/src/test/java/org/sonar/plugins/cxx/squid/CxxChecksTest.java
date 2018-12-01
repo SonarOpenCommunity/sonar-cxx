@@ -149,4 +149,5 @@ public class CxxChecksTest {
       return TestUtils.mockCxxLanguage();
     }
   }
+
 }

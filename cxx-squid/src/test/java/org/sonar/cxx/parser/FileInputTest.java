@@ -36,4 +36,5 @@ public class FileInputTest extends ParserBaseTestHelper {
       .matches("declaration\ndeclaration")
       .matches("\n");
   }
+
 }

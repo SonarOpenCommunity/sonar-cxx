@@ -66,8 +66,6 @@ import org.sonar.squidbridge.indexer.QueryByType;
  */
 public class CxxSquidSensor implements Sensor {
 
-  private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
-
   public static final String DEFINES_KEY = "defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
@@ -86,6 +84,7 @@ public class CxxSquidSensor implements Sensor {
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "cpd.ignoreIdentifiers";
 
   public static final String KEY = "Squid";
+  private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
 
   private final FileLinesContextFactory fileLinesContextFactory;
   private final CxxChecks checks;
@@ -157,6 +156,11 @@ public class CxxSquidSensor implements Sensor {
 
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles, context);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
   }
 
   private CxxConfiguration createConfiguration(FileSystem fs, SensorContext context) {
@@ -323,8 +327,4 @@ public class CxxSquidSensor implements Sensor {
     return violationsCount;
   }
 
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
-  }
 }

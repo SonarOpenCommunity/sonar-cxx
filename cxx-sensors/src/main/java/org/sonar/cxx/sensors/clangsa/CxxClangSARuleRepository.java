@@ -29,13 +29,9 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxClangSARuleRepository extends CxxAbstractRuleRepository {
 
-  private static final String KEY = "ClangSA";
   public static final String CUSTOM_RULES_KEY = "clangsa.customRules";
+  private static final String KEY = "ClangSA";
   private static final String NAME = "Clang-SA";
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
-  }
 
   /**
    * {@inheritDoc}
@@ -45,8 +41,13 @@ public class CxxClangSARuleRepository extends CxxAbstractRuleRepository {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
   }
 
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+
   @Override
   protected String fileName() {
     return "/clangsa.xml";
   }
+
 }

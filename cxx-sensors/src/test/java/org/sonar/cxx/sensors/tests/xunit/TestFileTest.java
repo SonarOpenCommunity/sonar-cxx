@@ -92,4 +92,5 @@ public class TestFileTest {
 
     assertEquals(testFile.getSkipped(), skippedBefore + 1);
   }
+
 }

@@ -111,4 +111,5 @@ public class CxxValgrindRuleRepositoryTest {
     RulesDefinition.Repository repo = context.repository(repositoryKey);
     assertEquals(16, repo.rules().size());
   }
+
 }

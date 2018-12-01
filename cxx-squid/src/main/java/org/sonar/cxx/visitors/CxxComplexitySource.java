@@ -47,6 +47,15 @@ public class CxxComplexitySource {
     return Integer.toString(line);
   }
 
+  public String getExplanation() {
+    if (nesting == 0) {
+      return "+1: " + getNodeDescripton();
+    } else {
+      return new StringBuilder().append("+").append(1 + nesting).append(": ").append(getNodeDescripton())
+        .append(" (incl ").append(nesting).append(" for nesting)").toString();
+    }
+  }
+
   private String getNodeDescripton() {
     if (nodeType == CxxGrammarImpl.functionDefinition) {
       return "function definition";
@@ -78,15 +87,6 @@ public class CxxComplexitySource {
       return "conditional operator";
     }
     return "";
-  }
-
-  public String getExplanation() {
-    if (nesting == 0) {
-      return "+1: " + getNodeDescripton();
-    } else {
-      return new StringBuilder().append("+").append(1 + nesting).append(": ").append(getNodeDescripton())
-        .append(" (incl ").append(nesting).append(" for nesting)").toString();
-    }
   }
 
 }

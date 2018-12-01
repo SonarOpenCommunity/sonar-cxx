@@ -33,10 +33,6 @@ public class CppGrammarTest {
     .build();
   private final Grammar g = p.getGrammar();
 
-  private void mockRule(GrammarRuleKey key) {
-    g.rule(key).mock();
-  }
-
   @Test
   public void preprocessorLine() {
     mockRule(CppGrammar.defineLine);
@@ -601,4 +597,9 @@ public class CppGrammarTest {
     assertThat(p).matches("BOOST_WORKAROUND(a, call())");
     assertThat(p).matches("C(A() && B())");
   }
+
+  private void mockRule(GrammarRuleKey key) {
+    g.rule(key).mock();
+  }
+
 }

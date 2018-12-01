@@ -303,4 +303,5 @@ public class ClassesTest extends ParserBaseTestHelper {
     assertThat(p).matches("nestedNameSpecifier className");
     assertThat(p).matches("decltypeSpecifier");
   }
+
 }

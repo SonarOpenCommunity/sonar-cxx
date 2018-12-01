@@ -40,6 +40,10 @@ public class JsonCompilationDatabase {
 
   private static final Logger LOG = Loggers.get(JsonCompilationDatabase.class);
 
+  private JsonCompilationDatabase() {
+    /* utility class is not meant to be instantiated */
+  }
+
   /**
    * Set up the given CxxConfiguration from the JSON compilation database
    *
@@ -191,6 +195,4 @@ public class JsonCompilationDatabase {
     return args.toArray(new String[0]);
   }
 
-  private JsonCompilationDatabase() {
-    /* utility class is not meant to be instantiated */ }
 }

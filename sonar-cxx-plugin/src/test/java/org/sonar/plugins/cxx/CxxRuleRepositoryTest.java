@@ -38,4 +38,5 @@ public class CxxRuleRepositoryTest {
     assertThat(context.repositories()).hasSize(1);
     assertThat(context.repository(checks.getRepositoryKey()).rules()).hasSize(45);
   }
+
 }

@@ -31,13 +31,6 @@ import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxCognitiveComplexityVisitorTest {
 
-  private int testFile(String fileName) throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
-    SourceFile sourceFile = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
-
-    return (sourceFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY));
-  }
-
   @Test
   public void if_statement() throws UnsupportedEncodingException, IOException {
     assertThat(testFile("src/test/resources/visitors/if.cc")).isEqualTo(1);
@@ -157,4 +150,12 @@ public class CxxCognitiveComplexityVisitorTest {
   public void to_regexp() throws UnsupportedEncodingException, IOException {
     assertThat(testFile("src/test/resources/visitors/to_regexp.cc")).isEqualTo(20);
   }
+
+  private int testFile(String fileName) throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
+    SourceFile sourceFile = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
+
+    return (sourceFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY));
+  }
+
 }

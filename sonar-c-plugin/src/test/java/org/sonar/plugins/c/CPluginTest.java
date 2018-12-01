@@ -37,4 +37,5 @@ public class CPluginTest {
     plugin.define(context);
     assertThat(context.getExtensions()).hasSize(74);
   }
+
 }

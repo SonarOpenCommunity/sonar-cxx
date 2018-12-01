@@ -25,13 +25,13 @@ import org.assertj.core.api.AbstractAssert;
 
 public class LexerAssert extends AbstractAssert<LexerAssert, Token> {
 
-  public static LexerAssert assertThat(Token actual) {
-    return new LexerAssert(actual);
-  }
-
   public LexerAssert(Token actual) {
     super(actual, LexerAssert.class);
 
+  }
+
+  public static LexerAssert assertThat(Token actual) {
+    return new LexerAssert(actual);
   }
 
   public LexerAssert hasType(TokenType type) {

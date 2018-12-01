@@ -117,6 +117,29 @@ public class TestUtils {
     return OS.contains("win");
   }
 
+  /**
+   * Search for a test resource in the classpath. For example getResource("org/sonar/MyClass/foo.txt");
+   *
+   * @param path the starting slash is optional
+   * @return the resource. Null if resource not found
+   */
+  @CheckForNull
+  public static File getResource(String path) {
+    String resourcePath = path;
+    if (!resourcePath.startsWith("/")) {
+      resourcePath = "/" + resourcePath;
+    }
+    URL url = TestUtils.class.getResource(resourcePath);
+    if (url != null) {
+      try {
+        return new File(url.toURI());
+      } catch (URISyntaxException e) {
+        return null;
+      }
+    }
+    return null;
+  }
+
   private static void scanDirs(DefaultFileSystem fs, List<File> dirs, Type ftype) {
     if (dirs == null) {
       return;
@@ -139,29 +162,6 @@ public class TestUtils {
         fs.add(TestInputFileBuilder.create("ProjectKey", target.getPath()).setLanguage("cpp").setType(ftype).build());
       }
     }
-  }
-
-  /**
-   * Search for a test resource in the classpath. For example getResource("org/sonar/MyClass/foo.txt");
-   *
-   * @param path the starting slash is optional
-   * @return the resource. Null if resource not found
-   */
-  @CheckForNull
-  public static File getResource(String path) {
-    String resourcePath = path;
-    if (!resourcePath.startsWith("/")) {
-      resourcePath = "/" + resourcePath;
-    }
-    URL url = TestUtils.class.getResource(resourcePath);
-    if (url != null) {
-      try {
-        return new File(url.toURI());
-      } catch (URISyntaxException e) {
-        return null;
-      }
-    }
-    return null;
   }
 
 }

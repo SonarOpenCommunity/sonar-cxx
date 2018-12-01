@@ -70,11 +70,6 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     }
   }
 
-  private Optional<Trivia> getTriviaWithConcatenatedLiterals(Token stringToken) {
-    return stringToken.getTrivia().stream()
-      .filter(t -> t.isSkippedText() && CxxTokenType.STRING.equals(t.getToken().getType())).findFirst();
-  }
-
   @Override
   public void visitToken(Token token) {
     if (!token.isGeneratedCode()) {
@@ -105,6 +100,11 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
         }
       }
     }
+  }
+
+  private Optional<Trivia> getTriviaWithConcatenatedLiterals(Token stringToken) {
+    return stringToken.getTrivia().stream()
+      .filter(t -> t.isSkippedText() && CxxTokenType.STRING.equals(t.getToken().getType())).findFirst();
   }
 
   private TokenLocation highlight(TokenLocation last, TokenLocation current, TypeOfText typeOfText) {

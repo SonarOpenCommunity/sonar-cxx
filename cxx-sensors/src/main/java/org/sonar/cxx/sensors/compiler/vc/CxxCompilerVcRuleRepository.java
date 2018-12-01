@@ -29,13 +29,9 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxCompilerVcRuleRepository extends CxxAbstractRuleRepository {
 
-  private static final String KEY = "compiler-vc";
   public static final String CUSTOM_RULES_KEY = "compiler-vc.customRules";
+  private static final String KEY = "compiler-vc";
   private static final String NAME = "Compiler-VC";
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
-  }
 
   /**
    * {@inheritDoc}
@@ -45,8 +41,13 @@ public class CxxCompilerVcRuleRepository extends CxxAbstractRuleRepository {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
   }
 
+  public static String getRepositoryKey(CxxLanguage lang) {
+    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  }
+
   @Override
   protected String fileName() {
     return "/compiler-vc.xml";
   }
+
 }

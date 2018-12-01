@@ -51,6 +51,27 @@ public class XmlParserHelper implements AutoCloseable {
     }
   }
 
+  @Override
+  public void close() throws IOException {
+    reader.close();
+
+    if (stream != null) {
+      try {
+        stream.close();
+      } catch (XMLStreamException e) {
+        throw new IllegalStateException(e);
+      }
+    }
+  }
+
+  private int tagToIntValue(String name, String value) {
+    try {
+      return Integer.parseInt(value);
+    } catch (NumberFormatException e) {
+      throw parseError("Expected an integer instead of \"" + value + "\" for the attribute \"" + name + "\"");
+    }
+  }
+
   void checkRootTag(String name) {
     String rootTag = nextStartTag();
 
@@ -110,14 +131,6 @@ public class XmlParserHelper implements AutoCloseable {
     return value == null ? 0 : tagToIntValue(name, value);
   }
 
-  private int tagToIntValue(String name, String value) {
-    try {
-      return Integer.parseInt(value);
-    } catch (NumberFormatException e) {
-      throw parseError("Expected an integer instead of \"" + value + "\" for the attribute \"" + name + "\"");
-    }
-  }
-
   @Nullable
   Double getDoubleAttribute(String name) {
     String value = getAttribute(name);
@@ -158,20 +171,8 @@ public class XmlParserHelper implements AutoCloseable {
       + stream.getLocation().getLineNumber());
   }
 
-  @Override
-  public void close() throws IOException {
-    reader.close();
-
-    if (stream != null) {
-      try {
-        stream.close();
-      } catch (XMLStreamException e) {
-        throw new IllegalStateException(e);
-      }
-    }
-  }
-
   XMLStreamReader stream() {
     return stream;
   }
+
 }

@@ -127,4 +127,5 @@ public class CxxOtherRepositoryTest {
     assertThat(rule.htmlDescription()).isEqualTo("description");
 
   }
+
 }

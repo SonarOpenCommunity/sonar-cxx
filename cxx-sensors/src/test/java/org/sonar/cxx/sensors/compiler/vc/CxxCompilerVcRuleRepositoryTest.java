@@ -44,4 +44,5 @@ public class CxxCompilerVcRuleRepositoryTest {
     RulesDefinition.Repository repo = context.repository(CxxCompilerVcRuleRepository.getRepositoryKey(language));
     assertThat(repo.rules()).hasSize(888);
   }
+
 }

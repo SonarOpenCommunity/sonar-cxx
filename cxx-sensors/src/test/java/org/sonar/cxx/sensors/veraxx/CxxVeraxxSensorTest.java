@@ -84,4 +84,5 @@ public class CxxVeraxxSensorTest {
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxVeraxxRuleRepository.getRepositoryKey(language));
     softly.assertAll();
   }
+
 }

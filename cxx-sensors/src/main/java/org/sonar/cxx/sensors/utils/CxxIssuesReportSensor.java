@@ -48,10 +48,6 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxIssuesReportSensor.class);
 
-  private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
-    CxxReportLocation location) {
-    return newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
-  }
   private final Set<String> notFoundFiles = new HashSet<>();
   private final Set<CxxReportIssue> uniqueIssues = new HashSet<>();
   private final Map<InputFile, Integer> violationsPerFileCount = new HashMap<>();
@@ -64,6 +60,11 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   protected CxxIssuesReportSensor(CxxLanguage language, String propertiesKeyPathToReports, String ruleRepositoryKey) {
     super(language, propertiesKeyPathToReports);
     this.ruleRepositoryKey = ruleRepositoryKey;
+  }
+
+  private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
+    CxxReportLocation location) {
+    return newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
   }
 
   public String getRuleRepositoryKey() {
@@ -123,31 +124,6 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   /**
-   * @param context
-   * @param report
-   * @param prevViolationsCount
-   * @throws Exception
-   */
-  private void executeReport(SensorContext context, File report, int prevViolationsCount) throws Exception {
-    try {
-      processReport(context, report);
-      if (LOG.isDebugEnabled()) {
-        Metric<Integer> metric = getLanguage().getMetric(this.getMetricKey());
-        LOG.debug("{} processed = {}", metric.getKey(),
-          violationsPerModuleCount - prevViolationsCount);
-      }
-    } catch (EmptyReportException e) {
-      LOG.warn("The report '{}' seems to be empty, ignoring.", report);
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Cannot read report", e);
-      }
-      CxxUtils.validateRecovery(e, getLanguage());
-    }
-  }
-
-  protected abstract void processReport(final SensorContext context, File report) throws Exception;
-
-  /**
    * Saves code violation only if it wasn't already saved
    *
    * @param sensorContext
@@ -171,6 +147,29 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       notFoundFiles.add(path);
     }
     return inputFile;
+  }
+
+  /**
+   * @param context
+   * @param report
+   * @param prevViolationsCount
+   * @throws Exception
+   */
+  private void executeReport(SensorContext context, File report, int prevViolationsCount) throws Exception {
+    try {
+      processReport(context, report);
+      if (LOG.isDebugEnabled()) {
+        Metric<Integer> metric = getLanguage().getMetric(this.getMetricKey());
+        LOG.debug("{} processed = {}", metric.getKey(),
+          violationsPerModuleCount - prevViolationsCount);
+      }
+    } catch (EmptyReportException e) {
+      LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Cannot read report", e);
+      }
+      CxxUtils.validateRecovery(e, getLanguage());
+    }
   }
 
   private NewIssueLocation createNewIssueLocationFile(SensorContext sensorContext, NewIssue newIssue,
@@ -251,5 +250,8 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     return lineNr;
   }
 
+  protected abstract void processReport(final SensorContext context, File report) throws Exception;
+
   protected abstract CxxMetricsFactory.Key getMetricKey();
+
 }

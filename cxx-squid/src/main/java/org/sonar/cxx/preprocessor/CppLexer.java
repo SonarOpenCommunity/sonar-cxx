@@ -47,6 +47,9 @@ public final class CppLexer {
   private static final String UD_SUFFIX = "([_a-zA-Z]([_a-zA-Z0-9]*+))";
   private static final String HEXDIGIT_SEQUENCE = "([0-9a-fA-F]([']?+[0-9a-fA-F]++)*+)";
 
+  private CppLexer() {
+  }
+
   public static Lexer create() {
     return create(new CxxConfiguration());
   }
@@ -91,6 +94,4 @@ public final class CppLexer {
     return builder.build();
   }
 
-  private CppLexer() {
-  }
 }

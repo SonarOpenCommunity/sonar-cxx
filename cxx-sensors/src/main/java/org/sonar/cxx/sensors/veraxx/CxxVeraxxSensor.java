@@ -39,8 +39,8 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxVeraxxSensor extends CxxIssuesReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);
   public static final String REPORT_PATH_KEY = "vera.reportPath";
+  private static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);
 
   /**
    * CxxVeraxxSensor for C++ Vera Sensor
@@ -106,4 +106,5 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
   protected CxxMetricsFactory.Key getMetricKey() {
     return CxxMetricsFactory.Key.VERAXX_SENSOR_KEY;
   }
+
 }

@@ -37,4 +37,5 @@ public class CxxPluginTest {
     plugin.define(context);
     assertThat(context.getExtensions()).hasSize(81);
   }
+
 }

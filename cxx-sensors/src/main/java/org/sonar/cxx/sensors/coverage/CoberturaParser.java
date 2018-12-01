@@ -41,6 +41,12 @@ public class CoberturaParser extends CxxCoverageParser {
   private static final Logger LOG = Loggers.get(CoberturaParser.class);
   private static final Pattern CONDITION_PATTERN = Pattern.compile("\\((.*?)\\)");
 
+  private Optional<Path> baseDir;
+
+  public CoberturaParser() {
+    // no operation but necessary for list of coverage parsers
+  }
+
   private static void collectFileData(SMInputCursor clazz, CoverageMeasures builder) throws XMLStreamException {
     SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
 
@@ -65,11 +71,6 @@ public class CoberturaParser extends CxxCoverageParser {
       }
     }
   }
-  private Optional<Path> baseDir;
-
-  public CoberturaParser() {
-    // no operation but necessary for list of coverage parsers
-  }
 
   /**
    * {@inheritDoc}
@@ -91,6 +92,11 @@ public class CoberturaParser extends CxxCoverageParser {
       collectPackageMeasures(rootCursor.descendantElementCursor("package"), coverageData);
     });
     packageParser.parse(report);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
   }
 
   private void readBaseDir(SMInputCursor source) throws XMLStreamException {
@@ -131,8 +137,4 @@ public class CoberturaParser extends CxxCoverageParser {
     }
   }
 
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
-  }
 }

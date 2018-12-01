@@ -44,4 +44,5 @@ public class CxxCompilerGccRuleRepositoryTest {
     RulesDefinition.Repository repo = context.repository(CxxCompilerGccRuleRepository.getRepositoryKey(language));
     assertThat(repo.rules()).hasSize(230);
   }
+
 }

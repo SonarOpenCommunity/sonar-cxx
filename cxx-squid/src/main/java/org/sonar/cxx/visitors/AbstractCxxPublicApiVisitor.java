@@ -79,6 +79,8 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   private static final String UNNAMED_ENUM_ID = "<unnamed enumeration>";
 
   private static final String TOKEN_OVERRIDE = "override";
+  private List<String> headerFileSuffixes;
+  private boolean skipFile = true;
 
   private static boolean isTypedef(AstNode declaratorList) {
     AstNode simpleDeclSpezifierSeq = declaratorList.getPreviousSibling();
@@ -368,12 +370,6 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       || comment.startsWith("///") || comment.startsWith("//!");
   }
 
-  private List<String> headerFileSuffixes;
-
-  private boolean skipFile = true;
-
-  protected abstract void onPublicApi(AstNode node, String id, List<Token> comments);
-
   @Override
   public void init() {
     subscribeTo(
@@ -441,6 +437,11 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
         LOG.error("Visiting unknown node: {}", astNode.getType());
         break;
     }
+  }
+
+  public final AbstractCxxPublicApiVisitor<G> withHeaderFileSuffixes(List<String> headerFileSuffixes) {
+    this.headerFileSuffixes = new ArrayList<>(headerFileSuffixes);
+    return this;
   }
 
   private void visitPublicApi(AstNode node, String id, List<Token> comments) {
@@ -890,8 +891,6 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     }
   }
 
-  public final AbstractCxxPublicApiVisitor<G> withHeaderFileSuffixes(List<String> headerFileSuffixes) {
-    this.headerFileSuffixes = new ArrayList<>(headerFileSuffixes);
-    return this;
-  }
+  protected abstract void onPublicApi(AstNode node, String id, List<Token> comments);
+
 }

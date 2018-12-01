@@ -63,4 +63,5 @@ public class CDefaultProfile extends ProfileDefinition {
     profile.setDefaultProfile(Boolean.TRUE);
     return profile;
   }
+
 }

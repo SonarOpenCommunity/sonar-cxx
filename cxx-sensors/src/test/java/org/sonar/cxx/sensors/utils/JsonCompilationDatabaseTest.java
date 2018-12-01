@@ -153,4 +153,5 @@ public class JsonCompilationDatabaseTest {
 
     JsonCompilationDatabase.parse(conf, file);
   }
+
 }

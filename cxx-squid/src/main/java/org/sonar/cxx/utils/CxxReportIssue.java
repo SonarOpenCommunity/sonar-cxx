@@ -78,4 +78,5 @@ public class CxxReportIssue {
     CxxReportIssue other = (CxxReportIssue) obj;
     return Objects.equals(locations, other.locations) && Objects.equals(ruleId, other.ruleId);
   }
+
 }

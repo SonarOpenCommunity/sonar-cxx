@@ -71,14 +71,6 @@ public class CxxLint {
 
   private static final Logger LOG = Loggers.get(CxxLint.class);
 
-  private static Options createCommandLineOptions() {
-    Options options = new Options();
-    options.addOption("s", true, "settings file");
-    options.addOption("f", true, "file to analyse - required");
-    options.addOption("e", true, "file encoding");
-    return options;
-  }
-
   public static String readFile(String filename) {
     Path path = Paths.get(filename);
     String content = null;
@@ -240,6 +232,47 @@ public class CxxLint {
   }
 
   /**
+   * Changes the annotation value for the given key of the given annotation to newValue and returns the previous value.
+   * from: http://stackoverflow.com/questions/14268981/modify-a-class-definitions-annotation-string-parameter-at-runtime
+   *
+   * @return updated or old value
+   * @param annotation
+   * @param key
+   * @param newValue
+   */
+  @SuppressWarnings("unchecked")
+  public static Object changeAnnotationValue(Annotation annotation, String key, Object newValue) {
+    Object handler = Proxy.getInvocationHandler(annotation);
+    Field f;
+    try {
+      f = handler.getClass().getDeclaredField("memberValues");
+    } catch (NoSuchFieldException | SecurityException e) {
+      throw new IllegalStateException(e);
+    }
+    f.setAccessible(true);
+    Map<String, Object> memberValues;
+    try {
+      memberValues = (Map<String, Object>) f.get(handler);
+    } catch (IllegalArgumentException | IllegalAccessException e) {
+      throw new IllegalStateException(e);
+    }
+    Object oldValue = memberValues.get(key);
+    if (oldValue == null || oldValue.getClass() != newValue.getClass()) {
+      throw new IllegalArgumentException();
+    }
+    memberValues.put(key, newValue);
+    return oldValue;
+  }
+
+  private static Options createCommandLineOptions() {
+    Options options = new Options();
+    options.addOption("s", true, "settings file");
+    options.addOption("f", true, "file to analyse - required");
+    options.addOption("e", true, "file encoding");
+    return options;
+  }
+
+  /**
    * @param check
    * @return
    */
@@ -364,39 +397,6 @@ public class CxxLint {
     }
   }
 
-  /**
-   * Changes the annotation value for the given key of the given annotation to newValue and returns the previous value.
-   * from: http://stackoverflow.com/questions/14268981/modify-a-class-definitions-annotation-string-parameter-at-runtime
-   *
-   * @return updated or old value
-   * @param annotation
-   * @param key
-   * @param newValue
-   */
-  @SuppressWarnings("unchecked")
-  public static Object changeAnnotationValue(Annotation annotation, String key, Object newValue) {
-    Object handler = Proxy.getInvocationHandler(annotation);
-    Field f;
-    try {
-      f = handler.getClass().getDeclaredField("memberValues");
-    } catch (NoSuchFieldException | SecurityException e) {
-      throw new IllegalStateException(e);
-    }
-    f.setAccessible(true);
-    Map<String, Object> memberValues;
-    try {
-      memberValues = (Map<String, Object>) f.get(handler);
-    } catch (IllegalArgumentException | IllegalAccessException e) {
-      throw new IllegalStateException(e);
-    }
-    Object oldValue = memberValues.get(key);
-    if (oldValue == null || oldValue.getClass() != newValue.getClass()) {
-      throw new IllegalArgumentException();
-    }
-    memberValues.put(key, newValue);
-    return oldValue;
-  }
-
   private static String getJsonStringValue(JsonParser parser, String fileContent, String id) {
     JsonElement element = parser.parse(fileContent).getAsJsonObject().get(id);
     if (element != null) {
@@ -442,4 +442,5 @@ public class CxxLint {
 
     return null;
   }
+
 }

@@ -604,4 +604,5 @@ public class CxxLexerTest {
     softly.assertThat(lexer.lex("line\n\n").size()).isEqualTo(2);
     softly.assertAll();
   }
+
 }
