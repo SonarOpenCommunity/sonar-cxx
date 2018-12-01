@@ -165,8 +165,8 @@ Feature: Providing test execution numbers
     And the analysis log contains no error/warning messages except those matching:
       """
       .*WARN.*Unable to get a valid mac address, will use a dummy address
-      .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
-      .*WARN.*cannot find the sources for '#include <unistd\.h>'
+      .*WARN.*cannot find the sources for '#include \<gtest/gtest\.h\>'
+      .*WARN.*cannot find the sources for '#include \<unistd\.h\>'
       """
     And the following metrics have following values:
       | metric               | value |
@@ -189,8 +189,8 @@ Feature: Providing test execution numbers
     And the analysis log contains no error/warning messages except those matching:
       """
       .*WARN.*Unable to get a valid mac address, will use a dummy address
-      .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
-      .*WARN.*cannot find the sources for '#include <unistd\.h>'
+      .*WARN.*cannot find the sources for '#include \<gtest/gtest\.h\>'
+      .*WARN.*cannot find the sources for '#include \<unistd\.h\>'
       .*WARN.*The report.*seems to be empty, ignoring\.
       .*WARN.*Cannot find a report for '.*'
       """
