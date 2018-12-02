@@ -126,7 +126,7 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
       StringBuffer sb = new StringBuffer();
 
       Matcher matcher = millisecondsPattern.matcher(value);
-      StringBuilder trailingZeros = new StringBuilder();
+      StringBuilder trailingZeros = new StringBuilder(256);
       while (matcher.find()) {
         String milliseconds = matcher.group(2);
         trailingZeros.setLength(0);

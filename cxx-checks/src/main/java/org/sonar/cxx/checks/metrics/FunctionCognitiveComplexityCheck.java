@@ -58,7 +58,7 @@ public class FunctionCognitiveComplexityCheck extends CxxCognitiveComplexityVisi
   @Override
   protected void analyzeComplexity(CxxComplexityScope scope) {
     if (scope.getComplexity() > max) {
-      final StringBuilder msg = new StringBuilder();
+      final StringBuilder msg = new StringBuilder(256);
       msg.append("The Cognitive Complexity of this function is ").append(scope.getComplexity())
         .append(" which is greater than ").append(max).append(" authorized.");
 

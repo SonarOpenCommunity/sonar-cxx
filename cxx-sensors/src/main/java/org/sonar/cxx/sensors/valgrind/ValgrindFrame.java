@@ -54,7 +54,7 @@ class ValgrindFrame {
 
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder().append(ip).append(": ").append(fn);
+    StringBuilder builder = new StringBuilder(256).append(ip).append(": ").append(fn);
     if (isLocationKnown()) {
       builder.append(" (")
         .append("".equals(file) ? ("in " + obj) : (file + getLineStr()))

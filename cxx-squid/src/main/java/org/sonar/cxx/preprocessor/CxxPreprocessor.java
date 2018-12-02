@@ -898,7 +898,7 @@ public class CxxPreprocessor extends Preprocessor {
       quoted = true;
     } else if ((node = ast.getFirstDescendant(CppGrammar.includeBodyBracketed)) != null) {
       node = node.getFirstDescendant(LT).getNextSibling();
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder(256);
       while (true) {
         String value = node.getTokenValue();
         if (">".equals(value)) {

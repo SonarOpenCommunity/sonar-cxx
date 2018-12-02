@@ -113,7 +113,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
           .save();
       }
     } catch (Exception e) {
-      String msg = new StringBuilder()
+      String msg = new StringBuilder(256)
         .append("Cannot feed the data into sonar, details: '")
         .append(e)
         .append("'")

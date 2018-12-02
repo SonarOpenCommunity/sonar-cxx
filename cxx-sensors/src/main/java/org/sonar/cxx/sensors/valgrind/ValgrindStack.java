@@ -53,7 +53,7 @@ class ValgrindStack {
 
   @Override
   public String toString() {
-    StringBuilder res = new StringBuilder();
+    StringBuilder res = new StringBuilder(256);
     for (ValgrindFrame frame : frames) {
       res.append(frame);
       res.append('\n');

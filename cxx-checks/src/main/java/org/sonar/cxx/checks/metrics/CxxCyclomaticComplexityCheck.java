@@ -111,7 +111,7 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
     final int maxComplexity = getMaxComplexity();
     final int currentComplexity = scope.getComplexity();
     if (scope.getComplexity() > maxComplexity) {
-      final StringBuilder msg = new StringBuilder();
+      final StringBuilder msg = new StringBuilder(256);
       msg.append("The Cyclomatic Complexity of this ").append(getScopeName()).append(" is ").append(currentComplexity)
         .append(" which is greater than ").append(maxComplexity).append(" authorized.");
 

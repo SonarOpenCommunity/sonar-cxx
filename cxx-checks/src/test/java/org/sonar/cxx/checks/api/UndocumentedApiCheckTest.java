@@ -102,7 +102,7 @@ public class UndocumentedApiCheckTest {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style1.h", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new UndocumentedApiCheck());
 
-    StringBuilder errors = new StringBuilder();
+    StringBuilder errors = new StringBuilder(1024);
     for (CheckMessage msg : file.getCheckMessages()) {
       errors.append("Line: ");
       errors.append(msg.getLine());
@@ -118,7 +118,7 @@ public class UndocumentedApiCheckTest {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style2.h", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new UndocumentedApiCheck());
 
-    StringBuilder errors = new StringBuilder();
+    StringBuilder errors = new StringBuilder(1024);
     for (CheckMessage msg : file.getCheckMessages()) {
       errors.append("Line: ");
       errors.append(msg.getLine());

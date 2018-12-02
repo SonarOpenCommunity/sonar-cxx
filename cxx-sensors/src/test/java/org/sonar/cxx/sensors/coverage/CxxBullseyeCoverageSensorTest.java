@@ -172,7 +172,7 @@ public class CxxBullseyeCoverageSensorTest {
         "covfile/src/main/vr_core/src/VR.cpp"
       };
 
-      StringBuilder sourceContent = new StringBuilder();
+      StringBuilder sourceContent = new StringBuilder(8192);
       sourceContent.append("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
       for (int i = 0; i < 4000; i++) {
         sourceContent.append('\n');

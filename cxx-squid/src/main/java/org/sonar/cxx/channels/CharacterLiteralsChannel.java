@@ -32,7 +32,7 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
 
   private static final char EOF = (char) -1;
 
-  private final StringBuilder sb = new StringBuilder();
+  private final StringBuilder sb = new StringBuilder(256);
 
   private int index = 0;
   private char ch = ' ';

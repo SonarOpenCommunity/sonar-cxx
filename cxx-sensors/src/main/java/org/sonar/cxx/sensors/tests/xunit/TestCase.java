@@ -118,7 +118,7 @@ public class TestCase {
    * Returns execution details as sonar-conform XML
    */
   public String getDetails() {
-    StringBuilder details = new StringBuilder();
+    StringBuilder details = new StringBuilder(512);
     details.append("<testcase status=\"")
       .append(status)
       .append("\" time=\"")

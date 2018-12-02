@@ -56,7 +56,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   }
 
   private static String getFrameText(Location frame, int frameNr) {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(512);
     sb.append("#").append(frameNr).append(" ").append(frame.getFile()).append(":").append(frame.getLine());
     return sb.toString();
   }

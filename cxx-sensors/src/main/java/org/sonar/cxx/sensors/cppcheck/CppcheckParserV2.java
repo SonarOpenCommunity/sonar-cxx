@@ -158,7 +158,7 @@ public class CppcheckParserV2 implements CppcheckParser {
               String primaryFile = primaryLocation.getFile();
               String primaryLine = primaryLocation.getLine();
 
-              StringBuilder extendedInfo = new StringBuilder();
+              StringBuilder extendedInfo = new StringBuilder(512);
               extendedInfo.append(makeRelativePath(file, primaryFile)).append(":").append(line).append(" ")
                 .append(info);
               issue.addLocation(primaryFile, primaryLine, extendedInfo.toString());
