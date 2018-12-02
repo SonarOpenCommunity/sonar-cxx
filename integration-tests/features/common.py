@@ -46,27 +46,27 @@ def get_sonar_log_path(sonarhome):
     return os.path.join(sonarhome, RELPATH_LOG)
 
 def sonar_analysis_finished(logpath):
-    urlForChecking = ""
+    url = ""
 
     print(BRIGHT + "    Read Log : " + logpath + RESET_ALL)
 
     try:
         with open(logpath, "r") as log:
             lines = log.readlines()
-            urlForChecking = get_url_from_log(lines)
+            url = get_url_from_log(lines)
     except IOError, e:
         badlines.append(str(e) + "\n")
 
 
-    print(BRIGHT + "     Get Analysis In Background : " + urlForChecking + RESET_ALL)
+    print(BRIGHT + "     Get Analysis In Background : " + url + RESET_ALL)
 
-    if urlForChecking == "":
+    if url == "":
         return ""
 
     status = ""
     while True:
         time.sleep(1)
-        response = requests.get(urlForChecking)
+        response = requests.get(url)
         task = json.loads(response.text).get("task", None)
         print(BRIGHT + "     CURRENT STATUS : " + task["status"] + RESET_ALL)
         if task["status"] == "IN_PROGRESS" or task["status"] == "PENDING":
@@ -79,7 +79,7 @@ def sonar_analysis_finished(logpath):
             status = "BACKGROUND TASK AS FAILED. CHECK SERVER : " + logpath + ".server"
             break
 
-    serverlogurl = urlForChecking.replace("task?id", "logs?taskId")
+    serverlogurl = url.replace("task?id", "logs?taskId")
     r = requests.get(serverlogurl, auth=HTTPBasicAuth('admin', 'admin'),timeout=10)
 
     writepath = logpath + ".server"
@@ -105,15 +105,15 @@ def analyse_log(logpath, toignore=None):
     return badlines, errors, warnings
 
 def get_url_from_log(lines):
-    urlForChecking = ""
+    url = ""
     for line in lines:
         if "INFO: More about the report processing at" in line:
-            urlForChecking = line.split("INFO: More about the report processing at")[1].strip()
+            url = line.split("INFO: More about the report processing at")[1].strip()
 
         if "INFO  - More about the report processing at" in line:
-            urlForChecking = line.split("INFO  - More about the report processing at")[1].strip()
+            url = line.split("INFO  - More about the report processing at")[1].strip()
 
-    return urlForChecking
+    return url
 
 def analyse_log_lines(lines, toignore=None):
     badlines = []
