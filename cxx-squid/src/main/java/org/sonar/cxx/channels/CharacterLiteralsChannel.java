@@ -94,12 +94,10 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
       if (c == EOF) {
         return;
       }
-      if ((c >= 'a' && c <= 'z')
-        || (c >= 'A' && c <= 'Z')
-        || (c == '_')) {
+      if (Character.isLowerCase(c) || Character.isUpperCase(c) || (c == '_')) {
         len++;
       } else {
-        if (c >= '0' && c <= '9') {
+        if (Character.isDigit(c)) {
           if (len > 0) {
             len++;
           } else {
