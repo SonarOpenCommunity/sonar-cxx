@@ -73,12 +73,12 @@ public class CxxClangSASensorTest {
      * 2 issues
      */
     DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cpp")
-      .initMetadata(new String("asd\nasdas\nasda\n")).build();
+      .initMetadata("asd\nasdas\nasda\n").build();
     /*
      * 1 issue
      */
     DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cpp")
-      .initMetadata(new String("asd\nasdas\nasda\n")).build();
+      .initMetadata("asd\nasdas\nasda\n").build();
 
     context.fileSystem().add(testFile0);
     context.fileSystem().add(testFile1);
@@ -99,12 +99,12 @@ public class CxxClangSASensorTest {
      * 2 issues
      */
     DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cpp")
-      .initMetadata(new String("asd\nasdas\nasda\n")).build();
+      .initMetadata("asd\nasdas\nasda\n").build();
     /*
      * 1 issue
      */
     DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cpp")
-      .initMetadata(new String("asd\nasdas\nasda\n")).build();
+      .initMetadata("asd\nasdas\nasda\n").build();
 
     context.fileSystem().add(testFile0);
     context.fileSystem().add(testFile1);
@@ -138,7 +138,7 @@ public class CxxClangSASensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc")
-      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
     CxxClangSASensor sensor = new CxxClangSASensor(language);
     sensor.execute(context);

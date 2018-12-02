@@ -59,9 +59,9 @@ public class CxxCppCheckSensorTest {
 
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
-      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(11);
   }

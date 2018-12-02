@@ -51,7 +51,7 @@ public class CxxComplexitySource {
     if (nesting == 0) {
       return "+1: " + getNodeDescripton();
     } else {
-      return new StringBuilder().append("+").append(1 + nesting).append(": ").append(getNodeDescripton())
+      return new StringBuilder(256).append("+").append(1 + nesting).append(": ").append(getNodeDescripton())
         .append(" (incl ").append(nesting).append(" for nesting)").toString();
     }
   }

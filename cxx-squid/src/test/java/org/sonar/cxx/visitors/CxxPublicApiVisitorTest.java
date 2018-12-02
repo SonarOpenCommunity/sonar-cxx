@@ -49,7 +49,7 @@ public class CxxPublicApiVisitorTest {
     .getLogger("CxxPublicApiVisitorTest");
 
   private static String getFileExtension(String fileName) {
-    int lastIndexOf = fileName.lastIndexOf(".");
+    int lastIndexOf = fileName.lastIndexOf('.');
     if (lastIndexOf == -1) {
       return "";
     }

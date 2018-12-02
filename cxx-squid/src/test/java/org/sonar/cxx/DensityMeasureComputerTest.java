@@ -32,17 +32,17 @@ import org.sonar.api.measures.Metric;
 
 public class DensityMeasureComputerTest {
 
-  static final Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap("c++", "cxx");
+  static final Map<CxxMetricsFactory.Key, Metric<?>> METRICS = CxxMetricsFactory.generateMap("c++", "cxx");
 
   // percentKey0 = valueKey0 / totalKey0 * 100
-  static final String valueKey0 = metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY).key();
-  static final String totalKey0 = metrics.get(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY).key();
-  static final String percentKey0 = metrics.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_PERC_KEY).key();
+  static final String VALUE_KEY0 = METRICS.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY).key();
+  static final String TOTAL_KEY0 = METRICS.get(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY).key();
+  static final String PERCENT_KEY0 = METRICS.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_PERC_KEY).key();
 
   // percentKey1 = ( totalKey1 - valueKey1 ) / totalKey1 * 100
-  static final String valueKey1 = metrics.get(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY).key();
-  static final String totalKey1 = metrics.get(CxxMetricsFactory.Key.PUBLIC_API_KEY).key();
-  static final String percentKey1 = metrics.get(CxxMetricsFactory.Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY).key();
+  static final String VALUE_KEY1 = METRICS.get(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY).key();
+  static final String TOTAL_KEY1 = METRICS.get(CxxMetricsFactory.Key.PUBLIC_API_KEY).key();
+  static final String PERCENT_KEY1 = METRICS.get(CxxMetricsFactory.Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY).key();
 
   private static TestMeasureComputerContext createContext(DensityMeasureComputer computer) {
     final TestComponent component = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
@@ -62,10 +62,10 @@ public class DensityMeasureComputerTest {
     final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
     TestMeasureComputerContext context = createContext(computer);
 
-    context.addInputMeasure(totalKey0, 500);
+    context.addInputMeasure(TOTAL_KEY0, 500);
     computer.compute(context);
 
-    assertThat(context.getMeasure(percentKey0)).isNull();
+    assertThat(context.getMeasure(PERCENT_KEY0)).isNull();
   }
 
   @Test
@@ -73,10 +73,10 @@ public class DensityMeasureComputerTest {
     final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
     TestMeasureComputerContext context = createContext(computer);
 
-    context.addInputMeasure(valueKey0, 100);
+    context.addInputMeasure(VALUE_KEY0, 100);
     computer.compute(context);
 
-    assertThat(context.getMeasure(percentKey0)).isNull();
+    assertThat(context.getMeasure(PERCENT_KEY0)).isNull();
   }
 
   @Test
@@ -86,7 +86,7 @@ public class DensityMeasureComputerTest {
 
     computer.compute(context);
 
-    assertThat(context.getMeasure(percentKey0)).isNull();
+    assertThat(context.getMeasure(PERCENT_KEY0)).isNull();
   }
 
   @Test
@@ -94,13 +94,13 @@ public class DensityMeasureComputerTest {
     final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
     TestMeasureComputerContext context = createContext(computer);
 
-    context.addInputMeasure(valueKey0, 100);
-    context.addInputMeasure(totalKey0, 500);
-    context.addMeasure(percentKey0, 42.0);
+    context.addInputMeasure(VALUE_KEY0, 100);
+    context.addInputMeasure(TOTAL_KEY0, 500);
+    context.addMeasure(PERCENT_KEY0, 42.0);
 
     computer.compute(context);
 
-    assertThat(context.getMeasure(percentKey0).getDoubleValue()).isEqualTo(42.0);
+    assertThat(context.getMeasure(PERCENT_KEY0).getDoubleValue()).isEqualTo(42.0);
   }
 
   @Test
@@ -108,11 +108,11 @@ public class DensityMeasureComputerTest {
     final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
     TestMeasureComputerContext context = createContext(computer);
 
-    context.addInputMeasure(valueKey0, 100);
-    context.addInputMeasure(totalKey0, 500);
+    context.addInputMeasure(VALUE_KEY0, 100);
+    context.addInputMeasure(TOTAL_KEY0, 500);
     computer.compute(context);
 
-    assertThat(context.getMeasure(percentKey0).getDoubleValue()).isEqualTo(100.0 / 500.0 * 100.0);
+    assertThat(context.getMeasure(PERCENT_KEY0).getDoubleValue()).isEqualTo(100.0 / 500.0 * 100.0);
   }
 
   @Test
@@ -120,11 +120,11 @@ public class DensityMeasureComputerTest {
     final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
     TestMeasureComputerContext context = createContext(computer);
 
-    context.addInputMeasure(valueKey1, 100);
-    context.addInputMeasure(totalKey1, 500);
+    context.addInputMeasure(VALUE_KEY1, 100);
+    context.addInputMeasure(TOTAL_KEY1, 500);
     computer.compute(context);
 
-    assertThat(context.getMeasure(percentKey1).getDoubleValue()).isEqualTo(400.0 / 500.0 * 100.0);
+    assertThat(context.getMeasure(PERCENT_KEY1).getDoubleValue()).isEqualTo(400.0 / 500.0 * 100.0);
   }
 
 }

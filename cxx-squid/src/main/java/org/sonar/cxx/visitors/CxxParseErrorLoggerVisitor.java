@@ -72,7 +72,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
     }
 
     List<AstNode> children = node.getChildren();
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(512);
     int identifierLine = -1;
 
     for (AstNode child : children) {

@@ -71,7 +71,7 @@ public class CxxClangTidySensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
     CxxClangTidySensor sensor = new CxxClangTidySensor(language);
 
@@ -90,7 +90,7 @@ public class CxxClangTidySensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
     CxxClangTidySensor sensor = new CxxClangTidySensor(language);
 

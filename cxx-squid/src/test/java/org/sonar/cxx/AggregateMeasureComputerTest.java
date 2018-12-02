@@ -33,8 +33,8 @@ import org.sonar.api.measures.Metric;
 
 public class AggregateMeasureComputerTest {
 
-  static final Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap("c++", "cxx");
-  static final String key = metrics.get(CxxMetricsFactory.Key.PUBLIC_API_KEY).key();
+  static final Map<CxxMetricsFactory.Key, Metric<?>> METRICS = CxxMetricsFactory.generateMap("c++", "cxx");
+  static final String KEY = METRICS.get(CxxMetricsFactory.Key.PUBLIC_API_KEY).key();
 
   private static TestMeasureComputerContext createContext(AggregateMeasureComputer aggregator, Component component) {
     return new TestMeasureComputerContext(component, new TestSettings(),
@@ -56,10 +56,10 @@ public class AggregateMeasureComputerTest {
     TestComponent file = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
     TestMeasureComputerContext context = createContext(aggregator, file);
 
-    context.addChildrenMeasures(key, 4, 3, 2, 1);
+    context.addChildrenMeasures(KEY, 4, 3, 2, 1);
     aggregator.compute(context);
 
-    assertThat(context.getMeasure(key)).isNull();
+    assertThat(context.getMeasure(KEY)).isNull();
   }
 
   @Test
@@ -69,11 +69,11 @@ public class AggregateMeasureComputerTest {
     TestComponent module = new TestComponent("module0", Type.MODULE, null);
     TestMeasureComputerContext context = createContext(aggregator, module);
 
-    context.addMeasure(key, 42);
-    context.addChildrenMeasures(key, 1, 2, 3, 4);
+    context.addMeasure(KEY, 42);
+    context.addChildrenMeasures(KEY, 1, 2, 3, 4);
     aggregator.compute(context);
 
-    assertThat(context.getMeasure(key).getIntValue()).isEqualTo(42);
+    assertThat(context.getMeasure(KEY).getIntValue()).isEqualTo(42);
   }
 
   @Test
@@ -85,7 +85,7 @@ public class AggregateMeasureComputerTest {
 
     aggregator.compute(context);
 
-    assertThat(context.getMeasure(key)).isNull();
+    assertThat(context.getMeasure(KEY)).isNull();
   }
 
   @Test
@@ -94,10 +94,10 @@ public class AggregateMeasureComputerTest {
 
     TestComponent module = new TestComponent("module0", Type.MODULE, null);
     TestMeasureComputerContext context = createContext(aggregator, module);
-    context.addChildrenMeasures(key, 1, 2, 3, 4);
+    context.addChildrenMeasures(KEY, 1, 2, 3, 4);
     aggregator.compute(context);
 
-    assertThat(context.getMeasure(key).getIntValue()).isEqualTo(10);
+    assertThat(context.getMeasure(KEY).getIntValue()).isEqualTo(10);
   }
 
 }

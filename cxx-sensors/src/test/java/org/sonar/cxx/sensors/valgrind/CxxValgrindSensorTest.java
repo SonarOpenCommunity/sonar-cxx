@@ -61,7 +61,7 @@ public class CxxValgrindSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Set<ValgrindError> valgrindErrors = new HashSet<>();
     valgrindErrors.add(mockValgrindError(true));
-    context.fileSystem().add(TestInputFileBuilder.create("myProjectKey", "dir/file").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")).build());
+    context.fileSystem().add(TestInputFileBuilder.create("myProjectKey", "dir/file").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor.saveErrors(context, valgrindErrors);
     assertThat(context.allIssues()).hasSize(1);
   }

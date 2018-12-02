@@ -51,13 +51,13 @@ public class CxxVCppBuildLogParser {
   private static final String CPPWINRTVERSION = "__cplusplus_winrt=201009";
   private static final String CPPVERSION = "__cplusplus=199711L";
 
-  private static final Pattern[] includePatterns = {Pattern.compile("/I\"(.*?)\""),
+  private static final Pattern[] INCLUDE_PATTERNS = {Pattern.compile("/I\"(.*?)\""),
     Pattern.compile("/I([^\\s\"]+) ")};
-  private static final Pattern[] definePatterns = {Pattern.compile("[/-]D\\s([^\\s]+)"),
+  private static final Pattern[] DEFINE_PATTERNS = {Pattern.compile("[/-]D\\s([^\\s]+)"),
     Pattern.compile("[/-]D([^\\s]+)")};
-  private static final Pattern pathToCLPattern = Pattern.compile("^.*\\\\bin\\\\.*CL.exe\\x20.*$");
-  private static final Pattern plattformX86Pattern = Pattern.compile("Building solution configuration \".*\\|x64\".");
-  private static final Pattern toolsetV141Pattern = Pattern
+  private static final Pattern PATH_TO_CL_PATTERN = Pattern.compile("^.*\\\\bin\\\\.*CL.exe\\x20.*$");
+  private static final Pattern PLATTFORM_X86_PATTERN = Pattern.compile("Building solution configuration \".*\\|x64\".");
+  private static final Pattern TOOLSET_V141_PATTERN = Pattern
     .compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
 
   private final Map<String, List<String>> uniqueIncludes;
@@ -162,14 +162,14 @@ public class CxxVCppBuildLogParser {
         // 1>Task "Message"
         //1>  Platform=Win32
         String lineTrimmed = line.trim();
-        if (lineTrimmed.endsWith("Platform=x64") || plattformX86Pattern.matcher(lineTrimmed).matches()) {
+        if (lineTrimmed.endsWith("Platform=x64") || PLATTFORM_X86_PATTERN.matcher(lineTrimmed).matches()) {
           setPlatform("x64");
           if (LOG.isDebugEnabled()) {
             LOG.debug("build log parser platform='{}'", this.platform);
           }
         }
         // match "bin\CL.exe", "bin\amd64\CL.exe", "bin\x86_amd64\CL.exe"
-        if (pathToCLPattern.matcher(line).matches()) {
+        if (PATH_TO_CL_PATTERN.matcher(line).matches()) {
           detectedPlatform = setPlatformToolsetFromLine(line);
           String[] allElems = line.split("\\s+");
           String data = allElems[allElems.length - 1];
@@ -212,7 +212,7 @@ public class CxxVCppBuildLogParser {
       setPlatformToolset("V140");
       return true;
     } else if (line.contains("\\V141\\Microsoft.CppBuild.targets")
-      || toolsetV141Pattern.matcher(line).matches()) {
+      || TOOLSET_V141_PATTERN.matcher(line).matches()) {
       setPlatformToolset("V141");
       return true;
     } else {
@@ -252,13 +252,13 @@ public class CxxVCppBuildLogParser {
   }
 
   private void parseVCppCompilerCLLine(String line, String projectPath, String fileElement) {
-    for (Pattern includePattern : includePatterns) {
+    for (Pattern includePattern : INCLUDE_PATTERNS) {
       for (String includeElem : getMatches(includePattern, line)) {
         parseInclude(includeElem, projectPath, fileElement);
       }
     }
 
-    for (Pattern definePattern : definePatterns) {
+    for (Pattern definePattern : DEFINE_PATTERNS) {
       for (String macroElem : getMatches(definePattern, line)) {
         addMacro(macroElem, fileElement);
       }
