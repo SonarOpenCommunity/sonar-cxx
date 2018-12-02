@@ -1241,11 +1241,8 @@ public class CxxPreprocessor extends Preprocessor {
       if (line != that.line) {
         return false;
       }
-      if (path != null ? !path.equals(that.path) : that.path != null) {
-        return false;
-      }
 
-      return true;
+      return (path == null) ? that.path == null : path.equals(that.path);
     }
 
     @Override
