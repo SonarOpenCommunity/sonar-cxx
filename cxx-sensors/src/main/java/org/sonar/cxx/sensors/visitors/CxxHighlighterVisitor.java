@@ -117,9 +117,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       // ignore highlight errors: parsing errors could lead to wrong location data
       LOG.warn("Highligthing error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(),
         current.startLine(), current.startLineOffset());
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("highlighing exception {}", ex);
-      }
+      LOG.debug("highlighing exception {}", ex);
     }
     return current;
   }

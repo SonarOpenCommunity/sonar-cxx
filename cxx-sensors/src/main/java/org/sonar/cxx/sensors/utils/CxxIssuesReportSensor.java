@@ -142,8 +142,10 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     final InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.
       fileSystem().predicates().hasPath(path));
     if (inputFile == null) {
-      LOG.debug("Path '{}' couldn't be found in module '{}' base dir '{}'", path, sensorContext.module().key(),
-        sensorContext.fileSystem().baseDir());
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Path '{}' couldn't be found in module '{}' base dir '{}'", path, sensorContext.module().key(),
+          sensorContext.fileSystem().baseDir());
+      }
       notFoundFiles.add(path);
     }
     return inputFile;
@@ -165,9 +167,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       }
     } catch (EmptyReportException e) {
       LOG.warn("The report '{}' seems to be empty, ignoring.", report);
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Cannot read report", e);
-      }
+      LOG.debug("Cannot read report", e);
       CxxUtils.validateRecovery(e, getLanguage());
     }
   }
