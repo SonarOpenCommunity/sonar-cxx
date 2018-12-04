@@ -60,7 +60,7 @@ public class HardcodedIpCheck extends SquidCheck<Grammar> {
     key = "regularExpression",
     description = "The regular expression",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
-  private String regularExpression = DEFAULT_REGULAR_EXPRESSION;
+  private final String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   @Override
   public void init() {
