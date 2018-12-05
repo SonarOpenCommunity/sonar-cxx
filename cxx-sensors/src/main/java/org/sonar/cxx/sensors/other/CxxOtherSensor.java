@@ -200,7 +200,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
         CxxUtils.transformFile(new StreamSource(new File(stylesheet)), inputs.get(j),
           new File(normalizedOutputFilename));
       } catch (TransformerException e) {
-        String msg = new StringBuilder()
+        String msg = new StringBuilder(256)
           .append("Cannot transform report files: '")
           .append(e)
           .append("'")

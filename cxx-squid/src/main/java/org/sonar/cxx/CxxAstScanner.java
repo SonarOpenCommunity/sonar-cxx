@@ -140,15 +140,16 @@ public final class CxxAstScanner {
 
       @Override
       public String getContents(String comment) {
-        return "/*".equals(comment.substring(0, 2))
-          ? comment.substring(2, comment.length() - 2)
-          : comment.substring(2);
+        final int HEADER_LEN = 2;
+        return "/*".equals(comment.substring(0, HEADER_LEN))
+          ? comment.substring(HEADER_LEN, comment.length() - HEADER_LEN)
+          : comment.substring(HEADER_LEN);
       }
     });
 
     /* Functions */
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>((SourceCode parentSourceCode, AstNode astNode) -> {
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder(512);
       for (Token token : astNode.getFirstDescendant(CxxGrammarImpl.declaratorId).getTokens()) {
         sb.append(token.getValue());
       }

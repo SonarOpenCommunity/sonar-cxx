@@ -49,7 +49,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   }
 
   private static String createErrorMsg(ValgrindError error, ValgrindStack stack, int stackNr) {
-    StringBuilder errorMsg = new StringBuilder();
+    StringBuilder errorMsg = new StringBuilder(512);
     errorMsg.append(error.getText());
     if (error.getStacks().size() > 1) {
       errorMsg.append(" (Stack ").append(stackNr).append(")");

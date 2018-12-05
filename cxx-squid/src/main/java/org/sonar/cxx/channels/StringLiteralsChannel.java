@@ -32,7 +32,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
 
   private static final char EOF = (char) -1;
 
-  private final StringBuilder sb = new StringBuilder();
+  private final StringBuilder sb = new StringBuilder(256);
 
   private int index = 0;
   private char ch = ' ';
@@ -151,12 +151,10 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       if (c == EOF) {
         return;
       }
-      if ((c >= 'a' && c <= 'z')
-        || (c >= 'A' && c <= 'Z')
-        || (c == '_')) {
+      if (Character.isLowerCase(c) || Character.isUpperCase(c) || (c == '_')) {
         len++;
       } else {
-        if (c >= '0' && c <= '9') {
+        if (Character.isDigit(c)) {
           if (len > 0) {
             len++;
           } else {

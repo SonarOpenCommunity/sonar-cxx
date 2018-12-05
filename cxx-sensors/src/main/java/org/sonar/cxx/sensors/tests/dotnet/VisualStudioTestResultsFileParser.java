@@ -123,10 +123,10 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
     }
 
     private String keepOnlyMilliseconds(String value) {
-      StringBuffer sb = new StringBuffer();
+      StringBuffer sb = new StringBuffer(256);
 
       Matcher matcher = millisecondsPattern.matcher(value);
-      StringBuilder trailingZeros = new StringBuilder();
+      StringBuilder trailingZeros = new StringBuilder(128);
       while (matcher.find()) {
         String milliseconds = matcher.group(2);
         trailingZeros.setLength(0);

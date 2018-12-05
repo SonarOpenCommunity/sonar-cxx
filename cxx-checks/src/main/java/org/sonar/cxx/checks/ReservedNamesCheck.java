@@ -51,7 +51,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 @SqaleConstantRemediation("5min")
 public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
-  private static final String[] keywords = CxxKeyword.keywordValues();
+  private static final String[] KEYWORDS = CxxKeyword.keywordValues();
   private static final Pattern DEFINE_DECLARATION_PATTERN = Pattern.compile("^\\s*#define\\s+([^\\s(]+).*$");
   private Charset charset = StandardCharsets.UTF_8;
 
@@ -77,7 +77,7 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
             "Reserved name used for macro (contains two consecutive underscores)", nr);
         } else {
           name = name.toLowerCase(Locale.ENGLISH);
-          for (String keyword : keywords) {
+          for (String keyword : KEYWORDS) {
             if (name.equals(keyword)) {
               getContext().createLineViolation(this,
                 "Reserved name used for macro (keyword or alternative token redefined)", nr);

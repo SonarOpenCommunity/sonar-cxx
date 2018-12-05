@@ -151,7 +151,7 @@ public class JsonCompilationDatabase {
     List<String> args = new ArrayList<>();
     boolean escape = false;
     char stringOpen = 0;
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(512);
 
     // Tokenize command line with support for escaping
     for (char ch : cmdLine.toCharArray()) {
@@ -170,7 +170,7 @@ public class JsonCompilationDatabase {
           } else if ((ch == ' ')
             && (sb.length() > 0)) {
             args.add(sb.toString());
-            sb = new StringBuilder();
+            sb = new StringBuilder(512);
           }
           if (ch != ' ') {
             sb.append(ch);

@@ -29,13 +29,13 @@ import org.junit.Test;
 
 public class CxxConfigurationTest {
 
-  private static final String vcKey = "Visual C++";
-  private static final String vcCharSet = "UTF8";
+  private static final String VC_KEY = "Visual C++";
+  private static final String VC_CHARSET = "UTF8";
 
   @Test
   public void emptyValueShouldReturnNoDirsOrDefines() {
     CxxConfiguration config = new CxxConfiguration();
-    config.setCompilationPropertiesWithBuildLog(new ArrayList<>(), vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(new ArrayList<>(), VC_KEY, VC_CHARSET);
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     softly.assertThat(config.getDefines().size()).isEqualTo(0);
@@ -45,7 +45,7 @@ public class CxxConfigurationTest {
   @Test
   public void emptyValueShouldReturnWhenNull() {
     CxxConfiguration config = new CxxConfiguration();
-    config.setCompilationPropertiesWithBuildLog(null, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(null, VC_KEY, VC_CHARSET);
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     assertThat(config.getDefines().size()).isEqualTo(0);
@@ -57,7 +57,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration();
     String[] data = {"dir1", "dir2"};
     config.setIncludeDirectories(data);
-    config.setCompilationPropertiesWithBuildLog(new ArrayList<>(), vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(new ArrayList<>(), VC_KEY, VC_CHARSET);
     assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
   }
 
@@ -67,7 +67,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/vc++13.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(13);
@@ -81,7 +81,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/platformCommon.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -106,7 +106,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration();
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/platformCommonWin32.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -123,7 +123,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/platformCommonX64.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
@@ -146,7 +146,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/platformToolsetv100.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -166,7 +166,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/platformToolsetv110.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -190,7 +190,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/platformToolsetv120.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -217,7 +217,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/platformToolsetv140.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -243,7 +243,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/TFS-agent-msvc14.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
@@ -265,7 +265,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/TFS-agent-msvc14-mp.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
@@ -287,7 +287,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/platformToolsetv141x86.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -309,7 +309,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/platformToolsetv141x64.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
@@ -331,7 +331,7 @@ public class CxxConfigurationTest {
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/logfile/ParallelBuildLog.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(15);

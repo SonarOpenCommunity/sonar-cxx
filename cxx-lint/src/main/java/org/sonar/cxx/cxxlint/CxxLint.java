@@ -166,7 +166,7 @@ public class CxxLint {
         }
 
         JsonElement additionalOptions = parser.parse(fileContent).getAsJsonObject().get("additionalOptions");
-        StringBuilder elementsOfAdditionalOptions = new StringBuilder();
+        StringBuilder elementsOfAdditionalOptions = new StringBuilder(512);
         if (additionalOptions != null) {
           for (JsonElement option : additionalOptions.getAsJsonArray()) {
             elementsOfAdditionalOptions.append(' ');

@@ -43,8 +43,8 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
   private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
 
-  private static final String regex = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): ([^]]+) \\[([^]]+)\\]";
-  private static final Pattern pattern = Pattern.compile(regex);
+  private static final String REGEX = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): ([^]]+) \\[([^]]+)\\]";
+  private static final Pattern PATTERN = Pattern.compile(REGEX);
 
   /**
    * CxxClangTidySensor for clang-tidy Sensor
@@ -80,7 +80,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
-        final Matcher matcher = pattern.matcher(line);
+        final Matcher matcher = PATTERN.matcher(line);
         if (matcher.matches()) {
           MatchResult m = matcher.toMatchResult();
           String path = m.group(1);

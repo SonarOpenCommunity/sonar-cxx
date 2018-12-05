@@ -34,7 +34,7 @@ import org.sonar.sslr.channel.CodeReader;
 public class KeywordChannel extends Channel<Lexer> {
 
   private final Map<String, TokenType> keywordsMap = new HashMap<>();
-  private final StringBuilder tmpBuilder = new StringBuilder();
+  private final StringBuilder tmpBuilder = new StringBuilder(256);
   private final Matcher matcher;
   private final Token.Builder tokenBuilder = Token.builder();
 

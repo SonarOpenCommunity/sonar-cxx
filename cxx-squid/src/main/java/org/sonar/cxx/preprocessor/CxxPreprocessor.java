@@ -346,7 +346,7 @@ public class CxxPreprocessor extends Preprocessor {
     boolean ignoreNextBlank = false;
     for (int i = 0; i < str.length(); i++) {
       char c = str.charAt(i);
-      if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') { // token
+      if (Character.isLowerCase(c) || Character.isUpperCase(c) || Character.isDigit(c) || c == '_') { // token
         if (addBlank) {
           result.append(' ');
           addBlank = false;
@@ -898,7 +898,7 @@ public class CxxPreprocessor extends Preprocessor {
       quoted = true;
     } else if ((node = ast.getFirstDescendant(CppGrammar.includeBodyBracketed)) != null) {
       node = node.getFirstDescendant(LT).getNextSibling();
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder(256);
       while (true) {
         String value = node.getTokenValue();
         if (">".equals(value)) {
@@ -1241,11 +1241,8 @@ public class CxxPreprocessor extends Preprocessor {
       if (line != that.line) {
         return false;
       }
-      if (path != null ? !path.equals(that.path) : that.path != null) {
-        return false;
-      }
 
-      return true;
+      return (path == null) ? that.path == null : path.equals(that.path);
     }
 
     @Override

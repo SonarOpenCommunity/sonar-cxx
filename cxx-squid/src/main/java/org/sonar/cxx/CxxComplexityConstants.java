@@ -54,7 +54,7 @@ public final class CxxComplexityConstants {
   }
 
   public static AstNodeType[] getCyclomaticComplexityTypes() {
-    return CYCLOMATIC_COMPLEXITY_TYPES;
+    return CYCLOMATIC_COMPLEXITY_TYPES.clone();
   }
 
 }

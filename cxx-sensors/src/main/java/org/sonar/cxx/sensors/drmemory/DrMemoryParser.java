@@ -94,7 +94,7 @@ public final class DrMemoryParser {
     List<String> list = new ArrayList<>();
     try (InputStream input = java.nio.file.Files.newInputStream(file.toPath())) {
       BufferedReader br = new BufferedReader(new InputStreamReader(input, charset));
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder(4096);
       String line;
       int cnt = 0;
       final Pattern whitespacesOnly = Pattern.compile("^\\s*$");
@@ -118,7 +118,7 @@ public final class DrMemoryParser {
 
       br.close();
     } catch (IOException e) {
-      String msg = new StringBuilder().append("Cannot feed the data into sonar, details: '")
+      String msg = new StringBuilder(512).append("Cannot feed the data into sonar, details: '")
         .append(e)
         .append("'").toString();
       LOG.error(msg);
