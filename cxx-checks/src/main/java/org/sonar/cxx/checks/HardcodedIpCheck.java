@@ -37,7 +37,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "HardcodedIp",
   name = "IP addresses should not be hardcoded",
   tags = {Tag.CERT, Tag.SECURITY},
-  priority = Priority.CRITICAL)
+  priority = Priority.CRITICAL,
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("30min")
 public class HardcodedIpCheck extends SquidCheck<Grammar> {

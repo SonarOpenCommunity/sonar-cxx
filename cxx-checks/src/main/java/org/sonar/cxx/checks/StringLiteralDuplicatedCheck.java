@@ -37,7 +37,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "StringLiteralDuplicated",
   name = "String literals should not be duplicated",
   priority = Priority.MINOR,
-  tags = {Tag.BAD_PRACTICE})
+  tags = {Tag.BAD_PRACTICE},
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {

@@ -36,7 +36,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "CollapsibleIfCandidate",
   name = "Collapsible 'if' statements should be merged",
   priority = Priority.MAJOR,
-  tags = {Tag.BRAIN_OVERLOAD})
+  tags = {Tag.BRAIN_OVERLOAD},
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {

@@ -34,7 +34,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "UsingNamespaceInHeader",
   name = "Using namespace directives are not allowed in header files",
   tags = {Tag.CONVENTION, Tag.PITFALL, Tag.BAD_PRACTICE},
-  priority = Priority.BLOCKER)
+  priority = Priority.BLOCKER,
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 //similar Vera++ rule T018

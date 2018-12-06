@@ -34,7 +34,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "BooleanEqualityComparison",
   name = "Literal boolean values should not be used in condition expressions",
   priority = Priority.MINOR,
-  tags = {Tag.CONVENTION})
+  tags = {Tag.CONVENTION},
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class BooleanEqualityComparisonCheck extends SquidCheck<Grammar> {

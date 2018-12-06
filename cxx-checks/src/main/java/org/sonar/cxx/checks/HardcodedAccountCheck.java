@@ -41,7 +41,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "HardcodedAccount",
   name = "Do not hard code sensitive data in programs",
   tags = {Tag.CERT, Tag.SECURITY},
-  priority = Priority.BLOCKER)
+  priority = Priority.BLOCKER,
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("30min")
 public class HardcodedAccountCheck extends SquidCheck<Grammar> {

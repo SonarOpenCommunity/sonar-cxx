@@ -43,7 +43,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "UseCorrectInclude",
   name = "#include directive shall not use relative path",
   tags = {Tag.PREPROCESSOR},
-  priority = Priority.BLOCKER)
+  priority = Priority.BLOCKER,
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {

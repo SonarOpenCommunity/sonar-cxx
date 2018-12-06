@@ -33,7 +33,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "UnnamedNamespaceInHeader",
   name = "Unnamed namespaces are not allowed in header files",
   tags = {Tag.CONVENTION},
-  priority = Priority.BLOCKER)
+  priority = Priority.BLOCKER,
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 //similar Vera++ rule T017
