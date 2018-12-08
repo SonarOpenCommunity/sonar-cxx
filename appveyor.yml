@@ -1,16 +1,33 @@
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# version format
 version: '{build}'
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# environment variables
 environment:
   sonarcloudtoken:
     secure: bgbOr1N/vifD4OUSNVw5iiKl5D0a//xmIBVfEo+zqpDmSTCDWtmFV7Zsa2E5yMJ3
   githubtoken:
     secure: D941HSXMeDkUayK4Kj1mx3dwbTG9XTJLAwiOZj+36ikNzg7u98RsmuGCnYnyP8SL
+
+# build cache to preserve files/folders between builds
+cache:
+  - C:\Users\appveyor\.m2
+
+# scripts that run after cloning repository
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
       if ((Test-Path -Path "C:\maven" )) {
         Remove-Item -Recurse -Force "C:\maven"
       }
-            
+
       (new-object System.Net.WebClient).DownloadFile(
         'http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip',
         'C:\maven-bin.zip'
@@ -45,7 +62,6 @@ install:
         $env:VCVARS_PLATFORM="amd64"
         $env:LANG_PLATFORM="-x64"
       }
-  - cmd: SET    
   - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-3.2.0.1227\bin;%PATH%
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
   - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.2.5
@@ -53,10 +69,10 @@ install:
   - cmd: SET TestDataFolder=C:\projects\sonar-cxx\integration-tests\testdata
   - cmd: SET
 
+# to run your custom scripts instead of automatic MSBuild
 build_script:
   - dir
   - echo on
-  - echo %APPVEYOR_PULL_REQUEST_NUMBER%
   # SONAR-7154 : workaround
   - mkdir C:\WINDOWS\system32\config\systemprofile\AppData\Local\Temp
   - cd C:\WINDOWS\system32\config\systemprofile\AppData\Local\
@@ -68,14 +84,27 @@ build_script:
   - C:\Python27\Scripts\pip.exe install colorama
   - mvn org.jacoco:jacoco-maven-plugin:prepare-agent clean install -B -e -V -Pcoverage-per-test
   - IF "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -B -e -V -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken%)
-  - REM IF NOT "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -B -e -X -V -Dsonar.verbose=true -Dsonar.analysis.buildNumber=%APPVEYOR_BUILD_NUMBER% -Dsonar.analysis.pipeline=%APPVEYOR_BUILD_NUMBER% -Dsonar.analysis.sha1=%APPVEYOR_REPO_COMMIT% -Dsonar.analysis.repository=%APPVEYOR_REPO_NAME% -Dsonar.analysis.mode=issues -Dsonar.github.pullRequest=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.github.repository=%APPVEYOR_REPO_NAME% -Dsonar.github.oauth=%githubtoken% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken%)
+  - REM IF NOT "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -B -e -X -V -Dsonar.verbose=true -Dsonar.pullrequest.base=master -Dsonar.pullrequest.branch=%APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH% -Dsonar.pullrequest.key=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=%APPVEYOR_PROJECT_SLUG%)
   - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi67
-cache:
-  - C:\Users\appveyor\.m2
+  - del /S /Q *-SNAPSHOT-sources.jar
+  - del /S /Q original-*.jar
+  - ren sonar-cxx-plugin\target\*-SNAPSHOT.jar sonar-cxx-plugin-?.?.?.%APPVEYOR_BUILD_NUMBER%.jar
+  - ren sonar-c-plugin\target\*-SNAPSHOT.jar sonar-c-plugin-?.?.?.%APPVEYOR_BUILD_NUMBER%.jar
+  - ren sslr-cxx-toolkit\target\*-SNAPSHOT.jar sslr-cxx-toolkit-?.?.?.%APPVEYOR_BUILD_NUMBER%.jar
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
 artifacts:
   - path: 'sonar-cxx-plugin\target\*.jar'
   - path: 'sonar-c-plugin\target\*.jar'
   - path: 'sslr-cxx-toolkit\target\*.jar'
+
+#---------------------------------#
+#        global handlers          #
+#---------------------------------#
+
+# on build failure
 on_failure:
   - ps: Get-ChildItem cxx-squid\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem cxx-checks\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
