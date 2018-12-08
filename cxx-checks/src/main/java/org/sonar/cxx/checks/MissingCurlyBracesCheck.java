@@ -35,7 +35,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "MissingCurlyBraces",
   name = "if/else/for/while/do statements should always use curly braces",
   tags = {Tag.CONVENTION, Tag.PITFALL},
-  priority = Priority.MAJOR)
+  priority = Priority.MAJOR,
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class MissingCurlyBracesCheck extends SquidCheck<Grammar> {

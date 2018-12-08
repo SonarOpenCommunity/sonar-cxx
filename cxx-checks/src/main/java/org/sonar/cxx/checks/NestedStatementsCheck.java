@@ -44,7 +44,8 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "NestedStatements",
   name = "Control flow statements \"if\", \"switch\", \"try\" and iterators should not be nested too deeply",
   tags = {Tag.BRAIN_OVERLOAD},
-  priority = Priority.MAJOR
+  priority = Priority.MAJOR,
+  status = "DEPRECATED"
 )
 @ActivatedByDefault
 @SqaleConstantRemediation("10min")

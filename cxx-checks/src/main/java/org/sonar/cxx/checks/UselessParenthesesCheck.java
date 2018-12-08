@@ -34,7 +34,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "UselessParentheses",
   name = "Useless parentheses around expressions should be removed to prevent any misunderstanding",
   priority = Priority.MAJOR,
-  tags = {Tag.CONFUSING})
+  tags = {Tag.CONFUSING},
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("1min")
 public class UselessParenthesesCheck extends SquidCheck<Grammar> {

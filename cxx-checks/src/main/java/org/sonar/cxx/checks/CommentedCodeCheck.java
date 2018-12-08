@@ -47,7 +47,9 @@ import org.sonar.squidbridge.recognizer.LanguageFootprint;
   key = "CommentedCode",
   name = "Sections of code should not be 'commented out'",
   tags = {Tag.BAD_PRACTICE},
-  priority = Priority.CRITICAL)
+  priority = Priority.CRITICAL,
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {

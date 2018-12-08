@@ -42,7 +42,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "SafetyTag",
   name = "Risk mitigation implementation shall be defined in separate file",
   priority = Priority.BLOCKER,
-  tags = {Tag.CONVENTION})
+  tags = {Tag.CONVENTION},
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {

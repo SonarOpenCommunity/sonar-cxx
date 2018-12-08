@@ -46,7 +46,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "ReservedNames",
   name = "Reserved names should not be used for preprocessor macros",
   tags = {Tag.PREPROCESSOR},
-  priority = Priority.BLOCKER)
+  priority = Priority.BLOCKER,
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {

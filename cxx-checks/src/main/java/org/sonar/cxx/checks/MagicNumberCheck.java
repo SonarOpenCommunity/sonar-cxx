@@ -42,7 +42,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "MagicNumber",
   name = "Magic number should not be used",
   tags = {Tag.CONVENTION},
-  priority = Priority.MINOR)
+  priority = Priority.MINOR,
+  status = "DEPRECATED"
+)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class MagicNumberCheck extends SquidCheck<Grammar> {

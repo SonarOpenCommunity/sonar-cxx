@@ -43,7 +43,9 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "UseCorrectType",
   name = "C++ type(s) shall be used",
   tags = {Tag.CONVENTION},
-  priority = Priority.MINOR)
+  priority = Priority.MINOR,
+  status = "DEPRECATED"
+)
 @RuleTemplate
 @NoSqale
 public class UseCorrectTypeCheck extends SquidCheck<Grammar> {

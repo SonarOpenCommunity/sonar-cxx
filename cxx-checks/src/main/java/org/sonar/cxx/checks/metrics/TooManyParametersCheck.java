@@ -34,7 +34,8 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "TooManyParameters",
   priority = Priority.MAJOR,
   name = "Functions, methods and lambdas should not have too many parameters",
-  tags = {Tag.BRAIN_OVERLOAD}
+  tags = {Tag.BRAIN_OVERLOAD},
+  status = "DEPRECATED"
 )
 @SqaleConstantRemediation("20min")
 @ActivatedByDefault
