@@ -23,11 +23,13 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.log.Logger;
@@ -88,31 +90,19 @@ public class CxxConfiguration extends SquidConfiguration {
     }
 
     Set<String> overallDefs = uniqueDefines.get(OVERALLDEFINEKEY);
-    for (String define : defines) {
-      if (!overallDefs.contains(define)) {
-        overallDefs.add(define);
-      }
-    }
+    overallDefs.addAll(Arrays.asList(defines));
   }
 
   public void addOverallDefine(String define) {
     Set<String> overallDefs = uniqueDefines.get(OVERALLDEFINEKEY);
-    if (!overallDefs.contains(define)) {
-      overallDefs.add(define);
-    }
+    overallDefs.add(define);
   }
 
   public List<String> getDefines() {
     Set<String> allDefines = new HashSet<>();
-
     for (Set<String> elemSet : uniqueDefines.values()) {
-      for (String value : elemSet) {
-        if (!allDefines.contains(value)) {
-          allDefines.add(value);
-        }
-      }
+      allDefines.addAll(elemSet);
     }
-
     return new ArrayList<>(allDefines);
   }
 
@@ -141,17 +131,11 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<String> getIncludeDirectories() {
-    List<String> allIncludes = new ArrayList<>();
-
+    Set<String> allIncludes = new HashSet<>();
     for (List<String> elemList : uniqueIncludes.values()) {
-      for (String value : elemList) {
-        if (!allIncludes.contains(value)) {
-          allIncludes.add(value);
-        }
-      }
+      allIncludes.addAll(elemList);
     }
-
-    return allIncludes;
+    return new ArrayList<>(allIncludes);
   }
 
   public void setForceIncludeFiles(List<String> forceIncludeFiles) {
@@ -232,14 +216,8 @@ public class CxxConfiguration extends SquidConfiguration {
     compilationUnitSettings.put(filename, settings);
   }
 
-  public List<File> getCompilationUnitSourceFiles() {
-    List<File> files = new ArrayList<>();
-
-    for (String item : compilationUnitSettings.keySet()) {
-      files.add(new File(item));
-    }
-
-    return files;
+  public Set<String> getCompilationUnitSourceFiles() {
+    return Collections.unmodifiableSet(compilationUnitSettings.keySet());
   }
 
   public void setCompilationPropertiesWithBuildLog(@Nullable List<File> reports,
