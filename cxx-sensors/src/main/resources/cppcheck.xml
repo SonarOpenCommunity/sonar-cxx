@@ -73,7 +73,7 @@ pointer types (or typedefs like uintptr_t).
   </rule>
   <rule>
     <key>autoVariables</key>
-    <name>Assigning address of local auto-variable to a function parameter</name>
+    <name>Address of local auto-variable assigned to a function parameter</name>
     <description>
       <![CDATA[
       <p>
@@ -138,7 +138,7 @@ Pointer to local array variable returned.
   </rule>
   <rule>
     <key>returnReference</key>
-    <name>Reference to auto variable returned.</name>
+    <name>Reference to auto variable returned</name>
     <description>
 <![CDATA[
 <p>
@@ -158,7 +158,7 @@ Reference to auto variable returned.
   </rule>
   <rule>
     <key>returnTempReference</key>
-    <name>Reference to temporary returned.</name>
+    <name>Reference to temporary returned</name>
     <description>
 <![CDATA[
 <p>
@@ -204,7 +204,6 @@ You should only free memory that has been allocated dynamically.
 <![CDATA[<p>
 Array index out of bounds.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a></p>
 ]]>
@@ -245,7 +244,6 @@ Buffer is accessed out of bounds
 <![CDATA[<p>
 Index is out of bounds: Supplied size is larger than actual size.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
 ]]>
     </description>
@@ -287,7 +285,6 @@ bugs later in the code if the code assumes buffer is null-terminated.
 <![CDATA[<p>
 Negative array index is always out of bounds.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/786.html" target="_blank">CWE-786: Access of Memory Location Before Start of Buffer</a></p>
 ]]>
     </description>
@@ -360,7 +357,6 @@ array might be accessed out of bounds. Reorder conditions such as
 be accessed if the index is out of limits.
 </p>
 <h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
@@ -403,7 +399,6 @@ undefined behavior.
 <![CDATA[<p>
 Uninitialized variable.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a></p>
 ]]>
     </description>
@@ -1385,7 +1380,6 @@ is recommended to use the reentrant replacement function 'gmtime_r'.
 <![CDATA[<p>
 Possible null pointer dereference.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/display/c/EXP34-C.+Do+not+dereference+null+pointers" target="_blank">EXP34-C. Do not dereference null pointers</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/476.html" target="_blank">CWE-476: NULL Pointer Dereference</a></p>
 ]]>
     </description>
@@ -1490,7 +1484,7 @@ Possible null pointer dereference.
   </rule>        
   <rule>
     <key>ftimeCalled</key>
-    <name>Obsolescent function 'ftime' called. It is recommended to use 'time', 'gettimeofday' or 'clock_gettime' instead.</name>
+    <name>Obsolescent function 'ftime' called. It is recommended to use 'time', 'gettimeofday' or 'clock_gettime' instead</name>
     <description>
       <![CDATA[
       <p>
@@ -1821,7 +1815,6 @@ the comparison is unnecessary and looks suspicious.
 <![CDATA[<p>
 Division by zero.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=624" target="_blank">INT33-C. Ensure that division and remainder operations do not result in divide-by-zero errors</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/369.html" target="_blank">CWE-369: Divide By Zero</a></p>
 ]]>
     </description>
@@ -2339,7 +2332,7 @@ specified value.
   </rule>
   <rule>
     <key>clarifyCalculation</key>
-    <name>Clarify calculation precedence for '+' and '?'.</name>
+    <name>Clarify calculation precedence</name>
     <description>
       <![CDATA[
       <p>
@@ -2402,7 +2395,7 @@ String literal doesn't match length argument for substr().
   </rule>
   <rule>
     <key>incrementboolean</key>
-    <name>Incrementing a variable of type 'bool' with postfix operator++ is deprecated by the C++ Standard. You should assign it the value 'true' instead.</name>
+    <name>Incrementing a variable of type 'bool' with postfix operator++ is deprecated by the C++ Standard. You should assign it the value 'true' instead</name>
     <description>
       <![CDATA[
       <p>
@@ -2829,7 +2822,7 @@ lifetime. If an 'auto_ptr' is copied, the source looses the reference.
   </rule>
   <rule>
     <key>useAutoPointerContainer</key>
-    <name>Don't store 'auto-ptr' in a STL container</name>
+    <name>Don't store 'auto_ptr' in a STL container</name>
     <description>
       <![CDATA[
       <p>
@@ -2882,7 +2875,6 @@ Dangerous usage of variable (strncpy doesn't always null-terminate
 it).
 </p>
 <h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/676.html" target="_blank">CWE-676: Use of Potentially Dangerous Function</a></p>
 ]]>
     </description>
@@ -2903,7 +2895,6 @@ it).
       <p>
 Memory is allocated but not initialized
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a></p>
 ]]>
     </description>
@@ -3248,7 +3239,7 @@ buffer.
   </rule>
   <rule>
     <key>returnAddressOfFunctionParameter</key>
-    <name>Address of function parameter returned.</name>
+    <name>Address of function parameter returned</name>
     <description>
       <![CDATA[
       <p>
@@ -3406,8 +3397,11 @@ could be a logic bug.
     <key>stlcstrthrow</key>
     <name>The returned value by c_str() is invalid after throw call</name>
     <description>
-      The returned value by c_str() is invalid after throw call.
-    </description>
+      <![CDATA[
+      Dangerous usage of c_str(). The string is destroyed after the c_str() call so the thrown pointer is invalid.
+      ]]>
+      </description>
+    <tag>bug</tag>
     <internalKey>stlcstrthrow</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -3777,7 +3771,6 @@ Wrong number of parameters given to printf().
 <![CDATA[<p>
 Member variable is not initialized in the constructor.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
@@ -4032,7 +4025,7 @@ Boolean variable 'varname' is used in bitwise operation. Did you mean '&&' or '|
   </rule>
   <rule>
     <key>deallocret</key>
-    <name>Returning/dereferencing variable after it is deallocated / released</name>
+    <name>Returning/dereferencing pointer after it is deallocated / released</name>
     <description>
       <![CDATA[
       <p>
@@ -4083,7 +4076,7 @@ Width 'parameter' given in format string (no. 'symbol' ) doesn't match destinati
   </rule>
   <rule>
     <key>moduloAlwaysTrueFalse</key>
-    <name>Comparison of modulo result is predetermined, because it is always less than 'number'.</name>
+    <name>Comparison of modulo result is predetermined, because it is always less than 'number'</name>
     <description>
       <![CDATA[
       <p>
@@ -4157,8 +4150,10 @@ Read operation on a file that was opened only for writing.
     <key>redundantBitwiseOperationInSwitch</key>
     <name>Redundant bitwise operation on variable in switch</name>
     <description>
-      Redundant bitwise operation on variable in switch.
-    </description>
+      <![CDATA[
+      Redundant bitwise operation on 'varname' in 'switch' statement. 'break;' missing?
+      ]]>
+      </description>
     <internalKey>redundantBitwiseOperationInSwitch</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -4291,7 +4286,8 @@ Making a function static can bring a performance benefit since no
 cause compiler errors but it does not necessarily make sense
 conceptually. Think about your design and the task of the function
 first - is it a function that must not access members of class
-instances?
+instances? And maybe it is more appropriate to move this function to a
+unnamed namespace.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
@@ -4435,7 +4431,6 @@ reference.
       <p>
 Shifting by a negative value is undefined behaviour
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
     ]]>
     </description>
@@ -4655,8 +4650,10 @@ copy constructor instead of allocating new memory.
     <key>invalidFree</key>
     <name>Invalid memory address freed</name>
     <description>
+      <![CDATA[
       Invalid memory address freed.
-    </description>
+      ]]>
+      </description>
     <internalKey>invalidFree</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -4832,9 +4829,7 @@ Buffer 'var' is being written before its old content has been used.
   </rule>
   <rule>
     <key>argumentSize</key>
-    <name>
-      Passing too small array as argument.
-    </name>
+    <name>Passing too small array as argument</name>
     <description>
       <![CDATA[
       <p>
@@ -4998,7 +4993,6 @@ instead to compare iterators.
 <![CDATA[<p>
 Missing initialization for a struct member.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a></p>
 ]]>
     </description>
@@ -5110,8 +5104,8 @@ int main() {
 
   <rule>
     <key>writeOutsideBufferSize</key>
-    <name>Writing '1' bytes outside buffer size.</name>
-    <description>Writing '1' bytes outside buffer size.</description>
+    <name>Writing outside buffer size</name>
+    <description>Writing X bytes outside buffer size.</description>
     <tag>bug</tag>
     <internalKey>writeOutsideBufferSize</internalKey>
     <severity>MAJOR</severity>
@@ -5503,8 +5497,6 @@ is undefined behaviour. Probably a dereference is forgotten.
 <![CDATA[<p>
 Return value of allocation function is not stored.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=445" target="_blank">MEM31-C. Free dynamically allocated memory when no longer needed</a></p>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=17924853" target="_blank">EXP12-C. Do not ignore values returned by functions</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/771.html" target="_blank">CWE-771: Missing Reference to Active Allocated Resource</a></p>
 ]]>
     </description>
@@ -5891,15 +5883,15 @@ Member variable 'var' is initialized by itself.
   </rule>
   <rule>
     <key>shiftTooManyBits</key>
-    <name>Shifting 32-bit value by 40 bits is undefined behaviour</name>
+    <name>Shifting value by too many bits is undefined behaviour</name>
     <description>
 <![CDATA[<p>
-Shifting 32-bit value by 40 bits is undefined behaviour.
-</p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
+Shifting value by too many bits is undefined behaviour.
+</p>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
-]]>
-    </description>
+      ]]>
+      </description>
     <tag>bug</tag>
     <tag>cert</tag>
     <tag>cwe</tag>
@@ -5911,15 +5903,16 @@ Shifting 32-bit value by 40 bits is undefined behaviour.
   </rule>
     <rule>
     <key>shiftTooManyBitsSigned</key>
-    <name>Shifting signed 32-bit value by 31 bits is undefined behaviour</name>
+    <name>Shifting signed value by too many bits is undefined behaviour</name>
     <description>
-<![CDATA[<p>
-Shifting signed 32-bit value by 31 bits is undefined behaviour.
-</p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
+      <![CDATA[
+      <p>
+Shifting signed value by too many bits is undefined behaviour.
+</p>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
-]]>
-    </description>
+      ]]>
+      </description>
     <tag>bug</tag>
     <tag>cert</tag>
     <tag>cwe</tag>
@@ -6295,7 +6288,6 @@ appropriate C library function.
 <![CDATA[<p>
 Declaration of array with negative size is undefined behaviour
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=2681" target="_blank">ARR32-C. Ensure size arguments for variable length arrays are in a valid range</a></p>
 <p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
 ]]>
     </description>
@@ -6823,11 +6815,13 @@ Access of forwarded variable 'name'.
   </rule>
   <rule>
     <key>floatConversionOverflow</key>
-    <name>Undefined behaviour: float (1e+100) to integer conversion overflow</name>
+    <name>Undefined behaviour: float to integer conversion overflow</name>
     <description>
-<![CDATA[<p>
-Undefined behaviour: float (1e+100) to integer conversion overflow.
-</p><h2>References</h2>
+      <![CDATA[
+      <p>
+Undefined behaviour: float to integer conversion overflow.
+</p>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/190.html" target="_blank">CWE-190: Integer Overflow or Wraparound</a></p>
 ]]>
     </description>
@@ -6864,7 +6858,7 @@ Different argument name in function declaration and function definition.
     <description>
       <![CDATA[
       <p>
-Different argument order in function declaration and definition
+Different argument order in function declaration and function definition
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/683.html" target="_blank">CWE-683: Function Call With Incorrect Order of Arguments</a></p>
@@ -9360,6 +9354,255 @@ should not use it in new code.
       </description>
     <tag>cwe</tag>
     <internalKey>wxString::StripCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>danglingLifetime</key>
+    <name>Non-local variable will use object</name>
+    <description>
+      <![CDATA[
+      <p>
+Non-local variable 'x' will use object.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>danglingLifetime</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>duplicateAssignExpression</key>
+    <name>Same expression used in consecutive assignments</name>
+    <description>
+      <![CDATA[
+      <p>
+Finding variables 'x' and 'x' that are assigned the same expression is
+suspicious and might indicate a cut and paste or logic error. Please
+examine this code carefully to determine if it is correct.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>duplicateAssignExpression</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>invalidFunctionArgStr</key>
+    <name>Invalid function argument. A nul-terminated string is required</name>
+    <description>
+      <![CDATA[
+      <p>
+Invalid function argument. A nul-terminated string is
+required.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>invalidFunctionArgStr</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>invalidLifetime</key>
+    <name>Using object that is out of scope</name>
+    <description>
+      <![CDATA[
+      <p>
+Using object that is out of scope.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>invalidLifetime</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>iterators1</key>
+    <name>Same iterator is used with different containers</name>
+    <description>
+      <![CDATA[
+      <p>
+Same iterator is used with different containers 'container1' and
+'container2'.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>iterators1</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>iterators3</key>
+    <name>Same iterator is used with containers 'container' that are defined in different scopes</name>
+    <description>
+      <![CDATA[
+      <p>
+Same iterator is used with containers 'container' that are defined in
+different scopes.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>iterators3</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>iteratorsCmp1</key>
+    <name>Comparison of iterators from different containers</name>
+    <description>
+      <![CDATA[
+      <p>
+Comparison of iterators from containers 'container1' and 'container2'.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>iteratorsCmp1</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>iteratorsCmp2</key>
+    <name>Comparison of iterators from containers 'container' that are defined in different scopes</name>
+    <description>
+      <![CDATA[
+      <p>
+Comparison of iterators from containers 'container' that are defined
+in different scopes.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>iteratorsCmp2</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>returnDanglingLifetime</key>
+    <name>Returning object that will be invalid when returning</name>
+    <description>
+      <![CDATA[
+      <p>
+Returning object that will be invalid when returning.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>returnDanglingLifetime</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>returnNonBoolInBooleanFunction</key>
+    <name>Non-boolean value returned from function returning bool</name>
+    <description>
+      <![CDATA[
+      Non-boolean value returned from function returning bool
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <internalKey>returnNonBoolInBooleanFunction</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>shadowFunction</key>
+    <name>Local variable shadows outer function</name>
+    <description>
+      <![CDATA[
+      <p>
+Local variable shadows outer function
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>shadowFunction</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>shadowVar</key>
+    <name>Local variable shadows outer variable</name>
+    <description>
+      <![CDATA[
+      <p>
+Local variable shadows outer variable
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>shadowVar</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
