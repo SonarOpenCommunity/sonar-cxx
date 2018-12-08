@@ -23,41 +23,14 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.sonar.check.Priority;
-import org.sonar.check.Rule;
-import org.sonar.check.RuleProperty;
-import org.sonar.squidbridge.annotations.NoSqale;
-import org.sonar.squidbridge.annotations.RuleTemplate;
 import org.sonar.squidbridge.checks.SquidCheck;
 
-/**
- * CommentContainsPatternChecker
- */
-@Rule(
-  key = "CommentContainsPatternChecker",
-  name = "Regular expression on comment",
-  priority = Priority.MAJOR)
-@RuleTemplate
-@NoSqale
-public class CommentContainsPatternChecker {
+class CommentContainsPatternChecker {
 
   private static final Pattern EOL_PATTERN = Pattern.compile("\\R");
-
-  @RuleProperty(
-    key = "check",
-    description = "The Squid check")
   private final SquidCheck<?> check;
-
-  @RuleProperty(
-    key = "pattern",
-    description = "The regular expression")
   private final String pattern;
-
-  @RuleProperty(
-    key = "message",
-    description = "The violation message")
   private final String message;
-
   private final Pattern p;
 
   /**

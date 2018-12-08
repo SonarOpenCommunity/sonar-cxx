@@ -49,7 +49,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
-  private final static Pattern pattern = Pattern.compile(REGULAR_EXPRESSION, Pattern.DOTALL);
+  private static final Pattern PATTERN = Pattern.compile(REGULAR_EXPRESSION, Pattern.DOTALL);
   private Charset charset = StandardCharsets.UTF_8;
 
   @Override
@@ -62,7 +62,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
     }
     for (int i = 0; i < lines.size(); i++) {
       String line = lines.get(i);
-      if (pattern.matcher(line).find()) {
+      if (PATTERN.matcher(line).find()) {
         getContext().createLineViolation(this, "Do not use relative path for #include directive.", i + 1);
       }
     }

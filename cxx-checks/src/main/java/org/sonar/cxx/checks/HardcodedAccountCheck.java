@@ -60,7 +60,7 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
     key = "regularExpression",
     description = "literal regular expression rule",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
-  private final String regularExpression = DEFAULT_REGULAR_EXPRESSION;
+  private String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   private Pattern pattern;
 
