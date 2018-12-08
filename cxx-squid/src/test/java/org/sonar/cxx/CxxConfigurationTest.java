@@ -22,9 +22,10 @@ package org.sonar.cxx;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
-import org.fest.assertions.Assertions;
 import org.junit.Test;
 
 public class CxxConfigurationTest {
@@ -349,13 +350,10 @@ public class CxxConfigurationTest {
       config.addCompilationUnitSettings(filename, new CxxCompilationUnitSettings());
     }
 
-    List<File> sourceFiles = config.getCompilationUnitSourceFiles();
+    Set<String> sourceFiles = config.getCompilationUnitSourceFiles();
 
     assertThat(sourceFiles.size()).isEqualTo(files.length);
-
-    for (File file : sourceFiles) {
-      Assertions.assertThat(files).contains(file.getName()).as(file.getName());
-    }
+    assertThat(files).containsOnly(files);
   }
 
   private void ValidateDefaultAsserts(SoftAssertions softly, List<String> defines) {

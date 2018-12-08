@@ -51,7 +51,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import org.sonar.api.utils.log.Logger;
@@ -188,11 +187,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private static String serialize(List<Token> tokens, String spacer) {
-    StringJoiner js = new StringJoiner(spacer);
-    for (Token t : tokens) {
-      js.add(t.getValue());
-    }
-    return js.toString();
+    return tokens.stream().map(Token::getValue).collect(Collectors.joining(spacer));
   }
 
   private static int matchArguments(List<Token> tokens, List<Token> arguments) {
@@ -438,12 +433,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private static List<Token> getParams(AstNode identListAst) {
-    List<Token> params = new ArrayList<>();
-    for (AstNode node : identListAst.getChildren(IDENTIFIER)) {
-      params.add(node.getToken());
-    }
-
-    return params;
+    return identListAst.getChildren(IDENTIFIER).stream().map(AstNode::getToken).collect(Collectors.toList());
   }
 
   private static String getMacroName(AstNode ast) {

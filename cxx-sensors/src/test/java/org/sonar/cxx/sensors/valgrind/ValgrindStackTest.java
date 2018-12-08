@@ -19,19 +19,20 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+
+import java.io.File;
+
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ValgrindStackTest {
 
-  ValgrindStack stack;
-  ValgrindStack equalStack;
-  ValgrindStack otherStack;
+  private final ValgrindStack stack = new ValgrindStack();
+  private final ValgrindStack equalStack = new ValgrindStack();
+  private final ValgrindStack otherStack = new ValgrindStack();
 
   @Before
   public void setUp() {
@@ -39,15 +40,12 @@ public class ValgrindStackTest {
     ValgrindFrame equalFrame = new ValgrindFrame("", "", "lala", "", "lala", "111");
     ValgrindFrame otherFrame = new ValgrindFrame("", "", "haha", "", "haha", "111");
 
-    stack = new ValgrindStack();
     stack.addFrame(frame);
     stack.addFrame(otherFrame);
 
-    equalStack = new ValgrindStack();
     equalStack.addFrame(equalFrame);
     equalStack.addFrame(otherFrame);
 
-    otherStack = new ValgrindStack();
     otherStack.addFrame(otherFrame);
     otherStack.addFrame(frame);
   }
@@ -83,18 +81,20 @@ public class ValgrindStackTest {
 
   @Test
   public void stringRepresentationShouldResembleValgrindsStandard() {
-    Map<String, ValgrindStack> ioMap = new HashMap<>();
+    final ValgrindFrame frame0 = new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", "1");
+    final ValgrindStack stack0 = new ValgrindStack();
+    stack0.addFrame(frame0);
 
-    ValgrindFrame frame = new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", "1");
-    ValgrindStack stack = new ValgrindStack();
-    stack.addFrame(frame);
+    final ValgrindFrame frame1 = new ValgrindFrame("0xBADC0FFE", "libc.so", "abort()", null, "main.cc", "2");
+    final ValgrindStack stack1 = new ValgrindStack();
+    stack1.addFrame(frame1);
+    stack1.addFrame(frame0);
 
-    ioMap.put("", new ValgrindStack());
-    ioMap.put(frame.toString() + "\n", stack);
-
-    for (Map.Entry<String, ValgrindStack> entry : ioMap.entrySet()) {
-      assertEquals(entry.getKey(), entry.getValue().toString());
-    }
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(new ValgrindStack().toString()).isEqualTo("");
+    softly.assertThat(stack0.toString()).isEqualTo(frame0.toString());
+    softly.assertThat(stack1.toString()).isEqualTo(frame1.toString() + "\n" + frame0.toString());
+    softly.assertAll();
   }
 
   @Test

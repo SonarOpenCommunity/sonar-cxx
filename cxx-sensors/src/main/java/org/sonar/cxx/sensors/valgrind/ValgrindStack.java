@@ -22,6 +22,8 @@ package org.sonar.cxx.sensors.valgrind;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Nullable;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -53,12 +55,7 @@ class ValgrindStack {
 
   @Override
   public String toString() {
-    StringBuilder res = new StringBuilder(256);
-    for (ValgrindFrame frame : frames) {
-      res.append(frame);
-      res.append('\n');
-    }
-    return res.toString();
+    return frames.stream().map(ValgrindFrame::toString).collect(Collectors.joining("\n"));
   }
 
   @Override
