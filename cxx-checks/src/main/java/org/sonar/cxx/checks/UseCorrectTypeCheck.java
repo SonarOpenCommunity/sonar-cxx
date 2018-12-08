@@ -65,7 +65,7 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
     key = "regularExpression",
     description = "Type regular expression rule",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
-  private final String regularExpression = DEFAULT_REGULAR_EXPRESSION;
+  private String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   /**
    * message
@@ -74,7 +74,7 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
     key = "message",
     description = "The violation message",
     defaultValue = DEFAULT_MESSAGE)
-  private final String message = DEFAULT_MESSAGE;
+  private String message = DEFAULT_MESSAGE;
 
   @Override
   public void init() {
