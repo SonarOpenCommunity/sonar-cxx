@@ -142,10 +142,8 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     final InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.
       fileSystem().predicates().hasPath(path));
     if (inputFile == null) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Path '{}' couldn't be found in module '{}' base dir '{}'", path, sensorContext.module().key(),
-          sensorContext.fileSystem().baseDir());
-      }
+      LOG.warn("Cannot find the file '{}' in module '{}' base dir '{}', skipping violations.",
+        path, sensorContext.module().key(), sensorContext.fileSystem().baseDir());
       notFoundFiles.add(path);
     }
     return inputFile;
@@ -182,10 +180,8 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
         .message(location.getInfo());
       affectedFiles.add(inputFile);
       return newIssueLocation;
-    } else {
-      LOG.warn("Cannot find the file '{}', skipping violations", location.getFile());
-      return null;
     }
+    return null;
   }
 
   /**
