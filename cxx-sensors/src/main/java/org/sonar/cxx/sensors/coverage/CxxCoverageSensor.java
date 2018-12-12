@@ -183,7 +183,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
             LOG.error("Cannot save measure for file '{}' , ignoring measure. ", filePath, ex);
             CxxUtils.validateRecovery(ex, getLanguage());
           }
-          LOG.info("Saved '{}' coverage measures for file '{}'", measures.size(), filePath);
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("Saved '{}' coverage measures for file '{}'", measures.size(), filePath);
+          }
         } else {
           if (LOG.isDebugEnabled()) {
             LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
