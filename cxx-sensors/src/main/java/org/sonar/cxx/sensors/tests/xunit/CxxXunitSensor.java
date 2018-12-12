@@ -31,7 +31,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -48,7 +47,6 @@ public class CxxXunitSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "xunit.reportPath";
   public static final String XSLT_URL_KEY = "xunit.xsltURL";
   private static final Logger LOG = Loggers.get(CxxXunitSensor.class);
-  private static final double PERCENT_BASE = 100D;
 
   private final String xsltURL;
 
@@ -146,8 +144,6 @@ public class CxxXunitSensor extends CxxReportSensor {
     testsCount -= testsSkipped;
 
     if (testsCount > 0) {
-      double testsPassed = (double) testsCount - testsErrors - testsFailures;
-      double successDensity = testsPassed * PERCENT_BASE / testsCount;
 
       try {
         context.<Integer>newMeasure()
@@ -190,17 +186,6 @@ public class CxxXunitSensor extends CxxReportSensor {
           .save();
       } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.validateRecovery(ex, getLanguage());
-      }
-
-      try {
-        context.<Double>newMeasure()
-          .forMetric(CoreMetrics.TEST_SUCCESS_DENSITY)
-          .on(context.module())
-          .withValue(ParsingUtils.scaleValue(successDensity))
-          .save();
-      } catch (IllegalArgumentException ex) {
-        LOG.error("Cannot save measure TEST_SUCCESS_DENSITY : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, getLanguage());
       }
 

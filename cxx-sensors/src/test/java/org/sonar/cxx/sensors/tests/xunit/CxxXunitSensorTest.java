@@ -74,7 +74,7 @@ public class CxxXunitSensorTest {
 
     sensor.execute(context);
 
-    assertThat(context.measures(context.module().key())).hasSize(6);
+    assertThat(context.measures(context.module().key())).hasSize(5);
     assertThat(context.measures(context.module().key()))
       .extracting("metric.key", "value")
       .containsOnly(
@@ -82,7 +82,6 @@ public class CxxXunitSensorTest {
         tuple(CoreMetrics.SKIPPED_TESTS_KEY, 0),
         tuple(CoreMetrics.TEST_FAILURES_KEY, 0),
         tuple(CoreMetrics.TEST_ERRORS_KEY, 0),
-        tuple(CoreMetrics.TEST_SUCCESS_DENSITY_KEY, 100.0),
         tuple(CoreMetrics.TEST_EXECUTION_TIME_KEY, 0L));
   }
 
