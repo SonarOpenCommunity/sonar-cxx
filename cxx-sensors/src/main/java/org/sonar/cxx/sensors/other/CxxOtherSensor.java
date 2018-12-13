@@ -22,10 +22,10 @@ package org.sonar.cxx.sensors.other;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import javax.annotation.Nullable;
+import java.util.Optional;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
@@ -64,59 +64,6 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
    */
   public CxxOtherSensor(CxxLanguage language) {
     super(language, REPORT_PATH_KEY, CxxOtherRepository.getRepositoryKey(language));
-  }
-
-  private static boolean checkInput(String inputKey, String outputKey, @Nullable List<File> inputs,
-    @Nullable List<String> outputs) {
-    return isValidInput(inputKey, inputs) && isValidOutput(outputKey, outputs) && hasCorrectSize(inputs, outputs);
-  }
-
-  /**
-   * @param inputs
-   * @param outputs
-   * @return
-   */
-  private static boolean hasCorrectSize(List<File> inputs, List<String> outputs) {
-    if (inputs.size() != outputs.size()) {
-      LOG.error("Number of source XML files is not equal to the the number of output files.");
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * @param outputKey
-   * @param outputs
-   * @return
-   */
-  private static boolean isValidOutput(@Nullable String outputKey, @Nullable List<String> outputs) {
-    if ((outputKey == null) || (outputs == null) || (outputs.isEmpty())) {
-      if (outputKey != null) {
-        LOG.error(outputKey + " file is not defined.");
-      } else {
-        LOG.error("outputKey is not defined.");
-      }
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * @param inputKey
-   * @param inputs
-   */
-  private static boolean isValidInput(@Nullable String inputKey, @Nullable List<File> inputs) {
-
-    if ((inputKey == null) || (inputs == null) || (inputs.isEmpty())) {
-      if (inputKey != null) {
-        LOG.error(inputKey + " file is not defined.");
-      } else {
-        LOG.error("inputKey is not defined.");
-      }
-      return false;
-    }
-
-    return true;
   }
 
   @Override
@@ -162,33 +109,74 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
 
   public void transformFiles(final File baseDir, SensorContext context) {
     for (int i = 1; i < MAX_STYLESHEETS; i++) {
-      String stylesheetKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + STYLESHEET_KEY);
-      String inputKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + INPUT_KEY);
-      String outputKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY);
+      Boolean paramError = false;
 
-      String stylesheet = stylesheetKey == null ? null : resolveFilename(baseDir.getAbsolutePath(),
-        context.config().get(stylesheetKey).orElse(null));
-      List<File> inputs = inputKey == null ? new ArrayList<>() : getReports(context.config(), baseDir, inputKey);
-      String[] outputStrings = outputKey == null ? null : context.config().getStringArray(outputKey);
-      List<String> outputs = outputStrings == null ? new ArrayList<>() : Arrays.asList(outputStrings);
+      String stylesheetKey = Optional.ofNullable(
+        getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + STYLESHEET_KEY))
+        .orElse("");
+      String inputKey = Optional.ofNullable(
+        getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + INPUT_KEY))
+        .orElse("");
+      String outputKey = Optional.ofNullable(
+        getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY))
+        .orElse("");
 
-      if ((stylesheet == null) && (inputs.isEmpty()) && (outputs.isEmpty())) {
+      if (!context.config().hasKey(stylesheetKey)
+        && !context.config().hasKey(inputKey)
+        && !context.config().hasKey(outputKey)) {
         break; // no or last item
       }
 
-      if (stylesheet == null) {
-        LOG.error(stylesheetKey + " is not defined.");
-        break;
+      String stylesheet = "";
+      if (stylesheetKey.isEmpty()) {
+        LOG.error("XLST: stylesheet key is not defined.");
+        paramError = true;
+      } else {
+        stylesheet = Optional.ofNullable(
+          resolveFilename(baseDir.getAbsolutePath(), context.config().get(stylesheetKey).orElse(null)))
+          .orElse("");
+        if (stylesheet.isEmpty()) {
+          LOG.error("XLST: " + stylesheetKey + " value is not defined.");
+          paramError = true;
+        }
       }
 
-      if (!checkInput(inputKey, outputKey, inputs, outputs)) {
+      List<File> inputs = Collections.emptyList();
+      if (inputKey.isEmpty()) {
+        LOG.error("XLST: inputs key is not defined.");
+        paramError = true;
+      } else {
+        inputs = getReports(context.config(), baseDir, inputKey);
+        if (inputs.isEmpty()) {
+          LOG.error("XLST: " + inputKey + " value is not defined.");
+          paramError = true;
+        }
+      }
+
+      List<String> outputs = Collections.emptyList();
+      if (outputKey.isEmpty()) {
+        LOG.error("XLST: outputs key is not defined.");
+        paramError = true;
+      } else {
+        outputs = Arrays.asList(context.config().getStringArray(outputKey));
+        if (outputs.isEmpty()) {
+          LOG.error("XLST: " + outputKey + " value is not defined.");
+          paramError = true;
+        }
+      }
+
+      if (inputs.size() != outputs.size()) {
+        LOG.error("XLST: Number of inputs and outputs is not equal.");
+        paramError = true;
+      }
+
+      if (paramError) {
         break;
       }
 
       if (LOG.isDebugEnabled()) {
-        LOG.debug("Converting " + stylesheet + " with " + inputs + " to " + outputs + ".");
+        LOG.debug("XLST: Converting " + stylesheet + " with " + inputs + " to " + outputs + ".");
       }
-
       transformFileList(baseDir.getAbsolutePath(), stylesheet, inputs, outputs);
     }
   }
