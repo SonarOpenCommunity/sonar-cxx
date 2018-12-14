@@ -52,16 +52,19 @@ public class CxxOtherXsltTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxOtherSensor.REPORT_PATH_KEY);
+    when(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxOtherSensor.REPORT_PATH_KEY);    
     when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("sonar.cxx.other.xslt.1.stylesheet");
     when(language.getPluginProperty("other.xslt.1.inputs")).thenReturn("sonar.cxx.other.xslt.1.inputs");
-    when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("sonar.cxx.other.xslt.1.outputs");
+    when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("sonar.cxx.other.xslt.1.outputs");    
+    when(language.getPluginProperty("other.xslt.2.stylesheet")).thenReturn("");
+    when(language.getPluginProperty("other.xslt.2.inputs")).thenReturn("");
+    when(language.getPluginProperty("other.xslt.2.outputs")).thenReturn("");
   }
 
   @Test
   public void noLoggingIfNotUsed() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    CxxOtherSensor sensor = new CxxOtherSensor(language);
+    sensor = new CxxOtherSensor(language);
     logTester.clear();
     sensor.transformFiles(fs.baseDir(), context);
 
@@ -93,7 +96,7 @@ public class CxxOtherXsltTest {
     when(language.getStringOption(CxxOtherSensor.OTHER_XSLT_KEY + "2" + CxxOtherSensor.STYLESHEET_KEY)).thenReturn(Optional.of("notexistingpath"));
     when(language.getStringArrayOption(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.INPUT_KEY)).thenReturn(new String[]{"notexistingpath"});
     when(language.getStringArrayOption(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY)).thenReturn(new String[]{"notexistingpath"});
-    CxxOtherSensor sensor = new CxxOtherSensor(language);
+    sensor = new CxxOtherSensor(language);
 
     sensor.execute(context);
 

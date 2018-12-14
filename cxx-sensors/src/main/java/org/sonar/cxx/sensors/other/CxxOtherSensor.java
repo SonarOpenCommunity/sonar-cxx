@@ -111,15 +111,9 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
     for (int i = 1; i < MAX_STYLESHEETS; i++) {
       Boolean paramError = false;
 
-      String stylesheetKey = Optional.ofNullable(
-        getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + STYLESHEET_KEY))
-        .orElse("");
-      String inputKey = Optional.ofNullable(
-        getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + INPUT_KEY))
-        .orElse("");
-      String outputKey = Optional.ofNullable(
-        getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY))
-        .orElse("");
+      final String stylesheetKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + STYLESHEET_KEY);
+      final String inputKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + INPUT_KEY);
+      final String outputKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY);
 
       if (!context.config().hasKey(stylesheetKey)
         && !context.config().hasKey(inputKey)
