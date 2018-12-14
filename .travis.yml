@@ -7,7 +7,7 @@ jdk:
         - oraclejdk8
 
 env:
-        - SONARHOME=/tmp/sonarqube-6.7.5   SONARAPI=SqApi67
+        - SONARHOME=/tmp/sonarqube-6.7.6   SONARAPI=SqApi67
         - SONARHOME=/tmp/sonarqube-7.0     SONARAPI=SqApi67
         - SONARHOME=/tmp/sonarqube-7.1     SONARAPI=SqApi67
         - SONARHOME=/tmp/sonarqube-7.2     SONARAPI=SqApi67
@@ -44,8 +44,8 @@ before_install:
 
 install:
         - pushd /tmp
-        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.5.zip
-        - unzip -qq sonarqube-6.7.5.zip
+        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.6.zip
+        - unzip -qq sonarqube-6.7.6.zip
         - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.0.zip
         - unzip -qq sonarqube-7.0.zip
         - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.1.zip
