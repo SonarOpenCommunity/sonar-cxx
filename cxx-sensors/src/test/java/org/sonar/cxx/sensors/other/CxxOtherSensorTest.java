@@ -53,7 +53,7 @@ public class CxxOtherSensorTest {
     when(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxOtherSensor.REPORT_PATH_KEY);
     when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("");
     when(language.getPluginProperty("other.xslt.1.inputs")).thenReturn("");
-    when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("");     
+    when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("");
   }
 
   @Test

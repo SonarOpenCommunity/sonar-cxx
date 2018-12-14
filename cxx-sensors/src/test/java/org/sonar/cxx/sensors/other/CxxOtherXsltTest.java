@@ -52,10 +52,10 @@ public class CxxOtherXsltTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxOtherSensor.REPORT_PATH_KEY);    
+    when(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxOtherSensor.REPORT_PATH_KEY);
     when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("sonar.cxx.other.xslt.1.stylesheet");
     when(language.getPluginProperty("other.xslt.1.inputs")).thenReturn("sonar.cxx.other.xslt.1.inputs");
-    when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("sonar.cxx.other.xslt.1.outputs");    
+    when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("sonar.cxx.other.xslt.1.outputs");
     when(language.getPluginProperty("other.xslt.2.stylesheet")).thenReturn("");
     when(language.getPluginProperty("other.xslt.2.inputs")).thenReturn("");
     when(language.getPluginProperty("other.xslt.2.outputs")).thenReturn("");
@@ -143,7 +143,7 @@ public class CxxOtherXsltTest {
     logTester.clear();
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("something");
-    when(language.getPluginProperty("other.xslt.1.inputs")).thenReturn("");    
+    when(language.getPluginProperty("other.xslt.1.inputs")).thenReturn("");
     when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("something");
 
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "something");
