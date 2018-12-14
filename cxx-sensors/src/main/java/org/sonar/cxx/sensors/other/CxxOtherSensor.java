@@ -121,42 +121,24 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
         break; // no or last item
       }
 
-      String stylesheet = "";
-      if (stylesheetKey.isEmpty()) {
-        LOG.error("XLST: stylesheet key is not defined.");
+      final String stylesheet = Optional.ofNullable(
+        resolveFilename(baseDir.getAbsolutePath(), context.config().get(stylesheetKey).orElse(null)))
+        .orElse("");
+      if (stylesheet.isEmpty()) {
+        LOG.error("XLST: " + stylesheetKey + " value is not defined.");
         paramError = true;
-      } else {
-        stylesheet = Optional.ofNullable(
-          resolveFilename(baseDir.getAbsolutePath(), context.config().get(stylesheetKey).orElse(null)))
-          .orElse("");
-        if (stylesheet.isEmpty()) {
-          LOG.error("XLST: " + stylesheetKey + " value is not defined.");
-          paramError = true;
-        }
       }
 
-      List<File> inputs = Collections.emptyList();
-      if (inputKey.isEmpty()) {
-        LOG.error("XLST: inputs key is not defined.");
+      final List<File> inputs = getReports(context.config(), baseDir, inputKey);
+      if (inputs.isEmpty()) {
+        LOG.error("XLST: " + inputKey + " value is not defined.");
         paramError = true;
-      } else {
-        inputs = getReports(context.config(), baseDir, inputKey);
-        if (inputs.isEmpty()) {
-          LOG.error("XLST: " + inputKey + " value is not defined.");
-          paramError = true;
-        }
       }
 
-      List<String> outputs = Collections.emptyList();
-      if (outputKey.isEmpty()) {
-        LOG.error("XLST: outputs key is not defined.");
+      final List<String> outputs = Arrays.asList(context.config().getStringArray(outputKey));
+      if (outputs.isEmpty()) {
+        LOG.error("XLST: " + outputKey + " value is not defined.");
         paramError = true;
-      } else {
-        outputs = Arrays.asList(context.config().getStringArray(outputKey));
-        if (outputs.isEmpty()) {
-          LOG.error("XLST: " + outputKey + " value is not defined.");
-          paramError = true;
-        }
       }
 
       if (inputs.size() != outputs.size()) {

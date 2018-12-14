@@ -52,10 +52,13 @@ public class CxxOtherXsltTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
+
     when(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxOtherSensor.REPORT_PATH_KEY);
+
     when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("sonar.cxx.other.xslt.1.stylesheet");
     when(language.getPluginProperty("other.xslt.1.inputs")).thenReturn("sonar.cxx.other.xslt.1.inputs");
     when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("sonar.cxx.other.xslt.1.outputs");
+
     when(language.getPluginProperty("other.xslt.2.stylesheet")).thenReturn("");
     when(language.getPluginProperty("other.xslt.2.inputs")).thenReturn("");
     when(language.getPluginProperty("other.xslt.2.outputs")).thenReturn("");
@@ -64,6 +67,7 @@ public class CxxOtherXsltTest {
   @Test
   public void noLoggingIfNotUsed() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
     sensor = new CxxOtherSensor(language);
     logTester.clear();
     sensor.transformFiles(fs.baseDir(), context);
@@ -76,11 +80,13 @@ public class CxxOtherXsltTest {
   @Test
   public void shouldReportNothing() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
     when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("other.xslt.1.stylesheet");
     when(language.getPluginProperty("other.xslt.1.inputs")).thenReturn("other.xslt.1.inputs");
     when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("other.xslt.1.outputs");
 
     sensor = new CxxOtherSensor(language);
+    logTester.clear();
     sensor.execute(context);
 
     List<String> log = logTester.logs(LoggerLevel.ERROR);
@@ -96,8 +102,9 @@ public class CxxOtherXsltTest {
     when(language.getStringOption(CxxOtherSensor.OTHER_XSLT_KEY + "2" + CxxOtherSensor.STYLESHEET_KEY)).thenReturn(Optional.of("notexistingpath"));
     when(language.getStringArrayOption(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.INPUT_KEY)).thenReturn(new String[]{"notexistingpath"});
     when(language.getStringArrayOption(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY)).thenReturn(new String[]{"notexistingpath"});
-    sensor = new CxxOtherSensor(language);
 
+    sensor = new CxxOtherSensor(language);
+    logTester.clear();
     sensor.execute(context);
 
     File reportAfter = new File("notexistingpath");
@@ -110,28 +117,29 @@ public class CxxOtherXsltTest {
     when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("something");
 
     context.setSettings(settings);
-
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor = new CxxOtherSensor(language);
+    logTester.clear();
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test
   public void shouldCreateMissingStylesheetMessage() {
-    logTester.clear();
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
     when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("something");
     when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("outputs");
 
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/externalrules-with-duplicates.xml");
     settings.setProperty("outputs", "outputs");
     context.setSettings(settings);
-
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor = new CxxOtherSensor(language);
+    logTester.clear();
     sensor.execute(context);
 
     List<String> log = logTester.logs(LoggerLevel.ERROR);
@@ -139,40 +147,19 @@ public class CxxOtherXsltTest {
   }
 
   @Test
-  public void shouldCreateMissingInputKeyMessage() {
-    logTester.clear();
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("something");
-    when(language.getPluginProperty("other.xslt.1.inputs")).thenReturn("");
-    when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("something");
-
-    settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "something");
-    settings.setProperty("something", "something");
-    context.setSettings(settings);
-
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
-    sensor = new CxxOtherSensor(language);
-    sensor.execute(context);
-
-    List<String> log = logTester.logs(LoggerLevel.ERROR);
-    assertThat(log).contains("XLST: inputs key is not defined.");
-  }
-
-  @Test
   public void shouldCreateEmptyInputsMessage() {
-    logTester.clear();
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
     when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("something");
     when(language.getPluginProperty("other.xslt.1.inputs")).thenReturn("someInput");
 
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "something");
     settings.setProperty("something", "something");
     context.setSettings(settings);
-
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor = new CxxOtherSensor(language);
+    logTester.clear();
     sensor.execute(context);
 
     List<String> log = logTester.logs(LoggerLevel.ERROR);
@@ -182,24 +169,20 @@ public class CxxOtherXsltTest {
   @Test
   public void transformReport_shouldTransformReport()
     throws java.io.IOException, javax.xml.transform.TransformerException {
-    System.out.print("Starting transformReport_shouldTransformReport");
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
     String stylesheetFile = "externalrules-reports" + File.separator + "externalrules-xslt-stylesheet.xslt";
     String inputFile = "externalrules-reports" + File.separator + "externalrules-xslt-input.xml";
     String outputFile = "externalrules-reports" + File.separator + "externalrules-xslt-output.xml";
 
-//    when(language.getStringOption(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn("externalrules-xslt-output.xml");
-//    when(language.getStringOption(language.getPluginProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.STYLESHEET_KEY))).thenReturn(stylesheetFile);
-//    when(language.getStringArrayOption(language.getPluginProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.INPUT_KEY))).thenReturn(new String[] {inputFile});
-//    when(language.getStringArrayOption(language.getPluginProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY))).thenReturn(new String[] {outputFile});
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-xslt-output.xml");
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.STYLESHEET_KEY), stylesheetFile);
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.INPUT_KEY), inputFile);
     settings.setProperty(language.getPluginProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY), outputFile);
 
     context.setSettings(settings);
-
     sensor = new CxxOtherSensor(language);
+    logTester.clear();
     sensor.transformFiles(fs.baseDir(), context);
 
     File reportBefore = new File(fs.baseDir() + "/" + inputFile);
