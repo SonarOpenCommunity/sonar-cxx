@@ -34,8 +34,7 @@ import static org.assertj.core.groups.Tuple.tuple;
 import org.fest.assertions.Fail;
 import org.junit.Test;
 import static org.mockito.Mockito.when;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
@@ -45,8 +44,8 @@ import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxPublicApiVisitorTest {
 
-  private static final Logger LOG = LoggerFactory
-    .getLogger("CxxPublicApiVisitorTest");
+  private static final org.sonar.api.utils.log.Logger LOG
+    = Loggers.get(CxxPublicApiVisitorTest.class);
 
   private static String getFileExtension(String fileName) {
     int lastIndexOf = fileName.lastIndexOf('.');
