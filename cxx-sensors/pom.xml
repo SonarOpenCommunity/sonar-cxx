@@ -59,7 +59,7 @@
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
+      <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -96,9 +96,9 @@
       <version>1.19</version>
     </dependency>
     <dependency>
-    	<groupId>org.assertj</groupId>
-    	<artifactId>assertj-core</artifactId>
-    	<scope>test</scope>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
