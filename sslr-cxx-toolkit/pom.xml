@@ -34,10 +34,6 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
@@ -83,8 +79,6 @@
                 <include>org.sonarsource.sonarqube:sonar-squid</include>
                 <include>org.sonarsource.sonarqube:sonar-channel</include>
                 <include>org.sonarsource.sonarqube:sonar-plugin-api</include>
-                <include>ch.qos.logback:logback-classic</include>
-                <include>ch.qos.logback:logback-core</include>
                 <include>commons-io:commons-io</include>
                 <include>commons-lang:commons-lang</include>
                 <include>com.google.guava:guava</include>
@@ -111,8 +105,8 @@
             <configuration>
               <rules>
                 <requireFilesSize>
-                  <maxsize>8500000</maxsize>
-                  <minsize>6500000</minsize>
+                  <maxsize>6000000</maxsize>
+                  <minsize>5000000</minsize>
                   <files>
                     <file>${project.build.directory}/${project.build.finalName}.jar</file>
                   </files>
