@@ -67,6 +67,14 @@ public class MapChain<K, V> {
     }
   }
 
+  public void putAll(Map<K, V> m) {
+    if (isHighPrioEnabled) {
+      highPrioMap.putAll(m);
+    } else {
+      lowPrioMap.putAll(m);
+    }
+  }
+
   /**
    * removeLowPrio
    *

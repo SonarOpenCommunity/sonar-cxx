@@ -44,7 +44,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -96,15 +95,15 @@ public class CxxPreprocessor extends Preprocessor {
   private File currentContextFile;
   private String rootFilePath;
 
-  private Parser<Grammar> pplineParser;
+  private final Parser<Grammar> pplineParser;
   private final MapChain<String, Macro> fixedMacros = new MapChain<>();
   private MapChain<String, Macro> unitMacros;
   private final Set<File> analysedFiles = new HashSet<>();
-  private SourceCodeProvider codeProvider = new SourceCodeProvider();
+  private final SourceCodeProvider codeProvider;
   private SourceCodeProvider unitCodeProvider;
-  private SquidAstVisitorContext<Grammar> context;
-  private List<String> cFilesPatterns;
-  private CxxConfiguration conf;
+  private final SquidAstVisitorContext<Grammar> context;
+  private final List<String> cFilesPatterns;
+  private final CxxConfiguration conf;
   private CxxCompilationUnitSettings compilationUnitSettings;
   private final Multimap<String, Include> includedFiles = HashMultimap.create();
   private final Multimap<String, Include> missingIncludeFiles = HashMultimap.create();
@@ -125,7 +124,7 @@ public class CxxPreprocessor extends Preprocessor {
     SourceCodeProvider sourceCodeProvider,
     CxxLanguage language) {
     this.context = context;
-    this.cFilesPatterns = conf.getCFilesPatterns();
+    this.cFilesPatterns = conf.getCFilesPatterns().stream().map(s -> s.replace("*", "")).collect(Collectors.toList());
     this.conf = conf;
     this.language = language;
 
@@ -148,7 +147,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       // set standard macros
-      registerMacros(StandardDefinitions.macros());
+      getMacros().putAll(Macro.STANDARD_MACROS);
 
       // parse the configured force includes and store into the macro library
       for (String include : conf.getForceIncludeFiles()) {
@@ -499,12 +498,7 @@ public class CxxPreprocessor extends Preprocessor {
 
           // set standard macros
           // using smaller set of defines as rest is provides by compilation unit settings
-          HashMap<String, String> defines = new HashMap<>();
-          defines.put("__FILE__", "\"file\"");
-          defines.put("__LINE__", "1");
-          defines.put("__DATE__", "\"??? ?? ????\"");
-          defines.put("__TIME__", "\"??:??:??\"");
-          registerMacros(defines);
+          getMacros().putAll(Macro.UNIT_MACROS);
 
           // parse the configured force includes and store into the macro library
           for (String include : conf.getForceIncludeFiles()) {
@@ -516,21 +510,25 @@ public class CxxPreprocessor extends Preprocessor {
           }
 
           // rest of defines comes from compilation unit settings
-          registerMacros(compilationUnitSettings.getDefines());
+          for (Map.Entry<String, String> entry : compilationUnitSettings.getDefines().entrySet()) {
+            final String name = entry.getKey();
+            final String body = entry.getValue();
+            getMacros().put(name, new Macro(name, body));
+          }
         } finally {
           getMacros().setHighPrio(false);
         }
 
         if (getMacro(CPLUSPLUS) == null) {
           //Create macros to replace C++ keywords when parsing C files
-          registerMacros(StandardDefinitions.compatibilityMacros());
+          getMacros().putAll(Macro.COMPATIBILITY_MACROS);
         }
       } else {
         // Use global settings
         LOG.debug("global settings for: '{}'", rootFilePath);
         if (isCFile(currentContextFile.getAbsolutePath())) {
           //Create macros to replace C++ keywords when parsing C files
-          registerMacros(StandardDefinitions.compatibilityMacros());
+          getMacros().putAll(Macro.COMPATIBILITY_MACROS);
           fixedMacros.disable(CPLUSPLUS);
         } else {
           fixedMacros.enable(CPLUSPLUS);
@@ -647,29 +645,9 @@ public class CxxPreprocessor extends Preprocessor {
     return findIncludedFile(exprAst, exprAst.getToken(), filePath) != null;
   }
 
-  private void registerMacros(Map<String, String> standardMacros) {
-    for (Map.Entry<String, String> entry : standardMacros.entrySet()) {
-      Token bodyToken;
-      try {
-        bodyToken = Token.builder()
-          .setLine(1)
-          .setColumn(0)
-          .setURI(new java.net.URI(""))
-          .setValueAndOriginalValue(entry.getValue())
-          .setType(STRING)
-          .build();
-      } catch (java.net.URISyntaxException e) {
-        throw new PreprocessorRuntimeException("URI cannot be handled", e);
-      }
-
-      getMacros().put(entry.getKey(), new Macro(entry.getKey(), null, Collections.singletonList(bodyToken), false));
-    }
-  }
-
   private boolean isCFile(String filePath) {
     for (String pattern : cFilesPatterns) {
-      String patt = pattern.replace("*", "");
-      if (filePath.endsWith(patt)) {
+      if (filePath.endsWith(pattern)) {
         LOG.debug("Parse '{}' as C file, ends in '{}'", filePath, pattern);
         return true;
       }
@@ -1102,8 +1080,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (currentFile != null) {
         missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
       }
-    } else if (!analysedFiles.contains(includedFile)) {
-      analysedFiles.add(includedFile.getAbsoluteFile());
+    } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
           filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath());
@@ -1292,42 +1269,6 @@ public class CxxPreprocessor extends Preprocessor {
 
     MismatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
       super(message, cause, enableSuppression, writableStackTrace);
-    }
-  }
-
-  static final class Macro {
-
-    private final String name;
-    private final List<Token> params;
-    private final List<Token> body;
-    private final boolean isVariadic;
-
-    public Macro(String name, @Nullable List<Token> params, @Nullable List<Token> body, boolean variadic) {
-      this.name = name;
-      if (params == null) {
-        this.params = null;
-      } else {
-        this.params = params.stream().collect(Collectors.toList());
-      }
-      if (body == null) {
-        this.body = null;
-      } else {
-        this.body = body.stream().collect(Collectors.toList());
-      }
-      this.isVariadic = variadic;
-    }
-
-    @Override
-    public String toString() {
-      return name
-        + (params == null ? "" : "(" + serialize(params, ", ") + (isVariadic ? "..." : "") + ")")
-        + " -> '" + serialize(body) + "'";
-    }
-
-    public boolean checkArgumentsCount(int count) {
-      return isVariadic
-        ? count >= params.size() - 1
-        : count == params.size();
     }
   }
 
