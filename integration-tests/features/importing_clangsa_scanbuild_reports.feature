@@ -1,4 +1,4 @@
-@SqApi67
+@SqApi67 @SqApi75
 Feature: Importing Clang Static Analyzer scan-build reports
 
   As a SonarQube user,
