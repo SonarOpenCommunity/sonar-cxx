@@ -78,18 +78,24 @@ public class AggregateMeasureComputer implements MeasureComputer {
   private static void compute(MeasureComputerContext context, String metricKey) {
     final Component component = context.getComponent();
     if (component.getType() == Component.Type.FILE) {
-      LOG.debug("Component {}: FILE doesn't required an aggregation", component.getKey());
+      // FILE doesn't required any aggregation. Relevant metrics should be provided by the sensor.
       return;
     }
     final Measure existingMeasure = context.getMeasure(metricKey);
     if (existingMeasure != null) {
+      // For all other component types (e.g. PROJECT, MODULE, DIRECTORY) the
+      // measurement <metricKey> should not be calculated manually (e.g. in the sensors).
+      // Otherwise there is a chance, that your custom calculation won't work properly for
+      // multi-module projects.
       LOG.debug("Component {}: measure {} already calculated, value = {}", component.getKey(), metricKey,
         existingMeasure.getIntValue());
       return;
     }
     Iterable<Measure> childrenMeasures = context.getChildrenMeasures(metricKey);
     if (childrenMeasures == null || !childrenMeasures.iterator().hasNext()) {
-      LOG.debug("Component {}: measure {} is not set for children", component.getKey(), metricKey);
+      // There is always a chance, that required metrics were not calculated for this particular component
+      // (e.g. one of modules in a multi-module project doesn't contain any C/C++ data at all).
+      // So don't complain about the missing data, but just ignore such components.
       return;
     }
     int aggregation = 0;
@@ -98,7 +104,7 @@ public class AggregateMeasureComputer implements MeasureComputer {
         aggregation += childMeasure.getIntValue();
       }
     }
-    LOG.info("Component {}: add measure {}, value {}", component.getKey(), metricKey, aggregation);
+    LOG.debug("Component {}: add measure {}, value {}", component.getKey(), metricKey, aggregation);
     context.addMeasure(metricKey, aggregation);
   }
 

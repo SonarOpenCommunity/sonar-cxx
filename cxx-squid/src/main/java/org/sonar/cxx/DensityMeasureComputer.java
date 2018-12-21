@@ -97,12 +97,17 @@ public class DensityMeasureComputer implements MeasureComputer {
     final Measure valueMeasure = context.getMeasure(valueKey);
     final Measure totalMeasure = context.getMeasure(totalKey);
     if (valueMeasure == null || totalMeasure == null) {
-      LOG.error("Component {}: not enough data to calcualte measure {}", context.getComponent().getKey(), densityKey);
+      // There is always a chance, that required metrics were not calculated for this particular component
+      // (e.g. one of modules in a multi-module project doesn't contain any C/C++ data at all).
+      // So don't complain about the missing data, but just ignore such components.
       return;
     }
     final Measure existingMeasure = context.getMeasure(densityKey);
     if (existingMeasure != null) {
-      LOG.error("Component {}: measure {} already calculated, value = {}", component.getKey(), densityKey,
+      // Measurement <densityKey> should not be calculated manually (e.g. in the sensors).
+      // Otherwise there is a chance, that your custom calculation won't work properly for
+      // multi-module projects.
+      LOG.debug("Component {}: measure {} already calculated, value = {}", component.getKey(), densityKey,
         existingMeasure.getDoubleValue());
       return;
     }
@@ -118,7 +123,7 @@ public class DensityMeasureComputer implements MeasureComputer {
       density = (double) value / (double) total * 100.0;
     }
 
-    LOG.info("Component {}: add measure {}, value {}", component.getKey(), densityKey, density);
+    LOG.debug("Component {}: add measure {}, value {}", component.getKey(), densityKey, density);
     context.addMeasure(densityKey, density);
   }
 
