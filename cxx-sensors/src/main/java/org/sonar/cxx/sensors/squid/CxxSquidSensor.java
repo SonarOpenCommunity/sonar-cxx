@@ -46,6 +46,7 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.checks.error.MissingIncludeFileCheck;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
 import org.sonar.cxx.sensors.visitors.CxxCpdVisitor;
@@ -139,6 +140,7 @@ public class CxxSquidSensor implements Sensor {
         this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
 
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
+    cxxConf.setCollectMissingIncludes(visitors.stream().anyMatch(v -> v instanceof MissingIncludeFileCheck));
     AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 

@@ -53,6 +53,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private String jsonCompilationDatabaseFile;
   private CxxCompilationUnitSettings globalCompilationUnitSettings;
   private final Map<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
+  private boolean collectMissingIncludes = false;
 
   private final CxxVCppBuildLogParser cxxVCppParser;
 
@@ -82,6 +83,14 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public boolean getIgnoreHeaderComments() {
     return ignoreHeaderComments;
+  }
+
+  public boolean doCollectMissingIncludes() {
+    return collectMissingIncludes;
+  }
+
+  public void setCollectMissingIncludes(boolean collectMissingIncludes) {
+    this.collectMissingIncludes = collectMissingIncludes;
   }
 
   public void setDefines(@Nullable String[] defines) {
