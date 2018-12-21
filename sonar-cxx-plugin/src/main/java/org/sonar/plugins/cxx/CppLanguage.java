@@ -124,7 +124,6 @@ public class CppLanguage extends CxxLanguage {
       org.sonar.cxx.checks.UselessParenthesesCheck.class,
       org.sonar.cxx.checks.UsingNamespaceInHeaderCheck.class,
       org.sonar.cxx.checks.api.UndocumentedApiCheck.class,
-      org.sonar.cxx.checks.error.MissingIncludeFileCheck.class,
       org.sonar.cxx.checks.error.ParsingErrorCheck.class,
       org.sonar.cxx.checks.error.ParsingErrorRecoveryCheck.class,
       org.sonar.cxx.checks.file.FileEncodingCheck.class,
