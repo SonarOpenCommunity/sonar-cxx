@@ -1,4 +1,4 @@
-@SqApi67
+@SqApi67 @SqApi75
 Feature: Importing Cppcheck ANSI-C reports
 
   Scenario Outline: Importing cppcheck issues when c language issues are in report.
