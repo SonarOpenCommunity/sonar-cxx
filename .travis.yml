@@ -13,7 +13,7 @@ env:
         - SONARHOME=/tmp/sonarqube-7.2     SONARAPI=SqApi67
         - SONARHOME=/tmp/sonarqube-7.3     SONARAPI=SqApi67
         - SONARHOME=/tmp/sonarqube-7.4     SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.5     SONARAPI=SqApi67
+        - SONARHOME=/tmp/sonarqube-7.5     SONARAPI=SqApi75
 
 matrix:
     fast_finish: true
