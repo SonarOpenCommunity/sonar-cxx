@@ -21,11 +21,12 @@ package org.sonar.cxx.parser;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.impl.Parser;
+
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
@@ -38,7 +39,7 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
-public class CxxParserTest extends ParserBaseTestHelper {
+public class CxxParserTest  {
 
   String errSources = "/parser/bad/error_recovery_declaration.cc";
   String[] goodFiles = {"own", "VC", "cli", "cuda", "examples"};
@@ -54,7 +55,7 @@ public class CxxParserTest extends ParserBaseTestHelper {
 
   @Test
   public void testParsingOnDiverseSourceFiles() {
-    Collection<File> files = listFiles(goodFiles, new String[]{"cc", "cpp", "hpp"});
+    List<File> files = listFiles(goodFiles, new String[]{"cc", "cpp", "hpp"});
     HashMap<String, Integer> map = new HashMap<String, Integer>() {
       private static final long serialVersionUID = 6029310517902718597L;
 
@@ -76,7 +77,15 @@ public class CxxParserTest extends ParserBaseTestHelper {
         put("outbuf2.cpp", 2);
       }
     };
+
+    CxxConfiguration conf = new CxxConfiguration();
+    conf.setErrorRecoveryEnabled(false);
+
+    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
+    Parser<Grammar> p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
+
     for (File file : files) {
+      when(context.getFile()).thenReturn(file);
       AstNode root = p.parse(file);
       CxxParser.finishedParsing(file);
       if (map.containsKey(file.getName())) {
@@ -90,7 +99,7 @@ public class CxxParserTest extends ParserBaseTestHelper {
   @SuppressWarnings("unchecked")
   @Test
   public void testPreproccessorParsingOnDiverseSourceFiles() {
-    conf = new CxxConfiguration();
+    CxxConfiguration conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(false);
     String baseDir = new File("src/test").getAbsolutePath();
     conf.setBaseDir(baseDir);
@@ -118,9 +127,11 @@ public class CxxParserTest extends ParserBaseTestHelper {
       }
     };
 
-    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf, CxxFileTesterHelper.mockCxxLanguage());
-    Collection<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"});
+    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
+    Parser<Grammar> p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
+    List<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"});
     for (File file : files) {
+      when(context.getFile()).thenReturn(file);
       AstNode root = p.parse(file);
       CxxParser.finishedParsing(file);
       if (map.containsKey(file.getName())) {
@@ -139,13 +150,15 @@ public class CxxParserTest extends ParserBaseTestHelper {
     // This mode works if such a file causes parsing errors when the mode
     // is switched off and doesn't, if the mode is switched on.
 
-    File cfile = (File) listFiles(cCompatibilityFiles, new String[]{"c"}).toArray()[0];
+    File cfile = listFiles(cCompatibilityFiles, new String[]{"c"}).get(0);
 
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(cfile);
 
+    CxxConfiguration conf = new CxxConfiguration();
+    conf.setErrorRecoveryEnabled(false);
     conf.setCFilesPatterns(new String[]{""});
-    p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
+    Parser<Grammar> p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
 
     AstNode root0 = p.parse(cfile);
     assertThat(root0.getNumberOfChildren()).isEqualTo(2);
@@ -158,6 +171,14 @@ public class CxxParserTest extends ParserBaseTestHelper {
 
   @Test
   public void testParseErrorRecoveryDisabled() {
+    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
+    when(context.getFile()).thenReturn(erroneousSources);
+
+    CxxConfiguration conf = new CxxConfiguration();
+    conf.setErrorRecoveryEnabled(false);
+
+    Parser<Grammar> p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
+
     // The error recovery works, if:
     // - a syntacticly incorrect file causes a parse error when recovery is disabled
     assertThatThrownBy(() -> {
@@ -168,15 +189,19 @@ public class CxxParserTest extends ParserBaseTestHelper {
   @SuppressWarnings("unchecked")
   @Test
   public void testParseErrorRecoveryEnabled() {
+    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
+    when(context.getFile()).thenReturn(erroneousSources);
+
     // The error recovery works, if:
     // - but doesn't cause such an error if we run with default settings
+    CxxConfiguration conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(true);
-    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf, CxxFileTesterHelper.mockCxxLanguage());
+    Parser<Grammar> p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
     AstNode root = p.parse(erroneousSources); //<-- this shouldn't throw now
     assertThat(root.getNumberOfChildren()).isEqualTo(6);
   }
 
-  private Collection<File> listFiles(String[] dirs, String[] extensions) {
+  private List<File> listFiles(String[] dirs, String[] extensions) {
     List<File> files = new ArrayList<>();
     for (String dir : dirs) {
       files.addAll(FileUtils.listFiles(new File(rootDir, dir), extensions, true));
