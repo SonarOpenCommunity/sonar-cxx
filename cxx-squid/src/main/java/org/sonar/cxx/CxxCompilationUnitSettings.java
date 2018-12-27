@@ -20,9 +20,9 @@
 package org.sonar.cxx;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Nullable;
 
 /**
@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  */
 public class CxxCompilationUnitSettings {
 
-  private Map<String, String> defines = new ConcurrentHashMap<>();
+  private Map<String, String> defines = new HashMap<>();
   private List<String> includes = new ArrayList<>();
 
   public Map<String, String> getDefines() {
