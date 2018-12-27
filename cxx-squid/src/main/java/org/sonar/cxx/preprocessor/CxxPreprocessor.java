@@ -1078,7 +1078,7 @@ public class CxxPreprocessor extends Preprocessor {
     File includedFile = findIncludedFile(ast, token, filename);
 
     File currentFile = this.getFileUnderAnalysis();
-    if (currentFile != null && includedFile != null) {
+    if (includedFile != null) {
       includedFiles.put(currentFile.getPath(), new Include(token.getLine(), includedFile.getAbsolutePath()));
     }
 
@@ -1087,9 +1087,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (LOG.isDebugEnabled()) {
         LOG.debug("[" + filename + ":" + token.getLine() + "]: cannot find include file '" + token.getValue() + "'");
       }
-      if (currentFile != null) {
-        missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
-      }
+      missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
     } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
