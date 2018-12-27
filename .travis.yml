@@ -32,8 +32,10 @@ before_cache:
         - rm -rf $HOME/.m2/repository/org/sonarsource/sonarqube-plugins/cxx
         - find $HOME/.m2 -name resolver-status.properties -exec rm {} \;
 cache:
+    pip: true
     directories:
         - '$HOME/.m2/repository'
+        - '$HOME/.sonar'
 
 before_install:
         - cat /etc/hosts # optionally check the content
