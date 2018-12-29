@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.visitors;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstVisitor;
 import com.sonar.sslr.api.GenericTokenType;
@@ -54,7 +53,6 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
     }
   }
 
-  @VisibleForTesting
   public static void resetReport() {
     errors = 0;
   }

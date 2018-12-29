@@ -19,12 +19,12 @@
  */
 package org.sonar.cxx.checks.regex;
 
-import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.utils.PathUtils;
@@ -123,7 +123,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
       if (!compare(invertFilePattern, matchFile())) {
         return;
       }
-      final String fileContent = Files.toString(getContext().getFile(), charset);
+      final String fileContent = new String(Files.readAllBytes(getContext().getFile().toPath()), charset);
       Matcher matcher = pattern.matcher(fileContent);
       if (compare(invertRegularExpression, matcher.find())) {
         getContext().createFileViolation(this, message);

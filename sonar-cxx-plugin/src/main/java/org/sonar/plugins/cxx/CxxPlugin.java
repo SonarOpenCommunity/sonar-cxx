@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx;
 
-import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -455,9 +454,7 @@ public final class CxxPlugin implements Plugin {
 
   private static List<PropertyDefinition> testingAndCoverageProperties() {
     String subcateg = "(3) Testing & Coverage";
-    ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
-
-    properties.add(
+    return new ArrayList<>(Arrays.asList(
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.REPORT_PATH_KEY)
         .name("Unit test coverage report(s)")
         .description("List of paths to reports containing unit test coverage data, relative to projects root."
@@ -515,8 +512,7 @@ public final class CxxPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(6)
         .build()
-    );
-    return properties.build();
+    ));
   }
 
   private static List<PropertyDefinition> duplicationsProperties() {

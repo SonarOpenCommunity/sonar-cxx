@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.toolkit;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 import java.nio.charset.Charset;
@@ -58,32 +57,26 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
 
   private final MapSettings settings = new MapSettings();
 
-  @VisibleForTesting
   ConfigurationProperty charsetProperty = new ConfigurationProperty("Charset", CHARSET_PROPERTY_KEY,
     getPropertyOrDefaultValue(CHARSET_PROPERTY_KEY, "UTF-8"),
     Validators.charsetValidator());
 
-  @VisibleForTesting
   ConfigurationProperty errorRecoveryEnabled = new ConfigurationProperty("Error Recovery", ERROR_RECOVERY_PROPERTY_KEY,
     getPropertyOrDefaultValue(ERROR_RECOVERY_PROPERTY_KEY, "false"),
     Validators.booleanValidator());
 
-  @VisibleForTesting
   ConfigurationProperty defines = new ConfigurationProperty("Defines", DEFINES_PROPERTY_KEY
     + " (use \\n\\ as separator)",
     getPropertyOrDefaultValue(DEFINES_PROPERTY_KEY, ""));
 
-  @VisibleForTesting
   ConfigurationProperty includeDirectories = new ConfigurationProperty("Include Directories",
     INCLUDE_DIRECTORIES_PROPERTY_KEY + " (use , as separator)",
     getPropertyOrDefaultValue(INCLUDE_DIRECTORIES_PROPERTY_KEY, ""));
 
-  @VisibleForTesting
   ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes", FORCE_INCLUDES_PROPERTY_KEY
     + " (use , as separator)",
     getPropertyOrDefaultValue(FORCE_INCLUDES_PROPERTY_KEY, ""));
 
-  @VisibleForTesting
   static String getPropertyOrDefaultValue(String propertyKey, String defaultValue) {
     String propertyValue = System.getProperty(propertyKey);
 
@@ -144,7 +137,6 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
     );
   }
 
-  @VisibleForTesting
   CxxConfiguration getConfiguration(CxxLanguage language) {
     CxxConfiguration config = new CxxConfiguration(getCharset());
     config.setErrorRecoveryEnabled("true".equals(errorRecoveryEnabled.getValue()));

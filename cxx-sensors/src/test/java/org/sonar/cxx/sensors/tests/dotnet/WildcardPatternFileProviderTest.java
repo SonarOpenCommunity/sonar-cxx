@@ -23,7 +23,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-import com.google.common.base.Joiner;
 import java.io.File;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,7 +40,7 @@ public class WildcardPatternFileProviderTest {
   public ExpectedException thrown = ExpectedException.none();
 
   private static String path(String... elements) {
-    return Joiner.on(File.separator).join(elements);
+    return String.join(File.separator, elements);
   }
 
   private static Set<File> listFiles(String pattern) {

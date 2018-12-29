@@ -31,19 +31,16 @@
       <artifactId>cxx-checks</artifactId>
       <version>${project.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.sonarsource.sslr</groupId>
       <artifactId>sslr-testing-harness</artifactId>
       <scope>test</scope>
     </dependency>
-    
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>
       <artifactId>sonar-testing-harness</artifactId>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
@@ -58,10 +55,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
-    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
@@ -74,7 +67,6 @@
       <artifactId>jackson-databind</artifactId>
       <version>2.9.7</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.googlecode.plist/dd-plist -->
     <dependency>
       <groupId>com.googlecode.plist</groupId>
       <artifactId>dd-plist</artifactId>
@@ -83,6 +75,11 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

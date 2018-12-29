@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.visitors;
 
-import com.google.common.collect.Sets;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
@@ -28,6 +27,7 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
@@ -235,9 +235,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     if (LOG.isDebugEnabled()) {
       LOG.debug("CxxFileLinesVisitor: '{}'", inputFile.uri().getPath());
       LOG.debug("   lines:           '{}'", inputFile.lines());
-      LOG.debug("   executableLines: '{}'", Sets.newHashSet(executableLines));
-      LOG.debug("   linesOfCode:     '{}'", Sets.newHashSet(linesOfCode));
-      LOG.debug("   linesOfComments: '{}'", Sets.newHashSet(linesOfComments));
+      LOG.debug("   executableLines: '{}'", new HashSet(executableLines));
+      LOG.debug("   linesOfCode:     '{}'", new HashSet(linesOfCode));
+      LOG.debug("   linesOfComments: '{}'", new HashSet(linesOfComments));
     }
 
     linesOfCode = null;

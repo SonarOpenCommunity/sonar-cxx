@@ -103,13 +103,13 @@
                 <pluginExecution>
                   <pluginExecutionFilter>
                     <groupId>
-  										com.github.genthaler
+                      com.github.genthaler
                     </groupId>
                     <artifactId>
-  										beanshell-maven-plugin
+                      beanshell-maven-plugin
                     </artifactId>
                     <versionRange>
-  										[1.2,)
+                      [1.2,)
                     </versionRange>
                     <goals>
                       <goal>run</goal>

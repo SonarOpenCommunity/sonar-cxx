@@ -18,13 +18,11 @@
       <artifactId>cxx-squid</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
     <dependency>
       <groupId>org.sonarsource.sslr</groupId>
       <artifactId>sslr-testing-harness</artifactId>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
