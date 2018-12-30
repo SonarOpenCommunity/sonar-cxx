@@ -55,7 +55,7 @@ public final class CxxLexer {
   private static final String HEXDIGIT_SEQUENCE = "[0-9a-fA-F]([']?+[0-9a-fA-F]++)*+";
   private static final String BINDIGIT_SEQUENCE = "[01]([']?+[01]++)*+";
   private static final String POINT = "\\.";
-  
+
   private CxxLexer() {
   }
 
