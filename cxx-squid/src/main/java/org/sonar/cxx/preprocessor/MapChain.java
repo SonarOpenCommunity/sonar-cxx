@@ -90,6 +90,7 @@ public class MapChain<K, V> {
    */
   public void clearLowPrio() {
     lowPrioMap.clear();
+    lowPrioDisabled.clear();
   }
 
   /**

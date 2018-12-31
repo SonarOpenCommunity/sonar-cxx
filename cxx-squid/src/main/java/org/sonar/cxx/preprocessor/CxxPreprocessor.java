@@ -35,11 +35,7 @@ import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.Parser;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.Charset;
-import java.nio.file.FileSystemNotFoundException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -49,6 +45,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
@@ -93,7 +90,6 @@ public class CxxPreprocessor extends Preprocessor {
 
   private final CxxLanguage language;
   private File currentContextFile;
-  private String rootFilePath;
 
   private final Parser<Grammar> pplineParser;
   private final MapChain<String, Macro> fixedMacros = new MapChain<>();
@@ -107,6 +103,7 @@ public class CxxPreprocessor extends Preprocessor {
   private CxxCompilationUnitSettings compilationUnitSettings;
   private final Multimap<String, Include> includedFiles = HashMultimap.create();
   private final Multimap<String, Include> missingIncludeFiles = HashMultimap.create();
+  private boolean ctorInProgress = true;
 
   private State currentFileState = new State(null);
   private final Deque<State> globalStateStack = new LinkedList<>();
@@ -159,6 +156,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
     } finally {
       getMacros().setHighPrio(false);
+      ctorInProgress = false;
     }
   }
 
@@ -456,11 +454,19 @@ public class CxxPreprocessor extends Preprocessor {
     Token token = tokens.get(0);
     TokenType ttype = token.getType();
 
-    File file = getFileUnderAnalysis();
-    rootFilePath = file == null ? token.getURI().toString() : file.getAbsolutePath();
+    final String rootFilePath = getFileUnderAnalysis().getAbsolutePath();
 
-    if (context.getFile() != currentContextFile) {
+    // CxxPreprocessor::process() can be called a) while construction,
+    // b) for a new "physical" file or c) for #include directive.
+    // Make sure, that the following code is executed for a new "physical" file
+    // only.
+    final boolean processingNewSourceFile = !ctorInProgress && (context.getFile() != currentContextFile);
+
+    if (processingNewSourceFile) {
       currentContextFile = context.getFile();
+      // In case "physical" file is preprocessed, SquidAstVisitorContext::getFile() cannot return null
+      // Did you forget to setup the mock properly?
+      Objects.requireNonNull(context.getFile(), "SquidAstVisitorContext::getFile() must be non-null");
       compilationUnitSettings = conf.getCompilationUnitSettings(currentContextFile.getAbsolutePath());
 
       if (compilationUnitSettings != null) {
@@ -640,9 +646,8 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   public Boolean expandHasIncludeExpression(AstNode exprAst) {
-    File file = getFileUnderAnalysis();
-    String filePath = file == null ? rootFilePath : file.getAbsolutePath();
-    return findIncludedFile(exprAst, exprAst.getToken(), filePath) != null;
+    final File file = getFileUnderAnalysis();
+    return findIncludedFile(exprAst, exprAst.getToken(), file.getAbsolutePath()) != null;
   }
 
   private boolean isCFile(String filePath) {
@@ -857,7 +862,6 @@ public class CxxPreprocessor extends Preprocessor {
 
   private File findIncludedFile(AstNode ast, Token token, String currFileName) {
     String includedFileName = null;
-    File includedFile = null;
     boolean quoted = false;
 
     AstNode node = ast.getFirstDescendant(CppGrammar.includeBodyQuoted);
@@ -908,28 +912,34 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     if (includedFileName != null) {
-      File file = getFileUnderAnalysis();
-      String dir;
-      if (file != null) {
-        dir = file.getParent();
-      } else {
-        try {
-          dir = Paths.get(new URI(currFileName)).getParent().toString();
-        } catch (IllegalArgumentException | FileSystemNotFoundException | SecurityException | URISyntaxException e) {
-          dir = "";
-        }
-      }
-      includedFile = getCodeProvider().getSourceCodeFile(includedFileName, dir, quoted);
+      final File file = getFileUnderAnalysis();
+      final String dir = file.getParent();
+      return getCodeProvider().getSourceCodeFile(includedFileName, dir, quoted);
     }
 
-    return includedFile;
+    return null;
   }
 
   private File getFileUnderAnalysis() {
-    if (currentFileState.includeUnderAnalysis == null) {
-      return context.getFile();
+    if (ctorInProgress) {
+      // a) CxxPreprocessor is parsing artificial #include and #define
+      // directives in order to initialize preprocessor with default macros
+      // and forced includes.
+      // This code is running in constructor of CxxPreprocessor. There is no
+      // information about the current file. Therefore return some artificial
+      // path under the project base directory.
+      return new File(conf.getBaseDir(), "CxxPreprocessorCtorInProgress.cpp").getAbsoluteFile();
+    } else if (currentFileState.includeUnderAnalysis != null) {
+      // b) CxxPreprocessor is called recursively in order to parse the #include
+      // directive. Return path to the included file.
+      return currentFileState.includeUnderAnalysis;
     }
-    return currentFileState.includeUnderAnalysis;
+
+    // c) CxxPreprocessor is called in the ordinary mode: it is preprocessing the
+    // file, tracked in org.sonar.squidbridge.SquidAstVisitorContext. This file cannot
+    // be null. If it is null - you forgot to setup the test mock.
+    Objects.requireNonNull(context.getFile(), "SquidAstVisitorContext::getFile() must be non-null");
+    return context.getFile();
   }
 
   PreprocessorAction handleIfLine(AstNode ast, Token token, String filename) {
@@ -1068,7 +1078,7 @@ public class CxxPreprocessor extends Preprocessor {
     File includedFile = findIncludedFile(ast, token, filename);
 
     File currentFile = this.getFileUnderAnalysis();
-    if (currentFile != null && includedFile != null) {
+    if (includedFile != null) {
       includedFiles.put(currentFile.getPath(), new Include(token.getLine(), includedFile.getAbsolutePath()));
     }
 
@@ -1077,9 +1087,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (LOG.isDebugEnabled()) {
         LOG.debug("[" + filename + ":" + token.getLine() + "]: cannot find include file '" + token.getValue() + "'");
       }
-      if (currentFile != null) {
-        missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
-      }
+      missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
     } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",

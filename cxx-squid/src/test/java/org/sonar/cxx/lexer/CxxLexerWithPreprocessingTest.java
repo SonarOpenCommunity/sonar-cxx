@@ -52,10 +52,16 @@ public class CxxLexerWithPreprocessingTest {
 
   private static Lexer lexer;
   private final CxxLanguage language;
+  private final SquidAstVisitorContext<Grammar> context;
 
   public CxxLexerWithPreprocessingTest() {
     language = CxxFileTesterHelper.mockCxxLanguage();
-    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), language);
+
+    File file = new File("snippet.cpp").getAbsoluteFile();
+    context = mock(SquidAstVisitorContext.class);
+    when(context.getFile()).thenReturn(file);
+
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, language);
     lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
   }
 
@@ -331,7 +337,7 @@ public class CxxLexerWithPreprocessingTest {
   public void external_define() {
     CxxConfiguration conf = new CxxConfiguration();
     conf.setDefines(new String[]{"M body"});
-    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, language);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("M");
@@ -345,7 +351,7 @@ public class CxxLexerWithPreprocessingTest {
   public void external_defines_with_params() {
     CxxConfiguration conf = new CxxConfiguration();
     conf.setDefines(new String[]{"minus(a, b) a - b"});
-    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, language);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("minus(1, 2)");
@@ -612,7 +618,7 @@ public class CxxLexerWithPreprocessingTest {
   public void externalMacrosCannotBeOverriden() {
     CxxConfiguration conf = mock(CxxConfiguration.class);
     when(conf.getDefines()).thenReturn(Arrays.asList("name goodvalue"));
-    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, language);
     lexer = CxxLexer.create(conf, cxxpp);
 
     List<Token> tokens = lexer.lex("#define name badvalue\n"

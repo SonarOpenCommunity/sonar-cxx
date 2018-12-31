@@ -20,7 +20,10 @@
 package org.sonar.cxx.lexer;
 
 import com.sonar.sslr.api.GenericTokenType;
+import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Lexer;
+
+import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +33,8 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
@@ -46,8 +51,12 @@ public class CxxLexerTest {
 
   @BeforeClass
   public static void init() {
+    File file = new File("snippet.cpp").getAbsoluteFile();
+    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
+    when(context.getFile()).thenReturn(file);
+
     CxxLanguage language = CxxFileTesterHelper.mockCxxLanguage();
-    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), language);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, language);
     lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
   }
 
