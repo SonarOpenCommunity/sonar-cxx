@@ -150,8 +150,20 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       }
       return null;
     }
+
+    // if the real path is equals to the given one - skip search; we already
+    // tried such path
+    //
+    // IMPORTANT: don't use Path::equals(), since it's dependent on file-system
+    // SonarQube plugin API works with string paths, so the equality of strings
+    // is important
+    final String realPathString = realPath.toString();
+    if (absolutePath.toString().equals(realPathString)) {
+      return null;
+    }
+
     return sensorContext.fileSystem()
-        .inputFile(sensorContext.fileSystem().predicates().hasAbsolutePath(realPath.toString()));
+        .inputFile(sensorContext.fileSystem().predicates().hasAbsolutePath(realPathString));
   }
 
   public InputFile getInputFileIfInProject(SensorContext sensorContext, String path) {
