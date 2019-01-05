@@ -151,10 +151,10 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       return null;
     }
 
-    // if the real path is equals to the given one - skip search; we already
+    // if the real path is equal to the given one - skip search; we already
     // tried such path
     //
-    // IMPORTANT: don't use Path::equals(), since it's dependent on file-system
+    // IMPORTANT: don't use Path::equals(), since it's dependent on a file-system.
     // SonarQube plugin API works with string paths, so the equality of strings
     // is important
     final String realPathString = realPath.toString();
