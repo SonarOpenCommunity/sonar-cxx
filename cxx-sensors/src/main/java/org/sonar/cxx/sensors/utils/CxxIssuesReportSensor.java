@@ -145,7 +145,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
     } catch (IOException e) {
       if (LOG.isDebugEnabled()) {
-        LOG.debug("Unable to get the real path: module '{}', baseDir '{}', path '{}', excepiton '{}'",
+        LOG.debug("Unable to get the real path: module '{}', baseDir '{}', path '{}', exception '{}'",
             sensorContext.module().key(), sensorContext.fileSystem().baseDir(), path, e);
       }
       return null;
