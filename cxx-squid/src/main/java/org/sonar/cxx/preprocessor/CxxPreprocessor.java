@@ -101,7 +101,6 @@ public class CxxPreprocessor extends Preprocessor {
   private final List<String> cFilesPatterns;
   private final CxxConfiguration conf;
   private CxxCompilationUnitSettings compilationUnitSettings;
-  private final Multimap<String, Include> includedFiles = HashMultimap.create();
   private final Multimap<String, Include> missingIncludeFiles = HashMultimap.create();
   private boolean ctorInProgress = true;
 
@@ -439,10 +438,6 @@ public class CxxPreprocessor extends Preprocessor {
 
   private static String stripQuotes(String str) {
     return str.substring(1, str.length() - 1);
-  }
-
-  public Collection<Include> getIncludedFiles(File file) {
-    return includedFiles.get(file.getPath());
   }
 
   public Collection<Include> getMissingIncludeFiles(File file) {
@@ -1075,19 +1070,16 @@ public class CxxPreprocessor extends Preprocessor {
     // c) if not done yet, process it using a special lexer, which calls back only
     //    if it finds relevant preprocessor directives (currently: include's and define's)
 
-    File includedFile = findIncludedFile(ast, token, filename);
-
-    File currentFile = this.getFileUnderAnalysis();
-    if (includedFile != null) {
-      includedFiles.put(currentFile.getPath(), new Include(token.getLine(), includedFile.getAbsolutePath()));
-    }
-
+    final File includedFile = findIncludedFile(ast, token, filename);
     if (includedFile == null) {
       missingIncludeFilesCounter++;
       if (LOG.isDebugEnabled()) {
         LOG.debug("[" + filename + ":" + token.getLine() + "]: cannot find include file '" + token.getValue() + "'");
       }
-      missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
+      if (conf.doCollectMissingIncludes()) {
+        final File currentFile = this.getFileUnderAnalysis();
+        missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
+      }
     } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
