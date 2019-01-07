@@ -71,6 +71,7 @@
                 <include>org.sonarsource.sonarqube:sonar-plugin-api</include>
                 <include>commons-io:commons-io</include>
                 <include>commons-lang:commons-lang</include>
+                <include>com.google.guava:guava</include>
               </includes>
               <rules>
                 <keep>
@@ -94,8 +95,8 @@
             <configuration>
               <rules>
                 <requireFilesSize>
-                  <maxsize>4000000</maxsize>
-                  <minsize>3000000</minsize>
+                  <maxsize>6000000</maxsize>
+                  <minsize>5000000</minsize>
                   <files>
                     <file>${project.build.directory}/${project.build.finalName}.jar</file>
                   </files>
