@@ -445,14 +445,10 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   @Override
-  public PreprocessorAction process(List<Token> tokens) { //TODO: deprecated PreprocessorAction
-    Token token = tokens.get(0);
-    TokenType ttype = token.getType();
-
-    final String rootFilePath = getFileUnderAnalysis().getAbsolutePath();
-
-    // CxxPreprocessor::process() can be called a) while construction,
-    // b) for a new "physical" file or c) for #include directive.
+  public void init() {
+    // CxxPreprocessor::init() can be called a) while construction,
+    // b) for a new "physical" file or c) while processing of
+    // #include directive.
     // Make sure, that the following code is executed for a new "physical" file
     // only.
     final boolean processingNewSourceFile = !ctorInProgress && (context.getFile() != currentContextFile);
@@ -465,12 +461,12 @@ public class CxxPreprocessor extends Preprocessor {
       compilationUnitSettings = conf.getCompilationUnitSettings(currentContextFile.getAbsolutePath());
 
       if (compilationUnitSettings != null) {
-        LOG.debug("compilation unit settings for: '{}'", rootFilePath);
+        LOG.debug("compilation unit settings for: '{}'", currentContextFile);
       } else {
         compilationUnitSettings = conf.getGlobalCompilationUnitSettings();
 
         if (compilationUnitSettings != null) {
-          LOG.debug("global compilation unit settings for: '{}'", rootFilePath);
+          LOG.debug("global compilation unit settings for: '{}'", currentContextFile);
         }
       }
 
@@ -526,7 +522,7 @@ public class CxxPreprocessor extends Preprocessor {
         }
       } else {
         // Use global settings
-        LOG.debug("global settings for: '{}'", rootFilePath);
+        LOG.debug("global settings for: '{}'", currentContextFile);
         if (isCFile(currentContextFile.getAbsolutePath())) {
           //Create macros to replace C++ keywords when parsing C files
           getMacros().putAll(Macro.COMPATIBILITY_MACROS);
@@ -536,6 +532,13 @@ public class CxxPreprocessor extends Preprocessor {
         }
       }
     }
+  }
+
+  @Override
+  public PreprocessorAction process(List<Token> tokens) { //TODO: deprecated PreprocessorAction
+    final Token token = tokens.get(0);
+    final TokenType ttype = token.getType();
+    final String rootFilePath = getFileUnderAnalysis().getAbsolutePath();
 
     if (ttype.equals(PREPROCESSOR)) {
 
