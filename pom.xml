@@ -286,7 +286,7 @@
           <exclusion>
             <groupId>org.codehaus.sonar.sslr</groupId>
             <artifactId>sslr-core</artifactId>
-          </exclusion>        
+          </exclusion>
           <exclusion>
             <groupId>org.codehaus.sonar.sslr</groupId>
             <artifactId>sslr-xpath</artifactId>

@@ -235,9 +235,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     if (LOG.isDebugEnabled()) {
       LOG.debug("CxxFileLinesVisitor: '{}'", inputFile.uri().getPath());
       LOG.debug("   lines:           '{}'", inputFile.lines());
-      LOG.debug("   executableLines: '{}'", new HashSet(executableLines));
-      LOG.debug("   linesOfCode:     '{}'", new HashSet(linesOfCode));
-      LOG.debug("   linesOfComments: '{}'", new HashSet(linesOfComments));
+      LOG.debug("   executableLines: '{}'", new HashSet<>(executableLines));
+      LOG.debug("   linesOfCode:     '{}'", new HashSet<>(linesOfCode));
+      LOG.debug("   linesOfComments: '{}'", new HashSet<>(linesOfComments));
     }
 
     linesOfCode = null;

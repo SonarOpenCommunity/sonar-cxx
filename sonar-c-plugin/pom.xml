@@ -8,7 +8,7 @@
     <version>1.2.2-SNAPSHOT</version>
   </parent>
 
-  
+
   <artifactId>sonar-c-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
 
@@ -19,7 +19,7 @@
 
   <properties>
     <sonar.pluginClass>org.sonar.plugins.c.CPlugin</sonar.pluginClass>
-    <sonar.pluginName>C (Community)</sonar.pluginName>    
+    <sonar.pluginName>C (Community)</sonar.pluginName>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
   </properties>
 
@@ -53,7 +53,7 @@
     <dependency>
       <groupId>org.sonarsource.sslr</groupId>
       <artifactId>sslr-xpath</artifactId>
-    </dependency> 
+    </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>

@@ -135,7 +135,7 @@
               </goals>
             </execution>
           </executions>
-        </plugin>   
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
