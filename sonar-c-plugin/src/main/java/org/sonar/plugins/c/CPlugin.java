@@ -93,7 +93,7 @@ public final class CPlugin implements Plugin {
 
   private static List<PropertyDefinition> generalProperties() {
     String subcateg = "(1) General";
-    return new ArrayList<>(Arrays.asList(
+    return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY).multiValues(true)
         .defaultValue(CLanguage.DEFAULT_SOURCE_SUFFIXES)
         .name("Source files suffixes")
@@ -189,7 +189,7 @@ public final class CPlugin implements Plugin {
 
   private static List<PropertyDefinition> codeAnalysisProperties() {
     String subcateg = "(2) Code analysis";
-    return new ArrayList<>(Arrays.asList(PropertyDefinition.builder(LANG_PROP_PREFIX
+    return Collections.unmodifiableList(Arrays.asList(PropertyDefinition.builder(LANG_PROP_PREFIX
       + CxxCppCheckSensor.REPORT_PATH_KEY)
       .name("Cppcheck report(s)")
       .description("Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, "
@@ -354,7 +354,7 @@ public final class CPlugin implements Plugin {
 
   private static List<PropertyDefinition> compilerWarningsProperties() {
     String subcateg = "(4) Compiler warnings";
-    return new ArrayList<>(Arrays.asList(
+    return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcSensor.REPORT_PATH_KEY)
         .name("VC Compiler Report(s)")
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
@@ -430,7 +430,7 @@ public final class CPlugin implements Plugin {
 
   private static List<PropertyDefinition> testingAndCoverageProperties() {
     String subcateg = "(3) Testing & Coverage";
-    return new ArrayList<>(Arrays.asList(
+    return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.REPORT_PATH_KEY)
         .name("Unit test coverage report(s)")
         .description("Path to a report containing unit test coverage data, relative to projects root."
@@ -465,7 +465,7 @@ public final class CPlugin implements Plugin {
 
   private static List<PropertyDefinition> duplicationsProperties() {
     String subcateg = "(5) Duplications";
-    return new ArrayList<>(Arrays.asList(
+    return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(CPlugin.CPD_IGNORE_LITERALS_KEY)
         .defaultValue(Boolean.FALSE.toString())
         .name("Ignores literal value differences when evaluating a duplicate block")

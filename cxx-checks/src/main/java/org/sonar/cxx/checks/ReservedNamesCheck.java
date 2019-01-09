@@ -19,12 +19,12 @@
  */
 package org.sonar.cxx.checks;
 
-import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -61,7 +61,7 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
   public void visitFile(AstNode astNode) {
     List<String> lines;
     try {
-      lines = Files.readLines(getContext().getFile(), charset);
+      lines = Files.readAllLines(getContext().getFile().toPath(), charset);
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }

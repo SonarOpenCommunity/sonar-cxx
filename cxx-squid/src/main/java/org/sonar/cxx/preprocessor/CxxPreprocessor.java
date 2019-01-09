@@ -19,9 +19,6 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import static com.sonar.sslr.api.GenericTokenType.EOF;
@@ -40,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -101,7 +99,7 @@ public class CxxPreprocessor extends Preprocessor {
   private final List<String> cFilesPatterns;
   private final CxxConfiguration conf;
   private CxxCompilationUnitSettings compilationUnitSettings;
-  private final Multimap<String, Include> missingIncludeFiles = HashMultimap.create();
+  private final HashMap<String, HashSet<Include>> missingIncludeFiles = new HashMap();
   private boolean ctorInProgress = true;
 
   private State currentFileState = new State(null);
@@ -165,7 +163,6 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  @VisibleForTesting
   public static void resetReport() {
     missingIncludeFilesCounter = 0;
   }
@@ -441,7 +438,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   public Collection<Include> getMissingIncludeFiles(File file) {
-    return missingIncludeFiles.get(file.getPath());
+    return missingIncludeFiles.getOrDefault(file.getPath(), new HashSet<>());
   }
 
   @Override
@@ -1078,7 +1075,8 @@ public class CxxPreprocessor extends Preprocessor {
       }
       if (conf.doCollectMissingIncludes()) {
         final File currentFile = this.getFileUnderAnalysis();
-        missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
+        missingIncludeFiles.computeIfAbsent(currentFile.getPath(), k -> new HashSet<>())
+          .add(new Include(token.getLine(), token.getValue()));
       }
     } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
       if (LOG.isTraceEnabled()) {

@@ -19,8 +19,6 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -139,7 +137,7 @@ public abstract class CxxReportSensor implements Sensor {
    * @return
    */
   public static String[] splitProperty(String property) {
-    return Iterables.toArray(Splitter.on(',').split(property), String.class);
+    return property.split(",");
   }
 
   /**

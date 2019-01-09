@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.squid;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.sonar.sslr.api.Grammar;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,7 +84,6 @@ public final class CxxChecks {
     return null;
   }
 
-  @VisibleForTesting
   public Set<Checks<SquidAstVisitor<Grammar>>> getChecks() {
     return new HashSet<>(checksByRepository);
   }
