@@ -20,27 +20,15 @@
 package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstVisitor;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.squidbridge.SquidAstVisitor;
-import org.sonar.squidbridge.SquidAstVisitorContext;
 
-public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR>
-  implements AstVisitor {
+public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> {
 
-  private final SquidAstVisitorContext<?> context;
-
-  public CxxFileVisitor(SquidAstVisitorContext<?> context) {
-    this.context = context;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void visitFile(AstNode node) {
-    CxxParser.finishedParsing(context.getFile());
+    CxxParser.finishedParsing(getContext().getFile());
   }
 
 }

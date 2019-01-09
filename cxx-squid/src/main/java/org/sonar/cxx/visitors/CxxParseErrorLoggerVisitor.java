@@ -20,7 +20,6 @@
 package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstVisitor;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.TokenType;
@@ -30,22 +29,14 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
-import org.sonar.squidbridge.SquidAstVisitorContext;
 
-public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
-  extends SquidAstVisitor<GRAMMAR> implements AstVisitor {
+public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> {
 
   private static final String SYNTAX_ERROR_MSG
     = "Source code parser: {} syntax error(s) detected. Syntax errors could cause invalid software metric values."
     + " Root cause are typically missing includes, missing macros or compiler specific extensions.";
   private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);
   private static int errors = 0;
-
-  private final SquidAstVisitorContext<?> context;
-
-  public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context) {
-    this.context = context;
-  }
 
   public static void finalReport() {
     if (errors != 0) {
@@ -85,7 +76,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
         // part with CURLBR_LEFT is typically an ignored declaration
         if (identifierLine != -1) {
           LOG.debug("[{}:{}]: skip declaration: {}",
-            context.getFile(), identifierLine, sb.toString());
+            getContext().getFile(), identifierLine, sb.toString());
           sb.setLength(0);
           identifierLine = -1;
         }
@@ -100,7 +91,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
     if (identifierLine != -1 && sb.length() > 0) {
       // part without CURLBR_LEFT is typically a syntax error
       LOG.debug("[{}:{}]:    syntax error: {}",
-        context.getFile(), identifierLine, sb.toString());
+        getContext().getFile(), identifierLine, sb.toString());
     }
   }
 
