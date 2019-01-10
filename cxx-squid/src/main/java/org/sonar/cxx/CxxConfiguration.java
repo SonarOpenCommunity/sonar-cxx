@@ -242,8 +242,8 @@ public class CxxConfiguration extends SquidConfiguration {
         if ("Visual C++".equals(fileFormat)) {
           cxxVCppParser.parseVCppLog(buildLog, baseDir, charsetName);
           LOG.info("Parse build log '" + buildLog.getAbsolutePath()
-            + "' added includes: '" + uniqueIncludes.size()
-            + "', added defines: '" + uniqueDefines.size() + "'");
+            + "' added includes: '" + getIncludeDirectories().size()
+            + "', added defines: '" + getDefines().size() + "'");
           if (LOG.isDebugEnabled()) {
             for (List<String> allIncludes : uniqueIncludes.values()) {
               if (!allIncludes.isEmpty()) {
