@@ -386,7 +386,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         BOOL, // boolean-literal
         NULLPTR // pointer-literal
       )
-    );
+    ).skip();
   }
 
   private static void vcAttributedAtl(LexerfulGrammarBuilder b) {

@@ -27,7 +27,7 @@ import java.util.Map;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
@@ -57,7 +57,7 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
 
   @Override
   public void init() {
-    subscribeTo(CxxGrammarImpl.LITERAL);
+    subscribeTo(CxxTokenType.STRING);
   }
 
   @Override
