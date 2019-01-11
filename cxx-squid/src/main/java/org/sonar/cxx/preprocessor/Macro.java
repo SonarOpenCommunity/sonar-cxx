@@ -61,7 +61,7 @@ public final class Macro {
    * @param name
    * @param body
    */
-  public Macro(String name, String body) {
+  private Macro(String name, String body) {
     this.name = name;
     this.params = null;
     this.body = Collections.singletonList(Token.builder()
