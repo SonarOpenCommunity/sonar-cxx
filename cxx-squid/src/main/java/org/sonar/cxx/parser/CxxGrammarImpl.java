@@ -1463,7 +1463,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence("=", initializerClause), // C++
         bracedInitList // C++
       )
-    );
+    ).skip();
 
     b.rule(initializerClause).is(
       // C-COMPATIBILITY: C99 designated initializers
@@ -1477,7 +1477,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         assignmentExpression, // C++
         bracedInitList // C++
       )
-    );
+    ).skipIfOneChild();
 
     b.rule(initializerList).is(
       initializerClause, b.optional("..."), b.zeroOrMore(",", initializerClause, b.optional("...")) // C++
@@ -1485,6 +1485,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(bracedInitList).is(
       b.firstOf(
+        b.sequence("{", LITERAL, b.oneOrMore(",", LITERAL), "}" ), // syntax sugar: speed-up initialisation of big arrays
         b.sequence("{", initializerList, b.optional(","), "}"), // C++
         b.sequence("{", "}") // C++
       )
