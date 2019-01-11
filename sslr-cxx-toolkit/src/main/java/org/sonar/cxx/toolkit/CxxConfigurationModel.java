@@ -21,6 +21,8 @@ package org.sonar.cxx.toolkit;
 
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
+
+import java.io.File;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +39,8 @@ import org.sonar.colorizer.Tokenizer;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxParser;
-import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.sonar.squidbridge.SquidAstVisitorContextImpl;
 import org.sonar.squidbridge.api.SourceProject;
 import org.sonar.sslr.toolkit.AbstractConfigurationModel;
@@ -120,8 +122,9 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
 
   @Override
   public Parser<? extends Grammar> doGetParser() {
-    SquidAstVisitorContext<Grammar> context
+    SquidAstVisitorContextImpl<Grammar> context
       = new SquidAstVisitorContextImpl<>(new SourceProject(""));
+    context.setFile(new File("file.cpp").getAbsoluteFile(), CxxMetric.FILES);
     CppLanguage language = new CppLanguage(settings.asConfig());
     return CxxParser.create(context, getConfiguration(language), language);
   }
