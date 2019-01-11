@@ -105,6 +105,18 @@ public class CxxPreprocessor extends Preprocessor {
   private State currentFileState = new State(null);
   private final Deque<State> globalStateStack = new LinkedList<>();
 
+  /**
+   * Pre-parsed forced defines, see {@link CxxConfiguration#getDefines()}
+   */
+  private final Map<String, Macro> forcedDefines;
+  /**
+   * Pre-parsed defines from the global compilation unit settings, see
+   * {@link CxxConfiguration#getGlobalCompilationUnitSettings()}.
+   *
+   * Nullable!
+   */
+  private final Map<String, Macro> globalCUDefines;
+
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context, CxxLanguage language) {
     this(context, new CxxConfiguration(), language);
   }
@@ -127,19 +139,20 @@ public class CxxPreprocessor extends Preprocessor {
 
     pplineParser = CppParser.create(conf);
 
+    LOG.debug("parsing forced defines");
+    forcedDefines = parseMacroDefinitions(conf.getDefines());
+    final CxxCompilationUnitSettings globalCUSettings = conf.getGlobalCompilationUnitSettings();
+    if (globalCUSettings != null) {
+      LOG.debug("parsing global compilation unit defines");
+      globalCUDefines = parseMacroDefinitions(globalCUSettings.getDefines());
+    } else {
+      globalCUDefines = null;
+    }
+
     try {
       getMacros().setHighPrio(true);
-
-      // parse the configured defines and store into the macro library
-      for (String define : conf.getDefines()) {
-        LOG.debug("parsing external macro: '{}'", define);
-        if (!"".equals(define)) {
-          Macro macro = parseMacroDefinition("#define " + define);
-          LOG.debug("storing external macro: '{}'", macro);
-          getMacros().put(macro.name, macro);
-        }
-      }
-
+      // add configured (forced) defines
+      getMacros().putAll(forcedDefines);
       // set standard macros
       getMacros().putAll(Macro.STANDARD_MACROS);
 
@@ -457,14 +470,14 @@ public class CxxPreprocessor extends Preprocessor {
       Objects.requireNonNull(context.getFile(), "SquidAstVisitorContext::getFile() must be non-null");
       compilationUnitSettings = conf.getCompilationUnitSettings(currentContextFile.getAbsolutePath());
 
+      boolean useGlobalCUSettings = false;
+
       if (compilationUnitSettings != null) {
         LOG.debug("compilation unit settings for: '{}'", currentContextFile);
-      } else {
+      } else if (conf.getGlobalCompilationUnitSettings() != null) {
         compilationUnitSettings = conf.getGlobalCompilationUnitSettings();
-
-        if (compilationUnitSettings != null) {
-          LOG.debug("global compilation unit settings for: '{}'", currentContextFile);
-        }
+        useGlobalCUSettings = true;
+        LOG.debug("global compilation unit settings for: '{}'", currentContextFile);
       }
 
       if (compilationUnitSettings != null) {
@@ -478,17 +491,8 @@ public class CxxPreprocessor extends Preprocessor {
           // Treat all global defines as high prio
           getMacros().setHighPrio(true);
 
-          // parse the configured defines and store into the macro library
-          for (String define : conf.getDefines()) {
-            LOG.debug("parsing external macro to unit: '{}'", define);
-            if (!"".equals(define)) {
-              Macro macro = parseMacroDefinition("#define " + define);
-              if (macro != null) {
-                LOG.debug("storing external macro to unit: '{}'", macro);
-                getMacros().put(macro.name, macro);
-              }
-            }
-          }
+          // add configured (forced) defines
+          getMacros().putAll(forcedDefines);
 
           // set standard macros
           // using smaller set of defines as rest is provides by compilation unit settings
@@ -504,10 +508,10 @@ public class CxxPreprocessor extends Preprocessor {
           }
 
           // rest of defines comes from compilation unit settings
-          for (Map.Entry<String, String> entry : compilationUnitSettings.getDefines().entrySet()) {
-            final String name = entry.getKey();
-            final String body = entry.getValue();
-            getMacros().put(name, new Macro(name, body));
+          if (useGlobalCUSettings) {
+            getMacros().putAll(globalCUDefines);
+          } else {
+            getMacros().putAll(parseMacroDefinitions(compilationUnitSettings.getDefines()));
           }
         } finally {
           getMacros().setHighPrio(false);
@@ -853,6 +857,42 @@ public class CxxPreprocessor extends Preprocessor {
   private Macro parseMacroDefinition(String macroDef) {
     return parseMacroDefinition(pplineParser.parse(macroDef)
       .getFirstDescendant(CppGrammar.defineLine));
+  }
+
+  /**
+   * Parse defines spited into key-value format
+   * (sonar.cxx.jsonCompilationDatabase)
+   */
+  private Map<String, Macro> parseMacroDefinitions(Map<String, String> defines) {
+    final List<String> margedDefines = defines.entrySet().stream().map(e -> e.getKey() + " " + e.getValue())
+        .collect(Collectors.toList());
+    return parseMacroDefinitions(margedDefines);
+  }
+
+  /**
+   * Parse defines, which are merged into one string (see sonar.cxx.defines)
+   */
+  private Map<String, Macro> parseMacroDefinitions(List<String> defines) {
+    final Map<String, Macro> result = new HashMap<>();
+
+    for (String define : defines) {
+      if (define.isEmpty()) {
+        continue;
+      }
+
+      final String defineString = "#define " + define;
+
+      LOG.debug("parsing external macro: '{}'", defineString);
+      final Macro macro = parseMacroDefinition(defineString);
+
+      if (macro != null) {
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("storing external macro: '{}'", macro);
+        }
+        result.put(macro.name, macro);
+      }
+    }
+    return result;
   }
 
   private File findIncludedFile(AstNode ast, Token token, String currFileName) {

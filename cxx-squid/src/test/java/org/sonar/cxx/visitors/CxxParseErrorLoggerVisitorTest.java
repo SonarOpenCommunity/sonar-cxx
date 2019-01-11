@@ -53,12 +53,12 @@ public class CxxParseErrorLoggerVisitorTest {
   @Test
   public void handleParseErrorTest() throws Exception {
     List<String> log = logTester.logs(LoggerLevel.DEBUG);
-    assertThat(log).hasSize(12);
-    assertThat(log.get(7)).contains("skip declaration: namespace X {");
-    assertThat(log.get(8)).contains("skip declaration: void test :: f1 ( ) {");
-    assertThat(log.get(9)).contains("syntax error: i = unsigend int ( i + 1 )");
-    assertThat(log.get(10)).contains("skip declaration: void test :: f3 ( ) {");
-    assertThat(log.get(11)).contains("syntax error: int i = 0 i ++");
+    assertThat(log).hasSize(13);
+    assertThat(log.get(8)).contains("skip declaration: namespace X {");
+    assertThat(log.get(9)).contains("skip declaration: void test :: f1 ( ) {");
+    assertThat(log.get(10)).contains("syntax error: i = unsigend int ( i + 1 )");
+    assertThat(log.get(11)).contains("skip declaration: void test :: f3 ( ) {");
+    assertThat(log.get(12)).contains("syntax error: int i = 0 i ++");
   }
 
 }
