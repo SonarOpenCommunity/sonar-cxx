@@ -96,6 +96,8 @@ public final class Macro {
     map.put(name, new Macro(name, body));
   }
 
+  public static final String CPLUSPLUS = "__cplusplus";
+
   /**
    * This is a collection of standard macros according to
    * http://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html
@@ -111,7 +113,7 @@ public final class Macro {
     add(STANDARD_MACROS_IMPL, "__TIME__", "\"??:??:??\"");
     add(STANDARD_MACROS_IMPL, "__STDC__", "1");
     add(STANDARD_MACROS_IMPL, "__STDC_HOSTED__", "1");
-    add(STANDARD_MACROS_IMPL, "__cplusplus", "201103L");
+    add(STANDARD_MACROS_IMPL, CPLUSPLUS, "201103L");
     // __has_include support (C++17)
     add(STANDARD_MACROS_IMPL, "__has_include", "1");
   }

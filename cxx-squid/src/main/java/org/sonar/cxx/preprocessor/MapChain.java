@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,6 +119,10 @@ public class MapChain<K, V> {
     if (value != null) {
       to.put(key, value);
     }
+  }
+
+  public Map<K, V> getHighPrioMap() {
+    return Collections.unmodifiableMap(highPrioMap);
   }
 
 }
