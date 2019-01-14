@@ -90,28 +90,39 @@ public class CxxPreprocessor extends Preprocessor {
 
   private final Parser<Grammar> pplineParser;
   /**
-   * Contains pre-parsed forced defines (see
-   * {@link CxxConfiguration#getDefines()}), {@link Macro#STANDARD_MACROS} and
-   * forced includes (see {@link CxxConfiguration#getForceIncludeFiles()}). Used
-   * if there is no compilation unit settings. All hi-prio macros are pre-parsed
-   * while construction of {@link CxxPreprocessor}
+   * Contains a standard set of pre-compiled macros, which are defined for each
+   * compilation unit. This map is used if there is no specific compilation unit
+   * settings. The map contains
+   * <ol>
+   * <li>{@link Macro#STANDARD_MACROS}</li>
+   * <li>{@link CxxConfiguration#getDefines()} and</li>
+   * <li>forced includes (see
+   * {@link CxxConfiguration#getForceIncludeFiles()})</li>
+   * </ol>
+   * All hi-prio macros are pre-parsed while construction of
+   * {@link CxxPreprocessor}
    */
   private final MapChain<String, Macro> fixedMacros = new MapChain<>();
   /**
    * If CxxConfiguration contains any compilation unit settings, this map is
-   * filled with pre-parsed forced defines, which must be applied for each
-   * compilation unit: {@link CxxConfiguration#getDefines()}),
-   * {@link Macro#UNIT_MACROS} and forced includes (see
-   * {@link CxxConfiguration#getForceIncludeFiles()}); Immutable; macros are
-   * pre-parsed while construction of {@link CxxPreprocessor}
+   * filled with a set of pre-compiled macros. Those macros must be defined for
+   * each compilation unit:
+   * <ol>
+   * <li>{@link Macro#UNIT_MACROS}</li>
+   * <li>{@link CxxConfiguration#getDefines()} and</li>
+   * <li>forced includes (see
+   * {@link CxxConfiguration#getForceIncludeFiles()})</li>
+   * </ol>
+   * The map is immutable; macros are pre-parsed while construction of
+   * {@link CxxPreprocessor}
    */
-  private final Map<String, Macro> forcedUnitMacros;
+  private final Map<String, Macro> predefinedUnitMacros;
   /**
    * If current processed file has some specific configuration settings, this
    * map will be filled with relevant macros and defines:
    * <ol>
-   * <li>pre-parsed forced macros will be added (see
-   * {@link CxxPreprocessor#forcedUnitMacros}</li>
+   * <li>predefined compilation unit macros will be added (see
+   * {@link CxxPreprocessor#predefinedUnitMacros}</li>
    * <li>specific unit settings will be parsed and added (see
    * {@link CxxConfiguration#getCompilationUnitSettings(String)}</li>
    * </ol>
@@ -162,11 +173,11 @@ public class CxxPreprocessor extends Preprocessor {
 
     pplineParser = CppParser.create(conf);
 
-    final List<String> forcedDefines = conf.getDefines();
-    Map<String, Macro> forcedMacros = Collections.emptyMap();
-    if (!forcedDefines.isEmpty()) {
-      LOG.debug("parsing forced defines");
-      forcedMacros = parseMacroDefinitions(forcedDefines);
+    final List<String> configuredDefines = conf.getDefines();
+    Map<String, Macro> configuredMacros = Collections.emptyMap();
+    if (!configuredDefines.isEmpty()) {
+      LOG.debug("parsing configured defines");
+      configuredMacros = parseMacroDefinitions(configuredDefines);
     }
 
     // fill CxxPreprocessor.fixedMacros
@@ -176,14 +187,14 @@ public class CxxPreprocessor extends Preprocessor {
     }
     try {
       getMacros().setHighPrio(true);
-      getMacros().putAll(forcedMacros);
       getMacros().putAll(Macro.STANDARD_MACROS);
+      getMacros().putAll(configuredMacros);
       parseForcedIncludes();
     } finally {
       getMacros().setHighPrio(false);
     }
 
-    // fill CxxPreprocessor.forcedUnitMacros() if relevant
+    // fill CxxPreprocessor.predefinedUnitMacros if relevant
     final CxxCompilationUnitSettings globalCUSettings = conf.getGlobalCompilationUnitSettings();
     if (!conf.getCompilationUnitSourceFiles().isEmpty() || (globalCUSettings != null)) {
       unitMacros = new MapChain<>();
@@ -192,15 +203,15 @@ public class CxxPreprocessor extends Preprocessor {
       }
       try {
         getMacros().setHighPrio(true);
-        getMacros().putAll(forcedMacros);
         getMacros().putAll(Macro.UNIT_MACROS);
+        getMacros().putAll(configuredMacros);
         parseForcedIncludes();
-        forcedUnitMacros = new HashMap<>(unitMacros.getHighPrioMap());
+        predefinedUnitMacros = new HashMap<>(unitMacros.getHighPrioMap());
       } finally {
         unitMacros = null;
       }
     } else {
-      forcedUnitMacros = Collections.emptyMap();
+      predefinedUnitMacros = Collections.emptyMap();
     }
 
     // fill CxxPreprocessor.globalCUDefines if relevant
@@ -535,8 +546,8 @@ public class CxxPreprocessor extends Preprocessor {
           // Treat all global defines as high prio
           getMacros().setHighPrio(true);
 
-          // add macros which are forced for each compilation unit
-          getMacros().putAll(forcedUnitMacros);
+          // add macros which are predefined for each compilation unit
+          getMacros().putAll(predefinedUnitMacros);
 
           // rest of defines comes from compilation unit settings
           if (useGlobalCUSettings) {
@@ -746,7 +757,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   /**
-   * Parse the configured force includes and store into the macro library.
+   * Parse the configured forced includes and store into the macro library.
    * Current macro library depends on the return value of
    * CxxPreprocessor#getMacros()
    */
