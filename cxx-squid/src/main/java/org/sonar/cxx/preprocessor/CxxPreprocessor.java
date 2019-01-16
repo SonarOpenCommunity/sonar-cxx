@@ -137,7 +137,7 @@ public class CxxPreprocessor extends Preprocessor {
    * Pre-parsed defines from the global compilation unit settings, see
    * {@link CxxConfiguration#getGlobalCompilationUnitSettings()}.
    */
-  private final Map<String, Macro> globalCUDefines;
+  private final Map<String, Macro> globalUnitMacros;
   private final Set<File> analysedFiles = new HashSet<>();
   private final SourceCodeProvider codeProvider;
   private SourceCodeProvider unitCodeProvider;
@@ -173,18 +173,28 @@ public class CxxPreprocessor extends Preprocessor {
 
     pplineParser = CppParser.create(conf);
 
+    final Map<String, Macro> configuredMacros = parseConfiguredMacros();
+    fillFixedMacros(configuredMacros);
+    predefinedUnitMacros = parsePredefinedUnitMacros(configuredMacros);
+    globalUnitMacros = parseGlobalUnitMacros();
+
+    ctorInProgress = false;
+  }
+
+  private Map<String, Macro> parseConfiguredMacros() {
     final List<String> configuredDefines = conf.getDefines();
-    Map<String, Macro> configuredMacros = Collections.emptyMap();
-    if (!configuredDefines.isEmpty()) {
-      LOG.debug("parsing configured defines");
-      configuredMacros = parseMacroDefinitions(configuredDefines);
+    if (configuredDefines.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    LOG.debug("parsing configured defines");
+    return parseMacroDefinitions(configuredDefines);
+  }
+
+  private void fillFixedMacros(Map<String, Macro> configuredMacros) {
+    if (!ctorInProgress || (getMacros() != fixedMacros) || !fixedMacros.getHighPrioMap().isEmpty()) {
+      throw new IllegalStateException("Preconditions for initial fill-out of fixedMacros were violated");
     }
 
-    // fill CxxPreprocessor.fixedMacros
-    // getMacros() returns CxxPreprocessor.fixedMacros
-    if (getMacros() != fixedMacros) {
-      throw new IllegalStateException("expected fixedMacros as active macros map");
-    }
     try {
       getMacros().setHighPrio(true);
       getMacros().putAll(Macro.STANDARD_MACROS);
@@ -193,36 +203,50 @@ public class CxxPreprocessor extends Preprocessor {
     } finally {
       getMacros().setHighPrio(false);
     }
+  }
 
-    // fill CxxPreprocessor.predefinedUnitMacros if relevant
+  /**
+   * Create temporary unitMacros map; This map will be used as an active macros'
+   * storage while parsing of forced includes. After parsing was over extract
+   * resulting macros and destroy the unitMacros. fixedMacros will be set as
+   * active macros again.
+   */
+  private Map<String, Macro> parsePredefinedUnitMacros(Map<String, Macro> configuredMacros) {
+    if (!ctorInProgress || (unitMacros != null)) {
+      throw new IllegalStateException("Preconditions for initial fill-out of predefinedUnitMacros were violated");
+    }
+
+    if (conf.getCompilationUnitSourceFiles().isEmpty() && (conf.getGlobalCompilationUnitSettings() == null)) {
+      // configuration doesn't contain any settings settings for compilation
+      // units. CxxPreprocessor will use fixedMacros only
+      return Collections.emptyMap();
+    }
+
+    unitMacros = new MapChain<>();
+    if (getMacros() != unitMacros) {
+      throw new IllegalStateException("expected unitMacros as active macros map");
+    }
+
+    try {
+      getMacros().setHighPrio(true);
+      getMacros().putAll(Macro.UNIT_MACROS);
+      getMacros().putAll(configuredMacros);
+      parseForcedIncludes();
+      final HashMap<String, Macro> result = new HashMap<>(unitMacros.getHighPrioMap());
+      return result;
+    } finally {
+      getMacros().setHighPrio(false); // just for the symmetry
+      unitMacros = null; // remove unitMacros, switch getMacros() to fixedMacros
+    }
+  }
+
+  private Map<String, Macro> parseGlobalUnitMacros() {
     final CxxCompilationUnitSettings globalCUSettings = conf.getGlobalCompilationUnitSettings();
-    if (!conf.getCompilationUnitSourceFiles().isEmpty() || (globalCUSettings != null)) {
-      unitMacros = new MapChain<>();
-      if (getMacros() != unitMacros) {
-        throw new IllegalStateException("expected unitMacros as active macros map");
-      }
-      try {
-        getMacros().setHighPrio(true);
-        getMacros().putAll(Macro.UNIT_MACROS);
-        getMacros().putAll(configuredMacros);
-        parseForcedIncludes();
-        predefinedUnitMacros = new HashMap<>(unitMacros.getHighPrioMap());
-      } finally {
-        unitMacros = null;
-      }
-    } else {
-      predefinedUnitMacros = Collections.emptyMap();
+    if (globalCUSettings == null) {
+      return Collections.emptyMap();
     }
-
-    // fill CxxPreprocessor.globalCUDefines if relevant
-    if (globalCUSettings != null) {
-      LOG.debug("parsing global compilation unit defines");
-      globalCUDefines = parseMacroDefinitions(globalCUSettings.getDefines());
-    } else {
-      globalCUDefines = Collections.emptyMap();
-    }
-
-    ctorInProgress = false;
+    LOG.debug("parsing global compilation unit defines");
+    return parseMacroDefinitions(globalCUSettings.getDefines());
   }
 
   public static void finalReport() {
@@ -551,7 +575,7 @@ public class CxxPreprocessor extends Preprocessor {
 
           // rest of defines comes from compilation unit settings
           if (useGlobalCUSettings) {
-            getMacros().putAll(globalCUDefines);
+            getMacros().putAll(globalUnitMacros);
           } else {
             getMacros().putAll(parseMacroDefinitions(compilationUnitSettings.getDefines()));
           }
