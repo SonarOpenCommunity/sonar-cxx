@@ -217,8 +217,8 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     if (conf.getCompilationUnitSourceFiles().isEmpty() && (conf.getGlobalCompilationUnitSettings() == null)) {
-      // configuration doesn't contain any settings settings for compilation
-      // units. CxxPreprocessor will use fixedMacros only
+      // configuration doesn't contain any settings for compilation units.
+      // CxxPreprocessor will use fixedMacros only
       return Collections.emptyMap();
     }
 
