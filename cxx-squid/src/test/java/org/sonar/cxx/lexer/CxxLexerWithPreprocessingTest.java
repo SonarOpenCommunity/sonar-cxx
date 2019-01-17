@@ -27,10 +27,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
+import org.mockito.Mockito;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -627,6 +629,89 @@ public class CxxLexerWithPreprocessingTest {
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // goodvalue + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("goodvalue").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertAll();
+  }
+
+  /**
+   * Test the expansion of default macros. Document the reference value of
+   * __LINE__ == 1
+   */
+  @Test
+  public void defaultMacros() {
+    CxxConfiguration conf = mock(CxxConfiguration.class);
+    when(conf.getDefines()).thenReturn(Arrays.asList());
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, language);
+
+    final Lexer l = CxxLexer.create(conf, cxxpp);
+    final List<Token> tokens = l.lex("__LINE__");
+
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(2); // __LINE__ + EOF
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
+    softly.assertAll();
+  }
+
+  /**
+   * Configured defines override default macros. This is equivalent to the
+   * standard preprocessor behavior:<br>
+   * <code>
+   * main.cpp: printf("%d", __LINE__);
+   * g++ -D__LINE__=123 main.cpp && ./a.out
+   *
+   * Expected Output: 123
+   * </code>
+   */
+  @Test
+  public void configuredDefinesOverrideDefaultMacros() {
+    CxxConfiguration conf = mock(CxxConfiguration.class);
+    when(conf.getDefines()).thenReturn(Arrays.asList("__LINE__ 123"));
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, language);
+
+    final Lexer l = CxxLexer.create(conf, cxxpp);
+    final List<Token> tokens = l.lex("__LINE__");
+
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(2); // __LINE__ + EOF
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("123").hasType(CxxTokenType.NUMBER));
+    softly.assertAll();
+  }
+
+  /**
+   * Forced includes override configured defines and default macros (similar to
+   * the fact that [included] #define directives override configured defines).
+   * This is equivalent to the standard preprocessor behavior: <br>
+   * <code>
+   * main.cpp: #define __LINE__ 345
+   *           printf("%d", __LINE__);
+   * g++ -D__LINE__=123 main.cpp && ./a.out
+   *
+   * Expected Output: 345
+   * </code>
+   */
+  @Test
+  public void forcedIncludesOverrideConfiguredDefines() throws IOException {
+    final String forceIncludePath = "/home/user/force.h";
+    final File forceIncludeFile = new File(forceIncludePath);
+
+    final CxxConfiguration conf = new CxxConfiguration();
+    conf.setForceIncludeFiles(Collections.singletonList(forceIncludePath));
+    conf.setDefines(new String[] { "__LINE__ 123" });
+    conf.setErrorRecoveryEnabled(false);
+
+    final SourceCodeProvider provider = mock(SourceCodeProvider.class);
+    when(provider.getSourceCodeFile(Mockito.eq(forceIncludePath), Mockito.any(String.class), Mockito.anyBoolean()))
+        .thenReturn(forceIncludeFile);
+    when(provider.getSourceCode(Mockito.eq(forceIncludeFile), Mockito.any(Charset.class)))
+        .thenReturn("#define __LINE__ 345");
+
+    final CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, provider, language);
+    final Lexer l = CxxLexer.create(conf, cxxpp);
+
+    final List<Token> tokens = l.lex("__LINE__\n");
+
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(2); // __LINE__ + EOF
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("345").hasType(CxxTokenType.NUMBER));
     softly.assertAll();
   }
 

@@ -76,7 +76,6 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxPreprocessor extends Preprocessor {
 
-  private static final String CPLUSPLUS = "__cplusplus";
   private static final String EVALUATED_TO_FALSE = "[{}:{}]: '{}' evaluated to false, skipping tokens that follow";
   private static final String MISSING_INCLUDE_MSG
     = "Preprocessor: {} include directive error(s). This is only relevant if parser creates syntax errors."
@@ -90,8 +89,55 @@ public class CxxPreprocessor extends Preprocessor {
   private File currentContextFile;
 
   private final Parser<Grammar> pplineParser;
+  /**
+   * Contains a standard set of pre-compiled macros, which are defined for each
+   * compilation unit. This map is used if there is no specific compilation unit
+   * settings. The map contains
+   * <ol>
+   * <li>{@link Macro#STANDARD_MACROS}</li>
+   * <li>{@link CxxConfiguration#getDefines()} and</li>
+   * <li>forced includes (see
+   * {@link CxxConfiguration#getForceIncludeFiles()})</li>
+   * </ol>
+   * All hi-prio macros are pre-parsed while construction of
+   * {@link CxxPreprocessor}
+   */
   private final MapChain<String, Macro> fixedMacros = new MapChain<>();
+  /**
+   * If CxxConfiguration contains any compilation unit settings, this map is
+   * filled with a set of pre-compiled macros. Those macros must be defined for
+   * each compilation unit:
+   * <ol>
+   * <li>{@link Macro#UNIT_MACROS}</li>
+   * <li>{@link CxxConfiguration#getDefines()} and</li>
+   * <li>forced includes (see
+   * {@link CxxConfiguration#getForceIncludeFiles()})</li>
+   * </ol>
+   * The map is immutable; macros are pre-parsed while construction of
+   * {@link CxxPreprocessor}
+   */
+  private final Map<String, Macro> predefinedUnitMacros;
+  /**
+   * If current processed file has some specific configuration settings, this
+   * map will be filled with relevant macros and defines:
+   * <ol>
+   * <li>predefined compilation unit macros will be added (see
+   * {@link CxxPreprocessor#predefinedUnitMacros}</li>
+   * <li>specific unit settings will be parsed and added (see
+   * {@link CxxConfiguration#getCompilationUnitSettings(String)}</li>
+   * </ol>
+   * Map is recalculated each time {@link CxxPreprocessor} is about to analyze a
+   * new file (see {@link CxxPreprocessor#init()}.
+   *
+   * If current processed file has no specific configuration settings -
+   * {@link CxxPreprocessor#fixedMacros} will be used.
+   */
   private MapChain<String, Macro> unitMacros;
+  /**
+   * Pre-parsed defines from the global compilation unit settings, see
+   * {@link CxxConfiguration#getGlobalCompilationUnitSettings()}.
+   */
+  private final Map<String, Macro> globalUnitMacros;
   private final Set<File> analysedFiles = new HashSet<>();
   private final SourceCodeProvider codeProvider;
   private SourceCodeProvider unitCodeProvider;
@@ -127,34 +173,80 @@ public class CxxPreprocessor extends Preprocessor {
 
     pplineParser = CppParser.create(conf);
 
+    final Map<String, Macro> configuredMacros = parseConfiguredMacros();
+    fillFixedMacros(configuredMacros);
+    predefinedUnitMacros = parsePredefinedUnitMacros(configuredMacros);
+    globalUnitMacros = parseGlobalUnitMacros();
+
+    ctorInProgress = false;
+  }
+
+  private Map<String, Macro> parseConfiguredMacros() {
+    final List<String> configuredDefines = conf.getDefines();
+    if (configuredDefines.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    LOG.debug("parsing configured defines");
+    return parseMacroDefinitions(configuredDefines);
+  }
+
+  private void fillFixedMacros(Map<String, Macro> configuredMacros) {
+    if (!ctorInProgress || (getMacros() != fixedMacros) || !fixedMacros.getHighPrioMap().isEmpty()) {
+      throw new IllegalStateException("Preconditions for initial fill-out of fixedMacros were violated");
+    }
+
     try {
       getMacros().setHighPrio(true);
-
-      // parse the configured defines and store into the macro library
-      for (String define : conf.getDefines()) {
-        LOG.debug("parsing external macro: '{}'", define);
-        if (!"".equals(define)) {
-          Macro macro = parseMacroDefinition("#define " + define);
-          LOG.debug("storing external macro: '{}'", macro);
-          getMacros().put(macro.name, macro);
-        }
-      }
-
-      // set standard macros
       getMacros().putAll(Macro.STANDARD_MACROS);
-
-      // parse the configured force includes and store into the macro library
-      for (String include : conf.getForceIncludeFiles()) {
-        LOG.debug("parsing force include: '{}'", include);
-        if (!"".equals(include)) {
-          parseIncludeLine("#include \"" + include + "\"", "sonar." + this.language.getPropertiesKey()
-            + ".forceIncludes", conf.getEncoding());
-        }
-      }
+      getMacros().putAll(configuredMacros);
+      parseForcedIncludes();
     } finally {
       getMacros().setHighPrio(false);
-      ctorInProgress = false;
     }
+  }
+
+  /**
+   * Create temporary unitMacros map; This map will be used as an active macros'
+   * storage while parsing of forced includes. After parsing was over extract
+   * resulting macros and destroy the unitMacros. fixedMacros will be set as
+   * active macros again.
+   */
+  private Map<String, Macro> parsePredefinedUnitMacros(Map<String, Macro> configuredMacros) {
+    if (!ctorInProgress || (unitMacros != null)) {
+      throw new IllegalStateException("Preconditions for initial fill-out of predefinedUnitMacros were violated");
+    }
+
+    if (conf.getCompilationUnitSourceFiles().isEmpty() && (conf.getGlobalCompilationUnitSettings() == null)) {
+      // configuration doesn't contain any settings for compilation units.
+      // CxxPreprocessor will use fixedMacros only
+      return Collections.emptyMap();
+    }
+
+    unitMacros = new MapChain<>();
+    if (getMacros() != unitMacros) {
+      throw new IllegalStateException("expected unitMacros as active macros map");
+    }
+
+    try {
+      getMacros().setHighPrio(true);
+      getMacros().putAll(Macro.UNIT_MACROS);
+      getMacros().putAll(configuredMacros);
+      parseForcedIncludes();
+      final HashMap<String, Macro> result = new HashMap<>(unitMacros.getHighPrioMap());
+      return result;
+    } finally {
+      getMacros().setHighPrio(false); // just for the symmetry
+      unitMacros = null; // remove unitMacros, switch getMacros() to fixedMacros
+    }
+  }
+
+  private Map<String, Macro> parseGlobalUnitMacros() {
+    final CxxCompilationUnitSettings globalCUSettings = conf.getGlobalCompilationUnitSettings();
+    if (globalCUSettings == null) {
+      return Collections.emptyMap();
+    }
+    LOG.debug("parsing global compilation unit defines");
+    return parseMacroDefinitions(globalCUSettings.getDefines());
   }
 
   public static void finalReport() {
@@ -457,14 +549,14 @@ public class CxxPreprocessor extends Preprocessor {
       Objects.requireNonNull(context.getFile(), "SquidAstVisitorContext::getFile() must be non-null");
       compilationUnitSettings = conf.getCompilationUnitSettings(currentContextFile.getAbsolutePath());
 
+      boolean useGlobalCUSettings = false;
+
       if (compilationUnitSettings != null) {
         LOG.debug("compilation unit settings for: '{}'", currentContextFile);
-      } else {
+      } else if (conf.getGlobalCompilationUnitSettings() != null) {
         compilationUnitSettings = conf.getGlobalCompilationUnitSettings();
-
-        if (compilationUnitSettings != null) {
-          LOG.debug("global compilation unit settings for: '{}'", currentContextFile);
-        }
+        useGlobalCUSettings = true;
+        LOG.debug("global compilation unit settings for: '{}'", currentContextFile);
       }
 
       if (compilationUnitSettings != null) {
@@ -478,54 +570,32 @@ public class CxxPreprocessor extends Preprocessor {
           // Treat all global defines as high prio
           getMacros().setHighPrio(true);
 
-          // parse the configured defines and store into the macro library
-          for (String define : conf.getDefines()) {
-            LOG.debug("parsing external macro to unit: '{}'", define);
-            if (!"".equals(define)) {
-              Macro macro = parseMacroDefinition("#define " + define);
-              if (macro != null) {
-                LOG.debug("storing external macro to unit: '{}'", macro);
-                getMacros().put(macro.name, macro);
-              }
-            }
-          }
-
-          // set standard macros
-          // using smaller set of defines as rest is provides by compilation unit settings
-          getMacros().putAll(Macro.UNIT_MACROS);
-
-          // parse the configured force includes and store into the macro library
-          for (String include : conf.getForceIncludeFiles()) {
-            LOG.debug("parsing force include to unit: '{}'", include);
-            if (!"".equals(include)) {
-              // TODO -> this needs to come from language
-              parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes", conf.getEncoding());
-            }
-          }
+          // add macros which are predefined for each compilation unit
+          getMacros().putAll(predefinedUnitMacros);
 
           // rest of defines comes from compilation unit settings
-          for (Map.Entry<String, String> entry : compilationUnitSettings.getDefines().entrySet()) {
-            final String name = entry.getKey();
-            final String body = entry.getValue();
-            getMacros().put(name, new Macro(name, body));
+          if (useGlobalCUSettings) {
+            getMacros().putAll(globalUnitMacros);
+          } else {
+            getMacros().putAll(parseMacroDefinitions(compilationUnitSettings.getDefines()));
           }
         } finally {
           getMacros().setHighPrio(false);
         }
 
-        if (getMacro(CPLUSPLUS) == null) {
+        if (getMacro(Macro.CPLUSPLUS) == null) {
           //Create macros to replace C++ keywords when parsing C files
           getMacros().putAll(Macro.COMPATIBILITY_MACROS);
         }
       } else {
         // Use global settings
         LOG.debug("global settings for: '{}'", currentContextFile);
-        if (isCFile(currentContextFile.getAbsolutePath())) {
+        if (isCFile(currentContextFile.getName())) {
           //Create macros to replace C++ keywords when parsing C files
           getMacros().putAll(Macro.COMPATIBILITY_MACROS);
-          fixedMacros.disable(CPLUSPLUS);
+          getMacros().disable(Macro.CPLUSPLUS);
         } else {
-          fixedMacros.enable(CPLUSPLUS);
+          getMacros().enable(Macro.CPLUSPLUS);
         }
       }
     }
@@ -710,6 +780,21 @@ public class CxxPreprocessor extends Preprocessor {
     return tokensConsumedMatchingArgs;
   }
 
+  /**
+   * Parse the configured forced includes and store into the macro library.
+   * Current macro library depends on the return value of
+   * CxxPreprocessor#getMacros()
+   */
+  private void parseForcedIncludes() {
+    for (String include : conf.getForceIncludeFiles()) {
+      if (!include.isEmpty()) {
+        LOG.debug("parsing force include: '{}'", include);
+        parseIncludeLine("#include \"" + include + "\"", "sonar." + this.language.getPropertiesKey() + ".forceIncludes",
+            conf.getEncoding());
+      }
+    }
+  }
+
   private List<Token> expandMacro(String macroName, String macroExpression) {
     // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further replacement
     List<Token> tokens = null;
@@ -853,6 +938,42 @@ public class CxxPreprocessor extends Preprocessor {
   private Macro parseMacroDefinition(String macroDef) {
     return parseMacroDefinition(pplineParser.parse(macroDef)
       .getFirstDescendant(CppGrammar.defineLine));
+  }
+
+  /**
+   * Parse defines spited into key-value format
+   * (sonar.cxx.jsonCompilationDatabase)
+   */
+  private Map<String, Macro> parseMacroDefinitions(Map<String, String> defines) {
+    final List<String> margedDefines = defines.entrySet().stream().map(e -> e.getKey() + " " + e.getValue())
+        .collect(Collectors.toList());
+    return parseMacroDefinitions(margedDefines);
+  }
+
+  /**
+   * Parse defines, which are merged into one string (see sonar.cxx.defines)
+   */
+  private Map<String, Macro> parseMacroDefinitions(List<String> defines) {
+    final Map<String, Macro> result = new HashMap<>();
+
+    for (String define : defines) {
+      if (define.isEmpty()) {
+        continue;
+      }
+
+      final String defineString = "#define " + define;
+
+      LOG.debug("parsing external macro: '{}'", defineString);
+      final Macro macro = parseMacroDefinition(defineString);
+
+      if (macro != null) {
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("storing external macro: '{}'", macro);
+        }
+        result.put(macro.name, macro);
+      }
+    }
+    return result;
   }
 
   private File findIncludedFile(AstNode ast, Token token, String currFileName) {
