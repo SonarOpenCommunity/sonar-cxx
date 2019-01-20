@@ -1,0 +1,1535 @@
+﻿Der Buildvorgang wurde am 10.01.2019 15:41:59 gestartet.
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Versucht C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\$(MSBuildToolsVersion)\Microsoft.Common.props mithilfe des Erweiterungspfad C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild zu importieren.
+Neuzuweisung der Eigenschaft: $(MSBuildProjectExtensionsPath)="D:\Development\Source\cpp\Projects\SyncEngine\obj\" (vorheriger Wert: "obj\") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.props (60,5)
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Versucht C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\$(MSBuildToolsVersion)\Imports\Microsoft.Common.props\ImportBefore\* mithilfe des Erweiterungspfad C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild zu importieren.
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Neuzuweisung der Eigenschaft: $(PlatformToolset)="v100" (vorheriger Wert: "") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Platforms\Win32\Platform.default.props (26,5)
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Default.props (166,5)
+Neuzuweisung der Eigenschaft: $(ConfigurationType)="StaticLibrary" (vorheriger Wert: "Application") unter D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj (36,5)
+Neuzuweisung der Eigenschaft: $(PlatformToolset)="v141" (vorheriger Wert: "v100") unter D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj (39,5)
+Neuzuweisung der Eigenschaft: $(WholeProgramOptimization)="true" (vorheriger Wert: "false") unter D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj (40,5)
+Neuzuweisung der Eigenschaft: $(_PlatformFolder)="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Platforms\Win32\" (vorheriger Wert: "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\\Platforms\Win32\") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Platforms\Win32\Platform.props (15,5)
+Neuzuweisung der Eigenschaft: $(TargetExt)=".lib" (vorheriger Wert: "") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Common.props (44,5)
+Neuzuweisung der Eigenschaft: $(WindowsSdkDir)="C:\Program Files (x86)\Windows Kits\8.1\" (vorheriger Wert: "C:\Program Files (x86)\Windows Kits\10\") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Common.props (119,5)
+Neuzuweisung der Eigenschaft: $(SDKDisplayName)="Windows" (vorheriger Wert: "Windows 10") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Common.props (143,5)
+Neuzuweisung der Eigenschaft: $(WindowsSDK_ExecutablePath_x86)="C:\Program Files (x86)\Windows Kits\8.1\bin\x86;;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools" (vorheriger Wert: "C:\Program Files (x86)\Windows Kits\8.1\bin\x86;") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Common.props (174,5)
+Neuzuweisung der Eigenschaft: $(WindowsSDK_ExecutablePath_x64)="C:\Program Files (x86)\Windows Kits\8.1\bin\x64;;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\x64" (vorheriger Wert: "C:\Program Files (x86)\Windows Kits\8.1\bin\x64;") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Common.props (175,5)
+Neuzuweisung der Eigenschaft: $(WindowsSDK_IncludePath)="C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\Include\um" (vorheriger Wert: "C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Common.props (176,5)
+Neuzuweisung der Eigenschaft: $(LocalDebuggerMergeEnvironment)="true" (vorheriger Wert: "false") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Common.props (356,5)
+Neuzuweisung der Eigenschaft: $(LocalDebuggerAttach)="False" (vorheriger Wert: "false") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Common.props (357,5)
+Neuzuweisung der Eigenschaft: $(LocalDebuggerSQLDebugging)="False" (vorheriger Wert: "false") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Common.props (358,5)
+Neuzuweisung der Eigenschaft: $(VC_IncludePath)="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\include;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\include;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\include;;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt;;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\UnitTest\include" (vorheriger Wert: "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\include;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\include;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\include;;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt;;") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.UnitTest.props (17,5)
+Neuzuweisung der Eigenschaft: $(VC_LibraryPath_x86)="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\lib\x86;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\lib\x86;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\lib\x86;;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\ucrt\x86;;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\UnitTest\lib" (vorheriger Wert: "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\lib\x86;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\lib\x86;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\lib\x86;;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\ucrt\x86;;") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.UnitTest.props (19,5)
+Neuzuweisung der Eigenschaft: $(VC_LibraryPath_x64)="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\lib\x64;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\lib\x64;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\lib\x64;;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\ucrt\x64;;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\UnitTest\lib" (vorheriger Wert: "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\lib\x64;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\lib\x64;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\lib\x64;;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\ucrt\x64;;") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.UnitTest.props (20,5)
+Neuzuweisung der Eigenschaft: $(VC_LibraryPath_ARM)="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\lib\ARM;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\lib\ARM;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\lib\ARM;;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\ucrt\arm;;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\UnitTest\lib" (vorheriger Wert: "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\lib\ARM;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\lib\ARM;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\lib\ARM;;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\ucrt\arm;;") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.UnitTest.props (21,5)
+Neuzuweisung der Eigenschaft: $(_PropertySheetDisplayName)="Whole Program Optimization" (vorheriger Wert: "Core Windows Libraries") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.WholeProgramOptimization.props (15,5)
+Neuzuweisung der Eigenschaft: $(OutDir)="..\..\ObjectFiles\Cpp\vc8md\" (vorheriger Wert: "D:\Development\Source\cpp\Projects\SyncEngine\Release\") unter D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj (62,5)
+Neuzuweisung der Eigenschaft: $(IntDir)="release\" (vorheriger Wert: "Release\") unter D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj (63,5)
+Neuzuweisung der Eigenschaft: $(IgnoreImportLibrary)="true" (vorheriger Wert: "false") unter D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj (66,5)
+Neuzuweisung der Eigenschaft: $(ExtensionsToDeleteOnClean)="*.cdf;*.cache;*.obj;*.obj.enc;*.ilk;*.ipdb;*.iobj;*.resources;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;*.tlog;*.manifest;*.res;*.pch;*.exp;*.idb;*.rep;*.xdc;*.pdb;*_manifest.rc;*.bsc;*.sbr;*.xml;*.metagen;*.bi;D:\Development\Source\cpp\Projects\SyncEngine\..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib.manifest;..\..\ObjectFiles\Cpp\vc8md\SyncEngine.tlb;..\..\ObjectFiles\Cpp\vc8md\SyncEngine.pdb;D:\Development\Source\cpp\Projects\SyncEngine\..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib;..\..\ObjectFiles\Cpp\vc8md\SyncEngine.bsc;..\..\ObjectFiles\Cpp\vc8md\SyncEngine.ilk;D:\Development\Source\cpp\Projects\SyncEngine\..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib.intermediate.manifest" (vorheriger Wert: "*.cdf;*.cache;*.obj;*.obj.enc;*.ilk;*.ipdb;*.iobj;*.resources;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;*.tlog;*.manifest;*.res;*.pch;*.exp;*.idb;*.rep;*.xdc;*.pdb;*_manifest.rc;*.bsc;*.sbr;*.xml;*.metagen;*.bi") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets (35,5)
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props (29,5)
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Neuzuweisung der Eigenschaft: $(TargetPlatformSdkMetadataLocation)="C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" (vorheriger Wert: "C:\Program Files (x86)\Windows Kits\8.1\Windows Metadata") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets (94,5)
+Neuzuweisung der Eigenschaft: $(_DocumentationFileProduced)="false" (vorheriger Wert: "true") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets (157,5)
+Neuzuweisung der Eigenschaft: $(TargetDir)="D:\Development\Source\cpp\ObjectFiles\Cpp\vc8md\" (vorheriger Wert: "D:\Development\Source\cpp\Projects\SyncEngine\..\..\ObjectFiles\Cpp\vc8md") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets (283,5)
+Neuzuweisung der Eigenschaft: $(DelaySign)="" (vorheriger Wert: "false") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets (525,5)
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets (536,5)
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets (537,5)
+Neuzuweisung der Eigenschaft: $(_SGenGenerateSerializationAssembliesConfig)="Auto" (vorheriger Wert: "") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets (3500,5)
+Neuzuweisung der Eigenschaft: $(CAExcludePath)="C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt;;C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\Include\um;" (vorheriger Wert: "C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\Include\um;") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\VisualStudio\v15.0\CodeAnalysis\Microsoft.CodeAnalysis.targets (223,5)
+Neuzuweisung der Eigenschaft: $(CAExcludePath)="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt;;C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\Include\um;" (vorheriger Wert: "C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt;;C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\Include\um;") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\VisualStudio\v15.0\CodeAnalysis\Microsoft.CodeAnalysis.targets (224,5)
+Neuzuweisung der Eigenschaft: $(CAExcludePath)="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt;;C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\Include\um;" (vorheriger Wert: "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt;;C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\Include\um;") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\VisualStudio\v15.0\CodeAnalysis\Microsoft.CodeAnalysis.targets (225,5)
+Neuzuweisung der Eigenschaft: $(PrepareForBuildDependsOn)="GetFrameworkPaths;GetReferenceAssemblyPaths;AssignLinkMetadata;SetCABuildNativeEnvironmentVariables" (vorheriger Wert: "GetFrameworkPaths;GetReferenceAssemblyPaths;AssignLinkMetadata") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\VisualStudio\v15.0\CodeAnalysis\Microsoft.CodeAnalysis.targets (228,5)
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets (29,6)
+Neuzuweisung der Eigenschaft: $(ResolveReferencesDependsOn)="
+      
+      BeforeResolveReferences;
+      AssignProjectConfiguration;
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      ResolveNativeReferences;
+      ResolveAssemblyReferences;
+      GenerateBindingRedirects;
+      ResolveComReferences;
+      AfterResolveReferences
+    ;
+      ImplicitlyExpandDesignTimeFacades
+    " (vorheriger Wert: "
+      BeforeResolveReferences;
+      AssignProjectConfiguration;
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      ResolveNativeReferences;
+      ResolveAssemblyReferences;
+      GenerateBindingRedirects;
+      ResolveComReferences;
+      AfterResolveReferences
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets (79,5)
+Neuzuweisung der Eigenschaft: $(PrepareResourceNamesDependsOn)="
+                    AssignWinFXEmbeddedResource;
+                    
+      AssignTargetPaths;
+      SplitResourcesByCulture;
+      CreateManifestResourceNames;
+      CreateCustomManifestResourceNames
+    
+      " (vorheriger Wert: "
+      AssignTargetPaths;
+      SplitResourcesByCulture;
+      CreateManifestResourceNames;
+      CreateCustomManifestResourceNames
+    ") unter C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets (97,7)
+Neuzuweisung der Eigenschaft: $(PrepareResourcesDependsOn)="
+                MarkupCompilePass1;
+                AfterMarkupCompilePass1;
+                MarkupCompilePass2ForMainAssembly;
+                FileClassification;
+                MainResourcesGeneration;
+                
+      PrepareResourceNames;
+      ResGen;
+      CompileLicxFiles
+    
+      " (vorheriger Wert: "
+      PrepareResourceNames;
+      ResGen;
+      CompileLicxFiles
+    ") unter C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets (108,7)
+Neuzuweisung der Eigenschaft: $(CompileDependsOn)="
+        
+      ResolveReferences;
+      ResolveKeySource;
+      SetWin32ManifestProperties;
+      FindReferenceAssembliesForReferences;
+      _GenerateCompileInputs;
+      BeforeCompile;
+      _TimeStampBeforeCompile;
+      _GenerateCompileDependencyCache;
+      CoreCompile;
+      _TimeStampAfterCompile;
+      AfterCompile;
+    ;
+        _AfterCompileWinFXInternal
+    " (vorheriger Wert: "
+      ResolveReferences;
+      ResolveKeySource;
+      SetWin32ManifestProperties;
+      FindReferenceAssembliesForReferences;
+      _GenerateCompileInputs;
+      BeforeCompile;
+      _TimeStampBeforeCompile;
+      _GenerateCompileDependencyCache;
+      CoreCompile;
+      _TimeStampAfterCompile;
+      AfterCompile;
+    ") unter C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets (184,5)
+Neuzuweisung der Eigenschaft: $(PublishBuildDependsOn)="
+            BuildOnlySettings;
+            PrepareForBuild;
+            ResolveReferences;
+            PrepareResources;
+            ResolveKeySource;
+            PrepareResourcesForSatelliteAssemblies;
+            GenerateSerializationAssemblies;
+            CreateSatelliteAssemblies;
+        " (vorheriger Wert: "
+      BuildOnlySettings;
+      PrepareForBuild;
+      ResolveReferences;
+      PrepareResources;
+      ResolveKeySource;
+      GenerateSerializationAssemblies;
+      CreateSatelliteAssemblies;
+    ") unter C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets (813,9)
+Neuzuweisung der Eigenschaft: $(BuildDependsOn)="
+      EntityDeploy;
+      
+      BeforeBuild;
+      CoreBuild;
+      AfterBuild
+    
+    " (vorheriger Wert: "
+      BeforeBuild;
+      CoreBuild;
+      AfterBuild
+    ") unter C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets (35,5)
+Neuzuweisung der Eigenschaft: $(CleanDependsOn)="
+      
+      BeforeClean;
+      UnmanagedUnregistration;
+      CoreClean;
+      CleanReferencedProjects;
+      CleanPublishFolder;
+      AfterClean
+    ;
+      EntityClean;
+    " (vorheriger Wert: "
+      BeforeClean;
+      UnmanagedUnregistration;
+      CoreClean;
+      CleanReferencedProjects;
+      CleanPublishFolder;
+      AfterClean
+    ") unter C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets (42,5)
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Neuzuweisung der Eigenschaft: $(PrepareResourcesDependsOn)="
+      XamlMarkupCompilePass1;
+      XamlMarkupCompilePass2;
+      
+                MarkupCompilePass1;
+                AfterMarkupCompilePass1;
+                MarkupCompilePass2ForMainAssembly;
+                FileClassification;
+                MainResourcesGeneration;
+                
+      PrepareResourceNames;
+      ResGen;
+      CompileLicxFiles
+    
+       
+    " (vorheriger Wert: "
+                MarkupCompilePass1;
+                AfterMarkupCompilePass1;
+                MarkupCompilePass2ForMainAssembly;
+                FileClassification;
+                MainResourcesGeneration;
+                
+      PrepareResourceNames;
+      ResGen;
+      CompileLicxFiles
+    
+      ") unter C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets (35,5)
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets") unter C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets (48,5)
+Neuzuweisung der Eigenschaft: $(ResolveReferencesDependsOn)="
+      
+      
+      BeforeResolveReferences;
+      AssignProjectConfiguration;
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      ResolveNativeReferences;
+      ResolveAssemblyReferences;
+      GenerateBindingRedirects;
+      ResolveComReferences;
+      AfterResolveReferences
+    ;
+      ImplicitlyExpandDesignTimeFacades
+    ;
+      ResolveTestReferences
+    " (vorheriger Wert: "
+      
+      BeforeResolveReferences;
+      AssignProjectConfiguration;
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      ResolveNativeReferences;
+      ResolveAssemblyReferences;
+      GenerateBindingRedirects;
+      ResolveComReferences;
+      AfterResolveReferences
+    ;
+      ImplicitlyExpandDesignTimeFacades
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\VisualStudio\v15.0\TeamTest\Microsoft.TeamTest.targets (4,5)
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets (45,5)
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Versucht C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\$(MSBuildToolsVersion)\Microsoft.Common.targets\ImportAfter\* mithilfe des Erweiterungspfad C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild zu importieren.
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Versucht C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Sdks\Microsoft.Docker.Sdk\build\Microsoft.Docker.targets mithilfe des Erweiterungspfad C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild zu importieren.
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets (14,5)
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.targets" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.targets (15,5)
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.NETFramework.targets" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.targets") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.NETFramework.targets (15,5)
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.NETFramework.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.ConflictResolution.targets" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.NETFramework.targets") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.ConflictResolution.targets (15,5)
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.NETFramework.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.ConflictResolution.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.DefaultPackageConflictOverrides.targets" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.NETFramework.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.ConflictResolution.targets") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.DefaultPackageConflictOverrides.targets (15,5)
+Neuzuweisung der Eigenschaft: $(MSBuildAllProjects)=";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.NETFramework.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.ConflictResolution.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.DefaultPackageConflictOverrides.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\NuGet\15.0\Microsoft.NuGet.targets" (vorheriger Wert: ";D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.props;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets;D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj.user;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Xaml.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Microsoft.Common.targets\ImportAfter\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.NETFramework.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.ConflictResolution.targets;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.DefaultPackageConflictOverrides.targets") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\NuGet\15.0\Microsoft.NuGet.targets (67,5)
+Neuzuweisung der Eigenschaft: $(ResolveAssemblyReferencesDependsOn)="
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      GetFrameworkPaths;
+      GetReferenceAssemblyPaths;
+      PrepareForBuild;
+      ResolveSDKReferences;
+      ExpandSDKReferences;
+    ;ResolveNuGetPackageAssets" (vorheriger Wert: "
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      GetFrameworkPaths;
+      GetReferenceAssemblyPaths;
+      PrepareForBuild;
+      ResolveSDKReferences;
+      ExpandSDKReferences;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\NuGet\15.0\Microsoft.NuGet.targets (173,5)
+Neuzuweisung der Eigenschaft: $(PrepareResourcesDependsOn)="ResolveNuGetPackageAssets;
+      XamlMarkupCompilePass1;
+      XamlMarkupCompilePass2;
+      
+                MarkupCompilePass1;
+                AfterMarkupCompilePass1;
+                MarkupCompilePass2ForMainAssembly;
+                FileClassification;
+                MainResourcesGeneration;
+                
+      PrepareResourceNames;
+      ResGen;
+      CompileLicxFiles
+    
+       
+    " (vorheriger Wert: "
+      XamlMarkupCompilePass1;
+      XamlMarkupCompilePass2;
+      
+                MarkupCompilePass1;
+                AfterMarkupCompilePass1;
+                MarkupCompilePass2ForMainAssembly;
+                FileClassification;
+                MainResourcesGeneration;
+                
+      PrepareResourceNames;
+      ResGen;
+      CompileLicxFiles
+    
+       
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\NuGet\15.0\Microsoft.NuGet.targets (174,5)
+Neuzuweisung der Eigenschaft: $(_HandlePackageFileConflictsAfter)="ResolveNuGetPackageAssets;ResolveNuGetPackageAssetsNonAOT" (vorheriger Wert: "ResolveNuGetPackageAssets") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\NuGet\15.0\Microsoft.NuGet.targets (255,5)
+Neuzuweisung der Eigenschaft: $(FakesCommandLineArguments)=" /Properties:";PlatformTarget=x86" /msbuildpath:"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe"" (vorheriger Wert: " /Properties:";PlatformTarget=x86"") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\VisualStudio\v15.0\Fakes\Microsoft.QualityTools.Testing.Fakes.targets (22,5)
+Neuzuweisung der Eigenschaft: $(ResolveAssemblyReferencesDependsOn)="
+      
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      GetFrameworkPaths;
+      GetReferenceAssemblyPaths;
+      PrepareForBuild;
+      ResolveSDKReferences;
+      ExpandSDKReferences;
+    ;ResolveNuGetPackageAssets;
+      FakesGenerateBeforeBuild;
+    " (vorheriger Wert: "
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      GetFrameworkPaths;
+      GetReferenceAssemblyPaths;
+      PrepareForBuild;
+      ResolveSDKReferences;
+      ExpandSDKReferences;
+    ;ResolveNuGetPackageAssets") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\VisualStudio\v15.0\Fakes\Microsoft.QualityTools.Testing.Fakes.targets (37,5)
+Für $(MSBuildExtensionsPath) verwendete Suchpfade sind C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild;$(MSBuildProgramFiles32)\MSBuild.
+Neuzuweisung der Eigenschaft: $(BuildDependsOn)="
+      _PrepareForBuild;
+      
+      ResolveReferences;
+      PrepareForBuild;
+      InitializeBuildStatus;
+      BuildGenerateSources;
+      BuildCompile;
+      BuildLink;
+    ;
+      AfterBuild;
+      FinalizeBuildStatus;
+    " (vorheriger Wert: "
+      EntityDeploy;
+      
+      BeforeBuild;
+      CoreBuild;
+      AfterBuild
+    
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets (88,5)
+Neuzuweisung der Eigenschaft: $(RebuildDependsOn)="
+      _PrepareForRebuild;
+      
+      BeforeRebuild;
+      Clean;
+      Build;
+      AfterRebuild;
+    ;
+    " (vorheriger Wert: "
+      BeforeRebuild;
+      Clean;
+      Build;
+      AfterRebuild;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets (95,5)
+Neuzuweisung der Eigenschaft: $(CleanDependsOn)="
+      _PrepareForClean;
+      
+      
+      BeforeClean;
+      UnmanagedUnregistration;
+      CoreClean;
+      CleanReferencedProjects;
+      CleanPublishFolder;
+      AfterClean
+    ;
+      EntityClean;
+    ;
+    " (vorheriger Wert: "
+      
+      BeforeClean;
+      UnmanagedUnregistration;
+      CoreClean;
+      CleanReferencedProjects;
+      CleanPublishFolder;
+      AfterClean
+    ;
+      EntityClean;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets (100,5)
+Neuzuweisung der Eigenschaft: $(BeforeBuildGenerateSourcesTargets)="
+      
+      ;
+      BeforeBuildGenerateSources;
+    ;
+    " (vorheriger Wert: "
+      ;
+      BeforeBuildGenerateSources;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (53,5)
+Neuzuweisung der Eigenschaft: $(AfterBuildGenerateSourcesTargets)="
+      
+      ;
+      AfterBuildGenerateSources;
+    ;
+      AfterBuildGenerateSourcesEvent;
+    " (vorheriger Wert: "
+      ;
+      AfterBuildGenerateSources;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (64,5)
+Neuzuweisung der Eigenschaft: $(BuildGenerateSourcesAction)="_BuildGenerateSourcesAction" (vorheriger Wert: "Build") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (122,5)
+Neuzuweisung der Eigenschaft: $(BuildCompileAction)="_BuildCompileAction" (vorheriger Wert: "Build") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (123,5)
+Neuzuweisung der Eigenschaft: $(BuildLinkAction)="_BuildLinkAction" (vorheriger Wert: "Build") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (124,5)
+Neuzuweisung der Eigenschaft: $(GetReferenceAssemblyPathsDependsOn)="_PrepareForReferenceResolution;
+        ;
+        GetWinFXPath
+    " (vorheriger Wert: "
+        ;
+        GetWinFXPath
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (129,5)
+Neuzuweisung der Eigenschaft: $(ResolveReferencesDependsOn)="_PrepareForReferenceResolution;ComputeCrtSDKReference;
+      
+      
+      BeforeResolveReferences;
+      AssignProjectConfiguration;
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      ResolveNativeReferences;
+      ResolveAssemblyReferences;
+      GenerateBindingRedirects;
+      ResolveComReferences;
+      AfterResolveReferences
+    ;
+      ImplicitlyExpandDesignTimeFacades
+    ;
+      ResolveTestReferences
+    " (vorheriger Wert: "
+      
+      
+      BeforeResolveReferences;
+      AssignProjectConfiguration;
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      ResolveNativeReferences;
+      ResolveAssemblyReferences;
+      GenerateBindingRedirects;
+      ResolveComReferences;
+      AfterResolveReferences
+    ;
+      ImplicitlyExpandDesignTimeFacades
+    ;
+      ResolveTestReferences
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (267,5)
+Neuzuweisung der Eigenschaft: $(ResolveAssemblyReferencesDependsOn)="_PrepareForReferenceResolution;
+      
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      GetFrameworkPaths;
+      GetReferenceAssemblyPaths;
+      PrepareForBuild;
+      ResolveSDKReferences;
+      ExpandSDKReferences;
+    ;ResolveNuGetPackageAssets;
+      FakesGenerateBeforeBuild;
+    " (vorheriger Wert: "
+      
+      ResolveProjectReferences;
+      FindInvalidProjectReferences;
+      GetFrameworkPaths;
+      GetReferenceAssemblyPaths;
+      PrepareForBuild;
+      ResolveSDKReferences;
+      ExpandSDKReferences;
+    ;ResolveNuGetPackageAssets;
+      FakesGenerateBeforeBuild;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (268,5)
+Neuzuweisung der Eigenschaft: $(ResolveSDKReferencesDependsOn)="_PrepareForReferenceResolution;ComputeCrtSDKReference;
+      GetInstalledSDKLocations
+    " (vorheriger Wert: "
+      GetInstalledSDKLocations
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (269,5)
+Neuzuweisung der Eigenschaft: $(ComputeLinkInputsTargets)="
+      
+      ;
+      ComputeRCGeneratedLinkInputs;
+    ;
+      ComputeManifestGeneratedLinkerInputs;
+    " (vorheriger Wert: "
+      ;
+      ComputeRCGeneratedLinkInputs;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (818,5)
+Neuzuweisung der Eigenschaft: $(GetTargetPathDependsOn)="_PrepareForReferenceResolution;GetResolvedWinMD;" (vorheriger Wert: "") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (948,5)
+Neuzuweisung der Eigenschaft: $(ComputeCompileInputsTargets)="
+      
+      ;
+      ComputeMIDLGeneratedCompileInputs;
+    ;
+      ComputeCLInputPDBName;
+      ComputeReferenceCLInput;
+      WarnCompileDuplicatedFilename
+    " (vorheriger Wert: "
+      ;
+      ComputeMIDLGeneratedCompileInputs;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (974,5)
+Neuzuweisung der Eigenschaft: $(ComputeLinkInputsTargets)="
+      
+      
+      ;
+      ComputeRCGeneratedLinkInputs;
+    ;
+      ComputeManifestGeneratedLinkerInputs;
+    ;
+      ComputeCustomBuildOutput;
+    " (vorheriger Wert: "
+      
+      ;
+      ComputeRCGeneratedLinkInputs;
+    ;
+      ComputeManifestGeneratedLinkerInputs;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1026,5)
+Neuzuweisung der Eigenschaft: $(ComputeLibInputsTargets)="
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    " (vorheriger Wert: "
+      ;
+      ComputeRCGeneratedLibInputs;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1033,5)
+Neuzuweisung der Eigenschaft: $(ComputeImpLibInputsTargets)="
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeRCGeneratedImpLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    " (vorheriger Wert: "
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeRCGeneratedImpLibInputs;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1040,5)
+Neuzuweisung der Eigenschaft: $(ComputeLinkInputsTargets)="
+      
+      
+      
+      ;
+      ComputeRCGeneratedLinkInputs;
+    ;
+      ComputeManifestGeneratedLinkerInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLinkInputs;
+    " (vorheriger Wert: "
+      
+      
+      ;
+      ComputeRCGeneratedLinkInputs;
+    ;
+      ComputeManifestGeneratedLinkerInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1100,5)
+Neuzuweisung der Eigenschaft: $(ComputeLibInputsTargets)="
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLibInputs;
+    " (vorheriger Wert: "
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1115,5)
+Neuzuweisung der Eigenschaft: $(ComputeImpLibInputsTargets)="
+      
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeRCGeneratedImpLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedImpLibInputs;
+    " (vorheriger Wert: "
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeRCGeneratedImpLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1130,5)
+Neuzuweisung der Eigenschaft: $(ComputeLinkInputsTargets)="
+        
+      
+      
+      
+      ;
+      ComputeRCGeneratedLinkInputs;
+    ;
+      ComputeManifestGeneratedLinkerInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLinkInputs;
+    ;
+        ComputeLinkInputsFromProject;
+      " (vorheriger Wert: "
+      
+      
+      
+      ;
+      ComputeRCGeneratedLinkInputs;
+    ;
+      ComputeManifestGeneratedLinkerInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLinkInputs;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1161,7)
+Neuzuweisung der Eigenschaft: $(ComputeLibInputsTargets)="
+        
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLibInputs;
+    ;
+        ComputeLibInputsFromProject;
+      " (vorheriger Wert: "
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLibInputs;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1179,7)
+Neuzuweisung der Eigenschaft: $(ComputeImpLibInputsTargets)="
+        
+      
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeRCGeneratedImpLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedImpLibInputs;
+    ;
+        ComputeImpLibInputsFromProject;
+      " (vorheriger Wert: "
+      
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeRCGeneratedImpLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedImpLibInputs;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1197,7)
+Neuzuweisung der Eigenschaft: $(ComputeLinkInputsTargets)="
+      
+        
+      
+      
+      
+      ;
+      ComputeRCGeneratedLinkInputs;
+    ;
+      ComputeManifestGeneratedLinkerInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLinkInputs;
+    ;
+        ComputeLinkInputsFromProject;
+      ;
+      ComputeReferenceLinkInputs;
+    " (vorheriger Wert: "
+        
+      
+      
+      
+      ;
+      ComputeRCGeneratedLinkInputs;
+    ;
+      ComputeManifestGeneratedLinkerInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLinkInputs;
+    ;
+        ComputeLinkInputsFromProject;
+      ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1340,5)
+Neuzuweisung der Eigenschaft: $(ComputeLibInputsTargets)="
+      
+        
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLibInputs;
+    ;
+        ComputeLibInputsFromProject;
+      ;
+      ComputeReferenceLibInputs;
+    " (vorheriger Wert: "
+        
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLibInputs;
+    ;
+        ComputeLibInputsFromProject;
+      ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1378,5)
+Neuzuweisung der Eigenschaft: $(ComputeLibInputsTargets)="
+      ComputeLibAdditionalOptions;
+      
+      
+        
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLibInputs;
+    ;
+        ComputeLibInputsFromProject;
+      ;
+      ComputeReferenceLibInputs;
+    
+    " (vorheriger Wert: "
+      
+        
+      
+      
+      ;
+      ComputeRCGeneratedLibInputs;
+    ;
+      ComputeCustomBuildOutput;
+    ;
+      ComputeCLGeneratedLibInputs;
+    ;
+        ComputeLibInputsFromProject;
+      ;
+      ComputeReferenceLibInputs;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1435,5)
+Neuzuweisung der Eigenschaft: $(DocumentationProjectOutputGroupDependsOn)="ResolvedXDCMake;ComputeCLCompileGeneratedXDCFiles" (vorheriger Wert: "") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1859,5)
+Neuzuweisung der Eigenschaft: $(ContentFilesProjectOutputGroupDependsOn)="PrepareForBuild;AssignTargetPaths;PrepareForBuild;AssignTargetPaths;MakeDirsForFxc" (vorheriger Wert: "PrepareForBuild;AssignTargetPaths") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets (1925,5)
+Neuzuweisung der Eigenschaft: $(ComputeCompileInputsTargets)="
+      
+      
+      ;
+      ComputeMIDLGeneratedCompileInputs;
+    ;
+      ComputeCLInputPDBName;
+      ComputeReferenceCLInput;
+      WarnCompileDuplicatedFilename
+    ;
+      FixupCLCompileOptions;
+    " (vorheriger Wert: "
+      
+      ;
+      ComputeMIDLGeneratedCompileInputs;
+    ;
+      ComputeCLInputPDBName;
+      ComputeReferenceCLInput;
+      WarnCompileDuplicatedFilename
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets (268,5)
+Neuzuweisung der Eigenschaft: $(BuildingProject)="true" (vorheriger Wert: "false") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets (1545,5)
+Neuzuweisung der Eigenschaft: $(ContentFilesProjectOutputGroupDependsOn)="PrepareForBuild;AssignTargetPaths;PrepareForBuild;AssignTargetPaths;MakeDirsForFxc;_CreateCopyFileItems;" (vorheriger Wert: "PrepareForBuild;AssignTargetPaths;PrepareForBuild;AssignTargetPaths;MakeDirsForFxc") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets (2043,5)
+Neuzuweisung der Eigenschaft: $(PrepareForBuildDependsOn)="_CheckWindowsSDKInstalled;GetFrameworkPaths;GetReferenceAssemblyPaths;AssignLinkMetadata;SetCABuildNativeEnvironmentVariables" (vorheriger Wert: "GetFrameworkPaths;GetReferenceAssemblyPaths;AssignLinkMetadata;SetCABuildNativeEnvironmentVariables") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.WindowsSDK.targets (16,5)
+Neuzuweisung der Eigenschaft: $(PrepareForBuildDependsOn)="PlatformPrepareForBuild;_CheckWindowsSDKInstalled;GetFrameworkPaths;GetReferenceAssemblyPaths;AssignLinkMetadata;SetCABuildNativeEnvironmentVariables" (vorheriger Wert: "_CheckWindowsSDKInstalled;GetFrameworkPaths;GetReferenceAssemblyPaths;AssignLinkMetadata;SetCABuildNativeEnvironmentVariables") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Platform.targets (41,5)
+Neuzuweisung der Eigenschaft: $(CleanDependsOn)="
+      
+      _PrepareForClean;
+      
+      
+      BeforeClean;
+      UnmanagedUnregistration;
+      CoreClean;
+      CleanReferencedProjects;
+      CleanPublishFolder;
+      AfterClean
+    ;
+      EntityClean;
+    ;
+    ;
+      CppClean
+    " (vorheriger Wert: "
+      _PrepareForClean;
+      
+      
+      BeforeClean;
+      UnmanagedUnregistration;
+      CoreClean;
+      CleanReferencedProjects;
+      CleanPublishFolder;
+      AfterClean
+    ;
+      EntityClean;
+    ;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets (22,5)
+Neuzuweisung der Eigenschaft: $(CppCleanDependsOn)="
+      BeforeCppClean;
+      ;
+      CoreCppClean;
+      AfterCppClean;
+    ;PGInstrumentedClean" (vorheriger Wert: "
+      BeforeCppClean;
+      ;
+      CoreCppClean;
+      AfterCppClean;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets (91,5)
+Neuzuweisung der Eigenschaft: $(BuildDependsOn)="SetTelemetryEnvironmentVariables;
+      _PrepareForBuild;
+      
+      ResolveReferences;
+      PrepareForBuild;
+      InitializeBuildStatus;
+      BuildGenerateSources;
+      BuildCompile;
+      BuildLink;
+    ;
+      AfterBuild;
+      FinalizeBuildStatus;
+    " (vorheriger Wert: "
+      _PrepareForBuild;
+      
+      ResolveReferences;
+      PrepareForBuild;
+      InitializeBuildStatus;
+      BuildGenerateSources;
+      BuildCompile;
+      BuildLink;
+    ;
+      AfterBuild;
+      FinalizeBuildStatus;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.DesignTime.targets (484,5)
+Neuzuweisung der Eigenschaft: $(RebuildDependsOn)="SetTelemetryEnvironmentVariables;
+      _PrepareForRebuild;
+      
+      BeforeRebuild;
+      Clean;
+      Build;
+      AfterRebuild;
+    ;
+    " (vorheriger Wert: "
+      _PrepareForRebuild;
+      
+      BeforeRebuild;
+      Clean;
+      Build;
+      AfterRebuild;
+    ;
+    ") unter C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.DesignTime.targets (485,5)
+Das Ziel "GetFrameworkPaths" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "GetFrameworkPaths" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets" außer Kraft gesetzt.
+Das Ziel "SatelliteDllsProjectOutputGroup" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "SatelliteDllsProjectOutputGroup" aus dem Projekt "C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets" außer Kraft gesetzt.
+Das Ziel "GenerateTargetFrameworkMonikerAttribute" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "GenerateTargetFrameworkMonikerAttribute" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" außer Kraft gesetzt.
+Das Ziel "Build" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "Build" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" außer Kraft gesetzt.
+Das Ziel "Rebuild" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "Rebuild" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" außer Kraft gesetzt.
+Das Ziel "AfterBuild" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "AfterBuild" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" außer Kraft gesetzt.
+Das Ziel "PrepareForBuild" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "PrepareForBuild" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "GetTargetPath" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "GetTargetPath" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "ComputeIntermediateSatelliteAssemblies" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "ComputeIntermediateSatelliteAssemblies" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "ClCompile" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "ClCompile" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "ResourceCompile" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "ResourceCompile" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "Lib" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "Lib" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "Link" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "Link" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "AllProjectOutputGroups" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "AllProjectOutputGroups" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "BuiltProjectOutputGroup" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "BuiltProjectOutputGroup" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "DebugSymbolsProjectOutputGroup" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "DebugSymbolsProjectOutputGroup" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "DocumentationProjectOutputGroup" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "DocumentationProjectOutputGroup" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "SourceFilesProjectOutputGroup" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "SourceFilesProjectOutputGroup" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "ContentFilesProjectOutputGroup" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "ContentFilesProjectOutputGroup" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "AllProjectOutputGroupsDependencies" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "AllProjectOutputGroupsDependencies" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "BuiltProjectOutputGroupDependencies" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "BuiltProjectOutputGroupDependencies" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "DebugSymbolsProjectOutputGroupDependencies" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "DebugSymbolsProjectOutputGroupDependencies" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "DocumentationProjectOutputGroupDependencies" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "DocumentationProjectOutputGroupDependencies" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" außer Kraft gesetzt.
+Das Ziel "PreBuildEvent" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "PreBuildEvent" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "PostBuildEvent" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "PostBuildEvent" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "ClCompile" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "ClCompile" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "Link" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "Link" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "Lib" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "Lib" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "ImpLib" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "ImpLib" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "Midl" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "Midl" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "ResourceCompile" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "ResourceCompile" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "BeforeResGen" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "BeforeResGen" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "ResGen" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "ResGen" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "GenerateSatelliteAssemblies" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "GenerateSatelliteAssemblies" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "Manifest" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "Manifest" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "XdcMake" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "XdcMake" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "BscMake" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" wird durch das Ziel "BscMake" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "ComputeMetaGenInputs" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.MetaGen.targets" wird durch das Ziel "ComputeMetaGenInputs" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "GetNativeManifest" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "GetNativeManifest" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" außer Kraft gesetzt.
+Das Ziel "GetTargetPathWithTargetPlatformMoniker" im Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" wird durch das Ziel "GetTargetPathWithTargetPlatformMoniker" aus dem Projekt "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.DesignTime.targets" außer Kraft gesetzt.
+Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" auf Knoten "1", rebuild Ziel(e).
+Erstellung mit der Toolsversion "15.0".
+Die Projektdatei enthält ToolsVersion="4.0". Dieses Toolset ist möglicherweise nicht bekannt oder nicht vorhanden. In diesem Fall kann das Problem mit einer Installation der entsprechenden Version von MSBuild gelöst werden. Oder der Build wurde möglicherweise aus Richtliniengründen auf eine bestimmten ToolsVersion festgelegt. Das Projekt wird behandelt, als würde es ToolsVersion="15.0" enthalten. Weitere Informationen erhalten Sie unter "http://go.microsoft.com/fwlink/?LinkId=293424".
+Das Ziel "EnableIntermediateOutputPathMismatchWarning" wurde übersprungen, da die Bedingung "false" war . ('$(RestoreProjectStyle)' == 'PackageReference') wurde als ('' == 'PackageReference') ausgewertet.
+Ziel "_CheckForInvalidConfigurationAndPlatform" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "SetTelemetryEnvironmentVariables" ist davon abhängig):
+Die Error-Aufgabe wurde übersprungen, da die Bedingung "false" war . ( '$(_InvalidConfigurationError)' == 'true' ) wurde als ( '' == 'true' ) ausgewertet.
+Die Warning-Aufgabe wurde übersprungen, da die Bedingung "false" war . ( '$(_InvalidConfigurationWarning)' == 'true' ) wurde als ( '' == 'true' ) ausgewertet.
+Die Message-Aufgabe aus der Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a-Assembly wird verwendet.
+Message-Aufgabe
+  Configuration=Release
+Ausführen der Message-Aufgabe beendet.
+Message-Aufgabe
+  Platform=Win32
+Ausführen der Message-Aufgabe beendet.
+Die Error-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(OutDir)' != '' and !HasTrailingSlash('$(OutDir)')) wurde als ('..\..\ObjectFiles\Cpp\vc8md\' != '' and !HasTrailingSlash('..\..\ObjectFiles\Cpp\vc8md\')) ausgewertet.
+Die Error-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(BaseIntermediateOutputPath)' != '' and !HasTrailingSlash('$(BaseIntermediateOutputPath)')) wurde als ('obj\' != '' and !HasTrailingSlash('obj\')) ausgewertet.
+Die Error-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(IntermediateOutputPath)' != '' and !HasTrailingSlash('$(IntermediateOutputPath)')) wurde als ('release\' != '' and !HasTrailingSlash('release\')) ausgewertet.
+Die Error-Aufgabe wurde übersprungen, da die Bedingung "false" war . ( '$(_InitialMSBuildProjectExtensionsPath)' != '' And '$(MSBuildProjectExtensionsPath)' != '$(_InitialMSBuildProjectExtensionsPath)' ) wurde als ( 'D:\Development\Source\cpp\Projects\SyncEngine\obj\' != '' And 'D:\Development\Source\cpp\Projects\SyncEngine\obj\' != 'D:\Development\Source\cpp\Projects\SyncEngine\obj\' ) ausgewertet.
+Die Warning-Aufgabe wurde übersprungen, da die Bedingung "false" war . ( '$(EnableBaseIntermediateOutputPathMismatchWarning)' == 'true' And '$(_InitialBaseIntermediateOutputPath)' != '$(BaseIntermediateOutputPath)' And '$(BaseIntermediateOutputPath)' != '$(MSBuildProjectExtensionsPath)' ) wurde als ( '' == 'true' And 'obj\' != 'obj\' And 'obj\' != 'D:\Development\Source\cpp\Projects\SyncEngine\obj\' ) ausgewertet.
+Die Erstellung des Ziels "_CheckForInvalidConfigurationAndPlatform" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_CheckForInvalidConfigurationAndPlatform" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "SetTelemetryEnvironmentVariables" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.DesignTime.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Rebuild" ist davon abhängig):
+Die SetEnv-Aufgabe aus der C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Build.CppTasks.Common.dll-Assembly wird verwendet.
+SetEnv-Aufgabe
+  VSTEL_SolutionSessionID=
+Ausführen der SetEnv-Aufgabe beendet.
+SetEnv-Aufgabe
+  VSTEL_CurrentSolutionBuildID=
+Ausführen der SetEnv-Aufgabe beendet.
+SetEnv-Aufgabe
+  VSTEL_ProjectID={B6CC2F36-BA6D-32D6-AAAD-89576F8FC074}
+Ausführen der SetEnv-Aufgabe beendet.
+Die Erstellung des Ziels "SetTelemetryEnvironmentVariables" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_PrepareForRebuild" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Rebuild" ist davon abhängig):
+Die Erstellung des Ziels "_PrepareForRebuild" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "BeforeRebuild" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Rebuild" ist davon abhängig):
+Die Erstellung des Ziels "BeforeRebuild" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_PrepareForClean" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Clean" ist davon abhängig):
+Die Delete-Aufgabe aus der Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a-Assembly wird verwendet.
+Delete-Aufgabe
+  Die Datei "release\SyncEngine.tlog\SyncEngine.lastbuildstate" wird gelöscht.
+Ausführen der Delete-Aufgabe beendet.
+Die Erstellung des Ziels "_PrepareForClean" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "BeforeClean" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Clean" ist davon abhängig):
+Die Erstellung des Ziels "BeforeClean" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "UnmanagedUnregistration" wurde übersprungen, da die Bedingung "false" war . ((('$(_AssemblyTimestampBeforeCompile)' != '$(_AssemblyTimestampAfterCompile)' or '$(RegisterForComInterop)' != 'true' or '$(OutputType)' != 'library') or
+                    ('$(_AssemblyTimestampBeforeCompile)' == '')) and
+                   Exists('@(_UnmanagedRegistrationCache)')) wurde als ((('' != '' or '' != 'true' or 'staticlibrary' != 'library') or
+                    ('' == '')) and
+                   Exists('obj\SyncEngine.vcxproj.UnmanagedRegistration.cache')) ausgewertet.
+Ziel "CoreClean" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Clean" ist davon abhängig):
+Delete-Aufgabe
+  Die Datei "release\\TempCA\SyncEngine.pdb" ist nicht vorhanden. Sie wird übersprungen.
+  Die Datei "release\\TempCA\SyncEngine.lib" ist nicht vorhanden. Sie wird übersprungen.
+Ausführen der Delete-Aufgabe beendet.
+Die ReadLinesFromFile-Aufgabe aus der Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a-Assembly wird verwendet.
+ReadLinesFromFile-Aufgabe
+Ausführen der ReadLinesFromFile-Aufgabe beendet.
+Die FindUnderPath-Aufgabe aus der Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a-Assembly wird verwendet.
+FindUnderPath-Aufgabe
+  Der Vergleichspfad ist "..\..\ObjectFiles\Cpp\vc8md\".
+Ausführen der FindUnderPath-Aufgabe beendet.
+FindUnderPath-Aufgabe
+  Der Vergleichspfad ist "release\".
+Ausführen der FindUnderPath-Aufgabe beendet.
+Delete-Aufgabe
+Ausführen der Delete-Aufgabe beendet.
+Die RemoveDuplicates-Aufgabe aus der Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a-Assembly wird verwendet.
+RemoveDuplicates-Aufgabe
+Ausführen der RemoveDuplicates-Aufgabe beendet.
+Die MakeDir-Aufgabe aus der Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a-Assembly wird verwendet.
+MakeDir-Aufgabe
+Ausführen der MakeDir-Aufgabe beendet.
+Die WriteLinesToFile-Aufgabe aus der Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a-Assembly wird verwendet.
+WriteLinesToFile-Aufgabe
+Ausführen der WriteLinesToFile-Aufgabe beendet.
+Die Erstellung des Ziels "CoreClean" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "AssignProjectConfiguration" wurde übersprungen, da die Bedingung "false" war . ('$(CurrentSolutionConfigurationContents)' != '' or '@(ProjectReference)'!='') wurde als ('' != '' or ''!='') ausgewertet.
+Ziel "_SplitProjectReferencesByFileExistence" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "PrepareProjectReferences" ist davon abhängig):
+Die ResolveNonMSBuildProjectOutput-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(BuildingInsideVisualStudio)'=='true' and '@(ProjectReferenceWithConfiguration)'!='') wurde als (''=='true' and ''!='') ausgewertet.
+Die Erstellung des Ziels "_SplitProjectReferencesByFileExistence" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_GetProjectReferenceTargetFrameworkProperties" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "PrepareProjectReferences" ist davon abhängig):
+Die MSBuild-Aufgabe aus der Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a-Assembly wird verwendet.
+MSBuild-Aufgabe
+Ausführen der MSBuild-Aufgabe beendet.
+Die GetReferenceNearestTargetFrameworkTask-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(_ProjectReferenceTargetFrameworkPossibilities->Count())' != '0' and '$(ReferringTargetFrameworkForProjectReferences)' != '') wurde als ('0' != '0' and '.NETFramework,Version=v4.0' != '') ausgewertet.
+Die Erstellung des Ziels "_GetProjectReferenceTargetFrameworkProperties" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "PrepareProjectReferences" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "CleanReferencedProjects" ist davon abhängig):
+Die Erstellung des Ziels "PrepareProjectReferences" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "CleanReferencedProjects" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Clean" ist davon abhängig):
+Die MSBuild-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(BuildingInsideVisualStudio)' != 'true' and '$(BuildProjectReferences)' == 'true' and '@(_MSBuildProjectReferenceExistent)' != '') wurde als ('' != 'true' and 'true' == 'true' and '' != '') ausgewertet.
+Die Erstellung des Ziels "CleanReferencedProjects" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "CleanPublishFolder" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Clean" ist davon abhängig):
+Die RemoveDir-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(PublishDir)'=='$(OutputPath)app.publish\' and Exists('$(PublishDir)')) wurde als ('..\..\ObjectFiles\Cpp\vc8md\app.publish\'=='..\..\ObjectFiles\Cpp\vc8md\app.publish\' and Exists('..\..\ObjectFiles\Cpp\vc8md\app.publish\')) ausgewertet.
+Die Erstellung des Ziels "CleanPublishFolder" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "AfterClean" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Clean" ist davon abhängig):
+Die Erstellung des Ziels "AfterClean" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "EntityClean" wurde übersprungen, da die Bedingung "false" war . ('@(EntityDeploy)' != '') wurde als ('' != '') ausgewertet.
+Ziel "BeforeCppClean" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "CppClean" ist davon abhängig):
+Die Erstellung des Ziels "BeforeCppClean" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "CoreCppClean" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "CppClean" ist davon abhängig):
+MakeDir-Aufgabe
+Ausführen der MakeDir-Aufgabe beendet.
+Die CppClean-Aufgabe aus der C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Build.CppTasks.Common.dll-Assembly wird verwendet.
+CppClean-Aufgabe
+Ausführen der CppClean-Aufgabe beendet.
+WriteLinesToFile-Aufgabe
+Ausführen der WriteLinesToFile-Aufgabe beendet.
+Die Erstellung des Ziels "CoreCppClean" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "AfterCppClean" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "CppClean" ist davon abhängig):
+Die Erstellung des Ziels "AfterCppClean" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "PGInstrumentedClean" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "CppClean" ist davon abhängig):
+Delete-Aufgabe
+Ausführen der Delete-Aufgabe beendet.
+Die Erstellung des Ziels "PGInstrumentedClean" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "CppClean" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Clean" ist davon abhängig):
+Die Erstellung des Ziels "CppClean" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "Clean" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Rebuild" ist davon abhängig):
+Die Erstellung des Ziels "Clean" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "SetTelemetryEnvironmentVariables" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "_PrepareForBuild" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Build" ist davon abhängig):
+Die CreateItem-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(CustomBuild.IncludeFileToTool)'!='') wurde als (''!='') ausgewertet.
+Die Erstellung des Ziels "_PrepareForBuild" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_PrepareForReferenceResolution" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ResolveReferences" ist davon abhängig):
+Die Message-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(_REFERENCE_DEBUG)'=='true') wurde als (''=='true') ausgewertet.
+Die Erstellung des Ziels "_PrepareForReferenceResolution" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ComputeCrtSDKReference" wurde übersprungen, da die Bedingung "false" war . ('@(ClCompile)'!='' and '$(WindowsAppContainer)'=='true' and '$(UseCrtSDKReference)' != 'false') wurde als ('Source\SyncBlacklist.cpp;Source\SyncConfiguration.cpp;Source\SyncIO.cpp;Source\Synchronisation.cpp'!='' and 'false'=='true' and '' != 'false') ausgewertet.
+Ziel "BeforeResolveReferences" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ResolveReferences" ist davon abhängig):
+Die Erstellung des Ziels "BeforeResolveReferences" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "AssignProjectConfiguration" wurde übersprungen, da die Bedingung "false" war . ('$(CurrentSolutionConfigurationContents)' != '' or '@(ProjectReference)'!='') wurde als ('' != '' or ''!='') ausgewertet.
+Das Ziel "PrepareProjectReferences" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "_RemoveNameMetadataFromProjectReferenceItems" wurde übersprungen, da die Bedingung "false" war . ('@(ProjectReference)'!='') wurde als (''!='') ausgewertet.
+Ziel "ResolveProjectReferences" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ResolveReferences" ist davon abhängig):
+Die MSBuild-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and ('$(BuildingInsideVisualStudio)' == 'true' or '$(BuildProjectReferences)' != 'true') and '$(VisualStudioVersion)' != '10.0' and '@(_MSBuildProjectReferenceExistent)' != '') wurde als ('' == 'true' and '' != '' and ('' == 'true' or 'true' != 'true') and '15.0' != '10.0' and '' != '') ausgewertet.
+Die MSBuild-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and ('$(BuildingInsideVisualStudio)' == 'true' or '$(BuildProjectReferences)' != 'true') and '$(VisualStudioVersion)' == '10.0' and '@(_MSBuildProjectReferenceExistent)' != '') wurde als ('' == 'true' and '' != '' and ('' == 'true' or 'true' != 'true') and '15.0' == '10.0' and '' != '') ausgewertet.
+Die MSBuild-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '$(BuildingInsideVisualStudio)' != 'true' and '$(BuildProjectReferences)' == 'true' and '@(_MSBuildProjectReferenceExistent)' != '') wurde als ('' == 'true' and '' != '' and '' != 'true' and 'true' == 'true' and '' != '') ausgewertet.
+Die MSBuild-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '$(BuildingProject)' == 'true' and '@(_MSBuildProjectReferenceExistent)' != '') wurde als ('' == 'true' and '' != '' and 'true' == 'true' and '' != '') ausgewertet.
+Die Warning-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceNonexistent)' != '') wurde als ('' != '' and '' != '') ausgewertet.
+Die Erstellung des Ziels "ResolveProjectReferences" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "FindInvalidProjectReferences" wurde übersprungen, da die Bedingung "false" war . ('$(FindInvalidProjectReferences)' == 'true') wurde als ('' == 'true') ausgewertet.
+Das Ziel "ResolveNativeReferences" wurde übersprungen, da die Bedingung "false" war . ('@(NativeReference)'!='') wurde als (''!='') ausgewertet.
+Das Ziel "_PrepareForReferenceResolution" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ResolveProjectReferences" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "FindInvalidProjectReferences" wurde übersprungen, da die Bedingung "false" war . ('$(FindInvalidProjectReferences)' == 'true') wurde als ('' == 'true') ausgewertet.
+Ziel "GetFrameworkPaths" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.NETFramework.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ResolveAssemblyReferences" ist davon abhängig):
+Die Erstellung des Ziels "GetFrameworkPaths" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_PrepareForReferenceResolution" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "GetWinFXPath" wurde übersprungen, da die Bedingung "false" war . (('@(Page)' != '' or '@(ApplicationDefinition)' != '' or '@(Resource)' != '') and ('$(GetWinFXNativePath)' != '' or '$(GetWinFXWoWPath)' != '' )) wurde als (('' != '' or '' != '' or '' != '') and ('' != '' or '' != '' )) ausgewertet.
+Das Ziel "GetFrameworkPaths" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "GetReferenceAssemblyPaths" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ResolveAssemblyReferences" ist davon abhängig):
+Die GetReferenceAssemblyPaths-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(TargetFrameworkMoniker)' != '' and ('$(_TargetFrameworkDirectories)' == '' or '$(_FullFrameworkReferenceAssemblyPaths)' == '')) wurde als ('' != '' and ('C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '' or 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '')) ausgewertet.
+Die Erstellung des Ziels "GetReferenceAssemblyPaths" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "SetBuildDefaultEnvironmentVariables" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Current.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "PrepareForBuild" ist davon abhängig):
+SetEnv-Aufgabe
+  PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86;C:\Program Files (x86)\Windows Kits\8.1\bin\x86;;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\tools;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\ide;C:\Program Files (x86)\HTML Help Workshop;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\;C:\WINDOWS\SysWow64;;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\CodeGear\RAD Studio\5.0\bin;C:\Users\Public\Documents\RAD Studio\5.0\Bpl;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Visual Leak Detector\bin\Win32;C:\Program Files (x86)\Visual Leak Detector\bin\Win64;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\dotnet\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code Insiders\bin;C:\Program Files\nodejs\;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Users\xx\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code Insiders\bin;C:\Users\xxx\AppData\Roaming\npm;D:\Development\Utils\sonar-scanner-cli-3.2.0.1227-windows\bin;D:\Development\Utils\sonar-scanner-msbuild-4.5.0.1761-net46;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin;;
+Ausführen der SetEnv-Aufgabe beendet.
+SetEnv-Aufgabe
+  LIB=C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\lib\x86;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\lib\x86;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\lib\x86;;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\ucrt\x86;;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\UnitTest\lib;C:\Program Files (x86)\Windows Kits\8.1\lib\winv6.3\um\x86;;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\Lib\um\x86
+Ausführen der SetEnv-Aufgabe beendet.
+SetEnv-Aufgabe
+  LIBPATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\lib\x86;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\lib\x86;
+Ausführen der SetEnv-Aufgabe beendet.
+SetEnv-Aufgabe
+  INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\include;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\include;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\include;;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt;;;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\VS\UnitTest\include;C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\Include\um;
+Ausführen der SetEnv-Aufgabe beendet.
+Die Erstellung des Ziels "SetBuildDefaultEnvironmentVariables" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "SetUserMacroEnvironmentVariables" wurde übersprungen, da die Bedingung "false" war . ('@(BuildMacro)' != '' and '$(DesignTimeBuild)' != 'true') wurde als ('' != '' and '' != 'true') ausgewertet.
+Das Ziel "_PrepareForReferenceResolution" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "GetResolvedWinMD" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "PrepareForBuild" ist davon abhängig):
+Die Erstellung des Ziels "GetResolvedWinMD" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "PlatformPrepareForBuild" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Platform.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "PrepareForBuild" ist davon abhängig):
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(_Error64bitToolsNotInstalled)' == 'true') wurde als ('' == 'true') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(_ToolsetFound)' != 'true' and '$(PlatformToolset)' == '') wurde als (''!='true' and 'true' != 'true' and 'v141' == '') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(_ToolsetFound)' != 'true' and '$(PlatformToolset)' == 'v110') wurde als (''!='true' and 'true' != 'true' and 'v141' == 'v110') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(_ToolsetFound)' != 'true' and '$(PlatformToolset)' == 'v100') wurde als (''!='true' and 'true' != 'true' and 'v141' == 'v100') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(_ToolsetFound)' != 'true' and '$(PlatformToolset)' == 'v90') wurde als (''!='true' and 'true' != 'true' and 'v141' == 'v90') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(_ToolsetFound)' != 'true' and '$(PlatformToolset)' != 'v90' and '$(PlatformToolset)' != 'v100' and '$(PlatformToolset)' != 'v110') wurde als (''!='true' and 'true' != 'true' and 'v141' != 'v90' and 'v141' != 'v100' and 'v141' != 'v110') ausgewertet.
+Die Erstellung des Ziels "PlatformPrepareForBuild" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_CheckWindowsSDKInstalled" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Cpp.WindowsSDK.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "PrepareForBuild" ist davon abhängig):
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(WindowsSDKInstalled)' != 'true') wurde als ('true' != 'true') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(WindowsAppContainer)' != 'true' and '$(WindowsSDK_Desktop_Support)' != true) wurde als ('false' != 'true' and 'true' != true) ausgewertet.
+Die Erstellung des Ziels "_CheckWindowsSDKInstalled" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "GetFrameworkPaths" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "GetReferenceAssemblyPaths" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "AssignLinkMetadata" wurde übersprungen, da die Bedingung "false" war . ( '$(SynthesizeLinkMetadata)' == 'true' ) wurde als ( '' == 'true' ) ausgewertet.
+Ziel "SetCABuildNativeEnvironmentVariables" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\VisualStudio\v15.0\CodeAnalysis\Microsoft.CodeAnalysis.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "PrepareForBuild" ist davon abhängig):
+SetEnv-Aufgabe
+  CAExcludePath=C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\atlmfc\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt;;C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\Include\um;
+Ausführen der SetEnv-Aufgabe beendet.
+Die Erstellung des Ziels "SetCABuildNativeEnvironmentVariables" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "PrepareForBuild" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ResolveAssemblyReferences" ist davon abhängig):
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)' != 'true' and '$(ConfigurationPlatformExists)' != 'true') wurde als ('' != 'true' and 'true' != 'true') ausgewertet.
+MakeDir-Aufgabe
+Ausführen der MakeDir-Aufgabe beendet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(WindowsAppContainer)'=='true' and '$(ConfigurationType)'!='Application' and '$(ConfigurationType)'!='DynamicLibrary' and '$(ConfigurationType)'!='StaticLibrary') wurde als (''!='true' and 'false'=='true' and 'StaticLibrary'!='Application' and 'StaticLibrary'!='DynamicLibrary' and 'StaticLibrary'!='StaticLibrary') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(VCToolsInstallDir)'=='' and '$(UseEnv)' != 'true' and ('$(TargetFrameworkVersion)'=='v3.5' or '$(TargetFrameworkVersion)'=='v3.0' or '$(TargetFrameworkVersion)'=='v2.0' )) wurde als (''!='true' and 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\'=='' and '' != 'true' and ('v4.0'=='v3.5' or 'v4.0'=='v3.0' or 'v4.0'=='v2.0' )) ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(VCToolsInstallDir)'=='' and '$(UseEnv)' != 'true' and '$(PlatformToolset)'=='v90') wurde als (''!='true' and 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\'=='' and '' != 'true' and 'v141'=='v90') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(VCToolsInstallDir)'=='' and '$(UseEnv)' != 'true') wurde als (''!='true' and 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\'=='' and '' != 'true') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(WindowsSDKDir)'=='' and '$(UseEnv)' != 'true') wurde als (''!='true' and 'C:\Program Files (x86)\Windows Kits\8.1\'=='' and '' != 'true') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(IntDirTrailingSlashWarning)'=='true') wurde als (''!='true' and ''=='true') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(OutDirTrailingSlashWarning)'=='true') wurde als (''!='true' and ''=='true') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(CompatibilityIssues.Identity)' != '' and '$(DesignTimeBuild)'!='true') wurde als ('' != '' and ''!='true') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(IgnoreWarnIntDirSharingDetected)' != 'true' and '$(IntDirSharingDetected)' == 'true') wurde als ('' != 'true' and '' == 'true') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)'!='true' and '$(IgnoreWarnIntDirInTempDetected)' != 'true' and ('$(_IntDirFullpath.StartsWith($(Tmp), true, null))' == 'true' or '$(_IntDirFullpath.StartsWith($(Temp), true, null))' == 'true' or '$(_OutDirFullpath.StartsWith($(Tmp), true, null))' == 'true' or '$(_OutDirFullpath.StartsWith($(Temp), true, null))' == 'true')) wurde als (''!='true' and '' != 'true' and ('False' == 'true' or 'False' == 'true' or 'False' == 'true' or 'False' == 'true')) ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(DesignTimeBuild)' != 'true' and '$(SpectreMitigation)' != '' and '$(SpectreMitigation)' != 'false' and (('$(_VC_Target_Library_Platform)' == 'OneCore' and !Exists('$(VC_LibraryPath_VC_x86_OneCore)')) or ('$(_VC_Target_Library_Platform)' == 'Desktop' and !Exists('$(VC_LibraryPath_VC_x86_Desktop)')))) wurde als ('' != 'true' and 'false' != '' and 'false' != 'false' and (('Desktop' == 'OneCore' and !Exists('C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\lib\onecore\x86')) or ('Desktop' == 'Desktop' and !Exists('C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\lib\x86')))) ausgewertet.
+MakeDir-Aufgabe
+Ausführen der MakeDir-Aufgabe beendet.
+Die Erstellung des Ziels "PrepareForBuild" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_PrepareForReferenceResolution" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ComputeCrtSDKReference" wurde übersprungen, da die Bedingung "false" war . ('@(ClCompile)'!='' and '$(WindowsAppContainer)'=='true' and '$(UseCrtSDKReference)' != 'false') wurde als ('Source\SyncBlacklist.cpp;Source\SyncConfiguration.cpp;Source\SyncIO.cpp;Source\Synchronisation.cpp'!='' and 'false'=='true' and '' != 'false') ausgewertet.
+Das Ziel "GetInstalledSDKLocations" wurde übersprungen, da die Bedingung "false" war . ('@(SDKReference)' != '') wurde als ('' != '') ausgewertet.
+Ziel "ResolveSDKReferences" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ResolveAssemblyReferences" ist davon abhängig):
+Die ResolveSDKReference-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(SDKReference)'!='') wurde als (''!='') ausgewertet.
+Die Erstellung des Ziels "ResolveSDKReferences" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ResolveSDKReferences" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "ExpandSDKReferences" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ResolveAssemblyReferences" ist davon abhängig):
+Die GetSDKReferenceFiles-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(ResolvedSDKReference)'!='') wurde als (''!='') ausgewertet.
+Die Erstellung des Ziels "ExpandSDKReferences" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ResolveNuGetPackageAssets" wurde übersprungen, da die Bedingung "false" war . ('$(ResolveNuGetPackages)' == 'true' and exists('$(ProjectLockFile)')) wurde als ('true' == 'true' and exists('obj\project.assets.json')) ausgewertet.
+Das Ziel "FakesGenerateBeforeBuild" wurde übersprungen, da die Bedingung "false" war . (@(Fakes) != '' AND $(BuildingProject)) wurde als ( != '' AND true) ausgewertet.
+Das Ziel "ImplicitlyExpandNETStandardFacades" wurde übersprungen, da die Bedingung "false" war . ('$(ImplicitlyExpandNETStandardFacades)' == 'true') wurde als ('' == 'true') ausgewertet.
+Das Ziel "GetReferenceAssemblyPaths" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ImplicitlyExpandNETStandardFacades" wurde übersprungen, da die Bedingung "false" war . ('$(ImplicitlyExpandNETStandardFacades)' == 'true') wurde als ('' == 'true') ausgewertet.
+Ziel "_HandlePackageFileConflicts" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\Microsoft.NET.Build.Extensions.ConflictResolution.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ResolveAssemblyReferences" ist davon abhängig):
+Die ResolvePackageFileConflicts-Aufgabe aus der C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\\tools\net46\Microsoft.NET.Build.Extensions.Tasks.dll-Assembly wird verwendet.
+ResolvePackageFileConflicts-Aufgabe
+Ausführen der ResolvePackageFileConflicts-Aufgabe beendet.
+Die Erstellung des Ziels "_HandlePackageFileConflicts" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "ResolveAssemblyReferences" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ResolveReferences" ist davon abhängig):
+Die ResolveAssemblyReference-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(Reference)'!='' or '@(_ResolvedProjectReferencePaths)'!='' or '@(_ExplicitReference)' != '') wurde als (''!='' or ''!='' or '' != '') ausgewertet.
+Die Erstellung des Ziels "ResolveAssemblyReferences" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "GenerateBindingRedirects" wurde übersprungen, da die Bedingung "false" war . ('$(AutoGenerateBindingRedirects)' == 'true' and '$(GenerateBindingRedirectsOutputType)' == 'true') wurde als ('' == 'true' and '' == 'true') ausgewertet.
+Das Ziel "_RemoveZipFileSuggestedRedirect" wurde übersprungen, da die Bedingung "false" war . ('$(_TargetFrameworkVersionWithoutV)' >= '4.7.1' And '$(AllowZipFileRedirect)' != 'true') wurde als ('4.0' >= '4.7.1' And '' != 'true') ausgewertet.
+Das Ziel "GenerateBindingRedirectsUpdateAppConfig" wurde übersprungen, da die Bedingung "false" war . ('$(AutoGenerateBindingRedirects)' == 'true' and '$(GenerateBindingRedirectsOutputType)' == 'true' and Exists('$(_GenerateBindingRedirectsIntermediateAppConfig)')) wurde als ('' == 'true' and '' == 'true' and Exists('release\SyncEngine.lib.config')) ausgewertet.
+Das Ziel "ResolveComReferences" wurde übersprungen, da die Bedingung "false" war . ('@(COMReference)'!='' or '@(COMFileReference)'!='') wurde als (''!='' or ''!='') ausgewertet.
+Ziel "AfterResolveReferences" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ResolveReferences" ist davon abhängig):
+Die Erstellung des Ziels "AfterResolveReferences" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ImplicitlyExpandDesignTimeFacades" wurde übersprungen, da die Bedingung "false" war . ('$(ImplicitlyExpandDesignTimeFacades)' == 'true') wurde als ('' == 'true') ausgewertet.
+Das Ziel "ResolveTestReferences" wurde übersprungen, da die Bedingung "false" war . ('@(Shadow)'!='') wurde als (''!='') ausgewertet.
+Ziel "ResolveReferences" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Build" ist davon abhängig):
+Die Erstellung des Ziels "ResolveReferences" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "PrepareForBuild" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "PrepareForBuild" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "InitializeBuildStatus" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Build" ist davon abhängig):
+ReadLinesFromFile-Aufgabe
+Ausführen der ReadLinesFromFile-Aufgabe beendet.
+WriteLinesToFile-Aufgabe
+Ausführen der WriteLinesToFile-Aufgabe beendet.
+Die Touch-Aufgabe aus der Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a-Assembly wird verwendet.
+Touch-Aufgabe
+  "release\SyncEngine.tlog\unsuccessfulbuild" wird erstellt, da "AlwaysCreate" angegeben wurde.
+Ausführen der Touch-Aufgabe beendet.
+Die Erstellung des Ziels "InitializeBuildStatus" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "PrepareProjectReferences" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "BuildGenerateSourcesTraverse" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "BuildGenerateSources" ist davon abhängig):
+Die MSBuild-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(BuildPassReferences)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != '' and '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true') wurde als ('' == 'true' and '' != '' and '' != '' and '' == 'true') ausgewertet.
+Die Erstellung des Ziels "BuildGenerateSourcesTraverse" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "PrepareForBuild" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ResolveReferences" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "BeforeBuildGenerateSources" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildGenerateSourcesAction" ist davon abhängig):
+Die Erstellung des Ziels "BeforeBuildGenerateSources" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "PreBuildEvent" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildGenerateSourcesAction" ist davon abhängig):
+Message-Aufgabe
+  del "D:\Development\Source\cpp\Projects\SyncEngine\..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib"
+Ausführen der Message-Aufgabe beendet.
+Die Exec-Aufgabe aus der Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a-Assembly wird verwendet.
+Exec-Aufgabe
+  del "D:\Development\Source\cpp\Projects\SyncEngine\..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib"
+  :VCEnd
+  D:\Development\Source\cpp\ObjectFiles\Cpp\vc8md\SyncEngine.lib konnte nicht gefunden werden
+Ausführen der Exec-Aufgabe beendet.
+Die Erstellung des Ziels "PreBuildEvent" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "CustomBuild" wurde übersprungen, da die Bedingung "false" war . ('@(CustomBuild)' != '') wurde als ('' != '') ausgewertet.
+Das Ziel "FxExport" wurde übersprungen, da die Bedingung "false" war . ('@(FxCompile)' != '') wurde als ('' != '') ausgewertet.
+Das Ziel "FxCompile" wurde übersprungen, da die Bedingung "false" war . ('@(FxCompile)' != '') wurde als ('' != '') ausgewertet.
+Das Ziel "_CreateCopyFileItems" wurde übersprungen, da die Bedingung "false" war . ('@(CopyFileToFolders)' != '') wurde als ('' != '') ausgewertet.
+Das Ziel "PrepareForBuild" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "InitializeBuildStatus" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "SetBuildDefaultEnvironmentVariables" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "SetUserMacroEnvironmentVariables" wurde übersprungen, da die Bedingung "false" war . ('@(BuildMacro)' != '' and '$(DesignTimeBuild)' != 'true') wurde als ('' != '' and '' != 'true') ausgewertet.
+Ziel "_SelectedFiles" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "CopyFileToFolders" ist davon abhängig):
+Die Erstellung des Ziels "_SelectedFiles" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "CopyFileToFolders" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildGenerateSourcesAction" ist davon abhängig):
+Die GetOutOfDateItems-Aufgabe aus der C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Build.CppTasks.Common.dll-Assembly wird verwendet.
+GetOutOfDateItems-Aufgabe
+Ausführen der GetOutOfDateItems-Aufgabe beendet.
+Die Copy-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(_OutOfDateCopyFile)' != '') wurde als ('' != '') ausgewertet.
+Die Erstellung des Ziels "CopyFileToFolders" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "Xsd" wurde übersprungen, da die Bedingung "false" war . ('@(Xsd)' != '') wurde als ('' != '') ausgewertet.
+Ziel "_Xsd" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildGenerateSourcesAction" ist davon abhängig):
+Die Erstellung des Ziels "_Xsd" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "MakeDirsForMidl" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Midl" ist davon abhängig):
+Makedir-Aufgabe
+Ausführen der Makedir-Aufgabe beendet.
+Die Erstellung des Ziels "MakeDirsForMidl" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "Midl" wurde übersprungen, da die Bedingung "false" war . ('@(Midl)' != '') wurde als ('' != '') ausgewertet.
+Das Ziel "CustomBuild" wurde übersprungen, da die Bedingung "false" war . ('@(CustomBuild)' != '') wurde als ('' != '') ausgewertet.
+Das Ziel "FxExport" wurde übersprungen, da die Bedingung "false" war . ('@(FxCompile)' != '') wurde als ('' != '') ausgewertet.
+Das Ziel "FxCompile" wurde übersprungen, da die Bedingung "false" war . ('@(FxCompile)' != '') wurde als ('' != '') ausgewertet.
+Ziel "ComputeMIDLGeneratedCompileInputs" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Midl" ist davon abhängig):
+Die Erstellung des Ziels "ComputeMIDLGeneratedCompileInputs" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "AfterMidl" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Midl" ist davon abhängig):
+Die Erstellung des Ziels "AfterMidl" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_Midl" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildGenerateSourcesAction" ist davon abhängig):
+Die Erstellung des Ziels "_Midl" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "AfterBuildGenerateSources" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildGenerateSourcesAction" ist davon abhängig):
+Die Erstellung des Ziels "AfterBuildGenerateSources" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "AfterBuildGenerateSourcesEvent" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildGenerateSourcesAction" ist davon abhängig):
+Die Erstellung des Ziels "AfterBuildGenerateSourcesEvent" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_BuildGenerateSourcesAction" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "BuildGenerateSources" ist davon abhängig):
+Die Erstellung des Ziels "_BuildGenerateSourcesAction" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "BuildGenerateSources" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Build" ist davon abhängig):
+Die Erstellung des Ziels "BuildGenerateSources" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "PrepareProjectReferences" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "BuildCompileTraverse" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "BuildCompile" ist davon abhängig):
+Die MSBuild-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(BuildPassReferences)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != ''  and '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true') wurde als ('' == 'true' and '' != '' and '' != ''  and '' == 'true') ausgewertet.
+Die Erstellung des Ziels "BuildCompileTraverse" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "PrepareForBuild" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ResolveReferences" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "BeforeClCompile" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_ClCompile" ist davon abhängig):
+Die Erstellung des Ziels "BeforeClCompile" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ComputeMIDLGeneratedCompileInputs" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "ComputeCLInputPDBName" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_ClCompile" ist davon abhängig):
+Die Erstellung des Ziels "ComputeCLInputPDBName" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ResolveReferences" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "ComputeReferenceCLInput" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_ClCompile" ist davon abhängig):
+Die WriteLinesToFile-Aufgabe wurde übersprungen, da die Bedingung "false" war . (('@(_ReferenceCopyLocalPaths)'!='') and '$(DesignTimeBuild)' != 'true') wurde als ((''!='') and '' != 'true') ausgewertet.
+Die Message-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(_REFERENCE_DEBUG)'=='true') wurde als (''=='true') ausgewertet.
+Die Erstellung des Ziels "ComputeReferenceCLInput" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "WarnCompileDuplicatedFilename" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_ClCompile" ist davon abhängig):
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(ClCompile.ExcludedFromBuild)' != 'true' and '%(Filename)%(Extension)' != '@(ClCompile->'%(Filename)%(Extension)')' and '%(ObjectFileName)' == '@(ClCompile->Metadata(ObjectFileName)->Distinct())') wurde als ('' != 'true' and 'SyncBlacklist.cpp' != 'SyncBlacklist.cpp' and 'release\' == 'release\') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(ClCompile.ExcludedFromBuild)' != 'true' and '%(Filename)%(Extension)' != '@(ClCompile->'%(Filename)%(Extension)')' and '%(ObjectFileName)' == '@(ClCompile->Metadata(ObjectFileName)->Distinct())') wurde als ('' != 'true' and 'SyncConfiguration.cpp' != 'SyncConfiguration.cpp' and 'release\' == 'release\') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(ClCompile.ExcludedFromBuild)' != 'true' and '%(Filename)%(Extension)' != '@(ClCompile->'%(Filename)%(Extension)')' and '%(ObjectFileName)' == '@(ClCompile->Metadata(ObjectFileName)->Distinct())') wurde als ('' != 'true' and 'SyncIO.cpp' != 'SyncIO.cpp' and 'release\' == 'release\') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(ClCompile.ExcludedFromBuild)' != 'true' and '%(Filename)%(Extension)' != '@(ClCompile->'%(Filename)%(Extension)')' and '%(ObjectFileName)' == '@(ClCompile->Metadata(ObjectFileName)->Distinct())') wurde als ('' != 'true' and 'Synchronisation.cpp' != 'Synchronisation.cpp' and 'release\' == 'release\') ausgewertet.
+Die Erstellung des Ziels "WarnCompileDuplicatedFilename" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "FixupCLCompileOptions" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_ClCompile" ist davon abhängig):
+Die Erstellung des Ziels "FixupCLCompileOptions" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "MakeDirsForCl" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_ClCompile" ist davon abhängig):
+MakeDir-Aufgabe
+Ausführen der MakeDir-Aufgabe beendet.
+Die Erstellung des Ziels "MakeDirsForCl" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_SelectedFiles" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ComputeMIDLGeneratedCompileInputs" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ComputeCLInputPDBName" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ComputeReferenceCLInput" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "WarnCompileDuplicatedFilename" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "FixupCLCompileOptions" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "_SelectedFiles" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "SelectCustomBuild" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "SelectClCompile" ist davon abhängig):
+Die Erstellung des Ziels "SelectCustomBuild" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "SelectClCompile" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ClCompile" ist davon abhängig):
+Die Erstellung des Ziels "SelectClCompile" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "GenerateTargetFrameworkMonikerAttribute" wurde übersprungen, da die Bedingung "false" war . ('$(GenerateTargetFrameworkAttribute)' == 'true') wurde als ('false' == 'true') ausgewertet.
+Das Ziel "ManagedIncrementalBuildPreProcessDependencyGraph" wurde übersprungen, da die Bedingung "false" war . ('@(ClCompile)' != '' and '$(EnableManagedIncrementalBuild)' == 'True') wurde als ('Source\SyncBlacklist.cpp;Source\SyncConfiguration.cpp;Source\SyncIO.cpp;Source\Synchronisation.cpp' != '' and 'false' == 'True') ausgewertet.
+Ziel "ClCompile" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_ClCompile" ist davon abhängig):
+Delete-Aufgabe
+Ausführen der Delete-Aufgabe beendet.
+Die CL-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(ClCompile.PrecompiledHeader)' == 'Create' and '%(ClCompile.ExcludedFromBuild)'!='true' and '%(ClCompile.CompilerIteration)' == '') wurde als ('NotUsing' == 'Create' and ''!='true' and '' == '') ausgewertet.
+Die CL-Aufgabe aus der C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Build.CppTasks.Common.dll-Assembly wird verwendet.
+CL-Aufgabe
+  Aufgrund der fehlenden PDB "release\SyncEngine.pdb" wird die Neukompilierung aller Quelldateien erzwungen.
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\CL.exe /c /I"..\..\..\ThirdParty\VS2017\Qt-4.8.7\include" /IInterface /I..\Shared /I..\Shared /I..\Shared\Cpp /I..\Shared\Cpp\Interface /I"..\..\..\ThirdParty\VS2017\Boost-1.67.0" /I"..\..\..\ThirdParty\VS2017\Qt-4.8.7\include\ActiveQt" /Irelease /I"..\..\..\ThirdParty\VS2017\Qt-4.8.7\mkspecs\win32-msvc2017" /Zi /nologo /W4 /WX- /diagnostics:classic /MP4 /Ox /Oy- /GL /D _WINDOWS /D UNICODE /D WIN32 /D _SCL_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_WARNINGS /D TS_CPP /D _WIN32_WINNT=0x0600 /D WIN32_LEAN_AND_MEAN /D VC_EXTRALEAN /D TS_NO_TRANSLATE /D TS_STARTCENTER_64_STYLE_ENABLED /D BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE /D QT_NO_DEBUG /D QT_HAVE_MMX /D QT_HAVE_3DNOW /D QT_HAVE_SSE /D QT_HAVE_MMXEXT /D QT_HAVE_SSE2 /D QT_THREAD_SUPPORT /D NDEBUG /Gm- /EHsc /MD /GS /Gy /arch:SSE2 /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"release\\" /Fd"release\SyncEngine.pdb" /Gd /TP /analyze- /FC /errorReport:queue /we4700 /we4715 /we4150 -Zm200 /std:c++17 /w14265 /Zc:rvalueCast /Gw -w34100 -w34189 Source\SyncBlacklist.cpp Source\SyncConfiguration.cpp Source\SyncIO.cpp Source\Synchronisation.cpp
+  Nachverfolgungsbefehl:
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Tracker.exe /d "C:\Program Files (x86)\MSBuild\15.0\FileTracker\FileTracker32.dll" /i D:\Development\Source\cpp\Projects\SyncEngine\release\SyncEngine.tlog /r "D:\DEVELOPMENT\SOURCE\cpp\PROJECTS\SYNCENGINE\SOURCE\TSSYNCBLACKLIST.CPP|D:\DEVELOPMENT\SOURCE\cpp\PROJECTS\SYNCENGINE\SOURCE\TSSYNCCONFIGURATION.CPP|D:\DEVELOPMENT\SOURCE\cpp\PROJECTS\SYNCENGINE\SOURCE\TSSYNCHRONISATION.CPP|D:\DEVELOPMENT\SOURCE\cpp\PROJECTS\SYNCENGINE\SOURCE\TSSYNCIO.CPP" /b MSBuildConsole_CancelEventb08e44bc7812467688668210afc0f4d6  /c "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\CL.exe"  /c /I"..\..\..\ThirdParty\VS2017\Qt-4.8.7\include" /IInterface /I..\Shared /I..\Shared /I..\Shared\Cpp /I..\Shared\Cpp\Interface /I"..\..\..\ThirdParty\VS2017\Boost-1.67.0" /I"..\..\..\ThirdParty\VS2017\Qt-4.8.7\include\ActiveQt" /Irelease /I"..\..\..\ThirdParty\VS2017\Qt-4.8.7\mkspecs\win32-msvc2017" /Zi /nologo /W4 /WX- /diagnostics:classic /MP4 /Ox /Oy- /GL /D _WINDOWS /D UNICODE /D WIN32 /D _SCL_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_WARNINGS /D TS_CPP /D _WIN32_WINNT=0x0600 /D WIN32_LEAN_AND_MEAN /D VC_EXTRALEAN /D TS_NO_TRANSLATE /D TS_STARTCENTER_64_STYLE_ENABLED /D BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE /D QT_NO_DEBUG /D QT_HAVE_MMX /D QT_HAVE_3DNOW /D QT_HAVE_SSE /D QT_HAVE_MMXEXT /D QT_HAVE_SSE2 /D QT_THREAD_SUPPORT /D NDEBUG /Gm- /EHsc /MD /GS /Gy /arch:SSE2 /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"release\\" /Fd"release\SyncEngine.pdb" /Gd /TP /analyze- /FC /errorReport:queue /we4700 /we4715 /we4150 -Zm200 /std:c++17 /w14265 /Zc:rvalueCast /Gw -w34100 -w34189 Source\SyncBlacklist.cpp Source\SyncConfiguration.cpp Source\SyncIO.cpp Source\Synchronisation.cpp
+  SyncBlacklist.cpp
+  SyncConfiguration.cpp
+  SyncIO.cpp
+  Synchronisation.cpp
+d:\development\source\thirdparty\vs2017\boost-1.67.0\boost\exception\exception.hpp(176): warning C4265: "boost::exception_detail::error_info_container": Die Klasse besitzt virtuelle Funktionen, aber der Destruktor ist nicht virtuell [D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj]
+           Instanzen dieser Klasse werden möglicherweise nicht korrekt gelöscht. (Quelldatei wird kompiliert Source\SyncIO.cpp)
+d:\development\source\thirdparty\vs2017\boost-1.67.0\boost\exception\exception.hpp(176): warning C4265: "boost::exception_detail::error_info_container": Die Klasse besitzt virtuelle Funktionen, aber der Destruktor ist nicht virtuell [D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj]
+           Instanzen dieser Klasse werden möglicherweise nicht korrekt gelöscht. (Quelldatei wird kompiliert Source\SyncConfiguration.cpp)
+d:\development\source\thirdparty\vs2017\boost-1.67.0\boost\exception\exception.hpp(176): warning C4265: "boost::exception_detail::error_info_container": Die Klasse besitzt virtuelle Funktionen, aber der Destruktor ist nicht virtuell [D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj]
+           Instanzen dieser Klasse werden möglicherweise nicht korrekt gelöscht. (Quelldatei wird kompiliert Source\SyncBlacklist.cpp)
+d:\development\source\thirdparty\vs2017\boost-1.67.0\boost\exception\exception.hpp(176): warning C4265: "boost::exception_detail::error_info_container": Die Klasse besitzt virtuelle Funktionen, aber der Destruktor ist nicht virtuell [D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj]
+           Instanzen dieser Klasse werden möglicherweise nicht korrekt gelöscht. (Quelldatei wird kompiliert Source\Synchronisation.cpp)
+d:\development\source\cpp\projects\syncengine\source\tssyncio.cpp(368): warning C4456: Deklaration von "result" blendet vorherige lokale Deklaration aus [D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj]
+  d:\development\source\cpp\projects\syncengine\source\tssyncio.cpp(337): note: Siehe Deklaration von "result"
+Ausführen der CL-Aufgabe beendet.
+Die Erstellung des Ziels "ClCompile" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "RunSelectedFileNativeCodeAnalysis" wurde übersprungen, da die Bedingung "false" war . ('$(RunCppAnalysis)'=='true' and '$(SelectedFiles)'!='') wurde als ('false'=='true' and ''!='') ausgewertet.
+Das Ziel "ManagedIncrementalBuildPostProcessDependencyGraph" wurde übersprungen, da die Bedingung "false" war . ('@(ClCompile)' != '' and '$(EnableManagedIncrementalBuild)' == 'True') wurde als ('Source\SyncBlacklist.cpp;Source\SyncConfiguration.cpp;Source\SyncIO.cpp;Source\Synchronisation.cpp' != '' and 'false' == 'True') ausgewertet.
+Ziel "AfterClCompile" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_ClCompile" ist davon abhängig):
+Die Erstellung des Ziels "AfterClCompile" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_ClCompile" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildCompileAction" ist davon abhängig):
+Die Erstellung des Ziels "_ClCompile" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_ResGen" wurde übersprungen, da die Bedingung "false" war . ('@(EmbeddedResource)'!='') wurde als (''!='') ausgewertet.
+Ziel "BeforeResourceCompile" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_ResourceCompile" ist davon abhängig):
+Die Erstellung des Ziels "BeforeResourceCompile" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "MakeDirsForResourceCompile" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_ResourceCompile" ist davon abhängig):
+MakeDir-Aufgabe
+Ausführen der MakeDir-Aufgabe beendet.
+Die Erstellung des Ziels "MakeDirsForResourceCompile" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ResourceCompile" wurde übersprungen, da die Bedingung "false" war . ('@(ResourceCompile)' != '') wurde als ('' != '') ausgewertet.
+Ziel "AfterResourceCompile" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_ResourceCompile" ist davon abhängig):
+Die Erstellung des Ziels "AfterResourceCompile" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_ResourceCompile" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildCompileAction" ist davon abhängig):
+Die Erstellung des Ziels "_ResourceCompile" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_ImpLib" wurde übersprungen, da die Bedingung "false" war . ('$(ImpLibCompiled)' == 'true') wurde als ('' == 'true') ausgewertet.
+Ziel "BeforeLib" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Lib" ist davon abhängig):
+Die Erstellung des Ziels "BeforeLib" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "ComputeLibAdditionalOptions" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Lib" ist davon abhängig):
+Die Erstellung des Ziels "ComputeLibAdditionalOptions" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "ComputeRCOutputs" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ComputeRCGeneratedLibInputs" ist davon abhängig):
+Die Erstellung des Ziels "ComputeRCOutputs" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "ComputeRCGeneratedLibInputs" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Lib" ist davon abhängig):
+Die Erstellung des Ziels "ComputeRCGeneratedLibInputs" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "ComputeCustomBuildOutput" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Lib" ist davon abhängig):
+Die CreateItem-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(CustomBuildOutputs.OutputItemType)'!='') wurde als (''!='') ausgewertet.
+MakeDir-Aufgabe
+Ausführen der MakeDir-Aufgabe beendet.
+Die Erstellung des Ziels "ComputeCustomBuildOutput" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ComputeMIDLGeneratedCompileInputs" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ComputeCLInputPDBName" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ComputeReferenceCLInput" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "WarnCompileDuplicatedFilename" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "FixupCLCompileOptions" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "ComputeCLOutputs" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "ComputeCLGeneratedLibInputs" ist davon abhängig):
+Die Erstellung des Ziels "ComputeCLOutputs" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "ComputeCLGeneratedLibInputs" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Lib" ist davon abhängig):
+Die Erstellung des Ziels "ComputeCLGeneratedLibInputs" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "ComputeLibInputsFromProject" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Lib" ist davon abhängig):
+Die Erstellung des Ziels "ComputeLibInputsFromProject" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ComputeReferenceLibInputs" wurde übersprungen, da die Bedingung "false" war . (@(ProjectReference) != '') wurde als ( != '') ausgewertet.
+Ziel "MakeDirsForLib" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Lib" ist davon abhängig):
+MakeDir-Aufgabe
+Ausführen der MakeDir-Aufgabe beendet.
+Die Erstellung des Ziels "MakeDirsForLib" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "DoLibOutputFilesMatch" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Lib" ist davon abhängig):
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(_OutputFileFromLib)' == '') wurde als ('..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib' == '') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(_OutputFileFromLib)' != '' and '%(_OutputFileFromLib.FullPath)' != '$([System.IO.Path]::GetFullPath($(TargetPath)))') wurde als ('..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib' != '' and 'D:\Development\Source\cpp\ObjectFiles\Cpp\vc8md\SyncEngine.lib' != 'D:\Development\Source\cpp\ObjectFiles\Cpp\vc8md\SyncEngine.lib') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(_OutputFileFromLib)' != '' and '%(_OutputFileFromLib.Extension)' != '' and '%(_OutputFileFromLib.Extension)' != '$(TargetExt)') wurde als ('..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib' != '' and '.lib' != '' and '.lib' != '.lib') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(_OutputFileFromLib)' != '' and '%(_OutputFileFromLib.Filename)' !=  '' and '%(_OutputFileFromLib.Filename)' != '$(TargetName)') wurde als ('..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib' != '' and 'SyncEngine' !=  '' and 'SyncEngine' != 'SyncEngine') ausgewertet.
+Die Erstellung des Ziels "DoLibOutputFilesMatch" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "PreLinkEvent" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Lib" ist davon abhängig):
+Die Message-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(PreLinkEvent.Message)' != '' and '%(PreLinkEvent.Command)' != '') wurde als ('' != '' and '' != '') ausgewertet.
+Die Exec-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(PreLinkEvent.Command)' != '') wurde als ('' != '') ausgewertet.
+Die Erstellung des Ziels "PreLinkEvent" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "Lib" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Lib" ist davon abhängig):
+Die LIB-Aufgabe aus der C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.Build.CppTasks.Common.dll-Assembly wird verwendet.
+LIB-Aufgabe
+  Keine der Quelldateien ist auf dem neuesten Stand: TLog "D:\Development\Source\cpp\Projects\SyncEngine\release\SyncEngine.tlog\Lib.command.1.tlog" für Befehl fehlt.
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\Lib.exe /OUT:"..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib" /NOLOGO /LTCG release\SyncBlacklist.obj
+  release\SyncConfiguration.obj
+  release\SyncIO.obj
+  release\Synchronisation.obj
+  Nachverfolgungsbefehl:
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Tracker.exe /d "C:\Program Files (x86)\MSBuild\15.0\FileTracker\FileTracker32.dll" /i D:\Development\Source\cpp\Projects\SyncEngine\release\SyncEngine.tlog /r "D:\DEVELOPMENT\SOURCE\cpp\PROJECTS\SYNCENGINE\RELEASE\TSSYNCBLACKLIST.OBJ|D:\DEVELOPMENT\SOURCE\cpp\PROJECTS\SYNCENGINE\RELEASE\TSSYNCCONFIGURATION.OBJ|D:\DEVELOPMENT\SOURCE\cpp\PROJECTS\SYNCENGINE\RELEASE\TSSYNCHRONISATION.OBJ|D:\DEVELOPMENT\SOURCE\cpp\PROJECTS\SYNCENGINE\RELEASE\TSSYNCIO.OBJ" /b MSBuildConsole_CancelEvent7344a87a9e5c400d8e93bbd3f4fcb591  /c "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\Lib.exe"  /OUT:"..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib" /NOLOGO /LTCG release\SyncBlacklist.obj
+  release\SyncConfiguration.obj
+  release\SyncIO.obj
+  release\Synchronisation.obj
+Ausführen der LIB-Aufgabe beendet.
+Message-Aufgabe
+  SyncEngine.vcxproj -> D:\Development\Source\cpp\Projects\SyncEngine\..\..\ObjectFiles\Cpp\vc8md\SyncEngine.lib
+Ausführen der Message-Aufgabe beendet.
+Die Erstellung des Ziels "Lib" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "AfterLib" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_Lib" ist davon abhängig):
+Die Erstellung des Ziels "AfterLib" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_Lib" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildCompileAction" ist davon abhängig):
+Die Erstellung des Ziels "_Lib" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "AfterBuildCompileEvent" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildCompileAction" ist davon abhängig):
+Die Erstellung des Ziels "AfterBuildCompileEvent" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_BuildCompileAction" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "BuildCompile" ist davon abhängig):
+Die Erstellung des Ziels "_BuildCompileAction" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "BuildCompile" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Build" ist davon abhängig):
+Die Erstellung des Ziels "BuildCompile" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "PrepareProjectReferences" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "BuildLinkTraverse" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "BuildLink" ist davon abhängig):
+Die MSBuild-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(BuildPassReferences)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != ''  and '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true') wurde als ('' == 'true' and '' != '' and '' != ''  and '' == 'true') ausgewertet.
+Die Erstellung des Ziels "BuildLinkTraverse" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "PrepareForBuild" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ResolveReferences" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "ComputeLegacyManifestEmbedding" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildLinkAction" ist davon abhängig):
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(RevertManifestEmbedding)' == 'true' and '$(_LegacyManifestEmbeddingDebug)' == 'true') wurde als ('' == 'true' and '' == 'true') ausgewertet.
+Die Erstellung des Ziels "ComputeLegacyManifestEmbedding" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_Link" wurde übersprungen, da die Bedingung "false" war . ('$(LinkCompiled)' == 'true') wurde als ('' == 'true') ausgewertet.
+Ziel "_ALink" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildLinkAction" ist davon abhängig):
+Die Erstellung des Ziels "_ALink" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ComputeLegacyManifestEmbedding" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "_Manifest" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildLinkAction" ist davon abhängig):
+Die CallTarget-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(LegacyManifestEmbedding)' == 'true') wurde als ('' == 'true') ausgewertet.
+Die Erstellung des Ziels "_Manifest" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "RegisterOutput" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildLinkAction" ist davon abhängig):
+Die Exec-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(ConfigurationType)'=='DynamicLibrary' and '%(Link.RegisterOutput)'=='true' and '%(Link.PerUserRedirection)'!='true') wurde als ('StaticLibrary'=='DynamicLibrary' and ''=='true' and ''!='true') ausgewertet.
+Die Exec-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(ConfigurationType)'=='DynamicLibrary' and '%(Link.RegisterOutput)'=='true' and '%(Link.PerUserRedirection)'=='true') wurde als ('StaticLibrary'=='DynamicLibrary' and ''=='true' and ''=='true') ausgewertet.
+Die Exec-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(ConfigurationType)'=='Application' and '%(Link.RegisterOutput)'=='true' and '%(Link.PerUserRedirection)'!='true') wurde als ('StaticLibrary'=='Application' and ''=='true' and ''!='true') ausgewertet.
+Die Exec-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(ConfigurationType)'=='Application' and '%(Link.RegisterOutput)'=='true' and '%(Link.PerUserRedirection)'=='true') wurde als ('StaticLibrary'=='Application' and ''=='true' and ''=='true') ausgewertet.
+Die VCMessage-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(_RegisterOutputExitCode)' != '' and '$(_RegisterOutputExitCode)' != '0') wurde als ('' != '' and '' != '0') ausgewertet.
+Die Erstellung des Ziels "RegisterOutput" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "PrepareForBuild" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "ResolveReferences" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "ResolvedXDCMake" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_XdcMake" ist davon abhängig):
+Die MSBuild-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(_MSBuildProjectReferenceExistent.Extension)' == '.vcxproj' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != '' and '$(_ClCompileGenerateXMLDocumentationFiles)' == 'true') wurde als ('' == '.vcxproj' and '' != '' and '' != '' and '' == 'true') ausgewertet.
+Die Erstellung des Ziels "ResolvedXDCMake" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "ComputeCLCompileGeneratedXDCFiles" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_XdcMake" ist davon abhängig):
+Die Erstellung des Ziels "ComputeCLCompileGeneratedXDCFiles" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "MakeDirsForXdcMake" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_XdcMake" ist davon abhängig):
+MakeDir-Aufgabe
+Ausführen der MakeDir-Aufgabe beendet.
+Die Erstellung des Ziels "MakeDirsForXdcMake" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "XdcMake" wurde übersprungen, da die Bedingung "false" war . ('@(XdcMake)' != '') wurde als ('' != '') ausgewertet.
+Ziel "_XdcMake" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildLinkAction" ist davon abhängig):
+Die Erstellung des Ziels "_XdcMake" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "ComputeCLCompileGeneratedSbrFiles" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BscMake" ist davon abhängig):
+Die Erstellung des Ziels "ComputeCLCompileGeneratedSbrFiles" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "MakeDirsForBscMake" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BscMake" ist davon abhängig):
+MakeDir-Aufgabe
+Ausführen der MakeDir-Aufgabe beendet.
+Die Erstellung des Ziels "MakeDirsForBscMake" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "BscMake" wurde übersprungen, da die Bedingung "false" war . ('@(BscMake)' != '') wurde als ('' != '') ausgewertet.
+Das Ziel "CustomBuildStep" wurde übersprungen, da die Bedingung "false" war . ('@(CustomBuildStep)' != '' and '$(SelectedFiles)'=='') wurde als ('' != '' and ''=='') ausgewertet.
+Ziel "_BscMake" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildLinkAction" ist davon abhängig):
+Die Erstellung des Ziels "_BscMake" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_GenerateSatelliteAssemblyInputs" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "CreateSatelliteAssemblies" ist davon abhängig):
+Die Warning-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(ManifestResourceWithCulture)'!='' and '%(ManifestResourceWithCulture.EmittedForCompatibilityOnly)'=='') wurde als (''!='' and ''=='') ausgewertet.
+Die Warning-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(ManifestNonResxWithCultureOnDisk)'!='' and '%(ManifestNonResxWithCultureOnDisk.EmittedForCompatibilityOnly)'=='') wurde als (''!='' and ''=='') ausgewertet.
+Die Erstellung des Ziels "_GenerateSatelliteAssemblyInputs" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ComputeIntermediateSatelliteAssemblies" wurde übersprungen, da die Bedingung "false" war . (@(ReferenceSatellitePaths->'%(DestinationSubDirectory)') != '') wurde als ( != '') ausgewertet.
+Das Ziel "GenerateSatelliteAssemblies" wurde übersprungen, da die Bedingung "false" war . ('@(_SatelliteAssemblyResourceInputs)' != '') wurde als ('' != '') ausgewertet.
+Ziel "CreateSatelliteAssemblies" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildLinkAction" ist davon abhängig):
+Die Erstellung des Ziels "CreateSatelliteAssemblies" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_Appverifier" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildLinkAction" ist davon abhängig):
+Die Erstellung des Ziels "_Appverifier" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_Deploy" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildLinkAction" ist davon abhängig):
+Die Erstellung des Ziels "_Deploy" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "ComputeIntermediateSatelliteAssemblies" wurde übersprungen, da die Bedingung "false" war . (@(ReferenceSatellitePaths->'%(DestinationSubDirectory)') != '') wurde als ( != '') ausgewertet.
+Das Ziel "_CopyFilesMarkedCopyLocal" wurde übersprungen, da die Bedingung "false" war . ('@(ReferenceCopyLocalPaths)' != '') wurde als ('' != '') ausgewertet.
+Ziel "AssignTargetPaths" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "GetCopyToOutputDirectoryItems" ist davon abhängig):
+Die AssignTargetPath-Aufgabe aus der Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a-Assembly wird verwendet.
+AssignTargetPath-Aufgabe
+Ausführen der AssignTargetPath-Aufgabe beendet.
+AssignTargetPath-Aufgabe
+Ausführen der AssignTargetPath-Aufgabe beendet.
+AssignTargetPath-Aufgabe
+Ausführen der AssignTargetPath-Aufgabe beendet.
+AssignTargetPath-Aufgabe
+Ausführen der AssignTargetPath-Aufgabe beendet.
+Die AssignTargetPath-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(_DeploymentBaseManifestWithTargetPath)'=='' and '%(None.Extension)'=='.manifest') wurde als (''=='' and ''=='.manifest') ausgewertet.
+Die Erstellung des Ziels "AssignTargetPaths" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_SplitProjectReferencesByFileExistence" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Das Ziel "_GetProjectReferenceTargetFrameworkProperties" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "GetCopyToOutputDirectoryXamlAppDefs" in Datei "C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "GetCopyToOutputDirectoryItems" ist davon abhängig):
+AssignTargetPath-Aufgabe
+Ausführen der AssignTargetPath-Aufgabe beendet.
+Die Erstellung des Ziels "GetCopyToOutputDirectoryXamlAppDefs" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "GetCopyToOutputDirectoryItems" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_CopySourceItemsToOutputDirectory" ist davon abhängig):
+Die MSBuild-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(_MSBuildProjectReferenceExistent)' != '' and '$(_GetChildProjectCopyToOutputDirectoryItems)' == 'true' and '%(_MSBuildProjectReferenceExistent.Private)' != 'false' and '$(UseCommonOutputDirectory)' != 'true') wurde als ('' != '' and 'true' == 'true' and '' != 'false' and 'false' != 'true') ausgewertet.
+AssignTargetPath-Aufgabe
+Ausführen der AssignTargetPath-Aufgabe beendet.
+Die Erstellung des Ziels "GetCopyToOutputDirectoryItems" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_CopyOutOfDateSourceItemsToOutputDirectory" wurde übersprungen, da die Bedingung "false" war . ( '@(_SourceItemsToCopyToOutputDirectory)' != '' ) wurde als ( '' != '' ) ausgewertet.
+Das Ziel "_CopyOutOfDateSourceItemsToOutputDirectoryAlways" wurde übersprungen, da die Bedingung "false" war . ( '@(_SourceItemsToCopyToOutputDirectoryAlways)' != '' ) wurde als ( '' != '' ) ausgewertet.
+Ziel "_CopySourceItemsToOutputDirectory" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "CopyFilesToOutputDirectory" ist davon abhängig):
+Die Erstellung des Ziels "_CopySourceItemsToOutputDirectory" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_CopyAppConfigFile" wurde übersprungen, da die Bedingung "false" war . ( '@(AppConfigWithTargetPath)' != '' ) wurde als ( '' != '' ) ausgewertet.
+Das Ziel "_CopyManifestFiles" wurde übersprungen, da die Bedingung "false" war . ( '$(_DeploymentCopyApplicationManifest)'=='true' or '$(GenerateClickOnceManifests)'=='true' ) wurde als ( ''=='true' or ''=='true' ) ausgewertet.
+Ziel "_CheckForCompileOutputs" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "CopyFilesToOutputDirectory" ist davon abhängig):
+Die Erstellung des Ziels "_CheckForCompileOutputs" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_SGenCheckForOutputs" wurde übersprungen, da die Bedingung "false" war . ('$(_SGenGenerateSerializationAssembliesConfig)' == 'On' or ('@(WebReferenceUrl)'!='' and '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')) wurde als ('Auto' == 'On' or (''!='' and 'Auto' == 'Auto')) ausgewertet.
+Ziel "CopyFilesToOutputDirectory" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "PrepareForRun" ist davon abhängig):
+Die Copy-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(CopyBuildOutputToOutputDirectory)' == 'true' and '$(SkipCopyBuildProduct)' != 'true') wurde als ('true' == 'true' and 'true' != 'true') ausgewertet.
+Die CopyRefAssembly-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(ProduceReferenceAssembly)' == 'true' and '$(CopyBuildOutputToOutputDirectory)' == 'true' and '$(SkipCopyBuildProduct)' != 'true') wurde als ('false' == 'true' and 'true' == 'true' and 'true' != 'true') ausgewertet.
+Die Message-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(CopyBuildOutputToOutputDirectory)' == 'true' and '$(SkipCopyBuildProduct)'!='true') wurde als ('true' == 'true' and 'true'!='true') ausgewertet.
+Die Copy-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(AddModules)' != '') wurde als ('' != '') ausgewertet.
+Die Copy-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(_SGenDllCreated)'=='true') wurde als ('false'=='true') ausgewertet.
+Die Copy-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(_DebugSymbolsProduced)'=='true' and '$(SkipCopyingSymbolsToOutputDirectory)' != 'true' and '$(CopyOutputSymbolsToOutputDirectory)'=='true') wurde als ('false'=='true' and '' != 'true' and 'true'=='true') ausgewertet.
+Die Copy-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(_DocumentationFileProduced)'=='true') wurde als ('false'=='true') ausgewertet.
+Die Copy-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(IntermediateSatelliteAssembliesWithTargetPath)' != '') wurde als ('' != '') ausgewertet.
+Die Copy-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('@(ReferenceComWrappersToCopyLocal)' != '' or '@(ResolvedIsolatedComModules)' != '' or '@(_DeploymentLooseManifestFile)' != '' or '@(NativeReferenceFile)' != '' ) wurde als ('' != '' or '' != '' or '' != '' or '' != '' ) ausgewertet.
+Die Copy-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(SkipCopyWinMDArtifact)' != 'true' and '@(WinMDExpArtifacts)' != '') wurde als ('' != 'true' and '' != '') ausgewertet.
+Die Message-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('$(SkipCopyWinMDArtifact)' != 'true' and '$(_WindowsMetadataOutputPath)' != '') wurde als ('' != 'true' and '' != '') ausgewertet.
+Die Erstellung des Ziels "CopyFilesToOutputDirectory" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "PrepareForRun" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildLinkAction" ist davon abhängig):
+Die Erstellung des Ziels "PrepareForRun" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "CustomBuildStep" wurde übersprungen, da die Bedingung "false" war . ('@(CustomBuildStep)' != '' and '$(SelectedFiles)'=='') wurde als ('' != '' and ''=='') ausgewertet.
+Ziel "PostBuildEvent" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "_BuildLinkAction" ist davon abhängig):
+Die Message-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(PostBuildEvent.Message)' != '' and '%(PostBuildEvent.Command)' != '') wurde als ('' != '' and '' != '') ausgewertet.
+Die Exec-Aufgabe wurde übersprungen, da die Bedingung "false" war . ('%(PostBuildEvent.Command)' != '') wurde als ('' != '') ausgewertet.
+Die Erstellung des Ziels "PostBuildEvent" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "_BuildLinkAction" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "BuildLink" ist davon abhängig):
+Die Erstellung des Ziels "_BuildLinkAction" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "BuildLink" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Build" ist davon abhängig):
+Die Erstellung des Ziels "BuildLink" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "AfterBuild" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Build" ist davon abhängig):
+Die Erstellung des Ziels "AfterBuild" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "FinalizeBuildStatus" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Build" ist davon abhängig):
+Delete-Aufgabe
+  Die Datei "release\SyncEngine.tlog\unsuccessfulbuild" wird gelöscht.
+Ausführen der Delete-Aufgabe beendet.
+Touch-Aufgabe
+  Aktualisieren des Timestamps von "release\SyncEngine.tlog\SyncEngine.lastbuildstate".
+Ausführen der Touch-Aufgabe beendet.
+Die Erstellung des Ziels "FinalizeBuildStatus" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "Build" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Rebuild" ist davon abhängig):
+Die Erstellung des Ziels "Build" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Ziel "AfterRebuild" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Ziel "Rebuild" ist davon abhängig):
+Die Erstellung des Ziels "AfterRebuild" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Das Ziel "_CheckForInvalidConfigurationAndPlatform" wurde übersprungen. Die vorherige Erstellung war erfolgreich.
+Ziel "Rebuild" in Datei "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.BuildSteps.Targets" aus Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (Einstiegspunkt):
+Die Erstellung des Ziels "Rebuild" im Projekt "SyncEngine.vcxproj" ist abgeschlossen.
+Die Erstellung von Projekt "D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" ist abgeschlossen (rebuild Ziel(e)).
+
+
+Der Buildvorgang wurde erfolgreich ausgeführt.
+
+"D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj" (rebuild Ziel) (1) ->
+(ClCompile Ziel) -> 
+  d:\development\source\thirdparty\vs2017\boost-1.67.0\boost\exception\exception.hpp(176): warning C4265: "boost::exception_detail::error_info_container": Die Klasse besitzt virtuelle Funktionen, aber der Destruktor ist nicht virtuell [D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj]
+  d:\development\source\thirdparty\vs2017\boost-1.67.0\boost\exception\exception.hpp(176): warning C4265: "boost::exception_detail::error_info_container": Die Klasse besitzt virtuelle Funktionen, aber der Destruktor ist nicht virtuell [D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj]
+  d:\development\source\thirdparty\vs2017\boost-1.67.0\boost\exception\exception.hpp(176): warning C4265: "boost::exception_detail::error_info_container": Die Klasse besitzt virtuelle Funktionen, aber der Destruktor ist nicht virtuell [D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj]
+  d:\development\source\thirdparty\vs2017\boost-1.67.0\boost\exception\exception.hpp(176): warning C4265: "boost::exception_detail::error_info_container": Die Klasse besitzt virtuelle Funktionen, aber der Destruktor ist nicht virtuell [D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj]
+  d:\development\source\cpp\projects\syncengine\source\tssyncio.cpp(368): warning C4456: Deklaration von "result" blendet vorherige lokale Deklaration aus [D:\Development\Source\cpp\Projects\SyncEngine\SyncEngine.vcxproj]
+
+    5 Warnung(en)
+    0 Fehler
+
+Verstrichene Zeit 00:00:34.71

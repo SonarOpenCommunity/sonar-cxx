@@ -53,7 +53,7 @@ public class CxxVCppBuildLogParserTest {
     }
 
     /**
-     * We can test this at the moment only if we check how the relative includes translated to absolute paths.
+     * We can test this at the moment only if we check how the relative include paths translated to absolute paths.
      */
     @Test
     public void shouldExtractProjectFileFromEnglishVCpp2013Log() {
@@ -66,7 +66,7 @@ public class CxxVCppBuildLogParserTest {
         // Checks only the includes with relative paths
         SoftAssertions softly = new SoftAssertions();
 
-        // Extract project path: C:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling
+        // Extracted project path: C:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling
         List<String> includes = uniqueIncludes.get("C:\\prod\\SonarQube\\cxx\\sonar-cxx\\integration-tests\\testdata\\googletest_bullseye_vs_project\\PathHandling\\PathHandle.cpp");
 
         // .\interface -> C:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling\interface
@@ -81,6 +81,44 @@ public class CxxVCppBuildLogParserTest {
         // only include the language independent recognition of the project file, so we have accepted the state.
         // .. -> C:\
         softly.assertThat(includes.contains("C:\\")).isTrue();
+        softly.assertAll();
+    }
+
+    /**
+     * We can test this at the moment only if we check how the relative include paths translated to absolute paths.
+     */
+    @Test
+    public void shouldExtractProjectFileFromGermanVCpp2017Log() {
+
+        File vcLog = new File("src/test/resources/logfile/vc++2017-de.txt");
+
+        CxxVCppBuildLogParser parser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+        parser.parseVCppLog(vcLog, ".", VC_CHARSET);
+
+        // Checks only the includes with relative paths
+        SoftAssertions softly = new SoftAssertions();
+
+        List<String> includes = uniqueIncludes.get("D:\\Development\\Source\\cpp\\Projects\\SyncEngine\\Source\\Synchronisation.cpp");
+
+        // Extracted project path: D:\Development\Source\cpp\Projects\SyncEngine
+        // ..\..\..\ThirdParty\VS2017\Qt-4.8.7\include -> D:\Development\Source\ThirdParty\VS2017\Qt-4.8.7\include
+        softly.assertThat(includes.contains("D:\\Development\\Source\\ThirdParty\\VS2017\\Qt-4.8.7\\include")).isTrue();
+        // Interface -> D:\Development\Source\cpp\Projects\SyncEngine\Interface
+        softly.assertThat(includes.contains("D:\\Development\\Source\\cpp\\Projects\\SyncEngine\\Interface")).isTrue();
+        // ..\Shared -> D:\Development\Source\cpp\Projects\Shared
+        softly.assertThat(includes.contains("D:\\Development\\Source\\cpp\\Projects\\Shared")).isTrue();
+        // ..\Shared\Cpp -> D:\Development\Source\cpp\Projects\Shared\Cpp
+        softly.assertThat(includes.contains("D:\\Development\\Source\\cpp\\Projects\\Shared\\Cpp")).isTrue();
+        // ..\Shared\Cpp\Interface -> D:\Development\Source\cpp\Projects\Shared\Cpp\Interface
+        softly.assertThat(includes.contains("D:\\Development\\Source\\cpp\\Projects\\Shared\\Cpp\\Interface")).isTrue();
+        // ..\..\..\ThirdParty\VS2017\Boost-1.67.0 -> D:\Development\Source\ThirdParty\VS2017\Boost-1.67.0
+        softly.assertThat(includes.contains("D:\\Development\\Source\\ThirdParty\\VS2017\\Boost-1.67.0")).isTrue();
+        // ..\..\..\ThirdParty\VS2017\Qt-4.8.7\include\ActiveQt -> D:\Development\Source\ThirdParty\VC2017\Qt-4.8.7\include\ActiveQt
+        softly.assertThat(includes.contains("D:\\Development\\Source\\ThirdParty\\VS2017\\Qt-4.8.7\\include\\ActiveQt")).isTrue();
+        // release -> D:\Development\Source\cpp\Projects\SyncEngine\release
+        softly.assertThat(includes.contains("D:\\Development\\Source\\cpp\\Projects\\SyncEngine\\release")).isTrue();
+        // ..\..\..\ThirdParty\VS2017\Qt-4.8.7\mkspecs\win32-msvc2017 -> D:\Development\Source\ThirdParty\VS2017\Qt-4.8.7\mkspecs\win32-msvc2017
+        softly.assertThat(includes.contains("D:\\Development\\Source\\ThirdParty\\VS2017\\Qt-4.8.7\\mkspecs\\win32-msvc2017")).isTrue();
         softly.assertAll();
     }
 }
