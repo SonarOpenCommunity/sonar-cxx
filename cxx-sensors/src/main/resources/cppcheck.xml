@@ -2582,6 +2582,26 @@ Same iterator is used with two different containers.
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>iterators2</key>
+    <name>Same iterator is used with two different containers</name>
+    <description>
+      <![CDATA[
+<p>
+Same iterator is used with two different containers.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>iterators</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>mismatchingContainers</key>
     <name>Iterators of different containers are used together</name>
     <description>
@@ -3040,6 +3060,18 @@ a copy of the previous value around and adds a little extra code.
       Cppcheck cannot tokenize the code correctly.
     </description>
     <internalKey>syntaxError</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>internalAstError</key>
+    <name>AST parsing failure</name>
+    <description>
+      Cppcheck cannot understand this code. Failed to parse this code into an abstract syntax tree.
+    </description>
+    <internalKey>internalAstError</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
