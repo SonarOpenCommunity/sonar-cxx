@@ -673,14 +673,14 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
           CxxKeyword.GCNEW
         ),
         b.firstOf(
+          b.sequence("(", typeId, ")", b.optional(newInitializer)),
           b.sequence(
             b.optional(newPlacement),
             b.firstOf(
               b.sequence(newTypeId, b.optional(newInitializer)), // C++
               b.sequence("(", typeId, ")", b.optional(newInitializer)) // C++
             )
-          ),
-          b.sequence("(", typeId, ")", b.optional(newInitializer)) // todo remove?
+          )
         )
       )
     );
