@@ -21,11 +21,12 @@ package org.sonar.cxx.checks;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
 import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
@@ -56,17 +57,20 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
 
   @Override
   public void visitFile(AstNode astNode) {
-    List<String> lines;
     try {
-      lines = Files.readAllLines(getContext().getFile().toPath(), charset);
+      // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
+      BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset));
+      String line;
+      int nr = 0;
+
+      while ((line = br.readLine()) != null) {
+        nr++;
+        if (PATTERN.matcher(line).find()) {
+          getContext().createLineViolation(this, "Do not use relative path for #include directive.", nr);
+        }
+      }
     } catch (IOException e) {
       throw new IllegalStateException(e);
-    }
-    for (int i = 0; i < lines.size(); i++) {
-      String line = lines.get(i);
-      if (PATTERN.matcher(line).find()) {
-        getContext().createLineViolation(this, "Do not use relative path for #include directive.", i + 1);
-      }
     }
   }
 

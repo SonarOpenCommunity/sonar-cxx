@@ -21,11 +21,12 @@ package org.sonar.cxx.checks.file;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -67,23 +68,27 @@ public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharset
 
   @Override
   public void visitFile(AstNode astNode) {
-    List<String> lines;
     try {
-      lines = Files.readAllLines(getContext().getFile().toPath(), charset);
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
-    for (int i = 0; i < lines.size(); i++) {
-      if (lines.get(i).contains("\t")) {
-        if (createLineViolation) {
-          getContext().createLineViolation(this,
-            "Replace all tab characters in this line by sequences of white-spaces.", i + 1);
-        } else {
-          getContext().createFileViolation(this,
-            "Replace all tab characters in this file by sequences of white-spaces.");
-          break;
+      // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
+      BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset));
+      String line;
+      int nr = 0;
+
+      while ((line = br.readLine()) != null) {
+        nr++;
+        if (line.contains("\t")) {
+          if (createLineViolation) {
+            getContext().createLineViolation(this,
+              "Replace all tab characters in this line by sequences of white-spaces.", nr);
+          } else {
+            getContext().createFileViolation(this,
+              "Replace all tab characters in this file by sequences of white-spaces.");
+            break;
+          }
         }
       }
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
     }
   }
 

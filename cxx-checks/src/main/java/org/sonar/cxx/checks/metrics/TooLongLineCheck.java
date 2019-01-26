@@ -21,11 +21,12 @@ package org.sonar.cxx.checks.metrics;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -58,7 +59,7 @@ public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetA
     key = "maximumLineLength",
     description = "The maximum authorized line length",
     defaultValue = "" + DEFAULT_MAXIMUM_LINE_LENHGTH)
-  public int maximumLineLength = DEFAULT_MAXIMUM_LINE_LENHGTH;
+  public long maximumLineLength = DEFAULT_MAXIMUM_LINE_LENHGTH;
 
   /**
    * tabWidth
@@ -78,26 +79,29 @@ public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetA
 
   @Override
   public void visitFile(AstNode astNode) {
-    List<String> lines;
     try {
-      lines = Files.readAllLines(getContext().getFile().toPath(), charset);
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
-    for (int i = 0; i < lines.size(); i++) {
-      String line = lines.get(i);
-      int length = 0;
-      for (char c : line.toCharArray()) {
-        if (c == '\t') {
-          ++length;
+      // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
+      BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset));
+      String line;
+      int nr = 0;
+
+      while ((line = br.readLine()) != null) {
+        int length = 0;
+        nr++;
+        for (char c : line.toCharArray()) {
+          if (c == '\t') {
+            ++length;
+          }
+        }
+        length = line.length() + length * (tabWidth - 1);
+        if (length > maximumLineLength) {
+          getContext().createLineViolation(this,
+            "Split this {0} characters long line (which is greater than {1} authorized).",
+            nr, length, maximumLineLength);
         }
       }
-      length = line.length() + length * (tabWidth - 1);
-      if (length > maximumLineLength) {
-        getContext().createLineViolation(this,
-          "Split this {0} characters long line (which is greater than {1} authorized).",
-          i + 1, length, maximumLineLength);
-      }
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
     }
   }
 

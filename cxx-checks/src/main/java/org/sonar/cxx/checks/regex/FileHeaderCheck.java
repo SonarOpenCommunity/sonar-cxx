@@ -21,14 +21,15 @@ package org.sonar.cxx.checks.regex;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.Iterator;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -78,25 +79,14 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
   private String[] expectedLines = null;
   private Pattern searchPattern = null;
 
-  private static boolean matches(String[] expectedLines, List<String> lines) {
-    boolean result;
-
-    if (expectedLines.length <= lines.size()) {
-      result = true;
-
-      Iterator<String> it = lines.iterator();
-      for (String expectedLine : expectedLines) {
-        String line = it.next();
-        if (!line.equals(expectedLine)) {
-          result = false;
-          break;
-        }
+  private static boolean matches(String[] expectedLines, BufferedReader br) throws IOException {
+    for (String expectedLine : expectedLines) {
+      String line = br.readLine();
+      if (line == null || !line.equals(expectedLine)) {
+        return false;
       }
-    } else {
-      result = false;
     }
-
-    return result;
+    return true;
   }
 
   @Override
@@ -116,23 +106,24 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
   @Override
   public void visitFile(AstNode astNode) {
     if (isRegularExpression) {
-      String fileContent;
+
       try {
-        fileContent = new String(Files.readAllBytes(getContext().getFile().toPath()), charset);
+        // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset));
+        String fileContent = br.lines().collect(Collectors.joining(System.lineSeparator()));
+        checkRegularExpression(fileContent);
       } catch (IOException e) {
         throw new AnalysisException(e);
       }
-      checkRegularExpression(fileContent);
     } else {
-      List<String> lines;
       try {
-        lines = Files.readAllLines(getContext().getFile().toPath(), charset);
+        // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset));
+        if (!matches(expectedLines, br)) {
+          getContext().createFileViolation(this, MESSAGE);
+        }
       } catch (IOException e) {
         throw new IllegalStateException(e);
-      }
-
-      if (!matches(expectedLines, lines)) {
-        getContext().createFileViolation(this, MESSAGE);
       }
     }
   }
