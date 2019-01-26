@@ -42,7 +42,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class BooleanEqualityComparisonCheck extends SquidCheck<Grammar> {
 
   private static boolean hasBooleanLiteralOperand(AstNode node) {
-    return node.hasDirectChildren(CxxGrammarImpl.LITERAL, CxxGrammarImpl.BOOL)
+    return node.hasDirectChildren(CxxGrammarImpl.BOOL)
       && node.hasDescendant(CxxKeyword.TRUE, CxxKeyword.FALSE);
   }
 

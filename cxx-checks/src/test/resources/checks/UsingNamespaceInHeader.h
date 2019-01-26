@@ -8,7 +8,7 @@ namespace Foo
     void fooFunc( );
 }
 
-using namespace std;
+using namespace std; // error
 
 // alias for types or template shall not be detected
 // see more details http://en.cppreference.com/w/cpp/language/type_alias
@@ -30,3 +30,13 @@ namespace Foo
         privateFunction( );
     }
 }
+
+void fooFunc()
+{
+    using namespace std;
+}
+
+namespace X
+{
+    using namespace std;
+};
