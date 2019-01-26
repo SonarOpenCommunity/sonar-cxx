@@ -667,7 +667,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(newExpression).is( // todo gcnew must be string
       b.sequence(
-        b.optional("::"), b.firstOf(CxxKeyword.NEW, CxxKeyword.GCNEW),
+        b.optional("::"),
+        b.firstOf(
+          CxxKeyword.NEW,
+          CxxKeyword.GCNEW
+        ),
         b.firstOf(
           b.sequence(
             b.optional(newPlacement),
