@@ -130,7 +130,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
         while ((line = br.readLine()) != null) {
           Matcher matcher = pattern.matcher(line);
-          nr++;
+          ++nr;
           if (compare(invertRegularExpression, matcher.find())) {
             getContext().createLineViolation(this, message, nr);
           }

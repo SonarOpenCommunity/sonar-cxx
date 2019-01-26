@@ -86,13 +86,8 @@ public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetA
       int nr = 0;
 
       while ((line = br.readLine()) != null) {
-        int length = 0;
-        nr++;
-        for (char c : line.toCharArray()) {
-          if (c == '\t') {
-            ++length;
-          }
-        }
+        ++nr;
+        long length = line.chars().filter(c -> c == '\t').count();
         length = line.length() + length * (tabWidth - 1);
         if (length > maximumLineLength) {
           getContext().createLineViolation(this,

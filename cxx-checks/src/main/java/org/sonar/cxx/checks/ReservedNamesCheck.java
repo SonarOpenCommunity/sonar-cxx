@@ -68,7 +68,7 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
       int nr = 0;
 
       while ((line = br.readLine()) != null) {
-        nr++;
+        ++nr;
         Matcher matcher = DEFINE_DECLARATION_PATTERN.matcher(line);
         if (matcher.matches()) {
           String name = matcher.group(1);

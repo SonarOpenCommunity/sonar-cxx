@@ -64,7 +64,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
       int nr = 0;
 
       while ((line = br.readLine()) != null) {
-        nr++;
+        ++nr;
         if (PATTERN.matcher(line).find()) {
           getContext().createLineViolation(this, "Do not use relative path for #include directive.", nr);
         }

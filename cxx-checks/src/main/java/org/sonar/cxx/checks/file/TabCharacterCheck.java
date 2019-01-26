@@ -75,7 +75,7 @@ public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharset
       int nr = 0;
 
       while ((line = br.readLine()) != null) {
-        nr++;
+        ++nr;
         if (line.contains("\t")) {
           if (createLineViolation) {
             getContext().createLineViolation(this,

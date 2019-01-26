@@ -37,7 +37,6 @@ import org.sonar.cxx.checks.utils.CheckUtils;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.api.AnalysisException;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
@@ -82,7 +81,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
   private static boolean matches(String[] expectedLines, BufferedReader br) throws IOException {
     for (String expectedLine : expectedLines) {
       String line = br.readLine();
-      if (line == null || !line.equals(expectedLine)) {
+      if (!expectedLine.equals(line)) {
         return false;
       }
     }
@@ -105,26 +104,20 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
 
   @Override
   public void visitFile(AstNode astNode) {
-    if (isRegularExpression) {
+    try {
+      // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
+      BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset));
 
-      try {
-        // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset));
+      if (isRegularExpression) {
         String fileContent = br.lines().collect(Collectors.joining(System.lineSeparator()));
         checkRegularExpression(fileContent);
-      } catch (IOException e) {
-        throw new AnalysisException(e);
-      }
-    } else {
-      try {
-        // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset));
+      } else {
         if (!matches(expectedLines, br)) {
           getContext().createFileViolation(this, MESSAGE);
         }
-      } catch (IOException e) {
-        throw new IllegalStateException(e);
       }
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
     }
   }
 
