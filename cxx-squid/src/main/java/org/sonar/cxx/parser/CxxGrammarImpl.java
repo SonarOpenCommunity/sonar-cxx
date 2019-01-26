@@ -1118,7 +1118,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             b.sequence(b.optional(attributeSpecifierSeq), b.optional(nestedNameSpecifier), IDENTIFIER) // C++
           )
         ),
-        b.sequence(b.optional(cliAttributes), CxxKeyword.ENUM, b.optional(nestedNameSpecifier), IDENTIFIER) // C++
+        b.sequence(CxxKeyword.ENUM, b.optional(nestedNameSpecifier), IDENTIFIER) // C++
       )
     );
 
