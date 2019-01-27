@@ -57,9 +57,10 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
 
   @Override
   public void visitFile(AstNode astNode) {
-    try {
-      // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-      BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset));
+
+    // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
+    try (BufferedReader br = new BufferedReader(
+      new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
       String line;
       int nr = 0;
 
