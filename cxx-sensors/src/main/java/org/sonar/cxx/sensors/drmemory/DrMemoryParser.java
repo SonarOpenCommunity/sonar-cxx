@@ -92,8 +92,8 @@ public final class DrMemoryParser {
   public static List<String> getElements(File file, String charset) {
 
     List<String> list = new ArrayList<>();
-    try (InputStream input = java.nio.file.Files.newInputStream(file.toPath())) {
-      BufferedReader br = new BufferedReader(new InputStreamReader(input, charset));
+    try (BufferedReader br = new BufferedReader(
+      new InputStreamReader(java.nio.file.Files.newInputStream(file.toPath()), charset))) {
       StringBuilder sb = new StringBuilder(4096);
       String line;
       int cnt = 0;
@@ -109,14 +109,12 @@ public final class DrMemoryParser {
             sb.append('\n');
           }
         }
-        cnt++;
+        ++cnt;
       }
 
       if (sb.length() > 0) {
         list.add(sb.toString());
       }
-
-      br.close();
     } catch (IOException e) {
       String msg = new StringBuilder(512).append("Cannot feed the data into sonar, details: '")
         .append(e)

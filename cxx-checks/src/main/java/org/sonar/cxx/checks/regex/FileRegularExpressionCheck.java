@@ -122,12 +122,11 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @Override
   public void visitFile(AstNode fileNode) {
-    try {
-      if (!compare(invertFilePattern, matchFile())) {
-        return;
-      }
-      // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-      BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset));
+    if (!compare(invertFilePattern, matchFile())) {
+      return;
+    }
+    // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
       final String fileContent = br.lines().collect(Collectors.joining(System.lineSeparator()));
       Matcher matcher = pattern.matcher(fileContent);
       if (compare(invertRegularExpression, matcher.find())) {
