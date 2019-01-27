@@ -22,6 +22,7 @@ package org.sonar.cxx;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
+import org.sonar.api.internal.apachecommons.lang.SystemUtils;
 
 import java.io.File;
 import java.util.*;
@@ -46,6 +47,7 @@ public class CxxVCppBuildLogParserTest {
     @Before
     public void init()
     {
+        org.junit.Assume.assumeTrue(SystemUtils.IS_OS_WINDOWS);
         uniqueIncludes.clear();
         uniqueDefines.clear();
         uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
