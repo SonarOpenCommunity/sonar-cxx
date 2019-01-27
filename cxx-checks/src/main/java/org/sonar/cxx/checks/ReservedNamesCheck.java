@@ -21,11 +21,12 @@ package org.sonar.cxx.checks;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,36 +60,40 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
 
   @Override
   public void visitFile(AstNode astNode) {
-    List<String> lines;
+
     try {
-      lines = Files.readAllLines(getContext().getFile().toPath(), charset);
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
-    int nr = 0;
-    for (String line : lines) {
-      nr++;
-      Matcher matcher = DEFINE_DECLARATION_PATTERN.matcher(line);
-      if (matcher.matches()) {
-        String name = matcher.group(1);
-        if (name.startsWith("_") && name.length() > 1 && Character.isUpperCase(name.charAt(1))) {
-          getContext().createLineViolation(this,
-            "Reserved name used for macro (begins with underscore followed by a capital letter)", nr);
-        } else if (name.contains("__")) {
-          getContext().createLineViolation(this,
-            "Reserved name used for macro (contains two consecutive underscores)", nr);
-        } else {
-          name = name.toLowerCase(Locale.ENGLISH);
-          for (String keyword : KEYWORDS) {
-            if (name.equals(keyword)) {
-              getContext().createLineViolation(this,
-                "Reserved name used for macro (keyword or alternative token redefined)", nr);
-              break;
+      // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
+      BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset));
+      String line;
+      int nr = 0;
+
+      while ((line = br.readLine()) != null) {
+        ++nr;
+        Matcher matcher = DEFINE_DECLARATION_PATTERN.matcher(line);
+        if (matcher.matches()) {
+          String name = matcher.group(1);
+          if (name.startsWith("_") && name.length() > 1 && Character.isUpperCase(name.charAt(1))) {
+            getContext().createLineViolation(this,
+              "Reserved name used for macro (begins with underscore followed by a capital letter)", nr);
+          } else if (name.contains("__")) {
+            getContext().createLineViolation(this,
+              "Reserved name used for macro (contains two consecutive underscores)", nr);
+          } else {
+            name = name.toLowerCase(Locale.ENGLISH);
+            for (String keyword : KEYWORDS) {
+              if (name.equals(keyword)) {
+                getContext().createLineViolation(this,
+                  "Reserved name used for macro (keyword or alternative token redefined)", nr);
+                break;
+              }
             }
           }
         }
       }
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
     }
+
   }
 
   @Override
