@@ -143,7 +143,6 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     Path realPath;
     try {
       realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
-      // despite of API the RuntimeExceptions can be thrown too
     } catch (IOException | RuntimeException e) {
       if (LOG.isDebugEnabled()) {
         LOG.debug("Unable to get the real path: module '{}', baseDir '{}', path '{}', exception '{}'",
