@@ -118,7 +118,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     } catch (Exception e) {
       String msg = new StringBuilder(256)
         .append("Cannot feed the data into sonar, details: '")
-        .append(e)
+        .append(CxxUtils.getStackTrace(e))
         .append("'")
         .toString();
       LOG.error(msg);
@@ -143,10 +143,11 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     Path realPath;
     try {
       realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
-    } catch (IOException e) {
+      // despite of API the RuntimeExceptions can be thrown too
+    } catch (IOException | RuntimeException e) {
       if (LOG.isDebugEnabled()) {
         LOG.debug("Unable to get the real path: module '{}', baseDir '{}', path '{}', exception '{}'",
-            sensorContext.module().key(), sensorContext.fileSystem().baseDir(), path, e);
+            sensorContext.module().key(), sensorContext.fileSystem().baseDir(), path, e.getMessage());
       }
       return null;
     }
