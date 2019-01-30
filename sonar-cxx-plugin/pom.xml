@@ -20,6 +20,7 @@
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.pluginName>C++ (Community)</sonar.pluginName>
+    <sonar.skipDependenciesPackaging>true</sonar.skipDependenciesPackaging>
   </properties>
 
   <dependencies>
@@ -91,6 +92,25 @@
         </includes>
       </resource>
     </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <shadedArtifactAttached>false</shadedArtifactAttached>
+          <createDependencyReducedPom>false</createDependencyReducedPom>
+          <minimizeJar>true</minimizeJar>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
 </project>
