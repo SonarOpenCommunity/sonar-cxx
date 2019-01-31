@@ -38,12 +38,12 @@ from shutil import move
 SONAR_URL = "http://localhost:9000"
 INDENT = "    "
 BASEDIR = os.path.dirname(os.path.realpath(__file__))
-JAR_CXX_PATTERN1 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*[0-9].jar")
-JAR_CXX_PATTERN2 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHOT.jar")
-JAR_CXX_PATTERN3 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*RC[0-9].jar")
-JAR_C_PATTERN1 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*[0-9].jar")
-JAR_C_PATTERN2 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*SNAPSHOT.jar")
-JAR_C_PATTERN3 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*RC[0-9].jar")
+JAR_CXX_PATTERN1 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/sonar-*[0-9].jar")
+JAR_CXX_PATTERN2 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/sonar-*SNAPSHOT.jar")
+JAR_CXX_PATTERN3 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/sonar-*RC[0-9].jar")
+JAR_C_PATTERN1 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/sonar-*[0-9].jar")
+JAR_C_PATTERN2 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/sonar-*SNAPSHOT.jar")
+JAR_C_PATTERN3 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/sonar-*RC[0-9].jar")
 RELPATH_PLUGINS = "extensions/plugins"
 didstartsonar = False
 
