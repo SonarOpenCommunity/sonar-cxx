@@ -9656,7 +9656,7 @@ The if condition is the same as the previous if condition
     </rule>
   <rule>
     <key>invalidScanfFormatWidth_smaller</key>
-    <name>Wrong width in format string</name>
+    <name>Wrong width for scanf parameter (too small)</name>
     <description>
       <![CDATA[
       Width 'w0' given in format string is smaller than destination buffer '[w1]'.
