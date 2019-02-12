@@ -28,6 +28,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -68,7 +69,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   }
 
   private Boolean frameIsInProject(SensorContext context, ValgrindFrame frame) {
-    return frame.isLocationKnown() && (getInputFileIfInProject(context, frame.getPath()) != null);
+    return frame.isLocationKnown() && (CxxUtils.getInputFileIfInProject(context, frame.getPath(), this.getNotFoundFiles()) != null);
   }
 
   private CxxReportIssue createIssue(SensorContext context, ValgrindError error, ValgrindStack stack, int stackNr) {

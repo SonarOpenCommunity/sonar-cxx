@@ -28,6 +28,7 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -184,7 +185,7 @@ public class CppcheckParserV2 implements CppcheckParser {
       private boolean isLocationInProject(String file, final SensorContext context) {
         // file == null means that we are dealing with a warning for the whole
         // project/module
-        return (file == null) || (sensor.getInputFileIfInProject(context, file) != null);
+        return (file == null) || (CxxUtils.getInputFileIfInProject(context, file, sensor.getNotFoundFiles()) != null);
       }
     });
 

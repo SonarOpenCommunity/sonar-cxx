@@ -23,9 +23,11 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -51,6 +53,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   private static final Logger LOG = Loggers.get(CxxCoverageSensor.class);
 
   private final List<CoverageParser> parsers = new LinkedList<>();
+  private final Set<String> notFoundFiles = new HashSet<>();
   private final CxxCoverageCache cache;
 
   /**
@@ -108,6 +111,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public void execute(SensorContext context) {
     Configuration conf = context.config();
     String[] reportsKey = conf.getStringArray(getReportPathKey());
+    notFoundFiles.clear();
     LOG.info("Searching coverage reports by path with basedir '{}' and search prop '{}'",
       context.fileSystem().baseDir(), getReportPathKey());
     LOG.info("Searching for coverage reports '{}'", Arrays.toString(reportsKey));
@@ -162,7 +166,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
     for (Map.Entry<String, CoverageMeasures> entry : coverageMeasures.entrySet()) {
       final String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath != null) {
-        InputFile cxxFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(filePath));
+        InputFile cxxFile = CxxUtils.getInputFileIfInProject(context, filePath, notFoundFiles);
+        
         if (LOG.isDebugEnabled()) {
           LOG.debug("save coverage measure for file: '{}' cxxFile = '{}'", filePath, cxxFile);
         }

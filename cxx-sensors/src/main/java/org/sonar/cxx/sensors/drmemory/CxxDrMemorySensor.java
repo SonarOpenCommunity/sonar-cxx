@@ -30,6 +30,7 @@ import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -71,7 +72,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   }
 
   private Boolean frameIsInProject(SensorContext context, Location frame) {
-    return getInputFileIfInProject(context, frame.getFile()) != null;
+    return CxxUtils.getInputFileIfInProject(context, frame.getFile(), getNotFoundFiles()) != null;
   }
 
   private Location getLastOwnFrame(SensorContext context, DrMemoryError error) {
