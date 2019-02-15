@@ -7,14 +7,14 @@ jdk:
         - oraclejdk8
 
 env:
-        - SONARHOME=/tmp/sonarqube-6.7.6   SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.0     SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.1     SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.2     SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.3     SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.4     SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.5     SONARAPI=SqApi75
-        - SONARHOME=/tmp/sonarqube-7.6     SONARAPI=SqApi76
+        - SONARLABEL=sonarqube-6.7.6   SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.0     SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.1     SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.2     SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.3     SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.4     SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.5     SONARAPI=SqApi75
+        - SONARLABEL=sonarqube-7.6     SONARAPI=SqApi76
 
 matrix:
     fast_finish: true
@@ -47,47 +47,10 @@ before_install:
         - travis_retry sudo apt-get -qq install libxml2-utils
 
 install:
+        - export SONARHOME="/tmp/$SONARLABEL"
         - pushd /tmp
-        - |
-          if [ "$SONARHOME" == "/tmp/sonarqube-6.7.6" ]; then
-             wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.6.zip
-             unzip -qq sonarqube-6.7.6.zip
-          fi
-        - |
-          if [ "$SONARHOME" == "/tmp/sonarqube-7.0" ]; then
-             wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.0.zip
-             unzip -qq sonarqube-7.0.zip
-          fi
-        - |
-          if [ "$SONARHOME" == "/tmp/sonarqube-7.1" ]; then
-             wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.1.zip
-             unzip -qq sonarqube-7.1.zip
-          fi
-        - |
-          if [ "$SONARHOME" == "/tmp/sonarqube-7.2" ]; then
-             wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.2.zip
-             unzip -qq sonarqube-7.2.zip
-          fi
-        - |
-          if [ "$SONARHOME" == "/tmp/sonarqube-7.3" ]; then
-             wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.3.zip
-             unzip -qq sonarqube-7.3.zip
-          fi
-        - |
-          if [ "$SONARHOME" == "/tmp/sonarqube-7.4" ]; then
-             wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.4.zip
-             unzip -qq sonarqube-7.4.zip
-          fi
-        - |
-          if [ "$SONARHOME" == "/tmp/sonarqube-7.5" ]; then
-             wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.5.zip
-             unzip -qq sonarqube-7.5.zip
-          fi
-        - |
-          if [ "$SONARHOME" == "/tmp/sonarqube-7.6" ]; then
-             wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip
-             unzip -qq sonarqube-7.6.zip
-          fi
+        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/$SONARLABEL.zip
+        - unzip -qq $SONARLABEL.zip
         - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492.zip
         - unzip -qq sonar-scanner-cli-3.3.0.1492.zip
         - travis_retry wget -q https://github.com/htacg/tidy-html5/archive/5.6.0.zip --output-document=tidy-html5.zip
