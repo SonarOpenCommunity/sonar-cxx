@@ -19,7 +19,7 @@ env:
 matrix:
     fast_finish: true
 #    allow_failures:
-#        - env: SONARHOME=/tmp/sonarqube-7.0-RC1 SONARAPI=SqApi67
+#        - env: SONARLABEL=sonarqube-7.0     SONARAPI=SqApi67
 
 # shorten the VM hostname with the new workaround
 # https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913
@@ -49,11 +49,11 @@ before_install:
 install:
         - export SONARHOME="/tmp/$SONARLABEL"
         - pushd /tmp
-        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/$SONARLABEL.zip
+        - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonarqube/$SONARLABEL.zip
         - unzip -qq $SONARLABEL.zip
-        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492.zip
+        - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492.zip
         - unzip -qq sonar-scanner-cli-3.3.0.1492.zip
-        - travis_retry wget -q https://github.com/htacg/tidy-html5/archive/5.6.0.zip --output-document=tidy-html5.zip
+        - wget -nv --timeout=10 https://github.com/htacg/tidy-html5/archive/5.6.0.zip --output-document=tidy-html5.zip
         - unzip -qq tidy-html5.zip
         - pushd tidy-html5-5.6.0/build/cmake/
         - cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/tmp/tidy-html5-5.6.0 && make && make install && PATH=$PATH:/tmp/tidy-html5-5.6.0/bin
