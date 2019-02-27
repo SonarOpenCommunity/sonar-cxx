@@ -1,4 +1,4 @@
-#define MYMACRO log(a,b,c)
+#define MYMACRO log(a,b,c) // Comment „Test“ ‚u‘ äüöß
 
 #define TRUE 1
 #define FALSE 0

@@ -1,4 +1,4 @@
-#include <stdio.h> // Compliant
+#include <stdio.h> // Compliant „Test“ ‚u‘ äüöß
 #include <../string> // Non-Compliant
 #include "/apath/string" // Non-Compliant
 #include "../apath/string" // Non-Compliant

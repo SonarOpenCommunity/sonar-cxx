@@ -138,11 +138,11 @@ Pointer to local array variable returned.
   </rule>
   <rule>
     <key>returnReference</key>
-    <name>Reference to auto variable returned</name>
+    <name>Reference to local variable returned</name>
     <description>
-<![CDATA[
-<p>
-Reference to auto variable returned.
+      <![CDATA[
+      <p>
+Reference to local variable returned.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
@@ -2223,7 +2223,7 @@ Redundant assignment to itself.
     <description>
       <![CDATA[
       <p>
-Variable 'var' is modified insert assert statement. Assert statements
+Variable 'var' is modified inside assert statement. Assert statements
 are removed from release builds so the code inside assert statement is
 not executed. If the code is needed also in release builds, this is a
 bug.
@@ -2503,12 +2503,12 @@ be removed.
   </rule>
   <rule>
     <key>unsignedLessThanZero</key>
-    <name>Checking if unsigned variable is less than zero</name>
+    <name>Checking if unsigned expression is less than zero</name>
     <description>
       <![CDATA[
       <p>
-The unsigned variable 'varname' will never be negative so it is either
-pointless or an error to check if it is.
+The unsigned expression 'varname' will never be negative so it is
+either pointless or an error to check if it is.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
@@ -2523,12 +2523,12 @@ pointless or an error to check if it is.
   </rule>
   <rule>
     <key>unsignedPositive</key>
-    <name>An unsigned variable can't be negative so it is unnecessary to test it</name>
+    <name>An unsigned expression can't be negative so it is unnecessary to test it</name>
     <description>
       <![CDATA[
       <p>
-Unsigned variable 'varname' can't be negative so it is unnecessary to
-test it.
+Unsigned expression 'varname' can't be negative so it is unnecessary
+to test it.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
@@ -2602,7 +2602,7 @@ Iterators of different containers are used together.
   </rule>
   <rule>
     <key>eraseDereference</key>
-    <name>Dereferenced iterator an already erased iterator</name>
+    <name>Invalid iterator used</name>
     <description>
       <![CDATA[
       <p>
@@ -3823,7 +3823,7 @@ Redundant condition: If <code>x > 11</code> the condition <code>x > 10</code> is
   </rule>
   <rule>
     <key>virtualDestructor</key>
-    <name>Base classes should have virtual destructors</name>
+    <name>Base classes should have virtual destructor</name>
     <description>
       <![CDATA[
       <p>
@@ -5197,7 +5197,7 @@ calculations, the behaviour is undefined. Arithmetic operations on
   </rule>
   <rule>
     <key>commaSeparatedReturn</key>
-    <name>Usage of comma in return statements</name>
+    <name>Usage of comma in return statement</name>
     <description>
       <![CDATA[
       <p>
@@ -9370,7 +9370,6 @@ Non-local variable 'x' will use object.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
       ]]>
-      <![CDATA[]]>
       </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -9393,7 +9392,6 @@ examine this code carefully to determine if it is correct.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
       ]]>
-      <![CDATA[]]>
       </description>
     <tag>cwe</tag>
     <internalKey>duplicateAssignExpression</internalKey>
@@ -9414,7 +9412,6 @@ required.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a></p>
       ]]>
-      <![CDATA[]]>
       </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -9435,7 +9432,6 @@ Using object that is out of scope.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
       ]]>
-      <![CDATA[]]>
       </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -9457,7 +9453,6 @@ Same iterator is used with different containers 'container1' and
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
       ]]>
-      <![CDATA[]]>
       </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -9479,7 +9474,6 @@ different scopes.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
       ]]>
-      <![CDATA[]]>
       </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -9500,7 +9494,6 @@ Comparison of iterators from containers 'container1' and 'container2'.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
       ]]>
-      <![CDATA[]]>
       </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -9522,7 +9515,6 @@ in different scopes.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
       ]]>
-      <![CDATA[]]>
       </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -9543,7 +9535,6 @@ Returning object that will be invalid when returning.
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
       ]]>
-      <![CDATA[]]>
       </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -9560,7 +9551,6 @@ Returning object that will be invalid when returning.
       <![CDATA[
       Non-boolean value returned from function returning bool
       ]]>
-      <![CDATA[]]>
       </description>
     <internalKey>returnNonBoolInBooleanFunction</internalKey>
     <severity>MINOR</severity>
@@ -9579,7 +9569,6 @@ Local variable shadows outer function
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
       ]]>
-      <![CDATA[]]>
       </description>
     <tag>cwe</tag>
     <internalKey>shadowFunction</internalKey>
@@ -9599,10 +9588,144 @@ Local variable shadows outer variable
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
       ]]>
-      <![CDATA[]]>
       </description>
     <tag>cwe</tag>
     <internalKey>shadowVar</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>constArgument</key>
+    <name>Const argument</name>
+    <description>
+      <![CDATA[
+      <p>
+Argument 'x' to function f is always 0
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>constArgument</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>danglingReference</key>
+    <name>Dangling reference</name>
+    <description>
+      <![CDATA[
+      <p>
+Non-local reference variable 'x' to local variable 'y'
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>danglingReference</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>duplicateCondition</key>
+    <name>Duplicate condition</name>
+    <description>
+      <![CDATA[
+      <p>
+The if condition is the same as the previous if condition
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>duplicateCondition</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>invalidScanfFormatWidth_smaller</key>
+    <name>Wrong width for scanf parameter (too small)</name>
+    <description>
+      <![CDATA[
+      Width 'w0' given in format string is smaller than destination buffer '[w1]'.
+      ]]>
+      </description>
+    <tag>bug</tag>
+    <internalKey>invalidScanfFormatWidth_smaller</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>iterators2</key>
+    <name>Same iterator is used with different containers</name>
+    <description>
+      <![CDATA[
+      <p>
+Same iterator is used with different containers 'container0' and
+'container1'.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>iterators2</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>nullPointerArithmeticRedundantCheck</key>
+    <name>Redundant condition or NULL pointer arithmetic</name>
+    <description>
+      <![CDATA[
+      <p>
+Either the condition is redundant or there is pointer arithmetic with
+NULL pointer.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>nullPointerArithmeticRedundantCheck</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>wxBitmap::SetDepthCalled</key>
+    <name>This function is deprecated since version 3.1.2, dimensions and depth can only be set at construction time</name>
+    <description>
+      <![CDATA[
+      <p>
+This function is deprecated since version 3.1.2, dimensions and depth
+can only be set at construction time.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Function</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>wxBitmap::SetDepthCalled</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>

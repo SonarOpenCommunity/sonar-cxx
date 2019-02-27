@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2018 SonarOpenCommunity
+ * Copyright (C) 2010-2019 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -57,7 +57,7 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
   @Override
   public void init() {
-    subscribeTo(CxxGrammarImpl.blockDeclaration);
+    subscribeTo(CxxGrammarImpl.usingDirective);
   }
 
   @Override
@@ -67,11 +67,15 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (isHeader && CxxKeyword.USING.equals(node.getToken().getType())) {
-      final boolean containsNamespace = node.getFirstChild().getChildren().stream()
-        .anyMatch(childNode -> CxxKeyword.NAMESPACE.equals(childNode.getToken().getType()));
-      if (containsNamespace) {
-        getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
+    if (isHeader) {
+      // declaration directly in translation unit
+      if (node.getParent().is(CxxGrammarImpl.declaration)
+        && node.getParent().getParent().is(CxxGrammarImpl.translationUnit)) {
+        final boolean containsNamespace = node.getChildren().stream()
+          .anyMatch(childNode -> CxxKeyword.NAMESPACE.equals(childNode.getToken().getType()));
+        if (containsNamespace) {
+          getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
+        }
       }
     }
   }

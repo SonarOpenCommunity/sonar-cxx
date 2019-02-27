@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2018 SonarOpenCommunity
+ * Copyright (C) 2010-2019 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -42,7 +42,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 public class BooleanEqualityComparisonCheck extends SquidCheck<Grammar> {
 
   private static boolean hasBooleanLiteralOperand(AstNode node) {
-    return node.hasDirectChildren(CxxGrammarImpl.LITERAL, CxxGrammarImpl.BOOL)
+    return node.hasDirectChildren(CxxGrammarImpl.BOOL)
       && node.hasDescendant(CxxKeyword.TRUE, CxxKeyword.FALSE);
   }
 

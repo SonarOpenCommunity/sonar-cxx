@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2018 SonarOpenCommunity
+ * Copyright (C) 2010-2019 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -21,12 +21,15 @@ package org.sonar.cxx.checks.regex;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.WildcardPattern;
 import org.sonar.check.Priority;
@@ -119,11 +122,12 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @Override
   public void visitFile(AstNode fileNode) {
-    try {
-      if (!compare(invertFilePattern, matchFile())) {
-        return;
-      }
-      final String fileContent = new String(Files.readAllBytes(getContext().getFile().toPath()), charset);
+    if (!compare(invertFilePattern, matchFile())) {
+      return;
+    }
+    // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
+      final String fileContent = br.lines().collect(Collectors.joining(System.lineSeparator()));
       Matcher matcher = pattern.matcher(fileContent);
       if (compare(invertRegularExpression, matcher.find())) {
         getContext().createFileViolation(this, message);

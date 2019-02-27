@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2018 SonarOpenCommunity
+ * Copyright (C) 2010-2019 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -59,23 +59,23 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
 
   private final MapSettings settings = new MapSettings();
 
-  ConfigurationProperty charsetProperty = new ConfigurationProperty("Charset", CHARSET_PROPERTY_KEY,
+  private final ConfigurationProperty charsetProperty = new ConfigurationProperty("Charset", CHARSET_PROPERTY_KEY,
     getPropertyOrDefaultValue(CHARSET_PROPERTY_KEY, "UTF-8"),
     Validators.charsetValidator());
 
-  ConfigurationProperty errorRecoveryEnabled = new ConfigurationProperty("Error Recovery", ERROR_RECOVERY_PROPERTY_KEY,
+  private final ConfigurationProperty errorRecoveryEnabled = new ConfigurationProperty("Error Recovery", ERROR_RECOVERY_PROPERTY_KEY,
     getPropertyOrDefaultValue(ERROR_RECOVERY_PROPERTY_KEY, "false"),
     Validators.booleanValidator());
 
-  ConfigurationProperty defines = new ConfigurationProperty("Defines", DEFINES_PROPERTY_KEY
+  private final ConfigurationProperty defines = new ConfigurationProperty("Defines", DEFINES_PROPERTY_KEY
     + " (use \\n\\ as separator)",
     getPropertyOrDefaultValue(DEFINES_PROPERTY_KEY, ""));
 
-  ConfigurationProperty includeDirectories = new ConfigurationProperty("Include Directories",
+  private final ConfigurationProperty includeDirectories = new ConfigurationProperty("Include Directories",
     INCLUDE_DIRECTORIES_PROPERTY_KEY + " (use , as separator)",
     getPropertyOrDefaultValue(INCLUDE_DIRECTORIES_PROPERTY_KEY, ""));
 
-  ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes", FORCE_INCLUDES_PROPERTY_KEY
+  private final ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes", FORCE_INCLUDES_PROPERTY_KEY
     + " (use , as separator)",
     getPropertyOrDefaultValue(FORCE_INCLUDES_PROPERTY_KEY, ""));
 

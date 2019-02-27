@@ -7,18 +7,19 @@ jdk:
         - oraclejdk8
 
 env:
-        - SONARHOME=/tmp/sonarqube-6.7.6   SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.0     SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.1     SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.2     SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.3     SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.4     SONARAPI=SqApi67
-        - SONARHOME=/tmp/sonarqube-7.5     SONARAPI=SqApi75
+        - SONARLABEL=sonarqube-6.7.6   SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.0     SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.1     SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.2     SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.3     SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.4     SONARAPI=SqApi67
+        - SONARLABEL=sonarqube-7.5     SONARAPI=SqApi75
+        - SONARLABEL=sonarqube-7.6     SONARAPI=SqApi76
 
 matrix:
     fast_finish: true
 #    allow_failures:
-#        - env: SONARHOME=/tmp/sonarqube-7.0-RC1 SONARAPI=SqApi67
+#        - env: SONARLABEL=sonarqube-7.0     SONARAPI=SqApi67
 
 # shorten the VM hostname with the new workaround
 # https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913
@@ -46,24 +47,13 @@ before_install:
         - travis_retry sudo apt-get -qq install libxml2-utils
 
 install:
+        - export SONARHOME="/tmp/$SONARLABEL"
         - pushd /tmp
-        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.6.zip
-        - unzip -qq sonarqube-6.7.6.zip
-        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.0.zip
-        - unzip -qq sonarqube-7.0.zip
-        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.1.zip
-        - unzip -qq sonarqube-7.1.zip
-        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.2.zip
-        - unzip -qq sonarqube-7.2.zip
-        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.3.zip
-        - unzip -qq sonarqube-7.3.zip
-        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.4.zip
-        - unzip -qq sonarqube-7.4.zip
-        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.5.zip
-        - unzip -qq sonarqube-7.5.zip
-        - travis_retry wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227.zip
-        - unzip -qq sonar-scanner-cli-3.2.0.1227.zip
-        - travis_retry wget -q https://github.com/htacg/tidy-html5/archive/5.6.0.zip --output-document=tidy-html5.zip
+        - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonarqube/$SONARLABEL.zip
+        - unzip -qq $SONARLABEL.zip
+        - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492.zip
+        - unzip -qq sonar-scanner-cli-3.3.0.1492.zip
+        - wget -nv --timeout=10 https://github.com/htacg/tidy-html5/archive/5.6.0.zip --output-document=tidy-html5.zip
         - unzip -qq tidy-html5.zip
         - pushd tidy-html5-5.6.0/build/cmake/
         - cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/tmp/tidy-html5-5.6.0 && make && make install && PATH=$PATH:/tmp/tidy-html5-5.6.0/bin
@@ -80,7 +70,7 @@ script:
         - mvn install -B -e -V -DskipTests=true
         - mvn test -B -e -V
         - bash cxx-sensors/src/tools/check_rules.sh
-        - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-3.2.0.1227/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture --tags=$SONARAPI
+        - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-3.3.0.1492/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture --tags=$SONARAPI
 
 after_failure:
         - cat $SONARHOME/logs/sonar.log

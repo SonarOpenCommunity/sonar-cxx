@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2018 SonarOpenCommunity
+ * Copyright (C) 2010-2019 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -41,7 +41,7 @@ public class CxxCppCheckRuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxCppCheckRuleRepository.getRepositoryKey(language));
-    assertEquals(503, repo.rules().size());
+    assertEquals(510, repo.rules().size());
   }
 
 }

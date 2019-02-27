@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2018 SonarOpenCommunity
+ * Copyright (C) 2010-2019 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -120,8 +120,8 @@ public class CxxVCppBuildLogParser {
    */
   public void parseVCppLog(File buildLog, String baseDir, String charsetName) {
     boolean detectedPlatform = false;
-    try (InputStream input = java.nio.file.Files.newInputStream(buildLog.toPath())) {
-      BufferedReader br = new BufferedReader(new InputStreamReader(input, charsetName));
+    try (BufferedReader br = new BufferedReader(
+      new InputStreamReader(java.nio.file.Files.newInputStream(buildLog.toPath()), charsetName))) {
       String line;
       if (LOG.isDebugEnabled()) {
         LOG.debug("build log parser baseDir='{}'", baseDir);
@@ -181,7 +181,6 @@ public class CxxVCppBuildLogParser {
           }
         }
       }
-      br.close();
     } catch (IOException ex) {
       LOG.error("Cannot parse build log", ex);
     }
