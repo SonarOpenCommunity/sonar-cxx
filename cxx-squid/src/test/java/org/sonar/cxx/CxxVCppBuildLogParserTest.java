@@ -20,7 +20,7 @@
 package org.sonar.cxx;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sonar.api.internal.apachecommons.lang.SystemUtils;
 
@@ -39,88 +39,74 @@ public class CxxVCppBuildLogParserTest {
 
     public static final String OVERALLINCLUDEKEY = "CxxOverallInclude";
     public static final String OVERALLDEFINEKEY = "CxxOverallDefine";
+    public static final String REFERENCE_DETAILED_LOG = "src/test/resources/logfile/msbuild-detailed-en.txt";
+    public static final String UNIQUE_FILE = "D:\\Development\\Source\\Cpp\\Dummy\\src\\main.cpp";
 
-    private final Map<String, List<String>> uniqueIncludes = new HashMap<>();
-    private final Map<String, Set<String>> uniqueDefines = new HashMap<>();
-
-
-    @Before
-    public void init()
+    @BeforeClass
+    public static void init()
     {
         org.junit.Assume.assumeTrue(SystemUtils.IS_OS_WINDOWS);
-        uniqueIncludes.clear();
-        uniqueDefines.clear();
-        uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
-        uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<>());
     }
 
-    /**
-     * We can test this at the moment only if we check how the relative include paths translated to absolute paths.
-     */
     @Test
-    public void shouldExtractProjectFileFromEnglishVCpp2013Log() {
+    public void shouldTranslateRelativeIncludesRelativeToProjectFolderFromDetailedReferenceLog() {
 
-        File vcLog = new File("src/test/resources/logfile/vc++13.txt");
+        List<String> includes = getIncludesForReferenceLogFile();
 
-        CxxVCppBuildLogParser parser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
-        parser.parseVCppLog(vcLog, ".", VC_CHARSET);
-
-        // Checks only the includes with relative paths
         SoftAssertions softly = new SoftAssertions();
 
-        // Extracted project path: C:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling
-        List<String> includes = uniqueIncludes.get("C:\\prod\\SonarQube\\cxx\\sonar-cxx\\integration-tests\\testdata\\googletest_bullseye_vs_project\\PathHandling\\PathHandle.cpp");
-
-        // .\interface -> C:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling\interface
-        softly.assertThat(includes).contains("C:\\prod\\SonarQube\\cxx\\sonar-cxx\\integration-tests\\testdata\\googletest_bullseye_vs_project\\PathHandling\\interface");
-        // ..\tools\interface -> C:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\tools\interface
-        softly.assertThat(includes).contains("C:\\prod\\SonarQube\\cxx\\sonar-cxx\\integration-tests\\testdata\\googletest_bullseye_vs_project\\tools\\interface");
-        // ..\memlib\interface -> C:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\memlib\interface
-        softly.assertThat(includes).contains("C:\\prod\\SonarQube\\cxx\\sonar-cxx\\integration-tests\\testdata\\googletest_bullseye_vs_project\\memlib\\interface");
-
-        // Currently this relative path converted to a wrong path (should be C:\prod\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project)
-        // To make sure that the new implementation at least initially handles everything exactly that way (to be able to compare). Also, this change should
-        // only include the language independent recognition of the project file, so we have accepted the state.
-        // .. -> C:\
-        softly.assertThat(includes).contains("C:\\");
-        softly.assertAll();
-    }
-
-    /**
-     * We can test this at the moment only if we check how the relative include paths translated to absolute paths.
-     */
-    @Test
-    public void shouldExtractProjectFileFromGermanVCpp2017Log() {
-
-        File vcLog = new File("src/test/resources/logfile/vc++2017-de.txt");
-
-        CxxVCppBuildLogParser parser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
-        parser.parseVCppLog(vcLog, ".", VC_CHARSET);
-
-        // Checks only the includes with relative paths
-        SoftAssertions softly = new SoftAssertions();
-
-        List<String> includes = uniqueIncludes.get("D:\\Development\\Source\\cpp\\Projects\\SyncEngine\\Source\\Synchronisation.cpp");
-
-        // Extracted project path: D:\Development\Source\cpp\Projects\SyncEngine
-        // ..\..\..\ThirdParty\VS2017\Qt-4.8.7\include -> D:\Development\Source\ThirdParty\VS2017\Qt-4.8.7\include
-        softly.assertThat(includes).contains("D:\\Development\\Source\\ThirdParty\\VS2017\\Qt-4.8.7\\include");
-        // Interface -> D:\Development\Source\cpp\Projects\SyncEngine\Interface
-        softly.assertThat(includes).contains("D:\\Development\\Source\\cpp\\Projects\\SyncEngine\\Interface");
-        // ..\Shared -> D:\Development\Source\cpp\Projects\Shared
-        softly.assertThat(includes).contains("D:\\Development\\Source\\cpp\\Projects\\Shared");
-        // ..\Shared\Cpp -> D:\Development\Source\cpp\Projects\Shared\Cpp
-        softly.assertThat(includes).contains("D:\\Development\\Source\\cpp\\Projects\\Shared\\Cpp");
-        // ..\Shared\Cpp\Interface -> D:\Development\Source\cpp\Projects\Shared\Cpp\Interface
-        softly.assertThat(includes).contains("D:\\Development\\Source\\cpp\\Projects\\Shared\\Cpp\\Interface");
-        // ..\..\..\ThirdParty\VS2017\Boost-1.67.0 -> D:\Development\Source\ThirdParty\VS2017\Boost-1.67.0
+        // Absolute path
+        softly.assertThat(includes).contains("D:\\Development\\Source\\ThirdParty\\VS2017\\Firebird-2.5.8\\include");
+        // Relative paths
         softly.assertThat(includes).contains("D:\\Development\\Source\\ThirdParty\\VS2017\\Boost-1.67.0");
-        // ..\..\..\ThirdParty\VS2017\Qt-4.8.7\include\ActiveQt -> D:\Development\Source\ThirdParty\VC2017\Qt-4.8.7\include\ActiveQt
-        softly.assertThat(includes).contains("D:\\Development\\Source\\ThirdParty\\VS2017\\Qt-4.8.7\\include\\ActiveQt");
-        // release -> D:\Development\Source\cpp\Projects\SyncEngine\release
-        softly.assertThat(includes).contains("D:\\Development\\Source\\cpp\\Projects\\SyncEngine\\release");
-        // ..\..\..\ThirdParty\VS2017\Qt-4.8.7\mkspecs\win32-msvc2017 -> D:\Development\Source\ThirdParty\VS2017\Qt-4.8.7\mkspecs\win32-msvc2017
-        softly.assertThat(includes).contains("D:\\Development\\Source\\ThirdParty\\VS2017\\Qt-4.8.7\\mkspecs\\win32-msvc2017");
+        softly.assertThat(includes).contains("D:\\Development\\Source\\Cpp\\Dummy\\includes");
+        softly.assertThat(includes).contains("D:\\Development\\Source\\Cpp\\Dummy\\release");
+        softly.assertThat(includes).hasSize(4);
         softly.assertAll();
+    }
+
+    @Test
+    public void shouldTranslateRelativeIncludesFromDetailedGermanLogAsSameAsFromDetailedReferenceLog() {
+
+        List<String> refIncludes = getIncludesForReferenceLogFile();
+        List<String> includes = getIncludesForUniqueFile("src/test/resources/logfile/msbuild-detailed-de.txt");
+
+        SoftAssertions softly = new SoftAssertions();
+
+        softly.assertThat(includes).containsExactlyInAnyOrderElementsOf(refIncludes);
+        softly.assertAll();
+    }
+
+    @Test
+    public void shouldTranslateRelativeIncludesFromDetailedFrenchLogAsSameAsFromDetailedReferenceLog() {
+
+        List<String> refIncludes = getIncludesForReferenceLogFile();
+        List<String> includes = getIncludesForUniqueFile("src/test/resources/logfile/msbuild-detailed-fr.txt");
+
+        SoftAssertions softly = new SoftAssertions();
+
+        softly.assertThat(includes).containsExactlyInAnyOrderElementsOf(refIncludes);
+        softly.assertAll();
+    }
+
+    private List<String> getIncludesForReferenceLogFile() {
+        return getIncludesForUniqueFile(REFERENCE_DETAILED_LOG);
+    }
+
+    private List<String> getIncludesForUniqueFile(String log) {
+        Map<String, List<String>> uniqueIncludes = new HashMap<>();
+        uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
+        Map<String, Set<String>> uniqueDefines = new HashMap<>();
+        uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<>());
+
+        File logFile = new File(log);
+
+        CxxVCppBuildLogParser parser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+        parser.parseVCppLog(logFile, ".", VC_CHARSET);
+
+        SoftAssertions softly = new SoftAssertions();
+
+        List<String> includes = uniqueIncludes.get(UNIQUE_FILE);
+        return includes;
     }
 }
