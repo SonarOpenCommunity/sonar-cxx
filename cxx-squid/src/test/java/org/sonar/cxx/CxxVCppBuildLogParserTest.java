@@ -30,6 +30,9 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 /**
+ * These tests ensure that the relative paths in the INCLUDES are correctly converted to absolute paths.
+ * The project directory is used as the base directory.
+ * The project directory is extracted regardless of the language of the log file.
  *
  * @author rudolfgrauberger
  */
@@ -49,7 +52,7 @@ public class CxxVCppBuildLogParserTest {
     }
 
     @Test
-    public void shouldTranslateRelativeIncludesRelativeToProjectFolderFromDetailedReferenceLog() {
+    public void relativeIncludesFromReferenceLog() {
 
         List<String> includes = getIncludesForReferenceLogFile();
 
@@ -66,7 +69,7 @@ public class CxxVCppBuildLogParserTest {
     }
 
     @Test
-    public void shouldTranslateRelativeIncludesFromDetailedGermanLogAsSameAsFromDetailedReferenceLog() {
+    public void relativeIncludesFromGermanLog() {
 
         List<String> refIncludes = getIncludesForReferenceLogFile();
         List<String> includes = getIncludesForUniqueFile("src/test/resources/logfile/msbuild-detailed-de.txt");
@@ -78,7 +81,7 @@ public class CxxVCppBuildLogParserTest {
     }
 
     @Test
-    public void shouldTranslateRelativeIncludesFromDetailedFrenchLogAsSameAsFromDetailedReferenceLog() {
+    public void relativeIncludesFromFrenchLog() {
 
         List<String> refIncludes = getIncludesForReferenceLogFile();
         List<String> includes = getIncludesForUniqueFile("src/test/resources/logfile/msbuild-detailed-fr.txt");
@@ -103,8 +106,6 @@ public class CxxVCppBuildLogParserTest {
 
         CxxVCppBuildLogParser parser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
         parser.parseVCppLog(logFile, ".", VC_CHARSET);
-
-        SoftAssertions softly = new SoftAssertions();
 
         List<String> includes = uniqueIncludes.get(UNIQUE_FILE);
         return includes;
