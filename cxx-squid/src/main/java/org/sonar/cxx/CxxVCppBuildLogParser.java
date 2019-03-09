@@ -60,6 +60,9 @@ public class CxxVCppBuildLogParser {
   private static final Pattern TOOLSET_V141_PATTERN = Pattern
     .compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
 
+  // It seems that the required line in any language has these elements: "ClCompile" and (*.vcxproj)
+  private static final Pattern PATH_TO_VCXPROJ = Pattern.compile("^(?:\\S+)\\s(?:\"ClCompile\").*\"(.+vcxproj)\".*$");
+
   private final Map<String, List<String>> uniqueIncludes;
   private final Map<String, Set<String>> uniqueDefines;
   private String platformToolset = "V120";
@@ -143,12 +146,11 @@ public class CxxVCppBuildLogParser {
         // from project
         // "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\
         //         PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
-        if (line.contains("Target \"ClCompile\" in file")) {
-          String pathProject = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");
-          if (pathProject.endsWith(":")) {
-            pathProject = pathProject.substring(0, pathProject.length() - 2);
-          }
+        if (PATH_TO_VCXPROJ.matcher(line).matches())
+        {
+          String pathProject = getMatches(PATH_TO_VCXPROJ, line).get(0);
           currentProjectPath = Paths.get(pathProject).getParent();
+
           if (currentProjectPath == null) {
             currentProjectPath = Paths.get(baseDir);
           }
