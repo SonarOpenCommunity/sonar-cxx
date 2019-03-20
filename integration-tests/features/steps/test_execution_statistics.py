@@ -390,5 +390,10 @@ def _run_command(context, command):
                                )
         proc.communicate()
 
+    # print log file result for debugging
+    #if proc.returncode != 0:
+    #    with open(context.log, "r") as log:
+    #        print(RED + log.read() + RESET_ALL)
+
     context.rc = proc.returncode
 

@@ -1,6 +1,6 @@
 #include <googletest/gtest/gtest.h>
 
-#include "..\PathHandling\PathHandle.h"
+#include "..\PathHandling\PathHandle.hpp"
 
 class PathHandlingTest : public ::testing::Test
 {

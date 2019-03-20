@@ -82,7 +82,6 @@ public class CxxSquidSensorTest {
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.FILES).value()).isEqualTo(1);
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.NCLOC).value()).isEqualTo(54);
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(50);
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(7);
@@ -106,7 +105,6 @@ public class CxxSquidSensorTest {
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FILES).value()).isEqualTo(1);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(22);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.CLASSES).value()).isEqualTo(2);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.COMPLEXITY).value()).isEqualTo(38);
@@ -175,7 +173,6 @@ public class CxxSquidSensorTest {
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FILES).value()).isEqualTo(1);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(1);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(0);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(0);
@@ -194,7 +191,6 @@ public class CxxSquidSensorTest {
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FILES).value()).isEqualTo(1);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(9);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(0);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(9);
@@ -218,7 +214,6 @@ public class CxxSquidSensorTest {
 
     // These checks actually check the force include feature, since only if it works the metric values will be like follows
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FILES).value()).isEqualTo(1);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(1);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(2);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(1);

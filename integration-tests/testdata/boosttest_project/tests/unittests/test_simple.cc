@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdafx.hh"
 
 #define BOOST_TEST_MODULE my_module
 #include <boost/test/unit_test.hpp>
