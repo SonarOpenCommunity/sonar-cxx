@@ -47,7 +47,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="PathHandle.h" />
+    <ClInclude Include="PathHandle.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PathHandle.cpp" />

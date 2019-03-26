@@ -32,7 +32,6 @@ Feature: GoogleTestWithBullseyeAndVsProject
       | statements               | 7     |
       | classes                  | 1     |
       | files                    | 2     |
-      | directories              | 1     |
       | functions                | 3     |
       | comment_lines_density    | 0     |
       | duplicated_lines_density | 0     |

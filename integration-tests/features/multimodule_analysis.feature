@@ -29,7 +29,6 @@ Feature: cpp-multimodule-project
       | statements               | 36    |
       | classes                  | 1     |
       | files                    | 8     |
-      | directories              | 4     |
       | functions                | 5     |
       | comment_lines_density    | 30    |
       | comment_lines            | 24    |

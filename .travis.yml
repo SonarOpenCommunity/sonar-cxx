@@ -15,6 +15,7 @@ env:
         - SONARLABEL=sonarqube-7.4     SONARAPI=SqApi67
         - SONARLABEL=sonarqube-7.5     SONARAPI=SqApi75
         - SONARLABEL=sonarqube-7.6     SONARAPI=SqApi76
+        - SONARLABEL=sonarqube-7.7     SONARAPI=SqApi76
 
 matrix:
     fast_finish: true
