@@ -20,14 +20,20 @@
 package org.sonar.cxx.sensors.utils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tools.ant.DirectoryScanner;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.config.Configuration;
@@ -41,8 +47,10 @@ import org.sonar.cxx.CxxLanguage;
 public abstract class CxxReportSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
+
   private final CxxLanguage language;
   private final String propertiesKeyPathToReports;
+  private final Set<String> notFoundFiles = new HashSet<>();
 
   /**
    * {@inheritDoc}
@@ -124,7 +132,7 @@ public abstract class CxxReportSensor implements Sensor {
 
     if (existingReportPaths.length == 0) {
       LOG.warn("Property '{}': cannot find any files matching the Ant pattern(s) '{}'", reportPathKey,
-        String.join(", ", normalizedReportPaths));
+              String.join(", ", normalizedReportPaths));
       return Collections.emptyList();
     }
 
@@ -163,6 +171,86 @@ public abstract class CxxReportSensor implements Sensor {
       LOG.debug("Normalized report includes to '{}'", includes);
     }
     return includes;
+  }
+
+  private InputFile getInputFileTryRealPath(SensorContext sensorContext, String path) {
+    final Path absolutePath = sensorContext.fileSystem().baseDir().toPath().resolve(path);
+    Path realPath;
+    try {
+      realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
+    } catch (IOException | RuntimeException e) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Unable to get the real path: module '{}', baseDir '{}', path '{}', exception '{}'",
+                sensorContext.module().key(), sensorContext.fileSystem().baseDir(), path, e.getMessage());
+      }
+      return null;
+    }
+
+    // if the real path is equal to the given one - skip search; we already
+    // tried such path
+    //
+    // IMPORTANT: don't use Path::equals(), since it's dependent on a file-system.
+    // SonarQube plugin API works with string paths, so the equality of strings
+    // is important
+    final String realPathString = realPath.toString();
+    if (absolutePath.toString().equals(realPathString)) {
+      return null;
+    }
+
+    return sensorContext.fileSystem()
+            .inputFile(sensorContext.fileSystem().predicates().hasAbsolutePath(realPathString));
+  }
+
+  public InputFile getInputFileIfInProject(SensorContext sensorContext, String path) {
+    if (notFoundFiles.contains(path)) {
+      return null;
+    }
+
+    // 1. try the most generic search predicate first; usually it's the right
+    // one
+    InputFile inputFile = sensorContext.fileSystem()
+            .inputFile(sensorContext.fileSystem().predicates().hasPath(path));
+
+    // 2. if there was nothing found, try to normalize the path by means of
+    // Path::toRealPath(). This helps if some 3rd party tools obfuscate the
+    // paths. E.g. the MS VC compiler tends to transform file paths to the lower
+    // case in its logs.
+    //
+    // IMPORTANT: SQ plugin API allows creation of NewIssue only on locations,
+    // which belong to the module. This internal check is performed by means
+    // of comparison of the paths. The paths which are managed by the framework
+    // (the reference paths) are NOT stored in the canonical form.
+    // E.g. the plugin API neither resolves symbolic links nor performs
+    // case-insensitive path normalization (could be relevant on Windows)
+    //
+    // Normalization by means of File::getCanonicalFile() or Path::toRealPath()
+    // can produce paths, which don't pass the mentioned check. E.g. resolution
+    // of symbolic links or letter case transformation
+    // might lead to the paths, which don't belong to the module's base
+    // directory (at least not in terms of parent-child semantic). This is the
+    // reason why we should avoid the resolution of symbolic links and not use
+    // the Path::toRealPath() as the only search predicate.
+    if (inputFile == null) {
+      inputFile = getInputFileTryRealPath(sensorContext, path);
+    }
+
+    if (inputFile == null) {
+      LOG.warn("Cannot find the file '{}' in module '{}' base dir '{}', skipping violations.",
+              path, sensorContext.module().key(), sensorContext.fileSystem().baseDir());
+      notFoundFiles.add(path);
+    }
+    return inputFile;
+  }
+
+  /**
+   * override always executeImpl instead of execute
+   */
+  protected abstract void executeImpl(SensorContext context);
+
+  @Override
+  public void execute(SensorContext context) {
+    notFoundFiles.clear();
+    executeImpl(context);
   }
 
   public CxxLanguage getLanguage() {
