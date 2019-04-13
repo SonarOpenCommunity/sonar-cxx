@@ -111,7 +111,7 @@ public class CxxReportSensorTest {
     }
 
     @Override
-    public void execute(SensorContext sc) {
+    public void executeImpl(SensorContext sc) {
     }
 
     @Override
