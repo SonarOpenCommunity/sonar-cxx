@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.xml.stream.XMLStreamException;
@@ -79,9 +78,9 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
    * {@inheritDoc}
    */
   @Override
-  public void execute(SensorContext context) {
+  public void executeImpl(SensorContext context) {
     transformFiles(context.fileSystem().baseDir(), context);
-    super.execute(context);
+    super.executeImpl(context);
   }
 
   @Override

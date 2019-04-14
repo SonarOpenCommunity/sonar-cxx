@@ -105,7 +105,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * {@inheritDoc}
    */
   @Override
-  public void execute(SensorContext context) {
+  public void executeImpl(SensorContext context) {
     Configuration conf = context.config();
     String[] reportsKey = conf.getStringArray(getReportPathKey());
     LOG.info("Searching coverage reports by path with basedir '{}' and search prop '{}'",
@@ -162,7 +162,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     for (Map.Entry<String, CoverageMeasures> entry : coverageMeasures.entrySet()) {
       final String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath != null) {
-        InputFile cxxFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(filePath));
+        InputFile cxxFile = getInputFileIfInProject(context, filePath);
         if (LOG.isDebugEnabled()) {
           LOG.debug("save coverage measure for file: '{}' cxxFile = '{}'", filePath, cxxFile);
         }

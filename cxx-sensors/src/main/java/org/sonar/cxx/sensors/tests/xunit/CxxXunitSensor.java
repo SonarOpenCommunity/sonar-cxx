@@ -73,7 +73,7 @@ public class CxxXunitSensor extends CxxReportSensor {
    * {@inheritDoc}
    */
   @Override
-  public void execute(SensorContext context) {
+  public void executeImpl(SensorContext context) {
     LOG.debug("Root module imports test metrics: Module Key = '{}'", context.module());
 
     try {
