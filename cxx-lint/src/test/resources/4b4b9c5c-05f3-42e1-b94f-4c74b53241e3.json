@@ -38,10 +38,6 @@
       "status": "Enabled"
     },
     {
-      "ruleId": "CollapsibleIfCandidate",
-      "status": "Enabled"
-    },
-    {
       "ruleId": "FileName",
       "status": "Enabled",
       "templateKeyId": "Key",
@@ -59,28 +55,6 @@
       "properties": {
         "createLineViolation": "false"
       }
-    },
-    {
-      "ruleId": "HardcodedAccount",
-      "status": "Enabled",
-      "properties": {
-        "regularExpression": "\\bDSN\\b.*=.*;\\b(UID|PWD)\\b=.*;"
-      }
-    },
-    {
-      "ruleId": "HardcodedIp",
-      "status": "Enabled",
-      "properties": {
-        "regularExpression": "^.*((?<![\\d|\\.])(?:\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b\\.){3}\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b(?!\\d|\\.)).*$"
-      }
-    },
-    {
-      "ruleId": "MissingCurlyBraces",
-      "status": "Enabled"
-    },
-    {
-      "ruleId": "UselessParentheses",
-      "status": "Enabled"
     },
     {
       "ruleId": "FunctionName",
@@ -108,10 +82,6 @@
       }
     },
     {
-      "ruleId": "ReservedNames",
-      "status": "Enabled"
-    },
-    {
       "ruleId": "MethodName",
       "status": "Enabled",
       "properties": {
@@ -124,18 +94,6 @@
     },
     {
       "ruleId": "DuplicatedInclude",
-      "status": "Enabled"
-    },
-    {
-      "ruleId": "BooleanEqualityComparison",
-      "status": "Enabled"
-    },
-    {
-      "ruleId": "UnnamedNamespaceInHeader",
-      "status": "Enabled"
-    },
-    {
-      "ruleId": "UseCorrectInclude",
       "status": "Enabled"
     },
     {
@@ -166,10 +124,6 @@
       }
     },
     {
-      "ruleId": "CommentedCode",
-      "status": "Enabled"
-    },
-    {
       "ruleId": "CycleBetweenPackages",
       "status": "Enabled"
     },
@@ -179,10 +133,6 @@
       "properties": {
         "excludeCaseBreak": "true"
       }
-    },
-    {
-      "ruleId": "UsingNamespaceInHeader",
-      "status": "Enabled"
     },
     {
       "ruleId": "FunctionComplexity",
@@ -200,20 +150,6 @@
       "status": "Enabled"
     },
     {
-      "ruleId": "NestedStatements",
-      "status": "Enabled",
-      "properties": {
-        "max": "6"
-      }
-    },
-    {
-      "ruleId": "StringLiteralDuplicated",
-      "status": "Enabled",
-      "properties": {
-        "minimalLiteralLength": "7"
-      }
-    },
-    {
       "ruleId": "NoSonar",
       "status": "Enabled"
     },
@@ -225,27 +161,7 @@
       }
     },
     {
-      "ruleId": "SafetyTag",
-      "status": "Enabled",
-      "properties": {
-        "regularExpression": "<Safetykey>.*</Safetykey>",
-        "message": "Source files implementing risk mitigations shall use special name suffix '_SAFETY'",
-        "suffix": "_SAFETY"
-      }
-    },
-    {
       "ruleId": "FileEncoding",
-      "status": "Enabled"
-    },
-    {
-      "ruleId": "MagicNumber",
-      "status": "Enabled",
-      "properties": {
-        "exceptions": "0,1,0x0,0x00,.0,.1,0.0,1.0,0u,1u,0ul,1ul,1.0f,0.0f,0LL,1LL,0ULL,1ULL"
-      }
-    },
-    {
-      "ruleId": "SwitchLastCaseIsDefault",
       "status": "Enabled"
     }
   ]

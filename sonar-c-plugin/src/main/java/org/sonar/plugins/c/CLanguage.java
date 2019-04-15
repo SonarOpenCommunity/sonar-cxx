@@ -107,23 +107,6 @@ public class CLanguage extends CxxLanguage {
   @Override
   public List<Class> getChecks() {
     return new ArrayList<>(Arrays.asList(
-      org.sonar.cxx.checks.BooleanEqualityComparisonCheck.class,
-      org.sonar.cxx.checks.CollapsibleIfCandidateCheck.class,
-      org.sonar.cxx.checks.CommentedCodeCheck.class,
-      org.sonar.cxx.checks.HardcodedAccountCheck.class,
-      org.sonar.cxx.checks.HardcodedIpCheck.class,
-      org.sonar.cxx.checks.MagicNumberCheck.class,
-      org.sonar.cxx.checks.MissingCurlyBracesCheck.class,
-      org.sonar.cxx.checks.NestedStatementsCheck.class,
-      org.sonar.cxx.checks.ReservedNamesCheck.class,
-      org.sonar.cxx.checks.SafetyTagCheck.class,
-      org.sonar.cxx.checks.StringLiteralDuplicatedCheck.class,
-      org.sonar.cxx.checks.SwitchLastCaseIsDefaultCheck.class,
-      org.sonar.cxx.checks.UnnamedNamespaceInHeaderCheck.class,
-      org.sonar.cxx.checks.UseCorrectIncludeCheck.class,
-      org.sonar.cxx.checks.UseCorrectTypeCheck.class,
-      org.sonar.cxx.checks.UselessParenthesesCheck.class,
-      org.sonar.cxx.checks.UsingNamespaceInHeaderCheck.class,
       org.sonar.cxx.checks.api.UndocumentedApiCheck.class,
       org.sonar.cxx.checks.error.MissingIncludeFileCheck.class,
       org.sonar.cxx.checks.error.ParsingErrorCheck.class,
