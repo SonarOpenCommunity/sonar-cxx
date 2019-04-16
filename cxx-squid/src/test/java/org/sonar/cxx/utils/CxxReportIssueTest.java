@@ -21,6 +21,9 @@ package org.sonar.cxx.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
+import java.util.List;
+
 import org.junit.Test;
 
 public class CxxReportIssueTest {
@@ -58,4 +61,47 @@ public class CxxReportIssueTest {
     assertNotEquals(issue0.hashCode(), issue2.hashCode());
   }
 
+  @Test
+  public void reportIssueEqualityConsideringFlow() {
+    CxxReportIssue issue0 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    issue0.addFlowElement("path0.cpp", "1", "a");
+    issue0.addFlowElement("path1.cpp", "1", "b");
+    issue0.addFlowElement("path2.cpp", "1", "c");
+
+    CxxReportIssue issue1 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    issue1.addFlowElement("path0.cpp", "1", "a");
+    issue1.addFlowElement("path1.cpp", "1", "b");
+    issue1.addFlowElement("path2.cpp", "1", "c");
+
+    CxxReportIssue issue2 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    issue2.addFlowElement("path1.cpp", "1", "b");
+    issue2.addFlowElement("path2.cpp", "1", "c");
+
+    CxxReportIssue issue3 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+
+    assertEquals(issue0, issue1);
+    assertEquals(issue0.hashCode(), issue1.hashCode());
+
+    assertNotEquals(issue0, issue2);
+    assertNotEquals(issue0.hashCode(), issue2.hashCode());
+
+    assertNotEquals(issue1, issue2);
+    assertNotEquals(issue1.hashCode(), issue2.hashCode());
+
+    assertNotEquals(issue0, issue3);
+    assertNotEquals(issue0.hashCode(), issue3.hashCode());
+  }
+
+  @Test
+  public void reportIssueFlowOrder() {
+    CxxReportIssue issue0 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    issue0.addFlowElement("path0.cpp", "1", "a");
+    issue0.addFlowElement("path1.cpp", "2", "b");
+    issue0.addFlowElement("path2.cpp", "3", "c");
+
+    List<CxxReportLocation> flow = issue0.getFlow();
+    assertEquals(new CxxReportLocation("path2.cpp", "3", "c"), flow.get(0));
+    assertEquals(new CxxReportLocation("path1.cpp", "2", "b"), flow.get(1));
+    assertEquals(new CxxReportLocation("path0.cpp", "1", "a"), flow.get(2));
+  }
 }

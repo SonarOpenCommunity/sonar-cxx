@@ -19,8 +19,12 @@
  */
 package org.sonar.cxx.sensors.clangsa;
 
+import java.util.Collections;
 import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.apache.commons.lang.RandomStringUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,11 +34,16 @@ import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.batch.sensor.issue.Issue;
+import org.sonar.api.batch.sensor.issue.Issue.Flow;
+import org.sonar.api.batch.sensor.issue.IssueLocation;
 import org.sonar.api.batch.sensor.measure.Measure;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.TestUtils;
+
+import com.google.common.collect.Iterables;
 
 public class CxxClangSASensorTest {
 
@@ -128,6 +137,75 @@ public class CxxClangSASensorTest {
       language.getMetric(CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY));
     softly.assertThat(nrOfIssuesModule.value()).isEqualTo(3);
     softly.assertAll();
+  }
+
+  private String generateTestFileContents(int linesNum, int lineLen) {
+    String line = RandomStringUtils.randomAscii(lineLen);
+    return String.join("\n", Collections.nCopies(linesNum, line));
+  }
+
+  @Test
+  public void shouldReportCorrectFlows() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
+    settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY),
+        "clangsa-reports/clangsa-report.plist");
+    context.setSettings(settings);
+
+    /*
+     * 2 issues
+     */
+    DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cpp")
+        .setContents(generateTestFileContents(100, 80)).build();
+    /*
+     * 1 issue
+     */
+    DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cpp")
+        .setContents(generateTestFileContents(100, 80)).build();
+
+    context.fileSystem().add(testFile0);
+    context.fileSystem().add(testFile1);
+
+    CxxClangSASensor sensor = new CxxClangSASensor(language);
+    sensor.execute(context);
+
+    assertThat(context.allIssues()).hasSize(3);
+
+    {
+      Issue issue = Iterables.get(context.allIssues(), 0);
+      assertThat(issue.flows()).hasSize(1);
+      Flow flow = issue.flows().get(0);
+      assertThat(flow.locations()).hasSize(2);
+
+      // flow locations are enumerated backwards - from the final to the root location
+      {
+        IssueLocation issueLocation = flow.locations().get(1);
+        assertThat(issueLocation.inputComponent()).isEqualTo(testFile0);
+        assertThat(issueLocation.message()).isEqualTo("'a' declared without an initial value");
+        assertThat(issueLocation.textRange().start().line()).isEqualTo(31);
+        assertThat(issueLocation.textRange().end().line()).isEqualTo(31);
+      }
+
+      {
+        IssueLocation issueLocation = flow.locations().get(0);
+        assertThat(issueLocation.inputComponent()).isEqualTo(testFile0);
+        assertThat(issueLocation.message()).isEqualTo("Branch condition evaluates to a garbage value");
+        assertThat(issueLocation.textRange().start().line()).isEqualTo(32);
+        assertThat(issueLocation.textRange().end().line()).isEqualTo(32);
+      }
+    }
+
+    // paths with just one element are not reported as flows to avoid
+    // presenting 1-element flows in SonarQube UI
+    {
+      Issue issue = Iterables.get(context.allIssues(), 1);
+      assertThat(issue.flows()).hasSize(0);
+    }
+
+    {
+      Issue issue = Iterables.get(context.allIssues(), 2);
+      assertThat(issue.flows()).hasSize(0);
+    }
   }
 
   @Test

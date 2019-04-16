@@ -33,17 +33,24 @@ public class CxxReportIssue {
 
   private final String ruleId;
   private final List<CxxReportLocation> locations;
+  private final List<CxxReportLocation> flow;
 
   public CxxReportIssue(String ruleId, @Nullable String file, @Nullable String line, String info) {
     super();
     this.ruleId = ruleId;
     this.locations = new ArrayList<>();
+    this.flow = new ArrayList<>();
     addLocation(file, line, info);
   }
 
   public final void addLocation(@Nullable String file, @Nullable String line, String info) {
     locations.add(new CxxReportLocation(file, line, info));
   }
+
+  public final void addFlowElement(@Nullable String file, @Nullable String line, String info) {
+    flow.add(0, new CxxReportLocation(file, line, info));
+  }
+
 
   public String getRuleId() {
     return ruleId;
@@ -53,15 +60,20 @@ public class CxxReportIssue {
     return Collections.unmodifiableList(locations);
   }
 
+  public List<CxxReportLocation> getFlow() {
+    return Collections.unmodifiableList(flow);
+  }
+
   @Override
   public String toString() {
     String locationsToString = locations.stream().map(Object::toString).collect(Collectors.joining(", "));
-    return "CxxReportIssue [ruleId=" + ruleId + ", locations=" + locationsToString + "]";
+    String flowToString = flow.stream().map(Object::toString).collect(Collectors.joining(", "));
+    return "CxxReportIssue [ruleId=" + ruleId + ", locations=" + locationsToString + ", flow=" + flowToString + "]";
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(locations, ruleId);
+    return Objects.hash(locations, flow, ruleId);
   }
 
   @Override
@@ -76,7 +88,8 @@ public class CxxReportIssue {
       return false;
     }
     CxxReportIssue other = (CxxReportIssue) obj;
-    return Objects.equals(locations, other.locations) && Objects.equals(ruleId, other.ruleId);
+    return Objects.equals(locations, other.locations) && Objects.equals(flow, other.flow)
+        && Objects.equals(ruleId, other.ruleId);
   }
 
 }
