@@ -83,13 +83,6 @@
           <exclude>external/*</exclude>
         </excludes>
       </resource>
-      <resource>
-        <targetPath>static</targetPath>
-        <directory>../cxx-lint/target</directory>
-        <includes>
-          <include>cxx-lint-${project.version}.jar</include>
-        </includes>
-      </resource>
     </resources>
   </build>
 
