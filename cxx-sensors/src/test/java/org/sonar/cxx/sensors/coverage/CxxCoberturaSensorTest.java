@@ -20,6 +20,8 @@
 package org.sonar.cxx.sensors.coverage;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +56,96 @@ public class CxxCoberturaSensorTest {
     language = TestUtils.mockCxxLanguage();
     when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY))
       .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
+  }
+
+  @Test
+  public void testPathJoin() {
+    Path empty = Paths.get("");
+    String result;
+    /*
+     * path1    | path2    | result
+     * ---------|----------|-------
+     * empty    | empty    | empty
+     * empty    | absolute | absolute path2
+     * empty    | relative | relative path2
+     * absolute | empty    | empty
+     * relative | empty    | empty
+     * absolute | absolute | absolute path2
+     * absolute | relative | absolute path1 + relative path2
+     * relative | absolute | absolute path2
+     * relative | relative | relative path1 + relative path2
+     */
+
+    if (TestUtils.isWindows()) {
+
+      // Windows
+      Path abs1 = Paths.get("c:\\test1");
+      Path rel1 = Paths.get("\\test1");
+      Path abs2 = Paths.get("c:\\test2\\report.txt");
+      Path rel2 = Paths.get("\\test2\\report.txt");
+
+      result = CoberturaParser.join(empty, empty);
+      assertThat(result).isEqualTo("");
+
+      result = CoberturaParser.join(empty, abs2);
+      assertThat(result).isEqualTo("c:\\test2\\report.txt");
+
+      result = CoberturaParser.join(empty, rel2);
+      assertThat(result).isEqualTo(".\\test2\\report.txt");
+
+      result = CoberturaParser.join(abs1, empty);
+      assertThat(result).isEqualTo("");
+
+      result = CoberturaParser.join(rel1, empty);
+      assertThat(result).isEqualTo("");
+
+      result = CoberturaParser.join(abs1, abs2);
+      assertThat(result).isEqualTo("c:\\test2\\report.txt");
+
+      result = CoberturaParser.join(abs1, rel2);
+      assertThat(result).isEqualTo("c:\\test1\\test2\\report.txt");
+
+      result = CoberturaParser.join(rel1, abs2);
+      assertThat(result).isEqualTo("c:\\test2\\report.txt");
+
+      result = CoberturaParser.join(rel1, rel2);
+      assertThat(result).isEqualTo(".\\test1\\test2\\report.txt");
+    } else {
+
+      // Linux
+      Path abs1 = Paths.get("/home/test1");
+      Path rel1 = Paths.get("test1");
+      Path abs2 = Paths.get("/home/test2/report.txt");
+      Path rel2 = Paths.get("test2/report.txt");
+
+      result = CoberturaParser.join(empty, empty);
+      assertThat(result).isEqualTo("");
+
+      result = CoberturaParser.join(empty, abs2);
+      assertThat(result).isEqualTo("/home/test2/report.txt");
+
+      result = CoberturaParser.join(empty, rel2);
+      assertThat(result).isEqualTo("./test2/report.txt");
+
+      result = CoberturaParser.join(abs1, empty);
+      assertThat(result).isEqualTo("");
+
+      result = CoberturaParser.join(rel1, empty);
+      assertThat(result).isEqualTo("");
+
+      result = CoberturaParser.join(abs1, abs2);
+      assertThat(result).isEqualTo("/home/test2/report.txt");
+
+      result = CoberturaParser.join(abs1, rel2);
+      assertThat(result).isEqualTo("/home/test1/test2/report.txt");
+
+      result = CoberturaParser.join(rel1, abs2);
+      assertThat(result).isEqualTo("/home/test2/report.txt");
+
+      result = CoberturaParser.join(rel1, rel2);
+      assertThat(result).isEqualTo("./test1/test2/report.txt");
+    }
+
   }
 
   @Test

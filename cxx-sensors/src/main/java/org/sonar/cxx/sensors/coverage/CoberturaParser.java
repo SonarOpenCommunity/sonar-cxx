@@ -23,7 +23,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.stream.XMLStreamException;
@@ -41,7 +40,7 @@ public class CoberturaParser extends CxxCoverageParser {
   private static final Logger LOG = Loggers.get(CoberturaParser.class);
   private static final Pattern CONDITION_PATTERN = Pattern.compile("\\((.*?)\\)");
 
-  private Optional<Path> baseDir;
+  private Path baseDir = Paths.get(".");
 
   public CoberturaParser() {
     // no operation but necessary for list of coverage parsers
@@ -79,7 +78,7 @@ public class CoberturaParser extends CxxCoverageParser {
   public void processReport(File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     LOG.debug("Parsing 'Cobertura' format");
-    baseDir = Optional.empty();
+    baseDir = Paths.get(".");
 
     StaxParser sourceParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
       rootCursor.advance();
@@ -103,7 +102,8 @@ public class CoberturaParser extends CxxCoverageParser {
     while (source.getNext() != null) {
       String sourceValue = source.getElemStringValue().trim();
       if (!sourceValue.isEmpty()) {
-        baseDir = Optional.of(Paths.get(sourceValue));
+        // join with . to handle also special cases like drive letter only, e.g. C:
+        baseDir = Paths.get(sourceValue, ".").normalize();
         break;
       }
     }
@@ -116,24 +116,56 @@ public class CoberturaParser extends CxxCoverageParser {
     }
   }
 
-  private String buildPath(String filename) {
-    Path result = Paths.get(filename);
-    if (baseDir.isPresent()) {
-      result = baseDir.get().resolve(result);
+  /**
+   * Join two paths
+   *
+   * path1    | path2    | result
+   * ---------|----------|-------
+   * empty    | empty    | empty
+   * empty    | absolute | absolute path2
+   * empty    | relative | relative path2
+   * absolute | empty    | empty
+   * relative | empty    | empty
+   * absolute | absolute | absolute path2
+   * absolute | relative | absolute path1 + relative path2
+   * relative | absolute | absolute path2
+   * relative | relative | relative path1 + relative path2
+   * 
+   * @param path1 first path
+   * @param path2 second path to be joined to first path
+   * @return joined path as string
+   */
+  public static String join(Path path1, Path path2) {
+    if (path2.toString().isEmpty()) {
+      return "";
     }
-    return result.normalize().toString();
+    if (!path1.isAbsolute()) {
+      path1 = Paths.get(".", path1.toString());
+    }
+    if (!path2.isAbsolute()) {
+      path2 = Paths.get(".", path2.toString());
+    }
+
+    Path result = path1.resolve(path2).normalize();
+    if (!result.isAbsolute()) {
+      result = Paths.get(".", result.toString());
+    }
+
+    return result.toString();
   }
 
   private void collectFileMeasures(SMInputCursor clazz, Map<String, CoverageMeasures> coverageData)
-    throws XMLStreamException {
+          throws XMLStreamException {
     while (clazz.getNext() != null) {
-      String normalPath = buildPath(clazz.getAttrValue("filename"));
-      CoverageMeasures builder = coverageData.get(normalPath);
-      if (builder == null) {
-        builder = CoverageMeasures.create();
-        coverageData.put(normalPath, builder);
+      String normalPath = join(baseDir, Paths.get(clazz.getAttrValue("filename")));
+      if (!normalPath.isEmpty()) {
+        CoverageMeasures builder = coverageData.get(normalPath);
+        if (builder == null) {
+          builder = CoverageMeasures.create();
+          coverageData.put(normalPath, builder);
+        }
+        collectFileData(clazz, builder);
       }
-      collectFileData(clazz, builder);
     }
   }
 
