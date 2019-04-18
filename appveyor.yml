@@ -97,6 +97,7 @@ artifacts:
   - path: 'sonar-cxx-plugin\target\*.jar'
   - path: 'sonar-c-plugin\target\*.jar'
   - path: 'sslr-cxx-toolkit\target\*.jar'
+  - path: 'cxx-lint\target\*.jar'
 
 #---------------------------------#
 #        global handlers          #
