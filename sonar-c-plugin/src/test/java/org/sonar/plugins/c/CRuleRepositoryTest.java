@@ -38,7 +38,7 @@ public class CRuleRepositoryTest {
     new CRuleRepository(checks).define(context);
 
     assertThat(context.repositories()).hasSize(1);
-    assertThat(context.repository(checks.getRepositoryKey()).rules()).hasSize(45);
+    assertThat(context.repository(checks.getRepositoryKey()).rules()).hasSize(28);
   }
 
 }
