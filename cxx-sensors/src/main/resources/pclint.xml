@@ -13509,6 +13509,4148 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
 
+<!-- PCLint Plus Additional Rules -->
+  <rule>
+    <key>175</key>
+    <name>L0175: cannot pass __string__ to variadic __string__; expected type from format string was __type__</name>
+    <description>An initializer list or an expression of a type that cannot be passed as
+a variadic function argument was given as the argument to a printf/scanf
+style function. The string parameter specifies the type of the argument
+passed, the type parameter specifies the type that was expected from the
+format string.</description>
+    <internalKey>175</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>176</key>
+    <name>L0176: operand of type __type__ cannot be cast to function pointer type __type__</name>
+    <description>An attempt was made to perform an illegal cast from a type (such as a
+float) to a function pointer for which such conversion is undefined.</description>
+    <internalKey>176</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>177</key>
+    <name>L0177: operand of type __type__ cannot be cast to object pointer type __type__</name>
+    <description>An attempt was made to perform an illegal cast from a type (such as a
+float) to an object pointer for which such conversion is undefined.</description>
+    <internalKey>177</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>178</key>
+    <name>L0178: function pointer of type __type__ cannot be cast to type __type__</name>
+    <description>An attempt was made to perform an illegal cast from a function pointer
+to a type (such as a float) for which such conversion is undefined.</description>
+    <internalKey>178</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>179</key>
+    <name>L0179: object pointer of type __type__ cannot be cast to type __type__</name>
+    <description>An attempt was made to perform an illegal cast from an object pointer to
+a type (such as a float) for which such conversion is undefined.</description>
+    <internalKey>179</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>319</key>
+    <name>L0319: size option misconfiguration: &#x27;__type__&#x27; has size __integer__ and &#x27;__type__&#x27; has size __integer__</name>
+    <description>A fatal inconsistency in the sizes of the fundamental data types was
+introduced by use of the size options. The -s option allows for
+configuration of the sizes of the fundamental data types. If these
+options are used to specify sizes that violate the basic tenets of the
+language, this message will be issued. Such an example would include
+specifying a byte size for short int that is larger than int.</description>
+    <tag>tool-error</tag>
+    <internalKey>319</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>331</key>
+    <name>L0331: file &#x27;__parameter__&#x27; has been modified since the precompiled header &#x27;__parameter__&#x27; was built</name>
+    <description>Use of the specified precompiled header was requested but was found to
+contain a reference to a header file that has been updated since the
+precompiled header was built. Since the precompiled header may no longer
+accurately represent the state of the corresponding header file, PC-lint
+Plus will terminate. To resolve the issue either rebuild the precompiled
+header file or remove the option to use the pre-compiled header.</description>
+    <tag>tool-error</tag>
+    <internalKey>331</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>334</key>
+    <name>L0334: precompiled header failure: &#x27;__string__&#x27;; skipping this module; consider deleting the PCH, &#x27;__string__&#x27;, and trying again</name>
+    <description>This message is given when the precompiled header file is missing, older
+than the original file, created by a previous incompatible version of
+PC-lint Plus, created using a different target configuration, or another
+issue that prevents the file from being loaded. The PCH file will be
+skipped. If this error is encountered, the PCH file should be deleted
+and reconstituted using the current version of PC-lint Plus with the
+same options that will be used when loading the file.</description>
+    <tag>tool-error</tag>
+    <internalKey>334</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>336</key>
+    <name>L0336: source file is not valid UTF-8</name>
+    <description>Source files are expected to be encoded as ASCII text, UTF-8 text, or
+UTF-16 text. The provided source file was presumed to contain UTF-8 text
+but an invalid byte sequence was encountered.</description>
+    <tag>tool-error</tag>
+    <internalKey>336</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>338</key>
+    <name>L0338: precompiled header error: __string__; skipping this module; consider examining include path options and trying again</name>
+    <description>This error indicates that there was an inconsistency in the way the
+precompiled header file was created and the way it is being used that
+prevents it from being loaded. The details of the issue are provided in
+the message text.</description>
+    <tag>tool-error</tag>
+    <internalKey>338</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>339</key>
+    <name>L0339: precompiled header for &#x27;__string__&#x27; was not created due to errors</name>
+    <description>Precompiled header file creation was requested but an error occurred
+during the processing of a precompiled header candidate file that
+rendered the corresponding AST information unsuitable for use in a
+precompiled header file.</description>
+    <tag>tool-error</tag>
+    <internalKey>339</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>365</key>
+    <name>L0365: command pipe error: __string__</name>
+    <description>An error has occurred while processing a request related to a command
+pipe program. The details of the error are specified in the message in
+&#x27;string&#x27;.</description>
+    <tag>tool-error</tag>
+    <internalKey>365</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>366</key>
+    <name>L0366: regex error: __string__</name>
+    <description>An invalid regular expression has been used with the -cond option. The
+specific error is provided in &#x27;string&#x27;.</description>
+    <tag>tool-error</tag>
+    <internalKey>366</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>367</key>
+    <name>L0367: maximum hook recursion depth (__integer__ levels) reached</name>
+    <description>A limit has been reached on the number of recursively executing hooks.
+The limit that was reached is specified by &#x27;integer&#x27;.</description>
+    <tag>tool-error</tag>
+    <internalKey>367</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>368</key>
+    <name>L0368: invalid conditional expression: __string__</name>
+    <description>An invalid conditional expression has been provided to the -cond option.
+The specific error is provided in the text of the message.</description>
+    <tag>tool-error</tag>
+    <internalKey>368</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>369</key>
+    <name>L0369: hook field error while processing &#x27;__string__&#x27;: __string__</name>
+    <description>An invalid field name was provided in a hook field specifier or an AST
+walk action was attempted on a non-walkable hook field.</description>
+    <tag>tool-error</tag>
+    <internalKey>369</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>370</key>
+    <name>L0370: options executed within a module cannot invoke additional modules</name>
+    <description>An attempt was made to process a new module from within the module being
+processed. For example, a lint comment might contain an -indirect option
+resulting in the processing of options from a .lnt file. If this
+indirect file contains the name of a module to process, the module will
+not be opened and this message will be issued instead. Processing will
+then continue normally for the current module.</description>
+    <tag>tool-error</tag>
+    <internalKey>370</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>373</key>
+    <name>L0373: lint comments cannot appear after a #include directive on the same line</name>
+    <description>A lint comment appeared on the same line as an #include directive. Such
+usage is not currently supported and the lint comment will be ignored.
+Either place the lint comment before the #include directive, on the next
+line, or inside the file being included.</description>
+    <tag>tool-error</tag>
+    <internalKey>373</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>450</key>
+    <name>L0450: namespace __symbol__ declared within an extern &quot;;C&quot;; region</name>
+    <description>A namespace was declared either with an extern C specifier or within an
+extern C region. The ISO standard leaves the effects of such
+unspecified. If an extern C specification is necessary for the
+declarations within the namespace, it should be inside the namespace
+rather than outside.</description>
+    <internalKey>450</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>463</key>
+    <name>L0463: could not parse &#x27;__string__&#x27; as a strong type: __string__</name>
+    <description>This message is issued when a parse failure occurs when parsing a type
+specified with the -strong option. The first string contains the type
+specification that caused the error and the second string provides
+additional information about the error such as &quot;;unmatched right
+parenthesis&quot;;.</description>
+    <internalKey>463</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>466</key>
+    <name>L0466: conversion __to/from__ pointer to function with no prototype (__context__)</name>
+    <description>A pointer to a function without a prototype was assigned to or from
+another pointer to function. While assigning a pointer to function with
+a prototype, to one without a prototype is legal in ISO C, unexpected
+behavior may occur too easily. For example:
+
+    char *(*pf)();
+    char *strchr(const char *);
+    void g()
+        {
+        pf = strchr; // Msg 466
+        pf(12, 2);   // undefined behavior
+    }</description>
+    <internalKey>466</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>473</key>
+    <name>L0473: argument &#x27;__string__&#x27; is of insufficient length for array parameter __symbol__ declared as __type__</name>
+    <description>This message is issued when a function declared with a constant-sized
+array parameter is passed an argument which can be determined, using
+Value Tracking, to either be null or to point to an area that is smaller
+than the size of the array. For example:
+
+    void init(unsigned char array[10]);
+
+    void *malloc(unsigned);
+
+    void foo() {
+        unsigned char array1[5];
+        unsigned int array2[3];
+        unsigned char *pc1 = malloc(8);
+        unsigned char *pc2 = (unsigned char *)array2;
+
+        init(array1);   // 473 - array1 is 5 bytes, init expects 10
+        init(pc1);      // 473 - pc1 points to 8 bytes (or is null)
+        init(pc2);      // Okay - assuming ints are 4 bytes or larger
+        init(0);        // 473 - null argument
+    }</description>
+    <internalKey>473</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>474</key>
+    <name>L0474: constant switch condition &#x27;__string__&#x27; not handled by switch</name>
+    <description>The condition of a switch was a constant expression, e.g. switch(7).
+Furthermore, there is no default case and no case statement that matches
+the constant expression. &#x27;string&#x27; contains the constant used as the
+switch condition.</description>
+    <internalKey>474</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>477</key>
+    <name>L0477: array __symbol__ could be declared static</name>
+    <description>An array of const qualified objects was defined at function scope
+without static storage duration. Repeatedly reallocating such arrays can
+impair performance.</description>
+    <internalKey>477</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>490</key>
+    <name>L0490: __string__</name>
+    <description>This message is issued as a result of processing a #warning preprocessor
+directive. string is the message provided to the directive.</description>
+    <internalKey>490</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>492</key>
+    <name>L0492: incomplete format specifier &#x27;__string__&#x27;</name>
+    <description>A format specifier for a printf/scanf style function was started but did
+not contain a conversion specifier. For example:
+
+    printf(&quot;;%ll&quot;;, 3LL);
+
+will yield the message:
+
+    incomplete format specifier &#x27;%ll&#x27;</description>
+    <internalKey>492</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>493</key>
+    <name>L0493: position arguments in format strings start counting at 1 (not 0)</name>
+    <description>A format specifier for a printf/scanf style function attempted to
+reference the argument at position 0 but positional arguments are
+indexed at 1 so this is not valid. For example:
+
+    printf(&quot;;%0$d&quot;;, 3);</description>
+    <internalKey>493</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>494</key>
+    <name>L0494: data argument position &#x27;__integer__&#x27; exceeds the number of data arguments (__integer__)</name>
+    <description>A format specifier for a printf/scanf style function utilizing
+positional arguments contained a reference to a non-existent argument,
+which results in undefined behavior. For example:
+
+    printf(&quot;;%2$d&quot;;, j)
+
+will yield the message:
+
+    data argument position &#x27;2&#x27; exceeds the number of data arguments (1)</description>
+    <internalKey>494</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>495</key>
+    <name>L0495: format string body contains NUL character</name>
+    <description>A format string for a printf/scanf style function contains a nul
+character in the body of the string. The receiving function will not be
+able to access the portion of the string after this character and its
+inclusion is likely a mistake. For example:
+
+    printf(&quot;;%d\0%d&quot;;, 1, 2);
+
+will elicit this message.</description>
+    <internalKey>495</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>496</key>
+    <name>L0496: format string is not null terminated</name>
+    <description>The format string provided to a printf/scanf style function is not
+terminated with a nul character, which will cause the function to read
+past the end of the string causing undefined behavior.</description>
+    <internalKey>496</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>497</key>
+    <name>L0497: format string is empty</name>
+    <description>An empty format string was provided to a printf or scanf like function.
+Calling these functions with an empty format string is legal but suspect
+as there is no effect to doing so.</description>
+    <internalKey>497</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>498</key>
+    <name>L0498: unbounded scanf conversion specifier &#x27;__string__&#x27; may result in buffer overflow</name>
+    <description>A %s or %[ conversion specifier was encountered in the format string of
+a scanf-like function that did not contain a maximum field width. Since
+the %s and %[ conversion specifiers read characters into the target
+buffer until either the maximum field width is reached or a prescribed
+character is encountered, failing to provide a maximum field width can
+easily result in buffer overflow. &#x27;string&#x27; contains the unbounded format
+specifier.</description>
+    <internalKey>498</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>499</key>
+    <name>L0499: using length modifier &#x27;__string__&#x27; with conversion specifier &#x27;__string__&#x27; is not supported by ISO C</name>
+    <description>Within the format for a printf or scanf like function, a length modifier
+was combined with a conversion specifier that is not supported by
+Standard C.</description>
+    <internalKey>499</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>513</key>
+    <name>L0513: the option &#x27;__string__&#x27; is not currently supported</name>
+    <description>The specified option is not supported in this version of PC-lint Plus
+but may be available in a future version.</description>
+    <internalKey>513</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>523</key>
+    <name>L0523: expression statement involving __string__ &#x27;__name__&#x27; lacks side effects</name>
+    <description>This message is similar to 522 but is issued only if the entire
+statement lacks side effects. For example:
+
+    void foo() {
+        int i = 0;
+        i++ + 1;
+    }
+
+While the operator + lacks side effects, the statement doesn&#x27;t so 522
+will be issued here but not 523.</description>
+    <internalKey>523</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>576</key>
+    <name>L0576: excess elements in __string__ initializer</name>
+    <description>In a brace-enclosed initializer, there are more items than there are
+elements of the aggregate, which will result in undefined behavior as
+this is a constraint violation in C. For example:
+
+    int array[3] = {1, 2, 3, 4};
+
+In an error is emitted instead.</description>
+    <internalKey>576</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>597</key>
+    <name>L0597: suspicious use of unary operator could be confused for compound assignment (__string__)</name>
+    <description>A construct such as:
+
+    a =- b;
+
+or
+
+    a =+ b;
+
+which is suspect: did the programmer intend to use the -=/+= compound
+assignment operator? The message is only issued when there is no space
+between the = and the -/+ and when there is a space between the -/+ and
+its operand. &#x27;string&#x27; contains the form of compound assignment that the
+expression may be confused for.</description>
+    <internalKey>597</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>599</key>
+    <name>L0599: cannot open file matching wild card pattern &#x27;__string__&#x27;</name>
+    <description>A wild card pattern was used where the name of a file was expected but
+there were no files found that match the given pattern so it will be
+ignored. &#x27;string&#x27; contains the offending pattern.</description>
+    <internalKey>599</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>709</key>
+    <name>L0709: no intervening module since the last &#x27;-pch&#x27; option</name>
+    <description>Two -pch options were seen without an intervening module. This is
+suspicious because the first -pch option has no effect in such a case as
+only one PCH file can be used per module.</description>
+    <internalKey>709</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>837</key>
+    <name>L0837: switch condition is a constant expression</name>
+    <description>The condition of a switch statement is a constant expression as in:
+
+    switch(5) {
+        ...
+    }
+
+While legal, this is suspect since the point of a switch statement is
+usually to specify different actions depending on the value of a
+variable.</description>
+    <internalKey>837</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>853</key>
+    <name>L0853: entering nested comment</name>
+    <description>A &#x27;/*&#x27; sequence was encountered inside of a C-style comment while the
+fnc (nested comments) flag was ON. Since nested comments have been
+enabled, the next &#x27;*/&#x27; sequence that is encountered will only terminate
+the nested comment, not the containing comment. The purpose of this
+message is to alert you of this fact.</description>
+    <internalKey>853</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>854</key>
+    <name>L0854: trigraph sequence converted to &#x27;__string__&#x27; character</name>
+    <description>This message is issued when trigraphs are enabled and a trigraph
+sequence is replaced.</description>
+    <internalKey>854</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>855</key>
+    <name>L0855: positional arguments are a non-ISO extension</name>
+    <description>Positional arguments are a POSIX extension to C and will not behave as
+expected on systems that do not support this extension. PC-lint Plus
+understands and will diagnose misuse specific to positional arguments
+via messages 493, 494, 2401, and 2404.</description>
+    <internalKey>855</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>856</key>
+    <name>L0856: flag &#x27;__string__&#x27; is ignored when flag &#x27;__string__&#x27; is present</name>
+    <description>Within a format string for a printf or scanf like function, a
+combination of flags was used in which one of the flags has no effect in
+the presence of the other. For example:
+
+    extern int i;
+    printf(&quot;;%-0d&quot;;, i);
+
+Will elicit the message:
+
+    flag &#x27;0&#x27; is ignored when flag &#x27;-&#x27; is present
+
+because a left-justified field (requested via the &#x27;-&#x27; flag), cannot be
+padded with zeroes (requested via the &#x27;0&#x27; flag). Such combinations do
+not result in undefined behavior but likely represent a programming
+error.</description>
+    <internalKey>856</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>857</key>
+    <name>L0857: argument 1 of type __type__ is not compatible with argument 2 of type __type__ in call to function __symbol__</name>
+    <description>The first two arguments in a call to memcmp, memmove, or memcpy are not
+compatible. Using these functions to compare or copy data between
+different types may have unexpected results.</description>
+    <internalKey>857</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>865</key>
+    <name>L0865: __detail__</name>
+    <description>Message 865 is issued as a result of the -message option. For example:
+
+    #ifndef N
+    //lint -message(Please supply a definition for N)
+    #endif
+
+will issue the message only if N is undefined. See option -message.</description>
+    <internalKey>865</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>868</key>
+    <name>L0868: degenerate switch encountered</name>
+    <description>A degenerate switch was encountered. This is a braceless switch. E.g.:
+
+Now why, you might wonder, would one want such a thing. That would be to
+create a region of code from which you can breakout at any point. E.g.:
+
+    REGION {
+           alpha();
+           if( n &lt; 10 ) break;
+           beta();
+           if( n &lt; 25 ) break;
+           gamma();
+           }
+
+If REGION is a suitably defined macro then each break taken will take
+you to just below the region. In this simple example there is not that
+much of an advantage. But when if conditions explode in complexity this
+is a very nice feature to have.
+
+To obtain this effect you can define REGION as
+
+    #define REGION switch(1) case 1:
+
+To automatically suppress this message in this case use:
+
+    -emacro( 868, REGION )</description>
+    <internalKey>868</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>870</key>
+    <name>L0870: no &#x27;-max_threads=N&#x27; option was encountered prior to the first module; only a single thread will be used by default</name>
+    <description>This message is issued at the end of processing if multiple modules were
+processed but no -max_threads option was used to specify how many
+concurrent linting threads to employ. By default, PC-lint Plus processes
+all modules using a single thread. If your hardware has multiple cores
+or processors, you may be able to substantially speed up the processing
+time by employing multiple threads using the -max_threads option. If a
+single thread is explicitly requested using -max_threads=1, this message
+will be suppressed.</description>
+    <internalKey>870</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>879</key>
+    <name>L0879: semantic monikers are &#x27;__string__&#x27; and &#x27;__string__&#x27;</name>
+    <description>This message is emitted for function calls encountered while the fsf
+flag is enabled. It lists the different ways that the function that was
+called can be specified within a -sem, -printf, or -scanf option.
+Overloaded functions and function templates can have multiple ways of
+being specified in these options. For example, given a function with
+multiple overloads, it is possible to specify a semantic that applies to
+all overloads or just one, similarly for function templates. See also
+&quot;;Overload-Specific Semantics&quot;; in the Reference Manual</description>
+    <internalKey>879</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>882</key>
+    <name>L0882: sizeof applied to parameter __symbol__ of function __symbol__ declared an incomplete array type __type__</name>
+    <description>The sizeof operator was used with a pointer parameter that was declared
+using array syntax without a size. Using sizeof in this way will yield
+the size of the pointer, not the size of the array. If an array size if
+provided, message 682 is issued instead.</description>
+    <internalKey>882</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>890</key>
+    <name>L0890: see section __detail__ &quot;;__detail__&quot;; in the manual for details</name>
+    <description>Provides supplemental information about the location in the manual that
+should be consulted to address an issue.</description>
+    <internalKey>890</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>891</key>
+    <name>L0891: reference information __text varies__</name>
+    <description>This supplemental message is used to convey additional information for a
+previous message at a different location. For example, this message may
+be used to reference an earlier declaration, a conflicting definition,
+etc.</description>
+    <internalKey>891</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>892</key>
+    <name>L0892: did you mean to __multiply/divide__ by a factor of type &#x27;__strong-type__&#x27;?</name>
+    <description>Provides supplemental information about a Strong Type mismatch when it
+appears that a forgotten conversion factor may be responsible for a
+dimensional type difference.</description>
+    <internalKey>892</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>893</key>
+    <name>L0893: expanded from macro</name>
+    <description>This supplemental message is given when a message is issued with a
+location that was the result of a macro expansion. It specifies the
+macro from which the expansion occurred.</description>
+    <internalKey>893</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>894</key>
+    <name>L0894: during specific walk __detail__</name>
+    <description>This supplemental message is issued when a value tracking message is
+issued during a specific walk and provides additional information about
+the walk. The location of the call, name of the called function, and the
+arguments passed will be displayed. This information is rendered as
+described in section [subsec:valuedisplayformat].</description>
+    <internalKey>894</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>896</key>
+    <name>L0896: semantic expression expands to &#x27;__string__&#x27;</name>
+    <description>This supplemental message is issued when there is an error processing a
+semantic that contains a macro expansion. It provides information about
+the macro that was expanded.</description>
+    <internalKey>896</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>897</key>
+    <name>L0897: in instantiation of __string__ __symbol__ triggered here</name>
+    <description>This supplemental message is issued when a message is given within a
+template instantiation. It provides details of the relevant
+instantiation.</description>
+    <internalKey>897</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>901</key>
+    <name>L0901: variable __symbol__ of type __type__ not initialized by definition</name>
+    <description>The definition of the mentioned variable contained no initializer. While
+the use of an uninitialized variable is caught by warning 530, some
+style guidelines insist that variables should be initialized at
+definition. For example, see , .</description>
+    <internalKey>901</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>902</key>
+    <name>L0902: non-static function __symbol__ declared outside of a header</name>
+    <description>A function declaration was found inside a source module and not in a
+header file. One common programming practice is to place all function
+declarations in headers.</description>
+    <internalKey>902</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>907</key>
+    <name>L0907: implicit conversion to &#x27;void *&#x27; from type __type__</name>
+    <description>A pointer whose type is not void* is being assigned to a variable (or
+passed to a parameter) whose type is void*. This is permitted in both C
+and . But the practice is potentially dangerous and this Elective Note
+allows one to see where this takes place. See also Note 908.</description>
+    <internalKey>907</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>908</key>
+    <name>L0908: implicit conversion from &#x27;void *&#x27; to type __type__</name>
+    <description>A pointer whose type is void* is being assigned to a variable (or passed
+to a parameter) whose type is not void*. This conversion is not
+permitted in (where Error message 64 is given in lieu of this message).
+But the conversion is permitted in C. Like the implicit conversion
+described by Message 907, the practice is potentially dangerous and this
+Elective Note allows one to see where this takes place.</description>
+    <internalKey>908</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>972</key>
+    <name>L0972: unusual character &#x27;__string__&#x27; in &#x27;__kind__&#x27; literal</name>
+    <description>An unusual character was found in a character or string literal. It is
+identified in the message by its hexadecimal encoding. Characters are
+considered to be unusual if they are outside the standard C and source
+character set. For example:
+
+    char ch = &#x27;\`&#x27;; // Unusual character &#x27;\\x60&#x27;
+
+The backtick character being assigned above is considered unusual. To
+suppress this message for this character use the option.
+
+    -estring( 972, &quot;;\\{x60}&quot;; )</description>
+    <internalKey>972</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>977</key>
+    <name>L0977: non-literal non-boolean used in __type__ __string__</name>
+    <description>This message is issued when a non-literal expression of non-boolean type
+is assigned to a boolean. This can occur through direct assignment,
+initialization, as an argument in a function call, or a return
+expression. For example, the below function returns true if there is a
+remainder when x is divided by y but the type of the value before
+conversion is int:
+
+    _Bool foo(int y, int z) {
+         return y % z;       // Note 977
+    }
+
+The message won&#x27;t be issued for:
+
+    _Bool foo(int y, int z) {
+         return y % z != 0;  // Okay, != implies boolean context
+    }
+
+A cast can also be used to suppress this message.</description>
+    <internalKey>977</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>978</key>
+    <name>L0978: the name &#x27;__name__&#x27; matches a pattern reserved to the compiler __string__</name>
+    <description>The C Standard specifies a variety of naming patterns reserved for
+future use. For example, names starting with is, to, or str followed by
+a lowercase letter are reserved to the implementation. This message
+reports on symbols declared with names that match one of these patterns.
+The name of the offending symbol is provided along with the reserved
+pattern that the name matches. For example:
+
+    int strmin;
+
+will elicit:
+
+    note 978: the name &#x27;strmin&#x27; matches a pattern reserved to the compiler because
+        it begins with &#x27;str&#x27; and a following lowercase letter
+    int strmin;
+        ^</description>
+    <internalKey>978</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>979</key>
+    <name>L0979: function __symbol__ could be marked with a &#x27;pure&#x27; semantic</name>
+    <description>The specified function was analyzed and determined to be eligible for
+the pure semantic but no -sem option was used to specify that this
+function was pure. Since functions are considered to be impure by
+default when the definition is not visible from the current module,
+specifying this function as pure could improve analysis related to
+side-effects and purity.</description>
+    <internalKey>979</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>980</key>
+    <name>L0980: macro name &#x27;__name__&#x27; matches a pattern reserved to the compiler __string__</name>
+    <description>The C Standard specifies a variety of macro naming patterns reserved by
+the implementation. These patterns include a name starting with &#x27;E&#x27;
+followed by a digit or upper case letter, names starting with &#x27;SIG&#x27; or
+&#x27;SIG_&#x27; followed by an uppercase letter, and macros that begin with &#x27;PRI&#x27;
+or &#x27;SCN&#x27; followed by either &#x27;X&#x27; or a lowercase letter. The message
+includes both the name of the offending macro and the reserved pattern
+that it matches. For example:
+
+    #define LC_END
+
+will be greeted with:
+
+    note 980: macro name &#x27;LC_END&#x27; matches a pattern reserved to the compiler
+        because it begins with &#x27;LC_&#x27; and a following uppercase letter
+    #define LC_END
+            ^
+
+Note that some patterns are reserved only in certain versions of C and
+will be diagnosed only when the language mode specified corresponds to
+the version in which the pattern is applicable. For example, names
+starting with INT and ending in _C are diagnosed only in C99 and
+later.</description>
+    <internalKey>980</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>981</key>
+    <name>L0981: cast of expression of type __type__ to same type is redundant</name>
+    <description>A cast is being performed on an expression that is already of the type
+being cast to making the cast redundant. This message is not issued for
+casting enumerations to their underlying type.</description>
+    <internalKey>981</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>983</key>
+    <name>L0983: behavior of dash in scan list is implementation defined</name>
+    <description>A dash (-) was encountered within the scan list in a %[ conversion
+specifier in the call to a scanf-like function. Furthermore the dash was
+not the first character (or the second character where the first
+character is ^) or the last character, e.g. %[A-Z]. The behavior of a
+dash in this position is implementation defined, some implementations
+interpret this as a range of characters to include in the scan set (e.g.
+all characters from A to Z) while others treat it literally.</description>
+    <internalKey>983</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>986</key>
+    <name>L0986: target type __type__ of type alias __symbol__ is deprecated</name>
+    <description>This message is issued when a type that has been deprecated using the
+-deprecate option with a category of type is used as a target in a
+typedef definition. This is to provide notification that the underlying
+deprecated type may be used through a typedef later, which will not be
+diagnosed. To diagnose uses of a type through a typedef, the basetype
+deprecation category can be used. See the -deprecate option for more
+information.</description>
+    <internalKey>986</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>987</key>
+    <name>L0987: constructor parameter __symbol__ shadows the field __symbol__ of __symbol__</name>
+    <description>This message is a weaker form of message 578 for cases where a field is
+shadowed by a constructor parameter.</description>
+    <internalKey>987</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>999</key>
+    <name>L0999: defaulting to __string__ concurrent threads</name>
+    <description>The -max_threads=n option can be used to specify the number of
+concurrent linting threads for parallel analysis. If n is specified as
+0, PC-lint Plus attempts to query the hardware to determine the optimal
+value for n. This message serves to inform the programmer of the value
+that was selected.</description>
+    <internalKey>999</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1301</key>
+    <name>L1301: integer sequences must have non-negative sequence length</name>
+    <description>An attempt was made to instantiate the built-in template
+__make_integer_seq with a negative length.</description>
+    <tag>tool-error</tag>
+    <internalKey>1301</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1302</key>
+    <name>L1302: integer sequences must have integral element type</name>
+    <description>An attempt was made to instantiate the built-in template
+__make_integer_seq with a non-integral type. As the name implies,
+__make_integer_seq generates a sequence of integers.</description>
+    <tag>tool-error</tag>
+    <internalKey>1302</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1407</key>
+    <name>L1407: incrementing expression of type bool</name>
+    <description>An increment operator was applied to an object of bool type; such use
+has been deprecated since . The same effect can be obtained by assigning
+the value true to the object. Note the decrementing an object of bool
+type has never been allowed in Standard and will instead be greeted with
+an error.</description>
+    <internalKey>1407</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1420</key>
+    <name>L1420: &#x27;mutable&#x27; applied to a reference type is non-standard</name>
+    <description>expressly forbids the use of the mutable keyword on a reference type.
+Despite this, at least one vendor&#x27;s compiler not only supports this use
+but relies on the ability to do so in their own library headers. If your
+compiler supports this use, you can suppress this message.</description>
+    <internalKey>1420</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1421</key>
+    <name>L1421: template parameter illegally redefines default argument</name>
+    <description>explicitly forbids redefining the default argument of a template
+parameter. If your compiler allows this, you can suppress this message.</description>
+    <internalKey>1421</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1731</key>
+    <name>L1731: public virtual function __symbol__</name>
+    <description>A class member function was declared both public and virtual. Some
+authors, see , have advocated avoiding public virtual functions because
+such functions are both part of the public interface and a customization
+point, aspects often with conflicting motives and audiences. Rather than
+make the virtual function public consider making it protected. This way
+members of the hierarchy may still customize behavior.</description>
+    <internalKey>1731</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1766</key>
+    <name>L1766: catch(...) encountered without preceding catch clause</name>
+    <description>An ellipsis was used in a catch handler resulting in a handler that will
+catch any exception. This &quot;;catch-all&quot;; handler was not preceded by one or
+more catch handlers in the same try block meaning that this handler will
+be responsible for processing all exceptions. Catch-all exception
+handlers are generally considered a bad practice due to the inability to
+distinguish between different types of exceptions and the potential to
+hide serious issues. The somewhat less serious use of an exception
+handler with preceding catch clauses is diagnosed by message 1966.</description>
+    <internalKey>1766</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1798</key>
+    <name>L1798: block scope declaration of __symbol__ is taken to mean a member of __symbol__ but does not introduce a name</name>
+    <description>#1[#1] A nested function declaration was found within a function whose
+innermost enclosing namespace was not the global namespace. This alone
+cannot introduce a namespace member but the declaration of the nested
+function will still be taken to refer to a (possibly non-existent)
+member of the innermost enclosing namespace. This can lead to pernicious
+linker errors if one expects the declared function to introduce a
+namespace member into the innermost enclosing namespace or the global
+namespace.</description>
+    <internalKey>1798</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1906</key>
+    <name>L1906: exception specification for function __symbol__</name>
+    <description>A function was declared with an exception specification. Some authors
+contend exception specifications are not worth using due to a presumably
+false sense of security associated with the specifications. See for
+example .</description>
+    <internalKey>1906</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1943</key>
+    <name>L1943: declaration of __symbol__ of type __type__ may require global runtime construction</name>
+    <description>This message is issued for file-scope variables of class type that have
+a non-trivial constructor that requires the constructor to be executed
+to initialize the object at startup time. This can be a potential
+performance concern.</description>
+    <internalKey>1943</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1944</key>
+    <name>L1944: declaration of __symbol__ of type __type__ requires a global destructor</name>
+    <description>This message is issued for file-scope variables of class type that have
+a non-trivial destructor that requires the destructor to be executed to
+destroy the object at shutdown time. This can be a potential performance
+concern.</description>
+    <internalKey>1944</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1945</key>
+    <name>L1945: declaration of __symbol__ of type __type__ requires an exit-time destructor</name>
+    <description>This message is issued for file-scope variables of class type that have
+a non-trivial destructor that requires the destructor to be executed to
+destroy the object at shutdown time. This can be a potential performance
+concern.</description>
+    <internalKey>1945</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1966</key>
+    <name>L1966: catch(...) encountered after catch clause</name>
+    <description>An ellipsis was used in a catch handler resulting in a handler that will
+catch any exception. This &quot;;catch-all&quot;; handler was preceded by one or
+more catch handlers in the same try block such that this handler will
+catch any exceptions not caught by one of the more specific handlers.
+Catch-all exception handlers are generally considered a bad practice due
+the the inability to distinguish between different types of exceptions
+and the potential to hide serious issues. The use of such an exception
+handler without any preceding catch clauses is diagnosed by message
+1766.</description>
+    <internalKey>1966</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1970</key>
+    <name>L1970: use of default capture (__string__) in lambda expression</name>
+    <description>This Elective Note diagnoses the use of default capture in a lambda
+expression. string is either = or &amp;. The use of default capture
+can have unintended consequences, even in apparently innocuous
+situations and as such it has been suggested that default capture
+never be used. For an in-depth discussion of the issue, see Scott Meyers: Effective Modern C++ (O&apos;Reilly, 2015).
+</description>
+    <internalKey>1970</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1971</key>
+    <name>L1971: use of function try block for non-constructor function __symbol__</name>
+    <description>The motivation for the creation of the function-try block in is to allow
+for the handling of exceptions thrown during the processing of
+constructor initializer lists. Such exceptions cannot be handled inside
+of the body of the constructor as the body is not yet entered. While
+function-try blocks are allowed for non-constructor functions, the same
+functionality can be obtained using the more general try-catch block
+inside the body of the function.</description>
+    <internalKey>1971</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1972</key>
+    <name>L1972: empty declaration</name>
+    <description>An empty declaration was encountered; this can happen from an extraneous
+semi-colon:
+
+    int x;;
+
+Note: In PC-lint this was reported as error 19.</description>
+    <internalKey>1972</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1973</key>
+    <name>L1973: deletion of non-parameter pointer to const</name>
+    <description>The delete operator was applied to a non-parameter pointer to const.
+This is legal and not necessarily suspect. See also message 1726 reports
+on cases where the pointer being deleted is a function parameter, which
+is more likely to result in unexpected behavior.</description>
+    <internalKey>1973</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2001</key>
+    <name>L2001: request for __string__ integer type with at least __integer__ bits could not be processed</name>
+    <description>An appropriately sized integer type could not be found when attempting
+to determine the smallest integer type with enough bits to represent a
+bitfield or an integer constant expression.</description>
+    <internalKey>2001</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2006</key>
+    <name>L2006: no hexadecimal digits following \__string__ escape sequence</name>
+    <description>A \x or \u escape sequence was seen but there were no hexadecimal digits
+immediately following the sequence.</description>
+    <internalKey>2006</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2400</key>
+    <name>L2400: unexpected internal condition &#x27;__string__&#x27;</name>
+    <description>PC-lint Plus has encountered an unexpected situation while processing
+the provided source code. This doesn&#x27;t necessarily represent either a
+bug in the source code or in PC-lint Plus, and PC-lint Plus will
+continue to operate normally, but rather serves to report potentially
+interesting circumstances that may be of use to Gimpel Software
+engineering staff. This message is not emitted unless appropriate
+debugging options are enabled.</description>
+    <internalKey>2400</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2401</key>
+    <name>L2401: cannot mix positional and non-positional arguments in format string</name>
+    <description>The format string for a printf/scanf style function contains both
+positional and non-positional arguments. Positional arguments are an
+extension provided by POSIX implementations but mixing positional and
+non-positional arguments results in undefined behavior. For example:
+
+    printf(&quot;;%1$d %d&quot;;, 1, 2);
+
+will elicit this message.</description>
+    <internalKey>2401</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2402</key>
+    <name>L2402: &#x27;__string__&#x27; specified field __string__ is missing a matching &#x27;int&#x27; argument</name>
+    <description>The format string for a printf/scanf style function contains a
+conversion specifier whose width or precision is given as an asterisk
+(*) indicating that the width/precision be extracted from the next
+argument, which should have type int, but this argument was not
+provided.</description>
+    <internalKey>2402</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2403</key>
+    <name>L2403: field __string__ should have type __type__, but argument has type __type__</name>
+    <description>The width or precision of a conversion specifier within the format for a
+printf or scanf style function was specified with an asterisk (*) and as
+such a corresponding int argument was expected to represent the
+width/precision but the argument in that position was not the correct
+type. For example:
+
+    extern double f;
+    printf(&quot;;%*d&quot;;, f, f);
+
+will yield the messages:
+
+    field width should have type &#x27;int&#x27;, but argument has type &#x27;double&#x27;</description>
+    <internalKey>2403</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2404</key>
+    <name>L2404: invalid position specified for __string__</name>
+    <description>Within the format string of a printf or scanf style function, a
+positional parameter specifier was expected for a field width or
+precision that used the asterisk (*) to indicate that the field or width
+should be taken from the argument list but one was not provided. For
+example:
+
+    printf(&quot;;%1$*d&quot;;, 1, 2);
+
+will yield the message:
+
+    invalid position specified for field width
+
+This is because when positional specifiers are used within a format
+string, all arguments must have corresponding positional specifiers. The
+correct way to indicate that the field width corresponds to the second
+data argument is:
+
+    printf(&quot;;%1$*2$d&quot;;, 1, 2);</description>
+    <internalKey>2404</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2405</key>
+    <name>L2405: __string__ used with &#x27;__string__&#x27; conversion specifier is undefined</name>
+    <description>The use of a field width or precision with an incompatible conversion
+specifier has been encountered. Standard C allows a precision to be used
+only with the d, I, o, u, x, X, a, A, e, E, f, F, g, and G conversion
+specifiers and a field width to be used with any conversion specifiers
+except for n. Use of field width/precision outside of these conversion
+specifiers results in undefined behavior.</description>
+    <internalKey>2405</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2406</key>
+    <name>L2406: no closing &#x27;]&#x27; for &#x27;%[&#x27; in scanf format string</name>
+    <description>Within a format string for a scanf style function, a &#x27;%[&#x27; was seen
+denoting the start of a scan list but there was no terminating &#x27;]&#x27;. The
+lack of a closing bracket makes the conversion specification invalid and
+results in undefined behavior.</description>
+    <internalKey>2406</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2407</key>
+    <name>L2407: zero field width in scanf format string is unused</name>
+    <description>Within a scanf style function, a zero was given as the maximum field
+width. Standard C specifies that the maximum field width for scanf must
+be a &quot;;decimal integer greater than zero&quot;;. Providing a zero as the width
+makes the conversion specifier invalid resulting in undefined behavior.</description>
+    <internalKey>2407</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2408</key>
+    <name>L2408: cannot pass __string__ object of type __type__ to variadic __string__; expected type from format string was __type__</name>
+    <description>A non-POD or non-trivial class type that cannot be passed as a variadic
+function argument was given as the argument to a printf/scanf style
+function. The first type specifies the type of the argument that was
+provided, the second type specifies the type that was expected from the
+format string.</description>
+    <internalKey>2408</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2409</key>
+    <name>L2409: format string should not be a wide string</name>
+    <description>The format string for a non-wide version of a printf/scanf style
+function was a wide string literal but should instead be an ordinary
+(narrow) string literal. For example:
+
+    printf(L&quot;;%d&quot;;, 1);
+
+will elicit this message.</description>
+    <internalKey>2409</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2410</key>
+    <name>L2410: re-entrant initializer for static local variable __symbol__ causes undefined behavior</name>
+    <description>Recursively executing the initializer for a static local variable is
+undefined behavior, even if it appears not to cause an infinite loop. An
+implementation with proper support for thread-safe static initialization
+is likely to deadlock.</description>
+    <internalKey>2410</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2423</key>
+    <name>L2423: apparent domain error for function __symbol__, argument __integer__ (value=__string__) outside of accepted range (__string__)</name>
+    <description>A value was provided to a mathematical function that will result in a
+domain error. For example, the acos function is only defined for values
+in the range [-1, 1], values provided outside this range will be
+diagnosed by this message. Value tracking is used to determine the value
+provided to the function. For example:
+
+    double foo(double x, double y) {
+        acos(x + y);
+    }
+    void bar() {
+        foo(0.5, 0.75);
+    }
+
+will elicit the message:
+
+    warning 2423: apparent domain error for function &#x27;acos(double)&#x27;,
+        argument 1 (value=1.25) outside of accepted range (between -1 and 1)
+    acos(x + y);
+           ^</description>
+    <internalKey>2423</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2425</key>
+    <name>L2425: user-defined function semantic &#x27;__string__&#x27; was rejected during call to function __symbol__ because __string__</name>
+    <description>A call was made to a function for which a user-defined semantic exists
+but the semantic could not be applied because it contains a semantic
+that is not valid for this call. There are several reasons this can
+occur including specifying a semantic for an argument that does not
+exist, a return value of a type that conflicts with the actual return
+value, or the use of a symbol or macro in the semantic that cannot be
+resolved at the time of the call.</description>
+    <internalKey>2425</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2426</key>
+    <name>L2426: return value (__string__) of call to function __symbol__ conflicts with return semantic &#x27;__string__&#x27;</name>
+    <description>A user-defined return semantic was specified for a function for which
+PC-lint Plus has access to the implementation. Furthermore, PC-lint has
+determined that during a specific call of the function the actual value
+returned conflicts with the claimed return value in the return semantic.
+This represents a likely error in either the implementation of the
+function or the specification of the semantic. See also &quot;;Return Semantic
+Validation&quot;; in the Reference Manual in the Semantics chapter.</description>
+    <internalKey>2426</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2427</key>
+    <name>L2427: initializer_list elements will be destroyed before returning</name>
+    <description>The array associated with an initializer list is allocated with a
+temporary lifetime. The lifetime of the array will not be extended
+beyond the full expression of a return statement. The returned
+initializer list will contain dangling pointers. For example:
+
+    #include &lt;initializer_list&gt;
+
+    std::initializer_list&lt;int&gt; f() {
+        return { 1, 2, 3 }; // The memory used to store the array
+                            // elements will be freed before returning.
+    }
+
+    void g() {
+        auto x = f();
+        // Attempting to access the elements of x will read invalid memory.
+    }</description>
+    <internalKey>2427</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2430</key>
+    <name>L2430: missing whitespace between macro name __name__ and definition</name>
+    <description>Standard C requires the presence of whitespace between a macro name and
+its definition for object-like macros. For example:
+
+    #define MINUS-
+
+will elicit:
+
+    warning 2430: missing whitespace between macro name &#x27;MINUS&#x27; and definition
+    #define MINUS-
+                 ^
+
+Despite the warning, the macro MINUS is still defined to - so it is safe
+to suppress this message for legacy code that cannot be changed. The
+best way to address the warning is to place a space between the macro
+name and definition:
+
+    #define MINUS -</description>
+    <internalKey>2430</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2431</key>
+    <name>L2431: __#line/GNU line__ directive starting with zero is not interpreted as an octal number</name>
+    <description>The line number provided to the #line number preprocessing directive
+(and the GNU equivalent # number) is always interpreted as a decimal
+number, even when the first digit is a zero. For example, #line 034 is
+treated as #line 34, not as #line 28 (the decimal equivalent of octal
+34). As such, a #line directive with a line number beginning with a zero
+is suspicious.</description>
+    <internalKey>2431</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2432</key>
+    <name>L2432: macro __name__ used as header guard is followed by a #define of a similar but different macro &#x27;__name__&#x27;</name>
+    <description>Within a construct that appears to be a macro include guard, the name of
+the macro being checked is similar to, but different from, the name of
+the macro subsequently defined. For example:
+
+    #ifndef FOO_INCLUDED
+    #define FOO_INCLODED
+    ...
+    #endif
+
+will elicit:
+
+    warning 2432: macro &#x27;FOO_INCLUDED&#x27; used as header guard is followed by a
+        #define of a similar but different macro &#x27;FOO_INCLODED&#x27;
+    #ifndef FOO_INCLUDED
+            ^~~~~~~~~~~~
+
+This usually represents a typo, which will prevent the include guard
+from functioning as intended. This message can be suppressed with
+-estring using the name of the macro being defined, e.g.
+-estring(2432, FOO_INCLODED) if the difference was intentional.</description>
+    <internalKey>2432</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2433</key>
+    <name>L2433: conversion specifier &#x27;__string__&#x27; is not allowed for bounds-checked format function</name>
+    <description>Bounds-checked format functions are described in Annex K of the C11
+standard. The bounds-checked printf-like functions forbid the use of the
+%n conversion specifier.</description>
+    <internalKey>2433</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2434</key>
+    <name>L2434: memory was potentially deallocated</name>
+    <description>This message is a less certain variant of 449 and is issued when the
+deallocation was dependent on conditional execution flow at runtime.</description>
+    <internalKey>2434</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2435</key>
+    <name>L2435: duplicate &#x27;__string__&#x27; declaration specifier</name>
+    <description>The same declaration specifier was used more than once in the
+declaration of a symbol. For example:
+
+    inline inline void foo();
+
+will elicit this message. Was this intended? While legal, it is suspect.
+Other specifiers that will be diagnosed for duplicates include virtual,
+explicit, _Noreturn, friend, and constexpr.</description>
+    <internalKey>2435</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2436</key>
+    <name>L2436: function __symbol__ declared &#x27;noreturn&#x27; should not return</name>
+    <description>A function that was declared as not returning either with the keyword
+_Noreturn or a GCC or attribute contained a return statement. Returning
+from a function designated as not returning invokes undefined behavior.</description>
+    <internalKey>2436</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2437</key>
+    <name>L2437: indirection of non-volatile null pointer may be optimized out</name>
+    <description>An indirection on a non-volatile null pointer was encountered. While
+this is undefined behavior as far as Standard C is concerned, the
+programmer may have intended for this to generate a trap condition
+relying on implementation details but the compiler is likely to simply
+remove the offending indirection instead. The null pointer should be
+volatile to indicate to the compiler that it should not be optimized
+out.</description>
+    <internalKey>2437</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2438</key>
+    <name>L2438: comparing values of different enumeration types (__type__ and __type__)</name>
+    <description>The values of two different enumeration types were used in an equality
+or comparison operation. This is suspect because there is no intrinsic
+relationship among different enumeration types and as such it usually
+doesn&#x27;t make sense to compare them. For example:
+
+    enum color { RED, GREEN, BLUE };
+    enum fruit { APPLE, PEAR, MANGO };
+
+    void foo(enum color c, enum fruit f) {
+        if (c == f) return;     // 2438 issued here
+        // ...
+    }
+
+The message is parameterized by the two enumeration types compared.</description>
+    <internalKey>2438</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2439</key>
+    <name>L2439: lint comment does not contain any options</name>
+    <description>A lint comment was encountered that did not contain any lint options,
+was this a mistake? The comment may be empty or may start with text that
+does not begin an option. For example:
+
+    //lint e714 -e715
+
+Since e714 does not start with a -, +, or !, it, along with everything
+that follows, is assumed to be commentary. In this case -e714 was
+probably meant.</description>
+    <internalKey>2439</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2440</key>
+    <name>L2440: __string__ &#x27;__string__&#x27; in comparison is never null</name>
+    <description>The address of a function, array, or variable was directly compared to
+null. This is suspicious because the address of a function or variable
+can never be null in well-formed code. Note that this message is not
+given for null checks of function or object pointers. For example:
+
+    void foo(int *pi) {
+        if (!pi) return;        // Okay
+        if (&amp;pi == 0) return;   // 2440
+        if (foo != 0) return;   // 2440
+    }
+
+The first string parameter is one of &#x27;function&#x27;, &#x27;array&#x27;, or &#x27;address
+of&#x27; and the second string parameter represents the corresponding
+function, array, or variable.</description>
+    <internalKey>2440</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2441</key>
+    <name>L2441: __string__ &#x27;__string__&#x27; used in boolean context is never null</name>
+    <description>The address of a function, array, or variable was used in a boolean
+context. This is suspicious because such an address can never be false.
+Note that this message is not given for function or object pointers. For
+example:
+
+    void foo(int *pi) {
+        if (!pi) return;    // Okay
+        if (&amp;pi) return;    // 2441
+        if (!foo) return;   // 2441
+    }
+
+The first string parameter is one of &#x27;function&#x27;, &#x27;array&#x27;, or &#x27;address
+of&#x27; and the second string parameter represents the corresponding
+function, array, or variable.</description>
+    <internalKey>2441</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2444</key>
+    <name>L2444: case value is not in enumeration __type__</name>
+    <description>The condition of a switch statement has enum type but contains a case
+statement with a value that doesn&#x27;t correspond to any of the enumerators
+in the enum. For example:
+
+    enum color { RED, GREEN, BLUE };
+    void foo(enum color c) {
+        switch (c) {
+        case RED:       // OK
+        case RED + 1:   // OK, refers to GREEN
+        case 2:         // OK, refers to BLUE
+        case 3: ...     // Warning 2444, no member with value 3
+        }
+    }</description>
+    <internalKey>2444</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2445</key>
+    <name>L2445: cast from __type__ to __type__ increases required alignment from __integer__ to __integer__</name>
+    <description>A cast was made from a pointer to one type to a pointer to a type that
+has greater alignment requirements than the type pointed to by the
+original pointer. For example, assuming an alignment requirement of 4
+bytes for &#x27;int&#x27; and 8 bytes for &#x27;long double&#x27;:
+
+    void foo(int *pi) {
+        long double *pld = (long double *)pi;
+    }
+
+will result in the message:
+
+    warning 2445: cast from &#x27;int *&#x27; to &#x27;long double *&#x27; increases
+        required alignment from 4 to 8
+    long double *pld = (long double *)pi;
+                       ^~~~~~~~~~~~~~~~~
+
+Accessing the value through the new pointer may invoke undefined
+behavior if it is not properly aligned. The alignment requirements of
+fundamental types can be set using the -a option.
+
+The message is parameterized by the types of the pointer before and
+after the cast and the alignment requirements of the types before and
+after the cast.</description>
+    <internalKey>2445</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2446</key>
+    <name>L2446: pasting formed &#x27;__string__&#x27;, an invalid preprocessing token</name>
+    <description>During a token pasting operation performed by the preprocessor ##
+operator, an invalid token was formed. This is illegal even if the
+result is immediately pasted with another token that would then form a
+valid token. For example, a naive token concatenation macro might look
+like:
+
+    CAT(x, y) x##y
+
+which would work fine in cases like int i = CAT(1,2); and expand to
+int i = 12; without issue. The problem comes about when the macro is
+invoked recursively, such as:
+
+    int i = CAT(CAT(1, 2), 3);
+
+which will be greeted with:
+
+    warning 2446: pasting formed &#x27;)3&#x27;, an invalid preprocessing token
+    int i = CAT(CAT(1, 2),3);
+            ^
+    supplemental 893: expanded from macro &#x27;CAT&#x27;
+    #define CAT(x,y) x##y
+                      ^
+
+followed by other parsing errors. One way to handle this is to use two
+macros:
+
+    #define CATX(x, y) x##y
+    #define CAT(x, y) XCAT(x, y)</description>
+    <internalKey>2446</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2447</key>
+    <name>L2447: &#x27;main&#x27; function should not be declared as &#x27;__string__&#x27;</name>
+    <description>This message is issued when the main function is declared as static,
+inline, constexpr, or deleted. The Standard forbids the main function to
+be declared with these specifiers.</description>
+    <internalKey>2447</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2448</key>
+    <name>L2448: &#x27;main&#x27; function should return type &#x27;int&#x27;</name>
+    <description>According to the C Standard, the main function must return int in a
+hosted environment but a return type other than int was specified for
+main. If you are targeting a freestanding/embedded platform or making
+use of non-standard extensions, you should suppress this message.</description>
+    <internalKey>2448</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2450</key>
+    <name>L2450: null character ignored</name>
+    <description>A literal null character was encountered within the module being
+processed and will be ignored by PC-lint Plus.</description>
+    <internalKey>2450</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2452</key>
+    <name>L2452: __string__ converts between pointers to integer types with different sign</name>
+    <description>A pointer to an signed integer type was implicitly converted to or from
+a pointer to the corresponding unsigned integer type. For example:
+
+    void foo(int *p) {
+        unsigned *up = p;   // Warning 2452
+    }</description>
+    <internalKey>2452</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2453</key>
+    <name>L2453: incompatible pointer to integer conversion __string__ __string__</name>
+    <description>A pointer type was implicitly converted to an incompatible integer type.
+For example:
+
+    void foo(float *p) {
+        int i = p;  // Warning 2453
+    }</description>
+    <internalKey>2453</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2454</key>
+    <name>L2454: incompatible pointer types __string__ __string__</name>
+    <description>A pointer type was implicitly converted to an incompatible pointer type.
+For example:
+
+    void foo(float *pf) {
+        int *pi = pf;  // Warning 2454
+    }</description>
+    <internalKey>2454</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2455</key>
+    <name>L2455: incompatible function pointer types __string__ __string__</name>
+    <description>A function pointer type was implicitly converted to an incompatible
+function pointer type. For example:
+
+    void foo(int i) {
+        int (*pf)(float) = &amp;foo;    // Warning 2455
+    }</description>
+    <internalKey>2455</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2456</key>
+    <name>L2456: C++ language linkage specification encountered in C mode</name>
+    <description>A C++ language linkage specification was encountered in a C module. For
+example:
+
+    extern &quot;;C++&quot;; int i;
+
+This may indicate that a C++ module is incorrectly being processed in C
+mode or that a region of code that is only intended to be processed in
+C++ is not properly guarded (e.g. with #ifdef __cplusplus). Language
+linkage specifications in C mode are supported by some embedded
+compilers. If your compiler supports this, feel free to suppress this
+message.</description>
+    <internalKey>2456</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2465</key>
+    <name>L2465: redefinition of tag __type__ will not be visible outside of this function</name>
+    <description>A tag that was previously defined is being redefined in a function
+parameter list. While this is legal, it is suspect as this redefinition
+will only be visible within the function. It would be better to use
+another name and/or place the desired definition outside the function if
+the intention is to make the tag visible elsewhere.</description>
+    <internalKey>2465</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2466</key>
+    <name>L2466: __symbol__ was used despite being marked as &#x27;unused&#x27;</name>
+    <description>The specified symbol was used despite being marked as unused, either via
+#pragma unused, the GCC __attribute__ syntax, or with a attribute
+specified. For example:
+
+    int i = 1;
+    #pragma unused(i)
+    int j [[gnu::unused]] = 2;
+    int k __attribute__((unused)) = 3;
+
+Message 2466 will be issued if i, j, or k are subsequently used.</description>
+    <internalKey>2466</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2491</key>
+    <name>L2491: unknown expression &#x27;__string__&#x27; in sizeof will evaluate to 0, use -pp_sizeof to change the value used for evaluation</name>
+    <description>A sizeof expression was encountered inside of a preprocessor
+conditional. Furthermore, the expression appearing within sizeof was not
+previously registered with the -pp_sizeof option and will evaluate to
+zero. See the -pp_sizeof option for more information.</description>
+    <internalKey>2491</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2501</key>
+    <name>L2501: negation of value of unsigned type __type__ yields a value of signed type __type__ due to integral promotion</name>
+    <description>An unsigned integer type was promoted to a signed type as an operand to
+the unary minus operator. This may surprise those who are otherwise
+familiar with the common adage that applying unary minus to an unsigned
+type does not yield a negative value (see message 501). For example:
+(assuming 16-bit shorts and 32-bit ints)
+
+    -(unsigned)5; // 2^32 - 5, type is still unsigned int
+    -(unsigned short)5; // -5, type is signed int</description>
+    <internalKey>2501</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2586</key>
+    <name>L2586: __string__ __name__ is deprecated</name>
+    <description>This message is issued when a entity is encountered that has been
+deprecated using either the deprecated attribute or the GCC deprecated
+attribute syntax. The type and name of the deprecated entity are
+provided in the message. If the deprecation contains a reason text, this
+is included as an additional string parameter as the end of the message.
+An 891 message provides the location of the actual deprecation. For
+example:
+
+    [[deprecated]] void foo();
+
+    void bar() {
+        foo();
+    }
+
+The use of foo on line 4 results in the message:
+
+    warning 2586: Function &#x27;foo&#x27; is deprecated
+        foo();
+        ^
+    supplemental 891: Function &#x27;foo&#x27; was marked deprecated here
+            [[deprecated]] void foo();
+                        ^
+
+This message is not used to report the use of entities that are
+deprecated with the -deprecate option, such instances are instead
+reported by message 586.</description>
+    <internalKey>2586</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2623</key>
+    <name>L2623: possible domain error for function __symbol__, argument __integer__ (value=__string__) outside of accepted range (__string__)</name>
+    <description>Value tracking inferencing has determined that the value provided to a
+mathematical function is within a range that contains values that are
+not appropriate for the function and may result in a domain error. For
+example:
+
+    double foo(unsigned i) {
+        if (i &lt;= 10)
+            acos(i);
+    }
+
+will solicit the message:
+
+    warning 2623: possible domain error for function &#x27;acos(double)&#x27;, argument 1
+       (value=0:10) outside of accepted range (between -1 and 1)
+           acos(i);
+                ^
+
+as the valid range for the argument to acos is [-1, 1] and all that is
+known about the value provided is that it is between 0 and 10. To
+eliminate the diagnostic, the test should be corrected as in
+
+    if (i &lt;= 1)</description>
+    <internalKey>2623</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2641</key>
+    <name>L2641: implicit conversion of enum __symbol__ to floating point type __type__</name>
+    <description>An enumeration type was implicitly converted to a floating point type.
+Since enumerations are always represented using integral underlying
+types, it is suspicious to use an enumeration value in a floating point
+context. This message can be suppressed by using a cast.</description>
+    <internalKey>2641</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2650</key>
+    <name>L2650: constant &#x27;__integer__&#x27; out of range for &#x27;__string__&#x27; portion of compound comparison operator &#x27;__string__&#x27; </name>
+    <description>This message is issued when only the &quot;;greater than&quot;; or &quot;;less than&quot;; part
+of a &quot;;greater than or equal&quot;; or &quot;;less than or equal&quot;; compound comparison
+operator is out of range. For example (assuming 8-bit bytes):
+
+    void foo(unsigned char a) {
+        if (a == 255) { }   // Okay - &#x27;a&#x27; could be equal to 255
+        if (a &gt; 255) { }    // 650  - &#x27;a&#x27; can&#x27;t be greater than 255
+        if (a &gt;= 255) { }   // 2650 - &#x27;a&#x27; could be equal but not greater than 255
+
+Message 2650 is issued on line 4 because while a could be equal to 255,
+it cannot be greater than 255 so the use of the &gt;= operator is
+suspicious (perhaps a was intended to be compared to a different value).
+See also message 650 which is issued when the provided constant is out
+of range for the entire comparison operator.</description>
+    <internalKey>2650</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2662</key>
+    <name>L2662: pointer arithmetic on pointer that may not refer to an array</name>
+    <description>This message is issued instead of 662 when a pointer that appears likely
+not to refer to an array is subject to integer arithmetic. Addition,
+subtraction, and array subscripting are considered. Referring to the
+value itself with the operand zero is ignored. For example:
+
+    void f(int a) {
+        int* p = &amp;a;
+        p[0] = 0;
+        p[1] = 0;   // Warning 2662
+        p + 0;
+        p + 1;      // Warning 2662
+    }</description>
+    <internalKey>2662</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2701</key>
+    <name>L2701: __variable/function__ __symbol__ declared outside of header is not defined in the same source file</name>
+    <description>The specified symbol was declared inside of a module but not defined
+inside the same module. If the symbol is defined in another module, it
+would be better to place the declaration of the symbol in a header and
+include that header in the modules that use the symbol.</description>
+    <internalKey>2701</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2702</key>
+    <name>L2702: static symbol __symbol__ declared in header not referenced</name>
+    <description>The named static symbol was declared in a header included by the module
+but was not used within the including module. If the symbol had been
+declared in the module itself, warning 528 would be issued instead.</description>
+    <internalKey>2702</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2703</key>
+    <name>L2703: dangling else, add braces to body of parent statement to make intent explicit</name>
+    <description>A dangling else occurs when an if/else construct appears as the unbraced
+body of an if statement. In such cases, it may not be clear which of the
+if statements the else is intended to be associated with. For example:
+
+    int foo(int a, int b) {
+        if (a)
+        if (b)
+            return 1;
+        else
+            return 0;
+        return 2;
+    }
+
+Is the else statement part of the if (a) or the if (b)? In C and the
+else is associated with the closest preceding if that it is legal to be
+associated with so the else in the example is associated with if (b).
+The message can be addressed by placing braces around the parent if (a)
+statement to make the intention explicit:
+
+    int foo(int a, int b) {
+        if (a) {
+            if (b)
+                return 1;
+            else
+                return 0;
+        }
+        return 2;
+    }</description>
+    <internalKey>2703</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2704</key>
+    <name>L2704: potentially negating the most negative number</name>
+    <description>An integer value with the potential to equal the most negative possible
+integer was negated. In a two&#x27;s complement representation, there is no
+positive equivalent to the most negative representable integer. For
+example:
+
+    void f(int a) {
+        if (a &lt; 0) {
+            a = -a;
+        }
+        // Not safe to assume a is non-negative, negation of -2147483648
+        // yields the same negative value in many compilers.
+    }</description>
+    <internalKey>2704</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2705</key>
+    <name>L2705: type qualifier(s) &#x27;__string__&#x27; applied to return type __has/have__ no effect</name>
+    <description>A type qualifier was provided for the return type of a function but has
+no effect. Was the intention to qualify the function, a pointee type, a
+reference to the type returned, or something else? For example:
+
+    const int foo();
+
+will be met with this message as const qualifier has no effect in this
+context.</description>
+    <internalKey>2705</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2706</key>
+    <name>L2706: integer constant value does not match any enumerator in enumeration __type__</name>
+    <description>An integer constant is being used to assign a value to an enumeration
+type but the constant value does not match the value of any of the
+enumeration&#x27;s enumerators. For example:
+
+    enum color { RED, GREEN, BLUE };
+
+    void foo(enum color);
+    void bar() {
+        enum color c1 = RED;    // Okay
+        enum color c2 = 0;      // Okay
+        enum color c3 = 3;      // 2706
+        foo(4);                 // 2706
+    }
+
+The values 3 and 4 are not part of the enumeration &#x27;color&#x27; so 2706 will
+be issued in these cases.</description>
+    <internalKey>2706</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2707</key>
+    <name>L2707: function __symbol__ could be declared as &#x27;noreturn&#x27;</name>
+    <description>The specified function has no means of returning to its caller but this
+information is not included in the functions declaration via either the
+C11 _Noreturn keyword, the noreturn attribute, or the GCC noreturn
+attribute. Adding this information to the declaration may help clarify
+the purpose of the function.</description>
+    <internalKey>2707</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2709</key>
+    <name>L2709: array subscript is of type &#x27;char&#x27;</name>
+    <description>A value of type &#x27;char&#x27; was used as the subscript to an array. &#x27;char&#x27; is
+a signed type on some platforms, relying on the signedness of &#x27;char&#x27; in
+this was is not wise.</description>
+    <internalKey>2709</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2712</key>
+    <name>L2712: large pass-by-value parameter __symbol__ of type __type__ (__integer__ bytes) for function __symbol__</name>
+    <description>The specified function was declared as taking a large object type
+by-value. It may be more efficient to have the function receive a
+pointer or reference instead. The threshold for determining what
+constitutes a large object is specified using the -size option.</description>
+    <internalKey>2712</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2713</key>
+    <name>L2713: large return type __type__ (__integer__ bytes) for function __symbol__</name>
+    <description>A large object type is being returned by-value from the specified
+function; you might want to consider returning the object by pointer or
+reference instead. The threshold for determining what constitutes a
+large object is specified using the -size option.</description>
+    <internalKey>2713</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2715</key>
+    <name>L2715: token pasting of &#x27;,&#x27; and __VA_ARGS__ is a GNU extension</name>
+    <description>The token pasting operator ## appeared between a comma and the
+__VA_ARGS__ macro. While supported by several compilers as a mechanism
+by which to elide a trailing comma in a variadic macro, such a construct
+is technically undefined and could result in different behavior on a
+compiler that doesn&#x27;t support this extension. See the discussion for the
+frc macro for more details.</description>
+    <internalKey>2715</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2716</key>
+    <name>L2716: tentative array definition for variable __symbol__ assumed to have one element</name>
+    <description>This message is issued when a declaration for a variable of array type
+that acts as a tentative definition is encountered without a declared
+array size. A tentative definition in C is a file-scope declaration
+without an initializer that does not contain an extern storage class
+specifier. If the translation unit contains no external definition for
+an identifier, the C Standard specifies that it is defined with the
+composite type of the tentative definition(s) for that identifier. In
+the case of an array without a size, this becomes an array with one
+element. This might represent an oversight in the program. If this was
+intentional, it would be clearer to define the array explicitly with one
+element.</description>
+    <internalKey>2716</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2865</key>
+    <name>L2865: __string__</name>
+    <description>A #pragma message directive was encountered. The text of this message is
+the string provided in the pragma.</description>
+    <internalKey>2865</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2901</key>
+    <name>L2901: stack usage information: __detail__</name>
+    <description>When generating stack reporting data, if the fun flag is set, this
+message will be issued once for each function in the stack report with
+detail containing the stack information for the function. See -stack for
+details.</description>
+    <internalKey>2901</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2902</key>
+    <name>L2902: discarded instance of post-__string__ operator</name>
+    <description>A post-increment or post-decrement operator was applied to a scalar in a
+context where the value will not be used (i.e. as an expression
+statement, as the left operand to the comma operator, or as the third
+clause of a for statement). A modern optimizing compiler is virtually
+guaranteed to elide the wasteful copy implied by such an operation when
+the value is not used but some may prefer to use pre-increment or
+pre-decrement operators instead for clarity and consistency. See also
+1757 for potentially more serious cases involving user-defined types.</description>
+    <internalKey>2902</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2932</key>
+    <name>L2932: macro __name__ used as header guard is followed by a #define of a different macro &#x27;__name__&#x27;</name>
+    <description>A macro with a name that is different from the header guard macro was
+defined immediately after the header guard. It is conventional practice
+to define the macro used in the header guard check but this is not
+always done for every file; this message can be used to identify those
+that do not follow this pattern. The more egregious violations (those
+that define a macro with a very similar name) are flagged by message
+2432.</description>
+    <internalKey>2932</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3401</key>
+    <name>L3401: parameter to move constructor __symbol__ is an rvalue reference to const</name>
+    <description>There are relatively few valid reasons to declare a move constructor
+taking an rvalue reference to const but this construct could easily be
+formed by accident due to its similarity to a canonical copy
+constructor. This message will not be given if the move constructor is
+deleted, as this is occasionally useful.</description>
+    <internalKey>3401</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3402</key>
+    <name>L3402: lambda capture default captures &#x27;this&#x27; by value</name>
+    <description>A lambda with reference capture still implicitly captures the this
+pointer by value if any non-static members are used. For clarity, some
+prefer to explicitly specify this in the capture list.</description>
+    <internalKey>3402</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3403</key>
+    <name>L3403: use of std::move on value of forwarding reference type __type__; was std::forward&lt;__string__&gt; intended?</name>
+    <description>A forwarding reference (sometimes referred to as a universal reference)
+was given as an argument to std::move. Either the formation of a
+forwarding reference instead of an rvalue reference or the use of
+std::move instead of std::forward was likely accidental. For example:
+
+    template&lt;typename T&gt;
+    void f(T&amp;&amp; t) {
+        g(std::move(t)); // might unexpectedly move from the caller&#x27;s lvalue
+    }</description>
+    <internalKey>3403</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3405</key>
+    <name>L3405: __symbol__ is specified with C linkage but returns type __type__ which is incompatible with C</name>
+    <description>A function was specified as having C language linkage but the function
+returns a type that is not compatible with C so what is the point in
+having C linkage?</description>
+    <internalKey>3405</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3406</key>
+    <name>L3406: incomplete return type __type__ for function __symbol__ specified with C linkage</name>
+    <description>A function that was specified as having C language linkage has an
+incomplete return type.</description>
+    <internalKey>3406</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3407</key>
+    <name>L3407: __symbol__ should not return null unless declared with &#x27;throw()&#x27; or &#x27;noexcept&#x27;</name>
+    <description>The implementation for an operator new function has the possibility to
+return null but the function is not declared with &#x27;throw()&#x27; or
+&#x27;noexcept&#x27;. Operator new functions should never return null except in
+these cases.</description>
+    <internalKey>3407</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3408</key>
+    <name>L3408: address of reference in comparison is never null in well-formed C++</name>
+    <description>The address of a reference was directly compared to null. This is
+suspicious because the address of a reference can never be null in
+well-formed code
+
+    void foo(int &amp;i) {
+      int &amp;ri = i;
+      if (&amp;i == 0) return;   // 3408
+      if (&amp;i != 0) return;   // 3408
+    }</description>
+    <internalKey>3408</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3409</key>
+    <name>L3409: address of reference in boolean context is never null in well-formed C++</name>
+    <description>The address of a reference was used in a boolean context. This is
+suspicious because such an address can never be false. For example:
+
+    void foo(int &amp;i) {
+      int &amp;ri = i;
+      if (&amp;i) return;    // 3409
+      if (&amp;ri) return;   // 3409
+      if (!&amp;i) return;   // 3409
+    }</description>
+    <internalKey>3409</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3410</key>
+    <name>L3410: conversion function converting __type__ to itself will never be used</name>
+    <description>A class contains a conversion function that converts to the type of the
+class itself. This is suspicious because such a conversion function will
+never be called. For example:
+
+    class X {
+       operator X();
+    };
+
+will elicit this message.</description>
+    <internalKey>3410</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3411</key>
+    <name>L3411: conversion function converting __type__ to its base class __type__ will never be used</name>
+    <description>A class contains a conversion function that converts to the type of its
+base class. This is suspicious because such a conversion function will
+never be called. For example:
+
+    class X { };
+    class Y : public X {
+       operator X();
+    };
+
+will elicit this message.</description>
+    <internalKey>3411</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3412</key>
+    <name>L3412: __type__ has virtual functions but non-virtual destructor</name>
+    <description>A class contains at least one virtual function but has a non-private,
+not-virtual destructor. Classes that may be used as base classes should
+always have virtual destructors to ensure that instances of derived
+classes that are deleted through a pointer to the base class are
+properly destructed. The declaration of a virtual function implies that
+this class is meant to be used as a base class and as such it should
+provide a virtual destructor.</description>
+    <internalKey>3412</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3413</key>
+    <name>L3413: __delete/destructor__ called on non-final __type__ that has virtual functions but non-virtual destructor</name>
+    <description>This message is similar to 3412 but while the former warns about the
+potential problem that could arise from having a non-virtual destructor,
+this message warns when delete is applied to such an object.</description>
+    <internalKey>3413</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3414</key>
+    <name>L3414: __delete/destructor__ called on __type__ that is abstract but has non-virtual destructor</name>
+    <description>This message is similar to 3413 but is reported for abstract types.</description>
+    <internalKey>3414</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3415</key>
+    <name>L3415: pointer initialized to temporary array</name>
+    <description>A pointer is being initialized with a temporary array, which will be
+destroyed at the end of the containing expression making it impossible
+to safely dereference the pointer before assigning a new value to it.
+For example:
+
+    struct S { int array[10]; };
+
+    void f() {
+        int *pi = S().array;   // warning 3415, array pointed to by pi
+                               // will cease to exist after initialization.
+    }</description>
+    <internalKey>3415</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3416</key>
+    <name>L3416: &#x27;this&#x27; pointer used in boolean context is never null</name>
+    <description>The this pointer was used in a boolean context such as:
+
+    if (this) ...
+
+Was this a mistake? The this pointer is never null in well-formed so
+such a test is suspect.</description>
+    <internalKey>3416</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3417</key>
+    <name>L3417: &#x27;this&#x27; pointer used in comparison is never null</name>
+    <description>The this pointer is explicitly tested for null such as
+
+    if (this == 0)
+
+Was this a mistake? The this pointer is never null in well-formed so
+such a test is suspect.</description>
+    <internalKey>3417</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3418</key>
+    <name>L3418: &#x27;reinterpret_cast&#x27; __string__ class __symbol__ __string__ its __string__ __symbol__ behaves differently than &#x27;static_cast&#x27;</name>
+    <description>A reinterpret_cast was used to cast between a class type and a base
+class type in an unsafe way; static_cast should probably be used
+instead.</description>
+    <internalKey>3418</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3420</key>
+    <name>L3420: extraneous template parameter list in template specialization</name>
+    <description>An extraneous template parameter list was provided in the declaration of
+a template specialization. For example:
+
+    template &lt;typename T&gt;
+    T foo(T);
+
+    template&lt;&gt;       // warning 3420
+    template&lt;&gt;
+    int foo(int);</description>
+    <internalKey>3420</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3421</key>
+    <name>L3421: __string__ template partial specialization contains __string__ that cannot be deduced so the specialization will never be used</name>
+    <description>In the partial specialization of a class or variable template, the
+presence of one or more template parameters that cannot be deduced means
+that the specialization will never be used. Was this a mistake?</description>
+    <internalKey>3421</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3423</key>
+    <name>L3423: __case value/enumerator value/non-type template argument/array size/constexpr if__ __cannot be narrowed from type to type__</name>
+    <description>A case value, enumerator value, non-type template argument, or array
+size was provided that cannot be narrowed to the required type. For
+example:
+
+    void foo(unsigned u) {
+        switch(u) {
+        case -1:         // warning 3423, cannot narrow -1 to unsigned
+            break;
+            ...
+            }
+    }
+
+    template &lt;unsigned char I&gt;
+    struct S { unsigned char value = I; };
+    S&lt;300&gt; s;           // warning 3423, cannot narrow 300 to unsigned char</description>
+    <internalKey>3423</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3424</key>
+    <name>L3424: constexpr __function/constructor__ never produces a constant expression</name>
+    <description>A function marked as constexpr must contain at least one code path that
+produces a constant expression to be used in a context where a constant
+expression is required. The specified function was marked as constexpr
+but does not ever produce a constant expression so the use of constexpr
+is suspect.</description>
+    <internalKey>3424</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3425</key>
+    <name>L3425: type __type__ cannot be narrowed to __type__ in initializer list</name>
+    <description>Inside an initializer list, a prohibited implicit narrowing conversion
+would be required to perform the initialization. The prohibited implicit
+conversion is one that is never allowed in list initialization. For
+example:
+
+    int i = { 3.0 };
+
+will elicit this message because conversion from a floating point type
+to a integral type is required to perform the initialization but is not
+an allowed implicit conversion within an initializer list. The issue can
+be corrected by correcting the type used in the initializer, casting the
+type, or not using list initialization.</description>
+    <internalKey>3425</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3426</key>
+    <name>L3426: non-constant-expression cannot be narrowed from type __type__ to __type__ in initializer list</name>
+    <description>Inside an initializer list, a prohibited implicit narrowing conversion
+would be required to perform the initialization. The implicit conversion
+is of a type that is allowed for constant expressions but not for the
+provided expression. For example:
+
+    extern int i;
+    float f = { i; };
+
+will elicit this message while:
+
+    float f = { 3 };
+
+will not. The issue can be corrected by correcting the type used in the
+initializer, casting the type, or not using list initialization.</description>
+    <internalKey>3426</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3427</key>
+    <name>L3427: constant expression evaluates to __string__ which cannot be narrowed to type __type__</name>
+    <description>Inside an initializer list there is an implicit conversion of a constant
+expression to a type where the value cannot be represented exactly,
+which is prohibited. For example:
+
+    unsigned char c = { 1234 };
+
+will elicit this message, assuming 8-bit chars. The message can be
+avoided by correcting the value, using a cast, or by not employing list
+initialization.</description>
+    <internalKey>3427</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3428</key>
+    <name>L3428: out-of-line declaration of a member must be a definition</name>
+    <description>A class member that is declared out-of-line (outside of the class
+declaration) must have a definition. For example:
+
+    class A {
+        void foo();
+    }
+
+    void A::foo();
+
+The second declaration of A::foo must contain a definition.</description>
+    <internalKey>3428</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3429</key>
+    <name>L3429: parenthesized initialization of a member array is a GNU extension</name>
+    <description>In , an array member can be initialized in a member initialization list
+using extended initializer syntax, e.g.:
+
+    class A {
+        A() : array { 0 } { };
+        int array[10];
+    }
+
+A deprecated GNU extension allowed an array member to be initialized
+using the syntax for initializing class types:
+
+    A() : array({ 0 });
+
+This parenthesis around the initializer here are not Standard.</description>
+    <internalKey>3429</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3430</key>
+    <name>L3430: taking the address of a temporary object of type __type__</name>
+    <description>An attempt was made to take the address of a temporary object. For
+example:
+
+    struct X { ... };
+
+    void foo() {
+        &amp;X();       // warning 3430
+    }</description>
+    <internalKey>3430</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3431</key>
+    <name>L3431: in-class initializer for static data member of type __type__ requires &#x27;constexpr&#x27; specifier</name>
+    <description>A const static data member of integral type may be initialized in its
+in-class declaration with a constant expression. For non-integral types,
+the member must be declared with constexpr, e.g.:
+
+    struct A {
+        const static int i = 3;
+        constexpr static float f = 3.0;
+    };
+
+This message is issued for non-integral static data members with an
+in-class initializer of a type for which constexpr is expected but not
+provided.</description>
+    <internalKey>3431</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3432</key>
+    <name>L3432: invalid suffix on literal, C++11 requires a space between literal and identifier</name>
+    <description>A literal appeared adjacent to an identifier but there was no space
+separating the two and the identifier was not a valid suffix for the
+literal.</description>
+    <internalKey>3432</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3450</key>
+    <name>L3450: subtracting value of member __symbol__ from the address referred to by the &#x27;this&#x27; pointer; use of -&gt; to access the member may have been intended</name>
+    <description>The integral or pointer value of a member of this, accessed implicitly
+through the current object, was subtracted from the this pointer. This
+is almost certainly a mistake where the &gt; in -&gt; was forgotten.
+For example:
+
+    struct X {
+        bool value;
+        bool getValue() const {
+            return this-value; // intended to be this-&gt;value
+        }
+    };
+
+If for some reason explicitly applying a negative offset to the this
+pointer based on a member value is actually desired then the member name
+can be enclosed in parentheses to avoid confusion.</description>
+    <internalKey>3450</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3701</key>
+    <name>L3701: use of __symbol__ implicitly invokes converting constructor __symbol__; __symbol__ could be used</name>
+    <description>A push, push_back, or insert function is called in a situation where
+emplace_back or emplace could be used instead.</description>
+    <internalKey>3701</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3702</key>
+    <name>L3702: lambda capture default captures &#x27;this&#x27; by value</name>
+    <description>The this pointer was implicitly captured due to a member access inside a
+lambda. For clarity, some prefer to explicitly specify this in the
+capture list.</description>
+    <internalKey>3702</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3703</key>
+    <name>L3703: ellipsis at this point creates a C-style varargs function</name>
+    <description>An ellipsis was encountered, which was probably intended to declare a
+function parameter pack but instead declares a variable argument
+function. For example:
+
+    template &lt;typename... T&gt;
+    void foo() {
+        bar([] {
+            void g(T t...);     // warning 3703, probably meant g(T... t);
+        }...);
+    }</description>
+    <internalKey>3703</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3704</key>
+    <name>L3704: empty parentheses here declare a function, not a variable</name>
+    <description>A set of empty parenthesis were added to what would otherwise be
+interpreted as a variable declaration but instead results in the
+declaration of a function. For example:
+
+    struct S {
+        S(int a = 0) : _a(a) { }
+        int _a;
+    };
+
+    void foo() {
+        S s1(1);     // OK, declares and initializes variable s1
+        S s2();      // warning 3704, declares a function s2
+    }
+
+s2 is interpreted as a function that returns type S and takes not
+arguments, not a zero-initialized variable as presumably intended.
+
+There are multiple ways to force interpretation of a variable, e.g.:
+
+    S s3(0);    // OK
+    S s4 = S(); // OK, initialize via temporary
+    S s5{};     // OK, C++11 uniform initialization
+
+See also message 3705.</description>
+    <internalKey>3704</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3705</key>
+    <name>L3705: parenthetic disambiguation results in function declaration</name>
+    <description>A syntactic construct was encountered that could be interpreted as
+either a variable declaration or a function declaration (sometimes
+referred to as the &quot;;most vexing parse&quot;;). The disambiguation rules
+require that it be interpreted as a function declaration, which may not
+be what the programmer intended. For example:
+
+    struct X { };
+    struct Y {
+        Y(const X&amp;);
+    };
+
+    void foo() {
+        Y y(X());   // warning 3705
+    }
+
+Here y is interpreted as a function that returns an object of type Y and
+takes a single parameter that is a pointer to a function taking no
+arguments and returning type X. In particular, it is not interpreted as
+a declaration of an object of type Y initialized with a temporary of
+type X as was almost certainly intended.
+
+There are several ways to force interpretation of a variable
+declaration. In and later the simplest way is to employ uniform
+initialization syntax, for example any of the following would work:
+
+    Y y1(X{});    // OK, variable declaration
+    Y y2{X()};    // OK, variable declaration
+    Y y3{X{}};    // OK, variable declaration
+
+Prior to , an extra pair of parenthesis can be used to force the desired
+interpretation, e.g.:
+
+    Y y4((X()));   // OK, variable declaration
+
+The same issue can appear with casts, for example:
+
+    void foo(double d) {
+        int i( int(d) );    // warning 3705
+    }
+
+In this case, i is not a variable initialized with the truncated value
+of d but rather a function returning int and taking int. In addition to
+the methods mentioned above to force a variable declaration, the
+functional cast can be converted to a C-style cast or a named cast,
+e.g.:
+
+    int i1( (int) d );              // OK, variable declaration
+    int i2( static_cast&lt;int&gt;(d) );  // OK, variable declaration</description>
+    <internalKey>3705</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3706</key>
+    <name>L3706: abstract class __symbol__ marked &#x27;__final/sealed__&#x27;</name>
+    <description>An abstract class (one that contains at least one pure virtual
+specifier) was marked as final or sealed preventing the class from being
+used as a base class. Since abstract classes cannot be instantiated,
+what would be the purpose of having abstract class that cannot be
+inherited from?</description>
+    <internalKey>3706</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3707</key>
+    <name>L3707: unknown linkage language &#x27;__string__&#x27;</name>
+    <description>C++ defines the language linkage specifiers C and C++. Other specifiers
+may be supported by compilers as an extension with
+implementation-defined semantics. This message is issued when a language
+linkage specifier other than C or C++ is encountered. For example:
+
+    extern &quot;;C&quot;; int a;       // Okay
+    extern &quot;;C++&quot;; int b;     // Okay
+    extern &quot;;ADA&quot;; int c;     // Info 3707</description>
+    <internalKey>3707</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3901</key>
+    <name>L3901: reference to __data member/member function__ __symbol__ of __symbol__ does not use an explicit &#x27;this-&gt;&#x27;</name>
+    <description>A non-static data member or function was referenced inside of the
+containing class with an implicit this object instead of using
+this-&gt;member to access the member. For example:
+
+    struct A {
+        int value;
+        int getValue() { return this-&gt;value; }  // OK, explicit this-&gt;
+        void setValue(int v) { value = v; }     // note 3901
+    };
+
+Some authors suggest always using this-&gt; to access members to prevent
+the potential for confusion when local objects or functions with the
+same name as a member exist in the same scope. See also message 578,
+which will be issued if a local symbol is declared that hides a member.</description>
+    <internalKey>3901</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3902</key>
+    <name>L3902: thrown object of type __type__ is not a class derived from std::exception</name>
+    <description>This message is issued where a throw-expression initializes an exception
+object that is not derived from std::exception. The point is to have a
+type that can be caught by
+
+    catch(std::exception &amp; p)
+
+instead of
+
+    catch(...)
+
+This way, in a situation where it&#x27;s necessary to catch everything,
+information about the kind of error can at least be logged or
+translated.</description>
+    <internalKey>3902</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>8000</key>
+    <name>L8000: __string__</name>
+    <description>Messages in the 8xxx range are reserved for user-defined diagnostics,
+see +message for more information.</description>
+    <internalKey>8000</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9073</key>
+    <name>L9073: parameter __integer__ of function __symbol__ has type alias name type difference with previous declaration (__type__ vs __type__)</name>
+    <description>In a function declaration or definition, the specified parameter is
+declared with a type that, while technically identical, uses a different
+name for the type than was used for the parameter in a previous
+declaration. For example:
+
+    typedef int INT;
+    void foo(int i);
+    void foo(INT i) {
+        ...
+    }
+
+would yield this message as the parameter i in function foo is declared
+as an int in both cases but in the definition the typedef name INT is
+used while in the preceding declaration the name INT is not employed.
+Such inconsistencies can result in unnecessary confusion.</description>
+    <internalKey>9073</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9093</key>
+    <name>L9093: the name &#x27;__name__&#x27; is reserved to the compiler</name>
+    <description>A symbol was delcared with a name reserved to the compiler.</description>
+    <internalKey>9093</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9094</key>
+    <name>L9094: return type of function __symbol__ has type alias name difference with previous declaration (__type__ vs __type__)</name>
+    <description>This message is similar to 9073 (which deals with parameter types) but
+applies to return types. In a declaration of a function, the return type
+specified, while technically identical, uses a different type name than
+was used for a previous declaration. For example:
+
+    typedef int INT;
+    int foo(void);
+    INT foo(void) {
+        ...
+    }
+
+will yield this message.</description>
+    <internalKey>9094</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9095</key>
+    <name>L9095: symbol __symbol__ has same name as previously defined macro</name>
+    <description>A symbol was defined with the same name as a macro that was defined
+earlier in the same translation unit. For example:
+
+    #define sum(x, y) ((x)+(y))
+    int sum = 0;
+
+will produce:
+
+    note 9095: symbol &#x27;sum&#x27; has same name as previously defined macro
+
+A supplemental message (891) provides the location of the offending
+macro definition. Note that the message is issued regardless of whether
+the macro definition is active at the point in which the symbol is
+declared. For example:
+
+    #define A
+    #undef A
+    int A = 0;
+
+will elicit the same complaint for the declaration of A.</description>
+    <internalKey>9095</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9096</key>
+    <name>L9096: symbol __symbol__ has same name as subsequently defined macro</name>
+    <description>This message is similar to 9095 but is issued for symbols defined with
+the same name as a macro whose definition appears after the declaration
+of the symbol. For example:
+
+    int A;
+    #define A 10
+
+Unlike message 652, this message will be issued even if the macro is
+defined outside the scope of the symbol. For example:
+
+    void foo(int x) { }
+    #define x 10
+
+will not result in a 652 warning since the definition of the x macro is
+outside the scope of the function parameter but 9096 will still be
+issued.
+
+A supplemental message (891) provides the location of the offending
+macro definition.</description>
+    <internalKey>9096</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9097</key>
+    <name>L9097: unparenthesized argument to sizeof operator</name>
+    <description>An unparenthesized expression was used as the argument to the sizeof
+operator. While legal, it can result in confusion when used within a
+larger expression, e.g.:
+
+    size = sizeof x + y;
+
+was this meant to be sizeof(x) + y or sizeof(x + y)? Using parenthesis
+can eliminate such questions.</description>
+    <internalKey>9097</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9098</key>
+    <name>L9098: pointer argument __integer__ (of type __type__) to function __symbol__ does not point to a pointer type or an essentially signed, unsigned, boolean, or enum type</name>
+    <description>The first or second argument to memcmp (or a function with semantics
+copied from memcmp) was not either 1) a pointer to a pointer or 2) a
+pointer to a MISRA C 2012 essentially signed, unsigned, boolean, or enum
+type.</description>
+    <internalKey>9098</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9103</key>
+    <name>L9103: identifier &#x27;__name__&#x27; with static storage is reused</name>
+    <description>An identifier of the given name was seen declared static in one location
+and not static in another. Some coding guidelines advise against such
+practice due to the potential for programmer confusion.</description>
+    <internalKey>9103</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9167</key>
+    <name>L9167: macro &#x27;__name__&#x27; defined in __string__ __symbol__ not undefined in same __string__</name>
+    <description>A macro was defined inside of a declaration of a function,
+class/struct/union, namespace, or enumeration and was not undefined
+within the braced region of that declaration. The macro will persist
+beyond the end of the declaration, which may not be intended. For
+example:
+
+    void foo() {
+    #define A ...
+
+    }
+
+will result in the message:
+
+    macro &#x27;A&#x27; defined in function &#x27;foo&#x27; not undefined in same function</description>
+    <internalKey>9167</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9168</key>
+    <name>L9168: variable __symbol__ has type alias name difference with previous declaration (__type__ vs __type__)</name>
+    <description>A variable is declared in two places with types that, while technically
+identical, have different alias names. For example:
+
+    typedef int INT;
+    extern int var;
+    INT var;            // note 9168</description>
+    <internalKey>9168</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9169</key>
+    <name>L9169: constructor __symbol__ can be used for implicit conversions from fundamental type __type__</name>
+    <description>A constructor was found that could be used for implicit conversions from
+a fundamental type. This message is similiar to 1931 but only reports
+instances where the implicit conversion is from a fundamental type (e.g.
+integer and floating point types but not pointers, references, arrays,
+classes, etc.). Like message 1931, if the constructor is declared with
+the keyword explicit, this message will not be emitted. This message is
+also not be emitted for variadic constructors.</description>
+    <internalKey>9169</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9170</key>
+    <name>L9170: pure function __symbol__ overrides non-pure function __symbol__</name>
+    <description>The specified function is declared as pure but overrides a non-pure
+function in a base class. Was this a mistake?</description>
+    <internalKey>9170</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9171</key>
+    <name>L9171: downcast of polymorphic type __type__ to type __type__</name>
+    <description>A cast was used to convert a pointer to a polymorphic type (a class that
+contains or inherits one or more virtual functions) to a pointer to a
+derived class.</description>
+    <internalKey>9171</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9172</key>
+    <name>L9172: bitwise operator &#x27;__operator__&#x27; used with non-constant operands of differing underlying types</name>
+    <description>A bitwise operator was used whose operands did not have the same MISRA
+underlying type. This message is not produced if either operand is an
+integer constant expression.</description>
+    <internalKey>9172</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9173</key>
+    <name>L9173: use of non-placement allocation function __symbol__</name>
+    <description>The use of new or delete was encountered that will allocate or
+deallocate dynamic memory. Placement new is not reported as it does not
+allocate memory.</description>
+    <internalKey>9173</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9174</key>
+    <name>L9174: __type__ is a virtual base class of __symbol__</name>
+    <description>A class derivation was marked as virtual; some coding standards prohibit
+virtual inheritance due to the potential complexities involved.</description>
+    <internalKey>9174</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9175</key>
+    <name>L9175: function __symbol__ has void return type and no external side-effects</name>
+    <description>The specified function does not appear to have any external side-effects
+and does not return any information so what is the purpose of calling
+the function?</description>
+    <internalKey>9175</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9176</key>
+    <name>L9176: pointer type __type__ converted to unrelated pointer type __type__</name>
+    <description>A pointer was converted (implicitly or explicitly) to a different
+pointer type and the source pointee type was not a class or structure
+derived from the destination pointee type.</description>
+    <internalKey>9176</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9204</key>
+    <name>L9204: hexadecimal escape sequence used</name>
+    <description>A hexadecimal escape sequence (\x) was used inside a character or string
+literal.</description>
+    <tag>tool-error</tag>
+    <internalKey>9204</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9209</key>
+    <name>L9209: plain character data used with prohibited operator __string__</name>
+    <description>The plain char type is defined by the implementation to have the same
+size and range as either signed char or unsigned char but is a separate
+and distinct type. For this reason, it is often recommended that char be
+used for character data and signed char and unsigned char be used for
+numeric data. This message reports when an object of plain char type is
+used as an operand to a unary operator or a binary operator other than
+=, ==, and !=.</description>
+    <tag>tool-error</tag>
+    <internalKey>9209</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9212</key>
+    <name>L9212: bit field type __type__ is not explicitly signed int or unsigned int</name>
+    <description>A bit field was defined with a type other than signed int or
+unsigned int or with a typedef that is defined using one of these two
+explicit types. When using plain int as a bit-field type, the signedness
+of the type used is implementation defined. Only int (signed and
+unsigned) and _Bool (in C99) are sanctioned for use in bit-fields, use
+of any other type results in implementation-defined behavior.
+-etype(9212, _Bool) can be used to suppress this message for the C99
+_Bool type. See also message 9149, which is similar but more lenient.</description>
+    <tag>tool-error</tag>
+    <internalKey>9212</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9224</key>
+    <name>L9224: expression is not effectively boolean and must be explicitly tested for zero</name>
+    <description>An expression that is not &quot;;effectively boolean&quot;; is being implicitly
+tested for zero in the controlling expression of an if statement, an
+iteration statement, or the first operand of a conditional operator. For
+example, given that x is an integer:
+
+    if (x)
+
+will elicit this message while:
+
+    if (x != 0)
+
+will not. &quot;;Effectively boolean&quot;; value are produced by the operators ==,
+!=, &lt;=, &gt;=, &lt;, &gt;, !, ||, and &amp;&amp;.</description>
+    <tag>tool-error</tag>
+    <internalKey>9224</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9225</key>
+    <name>L9225: integral expression of underlying type __underlying-type__ cannot be implicitly converted to type __type__ because it is not a wider integer type of the same signedness</name>
+    <description>An integral expression was implicitly converted from to a type that was
+not a wider type of the same signedness.</description>
+    <tag>tool-error</tag>
+    <internalKey>9225</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9226</key>
+    <name>L9226: integral expression of underlying type __underlying-type__ cannot be implicitly converted to type __type__ because it is __string__</name>
+    <description>A complex integral expression was implicitly converted to a different
+type or a non-constant integral expression was implicitly converted to a
+different type while being passed to or returned from a function.
+&quot;;Complex&quot;; here means an expression that is not an lvalue and is not a
+function return value.</description>
+    <tag>tool-error</tag>
+    <internalKey>9226</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9227</key>
+    <name>L9227: floating expression of underlying type __underlying-type__ cannot be implicitly converted to type __type__ because it is not a wider floating type</name>
+    <description>A floating point expression was implicitly converted to a type that is
+not a wider type.</description>
+    <tag>tool-error</tag>
+    <internalKey>9227</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9228</key>
+    <name>L9228: floating expression of underlying type __underlying-type__ cannot be implicitly converted to type __type__ because it is __string__</name>
+    <description>A floating point expression was implicitly converted to a different type
+in a context in which a cast should be used to be compliant with MISRA C
+2004. The context is provided in string, which is one of a
+complex expression, a function argument, or a return value.</description>
+    <tag>tool-error</tag>
+    <internalKey>9228</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9229</key>
+    <name>L9229: complex integral expression may only be cast to another integral type of the same signedness no wider than the original type</name>
+    <description>A complex expression with integral type was cast to a type with
+different signedness or whose underlying type is wider than the
+underlying type of the expression.</description>
+    <tag>tool-error</tag>
+    <internalKey>9229</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9230</key>
+    <name>L9230: complex floating expression may only be cast to another floating type no wider than the original type</name>
+    <description>A complex expression with floating point type was cast to a type with
+whose underlying type is wider than the underlying type of the
+expression.</description>
+    <tag>tool-error</tag>
+    <internalKey>9230</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9231</key>
+    <name>L9231: result of __operator__ operator applied to operand of type __type__ must be immediately cast to __type__</name>
+    <description>The ~ or &lt;&lt; operator was applied to an operand with a MISRA C underlying
+type of unsigned char or unsigned short but the result was not cast to
+the appropriate underlying type.</description>
+    <tag>tool-error</tag>
+    <internalKey>9231</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9232</key>
+    <name>L9232: expected/did not expect an effectively boolean argument for operator __operator__</name>
+    <description>A MISRA C effectively boolean expression was used as an operand to an
+operator that should not operate on such an expression or an operator
+for which an effectively boolean expression was expected was not
+provided one. Specifically, the operators &amp;&amp;, ||, and ! should contain
+only effectively boolean operands and effectively boolean operands
+should not be used with operators other than &amp;&amp;, ||, !, =, ==, !=, and
+ ?:.</description>
+    <tag>tool-error</tag>
+    <internalKey>9232</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9233</key>
+    <name>L9233: bitwise operator __operator__ may not be applied to operand with signed underlying type</name>
+    <description>An expression with a MISRA C signed underlying type was provided as an
+operand to a bitwise operator.</description>
+    <tag>tool-error</tag>
+    <internalKey>9233</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9234</key>
+    <name>L9234: shift amount exceeds size of operand&#x27;s underlying type</name>
+    <description>An expression was shifted by a negative amount or an amount greater than
+the bit width of the expression&#x27;s MISRA C underlying type.</description>
+    <tag>tool-error</tag>
+    <internalKey>9234</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9235</key>
+    <name>L9235: unary minus applied to operand with unsigned underlying type</name>
+    <description>The unary minus operator was applied to an expression with an unsigned
+MISRA C underlying type.</description>
+    <tag>tool-error</tag>
+    <internalKey>9235</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9236</key>
+    <name>L9236: assignment operator may not be used within a boolean-valued expression</name>
+    <description>An assignment operator was used within a boolean context, such as
+comparing the result of assignment to a specific value.</description>
+    <tag>tool-error</tag>
+    <internalKey>9236</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9237</key>
+    <name>L9237: conversion between pointer to function type __type__ and differing non-integral type __type__</name>
+    <description>A conversion was performed between a pointer to function and a pointer
+to a different type that was not a pointer to an integral type.</description>
+    <tag>tool-error</tag>
+    <internalKey>9237</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9238</key>
+    <name>L9238: switch condition may not be boolean</name>
+    <description>The conditional expression of a switch statement has a MISRA C
+effectively boolean type.</description>
+    <tag>tool-error</tag>
+    <internalKey>9238</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9240</key>
+    <name>L9240: __left/right__ side of logical operator &#x27;__operator__&#x27; is not a primary expression</name>
+    <description>This message is issued when the operands of the || and &amp;&amp; operators are
+not primary-expressions.</description>
+    <tag>tool-error</tag>
+    <internalKey>9240</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9252</key>
+    <name>L9252: testing floating point for equality using exact value</name>
+    <description>Message 777 is issued when an object with a floating point type is
+tested for equality using either == or !=. Message 777 is not issued
+when one of the operands is a value that can be represented exactly in
+the corresponding floating point representation, such as 0 or 13.5. In
+such cases, this message is issued instead.</description>
+    <tag>tool-error</tag>
+    <internalKey>9252</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9254</key>
+    <name>L9254: continue statement encountered</name>
+    <description>A continue statement was seen. Some coding guidelines forbid the use of
+continue statements.</description>
+    <tag>tool-error</tag>
+    <internalKey>9254</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9259</key>
+    <name>L9259: C comment contains &#x27;://&#x27; sequence</name>
+    <description>Message 9059 reports on cases where a C comment contains what may be a
+comment, e.g. the sequence &#x27;//&#x27;. Because including URLs inside of
+comments is a common practice, message 9059 is not issued when the &#x27;//&#x27;
+sequence is immediately preceded by a &#x27;:&#x27; to prevent the message from
+being issued in cases such as:
+
+    /* See http://www.gimpel.com for details */
+
+This message fills the gap by reporting on the instances not reported by
+9059.</description>
+    <tag>tool-error</tag>
+    <internalKey>9259</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9260</key>
+    <name>L9260: C++ style comment used</name>
+    <description>A style comment (//) was encountered. Such comments were not part of C
+until C99 and may not be consistently supported by older compilers.</description>
+    <tag>tool-error</tag>
+    <internalKey>9260</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9264</key>
+    <name>L9264: array subscript applied to variable __symbol__ declared with non-array type __type__</name>
+    <description>The base of an array subscript operation was not declared as an array
+(i.e., it was declared as a pointer). Some coding guidelines suggest
+that array subscript operations should only be applied to array types.</description>
+    <tag>tool-error</tag>
+    <internalKey>9264</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9272</key>
+    <name>L9272: parameter __integer__ of function __symbol__ has different name than overridden function __symbol__ (__symbol__ vs __symbol__)</name>
+    <description>This message is similar to 9072 but applied to differences between
+overridden functions. In the declaration of a function, the name given
+to the specified parameter is different from the name given for the same
+parameter in the declaration of one of the functions being overridden.
+For example:
+
+    struct A {
+        virtual void foo(int width);
+    };
+    struct B : A {
+        void foo(int depth);
+    };
+
+will yield this message because A::foo uses width as the name of the
+first parameter while the overridden function B::foo uses the name
+depth.</description>
+    <tag>tool-error</tag>
+    <internalKey>9272</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9273</key>
+    <name>L9273: parameter __integer__ of function __symbol__ has type alias name difference with overridden function __symbol__ (__type__ vs __type__)</name>
+    <description>This message is similar to 9073 but applies to differences between
+overridden functions. In the declaration of a function, the specified
+parameter is declared with a type that, while technically identical,
+uses a different name for the type than was used for the parameter in
+the declaration of one of the functions that this function overrides.
+For example:
+
+    typedef int INT;
+
+    struct A {
+        virtual void foo(int);
+    };
+
+    struct B : A {
+        void foo(INT);
+    };
+
+will yield this message because A::foo is declared with a first
+parameter of type int while the overridden function B::foo declared the
+parameter with type INT, a type alias name difference.</description>
+    <tag>tool-error</tag>
+    <internalKey>9273</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9287</key>
+    <name>L9287: cast from pointer to object type (__type__) to pointer to char type (__type__)</name>
+    <description>A cast was performed between a pointer to an object type and a pointer
+to a character type. The actual pointer types are provided in the
+message.</description>
+    <tag>tool-error</tag>
+    <internalKey>9287</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9288</key>
+    <name>L9288: unnamed signed single-bit bitfield</name>
+    <description>An unnamed signed bit-field was declared with a single bit.</description>
+    <tag>tool-error</tag>
+    <internalKey>9288</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9294</key>
+    <name>L9294: return type of function __symbol__ has type alias name difference with overridden function __symbol__ (__type__ vs __type__)</name>
+    <description>This message is similar to 9094 but applies to differences between
+overridden functions. In a declaration of a function, the return type
+specified, while technically identical, uses a different type name than
+was used for the declaration of one of the functions that this function
+overrides. For example:
+
+    typedef int INT;
+
+    struct A {
+        virtual int foo();
+    };
+
+    struct B : A {
+        INT foo();
+    };
+
+will yield this message.</description>
+    <tag>tool-error</tag>
+    <internalKey>9294</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9295</key>
+    <name>L9295: conversion between object pointer type __type__ and non-integer arithmetic essential type &#x27;__essential-type__&#x27;</name>
+    <description>This message is issued when a cast is used to convert between a pointer
+to object type and a non-integer arithmetic MISRA C 2012 essential type.
+For example:
+
+    enum color { RED, GREEN, BLUE };
+    void foo(int *pi) {
+        enum color c = (enum color)pi;  // Note 9295
+    }</description>
+    <tag>tool-error</tag>
+    <internalKey>9295</internalKey>
+    <severity>BLOCKER</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9401</key>
+    <name>L9401: function __symbol__ returns pointer to void</name>
+    <description>The specified function returns a pointer to void, which some consider to
+be unsafe because it can compromise type safety.</description>
+    <internalKey>9401</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9402</key>
+    <name>L9402: function __symbol__ parameter __integer__ is void pointer</name>
+    <description>The specified function accepts a void pointer as an argument, which some
+consider to be unsafe because such pointers can compromise type safety.</description>
+    <internalKey>9402</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9403</key>
+    <name>L9403: function __symbol__ parameter __integer__ has same unqualified type (__type__) as previous parameter</name>
+    <description>A function has two consecutive parameters of the same (unqualified)
+type. Functions that accept many arguments can be difficult to use
+correctly as the chances of misordered arguments increases as the number
+of parameters increase. When arguments are of different types,
+misordered arguments are more likely to be caused by the compiler. When
+consecutive parameters are of the same type, calls to the function that
+accidentally transpose the arguments are less likely to be noticed.</description>
+    <internalKey>9403</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9404</key>
+    <name>L9404: destructor for class __symbol__ should be declared &#x27;noexcept&#x27;</name>
+    <description>Given that destructors should never throw, declaring them as &#x27;noexcept&#x27;
+is wise as it allows the compiler to ensure this is the case.</description>
+    <internalKey>9404</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9405</key>
+    <name>L9405: move constructor for class __symbol__ should be declared &#x27;noexcept&#x27;</name>
+    <description>Move constructors should not throw; declaring them as &#x27;noexcept&#x27; allows
+the compiler to ensure this is the case.</description>
+    <internalKey>9405</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9406</key>
+    <name>L9406: move assignment operator __symbol__ should be declared &#x27;noexcept&#x27;</name>
+    <description>Move assignment functions should not throw; declaring them as &#x27;noexcept&#x27;
+allows the compiler to ensure this is the case.</description>
+    <internalKey>9406</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9407</key>
+    <name>L9407: copy assignment operator __symbol__ should not be virtual</name>
+    <description>A copy assignment operator was declared as virtual; this is rarely the
+right thing to do.</description>
+    <internalKey>9407</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9408</key>
+    <name>L9408: copy assignment operator __symbol__ should take a const reference type</name>
+    <description>A copy assignment operator should take a const reference argument.</description>
+    <internalKey>9408</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9409</key>
+    <name>L9409: copy assignment operator __symbol__ should return a non-const lvalue-reference type</name>
+    <description>A copy assignment operator should return a non-const lvalue-reference
+type.</description>
+    <internalKey>9409</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9410</key>
+    <name>L9410: move assignment operator __symbol__ should not be virtual</name>
+    <description>A move assignment operator was declared as virtual, this is rarely the
+right thing to do.</description>
+    <internalKey>9410</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9411</key>
+    <name>L9411: move assignment operator __symbol__ should take a non-const reference type</name>
+    <description>A move assignment operator was declared whose argument is not a
+non-const reference.</description>
+    <internalKey>9411</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9412</key>
+    <name>L9412: move assignment operator __symbol__ should return a non-const lvalue-reference type</name>
+    <description>A move assignment operator was declared that doesn&#x27;t return a non-const
+lvalue-reference type.</description>
+    <internalKey>9412</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9413</key>
+    <name>L9413: class __symbol__ contains data members of differing access levels</name>
+    <description>A class contains data members declared with different access levels.</description>
+    <internalKey>9413</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9416</key>
+    <name>L9416: typedef used to define name __symbol__</name>
+    <description>A typedef was used to define a type alias instead of a using alias.</description>
+    <internalKey>9416</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9417</key>
+    <name>L9417: data member __symbol__ has protected access level</name>
+    <description>The specified data member of a class has an access level of protected.
+Some authors suggest against using protected data members.</description>
+    <internalKey>9417</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9901</key>
+    <name>L9901: return value &#x27;__string__&#x27; for call to function __symbol__ updated to &#x27;__string__&#x27; via return semantic &#x27;__string__&#x27;</name>
+    <description>This message is emitted when a return semantic adds or updates value
+tracking information for a return value of a function call either
+because the semantic contains more specific information than was gleaned
+from walking the body of the called function or because the fso flag was
+set.</description>
+    <internalKey>9901</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9902</key>
+    <name>L9902: return value &#x27;__string__&#x27; for call to function __symbol__ not updated by return semantic &#x27;__string__&#x27; which adds no new information</name>
+    <description>This message is emitted when a return semantic is not applied to a
+function call because the semantic does not provide any information that
+was not already known from walking the call.</description>
+    <internalKey>9902</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9903</key>
+    <name>L9903: __essential-type-preview__</name>
+    <description>This message shows the step-by-step evaluation of how an expression&#x27;s
+MISRA C 2012 essential type is calculated. See the f12 flag for details.</description>
+    <internalKey>9903</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9904</key>
+    <name>L9904: hook event: &#x27;__string__&#x27;</name>
+    <description>This message is emitted every time a hookable event is reached in the
+AST walking phase.</description>
+    <internalKey>9904</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9905</key>
+    <name>L9905: value tracking debug assertion not known to be unequivocally true</name>
+    <description>value tracking debug assertion not known to be unequivocally true</description>
+    <internalKey>9905</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+  </rule>
+  
 <!--MISRA C (2004) Rules-->
   <rule>
     <key>M1.1</key>
