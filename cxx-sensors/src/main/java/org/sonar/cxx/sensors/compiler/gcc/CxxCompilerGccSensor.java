@@ -32,7 +32,10 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   public static final String REPORT_REGEX_DEF = "gcc.regex";
   public static final String REPORT_CHARSET_DEF = "gcc.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
-  public static final String DEFAULT_ID = "enabled by default";
+  /**
+   * Default id used for gcc warnings not associated with any activation switch.
+   */
+  public static final String DEFAULT_ID = "default";
   public static final String DEFAULT_REGEX_DEF
     = "(?<file>.*):(?<line>[0-9]+):[0-9]+:\\x20warning:\\x20(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
 
@@ -71,6 +74,9 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
 
   @Override
   protected String alignId(String id) {
+	/* Some gcc warnings are not associated to any activation switch and don't have a matching id.
+	 * In these cases a default id is used. 
+	 */
 	if (id == null || "".equals(id)) {
 		id = DEFAULT_ID;
 	}
