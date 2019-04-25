@@ -1,0 +1,7 @@
+main.c:7:1: warning: no semicolon at end of struct or union
+ } my_struct;
+ ^
+main.c: In function 'main':
+main.c:11:6: warning: unused variable 'i' [-Wunused-variable]
+  int i;
+      ^

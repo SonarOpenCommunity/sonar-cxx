@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.compiler.gcc;
 
+import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
@@ -28,6 +29,7 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
@@ -76,4 +78,24 @@ public class CxxCompilerGccSensorTest {
     assertThat(context.allIssues()).hasSize(4);
   }
 
+  @Test
+  public void shouldReportCorrectGccViolationsWithOrWithoutIds() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
+    settings.setProperty(language.getPluginProperty(CxxCompilerGccSensor.REPORT_PATH_KEY), "compiler-reports/build-warning-without-id.gcclog");
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "main.c")
+      .setLanguage("c").initMetadata("asd\nasdas\nasda\n").build());
+
+    CxxCompilerSensor sensor = new CxxCompilerGccSensor(language);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(2);
+    ArrayList<Issue> issuesList = new ArrayList<>(context.allIssues());
+    // warning without activation switch (no id) should be mapped to the "default" rule
+    assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("default");
+    // warning with activation switch should be mapped to the matching rule
+    assertThat(issuesList.get(1).ruleKey().rule()).isEqualTo("-Wunused-variable");
+  }
+  
 }
