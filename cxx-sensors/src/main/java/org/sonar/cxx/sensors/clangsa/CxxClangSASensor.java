@@ -107,6 +107,9 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
         String filePath = ((NSString) sourceFiles[fileIndex]).getContent();
 
         CxxReportIssue issue = new CxxReportIssue(checkerName, filePath, Integer.toString(line), description);
+
+        addFlowToIssue(diag, sourceFiles, issue);
+
         saveUniqueViolation(context, issue);
       }
     } catch (Exception e) {
@@ -119,4 +122,71 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
     return CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY;
   }
 
+  private enum PathElementKind {
+    CONTROL, EVENT, UNKNOWN
+  }
+
+  private class PathElement {
+    private final NSDictionary pathDict;
+
+    public PathElement(NSObject pathObject) {
+      pathDict = (NSDictionary) pathObject;
+    }
+
+    public PathElementKind getKind() {
+      String kind = ((NSString) require(pathDict.get("kind"), "Missing mandatory entry 'kind'")).getContent();
+      if ("event".equals(kind)) {
+        return PathElementKind.EVENT;
+      } else if ("control".equals(kind)) {
+        return PathElementKind.CONTROL;
+      } else {
+        return PathElementKind.UNKNOWN;
+      }
+    }
+  }
+
+  private class PathEvent {
+    private final NSDictionary eventDict;
+    private final NSObject[] sourceFiles;
+
+    public PathEvent(final NSObject eventDict, final NSObject[] sourceFiles) {
+      this.eventDict = (NSDictionary) eventDict;
+      this.sourceFiles = sourceFiles;
+    }
+
+    public String getExtendedMessage() {
+      return ((NSString) require(eventDict.get("extended_message"), "Missing mandatory entry 'extended_message'"))
+          .getContent();
+    }
+
+    public String getLineNumber() {
+      int lineNumber = ((NSNumber) require(getLocation().get("line"), "Missing mandatory entry 'line'")).intValue();
+      return Integer.toString(lineNumber);
+    }
+
+    public String getFilePath() {
+      int fileIndex = ((NSNumber) require(getLocation().get("file"), "Missing mandatory entry 'file'")).intValue();
+      if (fileIndex < 0 || fileIndex >= sourceFiles.length) {
+        throw new IllegalArgumentException("Invalid file index");
+      }
+      return ((NSString) sourceFiles[fileIndex]).getContent();
+    }
+
+    private NSDictionary getLocation() {
+      return (NSDictionary) require(eventDict.get("location"), "Missing mandatory entry 'location'");
+    }
+  }
+
+  private void addFlowToIssue(final NSDictionary diagnostic, final NSObject[] sourceFiles, final CxxReportIssue issue) {
+    NSObject[] path = ((NSArray) require(diagnostic.objectForKey("path"), "Missing mandatory entry 'path'")).getArray();
+    for (NSObject pathObject : path) {
+      PathElement pathElement = new PathElement(pathObject);
+      if (pathElement.getKind() != PathElementKind.EVENT) {
+        continue;
+      }
+
+      PathEvent event = new PathEvent(pathObject, sourceFiles);
+      issue.addFlowElement(event.getFilePath(), event.getLineNumber(), event.getExtendedMessage());
+    }
+  }
 }

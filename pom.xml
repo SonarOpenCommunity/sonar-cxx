@@ -194,6 +194,16 @@
     </developer>
   </developers>
 
+  <contributors>
+    <contributor>
+      <name>Adam Romanek</name>
+      <email>aromanek.contractor@libertyglobal.com</email>
+      <organization>Liberty Global B.V.</organization>
+      <organizationUrl>https://www.libertyglobal.com</organizationUrl>
+      <timezone>Europe/Warsaw</timezone>
+    </contributor>
+  </contributors>
+
   <modules>
     <module>cxx-squid</module>
     <module>cxx-checks</module>

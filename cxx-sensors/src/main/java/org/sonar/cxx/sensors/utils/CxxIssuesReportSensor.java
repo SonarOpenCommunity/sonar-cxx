@@ -178,6 +178,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
     Set<InputFile> affectedFiles = new HashSet<>();
     List<NewIssueLocation> newIssueLocations = new ArrayList<>();
+    List<NewIssueLocation> newIssueFlow = new ArrayList<>();
 
     for (CxxReportLocation location : issue.getLocations()) {
       if (location.getFile() != null && !location.getFile().isEmpty()) {
@@ -192,11 +193,27 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       }
     }
 
+    for (CxxReportLocation location : issue.getFlow()) {
+      NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location, affectedFiles);
+      if (newIssueLocation != null) {
+        newIssueFlow.add(newIssueLocation);
+      } else {
+        LOG.debug("Failed to create new issue location from flow location {}", location);
+        newIssueFlow.clear();
+        break;
+      }
+    }
+
     if (!newIssueLocations.isEmpty()) {
       try {
         newIssue.at(newIssueLocations.get(0));
         for (int i = 1; i < newIssueLocations.size(); i++) {
           newIssue.addLocation(newIssueLocations.get(i));
+        }
+        // paths with just one element are not reported as flows to avoid
+        // presenting 1-element flows in SonarQube UI
+        if (newIssueFlow.size() > 1) {
+          newIssue.addFlow(newIssueFlow);
         }
         newIssue.save();
 
