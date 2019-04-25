@@ -44,6 +44,7 @@ Sensors for **static and dynamic code analysis**:
 * Gcov / gcovr coverage reports
 * Bullseye coverage reports (http://www.bullseye.com/)
 * Cobertura coverage reports (http://cobertura.github.io/cobertura/)
+   * OpenCppCoverage --export_type=cobertura (https://github.com/OpenCppCoverage/OpenCppCoverage/)
 * Testwell CTC++ coverage reports (https://www.verifysoft.com/en_ctcpp.html)
 
 Simple to **customize**
