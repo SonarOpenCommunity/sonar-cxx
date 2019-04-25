@@ -22,7 +22,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>MAJOR</severity>
   </rule>
   <rule>
-    <key>enabled by default</key>
+    <key>default</key>
     <name>Default compiler warnings</name>
     <description>
     Default compiler warnings.
