@@ -66,7 +66,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       newHighlighting.save();
     } catch (IllegalStateException e) {
       // ignore highlight errors: parsing errors could lead to wrong location data
-      LOG.debug("Highligthing error in file: {}, error: {}", getContext().getFile().getAbsoluteFile(), e);
+      LOG.debug("Highlighting error in file: {}, error: {}", getContext().getFile().getAbsoluteFile(), e);
     }
   }
 
@@ -115,9 +115,9 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       }
     } catch (IllegalArgumentException ex) {
       // ignore highlight errors: parsing errors could lead to wrong location data
-      LOG.warn("Highligthing error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(),
+      LOG.warn("Highlighting error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(),
         current.startLine(), current.startLineOffset());
-      LOG.debug("highlighing exception {}", ex);
+      LOG.debug("highlighting exception {}", ex);
     }
     return current;
   }
