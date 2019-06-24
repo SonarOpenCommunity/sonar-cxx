@@ -56,10 +56,12 @@ public class CxxVCppBuildLogParser {
   private static final Pattern[] DEFINE_PATTERNS = {Pattern.compile("[/-]D\\s([^\\s]+)"),
     Pattern.compile("[/-]D([^\\s]+)")};
   private static final Pattern PATH_TO_CL_PATTERN = Pattern.compile("^.*\\\\bin\\\\.*CL.exe\\x20.*$");
-  private static final Pattern PLATTFORM_X86_PATTERN = Pattern.compile("Building solution configuration \".*\\|x64\".");
+  private static final Pattern PLATFORM_X86_PATTERN = Pattern.compile("Building solution configuration \".*\\|x64\".");
   private static final Pattern TOOLSET_V141_PATTERN = Pattern
     .compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
-
+  private static final Pattern TOOLSET_V142_PATTERN = Pattern
+    .compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.2\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
+  
   // It seems that the required line in any language has these elements: "ClCompile" and (*.vcxproj)
   private static final Pattern PATH_TO_VCXPROJ = Pattern.compile("^(?:\\S+)\\s(?:\"ClCompile\").*\"(.+vcxproj)\".*$");
 
@@ -164,7 +166,7 @@ public class CxxVCppBuildLogParser {
         // 1>Task "Message"
         //1>  Platform=Win32
         String lineTrimmed = line.trim();
-        if (lineTrimmed.endsWith("Platform=x64") || PLATTFORM_X86_PATTERN.matcher(lineTrimmed).matches()) {
+        if (lineTrimmed.endsWith("Platform=x64") || PLATFORM_X86_PATTERN.matcher(lineTrimmed).matches()) {
           setPlatform("x64");
           if (LOG.isDebugEnabled()) {
             LOG.debug("build log parser platform='{}'", this.platform);
@@ -184,7 +186,9 @@ public class CxxVCppBuildLogParser {
     } catch (IOException ex) {
       LOG.error("Cannot parse build log", ex);
     }
-    if (!detectedPlatform) {
+    if (detectedPlatform) {
+      LOG.info("Detected VS platform toolset: {}.{}", platformToolset.substring(0, 3), platformToolset.substring(3));
+    } else {
       LOG.info("Could not assign VS platform toolset - use default: {}", platformToolset);
     }
   }
@@ -215,6 +219,10 @@ public class CxxVCppBuildLogParser {
     } else if (line.contains("\\V141\\Microsoft.CppBuild.targets")
       || TOOLSET_V141_PATTERN.matcher(line).matches()) {
       setPlatformToolset("V141");
+      return true;
+    } else if (line.contains("\\V142\\Microsoft.CppBuild.targets")
+        || TOOLSET_V142_PATTERN.matcher(line).matches()) {
+      setPlatformToolset("V142");
       return true;
     } else {
       // do nothing
@@ -271,17 +279,26 @@ public class CxxVCppBuildLogParser {
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.140).aspx
     parseCommonCompilerOptions(line, fileElement);
 
-    if ("V100".equals(platformToolset)) {
-      parseV100CompilerOptions(line, fileElement);
-    } else if ("V110".equals(platformToolset)) {
-      parseV110CompilerOptions(line, fileElement);
-    } else if ("V120".equals(platformToolset)) {
-      parseV120CompilerOptions(line, fileElement);
-    } else if ("V140".equals(platformToolset)) {
-      parseV140CompilerOptions(line, fileElement);
-    } else if ("V141".equals(platformToolset)) {
-      parseV141CompilerOptions(line, fileElement);
-    } else {
+    switch (platformToolset) {
+    case "V100":
+        parseV100CompilerOptions(line, fileElement);
+        break;
+    case "V110":
+        parseV110CompilerOptions(line, fileElement);
+        break;
+    case "V120":
+        parseV120CompilerOptions(line, fileElement);
+        break;
+    case "V140":
+        parseV140CompilerOptions(line, fileElement);
+        break;
+    case "V141":
+        parseV141CompilerOptions(line, fileElement);
+        break;
+    case "V142":
+        parseV142CompilerOptions(line, fileElement);
+        break;
+    default:
       // do nothing
     }
   }
@@ -636,4 +653,19 @@ public class CxxVCppBuildLogParser {
     addMacro("_ATL_VER=0x0E00", fileElement);
   }
 
+  private void parseV142CompilerOptions(String line, String fileElement) {
+    // VC++ V19.2 - VS2019 (V16.0)
+    addMacro(CPPVERSION, fileElement);
+    // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
+    if (line.contains("/ZW ")) {
+      addMacro(CPPWINRTVERSION, fileElement);
+    }
+    addMacro("_MSC_VER=1921", fileElement);
+    // VS2017 RC
+    addMacro("_MSC_FULL_VER=192127702", fileElement);
+    //_MFC_VER Defines the MFC version (see afxver_.h)
+    addMacro("_MFC_VER=0x0E00", fileElement);
+    addMacro("_ATL_VER=0x0E00", fileElement);
+  }
+  
 }
