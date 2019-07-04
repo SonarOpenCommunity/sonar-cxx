@@ -20,6 +20,7 @@
 package org.sonar.cxx.sensors.pclint;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
@@ -182,4 +183,31 @@ public class CxxPCLintSensorTest {
     softly.assertAll();
   }
 
+  @Test
+  public void loadSupplementalMsg() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
+    settings.setProperty(language.getPluginProperty(CxxPCLintSensor.REPORT_PATH_KEY), "pclint-reports/pclint-result-with-supplemental.xml");
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+
+    CxxPCLintSensor sensor = new CxxPCLintSensor(language);
+    sensor.execute(context);
+
+    assertThat(context.allIssues().size()).isEqualTo(2);
+
+    List<Issue> allIssues = new ArrayList<>(context.allIssues());
+
+    Issue firstIssue = allIssues.get(0);
+    assertThat(firstIssue.flows().size()).isEqualTo(3);
+    assertThat(firstIssue.flows().get(0).locations().size()).isEqualTo(1);
+    assertThat(firstIssue.flows().get(1).locations().size()).isEqualTo(1);
+    assertThat(firstIssue.flows().get(2).locations().size()).isEqualTo(1);
+
+    Issue secondIssue = allIssues.get(1);
+    assertThat(secondIssue.flows().size()).isEqualTo(1);
+    assertThat(secondIssue.flows().get(0).locations().size()).isEqualTo(1);
+  }
 }

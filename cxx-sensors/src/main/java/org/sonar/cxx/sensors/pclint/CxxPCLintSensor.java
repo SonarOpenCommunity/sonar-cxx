@@ -22,6 +22,7 @@ package org.sonar.cxx.sensors.pclint;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -37,6 +38,7 @@ import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.utils.CxxReportIssue;
+import org.sonar.cxx.utils.CxxReportLocation;
 
 /**
  * PC-lint is an equivalent to pmd but for C++ The first version of the tool was release 1985 and the tool analyzes
@@ -52,6 +54,14 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
     // Rule nn.nn -or- Rule nn-nn-nn
     "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])");
   private static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
+
+  private static final String SUPPLEMENTAL_TYPE_ISSUE = "supplemental";
+
+  private static final String PREFIX_DURING_SPECIFIC_WALK_MSG = "during specific walk ";
+
+  private static final int PREFIX_MSG_LENGTH = PREFIX_DURING_SPECIFIC_WALK_MSG.length();
+
+  private static final Pattern FILE_NAME_WITH_LINE_AND_COL_PATTERN = Pattern.compile("(.+):(\\d+):(\\d+)");
 
   /**
    * CxxPCLintSensor for PC-lint Sensor
@@ -103,12 +113,14 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
             String msg = errorCursor.getAttrValue("desc");
             String type = errorCursor.getAttrValue("type");
 
-            if (isInputValid(file, line, id, msg)) {
-              if ("supplemental".equals(type) && currentIssue != null) {
-                currentIssue.addFlowElement(file, line, msg);
-                continue;
-              }
+            // handle the case when supplemental message has no file and line
+            // eg, issue 894.
+            if (SUPPLEMENTAL_TYPE_ISSUE.equals(type) && currentIssue != null) {
+              addMoreLocationsToCurrentIssue(currentIssue, file, line, msg);
+              continue;
+            }
 
+            if (isInputValid(file, line, id, msg)) {
               if (msg.contains("MISRA")) {
                 //remap MISRA IDs. Only Unique rules for MISRA C 2004 and MISRA C/C++ 2008
                 // have been created in the rule repository
@@ -143,6 +155,43 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
           | com.ctc.wstx.exc.WstxIOException e) {
           LOG.error("Ignore XML error from PC-lint '{}'", CxxUtils.getStackTrace(e));
         }
+      }
+
+      private void addMoreLocationsToCurrentIssue(@Nonnull CxxReportIssue currentIssue,
+                                                String file,
+                                                String line,
+                                                String msg) {
+        if (file != null && file.isEmpty() && msg != null && msg.startsWith(PREFIX_DURING_SPECIFIC_WALK_MSG)) {
+          String walkedSrcFile =
+                  msg.substring(PREFIX_MSG_LENGTH, msg.indexOf(" ", PREFIX_MSG_LENGTH));
+
+          Matcher matcher = FILE_NAME_WITH_LINE_AND_COL_PATTERN.matcher(walkedSrcFile);
+
+          if (matcher.matches()) {
+            file = matcher.group(1);
+            line = matcher.group(2);
+          }
+        }
+
+        if (file == null || file.isEmpty() || line == null || line.isEmpty()) {
+          return;
+        }
+
+        assert !currentIssue.getLocations().isEmpty() : "current issue must have a location.";
+
+        // Due to SONAR-9929, even the API supports the extral/flow in different file,
+        // the UI is not ready. For this case, use the parent issue's file and line for now.
+        CxxReportLocation primaryLocation = currentIssue.getLocations().get(0);
+        if (!primaryLocation.getFile().equals(file)) {
+          if (!msg.startsWith(PREFIX_DURING_SPECIFIC_WALK_MSG)) {
+            msg = PREFIX_DURING_SPECIFIC_WALK_MSG + String.format(" %s:%s %s", file, line, msg);
+          }
+
+          file = primaryLocation.getFile();
+          line = primaryLocation.getLine();
+        }
+
+        currentIssue.addLocation(file, line, msg);
       }
 
       private boolean isInputValid(@Nullable String file, @Nullable String line,

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
+<issue file =".\FileZip.cpp" line = "4" number = "1960" desc = "Violates MISRA C++ 2008 Required Rule 5-0-19, More than two pointer indirection levels used for type: 'struct _wireSAFEARRAY ***"/>
+<issue file = ".\FileZip.cpp" line = "20" number = "1800" type = "supplemental" desc = "this is supplemental msg one."/>
+<issue file = ".\FileZip.h" line = "20" number = "1801" type = "supplemental" desc = "this is supplemental msg two."/>
+<issue file = "" line = "" number = "894" type = "supplemental" desc = "during specific walk FileZip.h:3:2 this is supplemental msg three."/>
+<issue file =".\FileZip.h" line = "37" number = "950" desc = "Non-ANSI reserved word or construct: '__stdcall'"/>
+<issue file = "" line="0" number = "934" type = "supplemental" desc = "during specific walk FileZip.cpp:4:2 this is supplemental msg three."/>
+</doc>
