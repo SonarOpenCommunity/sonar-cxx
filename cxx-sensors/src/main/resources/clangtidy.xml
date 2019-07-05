@@ -6,6 +6,15 @@
 -->
 <rules>
 <rule>
+  <key>clang-diagnostic-warning</key>
+  <name>clang-diagnostic-warning</name>
+  <description><![CDATA[
+      <p>Diagnostic text: default compiler warnings</p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
   <key>boost-use-to-string</key>
   <name>boost-use-to-string</name>
   <description><![CDATA[
