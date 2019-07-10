@@ -26,6 +26,7 @@ import org.sonar.api.internal.apachecommons.lang.SystemUtils;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -43,7 +44,7 @@ public class CxxVCppBuildLogParserTest {
     public static final String OVERALLINCLUDEKEY = "CxxOverallInclude";
     public static final String OVERALLDEFINEKEY = "CxxOverallDefine";
     public static final String REFERENCE_DETAILED_LOG = "src/test/resources/logfile/msbuild-detailed-en.txt";
-    public static final String UNIQUE_FILE = "D:\\Development\\Source\\Cpp\\Dummy\\src\\main.cpp";
+    public static final String UNIQUE_FILE = "C:\\Development\\Source\\Cpp\\Dummy\\src\\main.cpp";
 
     @BeforeClass
     public static void init()
@@ -59,12 +60,25 @@ public class CxxVCppBuildLogParserTest {
         SoftAssertions softly = new SoftAssertions();
 
         // Absolute path
-        softly.assertThat(includes).contains("D:\\Development\\Source\\ThirdParty\\VS2017\\Firebird-2.5.8\\include");
+        softly.assertThat(includes).contains("C:\\Development\\Source\\ThirdParty\\VS2017\\Firebird-2.5.8\\include");
         // Relative paths
-        softly.assertThat(includes).contains("D:\\Development\\Source\\ThirdParty\\VS2017\\Boost-1.67.0");
-        softly.assertThat(includes).contains("D:\\Development\\Source\\Cpp\\Dummy\\includes");
-        softly.assertThat(includes).contains("D:\\Development\\Source\\Cpp\\Dummy\\release");
+        softly.assertThat(includes).contains("C:\\Development\\Source\\ThirdParty\\VS2017\\Boost-1.67.0");
+        softly.assertThat(includes).contains("C:\\Development\\Source\\Cpp\\Dummy\\includes");
+        softly.assertThat(includes).contains("C:\\Development\\Source\\Cpp\\Dummy\\release");
         softly.assertThat(includes).hasSize(4);
+        softly.assertAll();
+    }
+   
+    @Test
+    public void relativeIncludesVS2019ReferenceLog() {
+
+        String REFERENCE_LOG = "src/test/resources/logfile/msbuild-azure-devops-en.txt";
+        List<String> includes = getIncludesForUniqueFile(REFERENCE_LOG);
+
+        SoftAssertions softly = new SoftAssertions();
+        // Absolute path
+        softly.assertThat(includes).contains("C:\\agent\\_work\\1\\s\\_Globals\\Include");
+        softly.assertThat(includes).hasSize(1);
         softly.assertAll();
     }
 
