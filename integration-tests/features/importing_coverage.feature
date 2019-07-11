@@ -3,7 +3,7 @@ Feature: Importing coverage data
   I want to import my coverage metric values into SonarQube
   In order to be able to use relevant SonarQube features
 
-  @SqApi67 @SqApi75 @SqApi76
+  @SqApi67 @SqApi75 @SqApi76 @SqApi78
   Scenario: Importing coverage reports
     Given the project "coverage_project"
     When I run sonar-scanner with following options:
@@ -23,7 +23,7 @@ Feature: Importing coverage data
       | line_coverage           | 25.0  |
       | branch_coverage         | 50    |
 
-  @SqApi67 @SqApi75 @SqApi76
+  @SqApi67 @SqApi75 @SqApi76 @SqApi78
   Scenario: Zero coverage measures without coverage reports
     If we don't pass coverage reports all coverage measures, except the branch
     ones, should be 'zero'. The branch coverage measures remain 'None'
