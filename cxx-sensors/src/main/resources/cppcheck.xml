@@ -9730,5 +9730,119 @@ can only be set at construction time.
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>    
+  <rule>
+    <key>comparePointers</key>
+    <name>Comparing pointers that point to different objects</name>
+    <description><![CDATA[
+      <p>
+Comparing pointers that point to different objects
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>comparePointers</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
+  <rule>
+    <key>duplicateConditionalAssign</key>
+    <name>Duplicate expression for the condition and assignment</name>
+    <description><![CDATA[
+      <p>
+Duplicate expression for the condition and assignment.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <internalKey>duplicateConditionalAssign</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>negativeContainerIndex</key>
+    <name>Array index -1 is out of bounds</name>
+    <description><![CDATA[
+      <p>
+Array index -1 is out of bounds.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/786.html" target="_blank">CWE-786: Access of Memory Location Before Start of Buffer</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>negativeContainerIndex</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>objectIndex</key>
+    <name>The address of local variable '' is accessed at non-zero index</name>
+    <description><![CDATA[
+      <p>
+The address of local variable '' is accessed at non-zero index.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>objectIndex</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>stlFindInsert</key>
+    <name>Searching before insertion is not necessary</name>
+    <description><![CDATA[
+      <p>
+Searching before insertion is not necessary.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>stlFindInsert</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>uninitMemberVarPrivate</key>
+    <name>Member variable 'classname::varnamepriv' is not initialized in the constructor</name>
+    <description><![CDATA[
+      <p>
+Member variable 'classname::varnamepriv' is not initialized in the
+constructor.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+      </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    <internalKey>uninitMemberVarPrivate</internalKey>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
   </rules>
