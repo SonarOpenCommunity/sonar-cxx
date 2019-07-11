@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Sonar C++ Plugin (Community)
 # Copyright (C) 2010-2019 SonarOpenCommunity
 # http://github.com/SonarOpenCommunity/sonar-cxx
@@ -277,6 +278,42 @@ def contains_required_fields(entry_value):
             return False
     return True
 
+def create_template_rules(rules):
+    rule_key = "CustomRuleTemplate"
+    rule_name = "Template for custom Custom rules"
+    rule_severity = SEVERITY["SEV_Warning"]["sonarqube_severity"] 
+    rule_description = """<p>Follow these steps to make your custom Custom rules available in SonarQube:</p>
+<ol>
+  <ol>
+    <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
+    <li>Enable the newly created rule in your quality profile</li>
+  </ol>
+  <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
+</ol>"""
+    
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = rule_key
+    et.SubElement(rule, 'cardinality').text = "MULTIPLE"
+    name = et.SubElement(rule, 'name').text=rule_name
+    et.SubElement(rule, 'description').append(CDATA(rule_description))
+    et.SubElement(rule, 'severity').text = rule_severity
+    rules.append(rule)
+
+def create_clang_default_rules(rules):
+    # defaults clang warning (not associated with any activation switch)
+    rule_key = "clang-diagnostic-warning"
+    rule_name = "clang-diagnostic-warning"
+    rule_type = DIAG_CLASS["CLASS_WARNING"]["sonarqube_type"]
+    rule_severity = SEVERITY["SEV_Warning"]["sonarqube_severity"] 
+    rule_description = "<p>Diagnostic text: default compiler warnings</p>"
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = rule_key
+    et.SubElement(rule, 'name').text = rule_name
+    et.SubElement(rule, 'description').append(CDATA(rule_description))
+    et.SubElement(rule, 'severity').text = rule_severity
+    et.SubElement(rule, 'type').text = rule_type
+    rules.append(rule)
 
 def collect_warnings(data, diag_group_id, warnings_in_group):
     diag_group = data[diag_group_id]
@@ -364,7 +401,12 @@ def generate_description(diag_group_name, diagnostics):
 
 def diagnostics_to_rules_xml(json_file):
     rules = et.Element('rules')
-
+    
+    # add a template rule
+    create_template_rules(rules)
+    # add clang default warnings 
+    create_clang_default_rules(rules)
+    
     with open(json_file) as f:
         data = json.load(f)
         diag_groups = data["!instanceof"]["DiagGroup"]

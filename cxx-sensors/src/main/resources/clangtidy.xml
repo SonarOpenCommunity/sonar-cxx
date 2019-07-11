@@ -6,6 +6,31 @@
 -->
 <rules>
 <rule>
+  <key>CustomRuleTemplate</key>
+  <cardinality>MULTIPLE</cardinality>
+  <name>Template for custom Custom rules</name>
+  <description><![CDATA[
+      <p>Follow these steps to make your custom Custom rules available in SonarQube:</p>
+<ol>
+  <ol>
+    <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
+    <li>Enable the newly created rule in your quality profile</li>
+  </ol>
+  <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
+</ol>
+      ]]></description>
+  <severity>MAJOR</severity>
+</rule>
+<rule>
+  <key>clang-diagnostic-warning</key>
+  <name>clang-diagnostic-warning</name>
+  <description><![CDATA[
+      <p>Diagnostic text: default compiler warnings</p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
   <key>boost-use-to-string</key>
   <name>boost-use-to-string</name>
   <description><![CDATA[
@@ -8303,6 +8328,9 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
+<li>warning: #pragma execution_character_set expected '%0'</li>
+<li>warning: #pragma execution_character_set expected 'push' or 'pop'</li>
+<li>warning: #pragma execution_character_set invalid value '%0', only 'UTF-8' is supported</li>
 <li>warning: #pragma warning expected '%0'</li>
 <li>warning: #pragma warning expected 'push', 'pop', 'default', 'disable', 'error', 'once', 'suppress', 1, 2, 3, or 4</li>
 <li>warning: #pragma warning expected a warning number</li>
@@ -8311,7 +8339,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: %0 has C-linkage specified, but returns incomplete type %1 which could be incompatible with C</li>
 <li>warning: %0 has C-linkage specified, but returns user-defined type %1 which is incompatible with C</li>
 <li>warning: %0 has lower precedence than %1; %1 will be evaluated first</li>
-<li>warning: %2 defined as %select{a struct|an interface|a class}0%select{| template}1 here but previously declared as %select{a struct|an interface|a class}3%select{| template}1</li>
+<li>warning: %2 defined as %select{a struct|an interface|a class}0%select{| template}1 here but previously declared as %select{a struct|an interface|a class}3%select{| template}1; this is valid, but may result in linker errors under the Microsoft C++ ABI</li>
 <li>warning: %plural{1:enumeration value %1 not handled in switch|2:enumeration values %1 and %2 not handled in switch|3:enumeration values %1, %2, and %3 not handled in switch|:%0 enumeration values not handled in switch: %1, %2, %3...}0</li>
 <li>warning: %q0 hides overloaded virtual %select{function|functions}1</li>
 <li>warning: %select{delete|destructor}0 called on %1 that is abstract but has non-virtual destructor</li>
@@ -8320,7 +8348,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: %select{field width|precision}0 used with '%1' conversion specifier, resulting in undefined behavior</li>
 <li>warning: %select{field|base class}0 %1 will be initialized after %select{field|base}2 %3</li>
 <li>warning: %select{function|variable}0 %1 is not needed and will not be emitted</li>
-<li>warning: %select{struct|interface|class}0%select{| template}1 %2 was previously declared as a %select{struct|interface|class}3%select{| template}1</li>
+<li>warning: %select{struct|interface|class}0%select{| template}1 %2 was previously declared as a %select{struct|interface|class}3%select{| template}1; this is valid, but may result in linker errors under the Microsoft C++ ABI</li>
 <li>warning: %select{values of type|enum values with underlying type}2 '%0' should not be used as format arguments; add an explicit cast to %1 instead</li>
 <li>warning: %select{void function|void method|constructor|destructor}1 %0 should not return a value</li>
 <li>warning: %select{|empty }0%select{struct|union}1 has size 0 in C, %select{size 1|non-zero size}2 in C++</li>
@@ -8345,7 +8373,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: array subscript is of type 'char'</li>
 <li>warning: assigning %select{field|instance variable}0 to itself</li>
 <li>warning: base class %0 is uninitialized when used here to access %q1</li>
-<li>warning: block pointer variable %0 is uninitialized when captured by block</li>
+<li>warning: block pointer variable %0 is %select{uninitialized|null}1 when captured by block</li>
 <li>warning: call to function without interrupt attribute could clobber interruptee's VFP registers</li>
 <li>warning: cannot mix positional and non-positional arguments in format string</li>
 <li>warning: case value not in enumerated type %0</li>
@@ -8366,6 +8394,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: designated initializer missing a 'super' call to a designated initializer of the super class</li>
 <li>warning: designated initializer should only invoke a designated initializer on 'super'</li>
 <li>warning: double-quoted include "%0" cannot be aliased to angle-bracketed include &lt;%1&gt;</li>
+<li>warning: empty initialization statement of '%select{if|switch|range-based for}0' has no effect</li>
 <li>warning: equality comparison with extraneous parentheses</li>
 <li>warning: escaped newline between */ characters at block comment end</li>
 <li>warning: expected 'ON' or 'OFF' or 'DEFAULT' in pragma</li>
@@ -8602,6 +8631,9 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
+<li>warning: #pragma execution_character_set expected '%0'</li>
+<li>warning: #pragma execution_character_set expected 'push' or 'pop'</li>
+<li>warning: #pragma execution_character_set invalid value '%0', only 'UTF-8' is supported</li>
 <li>warning: #pragma warning expected '%0'</li>
 <li>warning: #pragma warning expected 'push', 'pop', 'default', 'disable', 'error', 'once', 'suppress', 1, 2, 3, or 4</li>
 <li>warning: #pragma warning expected a warning number</li>
@@ -8610,7 +8642,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: %0 has C-linkage specified, but returns incomplete type %1 which could be incompatible with C</li>
 <li>warning: %0 has C-linkage specified, but returns user-defined type %1 which is incompatible with C</li>
 <li>warning: %0 has lower precedence than %1; %1 will be evaluated first</li>
-<li>warning: %2 defined as %select{a struct|an interface|a class}0%select{| template}1 here but previously declared as %select{a struct|an interface|a class}3%select{| template}1</li>
+<li>warning: %2 defined as %select{a struct|an interface|a class}0%select{| template}1 here but previously declared as %select{a struct|an interface|a class}3%select{| template}1; this is valid, but may result in linker errors under the Microsoft C++ ABI</li>
 <li>warning: %plural{1:enumeration value %1 not handled in switch|2:enumeration values %1 and %2 not handled in switch|3:enumeration values %1, %2, and %3 not handled in switch|:%0 enumeration values not handled in switch: %1, %2, %3...}0</li>
 <li>warning: %q0 hides overloaded virtual %select{function|functions}1</li>
 <li>warning: %select{delete|destructor}0 called on %1 that is abstract but has non-virtual destructor</li>
@@ -8619,7 +8651,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: %select{field width|precision}0 used with '%1' conversion specifier, resulting in undefined behavior</li>
 <li>warning: %select{field|base class}0 %1 will be initialized after %select{field|base}2 %3</li>
 <li>warning: %select{function|variable}0 %1 is not needed and will not be emitted</li>
-<li>warning: %select{struct|interface|class}0%select{| template}1 %2 was previously declared as a %select{struct|interface|class}3%select{| template}1</li>
+<li>warning: %select{struct|interface|class}0%select{| template}1 %2 was previously declared as a %select{struct|interface|class}3%select{| template}1; this is valid, but may result in linker errors under the Microsoft C++ ABI</li>
 <li>warning: %select{values of type|enum values with underlying type}2 '%0' should not be used as format arguments; add an explicit cast to %1 instead</li>
 <li>warning: %select{void function|void method|constructor|destructor}1 %0 should not return a value</li>
 <li>warning: %select{|empty }0%select{struct|union}1 has size 0 in C, %select{size 1|non-zero size}2 in C++</li>
@@ -8638,7 +8670,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: array subscript is of type 'char'</li>
 <li>warning: assigning %select{field|instance variable}0 to itself</li>
 <li>warning: base class %0 is uninitialized when used here to access %q1</li>
-<li>warning: block pointer variable %0 is uninitialized when captured by block</li>
+<li>warning: block pointer variable %0 is %select{uninitialized|null}1 when captured by block</li>
 <li>warning: cannot mix positional and non-positional arguments in format string</li>
 <li>warning: case value not in enumerated type %0</li>
 <li>warning: cast of type %0 to %1 is deprecated; use sel_getName instead</li>
@@ -8998,7 +9030,7 @@ Derived();             // and so temporary construction is okay</code></pre>
       <p>Diagnostic text:</p>
 <ul>
 <li>warning: 'static' has no effect on zero-length arrays</li>
-<li>warning: array argument is too small; contains %0 elements, callee requires at least %1</li>
+<li>warning: array argument is too small; %select{contains %0 elements|is of size %0}2, callee requires at least %1</li>
 <li>warning: array index %0 is before the beginning of the array</li>
 <li>warning: array index %0 is past the end of the array (which contains %1 element%s2)</li>
 </ul>
@@ -9210,35 +9242,39 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: %0 attribute ignored when parsing type</li>
 <li>warning: %0 attribute is deprecated and ignored in OpenCL version %1</li>
 <li>warning: %0 attribute only applies to %1</li>
-<li>warning: %0 attribute only applies to %select{Objective-C object|pointer|pointer-to-CF-pointer}1 parameters</li>
+<li>warning: %0 attribute only applies to %select{Objective-C object|pointer|pointer-to-CF-pointer|pointer/reference-to-OSObject-pointer}1 parameters</li>
 <li>warning: %0 attribute only applies to %select{functions|methods|properties}1 that return %select{an Objective-C object|a pointer|a non-retainable pointer}2</li>
 <li>warning: %0 attribute only applies to %select{functions|unions|variables and functions|functions and methods|functions, methods and blocks|functions, methods, and parameters|variables|variables and fields|variables, data members and tag types|types and namespaces|variables, functions and classes|kernel functions|non-K&amp;R-style functions}1</li>
 <li>warning: %0 attribute only applies to a pointer or reference (%1 is invalid)</li>
 <li>warning: %0 attribute only applies to return values that are pointers</li>
 <li>warning: %0 attribute only applies to return values that are pointers or references</li>
 <li>warning: %0 attribute only applies to%select{| constant}1 pointer arguments</li>
-<li>warning: %0 calling convention ignored on constructor/destructor</li>
-<li>warning: %0 calling convention ignored on variadic function</li>
+<li>warning: %0 calling convention ignored %select{for this target|on variadic function|on constructor/destructor|on builtin function}1</li>
 <li>warning: %q0 redeclared inline; %1 attribute ignored</li>
+<li>warning: %select{MIPS|MSP430|RISC-V}0 'interrupt' attribute only applies to functions that have %select{no parameters|a 'void' return type}1</li>
 <li>warning: %select{alias|ifunc}1 will not be in section '%0' but in the same section as the %select{aliasee|resolver}2</li>
 <li>warning: %select{alias|ifunc}2 will always resolve to %0 even if weak definition of %1 is overridden</li>
 <li>warning: %select{alignment|size}0 of field %1 (%2 bits) does not match the %select{alignment|size}0 of the first field in transparent union; transparent_union attribute ignored</li>
 <li>warning: %select{unsupported|duplicate}0%select{| architecture}1 '%2' in the 'target' attribute string; 'target' attribute ignored</li>
 <li>warning: '%0' attribute cannot be specified on a definition</li>
 <li>warning: '%0' only applies to %select{function|pointer|Objective-C object or block pointer}1 types; type here is %2</li>
+<li>warning: '__clang__' is a predefined macro name, not an attribute scope specifier; did you mean '_Clang' instead?</li>
 <li>warning: 'abi_tag' attribute on %select{non-inline|anonymous}0 namespace ignored</li>
 <li>warning: 'deprecated' attribute on anonymous namespace ignored</li>
+<li>warning: 'dllexport' attribute ignored on explicit instantiation definition</li>
 <li>warning: 'gnu_inline' attribute requires function to be marked 'inline', attribute ignored</li>
 <li>warning: 'internal_linkage' attribute on a non-static local variable is ignored</li>
+<li>warning: 'mig_server_routine' attribute only applies to routines that return a kern_return_t</li>
 <li>warning: 'nocf_check' attribute ignored; use -fcf-protection to enable the attribute</li>
+<li>warning: 'noderef' can only be used on an array or pointer type</li>
 <li>warning: 'nonnull' attribute applied to function with no pointer arguments</li>
 <li>warning: 'nonnull' attribute when used on parameters takes no arguments</li>
+<li>warning: 'nothrow' attribute conflicts with exception specification; attribute ignored</li>
+<li>warning: 'objc_externally_retained' can only be applied to local variables %select{of retainable type|with strong ownership}0</li>
 <li>warning: 'sentinel' attribute only supported for variadic %select{functions|blocks}0</li>
 <li>warning: 'sentinel' attribute requires named arguments</li>
 <li>warning: 'trivial_abi' cannot be applied to %0</li>
-<li>warning: MIPS 'interrupt' attribute only applies to functions that have %select{no parameters|a 'void' return type}0</li>
 <li>warning: Objective-C GC does not allow weak variables on the stack</li>
-<li>warning: RISC-V 'interrupt' attribute only applies to functions that have %select{no parameters|a 'void' return type}0</li>
 <li>warning: __declspec attribute %0 is not supported</li>
 <li>warning: __weak attribute cannot be specified on a field declaration</li>
 <li>warning: __weak attribute cannot be specified on an automatic variable when ARC is not enabled</li>
@@ -9251,8 +9287,8 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: attribute %0 is already applied with different parameters</li>
 <li>warning: attribute %0 is ignored, place it after "%select{class|struct|interface|union|enum}1" to apply attribute to type declaration</li>
 <li>warning: attribute declaration must precede definition</li>
-<li>warning: calling convention %0 ignored for this target</li>
 <li>warning: first field of a transparent union cannot have %select{floating point|vector}0 type %1; transparent_union attribute ignored</li>
+<li>warning: ignoring __declspec(allocator) because the function return type %0 is not a pointer or reference type</li>
 <li>warning: inheritance model ignored on %select{primary template|partial specialization}0</li>
 <li>warning: qualifiers after comma in declarator list are ignored</li>
 <li>warning: repeated RISC-V 'interrupt' attribute</li>
@@ -9336,6 +9372,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: availability does not match previous declaration</li>
 <li>warning: feature cannot be %select{introduced|deprecated|obsoleted}0 in %1 version %2 before it was %select{introduced|deprecated|obsoleted}3 in version %4; attribute ignored</li>
 <li>warning: ignoring availability attribute %select{on '+load' method|with constructor attribute|with destructor attribute}0</li>
+<li>warning: only 'unavailable' and 'deprecated' are supported for Swift availability</li>
 <li>warning: unknown platform %0 in availability macro</li>
 <li>warning: use same version number separators '_' or '.'; as in 'major[.minor[.subminor]]'</li>
 </ul>
@@ -9634,7 +9671,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
+<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition|explicit specifier argument}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
 <li>warning: %select{default construction|assignment}0 of lambda is incompatible with C++ standards before C++2a</li>
 <li>warning: %select{if|switch}0 initialization statements are incompatible with C++ standards before C++17</li>
 <li>warning: '%0' is a keyword in C++11</li>
@@ -9651,6 +9688,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: constexpr if is incompatible with C++ standards before C++17</li>
 <li>warning: constexpr on lambda expressions is incompatible with C++ standards before C++17</li>
 <li>warning: conversion from string literal to %0 is deprecated</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: decomposition declarations are incompatible with C++ standards before C++17</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
 <li>warning: default scope specifier for attributes is incompatible with C++ standards before C++17</li>
@@ -9660,11 +9698,15 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: explicit instantiation of %0 must occur at global scope</li>
 <li>warning: explicit instantiation of %0 not in a namespace enclosing %1</li>
 <li>warning: explicit instantiation of %q0 must occur in namespace %1</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: generic lambdas are incompatible with C++11</li>
 <li>warning: identifier after literal will be treated as a reserved user-defined literal suffix in C++11</li>
 <li>warning: identifier after literal will be treated as a user-defined literal suffix in C++11</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
 <li>warning: initialized lambda captures are incompatible with C++ standards before C++14</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: inline variables are incompatible with C++ standards before C++17</li>
 <li>warning: integer literal is too large to be represented in type 'long' and is subject to undefined behavior under C++98, interpreting as 'unsigned long'; this literal will %select{have type 'long long'|be ill-formed}0 in C++11 onwards</li>
 <li>warning: integer literal is too large to be represented in type 'long', interpreting as 'unsigned long' per C++98; this literal will %select{have type 'long long'|be ill-formed}0 in C++11 onwards</li>
@@ -9683,11 +9725,14 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: type %0 cannot be narrowed to %1 in initializer list in C++11</li>
 <li>warning: type definition in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
 <li>warning: unicode literals are incompatible with C++ standards before C++17</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
 <li>warning: use of multiple declarators in a single using declaration is incompatible with C++ standards before C++17</li>
 <li>warning: use of right-shift operator ('&gt;&gt;') in template argument will require parentheses in C++11</li>
 <li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: variable declaration in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
 <li>warning: variable templates are incompatible with C++ standards before C++14</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-0x-compat" target="_blank">Diagnostic flags in Clang</a></p>
@@ -9742,7 +9787,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
+<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition|explicit specifier argument}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
 <li>warning: constant expression evaluates to %0 which cannot be narrowed to type %1</li>
 <li>warning: constant expression evaluates to %0 which cannot be narrowed to type %1 in C++11</li>
 <li>warning: non-constant-expression cannot be narrowed from type %0 to %1 in initializer list</li>
@@ -9762,7 +9807,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
+<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition|explicit specifier argument}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
 <li>warning: %select{default construction|assignment}0 of lambda is incompatible with C++ standards before C++2a</li>
 <li>warning: %select{if|switch}0 initialization statements are incompatible with C++ standards before C++17</li>
 <li>warning: '%0' is a keyword in C++11</li>
@@ -9779,6 +9824,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: constexpr if is incompatible with C++ standards before C++17</li>
 <li>warning: constexpr on lambda expressions is incompatible with C++ standards before C++17</li>
 <li>warning: conversion from string literal to %0 is deprecated</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: decomposition declarations are incompatible with C++ standards before C++17</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
 <li>warning: default scope specifier for attributes is incompatible with C++ standards before C++17</li>
@@ -9788,11 +9834,15 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: explicit instantiation of %0 must occur at global scope</li>
 <li>warning: explicit instantiation of %0 not in a namespace enclosing %1</li>
 <li>warning: explicit instantiation of %q0 must occur in namespace %1</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: generic lambdas are incompatible with C++11</li>
 <li>warning: identifier after literal will be treated as a reserved user-defined literal suffix in C++11</li>
 <li>warning: identifier after literal will be treated as a user-defined literal suffix in C++11</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
 <li>warning: initialized lambda captures are incompatible with C++ standards before C++14</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: inline variables are incompatible with C++ standards before C++17</li>
 <li>warning: integer literal is too large to be represented in type 'long' and is subject to undefined behavior under C++98, interpreting as 'unsigned long'; this literal will %select{have type 'long long'|be ill-formed}0 in C++11 onwards</li>
 <li>warning: integer literal is too large to be represented in type 'long', interpreting as 'unsigned long' per C++98; this literal will %select{have type 'long long'|be ill-formed}0 in C++11 onwards</li>
@@ -9811,11 +9861,14 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: type %0 cannot be narrowed to %1 in initializer list in C++11</li>
 <li>warning: type definition in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
 <li>warning: unicode literals are incompatible with C++ standards before C++17</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
 <li>warning: use of multiple declarators in a single using declaration is incompatible with C++ standards before C++17</li>
 <li>warning: use of right-shift operator ('&gt;&gt;') in template argument will require parentheses in C++11</li>
 <li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: variable declaration in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
 <li>warning: variable templates are incompatible with C++ standards before C++14</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-11-compat" target="_blank">Diagnostic flags in Clang</a></p>
@@ -9843,7 +9896,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
+<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition|explicit specifier argument}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
 <li>warning: %select{default construction|assignment}0 of lambda is incompatible with C++ standards before C++2a</li>
 <li>warning: %select{default construction|assignment}0 of lambda is incompatible with C++ standards before C++2a</li>
 <li>warning: %select{if|switch}0 initialization statements are incompatible with C++ standards before C++17</li>
@@ -9873,6 +9926,8 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: constexpr on lambda expressions is incompatible with C++ standards before C++17</li>
 <li>warning: constexpr on lambda expressions is incompatible with C++ standards before C++17</li>
 <li>warning: conversion from string literal to %0 is deprecated</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: decomposition declarations are incompatible with C++ standards before C++17</li>
 <li>warning: decomposition declarations are incompatible with C++ standards before C++17</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
@@ -9887,15 +9942,23 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: explicit instantiation of %0 must occur at global scope</li>
 <li>warning: explicit instantiation of %0 not in a namespace enclosing %1</li>
 <li>warning: explicit instantiation of %q0 must occur in namespace %1</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: generic lambdas are incompatible with C++11</li>
 <li>warning: generic lambdas are incompatible with C++11</li>
 <li>warning: hexadecimal floating literals are incompatible with C++ standards before C++17</li>
 <li>warning: identifier after literal will be treated as a reserved user-defined literal suffix in C++11</li>
 <li>warning: identifier after literal will be treated as a user-defined literal suffix in C++11</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
 <li>warning: initialized lambda captures are incompatible with C++ standards before C++14</li>
 <li>warning: initialized lambda captures are incompatible with C++ standards before C++14</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: inline variables are incompatible with C++ standards before C++17</li>
 <li>warning: inline variables are incompatible with C++ standards before C++17</li>
 <li>warning: integer literal is too large to be represented in type 'long' and is subject to undefined behavior under C++98, interpreting as 'unsigned long'; this literal will %select{have type 'long long'|be ill-formed}0 in C++11 onwards</li>
@@ -9927,15 +9990,21 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: type definition in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
 <li>warning: unicode literals are incompatible with C++ standards before C++17</li>
 <li>warning: unicode literals are incompatible with C++ standards before C++17</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
 <li>warning: use of multiple declarators in a single using declaration is incompatible with C++ standards before C++17</li>
 <li>warning: use of multiple declarators in a single using declaration is incompatible with C++ standards before C++17</li>
 <li>warning: use of right-shift operator ('&gt;&gt;') in template argument will require parentheses in C++11</li>
 <li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
 <li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: variable declaration in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
 <li>warning: variable declaration in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
 <li>warning: variable templates are incompatible with C++ standards before C++14</li>
 <li>warning: variable templates are incompatible with C++ standards before C++14</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-11-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10046,7 +10115,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
+<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition|explicit specifier argument}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
 <li>warning: constant expression evaluates to %0 which cannot be narrowed to type %1</li>
 <li>warning: constant expression evaluates to %0 which cannot be narrowed to type %1 in C++11</li>
 <li>warning: non-constant-expression cannot be narrowed from type %0 to %1 in initializer list</li>
@@ -10089,11 +10158,16 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: class template argument deduction is incompatible with C++ standards before C++17%select{|; for compatibility, use explicit type name %1}0</li>
 <li>warning: constexpr if is incompatible with C++ standards before C++17</li>
 <li>warning: constexpr on lambda expressions is incompatible with C++ standards before C++17</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: decomposition declarations are incompatible with C++ standards before C++17</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
 <li>warning: default scope specifier for attributes is incompatible with C++ standards before C++17</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: inline variables are incompatible with C++ standards before C++17</li>
 <li>warning: nested namespace definition is incompatible with C++ standards before C++17</li>
 <li>warning: non-type template parameters declared with %0 are incompatible with C++ standards before C++17</li>
@@ -10103,7 +10177,10 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: static_assert with no message is incompatible with C++ standards before C++17</li>
 <li>warning: template template parameter using 'typename' is incompatible with C++ standards before C++17</li>
 <li>warning: unicode literals are incompatible with C++ standards before C++17</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
 <li>warning: use of multiple declarators in a single using declaration is incompatible with C++ standards before C++17</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-14-compat" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10136,6 +10213,8 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: constexpr if is incompatible with C++ standards before C++17</li>
 <li>warning: constexpr on lambda expressions is incompatible with C++ standards before C++17</li>
 <li>warning: constexpr on lambda expressions is incompatible with C++ standards before C++17</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: decomposition declarations are incompatible with C++ standards before C++17</li>
 <li>warning: decomposition declarations are incompatible with C++ standards before C++17</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
@@ -10144,9 +10223,17 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: default scope specifier for attributes is incompatible with C++ standards before C++17</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: hexadecimal floating literals are incompatible with C++ standards before C++17</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: inline variables are incompatible with C++ standards before C++17</li>
 <li>warning: inline variables are incompatible with C++ standards before C++17</li>
 <li>warning: invoking a pointer to a 'const &amp;' member function on an rvalue is incompatible with C++ standards before C++2a</li>
@@ -10166,8 +10253,14 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: template template parameter using 'typename' is incompatible with C++ standards before C++17</li>
 <li>warning: unicode literals are incompatible with C++ standards before C++17</li>
 <li>warning: unicode literals are incompatible with C++ standards before C++17</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
 <li>warning: use of multiple declarators in a single using declaration is incompatible with C++ standards before C++17</li>
 <li>warning: use of multiple declarators in a single using declaration is incompatible with C++ standards before C++17</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-14-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10207,12 +10300,20 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: '&lt;=&gt;' operator is incompatible with C++ standards before C++2a</li>
 <li>warning: 'char8_t' type specifier is incompatible with C++ standards before C++20</li>
 <li>warning: 'register' storage class specifier is deprecated and incompatible with C++17</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: incrementing expression of type bool is deprecated and incompatible with C++17</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: mangled name of %0 will change in C++17 due to non-throwing exception specification in function signature</li>
 <li>warning: range-based for loop initialization statements are incompatible with C++ standards before C++2a</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-17-compat" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10247,17 +10348,33 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: 'char8_t' type specifier is incompatible with C++ standards before C++20</li>
 <li>warning: 'char8_t' type specifier is incompatible with C++ standards before C++20</li>
 <li>warning: 'register' storage class specifier is deprecated and incompatible with C++17</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: incrementing expression of type bool is deprecated and incompatible with C++17</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: invoking a pointer to a 'const &amp;' member function on an rvalue is incompatible with C++ standards before C++2a</li>
 <li>warning: mangled name of %0 will change in C++17 due to non-throwing exception specification in function signature</li>
 <li>warning: range-based for loop initialization statements are incompatible with C++ standards before C++2a</li>
 <li>warning: range-based for loop initialization statements are incompatible with C++ standards before C++2a</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-17-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10328,12 +10445,20 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: '&lt;=&gt;' operator is incompatible with C++ standards before C++2a</li>
 <li>warning: 'char8_t' type specifier is incompatible with C++ standards before C++20</li>
 <li>warning: 'register' storage class specifier is deprecated and incompatible with C++17</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: incrementing expression of type bool is deprecated and incompatible with C++17</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: mangled name of %0 will change in C++17 due to non-throwing exception specification in function signature</li>
 <li>warning: range-based for loop initialization statements are incompatible with C++ standards before C++2a</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-1z-compat" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10395,6 +10520,9 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: '%0' is a keyword in C++2a</li>
 <li>warning: '&lt;=&gt;' is a single token in C++2a; add a space to avoid a change in behavior</li>
 <li>warning: aggregate initialization of type %0 with user-declared constructors is incompatible with C++2a</li>
+<li>warning: consteval is incompatible with C++ standards before C++20</li>
+<li>warning: this expression will be parsed as explicit(bool) in C++2a</li>
+<li>warning: type of UTF-8 string literal will change from array of const char to array of const char8_t in C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2a-compat" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10411,6 +10539,9 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: '%0' is a keyword in C++2a</li>
 <li>warning: '&lt;=&gt;' is a single token in C++2a; add a space to avoid a change in behavior</li>
 <li>warning: aggregate initialization of type %0 with user-declared constructors is incompatible with C++2a</li>
+<li>warning: consteval is incompatible with C++ standards before C++20</li>
+<li>warning: this expression will be parsed as explicit(bool) in C++2a</li>
+<li>warning: type of UTF-8 string literal will change from array of const char to array of const char8_t in C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2a-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10424,10 +10555,17 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is a C++2a extension</li>
 <li>warning: default member initializer for bit-field is a C++2a extension</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is a C++2a extension</li>
+<li>warning: explicit template parameter list for lambdas is a C++2a extension</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is a C++2a extension</li>
+<li>warning: initialized lambda pack captures are a C++2a extension</li>
+<li>warning: inline nested namespace definition is a C++2a extension</li>
 <li>warning: invoking a pointer to a 'const &amp;' member function on an rvalue is a C++2a extension</li>
 <li>warning: range-based for loop initialization statements are a C++2a extension</li>
+<li>warning: use of function template name with no prior declaration in function call with explicit template arguments is a C++2a extension</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is a C++2a extension</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2a-extensions" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10444,10 +10582,18 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: %select{default construction|assignment}0 of lambda is incompatible with C++ standards before C++2a</li>
 <li>warning: '&lt;=&gt;' operator is incompatible with C++ standards before C++2a</li>
 <li>warning: 'char8_t' type specifier is incompatible with C++ standards before C++20</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: range-based for loop initialization statements are incompatible with C++ standards before C++2a</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-98-c-11-c-14-c-17-compat" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10464,11 +10610,19 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: %select{default construction|assignment}0 of lambda is incompatible with C++ standards before C++2a</li>
 <li>warning: '&lt;=&gt;' operator is incompatible with C++ standards before C++2a</li>
 <li>warning: 'char8_t' type specifier is incompatible with C++ standards before C++20</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: invoking a pointer to a 'const &amp;' member function on an rvalue is incompatible with C++ standards before C++2a</li>
 <li>warning: range-based for loop initialization statements are incompatible with C++ standards before C++2a</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-98-c-11-c-14-c-17-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10635,6 +10789,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: constexpr if is incompatible with C++ standards before C++17</li>
 <li>warning: constexpr on lambda expressions is incompatible with C++ standards before C++17</li>
 <li>warning: constructor call from initializer list is incompatible with C++98</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: decomposition declarations are incompatible with C++ standards before C++17</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
 <li>warning: default scope specifier for attributes is incompatible with C++ standards before C++17</li>
@@ -10645,19 +10800,23 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: enumeration types with a fixed underlying type are incompatible with C++98</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
 <li>warning: explicit conversion functions are incompatible with C++98</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
 <li>warning: friend declaration naming a member of the declaring class is incompatible with C++98</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: generalized initializer lists are incompatible with C++98</li>
 <li>warning: generic lambdas are incompatible with C++11</li>
 <li>warning: in-class initialization of non-static data members is incompatible with C++98</li>
 <li>warning: inheriting constructors are incompatible with C++98</li>
 <li>warning: initialization of initializer_list object is incompatible with C++98</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
 <li>warning: initialized lambda captures are incompatible with C++ standards before C++14</li>
 <li>warning: inline namespaces are incompatible with C++98</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: inline variables are incompatible with C++ standards before C++17</li>
 <li>warning: jump from switch statement to this case label is incompatible with C++98</li>
+<li>warning: jump from this %select{indirect|asm}0 goto statement to one of its possible targets is incompatible with C++98</li>
 <li>warning: jump from this goto statement to its label is incompatible with C++98</li>
-<li>warning: jump from this indirect goto statement to one of its possible targets is incompatible with C++98</li>
 <li>warning: lambda expressions are incompatible with C++98</li>
 <li>warning: literal operators are incompatible with C++98</li>
 <li>warning: local type %0 as template argument is incompatible with C++98</li>
@@ -10695,14 +10854,17 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: unnamed type as template argument is incompatible with C++98</li>
 <li>warning: use of 'template' keyword outside of a template is incompatible with C++98</li>
 <li>warning: use of 'typename' outside of a template is incompatible with C++98</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
 <li>warning: use of multiple declarators in a single using declaration is incompatible with C++ standards before C++17</li>
 <li>warning: use of non-static data member %0 in an unevaluated context is incompatible with C++98</li>
 <li>warning: use of null pointer as non-type template argument is incompatible with C++98</li>
 <li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: using this character in an identifier is incompatible with C++98</li>
 <li>warning: variable declaration in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
 <li>warning: variable templates are incompatible with C++ standards before C++14</li>
 <li>warning: variadic templates are incompatible with C++98</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-98-compat" target="_blank">Diagnostic flags in Clang</a></p>
@@ -10805,6 +10967,8 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: constexpr on lambda expressions is incompatible with C++ standards before C++17</li>
 <li>warning: constexpr on lambda expressions is incompatible with C++ standards before C++17</li>
 <li>warning: constructor call from initializer list is incompatible with C++98</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: decomposition declaration declared %plural{1:'%1'|:with '%1' specifiers}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: decomposition declarations are incompatible with C++ standards before C++17</li>
 <li>warning: decomposition declarations are incompatible with C++ standards before C++17</li>
 <li>warning: default member initializer for bit-field is incompatible with C++ standards before C++2a</li>
@@ -10821,11 +10985,15 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
 <li>warning: explicit capture of 'this' with a capture default of '=' is incompatible with C++ standards before C++2a</li>
 <li>warning: explicit conversion functions are incompatible with C++98</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
+<li>warning: explicit template parameter list for lambdas is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
 <li>warning: explicitly defaulting this %sub{select_special_member_kind}0 with a type different from the implicit type is incompatible with C++ standards before C++2a</li>
 <li>warning: extern templates are incompatible with C++98</li>
 <li>warning: extra ';' outside of a function is incompatible with C++98</li>
 <li>warning: friend declaration naming a member of the declaring class is incompatible with C++98</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: function try block in constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: generalized initializer lists are incompatible with C++98</li>
 <li>warning: generic lambdas are incompatible with C++11</li>
 <li>warning: generic lambdas are incompatible with C++11</li>
@@ -10834,15 +11002,19 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: in-class initialization of non-static data members is incompatible with C++98</li>
 <li>warning: inheriting constructors are incompatible with C++98</li>
 <li>warning: initialization of initializer_list object is incompatible with C++98</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
+<li>warning: initialized lambda capture packs are incompatible with C++ standards before C++2a</li>
 <li>warning: initialized lambda captures are incompatible with C++ standards before C++14</li>
 <li>warning: initialized lambda captures are incompatible with C++ standards before C++14</li>
 <li>warning: inline namespaces are incompatible with C++98</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
+<li>warning: inline nested namespace definition is incompatible with C++ standards before C++2a</li>
 <li>warning: inline variables are incompatible with C++ standards before C++17</li>
 <li>warning: inline variables are incompatible with C++ standards before C++17</li>
 <li>warning: invoking a pointer to a 'const &amp;' member function on an rvalue is incompatible with C++ standards before C++2a</li>
 <li>warning: jump from switch statement to this case label is incompatible with C++98</li>
+<li>warning: jump from this %select{indirect|asm}0 goto statement to one of its possible targets is incompatible with C++98</li>
 <li>warning: jump from this goto statement to its label is incompatible with C++98</li>
-<li>warning: jump from this indirect goto statement to one of its possible targets is incompatible with C++98</li>
 <li>warning: lambda expressions are incompatible with C++98</li>
 <li>warning: literal operators are incompatible with C++98</li>
 <li>warning: local type %0 as template argument is incompatible with C++98</li>
@@ -10891,12 +11063,16 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: unnamed type as template argument is incompatible with C++98</li>
 <li>warning: use of 'template' keyword outside of a template is incompatible with C++98</li>
 <li>warning: use of 'typename' outside of a template is incompatible with C++98</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
+<li>warning: use of function template name with no prior function template declaration in function call with explicit template arguments is incompatible with C++ standards before C++2a</li>
 <li>warning: use of multiple declarators in a single using declaration is incompatible with C++ standards before C++17</li>
 <li>warning: use of multiple declarators in a single using declaration is incompatible with C++ standards before C++17</li>
 <li>warning: use of non-static data member %0 in an unevaluated context is incompatible with C++98</li>
 <li>warning: use of null pointer as non-type template argument is incompatible with C++98</li>
 <li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
 <li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++2a</li>
 <li>warning: using this character in an identifier is incompatible with C++98</li>
 <li>warning: variable declaration in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
 <li>warning: variable declaration in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
@@ -10904,6 +11080,8 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: variable templates are incompatible with C++ standards before C++14</li>
 <li>warning: variadic macros are incompatible with C++98</li>
 <li>warning: variadic templates are incompatible with C++98</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
+<li>warning: virtual constexpr functions are incompatible with C++ standards before C++2a</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-98-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>
@@ -11298,6 +11476,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: assigning value of signed enum type %1 to unsigned bit-field %0; negative enumerators of enum %1 will be converted to positive values</li>
 <li>warning: bit-field %0 is not wide enough to store all enumerators of %1</li>
 <li>warning: expression which evaluates to zero treated as a null pointer constant of type %0</li>
+<li>warning: higher order bits are zeroes after implicit conversion</li>
 <li>warning: implicit boolean conversion of Objective-C object literal always evaluates to true</li>
 <li>warning: implicit conversion changes signedness: %0 to %1</li>
 <li>warning: implicit conversion discards imaginary component: %0 to %1</li>
@@ -11328,6 +11507,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: passing non-generic address space pointer to %0 may cause dynamic conversion affecting performance</li>
 <li>warning: reference cannot be bound to dereferenced null pointer in well-defined C++ code; pointer may be assumed to always convert to true</li>
 <li>warning: signed bit-field %0 needs an extra bit to represent the largest positive enumerators of %1</li>
+<li>warning: the resulting value is always non-negative after implicit conversion</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wconversion" target="_blank">Diagnostic flags in Clang</a></p>
@@ -12073,8 +12253,9 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: duplicate '%0' declaration specifier</li>
-<li>warning: duplicate '%0' declaration specifier</li>
+<li>warning: %sub{duplicate_declspec}0</li>
+<li>warning: %sub{duplicate_declspec}0</li>
+<li>warning: %sub{duplicate_declspec}0</li>
 <li>warning: multiple identical address spaces specified for type</li>
 </ul>
 <h2>References</h2>
@@ -12460,6 +12641,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: arithmetic on a null pointer treated as a cast from integer to pointer is a GNU extension</li>
 <li>warning: call to function without interrupt attribute could clobber interruptee's VFP registers</li>
 <li>warning: comparison of integers of different signs: %0 and %1</li>
+<li>warning: empty initialization statement of '%select{if|switch|range-based for}0' has no effect</li>
 <li>warning: initializer overrides prior initialization of this subobject</li>
 <li>warning: method has no return type specified; defaults to 'id'</li>
 <li>warning: missing field %0 initializer</li>
@@ -13399,35 +13581,39 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: %0 attribute ignored when parsing type</li>
 <li>warning: %0 attribute is deprecated and ignored in OpenCL version %1</li>
 <li>warning: %0 attribute only applies to %1</li>
-<li>warning: %0 attribute only applies to %select{Objective-C object|pointer|pointer-to-CF-pointer}1 parameters</li>
+<li>warning: %0 attribute only applies to %select{Objective-C object|pointer|pointer-to-CF-pointer|pointer/reference-to-OSObject-pointer}1 parameters</li>
 <li>warning: %0 attribute only applies to %select{functions|methods|properties}1 that return %select{an Objective-C object|a pointer|a non-retainable pointer}2</li>
 <li>warning: %0 attribute only applies to %select{functions|unions|variables and functions|functions and methods|functions, methods and blocks|functions, methods, and parameters|variables|variables and fields|variables, data members and tag types|types and namespaces|variables, functions and classes|kernel functions|non-K&amp;R-style functions}1</li>
 <li>warning: %0 attribute only applies to a pointer or reference (%1 is invalid)</li>
 <li>warning: %0 attribute only applies to return values that are pointers</li>
 <li>warning: %0 attribute only applies to return values that are pointers or references</li>
 <li>warning: %0 attribute only applies to%select{| constant}1 pointer arguments</li>
-<li>warning: %0 calling convention ignored on constructor/destructor</li>
-<li>warning: %0 calling convention ignored on variadic function</li>
+<li>warning: %0 calling convention ignored %select{for this target|on variadic function|on constructor/destructor|on builtin function}1</li>
 <li>warning: %q0 redeclared inline; %1 attribute ignored</li>
+<li>warning: %select{MIPS|MSP430|RISC-V}0 'interrupt' attribute only applies to functions that have %select{no parameters|a 'void' return type}1</li>
 <li>warning: %select{alias|ifunc}1 will not be in section '%0' but in the same section as the %select{aliasee|resolver}2</li>
 <li>warning: %select{alias|ifunc}2 will always resolve to %0 even if weak definition of %1 is overridden</li>
 <li>warning: %select{alignment|size}0 of field %1 (%2 bits) does not match the %select{alignment|size}0 of the first field in transparent union; transparent_union attribute ignored</li>
 <li>warning: %select{unsupported|duplicate}0%select{| architecture}1 '%2' in the 'target' attribute string; 'target' attribute ignored</li>
 <li>warning: '%0' attribute cannot be specified on a definition</li>
 <li>warning: '%0' only applies to %select{function|pointer|Objective-C object or block pointer}1 types; type here is %2</li>
+<li>warning: '__clang__' is a predefined macro name, not an attribute scope specifier; did you mean '_Clang' instead?</li>
 <li>warning: 'abi_tag' attribute on %select{non-inline|anonymous}0 namespace ignored</li>
 <li>warning: 'deprecated' attribute on anonymous namespace ignored</li>
+<li>warning: 'dllexport' attribute ignored on explicit instantiation definition</li>
 <li>warning: 'gnu_inline' attribute requires function to be marked 'inline', attribute ignored</li>
 <li>warning: 'internal_linkage' attribute on a non-static local variable is ignored</li>
+<li>warning: 'mig_server_routine' attribute only applies to routines that return a kern_return_t</li>
 <li>warning: 'nocf_check' attribute ignored; use -fcf-protection to enable the attribute</li>
+<li>warning: 'noderef' can only be used on an array or pointer type</li>
 <li>warning: 'nonnull' attribute applied to function with no pointer arguments</li>
 <li>warning: 'nonnull' attribute when used on parameters takes no arguments</li>
+<li>warning: 'nothrow' attribute conflicts with exception specification; attribute ignored</li>
+<li>warning: 'objc_externally_retained' can only be applied to local variables %select{of retainable type|with strong ownership}0</li>
 <li>warning: 'sentinel' attribute only supported for variadic %select{functions|blocks}0</li>
 <li>warning: 'sentinel' attribute requires named arguments</li>
 <li>warning: 'trivial_abi' cannot be applied to %0</li>
-<li>warning: MIPS 'interrupt' attribute only applies to functions that have %select{no parameters|a 'void' return type}0</li>
 <li>warning: Objective-C GC does not allow weak variables on the stack</li>
-<li>warning: RISC-V 'interrupt' attribute only applies to functions that have %select{no parameters|a 'void' return type}0</li>
 <li>warning: __declspec attribute %0 is not supported</li>
 <li>warning: __weak attribute cannot be specified on a field declaration</li>
 <li>warning: __weak attribute cannot be specified on an automatic variable when ARC is not enabled</li>
@@ -13440,8 +13626,8 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: attribute %0 is already applied with different parameters</li>
 <li>warning: attribute %0 is ignored, place it after "%select{class|struct|interface|union|enum}1" to apply attribute to type declaration</li>
 <li>warning: attribute declaration must precede definition</li>
-<li>warning: calling convention %0 ignored for this target</li>
 <li>warning: first field of a transparent union cannot have %select{floating point|vector}0 type %1; transparent_union attribute ignored</li>
+<li>warning: ignoring __declspec(allocator) because the function return type %0 is not a pointer or reference type</li>
 <li>warning: inheritance model ignored on %select{primary template|partial specialization}0</li>
 <li>warning: qualifiers after comma in declarator list are ignored</li>
 <li>warning: repeated RISC-V 'interrupt' attribute</li>
@@ -13548,6 +13734,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: unknown OpenCL extension %0 - ignoring</li>
 <li>warning: unknown action '%1' for '#pragma %0' - ignored</li>
 <li>warning: unknown action for '#pragma %0' - ignored</li>
+<li>warning: unknown module '%0'</li>
 <li>warning: unsupported OpenCL extension %0 - ignoring</li>
 </ul>
 <h2>References</h2>
@@ -13758,7 +13945,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: #include_next with absolute path</li>
+<li>warning: #include_next in file found relative to primary source file or found by absolute path; will search from start of include path</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#winclude-next-absolute-path" target="_blank">Diagnostic flags in Clang</a></p>
@@ -13772,7 +13959,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: #include_next in primary source file</li>
+<li>warning: #include_next in primary source file; will search from start of include path</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#winclude-next-outside-header" target="_blank">Diagnostic flags in Clang</a></p>
@@ -14182,9 +14369,12 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
+<li>warning: no MCU device specified, but '-mhwmult' is set to 'auto', assuming no hardware multiply. Use -mmcu to specify a MSP430 device, or -mhwmult to set hardware multiply type explicitly.</li>
 <li>warning: optimization flag '%0' is not supported</li>
 <li>warning: optimization flag '%0' is not supported for target '%1'</li>
 <li>warning: optimization level '%0' is not supported; using '%1%2' instead</li>
+<li>warning: the given MCU does not support hardware multiply, but -mhwmult is set to %0.</li>
+<li>warning: the given MCU supports %0 hardware multiply, but -mhwmult is set to %1.</li>
 <li>warning: the object size sanitizer has no effect at -O0, but is explicitly enabled: %0</li>
 </ul>
 <h2>References</h2>
@@ -14691,6 +14881,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: %select{|pointer to |reference to }0incomplete type %1 is not allowed in exception specification</li>
 <li>warning: 'mutable' on a reference type is a Microsoft extension</li>
 <li>warning: 'sealed' keyword is a Microsoft extension</li>
+<li>warning: 'static' can only be specified inside the class definition</li>
 <li>warning: C++ operator %0 (aka %1) used as a macro name</li>
 <li>warning: anonymous %select{structs|unions}0 are a Microsoft extension</li>
 <li>warning: charizing operator #@ is a Microsoft extension</li>
@@ -15069,6 +15260,7 @@ Derived();             // and so temporary construction is okay</code></pre>
       <p>Diagnostic text:</p>
 <ul>
 <li>warning: %select{class template|class template partial|variable template|variable template partial|function template|member function|static data member|member class|member enumeration}0 specialization of %1 not in %select{a namespace enclosing %2|class %2 or an enclosing namespace}3 is a Microsoft extension</li>
+<li>warning: 'static' can only be specified inside the class definition</li>
 <li>warning: duplicate explicit instantiation of %0 ignored as a Microsoft extension</li>
 <li>warning: non-type template argument containing a dereference operation is a Microsoft extension</li>
 <li>warning: template argument for template type parameter must be a type; omitted 'typename' is a Microsoft extension</li>
@@ -15186,8 +15378,8 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: %2 defined as %select{a struct|an interface|a class}0%select{| template}1 here but previously declared as %select{a struct|an interface|a class}3%select{| template}1</li>
-<li>warning: %select{struct|interface|class}0%select{| template}1 %2 was previously declared as a %select{struct|interface|class}3%select{| template}1</li>
+<li>warning: %2 defined as %select{a struct|an interface|a class}0%select{| template}1 here but previously declared as %select{a struct|an interface|a class}3%select{| template}1; this is valid, but may result in linker errors under the Microsoft C++ ABI</li>
+<li>warning: %select{struct|interface|class}0%select{| template}1 %2 was previously declared as a %select{struct|interface|class}3%select{| template}1; this is valid, but may result in linker errors under the Microsoft C++ ABI</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wmismatched-tags" target="_blank">Diagnostic flags in Clang</a></p>
@@ -15475,6 +15667,9 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
+<li>warning: #pragma execution_character_set expected '%0'</li>
+<li>warning: #pragma execution_character_set expected 'push' or 'pop'</li>
+<li>warning: #pragma execution_character_set invalid value '%0', only 'UTF-8' is supported</li>
 <li>warning: #pragma warning expected '%0'</li>
 <li>warning: #pragma warning expected 'push', 'pop', 'default', 'disable', 'error', 'once', 'suppress', 1, 2, 3, or 4</li>
 <li>warning: #pragma warning expected a warning number</li>
@@ -15482,7 +15677,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: %0</li>
 <li>warning: %0 has C-linkage specified, but returns incomplete type %1 which could be incompatible with C</li>
 <li>warning: %0 has C-linkage specified, but returns user-defined type %1 which is incompatible with C</li>
-<li>warning: %2 defined as %select{a struct|an interface|a class}0%select{| template}1 here but previously declared as %select{a struct|an interface|a class}3%select{| template}1</li>
+<li>warning: %2 defined as %select{a struct|an interface|a class}0%select{| template}1 here but previously declared as %select{a struct|an interface|a class}3%select{| template}1; this is valid, but may result in linker errors under the Microsoft C++ ABI</li>
 <li>warning: %q0 hides overloaded virtual %select{function|functions}1</li>
 <li>warning: %select{delete|destructor}0 called on %1 that is abstract but has non-virtual destructor</li>
 <li>warning: %select{delete|destructor}0 called on non-final %1 that has virtual functions but non-virtual destructor</li>
@@ -15490,7 +15685,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: %select{field width|precision}0 used with '%1' conversion specifier, resulting in undefined behavior</li>
 <li>warning: %select{field|base class}0 %1 will be initialized after %select{field|base}2 %3</li>
 <li>warning: %select{function|variable}0 %1 is not needed and will not be emitted</li>
-<li>warning: %select{struct|interface|class}0%select{| template}1 %2 was previously declared as a %select{struct|interface|class}3%select{| template}1</li>
+<li>warning: %select{struct|interface|class}0%select{| template}1 %2 was previously declared as a %select{struct|interface|class}3%select{| template}1; this is valid, but may result in linker errors under the Microsoft C++ ABI</li>
 <li>warning: %select{values of type|enum values with underlying type}2 '%0' should not be used as format arguments; add an explicit cast to %1 instead</li>
 <li>warning: %select{void function|void method|constructor|destructor}1 %0 should not return a value</li>
 <li>warning: %select{|empty }0%select{struct|union}1 has size 0 in C, %select{size 1|non-zero size}2 in C++</li>
@@ -15506,7 +15701,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: array subscript is of type 'char'</li>
 <li>warning: assigning %select{field|instance variable}0 to itself</li>
 <li>warning: base class %0 is uninitialized when used here to access %q1</li>
-<li>warning: block pointer variable %0 is uninitialized when captured by block</li>
+<li>warning: block pointer variable %0 is %select{uninitialized|null}1 when captured by block</li>
 <li>warning: cannot mix positional and non-positional arguments in format string</li>
 <li>warning: cast of type %0 to %1 is deprecated; use sel_getName instead</li>
 <li>warning: container access result unused - container access should not be used for side effects</li>
@@ -15699,7 +15894,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
+<li>warning: %select{case value|enumerator value|non-type template argument|array size|constexpr if condition|explicit specifier argument}0 %select{cannot be narrowed from type %2 to %3|evaluates to %2, which cannot be narrowed to type %3}1</li>
 <li>warning: constant expression evaluates to %0 which cannot be narrowed to type %1</li>
 <li>warning: constant expression evaluates to %0 which cannot be narrowed to type %1 in C++11</li>
 <li>warning: non-constant-expression cannot be narrowed from type %0 to %1 in initializer list</li>
@@ -15782,6 +15977,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: bit-field %0 is not wide enough to store all enumerators of %1</li>
 <li>warning: comparison of integers of different signs: %0 and %1</li>
 <li>warning: expression which evaluates to zero treated as a null pointer constant of type %0</li>
+<li>warning: higher order bits are zeroes after implicit conversion</li>
 <li>warning: implicit boolean conversion of Objective-C object literal always evaluates to true</li>
 <li>warning: implicit conversion changes signedness: %0 to %1</li>
 <li>warning: implicit conversion discards imaginary component: %0 to %1</li>
@@ -15814,6 +16010,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: passing non-generic address space pointer to %0 may cause dynamic conversion affecting performance</li>
 <li>warning: reference cannot be bound to dereferenced null pointer in well-defined C++ code; pointer may be assumed to always convert to true</li>
 <li>warning: signed bit-field %0 needs an extra bit to represent the largest positive enumerators of %1</li>
+<li>warning: the resulting value is always non-negative after implicit conversion</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wnon-gcc" target="_blank">Diagnostic flags in Clang</a></p>
@@ -16658,13 +16855,30 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
+<li>warning: %select{class|instance}0 method %1 has a different number of parameters in different translation units (%2 vs. %3)</li>
+<li>warning: %select{class|instance}0 method %1 has a parameter with a different types in different translation units (%2 vs. %3)</li>
+<li>warning: %select{class|instance}0 method %1 has incompatible result types in different translation units (%2 vs. %3)</li>
+<li>warning: %select{class|instance}0 method %1 is variadic in one translation unit and not variadic in another</li>
+<li>warning: class %0 has incompatible superclasses</li>
+<li>warning: external function %0 declared with incompatible types in different translation units (%1 vs. %2)</li>
+<li>warning: external variable %0 declared with incompatible types in different translation units (%1 vs. %2)</li>
+<li>warning: external variable %0 defined in multiple translation units</li>
+<li>warning: field %0 declared with incompatible types in different translation units (%1 vs. %2)</li>
+<li>warning: instance variable %0 declared with incompatible types in different translation units (%1 vs. %2)</li>
+<li>warning: non-type template parameter declared with incompatible types in different translation units (%0 vs. %1)</li>
+<li>warning: parameter kind mismatch; parameter is %select{not a|a}0 parameter pack</li>
+<li>warning: property %0 declared with incompatible types in different translation units (%1 vs. %2)</li>
+<li>warning: property %0 is implemented with %select{@synthesize|@dynamic}1 in one translation but %select{@dynamic|@synthesize}1 in another translation unit</li>
+<li>warning: property %0 is synthesized to different ivars in different translation units (%1 vs. %2)</li>
+<li>warning: template parameter has different kinds in different translation units</li>
+<li>warning: template parameter lists have a different number of parameters (%0 vs %1)</li>
 <li>warning: type %0 has incompatible definitions in different translation units</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wodr" target="_blank">Diagnostic flags in Clang</a></p>
       ]]></description>
-  <severity>MAJOR</severity>
-  <type>CODE_SMELL</type>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
   </rule>
 <rule>
   <key>clang-diagnostic-old-style-cast</key>
@@ -16701,6 +16915,8 @@ Derived();             // and so temporary construction is okay</code></pre>
       <p>Diagnostic text:</p>
 <ul>
 <li>warning: aligned clause will be ignored because the requested alignment is not a power of 2</li>
+<li>warning: allocate directive specifies %select{default|'%1'}0 allocator while previously used %select{default|'%3'}2</li>
+<li>warning: allocator with the 'thread' trait access has unspecified behavior on '%0' directive</li>
 <li>warning: zero linear step (%0 %select{|and other variables in clause }1should probably be const)</li>
 </ul>
 <h2>References</h2>
@@ -17097,8 +17313,8 @@ Derived();             // and so temporary construction is okay</code></pre>
 <ul>
 <li>warning: arithmetic on%select{ a|}0 pointer%select{|s}0 to void is a GNU extension</li>
 <li>warning: arithmetic on%select{ a|}0 pointer%select{|s}0 to%select{ the|}2 function type%select{|s}2 %1%select{| and %3}2 is a GNU extension</li>
-<li>warning: invalid application of '%select{sizeof|alignof|vec_step}0' to a function type</li>
-<li>warning: invalid application of '%select{sizeof|alignof|vec_step}0' to a void type</li>
+<li>warning: invalid application of '%sub{select_unary_expr_or_type_trait_kind}0' to a function type</li>
+<li>warning: invalid application of '%sub{select_unary_expr_or_type_trait_kind}0' to a void type</li>
 <li>warning: subscript of a pointer to void is a GNU extension</li>
 <li>warning: subtraction of pointers to type %0 of zero size has undefined behavior</li>
 </ul>
@@ -17244,6 +17460,9 @@ Derived();             // and so temporary construction is okay</code></pre>
       <p>Diagnostic text:</p>
 <ul>
 <li>warning: #pragma %0(pop, ...) failed: %1</li>
+<li>warning: #pragma execution_character_set expected '%0'</li>
+<li>warning: #pragma execution_character_set expected 'push' or 'pop'</li>
+<li>warning: #pragma execution_character_set invalid value '%0', only 'UTF-8' is supported</li>
 <li>warning: #pragma options align=reset failed: %0</li>
 <li>warning: #pragma redefine_extname is applicable to external C declarations only; not applied to %select{function|variable}0 %1</li>
 <li>warning: #pragma warning expected '%0'</li>
@@ -17304,6 +17523,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <li>warning: unknown OpenCL extension %0 - ignoring</li>
 <li>warning: unknown action '%1' for '#pragma %0' - ignored</li>
 <li>warning: unknown action for '#pragma %0' - ignored</li>
+<li>warning: unknown module '%0'</li>
 <li>warning: unknown pragma ignored</li>
 <li>warning: unknown pragma in STDC namespace</li>
 <li>warning: unsupported OpenCL extension %0 - ignoring</li>
@@ -18002,13 +18222,13 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
+<li>warning: %select{parameter|non-static data member}3 %0 %select{|of %1 }3shadows member inherited from type %2</li>
 <li>warning: constructor parameter %0 shadows the field %1 of %2</li>
 <li>warning: declaration shadows a %select{local variable|variable in %2|static data member of %2|field of %2|typedef in %2|type alias in %2}1</li>
 <li>warning: declaration shadows a %select{local variable|variable in %2|static data member of %2|field of %2|typedef in %2|type alias in %2}1</li>
 <li>warning: local declaration of %0 hides instance variable</li>
 <li>warning: modifying constructor parameter %0 that shadows a field of %1</li>
 <li>warning: modifying constructor parameter %0 that shadows a field of %1</li>
-<li>warning: non-static data member %0 of %1 shadows member inherited from type %2</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wshadow-all" target="_blank">Diagnostic flags in Clang</a></p>
@@ -18022,7 +18242,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: non-static data member %0 of %1 shadows member inherited from type %2</li>
+<li>warning: %select{parameter|non-static data member}3 %0 %select{|of %1 }3shadows member inherited from type %2</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wshadow-field" target="_blank">Diagnostic flags in Clang</a></p>
@@ -18207,6 +18427,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <ul>
 <li>warning: implicit conversion changes signedness: %0 to %1</li>
 <li>warning: operand of ? changes signedness: %0 to %1</li>
+<li>warning: the resulting value is always non-negative after implicit conversion</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wsign-conversion" target="_blank">Diagnostic flags in Clang</a></p>
@@ -18406,7 +18627,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: include path for stdlibc++ headers not found; pass '-stdlib=libc++' on the command line to use the libc++ standard library instead</li>
+<li>warning: include path for libstdc++ headers not found; pass '-stdlib=libc++' on the command line to use the libc++ standard library instead</li>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wstdlibcxx-not-found" target="_blank">Diagnostic flags in Clang</a></p>
@@ -19294,7 +19515,7 @@ Derived();             // and so temporary construction is okay</code></pre>
       <p>Diagnostic text:</p>
 <ul>
 <li>warning: base class %0 is uninitialized when used here to access %q1</li>
-<li>warning: block pointer variable %0 is uninitialized when captured by block</li>
+<li>warning: block pointer variable %0 is %select{uninitialized|null}1 when captured by block</li>
 <li>warning: field %0 is uninitialized when used here</li>
 <li>warning: reference %0 is not yet bound to a value when used here</li>
 <li>warning: reference %0 is not yet bound to a value when used within its own initialization</li>
@@ -19315,7 +19536,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
-<li>warning: unknown argument ignored in clang-cl '%0' (did you mean '%1'?)</li>
+<li>warning: unknown argument ignored in clang-cl '%0'; did you mean '%1'?</li>
 <li>warning: unknown argument ignored in clang-cl: '%0'</li>
 </ul>
 <h2>References</h2>
@@ -19358,6 +19579,9 @@ Derived();             // and so temporary construction is okay</code></pre>
   <description><![CDATA[
       <p>Diagnostic text:</p>
 <ul>
+<li>warning: #pragma execution_character_set expected '%0'</li>
+<li>warning: #pragma execution_character_set expected 'push' or 'pop'</li>
+<li>warning: #pragma execution_character_set invalid value '%0', only 'UTF-8' is supported</li>
 <li>warning: #pragma warning expected '%0'</li>
 <li>warning: #pragma warning expected 'push', 'pop', 'default', 'disable', 'error', 'once', 'suppress', 1, 2, 3, or 4</li>
 <li>warning: #pragma warning expected a warning number</li>
@@ -20289,6 +20513,1579 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wzero-length-array" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+  <rule>
+    <key>clang-diagnostic-call-to-pure-virtual-from-ctor-dtor</key>
+    <name>clang-diagnostic-call-to-pure-virtual-from-ctor-dtor</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: call to pure virtual member function %0 has undefined behavior; overrides of %0 in subclasses are not available in the %select{constructor|destructor}1 of %2</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wcall-to-pure-virtual-from-ctor-dtor" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-ctad-maybe-unsupported</key>
+    <name>clang-diagnostic-ctad-maybe-unsupported</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: %0 may not intend to support class template argument deduction</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wctad-maybe-unsupported" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-ctu</key>
+    <name>clang-diagnostic-ctu</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: imported AST from '%0' had been generated for a different target, current: %1, imported: %2</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wctu" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-darwin-sdk-settings</key>
+    <name>clang-diagnostic-darwin-sdk-settings</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: SDK settings were ignored as 'SDKSettings.json' could not be parsed</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdarwin-sdk-settings" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-delete-abstract-non-virtual-dtor</key>
+    <name>clang-diagnostic-delete-abstract-non-virtual-dtor</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: %select{delete|destructor}0 called on %1 that is abstract but has non-virtual destructor</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdelete-abstract-non-virtual-dtor" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-delete-non-abstract-non-virtual-dtor</key>
+    <name>clang-diagnostic-delete-non-abstract-non-virtual-dtor</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: %select{delete|destructor}0 called on non-final %1 that has virtual functions but non-virtual destructor</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdelete-non-abstract-non-virtual-dtor" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-empty-init-stmt</key>
+    <name>clang-diagnostic-empty-init-stmt</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: empty initialization statement of '%select{if|switch|range-based for}0' has no effect</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wempty-init-stmt" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-extra-semi-stmt</key>
+    <name>clang-diagnostic-extra-semi-stmt</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: empty expression statement has no effect; remove unnecessary ';' to silence this warning</li>
+<li>warning: empty initialization statement of '%select{if|switch|range-based for}0' has no effect</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wextra-semi-stmt" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-fortify-source</key>
+    <name>clang-diagnostic-fortify-source</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: '%0' size argument is too large; destination buffer has size %1, but size argument is %2</li>
+<li>warning: '%0' will always overflow; destination buffer has size %1, but size argument is %2</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wfortify-source" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-implicit-fixed-point-conversion</key>
+    <name>clang-diagnostic-implicit-fixed-point-conversion</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: implicit conversion from %0 cannot fit within the range of values for %1</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wimplicit-fixed-point-conversion" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-implicit-float-conversion</key>
+    <name>clang-diagnostic-implicit-float-conversion</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: implicit conversion loses floating-point precision: %0 to %1</li>
+<li>warning: implicit conversion when assigning computation result loses floating-point precision: %0 to %1</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wimplicit-float-conversion" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-implicit-int-conversion</key>
+    <name>clang-diagnostic-implicit-int-conversion</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: higher order bits are zeroes after implicit conversion</li>
+<li>warning: implicit conversion loses integer precision: %0 to %1</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wimplicit-int-conversion" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-module-import</key>
+    <name>clang-diagnostic-module-import</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>remark: importing module '%0'%select{| into '%3'}2 from '%1'</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#rmodule-import" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-noderef</key>
+    <name>clang-diagnostic-noderef</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: casting to dereferenceable pointer removes 'noderef' attribute</li>
+<li>warning: dereferencing %0; was declared with a 'noderef' type</li>
+<li>warning: dereferencing expression marked as 'noderef'</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wnoderef" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-objc-boxing</key>
+    <name>clang-diagnostic-objc-boxing</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: string is ill-formed as UTF-8 and will become a null %0 when boxed</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wobjc-boxing" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-override-init</key>
+    <name>clang-diagnostic-override-init</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: initializer overrides prior initialization of this subobject</li>
+<li>warning: subobject initialization overrides initialization of other fields within its enclosing subobject</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#woverride-init" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-pointer-integer-compare</key>
+    <name>clang-diagnostic-pointer-integer-compare</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: comparison between pointer and integer (%0 and %1)</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpointer-integer-compare" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-sizeof-pointer-div</key>
+    <name>clang-diagnostic-sizeof-pointer-div</name>
+    <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: '%0' will return the size of the pointer, not the array itself</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wsizeof-pointer-div" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+<rule>
+  <key>clang-diagnostic-avr-rtlib-linking-quirks</key>
+  <name>clang-diagnostic-avr-rtlib-linking-quirks</name>
+  <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: no avr-gcc installation can be found on the system, cannot link standard libraries</li>
+<li>warning: no avr-libc installation can be found on the system, cannot link standard libraries</li>
+<li>warning: no target microcontroller specified on command line, cannot link standard libraries, please pass -mmcu=&lt;mcu name&gt;</li>
+<li>warning: standard library not linked and so no interrupt vector table or compiler runtime routines will be linked</li>
+<li>warning: support for linking stdlibs for microcontroller '%0' is not implemented</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wavr-rtlib-linking-quirks" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>clang-diagnostic-export-unnamed</key>
+  <name>clang-diagnostic-export-unnamed</name>
+  <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: ISO C++20 does not permit %select{an empty|a static_assert}0 declaration to appear in an export block</li>
+<li>warning: ISO C++20 does not permit a declaration that does not introduce any names to be exported</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wexport-unnamed" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>clang-diagnostic-export-using-directive</key>
+  <name>clang-diagnostic-export-using-directive</name>
+  <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: ISO C++20 does not permit using directive to be exported</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wexport-using-directive" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>clang-diagnostic-type-limits</key>
+  <name>clang-diagnostic-type-limits</name>
+  <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: result of comparison %select{%3|%1}0 %2 %select{%1|%3}0 is always %4</li>
+<li>warning: result of comparison of %select{%3|unsigned enum expression}0 %2 %select{unsigned enum expression|%3}0 is always %4</li>
+<li>warning: result of comparison of %select{%3|unsigned expression}0 %2 %select{unsigned expression|%3}0 is always %4</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wtype-limits" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>clang-diagnostic-underaligned-exception-object</key>
+  <name>clang-diagnostic-underaligned-exception-object</name>
+  <description><![CDATA[
+      <p>Diagnostic text:</p>
+<ul>
+<li>warning: underaligned exception object thrown</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wunderaligned-exception-object" target="_blank">Diagnostic flags in Clang</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>  
+<rule>
+  <key>abseil-duration-addition</key>
+  <name>abseil-duration-addition</name>
+  <description><![CDATA[
+      <h1 id="abseil-duration-addition">abseil-duration-addition</h1>
+<p>Check for cases where addition should be performed in the <code>absl::Time</code> domain. When adding two values, and one is known to be an <code>absl::Time</code>, we can infer that the other should be interpreted as an <code>absl::Duration</code> of a similar scale, and make that inference explicit.</p>
+<p>Examples:</p>
+<pre class="sourceCode c++"><code>// Original - Addition in the integer domain
+int x;
+absl::Time t;
+int result = absl::ToUnixSeconds(t) + x;
+
+// Suggestion - Addition in the absl::Time domain
+int result = absl::ToUnixSeconds(t + absl::Seconds(x));</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-duration-addition.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>abseil-duration-comparison</key>
+  <name>abseil-duration-comparison</name>
+  <description><![CDATA[
+      <h1 id="abseil-duration-comparison">abseil-duration-comparison</h1>
+<p>Checks for comparisons which should be in the <code>absl::Duration</code> domain instead of the floating point or integer domains.</p>
+<p>N.B.: In cases where a <code>Duration</code> was being converted to an integer and then compared against a floating-point value, truncation during the <code>Duration</code> conversion might yield a different result. In practice this is very rare, and still indicates a bug which should be fixed.</p>
+<p>Examples:</p>
+<pre class="sourceCode c++"><code>// Original - Comparison in the floating point domain
+double x;
+absl::Duration d;
+if (x &lt; absl::ToDoubleSeconds(d)) ...
+
+// Suggested - Compare in the absl::Duration domain instead
+if (absl::Seconds(x) &lt; d) ...
+
+
+// Original - Comparison in the integer domain
+int x;
+absl::Duration d;
+if (x &lt; absl::ToInt64Microseconds(d)) ...
+
+// Suggested - Compare in the absl::Duration domain instead
+if (absl::Microseconds(x) &lt; d) ...</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-duration-comparison.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>abseil-duration-conversion-cast</key>
+  <name>abseil-duration-conversion-cast</name>
+  <description><![CDATA[
+      <h1 id="abseil-duration-conversion-cast">abseil-duration-conversion-cast</h1>
+<p>Checks for casts of <code>absl::Duration</code> conversion functions, and recommends the right conversion function instead.</p>
+<p>Examples:</p>
+<pre class="sourceCode c++"><code>// Original - Cast from a double to an integer
+absl::Duration d;
+int i = static_cast&lt;int&gt;(absl::ToDoubleSeconds(d));
+
+// Suggested - Use the integer conversion function directly.
+int i = absl::ToInt64Seconds(d);
+
+
+// Original - Cast from a double to an integer
+absl::Duration d;
+double x = static_cast&lt;double&gt;(absl::ToInt64Seconds(d));
+
+// Suggested - Use the integer conversion function directly.
+double x = absl::ToDoubleSeconds(d);</code></pre>
+<p>Note: In the second example, the suggested fix could yield a different result, as the conversion to integer could truncate. In practice, this is very rare, and you should use <code>absl::Trunc</code> to perform this operation explicitly instead.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-duration-conversion-cast.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>abseil-duration-factory-float</key>
+  <name>abseil-duration-factory-float</name>
+  <description><![CDATA[
+      <h1 id="abseil-duration-factory-float">abseil-duration-factory-float</h1>
+<p>Checks for cases where the floating-point overloads of various <code>absl::Duration</code> factory functions are called when the more-efficient integer versions could be used instead.</p>
+<p>This check will not suggest fixes for literals which contain fractional floating point values or non-literals. It will suggest removing superfluous casts.</p>
+<p>Examples:</p>
+<pre class="sourceCode c++"><code>// Original - Providing a floating-point literal.
+absl::Duration d = absl::Seconds(10.0);
+
+// Suggested - Use an integer instead.
+absl::Duration d = absl::Seconds(10);
+
+
+// Original - Explicitly casting to a floating-point type.
+absl::Duration d = absl::Seconds(static_cast&lt;double&gt;(10));
+
+// Suggested - Remove the explicit cast
+absl::Duration d = absl::Seconds(10);</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-duration-factory-float.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>abseil-duration-factory-scale</key>
+  <name>abseil-duration-factory-scale</name>
+  <description><![CDATA[
+      <h1 id="abseil-duration-factory-scale">abseil-duration-factory-scale</h1>
+<p>Checks for cases where arguments to <code>absl::Duration</code> factory functions are scaled internally and could be changed to a different factory function. This check also looks for arguements with a zero value and suggests using <code>absl::ZeroDuration()</code> instead.</p>
+<p>Examples:</p>
+<pre class="sourceCode c++"><code>// Original - Internal multiplication.
+int x;
+absl::Duration d = absl::Seconds(60 * x);
+
+// Suggested - Use absl::Minutes instead.
+absl::Duration d = absl::Minutes(x);
+
+
+// Original - Internal division.
+int y;
+absl::Duration d = absl::Milliseconds(y / 1000.);
+
+// Suggested - Use absl:::Seconds instead.
+absl::Duration d = absl::Seconds(y);
+
+
+// Original - Zero-value argument.
+absl::Duration d = absl::Hours(0);
+
+// Suggested = Use absl::ZeroDuration instead
+absl::Duration d = absl::ZeroDuration();</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-duration-factory-scale.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>abseil-duration-subtraction</key>
+  <name>abseil-duration-subtraction</name>
+  <description><![CDATA[
+      <h1 id="abseil-duration-subtraction">abseil-duration-subtraction</h1>
+<p>Checks for cases where subtraction should be performed in the <code>absl::Duration</code> domain. When subtracting two values, and the first one is known to be a conversion from <code>absl::Duration</code>, we can infer that the second should also be interpreted as an <code>absl::Duration</code>, and make that inference explicit.</p>
+<p>Examples:</p>
+<pre class="sourceCode c++"><code>// Original - Subtraction in the double domain
+double x;
+absl::Duration d;
+double result = absl::ToDoubleSeconds(d) - x;
+
+// Suggestion - Subtraction in the absl::Duration domain instead
+double result = absl::ToDoubleSeconds(d - absl::Seconds(x));
+
+// Original - Subtraction of two Durations in the double domain
+absl::Duration d1, d2;
+double result = absl::ToDoubleSeconds(d1) - absl::ToDoubleSeconds(d2);
+
+// Suggestion - Subtraction in the absl::Duration domain instead
+double result = absl::ToDoubleSeconds(d1 - d2);</code></pre>
+<p>Note: As with other <code>clang-tidy</code> checks, it is possible that multiple fixes may overlap (as in the case of nested expressions), so not all occurences can be transformed in one run. In particular, this may occur for nested subtraction expressions. Running <code>clang-tidy</code> multiple times will find and fix these overlaps.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-duration-subtraction.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>abseil-duration-unnecessary-conversion</key>
+  <name>abseil-duration-unnecessary-conversion</name>
+  <description><![CDATA[
+      <h1 id="abseil-duration-unnecessary-conversion">abseil-duration-unnecessary-conversion</h1>
+<p>Finds and fixes cases where <code>absl::Duration</code> values are being converted to numeric types and back again.</p>
+<p>Floating-point examples:</p>
+<pre class="sourceCode c++"><code>// Original - Conversion to double and back again
+absl::Duration d1;
+absl::Duration d2 = absl::Seconds(absl::ToDoubleSeconds(d1));
+
+// Suggestion - Remove unnecessary conversions
+absl::Duration d2 = d1;
+
+// Original - Division to convert to double and back again
+absl::Duration d2 = absl::Seconds(absl::FDivDuration(d1, absl::Seconds(1)));
+
+// Suggestion - Remove division and conversion
+absl::Duration d2 = d1;</code></pre>
+<p>Integer examples:</p>
+<pre class="sourceCode c++"><code>// Original - Conversion to integer and back again
+absl::Duration d1;
+absl::Duration d2 = absl::Hours(absl::ToInt64Hours(d1));
+
+// Suggestion - Remove unnecessary conversions
+absl::Duration d2 = d1;
+
+// Original - Integer division followed by conversion
+absl::Duration d2 = absl::Seconds(d1 / absl::Seconds(1));
+
+// Suggestion - Remove division and conversion
+absl::Duration d2 = d1;</code></pre>
+<p>Note: Converting to an integer and back to an <code>absl::Duration</code> might be a truncating operation if the value is not aligned to the scale of conversion. In the rare case where this is the intended result, callers should use <code>absl::Trunc</code> to truncate explicitly.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-duration-unnecessary-conversion.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>abseil-time-comparison</key>
+  <name>abseil-time-comparison</name>
+  <description><![CDATA[
+      <h1 id="abseil-time-comparison">abseil-time-comparison</h1>
+<p>Prefer comparisons in the <code>absl::Time</code> domain instead of the integer domain.</p>
+<p>N.B.: In cases where an <code>absl::Time</code> is being converted to an integer, alignment may occur. If the comparison depends on this alignment, doing the comparison in the <code>absl::Time</code> domain may yield a different result. In practice this is very rare, and still indicates a bug which should be fixed.</p>
+<p>Examples:</p>
+<pre class="sourceCode c++"><code>// Original - Comparison in the integer domain
+int x;
+absl::Time t;
+if (x &lt; absl::ToUnixSeconds(t)) ...
+
+// Suggested - Compare in the absl::Time domain instead
+if (absl::FromUnixSeconds(x) &lt; t) ...</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-time-comparison.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>abseil-time-subtraction</key>
+  <name>abseil-time-subtraction</name>
+  <description><![CDATA[
+      <h1 id="abseil-time-subtraction">abseil-time-subtraction</h1>
+<p>Finds and fixes <code>absl::Time</code> subtraction expressions to do subtraction in the Time domain instead of the numeric domain.</p>
+<p>There are two cases of Time subtraction in which deduce additional type information:</p>
+<ul>
+<li>When the result is an <code>absl::Duration</code> and the first argument is an <code>absl::Time</code>.</li>
+<li>When the second argument is a <code>absl::Time</code>.</li>
+</ul>
+<p>In the first case, we must know the result of the operation, since without that the second operand could be either an <code>absl::Time</code> or an <code>absl::Duration</code>. In the second case, the first operand <em>must</em> be an <code>absl::Time</code>, because subtracting an <code>absl::Time</code> from an <code>absl::Duration</code> is not defined.</p>
+<p>Examples:</p>
+<pre class="sourceCode c++"><code>int x;
+absl::Time t;
+
+// Original - absl::Duration result and first operand is a absl::Time.
+absl::Duration d = absl::Seconds(absl::ToUnixSeconds(t) - x);
+
+// Suggestion - Perform subtraction in the Time domain instead.
+absl::Duration d = t - absl::FromUnixSeconds(x);
+
+
+// Original - Second operand is an absl::Time.
+int i = x - absl::ToUnixSeconds(t);
+
+// Suggestion - Perform subtraction in the Time domain instead.
+int i = absl::ToInt64Seconds(absl::FromUnixSeconds(x) - t);</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-time-subtraction.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>abseil-upgrade-duration-conversions</key>
+  <name>abseil-upgrade-duration-conversions</name>
+  <description><![CDATA[
+      <h1 id="abseil-upgrade-duration-conversions">abseil-upgrade-duration-conversions</h1>
+<p>Finds calls to <code>absl::Duration</code> arithmetic operators and factories whose argument needs an explicit cast to continue compiling after upcoming API changes.</p>
+<p>The operators <code>*=</code>, <code>/=</code>, <code>*</code>, and <code>/</code> for <code>absl::Duration</code> currently accept an argument of class type that is convertible to an arithmetic type. Such a call currently converts the value to an <code>int64_t</code>, even in a case such as <code>std::atomic&lt;float&gt;</code> that would result in lossy conversion.</p>
+<p>Additionally, the <code>absl::Duration</code> factory functions (<code>absl::Hours</code>, <code>absl::Minutes</code>, etc) currently accept an <code>int64_t</code> or a floating-point type. Similar to the arithmetic operators, calls with an argument of class type that is convertible to an arithmetic type go through the <code>int64_t</code> path.</p>
+<p>These operators and factories will be changed to only accept arithmetic types to prevent unintended behavior. After these changes are released, passing an argument of class type will no longer compile, even if the type is implicitly convertible to an arithmetic type.</p>
+<p>Here are example fixes created by this check:</p>
+<pre class="sourceCode c++"><code>std::atomic&lt;int&gt; a;
+absl::Duration d = absl::Milliseconds(a);
+d *= a;</code></pre>
+<p>becomes</p>
+<pre class="sourceCode c++"><code>std::atomic&lt;int&gt; a;
+absl::Duration d = absl::Milliseconds(static_cast&lt;int64_t&gt;(a));
+d *= static_cast&lt;int64_t&gt;(a);</code></pre>
+<p>Note that this check always adds a cast to <code>int64_t</code> in order to preserve the current behavior of user code. It is possible that this uncovers unintended behavior due to types implicitly convertible to a floating-point type.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/abseil-upgrade-duration-conversions.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>android-cloexec-pipe</key>
+  <name>android-cloexec-pipe</name>
+  <description><![CDATA[
+      <h1 id="android-cloexec-pipe">android-cloexec-pipe</h1>
+<p>This check detects usage of <code>pipe()</code>. Using <code>pipe()</code> is not recommended, <code>pipe2()</code> is the suggested replacement. The check also adds the O_CLOEXEC flag that marks the file descriptor to be closed in child processes. Without this flag a sensitive file descriptor can be leaked to a child process, potentially into a lower-privileged SELinux domain.</p>
+<p>Examples:</p>
+<pre class="sourceCode c++"><code>pipe(pipefd);</code></pre>
+<p>Suggested replacement:</p>
+<pre class="sourceCode c++"><code>pipe2(pipefd, O_CLOEXEC);</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-pipe.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>android-cloexec-pipe2</key>
+  <name>android-cloexec-pipe2</name>
+  <description><![CDATA[
+      <h1 id="android-cloexec-pipe2">android-cloexec-pipe2</h1>
+<p>This checks ensures that pipe2() is called with the O_CLOEXEC flag. The check also adds the O_CLOEXEC flag that marks the file descriptor to be closed in child processes. Without this flag a sensitive file descriptor can be leaked to a child process, potentially into a lower-privileged SELinux domain.</p>
+<p>Examples:</p>
+<pre class="sourceCode c++"><code>pipe2(pipefd, O_NONBLOCK);</code></pre>
+<p>Suggested replacement:</p>
+<pre class="sourceCode c++"><code>pipe2(pipefd, O_NONBLOCK | O_CLOEXEC);</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/android-cloexec-pipe2.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>bugprone-branch-clone</key>
+  <name>bugprone-branch-clone</name>
+  <description><![CDATA[
+      <h1 id="bugprone-branch-clone">bugprone-branch-clone</h1>
+<p>Checks for repeated branches in <code>if/else if/else</code> chains, consecutive repeated branches in <code>switch</code> statements and indentical true and false branches in conditional operators.</p>
+<pre class="sourceCode c++"><code>if (test_value(x)) {
+  y++;
+  do_something(x, y);
+} else {
+  y++;
+  do_something(x, y);
+}</code></pre>
+<p>In this simple example (which could arise e.g. as a copy-paste error) the <code>then</code> and <code>else</code> branches are identical and the code is equivalent the following shorter and cleaner code:</p>
+<pre class="sourceCode c++"><code>test_value(x); // can be omitted unless it has side effects
+y++;
+do_something(x, y);</code></pre>
+<p>If this is the inteded behavior, then there is no reason to use a conditional statement; otherwise the issue can be solved by fixing the branch that is handled incorrectly.</p>
+<p>The check also detects repeated branches in longer <code>if/else if/else</code> chains where it would be even harder to notice the problem.</p>
+<p>In <code>switch</code> statements the check only reports repeated branches when they are consecutive, because it is relatively common that the <code>case:</code> labels have some natural ordering and rearranging them would decrease the readability of the code. For example:</p>
+<pre class="sourceCode c++"><code>switch (ch) {
+case &#39;a&#39;:
+  return 10;
+case &#39;A&#39;:
+  return 10;
+case &#39;b&#39;:
+  return 11;
+case &#39;B&#39;:
+  return 11;
+default:
+  return 10;
+}</code></pre>
+<p>Here the check reports that the <code>'a'</code> and <code>'A'</code> branches are identical (and that the <code>'b'</code> and <code>'B'</code> branches are also identical), but does not report that the <code>default:</code> branch is also idenical to the first two branches. If this is indeed the correct behavior, then it could be implemented as:</p>
+<pre class="sourceCode c++"><code>switch (ch) {
+case &#39;a&#39;:
+case &#39;A&#39;:
+  return 10;
+case &#39;b&#39;:
+case &#39;B&#39;:
+  return 11;
+default:
+  return 10;
+}</code></pre>
+<p>Here the check does not warn for the repeated <code>return 10;</code>, which is good if we want to preserve that <code>'a'</code> is before <code>'b'</code> and <code>default:</code> is the last branch.</p>
+<p>Finally, the check also examines conditional operators and reports code like:</p>
+<pre class="sourceCode c++"><code>return test_value(x) ? x : x;</code></pre>
+<p>Unlike if statements, the check does not detect chains of conditional operators.</p>
+<p>Note: This check also reports situations where branches become identical only after preprocession.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-branch-clone.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>bugprone-posix-return</key>
+  <name>bugprone-posix-return</name>
+  <description><![CDATA[
+      <h1 id="bugprone-posix-return">bugprone-posix-return</h1>
+<p>Checks if any calls to POSIX functions (except <code>posix_openpt</code>) expect negative return values. These functions return either <code>0</code> on success or an <code>errno</code> on failure, which is positive only.</p>
+<p>Example buggy usage looks like:</p>
+<pre class="sourceCode c"><code>if (posix_fadvise(...) &lt; 0) {</code></pre>
+<p>This will never happen as the return value is always non-negative. A simple fix could be:</p>
+<pre class="sourceCode c"><code>if (posix_fadvise(...) &gt; 0) {</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-posix-return.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>bugprone-too-small-loop-variable</key>
+  <name>bugprone-too-small-loop-variable</name>
+  <description><![CDATA[
+      <h1 id="bugprone-too-small-loop-variable">bugprone-too-small-loop-variable</h1>
+<p>Detects those <code>for</code> loops that have a loop variable with a &quot;too small&quot; type which means this type can't represent all values which are part of the iteration range.</p>
+<pre class="sourceCode c++"><code>int main() {
+  long size = 294967296l;
+  for (short i = 0; i &lt; size; ++i) {}
+}</code></pre>
+<p>This <code>for</code> loop is an infinite loop because the <code>short</code> type can't represent all values in the <code>[0..size]</code> interval.</p>
+<p>In a real use case size means a container's size which depends on the user input.</p>
+<pre class="sourceCode c++"><code>int doSomething(const std::vector&amp; items) {
+  for (short i = 0; i &lt; items.size(); ++i) {}
+}</code></pre>
+<p>This algorithm works for small amount of objects, but will lead to freeze for a a larger user input.</p>
+<pre class="sourceCode c++"><code>int main() {
+  long size = 294967296l;
+  for (unsigned i = 0; i &lt; size; ++i) {} // no warning with MagnitudeBitsUpperLimit = 31 on a system where unsigned is 32-bit
+  for (int i = 0; i &lt; size; ++i) {} // warning with MagnitudeBitsUpperLimit = 31 on a system where int is 32-bit
+}</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-too-small-loop-variable.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>bugprone-unhandled-self-assignment</key>
+  <name>bugprone-unhandled-self-assignment</name>
+  <description><![CDATA[
+      <h1 id="bugprone-unhandled-self-assignment">bugprone-unhandled-self-assignment</h1>
+<p>cert-oop54-cpp redirects here as an alias for this check. For the CERT alias, the WarnOnlyIfThisHasSuspiciousField option is set to 0.</p>
+<p>Finds user-defined copy assignment operators which do not protect the code against self-assignment either by checking self-assignment explicitly or using the copy-and-swap or the copy-and-move method.</p>
+<p>By default, this check searches only those classes which have any pointer or C array field to avoid false positives. In case of a pointer or a C array, it's likely that self-copy assignment breaks the object if the copy assignment operator was not written with care.</p>
+<p>See also: <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/OOP54-CPP.+Gracefully+handle+self-copy+assignment">OOP54-CPP. Gracefully handle self-copy assignment</a></p>
+<p>A copy assignment operator must prevent that self-copy assignment ruins the object state. A typical use case is when the class has a pointer field and the copy assignment operator first releases the pointed object and then tries to assign it:</p>
+<pre class="sourceCode c++"><code>class T {
+int* p;
+
+public:
+  T(const T &amp;rhs) : p(rhs.p ? new int(*rhs.p) : nullptr) {}
+  ~T() { delete p; }
+
+  // ...
+
+  T&amp; operator=(const T &amp;rhs) {
+    delete p;
+    p = new int(*rhs.p);
+    return *this;
+  }
+};</code></pre>
+<p>There are two common C++ patterns to avoid this problem. The first is the self-assignment check:</p>
+<pre class="sourceCode c++"><code>class T {
+int* p;
+
+public:
+  T(const T &amp;rhs) : p(rhs.p ? new int(*rhs.p) : nullptr) {}
+  ~T() { delete p; }
+
+  // ...
+
+  T&amp; operator=(const T &amp;rhs) {
+    if(this == &amp;rhs)
+      return *this;
+
+    delete p;
+    p = new int(*rhs.p);
+    return *this;
+  }
+};</code></pre>
+<p>The second one is the copy-and-swap method when we create a temporary copy (using the copy constructor) and then swap this temporary object with <code>this</code>:</p>
+<pre class="sourceCode c++"><code>class T {
+int* p;
+
+public:
+  T(const T &amp;rhs) : p(rhs.p ? new int(*rhs.p) : nullptr) {}
+  ~T() { delete p; }
+
+  // ...
+
+  void swap(T &amp;rhs) {
+    using std::swap;
+    swap(p, rhs.p);
+  }
+
+  T&amp; operator=(const T &amp;rhs) {
+    T(rhs).swap(*this);
+    return *this;
+  }
+};</code></pre>
+<p>There is a third pattern which is less common. Let's call it the copy-and-move method when we create a temporary copy (using the copy constructor) and then move this temporary object into <code>this</code> (needs a move assignment operator):</p>
+<pre class="sourceCode c++"><code>class T {
+int* p;
+
+public:
+  T(const T &amp;rhs) : p(rhs.p ? new int(*rhs.p) : nullptr) {}
+  ~T() { delete p; }
+
+  // ...
+
+  T&amp; operator=(const T &amp;rhs) {
+    T t = rhs;
+    *this = std::move(t);
+    return *this;
+  }
+
+  T&amp; operator=(T &amp;&amp;rhs) {
+    p = rhs.p;
+    rhs.p = nullptr;
+    return *this;
+  }
+};</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone-unhandled-self-assignment.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>cert-dcl16-c</key>
+  <name>cert-dcl16-c</name>
+  <description><![CDATA[
+      <h1 id="cert-dcl16-c">cert-dcl16-c</h1>
+<p>The cert-dcl16-c check is an alias, please see <a href="readability-uppercase-literal-suffix.html">readability-uppercase-literal-suffix</a> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-dcl16-c.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>cert-oop54-cpp</key>
+  <name>cert-oop54-cpp</name>
+  <description><![CDATA[
+      <h1 id="cert-oop54-cpp">cert-oop54-cpp</h1>
+<p>The cert-oop54-cpp check is an alias, please see <a href="bugprone-unhandled-self-assignment.html">bugprone-unhandled-self-assignment</a> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-oop54-cpp.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>cppcoreguidelines-avoid-c-arrays</key>
+  <name>cppcoreguidelines-avoid-c-arrays</name>
+  <description><![CDATA[
+      <h1 id="cppcoreguidelines-avoid-c-arrays">cppcoreguidelines-avoid-c-arrays</h1>
+<p>The cppcoreguidelines-avoid-c-arrays check is an alias, please see <a href="modernize-avoid-c-arrays.html">modernize-avoid-c-arrays</a> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-avoid-c-arrays.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>cppcoreguidelines-explicit-virtual-functions</key>
+  <name>cppcoreguidelines-explicit-virtual-functions</name>
+  <description><![CDATA[
+      <h1 id="cppcoreguidelines-explicit-virtual-functions">cppcoreguidelines-explicit-virtual-functions</h1>
+<p>The cppcoreguidelines-explicit-virtual-functions check is an alias, please see <a href="modernize-use-override.html">modernize-use-override</a> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-explicit-virtual-functions.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>cppcoreguidelines-macro-usage</key>
+  <name>cppcoreguidelines-macro-usage</name>
+  <description><![CDATA[
+      <h1 id="cppcoreguidelines-macro-usage">cppcoreguidelines-macro-usage</h1>
+<p>Finds macro usage that is considered problematic because better language constructs exist for the task.</p>
+<p>The relevant sections in the C++ Core Guidelines are <a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#enum1-prefer-enumerations-over-macros">Enum.1</a>, <a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#es30-dont-use-macros-for-program-text-manipulation">ES.30</a>, <a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#es31-dont-use-macros-for-constants-or-functions">ES.31</a> and <a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#es33-if-you-must-use-macros-give-them-unique-names">ES.33</a>.</p>
+<h2 id="options">Options</h2>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-macro-usage.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>cppcoreguidelines-non-private-member-variables-in-classes</key>
+  <name>cppcoreguidelines-non-private-member-variables-in-classes</name>
+  <description><![CDATA[
+      <h1 id="cppcoreguidelines-non-private-member-variables-in-classes">cppcoreguidelines-non-private-member-variables-in-classes</h1>
+<p>The cppcoreguidelines-non-private-member-variables-in-classes check is an alias, please see <a href="misc-non-private-member-variables-in-classes.html">misc-non-private-member-variables-in-classes</a> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-non-private-member-variables-in-classes.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>fuchsia-default-arguments-calls</key>
+  <name>fuchsia-default-arguments-calls</name>
+  <description><![CDATA[
+      <h1 id="fuchsia-default-arguments-calls">fuchsia-default-arguments-calls</h1>
+<p>Warns if a function or method is called with default arguments.</p>
+<p>For example, given the declaration:</p>
+<pre class="sourceCode c++"><code>int foo(int value = 5) { return value; }</code></pre>
+<p>A function call expression that uses a default argument will be diagnosed. Calling it without defaults will not cause a warning:</p>
+<pre class="sourceCode c++"><code>foo();  // warning
+foo(0); // no warning</code></pre>
+<p>See the features disallowed in Fuchsia at <a href="https://fuchsia.googlesource.com/zircon/+/master/docs/cxx.md" class="uri">https://fuchsia.googlesource.com/zircon/+/master/docs/cxx.md</a></p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/fuchsia-default-arguments-calls.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>fuchsia-default-arguments-declarations</key>
+  <name>fuchsia-default-arguments-declarations</name>
+  <description><![CDATA[
+      <h1 id="fuchsia-default-arguments-declarations">fuchsia-default-arguments-declarations</h1>
+<p>Warns if a function or method is declared with default parameters.</p>
+<p>For example, the declaration:</p>
+<pre class="sourceCode c++"><code>int foo(int value = 5) { return value; }</code></pre>
+<p>will cause a warning.</p>
+<p>See the features disallowed in Fuchsia at <a href="https://fuchsia.googlesource.com/zircon/+/master/docs/cxx.md" class="uri">https://fuchsia.googlesource.com/zircon/+/master/docs/cxx.md</a></p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/fuchsia-default-arguments-declarations.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>google-objc-avoid-nsobject-new</key>
+  <name>google-objc-avoid-nsobject-new</name>
+  <description><![CDATA[
+      <h1 id="google-objc-avoid-nsobject-new">google-objc-avoid-nsobject-new</h1>
+<p>Finds calls to <code>+new</code> or overrides of it, which are prohibited by the Google Objective-C style guide.</p>
+<p>The Google Objective-C style guide forbids calling <code>+new</code> or overriding it in class implementations, preferring <code>+alloc</code> and <code>-init</code> methods to instantiate objects.</p>
+<p>An example:</p>
+<pre class="sourceCode objc"><code>NSDate *now = [NSDate new];
+Foo *bar = [Foo new];</code></pre>
+<p>Instead, code should use <code>+alloc</code>/<code>-init</code> or class factory methods.</p>
+<pre class="sourceCode objc"><code>NSDate *now = [NSDate date];
+Foo *bar = [[Foo alloc] init];</code></pre>
+<p>This check corresponds to the Google Objective-C Style Guide rule <a href="https://google.github.io/styleguide/objcguide.html#do-not-use-new">Do Not Use +new</a>.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-objc-avoid-nsobject-new.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>google-objc-function-naming</key>
+  <name>google-objc-function-naming</name>
+  <description><![CDATA[
+      <h1 id="google-objc-function-naming">google-objc-function-naming</h1>
+<p>Finds function declarations in Objective-C files that do not follow the pattern described in the Google Objective-C Style Guide.</p>
+<p>The corresponding style guide rule can be found here: <a href="https://google.github.io/styleguide/objcguide.html#function-names" class="uri">https://google.github.io/styleguide/objcguide.html#function-names</a></p>
+<p>All function names should be in Pascal case. Functions whose storage class is not static should have an appropriate prefix.</p>
+<p>The following code sample does not follow this pattern:</p>
+<pre class="sourceCode objc"><code>static bool is_positive(int i) { return i &gt; 0; }
+bool IsNegative(int i) { return i &lt; 0; }</code></pre>
+<p>The sample above might be corrected to the following code:</p>
+<pre class="sourceCode objc"><code>static bool IsPositive(int i) { return i &gt; 0; }
+bool *ABCIsNegative(int i) { return i &lt; 0; }</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-objc-function-naming.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>google-readability-avoid-underscore-in-googletest-name</key>
+  <name>google-readability-avoid-underscore-in-googletest-name</name>
+  <description><![CDATA[
+      <h1 id="google-readability-avoid-underscore-in-googletest-name">google-readability-avoid-underscore-in-googletest-name</h1>
+<p>Checks whether there are underscores in googletest test and test case names in test macros:</p>
+<ul>
+<li><code>TEST</code></li>
+<li><code>TEST_F</code></li>
+<li><code>TEST_P</code></li>
+<li><code>TYPED_TEST</code></li>
+<li><code>TYPED_TEST_P</code></li>
+</ul>
+<p>The <code>FRIEND_TEST</code> macro is not included.</p>
+<p>For example:</p>
+<pre class="sourceCode c++"><code>TEST(TestCaseName, Illegal_TestName) {}
+TEST(Illegal_TestCaseName, TestName) {}</code></pre>
+<p>would trigger the check. <a href="https://github.com/google/googletest/blob/master/googletest/docs/faq.md#why-should-test-suite-names-and-test-names-not-contain-underscore">Underscores are not allowed</a> in test names nor test case names.</p>
+<p>The <code>DISABLED_</code> prefix, which may be used to <a href="https://github.com/google/googletest/blob/master/googletest/docs/faq.md#why-should-test-suite-names-and-test-names-not-contain-underscore">disable individual tests</a>, is ignored when checking test names, but the rest of the rest of the test name is still checked.</p>
+<p>This check does not propose any fixes.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-readability-avoid-underscore-in-googletest-name.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>hicpp-avoid-c-arrays</key>
+  <name>hicpp-avoid-c-arrays</name>
+  <description><![CDATA[
+      <h1 id="hicpp-avoid-c-arrays">hicpp-avoid-c-arrays</h1>
+<p>The hicpp-avoid-c-arrays check is an alias, please see <a href="modernize-avoid-c-arrays.html">modernize-avoid-c-arrays</a> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-avoid-c-arrays.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>hicpp-uppercase-literal-suffix</key>
+  <name>hicpp-uppercase-literal-suffix</name>
+  <description><![CDATA[
+      <h1 id="hicpp-uppercase-literal-suffix">hicpp-uppercase-literal-suffix</h1>
+<p>The hicpp-uppercase-literal-suffix check is an alias, please see <a href="readability-uppercase-literal-suffix.html">readability-uppercase-literal-suffix</a> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/hicpp-uppercase-literal-suffix.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>llvm-prefer-isa-or-dyn-cast-in-conditionals</key>
+  <name>llvm-prefer-isa-or-dyn-cast-in-conditionals</name>
+  <description><![CDATA[
+      <h1 id="llvm-prefer-isa-or-dyn-cast-in-conditionals">llvm-prefer-isa-or-dyn-cast-in-conditionals</h1>
+<p>Looks at conditionals and finds and replaces cases of <code>cast&lt;&gt;</code>, which will assert rather than return a null pointer, and <code>dyn_cast&lt;&gt;</code> where the return value is not captured. Additionally, finds and replaces cases that match the pattern <code>var &amp;&amp; isa&lt;X&gt;(var)</code>, where <code>var</code> is evaluated twice.</p>
+<pre class="sourceCode c++"><code>// Finds these:
+if (auto x = cast&lt;X&gt;(y)) {}
+// is replaced by:
+if (auto x = dyn_cast&lt;X&gt;(y)) {}
+
+if (cast&lt;X&gt;(y)) {}
+// is replaced by:
+if (isa&lt;X&gt;(y)) {}
+
+if (dyn_cast&lt;X&gt;(y)) {}
+// is replaced by:
+if (isa&lt;X&gt;(y)) {}
+
+if (var &amp;&amp; isa&lt;T&gt;(var)) {}
+// is replaced by:
+if (isa_and_nonnull&lt;T&gt;(var.foo())) {}
+
+// Other cases are ignored, e.g.:
+if (auto f = cast&lt;Z&gt;(y)-&gt;foo()) {}
+if (cast&lt;Z&gt;(y)-&gt;foo()) {}
+if (X.cast(y)) {}</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/llvm-prefer-isa-or-dyn-cast-in-conditionals.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>misc-non-private-member-variables-in-classes</key>
+  <name>misc-non-private-member-variables-in-classes</name>
+  <description><![CDATA[
+      <h1 id="misc-non-private-member-variables-in-classes">misc-non-private-member-variables-in-classes</h1>
+<p>cppcoreguidelines-non-private-member-variables-in-classes redirects here as an alias for this check.</p>
+<p>Finds classes that contain non-static data members in addition to user-declared non-static member functions and diagnose all data members declared with a non-<code>public</code> access specifier. The data members should be declared as <code>private</code> and accessed through member functions instead of exposed to derived classes or class consumers.</p>
+<h2 id="options">Options</h2>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-non-private-member-variables-in-classes.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>modernize-avoid-c-arrays</key>
+  <name>modernize-avoid-c-arrays</name>
+  <description><![CDATA[
+      <h1 id="modernize-avoid-c-arrays">modernize-avoid-c-arrays</h1>
+<p>cppcoreguidelines-avoid-c-arrays redirects here as an alias for this check.</p>
+<p>hicpp-avoid-c-arrays redirects here as an alias for this check.</p>
+<p>Finds C-style array types and recommend to use <code>std::array&lt;&gt;</code> / <code>std::vector&lt;&gt;</code>. All types of C arrays are diagnosed.</p>
+<p>However, fix-it are potentially dangerous in header files and are therefore not emitted right now.</p>
+<pre class="sourceCode c++"><code>int a[] = {1, 2}; // warning: do not declare C-style arrays, use std::array&lt;&gt; instead
+
+int b[1]; // warning: do not declare C-style arrays, use std::array&lt;&gt; instead
+
+void foo() {
+  int c[b[0]]; // warning: do not declare C VLA arrays, use std::vector&lt;&gt; instead
+}
+
+template &lt;typename T, int Size&gt;
+class array {
+  T d[Size]; // warning: do not declare C-style arrays, use std::array&lt;&gt; instead
+
+  int e[1]; // warning: do not declare C-style arrays, use std::array&lt;&gt; instead
+};
+
+array&lt;int[4], 2&gt; d; // warning: do not declare C-style arrays, use std::array&lt;&gt; instead
+
+using k = int[4]; // warning: do not declare C-style arrays, use std::array&lt;&gt; instead</code></pre>
+<p>However, the <code>extern &quot;C&quot;</code> code is ignored, since it is common to share such headers between C code, and C++ code.</p>
+<pre class="sourceCode c++"><code>// Some header
+extern &quot;C&quot; {
+
+int f[] = {1, 2}; // not diagnosed
+
+int j[1]; // not diagnosed
+
+inline void bar() {
+  {
+    int j[j[0]]; // not diagnosed
+  }
+}
+
+}</code></pre>
+<p>Similarly, the <code>main()</code> function is ignored. Its second and third parameters can be either <code>char* argv[]</code> or <code>char** argv</code>, but can not be <code>std::array&lt;&gt;</code>.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-avoid-c-arrays.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>modernize-concat-nested-namespaces</key>
+  <name>modernize-concat-nested-namespaces</name>
+  <description><![CDATA[
+      <h1 id="modernize-concat-nested-namespaces">modernize-concat-nested-namespaces</h1>
+<p>Checks for use of nested namespaces such as <code>namespace a { namespace b { ... } }</code> and suggests changing to the more concise syntax introduced in C++17: <code>namespace a::b { ... }</code>. Inline namespaces are not modified.</p>
+<p>For example:</p>
+<pre class="sourceCode c++"><code>namespace n1 {
+namespace n2 {
+void t();
+}
+}
+
+namespace n3 {
+namespace n4 {
+namespace n5 {
+void t();
+}
+}
+namespace n6 {
+namespace n7 {
+void t();
+}
+}
+}</code></pre>
+<p>Will be modified to:</p>
+<pre class="sourceCode c++"><code>namespace n1::n2 {
+void t();
+}
+
+namespace n3 {
+namespace n4::n5 {
+void t();
+}
+namespace n6::n7 {
+void t();
+}
+}</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-concat-nested-namespaces.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>modernize-deprecated-ios-base-aliases</key>
+  <name>modernize-deprecated-ios-base-aliases</name>
+  <description><![CDATA[
+      <h1 id="modernize-deprecated-ios-base-aliases">modernize-deprecated-ios-base-aliases</h1>
+<p>Detects usage of the deprecated member types of <code>std::ios_base</code> and replaces those that have a non-deprecated equivalent.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Deprecated member type</th>
+<th>Replacement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>std::ios_base::io_state</code></td>
+<td><code>std::ios_base::iostate</code></td>
+</tr>
+<tr class="even">
+<td><code>std::ios_base::open_mode</code></td>
+<td><code>std::ios_base::openmode</code></td>
+</tr>
+<tr class="odd">
+<td><code>std::ios_base::seek_dir</code></td>
+<td><code>std::ios_base::seekdir</code></td>
+</tr>
+<tr class="even">
+<td><code>std::ios_base::streamoff</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>std::ios_base::streampos</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-deprecated-ios-base-aliases.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>modernize-use-nodiscard</key>
+  <name>modernize-use-nodiscard</name>
+  <description><![CDATA[
+      <h1 id="modernize-use-nodiscard">modernize-use-nodiscard</h1>
+<p>Adds <code>[[nodiscard]]</code> attributes (introduced in C++17) to member functions in order to highlight at compile time which return values should not be ignored.</p>
+<p>Member functions need to satisfy the following conditions to be considered by this check:</p>
+<blockquote>
+<ul>
+<li>no <code>[[nodiscard]]</code>, <code>[[noreturn]]</code>, <code>__attribute__((warn_unused_result))</code>, <code>[[clang::warn_unused_result]]</code> nor <code>[[gcc::warn_unused_result]]</code> attribute,</li>
+<li>non-void return type,</li>
+<li>non-template return types,</li>
+<li>const member function,</li>
+<li>non-variadic functions,</li>
+<li>no non-const reference parameters,</li>
+<li>no pointer parameters,</li>
+<li>no template parameters,</li>
+<li>no template function parameters,</li>
+<li>not be a member of a class with mutable member variables,</li>
+<li>no Lambdas,</li>
+<li>no conversion functions.</li>
+</ul>
+</blockquote>
+<p>Such functions have no means of altering any state or passing values other than via the return type. Unless the member functions are altering state via some external call (e.g. I/O).</p>
+<h2 id="example">Example</h2>
+<pre class="sourceCode c++"><code>bool empty() const;
+bool empty(int i) const;</code></pre>
+<p>transforms to:</p>
+<pre class="sourceCode c++"><code>[[nodiscard] bool empty() const;
+[[nodiscard] bool empty(int i) const;</code></pre>
+<h2 id="options">Options</h2>
+<h3 id="example-1">Example</h3>
+<pre class="sourceCode c++"><code>bool empty() const;
+bool empty(int i) const;</code></pre>
+<p>transforms to:</p>
+<pre class="sourceCode c++"><code>NO_DISCARD bool empty() const;
+NO_DISCARD bool empty(int i) const;</code></pre>
+<p>if the ReplacementString option is set to NO_DISCARD.</p>
+<blockquote>
+<p><strong>note</strong></p>
+<p>If the ReplacementString is not a C++ attribute, but instead a macro, then that macro must be defined in scope or the fix-it will not be applied.</p>
+</blockquote>
+<blockquote>
+<p><strong>note</strong></p>
+<p>For alternative <code>__attribute__</code> syntax options to mark functions as <code>[[nodiscard]]</code> in non-c++17 source code. See <a href="https://clang.llvm.org/docs/AttributeReference.html#nodiscard-warn-unused-result" class="uri">https://clang.llvm.org/docs/AttributeReference.html#nodiscard-warn-unused-result</a></p>
+</blockquote>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-nodiscard.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>modernize-use-trailing-return-type</key>
+  <name>modernize-use-trailing-return-type</name>
+  <description><![CDATA[
+      <h1 id="modernize-use-trailing-return-type">modernize-use-trailing-return-type</h1>
+<p>Rewrites function signatures to use a trailing return type (introduced in C++11). This transformation is purely stylistic. The return type before the function name is replaced by <code>auto</code> and inserted after the function parameter list (and qualifiers).</p>
+<h2 id="example">Example</h2>
+<pre class="sourceCode c++"><code>int f1();
+inline int f2(int arg) noexcept;
+virtual float f3() const &amp;&amp; = delete;</code></pre>
+<p>transforms to:</p>
+<pre class="sourceCode c++"><code>auto f1() -&gt; int;
+inline auto f2(int arg) -&gt; int noexcept;
+virtual auto f3() const &amp;&amp; -&gt; float = delete;</code></pre>
+<h2 id="known-limitations">Known Limitations</h2>
+<p>The following categories of return types cannot be rewritten currently: * function pointers * member function pointers * member pointers * decltype, when it is the top level expression</p>
+<p>Unqualified names in the return type might erroneously refer to different entities after the rewrite. Preventing such errors requires a full lookup of all unqualified names present in the return type in the scope of the trailing return type location. This location includes e.g. function parameter names and members of the enclosing class (including all inherited classes). Such a lookup is currently not implemented.</p>
+<p>Given the following piece of code</p>
+<pre class="sourceCode c++"><code>struct Object { long long value; };
+Object f(unsigned Object) { return {Object * 2}; }
+class CC {
+  int Object;
+  struct Object m();
+};
+Object CC::m() { return {0}; }</code></pre>
+<p>a careless rewrite would produce the following output:</p>
+<pre class="sourceCode c++"><code>struct Object { long long value; };
+auto f(unsigned Object) -&gt; Object { return {Object * 2}; } // error
+class CC {
+  int Object;
+  auto m() -&gt; struct Object;
+};
+auto CC::m() -&gt; Object { return {0}; } // error</code></pre>
+<p>This code fails to compile because the Object in the context of f refers to the equally named function parameter. Similarly, the Object in the context of m refers to the equally named class member. The check can currently only detect a clash with a function parameter name.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-trailing-return-type.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>objc-super-self</key>
+  <name>objc-super-self</name>
+  <description><![CDATA[
+      <h1 id="objc-super-self">objc-super-self</h1>
+<p>Finds invocations of <code>-self</code> on super instances in initializers of subclasses of <code>NSObject</code> and recommends calling a superclass initializer instead.</p>
+<p>Invoking <code>-self</code> on super instances in initializers is a common programmer error when the programmer's original intent is to call a superclass initializer. Failing to call a superclass initializer breaks initializer chaining and can result in invalid object initialization.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/objc-super-self.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>openmp-exception-escape</key>
+  <name>openmp-exception-escape</name>
+  <description><![CDATA[
+      <h1 id="openmp-exception-escape">openmp-exception-escape</h1>
+<p>Analyzes OpenMP Structured Blocks and checks that no exception escapes out of the Structured Block it was thrown in.</p>
+<p>As per the OpenMP specification, a structured block is an executable statement, possibly compound, with a single entry at the top and a single exit at the bottom. Which means, <code>throw</code> may not be used to to 'exit' out of the structured block. If an exception is not caught in the same structured block it was thrown in, the behaviour is undefined.</p>
+<p>FIXME: this check does not model SEH, <code>setjmp</code>/<code>longjmp</code>.</p>
+<p>WARNING! This check may be expensive on large source files.</p>
+<h2 id="options">Options</h2>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/openmp-exception-escape.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>openmp-use-default-none</key>
+  <name>openmp-use-default-none</name>
+  <description><![CDATA[
+      <h1 id="openmp-use-default-none">openmp-use-default-none</h1>
+<p>Finds OpenMP directives that are allowed to contain a <code>default</code> clause, but either don't specify it or the clause is specified but with the kind other than <code>none</code>, and suggests to use the <code>default(none)</code> clause.</p>
+<p>Using <code>default(none)</code> clause forces developers to explicitly specify data sharing attributes for the variables referenced in the construct, thus making it obvious which variables are referenced, and what is their data sharing attribute, thus increasing readability and possibly making errors easier to spot.</p>
+<h2 id="example">Example</h2>
+<pre class="sourceCode c++"><code>// ``for`` directive can not have ``default`` clause, no diagnostics.
+void n0(const int a) {
+#pragma omp for
+  for (int b = 0; b &lt; a; b++)
+    ;
+}
+
+// ``parallel`` directive.
+
+// ``parallel`` directive can have ``default`` clause, but said clause is not
+// specified, diagnosed.
+void p0_0() {
+#pragma omp parallel
+  ;
+  // WARNING: OpenMP directive ``parallel`` does not specify ``default``
+  //          clause. Consider specifying ``default(none)`` clause.
+}
+
+// ``parallel`` directive can have ``default`` clause, and said clause is
+// specified, with ``none`` kind, all good.
+void p0_1() {
+#pragma omp parallel default(none)
+  ;
+}
+
+// ``parallel`` directive can have ``default`` clause, and said clause is
+// specified, but with ``shared`` kind, which is not ``none``, diagnose.
+void p0_2() {
+#pragma omp parallel default(shared)
+  ;
+  // WARNING: OpenMP directive ``parallel`` specifies ``default(shared)``
+  //          clause. Consider using ``default(none)`` clause instead.
+}</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/openmp-use-default-none.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>readability-const-return-type</key>
+  <name>readability-const-return-type</name>
+  <description><![CDATA[
+      <h1 id="readability-const-return-type">readability-const-return-type</h1>
+<p>Checks for functions with a <code>const</code>-qualified return type and recommends removal of the <code>const</code> keyword. Such use of const is usually superfluous, and can prevent valuable compiler optimizations. Does not (yet) fix trailing return types.</p>
+<p>Examples:</p>
+<pre class="sourceCode c++"><code>const int foo();
+const Clazz foo();
+Clazz *const foo();</code></pre>
+<p>Note that this applies strictly to top-level qualification, which excludes pointers or references to const values. For example, these are fine:</p>
+<pre class="sourceCode c++"><code>const int* foo();
+const int&amp; foo();
+const Clazz* foo();</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-const-return-type.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>readability-isolate-declaration</key>
+  <name>readability-isolate-declaration</name>
+  <description><![CDATA[
+      <h1 id="readability-isolate-declaration">readability-isolate-declaration</h1>
+<p>Detects local variable declarations declaring more than one variable and tries to refactor the code to one statement per declaration.</p>
+<p>The automatic code-transformation will use the same indentation as the original for every created statement and add a line break after each statement. It keeps the order of the variable declarations consistent, too.</p>
+<pre class="sourceCode c++"><code>void f() {
+  int * pointer = nullptr, value = 42, * const const_ptr = &amp;value;
+  // This declaration will be diagnosed and transformed into:
+  // int * pointer = nullptr;
+  // int value = 42;
+  // int * const const_ptr = &amp;value;
+}</code></pre>
+<p>The check excludes places where it is necessary or common to declare multiple variables in one statement and there is no other way supported in the language. Please note that structured bindings are not considered.</p>
+<pre class="sourceCode c++"><code>// It is not possible to transform this declaration and doing the declaration
+// before the loop will increase the scope of the variable &#39;Begin&#39; and &#39;End&#39;
+// which is undesirable.
+for (int Begin = 0, End = 100; Begin &lt; End; ++Begin);
+if (int Begin = 42, Result = some_function(Begin); Begin == Result);
+
+// It is not possible to transform this declaration because the result is
+// not functionality preserving as &#39;j&#39; and &#39;k&#39; would not be part of the
+// &#39;if&#39; statement anymore.
+if (SomeCondition())
+  int i = 42, j = 43, k = function(i,j);</code></pre>
+<h2 id="limitations">Limitations</h2>
+<p>Global variables and member variables are excluded.</p>
+<p>The check currently does not support the automatic transformation of member-pointer-types.</p>
+<pre class="sourceCode c++"><code>struct S {
+  int a;
+  const int b;
+  void f() {}
+};
+
+void f() {
+  // Only a diagnostic message is emitted
+  int S::*p = &amp;S::a, S::*const q = &amp;S::a;
+}</code></pre>
+<p>Furthermore, the transformation is very cautious when it detects various kinds of macros or preprocessor directives in the range of the statement. In this case the transformation will not happen to avoid unexpected side-effects due to macros.</p>
+<pre class="sourceCode c++"><code>#define NULL 0
+#define MY_NICE_TYPE int **
+#define VAR_NAME(name) name##__LINE__
+#define A_BUNCH_OF_VARIABLES int m1 = 42, m2 = 43, m3 = 44;
+
+void macros() {
+  int *p1 = NULL, *p2 = NULL;
+  // Will be transformed to
+  // int *p1 = NULL;
+  // int *p2 = NULL;
+
+  MY_NICE_TYPE p3, v1, v2;
+  // Won&#39;t be transformed, but a diagnostic is emitted.
+
+  int VAR_NAME(v3),
+      VAR_NAME(v4),
+      VAR_NAME(v5);
+  // Won&#39;t be transformed, but a diagnostic is emitted.
+
+  A_BUNCH_OF_VARIABLES
+  // Won&#39;t be transformed, but a diagnostic is emitted.
+
+  int Unconditional,
+#if CONFIGURATION
+      IfConfigured = 42,
+#else
+      IfConfigured = 0;
+#endif
+  // Won&#39;t be transformed, but a diagnostic is emitted.
+}</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-isolate-declaration.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>readability-redundant-preprocessor</key>
+  <name>readability-redundant-preprocessor</name>
+  <description><![CDATA[
+      <h1 id="readability-redundant-preprocessor">readability-redundant-preprocessor</h1>
+<p>Finds potentially redundant preprocessor directives. At the moment the following cases are detected:</p>
+<ul>
+<li>#ifdef .. #endif pairs which are nested inside an outer pair with the same condition. For example:</li>
+</ul>
+<pre class="sourceCode c++"><code>#ifdef FOO
+#ifdef FOO // inner ifdef is considered redundant
+void f();
+#endif
+#endif</code></pre>
+<ul>
+<li>Same for #ifndef .. #endif pairs. For example:</li>
+</ul>
+<pre class="sourceCode c++"><code>#ifndef FOO
+#ifndef FOO // inner ifndef is considered redundant
+void f();
+#endif
+#endif</code></pre>
+<ul>
+<li>#ifndef inside an #ifdef with the same condition:</li>
+</ul>
+<pre class="sourceCode c++"><code>#ifdef FOO
+#ifndef FOO // inner ifndef is considered redundant
+void f();
+#endif
+#endif</code></pre>
+<ul>
+<li>#ifdef inside an #ifndef with the same condition:</li>
+</ul>
+<pre class="sourceCode c++"><code>#ifndef FOO
+#ifdef FOO // inner ifdef is considered redundant
+void f();
+#endif
+#endif</code></pre>
+<ul>
+<li>#if .. #endif pairs which are nested inside an outer pair with the same condition. For example:</li>
+</ul>
+<pre class="sourceCode c++"><code>#define FOO 4
+#if FOO == 4
+#if FOO == 4 // inner if is considered redundant
+void f();
+#endif
+#endif</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-redundant-preprocessor.html" target="_blank">clang.llvm.org</a></p>
+      ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  </rule>
+<rule>
+  <key>readability-uppercase-literal-suffix</key>
+  <name>readability-uppercase-literal-suffix</name>
+  <description><![CDATA[
+      <h1 id="readability-uppercase-literal-suffix">readability-uppercase-literal-suffix</h1>
+<p>cert-dcl16-c redirects here as an alias for this check. By default, only the suffixes that begin with <code>l</code> (<code>l</code>, <code>ll</code>, <code>lu</code>, <code>llu</code>, but not <code>u</code>, <code>ul</code>, <code>ull</code>) are diagnosed by that alias.</p>
+<p>hicpp-uppercase-literal-suffix redirects here as an alias for this check.</p>
+<p>Detects when the integral literal or floating point (decimal or hexadecimal) literal has a non-uppercase suffix and provides a fix-it hint with the uppercase suffix.</p>
+<p>All valid combinations of suffixes are supported.</p>
+<pre class="sourceCode c"><code>auto x = 1;  // OK, no suffix.
+
+auto x = 1u; // warning: integer literal suffix &#39;u&#39; is not upper-case
+
+auto x = 1U; // OK, suffix is uppercase.
+
+...</code></pre>
+<h2 id="options">Options</h2>
+<h3 id="example">Example</h3>
+<p>Given a list `L;uL`:</p>
+<ul>
+<li><code>l</code> -&gt; <code>L</code></li>
+<li><code>L</code> will be kept as is.</li>
+<li><code>ul</code> -&gt; <code>uL</code></li>
+<li><code>Ul</code> -&gt; <code>uL</code></li>
+<li><code>UL</code> -&gt; <code>uL</code></li>
+<li><code>uL</code> will be kept as is.</li>
+<li><code>ull</code> will be kept as is, since it is not in the list</li>
+<li>and so on.</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-uppercase-literal-suffix.html" target="_blank">clang.llvm.org</a></p>
       ]]></description>
   <severity>MAJOR</severity>
   <type>CODE_SMELL</type>
