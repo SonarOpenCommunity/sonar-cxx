@@ -177,7 +177,11 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
           return;
         }
 
-        assert !currentIssue.getLocations().isEmpty() : "current issue must have a location.";
+        if (currentIssue.getLocations().isEmpty()) {
+          LOG.error("The issue of {} must have the primary location. Skip adding more locations",
+                  currentIssue.toString());
+          return;
+        }
 
         // Due to SONAR-9929, even the API supports the extral/flow in different file,
         // the UI is not ready. For this case, use the parent issue's file and line for now.
