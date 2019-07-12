@@ -4255,7 +4255,7 @@ meaningless. Did you intend to write '(*A)++;'?
     <name>Comparison of a boolean value using relational operator (&lt;, &gt;, &lt;= or &gt;=)</name>
     <description>
       <![CDATA[
-      The result of the expression 'expression' is of type 'bool'. Comparing 'bool' value using relational (<, >, <= or >=) operator could cause unexpected results.
+      The result of the expression 'expression' is of type 'bool'. Comparing 'bool' value using relational (&lt;, &gt;, &lt;= or &gt;=) operator could cause unexpected results.
       ]]>
     </description>
     <internalKey>comparisonOfBoolWithInvalidComparator</internalKey>
