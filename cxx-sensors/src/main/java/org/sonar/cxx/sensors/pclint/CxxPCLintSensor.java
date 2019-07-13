@@ -57,11 +57,10 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
 
   private static final String SUPPLEMENTAL_TYPE_ISSUE = "supplemental";
 
-  private static final String PREFIX_DURING_SPECIFIC_WALK_MSG = "during specific walk ";
+  private static final String PREFIX_DURING_SPECIFIC_WALK_MSG = "during specific walk";
 
-  private static final int PREFIX_MSG_LENGTH = PREFIX_DURING_SPECIFIC_WALK_MSG.length();
-
-  private static final Pattern FILE_NAME_WITH_LINE_AND_COL_PATTERN = Pattern.compile("(.+):(\\d+):(\\d+)");
+  private static final Pattern SUPPLEMENTAL_MSG_PATTERN =
+          Pattern.compile(PREFIX_DURING_SPECIFIC_WALK_MSG + "\\s+(.+):(\\d+):(\\d+)\\s+.+");
 
   /**
    * CxxPCLintSensor for PC-lint Sensor
@@ -116,7 +115,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
             // handle the case when supplemental message has no file and line
             // eg, issue 894.
             if (SUPPLEMENTAL_TYPE_ISSUE.equals(type) && currentIssue != null) {
-              addMoreLocationsToCurrentIssue(currentIssue, file, line, msg);
+              addSecondaryLocationsToCurrentIssue(currentIssue, file, line, msg);
               continue;
             }
 
@@ -132,13 +131,11 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
                 }
               }
 
-              CxxReportIssue issue = new CxxReportIssue(id, file, line, msg);
-
               if (currentIssue != null) {
                 saveUniqueViolation(context, currentIssue);
               }
 
-              currentIssue = issue;
+              currentIssue = new CxxReportIssue(id, file, line, msg);
             } else {
               LOG.warn("PC-lint warning ignored: {}", msg);
               if (LOG.isDebugEnabled()) {
@@ -157,15 +154,12 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
         }
       }
 
-      private void addMoreLocationsToCurrentIssue(@Nonnull CxxReportIssue currentIssue,
-                                                String file,
-                                                String line,
-                                                String msg) {
-        if (file != null && file.isEmpty() && msg != null && msg.startsWith(PREFIX_DURING_SPECIFIC_WALK_MSG)) {
-          String walkedSrcFile =
-                  msg.substring(PREFIX_MSG_LENGTH, msg.indexOf(" ", PREFIX_MSG_LENGTH));
-
-          Matcher matcher = FILE_NAME_WITH_LINE_AND_COL_PATTERN.matcher(walkedSrcFile);
+      private void addSecondaryLocationsToCurrentIssue(@Nonnull CxxReportIssue currentIssue,
+                                                       String file,
+                                                       String line,
+                                                       String msg) {
+        if (file != null && file.isEmpty() && msg != null) {
+          Matcher matcher = SUPPLEMENTAL_MSG_PATTERN.matcher(msg);
 
           if (matcher.matches()) {
             file = matcher.group(1);
@@ -183,12 +177,12 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
           return;
         }
 
-        // Due to SONAR-9929, even the API supports the extral/flow in different file,
+        // Due to SONAR-9929, even the API supports the extra/flow in different file,
         // the UI is not ready. For this case, use the parent issue's file and line for now.
         CxxReportLocation primaryLocation = currentIssue.getLocations().get(0);
         if (!primaryLocation.getFile().equals(file)) {
           if (!msg.startsWith(PREFIX_DURING_SPECIFIC_WALK_MSG)) {
-            msg = PREFIX_DURING_SPECIFIC_WALK_MSG + String.format(" %s:%s %s", file, line, msg);
+            msg = String.format("%s %s:%s %s", PREFIX_DURING_SPECIFIC_WALK_MSG, file, line, msg);
           }
 
           file = primaryLocation.getFile();
