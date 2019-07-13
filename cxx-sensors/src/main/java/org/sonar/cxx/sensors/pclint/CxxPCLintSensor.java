@@ -158,6 +158,12 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
                                                        String file,
                                                        String line,
                                                        String msg) {
+        if (currentIssue.getLocations().isEmpty()) {
+          LOG.error("The issue of {} must have the primary location. Skip adding more locations",
+                  currentIssue.toString());
+          return;
+        }
+
         if (file != null && file.isEmpty() && msg != null) {
           Matcher matcher = SUPPLEMENTAL_MSG_PATTERN.matcher(msg);
 
@@ -168,12 +174,6 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
         }
 
         if (file == null || file.isEmpty() || line == null || line.isEmpty()) {
-          return;
-        }
-
-        if (currentIssue.getLocations().isEmpty()) {
-          LOG.error("The issue of {} must have the primary location. Skip adding more locations",
-                  currentIssue.toString());
           return;
         }
 
