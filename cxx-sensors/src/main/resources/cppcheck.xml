@@ -319,22 +319,15 @@ Buffer overrun possible for long command line arguments.
   </rule>
   <rule>
     <key>pointerOutOfBounds</key>
-    <name>Undefined behaviour, pointer arithmetic 'expr' or index is out of bounds</name>
+    <name>Pointer arithmetic overflow</name>
     <description>
       <![CDATA[
       <p>
-Undefined behaviour, pointer arithmetic '' is out of bounds. From
-chapter 6.5.6 in the C specification:
-<cite>"When an expression that has
-integer type is added to or subtracted from a pointer, .."</cite> and then
-<cite>"If both the pointer operand and the result point to elements of the
-same array object, or one past the last element of the array object,
-the evaluation shall not produce an overflow; otherwise, the behavior
-is undefined."</cite>
+Pointer arithmetic overflow.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
-]]>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+      ]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -2135,7 +2128,7 @@ string literal.
       <p>
 Calling sizeof for 'sizeof looks like a suspicious code and most
 likely there should be just one 'sizeof'. The current code is
-equivalent to 'sizeof(T)'
+equivalent to 'sizeof(size_t)'
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
@@ -2355,16 +2348,11 @@ The code <code>a+b?c:d</code> should be written as either <code>(a+b)?c:d</code>
     <key>clarifyCondition</key>
     <name>Suspicious condition (assignment + comparison)</name>
     <description>
-<![CDATA[
-<ul>
-<li>Suspicious condition (assignment + comparison), it can be clarified with parentheses.</li>
-<li>Suspicious expression. Boolean result is used in bitwise operation. The operator '!'
-and the comparison operators have higher precedence than bitwise operators.
-It is recommended that the expression is clarified with parentheses.</li>
-<li>Suspicious condition (bitwise operator + comparison).
-Comparison operators have higher precedence than bitwise operators.
-Please clarify the condition with parentheses.</li>
-</ul>
+      <![CDATA[
+      <p>
+Suspicious condition (assignment + comparison); Clarify expression
+with parentheses.
+</p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
@@ -2717,15 +2705,15 @@ not properly checked.
   </rule>
   <rule>
     <key>stlIfStrFind</key>
-    <name>Inefficient usage of string::find() in condition; string::compare() would be faster</name>
+    <name>Inefficient usage of string::find() in condition; string::starts_with() would be faster</name>
     <description>
       <![CDATA[
       <p>
-Either inefficient or wrong usage of string::find(). string::compare()
-will be faster if string::find's result is compared with 0, because it
-will not scan the whole string. If your intention is to check that
-there are no findings in the string, you should compare with
-std::string::npos.
+Either inefficient or wrong usage of string::find().
+string::starts_with() will be faster if string::find's result is
+compared with 0, because it will not scan the whole string. If your
+intention is to check that there are no findings in the string, you
+should compare with std::string::npos.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/597.html" target="_blank">CWE-597: Use of Wrong Operator in String Comparison</a></p>
@@ -3305,7 +3293,7 @@ invalid.
       <![CDATA[
       <p>
 BOOST_FOREACH caches the end() iterator. It's undefined behavior if
- you modify the container inside.
+you modify the container inside.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
@@ -4264,9 +4252,11 @@ meaningless. Did you intend to write '(*A)++;'?
   </rule>
   <rule>
     <key>comparisonOfBoolWithInvalidComparator</key>
-    <name>Comparison of a boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator</name>
+    <name>Comparison of a boolean value using relational operator (&lt;, &gt;, &lt;= or &gt;=)</name>
     <description>
-      Comparison of a boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator.
+      <![CDATA[
+      The result of the expression 'expression' is of type 'bool'. Comparing 'bool' value using relational (&lt;, &gt;, &lt;= or &gt;=) operator could cause unexpected results.
+      ]]>
     </description>
     <internalKey>comparisonOfBoolWithInvalidComparator</internalKey>
     <severity>MINOR</severity>
@@ -4306,7 +4296,7 @@ unnamed namespace.
     <description>
       <![CDATA[
       <p>
-The array 'buffer' is filled incompletely. The function 'function()'
+The array 'buffer' is filled incompletely. The function 'memset()'
 needs the size given in bytes, but an element of the given array is
 larger than one byte. Did you forget to multiply the size with
 'sizeof(*buffer)'?
@@ -4651,7 +4641,7 @@ copy constructor instead of allocating new memory.
     <name>Invalid memory address freed</name>
     <description>
       <![CDATA[
-      Invalid memory address freed.
+      Mismatching address is freed. The address you get from malloc() must be freed without offset.
       ]]>
       </description>
     <internalKey>invalidFree</internalKey>
@@ -5695,12 +5685,11 @@ no effect.
     <description>
       <![CDATA[
       <p>
-Array 'x[SZ]' accessed at larger index I, which is out of bounds. Otherwise
-condition '==I' is redundant.
+Array 'x[SZ]' accessed at larger index I, which is out of bounds.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a></p>
-]]>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
+      ]]>
 </description>
     <tag>bug</tag>
     <tag>cert</tag>
@@ -6632,8 +6621,8 @@ Unsafe allocation. If funcName() throws, memory could be leaked. Use
 make_shared&lt;T&gt;() / make_unique&lt;T&gt;() instead.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a></p>
-    ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference</a></p>
+      ]]>
     </description>
     <tag>cwe</tag>
     <internalKey>leakUnsafeArgAlloc</internalKey>
