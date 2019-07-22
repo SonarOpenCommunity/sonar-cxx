@@ -43,7 +43,8 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
   private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
 
-  private static final String REGEX = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): ([^]]+) \\[([^]]+)\\]";
+  private static final String REGEX
+          = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): ([^]]+)( \\[([^]]+)\\])?";
   private static final Pattern PATTERN = Pattern.compile(REGEX);
 
   /**
@@ -67,35 +68,47 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(final SensorContext context, File report) {
     final String reportCharset = getContextStringProperty(context,
-      getLanguage().getPluginProperty(REPORT_CHARSET_DEF), DEFAULT_CHARSET_DEF);
+            getLanguage().getPluginProperty(REPORT_CHARSET_DEF), DEFAULT_CHARSET_DEF);
     LOG.debug("Parsing 'clang-tidy' report, CharSet= '{}'", reportCharset);
 
     try (Scanner scanner = new Scanner(report, reportCharset)) {
+      // sample:
       // E:\Development\SonarQube\cxx\sonar-cxx\sonar-cxx-plugin\src\test\resources\org\sonar\plugins\cxx\
       //   reports-project\clang-tidy-reports\..\..\cpd.cc:76:20:
       //   warning: ISO C++11 does not allow conversion from string literal to 'char *'
       //   [clang-diagnostic-writable-strings]
-      // <path>:<line>:<column>: <level>: <message> [<checkname>]
-      // relative paths
-
+      CxxReportIssue issue = null;
       while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        final Matcher matcher = PATTERN.matcher(line);
+        String nextLine = scanner.nextLine();
+        final Matcher matcher = PATTERN.matcher(nextLine);
         if (matcher.matches()) {
+          // group: 1      2      3         4        5       7
+          //      <path>:<line>:<column>: <level>: <info> [<ruleId>]
           MatchResult m = matcher.toMatchResult();
-          String path = m.group(1);
-          String lineId = m.group(2);
-          String message = m.group(5);
-          String check = m.group(6);
+          String path = m.group(1); // relative paths
+          String line = m.group(2);
+          //String column = m.group(3);
+          String level = m.group(4); // error, warning, note, ...
+          String info = m.group(5);
+          String ruleId = m.group(7); // optional
 
-          CxxReportIssue issue = new CxxReportIssue(check, path, lineId, message);
-          saveUniqueViolation(context, issue);
+          if (ruleId != null) {
+            if (issue != null) {
+              saveUniqueViolation(context, issue);
+            }
+            issue = new CxxReportIssue(ruleId, path, line, info);
+          } else if ((issue != null) && "note".equals(level)) {
+            issue.addFlowElement(path, line, info);
+          }
         }
       }
+      if (issue != null) {
+        saveUniqueViolation(context, issue);
+      }
     } catch (final java.io.FileNotFoundException
-      | java.lang.IllegalArgumentException
-      | java.lang.IllegalStateException
-      | java.util.InputMismatchException e) {
+            | java.lang.IllegalArgumentException
+            | java.lang.IllegalStateException
+            | java.util.InputMismatchException e) {
       LOG.error("Failed to parse clang-tidy report: {}", e);
     }
   }

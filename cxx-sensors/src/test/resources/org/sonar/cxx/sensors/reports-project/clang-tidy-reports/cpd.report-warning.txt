@@ -1,0 +1,3 @@
+sources\utils\code_chunks.cpp:2:10: warning: function 'A::foo' has a definition with different parameter names [readability-inconsistent-declaration-parameter-name]
+    void foo(int bar);
+         ^
