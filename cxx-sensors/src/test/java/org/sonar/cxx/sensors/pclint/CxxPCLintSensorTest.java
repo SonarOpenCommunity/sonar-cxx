@@ -201,10 +201,8 @@ public class CxxPCLintSensorTest {
     List<Issue> allIssues = new ArrayList<>(context.allIssues());
 
     Issue firstIssue = allIssues.get(0);
-    assertThat(firstIssue.flows().size()).isEqualTo(3);
-    assertThat(firstIssue.flows().get(0).locations().size()).isEqualTo(1);
-    assertThat(firstIssue.flows().get(1).locations().size()).isEqualTo(1);
-    assertThat(firstIssue.flows().get(2).locations().size()).isEqualTo(1);
+    assertThat(firstIssue.flows().size()).isEqualTo(1);
+    assertThat(firstIssue.flows().get(0).locations().size()).isEqualTo(3);
 
     Issue secondIssue = allIssues.get(1);
     assertThat(secondIssue.flows().size()).isEqualTo(1);

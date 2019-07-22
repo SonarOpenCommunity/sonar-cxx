@@ -189,7 +189,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
           line = primaryLocation.getLine();
         }
 
-        currentIssue.addLocation(file, line, msg);
+        currentIssue.addFlowElement(file, line, msg);
       }
 
       private boolean isInputValid(@Nullable String file, @Nullable String line,
