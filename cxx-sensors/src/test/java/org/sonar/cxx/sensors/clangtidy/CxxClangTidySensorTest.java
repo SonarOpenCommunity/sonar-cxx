@@ -106,6 +106,24 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
+  public void shouldReportNodiscard() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
+    settings.setProperty(
+            language.getPluginProperty(CxxClangTidySensor.REPORT_PATH_KEY),
+            "clang-tidy-reports/cpd.report-nodiscard.txt"
+    );
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
+            .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+
+    CxxClangTidySensor sensor = new CxxClangTidySensor(language);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(1);
+  }
+
+  @Test
   public void shouldReportFlow() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 

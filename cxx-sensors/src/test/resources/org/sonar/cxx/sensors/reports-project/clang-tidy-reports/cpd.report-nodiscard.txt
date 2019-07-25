@@ -1,0 +1,5 @@
+1 warning generated.
+sources\utils\code_chunks.cpp:2:3: warning: function 'empty' should be marked [[nodiscard]] [modernize-use-nodiscard]
+  bool empty() const;
+  ^
+  [[nodiscard]]

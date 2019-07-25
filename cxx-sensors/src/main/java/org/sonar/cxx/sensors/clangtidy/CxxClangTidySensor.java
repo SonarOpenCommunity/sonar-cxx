@@ -44,7 +44,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
 
   private static final String REGEX
-          = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): ([^]]+)( \\[([^]]+)\\])?";
+          = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): (.+)";
   private static final Pattern PATTERN = Pattern.compile(REGEX);
 
   /**
@@ -59,10 +59,10 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " ClangTidySensor")
-      .onlyOnLanguage(getLanguage().getKey())
-      .createIssuesForRuleRepository(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+            .name(getLanguage().getName() + " ClangTidySensor")
+            .onlyOnLanguage(getLanguage().getKey())
+            .createIssuesForRuleRepository(getRuleRepositoryKey())
+            .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override
@@ -82,15 +82,33 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         String nextLine = scanner.nextLine();
         final Matcher matcher = PATTERN.matcher(nextLine);
         if (matcher.matches()) {
-          // group: 1      2      3         4        5       7
-          //      <path>:<line>:<column>: <level>: <info> [<ruleId>]
+          // group: 1      2      3         4        5
+          //      <path>:<line>:<column>: <level>: <txt>
           MatchResult m = matcher.toMatchResult();
           String path = m.group(1); // relative paths
           String line = m.group(2);
           //String column = m.group(3);
-          String level = m.group(4); // error, warning, note, ...
-          String info = m.group(5);
-          String ruleId = m.group(7); // optional
+          String level = m.group(4); // error, warning, note, ...          
+          String txt = m.group(5); // info( [ruleId])?
+          String info = null;
+          String ruleId = null;
+
+          if (txt.endsWith("]")) { // [ruleId]
+            for (int i = txt.length() - 2; i >= 0; i--) {
+              char c = txt.charAt(i);
+              if (c == '[') {
+                info = txt.substring(0, i - 1);
+                ruleId = txt.substring(i + 1, txt.length() - 1);
+                break;
+              }
+              if (!(Character.isLetterOrDigit(c) || c == '-' || c == '.')) {
+                break;
+              }
+            }
+          }
+          if (info == null) {
+            info = txt;
+          }
 
           if (ruleId != null) {
             if (issue != null) {
