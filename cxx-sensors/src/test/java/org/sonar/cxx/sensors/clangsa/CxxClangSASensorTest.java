@@ -199,12 +199,12 @@ public class CxxClangSASensorTest {
     // presenting 1-element flows in SonarQube UI
     {
       Issue issue = Iterables.get(context.allIssues(), 1);
-      assertThat(issue.flows()).hasSize(0);
+      assertThat(issue.flows()).hasSize(1);
     }
 
     {
       Issue issue = Iterables.get(context.allIssues(), 2);
-      assertThat(issue.flows()).hasSize(0);
+      assertThat(issue.flows()).hasSize(1);
     }
   }
 
