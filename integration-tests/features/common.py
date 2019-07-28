@@ -30,7 +30,8 @@ import time
 SONAR_ERROR_RE = re.compile(".* ERROR .*")
 SONAR_WARN_RE = re.compile(".* WARN .*")
 SONAR_WARN_TO_IGNORE_RE = re.compile(".*H2 database should.*|.*Starting search|.*Starting web")
-RELPATH_LOG = "logs/sonar.log"
+SONAR_LOG_FOLDER = "logs"
+SONAR_LOG_FILE = "sonar.log"
 
 RED = ""
 YELLOW = ""
@@ -42,8 +43,11 @@ INDENT = "    "
 
 SONAR_URL = "http://localhost:9000"
 
-def get_sonar_log_path(sonarhome):
-    return os.path.join(sonarhome, RELPATH_LOG)
+def get_sonar_log_folder(sonarhome):
+    return os.path.join(sonarhome, SONAR_LOG_FOLDER)
+
+def get_sonar_log_file(sonarhome):
+    return os.path.join(get_sonar_log_folder(sonarhome), SONAR_LOG_FILE)
 
 def sonar_analysis_finished(logpath):
     url = ""
@@ -88,8 +92,34 @@ def sonar_analysis_finished(logpath):
     f.close()
 
 #    print(BRIGHT + " LOG: " + r.text + RESET_ALL)
-        
+
     return status
+
+def cleanup_logs(sonarhome):
+    sys.stdout.write(INDENT + "cleaning logs ... ")
+    sys.stdout.flush()
+    try:
+        logpath = get_sonar_log_folder(sonarhome)
+        filelist = [ f for f in os.listdir(logpath) if f.endswith(".log") ]
+        for f in filelist:
+            os.remove(os.path.join(logpath, f))
+    except OSError:
+        pass
+    sys.stdout.write(GREEN + "OK\n" + RESET)
+
+def print_logs(sonarhome):
+    sys.stdout.write(INDENT + "print logs ... \n")
+    sys.stdout.flush()
+    try:
+        logpath = get_sonar_log_folder(sonarhome)
+        filelist = [ f for f in os.listdir(logpath) if f.endswith(".log") ]
+        for f in filelist:
+            sys.stdout.write("\n--- " + f + " ---\n")
+            with open(os.path.join(logpath, f), 'r') as file:
+                sys.stdout.write(file.read());
+    except OSError:
+        pass
+    sys.stdout.write("\n")
 
 def analyse_log(logpath, toignore=None):
     badlines = []

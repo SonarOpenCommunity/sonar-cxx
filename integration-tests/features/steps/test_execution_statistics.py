@@ -29,7 +29,7 @@ from   requests.auth import HTTPBasicAuth
 import subprocess
 import shutil
 from behave import given, when, then, model
-from common import analyse_log, build_regexp, get_sonar_log_path, analyse_log_lines, sonar_analysis_finished
+from common import analyse_log, build_regexp, get_sonar_log_file, analyse_log_lines, sonar_analysis_finished
 
 RED = ""
 YELLOW = ""
@@ -371,7 +371,7 @@ def _run_command(context, command):
 
     sonarhome = os.environ.get("SONARHOME", None)
     if sonarhome:
-        context.serverlog = get_sonar_log_path(sonarhome)
+        context.serverlog = get_sonar_log_file(sonarhome)
         if getattr(context, "serverlogfd", None) is not None:
             context.serverlogfd.close()
         context.serverlogfd = open(context.serverlog, "r")
