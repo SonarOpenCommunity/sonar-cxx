@@ -4,7 +4,7 @@ Feature: Importing Cppcheck reports
   In order to have all static code checking results in one place,
   work with them, filter them etc. and derive metrics from them.
 
-  @SqApi67 @SqApi75 @SqApi76 @SqApi78
+  @SqApi79
   Scenario: The reports are missing
     Given the project "cppcheck_project"
     When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=empty.xml"
@@ -30,7 +30,7 @@ Feature: Importing Cppcheck reports
       """
     And the number of violations fed is 0
 
-  @SqApi67 @SqApi75 @SqApi76 @SqApi78
+  @SqApi79
   Scenario: The reports use paths relative to directories listed in sonar.sources
     Given the project "cppcheck_project"
     When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=relative-to-src.xml"
@@ -43,7 +43,7 @@ Feature: Importing Cppcheck reports
       """
     And the number of violations fed is 0
 
-  @SqApi67 @SqApi75 @SqApi76 @SqApi78
+  @SqApi79
   Scenario: The reports and issues in the reports have absolute paths
     Given the project "cppcheck_with_absolute_paths_project"
     And platform is not "Windows"
@@ -53,7 +53,7 @@ Feature: Importing Cppcheck reports
     And the server log (if locatable) contains no error/warning messages
     And the number of violations fed is 6
 
-  @SqApi67 @SqApi75 @SqApi76 @SqApi78
+  @SqApi79
   Scenario Outline: The reports are invalid
     Given the project "cppcheck_project"
     When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
@@ -70,7 +70,7 @@ Feature: Importing Cppcheck reports
       | unparsable.xml      | 0          |
       | wrongly_encoded.xml | 0          |
 
-  @SqApi67 @SqApi75 @SqApi76 @SqApi78
+  @SqApi79
   Scenario Outline: Importing Cppcheck reports
     Given the project "cppcheck_project"
     When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
