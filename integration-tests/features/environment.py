@@ -177,7 +177,7 @@ def start_sonar(sonarhome):
     sys.stdout.flush()
     now = time.time()
     start_script(sonarhome)
-    if not wait_for_sonar(180, is_webui_up):
+    if not wait_for_sonar(300, is_webui_up):
         sys.stdout.write(RED + "FAILED, duration: %03.1f s\n" % (time.time() - now) + RESET)
         return False
 
@@ -194,14 +194,14 @@ def stop_sonar(sonarhome):
             command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "UninstallNTService.bat")]
             check_call(command, stdout=PIPE, shell=os.name == "nt")
 
-        if not wait_for_sonar(180, is_webui_down):
+        if not wait_for_sonar(300, is_webui_down):
             sys.stdout.write(RED + "FAILED\n" + RESET)
             return False
 
     sys.stdout.write(INDENT + "stopping SonarQube ... ")
     sys.stdout.flush()
     rc = check_call(stop_script(sonarhome))
-    if rc != 0 or not wait_for_sonar(120, is_webui_down):
+    if rc != 0 or not wait_for_sonar(300, is_webui_down):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
 
@@ -229,6 +229,8 @@ def replace(file_path, pattern, subst):
 def start_script(sonarhome):
     command = None
 
+    replace(os.path.join(sonarhome, "conf", "wrapper.conf"), "wrapper.java.command=java", "wrapper.java.command=" + (os.environ['JAVA_HOME'] + '/bin/java').replace("\\","/"))
+
     if platform.system() == "Linux":
         script = linux_script(sonarhome)
         if script:
@@ -239,7 +241,6 @@ def start_script(sonarhome):
         replace(os.path.join(sonarhome, "conf", "sonar.properties"), "#sonar.path.data=data", "sonar.path.data=" + os.path.join(sonarhome,"data").replace("\\","/"))
         replace(os.path.join(sonarhome, "conf", "sonar.properties"), "#sonar.path.temp=temp", "sonar.path.temp=" + os.path.join(sonarhome,"temp").replace("\\","/"))
         replace(os.path.join(sonarhome, "conf", "wrapper.conf"), "wrapper.java.additional.1=-Djava.awt.headless=true", "wrapper.java.additional.1=-Djava.awt.headless=true -Djava.io.tmpdir=" + os.path.join(sonarhome,"temp").replace("\\","/"))
-        replace(os.path.join(sonarhome, "conf", "wrapper.conf"), "wrapper.java.command=java", "wrapper.java.command=" + (os.environ['JAVA_HOME'] + '/bin/java').replace("\\","/"))
 
         if platform.machine() == "x86_64":
             sys.stdout.write(GREEN + "Install Service...\n")
@@ -310,7 +311,7 @@ def wait_for_sonar(timeout, criteria):
     for _ in range(timeout):
         if criteria():
             return True
-        time.sleep(1)
+        time.sleep(10)
     return False
 
 
@@ -318,7 +319,10 @@ def is_webui_up():
     try:
         response = requests.get(SONAR_URL + "/api/system/status")
         response.raise_for_status()
-        return response.json()['status'] == "UP"
+        status = response.json()['status']
+        if status != "UP":
+            sys.stdout.write(RED + status + ' ' + RESET)
+        return status == "UP"
     except:
         return False
 
