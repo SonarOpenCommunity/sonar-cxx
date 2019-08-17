@@ -120,7 +120,7 @@ Feature: Smoketest
       | test_errors              | 0     |
       | tests                    | 4     |
 
-@SqApi78
+@SqApi78 @SqApi79
   Scenario: Smoketest
     Given the project "smoketest_project"
     When I run "sonar-scanner -X"

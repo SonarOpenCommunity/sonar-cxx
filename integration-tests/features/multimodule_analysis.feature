@@ -1,4 +1,4 @@
-@SqApi67 @SqApi75 @SqApi76 @SqApi78
+@SqApi67 @SqApi75 @SqApi76 @SqApi78 @SqApi79
 Feature: cpp-multimodule-project
   Test multimodule project with reports at root of the project
 

@@ -5,7 +5,7 @@ sudo: required
 
 jdk:
         - oraclejdk8
-        - openjdk11      
+        - openjdk11
 
 env:
         - SONARLABEL=sonarqube-6.7.7   SONARAPI=SqApi67
@@ -18,10 +18,13 @@ env:
         - SONARLABEL=sonarqube-7.6     SONARAPI=SqApi76
         - SONARLABEL=sonarqube-7.7     SONARAPI=SqApi76
         - SONARLABEL=sonarqube-7.8     SONARAPI=SqApi78
-        - SONARLABEL=sonarqube-7.9.1   SONARAPI=SqApi79        
-        
+        - SONARLABEL=sonarqube-7.9.1   SONARAPI=SqApi79
+
 matrix:
     fast_finish: true
+    exclude:
+        - jdk: oraclejdk8
+          env: SONARLABEL=sonarqube-7.9.1 SONARAPI=SqApi79
 #    allow_failures:
 #        - env: SONARLABEL=sonarqube-7.0     SONARAPI=SqApi67
 
@@ -82,3 +85,4 @@ after_failure:
         - cat $SONARHOME/logs/ce.log
         - cat $SONARHOME/logs/es.log
         - find . -name "*.log" | xargs cat
+
