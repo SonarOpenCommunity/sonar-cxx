@@ -565,7 +565,15 @@ public class CxxLexerTest {
           .tokenValue("R\"X*X(A C++11 raw string literal can be specified like this: R\"(This is my raw string)\" )X*X\"")
           .tokenType(CxxTokenType.STRING).build(), // raw string: complex example
         LiteralValuesBuilder.builder("R\"([.^$|()\\[\\]{}*+?\\\\])\"").tokenValue("R\"([.^$|()\\[\\]{}*+?\\\\])\"")
-          .tokenType(CxxTokenType.STRING).build() // raw string: regex sample
+          .tokenType(CxxTokenType.STRING).build(), // raw string: regex sample
+
+       // fix #1748       
+       LiteralValuesBuilder.builder("R\"(([A-Z\\d]))\"").tokenValue("R\"(([A-Z\\d]))\"")
+          .tokenType(CxxTokenType.STRING).build(),
+       LiteralValuesBuilder.builder("R\"regex(([A-Z\\d]))regex\"").tokenValue("R\"regex(([A-Z\\d]))regex\"")
+          .tokenType(CxxTokenType.STRING).build(),
+       LiteralValuesBuilder.builder("R\"(())\"").tokenValue("R\"(())\"")
+          .tokenType(CxxTokenType.STRING).build()
       ));
 
     values.forEach(value
