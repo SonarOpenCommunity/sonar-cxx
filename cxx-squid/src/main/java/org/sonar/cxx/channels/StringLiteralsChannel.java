@@ -99,7 +99,9 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       index++;
     }
     String delimiter = sb.toString();
+    sb.setLength(0);
     do {
+      index -= sb.length();
       sb.setLength(0);
       while ((charAt = code.charAt(index)) != ')') { // raw_character*
         if (charAt == EOF) {
