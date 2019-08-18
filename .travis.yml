@@ -4,79 +4,74 @@ dist: trusty
 sudo: required
 
 jdk:
-        - oraclejdk8
-
+  - oraclejdk8
+  - openjdk11
 env:
-        - SONARLABEL=sonarqube-6.7.7   SONARAPI=SqApi67
-        - SONARLABEL=sonarqube-7.0     SONARAPI=SqApi67
-        - SONARLABEL=sonarqube-7.1     SONARAPI=SqApi67
-        - SONARLABEL=sonarqube-7.2     SONARAPI=SqApi67
-        - SONARLABEL=sonarqube-7.3     SONARAPI=SqApi67
-        - SONARLABEL=sonarqube-7.4     SONARAPI=SqApi67
-        - SONARLABEL=sonarqube-7.5     SONARAPI=SqApi75
-        - SONARLABEL=sonarqube-7.6     SONARAPI=SqApi76
-        - SONARLABEL=sonarqube-7.7     SONARAPI=SqApi76
-        - SONARLABEL=sonarqube-7.8     SONARAPI=SqApi78
-        
+  - SONARLABEL=sonarqube-6.7.7 SONARAPI=SqApi67
+  - SONARLABEL=sonarqube-7.9.1 SONARAPI=SqApi79
 matrix:
-    fast_finish: true
-#    allow_failures:
-#        - env: SONARLABEL=sonarqube-7.0     SONARAPI=SqApi67
+  exclude:
+    - jdk: oraclejdk8
+      env: SONARLABEL=sonarqube-7.9.1 SONARAPI=SqApi79
 
 # shorten the VM hostname with the new workaround
 # https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913
 addons:
-     hosts:
-        - myshorthost
-     hostname: myshorthost
+  hosts:
+    - myshorthost
+  hostname: myshorthost
 
 before_cache:
-        # remove all the artifacts that are installed in local repo because of mvn deploy
-        - rm -rf $HOME/.m2/repository/org/sonarsource/sonarqube-plugins/cxx
-        - find $HOME/.m2 -name resolver-status.properties -exec rm {} \;
+  # remove all the artifacts that are installed in local repo because of mvn deploy
+  - rm -rf $HOME/.m2/repository/org/sonarsource/sonarqube-plugins/cxx
+  - find $HOME/.m2 -name resolver-status.properties -exec rm {} \;
+
 cache:
-    pip: true
-    directories:
-        - '$HOME/.m2/repository'
-        - '$HOME/.sonar'
+  pip: true
+  directories:
+  - '$HOME/.m2/repository'
+  - '$HOME/.sonar'
+  - '$HOME/jvm'
+  - '$HOME/maven'
 
 before_install:
-        - cat /etc/hosts # optionally check the content
-        # Boost 1.55 is pre-installed on Ubuntu Trusty
-        #- travis_retry sudo apt-add-repository -y ppa:boost-latest/ppa
-        #- travis_retry sudo apt-get -qq update
-        #- travis_retry sudo apt-get -qq install boost1.55
-        - travis_retry sudo apt-get -qq install libxml2-utils
+  - cat /etc/hosts # optionally check the content
+  # Boost 1.55 is pre-installed on Ubuntu Trusty
+  #- travis_retry sudo apt-add-repository -y ppa:boost-latest/ppa
+  #- travis_retry sudo apt-get -qq update
+  #- travis_retry sudo apt-get -qq install boost1.55
+  - travis_retry sudo apt-get -qq install libxml2-utils
 
 install:
-        - export SONARHOME="/tmp/$SONARLABEL"
-        - pushd /tmp
-        - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonarqube/$SONARLABEL.zip
-        - unzip -qq $SONARLABEL.zip
-        - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.0.0.1744.zip
-        - unzip -qq sonar-scanner-cli-4.0.0.1744.zip
-        - wget -nv --timeout=10 https://github.com/htacg/tidy-html5/archive/5.6.0.zip --output-document=tidy-html5.zip
-        - unzip -qq tidy-html5.zip
-        - pushd tidy-html5-5.6.0/build/cmake/
-        - cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/tmp/tidy-html5-5.6.0 && make && make install && PATH=$PATH:/tmp/tidy-html5-5.6.0/bin
-        - popd
-        - popd
+  - export SONARHOME="/tmp/$SONARLABEL"
+  - pushd /tmp
+  - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonarqube/$SONARLABEL.zip
+  - unzip -qq $SONARLABEL.zip
+  - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.0.0.1744.zip
+  - unzip -qq sonar-scanner-cli-4.0.0.1744.zip
+  - wget -nv --timeout=10 https://github.com/htacg/tidy-html5/archive/5.6.0.zip --output-document=tidy-html5.zip
+  - unzip -qq tidy-html5.zip
+  - pushd tidy-html5-5.6.0/build/cmake/
+  - cmake ../.. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/tmp/tidy-html5-5.6.0 && make && make install && PATH=$PATH:/tmp/tidy-html5-5.6.0/bin
+  - popd
+  - popd
 
 before_script:
-        - travis_retry sudo pip install -q requests
-        - travis_retry sudo pip install -q behave
-        - travis_retry sudo pip install -q colorama
+  - travis_retry sudo pip install -q requests
+  - travis_retry sudo pip install -q behave
+  - travis_retry sudo pip install -q colorama
 
 script:
-        - env
-        - mvn install -B -e -V -DskipTests=true
-        - mvn test -B -e -V
-        - bash cxx-sensors/src/tools/check_rules.sh
-        - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-4.0.0.1744/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture --tags=$SONARAPI
+  - env
+  - mvn install -B -e -V -DskipTests=true
+  - mvn test -B -e -V
+  - bash cxx-sensors/src/tools/check_rules.sh
+  - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-4.0.0.1744/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture --tags=$SONARAPI
 
 after_failure:
-        - cat $SONARHOME/logs/sonar.log
-        - cat $SONARHOME/logs/web.log
-        - cat $SONARHOME/logs/ce.log
-        - cat $SONARHOME/logs/es.log
-        - find . -name "*.log" | xargs cat
+  - cat $SONARHOME/logs/sonar.log
+  - cat $SONARHOME/logs/web.log
+  - cat $SONARHOME/logs/ce.log
+  - cat $SONARHOME/logs/es.log
+  - find . -name "*.log" | xargs cat
+

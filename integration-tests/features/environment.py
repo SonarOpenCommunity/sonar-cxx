@@ -30,8 +30,7 @@ import requests
 from glob import glob
 from shutil import copyfile
 from subprocess import Popen, PIPE, check_call
-from common import analyse_log, get_sonar_log_path
-
+from common import analyse_log, get_sonar_log_file, cleanup_logs, print_logs
 from tempfile import mkstemp
 from shutil import move
 
@@ -77,7 +76,7 @@ def before_all(context):
     if is_webui_up():
         print(INDENT + "using the SonarQube already running on '%s'\n\n" % SONAR_URL)
         return
-      
+
     sonarhome = os.environ.get("SONARHOME", None)
     if sonarhome is None:
         sys.stderr.write(RED
@@ -85,26 +84,27 @@ def before_all(context):
                          + INDENT + "Make sure there is a SonarQube running on '%s'\n" % SONAR_URL
                          + INDENT + "or pass a path to SonarQube using environment variable 'SONARHOME'\n"
                          + RESET)
-        sys.exit(-1) 
-    
+        sys.exit(1)
+
     if not os.path.exists(sonarhome):
         sys.stderr.write(INDENT + RED + "The folder '%s' doesnt exist, exiting"
                          % sonarhome + RESET)
-        sys.exit(-1)   
-    
+        sys.exit(1)
+
     cleanup_logs(sonarhome)
     if not install_plugin(sonarhome):
-        sys.exit(-1)   
-    
+        sys.exit(1)
+
     started = start_sonar(sonarhome)
     if not started:
         sys.stderr.write(INDENT + RED + "Cannot start SonarQube from '%s', exiting\n"
                          % sonarhome + RESET)
-        sys.exit(-1)
-        
+        print_logs(sonarhome)
+        sys.exit(1)
+
     didstartsonar = True
     check_logs(sonarhome)
- 
+
 def after_all(context):
     if didstartsonar:
         sonarhome = os.environ.get("SONARHOME", None)
@@ -114,15 +114,6 @@ def after_all(context):
 # -----------------------------------------------------------------------------
 # HELPERS:
 # -----------------------------------------------------------------------------
-def cleanup_logs(sonarhome):
-    sys.stdout.write(INDENT + "cleaning logs ... ")
-    sys.stdout.flush()
-    try:
-        os.remove(get_sonar_log_path(sonarhome))
-    except OSError:
-        pass
-    sys.stdout.write(GREEN + "OK\n" + RESET)
-
 
 def is_installed(sonarhome):
     return os.path.exists(sonarhome)
@@ -138,7 +129,7 @@ def install_plugin(sonarhome):
         os.remove(path)
     jpath = jar_cxx_path()
     if not jpath:
-        sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n")
+        sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n" + RESET)
         sys.stderr.flush()
         return False
 
@@ -146,7 +137,7 @@ def install_plugin(sonarhome):
 
     jcpath = jar_c_path()
     if not jcpath:
-        sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n")
+        sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n" + RESET)
         sys.stderr.flush()
         return False
 
@@ -186,12 +177,11 @@ def start_sonar(sonarhome):
     sys.stdout.flush()
     now = time.time()
     start_script(sonarhome)
-    if not wait_for_sonar(120, is_webui_up):
+    if not wait_for_sonar(300, is_webui_up):
         sys.stdout.write(RED + "FAILED, duration: %03.1f s\n" % (time.time() - now) + RESET)
         return False
 
-    sys.stdout.write(GREEN + "OK, duration: %03.1f s\n" % (time.time() - now)
-                     + RESET)
+    sys.stdout.write(GREEN + "OK, duration: %03.1f s\n" % (time.time() - now) + RESET)
     return True
 
 
@@ -204,14 +194,14 @@ def stop_sonar(sonarhome):
             command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "UninstallNTService.bat")]
             check_call(command, stdout=PIPE, shell=os.name == "nt")
 
-        if not wait_for_sonar(120, is_webui_down):
+        if not wait_for_sonar(300, is_webui_down):
             sys.stdout.write(RED + "FAILED\n" + RESET)
             return False
 
     sys.stdout.write(INDENT + "stopping SonarQube ... ")
     sys.stdout.flush()
     rc = check_call(stop_script(sonarhome))
-    if rc != 0 or not wait_for_sonar(60, is_webui_down):
+    if rc != 0 or not wait_for_sonar(300, is_webui_down):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
 
@@ -238,6 +228,8 @@ def replace(file_path, pattern, subst):
 
 def start_script(sonarhome):
     command = None
+
+    replace(os.path.join(sonarhome, "conf", "wrapper.conf"), "wrapper.java.command=java", "wrapper.java.command=" + (os.environ['JAVA_HOME'] + '/bin/java').replace("\\","/"))
 
     if platform.system() == "Linux":
         script = linux_script(sonarhome)
@@ -319,7 +311,7 @@ def wait_for_sonar(timeout, criteria):
     for _ in range(timeout):
         if criteria():
             return True
-        time.sleep(1)
+        time.sleep(10)
     return False
 
 
@@ -327,7 +319,10 @@ def is_webui_up():
     try:
         response = requests.get(SONAR_URL + "/api/system/status")
         response.raise_for_status()
-        return response.json()['status'] == "UP"
+        status = response.json()['status']
+        if status != "UP":
+            sys.stdout.write(RED + status + ' ' + RESET)
+        return status == "UP"
     except:
         return False
 
@@ -344,7 +339,7 @@ def is_webui_down():
 def check_logs(sonarhome):
     sys.stdout.write(INDENT + "logs check ... ")
     sys.stdout.flush()
-    badlines, errors, warnings = analyse_log(get_sonar_log_path(sonarhome))
+    badlines, errors, warnings = analyse_log(get_sonar_log_file(sonarhome))
 
     reslabel = GREEN + "OK\n"
     if errors > 0 or (errors == 0 and warnings == 0 and len(badlines) > 0):
