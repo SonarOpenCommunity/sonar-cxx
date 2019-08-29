@@ -300,6 +300,21 @@ def create_template_rules(rules):
     rules.append(rule)
 
 def create_clang_default_rules(rules):
+    # defaults clang error (not associated with any activation switch)
+    rule_key = "clang-diagnostic-error"
+    rule_name = "clang-diagnostic-error"
+    rule_type = DIAG_CLASS["CLASS_ERROR"]["sonarqube_type"]
+    rule_severity = SEVERITY["SEV_Remark"]["sonarqube_severity"] 
+    rule_description = "<p>Diagnostic text: compiler error, e.g header file not found</p>"
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = rule_key
+    et.SubElement(rule, 'name').text = rule_name
+    et.SubElement(rule, 'description').append(CDATA(rule_description))
+    et.SubElement(rule, 'severity').text = rule_severity
+    et.SubElement(rule, 'type').text = rule_type
+    rules.append(rule)
+  
     # defaults clang warning (not associated with any activation switch)
     rule_key = "clang-diagnostic-warning"
     rule_name = "clang-diagnostic-warning"
