@@ -14,6 +14,10 @@ matrix:
     - jdk: oraclejdk8
       env: SONARLABEL=sonarqube-7.9.1 SONARAPI=SqApi79
 
+branches:
+  only:
+    - master
+
 # shorten the VM hostname with the new workaround
 # https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913
 addons:
