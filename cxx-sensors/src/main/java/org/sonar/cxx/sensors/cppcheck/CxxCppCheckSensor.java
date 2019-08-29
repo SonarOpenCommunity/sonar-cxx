@@ -76,7 +76,7 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
         parsed = true;
         break;
       } catch (XMLStreamException e) {
-        LOG.trace("Report {} cannot be parsed by {}", report, parser, e);
+        LOG.debug("Report {} cannot be parsed by {}", report, parser, e);
       }
     }
 
