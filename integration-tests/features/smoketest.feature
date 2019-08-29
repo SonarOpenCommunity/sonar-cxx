@@ -6,6 +6,13 @@ Feature: Smoketest
   @SqApi67
   Scenario: Smoketest
     Given the project "smoketest_project"
+    And rule "cppcheck:unusedVariable" is enabled
+    And rule "cppcheck:unreadVariable" is enabled
+    And rule "cppcheck:deallocDealloc" is enabled
+    And rule "cppcheck:doubleFree" is enabled    
+    And rule "cppcheck:uninitvar" is enabled
+    And rule "cppcheck:unusedFunction" is enabled
+    And rule "cppcheck:missingInclude" is enabled    
     When I run "sonar-scanner -X"
     Then the analysis finishes successfully
     And the analysis in server has completed
@@ -45,6 +52,13 @@ Feature: Smoketest
  @SqApi75
   Scenario: Smoketest
     Given the project "smoketest_project"
+    And rule "cppcheck:unusedVariable" is enabled
+    And rule "cppcheck:unreadVariable" is enabled
+    And rule "cppcheck:deallocDealloc" is enabled
+    And rule "cppcheck:doubleFree" is enabled    
+    And rule "cppcheck:uninitvar" is enabled
+    And rule "cppcheck:unusedFunction" is enabled
+    And rule "cppcheck:missingInclude" is enabled 
     When I run "sonar-scanner -X"
     Then the analysis finishes successfully
     And the analysis in server has completed
@@ -84,6 +98,13 @@ Feature: Smoketest
  @SqApi76
   Scenario: Smoketest
     Given the project "smoketest_project"
+    And rule "cppcheck:unusedVariable" is enabled
+    And rule "cppcheck:unreadVariable" is enabled
+    And rule "cppcheck:deallocDealloc" is enabled
+    And rule "cppcheck:doubleFree" is enabled    
+    And rule "cppcheck:uninitvar" is enabled
+    And rule "cppcheck:unusedFunction" is enabled
+    And rule "cppcheck:missingInclude" is enabled     
     When I run "sonar-scanner -X"
     Then the analysis finishes successfully
     And the analysis in server has completed
@@ -123,6 +144,13 @@ Feature: Smoketest
 @SqApi78 @SqApi79
   Scenario: Smoketest
     Given the project "smoketest_project"
+    And rule "cppcheck:unusedVariable" is enabled
+    And rule "cppcheck:unreadVariable" is enabled
+    And rule "cppcheck:deallocDealloc" is enabled
+    And rule "cppcheck:doubleFree" is enabled    
+    And rule "cppcheck:uninitvar" is enabled
+    And rule "cppcheck:unusedFunction" is enabled
+    And rule "cppcheck:missingInclude" is enabled     
     When I run "sonar-scanner -X"
     Then the analysis finishes successfully
     And the analysis in server has completed
