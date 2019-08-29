@@ -44,6 +44,7 @@ public class XmlParserHelper implements AutoCloseable {
       this.file = file;
       this.reader = new InputStreamReader(java.nio.file.Files.newInputStream(file.toPath()), StandardCharsets.UTF_8);
       XMLInputFactory xmlFactory = XMLInputFactory.newInstance();
+      xmlFactory.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
       this.stream = xmlFactory.createXMLStreamReader(reader);
 
     } catch (XMLStreamException | IOException e) {

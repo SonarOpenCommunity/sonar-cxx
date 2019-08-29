@@ -151,7 +151,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
 
     public PathEvent(final NSObject eventDict, final NSObject[] sourceFiles) {
       this.eventDict = (NSDictionary) eventDict;
-      this.sourceFiles = sourceFiles;
+      this.sourceFiles = sourceFiles.clone();
     }
 
     public String getExtendedMessage() {
