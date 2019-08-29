@@ -3,7 +3,18 @@ Feature: cpp-multimodule-project
   Test multimodule project with reports at root of the project
 
   Scenario: cpp-multimodule-project
-    Given the project "cpp-multimodule-project"
+    Given the project "cpp-multimodule-project"        
+    And rule "cppcheck:unusedVariable" is enabled
+    And rule "cppcheck:unreadVariable" is enabled
+    And rule "cppcheck:deallocDealloc" is enabled
+    And rule "cppcheck:doubleFree" is enabled    
+    And rule "cppcheck:uninitvar" is enabled
+    And rule "cppcheck:missingInclude" is enabled
+    And rule "vera++:T013" is enabled
+    And rule "vera++:T011" is enabled
+    And rule "vera++:L001" is enabled
+    And rule "vera++:T008" is enabled
+    And rule "vera++:T019" is enabled
     When I run "sonar-scanner -X"
     Then the analysis finishes successfully
     And the analysis in server has completed
