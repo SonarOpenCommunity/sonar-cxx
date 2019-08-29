@@ -22,6 +22,15 @@
   <severity>MAJOR</severity>
 </rule>
 <rule>
+  <key>clang-diagnostic-error</key>
+  <name>clang-diagnostic-error</name>
+  <description><![CDATA[
+      <p>Diagnostic text: compiler error, e.g header file not found</p>
+      ]]></description>
+  <severity>INFO</severity>
+  <type>BUG</type>
+</rule>
+<rule>
   <key>clang-diagnostic-warning</key>
   <name>clang-diagnostic-warning</name>
   <description><![CDATA[
