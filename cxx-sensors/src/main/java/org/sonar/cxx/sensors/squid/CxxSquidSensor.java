@@ -239,6 +239,10 @@ public class CxxSquidSensor implements Sensor {
   }
 
   private void saveMeasures(InputFile inputFile, SourceFile squidFile, SensorContext context) {
+    
+    // NOSONAR
+    noSonarFilter.noSonarInFile(inputFile, squidFile.getNoSonarTagLines());
+    
     // CORE METRICS
     context.<Integer>newMeasure().forMetric(CoreMetrics.NCLOC).on(inputFile)
       .withValue(squidFile.getInt(CxxMetric.LINES_OF_CODE)).save();
