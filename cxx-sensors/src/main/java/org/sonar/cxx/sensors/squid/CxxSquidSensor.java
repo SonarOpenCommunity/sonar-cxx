@@ -35,6 +35,7 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
+import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
@@ -89,6 +90,7 @@ public class CxxSquidSensor implements Sensor {
 
   private final FileLinesContextFactory fileLinesContextFactory;
   private final CxxChecks checks;
+  private final NoSonarFilter noSonarFilter;
 
   private final CxxLanguage language;
 
@@ -97,8 +99,9 @@ public class CxxSquidSensor implements Sensor {
    */
   public CxxSquidSensor(CxxLanguage language,
     FileLinesContextFactory fileLinesContextFactory,
-    CheckFactory checkFactory) {
-    this(language, fileLinesContextFactory, checkFactory, null);
+    CheckFactory checkFactory,
+    NoSonarFilter noSonarFilter) {
+    this(language, fileLinesContextFactory, checkFactory, noSonarFilter, null);
   }
 
   /**
@@ -107,11 +110,13 @@ public class CxxSquidSensor implements Sensor {
   public CxxSquidSensor(CxxLanguage language,
     FileLinesContextFactory fileLinesContextFactory,
     CheckFactory checkFactory,
+    NoSonarFilter noSonarFilter,
     @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
     this.checks = CxxChecks.createCxxCheck(checkFactory)
       .addChecks(language.getRepositoryKey(), language.getChecks())
       .addCustomChecks(customRulesDefinition);
     this.fileLinesContextFactory = fileLinesContextFactory;
+    this.noSonarFilter = noSonarFilter;
     this.language = language;
   }
 
