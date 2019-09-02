@@ -25,6 +25,20 @@ import static org.sonar.sslr.tests.Assertions.assertThat;
 public class DeclaratorsTest extends ParserBaseTestHelper {
 
   @Test
+  public void initDeclarator() {
+    p.setRootRule(g.rule(CxxGrammarImpl.initDeclarator));
+
+    mockRule(CxxGrammarImpl.declarator);
+    mockRule(CxxGrammarImpl.asmLabel);
+    mockRule(CxxGrammarImpl.initializer);
+
+    assertThat(p).matches("declarator");
+    assertThat(p).matches("declarator initializer");
+    assertThat(p).matches("declarator asmLabel");
+    assertThat(p).matches("declarator asmLabel initializer");
+  }
+
+  @Test
   public void initDeclaratorList() {
     p.setRootRule(g.rule(CxxGrammarImpl.initDeclaratorList));
 

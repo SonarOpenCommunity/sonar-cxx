@@ -42,7 +42,7 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 public class CxxParserTest  {
 
   String errSources = "/parser/bad/error_recovery_declaration.cc";
-  String[] goodFiles = {"own", "VC", "cli", "cuda", "examples"};
+  String[] goodFiles = {"own", "VC", "GCC", "cli", "cuda", "examples"};
   String[] preprocessorFiles = {"preprocessor"};
   String[] cCompatibilityFiles = {"C", "C99"};
   String rootDir = "src/test/resources/parser";

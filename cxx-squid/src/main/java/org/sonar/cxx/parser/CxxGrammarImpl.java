@@ -173,6 +173,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   usingDeclarator,
   usingDirective,
   asmDefinition,
+  asmLabel,
   linkageSpecification,
   attributeSpecifierSeq,
   attributeSpecifier,
@@ -1227,16 +1228,26 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(usingDirective).is(
       b.optional(attributeSpecifierSeq), CxxKeyword.USING, CxxKeyword.NAMESPACE, b.optional(nestedNameSpecifier), namespaceName, ";" // C++
     );
-
+  
     b.rule(asmDefinition).is(
-      CxxKeyword.ASM,
       b.firstOf(
-        b.sequence("(", STRING, ")", ";"), // C++
-        b.sequence("{", b.oneOrMore(b.nextNot(b.firstOf("}", EOF)), b.anyToken()), "}", b.optional(";")), // VS
-        b.sequence(b.oneOrMore(b.nextNot(b.firstOf(";", EOF)), b.anyToken()), ";") // VS
+        b.sequence(
+          b.firstOf(CxxKeyword.ASM, "__asm__"), // C++ asm; GCC: __asm__
+          b.optional(b.firstOf(CxxKeyword.VIRTUAL, CxxKeyword.INLINE, "__virtual__")), // GCC asm qualifiers
+          "(", STRING, ")", ";"
+        ), 
+        b.sequence(b.firstOf("__asm", CxxKeyword.ASM), b.firstOf( // VS
+           b.sequence("{", b.oneOrMore(b.nextNot(b.firstOf("}", EOF)), b.anyToken()), "}", b.optional(";")), // VS __asm block
+           b.sequence(b.oneOrMore(b.nextNot(b.firstOf(";", EOF)), b.anyToken()), ";") // VS __asm ... ;
+          )
+        )
       )
     );
 
+    b.rule(asmLabel).is(
+      b.firstOf(CxxKeyword.ASM, "__asm__"), "(", STRING, ")" // GCC ASM label
+    );
+    
     b.rule(linkageSpecification).is(
       CxxKeyword.EXTERN, STRING,
       b.firstOf(
@@ -1319,7 +1330,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(initDeclarator).is(
-      declarator, b.optional(initializer) // C++
+      declarator, b.optional(asmLabel), b.optional(initializer) // C++ (asmLabel: GCC ASM label)
     );
 
     b.rule(declarator).is(
