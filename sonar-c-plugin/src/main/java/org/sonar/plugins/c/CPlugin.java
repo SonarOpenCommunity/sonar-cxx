@@ -30,6 +30,7 @@ import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metrics;
@@ -688,15 +689,17 @@ public final class CPlugin implements Plugin {
 
     public CxxSquidSensorImpl(Configuration settings,
       FileLinesContextFactory fileLinesContextFactory,
-      CheckFactory checkFactory) {
-      super(new CLanguage(settings), fileLinesContextFactory, checkFactory);
+      CheckFactory checkFactory,
+      NoSonarFilter noSonarFilter) {
+      super(new CLanguage(settings), fileLinesContextFactory, checkFactory, noSonarFilter);
     }
 
     public CxxSquidSensorImpl(Configuration settings,
       FileLinesContextFactory fileLinesContextFactory,
       CheckFactory checkFactory,
+      NoSonarFilter noSonarFilter,
       @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
-      super(new CLanguage(settings), fileLinesContextFactory, checkFactory, customRulesDefinition);
+      super(new CLanguage(settings), fileLinesContextFactory, checkFactory, noSonarFilter, customRulesDefinition);
     }
   }
 

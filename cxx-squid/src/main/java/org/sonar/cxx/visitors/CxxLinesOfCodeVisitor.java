@@ -24,8 +24,11 @@ import com.sonar.sslr.api.AstNode;
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import com.sonar.sslr.api.Trivia;
 import java.util.regex.Pattern;
 import org.sonar.squidbridge.SquidAstVisitor;
+import org.sonar.squidbridge.api.SourceCode;
+import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.measures.MetricDef;
 
 /**
@@ -34,7 +37,7 @@ import org.sonar.squidbridge.measures.MetricDef;
  * @param <GRAMMAR>
  */
 public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
-  extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
+        extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
   public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
@@ -58,14 +61,42 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
    */
   @Override
   public void visitToken(Token token) {
-    if (!token.getType().equals(EOF)) {
-      /* Handle all the lines of the token */
-      String[] tokenLines = EOL_PATTERN.split(token.getValue(), -1);
+    if (token.getType().equals(EOF)) {
+      return;
+    }
 
-      int firstLineAlreadyCounted = lastTokenLine == token.getLine() ? 1 : 0;
-      getContext().peekSourceCode().add(metric, (double) tokenLines.length - firstLineAlreadyCounted);
+    // handle all the lines of the token
+    String[] tokenLines = EOL_PATTERN.split(token.getValue(), -1);
 
-      lastTokenLine = token.getLine() + tokenLines.length - 1;
+    int firstLineAlreadyCounted = lastTokenLine == token.getLine() ? 1 : 0;
+    getContext().peekSourceCode().add(metric, (double) tokenLines.length - firstLineAlreadyCounted);
+
+    lastTokenLine = token.getLine() + tokenLines.length - 1;
+
+    // handle comments
+    for (Trivia trivia : token.getTrivia()) {
+      if (trivia.isComment()) {
+        visitComment(trivia);
+      }
+    }
+  }
+
+  /**
+   * Search in comments for NOSONAR
+   */
+  public void visitComment(Trivia trivia) {
+    String[] commentLines = EOL_PATTERN
+            .split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue()), -1);
+    int line = trivia.getToken().getLine();
+
+    for (String commentLine : commentLines) {
+      if (commentLine.contains("NOSONAR")) {
+        SourceCode sourceCode = getContext().peekSourceCode();
+        if (sourceCode instanceof SourceFile) {
+          ((SourceFile) sourceCode).hasNoSonarTagAtLine(line);
+        }
+      }
+      line++;
     }
   }
 
