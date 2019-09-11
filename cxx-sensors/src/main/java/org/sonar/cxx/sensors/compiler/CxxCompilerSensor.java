@@ -106,6 +106,10 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
 
   /**
    * Derived classes can overload this method
+   * 
+   * A valid issue must have an id 
+   * and, if it has a line number, a filename.
+   * 
    *
    * @param filename
    * @param line
@@ -113,9 +117,15 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
    * @param msg
    * @return true, if valid
    */
-  protected boolean isInputValid(String filename, String line, String id, String msg) {
-    return !filename.isEmpty() || !line.isEmpty() || !id.isEmpty() || !msg.isEmpty();
-  }
+	protected boolean isInputValid(String filename, String line, String id, String msg) {
+		if ((id == null) || id.isEmpty()) {
+			return false;
+		}
+		if ((line != null) && !line.isEmpty() && ((filename == null) || filename.isEmpty())) {
+			return false;
+		}
+		return true;
+	}
 
   /**
    * Derived classes can overload this method to align filename
