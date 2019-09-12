@@ -1,3 +1,5 @@
+Is it really a **cxx-plugin** issue or a general SonarQube issue? To track SonarQube issues use the [community from SonarSource](https://community.sonarsource.com/) please.
+
 Please [turn debug info on](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-debug-information) and reproduce your issue.
 The debug info in the log file could help to solve or locate the issue.
 
