@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.utils;
 
+import java.nio.file.Paths;
 import java.util.Objects;
 import javax.annotation.Nullable;
 
@@ -33,7 +34,11 @@ public class CxxReportLocation {
 
   public CxxReportLocation(@Nullable String file, @Nullable String line, String info) {
     super();
-    this.file = file;
+    if (file != null) {
+      this.file = Paths.get(file).normalize().toString();
+    } else {
+      this.file = null;
+    }
     this.line = line;
     this.info = info;
   }
