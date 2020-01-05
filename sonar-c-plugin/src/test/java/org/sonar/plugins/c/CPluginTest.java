@@ -35,7 +35,7 @@ public class CPluginTest {
     Plugin.Context context = new Plugin.Context(runtime);
     CPlugin plugin = new CPlugin();
     plugin.define(context);
-    assertThat(context.getExtensions()).hasSize(74);
+    assertThat(context.getExtensions()).hasSize(66);
   }
 
 }

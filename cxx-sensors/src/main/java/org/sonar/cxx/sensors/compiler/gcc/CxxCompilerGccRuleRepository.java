@@ -29,7 +29,6 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxCompilerGccRuleRepository extends CxxAbstractRuleRepository {
 
-  public static final String CUSTOM_RULES_KEY = "compiler-gcc.customRules";
   private static final String KEY = "compiler-gcc";
   private static final String NAME = "Compiler-GCC";
 
@@ -38,7 +37,7 @@ public class CxxCompilerGccRuleRepository extends CxxAbstractRuleRepository {
    */
   public CxxCompilerGccRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
     CxxLanguage language) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
+    super(fileSystem, xmlRuleLoader, KEY, NAME, language);
   }
 
   public static String getRepositoryKey(CxxLanguage lang) {
