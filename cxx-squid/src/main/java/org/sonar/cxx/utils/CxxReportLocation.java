@@ -36,8 +36,6 @@ public class CxxReportLocation {
     super();
     if (file != null) {
       this.file = Paths.get(file).normalize().toString();
-    } else {
-      this.file = null;
     }
     this.line = line;
     this.info = info;
