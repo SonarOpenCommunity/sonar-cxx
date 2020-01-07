@@ -95,7 +95,8 @@ public final class CPlugin implements Plugin {
   private static List<PropertyDefinition> generalProperties() {
     String subcateg = "(1) General";
     return Collections.unmodifiableList(Arrays.asList(
-      PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY).multiValues(true)
+      PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY)
+        .multiValues(true)
         .defaultValue(CLanguage.DEFAULT_SOURCE_SUFFIXES)
         .name("Source files suffixes")
         .description("Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.")
@@ -103,7 +104,8 @@ public final class CPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(1)
         .build(),
-      PropertyDefinition.builder(HEADER_FILE_SUFFIXES_KEY).multiValues(true)
+      PropertyDefinition.builder(HEADER_FILE_SUFFIXES_KEY)
+        .multiValues(true)
         .defaultValue(CLanguage.DEFAULT_HEADER_SUFFIXES)
         .name("Header files suffixes")
         .description("Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.")
@@ -112,6 +114,7 @@ public final class CPlugin implements Plugin {
         .index(2)
         .build(),
       PropertyDefinition.builder(INCLUDE_DIRECTORIES_KEY)
+        .multiValues(true)
         .name("Include directories")
         .description("Comma-separated list of directories to search the included files in. May be defined either"
           + " relative to projects root or absolute.")
@@ -120,6 +123,7 @@ public final class CPlugin implements Plugin {
         .index(3)
         .build(),
       PropertyDefinition.builder(FORCE_INCLUDE_FILES_KEY)
+        .multiValues(true)
         .subCategory(subcateg)
         .name("Force includes")
         .description("Comma-separated list of files which should to be included implicitly "
@@ -139,6 +143,7 @@ public final class CPlugin implements Plugin {
         .build(),
       PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
         .defaultValue(CLanguage.DEFAULT_C_FILES)
+        .multiValues(true)
         .name("C source files patterns")
         .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the "
           + "patterns, it is parsed in C-compatibility mode.")
