@@ -9834,4 +9834,123 @@ constructor.
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
+  <!-- ########### New in cppcheck 1.90 ########### -->
+  <rule>
+  <key>constVariable</key>
+  <name>Variable 'x' can be declared with const</name>
+  <description><![CDATA[
+      <p>
+Variable 'x' can be declared with const
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]></description>
+  <tag>cwe</tag>
+  <internalKey>constVariable</internalKey>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+  <remediationFunction>LINEAR</remediationFunction>
+  <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+<rule>
+  <key>danglingTemporaryLifetime</key>
+  <name>Using object to temporary</name>
+  <description><![CDATA[
+      <p>
+Using object to temporary.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+      ]]></description>
+  <tag>cwe</tag>
+  <tag>bug</tag>
+  <internalKey>danglingTemporaryLifetime</internalKey>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+  <remediationFunction>LINEAR</remediationFunction>
+  <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+<rule>
+  <key>invalidContainer</key>
+  <name>Using object that may be invalid</name>
+  <description><![CDATA[
+      <p>
+Using object that may be invalid.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
+      ]]></description>
+  <tag>cwe</tag>
+  <tag>bug</tag>
+  <internalKey>invalidContainer</internalKey>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+  <remediationFunction>LINEAR</remediationFunction>
+  <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+<rule>
+  <key>redundantInitialization</key>
+  <name>Redundant initialization for 'var'. The initialized value is overwritten before it is read</name>
+  <description><![CDATA[
+      <p>
+Redundant initialization for 'var'. The initialized value is
+overwritten before it is read.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/563.html" target="_blank">CWE-563: Assignment to Variable without Use</a></p>
+      ]]></description>
+  <tag>cwe</tag>
+  <internalKey>redundantInitialization</internalKey>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+  <remediationFunction>LINEAR</remediationFunction>
+  <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+<rule>
+  <key>shadowArgument</key>
+  <name>Local variable 'argument' shadows outer argument</name>
+  <description><![CDATA[
+      <p>
+Local variable 'argument' shadows outer argument
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]></description>
+  <tag>cwe</tag>
+  <internalKey>shadowArgument</internalKey>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+  <remediationFunction>LINEAR</remediationFunction>
+  <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+<rule>
+  <key>shadowVariable</key>
+  <name>Local variable 'variable' shadows outer variable</name>
+  <description><![CDATA[
+      <p>
+Local variable 'variable' shadows outer variable
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]></description>
+  <tag>cwe</tag>
+  <internalKey>shadowVariable</internalKey>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+  <remediationFunction>LINEAR</remediationFunction>
+  <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+<rule>
+  <key>unsafeClassRefMember</key>
+  <name>Unsafe class: The const reference member 'UnsafeClass::var' is initialized by a const reference constructor argument. You need to be careful about lifetime issues</name>
+  <description><![CDATA[
+      Unsafe class checking: The const reference member 'UnsafeClass::var' is initialized by a const reference constructor argument. You need to be careful about lifetime issues. If you pass a local variable or temporary value in this constructor argument, be extra careful. If the argument is always some global object that is never destroyed then this is safe usage. However it would be defensive to make the member 'UnsafeClass::var' a non-reference variable or a smart pointer.
+      ]]></description>
+  <tag>bug</tag>
+  <internalKey>unsafeClassRefMember</internalKey>
+  <severity>MINOR</severity>
+  <type>BUG</type>
+  <remediationFunction>LINEAR</remediationFunction>
+  <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
   </rules>
