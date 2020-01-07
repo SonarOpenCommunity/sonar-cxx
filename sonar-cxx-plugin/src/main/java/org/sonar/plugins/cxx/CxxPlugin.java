@@ -210,14 +210,6 @@ public final class CxxPlugin implements Plugin {
       .multiValues(true)
       .index(1)
       .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCppCheckRuleRepository.CUSTOM_RULES_KEY)
-        .name("Cppcheck custom rules")
-        .description("XML definitions of custom Cppcheck rules, which are'nt builtin into the plugin."
-          + EXTENDING_THE_CODE_ANALYSIS)
-        .type(PropertyType.TEXT)
-        .subCategory(subcateg)
-        .index(2)
-        .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxValgrindSensor.REPORT_PATH_KEY)
         .name("Valgrind report(s)")
         .description("Path to <a href='http://valgrind.org/'>Valgrind</a> report(s), relative to projects root."
@@ -225,15 +217,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(3)
-        .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxValgrindRuleRepository.CUSTOM_RULES_KEY)
-        .name("Valgrind custom rules")
-        .description("XML definitions of custom Valgrind rules, which are'nt builtin into the plugin."
-          + EXTENDING_THE_CODE_ANALYSIS)
-        .type(PropertyType.TEXT)
-        .subCategory(subcateg)
-        .index(4)
+        .index(2)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxDrMemorySensor.REPORT_PATH_KEY)
         .name("Dr Memory report(s)")
@@ -242,7 +226,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(5)
+        .index(3)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxPCLintSensor.REPORT_PATH_KEY)
         .name("PC-lint report(s)")
@@ -251,15 +235,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(6)
-        .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxPCLintRuleRepository.CUSTOM_RULES_KEY)
-        .name("PC-lint custom rules")
-        .description("XML definitions of custom PC-lint rules, which are'nt builtin into the plugin."
-          + EXTENDING_THE_CODE_ANALYSIS)
-        .type(PropertyType.TEXT)
-        .subCategory(subcateg)
-        .index(7)
+        .index(4)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxRatsSensor.REPORT_PATH_KEY)
         .name("RATS report(s)")
@@ -268,15 +244,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(8)
-        .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxRatsRuleRepository.CUSTOM_RULES_KEY)
-        .name("RATS custom rules")
-        .description("XML definitions of custom RATS rules, which are'nt builtin into the plugin."
-          + EXTENDING_THE_CODE_ANALYSIS)
-        .type(PropertyType.TEXT)
-        .subCategory(subcateg)
-        .index(9)
+        .index(5)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxSensor.REPORT_PATH_KEY)
         .name("Vera++ report(s)")
@@ -285,7 +253,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(10)
+        .index(6)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxRuleRepository.CUSTOM_RULES_KEY)
         .name("Vera++ custom rules")
@@ -293,7 +261,7 @@ public final class CxxPlugin implements Plugin {
           + EXTENDING_THE_CODE_ANALYSIS)
         .type(PropertyType.TEXT)
         .subCategory(subcateg)
-        .index(11)
+        .index(7)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxOtherSensor.REPORT_PATH_KEY)
         .name("External checkers report(s)")
@@ -303,7 +271,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(12)
+        .index(8)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxOtherRepository.RULES_KEY)
         .name("External rules")
@@ -312,7 +280,7 @@ public final class CxxPlugin implements Plugin {
         .type(PropertyType.TEXT)
         .multiValues(true)
         .subCategory(subcateg)
-        .index(13)
+        .index(9)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_PATH_KEY)
         .name("Clang-Tidy analyzer report(s)")
@@ -321,7 +289,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(14)
+        .index(10)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxClangTidySensor.DEFAULT_CHARSET_DEF)
@@ -330,15 +298,7 @@ public final class CxxPlugin implements Plugin {
           + " Leave empty to use parser's default UTF-8.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(15)
-        .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidyRuleRepository.CUSTOM_RULES_KEY)
-        .name("Clang-Tidy custom rules")
-        .description("XML definitions of custom Clang-Tidy rules, which aren't builtin into the plugin."
-          + EXTENDING_THE_CODE_ANALYSIS)
-        .type(PropertyType.TEXT)
-        .subCategory(subcateg)
-        .index(16)
+        .index(11)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSASensor.REPORT_PATH_KEY)
         .name("Clang Static analyzer analyzer report(s)")
@@ -347,14 +307,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(17)
-        .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSARuleRepository.CUSTOM_RULES_KEY)
-        .name("Clang-SA custom rules")
-        .description("NO DESC")
-        .type(PropertyType.TEXT)
-        .subCategory(subcateg)
-        .index(18)
+        .index(12)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionComplexityVisitor.FUNCTION_COMPLEXITY_THRESHOLD_KEY)
         .defaultValue("10")
@@ -363,7 +316,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .type(PropertyType.INTEGER)
-        .index(19)
+        .index(13)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionSizeVisitor.FUNCTION_SIZE_THRESHOLD_KEY)
         .defaultValue("20")
@@ -372,7 +325,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .type(PropertyType.INTEGER)
-        .index(20)
+        .index(14)
         .build()
     ));
   }
@@ -407,14 +360,6 @@ public final class CxxPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(3)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcRuleRepository.CUSTOM_RULES_KEY)
-        .name("VC Custom Rules")
-        .description("XML definitions of custom rules for Visual C++ warnings, which are'nt builtin into the plugin."
-          + EXTENDING_THE_CODE_ANALYSIS)
-        .type(PropertyType.TEXT)
-        .subCategory(subcateg)
-        .index(4)
-        .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_PATH_KEY)
         .name("GCC Compiler Report(s)")
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
@@ -422,7 +367,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .multiValues(true)
-        .index(5)
+        .index(4)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxCompilerVcSensor.DEFAULT_CHARSET_DEF)
@@ -430,7 +375,7 @@ public final class CxxPlugin implements Plugin {
         .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(6)
+        .index(5)
         .build(),
       PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_REGEX_DEF)
         .name("GCC Regular Expression")
@@ -440,15 +385,7 @@ public final class CxxPlugin implements Plugin {
           + "this page</a> for details regarding the different regular expression that can be use per compiler.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-        .index(7)
-        .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccRuleRepository.CUSTOM_RULES_KEY)
-        .name("GCC Custom Rules")
-        .description("XML definitions of custom rules for GCC's warnings, which are'nt builtin into the plugin."
-          + EXTENDING_THE_CODE_ANALYSIS)
-        .type(PropertyType.TEXT)
-        .subCategory(subcateg)
-        .index(8)
+        .index(6)
         .build()
     ));
   }

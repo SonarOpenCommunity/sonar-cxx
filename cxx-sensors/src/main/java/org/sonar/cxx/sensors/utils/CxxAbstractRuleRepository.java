@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.utils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -48,7 +47,6 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
   private final CxxLanguage language;
   protected final String repositoryKey;
   protected final String repositoryName;
-  protected final String customRepositoryKey;
 
   /**
    * {@inheritDoc}
@@ -58,13 +56,11 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     RulesDefinitionXmlLoader xmlRuleLoader,
     String key,
     String name,
-    String customKey,
     CxxLanguage language) {
     this.fileSystem = fileSystem;
     this.xmlRuleLoader = xmlRuleLoader;
     this.repositoryKey = getRepositoryKey(key, language);
     this.repositoryName = name;
-    this.customRepositoryKey = customKey;
     this.language = language;
   }
 
@@ -88,13 +84,6 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
         } catch (IOException | IllegalStateException ex) {
           LOG.info("Cannot Load XML '{}'", ex);
         }
-      }
-    }
-
-    if (language.getStringOption(this.customRepositoryKey).isPresent()) {
-      String customRules = language.getStringOption(this.customRepositoryKey).orElse(null);
-      if (customRules != null && !customRules.trim().isEmpty()) {
-        xmlRuleLoader.load(repository, new StringReader(customRules));
       }
     }
 

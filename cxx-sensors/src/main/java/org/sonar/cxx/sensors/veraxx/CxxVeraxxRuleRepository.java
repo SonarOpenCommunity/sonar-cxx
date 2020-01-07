@@ -38,7 +38,7 @@ public class CxxVeraxxRuleRepository extends CxxAbstractRuleRepository {
    */
   public CxxVeraxxRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
     CxxLanguage language) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
+    super(fileSystem, xmlRuleLoader, KEY, NAME, language);
   }
 
   public static String getRepositoryKey(CxxLanguage lang) {
