@@ -35,7 +35,7 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   private String directory;
   private String file;
   private String command;
-  private String arguments;
+  private List<String> arguments;
   private String output;
 
   /**
@@ -55,7 +55,7 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
     this.directory = "";
     this.file = "";
     this.command = "";
-    this.arguments = "";
+    this.arguments = new ArrayList<>();
     this.output = "";
     this.defines = new HashMap<>();
     this.includes = new ArrayList<>();
@@ -102,11 +102,11 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   /**
    * The compile command executed as list of strings. Either arguments or command is required.
    */
-  public String getArguments() {
+  public List<String> getArguments() {
     return arguments;
   }
 
-  public void setArguments(String arguments) {
+  public void setArguments(List<String> arguments) {
     this.arguments = arguments;
   }
 
