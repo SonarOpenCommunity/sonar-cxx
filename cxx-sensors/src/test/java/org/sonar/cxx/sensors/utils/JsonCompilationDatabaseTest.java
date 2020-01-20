@@ -120,6 +120,27 @@ public class JsonCompilationDatabaseTest {
   }
 
   @Test
+  public void testRelativeDirectorySettings() throws Exception {
+    CxxConfiguration conf = new CxxConfiguration();
+
+    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
+
+    JsonCompilationDatabase.parse(conf, file);
+
+    Path cwd = Paths.get("src");
+    Path absPath = cwd.resolve("test-with-relative-directory.cpp");
+    String filename = absPath.toAbsolutePath().normalize().toString();
+
+    CxxCompilationUnitSettings cus = conf.getCompilationUnitSettings(filename);
+
+    assertThat(cus).isNotNull();
+    assertThat(cus.getIncludes().contains("/usr/local/include")).isTrue();
+    assertThat(cus.getIncludes().contains("src/another/include/dir")).isTrue();
+    assertThat(cus.getIncludes().contains("parent/include/dir")).isTrue();
+    assertThat(cus.getIncludes().contains("/usr/include")).isFalse();
+  }
+
+  @Test
   public void testArgumentAsListSettings() throws Exception {
     CxxConfiguration conf = new CxxConfiguration();
 

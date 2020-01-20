@@ -78,13 +78,13 @@ public class JsonCompilationDatabase {
       if ("__global__".equals(commandObject.getFile())) {
         CxxCompilationUnitSettings globalSettings = new CxxCompilationUnitSettings();
 
-        parseCommandObject(globalSettings, commandObject);
+        parseCommandObject(globalSettings, cwd, commandObject);
 
         config.setGlobalCompilationUnitSettings(globalSettings);
       } else {
         CxxCompilationUnitSettings settings = new CxxCompilationUnitSettings();
 
-        parseCommandObject(settings, commandObject);
+        parseCommandObject(settings, cwd, commandObject);
 
         config.addCompilationUnitSettings(absPath.toAbsolutePath().normalize().toString(), settings);
       }
@@ -92,6 +92,7 @@ public class JsonCompilationDatabase {
   }
 
   private static void parseCommandObject(CxxCompilationUnitSettings settings,
+    Path cwd,
     JsonCompilationDatabaseCommandObject commandObject) {
     settings.setDefines(commandObject.getDefines());
     settings.setIncludes(commandObject.getIncludes());
@@ -121,7 +122,7 @@ public class JsonCompilationDatabase {
     for (String arg : args) {
       if (nextInclude) {
         nextInclude = false;
-        includes.add(arg);
+        includes.add(makeRelativeToCwd(cwd, arg));
       } else if (nextDefine) {
         nextDefine = false;
         String[] define = arg.split("=", 2);
@@ -133,7 +134,7 @@ public class JsonCompilationDatabase {
       } else if ("-I".equals(arg)) {
         nextInclude = true;
       } else if (arg.startsWith("-I")) {
-        includes.add(arg.substring(2));
+        includes.add(makeRelativeToCwd(cwd, arg.substring(2)));
       } else if ("-D".equals(arg)) {
         nextDefine = true;
       } else if (arg.startsWith("-D")) {
@@ -148,6 +149,10 @@ public class JsonCompilationDatabase {
 
     settings.setDefines(defines);
     settings.setIncludes(includes);
+  }
+
+  private static String makeRelativeToCwd(Path cwd, String include) {
+    return cwd.resolve(include).normalize().toString();
   }
 
   private static String[] tokenizeCommandLine(String cmdLine) {

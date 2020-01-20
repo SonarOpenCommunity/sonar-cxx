@@ -31,6 +31,13 @@
         "output" : "test"
     },
 	{
+		"_comment_" : "example with using arguments as list",
+		"directory" : "./src",
+		"file" : "test-with-relative-directory.cpp",
+		"arguments" : ["-o", "test", "-I/usr/local/include", "-I", "another/include/dir", "-I", "../parent/include/dir", "test.cpp"],
+		"output" : "test"
+	},
+	{
 		"_comment_" : "example extension using defines and includes to define usage",
 		"directory" : ".",
 		"file" : "test-extension.cpp",
