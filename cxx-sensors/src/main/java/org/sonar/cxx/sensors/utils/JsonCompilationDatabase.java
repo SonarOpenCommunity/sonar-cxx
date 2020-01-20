@@ -132,8 +132,12 @@ public class JsonCompilationDatabase {
         }
       } else if ("-I".equals(arg)) {
         nextInclude = true;
+      } else if ("-isystem".equals(arg)) {
+        nextInclude = true;
       } else if (arg.startsWith("-I")) {
         includes.add(makeRelativeToCwd(cwd, arg.substring(2)));
+      } else if (arg.startsWith("-isystem")) {
+        includes.add(makeRelativeToCwd(cwd, arg.substring(8)));
       } else if ("-D".equals(arg)) {
         nextDefine = true;
       } else if (arg.startsWith("-D")) {
