@@ -120,6 +120,32 @@ public class JsonCompilationDatabaseTest {
   }
 
   @Test
+  public void testArgumentAsListSettings() throws Exception {
+    CxxConfiguration conf = new CxxConfiguration();
+
+    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
+
+    JsonCompilationDatabase.parse(conf, file);
+
+    Path cwd = Paths.get(".");
+    Path absPath = cwd.resolve("test-with-arguments-as-list.cpp");
+    String filename = absPath.toAbsolutePath().normalize().toString();
+
+    CxxCompilationUnitSettings cus = conf.getCompilationUnitSettings(filename);
+
+    assertThat(cus).isNotNull();
+    assertThat(cus.getDefines().containsKey("ARG_DEFINE")).isTrue();
+    assertThat(cus.getDefines().containsKey("ARG_SPACE_DEFINE")).isTrue();
+    assertThat(cus.getDefines().get("ARG_SPACE_DEFINE")).isEqualTo("\" foo 'bar' zoo \"");
+    assertThat(cus.getDefines().containsKey("SIMPLE")).isTrue();
+    assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("");
+    assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
+    assertThat(cus.getIncludes().contains("/usr/local/include")).isTrue();
+    assertThat(cus.getIncludes().contains("/another/include/dir")).isTrue();
+    assertThat(cus.getIncludes().contains("/usr/include")).isFalse();
+  }
+
+  @Test
   public void testUnknownUnitSettings() throws Exception {
     CxxConfiguration conf = new CxxConfiguration();
 

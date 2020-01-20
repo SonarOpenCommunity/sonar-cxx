@@ -28,6 +28,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxCompilationUnitSettings;
@@ -58,6 +60,7 @@ public class JsonCompilationDatabase {
     ObjectMapper mapper = new ObjectMapper();
     mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     mapper.enable(DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY);
+    mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
     JsonCompilationDatabaseCommandObject[] commandObjects = mapper.readValue(compileCommandsFile,
       JsonCompilationDatabaseCommandObject[].class);
@@ -101,7 +104,7 @@ public class JsonCompilationDatabase {
     String cmdLine;
 
     if (!commandObject.getArguments().isEmpty()) {
-      cmdLine = commandObject.getArguments();
+      cmdLine = commandObject.getArguments().stream().collect(Collectors.joining(" "));
     } else if (!commandObject.getCommand().isEmpty()) {
       cmdLine = commandObject.getCommand();
     } else {
