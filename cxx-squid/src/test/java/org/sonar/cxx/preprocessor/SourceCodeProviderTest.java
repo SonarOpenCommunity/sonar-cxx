@@ -22,6 +22,8 @@ package org.sonar.cxx.preprocessor;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -62,7 +64,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "source.hh";
-    String includeRoot = new File("src/test/resources/codeprovider").getAbsolutePath();
+    Path includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -74,7 +76,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "source";
-    String includeRoot = new File("src/test/resources/codeprovider").getAbsolutePath();
+    Path includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -86,7 +88,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "source.hh";
-    String includeRoot = "resources/codeprovider";
+    Path includeRoot = Paths.get("resources/codeprovider");
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -98,7 +100,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "source";
-    String includeRoot = "resources/codeprovider";
+    Path includeRoot = Paths.get("resources/codeprovider");
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -110,7 +112,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "codeprovider/source.hh";
-    String includeRoot = new File("src/test/resources").getAbsolutePath();
+    Path includeRoot = Paths.get("src/test/resources").toAbsolutePath();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -122,7 +124,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "codeprovider/source";
-    String includeRoot = new File("src/test/resources").getAbsolutePath();
+    Path includeRoot = Paths.get("src/test/resources").toAbsolutePath();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -134,7 +136,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "codeprovider/source.hh";
-    String includeRoot = "resources";
+    Path includeRoot = Paths.get("resources");
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -146,7 +148,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "codeprovider/source";
-    String includeRoot = "resources";
+    Path includeRoot = Paths.get("resources");
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));

@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxCompilationUnitSettings;
@@ -63,7 +62,7 @@ public class JsonCompilationDatabase {
     mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
     JsonCompilationDatabaseCommandObject[] commandObjects = mapper.readValue(compileCommandsFile,
-      JsonCompilationDatabaseCommandObject[].class);
+            JsonCompilationDatabaseCommandObject[].class);
 
     for (JsonCompilationDatabaseCommandObject commandObject : commandObjects) {
 
@@ -92,8 +91,8 @@ public class JsonCompilationDatabase {
   }
 
   private static void parseCommandObject(CxxCompilationUnitSettings settings,
-    Path cwd,
-    JsonCompilationDatabaseCommandObject commandObject) {
+          Path cwd,
+          JsonCompilationDatabaseCommandObject commandObject) {
     settings.setDefines(commandObject.getDefines());
     settings.setIncludes(commandObject.getIncludes());
 
@@ -115,7 +114,7 @@ public class JsonCompilationDatabase {
     String[] args = tokenizeCommandLine(cmdLine);
     boolean nextInclude = false;
     boolean nextDefine = false;
-    List<String> includes = new ArrayList<>();
+    List<Path> includes = new ArrayList<>();
     HashMap<String, String> defines = new HashMap<>();
 
     // Capture defines and includes from command line
@@ -151,8 +150,8 @@ public class JsonCompilationDatabase {
     settings.setIncludes(includes);
   }
 
-  private static String makeRelativeToCwd(Path cwd, String include) {
-    return cwd.resolve(include).normalize().toString();
+  private static Path makeRelativeToCwd(Path cwd, String include) {
+    return cwd.resolve(include).normalize();
   }
 
   private static String[] tokenizeCommandLine(String cmdLine) {
@@ -176,7 +175,7 @@ public class JsonCompilationDatabase {
           } else if (ch == '\"') {
             stringOpen = '\"';
           } else if ((ch == ' ')
-            && (sb.length() > 0)) {
+                  && (sb.length() > 0)) {
             args.add(sb.toString());
             sb = new StringBuilder(512);
           }

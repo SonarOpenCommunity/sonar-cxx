@@ -44,8 +44,8 @@ public class JsonCompilationDatabaseTest {
     assertThat(cus).isNotNull();
     assertThat(cus.getDefines().containsKey("UNIT_DEFINE")).isFalse();
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isTrue();
-    assertThat(cus.getIncludes().contains("/usr/local/include")).isFalse();
-    assertThat(cus.getIncludes().contains("/usr/include")).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isFalse();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isTrue();
   }
 
   @Test
@@ -63,8 +63,8 @@ public class JsonCompilationDatabaseTest {
     assertThat(cus).isNotNull();
     assertThat(cus.getDefines().containsKey("UNIT_DEFINE")).isTrue();
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
-    assertThat(cus.getIncludes().contains("/usr/local/include")).isTrue();
-    assertThat(cus.getIncludes().contains("/usr/include")).isFalse();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isFalse();
   }
 
   @Test
@@ -88,9 +88,9 @@ public class JsonCompilationDatabaseTest {
     assertThat(cus.getDefines().containsKey("SIMPLE")).isTrue();
     assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("");
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
-    assertThat(cus.getIncludes().contains("/usr/local/include")).isTrue();
-    assertThat(cus.getIncludes().contains("/another/include/dir")).isTrue();
-    assertThat(cus.getIncludes().contains("/usr/include")).isFalse();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/another/include/dir"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isFalse();
   }
 
   @Test
@@ -114,9 +114,9 @@ public class JsonCompilationDatabaseTest {
     assertThat(cus.getDefines().containsKey("SIMPLE")).isTrue();
     assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("");
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
-    assertThat(cus.getIncludes().contains("/usr/local/include")).isTrue();
-    assertThat(cus.getIncludes().contains("/another/include/dir")).isTrue();
-    assertThat(cus.getIncludes().contains("/usr/include")).isFalse();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/another/include/dir"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isFalse();
   }
 
   @Test
@@ -134,10 +134,10 @@ public class JsonCompilationDatabaseTest {
     CxxCompilationUnitSettings cus = conf.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
-    assertThat(cus.getIncludes().contains("/usr/local/include")).isTrue();
-    assertThat(cus.getIncludes().contains("src/another/include/dir")).isTrue();
-    assertThat(cus.getIncludes().contains("parent/include/dir")).isTrue();
-    assertThat(cus.getIncludes().contains("/usr/include")).isFalse();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("src/another/include/dir"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("parent/include/dir"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isFalse();
   }
 
   @Test
@@ -161,9 +161,9 @@ public class JsonCompilationDatabaseTest {
     assertThat(cus.getDefines().containsKey("SIMPLE")).isTrue();
     assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("");
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
-    assertThat(cus.getIncludes().contains("/usr/local/include")).isTrue();
-    assertThat(cus.getIncludes().contains("/another/include/dir")).isTrue();
-    assertThat(cus.getIncludes().contains("/usr/include")).isFalse();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/another/include/dir"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isFalse();
   }
 
   @Test
