@@ -42,4 +42,18 @@ public class OverloadingTest extends ParserBaseTestHelper {
     assertThat(p).matches("[]");
   }
 
+  @Test
+  public void literalOperatorId_reallife() {
+    p.setRootRule(g.rule(CxxGrammarImpl.literalOperatorId));
+    
+    // operator "" identifier
+    //    the identifier to use as the ud-suffix
+    assertThat(p).matches("operator \"\" _ud_suffix");
+    
+    // operator user-defined-string-literal (since C++14) 	
+    //   the character sequence "" followed, without a space, by the character
+    //   sequence that becomes the ud-suffix
+    assertThat(p).matches("operator \"\"if");
+    assertThat(p).matches("operator \"\"_ud_suffix");
+  }
 }

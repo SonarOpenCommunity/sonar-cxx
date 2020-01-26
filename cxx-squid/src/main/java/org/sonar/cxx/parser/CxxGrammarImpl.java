@@ -382,7 +382,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(LITERAL).is(
       b.firstOf(
         CHARACTER, // character-literal, including user-defined-literal
-        STRING, // string-literal, including user-defined-literal
+        STRING, // string-literal, including user-defined-string-literal
         NUMBER, // integer-literal, floating-literal, including user-defined-literal
         BOOL, // boolean-literal
         NULLPTR // pointer-literal
@@ -1808,7 +1808,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(literalOperatorId).is(
-      CxxKeyword.OPERATOR, "\"\"", IDENTIFIER
+      // operator string-literal identifier
+      // operator user-defined-string-literal
+      CxxKeyword.OPERATOR, STRING, b.optional(IDENTIFIER)
     );
   }
 
