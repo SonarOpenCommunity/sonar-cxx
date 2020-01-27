@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ import javax.annotation.Nullable;
 public class CxxCompilationUnitSettings {
 
   private Map<String, String> defines = new HashMap<>();
-  private List<String> includes = new ArrayList<>();
+  private List<Path> includes = new ArrayList<>();
 
   public Map<String, String> getDefines() {
     return defines;
@@ -43,11 +44,11 @@ public class CxxCompilationUnitSettings {
     }
   }
 
-  public List<String> getIncludes() {
+  public List<Path> getIncludes() {
     return new ArrayList<>(includes);
   }
 
-  public void setIncludes(@Nullable List<String> includes) {
+  public void setIncludes(@Nullable List<Path> includes) {
     if (includes != null) {
       this.includes = new ArrayList<>(includes);
     }

@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,34 +31,34 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 /**
- * The source code provider is responsible for locating source files and getting their content. A source file can be
- * specified both as an absolute and as a relative file system path. In the latter case the scanner searches a list of
+ * The source code provider is responsible for locating source files and getting
+ * their content. A source file can be specified both as an absolute and as a
+ * relative file system path. In the latter case the scanner searches a list of
  * directories (known to him) for a file with such a name.
  */
 public class SourceCodeProvider {
 
   private static final Logger LOG = Loggers.get(SourceCodeProvider.class);
-  private final List<File> includeRoots = new LinkedList<>();
+  private final List<Path> includeRoots = new LinkedList<>();
 
-  public void setIncludeRoots(List<String> includeRoots, String baseDir) {
-    for (String tmp : includeRoots) {
+  public void setIncludeRoots(List<Path> includeRoots, String baseDir) {
+    for (Path includeRoot : includeRoots) {
 
-      File includeRoot = new File(tmp);
       if (!includeRoot.isAbsolute()) {
-        includeRoot = new File(baseDir, tmp);
+        includeRoot = Paths.get(baseDir).resolve(includeRoot);
       }
 
       try {
-        includeRoot = includeRoot.getCanonicalFile();
+        includeRoot = includeRoot.toRealPath();
       } catch (java.io.IOException io) {
-        LOG.error("cannot get canonical form of: '{}'", includeRoot, io);
+        LOG.error("cannot get canonical form of: '{}'", includeRoot.toString(), io);
       }
 
-      if (includeRoot.isDirectory()) {
-        LOG.debug("storing include root: '{}'", includeRoot);
+      if (Files.isDirectory(includeRoot)) {
+        LOG.debug("storing include root: '{}'", includeRoot.toString());
         this.includeRoots.add(includeRoot);
       } else {
-        LOG.warn("the include root '{}' doesn't exist", includeRoot.getAbsolutePath());
+        LOG.warn("the include root '{}' doesn't exist", includeRoot.toAbsolutePath().toString());
       }
     }
   }
@@ -94,10 +95,10 @@ public class SourceCodeProvider {
       // The quoted case falls back to this, if its special handling wasn't
       // successful.
       if (result == null) {
-        for (File folder : includeRoots) {
-          File abspath = new File(folder.getPath(), filename);
-          if (abspath.isFile()) {
-            result = abspath;
+        for (Path path : includeRoots) {
+          Path abspath = path.resolve(filename);
+          if (Files.isRegularFile(abspath)) {
+            result = abspath.toFile();
             break;
           }
         }

@@ -21,6 +21,8 @@ package org.sonar.cxx;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,7 +31,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.log.Logger;
@@ -139,10 +140,12 @@ public class CxxConfiguration extends SquidConfiguration {
     }
   }
 
-  public List<String> getIncludeDirectories() {
-    Set<String> allIncludes = new HashSet<>();
+  public List<Path> getIncludeDirectories() {
+    Set<Path> allIncludes = new HashSet<>();
     for (List<String> elemList : uniqueIncludes.values()) {
-      allIncludes.addAll(elemList);
+      for (String elem : elemList) {
+        allIncludes.add(Paths.get(elem));
+      }
     }
     return new ArrayList<>(allIncludes);
   }
@@ -230,8 +233,8 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setCompilationPropertiesWithBuildLog(@Nullable List<File> reports,
-    String fileFormat,
-    String charsetName) {
+          String fileFormat,
+          String charsetName) {
 
     if (reports == null || reports.isEmpty()) {
       return;
@@ -242,8 +245,8 @@ public class CxxConfiguration extends SquidConfiguration {
         if ("Visual C++".equals(fileFormat)) {
           cxxVCppParser.parseVCppLog(buildLog, baseDir, charsetName);
           LOG.info("Parse build log '" + buildLog.getAbsolutePath()
-            + "' added includes: '" + getIncludeDirectories().size()
-            + "', added defines: '" + getDefines().size() + "'");
+                  + "' added includes: '" + getIncludeDirectories().size()
+                  + "', added defines: '" + getDefines().size() + "'");
           if (LOG.isDebugEnabled()) {
             for (List<String> allIncludes : uniqueIncludes.values()) {
               if (!allIncludes.isEmpty()) {
