@@ -37,7 +37,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
    */
   public static final String DEFAULT_ID = "default";
   public static final String DEFAULT_REGEX_DEF
-    = "(?<file>.*):(?<line>[0-9]+):[0-9]+:\\x20warning:\\x20(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
+    = "(?<file>[^:]*):(?<line>[0-9]+):([0-9]+:)?\\x20warning:\\x20(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
 
   public CxxCompilerGccSensor(CxxLanguage language) {
     super(language, REPORT_PATH_KEY, CxxCompilerGccRuleRepository.getRepositoryKey(language));
