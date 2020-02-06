@@ -1,51 +1,67 @@
 [
-	{
-		"_comment_" : "example extension to define global defines and includes for headers and for files which are not compiled",
-		"file" : "__global__",
-		"defines" : {
-			"GLOBAL_DEFINE" : "1"
-			},
-		"includes" : [
-			"/usr/include"
-			]
-	},
-	{
-		"_comment_" : "example with command for compilation",
-		"directory" : ".",
-		"file" : "test-with-command.cpp",
-		"command" : "gcc -o test -I/usr/local/include -I /another/include/dir -DSIMPLE -DCOMMAND_DEFINE=1 -D COMMAND_SPACE_DEFINE=\" foo 'bar' zoo \" test.cpp",
-		"output" : "test"
-	},
-	{
-		"_comment_" : "example with using arguments",
-		"directory" : ".",
-		"file" : "test-with-arguments.cpp",
-		"arguments" : "-o test -I/usr/local/include -I /another/include/dir -DSIMPLE -DARG_DEFINE=1 -D ARG_SPACE_DEFINE=\" foo 'bar' zoo \" test.cpp",
-		"output" : "test"
-	},
-    {
-        "_comment_" : "example with using arguments as list",
-        "directory" : ".",
-        "file" : "test-with-arguments-as-list.cpp",
-        "arguments" : ["-o", "test", "-I/usr/local/include", "-I", "/another/include/dir", "-DSIMPLE", "-DARG_DEFINE=1", "-D", "ARG_SPACE_DEFINE=\" foo 'bar' zoo \"", "test.cpp"],
-        "output" : "test"
+  {
+    "_comment_": "example extension to define global defines and includes for headers and for files which are not compiled",
+    "file": "__global__",
+    "defines": {
+      "GLOBAL_DEFINE": "1"
     },
-	{
-		"_comment_" : "example with using arguments as list",
-		"directory" : "./src",
-		"file" : "test-with-relative-directory.cpp",
-		"arguments" : ["-o", "test", "-I/usr/local/include", "-I", "another/include/dir", "-I", "../parent/include/dir", "test.cpp"],
-		"output" : "test"
-	},
-	{
-		"_comment_" : "example extension using defines and includes to define usage",
-		"directory" : ".",
-		"file" : "test-extension.cpp",
-		"defines" : {
-			"UNIT_DEFINE" : "1"
-			},
-		"includes" : [
-			"/usr/local/include"
-			]
-	}
+    "includes": [
+      "/usr/include"
+    ]
+  },
+  {
+    "_comment_": "test argument parser",
+    "directory": ".",
+    "file": "test-argument-parser.cpp",
+    "arguments": [
+      "-DMACRO1", "-DMACRO2=2",
+      "-D", "MACRO3", "-D", "MACRO4=4",
+      "-DMACRO5=\" a 'b' c \"",
+      "-DMACRO6=\"With spaces, quotes and \\-es.\"",
+      "-I/aaa/bbb", "-I", "/ccc/ddd",
+      "-iquote/eee/fff", "-iquote", "/ggg/hhh",
+      "-isystem/iii/jjj", "-isystem", "/kkk/lll",
+      "-idirafter/mmm/nnn", "-idirafter", "/ooo/ppp"
+    ],
+    "output": "test"
+  },
+  {
+    "_comment_": "example with command for compilation",
+    "directory": ".",
+    "file": "test-with-command.cpp",
+    "command": "gcc -o test -I/usr/local/include -I /another/include/dir -DSIMPLE -DCOMMAND_DEFINE=1 -D COMMAND_SPACE_DEFINE=\" foo 'bar' zoo \" test.cpp",
+    "output": "test"
+  },
+  {
+    "_comment_": "example with using arguments",
+    "directory": ".",
+    "file": "test-with-arguments.cpp",
+    "arguments": "-o test -I/usr/local/include -I /another/include/dir -DSIMPLE -DARG_DEFINE=1 -D ARG_SPACE_DEFINE=\" foo 'bar' zoo \" test.cpp",
+    "output": "test"
+  },
+  {
+    "_comment_": "example with using arguments as list",
+    "directory": ".",
+    "file": "test-with-arguments-as-list.cpp",
+    "arguments": [ "-o", "test", "-I/usr/local/include", "-I", "/another/include/dir", "-DSIMPLE", "-DARG_DEFINE=1", "-D", "ARG_SPACE_DEFINE=\" foo 'bar' zoo \"", "test.cpp" ],
+    "output": "test"
+  },
+  {
+    "_comment_": "example with using arguments as list",
+    "directory": "./src",
+    "file": "test-with-relative-directory.cpp",
+    "arguments": [ "-o", "test", "-I/usr/local/include", "-I", "another/include/dir", "-I", "../parent/include/dir", "test.cpp" ],
+    "output": "test"
+  },
+  {
+    "_comment_": "example extension using defines and includes to define usage",
+    "directory": ".",
+    "file": "test-extension.cpp",
+    "defines": {
+      "UNIT_DEFINE": "1"
+    },
+    "includes": [
+      "/usr/local/include"
+    ]
+  }
 ]

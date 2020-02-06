@@ -96,24 +96,32 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
    * escaping of quotes, with ‘"‘ and ‘\‘ being the only special characters.
    * Shell expansion is not supported.
    */
-  public String getCommand() {
-    return command;
+  public boolean hasCommand() {
+    return !command.isEmpty();
   }
-
+  
   public void setCommand(String command) {
     this.command = command;
+  }
+  
+  public String getCommand() {
+    return command;
   }
 
   /**
    * The compile command executed as list of strings. Either arguments or
    * command is required.
    */
-  public List<String> getArguments() {
-    return arguments;
+  public boolean hasArguments() {
+    return !arguments.isEmpty();
   }
-
+  
   public void setArguments(List<String> arguments) {
     this.arguments = arguments;
+  }
+  
+  public List<String> getArguments() {
+    return arguments;
   }
 
   /**
@@ -132,23 +140,31 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   /**
    * Extension to define defines
    */
-  public Map<String, String> getDefines() {
-    return defines;
+  public boolean hasDefines() {
+    return !defines.isEmpty();
   }
 
   public void setDefines(Map<String, String> defines) {
     this.defines = new HashMap<>(defines);
   }
 
+  public Map<String, String> getDefines() {
+    return defines;
+  }
+
   /**
    * Extension to define include directories
    */
-  public List<Path> getIncludes() {
-    return Collections.unmodifiableList(includes);
+  public boolean hasIncludes() {
+    return !includes.isEmpty();
   }
 
   public void setIncludes(List<Path> includes) {
     this.includes = new ArrayList<>(includes);
+  }
+
+  public List<Path> getIncludes() {
+    return Collections.unmodifiableList(includes);
   }
 
 }
