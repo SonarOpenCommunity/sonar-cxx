@@ -47,7 +47,7 @@ public class CxxHighlighterTest {
 
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target)
-      .setContents(content).setCharset(StandardCharsets.UTF_8).build();
+            .setContents(content).setCharset(StandardCharsets.UTF_8).build();
 
     context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
@@ -113,6 +113,9 @@ public class CxxHighlighterTest {
     checkOnRange(96, 25, 7, TypeOfText.STRING);
     checkOnRange(97, 25, 6, TypeOfText.STRING);
     checkOnRange(98, 25, 5, TypeOfText.STRING);
+    
+    // R"(\r\n      Hello World!\r\n   )" issue #1768
+    check(103, 14, TypeOfText.STRING);
   }
 
   @Test
@@ -127,20 +130,17 @@ public class CxxHighlighterTest {
   @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
   public void comment() {
 
-    check(1, 0, TypeOfText.COMMENT);
-    /*\r\n comment\r\n*/
+    check(1, 0, TypeOfText.COMMENT); /*\r\n comment\r\n*/
     check(3, 1, TypeOfText.COMMENT);
 
-    checkOnRange(5, 0, 2, TypeOfText.COMMENT);   //
-    checkOnRange(6, 0, 10, TypeOfText.COMMENT);  // comment
-    checkOnRange(7, 0, 2, TypeOfText.COMMENT);   //
+    checkOnRange(5, 0, 2, TypeOfText.COMMENT);    //
+    checkOnRange(6, 0, 10, TypeOfText.COMMENT);   // comment
+    checkOnRange(7, 0, 2, TypeOfText.COMMENT);    //
 
     checkOnRange(57, 22, 10, TypeOfText.COMMENT); // comment
     checkOnRange(58, 3, 10, TypeOfText.COMMENT);  // comment
-    checkOnRange(61, 3, 13, TypeOfText.COMMENT);
-    /* comment */
-    checkOnRange(64, 20, 13, TypeOfText.COMMENT);
-    /* comment */
+    checkOnRange(61, 3, 13, TypeOfText.COMMENT);  /* comment */
+    checkOnRange(64, 20, 13, TypeOfText.COMMENT); /* comment */
   }
 
   @Test
@@ -180,8 +180,8 @@ public class CxxHighlighterTest {
   }
 
   /**
-   * Checks the highlighting of a range of columns. The first column of a line has index 0. The range is the columns of
-   * the token.
+   * Checks the highlighting of a range of columns. The first column of a line
+   * has index 0. The range is the columns of the token.
    */
   private void checkOnRange(int line, int firstColumn, int length, TypeOfText expectedTypeOfText) {
     // check that every column of the token is highlighted (and with the expected type)
