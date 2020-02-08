@@ -12,7 +12,7 @@
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>1.3.0-SNAPSHOT</version>
+  <version>1.3.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Cxx</name>
@@ -373,7 +373,7 @@
         <artifactId>guava</artifactId>
         <version>19.0</version>
       </dependency>
-    </dependencies>
+      </dependencies>
   </dependencyManagement>
   <build>
     <!-- To define the plugin version in your parent POM -->
