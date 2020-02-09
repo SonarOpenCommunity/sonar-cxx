@@ -15,9 +15,39 @@
     <cucumber.version>2.0.1</cucumber.version>
     <sonar.sources>features</sonar.sources>
     <sonar.inclusions>features/**</sonar.inclusions>
+    <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <dependencies>
+    
+     <!-- set dependencies to aggregate coverage results -->
+     
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-checks</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-sensors</artifactId>
+      <version>${project.version}</version>
+    </dependency>         
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-squid</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sonar-c-plugin</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sonar-cxx-plugin</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-jvm-deps -->
 
     <!-- https://mvnrepository.com/artifact/io.cucumber/gherkin -->
@@ -133,6 +163,19 @@
               <goals>
                 <goal>python</goal>
               </goals>
+            </execution>
+          </executions>
+        </plugin>
+       <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>report</id>
+              <goals>
+                <goal>report-aggregate</goal>
+              </goals>
+              <phase>verify</phase>
             </execution>
           </executions>
         </plugin>

@@ -12,6 +12,10 @@
 
   <name>Cxx :: Squid</name>
 
+  <properties>
+    <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>

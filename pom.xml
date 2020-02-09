@@ -255,6 +255,7 @@
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <animal.sniffer.skip>true</animal.sniffer.skip>
+    <aggregate.report.dir>integration-tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
   </properties>
 
   <dependencyManagement>
@@ -405,19 +406,24 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-        </plugin>
-        <plugin>
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
           <version>3.0</version>
+        </plugin> 
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
         </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.5.0.1254</version>
+          <version>3.7.0.1746</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.5</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -430,52 +436,42 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
+        <version>3.8.1</version>
         <configuration>
           <showDeprecation>true</showDeprecation>
         </configuration>
       </plugin>
     </plugins>
   </build>
-  <!-- BEGIN: Specific to mapping unit tests and covered code
-   Usage:
-1) Prepare jacoco agent to allow coverage report generation, build the project, and execute the unit tests:
-   mvn org.jacoco:jacoco-maven-plugin:prepare-agent clean install
-2) To get coverage per tests information, you will need to activate the profile when running the instrumented tests:
-   mvn org.jacoco:jacoco-maven-plugin:prepare-agent clean install -Pcoverage-per-test
-3) Analyze the project with SonarQube using Maven:
-   mvn sonar:sonar
-  -->
+  <!-- BEGIN: Specific to mapping unit tests and covered code -->
   <profiles>
     <profile>
-      <id>coverage-per-test</id>
+      <id>coverage</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <!-- Minimal supported version is 2.4 -->
-            <version>2.22.0</version>
-            <configuration>
-              <properties>
-                <property>
-                  <name>listener</name>
-                  <value>org.sonar.java.jacoco.JUnitListener</value>
-                </property>
-              </properties>
-            </configuration>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>report</id>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
-
-      <dependencies>
-        <dependency>
-          <groupId>org.sonarsource.java</groupId>
-          <artifactId>sonar-jacoco-listeners</artifactId>
-          <version>5.4.0.14284</version>
-          <scope>test</scope>
-        </dependency>
-      </dependencies>
     </profile>
   </profiles>
 </project>
