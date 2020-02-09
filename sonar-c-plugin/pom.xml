@@ -21,8 +21,9 @@
     <sonar.pluginClass>org.sonar.plugins.c.CPlugin</sonar.pluginClass>
     <sonar.pluginName>C (Community)</sonar.pluginName>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
+    <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
-
+  
   <dependencies>
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>
