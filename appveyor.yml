@@ -29,7 +29,7 @@ install:
       }
 
       (new-object System.Net.WebClient).DownloadFile(
-        'http://www.us.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.zip',
+        'https://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip',
         'C:\maven-bin.zip'
       )
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
