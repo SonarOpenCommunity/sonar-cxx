@@ -86,11 +86,44 @@ public class JsonCompilationDatabaseTest {
     assertThat(cus.getDefines().containsKey("COMMAND_SPACE_DEFINE")).isTrue();
     assertThat(cus.getDefines().get("COMMAND_SPACE_DEFINE")).isEqualTo("\" foo 'bar' zoo \"");
     assertThat(cus.getDefines().containsKey("SIMPLE")).isTrue();
-    assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("");
+    assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("1");
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
     assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
     assertThat(cus.getIncludes().contains(Paths.get("/another/include/dir"))).isTrue();
     assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isFalse();
+  }
+
+  @Test
+  public void testArgumentParser() throws Exception {
+    CxxConfiguration conf = new CxxConfiguration();
+
+    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
+
+    JsonCompilationDatabase.parse(conf, file);
+
+    Path cwd = Paths.get(".");
+    Path absPath = cwd.resolve("test-argument-parser.cpp");
+    String filename = absPath.toAbsolutePath().normalize().toString();
+
+    CxxCompilationUnitSettings cus = conf.getCompilationUnitSettings(filename);
+
+    assertThat(cus).isNotNull();
+
+    assertThat(cus.getDefines().get("MACRO1")).isEqualTo("1");
+    assertThat(cus.getDefines().get("MACRO2")).isEqualTo("2");
+    assertThat(cus.getDefines().get("MACRO3")).isEqualTo("1");
+    assertThat(cus.getDefines().get("MACRO4")).isEqualTo("4");
+    assertThat(cus.getDefines().get("MACRO5")).isEqualTo("\" a 'b' c \"");
+    assertThat(cus.getDefines().get("MACRO6")).isEqualTo("\"With spaces, quotes and \\-es.\"");
+
+    assertThat(cus.getIncludes().contains(Paths.get("/aaa/bbb"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/ccc/ddd"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/eee/fff"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/ggg/hhh"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/iii/jjj"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/kkk/lll"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/mmm/nnn"))).isTrue();
+    assertThat(cus.getIncludes().contains(Paths.get("/ooo/ppp"))).isTrue();
   }
 
   @Test
@@ -112,7 +145,7 @@ public class JsonCompilationDatabaseTest {
     assertThat(cus.getDefines().containsKey("ARG_SPACE_DEFINE")).isTrue();
     assertThat(cus.getDefines().get("ARG_SPACE_DEFINE")).isEqualTo("\" foo 'bar' zoo \"");
     assertThat(cus.getDefines().containsKey("SIMPLE")).isTrue();
-    assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("");
+    assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("1");
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
     assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
     assertThat(cus.getIncludes().contains(Paths.get("/another/include/dir"))).isTrue();
@@ -159,7 +192,7 @@ public class JsonCompilationDatabaseTest {
     assertThat(cus.getDefines().containsKey("ARG_SPACE_DEFINE")).isTrue();
     assertThat(cus.getDefines().get("ARG_SPACE_DEFINE")).isEqualTo("\" foo 'bar' zoo \"");
     assertThat(cus.getDefines().containsKey("SIMPLE")).isTrue();
-    assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("");
+    assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("1");
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
     assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
     assertThat(cus.getIncludes().contains(Paths.get("/another/include/dir"))).isTrue();

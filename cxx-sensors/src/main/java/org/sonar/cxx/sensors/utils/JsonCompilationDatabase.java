@@ -41,6 +41,10 @@ public class JsonCompilationDatabase {
 
   private static final Logger LOG = Loggers.get(JsonCompilationDatabase.class);
 
+  enum ArgNext {
+    NONE, DEFINE, INCLUDE, IQUOTE, ISYSTEM, IDIRAFTER;
+  }
+
   private JsonCompilationDatabase() {
     /* utility class is not meant to be instantiated */
   }
@@ -61,93 +65,109 @@ public class JsonCompilationDatabase {
     mapper.enable(DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY);
     mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-    JsonCompilationDatabaseCommandObject[] commandObjects = mapper.readValue(compileCommandsFile,
-            JsonCompilationDatabaseCommandObject[].class);
+    JsonCompilationDatabaseCommandObject[] commandObjects
+            = mapper.readValue(compileCommandsFile, JsonCompilationDatabaseCommandObject[].class);
+    Path cwd;
 
     for (JsonCompilationDatabaseCommandObject commandObject : commandObjects) {
-
-      Path cwd = Paths.get(".");
-
       if (commandObject.getDirectory() != null) {
         cwd = Paths.get(commandObject.getDirectory());
+      } else {
+        cwd = Paths.get(".");
       }
 
       Path absPath = cwd.resolve(commandObject.getFile());
+      CxxCompilationUnitSettings settings = new CxxCompilationUnitSettings();
+      parseCommandObject(settings, cwd, commandObject);
 
       if ("__global__".equals(commandObject.getFile())) {
-        CxxCompilationUnitSettings globalSettings = new CxxCompilationUnitSettings();
-
-        parseCommandObject(globalSettings, cwd, commandObject);
-
-        config.setGlobalCompilationUnitSettings(globalSettings);
+        config.setGlobalCompilationUnitSettings(settings);
       } else {
-        CxxCompilationUnitSettings settings = new CxxCompilationUnitSettings();
-
-        parseCommandObject(settings, cwd, commandObject);
-
         config.addCompilationUnitSettings(absPath.toAbsolutePath().normalize().toString(), settings);
       }
     }
   }
 
   private static void parseCommandObject(CxxCompilationUnitSettings settings,
-          Path cwd,
-          JsonCompilationDatabaseCommandObject commandObject) {
+          Path cwd, JsonCompilationDatabaseCommandObject commandObject) {
+
     settings.setDefines(commandObject.getDefines());
     settings.setIncludes(commandObject.getIncludes());
 
     // No need to parse command lines as we have needed information
-    if (!commandObject.getDefines().isEmpty() || !commandObject.getIncludes().isEmpty()) {
+    if (commandObject.hasDefines() || commandObject.hasIncludes()) {
       return;
     }
 
     String cmdLine;
 
-    if (!commandObject.getArguments().isEmpty()) {
+    if (commandObject.hasArguments()) {
       cmdLine = commandObject.getArguments().stream().collect(Collectors.joining(" "));
-    } else if (!commandObject.getCommand().isEmpty()) {
+    } else if (commandObject.hasCommand()) {
       cmdLine = commandObject.getCommand();
     } else {
       return;
     }
 
     String[] args = tokenizeCommandLine(cmdLine);
-    boolean nextInclude = false;
-    boolean nextDefine = false;
-    List<Path> includes = new ArrayList<>();
-    HashMap<String, String> defines = new HashMap<>();
+    ArgNext next = ArgNext.NONE;
 
-    // Capture defines and includes from command line
+    HashMap<String, String> defines = new HashMap<>();
+    List<Path> includes = new ArrayList<>();
+    List<Path> iSystem = new ArrayList<>();
+    List<Path> iDirAfter = new ArrayList<>();
+
     for (String arg : args) {
-      if (nextInclude) {
-        nextInclude = false;
-        includes.add(makeRelativeToCwd(cwd, arg));
-      } else if (nextDefine) {
-        nextDefine = false;
-        String[] define = arg.split("=", 2);
-        if (define.length == 1) {
-          defines.put(define[0], "");
-        } else {
-          defines.put(define[0], define[1]);
-        }
-      } else if ("-I".equals(arg)) {
-        nextInclude = true;
+      if (arg.startsWith("-D")) {
+        arg = arg.substring(2);
+        next = ArgNext.DEFINE;
       } else if (arg.startsWith("-I")) {
-        includes.add(makeRelativeToCwd(cwd, arg.substring(2)));
-      } else if ("-D".equals(arg)) {
-        nextDefine = true;
-      } else if (arg.startsWith("-D")) {
-        String[] define = arg.substring(2).split("=", 2);
-        if (define.length == 1) {
-          defines.put(define[0], "");
-        } else {
-          defines.put(define[0], define[1]);
+        arg = arg.substring(2);
+        next = ArgNext.INCLUDE;
+      } else if (arg.startsWith("-iquote")) {
+        arg = arg.substring(7);
+        next = ArgNext.INCLUDE;
+      } else if (arg.startsWith("-isystem")) {
+        arg = arg.substring(8);
+        next = ArgNext.ISYSTEM;
+      } else if (arg.startsWith("-idirafter")) {
+        arg = arg.substring(10);
+        next = ArgNext.IDIRAFTER;
+      }
+
+      if ((next != ArgNext.NONE) && !arg.isEmpty()) {
+        switch (next) {
+          case DEFINE:
+            addMacro(arg, defines);
+            break;
+          case INCLUDE:
+          case IQUOTE:
+            includes.add(makeRelativeToCwd(cwd, arg));
+            break;
+          case ISYSTEM:
+            iSystem.add(makeRelativeToCwd(cwd, arg));
+            break;
+          case IDIRAFTER:
+            iDirAfter.add(makeRelativeToCwd(cwd, arg));
+            break;
         }
+        next = ArgNext.NONE;
       }
     }
 
     settings.setDefines(defines);
+    includes.addAll(iSystem);
+    includes.addAll(iDirAfter);
     settings.setIncludes(includes);
+  }
+
+  private static void addMacro(String keyValue, HashMap<String, String> defines) {
+    String[] strings = keyValue.split("=", 2);
+    if (strings.length == 1) {
+      defines.put(strings[0], "1");
+    } else {
+      defines.put(strings[0], strings[1]);
+    }
   }
 
   private static Path makeRelativeToCwd(Path cwd, String include) {
