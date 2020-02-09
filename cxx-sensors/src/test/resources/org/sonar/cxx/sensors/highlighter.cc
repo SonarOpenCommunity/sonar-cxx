@@ -98,4 +98,11 @@ void test3()
                          "Lou";
 }
 
+void test4()
+{
+   auto txt = R"(
+      Hello World!
+   )"; 
+}
+
 /* EOF */
