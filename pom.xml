@@ -207,6 +207,11 @@
       <name>Stéphane Talbot</name>
       <email/>
     </developer>
+    <developer>
+      <id>tisoft</id>
+      <name>Markus Heberling</name>
+      <email>markus@tisoft.de</email>
+    </developer>
   </developers>
 
   <contributors>
