@@ -48,7 +48,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private final Map<String, Set<String>> uniqueDefines = new HashMap<>();
   private List<String> forceIncludeFiles = new ArrayList<>();
   private List<String> headerFileSuffixes = new ArrayList<>();
-  private String baseDir;
+  private String baseDir = "";
   private boolean errorRecoveryEnabled = true;
   private List<String> cFilesPatterns = new ArrayList<>();
   private String jsonCompilationDatabaseFile;
@@ -95,12 +95,10 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setDefines(@Nullable String[] defines) {
-    if (defines == null) {
-      return;
+    if (defines != null && defines.length > 0) {
+      Set<String> overallDefs = uniqueDefines.get(OVERALLDEFINEKEY);
+      overallDefs.addAll(Arrays.asList(defines));
     }
-
-    Set<String> overallDefs = uniqueDefines.get(OVERALLDEFINEKEY);
-    overallDefs.addAll(Arrays.asList(defines));
   }
 
   public void addOverallDefine(String define) {
@@ -135,7 +133,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setIncludeDirectories(@Nullable String[] includeDirectories) {
-    if (includeDirectories != null) {
+    if (includeDirectories != null && includeDirectories.length > 0) {
       setIncludeDirectories(Arrays.asList(includeDirectories));
     }
   }
@@ -155,7 +153,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setForceIncludeFiles(@Nullable String[] forceIncludeFiles) {
-    if (forceIncludeFiles != null) {
+    if (forceIncludeFiles != null && forceIncludeFiles.length > 0) {
       setForceIncludeFiles(Arrays.asList(forceIncludeFiles));
     }
   }
@@ -185,7 +183,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setCFilesPatterns(@Nullable String[] cFilesPatterns) {
-    if (cFilesPatterns != null) {
+    if (cFilesPatterns != null && cFilesPatterns.length > 0) {
       this.cFilesPatterns = Arrays.asList(cFilesPatterns);
     }
   }
@@ -195,7 +193,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setHeaderFileSuffixes(@Nullable String[] headerFileSuffixes) {
-    if (headerFileSuffixes != null) {
+    if (headerFileSuffixes != null && headerFileSuffixes.length > 0) {
       setHeaderFileSuffixes(Arrays.asList(headerFileSuffixes));
     }
   }
