@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
@@ -43,22 +44,21 @@ public class SourceCodeProvider {
 
   public void setIncludeRoots(List<Path> includeRoots, String baseDir) {
     for (Path includeRoot : includeRoots) {
-
-      if (!includeRoot.isAbsolute()) {
-        includeRoot = Paths.get(baseDir).resolve(includeRoot);
-      }
-
       try {
+        if (!includeRoot.isAbsolute()) {
+          includeRoot = Paths.get(baseDir).resolve(includeRoot);
+        }
         includeRoot = includeRoot.toRealPath();
-      } catch (java.io.IOException io) {
-        LOG.error("cannot get canonical form of: '{}'", includeRoot.toString(), io);
-      }
 
-      if (Files.isDirectory(includeRoot)) {
-        LOG.debug("storing include root: '{}'", includeRoot.toString());
-        this.includeRoots.add(includeRoot);
-      } else {
-        LOG.warn("the include root '{}' doesn't exist", includeRoot.toAbsolutePath().toString());
+        if (Files.isDirectory(includeRoot)) {
+          LOG.debug("storing include root: '{}'", includeRoot.toString());
+          this.includeRoots.add(includeRoot);
+        } else {
+          LOG.warn("include root '{}' is not a directory", includeRoot.toString());
+        }
+
+      } catch (IOException | InvalidPathException ex) {
+        LOG.error("cannot get absolute path of include root '{}'", includeRoot.toString());
       }
     }
   }
