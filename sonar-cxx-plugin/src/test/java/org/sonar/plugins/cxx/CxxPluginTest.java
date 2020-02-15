@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2019 SonarOpenCommunity
+ * Copyright (C) 2010-2020 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.api.Plugin;
+import org.sonar.api.SonarEdition;
 import org.sonar.api.SonarQubeSide;
 import org.sonar.api.SonarRuntime;
 import org.sonar.api.internal.SonarRuntimeImpl;
@@ -31,7 +32,11 @@ public class CxxPluginTest {
 
   @Test
   public void testGetExtensions() throws Exception {
-    SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(Version.create(6, 5), SonarQubeSide.SCANNER);
+    SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(
+      Version.create(7, 9),
+      SonarQubeSide.SCANNER,
+      SonarEdition.COMMUNITY
+    );
     Plugin.Context context = new Plugin.Context(runtime);
     CxxPlugin plugin = new CxxPlugin();
     plugin.define(context);

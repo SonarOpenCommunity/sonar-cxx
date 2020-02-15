@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2019 SonarOpenCommunity
+ * Copyright (C) 2010-2020 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -29,6 +29,7 @@ import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.batch.rule.internal.ActiveRulesBuilder;
+import org.sonar.api.batch.rule.internal.NewActiveRule;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Rule;
@@ -51,9 +52,13 @@ public class CxxChecksTest {
 
   @Before
   public void setUp() {
-    ActiveRules activeRules = (new ActiveRulesBuilder())
-      .create(RuleKey.of(DEFAULT_REPOSITORY_KEY, DEFAULT_RULE_KEY)).activate()
-      .create(RuleKey.of(CUSTOM_REPOSITORY_KEY, CUSTOM_RULE_KEY)).activate()
+    ActiveRules activeRules = new ActiveRulesBuilder()
+      .addRule(new NewActiveRule.Builder()
+        .setRuleKey(RuleKey.of(DEFAULT_REPOSITORY_KEY, DEFAULT_RULE_KEY))
+        .build())
+      .addRule(new NewActiveRule.Builder()
+        .setRuleKey(RuleKey.of(CUSTOM_REPOSITORY_KEY, CUSTOM_RULE_KEY))
+        .build())
       .build();
     checkFactory = new CheckFactory(activeRules);
 

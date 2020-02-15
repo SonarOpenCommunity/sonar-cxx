@@ -64,7 +64,7 @@
       <parameters>
         <parameter>
           <key>allowedTags</key>
-          <value>wip,SqApi62,SqApi56</value>
+          <value>SqApi79</value>
         </parameter>
       </parameters>
     </rule>

@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.sonarsource.parent</groupId>
     <artifactId>parent</artifactId>
-    <version>51</version>
+    <version>54</version>
   </parent>
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
@@ -253,13 +253,18 @@
     <license.owner>SonarOpenCommunity</license.owner>
     <license.mailto>http://github.com/SonarOpenCommunity/sonar-cxx</license.mailto>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-    <sonar.version>6.7</sonar.version>
-    <sslr.version>1.23</sslr.version>
-    <sslr-squid-bridge.version>2.6.1</sslr-squid-bridge.version>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <animal.sniffer.skip>true</animal.sniffer.skip>
     <aggregate.report.dir>integration-tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
+    <!-- versions -->
+    <sonar.version>7.9</sonar.version>
+    <java.version>11</java.version>
+    <maven.compiler.version>3.8.1</maven.compiler.version>    
+    <sslr.version>1.23</sslr.version>
+    <sslr-squid-bridge.version>2.6.1</sslr-squid-bridge.version>
+    <!-- we depend on API ${sonar.version} but we keep backward compatibility with LTS -->
+    <sonarQubeMinVersion>7.9</sonarQubeMinVersion>            
   </properties>
 
   <dependencyManagement>
@@ -376,9 +381,9 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>19.0</version>
-      </dependency>
-      </dependencies>
+        <version>23.0</version>
+      </dependency>       
+    </dependencies>
   </dependencyManagement>
   <build>
     <!-- To define the plugin version in your parent POM -->
@@ -417,7 +422,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.1</version>
+          <version>${maven.compiler.version}</version>
         </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
@@ -440,9 +445,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>${maven.compiler.version}</version>
         <configuration>
           <showDeprecation>true</showDeprecation>
+          <release>${java.version}</release>
         </configuration>
       </plugin>
     </plugins>
@@ -476,6 +482,16 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <profile>
+      <!-- Use javac's release flag for Java 9 and higher -->
+      <id>java9+</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <properties>
+        <maven.compiler.release>8</maven.compiler.release>
+      </properties>
     </profile>
   </profiles>
 </project>
