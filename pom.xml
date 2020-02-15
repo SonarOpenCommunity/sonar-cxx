@@ -12,7 +12,7 @@
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>1.3.2-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Cxx</name>
@@ -229,7 +229,6 @@
     <module>cxx-checks</module>
     <module>cxx-sensors</module>
     <module>sonar-cxx-plugin</module>
-    <module>sonar-c-plugin</module>
     <module>sslr-cxx-toolkit</module>
     <module>integration-tests</module>
   </modules>

@@ -40,9 +40,6 @@ BASEDIR = os.path.dirname(os.path.realpath(__file__))
 JAR_CXX_PATTERN1 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*[0-9].jar")
 JAR_CXX_PATTERN2 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHOT.jar")
 JAR_CXX_PATTERN3 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*RC[0-9].jar")
-JAR_C_PATTERN1 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*[0-9].jar")
-JAR_C_PATTERN2 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*SNAPSHOT.jar")
-JAR_C_PATTERN3 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*RC[0-9].jar")
 RELPATH_PLUGINS = "extensions/plugins"
 didstartsonar = False
 
@@ -125,8 +122,6 @@ def install_plugin(sonarhome):
     pluginspath = os.path.join(sonarhome, RELPATH_PLUGINS)
     for path in glob(os.path.join(pluginspath, "sonar-cxx-plugin*.jar")):
         os.remove(path)
-    for path in glob(os.path.join(pluginspath, "sonar-c-plugin*.jar")):
-        os.remove(path)
     jpath = jar_cxx_path()
     if not jpath:
         sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n" + RESET)
@@ -134,14 +129,6 @@ def install_plugin(sonarhome):
         return False
 
     copyfile(jpath, os.path.join(pluginspath, os.path.basename(jpath)))
-
-    jcpath = jar_c_path()
-    if not jcpath:
-        sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n" + RESET)
-        sys.stderr.flush()
-        return False
-
-    copyfile(jcpath, os.path.join(pluginspath, os.path.basename(jcpath)))
 
     sys.stdout.write(GREEN + "OK\n" + RESET)
     return True
@@ -155,18 +142,6 @@ def jar_cxx_path():
     if jars:
         return os.path.normpath(jars[0])
     jars = glob(JAR_CXX_PATTERN3)
-    if jars:
-        return os.path.normpath(jars[0])
-    return None
-
-def jar_c_path():
-    jars = glob(JAR_C_PATTERN1)
-    if jars:
-        return os.path.normpath(jars[0])
-    jars = glob(JAR_C_PATTERN2)
-    if jars:
-        return os.path.normpath(jars[0])
-    jars = glob(JAR_C_PATTERN3)
     if jars:
         return os.path.normpath(jars[0])
     return None
