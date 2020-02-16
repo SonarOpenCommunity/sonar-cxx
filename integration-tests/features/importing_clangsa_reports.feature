@@ -1,4 +1,4 @@
-@SqApi67 @SqApi75 @SqApi76 @SqApi78 @SqApi79
+@SqApi79
 Feature: Importing Clang Static Analyzer reports
   As a SonarQube user,
   I want to import the Clang Static Analyzer reports into SonarQube.

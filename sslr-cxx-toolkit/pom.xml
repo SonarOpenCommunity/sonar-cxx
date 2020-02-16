@@ -32,7 +32,7 @@
       <artifactId>sonar-colorizer</artifactId>
       <version>3.6</version>
       <scope>provided</scope>
-    </dependency>
+    </dependency>  
   </dependencies>
 
   <build>
@@ -40,6 +40,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.0</version>
         <configuration>
           <archive>
             <manifest>
@@ -51,6 +52,7 @@
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>jarjar-maven-plugin</artifactId>
+        <version>1.9</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -95,8 +97,8 @@
             <configuration>
               <rules>
                 <requireFilesSize>
-                  <maxsize>6000000</maxsize>
-                  <minsize>5000000</minsize>
+                  <maxsize>8000000</maxsize>
+                  <minsize>6000000</minsize>
                   <files>
                     <file>${project.build.directory}/${project.build.finalName}.jar</file>
                   </files>

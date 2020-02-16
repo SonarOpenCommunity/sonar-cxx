@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2019 SonarOpenCommunity
+ * Copyright (C) 2010-2020 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -161,20 +161,8 @@ public class CxxFileLinesVisitorTest {
     }
 
     @Override
-    public Integer getIntValue(String metricKey, int line) {
-      Assert.fail("unexpected method called: getIntValue()");
-      return null;
-    }
-
-    @Override
     public void setStringValue(String metricKey, int line, String value) {
       Assert.fail("unexpected method called: setStringValue()");
-    }
-
-    @Override
-    public String getStringValue(String metricKey, int line) {
-      Assert.fail("unexpected method called: getStringValue()");
-      return null;
     }
 
     @Override

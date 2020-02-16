@@ -1,10 +1,10 @@
+@SqApi79
 Feature: Importing Cppcheck reports
   As a SonarQube user,
   I want to import the Cppcheck reports into SonarQube
   In order to have all static code checking results in one place,
   work with them, filter them etc. and derive metrics from them.
 
-  @SqApi67 @SqApi75 @SqApi76 @SqApi78 @SqApi79
   Scenario: The reports are missing
     Given the project "cppcheck_project"
     And rule "cppcheck:unusedVariable" is enabled
@@ -23,20 +23,6 @@ Feature: Importing Cppcheck reports
       """
     And the number of violations fed is 0
 
-  @wip
-  Scenario: The report mentions an unknown rule
-    Given the project "cppcheck_project"
-    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=rule_unknown.xml"
-    Then the analysis finishes successfully
-    And the analysis in server has completed
-    And the server log (if locatable) contains no error/warning messages
-    But the analysis log contains a line matching
-      """
-      .*ERROR.*Could not add the issue.*The rule '.*' does not exist.
-      """
-    And the number of violations fed is 0
-
-  @SqApi67 @SqApi75 @SqApi76 @SqApi78 @SqApi79
   Scenario: The reports use paths relative to directories listed in sonar.sources
     Given the project "cppcheck_project"
     And rule "cppcheck:unusedVariable" is enabled
@@ -55,7 +41,6 @@ Feature: Importing Cppcheck reports
       """
     And the number of violations fed is 0
 
-  @SqApi67 @SqApi75 @SqApi76 @SqApi78 @SqApi79
   Scenario: The reports and issues in the reports have absolute paths
     Given the project "cppcheck_with_absolute_paths_project"
     And rule "cppcheck:unusedVariable" is enabled
@@ -71,7 +56,6 @@ Feature: Importing Cppcheck reports
     And the server log (if locatable) contains no error/warning messages
     And the number of violations fed is 6
 
-  @SqApi67 @SqApi75 @SqApi76 @SqApi78 @SqApi79
   Scenario Outline: The reports are invalid
     Given the project "cppcheck_project"
     And rule "cppcheck:unusedVariable" is enabled
@@ -94,7 +78,6 @@ Feature: Importing Cppcheck reports
       | unparsable.xml      | 0          |
       | wrongly_encoded.xml | 0          |
 
-  @SqApi67 @SqApi75 @SqApi76 @SqApi78 @SqApi79
   Scenario Outline: Importing Cppcheck reports
     Given the project "cppcheck_project"
     And rule "cppcheck:unusedVariable" is enabled
