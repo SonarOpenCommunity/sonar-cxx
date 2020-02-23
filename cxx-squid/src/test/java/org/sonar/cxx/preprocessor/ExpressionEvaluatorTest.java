@@ -30,7 +30,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class ExpressionEvaluatorTest {
@@ -396,7 +395,7 @@ public class ExpressionEvaluatorTest {
 
   @Test
   public void std_macro_evaluated_as_expected() {
-    CxxPreprocessor pp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), CxxFileTesterHelper.mockCxxLanguage());
+    CxxPreprocessor pp = new CxxPreprocessor(mock(SquidAstVisitorContext.class));
 
     assertTrue(eval("__LINE__", pp));
     assertTrue(eval("__STDC__", pp));

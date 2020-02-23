@@ -33,16 +33,17 @@ import org.assertj.core.groups.Tuple;
 import static org.assertj.core.groups.Tuple.tuple;
 import org.fest.assertions.Fail;
 import org.junit.Test;
-import static org.mockito.Mockito.when;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxPublicApiVisitorTest {
+
+  private final MapSettings settings = new MapSettings();
 
   private static final org.sonar.api.utils.log.Logger LOG
     = Loggers.get(CxxPublicApiVisitorTest.class);
@@ -57,12 +58,10 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void test_no_matching_suffix() throws IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".",
-      "");
-    CxxLanguage language = CxxFileTesterHelper.mockCxxLanguage();
-    when(language.getHeaderFileSuffixes()).thenReturn(new String[]{".hpp"});
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".", "");
+    settings.setProperty("sonar.cxx.suffixes.headers", ".hpp");
 
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, language);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext);
 
     assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(0);
     assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
@@ -110,7 +109,7 @@ public class CxxPublicApiVisitorTest {
     visitor.withHeaderFileSuffixes(Arrays.asList(".h"));
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/public_api.h", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, visitor);
 
     final Map<String, String> expectedIdCommentMap = new HashMap<>();
 
@@ -208,7 +207,8 @@ public class CxxPublicApiVisitorTest {
    * @param fileName the file to use for test
    * @param expectedApi expected number of API
    * @param expectedUndoc expected number of undocumented API
-   * @param checkDouble if true, fails the test if two items with the same id are counted..
+   * @param checkDouble if true, fails the test if two items with the same id
+   * are counted..
    */
   private Tuple testFile(String fileName, boolean checkDouble)
     throws UnsupportedEncodingException, IOException {
@@ -219,7 +219,7 @@ public class CxxPublicApiVisitorTest {
       .asList(getFileExtension(fileName)));
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, visitor);
 
     LOG.debug("#API: {} UNDOC: {}",
       file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));

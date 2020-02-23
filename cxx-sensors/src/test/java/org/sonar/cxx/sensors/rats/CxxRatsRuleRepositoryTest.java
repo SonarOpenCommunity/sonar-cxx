@@ -32,15 +32,13 @@ public class CxxRatsRuleRepositoryTest {
 
   @Test
   public void createRulesTest() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-
     CxxRatsRuleRepository def = new CxxRatsRuleRepository(
-      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
+      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader());
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxRatsRuleRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxRatsRuleRepository.KEY);
     assertThat(repo.rules()).hasSize(313);
   }
 

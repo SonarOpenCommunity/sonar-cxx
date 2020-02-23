@@ -35,7 +35,6 @@ import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -46,7 +45,7 @@ import org.sonar.cxx.sensors.utils.EmptyReportException;
 public class CxxCoverageSensor extends CxxReportSensor {
 
   // Configuration properties before SQ 6.2
-  public static final String REPORT_PATH_KEY = "coverage.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.coverage.reportPath";
 
   private static final Logger LOG = Loggers.get(CxxCoverageSensor.class);
 
@@ -57,11 +56,11 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * {@inheritDoc}
    *
    * @param cache for all coverage data
-   * @param language for current analysis
+   * @param settings sensor configuration
    * @param context for current file
    */
-  public CxxCoverageSensor(CxxCoverageCache cache, CxxLanguage language, SensorContext context) {
-    super(language, REPORT_PATH_KEY);
+  public CxxCoverageSensor(CxxCoverageCache cache, Configuration settings, SensorContext context) {
+    super(settings, REPORT_PATH_KEY);
     this.cache = cache;
     parsers.add(new CoberturaParser());
     parsers.add(new BullseyeParser());
@@ -184,7 +183,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
             }
           } catch (RuntimeException ex) {
             LOG.error("Cannot save measure for file '{}' , ignoring measure. ", filePath, ex);
-            CxxUtils.validateRecovery(ex, getLanguage());
+            CxxUtils.validateRecovery(ex, settings);
           }
         } else {
           if (LOG.isDebugEnabled()) {
@@ -216,7 +215,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     } catch (RuntimeException ex) {
       LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ",
         measure.getLine(), ex.getMessage());
-      CxxUtils.validateRecovery(ex, getLanguage());
+      CxxUtils.validateRecovery(ex, settings);
     }
   }
 

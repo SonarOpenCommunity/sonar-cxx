@@ -23,9 +23,9 @@ import java.io.File;
 import java.util.Set;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -35,17 +35,17 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxValgrindSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "valgrind.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPath";
 
   private static final Logger LOG = Loggers.get(CxxValgrindSensor.class);
 
   /**
    * CxxValgrindSensor for Valgrind Sensor
    *
-   * @param language defines settings C or C++
+   * @param settings sensor configuration
    */
-  public CxxValgrindSensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxValgrindRuleRepository.getRepositoryKey(language));
+  public CxxValgrindSensor(Configuration settings) {
+    super(settings, REPORT_PATH_KEY, CxxValgrindRuleRepository.KEY);
   }
 
   private static String createErrorMsg(ValgrindError error, ValgrindStack stack, int stackNr) {

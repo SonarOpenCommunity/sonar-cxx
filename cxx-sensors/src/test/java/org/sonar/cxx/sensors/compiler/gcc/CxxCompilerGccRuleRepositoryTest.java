@@ -32,16 +32,14 @@ public class CxxCompilerGccRuleRepositoryTest {
 
   @Test
   public void createGccRulesTest() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-
     CxxCompilerGccRuleRepository def = new CxxCompilerGccRuleRepository(
       mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader(), language);
+      new RulesDefinitionXmlLoader());
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxCompilerGccRuleRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxCompilerGccRuleRepository.KEY);
     assertThat(repo.rules()).hasSize(230);
   }
 

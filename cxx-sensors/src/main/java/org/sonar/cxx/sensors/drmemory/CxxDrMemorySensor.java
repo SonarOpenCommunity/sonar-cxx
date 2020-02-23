@@ -23,9 +23,9 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
@@ -33,26 +33,28 @@ import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
- * Dr. Memory is a memory monitoring tool capable of identifying memory-related programming errors such as accesses of
- * uninitialized memory, accesses to not addressable memory (including outside of allocated heap units and heap
- * underflow and overflow), accesses to freed memory, double frees, memory leaks, and (on Windows) handle leaks, GDI API
- * usage errors, and accesses to unreserved thread local storage slots. See also: http://drmemory.org
+ * Dr. Memory is a memory monitoring tool capable of identifying memory-related
+ * programming errors such as accesses of uninitialized memory, accesses to not
+ * addressable memory (including outside of allocated heap units and heap
+ * underflow and overflow), accesses to freed memory, double frees, memory
+ * leaks, and (on Windows) handle leaks, GDI API usage errors, and accesses to
+ * unreserved thread local storage slots. See also: http://drmemory.org
  *
  * @author asylvestre
  */
 public class CxxDrMemorySensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "drmemory.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.drmemory.reportPath";
   private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   private static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
   /**
    * CxxDrMemorySensor for Doctor Memory Sensor
    *
-   * @param language defines settings C or C++
+   * @param settings sensor configuration
    */
-  public CxxDrMemorySensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxDrMemoryRuleRepository.getRepositoryKey(language));
+  public CxxDrMemorySensor(Configuration settings) {
+    super(settings, REPORT_PATH_KEY, CxxDrMemoryRuleRepository.KEY);
   }
 
   private static String getFrameText(Location frame, int frameNr) {

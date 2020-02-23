@@ -32,7 +32,7 @@ import org.sonar.api.measures.Metric;
 
 public class DensityMeasureComputerTest {
 
-  static final Map<CxxMetricsFactory.Key, Metric<?>> METRICS = CxxMetricsFactory.generateMap("c++", "cxx");
+  static final Map<CxxMetricsFactory.Key, Metric<?>> METRICS = CxxMetricsFactory.generateMap();
 
   // percentKey0 = valueKey0 / totalKey0 * 100
   static final String VALUE_KEY0 = METRICS.get(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY).key();
@@ -52,14 +52,14 @@ public class DensityMeasureComputerTest {
 
   @Test
   public void metricsNumber() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
+    final DensityMeasureComputer computer = new DensityMeasureComputer();
     assertThat(computer.getInputMetrics().length).isEqualTo(8);
     assertThat(computer.getOutputMetrics().length).isEqualTo(5);
   }
 
   @Test
   public void ignoreMissingValue() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
+    final DensityMeasureComputer computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     context.addInputMeasure(TOTAL_KEY0, 500);
@@ -70,7 +70,7 @@ public class DensityMeasureComputerTest {
 
   @Test
   public void ignoreMissingTotal() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
+    final DensityMeasureComputer computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     context.addInputMeasure(VALUE_KEY0, 100);
@@ -81,7 +81,7 @@ public class DensityMeasureComputerTest {
 
   @Test
   public void ignoreMissingBoth() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
+    final DensityMeasureComputer computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     computer.compute(context);
@@ -91,7 +91,7 @@ public class DensityMeasureComputerTest {
 
   @Test
   public void ignoreAlreadyCalculated() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
+    final DensityMeasureComputer computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     context.addInputMeasure(VALUE_KEY0, 100);
@@ -105,7 +105,7 @@ public class DensityMeasureComputerTest {
 
   @Test
   public void calculatePercent() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
+    final DensityMeasureComputer computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     context.addInputMeasure(VALUE_KEY0, 100);
@@ -117,7 +117,7 @@ public class DensityMeasureComputerTest {
 
   @Test
   public void calculateRemainingPercent() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer("c++", "cxx");
+    final DensityMeasureComputer computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     context.addInputMeasure(VALUE_KEY1, 100);

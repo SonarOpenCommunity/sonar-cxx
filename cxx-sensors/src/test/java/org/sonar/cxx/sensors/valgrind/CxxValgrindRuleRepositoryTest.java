@@ -36,11 +36,10 @@ public class CxxValgrindRuleRepositoryTest {
 
   @Test
   public void shouldContainProperNumberOfRules() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    CxxValgrindRuleRepository def = new CxxValgrindRuleRepository(mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
+    CxxValgrindRuleRepository def = new CxxValgrindRuleRepository(mock(ServerFileSystem.class), new RulesDefinitionXmlLoader());
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
-    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
     assertEquals(16, repo.rules().size());
   }
 
@@ -49,10 +48,9 @@ public class CxxValgrindRuleRepositoryTest {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesOldFormat.xml"));
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), language);
+    CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
     CxxValgrindRuleRepository def = spy(obj);
-    final String repositoryKey = CxxValgrindRuleRepository.getRepositoryKey(language);
+    final String repositoryKey = CxxValgrindRuleRepository.KEY;
     doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     RulesDefinition.Context context = new RulesDefinition.Context();
@@ -66,10 +64,9 @@ public class CxxValgrindRuleRepositoryTest {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesNewFormat.xml"));
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), language);
+    CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
     CxxValgrindRuleRepository def = spy(obj);
-    final String repositoryKey = CxxValgrindRuleRepository.getRepositoryKey(language);
+    final String repositoryKey = CxxValgrindRuleRepository.KEY;
     doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     RulesDefinition.Context context = new RulesDefinition.Context();
@@ -83,10 +80,9 @@ public class CxxValgrindRuleRepositoryTest {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesInvalid.xml"));
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), language);
+    CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
     CxxValgrindRuleRepository def = spy(obj);
-    final String repositoryKey = CxxValgrindRuleRepository.getRepositoryKey(language);
+    final String repositoryKey = CxxValgrindRuleRepository.KEY;
     doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     RulesDefinition.Context context = new RulesDefinition.Context();
@@ -100,10 +96,9 @@ public class CxxValgrindRuleRepositoryTest {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesEmptyFile.xml"));
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-    CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), language);
+    CxxValgrindRuleRepository obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
     CxxValgrindRuleRepository def = spy(obj);
-    final String repositoryKey = CxxValgrindRuleRepository.getRepositoryKey(language);
+    final String repositoryKey = CxxValgrindRuleRepository.KEY;
     doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     RulesDefinition.Context context = new RulesDefinition.Context();

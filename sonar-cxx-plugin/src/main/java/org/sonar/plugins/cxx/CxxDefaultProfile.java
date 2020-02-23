@@ -26,6 +26,7 @@ import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.api.rules.ActiveRule;
 import org.sonar.api.utils.ValidationMessages;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.checks.CheckList;
 
 /**
  * {@inheritDoc}
@@ -54,8 +55,8 @@ public class CxxDefaultProfile extends ProfileDefinition {
   public RulesProfile createProfile(ValidationMessages messages) {
     RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(),
       "default-profile.xml", messages);
-    RulesProfile sonarRules = annotationProfileParser.parse(this.lang.getRepositoryKey(), NAME,
-      CppLanguage.KEY, this.lang.getChecks(), messages);
+    RulesProfile sonarRules = annotationProfileParser.parse("cxx", NAME,
+      CxxLanguage.KEY, CheckList.getChecks(), messages);
     for (ActiveRule activeRule : sonarRules.getActiveRules()) {
       profile.addActiveRule(activeRule);
     }

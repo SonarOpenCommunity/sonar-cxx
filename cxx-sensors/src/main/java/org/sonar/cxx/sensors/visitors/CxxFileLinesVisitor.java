@@ -32,12 +32,12 @@ import java.util.List;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
@@ -45,14 +45,14 @@ import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.squidbridge.SquidAstVisitor;
 
 /**
- * Visitor that computes {@link CoreMetrics#NCLOC_DATA_KEY} and {@link CoreMetrics#COMMENT_LINES_DATA_KEY} metrics used
- * by the DevCockpit.
+ * Visitor that computes {@link CoreMetrics#NCLOC_DATA_KEY} and
+ * {@link CoreMetrics#COMMENT_LINES_DATA_KEY} metrics used by the DevCockpit.
  */
 public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 
   private static final Logger LOG = Loggers.get(CxxFileLinesVisitor.class);
 
-  private final CxxLanguage language;
+  private final Configuration settings;
   private final FileLinesContextFactory fileLinesContextFactory;
   private final FileSystem fileSystem;
   private List<Integer> linesOfCode;
@@ -61,15 +61,17 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   private int isWithinFunctionDefinition;
 
   /**
-   * CxxFileLinesVisitor generates sets for linesOfCode, linesOfComments, executableLines
+   * CxxFileLinesVisitor generates sets for linesOfCode, linesOfComments,
+   * executableLines
    *
    * @param context for coverage analysis
-   * @param fileLinesContextFactory container for linesOfCode, linesOfComments, executableLines
+   * @param fileLinesContextFactory container for linesOfCode, linesOfComments,
+   * executableLines
    * @param language properties
    */
-  public CxxFileLinesVisitor(CxxLanguage language, FileLinesContextFactory fileLinesContextFactory,
+  public CxxFileLinesVisitor(Configuration settings, FileLinesContextFactory fileLinesContextFactory,
     SensorContext context) {
-    this.language = language;
+    this.settings = settings;
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.fileSystem = context.fileSystem();
   }
@@ -212,7 +214,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       );
     } catch (IllegalArgumentException e) {
       LOG.error("NCLOC_DATA_KEY metric error: {}", e.getMessage());
-      CxxUtils.validateRecovery(e, language);
+      CxxUtils.validateRecovery(e, settings);
     }
     try {
       linesOfComments.stream().sequential().distinct().forEach(
@@ -220,7 +222,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       );
     } catch (IllegalArgumentException e) {
       LOG.error("COMMENT_LINES_DATA_KEY metric error: {}", e.getMessage());
-      CxxUtils.validateRecovery(e, language);
+      CxxUtils.validateRecovery(e, settings);
     }
     try {
       executableLines.stream().sequential().distinct().forEach(
@@ -228,7 +230,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       );
     } catch (IllegalArgumentException e) {
       LOG.error("EXECUTABLE_LINES_DATA_KEY metric error: {}", e.getMessage());
-      CxxUtils.validateRecovery(e, language);
+      CxxUtils.validateRecovery(e, settings);
     }
     fileLinesContext.save();
 

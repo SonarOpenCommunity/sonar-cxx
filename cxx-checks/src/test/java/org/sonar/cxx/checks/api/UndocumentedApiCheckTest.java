@@ -24,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -33,6 +34,8 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class UndocumentedApiCheckTest {
 
+  private final MapSettings settings = new MapSettings();
+
   @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
@@ -40,7 +43,7 @@ public class UndocumentedApiCheckTest {
   @Test
   public void detected() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/no_doc.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new UndocumentedApiCheck());
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
 
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(6) // class
@@ -85,9 +88,9 @@ public class UndocumentedApiCheckTest {
       .next().atLine(123) // enum member
       .next().atLine(124) // enum member
       .next().atLine(127) // class OverrideInClassTest
-      .next().atLine(138) // struct OverrideInStructTest      
+      .next().atLine(138) // struct OverrideInStructTest
       .next().atLine(143) // struct ComplexOverrideInStruct
-      .next().atLine(148) // struct ComplexOverrideInClass      
+      .next().atLine(148) // struct ComplexOverrideInClass
       .next().atLine(154) // aliasDeclaration1
       .next().atLine(156) // aliasDeclaration2
       .next().atLine(161); // class ClassWithFriend
@@ -100,7 +103,7 @@ public class UndocumentedApiCheckTest {
   @Test
   public void docStyle1() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style1.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new UndocumentedApiCheck());
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
 
     StringBuilder errors = new StringBuilder(1024);
     for (CheckMessage msg : file.getCheckMessages()) {
@@ -116,7 +119,7 @@ public class UndocumentedApiCheckTest {
   @Test
   public void docStyle2() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style2.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new UndocumentedApiCheck());
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
 
     StringBuilder errors = new StringBuilder(1024);
     for (CheckMessage msg : file.getCheckMessages()) {

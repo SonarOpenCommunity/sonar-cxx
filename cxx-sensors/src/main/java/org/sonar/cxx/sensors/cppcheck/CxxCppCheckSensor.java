@@ -25,9 +25,9 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 
@@ -39,7 +39,7 @@ import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
  */
 public class CxxCppCheckSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "cppcheck.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private static final Logger LOG = Loggers.get(CxxCppCheckSensor.class);
 
   private final List<CppcheckParser> parsers = new LinkedList<>();
@@ -47,10 +47,10 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   /**
    * CxxCppCheckSensor for CppCheck Sensor
    *
-   * @param language defines settings C or C++
+   * @param settings sensor configuration
    */
-  public CxxCppCheckSensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxCppCheckRuleRepository.getRepositoryKey(language));
+  public CxxCppCheckSensor(Configuration settings) {
+    super(settings, REPORT_PATH_KEY, CxxCppCheckRuleRepository.KEY);
     parsers.add(new CppcheckParserV2(this));
     parsers.add(new CppcheckParserV1(this));
   }

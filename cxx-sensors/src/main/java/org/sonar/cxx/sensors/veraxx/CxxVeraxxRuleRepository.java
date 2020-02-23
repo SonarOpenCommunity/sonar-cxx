@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.veraxx;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
 
 /**
@@ -30,19 +29,14 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
 public class CxxVeraxxRuleRepository extends CxxAbstractRuleRepository {
 
   public static final String CUSTOM_RULES_KEY = "vera++.customRules";
-  private static final String KEY = "vera++";
+  public static final String KEY = "vera++";
   private static final String NAME = "Vera++";
 
   /**
    * {@inheritDoc}
    */
-  public CxxVeraxxRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-    CxxLanguage language) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, language);
-  }
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  public CxxVeraxxRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
+    super(fileSystem, xmlRuleLoader, KEY, NAME);
   }
 
   @Override

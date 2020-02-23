@@ -20,12 +20,12 @@
 package org.sonar.cxx.sensors.other;
 
 import java.io.StringReader;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
 
 /**
  * Loads the external rules configuration file.
@@ -35,11 +35,11 @@ public class CxxOtherRepository implements RulesDefinition {
   public static final String RULES_KEY = "other.rules";
 
   private static final Logger LOG = Loggers.get(CxxOtherRepository.class);
-  private static final String KEY = "other";
+  public static final String KEY = "other";
   private static final String NAME = "Other";
 
   private final RulesDefinitionXmlLoader xmlRuleLoader;
-  private final CxxLanguage language;
+  private final Configuration settings;
 
   /**
    * CxxOtherRepository
@@ -47,22 +47,18 @@ public class CxxOtherRepository implements RulesDefinition {
    * @param xmlRuleLoader to load rules from XML file
    * @param language for C or C++
    */
-  public CxxOtherRepository(RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
+  public CxxOtherRepository(Configuration settings, RulesDefinitionXmlLoader xmlRuleLoader) {
     this.xmlRuleLoader = xmlRuleLoader;
-    this.language = language;
-  }
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+    this.settings = settings;
   }
 
   @Override
   public void define(Context context) {
-    NewRepository repository = context.createRepository(getRepositoryKey(language), this.language.getKey())
+    NewRepository repository = context.createRepository(KEY, CxxLanguage.KEY)
       .setName(NAME);
 
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
-    for (String ruleDefs : this.language.getStringArrayOption(RULES_KEY)) {
+    for (String ruleDefs : this.settings.getStringArray(RULES_KEY)) {
       if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));

@@ -32,9 +32,9 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
@@ -48,8 +48,8 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxOtherSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "other.reportPath";
-  public static final String OTHER_XSLT_KEY = "other.xslt.";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.other.reportPath";
+  public static final String OTHER_XSLT_KEY = "sonar.cxx.other.xslt.";
   public static final String STYLESHEET_KEY = ".stylesheet";
   public static final String INPUT_KEY = ".inputs";
   public static final String OUTPUT_KEY = ".outputs";
@@ -59,10 +59,10 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
   /**
    * CxxOtherSensor for Other Sensor
    *
-   * @param language defines settings C or C++
+   * @param settings sensor configuration
    */
-  public CxxOtherSensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxOtherRepository.getRepositoryKey(language));
+  public CxxOtherSensor(Configuration settings) {
+    super(settings, REPORT_PATH_KEY, CxxOtherRepository.KEY);
   }
 
   @Override
@@ -110,9 +110,9 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
     for (int i = 1; i < MAX_STYLESHEETS; i++) {
       Boolean paramError = false;
 
-      final String stylesheetKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + STYLESHEET_KEY);
-      final String inputKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + INPUT_KEY);
-      final String outputKey = getLanguage().getPluginProperty(OTHER_XSLT_KEY + i + OUTPUT_KEY);
+      final String stylesheetKey = OTHER_XSLT_KEY + i + STYLESHEET_KEY;
+      final String inputKey = OTHER_XSLT_KEY + i + INPUT_KEY;
+      final String outputKey = OTHER_XSLT_KEY + i + OUTPUT_KEY;
 
       if (!context.config().hasKey(stylesheetKey)
         && !context.config().hasKey(inputKey)
@@ -169,7 +169,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
           .append("'")
           .toString();
         LOG.error(msg);
-        CxxUtils.validateRecovery(e, getLanguage());
+        CxxUtils.validateRecovery(e, settings);
       }
     }
   }

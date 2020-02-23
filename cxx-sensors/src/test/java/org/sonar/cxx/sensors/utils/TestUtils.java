@@ -27,7 +27,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import javax.annotation.CheckForNull;
 import org.apache.tools.ant.DirectoryScanner;
 import static org.mockito.ArgumentMatchers.same;
@@ -77,8 +76,8 @@ public class TestUtils {
   }
 
   /**
-   * Mocks the filesystem given the root directory and lists of source and tests directories. The latter are given just
-   * as in sonar-project.properties
+   * Mocks the filesystem given the root directory and lists of source and tests
+   * directories. The latter are given just as in sonar-project.properties
    *
    * @param baseDir project root directory
    * @param sourceDirs List of source directories, relative to baseDir.
@@ -99,15 +98,11 @@ public class TestUtils {
     CxxLanguage language = Mockito.mock(CxxLanguage.class);
     when(language.getKey()).thenReturn("c++");
     when(language.getName()).thenReturn("c++");
-    when(language.getRepositorySuffix()).thenReturn("");
-    when(language.getRepositoryKey()).thenReturn("cxx");
-    when(language.getPropertiesKey()).thenReturn("cxx");
-    when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
     when(language.getFileSuffixes())
       .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
     when(language.getHeaderFileSuffixes()).thenReturn(new String[]{".hpp", ".h", ".hxx", ".hh"});
 
-    Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap("cxx", "cxx");
+    Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap();
     metrics.forEach((key, value) -> when(language.getMetric(same(key))).thenReturn((Metric<Serializable>) value));
 
     return language;
@@ -118,7 +113,8 @@ public class TestUtils {
   }
 
   /**
-   * Search for a test resource in the classpath. For example getResource("org/sonar/MyClass/foo.txt");
+   * Search for a test resource in the classpath. For example
+   * getResource("org/sonar/MyClass/foo.txt");
    *
    * @param path the starting slash is optional
    * @return the resource. Null if resource not found

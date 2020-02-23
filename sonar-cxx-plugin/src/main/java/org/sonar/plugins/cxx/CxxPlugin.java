@@ -23,22 +23,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.Nullable;
 import org.sonar.api.Plugin;
 import org.sonar.api.PropertyType;
-import org.sonar.api.batch.rule.CheckFactory;
-import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.issue.NoSonarFilter;
-import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.api.measures.Metric;
-import org.sonar.api.measures.Metrics;
-import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.AggregateMeasureComputer;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.DensityMeasureComputer;
 import org.sonar.cxx.postjobs.FinalReport;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
@@ -61,7 +51,6 @@ import org.sonar.cxx.sensors.pclint.CxxPCLintRuleRepository;
 import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
 import org.sonar.cxx.sensors.rats.CxxRatsRuleRepository;
 import org.sonar.cxx.sensors.rats.CxxRatsSensor;
-import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsAggregator;
 import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsImportSensor;
@@ -79,17 +68,16 @@ import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
  */
 public final class CxxPlugin implements Plugin {
 
-  public static final String LANG_PROP_PREFIX = "sonar.cxx.";
-  public static final String SOURCE_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.sources";
-  public static final String HEADER_FILE_SUFFIXES_KEY = LANG_PROP_PREFIX + "suffixes.headers";
-  public static final String DEFINES_KEY = LANG_PROP_PREFIX + "defines";
-  public static final String INCLUDE_DIRECTORIES_KEY = LANG_PROP_PREFIX + "includeDirectories";
-  public static final String ERROR_RECOVERY_KEY = LANG_PROP_PREFIX + "errorRecoveryEnabled";
-  public static final String FORCE_INCLUDE_FILES_KEY = LANG_PROP_PREFIX + "forceIncludes";
-  public static final String C_FILES_PATTERNS_KEY = LANG_PROP_PREFIX + "cFilesPatterns";
-  public static final String JSON_COMPILATION_DATABASE_KEY = LANG_PROP_PREFIX + "jsonCompilationDatabase";
-  public static final String CPD_IGNORE_LITERALS_KEY = LANG_PROP_PREFIX + "cpd.ignoreLiterals";
-  public static final String CPD_IGNORE_IDENTIFIERS_KEY = LANG_PROP_PREFIX + "cpd.ignoreIdentifiers";
+  public static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
+  public static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
+  public static final String DEFINES_KEY = "sonar.cxx.defines";
+  public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
+  public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
+  public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
+  public static final String C_FILES_PATTERNS_KEY = "sonar.cxx.cFilesPatterns";
+  public static final String JSON_COMPILATION_DATABASE_KEY = "sonar.cxx.jsonCompilationDatabase";
+  public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.cpd.ignoreLiterals";
+  public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
   private static final String USE_ANT_STYLE_WILDCARDS
     = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
   private static final String EXTENDING_THE_CODE_ANALYSIS = " The used format is described <a href='"
@@ -100,7 +88,7 @@ public final class CxxPlugin implements Plugin {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY)
         .multiValues(true)
-        .defaultValue(CppLanguage.DEFAULT_SOURCE_SUFFIXES)
+        .defaultValue(CxxLanguage.DEFAULT_SOURCE_SUFFIXES)
         .name("Source files suffixes")
         .description("Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.")
         .subCategory(subcateg)
@@ -109,7 +97,7 @@ public final class CxxPlugin implements Plugin {
         .build(),
       PropertyDefinition.builder(HEADER_FILE_SUFFIXES_KEY)
         .multiValues(true)
-        .defaultValue(CppLanguage.DEFAULT_HEADER_SUFFIXES)
+        .defaultValue(CxxLanguage.DEFAULT_HEADER_SUFFIXES)
         .name("Header files suffixes")
         .description("Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.")
         .subCategory(subcateg)
@@ -145,7 +133,7 @@ public final class CxxPlugin implements Plugin {
         .index(5)
         .build(),
       PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
-        .defaultValue(CppLanguage.DEFAULT_C_FILES)
+        .defaultValue(CxxLanguage.DEFAULT_C_FILES)
         .multiValues(true)
         .name("C source files patterns")
         .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the"
@@ -166,7 +154,7 @@ public final class CxxPlugin implements Plugin {
         .type(PropertyType.BOOLEAN)
         .index(7)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxSquidSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxSquidSensor.REPORT_PATH_KEY)
         .name("Path(s) to MSBuild log(s)")
         .description("Extract includes, defines and compiler options from the build log. This works only"
           + " if the produced log during compilation adds enough information (MSBuild verbosity set to"
@@ -177,7 +165,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(8)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxSquidSensor.REPORT_CHARSET_DEF)
+      PropertyDefinition.builder(CxxSquidSensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxSquidSensor.DEFAULT_CHARSET_DEF)
         .name("MSBuild log encoding")
         .description("The encoding to use when reading a MSBuild log. Leave empty to use default UTF-8.")
@@ -198,8 +186,8 @@ public final class CxxPlugin implements Plugin {
 
   private static List<PropertyDefinition> codeAnalysisProperties() {
     String subcateg = "(2) Code analysis";
-    return Collections.unmodifiableList(Arrays.asList(PropertyDefinition.builder(LANG_PROP_PREFIX
-      + CxxCppCheckSensor.REPORT_PATH_KEY)
+    return Collections.unmodifiableList(Arrays.asList(PropertyDefinition.builder(
+      CxxCppCheckSensor.REPORT_PATH_KEY)
       .name("Cppcheck report(s)")
       .description("Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, relative to"
         + " projects root. Both XML formats (version 1 and version 2) are supported. If neccessary, <a href='https://"
@@ -210,7 +198,7 @@ public final class CxxPlugin implements Plugin {
       .multiValues(true)
       .index(1)
       .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxValgrindSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxValgrindSensor.REPORT_PATH_KEY)
         .name("Valgrind report(s)")
         .description("Path to <a href='http://valgrind.org/'>Valgrind</a> report(s), relative to projects root."
           + USE_ANT_STYLE_WILDCARDS)
@@ -219,7 +207,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(2)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxDrMemorySensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxDrMemorySensor.REPORT_PATH_KEY)
         .name("Dr Memory report(s)")
         .description("Path to <a href='http://drmemory.org/'>Dr. Memory</a> reports(s), relative to projects root."
           + USE_ANT_STYLE_WILDCARDS)
@@ -228,7 +216,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(3)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxPCLintSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxPCLintSensor.REPORT_PATH_KEY)
         .name("PC-lint report(s)")
         .description("Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> reports(s), relative to projects"
           + "  root." + USE_ANT_STYLE_WILDCARDS)
@@ -237,7 +225,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(4)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxRatsSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxRatsSensor.REPORT_PATH_KEY)
         .name("RATS report(s)")
         .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/>"
           + " reports(s), relative to projects root." + USE_ANT_STYLE_WILDCARDS)
@@ -246,7 +234,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(5)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxVeraxxSensor.REPORT_PATH_KEY)
         .name("Vera++ report(s)")
         .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s),"
           + " relative to projects root." + USE_ANT_STYLE_WILDCARDS)
@@ -255,7 +243,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(6)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxVeraxxRuleRepository.CUSTOM_RULES_KEY)
+      PropertyDefinition.builder(CxxVeraxxRuleRepository.CUSTOM_RULES_KEY)
         .name("Vera++ custom rules")
         .description("XML definitions of custom Vera++ rules, which are'nt builtin into the plugin."
           + EXTENDING_THE_CODE_ANALYSIS)
@@ -263,7 +251,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .index(7)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxOtherSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxOtherSensor.REPORT_PATH_KEY)
         .name("External checkers report(s)")
         .description("Path to a code analysis report, which is generated by some unsupported code analyser, relative to"
           + "projects root." + USE_ANT_STYLE_WILDCARDS + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx"
@@ -273,7 +261,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(8)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxOtherRepository.RULES_KEY)
+      PropertyDefinition.builder(CxxOtherRepository.RULES_KEY)
         .name("External rules")
         .description("Rule sets for 'external' code analysers. Use one value per rule set. See <a href='https:"
           + "//github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>this page</a> for details.")
@@ -282,7 +270,7 @@ public final class CxxPlugin implements Plugin {
         .subCategory(subcateg)
         .index(9)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxClangTidySensor.REPORT_PATH_KEY)
         .name("Clang-Tidy analyzer report(s)")
         .description("Path to Clang-Tidy reports, relative to projects root. If neccessary, "
           + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
@@ -291,7 +279,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(10)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangTidySensor.REPORT_CHARSET_DEF)
+      PropertyDefinition.builder(CxxClangTidySensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxClangTidySensor.DEFAULT_CHARSET_DEF)
         .name("Encoding")
         .description("The encoding to use when reading the clang-tidy report."
@@ -300,7 +288,7 @@ public final class CxxPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(11)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSASensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxClangSASensor.REPORT_PATH_KEY)
         .name("Clang Static analyzer analyzer report(s)")
         .description("Path to Clang Static Analyzer reports, relative to projects root. If neccessary, "
           + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
@@ -309,7 +297,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(12)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionComplexityVisitor.FUNCTION_COMPLEXITY_THRESHOLD_KEY)
+      PropertyDefinition.builder(CxxFunctionComplexityVisitor.FUNCTION_COMPLEXITY_THRESHOLD_KEY)
         .defaultValue("10")
         .name("Cyclomatic complexity threshold")
         .description("Cyclomatic complexity threshold used to classify a function as complex")
@@ -318,7 +306,7 @@ public final class CxxPlugin implements Plugin {
         .type(PropertyType.INTEGER)
         .index(13)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxFunctionSizeVisitor.FUNCTION_SIZE_THRESHOLD_KEY)
+      PropertyDefinition.builder(CxxFunctionSizeVisitor.FUNCTION_SIZE_THRESHOLD_KEY)
         .defaultValue("20")
         .name("Function size threshold")
         .description("Function size threshold to consider a function to be too big")
@@ -333,7 +321,7 @@ public final class CxxPlugin implements Plugin {
   private static List<PropertyDefinition> compilerWarningsProperties() {
     String subcateg = "(4) Compiler warnings";
     return Collections.unmodifiableList(Arrays.asList(
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxCompilerVcSensor.REPORT_PATH_KEY)
         .name("VC Compiler Report(s)")
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
           + USE_ANT_STYLE_WILDCARDS)
@@ -342,7 +330,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(1)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcSensor.REPORT_CHARSET_DEF)
+      PropertyDefinition.builder(CxxCompilerVcSensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxCompilerVcSensor.DEFAULT_CHARSET_DEF)
         .name("VC Report Encoding")
         .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
@@ -350,7 +338,7 @@ public final class CxxPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(2)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerVcSensor.REPORT_REGEX_DEF)
+      PropertyDefinition.builder(CxxCompilerVcSensor.REPORT_REGEX_DEF)
         .name("VC Regular Expression")
         .description("Regular expression to identify the four named groups of the compiler warning message:"
           + " &lt;file&gt;, &lt;line&gt;, &lt;id&gt;, &lt;message&gt;. Leave empty to use parser's default."
@@ -360,7 +348,7 @@ public final class CxxPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(3)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxCompilerGccSensor.REPORT_PATH_KEY)
         .name("GCC Compiler Report(s)")
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
           + USE_ANT_STYLE_WILDCARDS)
@@ -369,7 +357,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(4)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_CHARSET_DEF)
+      PropertyDefinition.builder(CxxCompilerGccSensor.REPORT_CHARSET_DEF)
         .defaultValue(CxxCompilerVcSensor.DEFAULT_CHARSET_DEF)
         .name("GCC Report Encoding")
         .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
@@ -377,7 +365,7 @@ public final class CxxPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(5)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCompilerGccSensor.REPORT_REGEX_DEF)
+      PropertyDefinition.builder(CxxCompilerGccSensor.REPORT_REGEX_DEF)
         .name("GCC Regular Expression")
         .description("Regular expression to identify the four named groups of the compiler warning message:"
           + " <file>, <line>, <id>, <message>. Leave empty to use parser's default."
@@ -393,7 +381,7 @@ public final class CxxPlugin implements Plugin {
   private static List<PropertyDefinition> testingAndCoverageProperties() {
     String subcateg = "(3) Testing & Coverage";
     return Collections.unmodifiableList(Arrays.asList(
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxCoverageSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxCoverageSensor.REPORT_PATH_KEY)
         .name("Unit test coverage report(s)")
         .description("List of paths to reports containing unit test coverage data, relative to projects root."
           + " The values are separated by commas."
@@ -404,7 +392,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(1)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder(CxxXunitSensor.REPORT_PATH_KEY)
         .name("Unit test execution report(s)")
         .description("Path to unit test execution report(s), relative to projects root."
           + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>"
@@ -414,7 +402,7 @@ public final class CxxPlugin implements Plugin {
         .multiValues(true)
         .index(2)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxXunitSensor.XSLT_URL_KEY)
+      PropertyDefinition.builder(CxxXunitSensor.XSLT_URL_KEY)
         .name("XSLT transformer")
         .description("By default, the unit test execution reports are expected to be in the JUnitReport format."
           + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is "
@@ -423,8 +411,7 @@ public final class CxxPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(3)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX
-        + UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
+      PropertyDefinition.builder(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
         .name("Visual Studio Test Reports Paths")
         .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
@@ -432,8 +419,7 @@ public final class CxxPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(4)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX
-        + UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY)
+      PropertyDefinition.builder(UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
         .name("xUnit (MS) Test Reports Paths")
         .description("Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
@@ -441,8 +427,7 @@ public final class CxxPlugin implements Plugin {
         .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
         .index(5)
         .build(),
-      PropertyDefinition.builder(LANG_PROP_PREFIX
-        + UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
+      PropertyDefinition.builder(UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
         .name("NUnit Test Reports Paths")
         .description("Example: \"TestResult.xml\", \"TestResult1.xml,TestResult2.xml\" or \"C:/TestResult.xml\"")
@@ -487,7 +472,7 @@ public final class CxxPlugin implements Plugin {
     List<Object> l = new ArrayList<>();
 
     // plugin elements
-    l.add(CppLanguage.class);
+    l.add(CxxLanguage.class);
     l.add(CxxDefaultProfile.class);
     l.add(CxxRuleRepository.class);
 
@@ -508,47 +493,47 @@ public final class CxxPlugin implements Plugin {
     List<Object> l = new ArrayList<>();
 
     // utility classes
-    l.add(CxxCoverageAggregator.class);
+    l.add(CxxCoverageCache.class);
     l.add(CxxUnitTestResultsAggregator.class);
 
     // metrics
-    l.add(CxxMetricsImp.class);
+    l.add(CxxMetricDefinition.class);
     // ComputeEngine: propagate metrics through all levels (FILE -> MODULE -> PROJECT)
-    l.add(AggregateMeasureComputerImpl.class);
+    l.add(AggregateMeasureComputer.class);
     // ComputeEngine: calculate new metrics from existing ones
-    l.add(DensityMeasureComputerImpl.class);
+    l.add(DensityMeasureComputer.class);
 
     // issue sensors
-    l.add(CxxSquidSensorImpl.class);
-    l.add(CxxRatsSensorImpl.class);
-    l.add(CxxCppCheckSensorImpl.class);
-    l.add(CxxPCLintSensorImpl.class);
-    l.add(CxxDrMemorySensorImpl.class);
-    l.add(CxxCompilerGccSensorImpl.class);
-    l.add(CxxCompilerVcSensorImpl.class);
-    l.add(CxxVeraxxSensorImpl.class);
-    l.add(CxxValgrindSensorImpl.class);
-    l.add(CxxClangTidySensorImpl.class);
-    l.add(CxxClangSASensorImpl.class);
-    l.add(CxxExternalRulesSensorImpl.class);
+    l.add(CxxSquidSensor.class);
+    l.add(CxxRatsSensor.class);
+    l.add(CxxCppCheckSensor.class);
+    l.add(CxxPCLintSensor.class);
+    l.add(CxxDrMemorySensor.class);
+    l.add(CxxCompilerGccSensor.class);
+    l.add(CxxCompilerVcSensor.class);
+    l.add(CxxVeraxxSensor.class);
+    l.add(CxxValgrindSensor.class);
+    l.add(CxxClangTidySensor.class);
+    l.add(CxxClangSASensor.class);
+    l.add(CxxOtherSensor.class);
 
     // test sensors
-    l.add(CxxXunitSensorImpl.class);
-    l.add(CxxUnitTestResultsImportSensorImpl.class);
-    l.add(CxxCoverageSensorImpl.class);
+    l.add(CxxXunitSensor.class);
+    l.add(CxxUnitTestResultsImportSensor.class);
+    l.add(CxxCoverageSensor.class);
 
     // rule provides
-    l.add(CxxRatsRuleRepositoryImpl.class);
-    l.add(CxxCppCheckRuleRepositoryImpl.class);
-    l.add(CxxPCLintRuleRepositoryImpl.class);
-    l.add(CxxDrMemoryRuleRepositoryImpl.class);
-    l.add(CxxCompilerVcRuleRepositoryImpl.class);
-    l.add(CxxCompilerGccRuleRepositoryImpl.class);
-    l.add(CxxVeraxxRuleRepositoryImpl.class);
-    l.add(CxxValgrindRuleRepositoryImpl.class);
-    l.add(CxxExternalRuleRepositoryImpl.class);
-    l.add(CxxClangTidyRuleRepositoryImpl.class);
-    l.add(CxxClangSARuleRepositoryImpl.class);
+    l.add(CxxRatsRuleRepository.class);
+    l.add(CxxCppCheckRuleRepository.class);
+    l.add(CxxPCLintRuleRepository.class);
+    l.add(CxxDrMemoryRuleRepository.class);
+    l.add(CxxCompilerVcRuleRepository.class);
+    l.add(CxxCompilerGccRuleRepository.class);
+    l.add(CxxVeraxxRuleRepository.class);
+    l.add(CxxValgrindRuleRepository.class);
+    l.add(CxxOtherRepository.class);
+    l.add(CxxClangTidyRuleRepository.class);
+    l.add(CxxClangSARuleRepository.class);
 
     // post jobs
     l.add(FinalReport.class);
@@ -559,244 +544,6 @@ public final class CxxPlugin implements Plugin {
   @Override
   public String toString() {
     return getClass().getSimpleName();
-  }
-
-  public static class CxxMetricsImp implements Metrics {
-
-    private static final List<Metric> METRICS = CxxMetricsFactory.generateList(CppLanguage.KEY, CppLanguage.PROPSKEY);
-
-    public CxxMetricsImp(Configuration settings) {
-    }
-
-    @Override
-    public List<Metric> getMetrics() {
-      return Collections.unmodifiableList(METRICS);
-    }
-  }
-
-  public static class AggregateMeasureComputerImpl extends AggregateMeasureComputer {
-
-    public AggregateMeasureComputerImpl() {
-      super(CppLanguage.KEY, CppLanguage.PROPSKEY);
-    }
-  }
-
-  public static class DensityMeasureComputerImpl extends DensityMeasureComputer {
-
-    public DensityMeasureComputerImpl() {
-      super(CppLanguage.KEY, CppLanguage.PROPSKEY);
-    }
-  }
-
-  public static class CxxRatsRuleRepositoryImpl extends CxxRatsRuleRepository {
-
-    public CxxRatsRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-      Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxCppCheckRuleRepositoryImpl extends CxxCppCheckRuleRepository {
-
-    public CxxCppCheckRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-      Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxPCLintRuleRepositoryImpl extends CxxPCLintRuleRepository {
-
-    public CxxPCLintRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-      Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxDrMemoryRuleRepositoryImpl extends CxxDrMemoryRuleRepository {
-
-    public CxxDrMemoryRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-      Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxCompilerVcRuleRepositoryImpl extends CxxCompilerVcRuleRepository {
-
-    public CxxCompilerVcRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-      Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxCompilerGccRuleRepositoryImpl extends CxxCompilerGccRuleRepository {
-
-    public CxxCompilerGccRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-      Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxVeraxxRuleRepositoryImpl extends CxxVeraxxRuleRepository {
-
-    public CxxVeraxxRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-      Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxValgrindRuleRepositoryImpl extends CxxValgrindRuleRepository {
-
-    public CxxValgrindRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-      Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxExternalRuleRepositoryImpl extends CxxOtherRepository {
-
-    public CxxExternalRuleRepositoryImpl(RulesDefinitionXmlLoader xmlRuleLoader, Configuration settings) {
-      super(xmlRuleLoader, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxClangTidyRuleRepositoryImpl extends CxxClangTidyRuleRepository {
-
-    public CxxClangTidyRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-      Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxClangSARuleRepositoryImpl extends CxxClangSARuleRepository {
-
-    public CxxClangSARuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-      Configuration settings) {
-      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxSquidSensorImpl extends CxxSquidSensor {
-
-    public CxxSquidSensorImpl(Configuration settings,
-      FileLinesContextFactory fileLinesContextFactory,
-      CheckFactory checkFactory,
-      NoSonarFilter noSonarFilter) {
-      super(new CppLanguage(settings), fileLinesContextFactory, checkFactory, noSonarFilter);
-    }
-
-    public CxxSquidSensorImpl(Configuration settings,
-      FileLinesContextFactory fileLinesContextFactory,
-      CheckFactory checkFactory,
-      NoSonarFilter noSonarFilter,
-      @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
-      super(new CppLanguage(settings), fileLinesContextFactory, checkFactory, noSonarFilter, customRulesDefinition);
-    }
-  }
-
-  public static class CxxRatsSensorImpl extends CxxRatsSensor {
-
-    public CxxRatsSensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxXunitSensorImpl extends CxxXunitSensor {
-
-    public CxxXunitSensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxCoverageSensorImpl extends CxxCoverageSensor {
-
-    public CxxCoverageSensorImpl(Configuration settings, CxxCoverageAggregator cache, SensorContext context) {
-      super(cache, new CppLanguage(settings), context);
-    }
-  }
-
-  public static class CxxCppCheckSensorImpl extends CxxCppCheckSensor {
-
-    public CxxCppCheckSensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxPCLintSensorImpl extends CxxPCLintSensor {
-
-    public CxxPCLintSensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxDrMemorySensorImpl extends CxxDrMemorySensor {
-
-    public CxxDrMemorySensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxCompilerGccSensorImpl extends CxxCompilerGccSensor {
-
-    public CxxCompilerGccSensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxCompilerVcSensorImpl extends CxxCompilerVcSensor {
-
-    public CxxCompilerVcSensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxVeraxxSensorImpl extends CxxVeraxxSensor {
-
-    public CxxVeraxxSensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxValgrindSensorImpl extends CxxValgrindSensor {
-
-    public CxxValgrindSensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxClangTidySensorImpl extends CxxClangTidySensor {
-
-    public CxxClangTidySensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxClangSASensorImpl extends CxxClangSASensor {
-
-    public CxxClangSASensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxExternalRulesSensorImpl extends CxxOtherSensor {
-
-    public CxxExternalRulesSensorImpl(Configuration settings) {
-      super(new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxUnitTestResultsImportSensorImpl extends CxxUnitTestResultsImportSensor {
-
-    public CxxUnitTestResultsImportSensorImpl(Configuration settings,
-      CxxUnitTestResultsAggregator unitTestResultsAggregator) {
-      super(unitTestResultsAggregator, new CppLanguage(settings));
-    }
-  }
-
-  public static class CxxCoverageAggregator extends CxxCoverageCache {
-
-    public CxxCoverageAggregator() {
-      super();
-    }
   }
 
 }

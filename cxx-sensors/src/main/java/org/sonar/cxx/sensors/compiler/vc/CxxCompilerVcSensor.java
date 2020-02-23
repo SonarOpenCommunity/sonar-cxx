@@ -21,22 +21,22 @@ package org.sonar.cxx.sensors.compiler.vc;
 
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.cxx.CxxLanguage;
+import org.sonar.api.config.Configuration;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 
 public class CxxCompilerVcSensor extends CxxCompilerSensor {
 
   public static final String KEY = "Visual C++";
-  public static final String REPORT_PATH_KEY = "vc.reportPath";
-  public static final String REPORT_REGEX_DEF = "vc.regex";
-  public static final String REPORT_CHARSET_DEF = "vc.charset";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.vc.reportPath";
+  public static final String REPORT_REGEX_DEF = "sonar.cxx.vc.regex";
+  public static final String REPORT_CHARSET_DEF = "sonar.cxx.vc.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
   public static final String DEFAULT_REGEX_DEF
     = "(.*>)?(?<file>.*)\\((?<line>\\d+)\\)\\x20:\\x20warning\\x20(?<id>C\\d+):(?<message>.*)";
 
-  public CxxCompilerVcSensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxCompilerVcRuleRepository.getRepositoryKey(language));
+  public CxxCompilerVcSensor(Configuration settings) {
+    super(settings, REPORT_PATH_KEY, CxxCompilerVcRuleRepository.KEY);
   }
 
   @Override
@@ -55,12 +55,12 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
 
   @Override
   protected String getCharset(final SensorContext context) {
-    return getContextStringProperty(context, getLanguage().getPluginProperty(REPORT_CHARSET_DEF), DEFAULT_CHARSET_DEF);
+    return getContextStringProperty(context, REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
   }
 
   @Override
   protected String getRegex(final SensorContext context) {
-    return getContextStringProperty(context, getLanguage().getPluginProperty(REPORT_REGEX_DEF), DEFAULT_REGEX_DEF);
+    return getContextStringProperty(context, REPORT_REGEX_DEF, DEFAULT_REGEX_DEF);
   }
 
   @Override

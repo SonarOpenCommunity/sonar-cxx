@@ -25,7 +25,6 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.Collection;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.lexer.CxxLexer;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
@@ -48,18 +47,17 @@ public final class CxxParser {
     return currentPreprocessorInstance.get().getMissingIncludeFiles(path);
   }
 
-  public static Parser<Grammar> create(CxxLanguage language) {
+  public static Parser<Grammar> create() {
     return create(new SquidAstVisitorContextImpl<>(new SourceProject("")),
-      new CxxConfiguration(), language);
+      new CxxConfiguration());
   }
 
-  public static Parser<Grammar> create(CxxLanguage language, SquidAstVisitorContext<Grammar> context) {
-    return create(context, new CxxConfiguration(), language);
+  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context) {
+    return create(context, new CxxConfiguration());
   }
 
-  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf,
-    CxxLanguage language) {
-    final CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, language);
+  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf) {
+    final CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
     currentPreprocessorInstance = new WeakReference<CxxPreprocessor>(cxxpp);
     return Parser.builder(CxxGrammarImpl.create(conf))
       .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))

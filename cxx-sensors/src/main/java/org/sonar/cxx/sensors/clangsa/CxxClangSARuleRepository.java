@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.clangsa;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
 
 /**
@@ -29,19 +28,14 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxClangSARuleRepository extends CxxAbstractRuleRepository {
 
-  private static final String KEY = "ClangSA";
+  public static final String KEY = "ClangSA";
   private static final String NAME = "Clang-SA";
 
   /**
    * {@inheritDoc}
    */
-  public CxxClangSARuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader,
-    CxxLanguage language) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, language);
-  }
-
-  public static String getRepositoryKey(CxxLanguage lang) {
-    return CxxAbstractRuleRepository.getRepositoryKey(KEY, lang);
+  public CxxClangSARuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
+    super(fileSystem, xmlRuleLoader, KEY, NAME);
   }
 
   @Override

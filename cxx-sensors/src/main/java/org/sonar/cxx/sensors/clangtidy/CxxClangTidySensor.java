@@ -26,9 +26,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -38,37 +38,37 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "clangtidy.reportPath";
-  public static final String REPORT_CHARSET_DEF = "clangtidy.charset";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.clangtidy.reportPath";
+  public static final String REPORT_CHARSET_DEF = "sonar.cxx.clangtidy.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
   private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
 
   private static final String REGEX
-          = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): (.+)";
+    = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): (.+)";
   private static final Pattern PATTERN = Pattern.compile(REGEX);
 
   /**
    * CxxClangTidySensor for clang-tidy Sensor
    *
-   * @param language defines settings C or C++
+   * @param settings sensor configuration
    */
-  public CxxClangTidySensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxClangTidyRuleRepository.getRepositoryKey(language));
+  public CxxClangTidySensor(Configuration settings) {
+    super(settings, REPORT_PATH_KEY, CxxClangTidyRuleRepository.KEY);
   }
 
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-            .name(getLanguage().getName() + " ClangTidySensor")
-            .onlyOnLanguage(getLanguage().getKey())
-            .createIssuesForRuleRepository(getRuleRepositoryKey())
-            .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .name(getLanguage().getName() + " ClangTidySensor")
+      .onlyOnLanguage(getLanguage().getKey())
+      .createIssuesForRuleRepository(getRuleRepositoryKey())
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
   @Override
   protected void processReport(final SensorContext context, File report) {
     final String reportCharset = getContextStringProperty(context,
-            getLanguage().getPluginProperty(REPORT_CHARSET_DEF), DEFAULT_CHARSET_DEF);
+      REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
     LOG.debug("Parsing 'clang-tidy' report, CharSet= '{}'", reportCharset);
 
     try (Scanner scanner = new Scanner(report, reportCharset)) {
@@ -88,7 +88,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
           String path = m.group(1); // relative paths
           String line = m.group(2);
           //String column = m.group(3);
-          String level = m.group(4); // error, warning, note, ...          
+          String level = m.group(4); // error, warning, note, ...
           String txt = m.group(5); // info( [ruleId])?
           String info = null;
           String ruleId = null;
@@ -124,9 +124,9 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         saveUniqueViolation(context, issue);
       }
     } catch (final java.io.FileNotFoundException
-            | java.lang.IllegalArgumentException
-            | java.lang.IllegalStateException
-            | java.util.InputMismatchException e) {
+      | java.lang.IllegalArgumentException
+      | java.lang.IllegalStateException
+      | java.util.InputMismatchException e) {
       LOG.error("Failed to parse clang-tidy report: {}", e);
     }
   }

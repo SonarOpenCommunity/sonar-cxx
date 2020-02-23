@@ -31,18 +31,19 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
 
 /**
- * This class is used as base for all sensors which import external reports, which contain issues. It hosts common logic
- * such as saving issues in SonarQube
+ * This class is used as base for all sensors which import external reports,
+ * which contain issues. It hosts common logic such as saving issues in
+ * SonarQube
  */
 public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
@@ -56,13 +57,13 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  protected CxxIssuesReportSensor(CxxLanguage language, String propertiesKeyPathToReports, String ruleRepositoryKey) {
-    super(language, propertiesKeyPathToReports);
+  protected CxxIssuesReportSensor(Configuration settings, String propertiesKeyPathToReports, String ruleRepositoryKey) {
+    super(settings, propertiesKeyPathToReports);
     this.ruleRepositoryKey = ruleRepositoryKey;
   }
 
   private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
-          CxxReportLocation location) {
+    CxxReportLocation location) {
     return newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
   }
 
@@ -77,7 +78,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   public void executeImpl(SensorContext context) {
     try {
       LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'",
-              context.fileSystem().baseDir(), getReportPathKey());
+        context.fileSystem().baseDir(), getReportPathKey());
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
       violationsPerFileCount.clear();
       violationsPerModuleCount = 0;
@@ -93,10 +94,10 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
       for (Map.Entry<InputFile, Integer> entry : violationsPerFileCount.entrySet()) {
         context.<Integer>newMeasure()
-                .forMetric(metric)
-                .on(entry.getKey())
-                .withValue(entry.getValue())
-                .save();
+          .forMetric(metric)
+          .on(entry.getKey())
+          .withValue(entry.getValue())
+          .save();
       }
 
       // this sensor could be executed on module without any files
@@ -105,19 +106,19 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       // let AggregateMeasureComputer calculate the correct value
       if (violationsPerModuleCount != 0) {
         context.<Integer>newMeasure()
-                .forMetric(metric)
-                .on(context.module())
-                .withValue(violationsPerModuleCount)
-                .save();
+          .forMetric(metric)
+          .on(context.module())
+          .withValue(violationsPerModuleCount)
+          .save();
       }
     } catch (Exception e) {
       String msg = new StringBuilder(256)
-              .append("Cannot feed the data into sonar, details: '")
-              .append(CxxUtils.getStackTrace(e))
-              .append("'")
-              .toString();
+        .append("Cannot feed the data into sonar, details: '")
+        .append(CxxUtils.getStackTrace(e))
+        .append("'")
+        .toString();
       LOG.error(msg);
-      CxxUtils.validateRecovery(e, getLanguage());
+      CxxUtils.validateRecovery(e, settings);
     }
   }
 
@@ -145,23 +146,23 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       if (LOG.isDebugEnabled()) {
         Metric<Integer> metric = getLanguage().getMetric(this.getMetricKey());
         LOG.debug("{} processed = {}", metric.getKey(),
-                violationsPerModuleCount - prevViolationsCount);
+          violationsPerModuleCount - prevViolationsCount);
       }
     } catch (EmptyReportException e) {
       LOG.warn("The report '{}' seems to be empty, ignoring.", report);
       LOG.debug("Cannot read report", e);
-      CxxUtils.validateRecovery(e, getLanguage());
+      CxxUtils.validateRecovery(e, settings);
     }
   }
 
   private NewIssueLocation createNewIssueLocationFile(SensorContext sensorContext, NewIssue newIssue,
-          CxxReportLocation location, Set<InputFile> affectedFiles) {
+    CxxReportLocation location, Set<InputFile> affectedFiles) {
     InputFile inputFile = getInputFileIfInProject(sensorContext, location.getFile());
     if (inputFile != null) {
       int lines = inputFile.lines();
       int lineNr = Integer.max(1, getLineAsInt(location.getLine(), lines));
       NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(lineNr))
-              .message(location.getInfo());
+        .message(location.getInfo());
       affectedFiles.add(inputFile);
       return newIssueLocation;
     }
@@ -169,9 +170,11 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   /**
-   * Saves a code violation which is detected in the given file/line and has given ruleId and message. Saves it to the
-   * given project and context. Project or file-level violations can be saved by passing null for the according
-   * parameters ('file' = null for project level, 'line' = null for file-level)
+   * Saves a code violation which is detected in the given file/line and has
+   * given ruleId and message. Saves it to the given project and context.
+   * Project or file-level violations can be saved by passing null for the
+   * according parameters ('file' = null for project level, 'line' = null for
+   * file-level)
    */
   private void saveViolation(SensorContext sensorContext, CxxReportIssue issue) {
     NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(getRuleRepositoryKey(), issue.getRuleId()));
@@ -183,7 +186,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     for (CxxReportLocation location : issue.getLocations()) {
       if (location.getFile() != null && !location.getFile().isEmpty()) {
         NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location,
-                affectedFiles);
+          affectedFiles);
         if (newIssueLocation != null) {
           newIssueLocations.add(newIssueLocation);
         }
@@ -223,7 +226,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
         violationsPerModuleCount++;
       } catch (RuntimeException ex) {
         LOG.error("Could not add the issue '{}':{}', skipping issue", issue.toString(), CxxUtils.getStackTrace(ex));
-        CxxUtils.validateRecovery(ex, getLanguage());
+        CxxUtils.validateRecovery(ex, settings);
       }
     }
   }
@@ -240,7 +243,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
         }
       } catch (java.lang.NumberFormatException nfe) {
         LOG.warn("Skipping invalid line number: {}", line);
-        CxxUtils.validateRecovery(nfe, getLanguage());
+        CxxUtils.validateRecovery(nfe, settings);
         lineNr = -1;
       }
     }

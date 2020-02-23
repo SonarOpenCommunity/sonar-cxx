@@ -29,16 +29,19 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 /**
- * SonarQube supports hierarchical multi-module projects. It is not enough to calculate a metric M for the file and/or
- * for the corresponding module. The same metric has to be calculated/propagated/aggregated for all parent modules and
- * the root project.
+ * SonarQube supports hierarchical multi-module projects. It is not enough to
+ * calculate a metric M for the file and/or for the corresponding module. The
+ * same metric has to be calculated/propagated/aggregated for all parent modules
+ * and the root project.
  *
- * This {@link MeasureComputer} is executed on Compute Engine (server-side). For a pair of existing metrics
- * VALUE_METRIC_KEY and TOTAL_METRIC_KEY it calculates the PERCENT_OF_VALUE_IN_TOTAL_METRIC. This calculation takes
- * place on each hierarchy level of SonarQube project.
+ * This {@link MeasureComputer} is executed on Compute Engine (server-side). For
+ * a pair of existing metrics VALUE_METRIC_KEY and TOTAL_METRIC_KEY it
+ * calculates the PERCENT_OF_VALUE_IN_TOTAL_METRIC. This calculation takes place
+ * on each hierarchy level of SonarQube project.
  *
- * REQUIREMENT: input metrics VALUE_METRIC_KEY and TOTAL_METRIC_KEY must be already calculated and propagated/aggregated
- * on each level. AggregateMeasureComputer must have already run.
+ * REQUIREMENT: input metrics VALUE_METRIC_KEY and TOTAL_METRIC_KEY must be
+ * already calculated and propagated/aggregated on each level.
+ * AggregateMeasureComputer must have already run.
  *
  * See also {@link AggregateMeasureComputer}
  */
@@ -65,8 +68,8 @@ public class DensityMeasureComputer implements MeasureComputer {
   private final String[] inputMetrics;
   private final String[] outputMetrics;
 
-  public DensityMeasureComputer(String languageKey, String languagePropsKey) {
-    final Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap(languageKey, languagePropsKey);
+  public DensityMeasureComputer() {
+    final Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap();
 
     publicAPIKey = metrics.get(CxxMetricsFactory.Key.PUBLIC_API_KEY).key();
     publicUndocumentedAPIKey = metrics.get(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY).key();

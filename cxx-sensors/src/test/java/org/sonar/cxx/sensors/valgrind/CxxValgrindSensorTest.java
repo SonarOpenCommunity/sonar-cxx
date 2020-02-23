@@ -33,6 +33,7 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -41,28 +42,31 @@ public class CxxValgrindSensorTest {
   private CxxValgrindSensor sensor;
   private DefaultFileSystem fs;
   private CxxLanguage language;
+  private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-    sensor = new CxxValgrindSensor(language);
+    sensor = new CxxValgrindSensor(settings.asConfig());
   }
 
   @Test
   public void shouldNotThrowWhenGivenValidData() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     sensor.execute(context);
+
     assertThat(context.allAnalysisErrors().isEmpty()).isTrue();
   }
 
   @Test
   public void shouldSaveViolationIfErrorIsInside() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    context.fileSystem().add(TestInputFileBuilder.create("myProjectKey", "dir/file").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     Set<ValgrindError> valgrindErrors = new HashSet<>();
     valgrindErrors.add(mockValgrindError(true));
-    context.fileSystem().add(TestInputFileBuilder.create("myProjectKey", "dir/file").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     sensor.saveErrors(context, valgrindErrors);
+
     assertThat(context.allIssues()).hasSize(1);
   }
 
@@ -72,6 +76,7 @@ public class CxxValgrindSensorTest {
     Set<ValgrindError> valgrindErrors = new HashSet<>();
     valgrindErrors.add(mockValgrindError(false));
     sensor.saveErrors(context, valgrindErrors);
+
     assertThat(context.allIssues()).hasSize(0);
   }
 
@@ -83,7 +88,7 @@ public class CxxValgrindSensorTest {
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ValgrindSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.getRepositoryKey(language));
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.KEY);
     softly.assertAll();
   }
 

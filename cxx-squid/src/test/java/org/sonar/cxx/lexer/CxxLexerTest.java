@@ -35,8 +35,6 @@ import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
@@ -55,8 +53,7 @@ public class CxxLexerTest {
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(file);
 
-    CxxLanguage language = CxxFileTesterHelper.mockCxxLanguage();
-    CxxPreprocessor cxxpp = new CxxPreprocessor(context, language);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context);
     lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
   }
 
@@ -522,10 +519,10 @@ public class CxxLexerTest {
       = new ArrayList<>(Arrays.asList(
         LiteralValuesBuilder.builder("\"\"").tokenValue("\"\"").tokenType(CxxTokenType.STRING).build(), // string: empty
         LiteralValuesBuilder.builder("u\"\"").tokenValue("u\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix u
-        LiteralValuesBuilder.builder("u8\"\"").tokenValue("u8\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix U 
-        LiteralValuesBuilder.builder("U\"\"").tokenValue("U\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix L 
+        LiteralValuesBuilder.builder("u8\"\"").tokenValue("u8\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix U
+        LiteralValuesBuilder.builder("U\"\"").tokenValue("U\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix L
 
-        LiteralValuesBuilder.builder("\"a\"").tokenValue("\"a\"").tokenType(CxxTokenType.STRING).build(), // string: trivial 
+        LiteralValuesBuilder.builder("\"a\"").tokenValue("\"a\"").tokenType(CxxTokenType.STRING).build(), // string: trivial
 
         LiteralValuesBuilder.builder("\" \\\\ \"").tokenValue("\" \\\\ \"").tokenType(CxxTokenType.STRING).build(), // string: escaped quote
         LiteralValuesBuilder.builder("\" \\\" \"").tokenValue("\" \\\" \"").tokenType(CxxTokenType.STRING).build(), // string: escaped backslash
@@ -545,11 +542,11 @@ public class CxxLexerTest {
       = new ArrayList<>(Arrays.asList(
         LiteralValuesBuilder.builder("R\"(...)\"").tokenValue("R\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: empty
         LiteralValuesBuilder.builder("uR\"(...)\"").tokenValue("uR\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: prefix u
-        LiteralValuesBuilder.builder("u8R\"(...)\"").tokenValue("u8R\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: prefix u8R 
-        LiteralValuesBuilder.builder("UR\"(...)\"").tokenValue("UR\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: prefix UR 
+        LiteralValuesBuilder.builder("u8R\"(...)\"").tokenValue("u8R\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: prefix u8R
+        LiteralValuesBuilder.builder("UR\"(...)\"").tokenValue("UR\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: prefix UR
         LiteralValuesBuilder.builder("LR\"(...)\"").tokenValue("LR\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: prefix LR
         // examples from the standard
-        LiteralValuesBuilder.builder("R\"(...)\"").tokenValue("R\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: std example 1 
+        LiteralValuesBuilder.builder("R\"(...)\"").tokenValue("R\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: std example 1
         LiteralValuesBuilder.builder("u8R\"**(...)**\"").tokenValue("u8R\"**(...)**\"").tokenType(CxxTokenType.STRING).build(), // raw string: std example 2
         LiteralValuesBuilder.builder("uR\"*∼(...)*∼\"").tokenValue("uR\"*∼(...)*∼\"").tokenType(CxxTokenType.STRING).build(), // raw string: std example 3
         LiteralValuesBuilder.builder("UR\"zzz(...)zzz\"").tokenValue("UR\"zzz(...)zzz\"").tokenType(CxxTokenType.STRING).build(), // raw string: std example 4
@@ -567,12 +564,12 @@ public class CxxLexerTest {
         LiteralValuesBuilder.builder("R\"([.^$|()\\[\\]{}*+?\\\\])\"").tokenValue("R\"([.^$|()\\[\\]{}*+?\\\\])\"")
           .tokenType(CxxTokenType.STRING).build(), // raw string: regex sample
 
-       // fix #1748       
-       LiteralValuesBuilder.builder("R\"(([A-Z\\d]))\"").tokenValue("R\"(([A-Z\\d]))\"")
+        // fix #1748
+        LiteralValuesBuilder.builder("R\"(([A-Z\\d]))\"").tokenValue("R\"(([A-Z\\d]))\"")
           .tokenType(CxxTokenType.STRING).build(),
-       LiteralValuesBuilder.builder("R\"regex(([A-Z\\d]))regex\"").tokenValue("R\"regex(([A-Z\\d]))regex\"")
+        LiteralValuesBuilder.builder("R\"regex(([A-Z\\d]))regex\"").tokenValue("R\"regex(([A-Z\\d]))regex\"")
           .tokenType(CxxTokenType.STRING).build(),
-       LiteralValuesBuilder.builder("R\"(())\"").tokenValue("R\"(())\"")
+        LiteralValuesBuilder.builder("R\"(())\"").tokenValue("R\"(())\"")
           .tokenType(CxxTokenType.STRING).build()
       ));
 

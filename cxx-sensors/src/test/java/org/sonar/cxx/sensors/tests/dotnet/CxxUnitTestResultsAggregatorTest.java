@@ -47,19 +47,13 @@ public class CxxUnitTestResultsAggregatorTest {
   public ExpectedException thrown = ExpectedException.none();
 
   private CxxLanguage language;
-  private final String key1 = "sonar.cxx." + UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY;
-  private final String key2 = "sonar.cxx." + UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY;
-  private final String key3 = "sonar.cxx." + UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY;
+  private final String key1 = UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY;
+  private final String key2 = UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY;
+  private final String key3 = UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY;
 
   @Before
   public void setUp() {
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY))
-      .thenReturn(key1);
-    when(language.getPluginProperty(UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY))
-      .thenReturn(key2);
-    when(language.getPluginProperty(UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY))
-      .thenReturn(key3);
   }
 
   @Test

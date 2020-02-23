@@ -28,6 +28,7 @@ import static java.lang.Math.min;
 import java.util.Collection;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.config.Configuration;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxParser;
@@ -63,7 +64,8 @@ public final class CxxAstScanner {
   }
 
   /**
-   * Helper method for testing checks without having to deploy them on a Sonar instance.
+   * Helper method for testing checks without having to deploy them on a Sonar
+   * instance.
    *
    * @param file is the file to be checked
    * @param sensorContext SQ API batch side context
@@ -72,10 +74,8 @@ public final class CxxAstScanner {
    * @return file checked with measures and issues
    */
   @SafeVarargs
-  public static SourceFile scanSingleFile(InputFile file, SensorContext sensorContext, CxxLanguage language,
-    SquidAstVisitor<Grammar>... visitors) {
-    return scanSingleFileConfig(language, file, new CxxConfiguration(sensorContext.fileSystem().encoding()),
-      visitors);
+  public static SourceFile scanSingleFile(Configuration settings, InputFile file, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
+    return scanSingleFileConfig(settings, file, new CxxConfiguration(sensorContext.fileSystem().encoding()), visitors);
   }
 
   /**
@@ -87,12 +87,12 @@ public final class CxxAstScanner {
    * @param language for sensor
    * @return file checked with measures and issues
    */
-  public static SourceFile scanSingleFileConfig(CxxLanguage language, InputFile file, CxxConfiguration cxxConfig,
+  public static SourceFile scanSingleFileConfig(Configuration settings, InputFile file, CxxConfiguration cxxConfig,
     SquidAstVisitor<Grammar>... visitors) {
     if (!file.isFile()) {
       throw new IllegalArgumentException("File '" + file + "' not found.");
     }
-    AstScanner<Grammar> scanner = create(language, cxxConfig, visitors);
+    AstScanner<Grammar> scanner = create(settings, cxxConfig, visitors);
     scanner.scanFile(file.file());
     Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
     if (sources.size() != 1) {
@@ -111,11 +111,10 @@ public final class CxxAstScanner {
    * @return scanner for the given parameters
    */
   @SafeVarargs
-  public static AstScanner<Grammar> create(CxxLanguage language, CxxConfiguration conf,
-    SquidAstVisitor<Grammar>... visitors) {
+  public static AstScanner<Grammar> create(Configuration settings, CxxConfiguration conf, SquidAstVisitor<Grammar>... visitors) {
     final SquidAstVisitorContextImpl<Grammar> context
       = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
-    final Parser<Grammar> parser = CxxParser.create(context, conf, language);
+    final Parser<Grammar> parser = CxxParser.create(context, conf);
 
     AstScanner.Builder<Grammar> builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
 
@@ -195,7 +194,7 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(new LinesVisitor<>(CxxMetric.LINES));
     builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<>(CxxMetric.LINES_OF_CODE));
     builder.withSquidAstVisitor(new CxxLinesOfCodeInFunctionBodyVisitor<>());
-    builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(language));
+    builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(settings));
 
     builder.withSquidAstVisitor(CommentsVisitor.<Grammar>builder().withCommentMetric(CxxMetric.COMMENT_LINES)
       .withNoSonar(true)
@@ -215,8 +214,8 @@ public final class CxxAstScanner {
 
     builder.withSquidAstVisitor(new CxxCognitiveComplexityVisitor<>());
 
-    builder.withSquidAstVisitor(new CxxFunctionComplexityVisitor<>(language));
-    builder.withSquidAstVisitor(new CxxFunctionSizeVisitor<>(language));
+    builder.withSquidAstVisitor(new CxxFunctionComplexityVisitor<>(settings));
+    builder.withSquidAstVisitor(new CxxFunctionSizeVisitor<>(settings));
 
     // to emit a 'new file' event to the internals of the plugin
     builder.withSquidAstVisitor(new CxxFileVisitor<>());

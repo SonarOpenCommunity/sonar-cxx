@@ -24,9 +24,9 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
@@ -39,16 +39,16 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxVeraxxSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "vera.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
   private static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);
 
   /**
    * CxxVeraxxSensor for C++ Vera Sensor
    *
-   * @param language defines settings C or C++
+   * @param settings sensor configuration
    */
-  public CxxVeraxxSensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxVeraxxRuleRepository.getRepositoryKey(language));
+  public CxxVeraxxSensor(Configuration settings) {
+    super(settings, REPORT_PATH_KEY, CxxVeraxxRuleRepository.KEY);
   }
 
   @Override

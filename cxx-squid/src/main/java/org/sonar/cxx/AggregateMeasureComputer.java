@@ -28,16 +28,18 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 /**
- * SonarQube supports hierarchical multi-module projects. It is not enough to calculate a metric M for the file and/or
- * for the corresponding module. The same metric has to be calculated/propagated/aggregated for all parent modules and
- * the root project.
+ * SonarQube supports hierarchical multi-module projects. It is not enough to
+ * calculate a metric M for the file and/or for the corresponding module. The
+ * same metric has to be calculated/propagated/aggregated for all parent modules
+ * and the root project.
  *
- * This {@link MeasureComputer} is executed on Compute Engine (server-side). For each metric M in the given set of
- * metrics the sum on the hierarchy level L is calculated. The sum is persisted as aggregated metric M on the level
- * (L-1).
+ * This {@link MeasureComputer} is executed on Compute Engine (server-side). For
+ * each metric M in the given set of metrics the sum on the hierarchy level L is
+ * calculated. The sum is persisted as aggregated metric M on the level (L-1).
  *
- * Some CXX sensors (see CxxReportSensor) can create issues on the whole module. Such sensors have to aggregate the
- * corresponding module Metric by themselves. {@link AggregateMeasureComputer} doesn't recalculate already aggregated
+ * Some CXX sensors (see CxxReportSensor) can create issues on the whole module.
+ * Such sensors have to aggregate the corresponding module Metric by themselves.
+ * {@link AggregateMeasureComputer} doesn't recalculate already aggregated
  * metrics.
  *
  */
@@ -47,8 +49,8 @@ public class AggregateMeasureComputer implements MeasureComputer {
 
   private final String[] metricKeys;
 
-  public AggregateMeasureComputer(String languageKey, String languagePropsKey) {
-    final Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap(languageKey, languagePropsKey);
+  public AggregateMeasureComputer() {
+    final Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap();
 
     metricKeys = new String[]{
       // public API

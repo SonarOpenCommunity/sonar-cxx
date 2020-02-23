@@ -22,6 +22,7 @@ package org.sonar.cxx.checks.metrics;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import org.junit.Test;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -31,13 +32,14 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class TooManyLinesOfCodeInFileCheckTest {
 
   private final TooManyLinesOfCodeInFileCheck check = new TooManyLinesOfCodeInFileCheck();
+  private final MapSettings settings = new MapSettings();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
     check.setMax(1);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/complexity.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("This file has 22 lines of code, which is greater than 1 authorized. Split it into smaller files.")
@@ -48,7 +50,7 @@ public class TooManyLinesOfCodeInFileCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test2() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/complexity.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();

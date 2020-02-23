@@ -26,9 +26,9 @@ import org.sonar.cxx.CxxLanguage;
 
 public class UnitTestConfiguration {
 
-  public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "vstest.reportsPaths";
-  public static final String XUNIT_TEST_RESULTS_PROPERTY_KEY = "xunit.reportsPaths";
-  public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "nunit.reportsPaths";
+  public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.vstest.reportsPaths";
+  public static final String XUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.xunit.reportsPaths";
+  public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.nunit.reportsPaths";
   private static final String EXIST_CONFIGURATION_PARAMETER = "Exist configuration parameter: '{}':'{}'";
   private static final Logger LOG = Loggers.get(UnitTestConfiguration.class);
 
@@ -39,9 +39,9 @@ public class UnitTestConfiguration {
 
   public UnitTestConfiguration(CxxLanguage language, Configuration config) {
     this.config = config;
-    vsKeyEffective = language.getPluginProperty(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
-    xUnitKeyEffective = language.getPluginProperty(XUNIT_TEST_RESULTS_PROPERTY_KEY);
-    nUnitKeyEffective = language.getPluginProperty(NUNIT_TEST_RESULTS_PROPERTY_KEY);
+    vsKeyEffective = VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY;
+    xUnitKeyEffective = XUNIT_TEST_RESULTS_PROPERTY_KEY;
+    nUnitKeyEffective = NUNIT_TEST_RESULTS_PROPERTY_KEY;
   }
 
   boolean hasVisualStudioTestResultsFile() {

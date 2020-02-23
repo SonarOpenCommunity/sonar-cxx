@@ -23,7 +23,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import static org.assertj.core.groups.Tuple.tuple;
@@ -38,9 +37,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
+import static org.sonar.cxx.CxxLanguage.ERROR_RECOVERY_KEY;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxUnitTestResultsImportSensorTest {
@@ -49,18 +49,18 @@ public class CxxUnitTestResultsImportSensorTest {
   public TemporaryFolder temp = new TemporaryFolder();
 
   private CxxLanguage language;
+  private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxCppCheckSensor.REPORT_PATH_KEY);
-    when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
+    settings.setProperty(ERROR_RECOVERY_KEY, true);
   }
 
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxUnitTestResultsImportSensor sensor = new CxxUnitTestResultsImportSensor(mock(CxxUnitTestResultsAggregator.class), language);
+    CxxUnitTestResultsImportSensor sensor = new CxxUnitTestResultsImportSensor(mock(CxxUnitTestResultsAggregator.class), settings.asConfig());
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
@@ -72,6 +72,7 @@ public class CxxUnitTestResultsImportSensorTest {
 
   @Test
   public void analyze() throws Exception {
+    SensorContextTester context = SensorContextTester.create(temp.newFolder());
     UnitTestResults results = mock(UnitTestResults.class);
     when(results.tests()).thenReturn(42);
     when(results.passedPercentage()).thenReturn(84d);
@@ -81,13 +82,11 @@ public class CxxUnitTestResultsImportSensorTest {
     when(results.executionTime()).thenReturn(321L);
 
     CxxUnitTestResultsAggregator unitTestResultsAggregator = mock(CxxUnitTestResultsAggregator.class);
-    SensorContextTester context = SensorContextTester.create(temp.newFolder());
     UnitTestConfiguration unitTestConf = mock(UnitTestConfiguration.class);
-
     when(unitTestResultsAggregator.aggregate(Mockito.any(WildcardPatternFileProvider.class),
       Mockito.any(UnitTestResults.class), same(unitTestConf))).thenReturn(results);
 
-    new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, language)
+    new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, settings.asConfig())
       .analyze(context, results, unitTestConf);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results),
@@ -118,7 +117,7 @@ public class CxxUnitTestResultsImportSensorTest {
     when(unitTestResultsAggregator.aggregate(Mockito.any(WildcardPatternFileProvider.class),
       Mockito.any(UnitTestResults.class), same(unitTestConf))).thenReturn(results);
 
-    new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, language)
+    new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, settings.asConfig())
       .analyze(context, results, unitTestConf);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results),

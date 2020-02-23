@@ -27,6 +27,7 @@ import java.io.File;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.CxxLanguage;
 
@@ -38,9 +39,9 @@ public class CxxUnitTestResultsImportSensor implements Sensor {
   protected final CxxLanguage language;
 
   public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator,
-    CxxLanguage language) {
+    Configuration settings) {
     this.unitTestResultsAggregator = unitTestResultsAggregator;
-    this.language = language;
+    this.language = new CxxLanguage(settings);
   }
 
   @Override

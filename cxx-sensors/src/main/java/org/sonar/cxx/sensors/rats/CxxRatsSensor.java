@@ -27,9 +27,9 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaders;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
@@ -40,7 +40,7 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxRatsSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "rats.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPath";
 
   private static final Logger LOG = Loggers.get(CxxRatsSensor.class);
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
@@ -48,10 +48,10 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   /**
    * CxxRatsSensor for RATS Sensor
    *
-   * @param language defines settings C or C++
+   * @param settings sensor configuration
    */
-  public CxxRatsSensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxRatsRuleRepository.getRepositoryKey(language));
+  public CxxRatsSensor(Configuration settings) {
+    super(settings, REPORT_PATH_KEY, CxxRatsRuleRepository.KEY);
   }
 
   private static String getVulnerabilityType(@Nullable Element child) {

@@ -29,9 +29,9 @@ import java.io.File;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -42,17 +42,17 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxClangSASensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "clangsa.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.clangsa.reportPath";
 
   private static final Logger LOG = Loggers.get(CxxClangSASensor.class);
 
   /**
    * CxxClangSASensor for Clang Static Analyzer Sensor
    *
-   * @param language defines settings C or C++
+   * @param settings sensor configuration
    */
-  public CxxClangSASensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxClangSARuleRepository.getRepositoryKey(language));
+  public CxxClangSASensor(Configuration settings) {
+    super(settings, REPORT_PATH_KEY, CxxClangSARuleRepository.KEY);
   }
 
   private static NSObject require(@Nullable NSObject object, String errorMsg) {
@@ -127,6 +127,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   }
 
   private class PathElement {
+
     private final NSDictionary pathDict;
 
     public PathElement(NSObject pathObject) {
@@ -146,6 +147,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   }
 
   private class PathEvent {
+
     private final NSDictionary eventDict;
     private final NSObject[] sourceFiles;
 
@@ -156,7 +158,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
 
     public String getExtendedMessage() {
       return ((NSString) require(eventDict.get("extended_message"), "Missing mandatory entry 'extended_message'"))
-          .getContent();
+        .getContent();
     }
 
     public String getLineNumber() {

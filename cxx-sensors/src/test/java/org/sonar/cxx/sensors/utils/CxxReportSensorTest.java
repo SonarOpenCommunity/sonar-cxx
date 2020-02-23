@@ -27,14 +27,13 @@ import org.junit.Test;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.cxx.CxxLanguage;
 
 public class CxxReportSensorTest {
 
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
   private final String VALID_REPORT_PATH_LIST = "cppcheck-reports/*V1.xml, cppcheck-reports/*V2.xml";
   private final String INVALID_REPORT_PATH = "something";
-  private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
+  private final String REPORT_PATH_PROPERTY_KEY = "sonar.cxx.reportPath";
 
   private File baseDir;
   private final MapSettings settings = new MapSettings();
@@ -51,15 +50,12 @@ public class CxxReportSensorTest {
 
   @Test
   public void shouldntThrowWhenInstantiating() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-
-    CxxReportSensor sensor = new CxxReportSensorImpl(language, settings);
+    CxxReportSensor sensor = new CxxReportSensorImpl(settings);
     assertThat(sensor).isNotNull();
   }
 
   @Test
   public void getReports_shouldFindNothingIfNoKey() {
-    TestUtils.mockCxxLanguage();
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, "");
@@ -68,7 +64,6 @@ public class CxxReportSensorTest {
 
   @Test
   public void getReports_shouldFindNothingIfNoPath() {
-    TestUtils.mockCxxLanguage();
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, "");
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
     assertThat(reports).isNotNull();
@@ -76,7 +71,6 @@ public class CxxReportSensorTest {
 
   @Test
   public void getReports_shouldFindNothingIfInvalidPath() {
-    TestUtils.mockCxxLanguage();
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
     assertThat(reports).isNotNull();
@@ -84,7 +78,6 @@ public class CxxReportSensorTest {
 
   @Test
   public void getReports_shouldFindSomething() {
-    TestUtils.mockCxxLanguage();
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
     assertThat(reports).isNotNull();
@@ -95,7 +88,6 @@ public class CxxReportSensorTest {
 
   @Test
   public void getReports_shouldFindSomethingList() {
-    TestUtils.mockCxxLanguage();
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH_LIST);
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
     assertThat(reports).isNotNull();
@@ -106,8 +98,8 @@ public class CxxReportSensorTest {
 
   private class CxxReportSensorImpl extends CxxReportSensor {
 
-    public CxxReportSensorImpl(CxxLanguage language, MapSettings settings) {
-      super(language, "test.report");
+    public CxxReportSensorImpl(MapSettings settings) {
+      super(settings.asConfig(), "test.report");
     }
 
     @Override
