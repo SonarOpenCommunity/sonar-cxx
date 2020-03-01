@@ -92,7 +92,7 @@ public final class CxxPlugin implements Plugin {
         .name("Source files suffixes")
         .description("Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(1)
         .build(),
       PropertyDefinition.builder(HEADER_FILE_SUFFIXES_KEY)
@@ -101,7 +101,7 @@ public final class CxxPlugin implements Plugin {
         .name("Header files suffixes")
         .description("Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(2)
         .build(),
       PropertyDefinition.builder(INCLUDE_DIRECTORIES_KEY)
@@ -110,7 +110,7 @@ public final class CxxPlugin implements Plugin {
         .description("Comma-separated list of directories to search the included files in. "
           + "May be defined either relative to projects root or absolute.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(3)
         .build(),
       PropertyDefinition.builder(FORCE_INCLUDE_FILES_KEY)
@@ -119,7 +119,7 @@ public final class CxxPlugin implements Plugin {
         .name("Force includes")
         .description("Comma-separated list of files which should to be included implicitly at the "
           + "beginning of each source file.")
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(4)
         .build(),
       PropertyDefinition.builder(DEFINES_KEY)
@@ -128,7 +128,7 @@ public final class CxxPlugin implements Plugin {
           + "macros which cannot be resolved by other means."
           + " Use the 'force includes' setting to inject more complex, multi-line macros.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.TEXT)
         .index(5)
         .build(),
@@ -139,7 +139,7 @@ public final class CxxPlugin implements Plugin {
         .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the"
           + "patterns, it is parsed in C-compatibility mode.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(6)
         .build(),
       PropertyDefinition.builder(CxxPlugin.ERROR_RECOVERY_KEY)
@@ -150,7 +150,7 @@ public final class CxxPlugin implements Plugin {
           + "sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>"
           + "sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
         .index(7)
         .build(),
@@ -161,7 +161,7 @@ public final class CxxPlugin implements Plugin {
           + " detailed or diagnostic)."
           + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(8)
         .build(),
@@ -170,7 +170,7 @@ public final class CxxPlugin implements Plugin {
         .name("MSBuild log encoding")
         .description("The encoding to use when reading a MSBuild log. Leave empty to use default UTF-8.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(9)
         .build(),
       PropertyDefinition.builder(CxxPlugin.JSON_COMPILATION_DATABASE_KEY)
@@ -178,7 +178,7 @@ public final class CxxPlugin implements Plugin {
         .name("JSON Compilation Database")
         .description("JSON Compilation Database file to use as specification for what defines and includes should be "
           + "used for source files.")
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(10)
         .build()
     ));
@@ -194,7 +194,7 @@ public final class CxxPlugin implements Plugin {
         + "ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
       )
       .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .onQualifiers(Qualifiers.PROJECT)
       .multiValues(true)
       .index(1)
       .build(),
@@ -203,7 +203,7 @@ public final class CxxPlugin implements Plugin {
         .description("Path to <a href='http://valgrind.org/'>Valgrind</a> report(s), relative to projects root."
           + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(2)
         .build(),
@@ -212,7 +212,7 @@ public final class CxxPlugin implements Plugin {
         .description("Path to <a href='http://drmemory.org/'>Dr. Memory</a> reports(s), relative to projects root."
           + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(3)
         .build(),
@@ -221,7 +221,7 @@ public final class CxxPlugin implements Plugin {
         .description("Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> reports(s), relative to projects"
           + "  root." + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(4)
         .build(),
@@ -230,7 +230,7 @@ public final class CxxPlugin implements Plugin {
         .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/>"
           + " reports(s), relative to projects root." + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(5)
         .build(),
@@ -239,7 +239,7 @@ public final class CxxPlugin implements Plugin {
         .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s),"
           + " relative to projects root." + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(6)
         .build(),
@@ -257,7 +257,7 @@ public final class CxxPlugin implements Plugin {
           + "projects root." + USE_ANT_STYLE_WILDCARDS + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx"
           + "/wiki/Extending-the-code-analysis'>here</a> for details.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(8)
         .build(),
@@ -275,7 +275,7 @@ public final class CxxPlugin implements Plugin {
         .description("Path to Clang-Tidy reports, relative to projects root. If neccessary, "
           + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(10)
         .build(),
@@ -285,7 +285,7 @@ public final class CxxPlugin implements Plugin {
         .description("The encoding to use when reading the clang-tidy report."
           + " Leave empty to use parser's default UTF-8.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(11)
         .build(),
       PropertyDefinition.builder(CxxClangSASensor.REPORT_PATH_KEY)
@@ -293,7 +293,7 @@ public final class CxxPlugin implements Plugin {
         .description("Path to Clang Static Analyzer reports, relative to projects root. If neccessary, "
           + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(12)
         .build(),
@@ -302,7 +302,7 @@ public final class CxxPlugin implements Plugin {
         .name("Cyclomatic complexity threshold")
         .description("Cyclomatic complexity threshold used to classify a function as complex")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.INTEGER)
         .index(13)
         .build(),
@@ -311,7 +311,7 @@ public final class CxxPlugin implements Plugin {
         .name("Function size threshold")
         .description("Function size threshold to consider a function to be too big")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.INTEGER)
         .index(14)
         .build()
@@ -326,7 +326,7 @@ public final class CxxPlugin implements Plugin {
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
           + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(1)
         .build(),
@@ -335,7 +335,7 @@ public final class CxxPlugin implements Plugin {
         .name("VC Report Encoding")
         .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(2)
         .build(),
       PropertyDefinition.builder(CxxCompilerVcSensor.REPORT_REGEX_DEF)
@@ -345,7 +345,7 @@ public final class CxxPlugin implements Plugin {
           + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
           + "this page</a> for details regarding the different regular expression that can be use per compiler.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(3)
         .build(),
       PropertyDefinition.builder(CxxCompilerGccSensor.REPORT_PATH_KEY)
@@ -353,7 +353,7 @@ public final class CxxPlugin implements Plugin {
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
           + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(4)
         .build(),
@@ -362,7 +362,7 @@ public final class CxxPlugin implements Plugin {
         .name("GCC Report Encoding")
         .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(5)
         .build(),
       PropertyDefinition.builder(CxxCompilerGccSensor.REPORT_REGEX_DEF)
@@ -372,7 +372,7 @@ public final class CxxPlugin implements Plugin {
           + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
           + "this page</a> for details regarding the different regular expression that can be use per compiler.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(6)
         .build()
     ));
@@ -388,7 +388,7 @@ public final class CxxPlugin implements Plugin {
           + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
           + "here</a> for supported formats.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(1)
         .build(),
@@ -398,7 +398,7 @@ public final class CxxPlugin implements Plugin {
           + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>"
           + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .index(2)
         .build(),
@@ -408,7 +408,7 @@ public final class CxxPlugin implements Plugin {
           + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is "
           + "able to perform the according transformation.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(3)
         .build(),
       PropertyDefinition.builder(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
@@ -416,7 +416,7 @@ public final class CxxPlugin implements Plugin {
         .name("Visual Studio Test Reports Paths")
         .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(4)
         .build(),
       PropertyDefinition.builder(UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY)
@@ -424,7 +424,7 @@ public final class CxxPlugin implements Plugin {
         .name("xUnit (MS) Test Reports Paths")
         .description("Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(5)
         .build(),
       PropertyDefinition.builder(UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
@@ -432,7 +432,7 @@ public final class CxxPlugin implements Plugin {
         .name("NUnit Test Reports Paths")
         .description("Example: \"TestResult.xml\", \"TestResult1.xml,TestResult2.xml\" or \"C:/TestResult.xml\"")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .index(6)
         .build()
     ));
@@ -447,7 +447,7 @@ public final class CxxPlugin implements Plugin {
         .description("Ignores literal (numbers, characters and strings) value differences when evaluating a duplicate "
           + "block. This means that e.g. foo=42; and foo=43; will be seen as equivalent. Default is 'False'.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
         .index(1)
         .build(),
@@ -457,7 +457,7 @@ public final class CxxPlugin implements Plugin {
         .description("Ignores identifier value differences when evaluating a duplicate block e.g. variable names, "
           + "methods names, and so forth. Default is 'False'.")
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+        .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
         .index(2)
         .build()
