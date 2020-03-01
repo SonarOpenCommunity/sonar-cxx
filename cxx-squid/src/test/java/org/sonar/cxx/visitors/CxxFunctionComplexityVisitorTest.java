@@ -20,29 +20,27 @@
 package org.sonar.cxx.visitors;
 
 import java.io.IOException;
-import java.util.Optional;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
-import static org.mockito.Mockito.when;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxFunctionComplexityVisitorTest {
 
+  private final MapSettings settings = new MapSettings();
+
   @Test
   public void testPublishMeasuresForFile() throws IOException {
 
-    CxxLanguage language = CxxFileTesterHelper.mockCxxLanguage();
-    when(language.getIntegerOption(CxxFunctionComplexityVisitor.FUNCTION_COMPLEXITY_THRESHOLD_KEY))
-      .thenReturn(Optional.of(5));
+    settings.setProperty(CxxFunctionComplexityVisitor.FUNCTION_COMPLEXITY_THRESHOLD_KEY, 5);
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/FunctionComplexity.cc",
       ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, language);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(file.getInt(CxxMetric.COMPLEX_FUNCTIONS)).isEqualTo(4);
@@ -52,10 +50,9 @@ public class CxxFunctionComplexityVisitorTest {
 
   @Test
   public void testPublishMeasuresForEmptyFile() throws IOException {
-    CxxLanguage language = CxxFileTesterHelper.mockCxxLanguage();
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/EmptyFile.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, language);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(file.getInt(CxxMetric.COMPLEX_FUNCTIONS)).isEqualTo(0);

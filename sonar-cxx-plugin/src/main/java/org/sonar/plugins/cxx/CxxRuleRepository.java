@@ -21,6 +21,7 @@ package org.sonar.plugins.cxx;
 
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.checks.CheckList;
 import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 public class CxxRuleRepository implements RulesDefinition {
@@ -35,9 +36,9 @@ public class CxxRuleRepository implements RulesDefinition {
   @Override
   public void define(Context context) {
     NewRepository repository = context.
-      createRepository(this.language.getRepositoryKey(), CppLanguage.KEY).
+      createRepository("cxx", CxxLanguage.KEY).
       setName(REPOSITORY_NAME);
-    new AnnotationBasedRulesDefinition(repository, CppLanguage.KEY).addRuleClasses(false, this.language.getChecks());
+    new AnnotationBasedRulesDefinition(repository, CxxLanguage.KEY).addRuleClasses(false, CheckList.getChecks());
     repository.done();
   }
 

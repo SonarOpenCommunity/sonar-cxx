@@ -24,9 +24,11 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import java.util.Arrays;
 import java.util.List;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import static org.sonar.cxx.CxxLanguage.DEFAULT_HEADER_SUFFIXES;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
 
@@ -45,13 +47,14 @@ import org.sonar.squidbridge.api.SourceFile;
  * </ul>
  * <p>
  * Public API items are considered documented if they have Doxygen comments.<br>
- * Function arguments are not counted since they can be documented in function documentation and this visitor does not
- * parse Doxygen comments.<br>
+ * Function arguments are not counted since they can be documented in function
+ * documentation and this visitor does not parse Doxygen comments.<br>
  * This visitor should be applied only on header files.<br>
  * Currently, no filtering is applied using preprocessing directive.<br>
  * <p>
- * Limitation: only "in front of the declaration" comments and inline comments (for members) are considered. Documenting
- * public API by name (\struct Foo for instance) in other files is not supported.
+ * Limitation: only "in front of the declaration" comments and inline comments
+ * (for members) are considered. Documenting public API by name (\struct Foo for
+ * instance) in other files is not supported.
  *
  * @see <a href="http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html">
  * Doxygen Manual: Documenting the code</a>
@@ -67,9 +70,13 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
   private int totalAPINr;
   private int undocumentedAPINr;
 
-  public CxxPublicApiVisitor(CxxLanguage language) {
+  public CxxPublicApiVisitor(Configuration settings) {
     super();
-    withHeaderFileSuffixes(Arrays.asList(language.getHeaderFileSuffixes()));
+    withHeaderFileSuffixes(
+      Arrays.asList(
+        CxxLanguage.createStringArray(settings.getStringArray("sonar.cxx.suffixes.headers"), DEFAULT_HEADER_SUFFIXES)
+      )
+    );
   }
 
   @Override

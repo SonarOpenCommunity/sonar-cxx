@@ -39,8 +39,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
@@ -53,17 +51,14 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 public class CxxLexerWithPreprocessingTest {
 
   private static Lexer lexer;
-  private final CxxLanguage language;
   private final SquidAstVisitorContext<Grammar> context;
 
   public CxxLexerWithPreprocessingTest() {
-    language = CxxFileTesterHelper.mockCxxLanguage();
-
     File file = new File("snippet.cpp").getAbsoluteFile();
     context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(file);
 
-    CxxPreprocessor cxxpp = new CxxPreprocessor(context, language);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context);
     lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
   }
 
@@ -339,7 +334,7 @@ public class CxxLexerWithPreprocessingTest {
   public void external_define() {
     CxxConfiguration conf = new CxxConfiguration();
     conf.setDefines(new String[]{"M body"});
-    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, language);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("M");
@@ -353,7 +348,7 @@ public class CxxLexerWithPreprocessingTest {
   public void external_defines_with_params() {
     CxxConfiguration conf = new CxxConfiguration();
     conf.setDefines(new String[]{"minus(a, b) a - b"});
-    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, language);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("minus(1, 2)");
@@ -413,7 +408,7 @@ public class CxxLexerWithPreprocessingTest {
     SquidAstVisitorContext<Grammar> ctx = mock(SquidAstVisitorContext.class);
     when(ctx.getFile()).thenReturn(new File("/home/joe/file.cc"));
 
-    CxxPreprocessor pp = new CxxPreprocessor(ctx, new CxxConfiguration(), scp, language);
+    CxxPreprocessor pp = new CxxPreprocessor(ctx, new CxxConfiguration(), scp);
     lexer = CxxLexer.create(pp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("#include <file>\n"
@@ -620,7 +615,7 @@ public class CxxLexerWithPreprocessingTest {
   public void externalMacrosCannotBeOverriden() {
     CxxConfiguration conf = mock(CxxConfiguration.class);
     when(conf.getDefines()).thenReturn(Arrays.asList("name goodvalue"));
-    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, language);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
     lexer = CxxLexer.create(conf, cxxpp);
 
     List<Token> tokens = lexer.lex("#define name badvalue\n"
@@ -640,7 +635,7 @@ public class CxxLexerWithPreprocessingTest {
   public void defaultMacros() {
     CxxConfiguration conf = mock(CxxConfiguration.class);
     when(conf.getDefines()).thenReturn(Arrays.asList());
-    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, language);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
 
     final Lexer l = CxxLexer.create(conf, cxxpp);
     final List<Token> tokens = l.lex("__LINE__");
@@ -665,7 +660,7 @@ public class CxxLexerWithPreprocessingTest {
   public void configuredDefinesOverrideDefaultMacros() {
     CxxConfiguration conf = mock(CxxConfiguration.class);
     when(conf.getDefines()).thenReturn(Arrays.asList("__LINE__ 123"));
-    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, language);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
 
     final Lexer l = CxxLexer.create(conf, cxxpp);
     final List<Token> tokens = l.lex("__LINE__");
@@ -695,16 +690,16 @@ public class CxxLexerWithPreprocessingTest {
 
     final CxxConfiguration conf = new CxxConfiguration();
     conf.setForceIncludeFiles(Collections.singletonList(forceIncludePath));
-    conf.setDefines(new String[] { "__LINE__ 123" });
+    conf.setDefines(new String[]{"__LINE__ 123"});
     conf.setErrorRecoveryEnabled(false);
 
     final SourceCodeProvider provider = mock(SourceCodeProvider.class);
     when(provider.getSourceCodeFile(Mockito.eq(forceIncludePath), Mockito.any(String.class), Mockito.anyBoolean()))
-        .thenReturn(forceIncludeFile);
+      .thenReturn(forceIncludeFile);
     when(provider.getSourceCode(Mockito.eq(forceIncludeFile), Mockito.any(Charset.class)))
-        .thenReturn("#define __LINE__ 345");
+      .thenReturn("#define __LINE__ 345");
 
-    final CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, provider, language);
+    final CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf, provider);
     final Lexer l = CxxLexer.create(conf, cxxpp);
 
     final List<Token> tokens = l.lex("__LINE__\n");

@@ -17,46 +17,20 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.toolkit;
+package org.sonar.plugins.cxx;
 
 import java.util.Collections;
 import java.util.List;
-import org.sonar.api.config.Configuration;
-import org.sonar.cxx.CxxLanguage;
+import org.sonar.api.measures.Metric;
+import org.sonar.api.measures.Metrics;
+import org.sonar.cxx.CxxMetricsFactory;
 
-/**
- *
- * @author jocs
- */
-public class CppLanguage extends CxxLanguage {
-
-  public CppLanguage(Configuration config) {
-    super("c++", "cxx", config);
-  }
+public class CxxMetricDefinition implements Metrics {
 
   @Override
-  public String[] getFileSuffixes() {
-    return new String[]{"cpp", "hpp", "h", "hxx", "cxx"};
+  public List<Metric> getMetrics() {
+    return Collections.unmodifiableList(
+      CxxMetricsFactory.generateList()
+    );
   }
-
-  @Override
-  public String[] getSourceFileSuffixes() {
-    return new String[]{"cpp", "cxx"};
-  }
-
-  @Override
-  public String[] getHeaderFileSuffixes() {
-    return new String[]{"hpp", "h", "hxx"};
-  }
-
-  @Override
-  public List<Class> getChecks() {
-    return Collections.emptyList();
-  }
-
-  @Override
-  public String getRepositoryKey() {
-    return "";
-  }
-
 }

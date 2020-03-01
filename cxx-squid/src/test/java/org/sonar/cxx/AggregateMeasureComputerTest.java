@@ -33,7 +33,7 @@ import org.sonar.api.measures.Metric;
 
 public class AggregateMeasureComputerTest {
 
-  static final Map<CxxMetricsFactory.Key, Metric<?>> METRICS = CxxMetricsFactory.generateMap("c++", "cxx");
+  static final Map<CxxMetricsFactory.Key, Metric<?>> METRICS = CxxMetricsFactory.generateMap();
   static final String KEY = METRICS.get(CxxMetricsFactory.Key.PUBLIC_API_KEY).key();
 
   private static TestMeasureComputerContext createContext(AggregateMeasureComputer aggregator, Component component) {
@@ -44,14 +44,14 @@ public class AggregateMeasureComputerTest {
 
   @Test
   public void metricsNumber() {
-    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer("c++", "cxx");
+    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer();
     assertThat(aggregator.getAggregatedMetrics().length).isEqualTo(19);
   }
 
   @Test
   public void ignoreFiles() {
 
-    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer("c++", "cxx");
+    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer();
 
     TestComponent file = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
     TestMeasureComputerContext context = createContext(aggregator, file);
@@ -64,7 +64,7 @@ public class AggregateMeasureComputerTest {
 
   @Test
   public void ignoreAlreadyAggregatedMetric() {
-    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer("c++", "cxx");
+    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer();
 
     TestComponent module = new TestComponent("module0", Type.MODULE, null);
     TestMeasureComputerContext context = createContext(aggregator, module);
@@ -78,7 +78,7 @@ public class AggregateMeasureComputerTest {
 
   @Test
   public void ignoreIfNothingToAggregate() {
-    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer("c++", "cxx");
+    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer();
 
     TestComponent module = new TestComponent("module0", Type.MODULE, null);
     TestMeasureComputerContext context = createContext(aggregator, module);
@@ -90,7 +90,7 @@ public class AggregateMeasureComputerTest {
 
   @Test
   public void aggregate() {
-    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer("c++", "cxx");
+    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer();
 
     TestComponent module = new TestComponent("module0", Type.MODULE, null);
     TestMeasureComputerContext context = createContext(aggregator, module);

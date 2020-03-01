@@ -32,15 +32,13 @@ public class CxxCppCheckRuleRepositoryTest {
 
   @Test
   public void createRulesTest() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-
     CxxCppCheckRuleRepository def = new CxxCppCheckRuleRepository(
-      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
+      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader());
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxCppCheckRuleRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxCppCheckRuleRepository.KEY);
     assertEquals(523, repo.rules().size());
   }
 

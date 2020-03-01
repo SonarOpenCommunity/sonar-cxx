@@ -31,12 +31,14 @@ import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxHighlighterTest {
 
   private SensorContextTester context;
+  private final MapSettings settings = new MapSettings();
 
   private File target;
 
@@ -47,13 +49,13 @@ public class CxxHighlighterTest {
 
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target)
-            .setContents(content).setCharset(StandardCharsets.UTF_8).build();
+      .setContents(content).setCharset(StandardCharsets.UTF_8).build();
 
     context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
 
     CxxHighlighterVisitor cxxHighlighter = new CxxHighlighterVisitor(context);
-    CxxAstScanner.scanSingleFile(inputFile, context, TestUtils.mockCxxLanguage(), cxxHighlighter);
+    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context, cxxHighlighter);
   }
 
   @Test
@@ -113,7 +115,7 @@ public class CxxHighlighterTest {
     checkOnRange(96, 25, 7, TypeOfText.STRING);
     checkOnRange(97, 25, 6, TypeOfText.STRING);
     checkOnRange(98, 25, 5, TypeOfText.STRING);
-    
+
     // R"(\r\n      Hello World!\r\n   )" issue #1768
     check(103, 14, TypeOfText.STRING);
   }
@@ -130,7 +132,8 @@ public class CxxHighlighterTest {
   @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
   public void comment() {
 
-    check(1, 0, TypeOfText.COMMENT); /*\r\n comment\r\n*/
+    check(1, 0, TypeOfText.COMMENT);
+    /*\r\n comment\r\n*/
     check(3, 1, TypeOfText.COMMENT);
 
     checkOnRange(5, 0, 2, TypeOfText.COMMENT);    //
@@ -139,8 +142,10 @@ public class CxxHighlighterTest {
 
     checkOnRange(57, 22, 10, TypeOfText.COMMENT); // comment
     checkOnRange(58, 3, 10, TypeOfText.COMMENT);  // comment
-    checkOnRange(61, 3, 13, TypeOfText.COMMENT);  /* comment */
-    checkOnRange(64, 20, 13, TypeOfText.COMMENT); /* comment */
+    checkOnRange(61, 3, 13, TypeOfText.COMMENT);
+    /* comment */
+    checkOnRange(64, 20, 13, TypeOfText.COMMENT);
+    /* comment */
   }
 
   @Test
@@ -199,7 +204,8 @@ public class CxxHighlighterTest {
   }
 
   /**
-   * Checks the highlighting of one column. The first column of a line has index 0.
+   * Checks the highlighting of one column. The first column of a line has index
+   * 0.
    */
   private void check(int line, int column, TypeOfText expectedTypeOfText) {
     checkInternal(line, column, "", expectedTypeOfText);

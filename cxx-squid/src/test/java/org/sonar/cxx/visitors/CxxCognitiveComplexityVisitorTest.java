@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
@@ -30,6 +31,8 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxCognitiveComplexityVisitorTest {
+
+  private final MapSettings settings = new MapSettings();
 
   @Test
   public void if_statement() throws UnsupportedEncodingException, IOException {
@@ -153,7 +156,7 @@ public class CxxCognitiveComplexityVisitorTest {
 
   private int testFile(String fileName) throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
-    SourceFile sourceFile = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage());
+    SourceFile sourceFile = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext);
 
     return (sourceFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY));
   }

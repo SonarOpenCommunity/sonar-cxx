@@ -24,7 +24,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -45,51 +44,48 @@ public class CxxCompilerGccSensorTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxCompilerGccSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxCompilerGccSensor.REPORT_PATH_KEY);
-    when(language.getPluginProperty(CxxCompilerGccSensor.REPORT_CHARSET_DEF)).thenReturn("sonar.cxx." + CxxCompilerGccSensor.REPORT_CHARSET_DEF);
-    when(language.getPluginProperty(CxxCompilerGccSensor.REPORT_REGEX_DEF)).thenReturn("sonar.cxx." + CxxCompilerGccSensor.REPORT_REGEX_DEF);
   }
 
   @Test
   public void sensorDescriptorGcc() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxCompilerGccSensor sensor = new CxxCompilerGccSensor(language);
+    CxxCompilerGccSensor sensor = new CxxCompilerGccSensor(settings.asConfig());
     sensor.describe(descriptor);
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CxxCompilerGccSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
     softly.assertThat(descriptor.ruleRepositories())
-      .containsOnly(CxxCompilerGccRuleRepository.getRepositoryKey(language));
+      .containsOnly(CxxCompilerGccRuleRepository.KEY);
     softly.assertAll();
   }
 
   @Test
   public void shouldReportCorrectGccViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCompilerGccSensor.REPORT_PATH_KEY), "compiler-reports/build.gcclog");
+    settings.setProperty(CxxCompilerGccSensor.REPORT_PATH_KEY, "compiler-reports/build.gcclog");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/zipmanager.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerGccSensor(language);
+    CxxCompilerSensor sensor = new CxxCompilerGccSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(4);
   }
 
   @Test
   public void shouldReportCorrectGccViolationsWithOrWithoutIds() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCompilerGccSensor.REPORT_PATH_KEY), "compiler-reports/build-warning-without-id.gcclog");
+    settings.setProperty(CxxCompilerGccSensor.REPORT_PATH_KEY, "compiler-reports/build-warning-without-id.gcclog");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "main.c")
       .setLanguage("c").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerGccSensor(language);
+    CxxCompilerSensor sensor = new CxxCompilerGccSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(2);
     ArrayList<Issue> issuesList = new ArrayList<>(context.allIssues());
     // warning without activation switch (no id) should be mapped to the "default" rule
@@ -97,5 +93,5 @@ public class CxxCompilerGccSensorTest {
     // warning with activation switch should be mapped to the matching rule
     assertThat(issuesList.get(1).ruleKey().rule()).isEqualTo("-Wunused-variable");
   }
-  
+
 }

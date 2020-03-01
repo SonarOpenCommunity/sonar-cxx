@@ -42,26 +42,30 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 
 /**
- * This class is used as base for all sensors which import reports. It hosts common logic such as finding the reports.
+ * This class is used as base for all sensors which import reports. It hosts
+ * common logic such as finding the reports.
  */
 public abstract class CxxReportSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
 
-  private final CxxLanguage language;
+  protected final CxxLanguage language;
+  protected final Configuration settings;
   private final String propertiesKeyPathToReports;
   private final Set<String> notFoundFiles = new HashSet<>();
 
   /**
    * {@inheritDoc}
    */
-  protected CxxReportSensor(CxxLanguage language, String propertiesKeyPathToReports) {
-    this.language = language;
-    this.propertiesKeyPathToReports = language.getPluginProperty(propertiesKeyPathToReports);
+  protected CxxReportSensor(Configuration settings, String propertiesKeyPathToReports) {
+    this.language = new CxxLanguage(settings);
+    this.settings = settings;
+    this.propertiesKeyPathToReports = propertiesKeyPathToReports;
   }
 
   /**
-   * Get string property from configuration. If the string is not set or empty, return the default value.
+   * Get string property from configuration. If the string is not set or empty,
+   * return the default value.
    *
    * @param context sensor context
    * @param name Name of the property
@@ -86,7 +90,7 @@ public abstract class CxxReportSensor implements Sensor {
   @Nullable
   public static String resolveFilename(final String baseDir, @Nullable final String filename) {
 
-    if (filename != null) {
+    if (filename != null && !filename.isEmpty()) {
       // Normalization can return null if path is null, is invalid,
       // or is a path with back-ticks outside known directory structure
       String normalizedPath = FilenameUtils.normalize(filename);
@@ -104,13 +108,15 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   /**
-   * Use the given {@link Configuration} object in order to get a list of Ant patterns referenced by key
-   * <code>reportPathKey</code>. Apply <code>moduleBaseDir</code> in order to make relative Ant patterns to absolute
-   * ones. Resolve Ant patterns and returns the list of existing files.
+   * Use the given {@link Configuration} object in order to get a list of Ant
+   * patterns referenced by key <code>reportPathKey</code>. Apply
+   * <code>moduleBaseDir</code> in order to make relative Ant patterns to
+   * absolute ones. Resolve Ant patterns and returns the list of existing files.
    *
    * @param settings project (module) configuration
    * @param moduleBaseDir project (module) base directory
-   * @param reportPathKey configuration key for the external reports (CSV list of Ant patterns)
+   * @param reportPathKey configuration key for the external reports (CSV list
+   * of Ant patterns)
    * @return List<File> list of report paths
    */
   public static List<File> getReports(Configuration settings, final File moduleBaseDir, String reportPathKey) {
@@ -132,7 +138,7 @@ public abstract class CxxReportSensor implements Sensor {
 
     if (existingReportPaths.length == 0) {
       LOG.warn("Property '{}': cannot find any files matching the Ant pattern(s) '{}'", reportPathKey,
-              String.join(", ", normalizedReportPaths));
+        String.join(", ", normalizedReportPaths));
       return Collections.emptyList();
     }
 
@@ -181,7 +187,7 @@ public abstract class CxxReportSensor implements Sensor {
     } catch (IOException | RuntimeException e) {
       if (LOG.isDebugEnabled()) {
         LOG.debug("Unable to get the real path: module '{}', baseDir '{}', path '{}', exception '{}'",
-                sensorContext.module().key(), sensorContext.fileSystem().baseDir(), path, e.getMessage());
+          sensorContext.module().key(), sensorContext.fileSystem().baseDir(), path, e.getMessage());
       }
       return null;
     }
@@ -198,7 +204,7 @@ public abstract class CxxReportSensor implements Sensor {
     }
 
     return sensorContext.fileSystem()
-            .inputFile(sensorContext.fileSystem().predicates().hasAbsolutePath(realPathString));
+      .inputFile(sensorContext.fileSystem().predicates().hasAbsolutePath(realPathString));
   }
 
   public InputFile getInputFileIfInProject(SensorContext sensorContext, String path) {
@@ -209,7 +215,7 @@ public abstract class CxxReportSensor implements Sensor {
     // 1. try the most generic search predicate first; usually it's the right
     // one
     InputFile inputFile = sensorContext.fileSystem()
-            .inputFile(sensorContext.fileSystem().predicates().hasPath(path));
+      .inputFile(sensorContext.fileSystem().predicates().hasPath(path));
 
     // 2. if there was nothing found, try to normalize the path by means of
     // Path::toRealPath(). This helps if some 3rd party tools obfuscate the
@@ -236,7 +242,7 @@ public abstract class CxxReportSensor implements Sensor {
 
     if (inputFile == null) {
       LOG.warn("Cannot find the file '{}' in module '{}' base dir '{}', skipping violations.",
-              path, sensorContext.module().key(), sensorContext.fileSystem().baseDir());
+        path, sensorContext.module().key(), sensorContext.fileSystem().baseDir());
       notFoundFiles.add(path);
     }
     return inputFile;

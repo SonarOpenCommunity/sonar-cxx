@@ -19,13 +19,11 @@
  */
 package org.sonar.cxx.sensors.other;
 
-import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -33,6 +31,7 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.cxx.CxxLanguage;
+import static org.sonar.cxx.CxxLanguage.ERROR_RECOVERY_KEY;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxOtherSensorTest {
@@ -50,17 +49,15 @@ public class CxxOtherSensorTest {
     fs = TestUtils.mockFileSystem();
 
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxOtherSensor.REPORT_PATH_KEY);
-    when(language.getPluginProperty("other.xslt.1.stylesheet")).thenReturn("");
-    when(language.getPluginProperty("other.xslt.1.inputs")).thenReturn("");
-    when(language.getPluginProperty("other.xslt.1.outputs")).thenReturn("");
+    settings.setProperty("sonar.cxx.other.xslt.1.stylesheet", "");
+    settings.setProperty("sonar.cxx.other.xslt.1.inputs", "");
+    settings.setProperty("sonar.cxx.other.xslt.1.outputs", "");
   }
 
   @Test
   public void shouldReportCorrectViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/externalrules-result-ok.xml");
+    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-ok.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
@@ -68,100 +65,100 @@ public class CxxOtherSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    sensor = new CxxOtherSensor(language);
+    sensor = new CxxOtherSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(2);
   }
 
   @Test
   public void shouldReportFileLevelViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/externalrules-result-filelevelviolation.xml");
+    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-filelevelviolation.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
-    sensor = new CxxOtherSensor(language);
+
+    sensor = new CxxOtherSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(1);
   }
 
   @Test
   public void shouldReportProjectLevelViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/externalrules-result-projectlevelviolation.xml");
+    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-projectlevelviolation.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(language);
+    sensor = new CxxOtherSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(1);
   }
 
   @Test(expected = IllegalStateException.class)
   public void shouldThrowExceptionWhenReportEmpty() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.FALSE));
-
-    settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/externalrules-result-empty.xml");
+    settings.setProperty(ERROR_RECOVERY_KEY, false);
+    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(language);
+    sensor = new CxxOtherSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test
   public void shouldReportNoViolationsIfNoReportFound() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/noreport.xml");
+    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/noreport.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(language);
+    sensor = new CxxOtherSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test(expected = IllegalStateException.class)
   public void shouldThrowInCaseOfATrashyReport() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.FALSE));
-
-    settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/externalrules-result-invalid.xml");
+    settings.setProperty(ERROR_RECOVERY_KEY, false);
+    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(language);
+    sensor = new CxxOtherSensor(settings.asConfig());
     sensor.execute(context);
   }
 
   @Test
   public void shouldReportOnlyOneViolationAndRemoveDuplicates() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxOtherSensor.REPORT_PATH_KEY), "externalrules-reports/externalrules-with-duplicates.xml");
+    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-with-duplicates.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
-    sensor = new CxxOtherSensor(language);
+
+    sensor = new CxxOtherSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(1);
   }
 
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    sensor = new CxxOtherSensor(language);
+    sensor = new CxxOtherSensor(settings.asConfig());
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ExternalRulesSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxOtherRepository.getRepositoryKey(language));
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxOtherRepository.KEY);
     softly.assertAll();
   }
 

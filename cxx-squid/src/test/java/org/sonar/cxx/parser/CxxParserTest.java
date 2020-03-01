@@ -36,10 +36,9 @@ import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
-public class CxxParserTest  {
+public class CxxParserTest {
 
   String errSources = "/parser/bad/error_recovery_declaration.cc";
   String[] goodFiles = {"own", "VC", "GCC", "cli", "cuda", "examples"};
@@ -82,7 +81,7 @@ public class CxxParserTest  {
     conf.setErrorRecoveryEnabled(false);
 
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
-    Parser<Grammar> p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
+    Parser<Grammar> p = CxxParser.create(context, conf);
 
     for (File file : files) {
       when(context.getFile()).thenReturn(file);
@@ -128,7 +127,7 @@ public class CxxParserTest  {
     };
 
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
-    Parser<Grammar> p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
+    Parser<Grammar> p = CxxParser.create(context, conf);
     List<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"});
     for (File file : files) {
       when(context.getFile()).thenReturn(file);
@@ -158,13 +157,13 @@ public class CxxParserTest  {
     CxxConfiguration conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(false);
     conf.setCFilesPatterns(new String[]{""});
-    Parser<Grammar> p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
+    Parser<Grammar> p = CxxParser.create(context, conf);
 
     AstNode root0 = p.parse(cfile);
     assertThat(root0.getNumberOfChildren()).isEqualTo(2);
 
     conf.setCFilesPatterns(new String[]{"*.c"});
-    p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
+    p = CxxParser.create(context, conf);
     AstNode root = p.parse(cfile);
     assertThat(root.getNumberOfChildren()).isEqualTo(2);
   }
@@ -177,7 +176,7 @@ public class CxxParserTest  {
     CxxConfiguration conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(false);
 
-    Parser<Grammar> p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
+    Parser<Grammar> p = CxxParser.create(context, conf);
 
     // The error recovery works, if:
     // - a syntacticly incorrect file causes a parse error when recovery is disabled
@@ -196,7 +195,7 @@ public class CxxParserTest  {
     // - but doesn't cause such an error if we run with default settings
     CxxConfiguration conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(true);
-    Parser<Grammar> p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
+    Parser<Grammar> p = CxxParser.create(context, conf);
     AstNode root = p.parse(erroneousSources); //<-- this shouldn't throw now
     assertThat(root.getNumberOfChildren()).isEqualTo(6);
   }

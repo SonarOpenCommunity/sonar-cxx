@@ -32,16 +32,14 @@ public class CxxPCLintRuleRepositoryTest {
 
   @Test
   public void createRulesTest() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-
     CxxPCLintRuleRepository def = new CxxPCLintRuleRepository(
       mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader(), language);
+      new RulesDefinitionXmlLoader());
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxPCLintRuleRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxPCLintRuleRepository.KEY);
     assertEquals(1851, repo.rules().size());
   }
 

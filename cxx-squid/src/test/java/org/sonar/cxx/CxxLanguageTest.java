@@ -19,13 +19,10 @@
  */
 package org.sonar.cxx;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Before;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import org.junit.Test;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 
 public class CxxLanguageTest {
@@ -41,126 +38,80 @@ public class CxxLanguageTest {
   private static final String SOURCE_SUFFIXES = ".cxx,.cpp,.cc,.c";
   private static final String HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
 
-  private MapSettings settings;
-
-  @Before
-  public void setUp() {
-    settings = new MapSettings();
-  }
+  private final MapSettings settings = new MapSettings();
 
   @Test
   public void testCxxLanguageStringConfiguration() throws Exception {
-    CppLanguage language = new CppLanguage(settings.asConfig());
+    CxxLanguage language = new CxxLanguage(settings.asConfig());
     assertThat(language.getKey()).isEqualTo(KEY);
   }
 
   @Test
   public void testGetSourceFileSuffixes() throws Exception {
-    CppLanguage language = new CppLanguage(settings.asConfig());
+    CxxLanguage language = new CxxLanguage(settings.asConfig());
     assertThat(language.getSourceFileSuffixes()).isEqualTo(SOURCE_SUFFIXES.split(","));
   }
 
   @Test
   public void testGetHeaderFileSuffixes() throws Exception {
-    CppLanguage language = new CppLanguage(settings.asConfig());
+    CxxLanguage language = new CxxLanguage(settings.asConfig());
     assertThat(language.getHeaderFileSuffixes()).isEqualTo(HEADER_SUFFIXES.split(","));
   }
 
   @Test
-  public void testGetPropertiesKey() throws Exception {
-    CppLanguage language = new CppLanguage(settings.asConfig());
-    assertThat(language.getPropertiesKey()).isEqualTo(PLUGIN_ID);
+  public void shouldReturnConfiguredFileSuffixes() {
+    settings.setProperty("sonar.cxx.suffixes.sources", ".C,.c");
+    settings.setProperty("sonar.cxx.suffixes.headers", ".H,.h");
+    CxxLanguage cxx = new CxxLanguage(settings.asConfig());
+
+    String[] expected = {".C", ".c", ".H", ".h"};
+    String[] expectedSources = {".C", ".c"};
+    String[] expectedHeaders = {".H", ".h"};
+
+    assertThat(cxx.getFileSuffixes(), is(expected));
+    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
+    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
   }
 
   @Test
-  public void testGetChecks() throws Exception {
-    CppLanguage language = new CppLanguage(settings.asConfig());
-    assertThat(language.getChecks()).isEmpty();
+  public void shouldReturnDefaultFileSuffixes() {
+    CxxLanguage cxx = new CxxLanguage(settings.asConfig());
+
+    String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};
+    String[] expectedHeaders = {".hxx", ".hpp", ".hh", ".h"};
+    String[] expectedAll = {".cxx", ".cpp", ".cc", ".c", ".hxx", ".hpp", ".hh", ".h"};
+
+    assertThat(cxx.getFileSuffixes(), is(expectedAll));
+    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
+    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
   }
 
   @Test
-  public void testGetRepositoryKey() throws Exception {
-    CppLanguage language = new CppLanguage(settings.asConfig());
-    assertThat(language.getPropertiesKey()).isEqualTo(PLUGIN_ID);
+  public void shouldReturnConfiguredSourceSuffixes() {
+    settings.setProperty("sonar.cxx.suffixes.sources", ".C,.c");
+    CxxLanguage cxx = new CxxLanguage(settings.asConfig());
+
+    String[] expectedSources = {".C", ".c"};
+    String[] expectedHeaders = {".hxx", ".hpp", ".hh", ".h"};
+    String[] expectedAll = {".C", ".c", ".hxx", ".hpp", ".hh", ".h"};
+
+    assertThat(cxx.getFileSuffixes(), is(expectedAll));
+    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
+    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
   }
 
   @Test
-  public void testGetRepositorySuffix() throws Exception {
-    CppLanguage language = new CppLanguage(settings.asConfig());
-    assertThat(language.getRepositorySuffix()).isEqualTo("");
-  }
+  public void shouldReturnConfiguredHeaderSuffixes() {
+    settings.setProperty("sonar.cxx.suffixes.headers", ".H,.h");
+    CxxLanguage cxx = new CxxLanguage(settings.asConfig());
 
-  @Test
-  public void testGetPluginProperty() throws Exception {
-    CppLanguage language = new CppLanguage(settings.asConfig());
-    assertThat(language.getPropertiesKey()).isEqualTo(PLUGIN_ID);
-  }
+    String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};
+    String[] expectedHeaders = {".H", ".h"};
+    String[] expectedAll = {".cxx", ".cpp", ".cc", ".c", ".H", ".h"};
 
-  @Test
-  public void testIsRecoveryEnabled() throws Exception {
-    CppLanguage language = new CppLanguage(settings.asConfig());
-    assertThat(language.getBooleanOption("sonar.cxx.errorRecoveryEnabled")).isEqualTo(Optional.empty());
-  }
-
-  @Test
-  public void testHasKey() throws Exception {
-    CppLanguage language = new CppLanguage(settings.asConfig());
-    assertThat(language.hasKey("sonar.cxx.errorRecoveryEnabled")).isEqualTo(Boolean.FALSE);
-  }
-
-  private class CppLanguage extends CxxLanguage {
-
-    private final String[] sourceSuffixes;
-    private final String[] headerSuffixes;
-    private final String[] fileSuffixes;
-
-    public CppLanguage(Configuration settings) {
-      super(KEY, NAME, PLUGIN_ID, settings);
-
-      sourceSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.sources"), SOURCE_SUFFIXES);
-      headerSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.headers"), HEADER_SUFFIXES);
-      fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
-    }
-
-    @Override
-    public String[] getFileSuffixes() {
-      return fileSuffixes.clone();
-    }
-
-    @Override
-    public String[] getSourceFileSuffixes() {
-      return sourceSuffixes.clone();
-    }
-
-    @Override
-    public String[] getHeaderFileSuffixes() {
-      return headerSuffixes.clone();
-    }
-
-    @Override
-    public List<Class> getChecks() {
-      return new ArrayList<>();
-    }
-
-    private String[] createStringArray(String[] values, String defaultValues) {
-      if (values.length == 0) {
-        return defaultValues.split(",");
-      }
-      return values;
-    }
-
-    private String[] mergeArrays(String[] array1, String[] array2) {
-      String[] result = new String[array1.length + array2.length];
-      System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
-      System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);
-      return result;
-    }
-
-    @Override
-    public String getRepositoryKey() {
-      return PLUGIN_ID;
-
-    }
+    assertThat(cxx.getFileSuffixes(), is(expectedAll));
+    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
+    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
   }
 
 }

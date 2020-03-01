@@ -24,9 +24,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -37,8 +37,8 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxCompilerSensor.class);
 
-  protected CxxCompilerSensor(CxxLanguage language, String propertiesKeyPathToReports, String ruleRepositoryKey) {
-    super(language, propertiesKeyPathToReports, ruleRepositoryKey);
+  protected CxxCompilerSensor(Configuration settings, String propertiesKeyPathToReports, String ruleRepositoryKey) {
+    super(settings, propertiesKeyPathToReports, ruleRepositoryKey);
   }
 
   @Override
@@ -106,10 +106,9 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
 
   /**
    * Derived classes can overload this method
-   * 
-   * A valid issue must have an id 
-   * and, if it has a line number, a filename.
-   * 
+   *
+   * A valid issue must have an id and, if it has a line number, a filename.
+   *
    *
    * @param filename
    * @param line
@@ -117,15 +116,15 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
    * @param msg
    * @return true, if valid
    */
-	protected boolean isInputValid(String filename, String line, String id, String msg) {
-		if ((id == null) || id.isEmpty()) {
-			return false;
-		}
-		if ((line != null) && !line.isEmpty() && ((filename == null) || filename.isEmpty())) {
-			return false;
-		}
-		return true;
-	}
+  protected boolean isInputValid(String filename, String line, String id, String msg) {
+    if ((id == null) || id.isEmpty()) {
+      return false;
+    }
+    if ((line != null) && !line.isEmpty() && ((filename == null) || filename.isEmpty())) {
+      return false;
+    }
+    return true;
+  }
 
   /**
    * Derived classes can overload this method to align filename

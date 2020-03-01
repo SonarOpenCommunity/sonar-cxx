@@ -39,17 +39,18 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxFileLinesVisitorTest {
 
   private CxxLanguage language;
+  private final MapSettings settings = new MapSettings();
   private FileLinesContextFactory fileLinesContextFactory;
 
   private FileLinesContextForTesting fileLinesContext;
@@ -63,8 +64,6 @@ public class CxxFileLinesVisitorTest {
     fileLinesContextFactory = mock(FileLinesContextFactory.class);
     fileLinesContext = new FileLinesContextForTesting();
 
-    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY))
-      .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
     baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
     target = new File(baseDir, "ncloc.cc");
 
@@ -86,9 +85,9 @@ public class CxxFileLinesVisitorTest {
 
     when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
 
-    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(language, fileLinesContextFactory, sensorContext);
+    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, sensorContext);
 
-    CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
+    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, sensorContext, visitor);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(fileLinesContext.linesOfCode).containsExactlyInAnyOrderElementsOf(testLines);
@@ -107,9 +106,9 @@ public class CxxFileLinesVisitorTest {
 
     when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
 
-    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(language, fileLinesContextFactory, sensorContext);
+    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, sensorContext);
 
-    CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
+    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, sensorContext, visitor);
 
     assertThat(fileLinesContext.linesOfComments).containsExactlyInAnyOrder(48, 1, 33, 97, 35, 117, 102, 7, 119, 106, 13);
   }
@@ -127,9 +126,9 @@ public class CxxFileLinesVisitorTest {
 
     when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
 
-    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(language, fileLinesContextFactory, sensorContext);
+    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, sensorContext);
 
-    CxxAstScanner.scanSingleFile(inputFile, sensorContext, TestUtils.mockCxxLanguage(), visitor);
+    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, sensorContext, visitor);
 
     assertThat(fileLinesContext.executableLines).containsExactlyInAnyOrder(10, 26, 34, 35, 56, 59, 69, 70, 72, 73,
       75, 76, 79, 87, 90, 98, 102, 118, 119, 126);

@@ -19,16 +19,13 @@
  */
 package org.sonar.cxx.sensors.clangsa;
 
+import com.google.common.collect.Iterables;
 import java.util.Collections;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.apache.commons.lang.RandomStringUtils;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
@@ -40,10 +37,9 @@ import org.sonar.api.batch.sensor.issue.IssueLocation;
 import org.sonar.api.batch.sensor.measure.Measure;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
+import static org.sonar.cxx.CxxLanguage.ERROR_RECOVERY_KEY;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.TestUtils;
-
-import com.google.common.collect.Iterables;
 
 public class CxxClangSASensorTest {
 
@@ -55,27 +51,25 @@ public class CxxClangSASensorTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxClangSASensor.REPORT_PATH_KEY);
-    when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
+    settings.setProperty(ERROR_RECOVERY_KEY, true);
   }
 
   @Test
   public void shouldIgnoreIssuesIfResourceNotFound() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY), "clangsa-reports/clangsa-empty.plist");
+    settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-empty.plist");
     context.setSettings(settings);
 
-    CxxClangSASensor sensor = new CxxClangSASensor(language);
+    CxxClangSASensor sensor = new CxxClangSASensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY), "clangsa-reports/clangsa-report.plist");
+    settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-report.plist");
     context.setSettings(settings);
 
     /*
@@ -92,16 +86,16 @@ public class CxxClangSASensorTest {
     context.fileSystem().add(testFile0);
     context.fileSystem().add(testFile1);
 
-    CxxClangSASensor sensor = new CxxClangSASensor(language);
+    CxxClangSASensor sensor = new CxxClangSASensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(3);
   }
 
   @Test
   public void shouldReportCorrectMetrics() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY), "clangsa-reports/clangsa-report.plist");
+    settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-report.plist");
     context.setSettings(settings);
 
     /*
@@ -118,7 +112,7 @@ public class CxxClangSASensorTest {
     context.fileSystem().add(testFile0);
     context.fileSystem().add(testFile1);
 
-    CxxClangSASensor sensor = new CxxClangSASensor(language);
+    CxxClangSASensor sensor = new CxxClangSASensor(settings.asConfig());
     sensor.execute(context);
 
     // assert that the files were annotated with a new measurement (metric) for
@@ -147,26 +141,25 @@ public class CxxClangSASensorTest {
   @Test
   public void shouldReportCorrectFlows() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY),
-        "clangsa-reports/clangsa-report.plist");
+    settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY,
+      "clangsa-reports/clangsa-report.plist");
     context.setSettings(settings);
 
     /*
      * 2 issues
      */
     DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cpp")
-        .setContents(generateTestFileContents(100, 80)).build();
+      .setContents(generateTestFileContents(100, 80)).build();
     /*
      * 1 issue
      */
     DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cpp")
-        .setContents(generateTestFileContents(100, 80)).build();
+      .setContents(generateTestFileContents(100, 80)).build();
 
     context.fileSystem().add(testFile0);
     context.fileSystem().add(testFile1);
 
-    CxxClangSASensor sensor = new CxxClangSASensor(language);
+    CxxClangSASensor sensor = new CxxClangSASensor(settings.asConfig());
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(3);
@@ -211,28 +204,28 @@ public class CxxClangSASensorTest {
   @Test
   public void invalidReportReportsNoIssues() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxClangSASensor.REPORT_PATH_KEY), "clangsa-reports/clangsa-reportXYZ.plist");
+    settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-reportXYZ.plist");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxClangSASensor sensor = new CxxClangSASensor(language);
+    CxxClangSASensor sensor = new CxxClangSASensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxClangSASensor sensor = new CxxClangSASensor(language);
+    CxxClangSASensor sensor = new CxxClangSASensor(settings.asConfig());
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ClangSASensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangSARuleRepository.getRepositoryKey(language));
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangSARuleRepository.KEY);
     softly.assertAll();
   }
 

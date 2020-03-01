@@ -22,6 +22,7 @@ package org.sonar.cxx.checks.file;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import org.junit.Test;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -31,6 +32,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class TabCharacterCheckTest {
 
   private final TabCharacterCheck check = new TabCharacterCheck();
+  private final MapSettings settings = new MapSettings();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
@@ -38,7 +40,7 @@ public class TabCharacterCheckTest {
     check.createLineViolation = false;
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Replace all tab characters in this file by sequences of white-spaces.")
@@ -50,7 +52,7 @@ public class TabCharacterCheckTest {
   public void fileWithTabsOneMessagePerLine() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = true;
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Replace all tab characters in this line by sequences of white-spaces.")
@@ -63,7 +65,7 @@ public class TabCharacterCheckTest {
   public void fileWithoutTabs() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = false;
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/NonEmptyFile.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();

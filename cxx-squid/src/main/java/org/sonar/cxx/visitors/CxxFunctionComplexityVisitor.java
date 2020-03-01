@@ -21,9 +21,9 @@ package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
@@ -41,8 +41,8 @@ public class CxxFunctionComplexityVisitor<G extends Grammar> extends SquidAstVis
   private int complexFunctions;
   private int complexFunctionsLoc;
 
-  public CxxFunctionComplexityVisitor(CxxLanguage language) {
-    this.cyclomaticComplexityThreshold = language.getIntegerOption(FUNCTION_COMPLEXITY_THRESHOLD_KEY).orElse(10);
+  public CxxFunctionComplexityVisitor(Configuration settings) {
+    this.cyclomaticComplexityThreshold = settings.getInt(FUNCTION_COMPLEXITY_THRESHOLD_KEY).orElse(10);
     if (LOG.isDebugEnabled()) {
       LOG.debug("Cyclomatic complexity threshold: " + this.cyclomaticComplexityThreshold);
     }

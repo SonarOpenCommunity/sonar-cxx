@@ -42,10 +42,10 @@ public class CxxMetricsTest {
 
   @Test
   public void getMetricsTest() {
-    List<Metric> list = CxxMetricsFactory.generateList(language.getKey(), language.getPropertiesKey());
+    List<Metric> list = CxxMetricsFactory.generateList();
     assertThat(list.size()).isEqualTo(24);
 
-    Map<CxxMetricsFactory.Key, Metric<?>> map = CxxMetricsFactory.generateMap(language.getKey(), language.getPropertiesKey());
+    Map<CxxMetricsFactory.Key, Metric<?>> map = CxxMetricsFactory.generateMap();
     assertThat(map.size()).isEqualTo(24);
   }
 
@@ -64,7 +64,7 @@ public class CxxMetricsTest {
   public class CxxLanguageImpl extends CxxLanguage {
 
     public CxxLanguageImpl(Configuration settings) {
-      super("c++", "c++", "cxx", settings);
+      super(settings);
     }
 
     @Override
@@ -80,16 +80,6 @@ public class CxxMetricsTest {
     @Override
     public String[] getHeaderFileSuffixes() {
       return new String[]{};
-    }
-
-    @Override
-    public List<Class> getChecks() {
-      return new ArrayList<>();
-    }
-
-    @Override
-    public String getRepositoryKey() {
-      return "cxx";
     }
 
   }

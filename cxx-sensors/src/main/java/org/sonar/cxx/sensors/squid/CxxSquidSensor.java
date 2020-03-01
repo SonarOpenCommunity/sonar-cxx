@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
@@ -35,6 +37,7 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContextFactory;
@@ -47,6 +50,7 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.checks.CheckList;
 import org.sonar.cxx.checks.error.MissingIncludeFileCheck;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
@@ -68,22 +72,23 @@ import org.sonar.squidbridge.indexer.QueryByType;
  */
 public class CxxSquidSensor implements Sensor {
 
-  public static final String DEFINES_KEY = "defines";
-  public static final String INCLUDE_DIRECTORIES_KEY = "includeDirectories";
-  public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
-  public static final String FORCE_INCLUDE_FILES_KEY = "forceIncludes";
-  public static final String C_FILES_PATTERNS_KEY = "cFilesPatterns";
-  public static final String JSON_COMPILATION_DATABASE_KEY = "jsonCompilationDatabase";
+  public static final String DEFINES_KEY = "sonar.cxx.defines";
+  public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
+  public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
+  public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
+  public static final String C_FILES_PATTERNS_KEY = "sonar.cxx.cFilesPatterns";
+  public static final String JSON_COMPILATION_DATABASE_KEY = "sonar.cxx.jsonCompilationDatabase";
 
   /**
-   * the following settings are in use by the feature to read configuration settings from the VC compiler report
+   * the following settings are in use by the feature to read configuration
+   * settings from the VC compiler report
    */
-  public static final String REPORT_PATH_KEY = "msbuild.reportPath";
-  public static final String REPORT_CHARSET_DEF = "msbuild.charset";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.msbuild.reportPath";
+  public static final String REPORT_CHARSET_DEF = "sonar.cxx.msbuild.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
 
-  public static final String CPD_IGNORE_LITERALS_KEY = "cpd.ignoreLiterals";
-  public static final String CPD_IGNORE_IDENTIFIERS_KEY = "cpd.ignoreIdentifiers";
+  public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.cpd.ignoreLiterals";
+  public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
 
   public static final String KEY = "Squid";
   private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
@@ -93,31 +98,33 @@ public class CxxSquidSensor implements Sensor {
   private final NoSonarFilter noSonarFilter;
 
   private final CxxLanguage language;
+  private final Configuration settings;
 
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(CxxLanguage language,
+  public CxxSquidSensor(Configuration settings,
     FileLinesContextFactory fileLinesContextFactory,
     CheckFactory checkFactory,
     NoSonarFilter noSonarFilter) {
-    this(language, fileLinesContextFactory, checkFactory, noSonarFilter, null);
+    this(settings, fileLinesContextFactory, checkFactory, noSonarFilter, null);
   }
 
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(CxxLanguage language,
+  public CxxSquidSensor(Configuration settings,
     FileLinesContextFactory fileLinesContextFactory,
     CheckFactory checkFactory,
     NoSonarFilter noSonarFilter,
     @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
+    this.settings = settings;
+    this.language = new CxxLanguage(settings);
     this.checks = CxxChecks.createCxxCheck(checkFactory)
-      .addChecks(language.getRepositoryKey(), language.getChecks())
+      .addChecks("cxx", CheckList.getChecks())
       .addCustomChecks(customRulesDefinition);
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.noSonarFilter = noSonarFilter;
-    this.language = language;
   }
 
   @Override
@@ -136,17 +143,17 @@ public class CxxSquidSensor implements Sensor {
 
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     visitors.add(new CxxHighlighterVisitor(context));
-    visitors.add(new CxxFileLinesVisitor(language, fileLinesContextFactory, context));
+    visitors.add(new CxxFileLinesVisitor(this.settings, fileLinesContextFactory, context));
 
     visitors.add(
       new CxxCpdVisitor(
         context,
-        this.language.getBooleanOption(CPD_IGNORE_LITERALS_KEY).orElse(Boolean.FALSE),
-        this.language.getBooleanOption(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
+        this.settings.getBoolean(CPD_IGNORE_LITERALS_KEY).orElse(Boolean.FALSE),
+        this.settings.getBoolean(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
 
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     cxxConf.setCollectMissingIncludes(visitors.stream().anyMatch(v -> v instanceof MissingIncludeFileCheck));
-    AstScanner<Grammar> scanner = CxxAstScanner.create(this.language, cxxConf,
+    AstScanner<Grammar> scanner = CxxAstScanner.create(this.settings, cxxConf,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
     Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
@@ -170,25 +177,34 @@ public class CxxSquidSensor implements Sensor {
     return getClass().getSimpleName();
   }
 
+  private String[] getStringLinesOption(String key) {
+    Pattern EOL_PATTERN = Pattern.compile("\\R");
+    Optional<String> value = this.settings.get(key);
+    if (value.isPresent()) {
+      return EOL_PATTERN.split(value.get(), -1);
+    }
+    return new String[0];
+  }
+
   private CxxConfiguration createConfiguration(FileSystem fs, SensorContext context) {
     CxxConfiguration cxxConf = new CxxConfiguration(fs);
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
-    String[] lines = this.language.getStringLinesOption(DEFINES_KEY);
+    String[] lines = getStringLinesOption(DEFINES_KEY);
     cxxConf.setDefines(lines);
-    cxxConf.setIncludeDirectories(this.language.getStringArrayOption(INCLUDE_DIRECTORIES_KEY));
-    cxxConf.setErrorRecoveryEnabled(this.language.getBooleanOption(ERROR_RECOVERY_KEY).orElse(Boolean.FALSE));
-    cxxConf.setForceIncludeFiles(this.language.getStringArrayOption(FORCE_INCLUDE_FILES_KEY));
-    // FIXME this.language.getStringArrayOption(C_FILES_PATTERNS_KEY) must be fixed
+    cxxConf.setIncludeDirectories(this.settings.getStringArray(INCLUDE_DIRECTORIES_KEY));
+    cxxConf.setErrorRecoveryEnabled(this.settings.getBoolean(ERROR_RECOVERY_KEY).orElse(Boolean.FALSE));
+    cxxConf.setForceIncludeFiles(this.settings.getStringArray(FORCE_INCLUDE_FILES_KEY));
+    // FIXME this.settings.getStringArray(C_FILES_PATTERNS_KEY) must be fixed
     // 1. it doesn't match C plugin (C_FILES_PATTERNS_KEY) as key makes sense
     //    for C++ plugin only
-    // 2. event for C++ plugin this.language.getStringArrayOption(...) works wrong:
+    // 2. event for C++ plugin this.settings.getStringArray(...) works wrong:
     //    it returns empty string if property is not set, but it have to return the
     //    default value instead
     //    For proper implemenation see CppLanguage::CppLanguage()
     //    or createStringArray(settings.getStringArray(C_FILES_PATTERNS_KEY), DEFAULT_C_FILES)
-    cxxConf.setCFilesPatterns(this.language.getStringArrayOption(C_FILES_PATTERNS_KEY));
+    cxxConf.setCFilesPatterns(this.settings.getStringArray(C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(this.language.getHeaderFileSuffixes());
-    cxxConf.setJsonCompilationDatabaseFile(this.language.getStringOption(JSON_COMPILATION_DATABASE_KEY)
+    cxxConf.setJsonCompilationDatabaseFile(this.settings.get(JSON_COMPILATION_DATABASE_KEY)
       .orElse(null));
 
     if (cxxConf.getJsonCompilationDatabaseFile() != null) {
@@ -199,13 +215,12 @@ public class CxxSquidSensor implements Sensor {
       }
     }
 
-    final String[] buildLogPaths = language.getStringArrayOption(REPORT_PATH_KEY);
+    final String[] buildLogPaths = this.settings.getStringArray(REPORT_PATH_KEY);
     final boolean buildLogPathsDefined = buildLogPaths != null && buildLogPaths.length != 0;
     if (buildLogPathsDefined) {
-      List<File> reports = CxxReportSensor.getReports(context.config(), fs.baseDir(),
-        this.language.getPluginProperty(REPORT_PATH_KEY));
+      List<File> reports = CxxReportSensor.getReports(context.config(), fs.baseDir(), REPORT_PATH_KEY);
       cxxConf.setCompilationPropertiesWithBuildLog(reports, "Visual C++",
-        this.language.getStringOption(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF));
+        this.settings.get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF));
     }
 
     return cxxConf;
@@ -239,10 +254,10 @@ public class CxxSquidSensor implements Sensor {
   }
 
   private void saveMeasures(InputFile inputFile, SourceFile squidFile, SensorContext context) {
-    
+
     // NOSONAR
     noSonarFilter.noSonarInFile(inputFile, squidFile.getNoSonarTagLines());
-    
+
     // CORE METRICS
     context.<Integer>newMeasure().forMetric(CoreMetrics.NCLOC).on(inputFile)
       .withValue(squidFile.getInt(CxxMetric.LINES_OF_CODE)).save();
@@ -300,7 +315,7 @@ public class CxxSquidSensor implements Sensor {
           line = message.getLine();
         }
 
-        NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(this.language.getRepositoryKey(),
+        NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of("cxx",
           checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()).rule()));
         NewIssueLocation location = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
           .message(message.getText(Locale.ENGLISH));
@@ -314,7 +329,7 @@ public class CxxSquidSensor implements Sensor {
     if (MultiLocatitionSquidCheck.hasMultiLocationCheckMessages(squidFile)) {
       for (CxxReportIssue issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(squidFile)) {
         final NewIssue newIssue = sensorContext.newIssue()
-          .forRule(RuleKey.of(language.getRepositoryKey(), issue.getRuleId()));
+          .forRule(RuleKey.of("cxx", issue.getRuleId()));
         int locationNr = 0;
         for (CxxReportLocation location : issue.getLocations()) {
           final Integer line = Integer.valueOf(location.getLine());

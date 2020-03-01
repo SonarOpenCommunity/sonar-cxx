@@ -29,8 +29,9 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.Configuration;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.LogTester;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -40,16 +41,15 @@ public class CxxCompilerSensorTest {
   public LogTester logTester = new LogTester();
 
   private DefaultFileSystem fs;
-  private CxxLanguage language;
   SensorContextTester context;
   CxxCompilerSensorMock sensor;
+  private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
     context = SensorContextTester.create(fs.baseDir());
-    sensor = new CxxCompilerSensorMock(language);
+    sensor = new CxxCompilerSensorMock(settings.asConfig());
   }
 
   @Test
@@ -91,8 +91,8 @@ public class CxxCompilerSensorTest {
 
     private String regex = "";
 
-    public CxxCompilerSensorMock(CxxLanguage language) {
-      super(language, "cxx.reportPath", "cxx.XXX");
+    public CxxCompilerSensorMock(Configuration settings) {
+      super(settings, "cxx.reportPath", "cxx.XXX");
     }
 
     @Override

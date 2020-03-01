@@ -25,6 +25,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -35,12 +36,14 @@ import org.sonar.squidbridge.api.SourceFile;
 
 public class FunctionComplexityCheckTest {
 
+  private final MapSettings settings = new MapSettings();
+
   @Test
   public void check() throws UnsupportedEncodingException, IOException {
     FunctionComplexityCheck check = new FunctionComplexityCheck();
     check.setMaxComplexity(5);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionComplexity.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
 
     Set<CxxReportIssue> issues = MultiLocatitionSquidCheck.getMultiLocationCheckMessages(file);
     assertThat(issues).isNotNull();

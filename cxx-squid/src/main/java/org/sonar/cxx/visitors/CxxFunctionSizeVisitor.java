@@ -21,9 +21,9 @@ package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
@@ -41,8 +41,8 @@ public class CxxFunctionSizeVisitor<G extends Grammar> extends SquidAstVisitor<G
   private int bigFunctionsLoc;
   private int totalLoc;
 
-  public CxxFunctionSizeVisitor(CxxLanguage language) {
-    this.sizeThreshold = language.getIntegerOption(FUNCTION_SIZE_THRESHOLD_KEY).orElse(20);
+  public CxxFunctionSizeVisitor(Configuration settings) {
+    this.sizeThreshold = settings.getInt(FUNCTION_SIZE_THRESHOLD_KEY).orElse(20);
     if (LOG.isDebugEnabled()) {
       LOG.debug("Function size threshold: " + this.sizeThreshold);
     }

@@ -23,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -43,33 +42,33 @@ public class CxxRatsSensorTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxRatsSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxRatsSensor.REPORT_PATH_KEY);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxRatsSensor.REPORT_PATH_KEY), "rats-reports/rats-result-*.xml");
+    settings.setProperty(CxxRatsSensor.REPORT_PATH_KEY, "rats-reports/rats-result-*.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "report.c").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
-    sensor = new CxxRatsSensor(language);
+
+    sensor = new CxxRatsSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(5);
   }
 
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    sensor = new CxxRatsSensor(language);
+    sensor = new CxxRatsSensor(settings.asConfig());
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " RatsSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxRatsRuleRepository.getRepositoryKey(language));
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxRatsRuleRepository.KEY);
     softly.assertAll();
   }
 

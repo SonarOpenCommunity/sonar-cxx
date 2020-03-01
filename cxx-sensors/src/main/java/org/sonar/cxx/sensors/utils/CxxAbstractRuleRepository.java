@@ -44,7 +44,6 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
   private final ServerFileSystem fileSystem;
   private final RulesDefinitionXmlLoader xmlRuleLoader;
-  private final CxxLanguage language;
   protected final String repositoryKey;
   protected final String repositoryName;
 
@@ -55,23 +54,17 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     ServerFileSystem fileSystem,
     RulesDefinitionXmlLoader xmlRuleLoader,
     String key,
-    String name,
-    CxxLanguage language) {
+    String name) {
     this.fileSystem = fileSystem;
     this.xmlRuleLoader = xmlRuleLoader;
-    this.repositoryKey = getRepositoryKey(key, language);
+    this.repositoryKey = key;
     this.repositoryName = name;
-    this.language = language;
-  }
-
-  public static String getRepositoryKey(String key, CxxLanguage lang) {
-    return key + lang.getRepositorySuffix();
   }
 
   @Override
   public void define(Context context) {
     Charset charset = StandardCharsets.UTF_8;
-    NewRepository repository = context.createRepository(repositoryKey, this.language.getKey()).setName(repositoryName);
+    NewRepository repository = context.createRepository(repositoryKey, CxxLanguage.KEY).setName(repositoryName);
 
     RulesDefinitionXmlLoader xmlLoader = new RulesDefinitionXmlLoader();
     if (!"".equals(fileName())) {

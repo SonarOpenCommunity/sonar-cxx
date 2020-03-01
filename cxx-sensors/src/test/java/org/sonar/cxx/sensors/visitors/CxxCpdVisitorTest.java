@@ -33,19 +33,18 @@ import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.cpd.internal.TokensLine;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCpdVisitorTest {
 
   private SensorContextTester context;
   private DefaultInputFile inputFile;
-  private CxxLanguage language;
+  private final MapSettings settings = new MapSettings();
 
   @Before
   public void scanFile() throws UnsupportedEncodingException, IOException {
-    language = TestUtils.mockCxxLanguage();
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
     File target = new File(baseDir, "cpd.cc");
 
@@ -57,7 +56,7 @@ public class CxxCpdVisitorTest {
     context.fileSystem().add(inputFile);
 
     CxxCpdVisitor cxxCpdVisitor = new CxxCpdVisitor(context, true, true);
-    CxxAstScanner.scanSingleFile(inputFile, context, language, cxxCpdVisitor);
+    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context, cxxCpdVisitor);
   }
 
   @Test

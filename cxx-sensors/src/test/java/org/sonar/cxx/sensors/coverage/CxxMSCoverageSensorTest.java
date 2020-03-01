@@ -23,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -44,14 +43,12 @@ public class CxxMSCoverageSensorTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
   }
 
   @Test
   public void shouldReportCorrectCoverage() {
     context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/MSCoverage/MSCoverage.xml");
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/MSCoverage.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
@@ -59,7 +56,7 @@ public class CxxMSCoverageSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/rootfinder/rootfinder.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
     sensor.execute(context);
 
     int[] oneHitlinesA = new int[]{12, 14, 16, 19, 20, 21, 23, 25, 26, 27, 28};
@@ -76,25 +73,23 @@ public class CxxMSCoverageSensorTest {
   @Test
   public void shouldConsumeEmptyReport() {
     context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY), "coverage-reports/MSCoverage/empty-report.xml");
-    context.setSettings(settings);
-
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/empty-report.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context);
-    assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", 1)).isNull();
 
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    sensor.execute(context);
+
+    assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", 1)).isNull();
   }
 
   @Test
   public void sensorDescriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
     context = SensorContextTester.create(fs.baseDir());
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();

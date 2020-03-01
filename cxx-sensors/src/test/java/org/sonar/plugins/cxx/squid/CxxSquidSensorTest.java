@@ -22,13 +22,11 @@ package org.sonar.plugins.cxx.squid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.util.Files;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.ArgumentMatchers.same;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 import org.sonar.api.batch.fs.InputFile;
@@ -37,6 +35,7 @@ import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
@@ -44,7 +43,6 @@ import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetricsFactory;
-import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
@@ -54,6 +52,7 @@ public class CxxSquidSensorTest {
 
   private CxxSquidSensor sensor;
   private CxxLanguage language;
+  private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
@@ -63,11 +62,9 @@ public class CxxSquidSensorTest {
     FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);
     FileLinesContext fileLinesContext = mock(FileLinesContext.class);
     when(fileLinesContextFactory.createFor(Mockito.any(InputFile.class))).thenReturn(fileLinesContext);
-    when(language.getPluginProperty(CxxCoverageSensor.REPORT_PATH_KEY))
-      .thenReturn("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY);
 
     sensor = new CxxSquidSensor(
-      language,
+      settings.asConfig(),
       fileLinesContextFactory,
       checkFactory,
       new NoSonarFilter(),
@@ -96,13 +93,13 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testComplexitySquidMetrics() throws IOException {
-    when(this.language.getIntegerOption(same(CxxFunctionComplexityVisitor.FUNCTION_COMPLEXITY_THRESHOLD_KEY))).thenReturn(Optional.of(3));
-    when(this.language.getIntegerOption(same(CxxFunctionSizeVisitor.FUNCTION_SIZE_THRESHOLD_KEY))).thenReturn(Optional.of(3));
-
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/complexity-project");
-    DefaultInputFile inputFile = buildTestInputFile(baseDir, "complexity.cc");
-
     SensorContextTester context = SensorContextTester.create(baseDir);
+    settings.setProperty(CxxFunctionComplexityVisitor.FUNCTION_COMPLEXITY_THRESHOLD_KEY, 3);
+    settings.setProperty(CxxFunctionSizeVisitor.FUNCTION_SIZE_THRESHOLD_KEY, 3);
+    context.setSettings(settings);
+
+    DefaultInputFile inputFile = buildTestInputFile(baseDir, "complexity.cc");
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
@@ -166,11 +163,12 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testReplacingOfExtenalMacros() throws IOException {
-    when(this.language.getStringLinesOption(CxxSquidSensor.DEFINES_KEY)).thenReturn(new String[]{"MACRO class A{};"});
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/external-macro-project");
-    DefaultInputFile inputFile = buildTestInputFile(baseDir, "test.cc");
-
     SensorContextTester context = SensorContextTester.create(baseDir);
+    settings.setProperty(CxxSquidSensor.DEFINES_KEY, "MACRO class A{};");
+    context.setSettings(settings);
+
+    DefaultInputFile inputFile = buildTestInputFile(baseDir, "test.cc");
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
@@ -184,11 +182,12 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testFindingIncludedFiles() throws IOException {
-    when(this.language.getStringArrayOption(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY)).thenReturn(new String[]{"include"});
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/include-directories-project");
-    DefaultInputFile inputFile = buildTestInputFile(baseDir, "src/main.cc");
-
     SensorContextTester context = SensorContextTester.create(baseDir);
+    settings.setProperty(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY, "include");
+    context.setSettings(settings);
+
+    DefaultInputFile inputFile = buildTestInputFile(baseDir, "src/main.cc");
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
@@ -203,14 +202,13 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testForceIncludedFiles() throws IOException {
-
-    when(this.language.getStringArrayOption(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY)).thenReturn(new String[]{"include"});
-    when(this.language.getStringArrayOption(CxxSquidSensor.FORCE_INCLUDE_FILES_KEY)).thenReturn(new String[]{"force1.hh", "subfolder/force2.hh"});
-
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/force-include-project");
-    DefaultInputFile inputFile = buildTestInputFile(baseDir, "src/src1.cc");
-
     SensorContextTester context = SensorContextTester.create(baseDir);
+    settings.setProperty(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY, "include");
+    settings.setProperty(CxxSquidSensor.FORCE_INCLUDE_FILES_KEY, "force1.hh,subfolder/force2.hh");
+    context.setSettings(settings);
+
+    DefaultInputFile inputFile = buildTestInputFile(baseDir, "src/src1.cc");
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 

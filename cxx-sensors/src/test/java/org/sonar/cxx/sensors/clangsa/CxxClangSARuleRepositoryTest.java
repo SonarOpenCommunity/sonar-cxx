@@ -32,15 +32,13 @@ public class CxxClangSARuleRepositoryTest {
 
   @Test
   public void createRulesTest() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-
     CxxClangSARuleRepository def = new CxxClangSARuleRepository(
-      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), language);
+      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader());
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxClangSARuleRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxClangSARuleRepository.KEY);
     assertEquals(111, repo.rules().size());
   }
 

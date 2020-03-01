@@ -19,12 +19,10 @@
  */
 package org.sonar.cxx.sensors.cppcheck;
 
-import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -33,6 +31,7 @@ import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.batch.sensor.measure.Measure;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
+import static org.sonar.cxx.CxxLanguage.ERROR_RECOVERY_KEY;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -46,47 +45,47 @@ public class CxxCppCheckSensorTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-    when(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY)).thenReturn("sonar.cxx." + CxxCppCheckSensor.REPORT_PATH_KEY);
-    when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.TRUE));
+    settings.setProperty(ERROR_RECOVERY_KEY, true);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-*.xml");
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-*.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(11);
   }
 
   @Test
   public void shouldReportProjectLevelViolationsV1() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(3);
   }
 
   @Test
   public void shouldReportProjectLevelViolationsV2() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
     sensor.execute(context);
+
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(context.allIssues()).hasSize(3);
 
@@ -101,11 +100,10 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportProjectLevelMetricsV2() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
     sensor.execute(context);
 
     // assert that the module was annotated with a new measurement (metric) for
@@ -119,49 +117,48 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV2() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
     sensor.execute(context);
+
     assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test(expected = IllegalStateException.class)
   public void shouldThrowExceptionWhenRecoveryIsDisabled() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-
-    when(language.IsRecoveryEnabled()).thenReturn(Optional.of(Boolean.FALSE));
-    settings.setProperty(language.getPluginProperty(CxxCppCheckSensor.REPORT_PATH_KEY), "cppcheck-reports/cppcheck-result-empty.xml");
+    settings.setProperty(ERROR_RECOVERY_KEY, false);
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-empty.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
     sensor.execute(context);
   }
 
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(language);
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CppCheckSensor");
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxCppCheckRuleRepository.getRepositoryKey(language));
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxCppCheckRuleRepository.KEY);
     softly.assertAll();
   }
 

@@ -21,16 +21,16 @@ package org.sonar.cxx.sensors.compiler.gcc;
 
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.cxx.CxxLanguage;
+import org.sonar.api.config.Configuration;
 import org.sonar.cxx.CxxMetricsFactory;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 
 public class CxxCompilerGccSensor extends CxxCompilerSensor {
 
   public static final String KEY = "GCC";
-  public static final String REPORT_PATH_KEY = "gcc.reportPath";
-  public static final String REPORT_REGEX_DEF = "gcc.regex";
-  public static final String REPORT_CHARSET_DEF = "gcc.charset";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.gcc.reportPath";
+  public static final String REPORT_REGEX_DEF = "sonar.cxx.gcc.regex";
+  public static final String REPORT_CHARSET_DEF = "sonar.cxx.gcc.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
   /**
    * Default id used for gcc warnings not associated with any activation switch.
@@ -39,8 +39,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   public static final String DEFAULT_REGEX_DEF
     = "(?<file>.*):(?<line>[0-9]+):[0-9]+:\\x20warning:\\x20(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
 
-  public CxxCompilerGccSensor(CxxLanguage language) {
-    super(language, REPORT_PATH_KEY, CxxCompilerGccRuleRepository.getRepositoryKey(language));
+  public CxxCompilerGccSensor(Configuration settings) {
+    super(settings, REPORT_PATH_KEY, CxxCompilerGccRuleRepository.KEY);
   }
 
   @Override
@@ -59,12 +59,12 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
 
   @Override
   protected String getCharset(final SensorContext context) {
-    return getContextStringProperty(context, getLanguage().getPluginProperty(REPORT_CHARSET_DEF), DEFAULT_CHARSET_DEF);
+    return getContextStringProperty(context, REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
   }
 
   @Override
   protected String getRegex(final SensorContext context) {
-    return getContextStringProperty(context, getLanguage().getPluginProperty(REPORT_REGEX_DEF), DEFAULT_REGEX_DEF);
+    return getContextStringProperty(context, REPORT_REGEX_DEF, DEFAULT_REGEX_DEF);
   }
 
   @Override
@@ -74,12 +74,12 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
 
   @Override
   protected String alignId(String id) {
-	/* Some gcc warnings are not associated to any activation switch and don't have a matching id.
-	 * In these cases a default id is used. 
-	 */
-	if (id == null || "".equals(id)) {
-		id = DEFAULT_ID;
-	}
+    /* Some gcc warnings are not associated to any activation switch and don't have a matching id.
+	 * In these cases a default id is used.
+     */
+    if (id == null || "".equals(id)) {
+      id = DEFAULT_ID;
+    }
     return id.replaceAll("=$", "");
   }
 

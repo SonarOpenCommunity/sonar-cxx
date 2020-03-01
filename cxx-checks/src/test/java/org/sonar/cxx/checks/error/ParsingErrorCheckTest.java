@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import static org.hamcrest.Matchers.containsString;
 import org.junit.Test;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.checks.CxxFileTester;
@@ -32,6 +33,8 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class ParsingErrorCheckTest {
 
+  private final MapSettings settings = new MapSettings();
+
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test_syntax_error_recognition() throws UnsupportedEncodingException, IOException {
@@ -39,7 +42,7 @@ public class ParsingErrorCheckTest {
     config.setErrorRecoveryEnabled(false);
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError1.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, config, new ParsingErrorCheck());
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(settings.asConfig(), tester.cxxFile, config, new ParsingErrorCheck());
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(4).withMessageThat(containsString("Parse error"))
@@ -53,7 +56,7 @@ public class ParsingErrorCheckTest {
     config.setErrorRecoveryEnabled(false);
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError2.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, config, new ParsingErrorCheck());
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(settings.asConfig(), tester.cxxFile, config, new ParsingErrorCheck());
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessageThat(containsString("Parse error"))

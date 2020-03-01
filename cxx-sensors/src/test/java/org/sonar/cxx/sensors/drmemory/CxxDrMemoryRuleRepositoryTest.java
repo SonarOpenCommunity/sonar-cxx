@@ -34,16 +34,14 @@ public class CxxDrMemoryRuleRepositoryTest {
 
   @Test
   public void createRulesTest() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
-
     CxxDrMemoryRuleRepository def = new CxxDrMemoryRuleRepository(
       mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader(), language);
+      new RulesDefinitionXmlLoader());
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxDrMemoryRuleRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxDrMemoryRuleRepository.KEY);
     List<Rule> rules = repo.rules();
     assertEquals(8, rules.size());
   }

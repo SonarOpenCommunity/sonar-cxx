@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 
@@ -51,7 +50,7 @@ public class ParserBaseTestHelper {
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(file);
 
-    p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
+    p = CxxParser.create(context, conf);
     g = p.getGrammar();
   }
 

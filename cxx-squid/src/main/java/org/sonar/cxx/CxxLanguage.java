@@ -21,9 +21,7 @@ package org.sonar.cxx;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.regex.Pattern;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.measures.Metric;
@@ -32,81 +30,62 @@ import org.sonar.api.resources.AbstractLanguage;
 /**
  * {@inheritDoc}
  */
-public abstract class CxxLanguage extends AbstractLanguage {
+public class CxxLanguage extends AbstractLanguage {
 
-  public static final String ERROR_RECOVERY_KEY = "errorRecoveryEnabled";
+  public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
-  private final String propertiesKey;
-  private final Configuration settings;
   private final Map<CxxMetricsFactory.Key, Metric<?>> langSpecificMetrics;
 
-  public CxxLanguage(String key, String propertiesKey, Configuration settings) {
-    super(key);
-    this.propertiesKey = propertiesKey;
-    this.settings = settings;
-    this.langSpecificMetrics = Collections.unmodifiableMap(CxxMetricsFactory.generateMap(key, propertiesKey));
-  }
+  private final String[] sourceSuffixes;
+  private final String[] headerSuffixes;
+  private final String[] fileSuffixes;
 
-  public CxxLanguage(String key, String name, String propertiesKey, Configuration settings) {
-    super(key, name);
-    this.propertiesKey = propertiesKey;
-    this.settings = settings;
-    this.langSpecificMetrics = Collections.unmodifiableMap(CxxMetricsFactory.generateMap(key, propertiesKey));
-  }
+  /**
+   * cxx key
+   */
+  public static final String KEY = "c++";
 
-  public String getPropertiesKey() {
-    return propertiesKey;
+  /**
+   * cxx name
+   */
+  public static final String NAME = "C++ (Community)";
+
+  /**
+   * Default cxx source files suffixes
+   */
+  public static final String DEFAULT_SOURCE_SUFFIXES = ".cxx,.cpp,.cc,.c";
+  public static final String DEFAULT_C_FILES = "*.c,*.C";
+
+  /**
+   * Default cxx header files suffixes
+   */
+  public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
+
+  public CxxLanguage(Configuration settings) {
+    super(KEY);
+    this.langSpecificMetrics = Collections.unmodifiableMap(CxxMetricsFactory.generateMap());
+
+    sourceSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.sources"),
+      DEFAULT_SOURCE_SUFFIXES);
+    headerSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.headers"),
+      DEFAULT_HEADER_SUFFIXES);
+    fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
   }
 
   /**
    * {@inheritDoc}
    */
-  public abstract String[] getSourceFileSuffixes();
-
-  public abstract String[] getHeaderFileSuffixes();
-
-  public abstract List<Class> getChecks();
-
-  public abstract String getRepositoryKey();
-
-  public String getRepositorySuffix() {
-    return "";
+  @Override
+  public String[] getFileSuffixes() {
+    return fileSuffixes.clone();
   }
 
-  public String getPluginProperty(String key) {
-    return "sonar." + getPropertiesKey() + "." + key;
+  public String[] getSourceFileSuffixes() {
+    return sourceSuffixes.clone();
   }
 
-  public Optional<Integer> getIntegerOption(String key) {
-    return this.settings.getInt(getPluginProperty(key));
-  }
-
-  public Optional<Boolean> getBooleanOption(String key) {
-    return this.settings.getBoolean(getPluginProperty(key));
-  }
-
-  public Optional<String> getStringOption(String key) {
-    return this.settings.get(getPluginProperty(key));
-  }
-
-  public String[] getStringArrayOption(String key) {
-    return this.settings.getStringArray(getPluginProperty(key));
-  }
-
-  public Optional<Boolean> IsRecoveryEnabled() {
-    return this.settings.getBoolean(getPluginProperty(ERROR_RECOVERY_KEY));
-  }
-
-  public String[] getStringLinesOption(String key) {
-    Optional<String> value = this.settings.get(getPluginProperty(key));
-    if (value.isPresent()) {
-      return EOL_PATTERN.split(value.get(), -1);
-    }
-    return new String[0];
-  }
-
-  public boolean hasKey(String key) {
-    return this.settings.hasKey(getPluginProperty(key));
+  public String[] getHeaderFileSuffixes() {
+    return headerSuffixes.clone();
   }
 
   /**
@@ -120,6 +99,20 @@ public abstract class CxxLanguage extends AbstractLanguage {
       throw new IllegalStateException("Requested metric " + metricKey + " couldn't be found");
     }
     return metric;
+  }
+
+  public static String[] createStringArray(String[] values, String defaultValues) {
+    if (values.length == 0) {
+      return defaultValues.split(",");
+    }
+    return values;
+  }
+
+  private String[] mergeArrays(String[] array1, String[] array2) {
+    String[] result = new String[array1.length + array2.length];
+    System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
+    System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);
+    return result;
   }
 
 }

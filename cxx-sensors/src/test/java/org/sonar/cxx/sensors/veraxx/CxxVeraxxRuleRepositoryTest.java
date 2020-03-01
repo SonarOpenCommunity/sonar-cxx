@@ -32,15 +32,14 @@ public class CxxVeraxxRuleRepositoryTest {
 
   @Test
   public void createRulesTest() {
-    CxxLanguage language = TestUtils.mockCxxLanguage();
     CxxVeraxxRuleRepository def = new CxxVeraxxRuleRepository(
       mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader(), language);
+      new RulesDefinitionXmlLoader());
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxVeraxxRuleRepository.getRepositoryKey(language));
+    RulesDefinition.Repository repo = context.repository(CxxVeraxxRuleRepository.KEY);
     assertThat(repo.rules()).hasSize(28);
   }
 

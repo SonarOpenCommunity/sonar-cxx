@@ -22,6 +22,7 @@ package org.sonar.cxx.checks.xpath;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import org.junit.Test;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -29,6 +30,8 @@ import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class XPathCheckTest {
+
+  private final MapSettings settings = new MapSettings();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
@@ -38,7 +41,7 @@ public class XPathCheckTest {
     check.message = "Avoid declarations!! ";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/xpath.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(1).withMessage(check.message)
       .noMore();
@@ -53,7 +56,7 @@ public class XPathCheckTest {
     check.message = "Avoid declarations!! ";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/xpath.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(1).withMessage(check.message)
       .noMore();
@@ -68,7 +71,7 @@ public class XPathCheckTest {
     check.message = "Avoid declarations!! ";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/xpath.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(1).withMessage(check.message)
       .noMore();
@@ -83,7 +86,7 @@ public class XPathCheckTest {
     check.message = "Avoid declarations!! ";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/xpath.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }
@@ -98,7 +101,7 @@ public class XPathCheckTest {
     check.message = "Avoid declarations!! ";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/xpath.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(1).withMessage(check.message)
       .noMore();
