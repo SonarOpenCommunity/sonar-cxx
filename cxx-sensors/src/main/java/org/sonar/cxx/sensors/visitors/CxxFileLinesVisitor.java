@@ -25,7 +25,6 @@ import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
-import com.sonar.sslr.api.Trivia;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -56,17 +55,14 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   private final FileLinesContextFactory fileLinesContextFactory;
   private final FileSystem fileSystem;
   private List<Integer> linesOfCode;
-  private List<Integer> linesOfComments;
   private List<Integer> executableLines;
   private int isWithinFunctionDefinition;
 
   /**
-   * CxxFileLinesVisitor generates sets for linesOfCode, linesOfComments,
-   * executableLines
+   * CxxFileLinesVisitor generates sets for linesOfCode, executableLines
    *
    * @param context for coverage analysis
-   * @param fileLinesContextFactory container for linesOfCode, linesOfComments,
-   * executableLines
+   * @param fileLinesContextFactory container for linesOfCode, executableLines
    * @param language properties
    */
   public CxxFileLinesVisitor(Configuration settings, FileLinesContextFactory fileLinesContextFactory,
@@ -156,13 +152,6 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     if ((isWithinFunctionDefinition != 0) && isCodeToken(token)) {
       addLineNumber(linesOfCode, token.getLine());
     }
-
-    List<Trivia> trivias = token.getTrivia();
-    for (Trivia trivia : trivias) {
-      if (trivia.isComment()) {
-        addLineNumber(linesOfComments, trivia.getToken().getLine());
-      }
-    }
   }
 
   @Override
@@ -196,7 +185,6 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   @Override
   public void visitFile(AstNode astNode) {
     linesOfCode = new ArrayList<>();
-    linesOfComments = new ArrayList<>();
     executableLines = new ArrayList<>();
   }
 
@@ -217,14 +205,6 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       CxxUtils.validateRecovery(e, settings);
     }
     try {
-      linesOfComments.stream().sequential().distinct().forEach(
-        line -> fileLinesContext.setIntValue(CoreMetrics.COMMENT_LINES_DATA_KEY, line, 1)
-      );
-    } catch (IllegalArgumentException e) {
-      LOG.error("COMMENT_LINES_DATA_KEY metric error: {}", e.getMessage());
-      CxxUtils.validateRecovery(e, settings);
-    }
-    try {
       executableLines.stream().sequential().distinct().forEach(
         line -> fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, line, 1)
       );
@@ -239,11 +219,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       LOG.debug("   lines:           '{}'", inputFile.lines());
       LOG.debug("   executableLines: '{}'", new HashSet<>(executableLines));
       LOG.debug("   linesOfCode:     '{}'", new HashSet<>(linesOfCode));
-      LOG.debug("   linesOfComments: '{}'", new HashSet<>(linesOfComments));
     }
 
     linesOfCode = null;
-    linesOfComments = null;
     executableLines = null;
   }
 

@@ -95,25 +95,6 @@ public class CxxFileLinesVisitorTest {
   }
 
   @Test
-  public void TestLinesOfComments() throws UnsupportedEncodingException, IOException {
-    String content = Files.contentOf(target, StandardCharsets.UTF_8);
-    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
-      .setType(InputFile.Type.MAIN).build();
-
-    SensorContextTester sensorContext = SensorContextTester.create(baseDir);
-    sensorContext.fileSystem().add(inputFile);
-
-    when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
-
-    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, sensorContext);
-
-    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, sensorContext, visitor);
-
-    assertThat(fileLinesContext.linesOfComments).containsExactlyInAnyOrder(48, 1, 33, 97, 35, 117, 102, 7, 119, 106, 13);
-  }
-
-  @Test
   public void TestExecutableLinesOfCode() throws UnsupportedEncodingException, IOException {
 
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
@@ -147,9 +128,6 @@ public class CxxFileLinesVisitorTest {
       switch (metricKey) {
         case CoreMetrics.NCLOC_DATA_KEY:
           linesOfCode.add(line);
-          break;
-        case CoreMetrics.COMMENT_LINES_DATA_KEY:
-          linesOfComments.add(line);
           break;
         case CoreMetrics.EXECUTABLE_LINES_DATA_KEY:
           executableLines.add(line);
