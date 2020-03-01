@@ -113,9 +113,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     LOG.info("Coverage BaseDir '{}' ", context.fileSystem().baseDir());
 
     if (context.config().hasKey(getReportPathKey())) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Parsing unit test coverage reports");
-      }
+      LOG.debug("Parsing unit test coverage reports");
 
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
       Map<String, CoverageMeasures> coverageMeasures = processReports(reports, this.cache.unitCoverageCache());
@@ -132,10 +130,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
         for (CoverageParser parser : parsers) {
           try {
             parseCoverageReport(parser, report, measuresTotal);
-            if (LOG.isDebugEnabled()) {
-              LOG.debug("cached measures for '{}' : current cache content data = '{}'", report.getAbsolutePath(),
-                cacheCov.size());
-            }
+            LOG.debug("cached measures for '{}' : current cache content data = '{}'", report.getAbsolutePath(),
+              cacheCov.size());
+
             cacheCov.put(report.getAbsolutePath(), measuresTotal);
             // Only use first coverage parser which handles the data correctly
             break;
@@ -148,9 +145,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
         }
       } else {
         measuresTotal = cacheCov.get(report.getAbsolutePath());
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Processing report '{}' skipped - already in cache", report);
-        }
+        LOG.debug("Processing report '{}' skipped - already in cache", report);
       }
     }
     return measuresTotal;
@@ -162,40 +157,32 @@ public class CxxCoverageSensor extends CxxReportSensor {
       final String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath != null) {
         InputFile cxxFile = getInputFileIfInProject(context, filePath);
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("save coverage measure for file: '{}' cxxFile = '{}'", filePath, cxxFile);
-        }
+        LOG.debug("save coverage measure for file: '{}' cxxFile = '{}'", filePath, cxxFile);
+
         if (cxxFile != null) {
 
           NewCoverage newCoverage = context.newCoverage().onFile(cxxFile);
 
           Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
-          if (LOG.isDebugEnabled()) {
-            LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
-          }
+          LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
 
           measures.forEach((CoverageMeasure measure) -> checkCoverage(newCoverage, measure));
 
           try {
             newCoverage.save();
-            if (LOG.isDebugEnabled()) {
-              LOG.debug("Saved '{}' coverage measures for file '{}'", measures.size(), filePath);
-            }
+            LOG.debug("Saved '{}' coverage measures for file '{}'", measures.size(), filePath);
           } catch (RuntimeException ex) {
             LOG.error("Cannot save measure for file '{}' , ignoring measure. ", filePath, ex);
             CxxUtils.validateRecovery(ex, settings);
           }
         } else {
-          if (LOG.isDebugEnabled()) {
-            LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
-          } else if (filePath.startsWith(context.fileSystem().baseDir().getAbsolutePath())) {
+          LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+          if (filePath.startsWith(context.fileSystem().baseDir().getAbsolutePath())) {
             LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);
           }
         }
       } else {
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Cannot sanitize file path '{}'", entry.getKey());
-        }
+        LOG.debug("Cannot sanitize file path '{}'", entry.getKey());
       }
     }
   }
@@ -208,10 +195,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
     try {
       newCoverage.lineHits(measure.getLine(), measure.getHits());
       newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("line '{}' Hits '{}' Conditions '{}:{}'", measure.getLine(), measure.getHits(),
-          measure.getConditions(), measure.getCoveredConditions());
-      }
+      LOG.debug("line '{}' Hits '{}' Conditions '{}:{}'", measure.getLine(), measure.getHits(),
+        measure.getConditions(), measure.getCoveredConditions());
     } catch (RuntimeException ex) {
       LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ",
         measure.getLine(), ex.getMessage());

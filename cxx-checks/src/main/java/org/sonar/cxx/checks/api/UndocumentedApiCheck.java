@@ -48,8 +48,8 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
  * </ul>
  * <p>
  * Public API items are considered documented if they have Doxygen comments.<br>
- * Function arguments are not counted since they can be documented in function documentation and this visitor does not
- * parse Doxygen comments.<br>
+ * Function arguments are not counted since they can be documented in function
+ * documentation and this visitor does not parse Doxygen comments.<br>
  * This visitor should be applied only on header files.<br>
  * Currently, no filtering is applied using preprocessing directive.<br>
  * <p>
@@ -85,9 +85,7 @@ public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
   protected void onPublicApi(AstNode node, String id, List<Token> comments) {
     boolean commented = !comments.isEmpty();
 
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("node: {} line: {} id: '{}' documented: {}", node.getType(), node.getTokenLine(), id, commented);
-    }
+    LOG.debug("node: {} line: {} id: '{}' documented: {}", node.getType(), node.getTokenLine(), id, commented);
     if (!commented) {
       getContext().createLineViolation(this, "Undocumented API: " + id, node);
     }

@@ -139,9 +139,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
               currentIssue = new CxxReportIssue(id, file, line, msg);
             } else {
               LOG.warn("PC-lint warning ignored: {}", msg);
-              if (LOG.isDebugEnabled()) {
-                LOG.debug("File: {}, Line: {}, ID: {}, msg: {}", file, line, id, msg);
-              }
+              LOG.debug("File: {}, Line: {}, ID: {}, msg: {}", file, line, id, msg);
             }
           }
 
@@ -221,9 +219,8 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
           } else {
             newKey = "M" + misraRule;
           }
-          if (LOG.isDebugEnabled()) {
-            LOG.debug("Remap MISRA rule {} to key {}", misraRule, newKey);
-          }
+
+          LOG.debug("Remap MISRA rule {} to key {}", misraRule, newKey);
           return newKey;
         }
         return "";

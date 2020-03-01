@@ -177,10 +177,8 @@ public class BullseyeParser extends CxxCoverageParser {
         String filePath = buildPath(path, correctPath);
         CoverageMeasures fileMeasuresBuilderIn = CoverageMeasures.create();
         fileWalk(child, fileMeasuresBuilderIn);
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("lines covered: '{}':'{}'", filePath, fileMeasuresBuilderIn.getCoveredLines());
-          LOG.debug("condition covered: '{}':'{}'", filePath, fileMeasuresBuilderIn.getCoveredConditions());
-        }
+        LOG.debug("lines covered: '{}':'{}'", filePath, fileMeasuresBuilderIn.getCoveredLines());
+        LOG.debug("condition covered: '{}':'{}'", filePath, fileMeasuresBuilderIn.getCoveredConditions());
         coverageData.put(filePath, fileMeasuresBuilderIn);
       } else {
         recTreeWalk(correctPath, child, path, coverageData);

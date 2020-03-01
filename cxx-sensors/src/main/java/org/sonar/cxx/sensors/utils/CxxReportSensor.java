@@ -127,9 +127,8 @@ public abstract class CxxReportSensor implements Sensor {
     }
 
     List<String> normalizedReportPaths = normalizeReportPaths(moduleBaseDir, reportPaths);
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Scanner uses normalized report path(s): '{}'", String.join(", ", normalizedReportPaths));
-    }
+    LOG.debug("Scanner uses normalized report path(s): '{}'", String.join(", ", normalizedReportPaths));
+
     // Includes array cannot contain null elements
     DirectoryScanner directoryScanner = new DirectoryScanner();
     directoryScanner.setIncludes(normalizedReportPaths.toArray(new String[normalizedReportPaths.size()]));
@@ -168,14 +167,11 @@ public abstract class CxxReportSensor implements Sensor {
         includes.add(normalizedPath);
         continue;
       }
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Not a valid report path '{}'", reportPath);
-      }
+
+      LOG.debug("Not a valid report path '{}'", reportPath);
     }
 
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Normalized report includes to '{}'", includes);
-    }
+    LOG.debug("Normalized report includes to '{}'", includes);
     return includes;
   }
 
@@ -185,10 +181,8 @@ public abstract class CxxReportSensor implements Sensor {
     try {
       realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
     } catch (IOException | RuntimeException e) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Unable to get the real path: module '{}', baseDir '{}', path '{}', exception '{}'",
-          sensorContext.module().key(), sensorContext.fileSystem().baseDir(), path, e.getMessage());
-      }
+      LOG.debug("Unable to get the real path: module '{}', baseDir '{}', path '{}', exception '{}'",
+        sensorContext.module().key(), sensorContext.fileSystem().baseDir(), path, e.getMessage());
       return null;
     }
 
