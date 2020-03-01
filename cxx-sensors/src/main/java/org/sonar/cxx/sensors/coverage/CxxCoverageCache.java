@@ -21,7 +21,7 @@ package org.sonar.cxx.sensors.coverage;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.sonar.api.batch.ScannerSide;
+import org.sonar.api.scanner.ScannerSide;
 
 /**
  *
