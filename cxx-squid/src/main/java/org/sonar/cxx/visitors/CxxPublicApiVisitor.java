@@ -98,10 +98,7 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
   @Override
   protected void onPublicApi(AstNode node, String id, List<Token> comments) {
     final boolean commented = !comments.isEmpty();
-
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("node: {} line: {} id: '{}' documented: {}", node.getType(), node.getTokenLine(), id, commented);
-    }
+    LOG.debug("node: {} line: {} id: '{}' documented: {}", node.getType(), node.getTokenLine(), id, commented);
 
     if (!commented) {
       undocumentedAPINr++;

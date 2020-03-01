@@ -149,9 +149,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
         break;
       }
 
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("XLST: Converting " + stylesheet + " with " + inputs + " to " + outputs + ".");
-      }
+      LOG.debug("XLST: Converting " + stylesheet + " with " + inputs + " to " + outputs + ".");
       transformFileList(baseDir.getAbsolutePath(), stylesheet, inputs, outputs);
     }
   }

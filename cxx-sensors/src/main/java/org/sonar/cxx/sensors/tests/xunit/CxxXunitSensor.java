@@ -115,9 +115,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         parser.parse(transformReport(report));
       } catch (EmptyReportException e) {
         LOG.warn("The report '{}' seems to be empty, ignoring.", report);
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("{}", e);
-        }
+        LOG.debug("{}", e);
       }
     }
     return parserHandler;

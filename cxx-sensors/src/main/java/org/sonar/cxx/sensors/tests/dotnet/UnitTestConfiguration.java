@@ -45,23 +45,17 @@ public class UnitTestConfiguration {
   }
 
   boolean hasVisualStudioTestResultsFile() {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug(EXIST_CONFIGURATION_PARAMETER, vsKeyEffective, config.hasKey(vsKeyEffective));
-    }
+    LOG.debug(EXIST_CONFIGURATION_PARAMETER, vsKeyEffective, config.hasKey(vsKeyEffective));
     return config.hasKey(vsKeyEffective);
   }
 
   boolean hasXUnitTestResultsFile() {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug(EXIST_CONFIGURATION_PARAMETER, xUnitKeyEffective, config.hasKey(xUnitKeyEffective));
-    }
+    LOG.debug(EXIST_CONFIGURATION_PARAMETER, xUnitKeyEffective, config.hasKey(xUnitKeyEffective));
     return config.hasKey(xUnitKeyEffective);
   }
 
   boolean hasNUnitTestResultsFile() {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug(EXIST_CONFIGURATION_PARAMETER, nUnitKeyEffective, config.hasKey(nUnitKeyEffective));
-    }
+    LOG.debug(EXIST_CONFIGURATION_PARAMETER, nUnitKeyEffective, config.hasKey(nUnitKeyEffective));
     return config.hasKey(nUnitKeyEffective);
   }
 

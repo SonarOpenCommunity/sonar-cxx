@@ -52,10 +52,11 @@ import org.sonar.squidbridge.checks.SquidCheck;
  * </ul>
  * <p>
  * Public API items are considered documented if they have Doxygen comments.<br>
- * Function arguments are not counted since they can be documented in function documentation and this visitor does not
- * parse Doxygen comments.<br>
+ * Function arguments are not counted since they can be documented in function
+ * documentation and this visitor does not parse Doxygen comments.<br>
  * This visitor should be applied only on header files.<br>
- * Currently, no filtering is applied using preprocessing directive, e.g <code>#define DLLEXPORT</code>.<br>
+ * Currently, no filtering is applied using preprocessing directive, e.g
+ * <code>#define DLLEXPORT</code>.<br>
  * <p>
  * Limitation: only "in front of the declaration" comments are considered.
  *
@@ -310,7 +311,8 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   }
 
   /**
-   * Check if inline Doxygen documentation is attached to the given token at specified line
+   * Check if inline Doxygen documentation is attached to the given token at
+   * specified line
    *
    * @param token the token to inspect
    * @param line line of the inlined documentation
@@ -383,10 +385,9 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
   @Override
   public void visitFile(AstNode astNode) {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("API File: {}", getContext().getFile().getName());
-      LOG.debug("Header file suffixes: {}", headerFileSuffixes);
-    }
+    LOG.debug("API File: {}", getContext().getFile().getName());
+    LOG.debug("Header file suffixes: {}", headerFileSuffixes);
+
     skipFile = true;
 
     if (headerFileSuffixes != null) {
@@ -410,9 +411,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       return;
     }
 
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("***** Node: " + astNode);
-    }
+    LOG.debug("***** Node: " + astNode);
     switch ((CxxGrammarImpl) astNode.getType()) {
       case classSpecifier:
         visitClassSpecifier(astNode);
@@ -458,9 +457,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       }
     }
 
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Public API: " + id);
-    }
+    LOG.debug("Public API: " + id);
     onPublicApi(node, id, doxygenComments);
   }
 
@@ -611,9 +608,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     }
 
     if (!isPublicApiMember(classSpecifier)) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug(idName + " not in public API");
-      }
+      LOG.debug(idName + " not in public API");
     } else {
       visitPublicApi(idNode, idName, getBlockDocumentation(docNode));
     }
@@ -792,9 +787,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     }
 
     if (isPublicApiMember(aliasDeclNode)) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("AliasDeclaration");
-      }
+      LOG.debug("AliasDeclaration");
 
       AstNode aliasDeclIdNode = aliasDeclNode
         .getFirstDescendant(GenericTokenType.IDENTIFIER);
@@ -838,9 +831,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       ? UNNAMED_ENUM_ID : enumIdNode.getTokenValue();
 
     if (!isPublicApiMember(enumSpecifierNode)) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug(enumId + " not in public API");
-      }
+      LOG.debug(enumId + " not in public API");
       return;
     }
 

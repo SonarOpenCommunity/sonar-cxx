@@ -963,9 +963,7 @@ public class CxxPreprocessor extends Preprocessor {
       final Macro macro = parseMacroDefinition(defineString);
 
       if (macro != null) {
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("storing external macro: '{}'", macro);
-        }
+        LOG.debug("storing external macro: '{}'", macro);
         result.put(macro.name, macro);
       }
     }
@@ -1014,9 +1012,7 @@ public class CxxPreprocessor extends Preprocessor {
         && includeBodyAst.getFirstDescendant(CppGrammar.includeBodyFreeform) != null)) {
         LOG.warn("[{}:{}]: cannot parse included filename: '{}'",
           currFileName, token.getLine(), expandedIncludeBody);
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Token : {}", token.toString());
-        }
+        LOG.debug("Token : {}", token.toString());
         return null;
       }
 
@@ -1190,9 +1186,8 @@ public class CxxPreprocessor extends Preprocessor {
     final File includedFile = findIncludedFile(ast, token, filename);
     if (includedFile == null) {
       missingIncludeFilesCounter++;
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("[" + filename + ":" + token.getLine() + "]: cannot find include file '" + token.getValue() + "'");
-      }
+      LOG.debug("[" + filename + ":" + token.getLine() + "]: cannot find include file '" + token.getValue() + "'");
+
       if (conf.doCollectMissingIncludes()) {
         final File currentFile = this.getFileUnderAnalysis();
         missingIncludeFiles.computeIfAbsent(currentFile.getPath(), k -> new HashSet<>())

@@ -214,10 +214,8 @@ public final class ExpressionEvaluator {
 
       final String id = exprAst.getTokenValue();
       if (macroEvaluationStack.contains(id)) {
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("ExpressionEvaluator: self-referential macro '{}' detected;"
-            + " assume true; evaluation stack = ['{} <- {}']", id, id, String.join(" <- ", macroEvaluationStack));
-        }
+        LOG.debug("ExpressionEvaluator: self-referential macro '{}' detected;"
+          + " assume true; evaluation stack = ['{} <- {}']", id, id, String.join(" <- ", macroEvaluationStack));
         return BigInteger.ONE;
       }
       final String value = preprocessor.valueOf(id);
@@ -551,9 +549,7 @@ public final class ExpressionEvaluator {
 
     if (value == null || "".equals(value)) {
       LOG.error("Undefined functionlike macro '{}' assuming 0", macroName);
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Token : {}", exprAst.toString());
-      }
+      LOG.debug("Token : {}", exprAst.toString());
       return BigInteger.ZERO;
     }
 

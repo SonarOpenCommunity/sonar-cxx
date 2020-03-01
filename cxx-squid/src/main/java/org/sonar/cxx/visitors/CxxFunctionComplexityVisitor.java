@@ -43,9 +43,7 @@ public class CxxFunctionComplexityVisitor<G extends Grammar> extends SquidAstVis
 
   public CxxFunctionComplexityVisitor(Configuration settings) {
     this.cyclomaticComplexityThreshold = settings.getInt(FUNCTION_COMPLEXITY_THRESHOLD_KEY).orElse(10);
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("Cyclomatic complexity threshold: " + this.cyclomaticComplexityThreshold);
-    }
+    LOG.debug("Cyclomatic complexity threshold: " + this.cyclomaticComplexityThreshold);
   }
 
   @Override

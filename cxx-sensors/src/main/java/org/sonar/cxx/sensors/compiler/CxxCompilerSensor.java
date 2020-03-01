@@ -66,9 +66,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
           String id = alignId(matcher.group("id"));
           String msg = alignMessage(matcher.group("message"));
           if (isInputValid(filename, line, id, msg)) {
-            if (LOG.isDebugEnabled()) {
-              LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}", filename, line, id, msg);
-            }
+            LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}", filename, line, id, msg);
             CxxReportIssue issue = new CxxReportIssue(id, filename, line, msg);
             saveUniqueViolation(context, issue);
           } else {

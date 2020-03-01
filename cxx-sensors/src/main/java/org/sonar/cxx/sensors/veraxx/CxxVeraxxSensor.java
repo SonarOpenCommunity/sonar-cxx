@@ -86,11 +86,9 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
               CxxReportIssue issue = new CxxReportIssue(source, name, line, message);
               saveUniqueViolation(context, issue);
             } else {
-              if (LOG.isDebugEnabled()) {
-                LOG.debug("Error in file '{}', with message '{}'",
-                  name + "(" + errorCursor.getAttrValue("line") + ")",
-                  errorCursor.getAttrValue("message"));
-              }
+              LOG.debug("Error in file '{}', with message '{}'",
+                name + "(" + errorCursor.getAttrValue("line") + ")",
+                errorCursor.getAttrValue("message"));
             }
           }
         }
