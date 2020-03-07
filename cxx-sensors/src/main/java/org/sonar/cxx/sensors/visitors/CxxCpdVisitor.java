@@ -25,11 +25,17 @@ import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import javax.annotation.Nullable;
+import org.sonar.api.PropertyType;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.TextRange;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.cpd.NewCpdTokens;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxTokenType;
@@ -40,6 +46,9 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
 
   private static final Logger LOG = Loggers.get(CxxCpdVisitor.class);
 
+  public static final String IGNORE_LITERALS_KEY = "sonar.cxx.cpd.ignoreLiterals";
+  public static final String IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
+
   private final SensorContext sensorContext;
   private final Boolean ignoreLiterals;
   private final Boolean ignoreIdentifiers;
@@ -47,10 +56,34 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   private NewCpdTokens cpdTokens;
   private int isFunctionDefinition;
 
-  public CxxCpdVisitor(SensorContext sensorContext, Boolean ignoreLiterals, Boolean ignoreIdentifiers) {
+  public CxxCpdVisitor(SensorContext sensorContext) {
     this.sensorContext = sensorContext;
-    this.ignoreLiterals = ignoreLiterals;
-    this.ignoreIdentifiers = ignoreIdentifiers;
+    this.ignoreLiterals = sensorContext.config().getBoolean(IGNORE_LITERALS_KEY).orElse(Boolean.FALSE);
+    this.ignoreIdentifiers = sensorContext.config().getBoolean(IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE);
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "Duplications";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(IGNORE_LITERALS_KEY)
+        .defaultValue(Boolean.FALSE.toString())
+        .name("Ignores literal value differences when evaluating a duplicate block")
+        .description("Ignores literal (numbers, characters and strings) value differences when evaluating a duplicate "
+          + "block. This means that e.g. foo=42; and foo=43; will be seen as equivalent. Default is 'False'.")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.BOOLEAN)
+        .build(),
+      PropertyDefinition.builder(IGNORE_IDENTIFIERS_KEY)
+        .defaultValue(Boolean.FALSE.toString())
+        .name("Ignores identifier value differences when evaluating a duplicate block")
+        .description("Ignores identifier value differences when evaluating a duplicate block e.g. variable names, "
+          + "methods names, and so forth. Default is 'False'.")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.BOOLEAN)
+        .build()
+    ));
   }
 
   @Override

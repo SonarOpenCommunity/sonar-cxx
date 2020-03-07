@@ -20,12 +20,16 @@
 package org.sonar.cxx.sensors.cppcheck;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxMetricsFactory;
@@ -53,6 +57,22 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
     super(settings, REPORT_PATH_KEY, CxxCppCheckRuleRepository.KEY);
     parsers.add(new CppcheckParserV2(this));
     parsers.add(new CppcheckParserV1(this));
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "Cppcheck";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(REPORT_PATH_KEY)
+        .name("Cppcheck report(s)")
+        .description("Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, relative to"
+          + " projects root. Both XML formats (version 1 and version 2) are supported. If neccessary, <a href='https://"
+          + "ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
+        )
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .multiValues(true)
+        .build()
+    ));
   }
 
   @Override

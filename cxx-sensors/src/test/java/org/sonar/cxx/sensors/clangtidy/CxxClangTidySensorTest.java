@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.clangtidy;
 
+import java.nio.charset.StandardCharsets;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
@@ -29,7 +30,7 @@ import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
-import static org.sonar.cxx.CxxLanguage.ERROR_RECOVERY_KEY;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxClangTidySensorTest {
@@ -42,8 +43,8 @@ public class CxxClangTidySensorTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     language = TestUtils.mockCxxLanguage();
-    settings.setProperty(CxxClangTidySensor.REPORT_CHARSET_DEF, "UTF-8");
-    settings.setProperty(ERROR_RECOVERY_KEY, true);
+    settings.setProperty(CxxClangTidySensor.REPORT_CHARSET_DEF, StandardCharsets.UTF_8.name());
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
   }
 
   @Test

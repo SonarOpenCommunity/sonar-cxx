@@ -21,7 +21,13 @@ package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.sonar.api.PropertyType;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxMetric;
@@ -44,6 +50,20 @@ public class CxxFunctionComplexityVisitor<G extends Grammar> extends SquidAstVis
   public CxxFunctionComplexityVisitor(Configuration settings) {
     this.cyclomaticComplexityThreshold = settings.getInt(FUNCTION_COMPLEXITY_THRESHOLD_KEY).orElse(10);
     LOG.debug("Cyclomatic complexity threshold: " + this.cyclomaticComplexityThreshold);
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "Metrics";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(FUNCTION_COMPLEXITY_THRESHOLD_KEY)
+        .defaultValue("10")
+        .name("Cyclomatic complexity threshold")
+        .description("Cyclomatic complexity threshold used to classify a function as complex")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.INTEGER)
+        .build()
+    ));
   }
 
   @Override

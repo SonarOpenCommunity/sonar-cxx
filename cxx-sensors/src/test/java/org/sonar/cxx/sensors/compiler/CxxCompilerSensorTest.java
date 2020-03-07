@@ -20,6 +20,7 @@
 package org.sonar.cxx.sensors.compiler;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import javax.xml.stream.XMLStreamException;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
@@ -106,7 +107,7 @@ public class CxxCompilerSensorTest {
 
     @Override
     protected String getCharset(final SensorContext context) {
-      return "UTF-8";
+      return StandardCharsets.UTF_8.name();
     }
 
     @Override

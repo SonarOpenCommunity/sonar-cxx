@@ -23,10 +23,10 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nullable;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.colorizer.CDocTokenizer;
@@ -55,10 +55,8 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   private static final String INCLUDE_DIRECTORIES_PROPERTY_KEY = "sonar.cxx.includeDirectories";
   private static final String FORCE_INCLUDES_PROPERTY_KEY = "sonar.cxx.forceIncludes";
 
-  private final MapSettings settings = new MapSettings();
-
   private final ConfigurationProperty charsetProperty = new ConfigurationProperty("Charset", CHARSET_PROPERTY_KEY,
-    getPropertyOrDefaultValue(CHARSET_PROPERTY_KEY, "UTF-8"),
+    getPropertyOrDefaultValue(CHARSET_PROPERTY_KEY, StandardCharsets.UTF_8.name()),
     Validators.charsetValidator());
 
   private final ConfigurationProperty errorRecoveryEnabled = new ConfigurationProperty("Error Recovery", ERROR_RECOVERY_PROPERTY_KEY,

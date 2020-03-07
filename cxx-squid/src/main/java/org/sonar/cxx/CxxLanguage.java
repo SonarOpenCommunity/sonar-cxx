@@ -20,19 +20,22 @@
 package org.sonar.cxx;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.AbstractLanguage;
+import org.sonar.api.resources.Qualifiers;
 
 /**
  * {@inheritDoc}
  */
 public class CxxLanguage extends AbstractLanguage {
 
-  public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
   private final Map<CxxMetricsFactory.Key, Metric<?>> langSpecificMetrics;
 
@@ -41,23 +44,28 @@ public class CxxLanguage extends AbstractLanguage {
   private final String[] fileSuffixes;
 
   /**
-   * cxx key
+   * cxx language key
    */
   public static final String KEY = "c++";
 
   /**
-   * cxx name
+   * cxx language name
    */
   public static final String NAME = "C++ (Community)";
 
   /**
-   * Default cxx source files suffixes
+   * Key of the file suffix parameter
    */
-  public static final String DEFAULT_SOURCE_SUFFIXES = ".cxx,.cpp,.cc,.c";
-  public static final String DEFAULT_C_FILES = "*.c,*.C";
+  public static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
+  public static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
 
   /**
-   * Default cxx header files suffixes
+   * Default cxx source files knows suffixes
+   */
+  public static final String DEFAULT_SOURCE_SUFFIXES = ".cxx,.cpp,.cc,.c";
+
+  /**
+   * Default cxx header files knows suffixes
    */
   public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
 
@@ -65,17 +73,40 @@ public class CxxLanguage extends AbstractLanguage {
     super(KEY);
     this.langSpecificMetrics = Collections.unmodifiableMap(CxxMetricsFactory.generateMap());
 
-    sourceSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.sources"),
+    sourceSuffixes = createStringArray(settings.getStringArray(SOURCE_FILE_SUFFIXES_KEY),
       DEFAULT_SOURCE_SUFFIXES);
-    headerSuffixes = createStringArray(settings.getStringArray("sonar.cxx.suffixes.headers"),
+    headerSuffixes = createStringArray(settings.getStringArray(HEADER_FILE_SUFFIXES_KEY),
       DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "Cxx Suffixes";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY)
+        .multiValues(true)
+        .defaultValue(DEFAULT_SOURCE_SUFFIXES)
+        .name("Source files suffixes")
+        .description("Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .build(),
+      PropertyDefinition.builder(HEADER_FILE_SUFFIXES_KEY)
+        .multiValues(true)
+        .defaultValue(DEFAULT_HEADER_SUFFIXES)
+        .name("Header files suffixes")
+        .description("Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .build()
+    ));
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
+
   public String[] getFileSuffixes() {
     return fileSuffixes.clone();
   }

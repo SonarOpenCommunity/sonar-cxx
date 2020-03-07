@@ -40,7 +40,7 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.CxxLanguage;
-import static org.sonar.cxx.CxxLanguage.ERROR_RECOVERY_KEY;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxUnitTestResultsImportSensorTest {
@@ -54,7 +54,7 @@ public class CxxUnitTestResultsImportSensorTest {
   @Before
   public void setUp() {
     language = TestUtils.mockCxxLanguage();
-    settings.setProperty(ERROR_RECOVERY_KEY, true);
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
   }
 
   @Test

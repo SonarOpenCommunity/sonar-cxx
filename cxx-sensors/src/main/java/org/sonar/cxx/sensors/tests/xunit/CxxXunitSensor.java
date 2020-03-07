@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.Source;
@@ -31,7 +33,9 @@ import javax.xml.transform.stream.StreamSource;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
@@ -58,6 +62,29 @@ public class CxxXunitSensor extends CxxReportSensor {
   public CxxXunitSensor(Configuration settings) {
     super(settings, REPORT_PATH_KEY);
     xsltURL = this.settings.get(XSLT_URL_KEY).orElse(null);
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "xUnit Test";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(REPORT_PATH_KEY)
+        .name("Unit test execution report(s)")
+        .description("Path to unit test execution report(s), relative to projects root."
+          + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>"
+          + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .multiValues(true)
+        .build(),
+      PropertyDefinition.builder(XSLT_URL_KEY)
+        .name("XSLT transformer")
+        .description("By default, the unit test execution reports are expected to be in the JUnitReport format."
+          + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is "
+          + "able to perform the according transformation.")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .build()
+    ));
   }
 
   @Override

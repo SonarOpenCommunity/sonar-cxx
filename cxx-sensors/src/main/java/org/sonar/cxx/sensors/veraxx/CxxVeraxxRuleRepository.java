@@ -28,7 +28,6 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxVeraxxRuleRepository extends CxxAbstractRuleRepository {
 
-  public static final String CUSTOM_RULES_KEY = "vera++.customRules";
   public static final String KEY = "vera++";
   private static final String NAME = "Vera++";
 

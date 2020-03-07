@@ -20,6 +20,10 @@
 package org.sonar.cxx.sensors.clangtidy;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
@@ -27,6 +31,8 @@ import java.util.regex.Pattern;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxMetricsFactory;
@@ -40,7 +46,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.clangtidy.reportPath";
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.clangtidy.charset";
-  public static final String DEFAULT_CHARSET_DEF = "UTF-8";
+  public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
   private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
 
   private static final String REGEX
@@ -54,6 +60,28 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
    */
   public CxxClangTidySensor(Configuration settings) {
     super(settings, REPORT_PATH_KEY, CxxClangTidyRuleRepository.KEY);
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "Clang-Tidy";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(REPORT_PATH_KEY)
+        .name("Clang-Tidy analyzer report(s)")
+        .description("Path to Clang-Tidy reports, relative to projects root. If neccessary, "
+          + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .multiValues(true)
+        .build(),
+      PropertyDefinition.builder(REPORT_CHARSET_DEF)
+        .defaultValue(DEFAULT_CHARSET_DEF)
+        .name("Encoding")
+        .description("The encoding to use when reading the clang-tidy report."
+          + " Leave empty to use parser's default UTF-8.")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .build()
+    ));
   }
 
   @Override

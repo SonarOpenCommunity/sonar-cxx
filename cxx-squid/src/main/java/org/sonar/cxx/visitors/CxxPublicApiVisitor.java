@@ -74,7 +74,7 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
     super();
     withHeaderFileSuffixes(
       Arrays.asList(
-        CxxLanguage.createStringArray(settings.getStringArray("sonar.cxx.suffixes.headers"), DEFAULT_HEADER_SUFFIXES)
+        CxxLanguage.createStringArray(settings.getStringArray(CxxLanguage.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES)
       )
     );
   }

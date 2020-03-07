@@ -60,8 +60,8 @@ public class CxxLanguageTest {
 
   @Test
   public void shouldReturnConfiguredFileSuffixes() {
-    settings.setProperty("sonar.cxx.suffixes.sources", ".C,.c");
-    settings.setProperty("sonar.cxx.suffixes.headers", ".H,.h");
+    settings.setProperty(CxxLanguage.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
+    settings.setProperty(CxxLanguage.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
     CxxLanguage cxx = new CxxLanguage(settings.asConfig());
 
     String[] expected = {".C", ".c", ".H", ".h"};
@@ -88,7 +88,7 @@ public class CxxLanguageTest {
 
   @Test
   public void shouldReturnConfiguredSourceSuffixes() {
-    settings.setProperty("sonar.cxx.suffixes.sources", ".C,.c");
+    settings.setProperty(CxxLanguage.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
     CxxLanguage cxx = new CxxLanguage(settings.asConfig());
 
     String[] expectedSources = {".C", ".c"};
@@ -102,7 +102,7 @@ public class CxxLanguageTest {
 
   @Test
   public void shouldReturnConfiguredHeaderSuffixes() {
-    settings.setProperty("sonar.cxx.suffixes.headers", ".H,.h");
+    settings.setProperty(CxxLanguage.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
     CxxLanguage cxx = new CxxLanguage(settings.asConfig());
 
     String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};

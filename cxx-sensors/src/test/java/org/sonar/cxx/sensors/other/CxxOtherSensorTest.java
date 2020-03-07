@@ -31,7 +31,7 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.cxx.CxxLanguage;
-import static org.sonar.cxx.CxxLanguage.ERROR_RECOVERY_KEY;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxOtherSensorTest {
@@ -49,9 +49,9 @@ public class CxxOtherSensorTest {
     fs = TestUtils.mockFileSystem();
 
     language = TestUtils.mockCxxLanguage();
-    settings.setProperty("sonar.cxx.other.xslt.1.stylesheet", "");
-    settings.setProperty("sonar.cxx.other.xslt.1.inputs", "");
-    settings.setProperty("sonar.cxx.other.xslt.1.outputs", "");
+    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.STYLESHEET_KEY, "");
+    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.INPUT_KEY, "");
+    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY, "");
   }
 
   @Test
@@ -101,7 +101,7 @@ public class CxxOtherSensorTest {
   @Test(expected = IllegalStateException.class)
   public void shouldThrowExceptionWhenReportEmpty() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(ERROR_RECOVERY_KEY, false);
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
     context.setSettings(settings);
 
@@ -126,7 +126,7 @@ public class CxxOtherSensorTest {
   @Test(expected = IllegalStateException.class)
   public void shouldThrowInCaseOfATrashyReport() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(ERROR_RECOVERY_KEY, false);
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
     context.setSettings(settings);
 

@@ -20,11 +20,16 @@
 package org.sonar.cxx.sensors.veraxx;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxMetricsFactory;
@@ -49,6 +54,20 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
    */
   public CxxVeraxxSensor(Configuration settings) {
     super(settings, REPORT_PATH_KEY, CxxVeraxxRuleRepository.KEY);
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "Vera++";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(REPORT_PATH_KEY)
+        .name("Vera++ report(s)")
+        .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s),"
+          + " relative to projects root." + USE_ANT_STYLE_WILDCARDS)
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .multiValues(true)
+        .build()
+    ));
   }
 
   @Override

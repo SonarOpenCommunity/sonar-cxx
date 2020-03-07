@@ -20,6 +20,7 @@
 package org.sonar.cxx.sensors.other;
 
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
@@ -57,7 +58,7 @@ public class CxxOtherRepository implements RulesDefinition {
     NewRepository repository = context.createRepository(KEY, CxxLanguage.KEY)
       .setName(NAME);
 
-    xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
+    xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), StandardCharsets.UTF_8.name());
     for (String ruleDefs : this.settings.getStringArray(RULES_KEY)) {
       if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
         try {

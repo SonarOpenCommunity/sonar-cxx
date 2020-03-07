@@ -38,6 +38,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
 
@@ -59,7 +60,7 @@ public class CxxPublicApiVisitorTest {
   @Test
   public void test_no_matching_suffix() throws IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".", "");
-    settings.setProperty("sonar.cxx.suffixes.headers", ".hpp");
+    settings.setProperty(CxxLanguage.HEADER_FILE_SUFFIXES_KEY, ".hpp");
 
     SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext);
 

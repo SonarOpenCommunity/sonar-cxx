@@ -22,6 +22,7 @@ package org.sonar.cxx.sensors.coverage;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +33,8 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.coverage.NewCoverage;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -66,6 +69,22 @@ public class CxxCoverageSensor extends CxxReportSensor {
     parsers.add(new BullseyeParser());
     parsers.add(new VisualStudioParser());
     parsers.add(new TestwellCtcTxtParser());
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "Coverage";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(REPORT_PATH_KEY)
+        .name("Unit test coverage report(s)")
+        .description("List of paths to reports containing unit test coverage data, relative to projects root."
+          + " The values are separated by commas."
+          + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
+          + "here</a> for supported formats.")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .multiValues(true)
+        .build()
+    ));
   }
 
   /**
