@@ -20,6 +20,8 @@
 package org.sonar.cxx.sensors.rats;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.jdom2.Element;
@@ -28,6 +30,8 @@ import org.jdom2.input.sax.XMLReaders;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxMetricsFactory;
@@ -59,6 +63,20 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
       return child.getTextTrim();
     }
     return MISSING_RATS_TYPE;
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "RATS";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(REPORT_PATH_KEY)
+        .name("RATS report(s)")
+        .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/>"
+          + " reports(s), relative to projects root." + USE_ANT_STYLE_WILDCARDS)
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .multiValues(true)
+        .build()
+    ));
   }
 
   @Override

@@ -49,6 +49,11 @@ public abstract class CxxReportSensor implements Sensor {
 
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
 
+  public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
+
+  protected static final String USE_ANT_STYLE_WILDCARDS
+    = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
+
   protected final CxxLanguage language;
   protected final Configuration settings;
   private final String propertiesKeyPathToReports;

@@ -20,10 +20,15 @@
 package org.sonar.cxx.sensors.valgrind;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxMetricsFactory;
@@ -56,6 +61,20 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     }
     errorMsg.append("\n\n").append(stack);
     return errorMsg.toString();
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "Valgrind";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(REPORT_PATH_KEY)
+        .name("Valgrind report(s)")
+        .description("Path to <a href='http://valgrind.org/'>Valgrind</a> report(s), relative to projects root."
+          + USE_ANT_STYLE_WILDCARDS)
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .multiValues(true)
+        .build()
+    ));
   }
 
   @Override

@@ -20,6 +20,9 @@
 package org.sonar.cxx.sensors.pclint;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
@@ -30,6 +33,8 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxMetricsFactory;
@@ -70,6 +75,20 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
    */
   public CxxPCLintSensor(Configuration settings) {
     super(settings, REPORT_PATH_KEY, CxxPCLintRuleRepository.KEY);
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "PC-lint";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(REPORT_PATH_KEY)
+        .name("PC-lint report(s)")
+        .description("Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> reports(s), relative to projects"
+          + "  root." + USE_ANT_STYLE_WILDCARDS)
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .multiValues(true)
+        .build()
+    ));
   }
 
   @Override

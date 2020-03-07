@@ -33,6 +33,7 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.api.utils.log.LoggerLevel;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxOtherXsltTest {
@@ -47,10 +48,10 @@ public class CxxOtherXsltTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
 
-    settings.setProperty("sonar.cxx.errorRecoveryEnabled", true);
-    settings.setProperty("sonar.cxx.other.xslt.2.stylesheet", "");
-    settings.setProperty("sonar.cxx.other.xslt.2.inputs", "");
-    settings.setProperty("sonar.cxx.other.xslt.2.outputs", "");
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
+    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "2" + CxxOtherSensor.STYLESHEET_KEY, "");
+    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "2" + CxxOtherSensor.INPUT_KEY, "");
+    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "2" + CxxOtherSensor.OUTPUT_KEY, "");
   }
 
   @Test
@@ -99,7 +100,7 @@ public class CxxOtherXsltTest {
   @Test
   public void shouldNotCreateMessage() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty("sonar.cxx.other.xslt.1.stylesheet", "something");
+    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.STYLESHEET_KEY, "something");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
@@ -115,8 +116,8 @@ public class CxxOtherXsltTest {
   @Test
   public void shouldCreateMissingStylesheetMessage() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty("sonar.cxx.other.xslt.1.stylesheet", "");
-    settings.setProperty("sonar.cxx.other.xslt.1.outputs", "outputs");
+    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.STYLESHEET_KEY, "");
+    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY, "outputs");
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-with-duplicates.xml");
     settings.setProperty("outputs", "outputs");
     context.setSettings(settings);
@@ -135,8 +136,8 @@ public class CxxOtherXsltTest {
   @Test
   public void shouldCreateEmptyInputsMessage() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty("sonar.cxx.other.xslt.1.stylesheet", "something");
-    settings.setProperty("sonar.cxx.other.xslt.1.inputs", "");
+    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.STYLESHEET_KEY, "something");
+    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.INPUT_KEY, "");
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "something");
     settings.setProperty("something", "something");
     context.setSettings(settings);

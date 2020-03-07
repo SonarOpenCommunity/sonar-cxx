@@ -40,7 +40,6 @@ import org.sonar.api.utils.log.Loggers;
  */
 public final class CxxUtils {
 
-  public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
   private static final Logger LOG = Loggers.get(CxxUtils.class);
 
@@ -83,7 +82,7 @@ public final class CxxUtils {
    * @param settings
    */
   public static void validateRecovery(Exception ex, Configuration settings) {
-    Optional<Boolean> recovery = settings.getBoolean(ERROR_RECOVERY_KEY);
+    Optional<Boolean> recovery = settings.getBoolean(CxxReportSensor.ERROR_RECOVERY_KEY);
     if (recovery.isPresent() && recovery.get()) {
       return;
     }

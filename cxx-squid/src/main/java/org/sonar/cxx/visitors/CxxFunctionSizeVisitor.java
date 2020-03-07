@@ -21,7 +21,13 @@ package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.sonar.api.PropertyType;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxMetric;
@@ -44,6 +50,20 @@ public class CxxFunctionSizeVisitor<G extends Grammar> extends SquidAstVisitor<G
   public CxxFunctionSizeVisitor(Configuration settings) {
     this.sizeThreshold = settings.getInt(FUNCTION_SIZE_THRESHOLD_KEY).orElse(20);
     LOG.debug("Function size threshold: " + this.sizeThreshold);
+  }
+
+  public static List<PropertyDefinition> properties() {
+    String subcateg = "Metrics";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(FUNCTION_SIZE_THRESHOLD_KEY)
+        .defaultValue("20")
+        .name("Function size threshold")
+        .description("Function size threshold to consider a function to be too big")
+        .subCategory(subcateg)
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.INTEGER)
+        .build()
+    ));
   }
 
   @Override

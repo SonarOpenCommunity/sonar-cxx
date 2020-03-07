@@ -22,13 +22,17 @@ package org.sonar.cxx.sensors.squid;
 import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import javax.annotation.Nullable;
+import org.sonar.api.PropertyType;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.CheckFactory;
@@ -38,10 +42,12 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -76,8 +82,10 @@ public class CxxSquidSensor implements Sensor {
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
-  public static final String C_FILES_PATTERNS_KEY = "sonar.cxx.cFilesPatterns";
   public static final String JSON_COMPILATION_DATABASE_KEY = "sonar.cxx.jsonCompilationDatabase";
+
+  public static final String C_FILES_PATTERNS_KEY = "sonar.cxx.cFilesPatterns";
+  public static final String DEFAULT_C_FILES = "*.c,*.C";
 
   /**
    * the following settings are in use by the feature to read configuration
@@ -85,10 +93,10 @@ public class CxxSquidSensor implements Sensor {
    */
   public static final String REPORT_PATH_KEY = "sonar.cxx.msbuild.reportPath";
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.msbuild.charset";
-  public static final String DEFAULT_CHARSET_DEF = "UTF-8";
+  public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
-  public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.cpd.ignoreLiterals";
-  public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
+  private static final String USE_ANT_STYLE_WILDCARDS
+    = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
 
   public static final String KEY = "Squid";
   private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
@@ -127,6 +135,82 @@ public class CxxSquidSensor implements Sensor {
     this.noSonarFilter = noSonarFilter;
   }
 
+  public static List<PropertyDefinition> properties() {
+    String subcateg1 = "General";
+    String subcateg2 = "Defines & Includes";
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(INCLUDE_DIRECTORIES_KEY)
+        .multiValues(true)
+        .name("Include directories")
+        .description("Comma-separated list of directories to search the included files in. "
+          + "May be defined either relative to projects root or absolute.")
+        .subCategory(subcateg2)
+        .onQualifiers(Qualifiers.PROJECT)
+        .build(),
+      PropertyDefinition.builder(FORCE_INCLUDE_FILES_KEY)
+        .multiValues(true)
+        .subCategory(subcateg2)
+        .name("Force includes")
+        .description("Comma-separated list of files which should to be included implicitly at the "
+          + "beginning of each source file.")
+        .onQualifiers(Qualifiers.PROJECT)
+        .build(),
+      PropertyDefinition.builder(DEFINES_KEY)
+        .name("Default macros")
+        .description("Additional macro definitions (one per line) to use when analysing the source code. Use to provide"
+          + "macros which cannot be resolved by other means."
+          + " Use the 'force includes' setting to inject more complex, multi-line macros.")
+        .subCategory(subcateg2)
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.TEXT)
+        .build(),
+      PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
+        .defaultValue(DEFAULT_C_FILES)
+        .multiValues(true)
+        .name("C source files patterns")
+        .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the"
+          + "patterns, it is parsed in C-compatibility mode.")
+        .subCategory(subcateg1)
+        .onQualifiers(Qualifiers.PROJECT)
+        .build(),
+      PropertyDefinition.builder(ERROR_RECOVERY_KEY)
+        .defaultValue(Boolean.TRUE.toString())
+        .name("Parse error recovery")
+        .description("Defines mode for error handling of report files and parsing errors. `False' (strict) breaks after"
+          + " an error or 'True' (tolerant=default) continues. See <a href='https://github.com/SonarOpenCommunity/"
+          + "sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>"
+          + "sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
+        .subCategory(subcateg1)
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.BOOLEAN)
+        .build(),
+      PropertyDefinition.builder(REPORT_PATH_KEY)
+        .name("Path(s) to MSBuild log(s)")
+        .description("Extract includes, defines and compiler options from the build log. This works only"
+          + " if the produced log during compilation adds enough information (MSBuild verbosity set to"
+          + " detailed or diagnostic)."
+          + USE_ANT_STYLE_WILDCARDS)
+        .subCategory(subcateg2)
+        .onQualifiers(Qualifiers.PROJECT)
+        .multiValues(true)
+        .build(),
+      PropertyDefinition.builder(REPORT_CHARSET_DEF)
+        .defaultValue(DEFAULT_CHARSET_DEF)
+        .name("MSBuild log encoding")
+        .description("The encoding to use when reading a MSBuild log. Leave empty to use default UTF-8.")
+        .subCategory(subcateg2)
+        .onQualifiers(Qualifiers.PROJECT)
+        .build(),
+      PropertyDefinition.builder(JSON_COMPILATION_DATABASE_KEY)
+        .subCategory(subcateg2)
+        .name("JSON Compilation Database")
+        .description("JSON Compilation Database file to use as specification for what defines and includes should be "
+          + "used for source files.")
+        .onQualifiers(Qualifiers.PROJECT)
+        .build()
+    ));
+  }
+
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
@@ -145,11 +229,7 @@ public class CxxSquidSensor implements Sensor {
     visitors.add(new CxxHighlighterVisitor(context));
     visitors.add(new CxxFileLinesVisitor(this.settings, fileLinesContextFactory, context));
 
-    visitors.add(
-      new CxxCpdVisitor(
-        context,
-        this.settings.getBoolean(CPD_IGNORE_LITERALS_KEY).orElse(Boolean.FALSE),
-        this.settings.getBoolean(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE)));
+    visitors.add(new CxxCpdVisitor(context));
 
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     cxxConf.setCollectMissingIncludes(visitors.stream().anyMatch(v -> v instanceof MissingIncludeFileCheck));

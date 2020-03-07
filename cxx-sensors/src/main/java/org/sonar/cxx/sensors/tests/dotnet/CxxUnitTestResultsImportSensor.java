@@ -24,11 +24,16 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.CxxLanguage;
 
 public class CxxUnitTestResultsImportSensor implements Sensor {
@@ -42,6 +47,32 @@ public class CxxUnitTestResultsImportSensor implements Sensor {
     Configuration settings) {
     this.unitTestResultsAggregator = unitTestResultsAggregator;
     this.language = new CxxLanguage(settings);
+  }
+
+  public static List<PropertyDefinition> properties() {
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
+        .multiValues(true)
+        .name("Visual Studio Test Reports Paths")
+        .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
+        .subCategory("Visual Studio Test")
+        .onQualifiers(Qualifiers.PROJECT)
+        .build(),
+      PropertyDefinition.builder(UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY)
+        .multiValues(true)
+        .name("xUnit (MS) Test Reports Paths")
+        .description("Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
+        .subCategory("xUnit (MS) Test")
+        .onQualifiers(Qualifiers.PROJECT)
+        .build(),
+      PropertyDefinition.builder(UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
+        .multiValues(true)
+        .name("NUnit Test Reports Paths")
+        .description("Example: \"TestResult.xml\", \"TestResult1.xml,TestResult2.xml\" or \"C:/TestResult.xml\"")
+        .subCategory("NUnit Test")
+        .onQualifiers(Qualifiers.PROJECT)
+        .build()
+    ));
   }
 
   @Override

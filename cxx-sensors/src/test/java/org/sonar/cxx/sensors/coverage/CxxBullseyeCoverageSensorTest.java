@@ -28,7 +28,7 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import static org.sonar.cxx.CxxLanguage.ERROR_RECOVERY_KEY;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxBullseyeCoverageSensorTest {
@@ -41,7 +41,7 @@ public class CxxBullseyeCoverageSensorTest {
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    settings.setProperty(ERROR_RECOVERY_KEY, true);
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
   }
 
   @Test
