@@ -72,7 +72,7 @@ public final class CxxPlugin implements Plugin {
 
     // plugin elements
     l.add(CxxLanguage.class);
-    l.add(CxxDefaultProfile.class);
+    l.add(CxxSonarWayProfile.class);
     l.add(CxxRuleRepository.class);
 
     // reusable elements

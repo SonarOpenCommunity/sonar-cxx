@@ -53,7 +53,7 @@ import org.sonar.cxx.checks.xpath.XPathCheck;
 
 public final class CheckList {
 
-  public static final String REPOSITORY_KEY = "c++";
+  public static final String REPOSITORY_KEY = "cxx";
 
   private CheckList() {
   }
