@@ -20,11 +20,11 @@
 package org.sonar.plugins.cxx;
 
 import com.google.common.io.Resources;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import org.sonar.api.internal.google.gson.Gson;
 import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.checks.CheckList;
