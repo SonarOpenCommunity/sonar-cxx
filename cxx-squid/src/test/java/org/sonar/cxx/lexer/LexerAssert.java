@@ -90,7 +90,7 @@ public class LexerAssert extends AbstractAssert<LexerAssert, Token> {
 
   public LexerAssert isComment() {
     isNotNull();
-    Boolean exists = actual.getTrivia().get(0).isComment();
+    boolean exists = actual.getTrivia().get(0).isComment();
     if (!exists) {
       failWithMessage("Expected the Token isComment but was <%s>", exists);
     }

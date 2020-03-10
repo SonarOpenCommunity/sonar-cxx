@@ -50,8 +50,8 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   public static final String IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
 
   private final SensorContext sensorContext;
-  private final Boolean ignoreLiterals;
-  private final Boolean ignoreIdentifiers;
+  private final boolean ignoreLiterals;
+  private final boolean ignoreIdentifiers;
   private InputFile inputFile;
   private NewCpdTokens cpdTokens;
   private int isFunctionDefinition;

@@ -86,7 +86,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
-  private Boolean frameIsInProject(SensorContext context, ValgrindFrame frame) {
+  private boolean frameIsInProject(SensorContext context, ValgrindFrame frame) {
     return frame.isLocationKnown() && (getInputFileIfInProject(context, frame.getPath()) != null);
   }
 
@@ -103,7 +103,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
       lastOwnFrame.getLine(), errorMsg);
     // add all frames as secondary locations
     for (ValgrindFrame frame : stack.getFrames()) {
-      Boolean frameIsInProject = frameIsInProject(context, frame);
+      boolean frameIsInProject = frameIsInProject(context, frame);
       String mappedPath = (frameIsInProject) ? frame.getPath() : lastOwnFrame.getPath();
       String mappedLine = (frameIsInProject) ? frame.getLine() : lastOwnFrame.getLine();
       issue.addLocation(mappedPath, mappedLine, frame.toString());

@@ -91,7 +91,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
-  private Boolean frameIsInProject(SensorContext context, Location frame) {
+  private boolean frameIsInProject(SensorContext context, Location frame) {
     return getInputFileIfInProject(context, frame.getFile()) != null;
   }
 
@@ -125,7 +125,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
         // add all frames as secondary locations
         int frameNr = 0;
         for (Location frame : error.getStackTrace()) {
-          Boolean frameIsInProject = frameIsInProject(context, frame);
+          boolean frameIsInProject = frameIsInProject(context, frame);
           String mappedPath = (frameIsInProject) ? frame.getFile() : lastOwnFrame.getFile();
           Integer mappedLine = (frameIsInProject) ? frame.getLine() : lastOwnFrame.getLine();
           fileIssue.addLocation(mappedPath, mappedLine.toString(), getFrameText(frame, frameNr));

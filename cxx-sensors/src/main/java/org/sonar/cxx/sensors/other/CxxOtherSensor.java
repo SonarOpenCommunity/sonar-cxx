@@ -135,7 +135,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
 
   public void transformFiles(final File baseDir, SensorContext context) {
     for (int i = 1; i < MAX_STYLESHEETS; i++) {
-      Boolean paramError = false;
+      boolean paramError = false;
 
       final String stylesheetKey = OTHER_XSLT_KEY + i + STYLESHEET_KEY;
       final String inputKey = OTHER_XSLT_KEY + i + INPUT_KEY;
