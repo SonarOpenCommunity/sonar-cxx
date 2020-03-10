@@ -95,12 +95,16 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   public void visitFile(@Nullable AstNode astNode) {
     File file = getContext().getFile();
     inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().is(file));
-    cpdTokens = sensorContext.newCpdTokens().onFile(inputFile);
+    if (inputFile != null) {
+      cpdTokens = sensorContext.newCpdTokens().onFile(inputFile);
+    }
   }
 
   @Override
   public void leaveFile(@Nullable AstNode astNode) {
-    cpdTokens.save();
+    if (cpdTokens != null) {
+      cpdTokens.save();
+    }
   }
 
   @Override
@@ -115,6 +119,10 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
 
   @Override
   public void visitToken(Token token) {
+    if (inputFile == null || cpdTokens == null) {
+      return;
+    }
+
     if (isFunctionDefinition > 0 && !token.isGeneratedCode()) {
       String text;
       if (ignoreIdentifiers && token.getType().equals(GenericTokenType.IDENTIFIER)) {

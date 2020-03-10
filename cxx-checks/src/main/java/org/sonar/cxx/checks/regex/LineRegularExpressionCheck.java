@@ -145,7 +145,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
     if (!matchFilePattern.isEmpty()) {
       WildcardPattern filePattern = WildcardPattern.create(matchFilePattern);
       String path = PathUtils.sanitize(getContext().getFile().getPath());
-      return filePattern.match(path);
+      return path != null ? filePattern.match(path) : false;
     }
     return true;
   }
