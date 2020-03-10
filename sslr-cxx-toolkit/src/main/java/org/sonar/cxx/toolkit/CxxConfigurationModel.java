@@ -59,7 +59,8 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
     getPropertyOrDefaultValue(CHARSET_PROPERTY_KEY, StandardCharsets.UTF_8.name()),
     Validators.charsetValidator());
 
-  private final ConfigurationProperty errorRecoveryEnabled = new ConfigurationProperty("Error Recovery", ERROR_RECOVERY_PROPERTY_KEY,
+  private final ConfigurationProperty errorRecoveryEnabled = new ConfigurationProperty("Error Recovery",
+    ERROR_RECOVERY_PROPERTY_KEY,
     getPropertyOrDefaultValue(ERROR_RECOVERY_PROPERTY_KEY, "false"),
     Validators.booleanValidator());
 
@@ -71,7 +72,8 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
     INCLUDE_DIRECTORIES_PROPERTY_KEY + " (use , as separator)",
     getPropertyOrDefaultValue(INCLUDE_DIRECTORIES_PROPERTY_KEY, ""));
 
-  private final ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes", FORCE_INCLUDES_PROPERTY_KEY
+  private final ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes",
+    FORCE_INCLUDES_PROPERTY_KEY
     + " (use , as separator)",
     getPropertyOrDefaultValue(FORCE_INCLUDES_PROPERTY_KEY, ""));
 

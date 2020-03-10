@@ -28,10 +28,9 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 
 /**
- * Some metrics are language specific. The exact reason for that might be the
- * coexistence of CXX and C plugins in the same project/module. This concept
- * doesn't match with CoreMetrics e.g. complexity, issues number etc are
- * language independent; for multi-language modules CoreMetrics are accumulated.
+ * Some metrics are language specific. The exact reason for that might be the coexistence of CXX and C plugins in the
+ * same project/module. This concept doesn't match with CoreMetrics e.g. complexity, issues number etc are language
+ * independent; for multi-language modules CoreMetrics are accumulated.
  *
  * Unification of metrics should be discussed in the future.
  *
@@ -42,8 +41,7 @@ public class CxxMetricsFactory {
   }
 
   /**
-   * Generate a map
-   * <code>{ language independent metric key : language dependent Metric object }</code>
+   * Generate a map <code>{ language independent metric key : language dependent Metric object }</code>
    */
   public static Map<CxxMetricsFactory.Key, Metric<?>> generateMap() {
     final String domain = CxxLanguage.KEY.toUpperCase(Locale.ENGLISH);

@@ -38,12 +38,10 @@ import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
- * Dr. Memory is a memory monitoring tool capable of identifying memory-related
- * programming errors such as accesses of uninitialized memory, accesses to not
- * addressable memory (including outside of allocated heap units and heap
- * underflow and overflow), accesses to freed memory, double frees, memory
- * leaks, and (on Windows) handle leaks, GDI API usage errors, and accesses to
- * unreserved thread local storage slots. See also: http://drmemory.org
+ * Dr. Memory is a memory monitoring tool capable of identifying memory-related programming errors such as accesses of
+ * uninitialized memory, accesses to not addressable memory (including outside of allocated heap units and heap
+ * underflow and overflow), accesses to freed memory, double frees, memory leaks, and (on Windows) handle leaks, GDI API
+ * usage errors, and accesses to unreserved thread local storage slots. See also: http://drmemory.org
  *
  * @author asylvestre
  */

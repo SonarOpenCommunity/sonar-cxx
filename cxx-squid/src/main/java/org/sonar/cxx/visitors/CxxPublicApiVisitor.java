@@ -47,14 +47,13 @@ import org.sonar.squidbridge.api.SourceFile;
  * </ul>
  * <p>
  * Public API items are considered documented if they have Doxygen comments.<br>
- * Function arguments are not counted since they can be documented in function
- * documentation and this visitor does not parse Doxygen comments.<br>
+ * Function arguments are not counted since they can be documented in function documentation and this visitor does not
+ * parse Doxygen comments.<br>
  * This visitor should be applied only on header files.<br>
  * Currently, no filtering is applied using preprocessing directive.<br>
  * <p>
- * Limitation: only "in front of the declaration" comments and inline comments
- * (for members) are considered. Documenting public API by name (\struct Foo for
- * instance) in other files is not supported.
+ * Limitation: only "in front of the declaration" comments and inline comments (for members) are considered. Documenting
+ * public API by name (\struct Foo for instance) in other files is not supported.
  *
  * @see <a href="http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html">
  * Doxygen Manual: Documenting the code</a>
@@ -74,7 +73,8 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
     super();
     withHeaderFileSuffixes(
       Arrays.asList(
-        CxxLanguage.createStringArray(settings.getStringArray(CxxLanguage.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES)
+        CxxLanguage.createStringArray(settings.getStringArray(CxxLanguage.HEADER_FILE_SUFFIXES_KEY),
+          DEFAULT_HEADER_SUFFIXES)
       )
     );
   }
