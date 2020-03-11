@@ -181,7 +181,7 @@ public class CppcheckParserV2 implements CppcheckParser {
         }
       }
 
-      private boolean isLocationInProject(String file, final SensorContext context) {
+      private boolean isLocationInProject(@Nullable String file, final SensorContext context) {
         // file == null means that we are dealing with a warning for the whole
         // project/module
         return (file == null) || (sensor.getInputFileIfInProject(context, file) != null);

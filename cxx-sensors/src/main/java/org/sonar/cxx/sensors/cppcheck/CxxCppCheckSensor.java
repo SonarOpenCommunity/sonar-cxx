@@ -64,7 +64,8 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Cppcheck report(s)")
-        .description("Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, relative to"
+        .description(
+          "Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, relative to"
           + " projects root. Both XML formats (version 1 and version 2) are supported. If neccessary, <a href='https://"
           + "ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
         )

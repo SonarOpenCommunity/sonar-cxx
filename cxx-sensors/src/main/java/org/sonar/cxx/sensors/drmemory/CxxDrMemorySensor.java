@@ -38,12 +38,10 @@ import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
- * Dr. Memory is a memory monitoring tool capable of identifying memory-related
- * programming errors such as accesses of uninitialized memory, accesses to not
- * addressable memory (including outside of allocated heap units and heap
- * underflow and overflow), accesses to freed memory, double frees, memory
- * leaks, and (on Windows) handle leaks, GDI API usage errors, and accesses to
- * unreserved thread local storage slots. See also: http://drmemory.org
+ * Dr. Memory is a memory monitoring tool capable of identifying memory-related programming errors such as accesses of
+ * uninitialized memory, accesses to not addressable memory (including outside of allocated heap units and heap
+ * underflow and overflow), accesses to freed memory, double frees, memory leaks, and (on Windows) handle leaks, GDI API
+ * usage errors, and accesses to unreserved thread local storage slots. See also: http://drmemory.org
  *
  * @author asylvestre
  */
@@ -91,7 +89,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
-  private Boolean frameIsInProject(SensorContext context, Location frame) {
+  private boolean frameIsInProject(SensorContext context, Location frame) {
     return getInputFileIfInProject(context, frame.getFile()) != null;
   }
 
@@ -125,7 +123,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
         // add all frames as secondary locations
         int frameNr = 0;
         for (Location frame : error.getStackTrace()) {
-          Boolean frameIsInProject = frameIsInProject(context, frame);
+          boolean frameIsInProject = frameIsInProject(context, frame);
           String mappedPath = (frameIsInProject) ? frame.getFile() : lastOwnFrame.getFile();
           Integer mappedLine = (frameIsInProject) ? frame.getLine() : lastOwnFrame.getLine();
           fileIssue.addLocation(mappedPath, mappedLine.toString(), getFrameText(frame, frameNr));

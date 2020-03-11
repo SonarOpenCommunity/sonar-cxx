@@ -46,9 +46,8 @@ import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
 
 /**
- * PC-lint is an equivalent to pmd but for C++ The first version of the tool was
- * release 1985 and the tool analyzes C/C++ source code from many compiler
- * vendors. PC-lint is the version for Windows and FlexLint for Unix, VMS, OS-9,
+ * PC-lint is an equivalent to pmd but for C++ The first version of the tool was release 1985 and the tool analyzes
+ * C/C++ source code from many compiler vendors. PC-lint is the version for Windows and FlexLint for Unix, VMS, OS-9,
  * etc See also: http://www.gimpel.com/html/index.htm
  *
  * @author Bert
@@ -145,9 +144,9 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
                 // have been created in the rule repository
                 if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008")
                   || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
-                  id = mapMisraRulesToUniqueSonarRules(msg, Boolean.FALSE);
+                  id = mapMisraRulesToUniqueSonarRules(msg, false);
                 } else if (msg.contains("MISRA 2012 Rule")) {
-                  id = mapMisraRulesToUniqueSonarRules(msg, Boolean.TRUE);
+                  id = mapMisraRulesToUniqueSonarRules(msg, true);
                 }
               }
 
@@ -225,10 +224,9 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
       }
 
       /**
-       * Concatenate M with the MISRA rule number to get the new rule id to save
-       * the violation to.
+       * Concatenate M with the MISRA rule number to get the new rule id to save the violation to.
        */
-      private String mapMisraRulesToUniqueSonarRules(String msg, Boolean isMisra2012) {
+      private String mapMisraRulesToUniqueSonarRules(String msg, boolean isMisra2012) {
         Matcher matcher = MISRA_RULE_PATTERN.matcher(msg);
         if (matcher.find()) {
           String misraRule = matcher.group(1);

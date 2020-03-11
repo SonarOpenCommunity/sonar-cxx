@@ -260,11 +260,11 @@
     <!-- versions -->
     <sonar.version>7.9</sonar.version>
     <java.version>11</java.version>
-    <maven.compiler.version>3.8.1</maven.compiler.version>    
+    <maven.compiler.version>3.8.1</maven.compiler.version>
     <sslr.version>1.23</sslr.version>
     <sslr-squid-bridge.version>2.6.1</sslr-squid-bridge.version>
     <!-- we depend on API ${sonar.version} but we keep backward compatibility with LTS -->
-    <sonarQubeMinVersion>7.9</sonarQubeMinVersion>            
+    <sonarQubeMinVersion>7.9</sonarQubeMinVersion>
   </properties>
 
   <dependencyManagement>
@@ -388,7 +388,7 @@
         <artifactId>gson</artifactId>
         <version>2.6.2</version>
         <scope>compile</scope>
-      </dependency>      
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <build>
@@ -424,11 +424,17 @@
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
           <version>3.0</version>
-        </plugin> 
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>${maven.compiler.version}</version>
+          <configuration>
+            <encoding>UTF-8</encoding>
+            <showDeprecation>true</showDeprecation>
+            <release>${java.version}</release>
+            <debug>true</debug>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
@@ -451,11 +457,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven.compiler.version}</version>
-        <configuration>
-          <showDeprecation>true</showDeprecation>
-          <release>${java.version}</release>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -478,26 +479,10 @@
                   <goal>prepare-agent</goal>
                 </goals>
               </execution>
-              <execution>
-                <id>report</id>
-                <goals>
-                  <goal>report</goal>
-                </goals>
-              </execution>
             </executions>
           </plugin>
         </plugins>
       </build>
-    </profile>
-    <profile>
-      <!-- Use javac's release flag for Java 9 and higher -->
-      <id>java9+</id>
-      <activation>
-        <jdk>[9,)</jdk>
-      </activation>
-      <properties>
-        <maven.compiler.release>8</maven.compiler.release>
-      </properties>
     </profile>
   </profiles>
 </project>

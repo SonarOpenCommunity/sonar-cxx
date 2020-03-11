@@ -64,8 +64,7 @@ public final class CxxAstScanner {
   }
 
   /**
-   * Helper method for testing checks without having to deploy them on a Sonar
-   * instance.
+   * Helper method for testing checks without having to deploy them on a Sonar instance.
    *
    * @param file is the file to be checked
    * @param sensorContext SQ API batch side context
@@ -74,7 +73,8 @@ public final class CxxAstScanner {
    * @return file checked with measures and issues
    */
   @SafeVarargs
-  public static SourceFile scanSingleFile(Configuration settings, InputFile file, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
+  public static SourceFile scanSingleFile(Configuration settings, InputFile file, SensorContext sensorContext,
+    SquidAstVisitor<Grammar>... visitors) {
     return scanSingleFileConfig(settings, file, new CxxConfiguration(sensorContext.fileSystem().encoding()), visitors);
   }
 
@@ -111,7 +111,8 @@ public final class CxxAstScanner {
    * @return scanner for the given parameters
    */
   @SafeVarargs
-  public static AstScanner<Grammar> create(Configuration settings, CxxConfiguration conf, SquidAstVisitor<Grammar>... visitors) {
+  public static AstScanner<Grammar> create(Configuration settings, CxxConfiguration conf,
+    SquidAstVisitor<Grammar>... visitors) {
     final SquidAstVisitorContextImpl<Grammar> context
       = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
     final Parser<Grammar> parser = CxxParser.create(context, conf);

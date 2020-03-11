@@ -22,6 +22,7 @@ package org.sonar.cxx.visitors;
 import com.sonar.sslr.api.Grammar;
 import java.util.HashSet;
 import java.util.Set;
+import javax.annotation.Nullable;
 import org.sonar.api.utils.AnnotationUtils;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.squidbridge.SquidAstVisitorContext;
@@ -62,7 +63,7 @@ public class MultiLocatitionSquidCheck<G extends Grammar> extends SquidCheck<G> 
     setMultiLocationViolation(sourceFile, null);
   }
 
-  private static void setMultiLocationViolation(SourceFile sourceFile, Set<CxxReportIssue> messages) {
+  private static void setMultiLocationViolation(SourceFile sourceFile, @Nullable Set<CxxReportIssue> messages) {
     sourceFile.addData(DataKey.FILE_VIOLATIONS_WITH_MULTIPLE_LOCATIONS, messages);
   }
 
