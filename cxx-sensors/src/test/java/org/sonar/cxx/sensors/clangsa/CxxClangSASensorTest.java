@@ -119,16 +119,19 @@ public class CxxClangSASensorTest {
     // number of ClangSA issues
     SoftAssertions softly = new SoftAssertions();
     Measure<Integer> nrOfIssuesFile0 = context.<Integer>measure(testFile0.key(),
-      language.getMetric(CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY));
+                                                                language.getMetric(
+                                                                  CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY));
     softly.assertThat(nrOfIssuesFile0.value()).isEqualTo(2);
 
     Measure<Integer> nrOfIssuesFile1 = context.<Integer>measure(testFile1.key(),
-      language.getMetric(CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY));
+                                                                language.getMetric(
+                                                                  CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY));
     softly.assertThat(nrOfIssuesFile1.value()).isEqualTo(1);
 
     // assert that the module is annotated with the total sum of ClangSA issues
-    Measure<Integer> nrOfIssuesModule = context.<Integer>measure(context.module().key(),
-      language.getMetric(CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY));
+    Measure<Integer> nrOfIssuesModule = context.<Integer>measure(context.project().key(),
+                                                                 language.getMetric(
+                                                                   CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY));
     softly.assertThat(nrOfIssuesModule.value()).isEqualTo(3);
     softly.assertAll();
   }
@@ -142,7 +145,7 @@ public class CxxClangSASensorTest {
   public void shouldReportCorrectFlows() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY,
-      "clangsa-reports/clangsa-report.plist");
+                         "clangsa-reports/clangsa-report.plist");
     context.setSettings(settings);
 
     /*

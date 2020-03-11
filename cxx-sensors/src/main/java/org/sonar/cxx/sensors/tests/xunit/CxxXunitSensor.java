@@ -70,8 +70,8 @@ public class CxxXunitSensor extends CxxReportSensor {
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Unit test execution report(s)")
         .description("Path to unit test execution report(s), relative to projects root."
-          + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>"
-          + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
+                       + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>"
+                     + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -79,8 +79,8 @@ public class CxxXunitSensor extends CxxReportSensor {
       PropertyDefinition.builder(XSLT_URL_KEY)
         .name("XSLT transformer")
         .description("By default, the unit test execution reports are expected to be in the JUnitReport format."
-          + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is "
-          + "able to perform the according transformation.")
+                       + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is "
+                     + "able to perform the according transformation.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .build()
@@ -101,7 +101,7 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   @Override
   public void executeImpl(SensorContext context) {
-    LOG.debug("Root module imports test metrics: Module Key = '{}'", context.module());
+    LOG.debug("Root module imports test metrics: Module Key = '{}'", context.project());
 
     try {
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
@@ -173,7 +173,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       try {
         context.<Integer>newMeasure()
           .forMetric(CoreMetrics.TESTS)
-          .on(context.module())
+          .on(context.project())
           .withValue(testsCount)
           .save();
       } catch (IllegalArgumentException ex) {
@@ -184,7 +184,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       try {
         context.<Integer>newMeasure()
           .forMetric(CoreMetrics.TEST_ERRORS)
-          .on(context.module())
+          .on(context.project())
           .withValue(testsErrors)
           .save();
       } catch (IllegalArgumentException ex) {
@@ -195,7 +195,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       try {
         context.<Integer>newMeasure()
           .forMetric(CoreMetrics.TEST_FAILURES)
-          .on(context.module())
+          .on(context.project())
           .withValue(testsFailures)
           .save();
       } catch (IllegalArgumentException ex) {
@@ -206,7 +206,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       try {
         context.<Integer>newMeasure()
           .forMetric(CoreMetrics.SKIPPED_TESTS)
-          .on(context.module())
+          .on(context.project())
           .withValue(testsSkipped)
           .save();
       } catch (IllegalArgumentException ex) {
@@ -217,7 +217,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       try {
         context.<Long>newMeasure()
           .forMetric(CoreMetrics.TEST_EXECUTION_TIME)
-          .on(context.module())
+          .on(context.project())
           .withValue(testsTime)
           .save();
       } catch (IllegalArgumentException ex) {
