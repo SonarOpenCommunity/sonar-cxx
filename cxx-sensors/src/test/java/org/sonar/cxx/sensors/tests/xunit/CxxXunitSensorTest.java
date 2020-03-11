@@ -55,7 +55,7 @@ public class CxxXunitSensorTest {
     CxxXunitSensor sensor = new CxxXunitSensor(settings.asConfig());
     sensor.execute(context);
 
-    assertThat(context.measures(context.module().key())).hasSize(0);
+    assertThat(context.measures(context.project().key())).hasSize(0);
   }
 
   @Test
@@ -67,8 +67,8 @@ public class CxxXunitSensorTest {
     CxxXunitSensor sensor = new CxxXunitSensor(settings.asConfig());
     sensor.execute(context);
 
-    assertThat(context.measures(context.module().key())).hasSize(5);
-    assertThat(context.measures(context.module().key()))
+    assertThat(context.measures(context.project().key())).hasSize(5);
+    assertThat(context.measures(context.project().key()))
       .extracting("metric.key", "value")
       .containsOnly(
         tuple(CoreMetrics.TESTS_KEY, 3),

@@ -110,15 +110,19 @@ public class CxxSquidSensorTest {
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.COGNITIVE_COMPLEXITY).value()).isEqualTo(16);
 
     final Metric<Integer> COMPLEX_FUNCTIONS = language.<Integer>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_KEY);
-    final Metric<Double> COMPLEX_FUNCTIONS_PERC = language.<Double>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_PERC_KEY);
-    final Metric<Integer> COMPLEX_FUNCTIONS_LOC = language.<Integer>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_KEY);
-    final Metric<Double> COMPLEX_FUNCTIONS_LOC_PERC = language.<Double>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_PERC_KEY);
+    final Metric<Double> COMPLEX_FUNCTIONS_PERC = language.<Double>getMetric(
+      CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_PERC_KEY);
+    final Metric<Integer> COMPLEX_FUNCTIONS_LOC = language.<Integer>getMetric(
+      CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_KEY);
+    final Metric<Double> COMPLEX_FUNCTIONS_LOC_PERC = language.<Double>getMetric(
+      CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_PERC_KEY);
 
     final Metric<Integer> LOC_IN_FUNCTIONS = language.<Integer>getMetric(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY);
     final Metric<Integer> BIG_FUNCTIONS = language.<Integer>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_KEY);
     final Metric<Double> BIG_FUNCTIONS_PERC = language.<Double>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_PERC_KEY);
     final Metric<Integer> BIG_FUNCTIONS_LOC = language.<Integer>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY);
-    final Metric<Double> BIG_FUNCTIONS_LOC_PERC = language.<Double>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_PERC_KEY);
+    final Metric<Double> BIG_FUNCTIONS_LOC_PERC = language.<Double>getMetric(
+      CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_PERC_KEY);
 
     softly.assertThat(context.measure(inputFile.key(), COMPLEX_FUNCTIONS).value()).isEqualTo(1);
     softly.assertThat(context.measure(inputFile.key(), COMPLEX_FUNCTIONS_PERC)).isNull(); // see DensityMeasureComputer
@@ -154,7 +158,7 @@ public class CxxSquidSensorTest {
     softly.assertThat(context.measure(inputFile.key(), UNDOCUMENTED_API).value()).isEqualTo(2);
     softly.assertThat(context.measure(inputFile.key(), DOCUMENTED_API_DENSITY)).isNull(); // see DensityMeasureComputer
 
-    final String moduleKey = context.module().key();
+    final String moduleKey = context.project().key();
     softly.assertThat(context.measure(moduleKey, API)).isNull(); // see AggregateMeasureComputer
     softly.assertThat(context.measure(moduleKey, UNDOCUMENTED_API)).isNull(); // see AggregateMeasureComputer
     softly.assertThat(context.measure(moduleKey, DOCUMENTED_API_DENSITY)).isNull(); // see AggregateMeasureComputer

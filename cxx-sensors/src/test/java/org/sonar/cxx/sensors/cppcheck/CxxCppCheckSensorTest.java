@@ -68,7 +68,8 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportProjectLevelViolationsV1() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+                         "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
     context.setSettings(settings);
 
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
@@ -80,7 +81,8 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportProjectLevelViolationsV2() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+                         "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
     context.setSettings(settings);
 
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
@@ -90,7 +92,7 @@ public class CxxCppCheckSensorTest {
     softly.assertThat(context.allIssues()).hasSize(3);
 
     // assert that all all issues were filed on on the module
-    final String moduleKey = context.module().key();
+    final String moduleKey = context.project().key();
     for (Issue issue : context.allIssues()) {
       softly.assertThat(issue.primaryLocation().inputComponent().key()).isEqualTo(moduleKey);
     }
@@ -100,7 +102,8 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportProjectLevelMetricsV2() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+                         "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
     context.setSettings(settings);
 
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
@@ -108,9 +111,10 @@ public class CxxCppCheckSensorTest {
 
     // assert that the module was annotated with a new measurement (metric) for
     // the total number of cppcheck issues
-    final String moduleKey = context.module().key();
+    final String moduleKey = context.project().key();
     Measure<Integer> nrOfIssuesMetric = context.<Integer>measure(moduleKey,
-      language.getMetric(CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY));
+                                                                 language.getMetric(
+                                                                   CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY));
     assertThat(nrOfIssuesMetric.value()).isEqualTo(3);
   }
 
