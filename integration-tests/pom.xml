@@ -17,9 +17,9 @@
   </properties>
 
   <dependencies>
-    
-     <!-- set dependencies to aggregate coverage results -->
-     
+
+    <!-- set dependencies to aggregate coverage results -->
+
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-checks</artifactId>
@@ -29,7 +29,7 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-sensors</artifactId>
       <version>${project.version}</version>
-    </dependency>         
+    </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-squid</artifactId>
@@ -40,7 +40,7 @@
       <artifactId>sonar-cxx-plugin</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
+
     <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-jvm-deps -->
 
     <!-- https://mvnrepository.com/artifact/io.cucumber/gherkin -->
@@ -107,10 +107,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven.compiler.version}</version>
           <configuration>
-            <encoding>UTF-8</encoding>
-            <release>${java.version}</release>
             <compilerArgument>-Werror</compilerArgument>
           </configuration>
         </plugin>
@@ -158,7 +155,7 @@
             </execution>
           </executions>
         </plugin>
-       <plugin>
+        <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <executions>
