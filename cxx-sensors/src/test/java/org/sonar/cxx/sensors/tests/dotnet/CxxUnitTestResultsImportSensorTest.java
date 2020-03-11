@@ -61,7 +61,7 @@ public class CxxUnitTestResultsImportSensorTest {
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
     CxxUnitTestResultsImportSensor sensor = new CxxUnitTestResultsImportSensor(mock(CxxUnitTestResultsAggregator.class),
-      settings.asConfig());
+                                                                               settings.asConfig());
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
@@ -84,13 +84,14 @@ public class CxxUnitTestResultsImportSensorTest {
     CxxUnitTestResultsAggregator unitTestResultsAggregator = mock(CxxUnitTestResultsAggregator.class);
     UnitTestConfiguration unitTestConf = mock(UnitTestConfiguration.class);
     when(unitTestResultsAggregator.aggregate(Mockito.any(WildcardPatternFileProvider.class),
-      Mockito.any(UnitTestResults.class), same(unitTestConf))).thenReturn(results);
+                                             Mockito.any(UnitTestResults.class), same(unitTestConf)))
+      .thenReturn(results);
 
     new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, settings.asConfig())
       .analyze(context, results, unitTestConf);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results),
-      same(unitTestConf));
+                                                same(unitTestConf));
 
     assertThat(context.measures("projectKey"))
       .extracting("metric.key", "value")
@@ -115,13 +116,14 @@ public class CxxUnitTestResultsImportSensorTest {
     when(results.errors()).thenReturn(3);
     when(results.executionTime()).thenReturn(null);
     when(unitTestResultsAggregator.aggregate(Mockito.any(WildcardPatternFileProvider.class),
-      Mockito.any(UnitTestResults.class), same(unitTestConf))).thenReturn(results);
+                                             Mockito.any(UnitTestResults.class), same(unitTestConf)))
+      .thenReturn(results);
 
     new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, settings.asConfig())
       .analyze(context, results, unitTestConf);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results),
-      same(unitTestConf));
+                                                same(unitTestConf));
 
     assertThat(context.measures("projectKey"))
       .extracting("metric.key", "value")

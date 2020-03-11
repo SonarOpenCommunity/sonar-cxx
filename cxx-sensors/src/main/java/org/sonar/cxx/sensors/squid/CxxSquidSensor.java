@@ -88,15 +88,14 @@ public class CxxSquidSensor implements Sensor {
   public static final String DEFAULT_C_FILES = "*.c,*.C";
 
   /**
-   * the following settings are in use by the feature to read configuration
-   * settings from the VC compiler report
+   * the following settings are in use by the feature to read configuration settings from the VC compiler report
    */
   public static final String REPORT_PATH_KEY = "sonar.cxx.msbuild.reportPath";
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.msbuild.charset";
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
   private static final String USE_ANT_STYLE_WILDCARDS
-    = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
+                                = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
 
   public static final String KEY = "Squid";
   private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
@@ -112,9 +111,9 @@ public class CxxSquidSensor implements Sensor {
    * {@inheritDoc}
    */
   public CxxSquidSensor(Configuration settings,
-    FileLinesContextFactory fileLinesContextFactory,
-    CheckFactory checkFactory,
-    NoSonarFilter noSonarFilter) {
+                        FileLinesContextFactory fileLinesContextFactory,
+                        CheckFactory checkFactory,
+                        NoSonarFilter noSonarFilter) {
     this(settings, fileLinesContextFactory, checkFactory, noSonarFilter, null);
   }
 
@@ -122,10 +121,10 @@ public class CxxSquidSensor implements Sensor {
    * {@inheritDoc}
    */
   public CxxSquidSensor(Configuration settings,
-    FileLinesContextFactory fileLinesContextFactory,
-    CheckFactory checkFactory,
-    NoSonarFilter noSonarFilter,
-    @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
+                        FileLinesContextFactory fileLinesContextFactory,
+                        CheckFactory checkFactory,
+                        NoSonarFilter noSonarFilter,
+                        @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
     this.settings = settings;
     this.language = new CxxLanguage(settings);
     this.checks = CxxChecks.createCxxCheck(checkFactory)
@@ -143,7 +142,7 @@ public class CxxSquidSensor implements Sensor {
         .multiValues(true)
         .name("Include directories")
         .description("Comma-separated list of directories to search the included files in. "
-          + "May be defined either relative to projects root or absolute.")
+                       + "May be defined either relative to projects root or absolute.")
         .subCategory(subcateg2)
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
@@ -152,14 +151,14 @@ public class CxxSquidSensor implements Sensor {
         .subCategory(subcateg2)
         .name("Force includes")
         .description("Comma-separated list of files which should to be included implicitly at the "
-          + "beginning of each source file.")
+                       + "beginning of each source file.")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(DEFINES_KEY)
         .name("Default macros")
         .description("Additional macro definitions (one per line) to use when analysing the source code. Use to provide"
-          + "macros which cannot be resolved by other means."
-          + " Use the 'force includes' setting to inject more complex, multi-line macros.")
+                       + "macros which cannot be resolved by other means."
+                       + " Use the 'force includes' setting to inject more complex, multi-line macros.")
         .subCategory(subcateg2)
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.TEXT)
@@ -169,7 +168,7 @@ public class CxxSquidSensor implements Sensor {
         .multiValues(true)
         .name("C source files patterns")
         .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the"
-          + "patterns, it is parsed in C-compatibility mode.")
+                       + "patterns, it is parsed in C-compatibility mode.")
         .subCategory(subcateg1)
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
@@ -177,9 +176,9 @@ public class CxxSquidSensor implements Sensor {
         .defaultValue(Boolean.TRUE.toString())
         .name("Parse error recovery")
         .description("Defines mode for error handling of report files and parsing errors. `False' (strict) breaks after"
-          + " an error or 'True' (tolerant=default) continues. See <a href='https://github.com/SonarOpenCommunity/"
-          + "sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>"
-          + "sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
+                       + " an error or 'True' (tolerant=default) continues. See <a href='https://github.com/SonarOpenCommunity/"
+                     + "sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>"
+                       + "sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
         .subCategory(subcateg1)
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
@@ -187,9 +186,9 @@ public class CxxSquidSensor implements Sensor {
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Path(s) to MSBuild log(s)")
         .description("Extract includes, defines and compiler options from the build log. This works only"
-          + " if the produced log during compilation adds enough information (MSBuild verbosity set to"
-          + " detailed or diagnostic)."
-          + USE_ANT_STYLE_WILDCARDS)
+                       + " if the produced log during compilation adds enough information (MSBuild verbosity set to"
+                       + " detailed or diagnostic)."
+                       + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg2)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -205,7 +204,7 @@ public class CxxSquidSensor implements Sensor {
         .subCategory(subcateg2)
         .name("JSON Compilation Database")
         .description("JSON Compilation Database file to use as specification for what defines and includes should be "
-          + "used for source files.")
+                       + "used for source files.")
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));
@@ -234,12 +233,12 @@ public class CxxSquidSensor implements Sensor {
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     cxxConf.setCollectMissingIncludes(visitors.stream().anyMatch(v -> v instanceof MissingIncludeFileCheck));
     AstScanner<Grammar> scanner = CxxAstScanner.create(this.settings, cxxConf,
-      visitors.toArray(new SquidAstVisitor[visitors.size()]));
+                                                       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
     Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
       .and(context.fileSystem().predicates()
         .hasLanguage(this.language.getKey()), context.fileSystem().predicates()
-        .hasType(InputFile.Type.MAIN)));
+           .hasType(InputFile.Type.MAIN)));
 
     List<File> files = new ArrayList<>();
     for (InputFile file : inputFiles) {
@@ -300,7 +299,7 @@ public class CxxSquidSensor implements Sensor {
     if (buildLogPathsDefined) {
       List<File> reports = CxxReportSensor.getReports(context.config(), fs.baseDir(), REPORT_PATH_KEY);
       cxxConf.setCompilationPropertiesWithBuildLog(reports, "Visual C++",
-        this.settings.get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF));
+                                                   this.settings.get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF));
     }
 
     return cxxConf;
@@ -328,7 +327,7 @@ public class CxxSquidSensor implements Sensor {
     Metric<Integer> metric = this.language.getMetric(CxxMetricsFactory.Key.SQUID_SENSOR_ISSUES_KEY);
     context.<Integer>newMeasure()
       .forMetric(metric)
-      .on(context.module())
+      .on(context.project())
       .withValue(violationsCount)
       .save();
   }
@@ -396,7 +395,9 @@ public class CxxSquidSensor implements Sensor {
         }
 
         NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of("cxx",
-          checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()).rule()));
+                                                                        checks.ruleKey(
+                                                                          (SquidAstVisitor<Grammar>) message.getCheck())
+                                                                          .rule()));
         NewIssueLocation location = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
           .message(message.getText(Locale.ENGLISH));
 

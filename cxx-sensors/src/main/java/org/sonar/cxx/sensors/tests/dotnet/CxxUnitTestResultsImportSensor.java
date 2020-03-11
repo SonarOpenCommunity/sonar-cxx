@@ -39,12 +39,12 @@ import org.sonar.cxx.CxxLanguage;
 public class CxxUnitTestResultsImportSensor implements ProjectSensor {
 
   private final WildcardPatternFileProvider wildcardPatternFileProvider
-    = new WildcardPatternFileProvider(new File("."), File.separator);
+                                              = new WildcardPatternFileProvider(new File("."), File.separator);
   private final CxxUnitTestResultsAggregator unitTestResultsAggregator;
   protected final CxxLanguage language;
 
   public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator,
-    Configuration settings) {
+                                        Configuration settings) {
     this.unitTestResultsAggregator = unitTestResultsAggregator;
     this.language = new CxxLanguage(settings);
   }
@@ -56,9 +56,9 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
         .name("VSTest Reports Paths")
         .description(
           "Paths to VSTest reports. Multiple paths may be comma-delimited, or included via wildcards."
-          + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
-          + " available.\n"
-          + "Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
+            + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
+            + " available.\n"
+            + "Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
         .subCategory("VSTest")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
@@ -67,9 +67,9 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
         .name("xUnit Test Reports Paths")
         .description(
           "Paths to xUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards."
-          + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
-          + " available.\n"
-          + "Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
+            + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
+            + " available.\n"
+            + "Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
         .subCategory("xUnit Test")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
@@ -78,9 +78,9 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
         .name("NUnit Test Reports Paths")
         .description(
           "Paths to NUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards."
-          + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
-          + " available.\n"
-          + "Example: \"TestResult.xml\", \"TestResult1.xml,TestResult2.xml\" or \"C:/TestResult.xml\"")
+            + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
+            + " available.\n"
+            + "Example: \"TestResult.xml\", \"TestResult1.xml,TestResult2.xml\" or \"C:/TestResult.xml\"")
         .subCategory("NUnit Test")
         .onQualifiers(Qualifiers.PROJECT)
         .build()
@@ -102,7 +102,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
 
   void analyze(SensorContext context, UnitTestResults unitTestResults, UnitTestConfiguration unitTestConf) {
     UnitTestResults aggregatedResults = unitTestResultsAggregator.aggregate(wildcardPatternFileProvider,
-      unitTestResults, unitTestConf);
+                                                                            unitTestResults, unitTestConf);
 
     context.<Integer>newMeasure()
       .forMetric(CoreMetrics.TESTS)
