@@ -51,7 +51,7 @@ public abstract class CxxReportSensor implements Sensor {
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
 
   protected static final String USE_ANT_STYLE_WILDCARDS
-    = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
+                                  = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
 
   protected final CxxLanguage language;
   protected final Configuration settings;
@@ -138,7 +138,7 @@ public abstract class CxxReportSensor implements Sensor {
 
     if (existingReportPaths.length == 0) {
       LOG.warn("Property '{}': cannot find any files matching the Ant pattern(s) '{}'", reportPathKey,
-        String.join(", ", normalizedReportPaths));
+               String.join(", ", normalizedReportPaths));
       return Collections.emptyList();
     }
 
@@ -183,7 +183,7 @@ public abstract class CxxReportSensor implements Sensor {
       realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
     } catch (IOException | RuntimeException e) {
       LOG.debug("Unable to get the real path: module '{}', baseDir '{}', path '{}', exception '{}'",
-        sensorContext.module().key(), sensorContext.fileSystem().baseDir(), path, e.getMessage());
+                sensorContext.project().key(), sensorContext.fileSystem().baseDir(), path, e.getMessage());
       return null;
     }
 
@@ -237,7 +237,7 @@ public abstract class CxxReportSensor implements Sensor {
 
     if (inputFile == null) {
       LOG.warn("Cannot find the file '{}' in module '{}' base dir '{}', skipping violations.",
-        path, sensorContext.module().key(), sensorContext.fileSystem().baseDir());
+               path, sensorContext.project().key(), sensorContext.fileSystem().baseDir());
       notFoundFiles.add(path);
     }
     return inputFile;

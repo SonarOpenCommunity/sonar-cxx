@@ -41,9 +41,8 @@ import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
 
 /**
- * This class is used as base for all sensors which import external reports,
- * which contain issues. It hosts common logic such as saving issues in
- * SonarQube
+ * This class is used as base for all sensors which import external reports, which contain issues. It hosts common logic
+ * such as saving issues in SonarQube
  */
 public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
@@ -63,8 +62,8 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
-    CxxReportLocation location) {
-    return newIssue.newLocation().on(sensorContext.module()).message(location.getInfo());
+                                                               CxxReportLocation location) {
+    return newIssue.newLocation().on(sensorContext.project()).message(location.getInfo());
   }
 
   public String getRuleRepositoryKey() {
@@ -78,7 +77,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   public void executeImpl(SensorContext context) {
     try {
       LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'",
-        context.fileSystem().baseDir(), getReportPathKey());
+               context.fileSystem().baseDir(), getReportPathKey());
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
       violationsPerFileCount.clear();
       violationsPerModuleCount = 0;
@@ -107,7 +106,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       if (violationsPerModuleCount != 0) {
         context.<Integer>newMeasure()
           .forMetric(metric)
-          .on(context.module())
+          .on(context.project())
           .withValue(violationsPerModuleCount)
           .save();
       }
@@ -146,7 +145,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       if (LOG.isDebugEnabled()) {
         Metric<Integer> metric = getLanguage().getMetric(this.getMetricKey());
         LOG.debug("{} processed = {}", metric.getKey(),
-          violationsPerModuleCount - prevViolationsCount);
+                  violationsPerModuleCount - prevViolationsCount);
       }
     } catch (EmptyReportException e) {
       LOG.warn("The report '{}' seems to be empty, ignoring.", report);
@@ -156,7 +155,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   private NewIssueLocation createNewIssueLocationFile(SensorContext sensorContext, NewIssue newIssue,
-    CxxReportLocation location, Set<InputFile> affectedFiles) {
+                                                      CxxReportLocation location, Set<InputFile> affectedFiles) {
     InputFile inputFile = getInputFileIfInProject(sensorContext, location.getFile());
     if (inputFile != null) {
       int lines = inputFile.lines();
@@ -170,11 +169,9 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   /**
-   * Saves a code violation which is detected in the given file/line and has
-   * given ruleId and message. Saves it to the given project and context.
-   * Project or file-level violations can be saved by passing null for the
-   * according parameters ('file' = null for project level, 'line' = null for
-   * file-level)
+   * Saves a code violation which is detected in the given file/line and has given ruleId and message. Saves it to the
+   * given project and context. Project or file-level violations can be saved by passing null for the according
+   * parameters ('file' = null for project level, 'line' = null for file-level)
    */
   private void saveViolation(SensorContext sensorContext, CxxReportIssue issue) {
     NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(getRuleRepositoryKey(), issue.getRuleId()));
@@ -186,7 +183,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     for (CxxReportLocation location : issue.getLocations()) {
       if (location.getFile() != null && !location.getFile().isEmpty()) {
         NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location,
-          affectedFiles);
+                                                                       affectedFiles);
         if (newIssueLocation != null) {
           newIssueLocations.add(newIssueLocation);
         }
