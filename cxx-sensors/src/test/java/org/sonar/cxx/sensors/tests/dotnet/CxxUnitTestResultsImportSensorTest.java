@@ -60,12 +60,12 @@ public class CxxUnitTestResultsImportSensorTest {
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxUnitTestResultsImportSensor sensor = new CxxUnitTestResultsImportSensor(mock(CxxUnitTestResultsAggregator.class), settings.asConfig());
+    CxxUnitTestResultsImportSensor sensor = new CxxUnitTestResultsImportSensor(mock(CxxUnitTestResultsAggregator.class),
+      settings.asConfig());
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " Unit Test Results Import");
-    softly.assertThat(descriptor.isGlobal()).isTrue();
     softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
     softly.assertAll();
   }

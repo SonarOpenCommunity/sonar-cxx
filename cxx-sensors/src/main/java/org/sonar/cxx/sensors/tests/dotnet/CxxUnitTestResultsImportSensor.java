@@ -27,16 +27,16 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Qualifiers;
+import org.sonar.api.scanner.sensor.ProjectSensor;
 import org.sonar.cxx.CxxLanguage;
 
-public class CxxUnitTestResultsImportSensor implements Sensor {
+public class CxxUnitTestResultsImportSensor implements ProjectSensor {
 
   private final WildcardPatternFileProvider wildcardPatternFileProvider
     = new WildcardPatternFileProvider(new File("."), File.separator);
@@ -53,22 +53,34 @@ public class CxxUnitTestResultsImportSensor implements Sensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
-        .name("Visual Studio Test Reports Paths")
-        .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
-        .subCategory("Visual Studio Test")
+        .name("VSTest Reports Paths")
+        .description(
+          "Paths to VSTest reports. Multiple paths may be comma-delimited, or included via wildcards."
+          + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
+          + " available.\n"
+          + "Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
+        .subCategory("VSTest")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
-        .name("xUnit (MS) Test Reports Paths")
-        .description("Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
-        .subCategory("xUnit (MS) Test")
+        .name("xUnit Test Reports Paths")
+        .description(
+          "Paths to xUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards."
+          + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
+          + " available.\n"
+          + "Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
+        .subCategory("xUnit Test")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
         .name("NUnit Test Reports Paths")
-        .description("Example: \"TestResult.xml\", \"TestResult1.xml,TestResult2.xml\" or \"C:/TestResult.xml\"")
+        .description(
+          "Paths to NUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards."
+          + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
+          + " available.\n"
+          + "Example: \"TestResult.xml\", \"TestResult1.xml,TestResult2.xml\" or \"C:/TestResult.xml\"")
         .subCategory("NUnit Test")
         .onQualifiers(Qualifiers.PROJECT)
         .build()
@@ -79,7 +91,6 @@ public class CxxUnitTestResultsImportSensor implements Sensor {
   public void describe(SensorDescriptor descriptor) {
     String name = String.format("%s Unit Test Results Import", this.language.getName());
     descriptor.name(name);
-    descriptor.global();
     descriptor.onlyWhenConfiguration(conf -> new UnitTestConfiguration(language, conf).hasUnitTestResultsProperty());
     descriptor.onlyOnLanguage(this.language.getKey());
   }
@@ -95,22 +106,22 @@ public class CxxUnitTestResultsImportSensor implements Sensor {
 
     context.<Integer>newMeasure()
       .forMetric(CoreMetrics.TESTS)
-      .on(context.module())
+      .on(context.project())
       .withValue(aggregatedResults.tests())
       .save();
     context.<Integer>newMeasure()
       .forMetric(CoreMetrics.TEST_ERRORS)
-      .on(context.module())
+      .on(context.project())
       .withValue(aggregatedResults.errors())
       .save();
     context.<Integer>newMeasure()
       .forMetric(CoreMetrics.TEST_FAILURES)
-      .on(context.module())
+      .on(context.project())
       .withValue(aggregatedResults.failures())
       .save();
     context.<Integer>newMeasure()
       .forMetric(CoreMetrics.SKIPPED_TESTS)
-      .on(context.module())
+      .on(context.project())
       .withValue(aggregatedResults.skipped())
       .save();
 
@@ -118,7 +129,7 @@ public class CxxUnitTestResultsImportSensor implements Sensor {
     if (executionTime != null) {
       context.<Long>newMeasure()
         .forMetric(CoreMetrics.TEST_EXECUTION_TIME)
-        .on(context.module())
+        .on(context.project())
         .withValue(executionTime)
         .save();
     }
