@@ -34,9 +34,9 @@ import javax.annotation.Nullable;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.scanner.sensor.ProjectSensor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -44,7 +44,7 @@ import org.sonar.cxx.CxxLanguage;
 /**
  * This class is used as base for all sensors which import reports. It hosts common logic such as finding the reports.
  */
-public abstract class CxxReportSensor implements Sensor {
+public abstract class CxxReportSensor implements ProjectSensor {
 
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
 

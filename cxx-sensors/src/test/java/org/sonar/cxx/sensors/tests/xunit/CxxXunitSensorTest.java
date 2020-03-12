@@ -113,7 +113,6 @@ public class CxxXunitSensorTest {
     sensor.describe(descriptor);
 
     assertThat(descriptor.name()).isEqualTo(language.getName() + " XunitSensor");
-    assertThat(descriptor.isGlobal()).isTrue();
   }
 
   File cppunitReport() {
