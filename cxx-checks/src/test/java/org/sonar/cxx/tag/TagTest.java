@@ -27,8 +27,8 @@ public class TagTest {
 
   @Test
   public void private_constructor() throws Exception {
-    Constructor constructor = Tag.class.getDeclaredConstructor();
-    assertThat(constructor.isAccessible()).isFalse();
+    Constructor<Tag> constructor = Tag.class.getDeclaredConstructor();
+    assertThat(constructor.canAccess(null)).isFalse();
     constructor.setAccessible(true);
     constructor.newInstance();
   }
