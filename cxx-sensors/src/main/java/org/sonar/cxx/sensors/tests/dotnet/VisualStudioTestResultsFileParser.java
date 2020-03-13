@@ -46,10 +46,6 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
 
   private static class Parser {
 
-    private static void checkRootTag(XmlParserHelper xmlParserHelper) {
-      xmlParserHelper.checkRootTag("TestRun");
-    }
-
     private final File file;
     private final UnitTestResults unitTestResults;
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
@@ -60,6 +56,10 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
     Parser(File file, UnitTestResults unitTestResults) {
       this.file = file;
       this.unitTestResults = unitTestResults;
+    }
+
+    private static void checkRootTag(XmlParserHelper xmlParserHelper) {
+      xmlParserHelper.checkRootTag("TestRun");
     }
 
     public void parse() {
@@ -118,7 +118,7 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
         return dateFormat.parse(value);
       } catch (ParseException e) {
         throw xmlParserHelper.parseError("Expected an valid date and time instead of \"" + value
-          + "\" for the attribute \"" + name + "\". " + e.getMessage());
+                                           + "\" for the attribute \"" + name + "\". " + e.getMessage());
       }
     }
 

@@ -66,7 +66,8 @@ public class CppGrammarTest {
   public void preprocessorLine_reallife() {
     assertThat(p).matches("#include      <ace/config-all.h>");
     assertThat(p).matches("#endif  // LLVM_DEBUGINFO_DWARFDEBUGRANGELIST_H");
-    assertThat(p).matches("#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0");
+    assertThat(p).matches(
+      "#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0");
     assertThat(p).matches("#include <algorithm>");
     assertThat(p).matches("# /* See http://www.boost.org for most recent version. */");
     assertThat(p).matches("#if (C(A() && B()))");
@@ -234,7 +235,8 @@ public class CppGrammarTest {
     assertThat(p).matches("#include USER_CONFIG");
     assertThat(p).matches("#include macro(a,b,c)");
     assertThat(p).matches("#include BOOST_PP_STRINGIZE(boost/mpl/aux_/preprocessed/AUX778076_PREPROCESSED_HEADER)");
-    assertThat(p).matches("#include BOOST_PP_TUPLE_ELEM_2(0,10,<boost/utility/detail/result_of_iterate.hpp>,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    assertThat(p).matches(
+      "#include BOOST_PP_TUPLE_ELEM_2(0,10,<boost/utility/detail/result_of_iterate.hpp>,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
   }
 
   @Test
@@ -330,17 +332,18 @@ public class CppGrammarTest {
   public void ifLine_reallive() {
     p.setRootRule(g.rule(CppGrammar.ifLine));
 
-    assertThat(p).matches("#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0");
+    assertThat(p).matches(
+      "#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0");
     assertThat(p).matches("#if 0   // Re-enable once PR13021 is fixed.");
     assertThat(p).matches("#if ((OSVER(NTDDI_VERSION) == NTDDI_WIN2K) && (1))");
 
-    assert (p.parse("#if A (4, 1)").findFirstChild(CppGrammar.functionlikeMacro) != null);
-    assert (p.parse("#if A ()").findFirstChild(CppGrammar.functionlikeMacro) != null);
-    assert (p.parse("#if A()").findFirstChild(CppGrammar.functionlikeMacro) != null);
+    assert (p.parse("#if A (4, 1)").getFirstDescendant(CppGrammar.functionlikeMacro) != null);
+    assert (p.parse("#if A ()").getFirstDescendant(CppGrammar.functionlikeMacro) != null);
+    assert (p.parse("#if A()").getFirstDescendant(CppGrammar.functionlikeMacro) != null);
 
-    assert (p.parse("#if defined(A)").findFirstChild(CppGrammar.definedExpression) != null);
-    assert (p.parse("#if defined (A)").findFirstChild(CppGrammar.definedExpression) != null);
-    assert (p.parse("#if defined A").findFirstChild(CppGrammar.definedExpression) != null);
+    assert (p.parse("#if defined(A)").getFirstDescendant(CppGrammar.definedExpression) != null);
+    assert (p.parse("#if defined (A)").getFirstDescendant(CppGrammar.definedExpression) != null);
+    assert (p.parse("#if defined A").getFirstDescendant(CppGrammar.definedExpression) != null);
   }
 
   @Test

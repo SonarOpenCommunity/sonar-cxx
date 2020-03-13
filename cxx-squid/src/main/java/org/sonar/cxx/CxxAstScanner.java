@@ -24,6 +24,7 @@ import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
+import java.io.File;
 import static java.lang.Math.min;
 import java.util.Collection;
 import org.sonar.api.batch.fs.InputFile;
@@ -74,7 +75,7 @@ public final class CxxAstScanner {
    */
   @SafeVarargs
   public static SourceFile scanSingleFile(Configuration settings, InputFile file, SensorContext sensorContext,
-    SquidAstVisitor<Grammar>... visitors) {
+                                          SquidAstVisitor<Grammar>... visitors) {
     return scanSingleFileConfig(settings, file, new CxxConfiguration(sensorContext.fileSystem().encoding()), visitors);
   }
 
@@ -88,16 +89,16 @@ public final class CxxAstScanner {
    * @return file checked with measures and issues
    */
   public static SourceFile scanSingleFileConfig(Configuration settings, InputFile file, CxxConfiguration cxxConfig,
-    SquidAstVisitor<Grammar>... visitors) {
+                                                SquidAstVisitor<Grammar>... visitors) {
     if (!file.isFile()) {
       throw new IllegalArgumentException("File '" + file + "' not found.");
     }
     AstScanner<Grammar> scanner = create(settings, cxxConfig, visitors);
-    scanner.scanFile(file.file());
+    scanner.scanFile(new File(file.uri().getPath()));
     Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
     if (sources.size() != 1) {
       throw new IllegalStateException("Only one SourceFile was expected whereas "
-        + sources.size() + " has been returned.");
+                                        + sources.size() + " has been returned.");
     }
     return (SourceFile) sources.iterator().next();
   }
@@ -112,9 +113,9 @@ public final class CxxAstScanner {
    */
   @SafeVarargs
   public static AstScanner<Grammar> create(Configuration settings, CxxConfiguration conf,
-    SquidAstVisitor<Grammar>... visitors) {
+                                           SquidAstVisitor<Grammar>... visitors) {
     final SquidAstVisitorContextImpl<Grammar> context
-      = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
+                                                = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
     final Parser<Grammar> parser = CxxParser.create(context, conf);
 
     AstScanner.Builder<Grammar> builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
@@ -142,8 +143,8 @@ public final class CxxAstScanner {
       public String getContents(String comment) {
         final int HEADER_LEN = 2;
         return "/*".equals(comment.substring(0, HEADER_LEN))
-          ? comment.substring(HEADER_LEN, comment.length() - HEADER_LEN)
-          : comment.substring(HEADER_LEN);
+                 ? comment.substring(HEADER_LEN, comment.length() - HEADER_LEN)
+                 : comment.substring(HEADER_LEN);
       }
     });
 
@@ -167,7 +168,7 @@ public final class CxxAstScanner {
       }
       String namespaceName = sb.length() > 0 ? sb.toString() + "::" : "";
       SourceFunction function = new SourceFunction(intersectingConcatenate(namespaceName, functionName)
-        + ":" + astNode.getToken().getLine());
+                                                     + ":" + astNode.getToken().getLine());
       function.setStartAtLine(astNode.getTokenLine());
       return function;
     }, CxxGrammarImpl.functionDefinition));

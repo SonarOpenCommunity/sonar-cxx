@@ -48,7 +48,7 @@ public class TestFile {
   }
 
   public String getKey() {
-    return inputFile.absolutePath();
+    return inputFile.uri().getPath();
   }
 
   public int getErrors() {

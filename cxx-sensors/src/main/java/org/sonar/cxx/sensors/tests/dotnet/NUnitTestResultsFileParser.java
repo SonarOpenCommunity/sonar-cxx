@@ -41,6 +41,14 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
 
   private static class Parser {
 
+    private final File file;
+    private final UnitTestResults unitTestResults;
+
+    Parser(File file, UnitTestResults unitTestResults) {
+      this.file = file;
+      this.unitTestResults = unitTestResults;
+    }
+
     private static boolean checkRootTag(XmlParserHelper xmlParserHelper) {
       try {
         xmlParserHelper.checkRootTag("test-results");
@@ -76,14 +84,6 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
       return executionTime;
     }
 
-    private final File file;
-    private final UnitTestResults unitTestResults;
-
-    public Parser(File file, UnitTestResults unitTestResults) {
-      this.file = file;
-      this.unitTestResults = unitTestResults;
-    }
-
     public void parse() {
       try (XmlParserHelper xmlParserHelper = new XmlParserHelper(file)) {
         if (checkRootTag(xmlParserHelper)) {
@@ -108,7 +108,7 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
       Double executionTime = readExecutionTimeFromDirectlyNestedTestSuiteTags(xmlParserHelper);
 
       unitTestResults.add(tests, passed, skipped, failures, errors,
-        executionTime != null ? (long) executionTime.doubleValue() : null);
+                          executionTime != null ? (long) executionTime.doubleValue() : null);
     }
 
   }
