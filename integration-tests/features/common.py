@@ -59,8 +59,7 @@ def sonar_analysis_finished(logpath):
             lines = log.readlines()
             url = get_url_from_log(lines)
     except IOError, e:
-        badlines.append(str(e) + "\n")
-
+        pass
 
     print(BRIGHT + "     Get Analysis In Background : " + url + RESET_ALL)
 
