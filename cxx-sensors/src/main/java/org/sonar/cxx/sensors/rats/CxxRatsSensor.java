@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nullable;
+import javax.xml.XMLConstants;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaders;
@@ -71,7 +72,7 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("RATS report(s)")
         .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/>"
-          + " reports(s), relative to projects root." + USE_ANT_STYLE_WILDCARDS)
+                       + " reports(s), relative to projects root." + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -95,6 +96,8 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
 
     try {
       SAXBuilder builder = new SAXBuilder(XMLReaders.NONVALIDATING);
+      builder.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+      builder.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
       Element root = builder.build(report).getRootElement();
       List<Element> vulnerabilities = root.getChildren("vulnerability");
       for (Element vulnerability : vulnerabilities) {
