@@ -19,8 +19,7 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import static org.sonar.cxx.api.CxxTokenType.STRING;
-
+import com.sonar.sslr.api.Token;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,73 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nullable;
-
-import com.sonar.sslr.api.Token;
+import static org.sonar.cxx.api.CxxTokenType.STRING;
 
 public final class Macro {
-
-  public final String name;
-  public final List<Token> params;
-  public final List<Token> body;
-  public final boolean isVariadic;
-
-  public Macro(String name, @Nullable List<Token> params, @Nullable List<Token> body, boolean variadic) {
-    this.name = name;
-    if (params == null) {
-      this.params = null;
-    } else {
-      this.params = new ArrayList<>(params);
-    }
-    if (body == null) {
-      this.body = null;
-    } else {
-      this.body = new ArrayList<>(body);
-    }
-    this.isVariadic = variadic;
-  }
-
-  /**
-   * Constructor for standard (predefined) macros
-   *
-   * @param name
-   * @param body
-   */
-  private Macro(String name, String body) {
-    this.name = name;
-    this.params = null;
-    this.body = Collections.singletonList(Token.builder()
-        .setLine(1)
-        .setColumn(0)
-        .setURI(URI.create(""))
-        .setValueAndOriginalValue(body)
-        .setType(STRING)
-        .build());
-    this.isVariadic = false;
-  }
-
-  @Override
-  public String toString() {
-    String paramsStr = "";
-    if (params != null) {
-      final String joinedParams = params.stream().map(Token::getValue).collect(Collectors.joining(", "));
-      paramsStr = "(" + joinedParams + (isVariadic ? "..." : "") + ")";
-    }
-    String bodyStr = "";
-    if (body != null) {
-      bodyStr = body.stream().map(Token::getValue).collect(Collectors.joining(" "));
-    }
-    return name + paramsStr + " -> '" + bodyStr + "'";
-  }
-
-  public boolean checkArgumentsCount(int count) {
-    return isVariadic ? count >= params.size() - 1 : count == params.size();
-  }
-
-  private static void add(Map<String, Macro> map, String name, String body) {
-    map.put(name, new Macro(name, body));
-  }
 
   public static final String CPLUSPLUS = "__cplusplus";
 
@@ -103,8 +39,21 @@ public final class Macro {
    * http://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html
    */
   private static final Map<String, Macro> STANDARD_MACROS_IMPL = new HashMap<>();
-  static {
+  public static final Map<String, Macro> STANDARD_MACROS = Collections.unmodifiableMap(STANDARD_MACROS_IMPL);
 
+  /**
+   * Smaller set of defines as rest is provides by compilation unit settings
+   */
+  private static final Map<String, Macro> UNIT_MACROS_IMPL = new HashMap<>();
+  public static final Map<String, Macro> UNIT_MACROS = Collections.unmodifiableMap(UNIT_MACROS_IMPL);
+
+  /**
+   * Macros to replace C++ keywords when parsing C files
+   */
+  private static Map<String, Macro> COMPATIBILITY_MACROS_IMPL = new HashMap<>();
+  public static final Map<String, Macro> COMPATIBILITY_MACROS = Collections.unmodifiableMap(COMPATIBILITY_MACROS_IMPL);
+
+  static {
     add(STANDARD_MACROS_IMPL, "__FILE__", "\"file\"");
     add(STANDARD_MACROS_IMPL, "__LINE__", "1");
     // indicates 'date unknown'. should suffice
@@ -118,10 +67,6 @@ public final class Macro {
     add(STANDARD_MACROS_IMPL, "__has_include", "1");
   }
 
-  /**
-   * Smaller set of defines as rest is provides by compilation unit settings
-   */
-  private static final Map<String, Macro> UNIT_MACROS_IMPL = new HashMap<>();
   static {
     add(UNIT_MACROS_IMPL, "__FILE__", "\"file\"");
     add(UNIT_MACROS_IMPL, "__LINE__", "1");
@@ -129,10 +74,6 @@ public final class Macro {
     add(UNIT_MACROS_IMPL, "__TIME__", "\"??:??:??\"");
   }
 
-  /**
-   * Macros to replace C++ keywords when parsing C files
-   */
-  private static Map<String, Macro> COMPATIBILITY_MACROS_IMPL = new HashMap<>();
   static {
     // This is a collection of macros used to let C code be parsed by C++ parser
     add(COMPATIBILITY_MACROS_IMPL, "alignas", "__alignas");
@@ -171,8 +112,65 @@ public final class Macro {
     add(COMPATIBILITY_MACROS_IMPL, "virtual", "__virtual");
   }
 
-  public static final Map<String, Macro> STANDARD_MACROS = Collections.unmodifiableMap(STANDARD_MACROS_IMPL);
-  public static final Map<String, Macro> UNIT_MACROS = Collections.unmodifiableMap(UNIT_MACROS_IMPL);
-  public static final Map<String, Macro> COMPATIBILITY_MACROS = Collections.unmodifiableMap(COMPATIBILITY_MACROS_IMPL);
+  public final String name;
+  public final List<Token> params;
+  public final List<Token> body;
+  public final boolean isVariadic;
+
+  public Macro(String name, @Nullable List<Token> params, @Nullable List<Token> body, boolean variadic) {
+    this.name = name;
+    if (params == null) {
+      this.params = null;
+    } else {
+      this.params = new ArrayList<>(params);
+    }
+    if (body == null) {
+      this.body = null;
+    } else {
+      this.body = new ArrayList<>(body);
+    }
+    this.isVariadic = variadic;
+  }
+
+  /**
+   * Constructor for standard (predefined) macros
+   *
+   * @param name
+   * @param body
+   */
+  private Macro(String name, String body) {
+    this.name = name;
+    this.params = null;
+    this.body = Collections.singletonList(Token.builder()
+      .setLine(1)
+      .setColumn(0)
+      .setURI(URI.create(""))
+      .setValueAndOriginalValue(body)
+      .setType(STRING)
+      .build());
+    this.isVariadic = false;
+  }
+
+  private static void add(Map<String, Macro> map, String name, String body) {
+    map.put(name, new Macro(name, body));
+  }
+
+  @Override
+  public String toString() {
+    String paramsStr = "";
+    if (params != null) {
+      final String joinedParams = params.stream().map(Token::getValue).collect(Collectors.joining(", "));
+      paramsStr = "(" + joinedParams + (isVariadic ? "..." : "") + ")";
+    }
+    String bodyStr = "";
+    if (body != null) {
+      bodyStr = body.stream().map(Token::getValue).collect(Collectors.joining(" "));
+    }
+    return name + paramsStr + " -> '" + bodyStr + "'";
+  }
+
+  public boolean checkArgumentsCount(int count) {
+    return isVariadic ? count >= params.size() - 1 : count == params.size();
+  }
 
 }

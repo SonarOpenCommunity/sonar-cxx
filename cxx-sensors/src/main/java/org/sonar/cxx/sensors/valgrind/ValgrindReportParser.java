@@ -32,7 +32,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 
 class ValgrindReportParser {
 
-  public ValgrindReportParser() {
+  ValgrindReportParser() {
     // do nothing - just for reference
   }
 
@@ -50,6 +50,8 @@ class ValgrindReportParser {
   }
 
   private static class ValgrindReportStreamHandler implements StaxParser.XmlStreamHandler {
+
+    private final Set<ValgrindError> valgrindErrors = new HashSet<>();
 
     private static ValgrindStack parseStackTag(SMInputCursor child) throws XMLStreamException {
       ValgrindStack stack = new ValgrindStack();
@@ -121,7 +123,6 @@ class ValgrindReportParser {
 
       return new ValgrindError(kind, text, stacks);
     }
-    private final Set<ValgrindError> valgrindErrors = new HashSet<>();
 
     /**
      * {@inheritDoc}
