@@ -16,23 +16,25 @@
       <groupId>org.sonarsource.sslr</groupId>
       <artifactId>sslr-toolkit</artifactId>
       <version>${sslr.version}</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-squid</artifactId>
       <version>${project.version}</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>
       <artifactId>sonar-plugin-api</artifactId>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-colorizer</artifactId>
       <version>3.6</version>
-      <scope>provided</scope>
-    </dependency>  
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -50,36 +52,21 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>jarjar-maven-plugin</artifactId>
-        <version>1.9</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.2</version>
         <executions>
           <execution>
             <phase>package</phase>
             <goals>
-              <goal>jarjar</goal>
+              <goal>shade</goal>
             </goals>
             <configuration>
-              <includes>
-                <include>${project.groupId}:cxx-squid</include>
-                <include>org.sonarsource.sslr:sslr-core</include>
-                <include>org.sonarsource.sslr:sslr-xpath</include>
-                <include>jaxen:jaxen</include>
-                <include>org.sonarsource.sslr:sslr-toolkit</include>
-                <include>org.sonarsource.sslr-squid-bridge:sslr-squid-bridge</include>
-                <include>org.codehaus.sonar:sonar-colorizer</include>
-                <include>org.sonarsource.sonarqube:sonar-squid</include>
-                <include>org.sonarsource.sonarqube:sonar-channel</include>
-                <include>org.sonarsource.sonarqube:sonar-plugin-api</include>
-                <include>commons-io:commons-io</include>
-                <include>commons-lang:commons-lang</include>
-                <include>com.google.guava:guava</include>
-              </includes>
-              <rules>
-                <keep>
-                  <pattern>*.**</pattern>
-                </keep>
-              </rules>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>org.sonar.cxx.toolkit.CxxToolkit</mainClass>
+                </transformer>
+              </transformers>
             </configuration>
           </execution>
         </executions>
@@ -97,8 +84,8 @@
             <configuration>
               <rules>
                 <requireFilesSize>
-                  <maxsize>8000000</maxsize>
-                  <minsize>6000000</minsize>
+                  <maxsize>8500000</maxsize>
+                  <minsize>8000000</minsize>
                   <files>
                     <file>${project.build.directory}/${project.build.finalName}.jar</file>
                   </files>
