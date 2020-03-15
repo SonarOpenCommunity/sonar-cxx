@@ -31,7 +31,7 @@ import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.batch.sensor.measure.Measure;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -112,9 +112,7 @@ public class CxxCppCheckSensorTest {
     // assert that the module was annotated with a new measurement (metric) for
     // the total number of cppcheck issues
     final String moduleKey = context.project().key();
-    Measure<Integer> nrOfIssuesMetric = context.<Integer>measure(moduleKey,
-                                                                 language.getMetric(
-                                                                   CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY));
+    Measure<Integer> nrOfIssuesMetric = context.<Integer>measure(moduleKey, CxxMetrics.CPPCHECK_SENSOR_ISSUES);
     assertThat(nrOfIssuesMetric.value()).isEqualTo(3);
   }
 

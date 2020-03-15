@@ -45,7 +45,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.scanner.sensor.ProjectSensor;
@@ -54,7 +53,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.cxx.checks.error.MissingIncludeFileCheck;
@@ -324,9 +323,8 @@ public class CxxSquidSensor implements ProjectSensor {
       violationsCount += saveViolations(inputFile, squidFile, context);
     }
 
-    Metric<Integer> metric = this.language.getMetric(CxxMetricsFactory.Key.SQUID_SENSOR_ISSUES_KEY);
     context.<Integer>newMeasure()
-      .forMetric(metric)
+      .forMetric(CxxMetrics.SQUID_SENSOR_ISSUES)
       .on(context.project())
       .withValue(violationsCount)
       .save();
@@ -359,29 +357,29 @@ public class CxxSquidSensor implements ProjectSensor {
     // 1. PUBLIC API
     // PUBLIC_DOCUMENTED_API_DENSITY_KEY is calculated by means of
     // DensityMeasureComputer
-    context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_API_KEY))
+    context.<Integer>newMeasure().forMetric(CxxMetrics.PUBLIC_API)
       .on(inputFile).withValue(squidFile.getInt(CxxMetric.PUBLIC_API)).save();
     context.<Integer>newMeasure()
-      .forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY)).on(inputFile)
+      .forMetric(CxxMetrics.PUBLIC_UNDOCUMENTED_API).on(inputFile)
       .withValue(squidFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).save();
 
     // 2. FUNCTION COMPLEXITY
     // COMPLEX_FUNCTIONS_PERC_KEY and COMPLEX_FUNCTIONS_LOC_PERC_KEY
     // are calculated by means of by means of DensityMeasureComputer
-    context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_KEY))
+    context.<Integer>newMeasure().forMetric(CxxMetrics.COMPLEX_FUNCTIONS)
       .on(inputFile).withValue(squidFile.getInt(CxxMetric.COMPLEX_FUNCTIONS)).save();
     context.<Integer>newMeasure()
-      .forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_KEY)).on(inputFile)
+      .forMetric(CxxMetrics.COMPLEX_FUNCTIONS_LOC).on(inputFile)
       .withValue(squidFile.getInt(CxxMetric.COMPLEX_FUNCTIONS_LOC)).save();
 
     // 2. FUNCTION SIZE
     // BIG_FUNCTIONS_PERC_KEY and BIG_FUNCTIONS_LOC_PERC_KEY
     // are calculated by means of by means of DensityMeasureComputer
-    context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY))
+    context.<Integer>newMeasure().forMetric(CxxMetrics.LOC_IN_FUNCTIONS)
       .on(inputFile).withValue(squidFile.getInt(CxxMetric.LOC_IN_FUNCTIONS)).save();
-    context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_KEY))
+    context.<Integer>newMeasure().forMetric(CxxMetrics.BIG_FUNCTIONS)
       .on(inputFile).withValue(squidFile.getInt(CxxMetric.BIG_FUNCTIONS)).save();
-    context.<Integer>newMeasure().forMetric(language.<Integer>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY))
+    context.<Integer>newMeasure().forMetric(CxxMetrics.BIG_FUNCTIONS_LOC)
       .on(inputFile).withValue(squidFile.getInt(CxxMetric.BIG_FUNCTIONS_LOC)).save();
   }
 

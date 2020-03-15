@@ -37,7 +37,7 @@ import org.sonar.api.batch.sensor.issue.IssueLocation;
 import org.sonar.api.batch.sensor.measure.Measure;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -118,20 +118,15 @@ public class CxxClangSASensorTest {
     // assert that the files were annotated with a new measurement (metric) for
     // number of ClangSA issues
     SoftAssertions softly = new SoftAssertions();
-    Measure<Integer> nrOfIssuesFile0 = context.<Integer>measure(testFile0.key(),
-                                                                language.getMetric(
-                                                                  CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY));
+    Measure<Integer> nrOfIssuesFile0 = context.<Integer>measure(testFile0.key(), CxxMetrics.CLANG_SA_SENSOR_ISSUES);
     softly.assertThat(nrOfIssuesFile0.value()).isEqualTo(2);
 
-    Measure<Integer> nrOfIssuesFile1 = context.<Integer>measure(testFile1.key(),
-                                                                language.getMetric(
-                                                                  CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY));
+    Measure<Integer> nrOfIssuesFile1 = context.<Integer>measure(testFile1.key(), CxxMetrics.CLANG_SA_SENSOR_ISSUES);
     softly.assertThat(nrOfIssuesFile1.value()).isEqualTo(1);
 
     // assert that the module is annotated with the total sum of ClangSA issues
     Measure<Integer> nrOfIssuesModule = context.<Integer>measure(context.project().key(),
-                                                                 language.getMetric(
-                                                                   CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY));
+                                                                 CxxMetrics.CLANG_SA_SENSOR_ISSUES);
     softly.assertThat(nrOfIssuesModule.value()).isEqualTo(3);
     softly.assertAll();
   }

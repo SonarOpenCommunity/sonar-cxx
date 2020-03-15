@@ -36,7 +36,7 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
 
@@ -88,7 +88,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
         executeReport(context, report, prevViolationsCount);
       }
 
-      Metric<Integer> metric = getLanguage().getMetric(this.getMetricKey());
+      Metric<Integer> metric = CxxMetrics.getMetric(this.getMetricKey());
       LOG.info("{} processed = {}", metric.getKey(), violationsPerModuleCount);
 
       for (Map.Entry<InputFile, Integer> entry : violationsPerFileCount.entrySet()) {
@@ -143,7 +143,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     try {
       processReport(context, report);
       if (LOG.isDebugEnabled()) {
-        Metric<Integer> metric = getLanguage().getMetric(this.getMetricKey());
+        Metric<Integer> metric = CxxMetrics.getMetric(this.getMetricKey());
         LOG.debug("{} processed = {}", metric.getKey(),
                   violationsPerModuleCount - prevViolationsCount);
       }
@@ -249,6 +249,6 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
   protected abstract void processReport(final SensorContext context, File report) throws Exception;
 
-  protected abstract CxxMetricsFactory.Key getMetricKey();
+  protected abstract String getMetricKey();
 
 }

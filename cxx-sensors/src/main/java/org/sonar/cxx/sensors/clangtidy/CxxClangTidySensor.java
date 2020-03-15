@@ -35,7 +35,7 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -50,7 +50,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
 
   private static final String REGEX
-    = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): (.+)";
+                                = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): (.+)";
   private static final Pattern PATTERN = Pattern.compile(REGEX);
 
   /**
@@ -68,7 +68,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Clang-Tidy analyzer report(s)")
         .description("Path to Clang-Tidy reports, relative to projects root. If neccessary, "
-          + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
+                       + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -77,7 +77,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         .defaultValue(DEFAULT_CHARSET_DEF)
         .name("Encoding")
         .description("The encoding to use when reading the clang-tidy report."
-          + " Leave empty to use parser's default UTF-8.")
+                       + " Leave empty to use parser's default UTF-8.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .build()
@@ -96,7 +96,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(final SensorContext context, File report) {
     final String reportCharset = getContextStringProperty(context,
-      REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
+                                                          REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
     LOG.debug("Parsing 'clang-tidy' report, CharSet= '{}'", reportCharset);
 
     try (Scanner scanner = new Scanner(report, reportCharset)) {
@@ -152,16 +152,16 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         saveUniqueViolation(context, issue);
       }
     } catch (final java.io.FileNotFoundException
-      | java.lang.IllegalArgumentException
-      | java.lang.IllegalStateException
-      | java.util.InputMismatchException e) {
+                     | java.lang.IllegalArgumentException
+                     | java.lang.IllegalStateException
+                     | java.util.InputMismatchException e) {
       LOG.error("Failed to parse clang-tidy report: {}", e);
     }
   }
 
   @Override
-  protected CxxMetricsFactory.Key getMetricKey() {
-    return CxxMetricsFactory.Key.CLANG_TIDY_SENSOR_ISSUES_KEY;
+  protected String getMetricKey() {
+    return CxxMetrics.CLANG_TIDY_SENSOR_ISSUES_KEY;
   }
 
 }

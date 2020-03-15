@@ -19,15 +19,11 @@
  */
 package org.sonar.cxx;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.AbstractLanguage;
 import org.sonar.api.resources.Qualifiers;
 
@@ -35,9 +31,6 @@ import org.sonar.api.resources.Qualifiers;
  * {@inheritDoc}
  */
 public class CxxLanguage extends AbstractLanguage {
-
-  public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
-  private final Map<CxxMetricsFactory.Key, Metric<?>> langSpecificMetrics;
 
   private final String[] sourceSuffixes;
   private final String[] headerSuffixes;
@@ -71,12 +64,10 @@ public class CxxLanguage extends AbstractLanguage {
 
   public CxxLanguage(Configuration settings) {
     super(KEY);
-    this.langSpecificMetrics = Collections.unmodifiableMap(CxxMetricsFactory.generateMap());
-
     sourceSuffixes = createStringArray(settings.getStringArray(SOURCE_FILE_SUFFIXES_KEY),
-      DEFAULT_SOURCE_SUFFIXES);
+                                       DEFAULT_SOURCE_SUFFIXES);
     headerSuffixes = createStringArray(settings.getStringArray(HEADER_FILE_SUFFIXES_KEY),
-      DEFAULT_HEADER_SUFFIXES);
+                                       DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
   }
 
@@ -117,19 +108,6 @@ public class CxxLanguage extends AbstractLanguage {
 
   public String[] getHeaderFileSuffixes() {
     return headerSuffixes.clone();
-  }
-
-  /**
-   * Get language specific metric
-   *
-   * @throws IllegalStateException if metric was not registered
-   */
-  public <G extends Serializable> Metric<G> getMetric(CxxMetricsFactory.Key metricKey) {
-    Metric<G> metric = (Metric<G>) this.langSpecificMetrics.get(metricKey);
-    if (metric == null) {
-      throw new IllegalStateException("Requested metric " + metricKey + " couldn't be found");
-    }
-    return metric;
   }
 
   public static String[] createStringArray(String[] values, String defaultValues) {

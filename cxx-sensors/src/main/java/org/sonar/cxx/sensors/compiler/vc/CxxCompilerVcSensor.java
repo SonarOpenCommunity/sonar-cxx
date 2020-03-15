@@ -28,7 +28,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 
 public class CxxCompilerVcSensor extends CxxCompilerSensor {
@@ -39,7 +39,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.vc.charset";
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
   public static final String DEFAULT_REGEX_DEF
-    = "(.*>)?(?<file>.*)\\((?<line>\\d+)\\)\\x20:\\x20warning\\x20(?<id>C\\d+):(?<message>.*)";
+                               = "(.*>)?(?<file>.*)\\((?<line>\\d+)\\)\\x20:\\x20warning\\x20(?<id>C\\d+):(?<message>.*)";
 
   public CxxCompilerVcSensor(Configuration settings) {
     super(settings, REPORT_PATH_KEY, CxxCompilerVcRuleRepository.KEY);
@@ -51,7 +51,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("VC Compiler Report(s)")
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
-          + USE_ANT_STYLE_WILDCARDS)
+                       + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -66,9 +66,9 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
       PropertyDefinition.builder(REPORT_REGEX_DEF)
         .name("VC Regular Expression")
         .description("Regular expression to identify the four named groups of the compiler warning message:"
-          + " &lt;file&gt;, &lt;line&gt;, &lt;id&gt;, &lt;message&gt;. Leave empty to use parser's default."
-          + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
-          + "this page</a> for details regarding the different regular expression that can be use per compiler.")
+                       + " &lt;file&gt;, &lt;line&gt;, &lt;id&gt;, &lt;message&gt;. Leave empty to use parser's default."
+                     + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
+                       + "this page</a> for details regarding the different regular expression that can be use per compiler.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .build()
@@ -100,8 +100,8 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   }
 
   @Override
-  protected CxxMetricsFactory.Key getMetricKey() {
-    return CxxMetricsFactory.Key.VC_SENSOR_ISSUES_KEY;
+  protected String getMetricKey() {
+    return CxxMetrics.VC_SENSOR_ISSUES_KEY;
   }
 
 }

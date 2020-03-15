@@ -32,7 +32,7 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -62,7 +62,7 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Vera++ report(s)")
         .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s),"
-          + " relative to projects root." + USE_ANT_STYLE_WILDCARDS)
+                       + " relative to projects root." + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -106,8 +106,8 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
               saveUniqueViolation(context, issue);
             } else {
               LOG.debug("Error in file '{}', with message '{}'",
-                name + "(" + errorCursor.getAttrValue("line") + ")",
-                errorCursor.getAttrValue("message"));
+                        name + "(" + errorCursor.getAttrValue("line") + ")",
+                        errorCursor.getAttrValue("message"));
             }
           }
         }
@@ -120,8 +120,8 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected CxxMetricsFactory.Key getMetricKey() {
-    return CxxMetricsFactory.Key.VERAXX_SENSOR_KEY;
+  protected String getMetricKey() {
+    return CxxMetrics.VERAXX_SENSOR_KEY;
   }
 
 }

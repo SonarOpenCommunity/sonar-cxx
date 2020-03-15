@@ -31,7 +31,7 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -69,7 +69,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Valgrind report(s)")
         .description("Path to <a href='http://valgrind.org/'>Valgrind</a> report(s), relative to projects root."
-          + USE_ANT_STYLE_WILDCARDS)
+                       + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -100,7 +100,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     String errorMsg = createErrorMsg(error, stack, stackNr);
     // set the last own frame as a primary location
     CxxReportIssue issue = new CxxReportIssue(error.getKind(), lastOwnFrame.getPath(),
-      lastOwnFrame.getLine(), errorMsg);
+                                              lastOwnFrame.getLine(), errorMsg);
     // add all frames as secondary locations
     for (ValgrindFrame frame : stack.getFrames()) {
       boolean frameIsInProject = frameIsInProject(context, frame);
@@ -120,8 +120,8 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected CxxMetricsFactory.Key getMetricKey() {
-    return CxxMetricsFactory.Key.VALGRIND_SENSOR_KEY;
+  protected String getMetricKey() {
+    return CxxMetrics.VALGRIND_SENSOR_KEY;
   }
 
   void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {
