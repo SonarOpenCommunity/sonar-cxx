@@ -37,7 +37,7 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -73,7 +73,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Clang Static analyzer report(s)")
         .description("Path to Clang Static Analyzer reports, relative to projects root. If neccessary, "
-          + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
+                       + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -102,23 +102,23 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
       NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(f);
 
       NSObject[] diagnostics = ((NSArray) require(rootDict.objectForKey("diagnostics"),
-        "Missing mandatory entry 'diagnostics'")).getArray();
+                                                  "Missing mandatory entry 'diagnostics'")).getArray();
       NSObject[] sourceFiles = ((NSArray) require(rootDict.objectForKey("files"),
-        "Missing mandatory entry 'files'")).getArray();
+                                                  "Missing mandatory entry 'files'")).getArray();
 
       for (NSObject diagnostic : diagnostics) {
         NSDictionary diag = (NSDictionary) diagnostic;
 
         String description = ((NSString) require(diag.get("description"),
-          "Missing mandatory entry 'diagnostics/description'")).getContent();
+                                                 "Missing mandatory entry 'diagnostics/description'")).getContent();
         String checkerName = ((NSString) require(diag.get("check_name"),
-          "Missing mandatory entry 'diagnostics/check_name'")).getContent();
+                                                 "Missing mandatory entry 'diagnostics/check_name'")).getContent();
         NSDictionary location = (NSDictionary) require(diag.get("location"),
-          "Missing mandatory entry 'diagnostics/location'");
+                                                       "Missing mandatory entry 'diagnostics/location'");
         int line = ((NSNumber) require(location.get("line"),
-          "Missing mandatory entry 'diagnostics/location/line'")).intValue();
+                                       "Missing mandatory entry 'diagnostics/location/line'")).intValue();
         int fileIndex = ((NSNumber) require(location.get("file"),
-          "Missing mandatory entry 'diagnostics/location/file'")).intValue();
+                                            "Missing mandatory entry 'diagnostics/location/file'")).intValue();
 
         if (fileIndex < 0 || fileIndex >= sourceFiles.length) {
           throw new IllegalArgumentException("Invalid file index");
@@ -137,8 +137,8 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected CxxMetricsFactory.Key getMetricKey() {
-    return CxxMetricsFactory.Key.CLANG_SA_SENSOR_ISSUES_KEY;
+  protected String getMetricKey() {
+    return CxxMetrics.CLANG_SA_SENSOR_ISSUES_KEY;
   }
 
   private enum PathElementKind {

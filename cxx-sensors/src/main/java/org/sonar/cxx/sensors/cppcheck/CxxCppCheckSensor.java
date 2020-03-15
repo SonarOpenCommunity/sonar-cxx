@@ -32,7 +32,7 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 
 /**
@@ -66,7 +66,7 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
         .name("Cppcheck report(s)")
         .description(
           "Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, relative to"
-          + " projects root. Both XML formats (version 1 and version 2) are supported. If neccessary, <a href='https://"
+            + " projects root. Both XML formats (version 1 and version 2) are supported. If neccessary, <a href='https://"
           + "ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
         )
         .subCategory(subcateg)
@@ -107,8 +107,8 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected CxxMetricsFactory.Key getMetricKey() {
-    return CxxMetricsFactory.Key.CPPCHECK_SENSOR_ISSUES_KEY;
+  protected String getMetricKey() {
+    return CxxMetrics.CPPCHECK_SENSOR_ISSUES_KEY;
   }
 
 }

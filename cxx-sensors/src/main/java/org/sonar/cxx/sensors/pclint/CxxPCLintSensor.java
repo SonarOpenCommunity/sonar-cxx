@@ -37,7 +37,7 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -65,7 +65,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   private static final String PREFIX_DURING_SPECIFIC_WALK_MSG = "during specific walk";
 
   private static final Pattern SUPPLEMENTAL_MSG_PATTERN
-    = Pattern.compile(PREFIX_DURING_SPECIFIC_WALK_MSG + "\\s+(.+):(\\d+):(\\d+)\\s+.+");
+                                 = Pattern.compile(PREFIX_DURING_SPECIFIC_WALK_MSG + "\\s+(.+):(\\d+):(\\d+)\\s+.+");
 
   /**
    * CxxPCLintSensor for PC-lint Sensor
@@ -82,7 +82,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("PC-lint report(s)")
         .description("Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> reports(s), relative to projects"
-          + "  root." + USE_ANT_STYLE_WILDCARDS)
+                       + "  root." + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -143,7 +143,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
                 //remap MISRA IDs. Only Unique rules for MISRA C 2004 and MISRA C/C++ 2008
                 // have been created in the rule repository
                 if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008")
-                  || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
+                      || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
                   id = mapMisraRulesToUniqueSonarRules(msg, false);
                 } else if (msg.contains("MISRA 2012 Rule")) {
                   id = mapMisraRulesToUniqueSonarRules(msg, true);
@@ -165,19 +165,19 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
             saveUniqueViolation(context, currentIssue);
           }
         } catch (com.ctc.wstx.exc.WstxUnexpectedCharException
-          | com.ctc.wstx.exc.WstxEOFException
-          | com.ctc.wstx.exc.WstxIOException e) {
+                   | com.ctc.wstx.exc.WstxEOFException
+                   | com.ctc.wstx.exc.WstxIOException e) {
           LOG.error("Ignore XML error from PC-lint '{}'", CxxUtils.getStackTrace(e));
         }
       }
 
       private void addSecondaryLocationsToCurrentIssue(@Nonnull CxxReportIssue currentIssue,
-        String file,
-        String line,
-        String msg) {
+                                                       String file,
+                                                       String line,
+                                                       String msg) {
         if (currentIssue.getLocations().isEmpty()) {
           LOG.error("The issue of {} must have the primary location. Skip adding more locations",
-            currentIssue.toString());
+                    currentIssue.toString());
           return;
         }
 
@@ -210,7 +210,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
       }
 
       private boolean isInputValid(@Nullable String file, @Nullable String line,
-        @Nullable String id, @Nullable String msg) {
+                                   @Nullable String id, @Nullable String msg) {
         try {
           if (file == null || file.isEmpty() || (Integer.parseInt(line) == 0)) {
             // issue for project or file level
@@ -248,8 +248,8 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected CxxMetricsFactory.Key getMetricKey() {
-    return CxxMetricsFactory.Key.PCLINT_SENSOR_ISSUES_KEY;
+  protected String getMetricKey() {
+    return CxxMetrics.PCLINT_SENSOR_ISSUES_KEY;
   }
 
 }

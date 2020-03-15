@@ -31,7 +31,7 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
@@ -72,7 +72,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Dr Memory report(s)")
         .description("Path to <a href='http://drmemory.org/'>Dr. Memory</a> reports(s), relative to projects root."
-          + USE_ANT_STYLE_WILDCARDS)
+                       + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -109,7 +109,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
     for (DrMemoryError error : DrMemoryParser.parse(report, DEFAULT_CHARSET_DEF)) {
       if (error.getStackTrace().isEmpty()) {
         CxxReportIssue moduleIssue = new CxxReportIssue(error.getType().getId(), null,
-          null, error.getMessage());
+                                                        null, error.getMessage());
         saveUniqueViolation(context, moduleIssue);
       } else {
         Location lastOwnFrame = getLastOwnFrame(context, error);
@@ -118,7 +118,8 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
           continue;
         }
         CxxReportIssue fileIssue = new CxxReportIssue(error.getType().getId(),
-          lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), error.getMessage());
+                                                      lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), error
+                                                      .getMessage());
 
         // add all frames as secondary locations
         int frameNr = 0;
@@ -135,8 +136,8 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected CxxMetricsFactory.Key getMetricKey() {
-    return CxxMetricsFactory.Key.DRMEMORY_SENSOR_ISSUES_KEY;
+  protected String getMetricKey() {
+    return CxxMetrics.DRMEMORY_SENSOR_ISSUES_KEY;
   }
 
 }

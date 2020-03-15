@@ -20,24 +20,19 @@
 package org.sonar.cxx.sensors.utils;
 
 import java.io.File;
-import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.CheckForNull;
 import org.apache.tools.ant.DirectoryScanner;
-import static org.mockito.ArgumentMatchers.same;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
-import org.sonar.api.measures.Metric;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.CxxMetricsFactory;
 
 public class TestUtils {
 
@@ -72,12 +67,13 @@ public class TestUtils {
    * @return mocked filesystem
    */
   public static DefaultFileSystem mockFileSystem() {
-    return mockFileSystem(TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project"), Arrays.asList(new File(".")), null);
+    return mockFileSystem(TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project"), Arrays.asList(new File(".")),
+                          null);
   }
 
   /**
-   * Mocks the filesystem given the root directory and lists of source and tests
-   * directories. The latter are given just as in sonar-project.properties
+   * Mocks the filesystem given the root directory and lists of source and tests directories. The latter are given just
+   * as in sonar-project.properties
    *
    * @param baseDir project root directory
    * @param sourceDirs List of source directories, relative to baseDir.
@@ -85,8 +81,8 @@ public class TestUtils {
    * @return mocked filesystem
    */
   public static DefaultFileSystem mockFileSystem(File baseDir,
-    List<File> sourceDirs,
-    List<File> testDirs) {
+                                                 List<File> sourceDirs,
+                                                 List<File> testDirs) {
     DefaultFileSystem fs = new DefaultFileSystem(baseDir);
     fs.setEncoding(StandardCharsets.UTF_8);
     scanDirs(fs, sourceDirs, Type.MAIN);
@@ -102,9 +98,6 @@ public class TestUtils {
       .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
     when(language.getHeaderFileSuffixes()).thenReturn(new String[]{".hpp", ".h", ".hxx", ".hh"});
 
-    Map<CxxMetricsFactory.Key, Metric<?>> metrics = CxxMetricsFactory.generateMap();
-    metrics.forEach((key, value) -> when(language.getMetric(same(key))).thenReturn((Metric<Serializable>) value));
-
     return language;
   }
 
@@ -113,8 +106,7 @@ public class TestUtils {
   }
 
   /**
-   * Search for a test resource in the classpath. For example
-   * getResource("org/sonar/MyClass/foo.txt");
+   * Search for a test resource in the classpath. For example getResource("org/sonar/MyClass/foo.txt");
    *
    * @param path the starting slash is optional
    * @return the resource. Null if resource not found

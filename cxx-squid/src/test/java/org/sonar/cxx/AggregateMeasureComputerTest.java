@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx;
 
-import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.api.ce.measure.Component;
@@ -29,17 +28,14 @@ import org.sonar.api.ce.measure.test.TestComponent.FileAttributesImpl;
 import org.sonar.api.ce.measure.test.TestMeasureComputerContext;
 import org.sonar.api.ce.measure.test.TestMeasureComputerDefinition.MeasureComputerDefinitionBuilderImpl;
 import org.sonar.api.ce.measure.test.TestSettings;
-import org.sonar.api.measures.Metric;
 
 public class AggregateMeasureComputerTest {
 
-  static final Map<CxxMetricsFactory.Key, Metric<?>> METRICS = CxxMetricsFactory.generateMap();
-  static final String KEY = METRICS.get(CxxMetricsFactory.Key.PUBLIC_API_KEY).key();
-
   private static TestMeasureComputerContext createContext(AggregateMeasureComputer aggregator, Component component) {
     return new TestMeasureComputerContext(component, new TestSettings(),
-      new MeasureComputerDefinitionBuilderImpl().setInputMetrics(aggregator.getAggregatedMetrics())
-        .setOutputMetrics(aggregator.getAggregatedMetrics()).build());
+                                          new MeasureComputerDefinitionBuilderImpl().setInputMetrics(aggregator
+                                            .getAggregatedMetrics())
+                                            .setOutputMetrics(aggregator.getAggregatedMetrics()).build());
   }
 
   @Test
@@ -56,10 +52,10 @@ public class AggregateMeasureComputerTest {
     TestComponent file = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
     TestMeasureComputerContext context = createContext(aggregator, file);
 
-    context.addChildrenMeasures(KEY, 4, 3, 2, 1);
+    context.addChildrenMeasures(CxxMetrics.PUBLIC_API_KEY, 4, 3, 2, 1);
     aggregator.compute(context);
 
-    assertThat(context.getMeasure(KEY)).isNull();
+    assertThat(context.getMeasure(CxxMetrics.PUBLIC_API_KEY)).isNull();
   }
 
   @Test
@@ -69,11 +65,11 @@ public class AggregateMeasureComputerTest {
     TestComponent module = new TestComponent("module0", Type.MODULE, null);
     TestMeasureComputerContext context = createContext(aggregator, module);
 
-    context.addMeasure(KEY, 42);
-    context.addChildrenMeasures(KEY, 1, 2, 3, 4);
+    context.addMeasure(CxxMetrics.PUBLIC_API_KEY, 42);
+    context.addChildrenMeasures(CxxMetrics.PUBLIC_API_KEY, 1, 2, 3, 4);
     aggregator.compute(context);
 
-    assertThat(context.getMeasure(KEY).getIntValue()).isEqualTo(42);
+    assertThat(context.getMeasure(CxxMetrics.PUBLIC_API_KEY).getIntValue()).isEqualTo(42);
   }
 
   @Test
@@ -85,7 +81,7 @@ public class AggregateMeasureComputerTest {
 
     aggregator.compute(context);
 
-    assertThat(context.getMeasure(KEY)).isNull();
+    assertThat(context.getMeasure(CxxMetrics.PUBLIC_API_KEY)).isNull();
   }
 
   @Test
@@ -94,10 +90,10 @@ public class AggregateMeasureComputerTest {
 
     TestComponent module = new TestComponent("module0", Type.MODULE, null);
     TestMeasureComputerContext context = createContext(aggregator, module);
-    context.addChildrenMeasures(KEY, 1, 2, 3, 4);
+    context.addChildrenMeasures(CxxMetrics.PUBLIC_API_KEY, 1, 2, 3, 4);
     aggregator.compute(context);
 
-    assertThat(context.getMeasure(KEY).getIntValue()).isEqualTo(10);
+    assertThat(context.getMeasure(CxxMetrics.PUBLIC_API_KEY).getIntValue()).isEqualTo(10);
   }
 
 }

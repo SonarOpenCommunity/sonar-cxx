@@ -40,9 +40,8 @@ import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.api.measures.Metric;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
@@ -109,32 +108,17 @@ public class CxxSquidSensorTest {
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.COMPLEXITY).value()).isEqualTo(38);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.COGNITIVE_COMPLEXITY).value()).isEqualTo(16);
 
-    final Metric<Integer> COMPLEX_FUNCTIONS = language.<Integer>getMetric(CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_KEY);
-    final Metric<Double> COMPLEX_FUNCTIONS_PERC = language.<Double>getMetric(
-      CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_PERC_KEY);
-    final Metric<Integer> COMPLEX_FUNCTIONS_LOC = language.<Integer>getMetric(
-      CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_KEY);
-    final Metric<Double> COMPLEX_FUNCTIONS_LOC_PERC = language.<Double>getMetric(
-      CxxMetricsFactory.Key.COMPLEX_FUNCTIONS_LOC_PERC_KEY);
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.COMPLEX_FUNCTIONS).value()).isEqualTo(1);
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.COMPLEX_FUNCTIONS_PERC)).isNull(); // see DensityMeasureComputer
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.COMPLEX_FUNCTIONS_LOC).value()).isEqualTo(6);
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.COMPLEX_FUNCTIONS_LOC_PERC)).isNull(); // see DensityMeasureComputer
 
-    final Metric<Integer> LOC_IN_FUNCTIONS = language.<Integer>getMetric(CxxMetricsFactory.Key.LOC_IN_FUNCTIONS_KEY);
-    final Metric<Integer> BIG_FUNCTIONS = language.<Integer>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_KEY);
-    final Metric<Double> BIG_FUNCTIONS_PERC = language.<Double>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_PERC_KEY);
-    final Metric<Integer> BIG_FUNCTIONS_LOC = language.<Integer>getMetric(CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_KEY);
-    final Metric<Double> BIG_FUNCTIONS_LOC_PERC = language.<Double>getMetric(
-      CxxMetricsFactory.Key.BIG_FUNCTIONS_LOC_PERC_KEY);
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.LOC_IN_FUNCTIONS).value()).isEqualTo(59);
 
-    softly.assertThat(context.measure(inputFile.key(), COMPLEX_FUNCTIONS).value()).isEqualTo(1);
-    softly.assertThat(context.measure(inputFile.key(), COMPLEX_FUNCTIONS_PERC)).isNull(); // see DensityMeasureComputer
-    softly.assertThat(context.measure(inputFile.key(), COMPLEX_FUNCTIONS_LOC).value()).isEqualTo(6);
-    softly.assertThat(context.measure(inputFile.key(), COMPLEX_FUNCTIONS_LOC_PERC)).isNull(); // see DensityMeasureComputer
-
-    softly.assertThat(context.measure(inputFile.key(), LOC_IN_FUNCTIONS).value()).isEqualTo(59);
-
-    softly.assertThat(context.measure(inputFile.key(), BIG_FUNCTIONS).value()).isEqualTo(9);
-    softly.assertThat(context.measure(inputFile.key(), BIG_FUNCTIONS_PERC)).isNull(); // see DensityMeasureComputer
-    softly.assertThat(context.measure(inputFile.key(), BIG_FUNCTIONS_LOC).value()).isEqualTo(44);
-    softly.assertThat(context.measure(inputFile.key(), BIG_FUNCTIONS_LOC_PERC)).isNull(); // see DensityMeasureComputer
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.BIG_FUNCTIONS).value()).isEqualTo(9);
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.BIG_FUNCTIONS_PERC)).isNull(); // see DensityMeasureComputer
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.BIG_FUNCTIONS_LOC).value()).isEqualTo(44);
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.BIG_FUNCTIONS_LOC_PERC)).isNull(); // see DensityMeasureComputer
     softly.assertAll();
   }
 
@@ -147,21 +131,15 @@ public class CxxSquidSensorTest {
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
-    final Metric<Integer> API = language.<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_API_KEY);
-    final Metric<Integer> UNDOCUMENTED_API = language
-      .<Integer>getMetric(CxxMetricsFactory.Key.PUBLIC_UNDOCUMENTED_API_KEY);
-    final Metric<Double> DOCUMENTED_API_DENSITY = language
-      .<Double>getMetric(CxxMetricsFactory.Key.PUBLIC_DOCUMENTED_API_DENSITY_KEY);
-
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(context.measure(inputFile.key(), API).value()).isEqualTo(8);
-    softly.assertThat(context.measure(inputFile.key(), UNDOCUMENTED_API).value()).isEqualTo(2);
-    softly.assertThat(context.measure(inputFile.key(), DOCUMENTED_API_DENSITY)).isNull(); // see DensityMeasureComputer
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.PUBLIC_API_KEY).value()).isEqualTo(8);
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY).value()).isEqualTo(2);
+    softly.assertThat(context.measure(inputFile.key(), CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY)).isNull(); // see DensityMeasureComputer
 
     final String moduleKey = context.project().key();
-    softly.assertThat(context.measure(moduleKey, API)).isNull(); // see AggregateMeasureComputer
-    softly.assertThat(context.measure(moduleKey, UNDOCUMENTED_API)).isNull(); // see AggregateMeasureComputer
-    softly.assertThat(context.measure(moduleKey, DOCUMENTED_API_DENSITY)).isNull(); // see AggregateMeasureComputer
+    softly.assertThat(context.measure(moduleKey, CxxMetrics.PUBLIC_API_KEY)).isNull(); // see AggregateMeasureComputer
+    softly.assertThat(context.measure(moduleKey, CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY)).isNull(); // see AggregateMeasureComputer
+    softly.assertThat(context.measure(moduleKey, CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY)).isNull(); // see AggregateMeasureComputer
     softly.assertAll();
   }
 

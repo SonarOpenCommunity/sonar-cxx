@@ -35,7 +35,7 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -125,8 +125,8 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected CxxMetricsFactory.Key getMetricKey() {
-    return CxxMetricsFactory.Key.RATS_SENSOR_ISSUES_KEY;
+  protected String getMetricKey() {
+    return CxxMetrics.RATS_SENSOR_ISSUES_KEY;
   }
 
 }

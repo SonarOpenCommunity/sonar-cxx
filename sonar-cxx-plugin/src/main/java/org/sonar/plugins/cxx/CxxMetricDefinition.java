@@ -23,14 +23,14 @@ import java.util.Collections;
 import java.util.List;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metrics;
-import org.sonar.cxx.CxxMetricsFactory;
+import org.sonar.cxx.CxxMetrics;
 
 public class CxxMetricDefinition implements Metrics {
 
   @Override
   public List<Metric> getMetrics() {
     return Collections.unmodifiableList(
-      CxxMetricsFactory.generateList()
+      CxxMetrics.getMetrics()
     );
   }
 }
