@@ -18,7 +18,7 @@
       </activation>
       <build>
         <testSourceDirectory>src/test/java</testSourceDirectory>
-        
+
         <!-- To define the plugin version in your parent POM -->
         <pluginManagement>
           <plugins>
@@ -95,9 +95,9 @@
                 <configuration>
                   <!-- We use main configuration node for sourceDir -->
                   <!-- <sourceDirs>
-                    <sourceDir>sources/application</sourceDir>
-                    <sourceDir>sources/utils</sourceDir>
-                    <sourceDir>sources/tests</sourceDir>
+                  <sourceDir>sources/application</sourceDir>
+                  <sourceDir>sources/utils</sourceDir>
+                  <sourceDir>sources/tests</sourceDir>
                   </sourceDirs>-->
                   <includeDirs>
                     <includeDir>${basedir}/builds/Unix Makefiles/RELEASE/application</includeDir>
@@ -110,7 +110,7 @@
                   <reportIdentifier>SAMPLE</reportIdentifier>
                 </configuration>
               </execution>
-              
+
               <execution>
                 <id>veraxx</id>
                 <!--<phase>test</phase>-->
@@ -121,68 +121,68 @@
                 <configuration>
                   <!-- We use main configuration node for sourceDir -->
                   <!-- <sourceDirs>
-                    <sourceDir>sources/application</sourceDir>
-                    <sourceDir>sources/utils</sourceDir>
-                    <sourceDir>sources/tests</sourceDir>
+                  <sourceDir>sources/application</sourceDir>
+                  <sourceDir>sources/utils</sourceDir>
+                  <sourceDir>sources/tests</sourceDir>
                   </sourceDirs> -->
                   <reportIdentifier>SAMPLE</reportIdentifier>
                 </configuration>
               </execution>
             </executions>
-<!-- main configuration node is mainly used by sonar cxx sensor -->
+            <!-- main configuration node is mainly used by sonar cxx sensor -->
             <configuration>
-<!-- <sourceDirs> is used by cppcheck and veraxx goal to identify source files -->
-<!-- <sourceDirs> is also used by sonar cxx sensor to identify source files -->
+              <!-- <sourceDirs> is used by cppcheck and veraxx goal to identify source files -->
+              <!-- <sourceDirs> is also used by sonar cxx sensor to identify source files -->
               <sourceDirs>
                 <sourceDir>sources/application</sourceDir>
                 <sourceDir>sources/utils</sourceDir>
                 <sourceDir>sources/tests</sourceDir>
               </sourceDirs>
             </configuration>
-<!-- all of the following are needed by sonar-cxx plugin, but since we use default values this is not needed -->
-<!--
-              <xunit>
-                <directory>${basedir}/xunit-reports</directory>
-                <includes>
-                  <include>**/xunit-result-*.xml</include>
-                </includes>
-              </xunit>
-              <gcovr>
-                <directory>${basedir}/gcovr-reports</directory>
-                <includes>
-                  <include>**/gcovr-reports-*.xml</include>
-                </includes>
-              </gcovr>
-              <cppcheck>
-                <directory>${basedir}/cppcheck-reports</directory>
-                <includes>
-                  <include>**/cppcheck-result-*.xml</include>
-                </includes>
-                <reportsIncludeSourcePath>
-                  <include>..</include>
-                </reportsIncludeSourcePath>
-              </cppcheck>
-              
-              <veraxx>
-                <directory>${basedir}/vera++-reports</directory>
-                <includes>
-                  <include>**/vera++-result-*.xml</include>
-                </includes>
-                <reportsIncludeSourcePath>
-                  <include>..</include>
-                </reportsIncludeSourcePath>
-              </veraxx>
-              <valgrind>
-                <directory>${basedir}/valgrind-reports</directory>
-                <includes>
-                  <include>**/valgrind-result-*.xml</include>
-                </includes>
-                <reportsIncludeSourcePath>
-                  <include>..</include>
-                </reportsIncludeSourcePath>
-              </valgrind>
+            <!-- all of the following are needed by sonar-cxx plugin, but since we use default values this is not needed -->
+            <!--
+            <xunit>
+            <directory>${basedir}/xunit-reports</directory>
+            <includes>
+            <include>**/xunit-result-*.xml</include>
+            </includes>
+            </xunit>
+            <gcovr>
+            <directory>${basedir}/gcovr-reports</directory>
+            <includes>
+            <include>**/gcovr-reports-*.xml</include>
+            </includes>
+            </gcovr>
+            <cppcheck>
+            <directory>${basedir}/cppcheck-reports</directory>
+            <includes>
+            <include>**/cppcheck-result-*.xml</include>
+            </includes>
+            <reportsIncludeSourcePath>
+            <include>..</include>
+            </reportsIncludeSourcePath>
+            </cppcheck>
+
+            <veraxx>
+            <directory>${basedir}/vera++-reports</directory>
+            <includes>
+            <include>**/vera++-result-*.xml</include>
+            </includes>
+            <reportsIncludeSourcePath>
+            <include>..</include>
+            </reportsIncludeSourcePath>
+            </veraxx>
+            <valgrind>
+            <directory>${basedir}/valgrind-reports</directory>
+            <includes>
+            <include>**/valgrind-result-*.xml</include>
+            </includes>
+            <reportsIncludeSourcePath>
+            <include>..</include>
+            </reportsIncludeSourcePath>
+            </valgrind>
             </configuration>
--->
+            -->
           </plugin>
         </plugins>
       </build>
@@ -195,7 +195,7 @@
           <name>coverage</name>
         </property>
       </activation>
-     <build>
+      <build>
         <!-- To define the plugin version in your parent POM -->
         <pluginManagement>
           <plugins>
@@ -294,7 +294,7 @@
                   <reportIdentifier>SAMPLE</reportIdentifier>
                 </configuration>
               </execution>
-              
+
               <execution>
                 <id>veraxx</id>
                 <!--<phase>test</phase>-->
@@ -308,10 +308,10 @@
               </execution>
 
             </executions>
-<!-- main configuration node is mainly used by sonar cxx sensor -->
+            <!-- main configuration node is mainly used by sonar cxx sensor -->
             <configuration>
-<!-- <sourceDirs> is used by cppcheck and veraxx goal to identify source files -->
-<!-- <sourceDirs> is also used by sonar cxx sensor to identify source files -->
+              <!-- <sourceDirs> is used by cppcheck and veraxx goal to identify source files -->
+              <!-- <sourceDirs> is also used by sonar cxx sensor to identify source files -->
               <sourceDirs>
                 <sourceDir>sources/application</sourceDir>
                 <sourceDir>sources/utils</sourceDir>
@@ -331,7 +331,7 @@
           <name>wincoverage</name>
         </property>
       </activation>
-     <build>
+      <build>
         <!-- To define the plugin version in your parent POM -->
         <pluginManagement>
           <plugins>
@@ -406,11 +406,11 @@
                   <reportIdentifier>SAMPLE</reportIdentifier>
                 </configuration>
               </execution>
-             </executions>
-<!-- main configuration node is mainly used by sonar cxx sensor -->
+            </executions>
+            <!-- main configuration node is mainly used by sonar cxx sensor -->
             <configuration>
-<!-- <sourceDirs> is used by cppcheck and veraxx goal to identify source files -->
-<!-- <sourceDirs> is also used by sonar cxx sensor to identify source files -->
+              <!-- <sourceDirs> is used by cppcheck and veraxx goal to identify source files -->
+              <!-- <sourceDirs> is also used by sonar cxx sensor to identify source files -->
               <sourceDirs>
                 <sourceDir>sources/application</sourceDir>
                 <sourceDir>sources/utils</sourceDir>
@@ -430,7 +430,7 @@
           <name>winrelease</name>
         </property>
       </activation>
-     <build>
+      <build>
         <!-- To define the plugin version in your parent POM -->
         <pluginManagement>
           <plugins>
@@ -502,12 +502,12 @@
                   <commandArgs>"${basedir}/scripts/execUnitTest.sh" ./SAMPLE-PROJECT-TESTS "${basedir}/xunit-reports/xunit-result-SAMPLE.xml"</commandArgs>
                 </configuration>
               </execution>
-             </executions>
+            </executions>
 
             <!-- main configuration node is mainly used by sonar cxx sensor -->
             <configuration>
               <!-- <sourceDirs> is used by cppcheck and veraxx goal to identify source files -->
-              <!--   <sourceDirs> is also used by sonar cxx sensor to identify source files -->
+              <!-- <sourceDirs> is also used by sonar cxx sensor to identify source files -->
               <sourceDirs>
                 <sourceDir>sources/application</sourceDir>
                 <sourceDir>sources/utils</sourceDir>
@@ -517,7 +517,7 @@
 
           </plugin>
         </plugins>
-     </build>
+      </build>
     </profile>
 
   </profiles>
@@ -526,7 +526,6 @@
     <sourceDirectory>sources</sourceDirectory>
   </build>
   <properties>
-    <sonar.language>c++</sonar.language>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.scm.enabled>true</sonar.scm.enabled>
     <sonar.scm.url>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/cxx/src/sample/SampleProject</sonar.scm.url>
@@ -541,7 +540,7 @@
 
     <sonar.cxx.defines>Q_OBJECT, Q_SLOTS</sonar.cxx.defines>
     <sonar.tests>sources/tests</sonar.tests>
-    
+
     <!-- <sonar.cxx.suffixes.sources></sonar.cxx.suffixes.sources> -->
     <!-- <sonar.cxx.suffixes.headers></sonar.cxx.suffixes.headers> -->
     <!-- <sonar.cxx.xunit.xsltURL></sonar.cxx.xunit.xsltURL> -->
