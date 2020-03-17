@@ -50,19 +50,6 @@ public class AggregateMeasureComputer implements MeasureComputer {
       // public API
       CxxMetrics.PUBLIC_API_KEY,
       CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY,
-      // sensors
-      CxxMetrics.CLANG_SA_SENSOR_ISSUES_KEY,
-      CxxMetrics.CLANG_TIDY_SENSOR_ISSUES_KEY,
-      CxxMetrics.VC_SENSOR_ISSUES_KEY,
-      CxxMetrics.GCC_SENSOR_ISSUES_KEY,
-      CxxMetrics.CPPCHECK_SENSOR_ISSUES_KEY,
-      CxxMetrics.DRMEMORY_SENSOR_ISSUES_KEY,
-      CxxMetrics.OTHER_SENSOR_ISSUES_KEY,
-      CxxMetrics.PCLINT_SENSOR_ISSUES_KEY,
-      CxxMetrics.RATS_SENSOR_ISSUES_KEY,
-      CxxMetrics.SQUID_SENSOR_ISSUES_KEY,
-      CxxMetrics.VALGRIND_SENSOR_KEY,
-      CxxMetrics.VERAXX_SENSOR_KEY,
       // complexity
       CxxMetrics.COMPLEX_FUNCTIONS_KEY,
       CxxMetrics.COMPLEX_FUNCTIONS_LOC_KEY,

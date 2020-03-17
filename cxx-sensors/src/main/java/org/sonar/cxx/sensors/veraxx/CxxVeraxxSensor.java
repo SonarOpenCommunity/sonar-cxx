@@ -32,7 +32,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -117,11 +116,6 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
     } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
       LOG.error("Ignore XML error from Veraxx '{}'", CxxUtils.getStackTrace(e));
     }
-  }
-
-  @Override
-  protected String getMetricKey() {
-    return CxxMetrics.VERAXX_SENSOR_KEY;
   }
 
 }

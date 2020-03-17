@@ -312,22 +312,14 @@ public class CxxSquidSensor implements ProjectSensor {
       return;
     }
 
-    int violationsCount = 0;
-
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
       File ioFile = new File(squidFile.getKey());
       InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(ioFile));
 
       saveMeasures(inputFile, squidFile, context);
-      violationsCount += saveViolations(inputFile, squidFile, context);
+      saveViolations(inputFile, squidFile, context);
     }
-
-    context.<Integer>newMeasure()
-      .forMetric(CxxMetrics.SQUID_SENSOR_ISSUES)
-      .on(context.project())
-      .withValue(violationsCount)
-      .save();
   }
 
   private void saveMeasures(InputFile inputFile, SourceFile squidFile, SensorContext context) {
@@ -383,8 +375,7 @@ public class CxxSquidSensor implements ProjectSensor {
       .on(inputFile).withValue(squidFile.getInt(CxxMetric.BIG_FUNCTIONS_LOC)).save();
   }
 
-  private int saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext sensorContext) {
-    int violationsCount = 0;
+  private void saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext sensorContext) {
     if (squidFile.hasCheckMessages()) {
       for (CheckMessage message : squidFile.getCheckMessages()) {
         int line = 1;
@@ -401,7 +392,6 @@ public class CxxSquidSensor implements ProjectSensor {
 
         newIssue.at(location);
         newIssue.save();
-        ++violationsCount;
       }
     }
 
@@ -422,12 +412,9 @@ public class CxxSquidSensor implements ProjectSensor {
           ++locationNr;
         }
         newIssue.save();
-        ++violationsCount;
       }
       MultiLocatitionSquidCheck.eraseMultilineCheckMessages(squidFile);
     }
-
-    return violationsCount;
   }
 
 }

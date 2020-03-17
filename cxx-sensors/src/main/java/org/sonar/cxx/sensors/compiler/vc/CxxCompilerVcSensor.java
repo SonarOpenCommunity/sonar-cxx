@@ -28,7 +28,6 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 
 public class CxxCompilerVcSensor extends CxxCompilerSensor {
@@ -97,11 +96,6 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   @Override
   protected String getRegex(final SensorContext context) {
     return getContextStringProperty(context, REPORT_REGEX_DEF, DEFAULT_REGEX_DEF);
-  }
-
-  @Override
-  protected String getMetricKey() {
-    return CxxMetrics.VC_SENSOR_ISSUES_KEY;
   }
 
 }

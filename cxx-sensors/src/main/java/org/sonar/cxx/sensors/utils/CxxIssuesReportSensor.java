@@ -21,10 +21,8 @@ package org.sonar.cxx.sensors.utils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.InputFile;
@@ -32,11 +30,9 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.config.Configuration;
-import org.sonar.api.measures.Metric;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
 
@@ -49,8 +45,6 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   private static final Logger LOG = Loggers.get(CxxIssuesReportSensor.class);
 
   private final Set<CxxReportIssue> uniqueIssues = new HashSet<>();
-  private final Map<InputFile, Integer> violationsPerFileCount = new HashMap<>();
-  private int violationsPerModuleCount;
   private final String ruleRepositoryKey;
 
   /**
@@ -79,36 +73,10 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'",
                context.fileSystem().baseDir(), getReportPathKey());
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
-      violationsPerFileCount.clear();
-      violationsPerModuleCount = 0;
 
       for (File report : reports) {
-        int prevViolationsCount = violationsPerModuleCount;
         LOG.info("Processing report '{}'", report);
-        executeReport(context, report, prevViolationsCount);
-      }
-
-      Metric<Integer> metric = CxxMetrics.getMetric(this.getMetricKey());
-      LOG.info("{} processed = {}", metric.getKey(), violationsPerModuleCount);
-
-      for (Map.Entry<InputFile, Integer> entry : violationsPerFileCount.entrySet()) {
-        context.<Integer>newMeasure()
-          .forMetric(metric)
-          .on(entry.getKey())
-          .withValue(entry.getValue())
-          .save();
-      }
-
-      // this sensor could be executed on module without any files
-      // (possible for hierarchical multi-module projects)
-      // don't publish 0 as module metric,
-      // let AggregateMeasureComputer calculate the correct value
-      if (violationsPerModuleCount != 0) {
-        context.<Integer>newMeasure()
-          .forMetric(metric)
-          .on(context.project())
-          .withValue(violationsPerModuleCount)
-          .save();
+        executeReport(context, report);
       }
     } catch (Exception e) {
       String msg = new StringBuilder(256)
@@ -139,14 +107,9 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
    * @param prevViolationsCount
    * @throws Exception
    */
-  private void executeReport(SensorContext context, File report, int prevViolationsCount) throws Exception {
+  private void executeReport(SensorContext context, File report) throws Exception {
     try {
       processReport(context, report);
-      if (LOG.isDebugEnabled()) {
-        Metric<Integer> metric = CxxMetrics.getMetric(this.getMetricKey());
-        LOG.debug("{} processed = {}", metric.getKey(),
-                  violationsPerModuleCount - prevViolationsCount);
-      }
     } catch (EmptyReportException e) {
       LOG.warn("The report '{}' seems to be empty, ignoring.", report);
       LOG.debug("Cannot read report", e);
@@ -155,14 +118,15 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   private NewIssueLocation createNewIssueLocationFile(SensorContext sensorContext, NewIssue newIssue,
-                                                      CxxReportLocation location, Set<InputFile> affectedFiles) {
+                                                      CxxReportLocation location) {
     InputFile inputFile = getInputFileIfInProject(sensorContext, location.getFile());
     if (inputFile != null) {
       int lines = inputFile.lines();
       int lineNr = Integer.max(1, getLineAsInt(location.getLine(), lines));
-      NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(lineNr))
+      NewIssueLocation newIssueLocation = newIssue.newLocation()
+        .on(inputFile)
+        .at(inputFile.selectLine(lineNr))
         .message(location.getInfo());
-      affectedFiles.add(inputFile);
       return newIssueLocation;
     }
     return null;
@@ -175,15 +139,12 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
    */
   private void saveViolation(SensorContext sensorContext, CxxReportIssue issue) {
     NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(getRuleRepositoryKey(), issue.getRuleId()));
-
-    Set<InputFile> affectedFiles = new HashSet<>();
     List<NewIssueLocation> newIssueLocations = new ArrayList<>();
     List<NewIssueLocation> newIssueFlow = new ArrayList<>();
 
     for (CxxReportLocation location : issue.getLocations()) {
       if (location.getFile() != null && !location.getFile().isEmpty()) {
-        NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location,
-                                                                       affectedFiles);
+        NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location);
         if (newIssueLocation != null) {
           newIssueLocations.add(newIssueLocation);
         }
@@ -194,7 +155,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     }
 
     for (CxxReportLocation location : issue.getFlow()) {
-      NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location, affectedFiles);
+      NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location);
       if (newIssueLocation != null) {
         newIssueFlow.add(newIssueLocation);
       } else {
@@ -217,10 +178,6 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
         newIssue.save();
 
-        for (InputFile affectedFile : affectedFiles) {
-          violationsPerFileCount.merge(affectedFile, 1, Integer::sum);
-        }
-        violationsPerModuleCount++;
       } catch (RuntimeException ex) {
         LOG.error("Could not add the issue '{}':{}', skipping issue", issue.toString(), CxxUtils.getStackTrace(ex));
         CxxUtils.validateRecovery(ex, settings);
@@ -248,7 +205,5 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   protected abstract void processReport(final SensorContext context, File report) throws Exception;
-
-  protected abstract String getMetricKey();
 
 }

@@ -32,7 +32,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 
 /**
@@ -104,11 +103,6 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
     if (!parsed) {
       LOG.error("Report {} cannot be parsed", report);
     }
-  }
-
-  @Override
-  protected String getMetricKey() {
-    return CxxMetrics.CPPCHECK_SENSOR_ISSUES_KEY;
   }
 
 }

@@ -35,7 +35,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -122,11 +121,6 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
       // when RATS fails the XML file might be incomplete
       LOG.error("Ignore incomplete XML output from RATS '{}'", CxxUtils.getStackTrace(e));
     }
-  }
-
-  @Override
-  protected String getMetricKey() {
-    return CxxMetrics.RATS_SENSOR_ISSUES_KEY;
   }
 
 }

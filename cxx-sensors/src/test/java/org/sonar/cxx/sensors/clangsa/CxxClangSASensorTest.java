@@ -34,10 +34,8 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.batch.sensor.issue.Issue.Flow;
 import org.sonar.api.batch.sensor.issue.IssueLocation;
-import org.sonar.api.batch.sensor.measure.Measure;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -90,45 +88,6 @@ public class CxxClangSASensorTest {
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(3);
-  }
-
-  @Test
-  public void shouldReportCorrectMetrics() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-report.plist");
-    context.setSettings(settings);
-
-    /*
-     * 2 issues
-     */
-    DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cpp")
-      .initMetadata("asd\nasdas\nasda\n").build();
-    /*
-     * 1 issue
-     */
-    DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cpp")
-      .initMetadata("asd\nasdas\nasda\n").build();
-
-    context.fileSystem().add(testFile0);
-    context.fileSystem().add(testFile1);
-
-    CxxClangSASensor sensor = new CxxClangSASensor(settings.asConfig());
-    sensor.execute(context);
-
-    // assert that the files were annotated with a new measurement (metric) for
-    // number of ClangSA issues
-    SoftAssertions softly = new SoftAssertions();
-    Measure<Integer> nrOfIssuesFile0 = context.<Integer>measure(testFile0.key(), CxxMetrics.CLANG_SA_SENSOR_ISSUES);
-    softly.assertThat(nrOfIssuesFile0.value()).isEqualTo(2);
-
-    Measure<Integer> nrOfIssuesFile1 = context.<Integer>measure(testFile1.key(), CxxMetrics.CLANG_SA_SENSOR_ISSUES);
-    softly.assertThat(nrOfIssuesFile1.value()).isEqualTo(1);
-
-    // assert that the module is annotated with the total sum of ClangSA issues
-    Measure<Integer> nrOfIssuesModule = context.<Integer>measure(context.project().key(),
-                                                                 CxxMetrics.CLANG_SA_SENSOR_ISSUES);
-    softly.assertThat(nrOfIssuesModule.value()).isEqualTo(3);
-    softly.assertAll();
   }
 
   private String generateTestFileContents(int linesNum, int lineLen) {

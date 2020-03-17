@@ -37,7 +37,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -134,11 +133,6 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
     } catch (Exception e) {
       LOG.error("Failed to parse clangsa report: {}", e.getMessage());
     }
-  }
-
-  @Override
-  protected String getMetricKey() {
-    return CxxMetrics.CLANG_SA_SENSOR_ISSUES_KEY;
   }
 
   private enum PathElementKind {
