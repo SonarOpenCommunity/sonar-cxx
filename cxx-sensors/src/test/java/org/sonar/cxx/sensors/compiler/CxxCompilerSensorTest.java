@@ -33,7 +33,6 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.LogTester;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCompilerSensorTest {
@@ -113,11 +112,6 @@ public class CxxCompilerSensorTest {
     @Override
     protected String getRegex(final SensorContext context) {
       return regex;
-    }
-
-    @Override
-    protected String getMetricKey() {
-      return CxxMetrics.OTHER_SENSOR_ISSUES_KEY;
     }
 
     public void testProcessReport(final SensorContext context, File report) throws XMLStreamException {

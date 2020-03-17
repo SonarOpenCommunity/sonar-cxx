@@ -37,7 +37,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -245,11 +244,6 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
     });
 
     parser.parse(report);
-  }
-
-  @Override
-  protected String getMetricKey() {
-    return CxxMetrics.PCLINT_SENSOR_ISSUES_KEY;
   }
 
 }

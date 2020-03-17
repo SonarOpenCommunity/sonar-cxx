@@ -28,10 +28,8 @@ import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
-import org.sonar.api.batch.sensor.measure.Measure;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -97,23 +95,6 @@ public class CxxCppCheckSensorTest {
       softly.assertThat(issue.primaryLocation().inputComponent().key()).isEqualTo(moduleKey);
     }
     softly.assertAll();
-  }
-
-  @Test
-  public void shouldReportProjectLevelMetricsV2() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
-                         "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
-    context.setSettings(settings);
-
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings.asConfig());
-    sensor.execute(context);
-
-    // assert that the module was annotated with a new measurement (metric) for
-    // the total number of cppcheck issues
-    final String moduleKey = context.project().key();
-    Measure<Integer> nrOfIssuesMetric = context.<Integer>measure(moduleKey, CxxMetrics.CPPCHECK_SENSOR_ISSUES);
-    assertThat(nrOfIssuesMetric.value()).isEqualTo(3);
   }
 
   @Test

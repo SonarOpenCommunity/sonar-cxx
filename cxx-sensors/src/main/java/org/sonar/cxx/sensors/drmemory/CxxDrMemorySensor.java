@@ -31,7 +31,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
@@ -133,11 +132,6 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
         saveUniqueViolation(context, fileIssue);
       }
     }
-  }
-
-  @Override
-  protected String getMetricKey() {
-    return CxxMetrics.DRMEMORY_SENSOR_ISSUES_KEY;
   }
 
 }

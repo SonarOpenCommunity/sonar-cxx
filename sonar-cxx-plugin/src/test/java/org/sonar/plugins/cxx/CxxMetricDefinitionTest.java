@@ -26,7 +26,7 @@ public class CxxMetricDefinitionTest {
 
   @Test
   public void metrics_defined() {
-    assertThat(new CxxMetricDefinition().getMetrics()).hasSize(24);
+    assertThat(new CxxMetricDefinition().getMetrics()).hasSize(12);
   }
 
 }

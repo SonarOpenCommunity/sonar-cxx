@@ -31,7 +31,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -117,11 +116,6 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     LOG.debug("Parsing 'Valgrind' format");
     ValgrindReportParser parser = new ValgrindReportParser();
     saveErrors(context, parser.processReport(report));
-  }
-
-  @Override
-  protected String getMetricKey() {
-    return CxxMetrics.VALGRIND_SENSOR_KEY;
   }
 
   void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {
