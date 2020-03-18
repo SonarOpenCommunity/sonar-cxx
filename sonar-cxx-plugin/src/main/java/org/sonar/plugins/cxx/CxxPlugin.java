@@ -57,6 +57,7 @@ import org.sonar.cxx.sensors.veraxx.CxxVeraxxSensor;
 import org.sonar.cxx.sensors.visitors.CxxCpdVisitor;
 import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
 import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
+import org.sonar.cxx.visitors.CxxPublicApiVisitor;
 
 /**
  * {@inheritDoc}
@@ -80,6 +81,7 @@ public final class CxxPlugin implements Plugin {
 
     // properties elements
     l.addAll(CxxLanguage.properties());
+    l.addAll(CxxPublicApiVisitor.properties());
     l.addAll(CxxSquidSensor.properties());
     l.addAll(CxxCppCheckSensor.properties());
     l.addAll(CxxValgrindSensor.properties());

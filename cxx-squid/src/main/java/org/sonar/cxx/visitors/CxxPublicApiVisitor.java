@@ -23,12 +23,15 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.sonar.api.config.Configuration;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.internal.google.common.base.Splitter;
+import org.sonar.api.internal.google.common.collect.Iterables;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
-import static org.sonar.cxx.CxxLanguage.DEFAULT_HEADER_SUFFIXES;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
 
@@ -64,6 +67,16 @@ import org.sonar.squidbridge.api.SourceFile;
  */
 public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApiVisitor<G> {
 
+  /**
+   * Key of the file suffix parameter
+   */
+  public static final String FILE_SUFFIXES_KEY = "sonar.cxx.api.file.suffixes";
+
+  /**
+   * Default API files knows suffixes
+   */
+  public static final String DEFAULT_FILE_SUFFIXES = ".hxx,.hpp,.hh,.h";
+
   private static final Logger LOG = Loggers.get(CxxPublicApiVisitor.class);
 
   private int totalAPINr;
@@ -71,12 +84,26 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
 
   public CxxPublicApiVisitor(Configuration settings) {
     super();
-    withHeaderFileSuffixes(
-      Arrays.asList(
-        CxxLanguage.createStringArray(settings.getStringArray(CxxLanguage.HEADER_FILE_SUFFIXES_KEY),
-          DEFAULT_HEADER_SUFFIXES)
-      )
-    );
+    String[] suffixes = Arrays.stream(settings.getStringArray(FILE_SUFFIXES_KEY))
+      .filter(s -> s != null && !s.trim().isEmpty()).toArray(String[]::new);
+    if (suffixes.length == 0) {
+      suffixes = Iterables.toArray(Splitter.on(',').split(DEFAULT_FILE_SUFFIXES), String.class);
+    }
+    withHeaderFileSuffixes(Arrays.asList(suffixes));
+  }
+
+  public static List<PropertyDefinition> properties() {
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(FILE_SUFFIXES_KEY)
+        .defaultValue(DEFAULT_FILE_SUFFIXES)
+        .name("Header file suffixes")
+        .multiValues(true)
+        .description(
+          "Comma-separated list of suffixes for files to analyze API. To not filter, leave the list empty.")
+        .subCategory("Public API")
+        .onQualifiers(Qualifiers.PROJECT)
+        .build()
+    ));
   }
 
   @Override

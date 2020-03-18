@@ -27,91 +27,27 @@ import org.sonar.api.config.internal.MapSettings;
 
 public class CxxLanguageTest {
 
-  /**
-   * Default cxx header files suffixes
-   */
-  public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
-
-  private static final String KEY = "c++";
-  private static final String NAME = "c++";
-  private static final String PLUGIN_ID = "cxx";
-  private static final String SOURCE_SUFFIXES = ".cxx,.cpp,.cc,.c";
-  private static final String HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
-
   private final MapSettings settings = new MapSettings();
 
   @Test
   public void testCxxLanguageStringConfiguration() throws Exception {
     CxxLanguage language = new CxxLanguage(settings.asConfig());
-    assertThat(language.getKey()).isEqualTo(KEY);
-  }
-
-  @Test
-  public void testGetSourceFileSuffixes() throws Exception {
-    CxxLanguage language = new CxxLanguage(settings.asConfig());
-    assertThat(language.getSourceFileSuffixes()).isEqualTo(SOURCE_SUFFIXES.split(","));
-  }
-
-  @Test
-  public void testGetHeaderFileSuffixes() throws Exception {
-    CxxLanguage language = new CxxLanguage(settings.asConfig());
-    assertThat(language.getHeaderFileSuffixes()).isEqualTo(HEADER_SUFFIXES.split(","));
+    assertThat(language.getKey()).isEqualTo("c++");
   }
 
   @Test
   public void shouldReturnConfiguredFileSuffixes() {
-    settings.setProperty(CxxLanguage.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
-    settings.setProperty(CxxLanguage.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
+    settings.setProperty(CxxLanguage.FILE_SUFFIXES_KEY, ".C,.c,.H,.h");
     CxxLanguage cxx = new CxxLanguage(settings.asConfig());
-
     String[] expected = {".C", ".c", ".H", ".h"};
-    String[] expectedSources = {".C", ".c"};
-    String[] expectedHeaders = {".H", ".h"};
-
     assertThat(cxx.getFileSuffixes(), is(expected));
-    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
-    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
   }
 
   @Test
   public void shouldReturnDefaultFileSuffixes() {
     CxxLanguage cxx = new CxxLanguage(settings.asConfig());
-
-    String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};
-    String[] expectedHeaders = {".hxx", ".hpp", ".hh", ".h"};
     String[] expectedAll = {".cxx", ".cpp", ".cc", ".c", ".hxx", ".hpp", ".hh", ".h"};
-
     assertThat(cxx.getFileSuffixes(), is(expectedAll));
-    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
-    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
-  }
-
-  @Test
-  public void shouldReturnConfiguredSourceSuffixes() {
-    settings.setProperty(CxxLanguage.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
-    CxxLanguage cxx = new CxxLanguage(settings.asConfig());
-
-    String[] expectedSources = {".C", ".c"};
-    String[] expectedHeaders = {".hxx", ".hpp", ".hh", ".h"};
-    String[] expectedAll = {".C", ".c", ".hxx", ".hpp", ".hh", ".h"};
-
-    assertThat(cxx.getFileSuffixes(), is(expectedAll));
-    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
-    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
-  }
-
-  @Test
-  public void shouldReturnConfiguredHeaderSuffixes() {
-    settings.setProperty(CxxLanguage.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
-    CxxLanguage cxx = new CxxLanguage(settings.asConfig());
-
-    String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};
-    String[] expectedHeaders = {".H", ".h"};
-    String[] expectedAll = {".cxx", ".cpp", ".cc", ".c", ".H", ".h"};
-
-    assertThat(cxx.getFileSuffixes(), is(expectedAll));
-    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
-    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
   }
 
 }

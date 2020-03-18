@@ -96,7 +96,6 @@ public class TestUtils {
     when(language.getName()).thenReturn("c++");
     when(language.getFileSuffixes())
       .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
-    when(language.getHeaderFileSuffixes()).thenReturn(new String[]{".hpp", ".h", ".hxx", ".hh"});
 
     return language;
   }

@@ -68,7 +68,7 @@ def step_impl(context, project):
     assert os.path.isdir(os.path.join(TESTDATADIR, project))
     context.project = project
     context.profile_key = None
- 
+
     url = (SONAR_URL + "/api/qualityprofiles/search")
     response = _rest_api_get(url)
     profiles = _get_json(response)["profiles"]
@@ -87,11 +87,11 @@ def step_impl(context, project):
         if name == "Sonar way copy - c++":
             copy_profile_key = key
 
-    if copy_profile_key:      
+    if copy_profile_key:
         url = (SONAR_URL + "/api/qualityprofiles/delete")
         payload = {'profileKey': copy_profile_key}
         _rest_api_set(url, payload)
-    
+
     url = (SONAR_URL + "/api/qualityprofiles/copy")
     payload = {'fromKey': default_profile_key, 'toName': 'Sonar way copy'}
     _rest_api_set(url, payload)
@@ -108,7 +108,7 @@ def step_impl(context, project):
     payload = {'profileKey': context.profile_key}
     _rest_api_set(url, payload)
 
-    
+
 @given(u'platform is not "{plat}"')
 def step_impl(context, plat):
     if platform.system() == plat:
@@ -121,32 +121,15 @@ def step_impl(context, plat):
         context.scenario.skip(reason='scenario meant to run only in specified platform')
 
 
-@given(u'declared source extensions of language c++ are "{extensions}"')
+@given(u'declared suffixes for c++ files to analyze are "{extensions}"')
 def step_impl(context, extensions):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
     url = (SONAR_URL + "/api/settings/reset")
-    _rest_api_set(url, {'keys': 'sonar.cxx.suffixes.sources'})
+    _rest_api_set(url, {'keys': 'sonar.cxx.file.suffixes'})
     url = (SONAR_URL + "/api/settings/set")
     extensionlist = extensions.split(",")
     payload = dict()
-    payload['key'] = 'sonar.cxx.suffixes.sources'
-    for extension in extensionlist:
-        if 'values' in payload:
-            payload['values'].append(extension)
-        else:
-            payload['values'] = [extension]
-    _rest_api_set(url, payload)
-
-
-@given(u'declared header extensions of language c++ are "{extensions}"')
-def step_impl(context, extensions):
-    assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
-    url = (SONAR_URL + "/api/settings/reset")
-    _rest_api_set(url, {'keys': 'sonar.cxx.suffixes.headers'})
-    url = (SONAR_URL + "/api/settings/set")
-    extensionlist = extensions.split(",")
-    payload = dict()
-    payload['key'] = 'sonar.cxx.suffixes.headers'
+    payload['key'] = 'sonar.cxx.file.suffixes'
     for extension in extensionlist:
         if 'values' in payload:
             payload['values'].append(extension)

@@ -38,7 +38,6 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
 
@@ -47,7 +46,7 @@ public class CxxPublicApiVisitorTest {
   private final MapSettings settings = new MapSettings();
 
   private static final org.sonar.api.utils.log.Logger LOG
-    = Loggers.get(CxxPublicApiVisitorTest.class);
+                                                        = Loggers.get(CxxPublicApiVisitorTest.class);
 
   private static String getFileExtension(String fileName) {
     int lastIndexOf = fileName.lastIndexOf('.');
@@ -59,8 +58,9 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void test_no_matching_suffix() throws IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".", "");
-    settings.setProperty(CxxLanguage.HEADER_FILE_SUFFIXES_KEY, ".hpp");
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".",
+                                                                   "");
+    settings.setProperty(CxxPublicApiVisitor.FILE_SUFFIXES_KEY, ".hpp");
 
     SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext);
 
@@ -122,7 +122,7 @@ public class CxxPublicApiVisitorTest {
     expectedIdCommentMap.put("testUnion", "testUnion");
     expectedIdCommentMap.put("inlineCommentedAttr", "inlineCommentedAttr");
     expectedIdCommentMap.put("inlineCommentedLastAttr",
-      "inlineCommentedLastAttr");
+                             "inlineCommentedLastAttr");
     expectedIdCommentMap.put("enumVar", "classEnum"); // only one
     // declarator, then
     // doc should precede
@@ -155,7 +155,7 @@ public class CxxPublicApiVisitorTest {
     expectedIdCommentMap
       .put("protectedStructField", "protectedStructField");
     expectedIdCommentMap.put("protectedStructField2",
-      "protectedStructField2");
+                             "protectedStructField2");
     expectedIdCommentMap.put("protectedClass", "protectedClass");
     expectedIdCommentMap.put("operator[]", "operator");
     expectedIdCommentMap.put("bitfield", "bitfield");
@@ -208,8 +208,7 @@ public class CxxPublicApiVisitorTest {
    * @param fileName the file to use for test
    * @param expectedApi expected number of API
    * @param expectedUndoc expected number of undocumented API
-   * @param checkDouble if true, fails the test if two items with the same id
-   * are counted..
+   * @param checkDouble if true, fails the test if two items with the same id are counted..
    */
   private Tuple testFile(String fileName, boolean checkDouble)
     throws UnsupportedEncodingException, IOException {
@@ -223,7 +222,7 @@ public class CxxPublicApiVisitorTest {
     SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, visitor);
 
     LOG.debug("#API: {} UNDOC: {}",
-      file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+              file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
 
     return new Tuple(file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
   }

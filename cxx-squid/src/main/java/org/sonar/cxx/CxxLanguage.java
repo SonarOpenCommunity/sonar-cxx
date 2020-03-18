@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.List;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.internal.google.common.base.Splitter;
+import org.sonar.api.internal.google.common.collect.Iterables;
 import org.sonar.api.resources.AbstractLanguage;
 import org.sonar.api.resources.Qualifiers;
 
@@ -31,10 +33,6 @@ import org.sonar.api.resources.Qualifiers;
  * {@inheritDoc}
  */
 public class CxxLanguage extends AbstractLanguage {
-
-  private final String[] sourceSuffixes;
-  private final String[] headerSuffixes;
-  private final String[] fileSuffixes;
 
   /**
    * cxx language key
@@ -49,45 +47,31 @@ public class CxxLanguage extends AbstractLanguage {
   /**
    * Key of the file suffix parameter
    */
-  public static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
-  public static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
+  public static final String FILE_SUFFIXES_KEY = "sonar.cxx.file.suffixes";
 
   /**
-   * Default cxx source files knows suffixes
+   * Default cxx files knows suffixes
    */
-  public static final String DEFAULT_SOURCE_SUFFIXES = ".cxx,.cpp,.cc,.c";
+  public static final String DEFAULT_FILE_SUFFIXES = ".cxx,.cpp,.cc,.c,.hxx,.hpp,.hh,.h";
 
   /**
-   * Default cxx header files knows suffixes
+   * Settings of the plugin.
    */
-  public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
+  private final Configuration settings;
 
   public CxxLanguage(Configuration settings) {
     super(KEY);
-    sourceSuffixes = createStringArray(settings.getStringArray(SOURCE_FILE_SUFFIXES_KEY),
-                                       DEFAULT_SOURCE_SUFFIXES);
-    headerSuffixes = createStringArray(settings.getStringArray(HEADER_FILE_SUFFIXES_KEY),
-                                       DEFAULT_HEADER_SUFFIXES);
-    fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
+    this.settings = settings;
   }
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "Cxx Suffixes";
     return Collections.unmodifiableList(Arrays.asList(
-      PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY)
+      PropertyDefinition.builder(FILE_SUFFIXES_KEY)
+        .defaultValue(DEFAULT_FILE_SUFFIXES)
+        .name("File suffixes")
         .multiValues(true)
-        .defaultValue(DEFAULT_SOURCE_SUFFIXES)
-        .name("Source files suffixes")
-        .description("Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.")
-        .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT)
-        .build(),
-      PropertyDefinition.builder(HEADER_FILE_SUFFIXES_KEY)
-        .multiValues(true)
-        .defaultValue(DEFAULT_HEADER_SUFFIXES)
-        .name("Header files suffixes")
-        .description("Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.")
-        .subCategory(subcateg)
+        .description("Comma-separated list of suffixes for files to analyze. To not filter, leave the list empty.")
+        .subCategory("General")
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));
@@ -95,33 +79,17 @@ public class CxxLanguage extends AbstractLanguage {
 
   /**
    * {@inheritDoc}
+   *
+   * @see org.sonar.api.resources.AbstractLanguage#getFileSuffixes()
    */
   @Override
-
   public String[] getFileSuffixes() {
-    return fileSuffixes.clone();
-  }
-
-  public String[] getSourceFileSuffixes() {
-    return sourceSuffixes.clone();
-  }
-
-  public String[] getHeaderFileSuffixes() {
-    return headerSuffixes.clone();
-  }
-
-  public static String[] createStringArray(String[] values, String defaultValues) {
-    if (values.length == 0) {
-      return defaultValues.split(",");
+    String[] suffixes = Arrays.stream(settings.getStringArray(FILE_SUFFIXES_KEY))
+      .filter(s -> s != null && !s.trim().isEmpty()).toArray(String[]::new);
+    if (suffixes.length == 0) {
+      suffixes = Iterables.toArray(Splitter.on(',').split(DEFAULT_FILE_SUFFIXES), String.class);
     }
-    return values;
-  }
-
-  private String[] mergeArrays(String[] array1, String[] array2) {
-    String[] result = new String[array1.length + array2.length];
-    System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
-    System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);
-    return result;
+    return suffixes;
   }
 
 }

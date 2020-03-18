@@ -188,20 +188,6 @@ public class CxxConfiguration extends SquidConfiguration {
     }
   }
 
-  public void setHeaderFileSuffixes(List<String> headerFileSuffixes) {
-    this.headerFileSuffixes = new ArrayList<>(headerFileSuffixes);
-  }
-
-  public void setHeaderFileSuffixes(@Nullable String[] headerFileSuffixes) {
-    if (headerFileSuffixes != null && headerFileSuffixes.length > 0) {
-      setHeaderFileSuffixes(Arrays.asList(headerFileSuffixes));
-    }
-  }
-
-  public List<String> getHeaderFileSuffixes() {
-    return new ArrayList<>(this.headerFileSuffixes);
-  }
-
   public String getJsonCompilationDatabaseFile() {
     return jsonCompilationDatabaseFile;
   }
@@ -231,8 +217,8 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setCompilationPropertiesWithBuildLog(@Nullable List<File> reports,
-          String fileFormat,
-          String charsetName) {
+                                                   String fileFormat,
+                                                   String charsetName) {
 
     if (reports == null || reports.isEmpty()) {
       return;
@@ -243,8 +229,8 @@ public class CxxConfiguration extends SquidConfiguration {
         if ("Visual C++".equals(fileFormat)) {
           cxxVCppParser.parseVCppLog(buildLog, baseDir, charsetName);
           LOG.info("Parse build log '" + buildLog.getAbsolutePath()
-                  + "' added includes: '" + getIncludeDirectories().size()
-                  + "', added defines: '" + getDefines().size() + "'");
+                     + "' added includes: '" + getIncludeDirectories().size()
+                     + "', added defines: '" + getDefines().size() + "'");
           if (LOG.isDebugEnabled()) {
             for (List<String> allIncludes : uniqueIncludes.values()) {
               if (!allIncludes.isEmpty()) {
