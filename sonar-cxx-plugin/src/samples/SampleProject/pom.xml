@@ -541,9 +541,5 @@
     <sonar.cxx.defines>Q_OBJECT, Q_SLOTS</sonar.cxx.defines>
     <sonar.tests>sources/tests</sonar.tests>
 
-    <!-- <sonar.cxx.suffixes.sources></sonar.cxx.suffixes.sources> -->
-    <!-- <sonar.cxx.suffixes.headers></sonar.cxx.suffixes.headers> -->
-    <!-- <sonar.cxx.xunit.xsltURL></sonar.cxx.xunit.xsltURL> -->
-    <!-- <sonar.cxx.valgrind.reportPath></sonar.cxx.valgrind.reportPath> -->
   </properties>
 </project>

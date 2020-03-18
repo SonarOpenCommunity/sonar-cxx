@@ -35,22 +35,26 @@ import org.sonar.cxx.CxxLanguage;
  */
 public class CxxFileTesterHelper {
 
-  public static CxxFileTester CreateCxxFileTester(String fileName, String basePath) throws UnsupportedEncodingException, IOException {
+  public static CxxFileTester CreateCxxFileTester(String fileName, String basePath) throws UnsupportedEncodingException,
+                                                                                           IOException {
     CxxFileTester tester = new CxxFileTester();
     tester.sensorContext = SensorContextTester.create(new File(basePath));
 
     tester.sensorContext.fileSystem().add(TestInputFileBuilder.create("", fileName).build());
-    tester.cxxFile = tester.sensorContext.fileSystem().inputFile(tester.sensorContext.fileSystem().predicates().hasPath(fileName));
+    tester.cxxFile = tester.sensorContext.fileSystem().inputFile(tester.sensorContext.fileSystem().predicates().hasPath(
+      fileName));
 
     return tester;
   }
 
-  public static CxxFileTester CreateCxxFileTester(String fileName, String basePath, Charset charset) throws UnsupportedEncodingException, IOException {
+  public static CxxFileTester CreateCxxFileTester(String fileName, String basePath, Charset charset) throws
+    UnsupportedEncodingException, IOException {
     CxxFileTester tester = new CxxFileTester();
     tester.sensorContext = SensorContextTester.create(new File(basePath));
 
     tester.sensorContext.fileSystem().add(TestInputFileBuilder.create("", fileName).setCharset(charset).build());
-    tester.cxxFile = tester.sensorContext.fileSystem().inputFile(tester.sensorContext.fileSystem().predicates().hasPath(fileName));
+    tester.cxxFile = tester.sensorContext.fileSystem().inputFile(tester.sensorContext.fileSystem().predicates().hasPath(
+      fileName));
 
     return tester;
   }
@@ -61,7 +65,6 @@ public class CxxFileTesterHelper {
     when(language.getName()).thenReturn("c++");
     when(language.getFileSuffixes())
       .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
-    when(language.getHeaderFileSuffixes()).thenReturn(new String[]{".hpp", ".h", ".hxx", ".hh"});
 
     return language;
   }

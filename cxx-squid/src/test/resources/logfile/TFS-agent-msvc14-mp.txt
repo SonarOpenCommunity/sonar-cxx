@@ -146,8 +146,7 @@
 2017-12-18T17:13:10.3859498Z          sonar.cxx.vera.reportPath     = vera-report.xml
 2017-12-18T17:13:10.3859498Z          sonar.cxx.rats.reportPath     = rats-report.xml
 2017-12-18T17:13:10.3859498Z          sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
-2017-12-18T17:13:10.3859498Z          sonar.cxx.suffixes.sources    = .cc,.cpp,.c,.cu
-2017-12-18T17:13:10.3859498Z          sonar.cxx.suffixes.headers    = .h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
+2017-12-18T17:13:10.3859498Z          sonar.cxx.file.suffixes       = .cc,.cpp,.c,.cu,.h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
 2017-12-18T17:13:10.3859498Z          sonar.cxx.forceIncludes       = sonar-defines.h
 2017-12-18T17:13:10.3859498Z          sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include
 2017-12-18T17:13:10.3859498Z      3>SQEnvCheck:
@@ -161,8 +160,7 @@
 2017-12-18T17:13:10.3859498Z          sonar.cxx.vera.reportPath     = vera-report.xml
 2017-12-18T17:13:10.3859498Z          sonar.cxx.rats.reportPath     = rats-report.xml
 2017-12-18T17:13:10.3859498Z          sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
-2017-12-18T17:13:10.3859498Z          sonar.cxx.suffixes.sources    = .cc,.cpp,.c,.cu
-2017-12-18T17:13:10.3859498Z          sonar.cxx.suffixes.headers    = .h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
+2017-12-18T17:13:10.3859498Z          sonar.cxx.file.suffixes       = .cc,.cpp,.c,.cu,.h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
 2017-12-18T17:13:10.3859498Z          sonar.cxx.forceIncludes       = sonar-defines.h
 2017-12-18T17:13:10.3859498Z          sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include
 2017-12-18T17:13:10.3859498Z      5>CreateProjectSpecificDirs:
@@ -213,8 +211,7 @@
 2017-12-18T17:13:11.0578360Z          sonar.cxx.vera.reportPath     = vera-report.xml
 2017-12-18T17:13:11.0578360Z          sonar.cxx.rats.reportPath     = rats-report.xml
 2017-12-18T17:13:11.0578360Z          sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
-2017-12-18T17:13:11.0578360Z          sonar.cxx.suffixes.sources    = .cc,.cpp,.c,.cu
-2017-12-18T17:13:11.0578360Z          sonar.cxx.suffixes.headers    = .h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
+2017-12-18T17:13:11.0578360Z          sonar.cxx.file.suffixes       = .cc,.cpp,.c,.cu,.h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
 2017-12-18T17:13:11.0578360Z          sonar.cxx.forceIncludes       = sonar-defines.h
 2017-12-18T17:13:11.0578360Z          sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include
 2017-12-18T17:13:11.0578360Z        CreateProjectSpecificDirs:
@@ -399,8 +396,7 @@
 2017-12-18T17:13:13.9797522Z          sonar.cxx.vera.reportPath     = vera-report.xml
 2017-12-18T17:13:13.9797522Z          sonar.cxx.rats.reportPath     = rats-report.xml
 2017-12-18T17:13:13.9797522Z          sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
-2017-12-18T17:13:13.9797522Z          sonar.cxx.suffixes.sources    = .cc,.cpp,.c,.cu
-2017-12-18T17:13:13.9797522Z          sonar.cxx.suffixes.headers    = .h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
+2017-12-18T17:13:13.9797522Z          sonar.cxx.file.suffixes       = .cc,.cpp,.c,.cu,.h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
 2017-12-18T17:13:13.9797522Z          sonar.cxx.forceIncludes       = sonar-defines.h
 2017-12-18T17:13:13.9797522Z          sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include
 2017-12-18T17:13:13.9797522Z        CreateProjectSpecificDirs:
@@ -483,44 +479,44 @@
 2017-12-18T17:13:33.4020992Z          Creating directory "C:\agent\_work\1\.sonarqube\conf\CalculationTests_4020".
 2017-12-18T17:13:33.4020992Z      8>Done Building Project "C:\agent\_work\1\s\Tests\CalculationTests\CalculationTests.vcxproj" (default targets).
 2017-12-18T17:13:33.4177256Z      1>Done Building Project "C:\agent\_work\1\s\CppTesting.sln" (default targets).
-2017-12-18T17:13:33.4177256Z 
+2017-12-18T17:13:33.4177256Z
 2017-12-18T17:13:33.4177256Z Build succeeded.
-2017-12-18T17:13:33.4177256Z 
+2017-12-18T17:13:33.4177256Z
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj" (default target) (7) ->
-2017-12-18T17:13:33.4333520Z        (ClCompile target) -> 
+2017-12-18T17:13:33.4333520Z        (ClCompile target) ->
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(17): warning C4101: 'x': unreferenced local variable [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(36): warning C4189: 'i': local variable is initialized but not referenced [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(18): warning C4101: 'x': unreferenced local variable [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(37): warning C4189: 'i': local variable is initialized but not referenced [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(31): warning C4700: uninitialized local variable 'a' used [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(32): warning C4700: uninitialized local variable 'a' used [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
-2017-12-18T17:13:33.4333520Z 
-2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z
+2017-12-18T17:13:33.4333520Z
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj" (default target) (3) ->
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\motorcontroller\dllmain.cpp(7): warning C4100: 'lpReserved': unreferenced formal parameter [C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\motorcontroller\dllmain.cpp(4): warning C4100: 'hModule': unreferenced formal parameter [C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj]
-2017-12-18T17:13:33.4333520Z 
-2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z
+2017-12-18T17:13:33.4333520Z
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\RootFinder\RootFinder.vcxproj" (default target) (2) ->
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\rootfinder\dllmain.cpp(7): warning C4100: 'lpReserved': unreferenced formal parameter [C:\agent\_work\1\s\Source\RootFinder\RootFinder.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\rootfinder\dllmain.cpp(4): warning C4100: 'hModule': unreferenced formal parameter [C:\agent\_work\1\s\Source\RootFinder\RootFinder.vcxproj]
-2017-12-18T17:13:33.4333520Z 
-2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z
+2017-12-18T17:13:33.4333520Z
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\Calculation\Calculation.vcxproj" (default target) (5) ->
-2017-12-18T17:13:33.4333520Z        (RunNativeCodeAnalysis target) -> 
+2017-12-18T17:13:33.4333520Z        (RunNativeCodeAnalysis target) ->
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\calculation\addition.cpp(11): warning C26497: This function CAddition::twoValues could be marked constexpr if compile-time evaluation is desired. (f.4: https://go.microsoft.com/fwlink/p/?LinkID=784970) [C:\agent\_work\1\s\Source\Calculation\Calculation.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\calculation\multiply.cpp(11): warning C26497: This function CMultiply::twoValues could be marked constexpr if compile-time evaluation is desired. (f.4: https://go.microsoft.com/fwlink/p/?LinkID=784970) [C:\agent\_work\1\s\Source\Calculation\Calculation.vcxproj]
-2017-12-18T17:13:33.4333520Z 
-2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z
+2017-12-18T17:13:33.4333520Z
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj" (default target) (3) ->
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\motorcontroller\motorcontroller.cpp(63): warning C26498: This function call factorial can use constexpr if compile-time evaluation is desired. (con.5: https://go.microsoft.com/fwlink/p/?LinkID=784974) [C:\agent\_work\1\s\Source\MotorController\MotorController.vcxproj]
-2017-12-18T17:13:33.4333520Z 
-2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z
+2017-12-18T17:13:33.4333520Z
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj" (default target) (7) ->
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component1.cc(18): warning C26494: Variable 'x' is uninitialized. Always initialize an object. (type.5: http://go.microsoft.com/fwlink/p/?LinkID=620421) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
@@ -587,23 +583,23 @@
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(49): warning C26400: Do not assign the result of an allocation or a function call with an owner<T> return value to a raw pointer, use owner<T> instead. (i.11 http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(50): warning C26401: Do not delete a raw pointer that is not an owner<T>. (i.11: http://go.microsoft.com/fwlink/?linkid=845474) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\source\sqcxxtestdata\component2.cc(50): warning C26409: Avoid calling new and delete explicitly, use std::make_unique<T> instead. (r.11 http://go.microsoft.com/fwlink/?linkid=845485) [C:\agent\_work\1\s\Source\SQCxxTestData\SQCxxTestData.vcxproj]
-2017-12-18T17:13:33.4333520Z 
-2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z
+2017-12-18T17:13:33.4333520Z
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Tests\MotorControllerTests\MotorControllerTests.vcxproj" (default target) (4) ->
-2017-12-18T17:13:33.4333520Z        (ClCompile target) -> 
+2017-12-18T17:13:33.4333520Z        (ClCompile target) ->
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\tests\motorcontrollertests\unittest1.cpp(15): warning C4505: 'Microsoft::VisualStudio::CppUnitTestFramework::ToString': unreferenced local function has been removed [C:\agent\_work\1\s\Tests\MotorControllerTests\MotorControllerTests.vcxproj]
-2017-12-18T17:13:33.4333520Z 
-2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z
+2017-12-18T17:13:33.4333520Z
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\CppTesting.sln" (default target) (1) ->
 2017-12-18T17:13:33.4333520Z        "C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj" (default target) (6) ->
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(35): warning C4238: nonstandard extension used: class rvalue used as lvalue [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(60): warning C4238: nonstandard extension used: class rvalue used as lvalue [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(69): warning C4238: nonstandard extension used: class rvalue used as lvalue [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
 2017-12-18T17:13:33.4333520Z          c:\agent\_work\1\s\tests\rootfindertests\unittest1.cpp(57): warning C4189: 'result': local variable is initialized but not referenced [C:\agent\_work\1\s\Tests\RootFinderTests\RootFinderTests.vcxproj]
-2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z
 2017-12-18T17:13:33.4333520Z     82 Warning(s)
 2017-12-18T17:13:33.4333520Z     0 Error(s)
-2017-12-18T17:13:33.4333520Z 
+2017-12-18T17:13:33.4333520Z
 2017-12-18T17:13:33.4333520Z Time Elapsed 00:00:29.37
 2017-12-18T17:13:33.5271006Z ##[section]Finishing: Build solution CppTesting.sln

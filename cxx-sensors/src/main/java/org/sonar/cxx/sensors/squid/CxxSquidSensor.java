@@ -281,7 +281,6 @@ public class CxxSquidSensor implements ProjectSensor {
     //    For proper implemenation see CppLanguage::CppLanguage()
     //    or createStringArray(settings.getStringArray(C_FILES_PATTERNS_KEY), DEFAULT_C_FILES)
     cxxConf.setCFilesPatterns(this.settings.getStringArray(C_FILES_PATTERNS_KEY));
-    cxxConf.setHeaderFileSuffixes(this.language.getHeaderFileSuffixes());
     cxxConf.setJsonCompilationDatabaseFile(this.settings.get(JSON_COMPILATION_DATABASE_KEY)
       .orElse(null));
 
