@@ -38,6 +38,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -57,11 +58,10 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * CxxXunitSensor
    *
-   * @param settings sensor configuration
+   * @param config sensor configuration
    */
-  public CxxXunitSensor(Configuration settings) {
-    super(settings, REPORT_PATH_KEY);
-    xsltURL = this.settings.get(XSLT_URL_KEY).orElse(null);
+  public CxxXunitSensor(Configuration config) {
+    xsltURL = config.get(XSLT_URL_KEY).orElse(null);
   }
 
   public static List<PropertyDefinition> properties() {
@@ -90,9 +90,9 @@ public class CxxXunitSensor extends CxxReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " XunitSensor")
+      .name(CxxLanguage.NAME + " XunitSensor")
       //.onlyOnLanguage(getLanguage().getKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }
 
   /**
@@ -103,7 +103,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     LOG.debug("Root module imports test metrics: Module Key = '{}'", context.project());
 
     try {
-      List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
+      List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), REPORT_PATH_KEY);
       if (!reports.isEmpty()) {
         XunitReportParser parserHandler = parseReport(reports);
         List<TestCase> testcases = parserHandler.getTestCases();
@@ -120,7 +120,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         .append("'")
         .toString();
       LOG.error(msg);
-      CxxUtils.validateRecovery(e, settings);
+      CxxUtils.validateRecovery(e, context.config());
     }
   }
 
@@ -177,7 +177,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           .save();
       } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.validateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, context.config());
       }
 
       try {
@@ -188,7 +188,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           .save();
       } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.validateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, context.config());
       }
 
       try {
@@ -199,7 +199,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           .save();
       } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.validateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, context.config());
       }
 
       try {
@@ -210,7 +210,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           .save();
       } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.validateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, context.config());
       }
 
       try {
@@ -221,7 +221,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           .save();
       } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.validateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, context.config());
       }
     } else {
       LOG.debug("The reports contain no testcases");

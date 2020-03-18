@@ -42,7 +42,6 @@ public class CxxCoberturaSensorTest {
   @org.junit.Rule
   public LogTester logTester = new LogTester();
 
-  private CxxCoverageSensor sensor;
   private DefaultFileSystem fs;
   private final Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
   private final MapSettings settings = new MapSettings();
@@ -145,8 +144,7 @@ public class CxxCoberturaSensorTest {
   @Test
   public void shouldReportCorrectCoverageForAllTypesOfCoverage() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
-    settings.setProperty(sensor.getReportPathKey(), "coverage-reports/cobertura/coverage-result-cobertura.xml");
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
@@ -155,6 +153,8 @@ public class CxxCoberturaSensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
@@ -174,8 +174,7 @@ public class CxxCoberturaSensorTest {
   @Test
   public void shouldReportCorrectCoverageSQ62() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
-    settings.setProperty(sensor.getReportPathKey(), "coverage-reports/cobertura/coverage-result-cobertura.xml");
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
@@ -184,6 +183,8 @@ public class CxxCoberturaSensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
@@ -199,21 +200,23 @@ public class CxxCoberturaSensorTest {
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, reportPathValue);
     context.setSettings(settings);
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     List<String> log = logTester.logs();
-    assertThat(log).contains("Property 'sonar.cxx.coverage.reportPath': cannot find any files matching the Ant pattern(s) '"
-      + new File(fs.baseDir(), reportPathValue).getAbsolutePath() + "'");
+    assertThat(log).contains(
+      "Property 'sonar.cxx.coverage.reportPath': cannot find any files matching the Ant pattern(s) '"
+        + new File(fs.baseDir(), reportPathValue).getAbsolutePath() + "'");
   }
 
   @Test
   public void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
-    settings.setProperty(sensor.getReportPathKey(), "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
+                         "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
     context.setSettings(settings);
 
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(linesOfCodeByFile.isEmpty()).isTrue();
@@ -222,8 +225,8 @@ public class CxxCoberturaSensorTest {
   @Test
   public void shouldReportNoCoverageWhenInvalidFilesEmpty() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
-    settings.setProperty(sensor.getReportPathKey(), "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml");
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
+                         "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
@@ -232,6 +235,8 @@ public class CxxCoberturaSensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 1)).isNull();
@@ -242,7 +247,8 @@ public class CxxCoberturaSensorTest {
   @Test
   public void shouldReportNoCoverageWhenFilesInvalid() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
+                         "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
@@ -252,7 +258,7 @@ public class CxxCoberturaSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 1)).isNull();
@@ -263,15 +269,18 @@ public class CxxCoberturaSensorTest {
   @Test
   public void shouldReportCoverageWhenVisualStudioCase() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio.xml");
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
+                         "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "project2/source1.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "project2/source2.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     int[] oneHitlinesA = new int[]{4, 5, 6, 8, 13, 15, 16, 25};

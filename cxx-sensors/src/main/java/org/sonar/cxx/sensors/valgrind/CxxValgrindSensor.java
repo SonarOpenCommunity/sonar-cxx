@@ -26,11 +26,11 @@ import java.util.List;
 import java.util.Set;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -45,11 +45,8 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
 
   /**
    * CxxValgrindSensor for Valgrind Sensor
-   *
-   * @param settings sensor configuration
    */
-  public CxxValgrindSensor(Configuration settings) {
-    super(settings, REPORT_PATH_KEY, CxxValgrindRuleRepository.KEY);
+  public CxxValgrindSensor() {
   }
 
   private static String createErrorMsg(ValgrindError error, ValgrindStack stack, int stackNr) {
@@ -79,10 +76,10 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " ValgrindSensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name(CxxLanguage.NAME + " ValgrindSensor")
+      .onlyOnLanguage(CxxLanguage.KEY)
       .createIssuesForRuleRepository(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }
 
   private boolean frameIsInProject(SensorContext context, ValgrindFrame frame) {
@@ -116,6 +113,16 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     LOG.debug("Parsing 'Valgrind' format");
     ValgrindReportParser parser = new ValgrindReportParser();
     saveErrors(context, parser.processReport(report));
+  }
+
+  @Override
+  protected String getReportPathKey() {
+    return REPORT_PATH_KEY;
+  }
+
+  @Override
+  protected String getRuleRepositoryKey() {
+    return CxxValgrindRuleRepository.KEY;
   }
 
   void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {

@@ -47,8 +47,8 @@ public class CxxFunctionSizeVisitor<G extends Grammar> extends SquidAstVisitor<G
   private int bigFunctionsLoc;
   private int totalLoc;
 
-  public CxxFunctionSizeVisitor(Configuration settings) {
-    this.sizeThreshold = settings.getInt(FUNCTION_SIZE_THRESHOLD_KEY).orElse(20);
+  public CxxFunctionSizeVisitor(Configuration config) {
+    this.sizeThreshold = config.getInt(FUNCTION_SIZE_THRESHOLD_KEY).orElse(20);
     LOG.debug("Function size threshold: " + this.sizeThreshold);
   }
 

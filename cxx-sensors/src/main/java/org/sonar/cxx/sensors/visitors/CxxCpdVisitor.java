@@ -49,17 +49,17 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   public static final String IGNORE_LITERALS_KEY = "sonar.cxx.cpd.ignoreLiterals";
   public static final String IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
 
-  private final SensorContext sensorContext;
+  private final SensorContext context;
   private final boolean ignoreLiterals;
   private final boolean ignoreIdentifiers;
   private InputFile inputFile;
   private NewCpdTokens cpdTokens;
   private int isFunctionDefinition;
 
-  public CxxCpdVisitor(SensorContext sensorContext) {
-    this.sensorContext = sensorContext;
-    this.ignoreLiterals = sensorContext.config().getBoolean(IGNORE_LITERALS_KEY).orElse(Boolean.FALSE);
-    this.ignoreIdentifiers = sensorContext.config().getBoolean(IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE);
+  public CxxCpdVisitor(SensorContext context) {
+    this.context = context;
+    this.ignoreLiterals = context.config().getBoolean(IGNORE_LITERALS_KEY).orElse(Boolean.FALSE);
+    this.ignoreIdentifiers = context.config().getBoolean(IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE);
   }
 
   public static List<PropertyDefinition> properties() {
@@ -69,7 +69,7 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
         .defaultValue(Boolean.FALSE.toString())
         .name("Ignores literal value differences when evaluating a duplicate block")
         .description("Ignores literal (numbers, characters and strings) value differences when evaluating a duplicate "
-          + "block. This means that e.g. foo=42; and foo=43; will be seen as equivalent. Default is 'False'.")
+                       + "block. This means that e.g. foo=42; and foo=43; will be seen as equivalent. Default is 'False'.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
@@ -78,7 +78,7 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
         .defaultValue(Boolean.FALSE.toString())
         .name("Ignores identifier value differences when evaluating a duplicate block")
         .description("Ignores identifier value differences when evaluating a duplicate block e.g. variable names, "
-          + "methods names, and so forth. Default is 'False'.")
+                       + "methods names, and so forth. Default is 'False'.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
@@ -94,9 +94,9 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   @Override
   public void visitFile(@Nullable AstNode astNode) {
     File file = getContext().getFile();
-    inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().is(file));
+    inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(file));
     if (inputFile != null) {
-      cpdTokens = sensorContext.newCpdTokens().onFile(inputFile);
+      cpdTokens = context.newCpdTokens().onFile(inputFile);
     }
   }
 
@@ -141,12 +141,12 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
 
       try {
         TextRange range = inputFile.newRange(token.getLine(), token.getColumn(),
-          token.getLine(), token.getColumn() + token.getValue().length());
+                                             token.getLine(), token.getColumn() + token.getValue().length());
         cpdTokens.addToken(range, text);
       } catch (IllegalArgumentException | IllegalStateException e) {
         // ignore range errors: parsing errors could lead to wrong location data
         LOG.debug("CPD error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(),
-          token.getLine(), token.getColumn());
+                  token.getLine(), token.getColumn());
       }
     }
   }

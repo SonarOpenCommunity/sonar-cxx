@@ -37,8 +37,9 @@ public class NoSonarCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/NoSonarTagPresenceCheck.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
+      "src/test/resources/checks/NoSonarTagPresenceCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage("Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?")

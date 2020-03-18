@@ -222,7 +222,7 @@ public class CxxSquidSensorTest {
     File target = new File(baseDir, fileName);
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
+      .setCharset(StandardCharsets.UTF_8).setLanguage(CxxLanguage.KEY)
       .setType(InputFile.Type.MAIN).build();
     return inputFile;
   }

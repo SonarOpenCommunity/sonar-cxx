@@ -68,15 +68,15 @@ public final class CxxAstScanner {
    * Helper method for testing checks without having to deploy them on a Sonar instance.
    *
    * @param file is the file to be checked
-   * @param sensorContext SQ API batch side context
+   * @param context SQ API batch side context
    * @param visitors AST checks and visitors to use
    * @param language CxxLanguage to use
    * @return file checked with measures and issues
    */
   @SafeVarargs
-  public static SourceFile scanSingleFile(Configuration settings, InputFile file, SensorContext sensorContext,
+  public static SourceFile scanSingleFile(Configuration config, InputFile file, SensorContext context,
                                           SquidAstVisitor<Grammar>... visitors) {
-    return scanSingleFileConfig(settings, file, new CxxConfiguration(sensorContext.fileSystem().encoding()), visitors);
+    return scanSingleFileConfig(config, file, new CxxConfiguration(context.fileSystem().encoding()), visitors);
   }
 
   /**
@@ -88,12 +88,12 @@ public final class CxxAstScanner {
    * @param language for sensor
    * @return file checked with measures and issues
    */
-  public static SourceFile scanSingleFileConfig(Configuration settings, InputFile file, CxxConfiguration cxxConfig,
+  public static SourceFile scanSingleFileConfig(Configuration config, InputFile file, CxxConfiguration cxxConfig,
                                                 SquidAstVisitor<Grammar>... visitors) {
     if (!file.isFile()) {
       throw new IllegalArgumentException("File '" + file + "' not found.");
     }
-    AstScanner<Grammar> scanner = create(settings, cxxConfig, visitors);
+    AstScanner<Grammar> scanner = create(config, cxxConfig, visitors);
     scanner.scanFile(new File(file.uri().getPath()));
     Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
     if (sources.size() != 1) {
@@ -107,12 +107,12 @@ public final class CxxAstScanner {
    * Create scanner for language
    *
    * @param language for sensor
-   * @param conf settings for sensor
+   * @param conf config for sensor
    * @param visitors visitors AST checks and visitors to use
    * @return scanner for the given parameters
    */
   @SafeVarargs
-  public static AstScanner<Grammar> create(Configuration settings, CxxConfiguration conf,
+  public static AstScanner<Grammar> create(Configuration config, CxxConfiguration conf,
                                            SquidAstVisitor<Grammar>... visitors) {
     final SquidAstVisitorContextImpl<Grammar> context
                                                 = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
@@ -196,7 +196,7 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(new LinesVisitor<>(CxxMetric.LINES));
     builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<>(CxxMetric.LINES_OF_CODE));
     builder.withSquidAstVisitor(new CxxLinesOfCodeInFunctionBodyVisitor<>());
-    builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(settings));
+    builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(config));
 
     builder.withSquidAstVisitor(CommentsVisitor.<Grammar>builder().withCommentMetric(CxxMetric.COMMENT_LINES)
       .withNoSonar(true)
@@ -216,8 +216,8 @@ public final class CxxAstScanner {
 
     builder.withSquidAstVisitor(new CxxCognitiveComplexityVisitor<>());
 
-    builder.withSquidAstVisitor(new CxxFunctionComplexityVisitor<>(settings));
-    builder.withSquidAstVisitor(new CxxFunctionSizeVisitor<>(settings));
+    builder.withSquidAstVisitor(new CxxFunctionComplexityVisitor<>(config));
+    builder.withSquidAstVisitor(new CxxFunctionSizeVisitor<>(config));
 
     // to emit a 'new file' event to the internals of the plugin
     builder.withSquidAstVisitor(new CxxFileVisitor<>());

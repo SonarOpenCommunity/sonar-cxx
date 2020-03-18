@@ -68,8 +68,8 @@ public class CxxFileLinesVisitorTest {
     target = new File(baseDir, "ncloc.cc");
 
     testLines = Stream.of(8, 10, 14, 16, 17, 21, 22, 23, 26, 31, 34, 35, 42, 44, 45, 49, 51, 53, 55, 56,
-      58, 59, 63, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 79, 82, 84, 86, 87, 89,
-      90, 95, 98, 99, 100, 102, 107, 108, 109, 110, 111, 113, 115, 118, 119, 124, 126)
+                          58, 59, 63, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 79, 82, 84, 86, 87, 89,
+                          90, 95, 98, 99, 100, 102, 107, 108, 109, 110, 111, 113, 115, 118, 119, 124, 126)
       .collect(Collectors.toCollection(HashSet::new));
   }
 
@@ -77,17 +77,17 @@ public class CxxFileLinesVisitorTest {
   public void TestLinesOfCode() throws UnsupportedEncodingException, IOException {
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
+      .setCharset(StandardCharsets.UTF_8).setLanguage(CxxLanguage.KEY)
       .setType(InputFile.Type.MAIN).build();
 
-    SensorContextTester sensorContext = SensorContextTester.create(baseDir);
-    sensorContext.fileSystem().add(inputFile);
+    SensorContextTester context = SensorContextTester.create(baseDir);
+    context.fileSystem().add(inputFile);
 
     when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
 
-    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, sensorContext);
+    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, context);
 
-    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, sensorContext, visitor);
+    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context, visitor);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(fileLinesContext.linesOfCode).containsExactlyInAnyOrderElementsOf(testLines);
@@ -99,20 +99,20 @@ public class CxxFileLinesVisitorTest {
 
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(StandardCharsets.UTF_8).setLanguage(language.getKey())
+      .setCharset(StandardCharsets.UTF_8).setLanguage(CxxLanguage.KEY)
       .setType(InputFile.Type.MAIN).build();
 
-    SensorContextTester sensorContext = SensorContextTester.create(baseDir);
-    sensorContext.fileSystem().add(inputFile);
+    SensorContextTester context = SensorContextTester.create(baseDir);
+    context.fileSystem().add(inputFile);
 
     when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
 
-    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, sensorContext);
+    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, context);
 
-    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, sensorContext, visitor);
+    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context, visitor);
 
     assertThat(fileLinesContext.executableLines).containsExactlyInAnyOrder(10, 26, 34, 35, 56, 59, 69, 70, 72, 73,
-      75, 76, 79, 87, 90, 98, 102, 118, 119, 126);
+                                                                           75, 76, 79, 87, 90, 98, 102, 118, 119, 126);
   }
 
   private class FileLinesContextForTesting implements FileLinesContext {

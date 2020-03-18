@@ -40,9 +40,10 @@ public class CommentRegularExpressionCheckTest {
     check.regularExpression = "(?i).*TODO.*";
     check.message = "Avoid TODO";
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/commentRegularExpression.cc", ".");
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
+      "src/test/resources/checks/commentRegularExpression.cc", ".");
 
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Avoid TODO")
       .next().atLine(5)

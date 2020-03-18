@@ -31,7 +31,6 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxTestwellCtcTxtParserTest {
 
-  private CxxCoverageSensor sensor;
   private DefaultFileSystem fs;
   private SensorContextTester context;
   private final MapSettings settings = new MapSettings();
@@ -46,15 +45,15 @@ public class CxxTestwellCtcTxtParserTest {
   public void shouldReportCoveredLines() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
-      "coverage-reports/TestwellCTC/report_small_v8.txt");
+                         "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                                       + "\n\n\n\n\n\n\n").build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
@@ -67,15 +66,15 @@ public class CxxTestwellCtcTxtParserTest {
   public void shouldReportCoveredConditionsOne() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
-      "coverage-reports/TestwellCTC/report_small_v8.txt");
+                         "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                                       + "\n\n\n\n\n\n\n").build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
@@ -92,10 +91,10 @@ public class CxxTestwellCtcTxtParserTest {
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                                       + "\n\n\n\n\n\n\n").build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
@@ -108,19 +107,19 @@ public class CxxTestwellCtcTxtParserTest {
   public void shouldConsumeLargeReportCoveredLines() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
-      "coverage-reports/TestwellCTC/report_big.txt");
+                         "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                                       + "\n\n\n\n\n\n\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "credential-store.c")
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                                       + "\n\n\n\n\n\n\n").build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
@@ -133,19 +132,19 @@ public class CxxTestwellCtcTxtParserTest {
   public void shouldConsumeLargeReportCoveredConditions() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
-      "coverage-reports/TestwellCTC/report_big.txt");
+                         "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                                       + "\n\n\n\n\n\n\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "credential-store.c")
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                                       + "\n\n\n\n\n\n\n").build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
@@ -158,19 +157,19 @@ public class CxxTestwellCtcTxtParserTest {
   public void shouldConsumeLargeReportConditions() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
-      "coverage-reports/TestwellCTC/report_big.txt");
+                         "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                                       + "\n\n\n\n\n\n\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "credential-store.c")
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                                       + "\n\n\n\n\n\n\n").build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
@@ -183,15 +182,15 @@ public class CxxTestwellCtcTxtParserTest {
   public void shouldConsumeEmptyReport() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
-      "coverage-reports/TestwellCTC/report_empty.txt");
+                         "coverage-reports/TestwellCTC/report_empty.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
       .setLanguage("cpp").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                                       + "\n\n\n\n\n\n\n").build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();

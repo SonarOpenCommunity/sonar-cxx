@@ -38,6 +38,7 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -59,11 +60,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * {@inheritDoc}
    *
    * @param cache for all coverage data
-   * @param settings sensor configuration
    * @param context for current file
    */
-  public CxxCoverageSensor(CxxCoverageCache cache, Configuration settings, SensorContext context) {
-    super(settings, REPORT_PATH_KEY);
+  public CxxCoverageSensor(CxxCoverageCache cache, SensorContext context) {
     this.cache = cache;
     parsers.add(new CoberturaParser());
     parsers.add(new BullseyeParser());
@@ -77,9 +76,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Unit test coverage report(s)")
         .description("List of paths to reports containing unit test coverage data, relative to projects root."
-          + " The values are separated by commas."
-          + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
-          + "here</a> for supported formats.")
+                       + " The values are separated by commas."
+                       + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
+                     + "here</a> for supported formats.")
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -95,7 +94,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * @return true if report was parsed and results are available otherwise false
    */
   private static void parseCoverageReport(CoverageParser parser, File report,
-    Map<String, CoverageMeasures> measuresTotal) {
+                                          Map<String, CoverageMeasures> measuresTotal) {
     Map<String, CoverageMeasures> measuresForReport = new HashMap<>();
     try {
       parser.processReport(report, measuresForReport);
@@ -114,9 +113,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " CoverageSensor")
-      .onlyOnLanguage(getLanguage().getKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .name(CxxLanguage.NAME + " CoverageSensor")
+      .onlyOnLanguage(CxxLanguage.KEY)
+      .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }
 
   /**
@@ -125,23 +124,23 @@ public class CxxCoverageSensor extends CxxReportSensor {
   @Override
   public void executeImpl(SensorContext context) {
     Configuration conf = context.config();
-    String[] reportsKey = conf.getStringArray(getReportPathKey());
+    String[] reportsKey = conf.getStringArray(REPORT_PATH_KEY);
     LOG.info("Searching coverage reports by path with basedir '{}' and search prop '{}'",
-      context.fileSystem().baseDir(), getReportPathKey());
+             context.fileSystem().baseDir(), REPORT_PATH_KEY);
     LOG.info("Searching for coverage reports '{}'", Arrays.toString(reportsKey));
     LOG.info("Coverage BaseDir '{}' ", context.fileSystem().baseDir());
 
-    if (context.config().hasKey(getReportPathKey())) {
+    if (context.config().hasKey(REPORT_PATH_KEY)) {
       LOG.debug("Parsing unit test coverage reports");
 
-      List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
+      List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), REPORT_PATH_KEY);
       Map<String, CoverageMeasures> coverageMeasures = processReports(reports, this.cache.unitCoverageCache());
       saveMeasures(context, coverageMeasures);
     }
   }
 
   private Map<String, CoverageMeasures> processReports(List<File> reports,
-    Map<String, Map<String, CoverageMeasures>> cacheCov) {
+                                                       Map<String, Map<String, CoverageMeasures>> cacheCov) {
     Map<String, CoverageMeasures> measuresTotal = new HashMap<>();
 
     for (File report : reports) {
@@ -150,7 +149,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
           try {
             parseCoverageReport(parser, report, measuresTotal);
             LOG.debug("cached measures for '{}' : current cache content data = '{}'", report.getAbsolutePath(),
-              cacheCov.size());
+                      cacheCov.size());
 
             cacheCov.put(report.getAbsolutePath(), measuresTotal);
             // Only use first coverage parser which handles the data correctly
@@ -171,7 +170,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
 
   private void saveMeasures(SensorContext context,
-    Map<String, CoverageMeasures> coverageMeasures) {
+                            Map<String, CoverageMeasures> coverageMeasures) {
     for (Map.Entry<String, CoverageMeasures> entry : coverageMeasures.entrySet()) {
       final String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath != null) {
@@ -185,14 +184,14 @@ public class CxxCoverageSensor extends CxxReportSensor {
           Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
           LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
 
-          measures.forEach((CoverageMeasure measure) -> checkCoverage(newCoverage, measure));
+          measures.forEach((CoverageMeasure measure) -> checkCoverage(context, newCoverage, measure));
 
           try {
             newCoverage.save();
             LOG.debug("Saved '{}' coverage measures for file '{}'", measures.size(), filePath);
           } catch (RuntimeException ex) {
             LOG.error("Cannot save measure for file '{}' , ignoring measure. ", filePath, ex);
-            CxxUtils.validateRecovery(ex, settings);
+            CxxUtils.validateRecovery(ex, context.config());
           }
         } else {
           LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
@@ -210,16 +209,16 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * @param newCoverage
    * @param measure
    */
-  private void checkCoverage(NewCoverage newCoverage, CoverageMeasure measure) {
+  private void checkCoverage(SensorContext context, NewCoverage newCoverage, CoverageMeasure measure) {
     try {
       newCoverage.lineHits(measure.getLine(), measure.getHits());
       newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
       LOG.debug("line '{}' Hits '{}' Conditions '{}:{}'", measure.getLine(), measure.getHits(),
-        measure.getConditions(), measure.getCoveredConditions());
+                measure.getConditions(), measure.getCoveredConditions());
     } catch (RuntimeException ex) {
       LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ",
-        measure.getLine(), ex.getMessage());
-      CxxUtils.validateRecovery(ex, settings);
+                measure.getLine(), ex.getMessage());
+      CxxUtils.validateRecovery(ex, context.config());
     }
   }
 

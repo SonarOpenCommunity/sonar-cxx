@@ -26,11 +26,11 @@ import java.util.Collections;
 import java.util.List;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
@@ -52,11 +52,8 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
 
   /**
    * CxxDrMemorySensor for Doctor Memory Sensor
-   *
-   * @param settings sensor configuration
    */
-  public CxxDrMemorySensor(Configuration settings) {
-    super(settings, REPORT_PATH_KEY, CxxDrMemoryRuleRepository.KEY);
+  public CxxDrMemorySensor() {
   }
 
   private static String getFrameText(Location frame, int frameNr) {
@@ -82,8 +79,8 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " DrMemorySensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name(CxxLanguage.NAME + " DrMemorySensor")
+      .onlyOnLanguage(CxxLanguage.KEY)
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
@@ -132,6 +129,16 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
         saveUniqueViolation(context, fileIssue);
       }
     }
+  }
+
+  @Override
+  protected String getReportPathKey() {
+    return REPORT_PATH_KEY;
+  }
+
+  @Override
+  protected String getRuleRepositoryKey() {
+    return CxxDrMemoryRuleRepository.KEY;
   }
 
 }

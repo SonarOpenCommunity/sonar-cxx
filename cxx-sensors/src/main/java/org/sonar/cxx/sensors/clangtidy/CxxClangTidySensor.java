@@ -30,11 +30,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -54,11 +54,8 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
   /**
    * CxxClangTidySensor for clang-tidy Sensor
-   *
-   * @param settings sensor configuration
    */
-  public CxxClangTidySensor(Configuration settings) {
-    super(settings, REPORT_PATH_KEY, CxxClangTidyRuleRepository.KEY);
+  public CxxClangTidySensor() {
   }
 
   public static List<PropertyDefinition> properties() {
@@ -86,8 +83,8 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " ClangTidySensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name(CxxLanguage.NAME + " ClangTidySensor")
+      .onlyOnLanguage(CxxLanguage.KEY)
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
@@ -158,4 +155,13 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
     }
   }
 
+  @Override
+  protected String getReportPathKey() {
+    return REPORT_PATH_KEY;
+  }
+
+  @Override
+  protected String getRuleRepositoryKey() {
+    return CxxClangTidyRuleRepository.KEY;
+  }
 }

@@ -39,8 +39,8 @@ public class CxxFunctionComplexityVisitorTest {
     settings.setProperty(CxxFunctionComplexityVisitor.FUNCTION_COMPLEXITY_THRESHOLD_KEY, 5);
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/FunctionComplexity.cc",
-      ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext);
+                                                                   ".", "");
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(file.getInt(CxxMetric.COMPLEX_FUNCTIONS)).isEqualTo(4);
@@ -52,7 +52,7 @@ public class CxxFunctionComplexityVisitorTest {
   public void testPublishMeasuresForEmptyFile() throws IOException {
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/EmptyFile.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(file.getInt(CxxMetric.COMPLEX_FUNCTIONS)).isEqualTo(0);

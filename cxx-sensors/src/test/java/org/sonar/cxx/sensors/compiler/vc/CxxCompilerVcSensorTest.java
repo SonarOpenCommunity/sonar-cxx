@@ -48,11 +48,11 @@ public class CxxCompilerVcSensorTest {
   @Test
   public void sensorDescriptorVc() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxCompilerVcSensor sensor = new CxxCompilerVcSensor(settings.asConfig());
+    CxxCompilerVcSensor sensor = new CxxCompilerVcSensor();
     sensor.describe(descriptor);
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CxxCompilerVcSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " CxxCompilerVcSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories())
       .containsOnly(CxxCompilerVcRuleRepository.KEY);
     softly.assertAll();
@@ -62,14 +62,14 @@ public class CxxCompilerVcSensorTest {
   public void shouldReportACorrectVcViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCompilerVcSensor.REPORT_PATH_KEY,
-      "compiler-reports/BuildLog.htm");
+                         "compiler-reports/BuildLog.htm");
     settings.setProperty(CxxCompilerVcSensor.REPORT_CHARSET_DEF, StandardCharsets.UTF_16.name());
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "zipmanager.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerVcSensor(settings.asConfig());
+    CxxCompilerSensor sensor = new CxxCompilerVcSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(9);
@@ -81,13 +81,13 @@ public class CxxCompilerVcSensorTest {
     settings.setProperty(CxxCompilerVcSensor.REPORT_PATH_KEY, "compiler-reports/VC-report.vclog");
     settings.setProperty(CxxCompilerVcSensor.REPORT_CHARSET_DEF, StandardCharsets.UTF_8.name());
     settings.setProperty(CxxCompilerVcSensor.REPORT_REGEX_DEF,
-      ".*>(?<file>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)");
+                         ".*>(?<file>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "Server/source/zip/zipmanager.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerVcSensor(settings.asConfig());
+    CxxCompilerSensor sensor = new CxxCompilerVcSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(9);

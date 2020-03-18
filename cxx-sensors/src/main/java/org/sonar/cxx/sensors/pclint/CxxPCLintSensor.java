@@ -32,11 +32,11 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -68,11 +68,8 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
 
   /**
    * CxxPCLintSensor for PC-lint Sensor
-   *
-   * @param settings sensor configuration
    */
-  public CxxPCLintSensor(Configuration settings) {
-    super(settings, REPORT_PATH_KEY, CxxPCLintRuleRepository.KEY);
+  public CxxPCLintSensor() {
   }
 
   public static List<PropertyDefinition> properties() {
@@ -92,8 +89,8 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " PCLintSensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name(CxxLanguage.NAME + " PCLintSensor")
+      .onlyOnLanguage(CxxLanguage.KEY)
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
@@ -244,6 +241,16 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
     });
 
     parser.parse(report);
+  }
+
+  @Override
+  protected String getReportPathKey() {
+    return REPORT_PATH_KEY;
+  }
+
+  @Override
+  protected String getRuleRepositoryKey() {
+    return CxxPCLintRuleRepository.KEY;
   }
 
 }

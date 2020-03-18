@@ -34,11 +34,11 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.StaxParser;
@@ -61,11 +61,8 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
 
   /**
    * CxxOtherSensor for Other Sensor
-   *
-   * @param settings sensor configuration
    */
-  public CxxOtherSensor(Configuration settings) {
-    super(settings, REPORT_PATH_KEY, CxxOtherRepository.KEY);
+  public CxxOtherSensor() {
   }
 
   public static List<PropertyDefinition> properties() {
@@ -95,8 +92,8 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " ExternalRulesSensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name(CxxLanguage.NAME + " ExternalRulesSensor")
+      .onlyOnLanguage(CxxLanguage.KEY)
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
@@ -177,11 +174,12 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
       }
 
       LOG.debug("XLST: Converting " + stylesheet + " with " + inputs + " to " + outputs + ".");
-      transformFileList(baseDir.getAbsolutePath(), stylesheet, inputs, outputs);
+      transformFileList(context, baseDir.getAbsolutePath(), stylesheet, inputs, outputs);
     }
   }
 
-  private void transformFileList(final String baseDir, String stylesheet, List<File> inputs, List<String> outputs) {
+  private void transformFileList(SensorContext context, final String baseDir, String stylesheet, List<File> inputs,
+                                 List<String> outputs) {
     for (int j = 0; j < inputs.size(); j++) {
       try {
         String normalizedOutputFilename = resolveFilename(baseDir, outputs.get(j));
@@ -194,9 +192,19 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
           .append("'")
           .toString();
         LOG.error(msg);
-        CxxUtils.validateRecovery(e, settings);
+        CxxUtils.validateRecovery(e, context.config());
       }
     }
+  }
+
+  @Override
+  protected String getReportPathKey() {
+    return REPORT_PATH_KEY;
+  }
+
+  @Override
+  protected String getRuleRepositoryKey() {
+    return CxxOtherRepository.KEY;
   }
 
 }

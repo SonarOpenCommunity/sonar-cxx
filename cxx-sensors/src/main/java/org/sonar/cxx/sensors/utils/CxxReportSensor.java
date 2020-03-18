@@ -39,7 +39,6 @@ import org.sonar.api.config.Configuration;
 import org.sonar.api.scanner.sensor.ProjectSensor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 
 /**
  * This class is used as base for all sensors which import reports. It hosts common logic such as finding the reports.
@@ -53,18 +52,12 @@ public abstract class CxxReportSensor implements ProjectSensor {
   protected static final String USE_ANT_STYLE_WILDCARDS
                                   = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
 
-  protected final CxxLanguage language;
-  protected final Configuration settings;
-  private final String propertiesKeyPathToReports;
   private final Set<String> notFoundFiles = new HashSet<>();
 
   /**
    * {@inheritDoc}
    */
-  protected CxxReportSensor(Configuration settings, String propertiesKeyPathToReports) {
-    this.language = new CxxLanguage(settings);
-    this.settings = settings;
-    this.propertiesKeyPathToReports = propertiesKeyPathToReports;
+  protected CxxReportSensor() {
   }
 
   /**
@@ -115,13 +108,13 @@ public abstract class CxxReportSensor implements ProjectSensor {
    * <code>reportPathKey</code>. Apply <code>moduleBaseDir</code> in order to make relative Ant patterns to absolute
    * ones. Resolve Ant patterns and returns the list of existing files.
    *
-   * @param settings project (module) configuration
+   * @param config project (module) configuration
    * @param moduleBaseDir project (module) base directory
    * @param reportPathKey configuration key for the external reports (CSV list of Ant patterns)
    * @return List<File> list of report paths
    */
-  public static List<File> getReports(Configuration settings, final File moduleBaseDir, String reportPathKey) {
-    String[] reportPaths = settings.getStringArray(reportPathKey);
+  public static List<File> getReports(Configuration config, final File moduleBaseDir, String reportPathKey) {
+    String[] reportPaths = config.getStringArray(reportPathKey);
     if (reportPaths == null || reportPaths.length == 0) {
       LOG.info("Undefined report path value for key '{}'", reportPathKey);
       return Collections.emptyList();
@@ -176,14 +169,14 @@ public abstract class CxxReportSensor implements ProjectSensor {
     return includes;
   }
 
-  private InputFile getInputFileTryRealPath(SensorContext sensorContext, String path) {
-    final Path absolutePath = sensorContext.fileSystem().baseDir().toPath().resolve(path);
+  private InputFile getInputFileTryRealPath(SensorContext context, String path) {
+    final Path absolutePath = context.fileSystem().baseDir().toPath().resolve(path);
     Path realPath;
     try {
       realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
     } catch (IOException | RuntimeException e) {
       LOG.debug("Unable to get the real path: module '{}', baseDir '{}', path '{}', exception '{}'",
-                sensorContext.project().key(), sensorContext.fileSystem().baseDir(), path, e.getMessage());
+                context.project().key(), context.fileSystem().baseDir(), path, e.getMessage());
       return null;
     }
 
@@ -198,19 +191,19 @@ public abstract class CxxReportSensor implements ProjectSensor {
       return null;
     }
 
-    return sensorContext.fileSystem()
-      .inputFile(sensorContext.fileSystem().predicates().hasAbsolutePath(realPathString));
+    return context.fileSystem()
+      .inputFile(context.fileSystem().predicates().hasAbsolutePath(realPathString));
   }
 
-  public InputFile getInputFileIfInProject(SensorContext sensorContext, String path) {
+  public InputFile getInputFileIfInProject(SensorContext context, String path) {
     if (notFoundFiles.contains(path)) {
       return null;
     }
 
     // 1. try the most generic search predicate first; usually it's the right
     // one
-    InputFile inputFile = sensorContext.fileSystem()
-      .inputFile(sensorContext.fileSystem().predicates().hasPath(path));
+    InputFile inputFile = context.fileSystem()
+      .inputFile(context.fileSystem().predicates().hasPath(path));
 
     // 2. if there was nothing found, try to normalize the path by means of
     // Path::toRealPath(). This helps if some 3rd party tools obfuscate the
@@ -232,12 +225,12 @@ public abstract class CxxReportSensor implements ProjectSensor {
     // reason why we should avoid the resolution of symbolic links and not use
     // the Path::toRealPath() as the only search predicate.
     if (inputFile == null) {
-      inputFile = getInputFileTryRealPath(sensorContext, path);
+      inputFile = getInputFileTryRealPath(context, path);
     }
 
     if (inputFile == null) {
       LOG.warn("Cannot find the file '{}' in module '{}' base dir '{}', skipping violations.",
-               path, sensorContext.project().key(), sensorContext.fileSystem().baseDir());
+               path, context.project().key(), context.fileSystem().baseDir());
       notFoundFiles.add(path);
     }
     return inputFile;
@@ -252,14 +245,6 @@ public abstract class CxxReportSensor implements ProjectSensor {
   public void execute(SensorContext context) {
     notFoundFiles.clear();
     executeImpl(context);
-  }
-
-  public CxxLanguage getLanguage() {
-    return language;
-  }
-
-  public String getReportPathKey() {
-    return propertiesKeyPathToReports;
   }
 
   @Override

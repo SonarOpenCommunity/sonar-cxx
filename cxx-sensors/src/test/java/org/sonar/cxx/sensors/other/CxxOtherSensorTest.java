@@ -65,7 +65,7 @@ public class CxxOtherSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    sensor = new CxxOtherSensor(settings.asConfig());
+    sensor = new CxxOtherSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(2);
@@ -74,13 +74,14 @@ public class CxxOtherSensorTest {
   @Test
   public void shouldReportFileLevelViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-filelevelviolation.xml");
+    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY,
+                         "externalrules-reports/externalrules-result-filelevelviolation.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    sensor = new CxxOtherSensor(settings.asConfig());
+    sensor = new CxxOtherSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -89,10 +90,11 @@ public class CxxOtherSensorTest {
   @Test
   public void shouldReportProjectLevelViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-projectlevelviolation.xml");
+    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY,
+                         "externalrules-reports/externalrules-result-projectlevelviolation.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(settings.asConfig());
+    sensor = new CxxOtherSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -105,7 +107,7 @@ public class CxxOtherSensorTest {
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(settings.asConfig());
+    sensor = new CxxOtherSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(0);
@@ -117,7 +119,7 @@ public class CxxOtherSensorTest {
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/noreport.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(settings.asConfig());
+    sensor = new CxxOtherSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(0);
@@ -130,7 +132,7 @@ public class CxxOtherSensorTest {
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor(settings.asConfig());
+    sensor = new CxxOtherSensor();
     sensor.execute(context);
   }
 
@@ -143,7 +145,7 @@ public class CxxOtherSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    sensor = new CxxOtherSensor(settings.asConfig());
+    sensor = new CxxOtherSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -152,12 +154,12 @@ public class CxxOtherSensorTest {
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    sensor = new CxxOtherSensor(settings.asConfig());
+    sensor = new CxxOtherSensor();
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " ExternalRulesSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " ExternalRulesSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxOtherRepository.KEY);
     softly.assertAll();
   }

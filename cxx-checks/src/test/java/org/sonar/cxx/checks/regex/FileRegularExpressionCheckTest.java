@@ -43,7 +43,7 @@ public class FileRegularExpressionCheckTest {
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
@@ -77,7 +77,8 @@ public class FileRegularExpressionCheckTest {
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".", StandardCharsets.US_ASCII);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".",
+                                                                   StandardCharsets.US_ASCII);
 
     SourceFile file = CxxAstScanner.scanSingleFileConfig(settings.asConfig(), tester.cxxFile, cxxConfig, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())

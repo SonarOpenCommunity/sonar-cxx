@@ -82,9 +82,9 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
   private int totalAPINr;
   private int undocumentedAPINr;
 
-  public CxxPublicApiVisitor(Configuration settings) {
+  public CxxPublicApiVisitor(Configuration config) {
     super();
-    String[] suffixes = Arrays.stream(settings.getStringArray(FILE_SUFFIXES_KEY))
+    String[] suffixes = Arrays.stream(config.getStringArray(FILE_SUFFIXES_KEY))
       .filter(s -> s != null && !s.trim().isEmpty()).toArray(String[]::new);
     if (suffixes.length == 0) {
       suffixes = Iterables.toArray(Splitter.on(',').split(DEFAULT_FILE_SUFFIXES), String.class);

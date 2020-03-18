@@ -49,11 +49,11 @@ public class CxxCompilerGccSensorTest {
   @Test
   public void sensorDescriptorGcc() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxCompilerGccSensor sensor = new CxxCompilerGccSensor(settings.asConfig());
+    CxxCompilerGccSensor sensor = new CxxCompilerGccSensor();
     sensor.describe(descriptor);
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CxxCompilerGccSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " CxxCompilerGccSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories())
       .containsOnly(CxxCompilerGccRuleRepository.KEY);
     softly.assertAll();
@@ -68,7 +68,7 @@ public class CxxCompilerGccSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/zipmanager.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerGccSensor(settings.asConfig());
+    CxxCompilerSensor sensor = new CxxCompilerGccSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(4);
@@ -83,7 +83,7 @@ public class CxxCompilerGccSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "main.c")
       .setLanguage("c").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerGccSensor(settings.asConfig());
+    CxxCompilerSensor sensor = new CxxCompilerGccSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(2);

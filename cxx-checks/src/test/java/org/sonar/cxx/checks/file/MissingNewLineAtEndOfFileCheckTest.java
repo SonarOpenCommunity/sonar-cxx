@@ -37,8 +37,9 @@ public class MissingNewLineAtEndOfFileCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/MissingNewLineAtEndOfFile.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
+      "src/test/resources/checks/MissingNewLineAtEndOfFile.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Add a new line at the end of this file.")
@@ -49,7 +50,7 @@ public class MissingNewLineAtEndOfFileCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test2() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/EmptyFile.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Add a new line at the end of this file.")
       .noMore();
@@ -59,7 +60,7 @@ public class MissingNewLineAtEndOfFileCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test3() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/NonEmptyFile.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }

@@ -42,8 +42,9 @@ public class FunctionComplexityCheckTest {
   public void check() throws UnsupportedEncodingException, IOException {
     FunctionComplexityCheck check = new FunctionComplexityCheck();
     check.setMaxComplexity(5);
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionComplexity.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionComplexity.cc",
+                                                                   ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
 
     Set<CxxReportIssue> issues = MultiLocatitionSquidCheck.getMultiLocationCheckMessages(file);
     assertThat(issues).isNotNull();
@@ -55,7 +56,7 @@ public class FunctionComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 13"));
     softly.assertThat(issue0.getLocations()).containsOnly(
       new CxxReportLocation(null, "13",
-        "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
+                            "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
       new CxxReportLocation(null, "13", "+1: function definition"),
       new CxxReportLocation(null, "14", "+1: if statement"),
       new CxxReportLocation(null, "15", "+1: if statement"),
@@ -69,7 +70,7 @@ public class FunctionComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 33"));
     softly.assertThat(issue1.getLocations()).containsOnly(
       new CxxReportLocation(null, "33",
-        "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
+                            "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
       new CxxReportLocation(null, "33", "+1: function definition"),
       new CxxReportLocation(null, "34", "+1: if statement"),
       new CxxReportLocation(null, "35", "+1: if statement"),
@@ -83,7 +84,7 @@ public class FunctionComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 51"));
     softly.assertThat(issue2.getLocations()).containsOnly(
       new CxxReportLocation(null, "51",
-        "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
+                            "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
       new CxxReportLocation(null, "51", "+1: function definition"),
       new CxxReportLocation(null, "52", "+1: if statement"),
       new CxxReportLocation(null, "53", "+1: if statement"),
@@ -97,7 +98,7 @@ public class FunctionComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 72"));
     softly.assertThat(issue3.getLocations()).containsOnly(
       new CxxReportLocation(null, "72",
-        "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
+                            "The Cyclomatic Complexity of this function is 8 which is greater than 5 authorized."),
       new CxxReportLocation(null, "72", "+1: function definition"),
       new CxxReportLocation(null, "73", "+1: if statement"),
       new CxxReportLocation(null, "74", "+1: if statement"),
@@ -111,7 +112,7 @@ public class FunctionComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 89"));
     softly.assertThat(issue4.getLocations()).containsOnly(
       new CxxReportLocation(null, "89",
-        "The Cyclomatic Complexity of this function is 14 which is greater than 5 authorized."),
+                            "The Cyclomatic Complexity of this function is 14 which is greater than 5 authorized."),
       new CxxReportLocation(null, "89", "+1: function definition"),
       new CxxReportLocation(null, "91", "+1: if statement"),
       new CxxReportLocation(null, "91", "+1: logical operator"),
