@@ -103,29 +103,27 @@ public class CxxSquidSensor implements ProjectSensor {
   private final CxxChecks checks;
   private final NoSonarFilter noSonarFilter;
 
-  private final CxxLanguage language;
-  private final Configuration settings;
+  private final Configuration config;
 
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(Configuration settings,
+  public CxxSquidSensor(Configuration config,
                         FileLinesContextFactory fileLinesContextFactory,
                         CheckFactory checkFactory,
                         NoSonarFilter noSonarFilter) {
-    this(settings, fileLinesContextFactory, checkFactory, noSonarFilter, null);
+    this(config, fileLinesContextFactory, checkFactory, noSonarFilter, null);
   }
 
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(Configuration settings,
+  public CxxSquidSensor(Configuration config,
                         FileLinesContextFactory fileLinesContextFactory,
                         CheckFactory checkFactory,
                         NoSonarFilter noSonarFilter,
                         @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
-    this.settings = settings;
-    this.language = new CxxLanguage(settings);
+    this.config = config;
     this.checks = CxxChecks.createCxxCheck(checkFactory)
       .addChecks("cxx", CheckList.getChecks())
       .addCustomChecks(customRulesDefinition);
@@ -212,8 +210,8 @@ public class CxxSquidSensor implements ProjectSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(language.getName() + " SquidSensor")
-      .onlyOnLanguage(this.language.getKey())
+      .name(CxxLanguage.NAME + " SquidSensor")
+      .onlyOnLanguage(CxxLanguage.KEY)
       .onlyOnFileType(InputFile.Type.MAIN);
   }
 
@@ -225,18 +223,18 @@ public class CxxSquidSensor implements ProjectSensor {
 
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     visitors.add(new CxxHighlighterVisitor(context));
-    visitors.add(new CxxFileLinesVisitor(this.settings, fileLinesContextFactory, context));
+    visitors.add(new CxxFileLinesVisitor(this.config, fileLinesContextFactory, context));
 
     visitors.add(new CxxCpdVisitor(context));
 
     CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
     cxxConf.setCollectMissingIncludes(visitors.stream().anyMatch(v -> v instanceof MissingIncludeFileCheck));
-    AstScanner<Grammar> scanner = CxxAstScanner.create(this.settings, cxxConf,
+    AstScanner<Grammar> scanner = CxxAstScanner.create(this.config, cxxConf,
                                                        visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
     Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
       .and(context.fileSystem().predicates()
-        .hasLanguage(this.language.getKey()), context.fileSystem().predicates()
+        .hasLanguage(CxxLanguage.KEY), context.fileSystem().predicates()
            .hasType(InputFile.Type.MAIN)));
 
     List<File> files = new ArrayList<>();
@@ -257,7 +255,7 @@ public class CxxSquidSensor implements ProjectSensor {
 
   private String[] getStringLinesOption(String key) {
     Pattern EOL_PATTERN = Pattern.compile("\\R");
-    Optional<String> value = this.settings.get(key);
+    Optional<String> value = this.config.get(key);
     if (value.isPresent()) {
       return EOL_PATTERN.split(value.get(), -1);
     }
@@ -269,19 +267,19 @@ public class CxxSquidSensor implements ProjectSensor {
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = getStringLinesOption(DEFINES_KEY);
     cxxConf.setDefines(lines);
-    cxxConf.setIncludeDirectories(this.settings.getStringArray(INCLUDE_DIRECTORIES_KEY));
-    cxxConf.setErrorRecoveryEnabled(this.settings.getBoolean(ERROR_RECOVERY_KEY).orElse(Boolean.FALSE));
-    cxxConf.setForceIncludeFiles(this.settings.getStringArray(FORCE_INCLUDE_FILES_KEY));
-    // FIXME this.settings.getStringArray(C_FILES_PATTERNS_KEY) must be fixed
+    cxxConf.setIncludeDirectories(this.config.getStringArray(INCLUDE_DIRECTORIES_KEY));
+    cxxConf.setErrorRecoveryEnabled(this.config.getBoolean(ERROR_RECOVERY_KEY).orElse(Boolean.FALSE));
+    cxxConf.setForceIncludeFiles(this.config.getStringArray(FORCE_INCLUDE_FILES_KEY));
+    // FIXME this.config.getStringArray(C_FILES_PATTERNS_KEY) must be fixed
     // 1. it doesn't match C plugin (C_FILES_PATTERNS_KEY) as key makes sense
     //    for C++ plugin only
-    // 2. event for C++ plugin this.settings.getStringArray(...) works wrong:
+    // 2. event for C++ plugin this.config.getStringArray(...) works wrong:
     //    it returns empty string if property is not set, but it have to return the
     //    default value instead
     //    For proper implemenation see CppLanguage::CppLanguage()
-    //    or createStringArray(settings.getStringArray(C_FILES_PATTERNS_KEY), DEFAULT_C_FILES)
-    cxxConf.setCFilesPatterns(this.settings.getStringArray(C_FILES_PATTERNS_KEY));
-    cxxConf.setJsonCompilationDatabaseFile(this.settings.get(JSON_COMPILATION_DATABASE_KEY)
+    //    or createStringArray(config.getStringArray(C_FILES_PATTERNS_KEY), DEFAULT_C_FILES)
+    cxxConf.setCFilesPatterns(this.config.getStringArray(C_FILES_PATTERNS_KEY));
+    cxxConf.setJsonCompilationDatabaseFile(this.config.get(JSON_COMPILATION_DATABASE_KEY)
       .orElse(null));
 
     if (cxxConf.getJsonCompilationDatabaseFile() != null) {
@@ -292,12 +290,12 @@ public class CxxSquidSensor implements ProjectSensor {
       }
     }
 
-    final String[] buildLogPaths = this.settings.getStringArray(REPORT_PATH_KEY);
+    final String[] buildLogPaths = this.config.getStringArray(REPORT_PATH_KEY);
     final boolean buildLogPathsDefined = buildLogPaths != null && buildLogPaths.length != 0;
     if (buildLogPathsDefined) {
       List<File> reports = CxxReportSensor.getReports(context.config(), fs.baseDir(), REPORT_PATH_KEY);
       cxxConf.setCompilationPropertiesWithBuildLog(reports, "Visual C++",
-                                                   this.settings.get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF));
+                                                   this.config.get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF));
     }
 
     return cxxConf;
@@ -374,7 +372,7 @@ public class CxxSquidSensor implements ProjectSensor {
       .on(inputFile).withValue(squidFile.getInt(CxxMetric.BIG_FUNCTIONS_LOC)).save();
   }
 
-  private void saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext sensorContext) {
+  private void saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext context) {
     if (squidFile.hasCheckMessages()) {
       for (CheckMessage message : squidFile.getCheckMessages()) {
         int line = 1;
@@ -382,10 +380,10 @@ public class CxxSquidSensor implements ProjectSensor {
           line = message.getLine();
         }
 
-        NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of("cxx",
-                                                                        checks.ruleKey(
-                                                                          (SquidAstVisitor<Grammar>) message.getCheck())
-                                                                          .rule()));
+        NewIssue newIssue = context.newIssue().forRule(RuleKey.of("cxx",
+                                                                  checks.ruleKey(
+                                                                    (SquidAstVisitor<Grammar>) message.getCheck())
+                                                                    .rule()));
         NewIssueLocation location = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
           .message(message.getText(Locale.ENGLISH));
 
@@ -396,7 +394,7 @@ public class CxxSquidSensor implements ProjectSensor {
 
     if (MultiLocatitionSquidCheck.hasMultiLocationCheckMessages(squidFile)) {
       for (CxxReportIssue issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(squidFile)) {
-        final NewIssue newIssue = sensorContext.newIssue()
+        final NewIssue newIssue = context.newIssue()
           .forRule(RuleKey.of("cxx", issue.getRuleId()));
         int locationNr = 0;
         for (CxxReportLocation location : issue.getLocations()) {

@@ -50,10 +50,12 @@ public class CxxRatsSensorTest {
     settings.setProperty(CxxRatsSensor.REPORT_PATH_KEY, "rats-reports/rats-result-*.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "report.c").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp").setLanguage(
+      "cpp").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "report.c").setLanguage("cpp").initMetadata(
+      "asd\nasdas\nasda\n").build());
 
-    sensor = new CxxRatsSensor(settings.asConfig());
+    sensor = new CxxRatsSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(5);
@@ -62,12 +64,12 @@ public class CxxRatsSensorTest {
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    sensor = new CxxRatsSensor(settings.asConfig());
+    sensor = new CxxRatsSensor();
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " RatsSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " RatsSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxRatsRuleRepository.KEY);
     softly.assertAll();
   }

@@ -57,11 +57,11 @@ public class CxxLanguage extends AbstractLanguage {
   /**
    * Settings of the plugin.
    */
-  private final Configuration settings;
+  private final Configuration config;
 
-  public CxxLanguage(Configuration settings) {
+  public CxxLanguage(Configuration config) {
     super(KEY);
-    this.settings = settings;
+    this.config = config;
   }
 
   public static List<PropertyDefinition> properties() {
@@ -84,7 +84,7 @@ public class CxxLanguage extends AbstractLanguage {
    */
   @Override
   public String[] getFileSuffixes() {
-    String[] suffixes = Arrays.stream(settings.getStringArray(FILE_SUFFIXES_KEY))
+    String[] suffixes = Arrays.stream(config.getStringArray(FILE_SUFFIXES_KEY))
       .filter(s -> s != null && !s.trim().isEmpty()).toArray(String[]::new);
     if (suffixes.length == 0) {
       suffixes = Iterables.toArray(Splitter.on(',').split(DEFAULT_FILE_SUFFIXES), String.class);

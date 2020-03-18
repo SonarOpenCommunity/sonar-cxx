@@ -27,11 +27,11 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -48,11 +48,8 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
 
   /**
    * CxxVeraxxSensor for C++ Vera Sensor
-   *
-   * @param settings sensor configuration
    */
-  public CxxVeraxxSensor(Configuration settings) {
-    super(settings, REPORT_PATH_KEY, CxxVeraxxRuleRepository.KEY);
+  public CxxVeraxxSensor() {
   }
 
   public static List<PropertyDefinition> properties() {
@@ -72,8 +69,8 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " VeraxxSensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name(CxxLanguage.NAME + " VeraxxSensor")
+      .onlyOnLanguage(CxxLanguage.KEY)
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
@@ -116,6 +113,16 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
     } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
       LOG.error("Ignore XML error from Veraxx '{}'", CxxUtils.getStackTrace(e));
     }
+  }
+
+  @Override
+  protected String getReportPathKey() {
+    return REPORT_PATH_KEY;
+  }
+
+  @Override
+  protected String getRuleRepositoryKey() {
+    return CxxVeraxxRuleRepository.KEY;
   }
 
 }

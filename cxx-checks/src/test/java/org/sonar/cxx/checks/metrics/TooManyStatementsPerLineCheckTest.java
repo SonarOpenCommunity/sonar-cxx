@@ -40,11 +40,13 @@ public class TooManyStatementsPerLineCheckTest {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = false;
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TooManyStatementsPerLine.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
+      "src/test/resources/checks/TooManyStatementsPerLine.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
+      .next().atLine(17).withMessage(
+      "At most one statement is allowed per line, but 2 statements were found on this line.")
       .next().atLine(20)
       .next().atLine(23)
       .next().atLine(27)
@@ -65,10 +67,12 @@ public class TooManyStatementsPerLineCheckTest {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = true;
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TooManyStatementsPerLine.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
+      "src/test/resources/checks/TooManyStatementsPerLine.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
+      .next().atLine(17).withMessage(
+      "At most one statement is allowed per line, but 2 statements were found on this line.")
       .next().atLine(20)
       .next().atLine(23)
       .next().atLine(27)

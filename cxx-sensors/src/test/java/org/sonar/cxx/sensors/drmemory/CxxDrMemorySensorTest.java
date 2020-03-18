@@ -49,13 +49,13 @@ public class CxxDrMemorySensorTest {
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     context.settings().setProperty(CxxDrMemorySensor.REPORT_PATH_KEY,
-      "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
+                                   "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
 
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .initMetadata("asd\nasdas\nasda\n").setCharset(StandardCharsets.UTF_8).build();
     context.fileSystem().add(inputFile);
 
-    CxxDrMemorySensor sensor = new CxxDrMemorySensor(settings.asConfig());
+    CxxDrMemorySensor sensor = new CxxDrMemorySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -64,12 +64,12 @@ public class CxxDrMemorySensorTest {
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxDrMemorySensor sensor = new CxxDrMemorySensor(settings.asConfig());
+    CxxDrMemorySensor sensor = new CxxDrMemorySensor();
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " DrMemorySensor");
-    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " DrMemorySensor");
+    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxDrMemoryRuleRepository.KEY);
     softly.assertAll();
   }

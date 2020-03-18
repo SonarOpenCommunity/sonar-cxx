@@ -56,7 +56,7 @@ public class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor(settings.asConfig());
+    CxxClangTidySensor sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(0);
@@ -76,7 +76,7 @@ public class CxxClangTidySensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n")
       .build());
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor(settings.asConfig());
+    CxxClangTidySensor sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -94,7 +94,7 @@ public class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor(settings.asConfig());
+    CxxClangTidySensor sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -112,7 +112,7 @@ public class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor(settings.asConfig());
+    CxxClangTidySensor sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -132,7 +132,7 @@ public class CxxClangTidySensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n")
       .build());
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor(settings.asConfig());
+    CxxClangTidySensor sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
     SoftAssertions softly = new SoftAssertions();
@@ -156,7 +156,7 @@ public class CxxClangTidySensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n")
       .build());
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor(settings.asConfig());
+    CxxClangTidySensor sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(0);
@@ -165,14 +165,14 @@ public class CxxClangTidySensorTest {
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxClangTidySensor sensor = new CxxClangTidySensor(settings.asConfig());
+    CxxClangTidySensor sensor = new CxxClangTidySensor();
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(descriptor.name())
-      .isEqualTo(language.getName() + " ClangTidySensor");
+      .isEqualTo(CxxLanguage.NAME + " ClangTidySensor");
     softly.assertThat(descriptor.languages())
-      .containsOnly(language.getKey());
+      .containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories())
       .containsOnly(CxxClangTidyRuleRepository.KEY);
     softly.assertAll();

@@ -42,8 +42,10 @@ public class UndocumentedApiCheckTest {
   @SuppressWarnings("squid:S2699")
   @Test
   public void detected() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/no_doc.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
+      "src/test/resources/checks/UndocumentedApiCheck/no_doc.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context,
+                                                   new UndocumentedApiCheck());
 
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(6) // class
@@ -102,8 +104,10 @@ public class UndocumentedApiCheckTest {
 
   @Test
   public void docStyle1() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style1.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
+      "src/test/resources/checks/UndocumentedApiCheck/doc_style1.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context,
+                                                   new UndocumentedApiCheck());
 
     StringBuilder errors = new StringBuilder(1024);
     for (CheckMessage msg : file.getCheckMessages()) {
@@ -118,8 +122,10 @@ public class UndocumentedApiCheckTest {
 
   @Test
   public void docStyle2() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style2.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
+      "src/test/resources/checks/UndocumentedApiCheck/doc_style2.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context,
+                                                   new UndocumentedApiCheck());
 
     StringBuilder errors = new StringBuilder(1024);
     for (CheckMessage msg : file.getCheckMessages()) {

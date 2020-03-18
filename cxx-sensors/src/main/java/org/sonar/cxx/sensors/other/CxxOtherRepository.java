@@ -40,7 +40,7 @@ public class CxxOtherRepository implements RulesDefinition {
   private static final String NAME = "Other";
 
   private final RulesDefinitionXmlLoader xmlRuleLoader;
-  private final Configuration settings;
+  private final Configuration config;
 
   /**
    * CxxOtherRepository
@@ -48,9 +48,9 @@ public class CxxOtherRepository implements RulesDefinition {
    * @param xmlRuleLoader to load rules from XML file
    * @param language for C or C++
    */
-  public CxxOtherRepository(Configuration settings, RulesDefinitionXmlLoader xmlRuleLoader) {
+  public CxxOtherRepository(Configuration config, RulesDefinitionXmlLoader xmlRuleLoader) {
     this.xmlRuleLoader = xmlRuleLoader;
-    this.settings = settings;
+    this.config = config;
   }
 
   @Override
@@ -59,7 +59,7 @@ public class CxxOtherRepository implements RulesDefinition {
       .setName(NAME);
 
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), StandardCharsets.UTF_8.name());
-    for (String ruleDefs : this.settings.getStringArray(RULES_KEY)) {
+    for (String ruleDefs : this.config.getStringArray(RULES_KEY)) {
       if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));

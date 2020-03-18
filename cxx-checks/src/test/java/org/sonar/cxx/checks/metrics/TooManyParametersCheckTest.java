@@ -39,8 +39,9 @@ public class TooManyParametersCheckTest {
     TooManyParametersCheck check = new TooManyParametersCheck();
     check.setMax(3);
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TooManyParameters.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    CxxFileTester tester = CxxFileTesterHelper
+      .CreateCxxFileTester("src/test/resources/checks/TooManyParameters.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(11)
       .next().atLine(16)

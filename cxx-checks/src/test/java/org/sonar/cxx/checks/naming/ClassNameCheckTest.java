@@ -37,7 +37,7 @@ public class ClassNameCheckTest {
     ClassNameCheck check = new ClassNameCheck();
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/ClassName.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage(
       "Rename class \"MyClass_WithNotCompliantName1\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")

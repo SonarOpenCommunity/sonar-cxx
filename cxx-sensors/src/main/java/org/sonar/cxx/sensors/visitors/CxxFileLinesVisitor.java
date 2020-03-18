@@ -44,14 +44,14 @@ import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.squidbridge.SquidAstVisitor;
 
 /**
- * Visitor that computes {@link CoreMetrics#NCLOC_DATA_KEY} and
- * {@link CoreMetrics#COMMENT_LINES_DATA_KEY} metrics used by the DevCockpit.
+ * Visitor that computes {@link CoreMetrics#NCLOC_DATA_KEY} and {@link CoreMetrics#COMMENT_LINES_DATA_KEY} metrics used
+ * by the DevCockpit.
  */
 public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 
   private static final Logger LOG = Loggers.get(CxxFileLinesVisitor.class);
 
-  private final Configuration settings;
+  private final Configuration config;
   private final FileLinesContextFactory fileLinesContextFactory;
   private final FileSystem fileSystem;
   private List<Integer> linesOfCode;
@@ -65,9 +65,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
    * @param fileLinesContextFactory container for linesOfCode, executableLines
    * @param language properties
    */
-  public CxxFileLinesVisitor(Configuration settings, FileLinesContextFactory fileLinesContextFactory,
-    SensorContext context) {
-    this.settings = settings;
+  public CxxFileLinesVisitor(Configuration config, FileLinesContextFactory fileLinesContextFactory,
+                             SensorContext context) {
+    this.config = config;
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.fileSystem = context.fileSystem();
   }
@@ -79,10 +79,10 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
       // look for exact sub AST
       if ((functionBody.size() == 3) && functionBody.get(0).is(CxxPunctuator.ASSIGN)
-        && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
+            && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
         AstNode bodyType = functionBody.get(1);
         if (bodyType.is(CxxKeyword.DELETE)
-          || bodyType.is(CxxKeyword.DEFAULT)) {
+              || bodyType.is(CxxKeyword.DEFAULT)) {
           return true;
         }
       }
@@ -135,12 +135,12 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.functionDefinition,
-      CxxGrammarImpl.labeledStatement,
-      CxxGrammarImpl.expressionStatement,
-      CxxGrammarImpl.iterationStatement,
-      CxxGrammarImpl.jumpStatement,
-      CxxGrammarImpl.assignmentExpression,
-      CxxGrammarImpl.lambdaExpression);
+                CxxGrammarImpl.labeledStatement,
+                CxxGrammarImpl.expressionStatement,
+                CxxGrammarImpl.iterationStatement,
+                CxxGrammarImpl.jumpStatement,
+                CxxGrammarImpl.assignmentExpression,
+                CxxGrammarImpl.lambdaExpression);
   }
 
   @Override
@@ -202,7 +202,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       );
     } catch (IllegalArgumentException e) {
       LOG.error("NCLOC_DATA_KEY metric error: {}", e.getMessage());
-      CxxUtils.validateRecovery(e, settings);
+      CxxUtils.validateRecovery(e, config);
     }
     try {
       executableLines.stream().sequential().distinct().forEach(
@@ -210,7 +210,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       );
     } catch (IllegalArgumentException e) {
       LOG.error("EXECUTABLE_LINES_DATA_KEY metric error: {}", e.getMessage());
-      CxxUtils.validateRecovery(e, settings);
+      CxxUtils.validateRecovery(e, config);
     }
     fileLinesContext.save();
 
@@ -230,7 +230,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
    */
   private void visitStatement(AstNode astNode) {
     if (astNode.hasDirectChildren(CxxGrammarImpl.declarationStatement)
-      && !astNode.hasDescendant(CxxGrammarImpl.initializer)) {
+          && !astNode.hasDescendant(CxxGrammarImpl.initializer)) {
       return;
     }
     if (isExecutableToken(astNode.getToken())) {

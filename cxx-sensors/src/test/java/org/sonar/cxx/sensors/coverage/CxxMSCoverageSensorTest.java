@@ -33,7 +33,6 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxMSCoverageSensorTest {
 
-  private CxxCoverageSensor sensor;
   private DefaultFileSystem fs;
   private SensorContextTester context;
   private CxxLanguage language;
@@ -52,11 +51,13 @@ public class CxxMSCoverageSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/rootfinder/rootfinder.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     int[] oneHitlinesA = new int[]{12, 14, 16, 19, 20, 21, 23, 25, 26, 27, 28};
@@ -77,9 +78,10 @@ public class CxxMSCoverageSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .build());
 
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", 1)).isNull();
@@ -89,12 +91,12 @@ public class CxxMSCoverageSensorTest {
   public void sensorDescriptor() {
     context = SensorContextTester.create(fs.baseDir());
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " CoverageSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " CoverageSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertAll();
   }
 

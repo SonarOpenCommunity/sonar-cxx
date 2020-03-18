@@ -25,6 +25,6 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 public class CxxFileTester {
 
   public InputFile cxxFile;
-  public SensorContextTester sensorContext;
+  public SensorContextTester context;
 
 }

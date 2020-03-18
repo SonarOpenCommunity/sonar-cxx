@@ -58,7 +58,7 @@ public class CxxOtherXsltTest {
   public void noLoggingIfNotUsed() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
-    CxxOtherSensor sensor = new CxxOtherSensor(settings.asConfig());
+    CxxOtherSensor sensor = new CxxOtherSensor();
     logTester.clear();
     sensor.transformFiles(fs.baseDir(), context);
 
@@ -71,7 +71,7 @@ public class CxxOtherXsltTest {
   public void shouldReportNothing() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
-    CxxOtherSensor sensor = new CxxOtherSensor(settings.asConfig());
+    CxxOtherSensor sensor = new CxxOtherSensor();
     logTester.clear();
     sensor.execute(context);
 
@@ -89,7 +89,7 @@ public class CxxOtherXsltTest {
     settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY, "notexistingpath");
     context.setSettings(settings);
 
-    CxxOtherSensor sensor = new CxxOtherSensor(settings.asConfig());
+    CxxOtherSensor sensor = new CxxOtherSensor();
     logTester.clear();
     sensor.execute(context);
 
@@ -106,7 +106,7 @@ public class CxxOtherXsltTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxOtherSensor sensor = new CxxOtherSensor(settings.asConfig());
+    CxxOtherSensor sensor = new CxxOtherSensor();
     logTester.clear();
     sensor.execute(context);
 
@@ -125,7 +125,7 @@ public class CxxOtherXsltTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxOtherSensor sensor = new CxxOtherSensor(settings.asConfig());
+    CxxOtherSensor sensor = new CxxOtherSensor();
     logTester.clear();
     sensor.execute(context);
 
@@ -145,7 +145,7 @@ public class CxxOtherXsltTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxOtherSensor sensor = new CxxOtherSensor(settings.asConfig());
+    CxxOtherSensor sensor = new CxxOtherSensor();
     logTester.clear();
     sensor.execute(context);
 
@@ -166,7 +166,7 @@ public class CxxOtherXsltTest {
     settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY, outputFile);
     context.setSettings(settings);
 
-    CxxOtherSensor sensor = new CxxOtherSensor(settings.asConfig());
+    CxxOtherSensor sensor = new CxxOtherSensor();
     logTester.clear();
     sensor.transformFiles(fs.baseDir(), context);
 

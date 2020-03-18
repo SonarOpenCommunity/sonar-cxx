@@ -64,7 +64,7 @@ public class CxxVeraxxSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxVeraxxSensor sensor = new CxxVeraxxSensor(settings.asConfig());
+    CxxVeraxxSensor sensor = new CxxVeraxxSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(10);
@@ -73,12 +73,12 @@ public class CxxVeraxxSensorTest {
   @Test
   public void sensorDescriptor() {
     DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxVeraxxSensor sensor = new CxxVeraxxSensor(settings.asConfig());
+    CxxVeraxxSensor sensor = new CxxVeraxxSensor();
     sensor.describe(descriptor);
 
     SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(language.getName() + " VeraxxSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(language.getKey());
+    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " VeraxxSensor");
+    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxVeraxxRuleRepository.KEY);
     softly.assertAll();
   }

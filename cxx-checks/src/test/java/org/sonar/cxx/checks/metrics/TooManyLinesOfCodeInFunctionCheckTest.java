@@ -39,7 +39,7 @@ public class TooManyLinesOfCodeInFunctionCheckTest {
   public void test() throws UnsupportedEncodingException, IOException {
     check.setMax(6);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionLength.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(21)
       .noMore();

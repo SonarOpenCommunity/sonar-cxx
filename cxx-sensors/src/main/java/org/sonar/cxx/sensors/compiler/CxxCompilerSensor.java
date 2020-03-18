@@ -24,7 +24,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
@@ -37,8 +36,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxCompilerSensor.class);
 
-  protected CxxCompilerSensor(Configuration settings, String propertiesKeyPathToReports, String ruleRepositoryKey) {
-    super(settings, propertiesKeyPathToReports, ruleRepositoryKey);
+  protected CxxCompilerSensor() {
   }
 
   @Override

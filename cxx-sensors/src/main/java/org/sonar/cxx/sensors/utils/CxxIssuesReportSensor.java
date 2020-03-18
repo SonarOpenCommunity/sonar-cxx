@@ -29,7 +29,6 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -45,23 +44,16 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   private static final Logger LOG = Loggers.get(CxxIssuesReportSensor.class);
 
   private final Set<CxxReportIssue> uniqueIssues = new HashSet<>();
-  private final String ruleRepositoryKey;
 
   /**
    * {@inheritDoc}
    */
-  protected CxxIssuesReportSensor(Configuration settings, String propertiesKeyPathToReports, String ruleRepositoryKey) {
-    super(settings, propertiesKeyPathToReports);
-    this.ruleRepositoryKey = ruleRepositoryKey;
+  protected CxxIssuesReportSensor() {
   }
 
-  private static NewIssueLocation createNewIssueLocationModule(SensorContext sensorContext, NewIssue newIssue,
+  private static NewIssueLocation createNewIssueLocationModule(SensorContext context, NewIssue newIssue,
                                                                CxxReportLocation location) {
-    return newIssue.newLocation().on(sensorContext.project()).message(location.getInfo());
-  }
-
-  public String getRuleRepositoryKey() {
-    return ruleRepositoryKey;
+    return newIssue.newLocation().on(context.project()).message(location.getInfo());
   }
 
   /**
@@ -85,19 +77,19 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
         .append("'")
         .toString();
       LOG.error(msg);
-      CxxUtils.validateRecovery(e, settings);
+      CxxUtils.validateRecovery(e, context.config());
     }
   }
 
   /**
    * Saves code violation only if it wasn't already saved
    *
-   * @param sensorContext
+   * @param context
    * @param issue
    */
-  public void saveUniqueViolation(SensorContext sensorContext, CxxReportIssue issue) {
+  public void saveUniqueViolation(SensorContext context, CxxReportIssue issue) {
     if (uniqueIssues.add(issue)) {
-      saveViolation(sensorContext, issue);
+      saveViolation(context, issue);
     }
   }
 
@@ -113,16 +105,16 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     } catch (EmptyReportException e) {
       LOG.warn("The report '{}' seems to be empty, ignoring.", report);
       LOG.debug("Cannot read report", e);
-      CxxUtils.validateRecovery(e, settings);
+      CxxUtils.validateRecovery(e, context.config());
     }
   }
 
-  private NewIssueLocation createNewIssueLocationFile(SensorContext sensorContext, NewIssue newIssue,
+  private NewIssueLocation createNewIssueLocationFile(SensorContext context, NewIssue newIssue,
                                                       CxxReportLocation location) {
-    InputFile inputFile = getInputFileIfInProject(sensorContext, location.getFile());
+    InputFile inputFile = getInputFileIfInProject(context, location.getFile());
     if (inputFile != null) {
       int lines = inputFile.lines();
-      int lineNr = Integer.max(1, getLineAsInt(location.getLine(), lines));
+      int lineNr = Integer.max(1, getLineAsInt(context, location.getLine(), lines));
       NewIssueLocation newIssueLocation = newIssue.newLocation()
         .on(inputFile)
         .at(inputFile.selectLine(lineNr))
@@ -137,25 +129,25 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
    * given project and context. Project or file-level violations can be saved by passing null for the according
    * parameters ('file' = null for project level, 'line' = null for file-level)
    */
-  private void saveViolation(SensorContext sensorContext, CxxReportIssue issue) {
-    NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(getRuleRepositoryKey(), issue.getRuleId()));
+  private void saveViolation(SensorContext context, CxxReportIssue issue) {
+    NewIssue newIssue = context.newIssue().forRule(RuleKey.of(getRuleRepositoryKey(), issue.getRuleId()));
     List<NewIssueLocation> newIssueLocations = new ArrayList<>();
     List<NewIssueLocation> newIssueFlow = new ArrayList<>();
 
     for (CxxReportLocation location : issue.getLocations()) {
       if (location.getFile() != null && !location.getFile().isEmpty()) {
-        NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location);
+        NewIssueLocation newIssueLocation = createNewIssueLocationFile(context, newIssue, location);
         if (newIssueLocation != null) {
           newIssueLocations.add(newIssueLocation);
         }
       } else {
-        NewIssueLocation newIssueLocation = createNewIssueLocationModule(sensorContext, newIssue, location);
+        NewIssueLocation newIssueLocation = createNewIssueLocationModule(context, newIssue, location);
         newIssueLocations.add(newIssueLocation);
       }
     }
 
     for (CxxReportLocation location : issue.getFlow()) {
-      NewIssueLocation newIssueLocation = createNewIssueLocationFile(sensorContext, newIssue, location);
+      NewIssueLocation newIssueLocation = createNewIssueLocationFile(context, newIssue, location);
       if (newIssueLocation != null) {
         newIssueFlow.add(newIssueLocation);
       } else {
@@ -180,12 +172,12 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
       } catch (RuntimeException ex) {
         LOG.error("Could not add the issue '{}':{}', skipping issue", issue.toString(), CxxUtils.getStackTrace(ex));
-        CxxUtils.validateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, context.config());
       }
     }
   }
 
-  private int getLineAsInt(@Nullable String line, int maxLine) {
+  private int getLineAsInt(SensorContext context, @Nullable String line, int maxLine) {
     int lineNr = 0;
     if (line != null) {
       try {
@@ -197,7 +189,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
         }
       } catch (java.lang.NumberFormatException nfe) {
         LOG.warn("Skipping invalid line number: {}", line);
-        CxxUtils.validateRecovery(nfe, settings);
+        CxxUtils.validateRecovery(nfe, context.config());
         lineNr = -1;
       }
     }
@@ -205,5 +197,9 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   protected abstract void processReport(final SensorContext context, File report) throws Exception;
+
+  protected abstract String getReportPathKey();
+
+  protected abstract String getRuleRepositoryKey();
 
 }

@@ -62,7 +62,7 @@ public class CxxPublicApiVisitorTest {
                                                                    "");
     settings.setProperty(CxxPublicApiVisitor.FILE_SUFFIXES_KEY, ".hpp");
 
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
 
     assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(0);
     assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
@@ -110,7 +110,7 @@ public class CxxPublicApiVisitorTest {
     visitor.withHeaderFileSuffixes(Arrays.asList(".h"));
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/public_api.h", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, visitor);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, visitor);
 
     final Map<String, String> expectedIdCommentMap = new HashMap<>();
 
@@ -219,7 +219,7 @@ public class CxxPublicApiVisitorTest {
       .asList(getFileExtension(fileName)));
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, visitor);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, visitor);
 
     LOG.debug("#API: {} UNDOC: {}",
               file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));

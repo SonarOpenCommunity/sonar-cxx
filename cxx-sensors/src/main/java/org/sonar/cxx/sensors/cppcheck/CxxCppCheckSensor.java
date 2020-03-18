@@ -27,11 +27,11 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 
 /**
@@ -49,11 +49,8 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
 
   /**
    * CxxCppCheckSensor for CppCheck Sensor
-   *
-   * @param settings sensor configuration
    */
-  public CxxCppCheckSensor(Configuration settings) {
-    super(settings, REPORT_PATH_KEY, CxxCppCheckRuleRepository.KEY);
+  public CxxCppCheckSensor() {
     parsers.add(new CppcheckParserV2(this));
     parsers.add(new CppcheckParserV1(this));
   }
@@ -78,8 +75,8 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " CppCheckSensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name(CxxLanguage.NAME + " CppCheckSensor")
+      .onlyOnLanguage(CxxLanguage.KEY)
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
@@ -103,6 +100,16 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
     if (!parsed) {
       LOG.error("Report {} cannot be parsed", report);
     }
+  }
+
+  @Override
+  protected String getReportPathKey() {
+    return REPORT_PATH_KEY;
+  }
+
+  @Override
+  protected String getRuleRepositoryKey() {
+    return CxxCppCheckRuleRepository.KEY;
   }
 
 }

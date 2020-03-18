@@ -32,11 +32,11 @@ import java.util.List;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -52,11 +52,8 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
 
   /**
    * CxxClangSASensor for Clang Static Analyzer Sensor
-   *
-   * @param settings sensor configuration
    */
-  public CxxClangSASensor(Configuration settings) {
-    super(settings, REPORT_PATH_KEY, CxxClangSARuleRepository.KEY);
+  public CxxClangSASensor() {
   }
 
   private static NSObject require(@Nullable NSObject object, String errorMsg) {
@@ -83,8 +80,8 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " ClangSASensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name(CxxLanguage.NAME + " ClangSASensor")
+      .onlyOnLanguage(CxxLanguage.KEY)
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
@@ -133,6 +130,16 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
     } catch (Exception e) {
       LOG.error("Failed to parse clangsa report: {}", e.getMessage());
     }
+  }
+
+  @Override
+  protected String getReportPathKey() {
+    return REPORT_PATH_KEY;
+  }
+
+  @Override
+  protected String getRuleRepositoryKey() {
+    return CxxClangSARuleRepository.KEY;
   }
 
   private enum PathElementKind {

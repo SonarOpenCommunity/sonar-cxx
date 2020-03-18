@@ -44,7 +44,7 @@ public class FileComplexityCheckTest {
     check.setMaxComplexity(1);
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/functions.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
 
     Set<CxxReportIssue> issues = MultiLocatitionSquidCheck.getMultiLocationCheckMessages(file);
     assertThat(issues).isNotNull();
@@ -55,7 +55,7 @@ public class FileComplexityCheckTest {
     softly.assertThat(actualIssue.getRuleId()).isEqualTo("FileComplexity");
     softly.assertThat(actualIssue.getLocations()).containsOnly(
       new CxxReportLocation(null, "1",
-        "The Cyclomatic Complexity of this file is 2 which is greater than 1 authorized."),
+                            "The Cyclomatic Complexity of this file is 2 which is greater than 1 authorized."),
       new CxxReportLocation(null, "3", "+1: function definition"),
       new CxxReportLocation(null, "5", "+1: function definition"));
     softly.assertAll();

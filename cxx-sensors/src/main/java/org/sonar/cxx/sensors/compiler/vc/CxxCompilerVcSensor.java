@@ -25,9 +25,9 @@ import java.util.Collections;
 import java.util.List;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 
 public class CxxCompilerVcSensor extends CxxCompilerSensor {
@@ -40,8 +40,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   public static final String DEFAULT_REGEX_DEF
                                = "(.*>)?(?<file>.*)\\((?<line>\\d+)\\)\\x20:\\x20warning\\x20(?<id>C\\d+):(?<message>.*)";
 
-  public CxxCompilerVcSensor(Configuration settings) {
-    super(settings, REPORT_PATH_KEY, CxxCompilerVcRuleRepository.KEY);
+  public CxxCompilerVcSensor() {
   }
 
   public static List<PropertyDefinition> properties() {
@@ -77,8 +76,8 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(getLanguage().getName() + " CxxCompilerVcSensor")
-      .onlyOnLanguage(getLanguage().getKey())
+      .name(CxxLanguage.NAME + " CxxCompilerVcSensor")
+      .onlyOnLanguage(CxxLanguage.KEY)
       .createIssuesForRuleRepositories(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
@@ -96,6 +95,16 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   @Override
   protected String getRegex(final SensorContext context) {
     return getContextStringProperty(context, REPORT_REGEX_DEF, DEFAULT_REGEX_DEF);
+  }
+
+  @Override
+  protected String getReportPathKey() {
+    return REPORT_PATH_KEY;
+  }
+
+  @Override
+  protected String getRuleRepositoryKey() {
+    return CxxCompilerVcRuleRepository.KEY;
   }
 
 }

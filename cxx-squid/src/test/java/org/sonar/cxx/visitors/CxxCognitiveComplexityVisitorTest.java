@@ -156,7 +156,7 @@ public class CxxCognitiveComplexityVisitorTest {
 
   private int testFile(String fileName) throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
-    SourceFile sourceFile = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.sensorContext);
+    SourceFile sourceFile = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
 
     return (sourceFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY));
   }

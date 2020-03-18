@@ -44,9 +44,9 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
   protected final CxxLanguage language;
 
   public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator,
-                                        Configuration settings) {
+                                        Configuration config) {
     this.unitTestResultsAggregator = unitTestResultsAggregator;
-    this.language = new CxxLanguage(settings);
+    this.language = new CxxLanguage(config);
   }
 
   public static List<PropertyDefinition> properties() {
@@ -89,10 +89,9 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    String name = String.format("%s Unit Test Results Import", this.language.getName());
-    descriptor.name(name);
+    descriptor.name(CxxLanguage.NAME + " Unit Test Results Import");
     descriptor.onlyWhenConfiguration(conf -> new UnitTestConfiguration(language, conf).hasUnitTestResultsProperty());
-    descriptor.onlyOnLanguage(this.language.getKey());
+    descriptor.onlyOnLanguage(CxxLanguage.KEY);
   }
 
   @Override

@@ -99,11 +99,10 @@ public class CxxReportSensorTest {
   private class CxxReportSensorImpl extends CxxReportSensor {
 
     public CxxReportSensorImpl(MapSettings settings) {
-      super(settings.asConfig(), "test.report");
     }
 
     @Override
-    public void executeImpl(SensorContext sc) {
+    public void executeImpl(SensorContext context) {
     }
 
     @Override

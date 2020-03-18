@@ -38,10 +38,10 @@ public class CxxFileTesterHelper {
   public static CxxFileTester CreateCxxFileTester(String fileName, String basePath) throws UnsupportedEncodingException,
                                                                                            IOException {
     CxxFileTester tester = new CxxFileTester();
-    tester.sensorContext = SensorContextTester.create(new File(basePath));
+    tester.context = SensorContextTester.create(new File(basePath));
 
-    tester.sensorContext.fileSystem().add(TestInputFileBuilder.create("", fileName).build());
-    tester.cxxFile = tester.sensorContext.fileSystem().inputFile(tester.sensorContext.fileSystem().predicates().hasPath(
+    tester.context.fileSystem().add(TestInputFileBuilder.create("", fileName).build());
+    tester.cxxFile = tester.context.fileSystem().inputFile(tester.context.fileSystem().predicates().hasPath(
       fileName));
 
     return tester;
@@ -50,10 +50,10 @@ public class CxxFileTesterHelper {
   public static CxxFileTester CreateCxxFileTester(String fileName, String basePath, Charset charset) throws
     UnsupportedEncodingException, IOException {
     CxxFileTester tester = new CxxFileTester();
-    tester.sensorContext = SensorContextTester.create(new File(basePath));
+    tester.context = SensorContextTester.create(new File(basePath));
 
-    tester.sensorContext.fileSystem().add(TestInputFileBuilder.create("", fileName).setCharset(charset).build());
-    tester.cxxFile = tester.sensorContext.fileSystem().inputFile(tester.sensorContext.fileSystem().predicates().hasPath(
+    tester.context.fileSystem().add(TestInputFileBuilder.create("", fileName).setCharset(charset).build());
+    tester.cxxFile = tester.context.fileSystem().inputFile(tester.context.fileSystem().predicates().hasPath(
       fileName));
 
     return tester;

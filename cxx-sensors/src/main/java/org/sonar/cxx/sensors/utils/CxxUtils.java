@@ -80,10 +80,10 @@ public final class CxxUtils {
    * validateRecovery
    *
    * @param ex
-   * @param settings
+   * @param config
    */
-  public static void validateRecovery(Exception ex, Configuration settings) {
-    Optional<Boolean> recovery = settings.getBoolean(CxxReportSensor.ERROR_RECOVERY_KEY);
+  public static void validateRecovery(Exception ex, Configuration config) {
+    Optional<Boolean> recovery = config.getBoolean(CxxReportSensor.ERROR_RECOVERY_KEY);
     if (recovery.isPresent() && recovery.get()) {
       return;
     }

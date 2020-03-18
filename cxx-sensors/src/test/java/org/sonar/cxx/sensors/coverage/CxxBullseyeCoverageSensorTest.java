@@ -34,7 +34,6 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 public class CxxBullseyeCoverageSensorTest {
 
   private static final Logger LOG = Loggers.get(CxxBullseyeCoverageSensorTest.class);
-  private CxxCoverageSensor sensor;
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
 
@@ -54,15 +53,26 @@ public class CxxBullseyeCoverageSensorTest {
       context.setSettings(settings);
 
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "main.cpp")
-        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .build());
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source_1.cpp")
-        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+        .setLanguage("cpp").initMetadata(
+        "asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.h").setLanguage("cpp")
+        .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.cpp").setLanguage("cpp")
+        .initMetadata(
+          "asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.h").setLanguage("cpp").initMetadata(
+        "asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.cpp").setLanguage("cpp")
+        .initMetadata(
+          "asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .build());
 
-      sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+      CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
       sensor.execute(context);
 
       assertThat(context.lineHits("ProjectKey:main.cpp", 7)).isEqualTo(1);
@@ -123,16 +133,24 @@ public class CxxBullseyeCoverageSensorTest {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, coverageReport);
       context.setSettings(settings);
 
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h")
-        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "randomfoldernamethatihopeknowmachinehas/test/test.c")
-        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "randomfoldernamethatihopeknowmachinehas/test2/test2.c")
-        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "randomfoldernamethatihopeknowmachinehas/main.c")
-        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
+                                                           "randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h")
+        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
+                                                           "randomfoldernamethatihopeknowmachinehas/test/test.c")
+        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
+                                                           "randomfoldernamethatihopeknowmachinehas/test2/test2.c")
+        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .build());
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
+                                                           "randomfoldernamethatihopeknowmachinehas/main.c")
+        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .build());
 
-      sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+      CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
       sensor.execute(context);
 
       assertThat(context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", 4)).isEqualTo(1);
@@ -173,9 +191,10 @@ public class CxxBullseyeCoverageSensorTest {
       }
 
       for (String filepath : fileList) {
-        context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", filepath).setLanguage("cpp").initMetadata(sourceContent.toString()).build());
+        context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", filepath).setLanguage("cpp").initMetadata(
+          sourceContent.toString()).build());
       }
-      sensor = new CxxCoverageSensor(new CxxCoverageCache(), settings.asConfig(), context);
+      CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
       sensor.execute(context);
 
       int[] coveredCondition = new int[]{496, 524};
