@@ -37,7 +37,7 @@ public class CxxRuleRepositoryTest {
     new CxxRuleRepository(language).define(context);
 
     assertThat(context.repositories()).hasSize(1);
-    assertThat(context.repository("cxx").rules()).hasSize(28);
+    assertThat(context.repository("cxx").rules()).hasSize(27);
   }
 
 }

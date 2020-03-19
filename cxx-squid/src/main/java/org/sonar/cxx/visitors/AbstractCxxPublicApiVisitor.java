@@ -52,11 +52,10 @@ import org.sonar.squidbridge.checks.SquidCheck;
  * </ul>
  * <p>
  * Public API items are considered documented if they have Doxygen comments.<br>
- * Function arguments are not counted since they can be documented in function
- * documentation and this visitor does not parse Doxygen comments.<br>
+ * Function arguments are not counted since they can be documented in function documentation and this visitor does not
+ * parse Doxygen comments.<br>
  * This visitor should be applied only on header files.<br>
- * Currently, no filtering is applied using preprocessing directive, e.g
- * <code>#define DLLEXPORT</code>.<br>
+ * Currently, no filtering is applied using preprocessing directive, e.g <code>#define DLLEXPORT</code>.<br>
  * <p>
  * Limitation: only "in front of the declaration" comments are considered.
  *
@@ -92,9 +91,9 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
         if (classSpefifier != null) {
           TokenType type = classSpefifier.getToken().getType();
           if (type.equals(CxxKeyword.STRUCT)
-            || type.equals(CxxKeyword.CLASS)
-            || type.equals(CxxKeyword.UNION)
-            || type.equals(CxxKeyword.ENUM)) {
+                || type.equals(CxxKeyword.CLASS)
+                || type.equals(CxxKeyword.UNION)
+                || type.equals(CxxKeyword.ENUM)) {
             return true;
           }
         }
@@ -109,7 +108,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
     if (simpleDeclNode == null) {
       LOG.warn("No simple declaration found for declarator list at {}",
-        declaratorList.getTokenLine());
+               declaratorList.getTokenLine());
       return false;
     }
 
@@ -153,7 +152,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
     if (simpleDeclNode == null) {
       LOG.warn("No simple declaration found for declarator list at {}",
-        memberDeclaration.getTokenLine());
+               memberDeclaration.getTokenLine());
       return false;
     }
 
@@ -180,13 +179,13 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
     // look for exact sub AST
     if ((functionBody.size() == 3)
-      && functionBody.get(0).is(CxxPunctuator.ASSIGN)
-      && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
+          && functionBody.get(0).is(CxxPunctuator.ASSIGN)
+          && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
 
       AstNode bodyType = functionBody.get(1);
 
       if (bodyType.is(CxxKeyword.DELETE)
-        || bodyType.is(CxxKeyword.DEFAULT)) {
+            || bodyType.is(CxxKeyword.DEFAULT)) {
         defaultOrDelete = true;
       }
     }
@@ -240,12 +239,12 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     if (next != null) {
       // discard COMMA and SEMICOLON
       if (next.getToken().getType().equals(CxxPunctuator.COMMA)
-        || next.getToken().getType().equals(CxxPunctuator.SEMICOLON)) {
+            || next.getToken().getType().equals(CxxPunctuator.SEMICOLON)) {
         next = next.getNextAstNode();
       }
 
       comments = getInlineDocumentation(next.getToken(),
-        declarator.getTokenLine());
+                                        declarator.getTokenLine());
     } else {
       // could happen on parse error ?
       comments = new ArrayList<>();
@@ -261,11 +260,11 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     do {
       access = access.getPreviousAstNode();
     } while (access != null
-      && !access.getType().equals(CxxGrammarImpl.accessSpecifier));
+               && !access.getType().equals(CxxGrammarImpl.accessSpecifier));
 
     if (access != null) {
       return access.getToken().getType().equals(CxxKeyword.PUBLIC)
-        || access.getToken().getType().equals(CxxKeyword.PROTECTED);
+               || access.getToken().getType().equals(CxxKeyword.PROTECTED);
     } else {
       AstNode classSpecifier = node
         .getFirstAncestor(CxxGrammarImpl.classSpecifier);
@@ -274,7 +273,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
         AstNode enclosingSpecifierNode = classSpecifier
           .getFirstDescendant(CxxKeyword.STRUCT, CxxKeyword.CLASS,
-            CxxKeyword.ENUM, CxxKeyword.UNION);
+                              CxxKeyword.ENUM, CxxKeyword.UNION);
 
         if (enclosingSpecifierNode != null) {
           TokenType type = enclosingSpecifierNode.getToken().getType();
@@ -289,7 +288,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
           } else {
             LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(),
-              enclosingSpecifierNode.getTokenLine());
+                      enclosingSpecifierNode.getTokenLine());
             return false;
           }
         } else {
@@ -311,8 +310,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   }
 
   /**
-   * Check if inline Doxygen documentation is attached to the given token at
-   * specified line
+   * Check if inline Doxygen documentation is attached to the given token at specified line
    *
    * @param token the token to inspect
    * @param line line of the inlined documentation
@@ -325,12 +323,10 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       if (trivia.isComment()) {
         Token triviaToken = trivia.getToken();
         if ((triviaToken != null)
-          && (triviaToken.getLine() == line)
-          && (isDoxygenInlineComment(triviaToken.getValue()))) {
+              && (triviaToken.getLine() == line)
+              && (isDoxygenInlineComment(triviaToken.getValue()))) {
           comments.add(triviaToken);
-          if (LOG.isTraceEnabled()) {
-            LOG.trace("Inline doc: " + triviaToken.getValue());
-          }
+          LOG.trace("Inline doc: " + triviaToken.getValue());
         }
       }
     }
@@ -346,11 +342,9 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
         Token triviaToken = trivia.getToken();
         if (triviaToken != null) {
           String comment = triviaToken.getValue();
-          if (LOG.isTraceEnabled()) {
-            LOG.trace("Doc: {}\n", comment);
-          }
+          LOG.trace("Doc: {}\n", comment);
           if (isDoxygenCommentBlock(comment)
-            && !isDoxygenInlineComment(comment)) {
+                && !isDoxygenInlineComment(comment)) {
             commentTokens.add(triviaToken);
           }
         }
@@ -363,13 +357,13 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   private static boolean isDoxygenInlineComment(String comment) {
 
     return comment.startsWith("/*!<") || comment.startsWith("/**<")
-      || comment.startsWith("//!<") || comment.startsWith("///<");
+             || comment.startsWith("//!<") || comment.startsWith("///<");
   }
 
   private static boolean isDoxygenCommentBlock(String comment) {
 
     return comment.startsWith("/**") || comment.startsWith("/*!")
-      || comment.startsWith("///") || comment.startsWith("//!");
+             || comment.startsWith("///") || comment.startsWith("//!");
   }
 
   @Override
@@ -449,11 +443,9 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     for (Token token : comments) {
       String comment = token.getValue();
       if (isDoxygenInlineComment(comment)
-        || isDoxygenCommentBlock(comment)) {
+            || isDoxygenCommentBlock(comment)) {
         doxygenComments.add(token);
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Doc: " + comment.replace("\r\n", ""));
-        }
+        LOG.debug("Doc: " + comment.replace("\r\n", ""));
       }
     }
 
@@ -510,7 +502,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   }
 
   private void visitSingleDeclarator(AstNode declaration,
-    AstNode declarator) {
+                                     AstNode declarator) {
 
     AstNode docNode;
 
@@ -588,7 +580,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
     if (classHead == null) {
       LOG.warn("classSpecifier does not embed a classHead at line "
-        + classSpecifier.getTokenLine());
+                 + classSpecifier.getTokenLine());
       return;
     }
 
@@ -803,7 +795,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
         AstNode docNode;
         if (container == null
-          || container.getType().equals(CxxGrammarImpl.classSpecifier)) {
+              || container.getType().equals(CxxGrammarImpl.classSpecifier)) {
           docNode = aliasDeclNode;
         } else {
           docNode = container;
@@ -818,7 +810,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
         }
 
         visitPublicApi(aliasDeclNode, aliasDeclIdNode.getTokenValue(),
-          comments);
+                       comments);
       }
     }
   }
@@ -828,7 +820,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       GenericTokenType.IDENTIFIER);
 
     String enumId = (enumIdNode == null)
-      ? UNNAMED_ENUM_ID : enumIdNode.getTokenValue();
+                      ? UNNAMED_ENUM_ID : enumIdNode.getTokenValue();
 
     if (!isPublicApiMember(enumSpecifierNode)) {
       LOG.debug(enumId + " not in public API");
@@ -869,7 +861,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
             }
 
             comments = getInlineDocumentation(next.getToken(),
-              definition.getTokenLine());
+                                              definition.getTokenLine());
           }
         }
 

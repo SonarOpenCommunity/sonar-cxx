@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.sonar.cxx.checks.api.UndocumentedApiCheck;
-import org.sonar.cxx.checks.error.MissingIncludeFileCheck;
 import org.sonar.cxx.checks.error.ParsingErrorCheck;
 import org.sonar.cxx.checks.error.ParsingErrorRecoveryCheck;
 import org.sonar.cxx.checks.file.FileEncodingCheck;
@@ -61,7 +60,6 @@ public final class CheckList {
   public static List<Class> getChecks() {
     return new ArrayList<>(Arrays.asList(
       UndocumentedApiCheck.class,
-      MissingIncludeFileCheck.class,
       ParsingErrorCheck.class,
       ParsingErrorRecoveryCheck.class,
       FileEncodingCheck.class,

@@ -23,7 +23,6 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 import java.io.File;
 import java.lang.ref.WeakReference;
-import java.util.Collection;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.lexer.CxxLexer;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
@@ -43,13 +42,9 @@ public final class CxxParser {
     currentPreprocessorInstance.get().finishedPreprocessing(path);
   }
 
-  public static Collection<CxxPreprocessor.Include> getMissingIncludeFiles(File path) {
-    return currentPreprocessorInstance.get().getMissingIncludeFiles(path);
-  }
-
   public static Parser<Grammar> create() {
     return create(new SquidAstVisitorContextImpl<>(new SourceProject("")),
-      new CxxConfiguration());
+                  new CxxConfiguration());
   }
 
   public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context) {
@@ -58,7 +53,7 @@ public final class CxxParser {
 
   public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf) {
     final CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
-    currentPreprocessorInstance = new WeakReference<CxxPreprocessor>(cxxpp);
+    currentPreprocessorInstance = new WeakReference<>(cxxpp);
     return Parser.builder(CxxGrammarImpl.create(conf))
       .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
       .build();
