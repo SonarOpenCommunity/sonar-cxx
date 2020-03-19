@@ -19,9 +19,9 @@
  */
  
 /**
- * Package with sensors to do postjobs.
+ * Package with sensors to do prejobs.
  */
 @ParametersAreNonnullByDefault
-package org.sonar.cxx.postjobs;
+package org.sonar.cxx.prejobs;
 
 import javax.annotation.ParametersAreNonnullByDefault;
