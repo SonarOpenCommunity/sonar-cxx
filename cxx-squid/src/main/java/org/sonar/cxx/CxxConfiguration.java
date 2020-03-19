@@ -47,14 +47,12 @@ public class CxxConfiguration extends SquidConfiguration {
   private final Map<String, List<String>> uniqueIncludes = new HashMap<>();
   private final Map<String, Set<String>> uniqueDefines = new HashMap<>();
   private List<String> forceIncludeFiles = new ArrayList<>();
-  private List<String> headerFileSuffixes = new ArrayList<>();
   private String baseDir = "";
   private boolean errorRecoveryEnabled = true;
   private List<String> cFilesPatterns = new ArrayList<>();
   private String jsonCompilationDatabaseFile;
   private CxxCompilationUnitSettings globalCompilationUnitSettings;
   private final Map<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
-  private boolean collectMissingIncludes = false;
 
   private final CxxVCppBuildLogParser cxxVCppParser;
 
@@ -84,14 +82,6 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public boolean getIgnoreHeaderComments() {
     return ignoreHeaderComments;
-  }
-
-  public boolean doCollectMissingIncludes() {
-    return collectMissingIncludes;
-  }
-
-  public void setCollectMissingIncludes(boolean collectMissingIncludes) {
-    this.collectMissingIncludes = collectMissingIncludes;
   }
 
   public void setDefines(@Nullable String[] defines) {
