@@ -124,7 +124,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
     LOG.debug("Scanner uses normalized report path(s): '{}'", String.join(", ", normalizedReportPaths));
 
     // Includes array cannot contain null elements
-    DirectoryScanner directoryScanner = new DirectoryScanner();
+    var directoryScanner = new DirectoryScanner();
     directoryScanner.setIncludes(normalizedReportPaths.toArray(new String[normalizedReportPaths.size()]));
     directoryScanner.scan();
     String[] existingReportPaths = directoryScanner.getIncludedFiles();
@@ -153,8 +153,8 @@ public abstract class CxxReportSensor implements ProjectSensor {
    * @return
    */
   private static List<String> normalizeReportPaths(final File moduleBaseDir, String[] reportPaths) {
-    List<String> includes = new ArrayList<>();
-    for (String reportPath : reportPaths) {
+    var includes = new ArrayList<String>();
+    for (var reportPath : reportPaths) {
 
       String normalizedPath = resolveFilename(moduleBaseDir.getAbsolutePath(), reportPath.trim());
       if (normalizedPath != null) {

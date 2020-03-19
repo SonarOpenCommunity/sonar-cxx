@@ -37,10 +37,11 @@ public class ParsingErrorRecoveryCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test_syntax_error_recovery() throws UnsupportedEncodingException, IOException {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(true);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError3.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(settings.asConfig(), tester.cxxFile, config, new ParsingErrorRecoveryCheck());
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(settings.asConfig(), tester.cxxFile, config,
+                                                         new ParsingErrorRecoveryCheck());
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage("C++ Parser can't read code. Declaration is skipped.")

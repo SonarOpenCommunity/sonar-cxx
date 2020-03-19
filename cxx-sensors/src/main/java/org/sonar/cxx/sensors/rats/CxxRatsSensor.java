@@ -91,25 +91,25 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
     LOG.debug("Parsing 'RATS' format");
 
     try {
-      SAXBuilder builder = new SAXBuilder(XMLReaders.NONVALIDATING);
+      var builder = new SAXBuilder(XMLReaders.NONVALIDATING);
       builder.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
       builder.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
       Element root = builder.build(report).getRootElement();
       List<Element> vulnerabilities = root.getChildren("vulnerability");
-      for (Element vulnerability : vulnerabilities) {
+      for (var vulnerability : vulnerabilities) {
         String type = getVulnerabilityType(vulnerability.getChild("type"));
         String message = vulnerability.getChild("message").getTextTrim();
 
         List<Element> files = vulnerability.getChildren("file");
 
-        for (Element file : files) {
+        for (var file : files) {
           String fileName = file.getChild("name").getTextTrim();
 
           List<Element> lines = file.getChildren("line");
-          for (Element lineElem : lines) {
+          for (var lineElem : lines) {
             String line = lineElem.getTextTrim();
 
-            CxxReportIssue issue = new CxxReportIssue(type, fileName, line, message);
+            var issue = new CxxReportIssue(type, fileName, line, message);
             saveUniqueViolation(context, issue);
           }
         }

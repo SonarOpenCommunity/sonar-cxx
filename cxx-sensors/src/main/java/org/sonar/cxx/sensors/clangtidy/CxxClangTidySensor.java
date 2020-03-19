@@ -95,7 +95,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
                                                           REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
     LOG.debug("Parsing 'clang-tidy' report, CharSet= '{}'", reportCharset);
 
-    try (Scanner scanner = new Scanner(report, reportCharset)) {
+    try (var scanner = new Scanner(report, reportCharset)) {
       // sample:
       // E:\Development\SonarQube\cxx\sonar-cxx\sonar-cxx-plugin\src\test\resources\org\sonar\plugins\cxx\
       //   reports-project\clang-tidy-reports\..\..\cpd.cc:76:20:
@@ -118,7 +118,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
           String ruleId = null;
 
           if (txt.endsWith("]")) { // [ruleId]
-            for (int i = txt.length() - 2; i >= 0; i--) {
+            for (var i = txt.length() - 2; i >= 0; i--) {
               char c = txt.charAt(i);
               if (c == '[') {
                 info = txt.substring(0, i - 1);

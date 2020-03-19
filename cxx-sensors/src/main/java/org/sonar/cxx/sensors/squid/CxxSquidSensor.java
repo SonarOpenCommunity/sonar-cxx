@@ -61,12 +61,9 @@ import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
 import org.sonar.cxx.sensors.visitors.CxxCpdVisitor;
 import org.sonar.cxx.sensors.visitors.CxxFileLinesVisitor;
 import org.sonar.cxx.sensors.visitors.CxxHighlighterVisitor;
-import org.sonar.cxx.utils.CxxReportIssue;
-import org.sonar.cxx.utils.CxxReportLocation;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.SquidAstVisitor;
-import org.sonar.squidbridge.api.CheckMessage;
 import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.indexer.QueryByType;
@@ -208,7 +205,7 @@ public class CxxSquidSensor implements ProjectSensor {
   @Override
   public void execute(SensorContext context) {
 
-    List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
+    var visitors = new ArrayList<SquidAstVisitor<Grammar>>((Collection) checks.all());
     visitors.add(new CxxHighlighterVisitor(context));
     visitors.add(new CxxFileLinesVisitor(this.config, fileLinesContextFactory, context));
 
@@ -223,8 +220,8 @@ public class CxxSquidSensor implements ProjectSensor {
         .hasLanguage(CxxLanguage.KEY), context.fileSystem().predicates()
            .hasType(InputFile.Type.MAIN)));
 
-    List<File> files = new ArrayList<>();
-    for (InputFile file : inputFiles) {
+    var files = new ArrayList<File>();
+    for (var file : inputFiles) {
       files.add(new File(file.uri().getPath()));
     }
 
@@ -249,7 +246,7 @@ public class CxxSquidSensor implements ProjectSensor {
   }
 
   private CxxConfiguration createConfiguration(FileSystem fs, SensorContext context) {
-    CxxConfiguration cxxConf = new CxxConfiguration(fs);
+    var cxxConf = new CxxConfiguration(fs);
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = getStringLinesOption(DEFINES_KEY);
     cxxConf.setDefines(lines);
@@ -294,9 +291,9 @@ public class CxxSquidSensor implements ProjectSensor {
       return;
     }
 
-    for (SourceCode squidSourceFile : squidSourceFiles) {
+    for (var squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
-      File ioFile = new File(squidFile.getKey());
+      var ioFile = new File(squidFile.getKey());
       InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(ioFile));
 
       saveMeasures(inputFile, squidFile, context);
@@ -359,7 +356,7 @@ public class CxxSquidSensor implements ProjectSensor {
 
   private void saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext context) {
     if (squidFile.hasCheckMessages()) {
-      for (CheckMessage message : squidFile.getCheckMessages()) {
+      for (var message : squidFile.getCheckMessages()) {
         int line = 1;
         if (message.getLine() != null && message.getLine() > 0) {
           line = message.getLine();
@@ -378,11 +375,11 @@ public class CxxSquidSensor implements ProjectSensor {
     }
 
     if (MultiLocatitionSquidCheck.hasMultiLocationCheckMessages(squidFile)) {
-      for (CxxReportIssue issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(squidFile)) {
+      for (var issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(squidFile)) {
         final NewIssue newIssue = context.newIssue()
           .forRule(RuleKey.of("cxx", issue.getRuleId()));
         int locationNr = 0;
-        for (CxxReportLocation location : issue.getLocations()) {
+        for (var location : issue.getLocations()) {
           final Integer line = Integer.valueOf(location.getLine());
           final NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
             .message(location.getInfo());

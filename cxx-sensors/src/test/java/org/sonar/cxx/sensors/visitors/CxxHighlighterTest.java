@@ -185,12 +185,12 @@ public class CxxHighlighterTest {
   }
 
   /**
-   * Checks the highlighting of a range of columns. The first column of a line
-   * has index 0. The range is the columns of the token.
+   * Checks the highlighting of a range of columns. The first column of a line has index 0. The range is the columns of
+   * the token.
    */
   private void checkOnRange(int line, int firstColumn, int length, TypeOfText expectedTypeOfText) {
     // check that every column of the token is highlighted (and with the expected type)
-    for (int column = firstColumn; column < firstColumn + length; column++) {
+    for (var column = firstColumn; column < firstColumn + length; column++) {
       checkInternal(line, column, "", expectedTypeOfText);
     }
 
@@ -204,8 +204,7 @@ public class CxxHighlighterTest {
   }
 
   /**
-   * Checks the highlighting of one column. The first column of a line has index
-   * 0.
+   * Checks the highlighting of one column. The first column of a line has index 0.
    */
   private void check(int line, int column, TypeOfText expectedTypeOfText) {
     checkInternal(line, column, "", expectedTypeOfText);

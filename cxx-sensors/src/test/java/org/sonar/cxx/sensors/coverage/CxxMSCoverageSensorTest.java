@@ -35,13 +35,11 @@ public class CxxMSCoverageSensorTest {
 
   private DefaultFileSystem fs;
   private SensorContextTester context;
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
   }
 
   @Test
@@ -57,16 +55,16 @@ public class CxxMSCoverageSensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
       .build());
 
-    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
-    int[] oneHitlinesA = new int[]{12, 14, 16, 19, 20, 21, 23, 25, 26, 27, 28};
-    for (int oneHitline : oneHitlinesA) {
+    var oneHitlinesA = new int[]{12, 14, 16, 19, 20, 21, 23, 25, 26, 27, 28};
+    for (var oneHitline : oneHitlinesA) {
       assertThat(context.lineHits("ProjectKey:source/rootfinder/rootfinder.cpp", oneHitline)).isEqualTo(1);
     }
 
-    int[] oneHitlinesB = new int[]{9, 10, 11, 14, 15, 16, 19, 20, 21, 24, 25, 26, 29, 30, 31};
-    for (int oneHitline : oneHitlinesB) {
+    var oneHitlinesB = new int[]{9, 10, 11, 14, 15, 16, 19, 20, 21, 24, 25, 26, 29, 30, 31};
+    for (var oneHitline : oneHitlinesB) {
       assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", oneHitline)).isEqualTo(1);
     }
   }
@@ -81,7 +79,7 @@ public class CxxMSCoverageSensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
       .build());
 
-    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", 1)).isNull();
@@ -90,11 +88,11 @@ public class CxxMSCoverageSensorTest {
   @Test
   public void sensorDescriptor() {
     context = SensorContextTester.create(fs.baseDir());
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " CoverageSensor");
     softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertAll();

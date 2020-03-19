@@ -83,7 +83,7 @@ public class TestUtils {
   public static DefaultFileSystem mockFileSystem(File baseDir,
                                                  List<File> sourceDirs,
                                                  List<File> testDirs) {
-    DefaultFileSystem fs = new DefaultFileSystem(baseDir);
+    var fs = new DefaultFileSystem(baseDir);
     fs.setEncoding(StandardCharsets.UTF_8);
     scanDirs(fs, sourceDirs, Type.MAIN);
     scanDirs(fs, testDirs, Type.TEST);
@@ -133,18 +133,18 @@ public class TestUtils {
     }
 
     String[] suffixes = mockCxxLanguage().getFileSuffixes();
-    String[] includes = new String[suffixes.length];
-    for (int i = 0; i < includes.length; ++i) {
+    var includes = new String[suffixes.length];
+    for (var i = 0; i < includes.length; ++i) {
       includes[i] = "**/*" + suffixes[i];
     }
 
-    DirectoryScanner scanner = new DirectoryScanner();
+    var scanner = new DirectoryScanner();
     scanner.setIncludes(includes);
     File target;
-    for (File dir : dirs) {
+    for (var dir : dirs) {
       scanner.setBasedir(new File(fs.baseDir(), dir.getPath()));
       scanner.scan();
-      for (String path : scanner.getIncludedFiles()) {
+      for (var path : scanner.getIncludedFiles()) {
         target = new File(dir, path);
         fs.add(TestInputFileBuilder.create("ProjectKey", target.getPath()).setLanguage("cpp").setType(ftype).build());
       }

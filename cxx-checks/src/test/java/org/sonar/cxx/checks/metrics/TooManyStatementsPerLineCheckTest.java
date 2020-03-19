@@ -37,7 +37,7 @@ public class TooManyStatementsPerLineCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
-    TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
+    var check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = false;
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
@@ -57,14 +57,14 @@ public class TooManyStatementsPerLineCheckTest {
 
   @Test
   public void testDefaultExcludeCaseBreak() {
-    TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
+    var check = new TooManyStatementsPerLineCheck();
     assertThat(check.excludeCaseBreak).isFalse();
   }
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void testExcludeCaseBreak() throws UnsupportedEncodingException, IOException {
-    TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
+    var check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = true;
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(

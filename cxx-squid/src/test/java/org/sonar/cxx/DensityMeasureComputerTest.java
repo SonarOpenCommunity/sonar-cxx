@@ -31,7 +31,7 @@ import org.sonar.api.ce.measure.test.TestSettings;
 public class DensityMeasureComputerTest {
 
   private static TestMeasureComputerContext createContext(DensityMeasureComputer computer) {
-    final TestComponent component = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
+    var component = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
     return new TestMeasureComputerContext(component, new TestSettings(), new MeasureComputerDefinitionBuilderImpl()
                                           .setInputMetrics(computer.getInputMetrics()).setOutputMetrics(computer
                                           .getOutputMetrics()).build());
@@ -39,14 +39,14 @@ public class DensityMeasureComputerTest {
 
   @Test
   public void metricsNumber() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer();
+    var computer = new DensityMeasureComputer();
     assertThat(computer.getInputMetrics().length).isEqualTo(8);
     assertThat(computer.getOutputMetrics().length).isEqualTo(5);
   }
 
   @Test
   public void ignoreMissingValue() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer();
+    var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     context.addInputMeasure(CxxMetrics.LOC_IN_FUNCTIONS_KEY, 500);
@@ -57,7 +57,7 @@ public class DensityMeasureComputerTest {
 
   @Test
   public void ignoreMissingTotal() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer();
+    var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     context.addInputMeasure(CxxMetrics.BIG_FUNCTIONS_LOC_KEY, 100);
@@ -68,7 +68,7 @@ public class DensityMeasureComputerTest {
 
   @Test
   public void ignoreMissingBoth() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer();
+    var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     computer.compute(context);
@@ -78,7 +78,7 @@ public class DensityMeasureComputerTest {
 
   @Test
   public void ignoreAlreadyCalculated() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer();
+    var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     context.addInputMeasure(CxxMetrics.BIG_FUNCTIONS_LOC_KEY, 100);
@@ -92,7 +92,7 @@ public class DensityMeasureComputerTest {
 
   @Test
   public void calculatePercent() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer();
+    var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     context.addInputMeasure(CxxMetrics.BIG_FUNCTIONS_LOC_KEY, 100);
@@ -100,12 +100,12 @@ public class DensityMeasureComputerTest {
     computer.compute(context);
 
     assertThat(context.getMeasure(CxxMetrics.BIG_FUNCTIONS_LOC_PERC_KEY).getDoubleValue()).isEqualTo(100.0 / 500.0
-                                                                                                     * 100.0);
+                                                                                                       * 100.0);
   }
 
   @Test
   public void calculateRemainingPercent() {
-    final DensityMeasureComputer computer = new DensityMeasureComputer();
+    var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
     context.addInputMeasure(CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY, 100);
@@ -113,8 +113,8 @@ public class DensityMeasureComputerTest {
     computer.compute(context);
 
     assertThat(context.getMeasure(CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY).getDoubleValue()).isEqualTo(400.0
-                                                                                                            / 500.0
-                                                                                                            * 100.0);
+                                                                                                              / 500.0
+                                                                                                              * 100.0);
   }
 
 }

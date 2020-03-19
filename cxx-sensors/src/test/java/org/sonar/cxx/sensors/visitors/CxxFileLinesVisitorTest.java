@@ -49,7 +49,6 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxFileLinesVisitorTest {
 
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
   private FileLinesContextFactory fileLinesContextFactory;
 
@@ -60,7 +59,6 @@ public class CxxFileLinesVisitorTest {
 
   @Before
   public void setUp() {
-    language = TestUtils.mockCxxLanguage();
     fileLinesContextFactory = mock(FileLinesContextFactory.class);
     fileLinesContext = new FileLinesContextForTesting();
 
@@ -85,11 +83,11 @@ public class CxxFileLinesVisitorTest {
 
     when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
 
-    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, context);
+    var visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, context);
 
     CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context, visitor);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(fileLinesContext.linesOfCode).containsExactlyInAnyOrderElementsOf(testLines);
     softly.assertAll();
   }
@@ -107,7 +105,7 @@ public class CxxFileLinesVisitorTest {
 
     when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
 
-    CxxFileLinesVisitor visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, context);
+    var visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, context);
 
     CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context, visitor);
 

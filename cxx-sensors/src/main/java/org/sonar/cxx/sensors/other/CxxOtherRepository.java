@@ -59,7 +59,7 @@ public class CxxOtherRepository implements RulesDefinition {
       .setName(NAME);
 
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), StandardCharsets.UTF_8.name());
-    for (String ruleDefs : this.config.getStringArray(RULES_KEY)) {
+    for (var ruleDefs : this.config.getStringArray(RULES_KEY)) {
       if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));

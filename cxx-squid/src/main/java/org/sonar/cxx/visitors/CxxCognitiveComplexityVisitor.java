@@ -85,12 +85,12 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
 
   private static boolean isElseIf(AstNode node) {
     return node.is(CxxGrammarImpl.selectionStatement) && node.getToken().getType().equals(CxxKeyword.IF)
-      && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
+             && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
   }
 
   @Override
   public void init() {
-    for (AstNodeType astNodeType : SUBSCRIPTION_NODES) {
+    for (var astNodeType : SUBSCRIPTION_NODES) {
       subscribeTo(astNodeType);
     }
     complexityScopes = new LinkedList<>();
@@ -117,7 +117,7 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
     }
 
     if (node.is(NESTING_LEVEL_TYPES)) {
-      for (CxxComplexityScope scope : complexityScopes) {
+      for (var scope : complexityScopes) {
         scope.increaseNesting();
       }
     }
@@ -138,7 +138,7 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
     }
 
     if (node.is(NESTING_LEVEL_TYPES)) {
-      for (CxxComplexityScope scope : complexityScopes) {
+      for (var scope : complexityScopes) {
         scope.decreaseNesting();
       }
     }

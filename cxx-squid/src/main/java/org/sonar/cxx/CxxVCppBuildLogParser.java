@@ -51,9 +51,9 @@ public class CxxVCppBuildLogParser {
   private static final String CPPVERSION = "__cplusplus=199711L";
 
   private static final Pattern[] INCLUDE_PATTERNS = {Pattern.compile("/I\"(.*?)\""),
-    Pattern.compile("/I([^\\s\"]+) ")};
+                                                     Pattern.compile("/I([^\\s\"]+) ")};
   private static final Pattern[] DEFINE_PATTERNS = {Pattern.compile("[/-]D\\s([^\\s]+)"),
-    Pattern.compile("[/-]D([^\\s]+)")};
+                                                    Pattern.compile("[/-]D([^\\s]+)")};
   private static final Pattern PATH_TO_CL_PATTERN = Pattern.compile("^.*\\\\bin\\\\.*CL.exe\\x20.*$");
   private static final Pattern PLATFORM_X86_PATTERN = Pattern.compile("Building solution configuration \".*\\|x64\".");
   private static final Pattern TOOLSET_V141_PATTERN = Pattern
@@ -76,13 +76,13 @@ public class CxxVCppBuildLogParser {
    * @param uniqueDefinesIn
    */
   public CxxVCppBuildLogParser(Map<String, List<String>> uniqueIncludesIn,
-    Map<String, Set<String>> uniqueDefinesIn) {
+                               Map<String, Set<String>> uniqueDefinesIn) {
     uniqueIncludes = uniqueIncludesIn;
     uniqueDefines = uniqueDefinesIn;
   }
 
   private static List<String> getMatches(Pattern pattern, String text) {
-    List<String> matches = new ArrayList<>();
+    var matches = new ArrayList<String>();
     Matcher m = pattern.matcher(text);
     while (m.find()) {
       matches.add(m.group(1));
@@ -103,8 +103,7 @@ public class CxxVCppBuildLogParser {
   }
 
   /**
-   * Can be used to create a list of includes, defines and options for a single
-   * line If it follows the format of VC++
+   * Can be used to create a list of includes, defines and options for a single line If it follows the format of VC++
    *
    * @param line
    * @param projectPath
@@ -122,8 +121,8 @@ public class CxxVCppBuildLogParser {
    */
   public void parseVCppLog(File buildLog, String baseDir, String charsetName) {
     boolean detectedPlatform = false;
-    try (BufferedReader br = new BufferedReader(
-      new InputStreamReader(java.nio.file.Files.newInputStream(buildLog.toPath()), charsetName))) {
+    try (var br = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(buildLog.toPath()),
+                                                       charsetName))) {
       String line;
       LOG.debug("build log parser baseDir='{}'", baseDir);
       Path currentProjectPath = Paths.get(baseDir);
@@ -133,7 +132,7 @@ public class CxxVCppBuildLogParser {
       while ((line = br.readLine()) != null) {
         if (line.trim().startsWith("INCLUDE=")) { // handle environment includes
           String[] includes = line.split("=")[1].split(";");
-          for (String include : includes) {
+          for (var include : includes) {
             if (!overallIncludes.contains(include)) {
               overallIncludes.add(include);
             }
@@ -192,28 +191,28 @@ public class CxxVCppBuildLogParser {
    */
   private boolean setPlatformToolsetFromLine(String line) {
     if (line.contains("\\V100\\Microsoft.CppBuild.targets")
-      || line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
+          || line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V100");
       return true;
     } else if (line.contains("\\V110\\Microsoft.CppBuild.targets")
-      || line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
+                 || line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V110");
       return true;
     } else if (line.contains("\\V120\\Microsoft.CppBuild.targets")
-      || line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
+                 || line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V120");
       return true;
     } else if (line.contains("\\V140\\Microsoft.CppBuild.targets")
-      || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe")
-      || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")) {
+                 || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe")
+                 || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")) {
       setPlatformToolset("V140");
       return true;
     } else if (line.contains("\\V141\\Microsoft.CppBuild.targets")
-      || TOOLSET_V141_PATTERN.matcher(line).matches()) {
+                 || TOOLSET_V141_PATTERN.matcher(line).matches()) {
       setPlatformToolset("V141");
       return true;
     } else if (line.contains("\\V142\\Microsoft.CppBuild.targets")
-      || TOOLSET_V142_PATTERN.matcher(line).matches()) {
+                 || TOOLSET_V142_PATTERN.matcher(line).matches()) {
       setPlatformToolset("V142");
       return true;
     } else {
@@ -253,14 +252,14 @@ public class CxxVCppBuildLogParser {
   }
 
   private void parseVCppCompilerCLLine(String line, String projectPath, String fileElement) {
-    for (Pattern includePattern : INCLUDE_PATTERNS) {
-      for (String includeElem : getMatches(includePattern, line)) {
+    for (var includePattern : INCLUDE_PATTERNS) {
+      for (var includeElem : getMatches(includePattern, line)) {
         parseInclude(includeElem, projectPath, fileElement);
       }
     }
 
-    for (Pattern definePattern : DEFINE_PATTERNS) {
-      for (String macroElem : getMatches(definePattern, line)) {
+    for (var definePattern : DEFINE_PATTERNS) {
+      for (var macroElem : getMatches(definePattern, line)) {
         addMacro(macroElem, fileElement);
       }
     }
@@ -300,12 +299,12 @@ public class CxxVCppBuildLogParser {
     List<String> includesPerUnit = uniqueIncludes.get(fileElement);
 
     try {
-      File includeRoot = new File(element.replace("\"", ""));
+      var includeRoot = new File(element.replace("\"", ""));
       String includePath;
       Path p = Paths.get(project);
       if (!includeRoot.isAbsolute()) {
         // handle path without drive information but represent absolute path
-        File pseudoAbsolute = new File(p.getRoot().toString(), includeRoot.toString());
+        var pseudoAbsolute = new File(p.getRoot().toString(), includeRoot.toString());
         if (pseudoAbsolute.exists()) {
           includeRoot = new File(p.getRoot().toString(), includeRoot.getPath());
         } else {
@@ -411,12 +410,12 @@ public class CxxVCppBuildLogParser {
     // WinCE and WinRT
     // see https://en.wikipedia.org/wiki/ARM_architecture
     if (line.contains("/arch:IA32 ")
-      || line.contains("/arch:SSE ")
-      || line.contains("/arch:SSE2 ")
-      || line.contains("/arch:AVX2 ")
-      || line.contains("/arch:AVX ")
-      || line.contains("/arch:VFPv4 ")
-      || line.contains("/arch:ARMv7VE ")) {
+          || line.contains("/arch:SSE ")
+          || line.contains("/arch:SSE2 ")
+          || line.contains("/arch:AVX2 ")
+          || line.contains("/arch:AVX ")
+          || line.contains("/arch:VFPv4 ")
+          || line.contains("/arch:ARMv7VE ")) {
       // In the range 30-39 if no /arch ARM option was specified, indicating the default architecture
       //   for ARM was used (VFPv3).
       // In the range 40-49 if /arch:VFPv4 was used.
@@ -547,21 +546,21 @@ public class CxxVCppBuildLogParser {
     // VC++ 17.0, 18.0, 19.0
     // _CPPUNWIND Defined for code compiled by using one of the /EH (Exception Handling Model) flags.
     if (line.contains("/EHs ")
-      || line.contains("/EHa ")
-      || line.contains("/EHsc ")
-      || line.contains("/EHac ")) {
+          || line.contains("/EHa ")
+          || line.contains("/EHsc ")
+          || line.contains("/EHac ")) {
       addMacro("_CPPUNWIND", fileElement);
     }
     if (line.contains("/favor:ATOM") && (existMacro(MSC_X64_100, fileElement)
-      || existMacro(MSC_IX86_600, fileElement))) {
+                                         || existMacro(MSC_IX86_600, fileElement))) {
       addMacro("__ATOM__=1", fileElement);
     }
     if (line.contains("/arch:AVX") && (existMacro(MSC_X64_100, fileElement)
-      || existMacro(MSC_IX86_600, fileElement))) {
+                                       || existMacro(MSC_IX86_600, fileElement))) {
       addMacro("__AVX__=1", fileElement);
     }
     if (line.contains("/arch:AVX2") && (existMacro(MSC_X64_100, fileElement)
-      || existMacro(MSC_IX86_600, fileElement))) {
+                                        || existMacro(MSC_IX86_600, fileElement))) {
       addMacro("__AVX2__=1", fileElement);
     }
   }

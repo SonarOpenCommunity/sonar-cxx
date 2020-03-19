@@ -19,22 +19,18 @@
  */
 package org.sonar.cxx.parser;
 
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.impl.Parser;
+import java.io.File;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.io.File;
-
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.impl.Parser;
-
 /**
- * SquidAstVisitorContext is mock with a fake file path. You can use this base
- * class for preprocessing tokens. You shouldn't use it for preprocessing
- * "physical" files.
+ * SquidAstVisitorContext is mock with a fake file path. You can use this base class for preprocessing tokens. You
+ * shouldn't use it for preprocessing "physical" files.
  */
 public class ParserBaseTestHelper {
 
@@ -46,7 +42,7 @@ public class ParserBaseTestHelper {
     conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(false);
 
-    File file = new File("snippet.cpp").getAbsoluteFile();
+    var file = new File("snippet.cpp").getAbsoluteFile();
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(file);
 

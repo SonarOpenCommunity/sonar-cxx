@@ -86,7 +86,7 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
     throws javax.xml.stream.XMLStreamException {
     boolean parsed = false;
 
-    for (CppcheckParser parser : parsers) {
+    for (var parser : parsers) {
       try {
         parser.processReport(context, report);
         LOG.info("Added report '{}' (parsed by: {})", report, parser);

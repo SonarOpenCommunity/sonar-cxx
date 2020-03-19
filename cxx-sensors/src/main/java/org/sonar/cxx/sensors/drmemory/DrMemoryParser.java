@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.drmemory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,22 +52,22 @@ public final class DrMemoryParser {
    */
   public static List<DrMemoryError> parse(File file, String charset) {
 
-    List<DrMemoryError> result = new ArrayList<>();
+    var result = new ArrayList<DrMemoryError>();
 
     List<String> elements = getElements(file, charset);
 
-    for (String element : elements) {
+    for (var element : elements) {
       Matcher m = RX_MESSAGE_FINDER.matcher(element);
 
       if (m.find()) {
-        DrMemoryError error = new DrMemoryError();
+        var error = new DrMemoryError();
         error.type = extractErrorType(m.group(1));
         String[] elementSplitted = CxxUtils.EOL_PATTERN.split(element);
         error.message = elementSplitted[0];
-        for (String elementPart : elementSplitted) {
+        for (var elementPart : elementSplitted) {
           Matcher locationMatcher = RX_FILE_FINDER.matcher(elementPart);
           if (locationMatcher.find()) {
-            Location location = new Location();
+            var location = new Location();
             location.file = locationMatcher.group(1);
             location.line = Integer.valueOf(locationMatcher.group(2));
             error.stackTrace.add(location);
@@ -91,10 +90,10 @@ public final class DrMemoryParser {
    */
   public static List<String> getElements(File file, String charset) {
 
-    List<String> list = new ArrayList<>();
-    try (BufferedReader br = new BufferedReader(
+    var list = new ArrayList<String>();
+    try (var br = new BufferedReader(
       new InputStreamReader(java.nio.file.Files.newInputStream(file.toPath()), charset))) {
-      StringBuilder sb = new StringBuilder(4096);
+      var sb = new StringBuilder(4096);
       String line;
       int cnt = 0;
       final Pattern whitespacesOnly = Pattern.compile("^\\s*$");
@@ -116,7 +115,7 @@ public final class DrMemoryParser {
         list.add(sb.toString());
       }
     } catch (IOException e) {
-      String msg = new StringBuilder(512).append("Cannot feed the data into sonar, details: '")
+      var msg = new StringBuilder(512).append("Cannot feed the data into sonar, details: '")
         .append(e)
         .append("'").toString();
       LOG.error(msg);
@@ -126,7 +125,7 @@ public final class DrMemoryParser {
 
   private static DrMemoryErrorType extractErrorType(String title) {
     String cleanedTitle = clean(title);
-    for (DrMemoryErrorType drMemoryErrorType : DrMemoryErrorType.values()) {
+    for (var drMemoryErrorType : DrMemoryErrorType.values()) {
       if (cleanedTitle.startsWith(drMemoryErrorType.getTitle())) {
         return drMemoryErrorType;
       }

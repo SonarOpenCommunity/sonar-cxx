@@ -59,7 +59,7 @@ public class CxxAstScannerTest {
   public void comments() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/comments.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(file.getInt(CxxMetric.COMMENT_LINES)).isEqualTo(6);
     softly.assertThat(file.getNoSonarTagLines()).contains(8).hasSize(1);
     softly.assertAll();

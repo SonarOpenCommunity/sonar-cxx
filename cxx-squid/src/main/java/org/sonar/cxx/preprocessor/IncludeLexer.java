@@ -45,7 +45,7 @@ public final class IncludeLexer {
       .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
       .withChannel(new BlackHoleChannel(".*"));
 
-    for (Preprocessor preprocessor : preprocessors) {
+    for (var preprocessor : preprocessors) {
       builder.withPreprocessor(preprocessor);
     }
 

@@ -25,18 +25,14 @@ import static org.mockito.Mockito.mock;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxVeraxxRuleRepositoryTest {
 
   @Test
   public void createRulesTest() {
-    CxxVeraxxRuleRepository def = new CxxVeraxxRuleRepository(
-      mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader());
+    var def = new CxxVeraxxRuleRepository(mock(ServerFileSystem.class), new RulesDefinitionXmlLoader());
 
-    RulesDefinition.Context context = new RulesDefinition.Context();
+    var context = new RulesDefinition.Context();
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxVeraxxRuleRepository.KEY);

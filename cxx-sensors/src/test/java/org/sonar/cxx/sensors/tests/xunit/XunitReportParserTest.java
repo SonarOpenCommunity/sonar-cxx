@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.tests.xunit;
 
 import java.io.File;
-import java.util.Map;
 import java.util.TreeMap;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -36,7 +35,7 @@ public class XunitReportParserTest {
   @Test
   public void testParse() throws javax.xml.stream.XMLStreamException {
 
-    Map<String, Integer> ioMap = new TreeMap<>();
+    var ioMap = new TreeMap<String, Integer>();
     ioMap.put("xunit-result-2.xml", 5);
     ioMap.put("xunit-result-SAMPLE_with_fileName.xml", 3);
     ioMap.put("xunit-result-SAMPLE.xml", 3);
@@ -45,7 +44,7 @@ public class XunitReportParserTest {
     ioMap.put("nested_testsuites.xml", 2);
     ioMap.put("xunit-result-no-testsuite.xml", 0);
 
-    for (Map.Entry<String, Integer> entry : ioMap.entrySet()) {
+    for (var entry : ioMap.entrySet()) {
       parserHandler = new XunitReportParser();
       parser = new StaxParser(parserHandler, false);
       File report = TestUtils.loadResource(pathPrefix + entry.getKey());

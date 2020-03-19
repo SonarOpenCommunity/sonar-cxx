@@ -31,37 +31,36 @@ public class CxxOtherRepositoryTest {
   private final MapSettings settings = new MapSettings();
 
   String profile1 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
-    + "<rules>\n"
-    + "    <rule key=\"cpplint.readability/nolint-0\">\n"
-    + "        <name><![CDATA[ Unknown NOLINT error category: %s  % category]]></name>\n"
-    + "        <configKey><![CDATA[cpplint.readability/nolint-0@CPP_LINT]]></configKey>\n"
-    + "        <category name=\"readability\" />\n"
-    + "        <description><![CDATA[  Unknown NOLINT error category: %s  % category ]]></description>\n"
-    + "    </rule>\n"
-    + "    <rule key=\"cpplint.readability/fn_size-0\">\n"
-    + "        <name>name</name>\n"
-    + "        <configKey>key</configKey>\n"
-    + "        <category name=\"readability\" />\n"
-    + "        <description>descr</description>\n"
-    + "    </rule></rules>";
+                      + "<rules>\n"
+                      + "    <rule key=\"cpplint.readability/nolint-0\">\n"
+                      + "        <name><![CDATA[ Unknown NOLINT error category: %s  % category]]></name>\n"
+                      + "        <configKey><![CDATA[cpplint.readability/nolint-0@CPP_LINT]]></configKey>\n"
+                      + "        <category name=\"readability\" />\n"
+                      + "        <description><![CDATA[  Unknown NOLINT error category: %s  % category ]]></description>\n"
+                    + "    </rule>\n"
+                      + "    <rule key=\"cpplint.readability/fn_size-0\">\n"
+                      + "        <name>name</name>\n"
+                      + "        <configKey>key</configKey>\n"
+                      + "        <category name=\"readability\" />\n"
+                      + "        <description>descr</description>\n"
+                      + "    </rule></rules>";
 
   String profile2 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
-    + "<rules>\n"
-    + "    <rule key=\"key\">\n"
-    + "        <name><![CDATA[name]]></name>\n"
-    + "        <configKey><![CDATA[configKey]]></configKey>\n"
-    + "        <category name=\"category\" />\n"
-    + "        <description><![CDATA[description]]></description>\n"
-    + "    </rule>\n"
-    + "</rules>";
+                      + "<rules>\n"
+                      + "    <rule key=\"key\">\n"
+                      + "        <name><![CDATA[name]]></name>\n"
+                      + "        <configKey><![CDATA[configKey]]></configKey>\n"
+                      + "        <category name=\"category\" />\n"
+                      + "        <description><![CDATA[description]]></description>\n"
+                      + "    </rule>\n"
+                      + "</rules>";
 
   @Test
   public void verifyTemplateRuleIsFound() {
     settings.setProperty(CxxOtherRepository.RULES_KEY, "");
-    CxxOtherRepository def = new CxxOtherRepository(settings.asConfig(),
-      new RulesDefinitionXmlLoader());
+    var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
 
-    RulesDefinition.Context context = new RulesDefinition.Context();
+    var context = new RulesDefinition.Context();
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
@@ -71,10 +70,10 @@ public class CxxOtherRepositoryTest {
   @Test
   public void createNonEmptyRulesTest() {
     settings.setProperty(CxxOtherRepository.RULES_KEY, profile1);
-    CxxOtherRepository def = new CxxOtherRepository(settings.asConfig(),
-      new RulesDefinitionXmlLoader());
+    var def = new CxxOtherRepository(settings.asConfig(),
+                                 new RulesDefinitionXmlLoader());
 
-    RulesDefinition.Context context = new RulesDefinition.Context();
+    var context = new RulesDefinition.Context();
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
@@ -84,10 +83,10 @@ public class CxxOtherRepositoryTest {
   @Test
   public void createNullRulesTest() {
     settings.setProperty(CxxOtherRepository.RULES_KEY, "");
-    CxxOtherRepository def = new CxxOtherRepository(settings.asConfig(),
-      new RulesDefinitionXmlLoader());
+    var def = new CxxOtherRepository(settings.asConfig(),
+                                 new RulesDefinitionXmlLoader());
 
-    RulesDefinition.Context context = new RulesDefinition.Context();
+    var context = new RulesDefinition.Context();
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
@@ -97,10 +96,9 @@ public class CxxOtherRepositoryTest {
   @Test
   public void verifyRuleValuesTest() {
     settings.setProperty(CxxOtherRepository.RULES_KEY, profile2);
-    CxxOtherRepository def = new CxxOtherRepository(settings.asConfig(),
-      new RulesDefinitionXmlLoader());
+    var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
 
-    RulesDefinition.Context context = new RulesDefinition.Context();
+    var context = new RulesDefinition.Context();
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);

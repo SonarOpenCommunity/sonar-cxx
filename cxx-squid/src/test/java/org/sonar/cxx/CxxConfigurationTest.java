@@ -23,7 +23,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
@@ -35,9 +34,9 @@ public class CxxConfigurationTest {
 
   @Test
   public void emptyValueShouldReturnNoDirsOrDefines() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setCompilationPropertiesWithBuildLog(new ArrayList<>(), VC_KEY, VC_CHARSET);
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     softly.assertThat(config.getDefines().size()).isEqualTo(0);
     softly.assertAll();
@@ -45,9 +44,9 @@ public class CxxConfigurationTest {
 
   @Test
   public void emptyValueShouldReturnWhenNull() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setCompilationPropertiesWithBuildLog(null, VC_KEY, VC_CHARSET);
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     assertThat(config.getDefines().size()).isEqualTo(0);
     softly.assertAll();
@@ -55,7 +54,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void emptyValueShouldUseIncludeDirsIfSet() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     String[] data = {"dir1", "dir2"};
     config.setIncludeDirectories(data);
     config.setCompilationPropertiesWithBuildLog(new ArrayList<>(), VC_KEY, VC_CHARSET);
@@ -64,13 +63,13 @@ public class CxxConfigurationTest {
 
   @Test
   public void correctlyCreatesConfiguration1() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/vc++13.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(13);
     softly.assertThat(config.getDefines().size()).isEqualTo(26 + 5);
     softly.assertAll();
@@ -78,13 +77,13 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificCommonOptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformCommon.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
     softly.assertThat(defines.size()).isEqualTo(20 + 5);
@@ -104,12 +103,12 @@ public class CxxConfigurationTest {
   }
 
   public void shouldHandleSpecificCommonWin32OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
-    List<File> files = new ArrayList<>();
+    var config = new CxxConfiguration();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformCommonWin32.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
     softly.assertThat(defines.size()).isEqualTo(3);
@@ -120,16 +119,16 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificCommonx64OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformCommonX64.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(defines.size()).isEqualTo(15 + 5);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("_Wp64")).isTrue();
@@ -143,13 +142,13 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV100OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv100.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
     softly.assertThat(defines.size()).isEqualTo(12 + 6);
@@ -163,13 +162,13 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV110OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv110.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
     softly.assertThat(defines.size()).isEqualTo(13 + 5);
@@ -187,13 +186,13 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV120OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv120.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
     softly.assertThat(defines.size()).isEqualTo(15 + 6);
@@ -214,13 +213,13 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV140OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv140.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 6);
@@ -240,13 +239,13 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleTFSAgentV141OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/TFS-agent-msvc14.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
     List<String> defines = config.getDefines();
     assertThat(defines.size()).isEqualTo(34);
@@ -262,13 +261,13 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleTFSAgentV141mpOptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/TFS-agent-msvc14-mp.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
     List<String> defines = config.getDefines();
     assertThat(defines.size()).isEqualTo(34);
@@ -284,13 +283,13 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV141x86OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv141x86.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 12);
@@ -306,13 +305,13 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV141x64OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv141x64.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 14);
@@ -328,13 +327,13 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleBuildLog() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
     config.setBaseDir(".");
-    List<File> files = new ArrayList<>();
+    var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/ParallelBuildLog.txt"));
     config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(15);
     softly.assertThat(config.getDefines().size()).isEqualTo(30);
     softly.assertAll();
@@ -342,11 +341,10 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldGetSourceFilesList() {
-    CxxConfiguration config = new CxxConfiguration();
+    var config = new CxxConfiguration();
 
-    String[] files = new String[]{"testfile", "anotherfile", "thirdfile"};
-
-    for (String filename : files) {
+    var files = new String[]{"testfile", "anotherfile", "thirdfile"};
+    for (var filename : files) {
       config.addCompilationUnitSettings(filename, new CxxCompilationUnitSettings());
     }
 

@@ -40,7 +40,7 @@ public class FileComplexityCheckTest {
 
   @Test
   public void check() throws UnsupportedEncodingException, IOException {
-    FileComplexityCheck check = new FileComplexityCheck();
+    var check = new FileComplexityCheck();
     check.setMaxComplexity(1);
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/functions.cc", ".");
@@ -48,7 +48,7 @@ public class FileComplexityCheckTest {
 
     Set<CxxReportIssue> issues = MultiLocatitionSquidCheck.getMultiLocationCheckMessages(file);
     assertThat(issues).isNotNull();
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(issues).hasSize(1);
 
     CxxReportIssue actualIssue = issues.iterator().next();

@@ -97,12 +97,12 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
 
   private static Optional<AstNode> getMostNestedTypeName(AstNode nestedNameSpecifier) {
     Optional<AstNode> result = Optional.empty();
-    for (AstNode child : nestedNameSpecifier.getChildren()) {
+    for (var child : nestedNameSpecifier.getChildren()) {
       if ( // type name was recognized by parser (most probably the least nested type)
         child.is(CxxGrammarImpl.typeName)
-        || // type name was recognized as template
+          || // type name was recognized as template
         child.is(CxxGrammarImpl.simpleTemplateId)
-        || // type name was recognized, but not properly typed
+          || // type name was recognized, but not properly typed
         GenericTokenType.IDENTIFIER.equals(child.getToken().getType())) {
         result = Optional.of(child);
       }
@@ -140,7 +140,8 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
       String identifier = idNode.getTokenValue();
       if (!pattern.matcher(identifier).matches()) {
         getContext().createLineViolation(this,
-          "Rename method \"{0}\" to match the regular expression {1}.", idNode, identifier, format);
+                                         "Rename method \"{0}\" to match the regular expression {1}.", idNode,
+                                         identifier, format);
       }
     }
   }

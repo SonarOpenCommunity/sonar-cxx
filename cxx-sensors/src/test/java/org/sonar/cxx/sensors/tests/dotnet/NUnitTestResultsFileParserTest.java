@@ -34,7 +34,8 @@ import org.sonar.api.utils.log.LoggerLevel;
 
 public class NUnitTestResultsFileParserTest {
 
-  private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/xunit-reports/nunit/";
+  private static final String REPORT_PATH
+                              = "src/test/resources/org/sonar/cxx/sensors/reports-project/xunit-reports/nunit/";
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -59,7 +60,7 @@ public class NUnitTestResultsFileParserTest {
 
   @Test
   public void valid() throws Exception {
-    UnitTestResults results = new UnitTestResults();
+    var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid.xml"), results);
 
     assertThat(results.tests()).isEqualTo(196);
@@ -72,7 +73,7 @@ public class NUnitTestResultsFileParserTest {
 
   @Test
   public void valid_comma_in_double() throws Exception {
-    UnitTestResults results = new UnitTestResults();
+    var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid_comma_in_double.xml"), results);
 
     assertThat(results.executionTime()).isEqualTo(1051);
@@ -80,7 +81,7 @@ public class NUnitTestResultsFileParserTest {
 
   @Test
   public void valid_no_execution_time() throws Exception {
-    UnitTestResults results = new UnitTestResults();
+    var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid_no_execution_time.xml"), results);
 
     assertThat(results.tests()).isEqualTo(196);
@@ -93,10 +94,11 @@ public class NUnitTestResultsFileParserTest {
 
   @Test
   public void empty() {
-    UnitTestResults results = new UnitTestResults();
+    var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "empty.xml"), results);
 
-    assertThat(logTester.logs(LoggerLevel.WARN)).contains("One of the assemblies contains no test result, please make sure this is expected.");
+    assertThat(logTester.logs(LoggerLevel.WARN)).contains(
+      "One of the assemblies contains no test result, please make sure this is expected.");
     assertThat(results.tests()).isEqualTo(0);
     assertThat(results.passedPercentage()).isEqualTo(0);
     assertThat(results.skipped()).isEqualTo(0);

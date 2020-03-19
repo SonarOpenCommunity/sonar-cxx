@@ -42,7 +42,8 @@ public class VisualStudioTestResultsFileParserTest {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("The mandatory <Counters> tag is missing in ");
     thrown.expectMessage(new File(REPORT_PATH + "no_counters.trx").getAbsolutePath());
-    new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "no_counters.trx"), mock(UnitTestResults.class));
+    new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "no_counters.trx"),
+                                                   mock(UnitTestResults.class));
   }
 
   @Test
@@ -50,12 +51,13 @@ public class VisualStudioTestResultsFileParserTest {
     thrown.expect(ParseErrorException.class);
     thrown.expectMessage("Expected an integer instead of \"foo\" for the attribute \"passed\" in ");
     thrown.expectMessage(new File(REPORT_PATH + "wrong_passed_number.trx").getAbsolutePath());
-    new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "wrong_passed_number.trx"), mock(UnitTestResults.class));
+    new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "wrong_passed_number.trx"), mock(
+                                                   UnitTestResults.class));
   }
 
   @Test
   public void valid() throws Exception {
-    UnitTestResults results = new UnitTestResults();
+    var results = new UnitTestResults();
     new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "valid.trx"), results);
 
     assertThat(results.tests()).isEqualTo(31);
@@ -68,7 +70,7 @@ public class VisualStudioTestResultsFileParserTest {
 
   @Test
   public void valid_missing_attributes() throws Exception {
-    UnitTestResults results = new UnitTestResults();
+    var results = new UnitTestResults();
     new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "valid_missing_attributes.trx"), results);
 
     assertThat(results.tests()).isEqualTo(3);

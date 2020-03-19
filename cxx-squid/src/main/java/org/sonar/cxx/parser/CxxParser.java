@@ -52,7 +52,7 @@ public final class CxxParser {
   }
 
   public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf) {
-    final CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
+    var cxxpp = new CxxPreprocessor(context, conf);
     currentPreprocessorInstance = new WeakReference<>(cxxpp);
     return Parser.builder(CxxGrammarImpl.create(conf))
       .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))

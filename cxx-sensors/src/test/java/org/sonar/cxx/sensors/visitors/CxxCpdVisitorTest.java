@@ -46,7 +46,7 @@ public class CxxCpdVisitorTest {
   @Before
   public void scanFile() throws UnsupportedEncodingException, IOException {
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
-    File target = new File(baseDir, "cpd.cc");
+    var target = new File(baseDir, "cpd.cc");
     context = SensorContextTester.create(baseDir);
     settings.setProperty(CxxCpdVisitor.IGNORE_LITERALS_KEY, true);
     settings.setProperty(CxxCpdVisitor.IGNORE_IDENTIFIERS_KEY, true);
@@ -58,7 +58,7 @@ public class CxxCpdVisitorTest {
       build();
     context.fileSystem().add(inputFile);
 
-    CxxCpdVisitor cxxCpdVisitor = new CxxCpdVisitor(context);
+    var cxxCpdVisitor = new CxxCpdVisitor(context);
     CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context, cxxCpdVisitor);
   }
 

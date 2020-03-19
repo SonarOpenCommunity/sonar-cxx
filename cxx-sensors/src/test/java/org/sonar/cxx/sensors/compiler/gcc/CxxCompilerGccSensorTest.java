@@ -31,27 +31,24 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCompilerGccSensorTest {
 
   private DefaultFileSystem fs;
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
   }
 
   @Test
   public void sensorDescriptorGcc() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxCompilerGccSensor sensor = new CxxCompilerGccSensor();
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxCompilerGccSensor();
     sensor.describe(descriptor);
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " CxxCompilerGccSensor");
     softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories())
@@ -68,7 +65,7 @@ public class CxxCompilerGccSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/zipmanager.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerGccSensor();
+    var sensor = new CxxCompilerGccSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(4);
@@ -83,11 +80,11 @@ public class CxxCompilerGccSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "main.c")
       .setLanguage("c").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerGccSensor();
+    var sensor = new CxxCompilerGccSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(2);
-    ArrayList<Issue> issuesList = new ArrayList<>(context.allIssues());
+    var issuesList = new ArrayList<Issue>(context.allIssues());
     // warning without activation switch (no id) should be mapped to the "default" rule
     assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("default");
     // warning with activation switch should be mapped to the matching rule

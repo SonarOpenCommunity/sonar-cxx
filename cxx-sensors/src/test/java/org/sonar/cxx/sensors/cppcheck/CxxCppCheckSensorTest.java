@@ -27,7 +27,6 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
@@ -36,13 +35,11 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 public class CxxCppCheckSensorTest {
 
   private DefaultFileSystem fs;
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
   }
 
@@ -57,7 +54,7 @@ public class CxxCppCheckSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(11);
@@ -70,7 +67,7 @@ public class CxxCppCheckSensorTest {
                          "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(3);
@@ -83,15 +80,15 @@ public class CxxCppCheckSensorTest {
                          "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor();
     sensor.execute(context);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(context.allIssues()).hasSize(3);
 
     // assert that all all issues were filed on on the module
     final String moduleKey = context.project().key();
-    for (Issue issue : context.allIssues()) {
+    for (var issue : context.allIssues()) {
       softly.assertThat(issue.primaryLocation().inputComponent().key()).isEqualTo(moduleKey);
     }
     softly.assertAll();
@@ -103,7 +100,7 @@ public class CxxCppCheckSensorTest {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(0);
@@ -115,7 +112,7 @@ public class CxxCppCheckSensorTest {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(0);
@@ -128,17 +125,17 @@ public class CxxCppCheckSensorTest {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-empty.xml");
     context.setSettings(settings);
 
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor();
     sensor.execute(context);
   }
 
   @Test
   public void sensorDescriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxCppCheckSensor sensor = new CxxCppCheckSensor();
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxCppCheckSensor();
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " CppCheckSensor");
     softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxCppCheckRuleRepository.KEY);

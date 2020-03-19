@@ -52,7 +52,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
 
     LOG.info("Parsing '{}' initialized with report '{}', Charset= '{}'", getCompilerKey(), report, reportCharset);
 
-    try (Scanner scanner = new Scanner(report, reportCharset)) {
+    try (var scanner = new Scanner(report, reportCharset)) {
       Pattern pattern = Pattern.compile(reportRegEx);
       LOG.info("Using pattern : '{}'", pattern);
 
@@ -65,7 +65,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
           String msg = alignMessage(matcher.group("message"));
           if (isInputValid(filename, line, id, msg)) {
             LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}", filename, line, id, msg);
-            CxxReportIssue issue = new CxxReportIssue(id, filename, line, msg);
+            var issue = new CxxReportIssue(id, filename, line, msg);
             saveUniqueViolation(context, issue);
           } else {
             LOG.warn("Invalid compiler warning: '{}''{}'", id, msg);

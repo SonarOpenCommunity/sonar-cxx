@@ -42,14 +42,14 @@ public class XmlParserHelperTest {
     thrown.expectMessage("Error while parsing the XML file: ");
     thrown.expectMessage("invalid_prolog.txt");
 
-    try (XmlParserHelper helper = new XmlParserHelper(new File(REPORT_PATH + "invalid_prolog.txt"))) {
+    try (var helper = new XmlParserHelper(new File(REPORT_PATH + "invalid_prolog.txt"))) {
       helper.nextStartTag();
     }
   }
 
   @Test
   public void nextStartOrEndTag() {
-    XmlParserHelper xml = new XmlParserHelper(new File(REPORT_PATH + "valid.xml"));
+    var xml = new XmlParserHelper(new File(REPORT_PATH + "valid.xml"));
     assertThat(xml.nextStartOrEndTag()).isEqualTo("<foo>");
     assertThat(xml.nextStartOrEndTag()).isEqualTo("<bar>");
     assertThat(xml.nextStartOrEndTag()).isEqualTo("</bar>");
@@ -65,7 +65,7 @@ public class XmlParserHelperTest {
 
   @Test
   public void getDoubleAttribute() {
-    XmlParserHelper xml = new XmlParserHelper(new File(REPORT_PATH + "valid.xml"));
+    var xml = new XmlParserHelper(new File(REPORT_PATH + "valid.xml"));
     xml.nextStartTag();
     assertThat(xml.getDoubleAttribute("myDouble")).isEqualTo(0.123);
     assertThat(xml.getDoubleAttribute("myCommaDouble")).isEqualTo(1.234);

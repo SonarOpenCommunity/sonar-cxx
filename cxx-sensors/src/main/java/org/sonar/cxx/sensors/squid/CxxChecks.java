@@ -55,7 +55,7 @@ public final class CxxChecks {
 
   public CxxChecks addCustomChecks(@Nullable CustomCxxRulesDefinition[] customRulesDefinitions) {
     if (customRulesDefinitions != null) {
-      for (CustomCxxRulesDefinition rulesDefinition : customRulesDefinitions) {
+      for (var rulesDefinition : customRulesDefinitions) {
         addChecks(rulesDefinition.repositoryKey(), new ArrayList<>(Arrays.asList(rulesDefinition.checkClasses())));
       }
     }
@@ -64,9 +64,9 @@ public final class CxxChecks {
   }
 
   public List<SquidAstVisitor<Grammar>> all() {
-    List<SquidAstVisitor<Grammar>> allVisitors = new ArrayList<>();
+    var allVisitors = new ArrayList<SquidAstVisitor<Grammar>>();
 
-    for (Checks<SquidAstVisitor<Grammar>> checks : checksByRepository) {
+    for (var checks : checksByRepository) {
       allVisitors.addAll(checks.all());
     }
 
@@ -75,7 +75,7 @@ public final class CxxChecks {
 
   @Nullable
   public RuleKey ruleKey(SquidAstVisitor<Grammar> check) {
-    for (Checks<SquidAstVisitor<Grammar>> checks : checksByRepository) {
+    for (var checks : checksByRepository) {
       RuleKey ruleKey = checks.ruleKey(check);
       if (ruleKey != null) {
         return ruleKey;

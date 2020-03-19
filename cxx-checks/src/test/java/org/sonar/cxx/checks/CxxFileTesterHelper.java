@@ -37,7 +37,7 @@ public class CxxFileTesterHelper {
 
   public static CxxFileTester CreateCxxFileTester(String fileName, String basePath) throws UnsupportedEncodingException,
                                                                                            IOException {
-    CxxFileTester tester = new CxxFileTester();
+    var tester = new CxxFileTester();
     tester.context = SensorContextTester.create(new File(basePath));
 
     tester.context.fileSystem().add(TestInputFileBuilder.create("", fileName).build());
@@ -49,7 +49,7 @@ public class CxxFileTesterHelper {
 
   public static CxxFileTester CreateCxxFileTester(String fileName, String basePath, Charset charset) throws
     UnsupportedEncodingException, IOException {
-    CxxFileTester tester = new CxxFileTester();
+    var tester = new CxxFileTester();
     tester.context = SensorContextTester.create(new File(basePath));
 
     tester.context.fileSystem().add(TestInputFileBuilder.create("", fileName).setCharset(charset).build());

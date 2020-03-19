@@ -30,7 +30,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
   private static final char EOF = (char) -1;
 
   private static String read(CodeReader code) {
-    StringBuilder sb = new StringBuilder(256);
+    var sb = new StringBuilder(256);
     char ch;
 
     while (true) {

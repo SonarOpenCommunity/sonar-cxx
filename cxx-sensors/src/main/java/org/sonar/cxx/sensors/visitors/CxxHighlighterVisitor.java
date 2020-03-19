@@ -85,17 +85,17 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
         if (!triviaWithConcatenatedLiterals.isPresent()) {
           last = highlight(last, new StringLocation(token), TypeOfText.STRING);
         } else {
-          for (Token concatenatedLiterals : triviaWithConcatenatedLiterals.get().getTokens()) {
+          for (var concatenatedLiterals : triviaWithConcatenatedLiterals.get().getTokens()) {
             last = highlight(last, new StringLocation(concatenatedLiterals), TypeOfText.STRING);
           }
         }
       }
 
-      for (Trivia trivia : token.getTrivia()) {
+      for (var trivia : token.getTrivia()) {
         if (trivia.isComment()) {
           highlight(last, new CommentLocation(trivia.getToken()), TypeOfText.COMMENT);
         } else if (trivia.isSkippedText()
-          && trivia.getToken().getType().equals(CxxTokenType.PREPROCESSOR)) {
+                     && trivia.getToken().getType().equals(CxxTokenType.PREPROCESSOR)) {
           highlight(last, new PreprocessorDirectiveLocation(trivia.getToken()), TypeOfText.PREPROCESS_DIRECTIVE);
         }
       }
@@ -111,16 +111,16 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     try {
       if (!current.overlaps(last)) {
         newHighlighting.highlight(current.startLine(), current.startLineOffset(),
-          current.endLine(), current.endLineOffset(), typeOfText);
+                                  current.endLine(), current.endLineOffset(), typeOfText);
       }
     } catch (IllegalArgumentException ex) {
       // ignore highlight errors: parsing errors could lead to wrong location data
       LOG.debug("Highlighting error in file '{}' at start:{}:{} end:{}:{}",
-        getContext().getFile().getAbsoluteFile(),
-        current.startLine(),
-        current.startLineOffset(),
-        current.endLine(),
-        current.endLineOffset()
+                getContext().getFile().getAbsoluteFile(),
+                current.startLine(),
+                current.startLineOffset(),
+                current.endLine(),
+                current.endLineOffset()
       );
     }
     return current;
@@ -159,9 +159,9 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     public boolean overlaps(@Nullable TokenLocation other) {
       if (other != null) {
         return !(startLineOffset() > other.endLineOffset()
-          || other.startLineOffset() > endLineOffset()
-          || startLine() > other.endLine()
-          || other.startLine() > endLine());
+                 || other.startLineOffset() > endLineOffset()
+                 || startLine() > other.endLine()
+                 || other.startLine() > endLine());
       }
       return false;
     }

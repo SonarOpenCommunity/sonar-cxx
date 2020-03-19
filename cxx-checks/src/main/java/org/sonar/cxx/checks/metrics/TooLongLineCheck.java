@@ -81,7 +81,7 @@ public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetA
   public void visitFile(AstNode astNode) {
 
     // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-    try (BufferedReader br = new BufferedReader(
+    try (var br = new BufferedReader(
       new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
       String line;
       int nr = 0;
@@ -92,8 +92,8 @@ public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetA
         length = line.length() + length * (tabWidth - 1);
         if (length > maximumLineLength) {
           getContext().createLineViolation(this,
-            "Split this {0} characters long line (which is greater than {1} authorized).",
-            nr, length, maximumLineLength);
+                                           "Split this {0} characters long line (which is greater than {1} authorized).",
+                                           nr, length, maximumLineLength);
         }
       }
     } catch (IOException e) {

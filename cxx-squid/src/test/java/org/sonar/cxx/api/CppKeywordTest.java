@@ -26,7 +26,7 @@ public class CppKeywordTest {
 
   @Test
   public void test() {
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(CppKeyword.values()).hasSize(14);
     softly.assertThat(CppKeyword.keywordValues()).hasSize(CppKeyword.values().length);
     softly.assertAll();

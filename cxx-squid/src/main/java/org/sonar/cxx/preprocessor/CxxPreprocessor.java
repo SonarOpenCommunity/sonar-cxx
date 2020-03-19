@@ -303,7 +303,7 @@ public class CxxPreprocessor extends Preprocessor {
     Token firstToken = tokens.get(0);
     Token currToken = firstToken;
     String curr = currToken.getValue();
-    List<Token> matchedTokens = new LinkedList<>();
+    var matchedTokens = new LinkedList<Token>();
 
     while (true) {
       if (nestingLevel == 0 && (",".equals(curr) || ")".equals(curr))) {
@@ -337,7 +337,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private static List<Token> evaluateHashhashOperators(List<Token> tokens) {
-    List<Token> newTokens = new ArrayList<>();
+    var newTokens = new ArrayList<Token>();
 
     Iterator<Token> it = tokens.iterator();
     while (it.hasNext()) {
@@ -405,10 +405,10 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private static String quote(String str) {
-    StringBuilder result = new StringBuilder(2 * str.length());
+    var result = new StringBuilder(2 * str.length());
     boolean addBlank = false;
     boolean ignoreNextBlank = false;
-    for (int i = 0; i < str.length(); i++) {
+    for (var i = 0; i < str.length(); i++) {
       char c = str.charAt(i);
       if (Character.isLowerCase(c) || Character.isUpperCase(c) || Character.isDigit(c) || c == '_') { // token
         if (addBlank) {
@@ -453,9 +453,9 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private static List<Token> reallocate(List<Token> tokens, Token token) {
-    List<Token> reallocated = new LinkedList<>();
+    var reallocated = new LinkedList<Token>();
     int currColumn = token.getColumn();
-    for (Token t : tokens) {
+    for (var t : tokens) {
       reallocated.add(Token.builder()
         .setLine(token.getLine())
         .setColumn(currColumn)
@@ -675,7 +675,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   public String expandFunctionLikeMacro(String macroName, List<Token> restTokens) {
-    List<Token> expansion = new LinkedList<>();
+    var expansion = new LinkedList<Token>();
     expandFunctionLikeMacro(macroName, restTokens, expansion);
     return serialize(expansion);
   }
@@ -742,7 +742,7 @@ public class CxxPreprocessor extends Preprocessor {
    * value of CxxPreprocessor#getMacros()
    */
   private void parseForcedIncludes() {
-    for (String include : conf.getForceIncludeFiles()) {
+    for (var include : conf.getForceIncludeFiles()) {
       if (!include.isEmpty()) {
         LOG.debug("parsing force include: '{}'", include);
         parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes",
@@ -764,7 +764,7 @@ public class CxxPreprocessor extends Preprocessor {
     // make sure that all expanded Tokens are marked as generated
     // it will prevent them from being involved into NCLOC / complexity /
     // highlighting
-    for (Token token : tokens) {
+    for (var token : tokens) {
       if (!token.isGeneratedCode()) {
         token = Token.builder(token).setGeneratedCode(true).build();
       }
@@ -777,17 +777,17 @@ public class CxxPreprocessor extends Preprocessor {
     // Replace all parameters by according arguments
     // "Stringify" the argument if the according parameter is preceded by an #
 
-    List<Token> newTokens = new ArrayList<>();
+    var newTokens = new ArrayList<Token>();
     if (!body.isEmpty()) {
-      List<String> defParamValues = new ArrayList<>();
-      for (Token t : parameters) {
+      var defParamValues = new ArrayList<String>();
+      for (var t : parameters) {
         defParamValues.add(t.getValue());
       }
 
       boolean tokenPastingLeftOp = false;
       boolean tokenPastingRightOp = false;
 
-      for (int i = 0; i < body.size(); ++i) {
+      for (var i = 0; i < body.size(); ++i) {
         Token curr = body.get(i);
         int index = defParamValues.indexOf(curr.getValue());
         if (index == -1) {
@@ -852,7 +852,7 @@ public class CxxPreprocessor extends Preprocessor {
           if (newValue.isEmpty() && VARIADICPARAMETER.equals(curr.getValue())) {
             // the Visual C++ implementation will suppress a trailing comma
             // if no arguments are passed to the ellipsis
-            for (int n = newTokens.size() - 1; n != 0; n = newTokens.size() - 1) {
+            for (var n = newTokens.size() - 1; n != 0; n = newTokens.size() - 1) {
               if (newTokens.get(n).getType().equals(WS)) {
                 newTokens.remove(n);
               } else if (newTokens.get(n).getType().equals(COMMA)) {
@@ -874,7 +874,7 @@ public class CxxPreprocessor extends Preprocessor {
     // replace # with "" if sequence HASH BR occurs for body HASH __VA_ARGS__
     if (newTokens.size() > 3 && newTokens.get(newTokens.size() - 2).getType().equals(HASH)
           && newTokens.get(newTokens.size() - 1).getType().equals(BR_RIGHT)) {
-      for (int n = newTokens.size() - 2; n != 0; n--) {
+      for (var n = newTokens.size() - 2; n != 0; n--) {
         if (newTokens.get(n).getType().equals(WS)) {
           newTokens.remove(n);
         } else if (newTokens.get(n).getType().equals(HASH)) {
@@ -909,9 +909,9 @@ public class CxxPreprocessor extends Preprocessor {
    * Parse defines, which are merged into one string (see sonar.cxx.defines)
    */
   private Map<String, Macro> parseMacroDefinitions(List<String> defines) {
-    final Map<String, Macro> result = new HashMap<>();
+    var result = new HashMap<String, Macro>();
 
-    for (String define : defines) {
+    for (var define : defines) {
       if (define.isEmpty()) {
         continue;
       }
@@ -939,7 +939,7 @@ public class CxxPreprocessor extends Preprocessor {
       quoted = true;
     } else if ((node = ast.getFirstDescendant(CppGrammar.includeBodyBracketed)) != null) {
       node = node.getFirstDescendant(LT).getNextSibling();
-      StringBuilder sb = new StringBuilder(256);
+      var sb = new StringBuilder(256);
       while (true) {
         String value = node.getTokenValue();
         if (">".equals(value)) {
@@ -954,8 +954,8 @@ public class CxxPreprocessor extends Preprocessor {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
       String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
-      LOG
-        .trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'", includeBody, expandedIncludeBody);
+      LOG.trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'", includeBody, expandedIncludeBody);
+
 
       boolean parseError = false;
       AstNode includeBodyAst = null;
@@ -1011,7 +1011,6 @@ public class CxxPreprocessor extends Preprocessor {
     if (!currentFileState.skipPreprocessorDirectives) {
       currentFileState.conditionWasTrue = false;
       LOG.trace("[{}:{}]: handling #if line '{}'", filename, token.getLine(), token.getValue());
-
       try {
         currentFileState.skipPreprocessorDirectives = false;
         currentFileState.skipPreprocessorDirectives = !ExpressionEvaluator.eval(conf, this,
@@ -1129,8 +1128,7 @@ public class CxxPreprocessor extends Preprocessor {
       missingIncludeFilesCounter++;
       LOG.debug("[" + filename + ":" + token.getLine() + "]: cannot find include file '" + token.getValue() + "'");
     } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
-      LOG.trace("[{}:{}]: processing {}, resolved to file '{}'", filename, token.getLine(), token.getValue(),
-                includedFile.getAbsolutePath());
+      LOG.trace("[{}:{}]: processing {}, resolved to file '{}'", filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath());
 
       globalStateStack.push(currentFileState);
       currentFileState = new State(includedFile);

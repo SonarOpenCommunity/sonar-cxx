@@ -43,7 +43,7 @@ class ValgrindFrame {
    * meaningful information.
    */
   public ValgrindFrame(@Nullable String ip, @Nullable String obj, @Nullable String fn, @Nullable String dir,
-    @Nullable String file, @Nullable String line) {
+                       @Nullable String file, @Nullable String line) {
     this.ip = (ip != null) ? ip : "???";
     this.obj = (obj != null) ? obj : "";
     this.fn = (fn != null) ? fn : "???";
@@ -54,7 +54,7 @@ class ValgrindFrame {
 
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder(256).append(ip).append(": ").append(fn);
+    var builder = new StringBuilder(256).append(ip).append(": ").append(fn);
     if (isLocationKnown()) {
       builder.append(" (")
         .append("".equals(file) ? ("in " + obj) : (file + getLineStr()))

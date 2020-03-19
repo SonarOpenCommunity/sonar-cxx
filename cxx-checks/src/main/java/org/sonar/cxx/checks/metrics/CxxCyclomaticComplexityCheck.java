@@ -28,7 +28,6 @@ import java.util.Optional;
 import org.sonar.cxx.CxxComplexityConstants;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.visitors.CxxComplexityScope;
-import org.sonar.cxx.visitors.CxxComplexitySource;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 
 /**
@@ -87,7 +86,7 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
     if (astNode.is(CxxComplexityConstants.getCyclomaticComplexityTypes())) {
       // for nested scopes (e.g. nested classes) the inner classes
       // add complexity to the outer ones
-      for (CxxComplexityScope scope : complexityScopes) {
+      for (var scope : complexityScopes) {
         scope.addComplexitySource(astNode);
       }
     }
@@ -111,12 +110,12 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
     final int maxComplexity = getMaxComplexity();
     final int currentComplexity = scope.getComplexity();
     if (scope.getComplexity() > maxComplexity) {
-      final StringBuilder msg = new StringBuilder(256);
+      var msg = new StringBuilder(256);
       msg.append("The Cyclomatic Complexity of this ").append(getScopeName()).append(" is ").append(currentComplexity)
         .append(" which is greater than ").append(maxComplexity).append(" authorized.");
 
-      final CxxReportIssue issue = new CxxReportIssue(getRuleKey(), null, scope.getStartingLine(), msg.toString());
-      for (CxxComplexitySource source : scope.getSources()) {
+      var issue = new CxxReportIssue(getRuleKey(), null, scope.getStartingLine(), msg.toString());
+      for (var source : scope.getSources()) {
         issue.addLocation(null, source.getLine(), source.getExplanation());
       }
       createMultiLocationViolation(issue);

@@ -19,109 +19,104 @@
  */
 package org.sonar.cxx;
 
+import java.io.File;
+import java.util.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sonar.api.internal.apachecommons.lang.SystemUtils;
 
-import java.io.File;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.*;
-
 /**
- * These tests ensure that the relative paths in the INCLUDES are correctly converted to absolute paths.
- * The project directory is used as the base directory.
- * The project directory is extracted regardless of the language of the log file.
+ * These tests ensure that the relative paths in the INCLUDES are correctly converted to absolute paths. The project
+ * directory is used as the base directory. The project directory is extracted regardless of the language of the log
+ * file.
  *
  * @author rudolfgrauberger
  */
 public class CxxVCppBuildLogParserTest {
 
-    private static final String VC_CHARSET = "UTF8";
+  private static final String VC_CHARSET = "UTF8";
 
-    public static final String OVERALLINCLUDEKEY = "CxxOverallInclude";
-    public static final String OVERALLDEFINEKEY = "CxxOverallDefine";
-    public static final String REFERENCE_DETAILED_LOG = "src/test/resources/logfile/msbuild-detailed-en.txt";
-    public static final String UNIQUE_FILE = "C:\\Development\\Source\\Cpp\\Dummy\\src\\main.cpp";
+  public static final String OVERALLINCLUDEKEY = "CxxOverallInclude";
+  public static final String OVERALLDEFINEKEY = "CxxOverallDefine";
+  public static final String REFERENCE_DETAILED_LOG = "src/test/resources/logfile/msbuild-detailed-en.txt";
+  public static final String UNIQUE_FILE = "C:\\Development\\Source\\Cpp\\Dummy\\src\\main.cpp";
 
-    @BeforeClass
-    public static void init()
-    {
-        org.junit.Assume.assumeTrue(SystemUtils.IS_OS_WINDOWS);
-    }
+  @BeforeClass
+  public static void init() {
+    org.junit.Assume.assumeTrue(SystemUtils.IS_OS_WINDOWS);
+  }
 
-    @Test
-    public void relativeIncludesFromReferenceLog() {
+  @Test
+  public void relativeIncludesFromReferenceLog() {
 
-        List<String> includes = getIncludesForReferenceLogFile();
+    List<String> includes = getIncludesForReferenceLogFile();
 
-        SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
 
-        // Absolute path
-        softly.assertThat(includes).contains("C:\\Development\\Source\\ThirdParty\\VS2017\\Firebird-2.5.8\\include");
-        // Relative paths
-        softly.assertThat(includes).contains("C:\\Development\\Source\\ThirdParty\\VS2017\\Boost-1.67.0");
-        softly.assertThat(includes).contains("C:\\Development\\Source\\Cpp\\Dummy\\includes");
-        softly.assertThat(includes).contains("C:\\Development\\Source\\Cpp\\Dummy\\release");
-        softly.assertThat(includes).hasSize(4);
-        softly.assertAll();
-    }
-   
-    @Test
-    public void relativeIncludesVS2019ReferenceLog() {
+    // Absolute path
+    softly.assertThat(includes).contains("C:\\Development\\Source\\ThirdParty\\VS2017\\Firebird-2.5.8\\include");
+    // Relative paths
+    softly.assertThat(includes).contains("C:\\Development\\Source\\ThirdParty\\VS2017\\Boost-1.67.0");
+    softly.assertThat(includes).contains("C:\\Development\\Source\\Cpp\\Dummy\\includes");
+    softly.assertThat(includes).contains("C:\\Development\\Source\\Cpp\\Dummy\\release");
+    softly.assertThat(includes).hasSize(4);
+    softly.assertAll();
+  }
 
-        String REFERENCE_LOG = "src/test/resources/logfile/msbuild-azure-devops-en.txt";
-        List<String> includes = getIncludesForUniqueFile(REFERENCE_LOG);
+  @Test
+  public void relativeIncludesVS2019ReferenceLog() {
 
-        SoftAssertions softly = new SoftAssertions();
-        // Absolute path
-        softly.assertThat(includes).contains("C:\\agent\\_work\\1\\s\\_Globals\\Include");
-        softly.assertThat(includes).hasSize(1);
-        softly.assertAll();
-    }
+    String REFERENCE_LOG = "src/test/resources/logfile/msbuild-azure-devops-en.txt";
+    List<String> includes = getIncludesForUniqueFile(REFERENCE_LOG);
 
-    @Test
-    public void relativeIncludesFromGermanLog() {
+    var softly = new SoftAssertions();
+    // Absolute path
+    softly.assertThat(includes).contains("C:\\agent\\_work\\1\\s\\_Globals\\Include");
+    softly.assertThat(includes).hasSize(1);
+    softly.assertAll();
+  }
 
-        List<String> refIncludes = getIncludesForReferenceLogFile();
-        List<String> includes = getIncludesForUniqueFile("src/test/resources/logfile/msbuild-detailed-de.txt");
+  @Test
+  public void relativeIncludesFromGermanLog() {
 
-        SoftAssertions softly = new SoftAssertions();
+    List<String> refIncludes = getIncludesForReferenceLogFile();
+    List<String> includes = getIncludesForUniqueFile("src/test/resources/logfile/msbuild-detailed-de.txt");
 
-        softly.assertThat(includes).containsExactlyInAnyOrderElementsOf(refIncludes);
-        softly.assertAll();
-    }
+    var softly = new SoftAssertions();
 
-    @Test
-    public void relativeIncludesFromFrenchLog() {
+    softly.assertThat(includes).containsExactlyInAnyOrderElementsOf(refIncludes);
+    softly.assertAll();
+  }
 
-        List<String> refIncludes = getIncludesForReferenceLogFile();
-        List<String> includes = getIncludesForUniqueFile("src/test/resources/logfile/msbuild-detailed-fr.txt");
+  @Test
+  public void relativeIncludesFromFrenchLog() {
 
-        SoftAssertions softly = new SoftAssertions();
+    List<String> refIncludes = getIncludesForReferenceLogFile();
+    List<String> includes = getIncludesForUniqueFile("src/test/resources/logfile/msbuild-detailed-fr.txt");
 
-        softly.assertThat(includes).containsExactlyInAnyOrderElementsOf(refIncludes);
-        softly.assertAll();
-    }
+    var softly = new SoftAssertions();
 
-    private List<String> getIncludesForReferenceLogFile() {
-        return getIncludesForUniqueFile(REFERENCE_DETAILED_LOG);
-    }
+    softly.assertThat(includes).containsExactlyInAnyOrderElementsOf(refIncludes);
+    softly.assertAll();
+  }
 
-    private List<String> getIncludesForUniqueFile(String log) {
-        Map<String, List<String>> uniqueIncludes = new HashMap<>();
-        uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
-        Map<String, Set<String>> uniqueDefines = new HashMap<>();
-        uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<>());
+  private List<String> getIncludesForReferenceLogFile() {
+    return getIncludesForUniqueFile(REFERENCE_DETAILED_LOG);
+  }
 
-        File logFile = new File(log);
+  private List<String> getIncludesForUniqueFile(String log) {
+    var uniqueIncludes = new HashMap<String, List<String>>();
+    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
+    var uniqueDefines = new HashMap<String, Set<String>>();
+    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<>());
 
-        CxxVCppBuildLogParser parser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
-        parser.parseVCppLog(logFile, ".", VC_CHARSET);
+    var logFile = new File(log);
 
-        List<String> includes = uniqueIncludes.get(UNIQUE_FILE);
-        return includes;
-    }
+    var parser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+    parser.parseVCppLog(logFile, ".", VC_CHARSET);
+
+    List<String> includes = uniqueIncludes.get(UNIQUE_FILE);
+    return includes;
+  }
 }

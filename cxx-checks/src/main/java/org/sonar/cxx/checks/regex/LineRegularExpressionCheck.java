@@ -123,8 +123,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
   public void visitFile(AstNode fileNode) {
     if (compare(invertFilePattern, matchFile())) {
       // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-      try (BufferedReader br = new BufferedReader(
-        new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
+      try (var br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
         String line;
         int nr = 0;
 

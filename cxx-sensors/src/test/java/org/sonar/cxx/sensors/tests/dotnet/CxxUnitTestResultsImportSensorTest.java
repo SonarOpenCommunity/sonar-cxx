@@ -41,30 +41,26 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
-import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxUnitTestResultsImportSensorTest {
 
   @Rule
   public TemporaryFolder temp = new TemporaryFolder();
 
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
-    language = TestUtils.mockCxxLanguage();
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
   }
 
   @Test
   public void sensorDescriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxUnitTestResultsImportSensor sensor = new CxxUnitTestResultsImportSensor(mock(CxxUnitTestResultsAggregator.class),
-                                                                               settings.asConfig());
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxUnitTestResultsImportSensor(mock(CxxUnitTestResultsAggregator.class), settings.asConfig());
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " Unit Test Results Import");
     softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertAll();

@@ -72,25 +72,25 @@ public class CxxBullseyeCoverageSensorTest {
           "asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
 
-      CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+      var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
       sensor.execute(context);
 
       assertThat(context.lineHits("ProjectKey:main.cpp", 7)).isEqualTo(1);
 
-      int[] zeroHitLines = new int[]{5, 10, 15, 17, 28, 32, 35, 40, 41, 44};
-      for (int line : zeroHitLines) {
+      var zeroHitLines = new int[]{5, 10, 15, 17, 28, 32, 35, 40, 41, 44};
+      for (var line : zeroHitLines) {
         LOG.debug("Check zero line coverage: {}", line);
         assertThat(context.lineHits("ProjectKey:source_1.cpp", line)).isEqualTo(0);
       }
 
-      int[] oneHitlinesA = new int[]{7, 12, 17, 30};
-      for (int line : oneHitlinesA) {
+      var oneHitlinesA = new int[]{7, 12, 17, 30};
+      for (var line : oneHitlinesA) {
         LOG.debug("Check line coverage: {}", line);
         assertThat(context.lineHits("ProjectKey:testclass.cpp", line)).isEqualTo(1);
         assertThat(context.lineHits("ProjectKey:src/testclass.cpp", line)).isEqualTo(1);
       }
-      int[] fullCoveredTwoCondition = new int[]{34, 43, 46};
-      for (int line : fullCoveredTwoCondition) {
+      var fullCoveredTwoCondition = new int[]{34, 43, 46};
+      for (var line : fullCoveredTwoCondition) {
         LOG.debug("Check full covered two conditions - line: {}", line);
         assertThat(context.conditions("ProjectKey:testclass.cpp", line)).isEqualTo(2);
         assertThat(context.conditions("ProjectKey:src/testclass.cpp", line)).isEqualTo(2);
@@ -150,7 +150,7 @@ public class CxxBullseyeCoverageSensorTest {
         .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
 
-      CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+      var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
       sensor.execute(context);
 
       assertThat(context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", 4)).isEqualTo(1);
@@ -168,7 +168,7 @@ public class CxxBullseyeCoverageSensorTest {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, coverageReport);
       context.setSettings(settings);
 
-      String[] fileList = new String[]{
+      var fileList = new String[]{
         "covfile/import/cereal/archives/json.hpp",
         "covfile/import/jpeg-compressor/src/jpgd.cpp",
         "covfile/src/main/vr_io/src/ModalityLUTJson.cpp",
@@ -184,22 +184,22 @@ public class CxxBullseyeCoverageSensorTest {
         "covfile/src/main/vr_core/src/VR.cpp"
       };
 
-      StringBuilder sourceContent = new StringBuilder(8192);
+      var sourceContent = new StringBuilder(8192);
       sourceContent.append("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-      for (int i = 0; i < 4000; i++) {
+      for (var i = 0; i < 4000; i++) {
         sourceContent.append('\n');
       }
 
-      for (String filepath : fileList) {
+      for (var filepath : fileList) {
         context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", filepath).setLanguage("cpp").initMetadata(
           sourceContent.toString()).build());
       }
-      CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+      var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
       sensor.execute(context);
 
-      int[] coveredCondition = new int[]{496, 524};
+      var coveredCondition = new int[]{496, 524};
 
-      for (int line : coveredCondition) {
+      for (var line : coveredCondition) {
         LOG.debug("Check conditions line: {}", line);
         assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", line)).isEqualTo(2);
         assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", line)).isEqualTo(2);

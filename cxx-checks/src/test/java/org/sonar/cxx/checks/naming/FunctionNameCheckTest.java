@@ -34,7 +34,7 @@ public class FunctionNameCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws Exception {
-    FunctionNameCheck check = new FunctionNameCheck();
+    var check = new FunctionNameCheck();
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionName.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);

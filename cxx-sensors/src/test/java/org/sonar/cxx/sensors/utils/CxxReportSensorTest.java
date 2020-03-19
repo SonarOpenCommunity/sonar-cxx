@@ -50,7 +50,7 @@ public class CxxReportSensorTest {
 
   @Test
   public void shouldntThrowWhenInstantiating() {
-    CxxReportSensor sensor = new CxxReportSensorImpl(settings);
+    var sensor = new CxxReportSensorImpl(settings);
     assertThat(sensor).isNotNull();
   }
 

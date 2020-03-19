@@ -34,7 +34,7 @@ public class MethodNameCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws Exception {
-    MethodNameCheck check = new MethodNameCheck();
+    var check = new MethodNameCheck();
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/MethodName.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())

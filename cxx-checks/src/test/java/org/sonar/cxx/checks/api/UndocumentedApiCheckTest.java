@@ -28,7 +28,6 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
-import org.sonar.squidbridge.api.CheckMessage;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
@@ -97,7 +96,7 @@ public class UndocumentedApiCheckTest {
       .next().atLine(156) // aliasDeclaration2
       .next().atLine(161); // class ClassWithFriend
 
-    for (CheckMessage msg : file.getCheckMessages()) {
+    for (var msg : file.getCheckMessages()) {
       assertThat(msg.formatDefaultMessage()).isNotEmpty();
     }
   }
@@ -109,8 +108,8 @@ public class UndocumentedApiCheckTest {
     SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context,
                                                    new UndocumentedApiCheck());
 
-    StringBuilder errors = new StringBuilder(1024);
-    for (CheckMessage msg : file.getCheckMessages()) {
+    var errors = new StringBuilder(1024);
+    for (var msg : file.getCheckMessages()) {
       errors.append("Line: ");
       errors.append(msg.getLine());
       errors.append("; ");
@@ -127,8 +126,8 @@ public class UndocumentedApiCheckTest {
     SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context,
                                                    new UndocumentedApiCheck());
 
-    StringBuilder errors = new StringBuilder(1024);
-    for (CheckMessage msg : file.getCheckMessages()) {
+    var errors = new StringBuilder(1024);
+    for (var msg : file.getCheckMessages()) {
       errors.append("Line: ");
       errors.append(msg.getLine());
       errors.append("; ");

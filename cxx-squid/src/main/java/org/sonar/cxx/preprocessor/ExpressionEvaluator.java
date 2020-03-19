@@ -85,9 +85,9 @@ public final class ExpressionEvaluator {
       }
     }
 
-    StringBuilder sb = new StringBuilder(number.length());
+    var sb = new StringBuilder(number.length());
     boolean suffix = false;
-    for (int index = begin; index < number.length() && !suffix; index++) {
+    for (var index = begin; index < number.length() && !suffix; index++) {
       char c = number.charAt(index);
       switch (c) {
         case '0':
@@ -215,7 +215,7 @@ public final class ExpressionEvaluator {
       final String id = exprAst.getTokenValue();
       if (macroEvaluationStack.contains(id)) {
         LOG.debug("ExpressionEvaluator: self-referential macro '{}' detected;"
-          + " assume true; evaluation stack = ['{} <- {}']", id, id, String.join(" <- ", macroEvaluationStack));
+                    + " assume true; evaluation stack = ['{} <- {}']", id, id, String.join(" <- ", macroEvaluationStack));
         return BigInteger.ONE;
       }
       final String value = preprocessor.valueOf(id);
@@ -282,7 +282,7 @@ public final class ExpressionEvaluator {
       return evalHasIncludeExpression(exprAst);
     } else {
       LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '"
-        + exprAst.getToken() + "', assuming 0");
+                  + exprAst.getToken() + "', assuming 0");
       return BigInteger.ZERO;
     }
   }

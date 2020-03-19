@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nullable;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -91,7 +90,7 @@ class ValgrindStack {
   @Nullable
   public ValgrindFrame getLastOwnFrame(String basedir) {
     String workdir = FilenameUtils.normalize(basedir);
-    for (ValgrindFrame frame : frames) {
+    for (var frame : frames) {
       if (isInside(frame.getDir(), workdir)) {
         return frame;
       }

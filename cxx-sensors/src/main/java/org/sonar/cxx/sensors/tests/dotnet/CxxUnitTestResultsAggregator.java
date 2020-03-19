@@ -23,7 +23,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-import java.io.File;
 import org.sonar.api.scanner.ScannerSide;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -51,18 +50,19 @@ public class CxxUnitTestResultsAggregator {
   }
 
   CxxUnitTestResultsAggregator(VisualStudioTestResultsFileParser visualStudioTestResultsFileParser,
-    XUnitTestResultsFileParser xunitTestResultsFileParser, NUnitTestResultsFileParser nunitTestResultsFileParser) {
+                               XUnitTestResultsFileParser xunitTestResultsFileParser,
+                               NUnitTestResultsFileParser nunitTestResultsFileParser) {
     this.visualStudioTestResultsFileParser = visualStudioTestResultsFileParser;
     this.xunitTestResultsFileParser = xunitTestResultsFileParser;
     this.nunitTestResultsFileParser = nunitTestResultsFileParser;
   }
 
   private static void aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, String[] reportPaths,
-    UnitTestResultsParser parser, UnitTestResults unitTestResults) {
-    for (String reportPathPattern : reportPaths) {
+                                UnitTestResultsParser parser, UnitTestResults unitTestResults) {
+    for (var reportPathPattern : reportPaths) {
       LOG.info("Report path pattern: '{}'", reportPathPattern);
       if (!reportPathPattern.isEmpty()) {
-        for (File reportFile : wildcardPatternFileProvider.listFiles(reportPathPattern)) {
+        for (var reportFile : wildcardPatternFileProvider.listFiles(reportPathPattern)) {
           parser.accept(reportFile, unitTestResults);
         }
       }
@@ -70,20 +70,20 @@ public class CxxUnitTestResultsAggregator {
   }
 
   UnitTestResults aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, UnitTestResults unitTestResults,
-    UnitTestConfiguration unitTestConf) {
+                            UnitTestConfiguration unitTestConf) {
     if (unitTestConf.hasVisualStudioTestResultsFile()) {
       aggregate(wildcardPatternFileProvider, unitTestConf.getVisualStudioTestResultsFiles(),
-        visualStudioTestResultsFileParser, unitTestResults);
+                visualStudioTestResultsFileParser, unitTestResults);
     }
 
     if (unitTestConf.hasXUnitTestResultsFile()) {
       aggregate(wildcardPatternFileProvider, unitTestConf.getXUnitTestResultsFiles(), xunitTestResultsFileParser,
-        unitTestResults);
+                unitTestResults);
     }
 
     if (unitTestConf.hasNUnitTestResultsFile()) {
       aggregate(wildcardPatternFileProvider, unitTestConf.getNUnitTestResultsFiles(), nunitTestResultsFileParser,
-        unitTestResults);
+                unitTestResults);
     }
 
     return unitTestResults;

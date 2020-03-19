@@ -56,7 +56,7 @@ public class TestCase {
    * @params tsFilename The path of the file which implements the testssuite this testcase is in.
    */
   public TestCase(String name, int time, String status, String stack, String msg,
-    String classname, String tcFilename, String tsName, String tsFilename) {
+                  String classname, String tcFilename, String tsName, String tsFilename) {
     this.name = name;
     this.time = time;
     this.stackTrace = stack;
@@ -118,7 +118,7 @@ public class TestCase {
    * Returns execution details as sonar-conform XML
    */
   public String getDetails() {
-    StringBuilder details = new StringBuilder(512);
+    var details = new StringBuilder(512);
     details.append("<testcase status=\"")
       .append(status)
       .append("\" time=\"")

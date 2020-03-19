@@ -102,7 +102,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
       NSObject[] sourceFiles = ((NSArray) require(rootDict.objectForKey("files"),
                                                   "Missing mandatory entry 'files'")).getArray();
 
-      for (NSObject diagnostic : diagnostics) {
+      for (var diagnostic : diagnostics) {
         NSDictionary diag = (NSDictionary) diagnostic;
 
         String description = ((NSString) require(diag.get("description"),
@@ -121,7 +121,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
         }
         String filePath = ((NSString) sourceFiles[fileIndex]).getContent();
 
-        CxxReportIssue issue = new CxxReportIssue(checkerName, filePath, Integer.toString(line), description);
+        var issue = new CxxReportIssue(checkerName, filePath, Integer.toString(line), description);
 
         addFlowToIssue(diag, sourceFiles, issue);
 
@@ -201,13 +201,13 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
 
   private void addFlowToIssue(final NSDictionary diagnostic, final NSObject[] sourceFiles, final CxxReportIssue issue) {
     NSObject[] path = ((NSArray) require(diagnostic.objectForKey("path"), "Missing mandatory entry 'path'")).getArray();
-    for (NSObject pathObject : path) {
-      PathElement pathElement = new PathElement(pathObject);
+    for (var pathObject : path) {
+      var pathElement = new PathElement(pathObject);
       if (pathElement.getKind() != PathElementKind.EVENT) {
         continue;
       }
 
-      PathEvent event = new PathEvent(pathObject, sourceFiles);
+      var event = new PathEvent(pathObject, sourceFiles);
       issue.addFlowElement(event.getFilePath(), event.getLineNumber(), event.getExtendedMessage());
     }
   }

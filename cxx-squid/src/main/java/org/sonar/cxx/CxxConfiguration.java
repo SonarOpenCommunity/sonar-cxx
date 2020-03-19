@@ -96,8 +96,8 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<String> getDefines() {
-    Set<String> allDefines = new HashSet<>();
-    for (Set<String> elemSet : uniqueDefines.values()) {
+    var allDefines = new HashSet<String>();
+    for (var elemSet : uniqueDefines.values()) {
       allDefines.addAll(elemSet);
     }
     return new ArrayList<>(allDefines);
@@ -105,7 +105,7 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public void setIncludeDirectories(List<String> includeDirectories) {
     List<String> overallIncludes = uniqueIncludes.get(OVERALLINCLUDEKEY);
-    for (String include : includeDirectories) {
+    for (var include : includeDirectories) {
       if (!overallIncludes.contains(include)) {
         LOG.debug("setIncludeDirectories() adding dir '{}'", include);
         overallIncludes.add(include);
@@ -128,9 +128,9 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<Path> getIncludeDirectories() {
-    Set<Path> allIncludes = new HashSet<>();
-    for (List<String> elemList : uniqueIncludes.values()) {
-      for (String elem : elemList) {
+    var allIncludes = new HashSet<Path>();
+    for (var elemList : uniqueIncludes.values()) {
+      for (var elem : elemList) {
         allIncludes.add(Paths.get(elem));
       }
     }
@@ -203,7 +203,7 @@ public class CxxConfiguration extends SquidConfiguration {
       return;
     }
 
-    for (File buildLog : reports) {
+    for (var buildLog : reports) {
       if (buildLog.exists()) {
         if ("Visual C++".equals(fileFormat)) {
           cxxVCppParser.parseVCppLog(buildLog, baseDir, charsetName);
@@ -211,12 +211,12 @@ public class CxxConfiguration extends SquidConfiguration {
                      + "' added includes: '" + getIncludeDirectories().size()
                      + "', added defines: '" + getDefines().size() + "'");
           if (LOG.isDebugEnabled()) {
-            for (List<String> allIncludes : uniqueIncludes.values()) {
+            for (var allIncludes : uniqueIncludes.values()) {
               if (!allIncludes.isEmpty()) {
                 LOG.debug("Includes folders ({})='{}'", allIncludes.size(), allIncludes);
               }
             }
-            for (Set<String> allDefines : uniqueDefines.values()) {
+            for (var allDefines : uniqueDefines.values()) {
               if (!allDefines.isEmpty()) {
                 LOG.debug("Defines ({})='{}'", allDefines.size(), allDefines);
               }

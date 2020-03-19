@@ -39,7 +39,7 @@ public class CxxReportSensor_getReports_Test {
 
   @Test
   public void testAbsoluteInsideBasedir() throws IOException {
-    File absReportFile = new File(base.getRoot(), "path/to/report.xml").getAbsoluteFile();
+    var absReportFile = new File(base.getRoot(), "path/to/report.xml").getAbsoluteFile();
     FileUtils.touch(absReportFile);
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
@@ -51,7 +51,7 @@ public class CxxReportSensor_getReports_Test {
   @Test
   public void testAbsoluteOutsideBasedir() {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
+    var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
@@ -62,7 +62,7 @@ public class CxxReportSensor_getReports_Test {
   @Test
   public void testAbsoluteOutsideBasedirWithGlobbing() {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
+    var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
@@ -73,7 +73,7 @@ public class CxxReportSensor_getReports_Test {
   @Test
   public void testAbsoluteOutsideBasedirAndRelative() throws IOException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
+    var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
 
     String relativeReport = "path/to/report.xml";
     FileUtils.touch(new File(base.getRoot(), relativeReport));
@@ -87,7 +87,7 @@ public class CxxReportSensor_getReports_Test {
   @Test
   public void testAbsoluteOutsideBasedirWithGlobbingAndRelativeWithGlobbing() throws IOException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
+    var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
 
     FileUtils.touch(new File(base.getRoot(), "report.xml"));
     FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
@@ -106,7 +106,7 @@ public class CxxReportSensor_getReports_Test {
   @Test
   public void testAbsoluteOutsideBasedirWithGlobbingAndNestedRelativeWithGlobbing() throws IOException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
+    var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
 
     FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
     FileUtils.touch(new File(base.getRoot(), "path/to/a/report.xml"));
@@ -138,11 +138,11 @@ public class CxxReportSensor_getReports_Test {
   public void testRelativeExcessiveBackticks() throws IOException {
     FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
 
-    // Might be valid if java.io.tmpdir is nested excessively deep -- not likely    
+    // Might be valid if java.io.tmpdir is nested excessively deep -- not likely
     settings.setProperty(REPORT_PATH_KEY, "../../../../../../../../../../../../../../../../../../../../../../../../"
-      + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../"
-      + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../"
-      + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../*.xml");
+                                            + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../"
+                                          + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../"
+                                          + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../*.xml");
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
     assertThat(reports.size()).isEqualTo(0);

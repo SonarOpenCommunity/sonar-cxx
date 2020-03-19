@@ -54,7 +54,7 @@ public class CoberturaParser extends CxxCoverageParser {
       long noHits = Long.parseLong(line.getAttrValue("hits"));
       if (noHits > Integer.MAX_VALUE) {
         LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by Sonar ({})",
-          noHits, Integer.MAX_VALUE);
+                 noHits, Integer.MAX_VALUE);
         noHits = Integer.MAX_VALUE;
       }
       builder.setHits(lineId, (int) noHits);
@@ -80,13 +80,13 @@ public class CoberturaParser extends CxxCoverageParser {
     LOG.debug("Parsing 'Cobertura' format");
     baseDir = Paths.get(".");
 
-    StaxParser sourceParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+    var sourceParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
       rootCursor.advance();
       readBaseDir(rootCursor.descendantElementCursor("source"));
     });
     sourceParser.parse(report);
 
-    StaxParser packageParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+    var packageParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
       rootCursor.advance();
       collectPackageMeasures(rootCursor.descendantElementCursor("package"), coverageData);
     });
@@ -119,18 +119,11 @@ public class CoberturaParser extends CxxCoverageParser {
   /**
    * Join two paths
    *
-   * path1    | path2    | result
-   * ---------|----------|-------
-   * empty    | empty    | empty
-   * empty    | absolute | absolute path2
-   * empty    | relative | relative path2
-   * absolute | empty    | empty
-   * relative | empty    | empty
-   * absolute | absolute | absolute path2
-   * absolute | relative | absolute path1 + relative path2
-   * relative | absolute | absolute path2
-   * relative | relative | relative path1 + relative path2
-   * 
+   * path1 | path2 | result ---------|----------|------- empty | empty | empty empty | absolute | absolute path2 empty |
+   * relative | relative path2 absolute | empty | empty relative | empty | empty absolute | absolute | absolute path2
+   * absolute | relative | absolute path1 + relative path2 relative | absolute | absolute path2 relative | relative |
+   * relative path1 + relative path2
+   *
    * @param path1 first path
    * @param path2 second path to be joined to first path
    * @return joined path as string
@@ -155,7 +148,7 @@ public class CoberturaParser extends CxxCoverageParser {
   }
 
   private void collectFileMeasures(SMInputCursor clazz, Map<String, CoverageMeasures> coverageData)
-          throws XMLStreamException {
+    throws XMLStreamException {
     while (clazz.getNext() != null) {
       String normalPath = join(baseDir, Paths.get(clazz.getAttrValue("filename")));
       if (!normalPath.isEmpty()) {

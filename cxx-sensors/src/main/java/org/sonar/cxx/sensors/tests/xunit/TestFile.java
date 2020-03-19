@@ -93,9 +93,9 @@ public class TestFile {
    * Returns execution details as sonar-conform XML
    */
   public String getDetails() {
-    StringBuilder details = new StringBuilder(512);
+    var details = new StringBuilder(512);
     details.append("<tests-details>");
-    for (TestCase tc : testCases) {
+    for (var tc : testCases) {
       details.append(tc.getDetails());
     }
     details.append("</tests-details>");

@@ -42,13 +42,11 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 public class CxxClangSASensorTest {
 
   private DefaultFileSystem fs;
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
   }
 
@@ -58,7 +56,7 @@ public class CxxClangSASensorTest {
     settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-empty.plist");
     context.setSettings(settings);
 
-    CxxClangSASensor sensor = new CxxClangSASensor();
+    var sensor = new CxxClangSASensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(0);
@@ -84,7 +82,7 @@ public class CxxClangSASensorTest {
     context.fileSystem().add(testFile0);
     context.fileSystem().add(testFile1);
 
-    CxxClangSASensor sensor = new CxxClangSASensor();
+    var sensor = new CxxClangSASensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(3);
@@ -116,7 +114,7 @@ public class CxxClangSASensorTest {
     context.fileSystem().add(testFile0);
     context.fileSystem().add(testFile1);
 
-    CxxClangSASensor sensor = new CxxClangSASensor();
+    var sensor = new CxxClangSASensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(3);
@@ -167,7 +165,7 @@ public class CxxClangSASensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxClangSASensor sensor = new CxxClangSASensor();
+    var sensor = new CxxClangSASensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(0);
@@ -175,11 +173,11 @@ public class CxxClangSASensorTest {
 
   @Test
   public void sensorDescriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxClangSASensor sensor = new CxxClangSASensor();
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxClangSASensor();
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " ClangSASensor");
     softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangSARuleRepository.KEY);

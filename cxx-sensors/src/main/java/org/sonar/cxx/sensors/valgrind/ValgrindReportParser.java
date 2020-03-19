@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.valgrind;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -54,7 +53,7 @@ class ValgrindReportParser {
     private final Set<ValgrindError> valgrindErrors = new HashSet<>();
 
     private static ValgrindStack parseStackTag(SMInputCursor child) throws XMLStreamException {
-      ValgrindStack stack = new ValgrindStack();
+      var stack = new ValgrindStack();
       SMInputCursor frameCursor = child.childElementCursor("frame");
       while (frameCursor.getNext() != null) {
 
@@ -95,8 +94,8 @@ class ValgrindReportParser {
 
       String kind = null;
       String text = null;
-      List<String> details = new ArrayList<>();
-      List<ValgrindStack> stacks = new ArrayList<>();
+      var details = new ArrayList<String>();
+      var stacks = new ArrayList<ValgrindStack>();
       while (child.getNext() != null) {
         String tagName = child.getLocalName();
         if ("kind".equalsIgnoreCase(tagName)) {

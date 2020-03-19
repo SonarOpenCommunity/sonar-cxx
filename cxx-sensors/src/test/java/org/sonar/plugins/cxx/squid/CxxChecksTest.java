@@ -25,9 +25,7 @@ import java.util.Collections;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
-import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.batch.rule.internal.ActiveRulesBuilder;
 import org.sonar.api.batch.rule.internal.NewActiveRule;
 import org.sonar.api.rule.RuleKey;
@@ -52,7 +50,7 @@ public class CxxChecksTest {
 
   @Before
   public void setUp() {
-    ActiveRules activeRules = new ActiveRulesBuilder()
+    var activeRules = new ActiveRulesBuilder()
       .addRule(new NewActiveRule.Builder()
         .setRuleKey(RuleKey.of(DEFAULT_REPOSITORY_KEY, DEFAULT_RULE_KEY))
         .build())
@@ -63,7 +61,7 @@ public class CxxChecksTest {
     checkFactory = new CheckFactory(activeRules);
 
     customRulesDefinition = new MyCustomPlSqlRulesDefinition();
-    RulesDefinition.Context context = new RulesDefinition.Context();
+    var context = new RulesDefinition.Context();
     customRulesDefinition.define(context);
   }
 
@@ -113,7 +111,7 @@ public class CxxChecksTest {
     RuleKey key = RuleKey.of(repository, rule);
 
     SquidAstVisitor<Grammar> check;
-    for (Checks<SquidAstVisitor<Grammar>> checks : cxxChecks.getChecks()) {
+    for (var checks : cxxChecks.getChecks()) {
       check = (SquidAstVisitor<Grammar>) checks.of(key);
 
       if (check != null) {

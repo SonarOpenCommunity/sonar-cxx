@@ -33,8 +33,8 @@ import org.sonar.squidbridge.SquidAstVisitor;
 public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> {
 
   private static final String SYNTAX_ERROR_MSG
-    = "Source code parser: {} syntax error(s) detected. Syntax errors could cause invalid software metric values."
-    + " Root cause are typically missing includes, missing macros or compiler specific extensions.";
+                                = "Source code parser: {} syntax error(s) detected. Syntax errors could cause invalid software metric values."
+                                  + " Root cause are typically missing includes, missing macros or compiler specific extensions.";
   private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);
   private static int errors = 0;
 
@@ -61,10 +61,10 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAs
     }
 
     List<AstNode> children = node.getChildren();
-    StringBuilder sb = new StringBuilder(512);
+    var sb = new StringBuilder(512);
     int identifierLine = -1;
 
-    for (AstNode child : children) {
+    for (var child : children) {
       sb.append(child.getTokenValue());
       TokenType type = child.getToken().getType();
 
@@ -76,7 +76,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAs
         // part with CURLBR_LEFT is typically an ignored declaration
         if (identifierLine != -1) {
           LOG.debug("[{}:{}]: skip declaration: {}",
-            getContext().getFile(), identifierLine, sb.toString());
+                    getContext().getFile(), identifierLine, sb.toString());
           sb.setLength(0);
           identifierLine = -1;
         }
@@ -91,7 +91,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAs
     if (identifierLine != -1 && sb.length() > 0) {
       // part without CURLBR_LEFT is typically a syntax error
       LOG.debug("[{}:{}]:    syntax error: {}",
-        getContext().getFile(), identifierLine, sb.toString());
+                getContext().getFile(), identifierLine, sb.toString());
     }
   }
 

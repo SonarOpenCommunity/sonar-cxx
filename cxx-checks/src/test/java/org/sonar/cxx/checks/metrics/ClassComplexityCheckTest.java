@@ -40,7 +40,7 @@ public class ClassComplexityCheckTest {
 
   @Test
   public void test() throws UnsupportedEncodingException, IOException {
-    ClassComplexityCheck check = new ClassComplexityCheck();
+    var check = new ClassComplexityCheck();
     check.setMaxComplexity(5);
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/ClassComplexity.cc", ".");
@@ -48,7 +48,7 @@ public class ClassComplexityCheckTest {
 
     Set<CxxReportIssue> issues = MultiLocatitionSquidCheck.getMultiLocationCheckMessages(file);
     assertThat(issues).isNotNull();
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(issues).hasSize(3);
     softly.assertThat(issues).allSatisfy(issue -> "ClassComplexity".equals(issue.getRuleId()));
 
