@@ -45,11 +45,6 @@ public final class Macro {
    */
   public static final Map<String, Macro> UNIT_MACROS = initUnitMacros();
 
-  /**
-   * Macros to replace C++ keywords when parsing C files
-   */
-  public static final Map<String, Macro> COMPATIBILITY_MACROS = initCompatibilityMacros();
-
   public final String name;
   public final List<Token> params;
   public final List<Token> body;
@@ -111,46 +106,6 @@ public final class Macro {
     add(map, "__LINE__", "1");
     add(map, "__DATE__", "\"??? ?? ????\"");
     add(map, "__TIME__", "\"??:??:??\"");
-    return Collections.unmodifiableMap(map);
-  }
-
-  private static Map<String, Macro> initCompatibilityMacros() {
-    // This is a collection of macros used to let C code be parsed by C++ parser
-    Map<String, Macro> map = new HashMap<>();
-    add(map, "alignas", "__alignas");
-    add(map, "alignof", "__alignof");
-    add(map, "catch", "__catch");
-    add(map, "class", "__class");
-    add(map, "constexpr", "__constexpr");
-    add(map, "const_cast", "__const_cast");
-    add(map, "decltype", "__decltype");
-    add(map, "delete", "__delete");
-    add(map, "dynamic_cast", "__dynamic_cast");
-    add(map, "explicit", "__explicit");
-    add(map, "export", "__export");
-    add(map, "final", "__final");
-    add(map, "friend", "__friend");
-    add(map, "mutable", "__mutable");
-    add(map, "namespace", "__namespace");
-    add(map, "new", "__new");
-    add(map, "noexcept", "__noexcept");
-    add(map, "nullptr", "__nullptr");
-    add(map, "operator", "__operator");
-    add(map, "override", "__override");
-    add(map, "private", "__private");
-    add(map, "protected", "__protected");
-    add(map, "public", "__public");
-    add(map, "reinterpret_cast", "__reinterpret_cast");
-    add(map, "static_assert", "__static_assert");
-    add(map, "static_cast", "__static_cast");
-    add(map, "thread_local", "__thread_local");
-    add(map, "throw", "__throw");
-    add(map, "try", "__try");
-    add(map, "typeid", "__typeid");
-    add(map, "typename", "__typename");
-    add(map, "using", "__using");
-    add(map, "template", "__template");
-    add(map, "virtual", "__virtual");
     return Collections.unmodifiableMap(map);
   }
 
