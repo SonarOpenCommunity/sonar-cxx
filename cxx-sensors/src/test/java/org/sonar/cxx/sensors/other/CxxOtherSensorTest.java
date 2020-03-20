@@ -47,11 +47,7 @@ public class CxxOtherSensorTest {
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-
     language = TestUtils.mockCxxLanguage();
-    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.STYLESHEET_KEY, "");
-    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.INPUT_KEY, "");
-    settings.setProperty(CxxOtherSensor.OTHER_XSLT_KEY + "1" + CxxOtherSensor.OUTPUT_KEY, "");
   }
 
   @Test

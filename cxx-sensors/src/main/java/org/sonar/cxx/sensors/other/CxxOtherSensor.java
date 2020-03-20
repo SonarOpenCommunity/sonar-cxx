@@ -25,10 +25,8 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.stream.StreamSource;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.PropertyType;
@@ -40,7 +38,6 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
-import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -52,11 +49,6 @@ import org.sonar.cxx.utils.CxxReportIssue;
 public class CxxOtherSensor extends CxxIssuesReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.other.reportPath";
-  public static final String OTHER_XSLT_KEY = "sonar.cxx.other.xslt.";
-  public static final String STYLESHEET_KEY = ".stylesheet";
-  public static final String INPUT_KEY = ".inputs";
-  public static final String OUTPUT_KEY = ".outputs";
-  private static final int MAX_STYLESHEETS = 10;
   private static final Logger LOG = Loggers.get(CxxOtherSensor.class);
 
   /**
@@ -98,15 +90,6 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void executeImpl(SensorContext context) {
-    transformFiles(context.fileSystem().baseDir(), context);
-    super.executeImpl(context);
-  }
-
   @Override
   public void processReport(final SensorContext context, File report) throws XMLStreamException, IOException,
                                                                              URISyntaxException, TransformerException {
@@ -128,73 +111,6 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
     });
 
     parser.parse(report);
-  }
-
-  public void transformFiles(final File baseDir, SensorContext context) {
-    for (int i = 1; i < MAX_STYLESHEETS; i++) {
-      boolean paramError = false;
-
-      final String stylesheetKey = OTHER_XSLT_KEY + i + STYLESHEET_KEY;
-      final String inputKey = OTHER_XSLT_KEY + i + INPUT_KEY;
-      final String outputKey = OTHER_XSLT_KEY + i + OUTPUT_KEY;
-
-      if (!context.config().hasKey(stylesheetKey)
-            && !context.config().hasKey(inputKey)
-            && !context.config().hasKey(outputKey)) {
-        break; // no or last item
-      }
-
-      final String stylesheet = Optional.ofNullable(
-        resolveFilename(baseDir.getAbsolutePath(), context.config().get(stylesheetKey).orElse(null)))
-        .orElse("");
-      if (stylesheet.isEmpty()) {
-        LOG.error("XLST: " + stylesheetKey + " value is not defined.");
-        paramError = true;
-      }
-
-      final List<File> inputs = getReports(context.config(), baseDir, inputKey);
-      if (inputs.isEmpty()) {
-        LOG.error("XLST: " + inputKey + " value is not defined.");
-        paramError = true;
-      }
-
-      final List<String> outputs = Arrays.asList(context.config().getStringArray(outputKey));
-      if (outputs.isEmpty()) {
-        LOG.error("XLST: " + outputKey + " value is not defined.");
-        paramError = true;
-      }
-
-      if (inputs.size() != outputs.size()) {
-        LOG.error("XLST: Number of inputs and outputs is not equal.");
-        paramError = true;
-      }
-
-      if (paramError) {
-        break;
-      }
-
-      LOG.debug("XLST: Converting " + stylesheet + " with " + inputs + " to " + outputs + ".");
-      transformFileList(context, baseDir.getAbsolutePath(), stylesheet, inputs, outputs);
-    }
-  }
-
-  private void transformFileList(SensorContext context, final String baseDir, String stylesheet, List<File> inputs,
-                                 List<String> outputs) {
-    for (int j = 0; j < inputs.size(); j++) {
-      try {
-        String normalizedOutputFilename = resolveFilename(baseDir, outputs.get(j));
-        CxxUtils.transformFile(new StreamSource(new File(stylesheet)), inputs.get(j),
-                               new File(normalizedOutputFilename));
-      } catch (TransformerException e) {
-        String msg = new StringBuilder(256)
-          .append("Cannot transform report files: '")
-          .append(e)
-          .append("'")
-          .toString();
-        LOG.error(msg);
-        CxxUtils.validateRecovery(e, context.config());
-      }
-    }
   }
 
   @Override
