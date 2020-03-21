@@ -82,9 +82,6 @@ public class CxxSquidSensor implements ProjectSensor {
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
   public static final String JSON_COMPILATION_DATABASE_KEY = "sonar.cxx.jsonCompilationDatabase";
 
-  public static final String C_FILES_PATTERNS_KEY = "sonar.cxx.cFilesPatterns";
-  public static final String DEFAULT_C_FILES = "*.c,*.C";
-
   /**
    * the following settings are in use by the feature to read configuration settings from the VC compiler report
    */
@@ -158,15 +155,6 @@ public class CxxSquidSensor implements ProjectSensor {
         .subCategory(subcateg2)
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.TEXT)
-        .build(),
-      PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
-        .defaultValue(DEFAULT_C_FILES)
-        .multiValues(true)
-        .name("C source files patterns")
-        .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the"
-                       + "patterns, it is parsed in C-compatibility mode.")
-        .subCategory(subcateg1)
-        .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(ERROR_RECOVERY_KEY)
         .defaultValue(Boolean.TRUE.toString())
@@ -276,7 +264,6 @@ public class CxxSquidSensor implements ProjectSensor {
     //    default value instead
     //    For proper implemenation see CppLanguage::CppLanguage()
     //    or createStringArray(config.getStringArray(C_FILES_PATTERNS_KEY), DEFAULT_C_FILES)
-    cxxConf.setCFilesPatterns(this.config.getStringArray(C_FILES_PATTERNS_KEY));
     cxxConf.setJsonCompilationDatabaseFile(this.config.get(JSON_COMPILATION_DATABASE_KEY)
       .orElse(null));
 

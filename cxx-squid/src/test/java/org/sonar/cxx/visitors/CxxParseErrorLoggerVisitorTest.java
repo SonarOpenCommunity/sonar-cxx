@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
@@ -36,7 +37,7 @@ public class CxxParseErrorLoggerVisitorTest {
 
   private final MapSettings settings = new MapSettings();
 
-  @org.junit.Rule
+  @Rule
   public LogTester logTester = new LogTester();
 
   @Before
@@ -53,12 +54,12 @@ public class CxxParseErrorLoggerVisitorTest {
   @Test
   public void handleParseErrorTest() throws Exception {
     List<String> log = logTester.logs(LoggerLevel.DEBUG);
-    assertThat(log).hasSize(12);
-    assertThat(log.get(7)).contains("skip declaration: namespace X {");
-    assertThat(log.get(8)).contains("skip declaration: void test :: f1 ( ) {");
-    assertThat(log.get(9)).contains("syntax error: i = unsigend int ( i + 1 )");
-    assertThat(log.get(10)).contains("skip declaration: void test :: f3 ( ) {");
-    assertThat(log.get(11)).contains("syntax error: int i = 0 i ++");
+    assertThat(log).hasSize(11);
+    assertThat(log.get(6)).contains("skip declaration: namespace X {");
+    assertThat(log.get(7)).contains("skip declaration: void test :: f1 ( ) {");
+    assertThat(log.get(8)).contains("syntax error: i = unsigend int ( i + 1 )");
+    assertThat(log.get(9)).contains("skip declaration: void test :: f3 ( ) {");
+    assertThat(log.get(10)).contains("syntax error: int i = 0 i ++");
   }
 
 }

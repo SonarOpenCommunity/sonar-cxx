@@ -132,7 +132,6 @@ public class CxxPreprocessor extends Preprocessor {
   private final SourceCodeProvider codeProvider;
   private SourceCodeProvider unitCodeProvider;
   private final SquidAstVisitorContext<Grammar> context;
-  private final List<String> cFilesPatterns;
   private final CxxConfiguration conf;
   private CxxCompilationUnitSettings compilationUnitSettings;
   private boolean ctorInProgress = true;
@@ -152,7 +151,6 @@ public class CxxPreprocessor extends Preprocessor {
                          CxxConfiguration conf,
                          SourceCodeProvider sourceCodeProvider) {
     this.context = context;
-    this.cFilesPatterns = conf.getCFilesPatterns().stream().map(s -> s.replace("*", "")).collect(Collectors.toList());
     this.conf = conf;
 
     codeProvider = sourceCodeProvider;
@@ -565,21 +563,10 @@ public class CxxPreprocessor extends Preprocessor {
         } finally {
           getMacros().setHighPrio(false);
         }
-
-        if (getMacro(Macro.CPLUSPLUS) == null) {
-          //Create macros to replace C++ keywords when parsing C files
-          getMacros().putAll(Macro.COMPATIBILITY_MACROS);
-        }
       } else {
         // Use global settings
         LOG.debug("global settings for: '{}'", currentContextFile);
-        if (isCFile(currentContextFile.getName())) {
-          //Create macros to replace C++ keywords when parsing C files
-          getMacros().putAll(Macro.COMPATIBILITY_MACROS);
-          getMacros().disable(Macro.CPLUSPLUS);
-        } else {
-          getMacros().enable(Macro.CPLUSPLUS);
-        }
+        getMacros().enable(Macro.CPLUSPLUS);
       }
     }
   }
@@ -696,17 +683,6 @@ public class CxxPreprocessor extends Preprocessor {
   public Boolean expandHasIncludeExpression(AstNode exprAst) {
     final File file = getFileUnderAnalysis();
     return findIncludedFile(exprAst, exprAst.getToken(), file.getAbsolutePath()) != null;
-  }
-
-  private boolean isCFile(String filePath) {
-    for (String pattern : cFilesPatterns) {
-      if (filePath.endsWith(pattern)) {
-        LOG.debug("Parse '{}' as C file, ends in '{}'", filePath, pattern);
-        return true;
-      }
-    }
-    LOG.debug("Parse '{}' as C++ file", filePath);
-    return false;
   }
 
   private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) {
@@ -978,8 +954,8 @@ public class CxxPreprocessor extends Preprocessor {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
       String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
-      LOG.trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'",
-                includeBody, expandedIncludeBody);
+      LOG
+        .trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'", includeBody, expandedIncludeBody);
 
       boolean parseError = false;
       AstNode includeBodyAst = null;

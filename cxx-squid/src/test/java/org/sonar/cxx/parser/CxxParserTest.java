@@ -22,7 +22,6 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
-
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -88,7 +87,8 @@ public class CxxParserTest {
       AstNode root = p.parse(file);
       CxxParser.finishedParsing(file);
       if (map.containsKey(file.getName())) {
-        assertThat(root.getNumberOfChildren()).as("check number of nodes for file %s", file.getName()).isEqualTo(map.get(file.getName()));
+        assertThat(root.getNumberOfChildren()).as("check number of nodes for file %s", file.getName()).isEqualTo(map
+          .get(file.getName()));
       } else {
         assertThat(root.hasChildren()).isTrue();
       }
@@ -134,38 +134,12 @@ public class CxxParserTest {
       AstNode root = p.parse(file);
       CxxParser.finishedParsing(file);
       if (map.containsKey(file.getName())) {
-        assertThat(root.getNumberOfChildren()).as("check number of nodes for file %s", file.getName()).isEqualTo(map.get(file.getName()));
+        assertThat(root.getNumberOfChildren()).as("check number of nodes for file %s", file.getName()).isEqualTo(map
+          .get(file.getName()));
       } else {
         assertThat(root.hasChildren()).isTrue();
       }
     }
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testParsingInCCompatMode() { //ToDo: Fix this compatibility test - currently it is useless
-    // The C-compatibility replaces c++ keywords, which aren't keywords in C,
-    // with non-keyword-strings via the preprocessor.
-    // This mode works if such a file causes parsing errors when the mode
-    // is switched off and doesn't, if the mode is switched on.
-
-    File cfile = listFiles(cCompatibilityFiles, new String[]{"c"}).get(0);
-
-    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
-    when(context.getFile()).thenReturn(cfile);
-
-    CxxConfiguration conf = new CxxConfiguration();
-    conf.setErrorRecoveryEnabled(false);
-    conf.setCFilesPatterns(new String[]{""});
-    Parser<Grammar> p = CxxParser.create(context, conf);
-
-    AstNode root0 = p.parse(cfile);
-    assertThat(root0.getNumberOfChildren()).isEqualTo(2);
-
-    conf.setCFilesPatterns(new String[]{"*.c"});
-    p = CxxParser.create(context, conf);
-    AstNode root = p.parse(cfile);
-    assertThat(root.getNumberOfChildren()).isEqualTo(2);
   }
 
   @Test

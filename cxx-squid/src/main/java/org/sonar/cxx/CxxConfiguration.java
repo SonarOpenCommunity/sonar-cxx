@@ -49,7 +49,6 @@ public class CxxConfiguration extends SquidConfiguration {
   private List<String> forceIncludeFiles = new ArrayList<>();
   private String baseDir = "";
   private boolean errorRecoveryEnabled = true;
-  private List<String> cFilesPatterns = new ArrayList<>();
   private String jsonCompilationDatabaseFile;
   private CxxCompilationUnitSettings globalCompilationUnitSettings;
   private final Map<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
@@ -166,16 +165,6 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public boolean getErrorRecoveryEnabled() {
     return this.errorRecoveryEnabled;
-  }
-
-  public List<String> getCFilesPatterns() {
-    return new ArrayList<>(cFilesPatterns);
-  }
-
-  public void setCFilesPatterns(@Nullable String[] cFilesPatterns) {
-    if (cFilesPatterns != null && cFilesPatterns.length > 0) {
-      this.cFilesPatterns = Arrays.asList(cFilesPatterns);
-    }
   }
 
   public String getJsonCompilationDatabaseFile() {
