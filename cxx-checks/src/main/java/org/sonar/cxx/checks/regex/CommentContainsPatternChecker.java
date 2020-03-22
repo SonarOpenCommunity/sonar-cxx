@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.regex;
 
 import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.Trivia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.squidbridge.checks.SquidCheck;
@@ -53,7 +52,7 @@ class CommentContainsPatternChecker {
    * @param token
    */
   public void visitToken(Token token) {
-    for (Trivia trivia : token.getTrivia()) {
+    for (var trivia : token.getTrivia()) {
       if (!trivia.isComment()) {
         continue;
       }
@@ -63,7 +62,7 @@ class CommentContainsPatternChecker {
       if (indexOfIgnoreCase(comment) != -1) {
         String[] lines = EOL_PATTERN.split(comment);
 
-        for (int i = 0; i < lines.length; i++) {
+        for (var i = 0; i < lines.length; i++) {
           int start = indexOfIgnoreCase(lines[i]);
           if (start != -1 && !isLetterAround(lines[i], start)) {
             check.getContext().createLineViolation(check, message, line + i);

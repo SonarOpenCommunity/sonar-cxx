@@ -40,16 +40,15 @@ public class AggregateMeasureComputerTest {
 
   @Test
   public void metricsNumber() {
-    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer();
+    var aggregator = new AggregateMeasureComputer();
     assertThat(aggregator.getAggregatedMetrics().length).isEqualTo(7);
   }
 
   @Test
   public void ignoreFiles() {
+    var aggregator = new AggregateMeasureComputer();
 
-    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer();
-
-    TestComponent file = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
+    var file = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
     TestMeasureComputerContext context = createContext(aggregator, file);
 
     context.addChildrenMeasures(CxxMetrics.PUBLIC_API_KEY, 4, 3, 2, 1);
@@ -60,9 +59,9 @@ public class AggregateMeasureComputerTest {
 
   @Test
   public void ignoreAlreadyAggregatedMetric() {
-    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer();
+    var aggregator = new AggregateMeasureComputer();
 
-    TestComponent module = new TestComponent("module0", Type.MODULE, null);
+    var module = new TestComponent("module0", Type.MODULE, null);
     TestMeasureComputerContext context = createContext(aggregator, module);
 
     context.addMeasure(CxxMetrics.PUBLIC_API_KEY, 42);
@@ -74,9 +73,9 @@ public class AggregateMeasureComputerTest {
 
   @Test
   public void ignoreIfNothingToAggregate() {
-    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer();
+    var aggregator = new AggregateMeasureComputer();
 
-    TestComponent module = new TestComponent("module0", Type.MODULE, null);
+    var module = new TestComponent("module0", Type.MODULE, null);
     TestMeasureComputerContext context = createContext(aggregator, module);
 
     aggregator.compute(context);
@@ -86,9 +85,9 @@ public class AggregateMeasureComputerTest {
 
   @Test
   public void aggregate() {
-    final AggregateMeasureComputer aggregator = new AggregateMeasureComputer();
+    var aggregator = new AggregateMeasureComputer();
 
-    TestComponent module = new TestComponent("module0", Type.MODULE, null);
+    var module = new TestComponent("module0", Type.MODULE, null);
     TestMeasureComputerContext context = createContext(aggregator, module);
     context.addChildrenMeasures(CxxMetrics.PUBLIC_API_KEY, 1, 2, 3, 4);
     aggregator.compute(context);

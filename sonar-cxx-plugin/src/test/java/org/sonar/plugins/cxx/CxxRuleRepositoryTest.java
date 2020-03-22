@@ -31,9 +31,9 @@ public class CxxRuleRepositoryTest {
 
   @Test
   public void rulesTest() {
-    RulesDefinition.Context context = new RulesDefinition.Context();
+    var context = new RulesDefinition.Context();
     assertThat(context.repositories()).isEmpty();
-    CxxLanguage language = new CxxLanguage(settings.asConfig());
+    var language = new CxxLanguage(settings.asConfig());
     new CxxRuleRepository(language).define(context);
 
     assertThat(context.repositories()).hasSize(1);

@@ -27,7 +27,7 @@ public final class CxxToolkit {
   }
 
   public static void main(String[] args) {
-    Toolkit toolkit = new Toolkit("SSLR :: Cxx :: Toolkit", new CxxConfigurationModel());
+    var toolkit = new Toolkit("SSLR :: Cxx :: Toolkit", new CxxConfigurationModel());
     toolkit.run();
   }
 

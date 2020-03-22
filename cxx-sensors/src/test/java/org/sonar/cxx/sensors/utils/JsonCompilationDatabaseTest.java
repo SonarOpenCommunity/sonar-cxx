@@ -33,9 +33,9 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testGlobalSettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
 
-    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
+    var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
     JsonCompilationDatabase.parse(conf, file);
 
@@ -50,8 +50,8 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testExtensionSettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration();
-    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
+    var conf = new CxxConfiguration();
+    var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
     JsonCompilationDatabase.parse(conf, file);
 
     Path cwd = Paths.get(".");
@@ -69,9 +69,9 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testCommandSettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
 
-    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
+    var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
     JsonCompilationDatabase.parse(conf, file);
 
@@ -95,9 +95,9 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testArgumentParser() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
 
-    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
+    var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
     JsonCompilationDatabase.parse(conf, file);
 
@@ -128,9 +128,9 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testArgumentSettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
 
-    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
+    var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
     JsonCompilationDatabase.parse(conf, file);
 
@@ -154,9 +154,9 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testRelativeDirectorySettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
 
-    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
+    var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
     JsonCompilationDatabase.parse(conf, file);
 
@@ -175,9 +175,9 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testArgumentAsListSettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
 
-    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
+    var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
     JsonCompilationDatabase.parse(conf, file);
 
@@ -201,9 +201,9 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testUnknownUnitSettings() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
 
-    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
+    var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
     JsonCompilationDatabase.parse(conf, file);
 
@@ -218,18 +218,18 @@ public class JsonCompilationDatabaseTest {
 
   @Test(expected = JsonMappingException.class)
   public void testInvalidJson() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
 
-    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/invalid.json");
+    var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/invalid.json");
 
     JsonCompilationDatabase.parse(conf, file);
   }
 
   @Test(expected = FileNotFoundException.class)
   public void testFileNotFound() throws Exception {
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
 
-    File file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/not-found.json");
+    var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/not-found.json");
 
     JsonCompilationDatabase.parse(conf, file);
   }

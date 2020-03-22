@@ -50,7 +50,7 @@ public class MissingNewLineAtEndOfFileCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitFile(AstNode astNode) {
-    try (RandomAccessFile randomAccessFile = new RandomAccessFile(getContext().getFile(), "r")) {
+    try (var randomAccessFile = new RandomAccessFile(getContext().getFile(), "r")) {
       if (!endsWithNewline(randomAccessFile)) {
         getContext().createFileViolation(this, "Add a new line at the end of this file.");
       }

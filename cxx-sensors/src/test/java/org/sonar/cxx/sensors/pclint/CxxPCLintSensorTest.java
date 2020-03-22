@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.pclint;
 
 import java.util.ArrayList;
-import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
@@ -39,12 +38,10 @@ public class CxxPCLintSensorTest {
 
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
-  private CxxLanguage language;
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
   }
 
@@ -61,7 +58,7 @@ public class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "ZipManager.cpp").setLanguage("cpp")
       .initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxPCLintSensor sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(16);
@@ -76,7 +73,7 @@ public class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(
       "asd\nasdas\nasda\n").build());
 
-    CxxPCLintSensor sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(29);
@@ -91,7 +88,7 @@ public class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(
       "asd\nasdas\nasda\n").build());
 
-    CxxPCLintSensor sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -106,11 +103,11 @@ public class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(
       "asd\nasdas\nasda\n").build());
 
-    CxxPCLintSensor sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(2);
-    ArrayList<Issue> issuesList = new ArrayList<>(context.allIssues());
+    var issuesList = new ArrayList<Issue>(context.allIssues());
     assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("M5-0-19");
     assertThat(issuesList.get(1).ruleKey().rule()).isEqualTo("M18-4-1");
   }
@@ -140,7 +137,7 @@ public class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(
       "asd\nasdas\nasda\n").build());
 
-    CxxPCLintSensor sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(0);
@@ -155,7 +152,7 @@ public class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cpp").initMetadata(
       "asd\nasdas\nasda\n").build());
 
-    CxxPCLintSensor sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -167,7 +164,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-projectlevelviolation.xml");
     context.setSettings(settings);
 
-    CxxPCLintSensor sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -179,7 +176,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-invalid-char.xml");
     context.setSettings(settings);
 
-    CxxPCLintSensor sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues().size()).isZero();
@@ -187,11 +184,11 @@ public class CxxPCLintSensorTest {
 
   @Test
   public void sensorDescriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxPCLintSensor sensor = new CxxPCLintSensor();
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxPCLintSensor();
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " PCLintSensor");
     softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxPCLintRuleRepository.KEY);
@@ -209,12 +206,12 @@ public class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.h").setLanguage("cpp").initMetadata(
       "asd\nasdas\nasda\n").build());
 
-    CxxPCLintSensor sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues().size()).isEqualTo(2);
 
-    List<Issue> allIssues = new ArrayList<>(context.allIssues());
+    var allIssues = new ArrayList<Issue>(context.allIssues());
 
     Issue firstIssue = allIssues.get(0);
     assertThat(firstIssue.flows().size()).isEqualTo(1);

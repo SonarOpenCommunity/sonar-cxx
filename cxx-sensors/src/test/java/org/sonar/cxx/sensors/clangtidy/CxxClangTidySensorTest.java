@@ -36,13 +36,11 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 public class CxxClangTidySensorTest {
 
   private DefaultFileSystem fs;
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
     settings.setProperty(CxxClangTidySensor.REPORT_CHARSET_DEF, StandardCharsets.UTF_8.name());
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
   }
@@ -56,7 +54,7 @@ public class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(0);
@@ -76,7 +74,7 @@ public class CxxClangTidySensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n")
       .build());
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -94,7 +92,7 @@ public class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -112,7 +110,7 @@ public class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -132,10 +130,10 @@ public class CxxClangTidySensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n")
       .build());
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(context.allIssues()).hasSize(1); // one issue
     softly.assertThat(context.allIssues().iterator().next().flows()).hasSize(1); // with one flow
     softly.assertThat(context.allIssues().iterator().next().flows().get(0).locations()).hasSize(4); // with four items
@@ -156,7 +154,7 @@ public class CxxClangTidySensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n")
       .build());
 
-    CxxClangTidySensor sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(0);
@@ -164,11 +162,11 @@ public class CxxClangTidySensorTest {
 
   @Test
   public void sensorDescriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxClangTidySensor sensor = new CxxClangTidySensor();
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxClangTidySensor();
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name())
       .isEqualTo(CxxLanguage.NAME + " ClangTidySensor");
     softly.assertThat(descriptor.languages())

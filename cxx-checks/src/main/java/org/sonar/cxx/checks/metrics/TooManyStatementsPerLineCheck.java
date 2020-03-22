@@ -60,8 +60,8 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   private static boolean isGeneratedNodeExcluded(AstNode astNode) {
     AstNode prev = astNode.getPreviousAstNode();
     return prev != null
-      && prev.getTokenLine() == astNode.getTokenLine()
-      && prev.isCopyBookOrGeneratedNode();
+             && prev.getTokenLine() == astNode.getTokenLine()
+             && prev.isCopyBookOrGeneratedNode();
   }
 
   /**
@@ -85,14 +85,14 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   public boolean isExcluded(AstNode astNode) {
     AstNode statementNode = astNode.getFirstChild();
     return statementNode.is(CxxGrammarImpl.compoundStatement)
-      || statementNode.is(CxxGrammarImpl.emptyStatement)
-      || statementNode.is(CxxGrammarImpl.iterationStatement)
-      || statementNode.is(CxxGrammarImpl.labeledStatement)
-      || statementNode.is(CxxGrammarImpl.declaration)
-      || isTypeAlias(statementNode)
-      || (statementNode.isCopyBookOrGeneratedNode() && isGeneratedNodeExcluded(statementNode))
-      || (statementNode.is(CxxGrammarImpl.jumpStatement) && isBreakStatementExcluded(statementNode))
-      || isEmptyExpressionStatement(statementNode);
+             || statementNode.is(CxxGrammarImpl.emptyStatement)
+             || statementNode.is(CxxGrammarImpl.iterationStatement)
+             || statementNode.is(CxxGrammarImpl.labeledStatement)
+             || statementNode.is(CxxGrammarImpl.declaration)
+             || isTypeAlias(statementNode)
+             || (statementNode.isCopyBookOrGeneratedNode() && isGeneratedNodeExcluded(statementNode))
+             || (statementNode.is(CxxGrammarImpl.jumpStatement) && isBreakStatementExcluded(statementNode))
+             || isEmptyExpressionStatement(statementNode);
   }
 
   /**
@@ -101,9 +101,9 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   private boolean isBreakStatementExcluded(AstNode astNode) {
     boolean exclude = false;
     if (excludeCaseBreak && astNode.getToken().getType().equals(CxxKeyword.BREAK)) {
-      for (AstNode statement = astNode.getFirstAncestor(CxxGrammarImpl.statement);
-        statement != null;
-        statement = statement.getPreviousSibling()) {
+      for (var statement = astNode.getFirstAncestor(CxxGrammarImpl.statement);
+           statement != null;
+           statement = statement.getPreviousSibling()) {
         if (astNode.getTokenLine() != statement.getTokenLine()) {
           break;
         }

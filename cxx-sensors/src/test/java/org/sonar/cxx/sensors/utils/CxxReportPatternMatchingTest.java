@@ -23,7 +23,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 import org.apache.commons.io.FileUtils;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,7 +64,7 @@ public class CxxReportPatternMatchingTest {
   public void getReports_patternMatching() throws java.io.IOException, java.lang.InterruptedException {
     String pattern, expected, allpaths;
     List<File> reports;
-    for (String[] example : examples) {
+    for (var example : examples) {
       pattern = example[0];
       expected = example[1];
       allpaths = String.join(",", Arrays.copyOfRange(example, 1, 3));
@@ -74,16 +73,16 @@ public class CxxReportPatternMatchingTest {
       settings.setProperty(REPORT_PATH_KEY, pattern);
       reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
       String[] parsedPaths = expected.split(",");
-      List<File> expectedFiles = new LinkedList<>();
-      for (String path : parsedPaths) {
+      var expectedFiles = new LinkedList<File>();
+      for (var path : parsedPaths) {
         path = path.trim();
         if (!path.isEmpty()) {
           expectedFiles.add(new File(base.getRoot(), path));
         }
       }
 
-      Set<File> realSet = new TreeSet<>(reports);
-      Set<File> expectedSet = new TreeSet<>(expectedFiles);
+      var realSet = new TreeSet<File>(reports);
+      var expectedSet = new TreeSet<File>(expectedFiles);
       assertThat(realSet).describedAs("Failed for pattern: {}", pattern).isEqualTo(expectedSet);
       deleteExample(base.getRoot());
     }
@@ -92,7 +91,7 @@ public class CxxReportPatternMatchingTest {
 
   private void setupExample(String pathes) throws java.io.IOException {
     String[] parsedPaths = pathes.split(",");
-    for (String path : parsedPaths) {
+    for (var path : parsedPaths) {
       path = path.trim();
       if (!path.isEmpty()) {
         FileUtils.touch(new File(base.getRoot(), path));

@@ -37,8 +37,8 @@ public class CxxPluginTest {
       SonarQubeSide.SCANNER,
       SonarEdition.COMMUNITY
     );
-    Plugin.Context context = new Plugin.Context(runtime);
-    CxxPlugin plugin = new CxxPlugin();
+    var context = new Plugin.Context(runtime);
+    var plugin = new CxxPlugin();
     plugin.define(context);
     assertThat(context.getExtensions()).hasSize(71);
   }

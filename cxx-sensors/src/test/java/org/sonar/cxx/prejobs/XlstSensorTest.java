@@ -58,7 +58,7 @@ public class XlstSensorTest {
   public void noLoggingIfNotUsed() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
-    XlstSensor sensor = new XlstSensor();
+    var sensor = new XlstSensor();
     logTester.clear();
     sensor.execute(context);
 
@@ -71,7 +71,7 @@ public class XlstSensorTest {
   public void shouldReportNothing() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
-    XlstSensor sensor = new XlstSensor();
+    var sensor = new XlstSensor();
     logTester.clear();
     sensor.execute(context);
 
@@ -88,11 +88,11 @@ public class XlstSensorTest {
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.OUTPUT_KEY, "notexistingpath");
     context.setSettings(settings);
 
-    XlstSensor sensor = new XlstSensor();
+    var sensor = new XlstSensor();
     logTester.clear();
     sensor.execute(context);
 
-    File reportAfter = new File("notexistingpath");
+    var reportAfter = new File("notexistingpath");
     Assert.assertFalse("The output file does exist!", reportAfter.exists() && reportAfter.isFile());
   }
 
@@ -105,7 +105,7 @@ public class XlstSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    XlstSensor sensor = new XlstSensor();
+    var sensor = new XlstSensor();
     logTester.clear();
     sensor.execute(context);
 
@@ -123,7 +123,7 @@ public class XlstSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    XlstSensor sensor = new XlstSensor();
+    var sensor = new XlstSensor();
     logTester.clear();
     sensor.execute(context);
 
@@ -142,7 +142,7 @@ public class XlstSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    XlstSensor sensor = new XlstSensor();
+    var sensor = new XlstSensor();
     logTester.clear();
     sensor.execute(context);
 
@@ -162,12 +162,12 @@ public class XlstSensorTest {
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.OUTPUT_KEY, outputFile);
     context.setSettings(settings);
 
-    XlstSensor sensor = new XlstSensor();
+    var sensor = new XlstSensor();
     logTester.clear();
     sensor.execute(context);
 
-    File reportBefore = new File(fs.baseDir() + "/" + inputFile);
-    File reportAfter = new File(fs.baseDir() + "/" + outputFile);
+    var reportBefore = new File(fs.baseDir() + "/" + inputFile);
+    var reportAfter = new File(fs.baseDir() + "/" + outputFile);
     Assert.assertTrue("The output file does not exist!", reportAfter.exists() && reportAfter.isFile());
     Assert.assertTrue("The input and output file is equal!", !FileUtils.contentEquals(reportBefore, reportAfter));
   }

@@ -40,7 +40,7 @@ public class FileHeaderCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
-    FileHeaderCheck check = new FileHeaderCheck();
+    var check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2005";
 
     CxxFileTester tester = CxxFileTesterHelper
@@ -118,7 +118,7 @@ public class FileHeaderCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void regex() throws UnsupportedEncodingException, IOException {
-    FileHeaderCheck check = new FileHeaderCheck();
+    var check = new FileHeaderCheck();
     check.headerFormat = "// copyright \\d\\d\\d";
     check.isRegularExpression = true;
 
@@ -182,7 +182,7 @@ public class FileHeaderCheckTest {
     thrown.expect(IllegalStateException.class);
     thrown.expectMessage("Unable to compile the regular expression: \"*\"");
 
-    FileHeaderCheck check = new FileHeaderCheck();
+    var check = new FileHeaderCheck();
     check.headerFormat = "*";
     check.isRegularExpression = true;
     check.init();

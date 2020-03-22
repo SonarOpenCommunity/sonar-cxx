@@ -89,7 +89,7 @@ public class CxxUnitTestResultsAggregatorTest {
   @Test
   public void aggregate() {
     WildcardPatternFileProvider wildcardPatternFileProvider = mock(WildcardPatternFileProvider.class);
-    MapSettings config = new MapSettings();
+    var config = new MapSettings();
 
     // Visual Studio test results only
     config.setProperty(key1, "foo.trx");

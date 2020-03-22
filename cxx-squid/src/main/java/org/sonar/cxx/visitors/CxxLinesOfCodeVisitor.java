@@ -37,7 +37,7 @@ import org.sonar.squidbridge.measures.MetricDef;
  * @param <GRAMMAR>
  */
 public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
-        extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
+  extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
   public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
@@ -74,7 +74,7 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
     lastTokenLine = token.getLine() + tokenLines.length - 1;
 
     // handle comments
-    for (Trivia trivia : token.getTrivia()) {
+    for (var trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         visitComment(trivia);
       }
@@ -86,10 +86,10 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
    */
   public void visitComment(Trivia trivia) {
     String[] commentLines = EOL_PATTERN
-            .split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue()), -1);
+      .split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue()), -1);
     int line = trivia.getToken().getLine();
 
-    for (String commentLine : commentLines) {
+    for (var commentLine : commentLines) {
       if (commentLine.contains("NOSONAR")) {
         SourceCode sourceCode = getContext().peekSourceCode();
         if (sourceCode instanceof SourceFile) {

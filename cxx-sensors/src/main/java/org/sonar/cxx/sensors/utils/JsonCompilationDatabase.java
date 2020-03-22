@@ -27,7 +27,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -60,16 +59,17 @@ public class JsonCompilationDatabase {
 
     LOG.debug("Parsing 'JSON Compilation Database' format");
 
-    ObjectMapper mapper = new ObjectMapper();
+    var mapper = new ObjectMapper();
     mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     mapper.enable(DeserializationFeature.USE_JAVA_ARRAY_FOR_JSON_ARRAY);
     mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
     JsonCompilationDatabaseCommandObject[] commandObjects
-            = mapper.readValue(compileCommandsFile, JsonCompilationDatabaseCommandObject[].class);
+                                             = mapper.readValue(compileCommandsFile,
+                                                                JsonCompilationDatabaseCommandObject[].class);
     Path cwd;
 
-    for (JsonCompilationDatabaseCommandObject commandObject : commandObjects) {
+    for (var commandObject : commandObjects) {
       if (commandObject.getDirectory() != null) {
         cwd = Paths.get(commandObject.getDirectory());
       } else {
@@ -77,7 +77,7 @@ public class JsonCompilationDatabase {
       }
 
       Path absPath = cwd.resolve(commandObject.getFile());
-      CxxCompilationUnitSettings settings = new CxxCompilationUnitSettings();
+      var settings = new CxxCompilationUnitSettings();
       parseCommandObject(settings, cwd, commandObject);
 
       if ("__global__".equals(commandObject.getFile())) {
@@ -89,7 +89,7 @@ public class JsonCompilationDatabase {
   }
 
   private static void parseCommandObject(CxxCompilationUnitSettings settings,
-          Path cwd, JsonCompilationDatabaseCommandObject commandObject) {
+                                         Path cwd, JsonCompilationDatabaseCommandObject commandObject) {
 
     settings.setDefines(commandObject.getDefines());
     settings.setIncludes(commandObject.getIncludes());
@@ -112,12 +112,12 @@ public class JsonCompilationDatabase {
     String[] args = tokenizeCommandLine(cmdLine);
     ArgNext next = ArgNext.NONE;
 
-    HashMap<String, String> defines = new HashMap<>();
-    List<Path> includes = new ArrayList<>();
-    List<Path> iSystem = new ArrayList<>();
-    List<Path> iDirAfter = new ArrayList<>();
+    var defines = new HashMap<String, String>();
+    var includes = new ArrayList<Path>();
+    var iSystem = new ArrayList<Path>();
+    var iDirAfter = new ArrayList<Path>();
 
-    for (String arg : args) {
+    for (var arg : args) {
       if (arg.startsWith("-D")) {
         arg = arg.substring(2);
         next = ArgNext.DEFINE;
@@ -175,13 +175,13 @@ public class JsonCompilationDatabase {
   }
 
   private static String[] tokenizeCommandLine(String cmdLine) {
-    List<String> args = new ArrayList<>();
+    var args = new ArrayList<String>();
     boolean escape = false;
     char stringOpen = 0;
-    StringBuilder sb = new StringBuilder(512);
+    var sb = new StringBuilder(512);
 
     // Tokenize command line with support for escaping
-    for (char ch : cmdLine.toCharArray()) {
+    for (var ch : cmdLine.toCharArray()) {
       if (escape) {
         escape = false;
         sb.append(ch);
@@ -195,7 +195,7 @@ public class JsonCompilationDatabase {
           } else if (ch == '\"') {
             stringOpen = '\"';
           } else if ((ch == ' ')
-                  && (sb.length() > 0)) {
+                       && (sb.length() > 0)) {
             args.add(sb.toString());
             sb = new StringBuilder(512);
           }

@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.valgrind;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
@@ -60,7 +59,7 @@ public class CxxValgrindSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     context.fileSystem().add(TestInputFileBuilder.create("myProjectKey", "dir/file").setLanguage("cpp").initMetadata(
       "asd\nasdas\nasda\n").build());
-    Set<ValgrindError> valgrindErrors = new HashSet<>();
+    var valgrindErrors = new HashSet<ValgrindError>();
     valgrindErrors.add(mockValgrindError(true));
     sensor.saveErrors(context, valgrindErrors);
 
@@ -70,7 +69,7 @@ public class CxxValgrindSensorTest {
   @Test
   public void shouldNotSaveViolationIfErrorIsOutside() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    Set<ValgrindError> valgrindErrors = new HashSet<>();
+    var valgrindErrors = new HashSet<ValgrindError>();
     valgrindErrors.add(mockValgrindError(false));
     sensor.saveErrors(context, valgrindErrors);
 
@@ -79,10 +78,10 @@ public class CxxValgrindSensorTest {
 
   @Test
   public void sensorDescriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    var descriptor = new DefaultSensorDescriptor();
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " ValgrindSensor");
     softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.KEY);

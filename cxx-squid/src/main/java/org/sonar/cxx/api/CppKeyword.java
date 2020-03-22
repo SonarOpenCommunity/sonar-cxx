@@ -51,8 +51,8 @@ public enum CppKeyword implements TokenType {
 
   public static String[] keywordValues() {
     CppKeyword[] keywordsEnum = CppKeyword.values();
-    String[] keywords = new String[keywordsEnum.length];
-    for (int i = 0; i < keywords.length; i++) {
+    var keywords = new String[keywordsEnum.length];
+    for (var i = 0; i < keywords.length; i++) {
       keywords[i] = keywordsEnum[i].getValue();
     }
     return keywords;

@@ -22,7 +22,6 @@ package org.sonar.cxx.checks.regex;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.Trivia;
 import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
@@ -45,16 +44,17 @@ public class NoSonarCheck extends SquidCheck<Grammar> implements AstAndTokenVisi
 
   @Override
   public void visitToken(Token token) {
-    for (Trivia trivia : token.getTrivia()) {
+    for (var trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         String[] commentLines = EOL_PATTERN
           .split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue()), -1);
         int line = trivia.getToken().getLine();
 
-        for (String commentLine : commentLines) {
+        for (var commentLine : commentLines) {
           if (commentLine.contains("NOSONAR")) {
             getContext().createLineViolation(this,
-              "Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?", line);
+                                             "Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?",
+                                             line);
           }
           line++;
         }

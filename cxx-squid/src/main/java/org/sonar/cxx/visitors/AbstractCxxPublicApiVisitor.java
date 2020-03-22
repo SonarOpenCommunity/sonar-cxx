@@ -24,7 +24,6 @@ import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
-import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +121,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     List<AstNode> declSpecifiers = declSpecifierSeq
       .getChildren(CxxGrammarImpl.declSpecifier);
 
-    for (AstNode declSpecifier : declSpecifiers) {
+    for (var declSpecifier : declSpecifiers) {
       AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
       if (friendNode != null) {
         return true;
@@ -163,7 +162,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       List<AstNode> declSpecifiers = declSpecifierSeq
         .getChildren(CxxGrammarImpl.declSpecifier);
 
-      for (AstNode declSpecifier : declSpecifiers) {
+      for (var declSpecifier : declSpecifiers) {
         AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
         if (friendNode != null) {
           return true;
@@ -195,7 +194,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   private static boolean isOverriddenMethod(AstNode memberDeclarator) {
     List<AstNode> modifiers = memberDeclarator.getDescendants(CxxGrammarImpl.virtSpecifier);
 
-    for (AstNode modifier : modifiers) {
+    for (var modifier : modifiers) {
       AstNode modifierId = modifier.getFirstChild();
 
       if (TOKEN_OVERRIDE.equals(modifierId.getTokenValue())) {
@@ -209,10 +208,8 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   // XXX may go to a utility class
   private static String getOperatorId(AstNode operatorFunctionId) {
 
-    StringBuilder builder = new StringBuilder(
-      operatorFunctionId.getTokenValue());
-    AstNode operator = operatorFunctionId
-      .getFirstDescendant(CxxGrammarImpl.overloadableOperator);
+    var builder = new StringBuilder(operatorFunctionId.getTokenValue());
+    AstNode operator = operatorFunctionId.getFirstDescendant(CxxGrammarImpl.overloadableOperator);
 
     if (operator != null) {
 
@@ -317,9 +314,9 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
    * @return true if documentation is found for specified line, false otherwise
    */
   private static List<Token> getInlineDocumentation(Token token, int line) {
-    List<Token> comments = new ArrayList<>();
+    var comments = new ArrayList<Token>();
 
-    for (Trivia trivia : token.getTrivia()) {
+    for (var trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         Token triviaToken = trivia.getToken();
         if ((triviaToken != null)
@@ -334,10 +331,10 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   }
 
   private static List<Token> getBlockDocumentation(AstNode node) {
-    List<Token> commentTokens = new ArrayList<>();
+    var commentTokens = new ArrayList<Token>();
 
     Token token = node.getToken();
-    for (Trivia trivia : token.getTrivia()) {
+    for (var trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         Token triviaToken = trivia.getToken();
         if (triviaToken != null) {
@@ -385,7 +382,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     skipFile = true;
 
     if (headerFileSuffixes != null) {
-      for (String suffix : headerFileSuffixes) {
+      for (var suffix : headerFileSuffixes) {
         if (getContext().getFile().getName().endsWith(suffix)) {
           skipFile = false;
           break;
@@ -438,9 +435,9 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   }
 
   private void visitPublicApi(AstNode node, String id, List<Token> comments) {
-    List<Token> doxygenComments = new ArrayList<>();
+    var doxygenComments = new ArrayList<Token>();
 
-    for (Token token : comments) {
+    for (var token : comments) {
       String comment = token.getValue();
       if (isDoxygenInlineComment(comment)
             || isDoxygenCommentBlock(comment)) {
@@ -495,7 +492,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     } else {
       // with several declarators, documentation should be located
       // on each declarator
-      for (AstNode declarator : declarators) {
+      for (var declarator : declarators) {
         visitDeclarator(declarator, declarator);
       }
     }
@@ -649,7 +646,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       } else {
         // if several declarator, doc should be placed before each
         // declarator, or in-lined
-        for (AstNode declarator : declarators) {
+        for (var declarator : declarators) {
           visitMemberDeclarator(declarator);
         }
       }
@@ -842,7 +839,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       .getFirstDescendant(CxxGrammarImpl.enumeratorList);
 
     if (enumeratorList != null) {
-      for (AstNode definition : enumeratorList
+      for (var definition : enumeratorList
         .getChildren(CxxGrammarImpl.enumeratorDefinition)) {
 
         // look for block documentation

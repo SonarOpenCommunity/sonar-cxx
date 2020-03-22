@@ -51,8 +51,8 @@ public class WildcardPatternFileProvider {
   }
 
   private static List<String> elementsTillFirstWildcard(List<String> elements) {
-    List<String> result = new ArrayList<>();
-    for (String element : elements) {
+    var result = new ArrayList<String>();
+    for (var element : elements) {
       if (containsWildcard(element)) {
         break;
       }
@@ -62,27 +62,27 @@ public class WildcardPatternFileProvider {
   }
 
   private static void checkNoCurrentOrParentFolderAccess(List<String> elements) {
-    for (String element : elements) {
+    for (var element : elements) {
       if (isCurrentOrParentFolder(element)) {
         throw new IllegalArgumentException("Cannot contain '" + CURRENT_FOLDER + "' or '"
-          + PARENT_FOLDER + "' after the first wildcard.");
+                                             + PARENT_FOLDER + "' after the first wildcard.");
       }
     }
   }
 
   private static boolean containsWildcard(String element) {
     return RECURSIVE_PATTERN.equals(element)
-      || element.contains(ZERO_OR_MORE_PATTERN)
-      || element.contains(ANY_PATTERN);
+             || element.contains(ZERO_OR_MORE_PATTERN)
+             || element.contains(ANY_PATTERN);
   }
 
   private static boolean isCurrentOrParentFolder(String element) {
     return CURRENT_FOLDER.equals(element)
-      || PARENT_FOLDER.equals(element);
+             || PARENT_FOLDER.equals(element);
   }
 
   private static Set<File> listFiles(File dir) {
-    Set<File> result = new HashSet<>();
+    var result = new HashSet<File>();
     listFiles(result, dir);
     return result;
   }
@@ -92,7 +92,7 @@ public class WildcardPatternFileProvider {
     if (files != null) {
       result.addAll(Arrays.asList(files));
 
-      for (File file : files) {
+      for (var file : files) {
         if (file.isDirectory()) {
           listFiles(result, file);
         }
@@ -113,22 +113,23 @@ public class WildcardPatternFileProvider {
 
     List<String> elementsTillFirstWildcard = elementsTillFirstWildcard(elements);
     String pathTillFirstWildcardElement = toPath(elementsTillFirstWildcard);
-    File fileTillFirstWildcardElement = new File(pathTillFirstWildcardElement);
+    var fileTillFirstWildcardElement = new File(pathTillFirstWildcardElement);
 
     File absoluteFileTillFirstWildcardElement = fileTillFirstWildcardElement.isAbsolute()
-      ? fileTillFirstWildcardElement : new File(baseDir, pathTillFirstWildcardElement);
+                                                  ? fileTillFirstWildcardElement : new File(baseDir,
+                                                                                            pathTillFirstWildcardElement);
 
     List<String> wildcardElements = elements.subList(elementsTillFirstWildcard.size(), elements.size());
     if (wildcardElements.isEmpty()) {
       return absoluteFileTillFirstWildcardElement.exists()
-        ? new HashSet<>(Arrays.asList(absoluteFileTillFirstWildcardElement)) : Collections.emptySet();
+               ? new HashSet<>(Arrays.asList(absoluteFileTillFirstWildcardElement)) : Collections.emptySet();
     }
     checkNoCurrentOrParentFolderAccess(wildcardElements);
 
     WildcardPattern wildcardPattern = WildcardPattern.create(toPath(wildcardElements), directorySeparator);
 
-    Set<File> result = new HashSet<>();
-    for (File file : listFiles(absoluteFileTillFirstWildcardElement)) {
+    var result = new HashSet<File>();
+    for (var file : listFiles(absoluteFileTillFirstWildcardElement)) {
       String relativePath = relativize(absoluteFileTillFirstWildcardElement, file);
 
       if (wildcardPattern.match(relativePath)) {

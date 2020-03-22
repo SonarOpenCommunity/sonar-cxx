@@ -22,8 +22,6 @@ package org.sonar.cxx;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Parser;
 import java.io.File;
 import static java.lang.Math.min;
 import java.util.Collection;
@@ -114,11 +112,9 @@ public final class CxxAstScanner {
   @SafeVarargs
   public static AstScanner<Grammar> create(Configuration config, CxxConfiguration conf,
                                            SquidAstVisitor<Grammar>... visitors) {
-    final SquidAstVisitorContextImpl<Grammar> context
-                                                = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
-    final Parser<Grammar> parser = CxxParser.create(context, conf);
-
-    AstScanner.Builder<Grammar> builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
+    var context = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
+    var parser = CxxParser.create(context, conf);
+    var builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
 
     /* Metrics */
     builder.withMetrics(CxxMetric.values());
@@ -131,7 +127,7 @@ public final class CxxAstScanner {
       new CommentAnalyser() {
       @Override
       public boolean isBlank(String line) {
-        for (int i = 0; i < line.length(); i++) {
+        for (var i = 0; i < line.length(); i++) {
           if (Character.isLetterOrDigit(line.charAt(i))) {
             return false;
           }
@@ -141,7 +137,7 @@ public final class CxxAstScanner {
 
       @Override
       public String getContents(String comment) {
-        final int HEADER_LEN = 2;
+        var HEADER_LEN = 2;
         return "/*".equals(comment.substring(0, HEADER_LEN))
                  ? comment.substring(HEADER_LEN, comment.length() - HEADER_LEN)
                  : comment.substring(HEADER_LEN);
@@ -150,14 +146,14 @@ public final class CxxAstScanner {
 
     /* Functions */
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>((SourceCode parentSourceCode, AstNode astNode) -> {
-      StringBuilder sb = new StringBuilder(512);
-      for (Token token : astNode.getFirstDescendant(CxxGrammarImpl.declaratorId).getTokens()) {
+      var sb = new StringBuilder(512);
+      for (var token : astNode.getFirstDescendant(CxxGrammarImpl.declaratorId).getTokens()) {
         sb.append(token.getValue());
       }
-      String functionName = sb.toString();
+      var functionName = sb.toString();
       sb.setLength(0);
       // todo: check if working with nested-namespace-definition
-      AstNode namespace = astNode.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition);
+      var namespace = astNode.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition);
       while (namespace != null) {
         if (sb.length() > 0) {
           sb.insert(0, "::");
@@ -166,9 +162,9 @@ public final class CxxAstScanner {
         // todo: check if working with nested-namespace-definition
         namespace = namespace.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition);
       }
-      String namespaceName = sb.length() > 0 ? sb.toString() + "::" : "";
-      SourceFunction function = new SourceFunction(intersectingConcatenate(namespaceName, functionName)
-                                                     + ":" + astNode.getToken().getLine());
+      var namespaceName = sb.length() > 0 ? sb.toString() + "::" : "";
+      var function = new SourceFunction(intersectingConcatenate(namespaceName, functionName)
+                                      + ":" + astNode.getToken().getLine());
       function.setStartAtLine(astNode.getTokenLine());
       return function;
     }, CxxGrammarImpl.functionDefinition));
@@ -180,9 +176,9 @@ public final class CxxAstScanner {
 
     /* Classes */
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>((SourceCode parentSourceCode, AstNode astNode) -> {
-      AstNode classNameAst = astNode.getFirstDescendant(CxxGrammarImpl.className);
-      String className = classNameAst == null ? "" : classNameAst.getFirstChild().getTokenValue();
-      SourceClass cls = new SourceClass(className + ":" + astNode.getToken().getLine(), className);
+      var classNameAst = astNode.getFirstDescendant(CxxGrammarImpl.className);
+      var className = classNameAst == null ? "" : classNameAst.getFirstChild().getTokenValue();
+      var cls = new SourceClass(className + ":" + astNode.getToken().getLine(), className);
       cls.setStartAtLine(astNode.getTokenLine());
       return cls;
     }, CxxGrammarImpl.classSpecifier));
@@ -209,7 +205,7 @@ public final class CxxAstScanner {
       .subscribeTo(CxxGrammarImpl.statement)
       .build());
 
-    builder.withSquidAstVisitor(new CxxCyclomaticComplexityVisitor<Grammar>(ComplexityVisitor.<Grammar>builder()
+    builder.withSquidAstVisitor(new CxxCyclomaticComplexityVisitor<>(ComplexityVisitor.<Grammar>builder()
       .setMetricDef(CxxMetric.COMPLEXITY)
       .subscribeTo(CxxComplexityConstants.getCyclomaticComplexityTypes())
       .build()));
@@ -226,7 +222,7 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(new CxxParseErrorLoggerVisitor<>());
 
     /* External visitors (typically Check ones) */
-    for (SquidAstVisitor<Grammar> visitor : visitors) {
+    for (var visitor : visitors) {
       if (visitor instanceof CxxCharsetAwareVisitor) {
         ((CxxCharsetAwareVisitor) visitor).setCharset(conf.getCharset());
       }
@@ -241,12 +237,12 @@ public final class CxxAstScanner {
   public static String intersectingConcatenate(String a, String b) {
 
     // find length of maximum possible match
-    int lenOfA = a.length();
-    int lenOfB = b.length();
-    int minIntersectionLen = min(lenOfB, lenOfA);
+    var lenOfA = a.length();
+    var lenOfB = b.length();
+    var minIntersectionLen = min(lenOfB, lenOfA);
 
     // search down from maximum match size, to get longest possible intersection
-    for (int size = minIntersectionLen; size > 0; size--) {
+    for (var size = minIntersectionLen; size > 0; size--) {
       if (a.regionMatches(lenOfA - size, b, 0, size)) {
         return a + b.substring(size, lenOfB);
       }

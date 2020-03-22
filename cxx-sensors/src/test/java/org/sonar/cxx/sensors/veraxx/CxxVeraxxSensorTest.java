@@ -35,13 +35,11 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 public class CxxVeraxxSensorTest {
 
   private DefaultFileSystem fs;
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
   }
 
@@ -64,7 +62,7 @@ public class CxxVeraxxSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxVeraxxSensor sensor = new CxxVeraxxSensor();
+    var sensor = new CxxVeraxxSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(10);
@@ -72,11 +70,11 @@ public class CxxVeraxxSensorTest {
 
   @Test
   public void sensorDescriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxVeraxxSensor sensor = new CxxVeraxxSensor();
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxVeraxxSensor();
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " VeraxxSensor");
     softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxVeraxxRuleRepository.KEY);

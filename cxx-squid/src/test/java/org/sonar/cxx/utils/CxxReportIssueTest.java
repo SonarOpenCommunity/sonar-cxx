@@ -19,23 +19,21 @@
  */
 package org.sonar.cxx.utils;
 
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-
-import java.util.List;
-
 import org.junit.Test;
 
 public class CxxReportIssueTest {
 
   @Test
   public void reportLocationEquality() {
-    CxxReportLocation location0 = new CxxReportLocation("path0.cpp", "1", "Boolean value assigned to pointer.");
-    CxxReportLocation location1 = new CxxReportLocation("path0.cpp", "1", "Boolean value assigned to pointer.");
+    var location0 = new CxxReportLocation("path0.cpp", "1", "Boolean value assigned to pointer.");
+    var location1 = new CxxReportLocation("path0.cpp", "1", "Boolean value assigned to pointer.");
     assertEquals(location0, location1);
     assertEquals(location0.hashCode(), location1.hashCode());
 
-    CxxReportLocation location2 = new CxxReportLocation("path2.cpp", "1", "Exception thrown in destructor.");
+    var location2 = new CxxReportLocation("path2.cpp", "1", "Exception thrown in destructor.");
     assertNotEquals(location2, location0);
     assertNotEquals(location2.hashCode(), location0.hashCode());
 
@@ -45,11 +43,11 @@ public class CxxReportIssueTest {
 
   @Test
   public void reportIssueEquality() {
-    CxxReportIssue issue0 = new CxxReportIssue("nullPointer", "path0.cpp", "1", "Null pointer dereference: ptr");
+    var issue0 = new CxxReportIssue("nullPointer", "path0.cpp", "1", "Null pointer dereference: ptr");
     issue0.addLocation("path0.cpp", "1", "Assignment &apos;ptr=nullptr&apos;, assigned value is 0");
 
-    CxxReportIssue issue1 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
-    CxxReportIssue issue2 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    var issue1 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    var issue2 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
 
     assertEquals(issue1, issue2);
     assertEquals(issue1.hashCode(), issue2.hashCode());
@@ -63,21 +61,21 @@ public class CxxReportIssueTest {
 
   @Test
   public void reportIssueEqualityConsideringFlow() {
-    CxxReportIssue issue0 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    var issue0 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
     issue0.addFlowElement("path0.cpp", "1", "a");
     issue0.addFlowElement("path1.cpp", "1", "b");
     issue0.addFlowElement("path2.cpp", "1", "c");
 
-    CxxReportIssue issue1 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    var issue1 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
     issue1.addFlowElement("path0.cpp", "1", "a");
     issue1.addFlowElement("path1.cpp", "1", "b");
     issue1.addFlowElement("path2.cpp", "1", "c");
 
-    CxxReportIssue issue2 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    var issue2 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
     issue2.addFlowElement("path1.cpp", "1", "b");
     issue2.addFlowElement("path2.cpp", "1", "c");
 
-    CxxReportIssue issue3 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    var issue3 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
 
     assertEquals(issue0, issue1);
     assertEquals(issue0.hashCode(), issue1.hashCode());
@@ -94,7 +92,7 @@ public class CxxReportIssueTest {
 
   @Test
   public void reportIssueFlowOrder() {
-    CxxReportIssue issue0 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
+    var issue0 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", "Exception thrown in destructor.");
     issue0.addFlowElement("path0.cpp", "1", "a");
     issue0.addFlowElement("path1.cpp", "2", "b");
     issue0.addFlowElement("path2.cpp", "3", "c");

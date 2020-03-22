@@ -95,7 +95,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
                                                                              URISyntaxException, TransformerException {
     LOG.debug("Parsing 'other' format");
 
-    StaxParser parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+    var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
       rootCursor.advance();
 
       SMInputCursor errorCursor = rootCursor.childElementCursor("error");
@@ -105,7 +105,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
         String id = errorCursor.getAttrValue("id");
         String msg = errorCursor.getAttrValue("msg");
 
-        CxxReportIssue issue = new CxxReportIssue(id, file, line, msg);
+        var issue = new CxxReportIssue(id, file, line, msg);
         saveUniqueViolation(context, issue);
       }
     });

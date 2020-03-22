@@ -26,10 +26,10 @@ public class CxxMetricTest {
 
   @Test
   public void test() {
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(CxxMetric.values()).hasSize(17);
 
-    for (CxxMetric metric : CxxMetric.values()) {
+    for (var metric : CxxMetric.values()) {
       softly.assertThat(metric.getName()).isEqualTo(metric.name());
       softly.assertThat(metric.isCalculatedMetric()).isFalse();
       softly.assertThat(metric.aggregateIfThereIsAlreadyAValue()).isTrue();

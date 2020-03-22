@@ -67,7 +67,7 @@ public class CppcheckParserV2 implements CppcheckParser {
   public void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
     LOG.debug("Parsing 'Cppcheck V2' format");
-    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+    var parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
        */
@@ -105,9 +105,9 @@ public class CppcheckParserV2 implements CppcheckParser {
 
       private void processErrorTag(final SensorContext context, SMInputCursor errorCursor) throws XMLStreamException {
         String id = requireAttributeSet(errorCursor.getAttrValue("id"),
-          "Missing mandatory attribute /results/errors/error[@id]");
+                                        "Missing mandatory attribute /results/errors/error[@id]");
         String msg = requireAttributeSet(errorCursor.getAttrValue("msg"),
-          "Missing mandatory attribute /results/errors/error[@msg]");
+                                         "Missing mandatory attribute /results/errors/error[@msg]");
         boolean isInconclusive = "true".equals(errorCursor.getAttrValue("inconclusive"));
         String issueText = createIssueText(msg, isInconclusive);
         CxxReportIssue issue = null;
@@ -158,7 +158,7 @@ public class CppcheckParserV2 implements CppcheckParser {
               String primaryFile = primaryLocation.getFile();
               String primaryLine = primaryLocation.getLine();
 
-              StringBuilder extendedInfo = new StringBuilder(512);
+              var extendedInfo = new StringBuilder(512);
               extendedInfo.append(makeRelativePath(file, primaryFile)).append(":").append(line).append(" ")
                 .append(info);
               issue.addLocation(primaryFile, primaryLine, extendedInfo.toString());

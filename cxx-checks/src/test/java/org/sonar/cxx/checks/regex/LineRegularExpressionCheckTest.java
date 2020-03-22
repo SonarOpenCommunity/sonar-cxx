@@ -36,7 +36,7 @@ public class LineRegularExpressionCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void lineRegExWithoutFilePattern() throws UnsupportedEncodingException, IOException {
-    LineRegularExpressionCheck check = new LineRegularExpressionCheck();
+    var check = new LineRegularExpressionCheck();
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in line!";
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");
@@ -51,7 +51,7 @@ public class LineRegularExpressionCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void lineRegExInvertWithoutFilePattern() throws UnsupportedEncodingException, IOException {
-    LineRegularExpressionCheck check = new LineRegularExpressionCheck();
+    var check = new LineRegularExpressionCheck();
     check.regularExpression = "//.*";
     check.invertRegularExpression = true;
     check.message = "Found no comment in the line!";
@@ -66,7 +66,7 @@ public class LineRegularExpressionCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void lineRegExWithFilePattern1() throws UnsupportedEncodingException, IOException {
-    LineRegularExpressionCheck check = new LineRegularExpressionCheck();
+    var check = new LineRegularExpressionCheck();
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in line in a .cc file!";
@@ -83,7 +83,7 @@ public class LineRegularExpressionCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void lineRegExWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
-    LineRegularExpressionCheck check = new LineRegularExpressionCheck();
+    var check = new LineRegularExpressionCheck();
     check.matchFilePattern = "/**/*.xx"; // all files with not .xx file extension
     check.invertFilePattern = true;
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
@@ -101,7 +101,7 @@ public class LineRegularExpressionCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void lineRegExWithFilePattern2() throws UnsupportedEncodingException, IOException {
-    LineRegularExpressionCheck check = new LineRegularExpressionCheck();
+    var check = new LineRegularExpressionCheck();
     check.matchFilePattern = "/**/*.xx"; // all files with .xx file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in line in a .xx file!";

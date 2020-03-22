@@ -57,9 +57,9 @@ class ValgrindError {
    */
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder(512);
+    var sb = new StringBuilder(512);
     sb.append("ValgrindError [kind=").append(kind).append(", text=").append(text).append(", stacks=[");
-    for (ValgrindStack stack : stacks) {
+    for (var stack : stacks) {
       sb.append(" ValgrindStack=[").append(stack).append("] ");
     }
     sb.append("] ]");

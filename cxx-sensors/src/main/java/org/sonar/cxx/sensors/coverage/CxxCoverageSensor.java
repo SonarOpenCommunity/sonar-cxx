@@ -95,7 +95,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
    */
   private static void parseCoverageReport(CoverageParser parser, File report,
                                           Map<String, CoverageMeasures> measuresTotal) {
-    Map<String, CoverageMeasures> measuresForReport = new HashMap<>();
+    var measuresForReport = new HashMap<String, CoverageMeasures>();
     try {
       parser.processReport(report, measuresForReport);
     } catch (XMLStreamException e) {
@@ -143,9 +143,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
                                                        Map<String, Map<String, CoverageMeasures>> cacheCov) {
     Map<String, CoverageMeasures> measuresTotal = new HashMap<>();
 
-    for (File report : reports) {
+    for (var report : reports) {
       if (!cacheCov.containsKey(report.getAbsolutePath())) {
-        for (CoverageParser parser : parsers) {
+        for (var parser : parsers) {
           try {
             parseCoverageReport(parser, report, measuresTotal);
             LOG.debug("cached measures for '{}' : current cache content data = '{}'", report.getAbsolutePath(),
@@ -171,7 +171,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
   private void saveMeasures(SensorContext context,
                             Map<String, CoverageMeasures> coverageMeasures) {
-    for (Map.Entry<String, CoverageMeasures> entry : coverageMeasures.entrySet()) {
+    for (var entry : coverageMeasures.entrySet()) {
       final String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath != null) {
         InputFile cxxFile = getInputFileIfInProject(context, filePath);

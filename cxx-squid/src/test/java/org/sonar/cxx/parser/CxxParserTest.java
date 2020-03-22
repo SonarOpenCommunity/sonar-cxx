@@ -54,7 +54,7 @@ public class CxxParserTest {
   @Test
   public void testParsingOnDiverseSourceFiles() {
     List<File> files = listFiles(goodFiles, new String[]{"cc", "cpp", "hpp"});
-    HashMap<String, Integer> map = new HashMap<String, Integer>() {
+    var map = new HashMap<String, Integer>() {
       private static final long serialVersionUID = 6029310517902718597L;
 
       {
@@ -76,13 +76,13 @@ public class CxxParserTest {
       }
     };
 
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(false);
 
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     Parser<Grammar> p = CxxParser.create(context, conf);
 
-    for (File file : files) {
+    for (var file : files) {
       when(context.getFile()).thenReturn(file);
       AstNode root = p.parse(file);
       CxxParser.finishedParsing(file);
@@ -98,7 +98,7 @@ public class CxxParserTest {
   @SuppressWarnings("unchecked")
   @Test
   public void testPreproccessorParsingOnDiverseSourceFiles() {
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(false);
     String baseDir = new File("src/test").getAbsolutePath();
     conf.setBaseDir(baseDir);
@@ -115,7 +115,7 @@ public class CxxParserTest {
       "resources\\parser\\preprocessor")
     );
 
-    HashMap<String, Integer> map = new HashMap<String, Integer>() {
+    var map = new HashMap<String, Integer>() {
       private static final long serialVersionUID = 1433381506274827684L;
 
       {
@@ -129,7 +129,7 @@ public class CxxParserTest {
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     Parser<Grammar> p = CxxParser.create(context, conf);
     List<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"});
-    for (File file : files) {
+    for (var file : files) {
       when(context.getFile()).thenReturn(file);
       AstNode root = p.parse(file);
       CxxParser.finishedParsing(file);
@@ -147,7 +147,7 @@ public class CxxParserTest {
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(erroneousSources);
 
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(false);
 
     Parser<Grammar> p = CxxParser.create(context, conf);
@@ -167,7 +167,7 @@ public class CxxParserTest {
 
     // The error recovery works, if:
     // - but doesn't cause such an error if we run with default settings
-    CxxConfiguration conf = new CxxConfiguration();
+    var conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(true);
     Parser<Grammar> p = CxxParser.create(context, conf);
     AstNode root = p.parse(erroneousSources); //<-- this shouldn't throw now
@@ -175,8 +175,8 @@ public class CxxParserTest {
   }
 
   private List<File> listFiles(String[] dirs, String[] extensions) {
-    List<File> files = new ArrayList<>();
-    for (String dir : dirs) {
+    var files = new ArrayList<File>();
+    for (var dir : dirs) {
       files.addAll(FileUtils.listFiles(new File(rootDir, dir), extensions, true));
     }
     return files;

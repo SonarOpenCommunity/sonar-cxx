@@ -23,7 +23,6 @@ import com.sonar.sslr.api.Grammar;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinition.Param;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.CxxLanguage;
@@ -43,8 +42,8 @@ public class CustomCxxRulesDefinitionTest {
 
   @Test
   public void test() {
-    MyCustomPlSqlRulesDefinition rulesDefinition = new MyCustomPlSqlRulesDefinition();
-    RulesDefinition.Context context = new RulesDefinition.Context();
+    var rulesDefinition = new MyCustomPlSqlRulesDefinition();
+    var context = new RulesDefinition.Context();
     rulesDefinition.define(context);
     RulesDefinition.Repository repository = context.repository(REPOSITORY_KEY);
 
@@ -56,8 +55,8 @@ public class CustomCxxRulesDefinitionTest {
     assertThat(alertUseRule).isNotNull();
     assertThat(alertUseRule.name()).isEqualTo(RULE_NAME);
 
-    for (RulesDefinition.Rule rule : repository.rules()) {
-      for (Param param : rule.params()) {
+    for (var rule : repository.rules()) {
+      for (var param : rule.params()) {
         assertThat(param.description()).as("description for " + param.key()).isNotEmpty();
       }
     }

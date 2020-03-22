@@ -36,13 +36,11 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 public class CxxXunitSensorTest {
 
   private FileSystem fs;
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
   }
 
@@ -52,7 +50,7 @@ public class CxxXunitSensorTest {
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
     context.setSettings(settings);
 
-    CxxXunitSensor sensor = new CxxXunitSensor(settings.asConfig());
+    var sensor = new CxxXunitSensor(settings.asConfig());
     sensor.execute(context);
 
     assertThat(context.measures(context.project().key())).hasSize(0);
@@ -64,7 +62,7 @@ public class CxxXunitSensorTest {
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/xunit-result-SAMPLE_with_fileName.xml");
     context.setSettings(settings);
 
-    CxxXunitSensor sensor = new CxxXunitSensor(settings.asConfig());
+    var sensor = new CxxXunitSensor(settings.asConfig());
     sensor.execute(context);
 
     assertThat(context.measures(context.project().key())).hasSize(5);
@@ -84,7 +82,7 @@ public class CxxXunitSensorTest {
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
     context.setSettings(settings);
 
-    CxxXunitSensor sensor = new CxxXunitSensor(settings.asConfig());
+    var sensor = new CxxXunitSensor(settings.asConfig());
     sensor.execute(context);
   }
 
@@ -92,7 +90,7 @@ public class CxxXunitSensorTest {
   public void transformReport_shouldThrowWhenGivenNotExistingStyleSheet()
     throws java.io.IOException, javax.xml.transform.TransformerException {
     settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");
-    CxxXunitSensor sensor = new CxxXunitSensor(settings.asConfig());
+    var sensor = new CxxXunitSensor(settings.asConfig());
     sensor.transformReport(cppunitReport());
   }
 
@@ -100,7 +98,7 @@ public class CxxXunitSensorTest {
   public void transformReport_shouldTransformCppunitReport()
     throws java.io.IOException, javax.xml.transform.TransformerException {
     settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");
-    CxxXunitSensor sensor = new CxxXunitSensor(settings.asConfig());
+    var sensor = new CxxXunitSensor(settings.asConfig());
     File reportBefore = cppunitReport();
     File reportAfter = sensor.transformReport(reportBefore);
     assertThat(reportAfter).isNotSameAs(reportBefore);
@@ -108,8 +106,8 @@ public class CxxXunitSensorTest {
 
   @Test
   public void sensorDescriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxXunitSensor sensor = new CxxXunitSensor(settings.asConfig());
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxXunitSensor(settings.asConfig());
     sensor.describe(descriptor);
 
     assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " XunitSensor");

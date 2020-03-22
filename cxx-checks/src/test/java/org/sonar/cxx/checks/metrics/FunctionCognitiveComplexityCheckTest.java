@@ -40,7 +40,7 @@ public class FunctionCognitiveComplexityCheckTest {
 
   @Test
   public void check() throws UnsupportedEncodingException, IOException {
-    FunctionCognitiveComplexityCheck check = new FunctionCognitiveComplexityCheck();
+    var check = new FunctionCognitiveComplexityCheck();
     check.setMaxComplexity(5);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
       "src/test/resources/checks/FunctionCognitiveComplexity.cc", ".");
@@ -48,7 +48,7 @@ public class FunctionCognitiveComplexityCheckTest {
     Set<CxxReportIssue> issues = MultiLocatitionSquidCheck.getMultiLocationCheckMessages(file);
     assertThat(issues).isNotNull();
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(issues).hasSize(5);
     softly.assertThat(issues).allSatisfy(issue -> "FunctionCognitiveComplexity".equals(issue.getRuleId()));
 

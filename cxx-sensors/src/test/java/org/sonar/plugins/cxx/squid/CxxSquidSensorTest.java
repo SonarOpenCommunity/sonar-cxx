@@ -50,14 +50,12 @@ import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
 public class CxxSquidSensorTest {
 
   private CxxSquidSensor sensor;
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
-    language = TestUtils.mockCxxLanguage();
     ActiveRules rules = mock(ActiveRules.class);
-    CheckFactory checkFactory = new CheckFactory(rules);
+    var checkFactory = new CheckFactory(rules);
     FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);
     FileLinesContext fileLinesContext = mock(FileLinesContext.class);
     when(fileLinesContextFactory.createFor(Mockito.any(InputFile.class))).thenReturn(fileLinesContext);
@@ -79,7 +77,7 @@ public class CxxSquidSensorTest {
     context.fileSystem().add(inputFile0);
     sensor.execute(context);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.NCLOC).value()).isEqualTo(54);
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(50);
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(7);
@@ -102,7 +100,7 @@ public class CxxSquidSensorTest {
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(22);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.CLASSES).value()).isEqualTo(2);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.COMPLEXITY).value()).isEqualTo(38);
@@ -131,7 +129,7 @@ public class CxxSquidSensorTest {
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(context.measure(inputFile.key(), CxxMetrics.PUBLIC_API_KEY).value()).isEqualTo(8);
     softly.assertThat(context.measure(inputFile.key(), CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY).value()).isEqualTo(2);
     softly.assertThat(context.measure(inputFile.key(), CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY)).isNull(); // see DensityMeasureComputer
@@ -154,7 +152,7 @@ public class CxxSquidSensorTest {
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(1);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(0);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(0);
@@ -173,7 +171,7 @@ public class CxxSquidSensorTest {
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(9);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(0);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(9);
@@ -195,7 +193,7 @@ public class CxxSquidSensorTest {
     sensor.execute(context);
 
     // These checks actually check the force include feature, since only if it works the metric values will be like follows
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(1);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(2);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(1);
@@ -219,7 +217,7 @@ public class CxxSquidSensorTest {
   }
 
   private DefaultInputFile buildTestInputFile(File baseDir, String fileName) throws IOException {
-    File target = new File(baseDir, fileName);
+    var target = new File(baseDir, fileName);
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
       .setCharset(StandardCharsets.UTF_8).setLanguage(CxxLanguage.KEY)

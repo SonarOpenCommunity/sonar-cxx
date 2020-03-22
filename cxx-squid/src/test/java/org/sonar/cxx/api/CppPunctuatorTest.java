@@ -32,8 +32,8 @@ public class CppPunctuatorTest {
     assertThat(CppPunctuator.values()).hasSize(70);
 
     AstNode astNode = mock(AstNode.class);
-    SoftAssertions softly = new SoftAssertions();
-    for (CppPunctuator punctuator : CppPunctuator.values()) {
+    var softly = new SoftAssertions();
+    for (var punctuator : CppPunctuator.values()) {
       softly.assertThat(punctuator.hasToBeSkippedFromAst(astNode)).isFalse();
     }
     softly.assertAll();

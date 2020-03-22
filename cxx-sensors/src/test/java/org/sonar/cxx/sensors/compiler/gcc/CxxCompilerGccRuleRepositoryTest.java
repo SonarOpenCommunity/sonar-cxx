@@ -25,18 +25,16 @@ import static org.mockito.Mockito.mock;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCompilerGccRuleRepositoryTest {
 
   @Test
   public void createGccRulesTest() {
-    CxxCompilerGccRuleRepository def = new CxxCompilerGccRuleRepository(
+    var def = new CxxCompilerGccRuleRepository(
       mock(ServerFileSystem.class),
       new RulesDefinitionXmlLoader());
 
-    RulesDefinition.Context context = new RulesDefinition.Context();
+    var context = new RulesDefinition.Context();
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxCompilerGccRuleRepository.KEY);

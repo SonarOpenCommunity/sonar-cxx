@@ -66,12 +66,12 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
                context.fileSystem().baseDir(), getReportPathKey());
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
 
-      for (File report : reports) {
+      for (var report : reports) {
         LOG.info("Processing report '{}'", report);
         executeReport(context, report);
       }
     } catch (Exception e) {
-      String msg = new StringBuilder(256)
+      var msg = new StringBuilder(256)
         .append("Cannot feed the data into sonar, details: '")
         .append(CxxUtils.getStackTrace(e))
         .append("'")
@@ -115,7 +115,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     if (inputFile != null) {
       int lines = inputFile.lines();
       int lineNr = Integer.max(1, getLineAsInt(context, location.getLine(), lines));
-      NewIssueLocation newIssueLocation = newIssue.newLocation()
+      var newIssueLocation = newIssue.newLocation()
         .on(inputFile)
         .at(inputFile.selectLine(lineNr))
         .message(location.getInfo());
@@ -131,10 +131,10 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
    */
   private void saveViolation(SensorContext context, CxxReportIssue issue) {
     NewIssue newIssue = context.newIssue().forRule(RuleKey.of(getRuleRepositoryKey(), issue.getRuleId()));
-    List<NewIssueLocation> newIssueLocations = new ArrayList<>();
-    List<NewIssueLocation> newIssueFlow = new ArrayList<>();
+    var newIssueLocations = new ArrayList<NewIssueLocation>();
+    var newIssueFlow = new ArrayList<NewIssueLocation>();
 
-    for (CxxReportLocation location : issue.getLocations()) {
+    for (var location : issue.getLocations()) {
       if (location.getFile() != null && !location.getFile().isEmpty()) {
         NewIssueLocation newIssueLocation = createNewIssueLocationFile(context, newIssue, location);
         if (newIssueLocation != null) {
@@ -146,7 +146,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       }
     }
 
-    for (CxxReportLocation location : issue.getFlow()) {
+    for (var location : issue.getFlow()) {
       NewIssueLocation newIssueLocation = createNewIssueLocationFile(context, newIssue, location);
       if (newIssueLocation != null) {
         newIssueFlow.add(newIssueLocation);
@@ -160,7 +160,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     if (!newIssueLocations.isEmpty()) {
       try {
         newIssue.at(newIssueLocations.get(0));
-        for (int i = 1; i < newIssueLocations.size(); i++) {
+        for (var i = 1; i < newIssueLocations.size(); i++) {
           newIssue.addLocation(newIssueLocations.get(i));
         }
 

@@ -51,7 +51,7 @@ public class CxxCompilerSensorTest {
 
   @Test
   public void testFileNotFound() throws XMLStreamException {
-    File report = new File("");
+    var report = new File("");
     sensor.setRegex("*");
     sensor.testProcessReport(context, report);
     String log = logTester.logs().toString();
@@ -60,7 +60,7 @@ public class CxxCompilerSensorTest {
 
   @Test
   public void testRegexEmpty() throws XMLStreamException {
-    File report = new File("");
+    var report = new File("");
     sensor.testProcessReport(context, report);
     String log = logTester.logs().toString();
     assertThat(log.contains("empty custom regular expression")).isTrue();
@@ -68,7 +68,7 @@ public class CxxCompilerSensorTest {
 
   @Test
   public void testRegexInvalid() throws XMLStreamException {
-    File report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
+    var report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
     sensor.setRegex("*");
     sensor.testProcessReport(context, report);
     String log = logTester.logs().toString();
@@ -77,7 +77,7 @@ public class CxxCompilerSensorTest {
 
   @Test
   public void testRegexNamedGroupMissing() throws XMLStreamException {
-    File report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
+    var report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
     sensor.setRegex(".*");
     sensor.testProcessReport(context, report);
     String log = logTester.logs().toString();

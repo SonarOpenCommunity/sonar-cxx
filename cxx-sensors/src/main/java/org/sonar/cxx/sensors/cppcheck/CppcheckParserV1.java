@@ -48,7 +48,7 @@ public class CppcheckParserV1 implements CppcheckParser {
   @Override
   public void processReport(final SensorContext context, File report) throws XMLStreamException {
     LOG.debug("Parsing 'Cppcheck V1' format");
-    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+    var parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
        */
@@ -80,7 +80,7 @@ public class CppcheckParserV1 implements CppcheckParser {
             }
 
             if (isInputValid(id, msg)) {
-              CxxReportIssue issue = new CxxReportIssue(id, file, line, msg);
+              var issue = new CxxReportIssue(id, file, line, msg);
               sensor.saveUniqueViolation(context, issue);
             } else {
               LOG.warn("Skipping invalid violation: '{}'", msg);

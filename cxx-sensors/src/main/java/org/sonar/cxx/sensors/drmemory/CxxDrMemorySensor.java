@@ -57,7 +57,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   }
 
   private static String getFrameText(Location frame, int frameNr) {
-    StringBuilder sb = new StringBuilder(512);
+    var sb = new StringBuilder(512);
     sb.append("#").append(frameNr).append(" ").append(frame.getFile()).append(":").append(frame.getLine());
     return sb.toString();
   }
@@ -90,7 +90,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   }
 
   private Location getLastOwnFrame(SensorContext context, DrMemoryError error) {
-    for (Location frame : error.getStackTrace()) {
+    for (var frame : error.getStackTrace()) {
       if (frameIsInProject(context, frame)) {
         return frame;
       }
@@ -102,10 +102,9 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   protected void processReport(final SensorContext context, File report) {
     LOG.debug("Parsing 'Dr Memory' format");
 
-    for (DrMemoryError error : DrMemoryParser.parse(report, DEFAULT_CHARSET_DEF)) {
+    for (var error : DrMemoryParser.parse(report, DEFAULT_CHARSET_DEF)) {
       if (error.getStackTrace().isEmpty()) {
-        CxxReportIssue moduleIssue = new CxxReportIssue(error.getType().getId(), null,
-                                                        null, error.getMessage());
+        var moduleIssue = new CxxReportIssue(error.getType().getId(), null, null, error.getMessage());
         saveUniqueViolation(context, moduleIssue);
       } else {
         Location lastOwnFrame = getLastOwnFrame(context, error);
@@ -113,13 +112,13 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
           LOG.warn("Cannot find a project file to assign the DrMemory error '{}' to", error);
           continue;
         }
-        CxxReportIssue fileIssue = new CxxReportIssue(error.getType().getId(),
-                                                      lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), error
-                                                      .getMessage());
+        var fileIssue = new CxxReportIssue(error.getType().getId(),
+                                       lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), error
+                                       .getMessage());
 
         // add all frames as secondary locations
         int frameNr = 0;
-        for (Location frame : error.getStackTrace()) {
+        for (var frame : error.getStackTrace()) {
           boolean frameIsInProject = frameIsInProject(context, frame);
           String mappedPath = (frameIsInProject) ? frame.getFile() : lastOwnFrame.getFile();
           Integer mappedLine = (frameIsInProject) ? frame.getLine() : lastOwnFrame.getLine();

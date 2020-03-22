@@ -35,13 +35,11 @@ public class CxxRatsSensorTest {
 
   private CxxRatsSensor sensor;
   private DefaultFileSystem fs;
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
   }
 
   @Test
@@ -63,11 +61,11 @@ public class CxxRatsSensorTest {
 
   @Test
   public void sensorDescriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+    var descriptor = new DefaultSensorDescriptor();
     sensor = new CxxRatsSensor();
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " RatsSensor");
     softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxRatsRuleRepository.KEY);

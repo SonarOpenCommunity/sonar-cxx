@@ -47,7 +47,7 @@ public final class CxxLexer {
   private static final String BIN_PREFIX = "0[bB]";
   private static final String EXPONENT = "[Ee][+-]?+[0-9_]([']?+[0-9_]++)*+";
   private static final String BINARY_EXPONENT = "[pP][+-]?+[0-9]([']?+[0-9]++)*+"; // since C++17
-  //private static final String INTEGER_SUFFIX = "(((U|u)(i64|LL|ll|L|l)?)|((i64|LL|ll|L|l)(u|U)?))";  
+  //private static final String INTEGER_SUFFIX = "(((U|u)(i64|LL|ll|L|l)?)|((i64|LL|ll|L|l)(u|U)?))";
   //private static final String FLOAT_SUFFIX = "(f|l|F|L)";
   // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
   private static final String UD_SUFFIX = "[_a-zA-Z][_a-zA-Z0-9]*+";
@@ -83,23 +83,22 @@ public final class CxxLexer {
       .withChannel(new CharacterLiteralsChannel())
       // C++ Standard, Section 2.14.5 "String literals"
       .withChannel(new StringLiteralsChannel())
-
       // C++ Standard, Section 2.14.2 "Integer literals"
       // C++ Standard, Section 2.14.4 "Floating literals"
       .withChannel(
         regexp(CxxTokenType.NUMBER,
-          and(
-            or(
-              g(POINT, DECDIGIT_SEQUENCE, opt(g(EXPONENT))),
-              g(HEX_PREFIX, opt(g(HEXDIGIT_SEQUENCE)), opt(POINT), opt(g(HEXDIGIT_SEQUENCE)), opt(g(BINARY_EXPONENT))),
-              g(BIN_PREFIX, BINDIGIT_SEQUENCE),
-              g(DECDIGIT_SEQUENCE, opt(POINT), opt(g(DECDIGIT_SEQUENCE)), opt(g(EXPONENT)))
-            ),
-            opt(g(UD_SUFFIX))
-          )
+               and(
+                 or(
+                   g(POINT, DECDIGIT_SEQUENCE, opt(g(EXPONENT))),
+                   g(HEX_PREFIX, opt(g(HEXDIGIT_SEQUENCE)), opt(POINT), opt(g(HEXDIGIT_SEQUENCE)), opt(
+                     g(BINARY_EXPONENT))),
+                   g(BIN_PREFIX, BINDIGIT_SEQUENCE),
+                   g(DECDIGIT_SEQUENCE, opt(POINT), opt(g(DECDIGIT_SEQUENCE)), opt(g(EXPONENT)))
+                 ),
+                 opt(g(UD_SUFFIX))
+               )
         )
       )
-
       // C++ Standard, Section 2.14.7 "Pointer literals"
       .withChannel(regexp(CxxTokenType.NUMBER, CxxKeyword.NULLPTR.getValue() + "\\b"))
       // C++ Standard, Section 2.12 "Keywords"
@@ -109,7 +108,7 @@ public final class CxxLexer {
       .withChannel(new PunctuatorChannel(CxxPunctuator.values()))
       .withChannel(new UnknownCharacterChannel());
 
-    for (Preprocessor preprocessor : preprocessors) {
+    for (var preprocessor : preprocessors) {
       builder.withPreprocessor(preprocessor);
     }
 

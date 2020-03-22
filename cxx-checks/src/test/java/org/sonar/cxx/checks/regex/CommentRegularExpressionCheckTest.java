@@ -36,7 +36,7 @@ public class CommentRegularExpressionCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
-    CommentRegularExpressionCheck check = new CommentRegularExpressionCheck();
+    var check = new CommentRegularExpressionCheck();
     check.regularExpression = "(?i).*TODO.*";
     check.message = "Avoid TODO";
 

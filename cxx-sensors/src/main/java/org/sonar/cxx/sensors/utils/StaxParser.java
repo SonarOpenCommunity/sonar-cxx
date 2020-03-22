@@ -141,7 +141,7 @@ public class StaxParser {
     @Override
     public Object resolveEntity(String arg0, String arg1, String fileName, String undeclaredEntity)
       throws XMLStreamException {
-      // avoid problems with XML docs containing undeclared entities.. 
+      // avoid problems with XML docs containing undeclared entities..
       // return the entity under its raw form if not an unicode expression
       String undeclared = undeclaredEntity;
       if (StringUtils.startsWithIgnoreCase(undeclared, "u") && undeclared.length() == 5) {
@@ -213,7 +213,7 @@ public class StaxParser {
     }
 
     private static void checkBufferForISOControlChars(byte[] buffer, int off, int len) {
-      for (int i = off; i < len; i++) {
+      for (var i = off; i < len; i++) {
         char streamChar = (char) buffer[i];
         if (Character.isISOControl(streamChar) && streamChar != '\n') {
           // replace control chars by a simple space

@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -114,7 +113,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         LOG.debug("No reports found, nothing to process");
       }
     } catch (IOException | TransformerException | XMLStreamException e) {
-      String msg = new StringBuilder(256)
+      var msg = new StringBuilder(256)
         .append("Cannot feed the data into SonarQube, details: '")
         .append(e)
         .append("'")
@@ -133,9 +132,9 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   private XunitReportParser parseReport(List<File> reports)
     throws XMLStreamException, IOException, TransformerException {
-    XunitReportParser parserHandler = new XunitReportParser();
-    StaxParser parser = new StaxParser(parserHandler, false);
-    for (File report : reports) {
+    var parserHandler = new XunitReportParser();
+    var parser = new StaxParser(parserHandler, false);
+    for (var report : reports) {
       LOG.info("Processing report '{}'", report);
       try {
         parser.parse(transformReport(report));
@@ -154,7 +153,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     int testsErrors = 0;
     int testsFailures = 0;
     long testsTime = 0;
-    for (TestCase tc : testcases) {
+    for (var tc : testcases) {
       if (tc.isSkipped()) {
         testsSkipped++;
       } else if (tc.isFailure()) {
@@ -236,11 +235,11 @@ public class CxxXunitSensor extends CxxReportSensor {
       InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + xsltURL);
       if (inputStream == null) {
         LOG.debug("Transforming: try to access external XSLT via URL");
-        URL url = new URL(xsltURL);
+        var url = new URL(xsltURL);
         inputStream = url.openStream();
       }
 
-      Source xsl = new StreamSource(inputStream);
+      var xsl = new StreamSource(inputStream);
       transformed = new File(report.getAbsolutePath() + ".after_xslt");
       CxxUtils.transformFile(xsl, report, transformed);
     } else {

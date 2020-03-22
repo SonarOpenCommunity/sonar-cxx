@@ -30,27 +30,24 @@ import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCompilerVcSensorTest {
 
   private DefaultFileSystem fs;
-  private CxxLanguage language;
   private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
   }
 
   @Test
   public void sensorDescriptorVc() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxCompilerVcSensor sensor = new CxxCompilerVcSensor();
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxCompilerVcSensor();
     sensor.describe(descriptor);
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " CxxCompilerVcSensor");
     softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories())
@@ -69,7 +66,7 @@ public class CxxCompilerVcSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "zipmanager.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerVcSensor();
+    var sensor = new CxxCompilerVcSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(9);
@@ -87,7 +84,7 @@ public class CxxCompilerVcSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "Server/source/zip/zipmanager.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCompilerSensor sensor = new CxxCompilerVcSensor();
+    var sensor = new CxxCompilerVcSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(9);

@@ -83,7 +83,7 @@ public class AggregateMeasureComputer implements MeasureComputer {
       return;
     }
     int aggregation = 0;
-    for (Measure childMeasure : childrenMeasures) {
+    for (var childMeasure : childrenMeasures) {
       if (childMeasure != null) {
         aggregation += childMeasure.getIntValue();
       }
@@ -103,7 +103,7 @@ public class AggregateMeasureComputer implements MeasureComputer {
 
   @Override
   public void compute(MeasureComputerContext context) {
-    for (final String metricKey : metricKeys) {
+    for (var metricKey : metricKeys) {
       compute(context, metricKey);
     }
   }

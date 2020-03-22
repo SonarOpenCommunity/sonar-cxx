@@ -20,7 +20,6 @@
 package org.sonar.cxx.postjobs;
 
 import java.io.File;
-import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,8 +50,8 @@ public class FinalReportTest {
 
   @Test
   public void finalReportTest() {
-    String dir = "src/test/resources/org/sonar/cxx/postjobs";
-    SensorContextTester context = SensorContextTester.create(new File(dir));
+    var dir = "src/test/resources/org/sonar/cxx/postjobs";
+    var context = SensorContextTester.create(new File(dir));
     InputFile inputFile = TestInputFileBuilder.create("", dir + "/syntaxerror.cc").build();
     context.fileSystem().add(inputFile);
 
@@ -60,10 +59,10 @@ public class FinalReportTest {
     CxxPreprocessor.resetReport();
     CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context);
 
-    FinalReport postjob = new FinalReport();
+    var postjob = new FinalReport();
     postjob.execute(postJobContext);
 
-    List<String> log = logTester.logs(LoggerLevel.WARN);
+    var log = logTester.logs(LoggerLevel.WARN);
     assertThat(log.size()).isEqualTo(2);
     assertThat(log.get(0)).contains("include directive error(s)");
     assertThat(log.get(1)).contains("syntax error(s) detected");

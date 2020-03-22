@@ -39,7 +39,7 @@ public class ValgrindReportParserTest {
   @Test
   public void shouldParseCorrectNumberOfErrors() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE_1.xml");
+    var absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE_1.xml");
     Set<ValgrindError> valgrindErrors = parser.processReport(absReportFile);
     assertEquals(13, valgrindErrors.size());
   }
@@ -47,14 +47,15 @@ public class ValgrindReportParserTest {
   @Test
   public void parseAnErrorWithMultipleStacks() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE_2.xml");
+    var absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE_2.xml");
     Set<ValgrindError> valgrindErrors = parser.processReport(absReportFile);
     // single <error>
     assertEquals(1, valgrindErrors.size());
 
     ValgrindError error = valgrindErrors.iterator().next();
     // merge <what> and <auxwhat>
-    assertEquals("Invalid write of size 4: Address 0xd820468 is 0 bytes after a block of size 40 alloc'd", error.getText());
+    assertEquals("Invalid write of size 4: Address 0xd820468 is 0 bytes after a block of size 40 alloc'd", error
+                 .getText());
     // <error> contains two <stack> entries
     assertEquals(2, error.getStacks().size());
   }
@@ -62,7 +63,7 @@ public class ValgrindReportParserTest {
   @Test
   public void parseAnErrorWithMultipleAuxwhat() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE_3.xml");
+    var absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE_3.xml");
     Set<ValgrindError> valgrindErrors = parser.processReport(absReportFile);
     // single <error>
     assertEquals(1, valgrindErrors.size());
@@ -79,7 +80,7 @@ public class ValgrindReportParserTest {
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_1() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_1.xml");
+    var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_1.xml");
 
     // error contains no kind-tag
     parser.processReport(absReportFile);
@@ -88,7 +89,7 @@ public class ValgrindReportParserTest {
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_2() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_2.xml");
+    var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_2.xml");
 
     // error contains no what- or xwhat-tag
     parser.processReport(absReportFile);
@@ -97,7 +98,7 @@ public class ValgrindReportParserTest {
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_3() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    File absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_3.xml");
+    var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_3.xml");
     // error contains no stack-tag
     parser.processReport(absReportFile);
   }

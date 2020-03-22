@@ -29,20 +29,16 @@ import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxDrMemorySensorTest {
 
   private DefaultFileSystem fs;
-  private CxxLanguage language;
-  private final MapSettings settings = new MapSettings();
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    language = TestUtils.mockCxxLanguage();
   }
 
   @Test
@@ -55,7 +51,7 @@ public class CxxDrMemorySensorTest {
       .initMetadata("asd\nasdas\nasda\n").setCharset(StandardCharsets.UTF_8).build();
     context.fileSystem().add(inputFile);
 
-    CxxDrMemorySensor sensor = new CxxDrMemorySensor();
+    var sensor = new CxxDrMemorySensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -63,11 +59,11 @@ public class CxxDrMemorySensorTest {
 
   @Test
   public void sensorDescriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    CxxDrMemorySensor sensor = new CxxDrMemorySensor();
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxDrMemorySensor();
     sensor.describe(descriptor);
 
-    SoftAssertions softly = new SoftAssertions();
+    var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " DrMemorySensor");
     softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxDrMemoryRuleRepository.KEY);

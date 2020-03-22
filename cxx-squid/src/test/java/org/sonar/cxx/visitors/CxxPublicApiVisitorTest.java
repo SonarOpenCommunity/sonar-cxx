@@ -112,7 +112,7 @@ public class CxxPublicApiVisitorTest {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/public_api.h", ".", "");
     SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, visitor);
 
-    final Map<String, String> expectedIdCommentMap = new HashMap<>();
+    var expectedIdCommentMap = new HashMap<String, String>();
 
     expectedIdCommentMap.put("publicDefinedMethod", "publicDefinedMethod");
     expectedIdCommentMap.put("publicDeclaredMethod", "publicDeclaredMethod");
@@ -167,7 +167,7 @@ public class CxxPublicApiVisitorTest {
     expectedIdCommentMap.put("linkageSpecification", "linkageSpecification");
 
     // check completeness
-    for (final String id : expectedIdCommentMap.keySet()) {
+    for (var id : expectedIdCommentMap.keySet()) {
       LOG.debug("id: {}", id);
 
       List<Token> comments = visitor.idCommentMap.get(id);
@@ -184,7 +184,7 @@ public class CxxPublicApiVisitorTest {
     }
 
     // check correction
-    for (final String id : visitor.idCommentMap.keySet()) {
+    for (var id : visitor.idCommentMap.keySet()) {
       LOG.debug("id: {}", id);
 
       List<Token> comments = visitor.idCommentMap.get(id);
@@ -213,7 +213,7 @@ public class CxxPublicApiVisitorTest {
   private Tuple testFile(String fileName, boolean checkDouble)
     throws UnsupportedEncodingException, IOException {
 
-    TestPublicApiVisitor visitor = new TestPublicApiVisitor(checkDouble);
+    var visitor = new TestPublicApiVisitor(checkDouble);
 
     visitor.withHeaderFileSuffixes(Arrays
       .asList(getFileExtension(fileName)));

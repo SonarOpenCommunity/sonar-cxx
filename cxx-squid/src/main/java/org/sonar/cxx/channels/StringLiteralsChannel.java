@@ -57,7 +57,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       }
     }
     readUdSuffix(code);
-    for (int i = 0; i < index; i++) {
+    for (var i = 0; i < index; i++) {
       sb.append((char) code.pop());
     }
     output.addToken(Token.builder()

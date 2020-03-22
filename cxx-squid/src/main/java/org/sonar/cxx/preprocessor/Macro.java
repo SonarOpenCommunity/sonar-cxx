@@ -85,7 +85,7 @@ public final class Macro {
   }
 
   private static Map<String, Macro> initStandardMacros() {
-    Map<String, Macro> map = new HashMap<>();
+    var map = new HashMap<String, Macro>();
     add(map, "__FILE__", "\"file\"");
     add(map, "__LINE__", "1");
     // indicates 'date unknown'. should suffice
@@ -101,7 +101,7 @@ public final class Macro {
   }
 
   private static Map<String, Macro> initUnitMacros() {
-    Map<String, Macro> map = new HashMap<>();
+    var map = new HashMap<String, Macro>();
     add(map, "__FILE__", "\"file\"");
     add(map, "__LINE__", "1");
     add(map, "__DATE__", "\"??? ?? ????\"");

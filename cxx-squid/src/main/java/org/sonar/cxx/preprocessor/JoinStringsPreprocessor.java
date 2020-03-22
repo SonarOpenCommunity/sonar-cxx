@@ -35,9 +35,9 @@ public class JoinStringsPreprocessor extends Preprocessor {
   }
 
   private static String concatenateStringLiterals(List<Token> concatenatedTokens) {
-    StringBuilder sb = new StringBuilder(256);
+    var sb = new StringBuilder(256);
     sb.append("\"");
-    for (Token t : concatenatedTokens) {
+    for (var t : concatenatedTokens) {
       sb.append(stripQuotes(t.getValue()));
     }
     sb.append("\"");
@@ -49,7 +49,7 @@ public class JoinStringsPreprocessor extends Preprocessor {
 
     int nrOfAdjacentStringLiterals = 0;
     boolean isGenerated = false;
-    for (Token t : tokens) {
+    for (var t : tokens) {
       if (!CxxTokenType.STRING.equals(t.getType())) {
         break;
       }
@@ -63,7 +63,7 @@ public class JoinStringsPreprocessor extends Preprocessor {
 
     // Concatenate adjacent string literals
     // (C++ Standard, "2.2 Phases of translation, Phase 6")
-    List<Token> concatenatedTokens = new ArrayList<>(tokens.subList(0, nrOfAdjacentStringLiterals));
+    var concatenatedTokens = new ArrayList<Token>(tokens.subList(0, nrOfAdjacentStringLiterals));
     String concatenatedLiteral = concatenateStringLiterals(concatenatedTokens);
     Trivia trivia = Trivia.createSkippedText(concatenatedTokens);
     Token firstToken = tokens.get(0);
@@ -72,7 +72,7 @@ public class JoinStringsPreprocessor extends Preprocessor {
       .setGeneratedCode(isGenerated).build();
 
     return new PreprocessorAction(nrOfAdjacentStringLiterals, Collections.singletonList(trivia),
-      Collections.singletonList(tokenToInject));
+                                  Collections.singletonList(tokenToInject));
   }
 
 }

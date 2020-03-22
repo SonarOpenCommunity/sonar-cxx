@@ -63,7 +63,7 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
     }
 
     public void parse() {
-      try (XmlParserHelper xmlParserHelper = new XmlParserHelper(file)) {
+      try (var xmlParserHelper = new XmlParserHelper(file)) {
         checkRootTag(xmlParserHelper);
         dispatchTags(xmlParserHelper);
         if (!foundCounters) {
@@ -123,14 +123,14 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
     }
 
     private String keepOnlyMilliseconds(String value) {
-      StringBuffer sb = new StringBuffer(256);
+      var sb = new StringBuffer(256);
 
       Matcher matcher = millisecondsPattern.matcher(value);
-      StringBuilder trailingZeros = new StringBuilder(128);
+      var trailingZeros = new StringBuilder(128);
       while (matcher.find()) {
         String milliseconds = matcher.group(2);
         trailingZeros.setLength(0);
-        for (int i = 0; i < 3 - milliseconds.length(); i++) {
+        for (var i = 0; i < 3 - milliseconds.length(); i++) {
           trailingZeros.append('0');
         }
         matcher.appendReplacement(sb, "$1" + trailingZeros);

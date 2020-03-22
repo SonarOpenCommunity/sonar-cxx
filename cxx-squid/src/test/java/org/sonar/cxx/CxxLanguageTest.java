@@ -31,21 +31,21 @@ public class CxxLanguageTest {
 
   @Test
   public void testCxxLanguageStringConfiguration() throws Exception {
-    CxxLanguage language = new CxxLanguage(settings.asConfig());
+    var language = new CxxLanguage(settings.asConfig());
     assertThat(language.getKey()).isEqualTo("c++");
   }
 
   @Test
   public void shouldReturnConfiguredFileSuffixes() {
     settings.setProperty(CxxLanguage.FILE_SUFFIXES_KEY, ".C,.c,.H,.h");
-    CxxLanguage cxx = new CxxLanguage(settings.asConfig());
+    var cxx = new CxxLanguage(settings.asConfig());
     String[] expected = {".C", ".c", ".H", ".h"};
     assertThat(cxx.getFileSuffixes(), is(expected));
   }
 
   @Test
   public void shouldReturnDefaultFileSuffixes() {
-    CxxLanguage cxx = new CxxLanguage(settings.asConfig());
+    var cxx = new CxxLanguage(settings.asConfig());
     String[] expectedAll = {".cxx", ".cpp", ".cc", ".c", ".hxx", ".hpp", ".hh", ".h"};
     assertThat(cxx.getFileSuffixes(), is(expectedAll));
   }

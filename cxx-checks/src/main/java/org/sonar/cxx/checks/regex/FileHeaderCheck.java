@@ -79,8 +79,8 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
   private Pattern searchPattern = null;
 
   private static boolean matches(String[] expectedLines, BufferedReader br) throws IOException {
-    for (String expectedLine : expectedLines) {
-      String line = br.readLine();
+    for (var expectedLine : expectedLines) {
+      var line = br.readLine();
       if (!expectedLine.equals(line)) {
         return false;
       }
@@ -106,8 +106,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
   public void visitFile(AstNode astNode) {
 
     // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-    try (BufferedReader br = new BufferedReader(
-      new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
+    try (var br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
 
       if (isRegularExpression) {
         String fileContent = br.lines().collect(Collectors.joining(System.lineSeparator()));

@@ -154,7 +154,7 @@ public class CxxCoberturaSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
@@ -184,7 +184,7 @@ public class CxxCoberturaSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
@@ -200,7 +200,7 @@ public class CxxCoberturaSensorTest {
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, reportPathValue);
     context.setSettings(settings);
 
-    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     List<String> log = logTester.logs();
@@ -216,7 +216,7 @@ public class CxxCoberturaSensorTest {
                          "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
     context.setSettings(settings);
 
-    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(linesOfCodeByFile.isEmpty()).isTrue();
@@ -236,7 +236,7 @@ public class CxxCoberturaSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 1)).isNull();
@@ -258,7 +258,7 @@ public class CxxCoberturaSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 1)).isNull();
@@ -280,24 +280,24 @@ public class CxxCoberturaSensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
       .build());
 
-    CxxCoverageSensor sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
     sensor.execute(context);
 
-    int[] oneHitlinesA = new int[]{4, 5, 6, 8, 13, 15, 16, 25};
-    int[] zeroHitlinesA = new int[]{9, 10, 22, 23};
-    for (int zeroHitline : zeroHitlinesA) {
+    var oneHitlinesA = new int[]{4, 5, 6, 8, 13, 15, 16, 25};
+    var zeroHitlinesA = new int[]{9, 10, 22, 23};
+    for (var zeroHitline : zeroHitlinesA) {
       assertThat(context.lineHits("ProjectKey:project2/source1.cpp", zeroHitline)).isEqualTo(0);
     }
-    for (int oneHitline : oneHitlinesA) {
+    for (var oneHitline : oneHitlinesA) {
       assertThat(context.lineHits("ProjectKey:project2/source1.cpp", oneHitline)).isEqualTo(1);
     }
 
-    int[] oneHitlinesB = new int[]{4, 5, 6, 8, 9, 10, 13, 21, 25};
-    int[] zeroHitlinesB = new int[]{15, 16, 22, 23};
-    for (int zeroHitline : zeroHitlinesB) {
+    var oneHitlinesB = new int[]{4, 5, 6, 8, 9, 10, 13, 21, 25};
+    var zeroHitlinesB = new int[]{15, 16, 22, 23};
+    for (var zeroHitline : zeroHitlinesB) {
       assertThat(context.lineHits("ProjectKey:project2/source2.cpp", zeroHitline)).isEqualTo(0);
     }
-    for (int oneHitline : oneHitlinesB) {
+    for (var oneHitline : oneHitlinesB) {
       assertThat(context.lineHits("ProjectKey:project2/source2.cpp", oneHitline)).isEqualTo(1);
     }
 

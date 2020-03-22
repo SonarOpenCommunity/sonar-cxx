@@ -80,7 +80,7 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
     throws javax.xml.stream.XMLStreamException {
     LOG.debug("Parsing 'Vera++' format");
     try {
-      StaxParser parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+      var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
         try {
           rootCursor.advance();
         } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
@@ -98,7 +98,7 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
               String message = errorCursor.getAttrValue("message");
               String source = errorCursor.getAttrValue("source");
 
-              CxxReportIssue issue = new CxxReportIssue(source, name, line, message);
+              var issue = new CxxReportIssue(source, name, line, message);
               saveUniqueViolation(context, issue);
             } else {
               LOG.debug("Error in file '{}', with message '{}'",

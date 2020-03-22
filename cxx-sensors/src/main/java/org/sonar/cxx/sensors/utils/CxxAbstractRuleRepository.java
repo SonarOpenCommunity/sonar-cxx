@@ -66,12 +66,12 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     Charset charset = StandardCharsets.UTF_8;
     NewRepository repository = context.createRepository(repositoryKey, CxxLanguage.KEY).setName(repositoryName);
 
-    RulesDefinitionXmlLoader xmlLoader = new RulesDefinitionXmlLoader();
+    var xmlLoader = new RulesDefinitionXmlLoader();
     if (!"".equals(fileName())) {
       InputStream xmlStream = getClass().getResourceAsStream(fileName());
       xmlLoader.load(repository, xmlStream, charset);
 
-      for (File userExtensionXml : getExtensions(repositoryKey, "xml")) {
+      for (var userExtensionXml : getExtensions(repositoryKey, "xml")) {
         try (InputStream input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
           xmlRuleLoader.load(repository, input, charset);
         } catch (IOException | IllegalStateException ex) {
@@ -84,8 +84,8 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
   }
 
   public List<File> getExtensions(String dirName, @Nullable String... suffixes) {
-    File dir = new File(fileSystem.getHomeDir(), "extensions/rules/" + dirName);
-    List<File> files = new ArrayList<>();
+    var dir = new File(fileSystem.getHomeDir(), "extensions/rules/" + dirName);
+    var files = new ArrayList<File>();
     if (dir.exists() && dir.isDirectory()) {
       if (suffixes != null && suffixes.length > 0) {
         files.addAll(FileUtils.listFiles(dir, suffixes, false));
