@@ -28,7 +28,6 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.api.SourceFile;
@@ -37,15 +36,13 @@ import org.sonar.squidbridge.indexer.QueryByType;
 
 public class CxxAstScannerTest {
 
-  private final MapSettings settings = new MapSettings();
-
   @Test
   public void files() throws UnsupportedEncodingException, IOException {
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/trivial.cc", ".", "");
     CxxFileTesterHelper.AddFileToContext(tester, "src/test/resources/metrics/trivial.cc", "");
 
-    AstScanner<Grammar> scanner = CxxAstScanner.create(settings.asConfig(), new CxxConfiguration());
+    AstScanner<Grammar> scanner = CxxAstScanner.create(new CxxSquidConfiguration());
     scanner.scanFiles(new ArrayList<>(Arrays.asList(
       new File("src/test/resources/metrics/trivial.cc"),
       new File("src/test/resources/metrics/classes.cc")))
@@ -58,7 +55,7 @@ public class CxxAstScannerTest {
   @Test
   public void comments() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/comments.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
     var softly = new SoftAssertions();
     softly.assertThat(file.getInt(CxxMetric.COMMENT_LINES)).isEqualTo(6);
     softly.assertThat(file.getNoSonarTagLines()).contains(8).hasSize(1);
@@ -68,7 +65,7 @@ public class CxxAstScannerTest {
   @Test
   public void lines() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/classes.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
     assertThat(file.getInt(CxxMetric.LINES)).isEqualTo(7);
   }
 
@@ -76,35 +73,35 @@ public class CxxAstScannerTest {
   public void lines_of_code() throws UnsupportedEncodingException, IOException {
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/classes.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
     assertThat(file.getInt(CxxMetric.LINES_OF_CODE)).isEqualTo(5);
   }
 
   @Test
   public void statements() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/statements.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
     assertThat(file.getInt(CxxMetric.STATEMENTS)).isEqualTo(4);
   }
 
   @Test
   public void functions() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/functions.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
     assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
   }
 
   @Test
   public void classes() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/classes.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
     assertThat(file.getInt(CxxMetric.CLASSES)).isEqualTo(2);
   }
 
   @Test
   public void complexity() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/complexity.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
     assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
   }
 
@@ -112,7 +109,7 @@ public class CxxAstScannerTest {
   public void complexity_alternative() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
       "src/test/resources/metrics/complexity_alternative.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
     assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
   }
 
@@ -120,7 +117,7 @@ public class CxxAstScannerTest {
   public void complexity_macro() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper
       .CreateCxxFileTester("src/test/resources/metrics/complexity_macro.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
     assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(1);
   }
 
@@ -128,14 +125,14 @@ public class CxxAstScannerTest {
   public void error_recovery_declaration() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
       "src/test/resources/parser/bad/error_recovery_declaration.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
     assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
   }
 
   @Test
   public void nosonar_comments() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/nosonar.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
     assertThat(file.getNoSonarTagLines()).containsOnlyElementsOf(Arrays.asList(3, 6, 9, 11));
   }
 

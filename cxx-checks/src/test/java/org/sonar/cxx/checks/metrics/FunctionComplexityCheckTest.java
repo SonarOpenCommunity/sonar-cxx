@@ -39,7 +39,7 @@ public class FunctionComplexityCheckTest {
     var check = new FunctionComplexityCheck();
     check.setMaxComplexity(5);
     var tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionComplexity.cc", ".");
-    var file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
+    var file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
     var issues = MultiLocatitionSquidCheck.getMultiLocationCheckMessages(file);
     assertThat(issues).isNotNull();
     var softly = new SoftAssertions();

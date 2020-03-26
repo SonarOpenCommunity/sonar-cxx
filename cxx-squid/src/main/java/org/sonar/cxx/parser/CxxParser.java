@@ -23,7 +23,7 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 import java.io.File;
 import java.lang.ref.WeakReference;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.lexer.CxxLexer;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
@@ -44,18 +44,18 @@ public final class CxxParser {
 
   public static Parser<Grammar> create() {
     return create(new SquidAstVisitorContextImpl<>(new SourceProject("")),
-                  new CxxConfiguration());
+                  new CxxSquidConfiguration());
   }
 
   public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context) {
-    return create(context, new CxxConfiguration());
+    return create(context, new CxxSquidConfiguration());
   }
 
-  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf) {
-    var cxxpp = new CxxPreprocessor(context, conf);
+  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context, CxxSquidConfiguration squidConfig) {
+    var cxxpp = new CxxPreprocessor(context, squidConfig);
     currentPreprocessorInstance = new WeakReference<>(cxxpp);
-    return Parser.builder(CxxGrammarImpl.create(conf))
-      .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
+    return Parser.builder(CxxGrammarImpl.create(squidConfig))
+      .withLexer(CxxLexer.create(squidConfig, cxxpp, new JoinStringsPreprocessor()))
       .build();
   }
 

@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxCompilationUnitSettings;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
 import static org.sonar.cxx.api.CppPunctuator.BR_RIGHT;
@@ -91,19 +91,19 @@ public class CxxPreprocessor extends Preprocessor {
    * there is no specific compilation unit settings. The map contains
    * <ol>
    * <li>{@link Macro#STANDARD_MACROS}</li>
-   * <li>{@link CxxConfiguration#getDefines()} and</li>
-   * <li>forced includes (see {@link CxxConfiguration#getForceIncludeFiles()})</li>
+   * <li>{@link CxxSquidConfiguration#getDefines()} and</li>
+   * <li>forced includes (see {@link CxxSquidConfiguration#getForceIncludeFiles()})</li>
    * </ol>
    * All hi-prio macros are pre-parsed while construction of {@link CxxPreprocessor}
    */
   private final MapChain<String, Macro> fixedMacros = new MapChain<>();
   /**
-   * If CxxConfiguration contains any compilation unit settings, this map is filled with a set of pre-compiled macros.
+   * If CxxSquidConfiguration contains any compilation unit settings, this map is filled with a set of pre-compiled macros.
    * Those macros must be defined for each compilation unit:
    * <ol>
    * <li>{@link Macro#UNIT_MACROS}</li>
-   * <li>{@link CxxConfiguration#getDefines()} and</li>
-   * <li>forced includes (see {@link CxxConfiguration#getForceIncludeFiles()})</li>
+   * <li>{@link CxxSquidConfiguration#getDefines()} and</li>
+   * <li>forced includes (see {@link CxxSquidConfiguration#getForceIncludeFiles()})</li>
    * </ol>
    * The map is immutable; macros are pre-parsed while construction of {@link CxxPreprocessor}
    */
@@ -114,7 +114,7 @@ public class CxxPreprocessor extends Preprocessor {
    * <ol>
    * <li>predefined compilation unit macros will be added (see {@link CxxPreprocessor#predefinedUnitMacros}</li>
    * <li>specific unit settings will be parsed and added (see
-   * {@link CxxConfiguration#getCompilationUnitSettings(String)}</li>
+   * {@link CxxSquidConfiguration#getCompilationUnitSettings(String)}</li>
    * </ol>
    * Map is recalculated each time {@link CxxPreprocessor} is about to analyze a new file (see
    * {@link CxxPreprocessor#init()}.
@@ -125,14 +125,14 @@ public class CxxPreprocessor extends Preprocessor {
   private MapChain<String, Macro> unitMacros;
   /**
    * Pre-parsed defines from the global compilation unit settings, see
-   * {@link CxxConfiguration#getGlobalCompilationUnitSettings()}.
+   * {@link CxxSquidConfiguration#getGlobalCompilationUnitSettings()}.
    */
   private final Map<String, Macro> globalUnitMacros;
   private final Set<File> analysedFiles = new HashSet<>();
   private final SourceCodeProvider codeProvider;
   private SourceCodeProvider unitCodeProvider;
   private final SquidAstVisitorContext<Grammar> context;
-  private final CxxConfiguration conf;
+  private final CxxSquidConfiguration squidConfig;
   private CxxCompilationUnitSettings compilationUnitSettings;
   private boolean ctorInProgress = true;
 
@@ -140,23 +140,23 @@ public class CxxPreprocessor extends Preprocessor {
   private final Deque<State> globalStateStack = new LinkedList<>();
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context) {
-    this(context, new CxxConfiguration());
+    this(context, new CxxSquidConfiguration());
   }
 
-  public CxxPreprocessor(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf) {
-    this(context, conf, new SourceCodeProvider());
+  public CxxPreprocessor(SquidAstVisitorContext<Grammar> context, CxxSquidConfiguration squidConfig) {
+    this(context, squidConfig, new SourceCodeProvider());
   }
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context,
-                         CxxConfiguration conf,
+                         CxxSquidConfiguration squidConfig,
                          SourceCodeProvider sourceCodeProvider) {
     this.context = context;
-    this.conf = conf;
+    this.squidConfig = squidConfig;
 
     codeProvider = sourceCodeProvider;
-    codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
+    codeProvider.setIncludeRoots(squidConfig.getIncludeDirectories(), squidConfig.getBaseDir());
 
-    pplineParser = CppParser.create(conf);
+    pplineParser = CppParser.create(squidConfig);
 
     final Map<String, Macro> configuredMacros = parseConfiguredMacros();
     fillFixedMacros(configuredMacros);
@@ -167,7 +167,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private Map<String, Macro> parseConfiguredMacros() {
-    final List<String> configuredDefines = conf.getDefines();
+    final List<String> configuredDefines = squidConfig.getDefines();
     if (configuredDefines.isEmpty()) {
       return Collections.emptyMap();
     }
@@ -200,7 +200,8 @@ public class CxxPreprocessor extends Preprocessor {
       throw new IllegalStateException("Preconditions for initial fill-out of predefinedUnitMacros were violated");
     }
 
-    if (conf.getCompilationUnitSourceFiles().isEmpty() && (conf.getGlobalCompilationUnitSettings() == null)) {
+    if (squidConfig.getCompilationUnitSourceFiles().isEmpty()
+        && (squidConfig.getGlobalCompilationUnitSettings() == null)) {
       // configuration doesn't contain any settings for compilation units.
       // CxxPreprocessor will use fixedMacros only
       return Collections.emptyMap();
@@ -225,7 +226,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private Map<String, Macro> parseGlobalUnitMacros() {
-    final CxxCompilationUnitSettings globalCUSettings = conf.getGlobalCompilationUnitSettings();
+    final CxxCompilationUnitSettings globalCUSettings = squidConfig.getGlobalCompilationUnitSettings();
     if (globalCUSettings == null) {
       return Collections.emptyMap();
     }
@@ -528,14 +529,14 @@ public class CxxPreprocessor extends Preprocessor {
       // In case "physical" file is preprocessed, SquidAstVisitorContext::getFile() cannot return null
       // Did you forget to setup the mock properly?
       Objects.requireNonNull(context.getFile(), "SquidAstVisitorContext::getFile() must be non-null");
-      compilationUnitSettings = conf.getCompilationUnitSettings(currentContextFile.getAbsolutePath());
+      compilationUnitSettings = squidConfig.getCompilationUnitSettings(currentContextFile.getAbsolutePath());
 
       boolean useGlobalCUSettings = false;
 
       if (compilationUnitSettings != null) {
         LOG.debug("compilation unit settings for: '{}'", currentContextFile);
-      } else if (conf.getGlobalCompilationUnitSettings() != null) {
-        compilationUnitSettings = conf.getGlobalCompilationUnitSettings();
+      } else if (squidConfig.getGlobalCompilationUnitSettings() != null) {
+        compilationUnitSettings = squidConfig.getGlobalCompilationUnitSettings();
         useGlobalCUSettings = true;
         LOG.debug("global compilation unit settings for: '{}'", currentContextFile);
       }
@@ -543,7 +544,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (compilationUnitSettings != null) {
         // Use compilation unit settings
         unitCodeProvider = new SourceCodeProvider();
-        unitCodeProvider.setIncludeRoots(compilationUnitSettings.getIncludes(), conf.getBaseDir());
+        unitCodeProvider.setIncludeRoots(compilationUnitSettings.getIncludes(), squidConfig.getBaseDir());
 
         unitMacros = new MapChain<>();
 
@@ -611,7 +612,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (lineKind.equals(defineLine)) {
         return handleDefineLine(lineAst, token, rootFilePath);
       } else if (lineKind.equals(includeLine)) {
-        return handleIncludeLine(lineAst, token, rootFilePath, conf.getCharset());
+        return handleIncludeLine(lineAst, token, rootFilePath, squidConfig.getCharset());
       } else if (lineKind.equals(undefLine)) {
         return handleUndefLine(lineAst, token);
       }
@@ -742,11 +743,11 @@ public class CxxPreprocessor extends Preprocessor {
    * value of CxxPreprocessor#getMacros()
    */
   private void parseForcedIncludes() {
-    for (var include : conf.getForceIncludeFiles()) {
+    for (var include : squidConfig.getForceIncludeFiles()) {
       if (!include.isEmpty()) {
         LOG.debug("parsing force include: '{}'", include);
         parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes",
-                         conf.getEncoding());
+                         squidConfig.getEncoding());
       }
     }
   }
@@ -954,8 +955,8 @@ public class CxxPreprocessor extends Preprocessor {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
       String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
-      LOG.trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'", includeBody, expandedIncludeBody);
-
+      LOG
+        .trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'", includeBody, expandedIncludeBody);
 
       boolean parseError = false;
       AstNode includeBodyAst = null;
@@ -993,7 +994,7 @@ public class CxxPreprocessor extends Preprocessor {
       // This code is running in constructor of CxxPreprocessor. There is no
       // information about the current file. Therefore return some artificial
       // path under the project base directory.
-      return new File(conf.getBaseDir(), "CxxPreprocessorCtorInProgress.cpp").getAbsoluteFile();
+      return new File(squidConfig.getBaseDir(), "CxxPreprocessorCtorInProgress.cpp").getAbsoluteFile();
     } else if (currentFileState.includeUnderAnalysis != null) {
       // b) CxxPreprocessor is called recursively in order to parse the #include
       // directive. Return path to the included file.
@@ -1013,7 +1014,7 @@ public class CxxPreprocessor extends Preprocessor {
       LOG.trace("[{}:{}]: handling #if line '{}'", filename, token.getLine(), token.getValue());
       try {
         currentFileState.skipPreprocessorDirectives = false;
-        currentFileState.skipPreprocessorDirectives = !ExpressionEvaluator.eval(conf, this,
+        currentFileState.skipPreprocessorDirectives = !ExpressionEvaluator.eval(squidConfig, this,
                                                                                 ast.getFirstDescendant(
                                                                                   CppGrammar.constantExpression));
       } catch (EvaluationException e) {
@@ -1045,7 +1046,7 @@ public class CxxPreprocessor extends Preprocessor {
           LOG.trace("[{}:{}]: handling #elif line '{}'", filename, token.getLine(), token.getValue());
 
           currentFileState.skipPreprocessorDirectives = false;
-          currentFileState.skipPreprocessorDirectives = !ExpressionEvaluator.eval(conf, this,
+          currentFileState.skipPreprocessorDirectives = !ExpressionEvaluator.eval(squidConfig, this,
                                                                                   ast.getFirstDescendant(
                                                                                     CppGrammar.constantExpression));
         } catch (EvaluationException e) {
@@ -1128,7 +1129,8 @@ public class CxxPreprocessor extends Preprocessor {
       missingIncludeFilesCounter++;
       LOG.debug("[" + filename + ":" + token.getLine() + "]: cannot find include file '" + token.getValue() + "'");
     } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
-      LOG.trace("[{}:{}]: processing {}, resolved to file '{}'", filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath());
+      LOG.trace("[{}:{}]: processing {}, resolved to file '{}'", filename, token.getLine(), token.getValue(),
+                includedFile.getAbsolutePath());
 
       globalStateStack.push(currentFileState);
       currentFileState = new State(includedFile);

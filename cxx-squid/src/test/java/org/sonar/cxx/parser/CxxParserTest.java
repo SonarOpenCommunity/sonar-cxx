@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxParserTest {
@@ -76,11 +76,11 @@ public class CxxParserTest {
       }
     };
 
-    var conf = new CxxConfiguration();
-    conf.setErrorRecoveryEnabled(false);
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setErrorRecoveryEnabled(false);
 
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
-    Parser<Grammar> p = CxxParser.create(context, conf);
+    Parser<Grammar> p = CxxParser.create(context, squidConfig);
 
     for (var file : files) {
       when(context.getFile()).thenReturn(file);
@@ -98,11 +98,11 @@ public class CxxParserTest {
   @SuppressWarnings("unchecked")
   @Test
   public void testPreproccessorParsingOnDiverseSourceFiles() {
-    var conf = new CxxConfiguration();
-    conf.setErrorRecoveryEnabled(false);
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setErrorRecoveryEnabled(false);
     String baseDir = new File("src/test").getAbsolutePath();
-    conf.setBaseDir(baseDir);
-    conf.setIncludeDirectories(Arrays.asList(
+    squidConfig.setBaseDir(baseDir);
+    squidConfig.setIncludeDirectories(Arrays.asList(
       "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\INCLUDE",
       "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\ATLMFC\\INCLUDE",
       "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\ucrt",
@@ -127,7 +127,7 @@ public class CxxParserTest {
     };
 
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
-    Parser<Grammar> p = CxxParser.create(context, conf);
+    Parser<Grammar> p = CxxParser.create(context, squidConfig);
     List<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"});
     for (var file : files) {
       when(context.getFile()).thenReturn(file);
@@ -147,10 +147,10 @@ public class CxxParserTest {
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(erroneousSources);
 
-    var conf = new CxxConfiguration();
-    conf.setErrorRecoveryEnabled(false);
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setErrorRecoveryEnabled(false);
 
-    Parser<Grammar> p = CxxParser.create(context, conf);
+    Parser<Grammar> p = CxxParser.create(context, squidConfig);
 
     // The error recovery works, if:
     // - a syntacticly incorrect file causes a parse error when recovery is disabled
@@ -167,9 +167,9 @@ public class CxxParserTest {
 
     // The error recovery works, if:
     // - but doesn't cause such an error if we run with default settings
-    var conf = new CxxConfiguration();
-    conf.setErrorRecoveryEnabled(true);
-    Parser<Grammar> p = CxxParser.create(context, conf);
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setErrorRecoveryEnabled(true);
+    Parser<Grammar> p = CxxParser.create(context, squidConfig);
     AstNode root = p.parse(erroneousSources); //<-- this shouldn't throw now
     assertThat(root.getNumberOfChildren()).isEqualTo(6);
   }

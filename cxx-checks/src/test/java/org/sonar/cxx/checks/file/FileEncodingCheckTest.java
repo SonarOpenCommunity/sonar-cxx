@@ -24,9 +24,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.squidbridge.api.SourceFile;
@@ -35,16 +34,15 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class FileEncodingCheckTest {
 
   private final FileEncodingCheck check = new FileEncodingCheck();
-  private final MapSettings settings = new MapSettings();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void testAsciiFileAsciiEncoding() throws UnsupportedEncodingException, IOException {
     Charset charset = StandardCharsets.US_ASCII;
-    var cxxConfig = new CxxConfiguration(charset);
+    var squidConfig = new CxxSquidConfiguration(charset);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".",
                                                                    StandardCharsets.US_ASCII);
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(settings.asConfig(), tester.cxxFile, cxxConfig, check);
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
@@ -54,10 +52,10 @@ public class FileEncodingCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void testAsciiFileUtf8Encoding() throws UnsupportedEncodingException, IOException {
     Charset charset = StandardCharsets.UTF_8;
-    var cxxConfig = new CxxConfiguration(charset);
+    var squidConfig = new CxxSquidConfiguration(charset);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".",
                                                                    StandardCharsets.UTF_8);
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(settings.asConfig(), tester.cxxFile, cxxConfig, check);
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig, check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
@@ -67,10 +65,10 @@ public class FileEncodingCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void testUnicodeFileUtf16Encoding() throws UnsupportedEncodingException, IOException {
     Charset charset = StandardCharsets.UTF_16;
-    var cxxConfig = new CxxConfiguration(charset);
+    var squidConfig = new CxxSquidConfiguration(charset);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/Unicode.cc", ".",
                                                                    StandardCharsets.UTF_16);
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(settings.asConfig(), tester.cxxFile, cxxConfig, check);
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }
@@ -79,13 +77,13 @@ public class FileEncodingCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void testUnicodeFileAsciiEncoding() throws IOException {
     Charset charset = StandardCharsets.US_ASCII;
-    var cxxConfig = new CxxConfiguration(charset);
+    var squidConfig = new CxxSquidConfiguration(charset);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/Unicode.cc", ".",
                                                                    StandardCharsets.US_ASCII);
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(settings.asConfig(), tester.cxxFile, cxxConfig, check);
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Not all characters of the file can be encoded with the predefined charset " + charset.name()
-                          + ".")
+                            + ".")
       .noMore();
   }
 

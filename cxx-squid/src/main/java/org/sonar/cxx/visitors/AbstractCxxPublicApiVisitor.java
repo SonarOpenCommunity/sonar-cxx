@@ -78,7 +78,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   private static final String UNNAMED_ENUM_ID = "<unnamed enumeration>";
 
   private static final String TOKEN_OVERRIDE = "override";
-  private List<String> headerFileSuffixes;
+  private String[] headerFileSuffixes = null;
   private boolean skipFile = true;
 
   private static boolean isTypedef(AstNode declaratorList) {
@@ -377,11 +377,11 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   @Override
   public void visitFile(AstNode astNode) {
     LOG.debug("API File: {}", getContext().getFile().getName());
-    LOG.debug("Header file suffixes: {}", headerFileSuffixes);
 
     skipFile = true;
 
     if (headerFileSuffixes != null) {
+      LOG.debug("Header file suffixes: {}", headerFileSuffixes.toString());
       for (var suffix : headerFileSuffixes) {
         if (getContext().getFile().getName().endsWith(suffix)) {
           skipFile = false;
@@ -429,8 +429,8 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     }
   }
 
-  public final AbstractCxxPublicApiVisitor<G> withHeaderFileSuffixes(List<String> headerFileSuffixes) {
-    this.headerFileSuffixes = new ArrayList<>(headerFileSuffixes);
+  protected AbstractCxxPublicApiVisitor<G> withHeaderFileSuffixes(String[] headerFileSuffixes) {
+    this.headerFileSuffixes = headerFileSuffixes.clone();
     return this;
   }
 

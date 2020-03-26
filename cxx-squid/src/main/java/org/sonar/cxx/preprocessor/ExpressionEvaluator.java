@@ -32,7 +32,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CppPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
 
@@ -44,19 +44,19 @@ public final class ExpressionEvaluator {
   private final CxxPreprocessor preprocessor;
   private final Deque<String> macroEvaluationStack;
 
-  private ExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor) {
-    parser = CppParser.createConstantExpressionParser(conf);
+  private ExpressionEvaluator(CxxSquidConfiguration squidConfig, CxxPreprocessor preprocessor) {
+    parser = CppParser.createConstantExpressionParser(squidConfig);
 
     this.preprocessor = preprocessor;
     macroEvaluationStack = new LinkedList<>();
   }
 
-  public static boolean eval(CxxConfiguration conf, CxxPreprocessor preprocessor, String constExpr) {
-    return new ExpressionEvaluator(conf, preprocessor).evalToBoolean(constExpr, null);
+  public static boolean eval(CxxSquidConfiguration squidConfig, CxxPreprocessor preprocessor, String constExpr) {
+    return new ExpressionEvaluator(squidConfig, preprocessor).evalToBoolean(constExpr, null);
   }
 
-  public static boolean eval(CxxConfiguration conf, CxxPreprocessor preprocessor, AstNode constExpr) {
-    return new ExpressionEvaluator(conf, preprocessor).evalToBoolean(constExpr);
+  public static boolean eval(CxxSquidConfiguration squidConfig, CxxPreprocessor preprocessor, AstNode constExpr) {
+    return new ExpressionEvaluator(squidConfig, preprocessor).evalToBoolean(constExpr);
   }
 
   public static BigInteger decode(String number) {

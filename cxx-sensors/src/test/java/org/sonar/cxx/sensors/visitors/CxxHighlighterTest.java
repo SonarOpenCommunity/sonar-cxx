@@ -55,7 +55,7 @@ public class CxxHighlighterTest {
     context.fileSystem().add(inputFile);
 
     CxxHighlighterVisitor cxxHighlighter = new CxxHighlighterVisitor(context);
-    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context, cxxHighlighter);
+    CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()), cxxHighlighter);
   }
 
   @Test

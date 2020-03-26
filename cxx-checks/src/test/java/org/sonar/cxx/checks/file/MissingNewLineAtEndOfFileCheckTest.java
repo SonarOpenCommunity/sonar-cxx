@@ -22,7 +22,6 @@ package org.sonar.cxx.checks.file;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -32,14 +31,13 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class MissingNewLineAtEndOfFileCheckTest {
 
   private final MissingNewLineAtEndOfFileCheck check = new MissingNewLineAtEndOfFileCheck();
-  private final MapSettings settings = new MapSettings();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
       "src/test/resources/checks/MissingNewLineAtEndOfFile.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Add a new line at the end of this file.")
@@ -50,7 +48,7 @@ public class MissingNewLineAtEndOfFileCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test2() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/EmptyFile.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Add a new line at the end of this file.")
       .noMore();
@@ -60,7 +58,7 @@ public class MissingNewLineAtEndOfFileCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test3() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/NonEmptyFile.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }

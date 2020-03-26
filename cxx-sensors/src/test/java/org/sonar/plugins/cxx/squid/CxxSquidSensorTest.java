@@ -44,8 +44,6 @@ import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
-import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
-import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
 
 public class CxxSquidSensorTest {
 
@@ -92,8 +90,8 @@ public class CxxSquidSensorTest {
   public void testComplexitySquidMetrics() throws IOException {
     File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/complexity-project");
     SensorContextTester context = SensorContextTester.create(baseDir);
-    settings.setProperty(CxxFunctionComplexityVisitor.FUNCTION_COMPLEXITY_THRESHOLD_KEY, 3);
-    settings.setProperty(CxxFunctionSizeVisitor.FUNCTION_SIZE_THRESHOLD_KEY, 3);
+    settings.setProperty(CxxSquidSensor.FUNCTION_COMPLEXITY_THRESHOLD_KEY, 3);
+    settings.setProperty(CxxSquidSensor.FUNCTION_SIZE_THRESHOLD_KEY, 3);
     context.setSettings(settings);
 
     DefaultInputFile inputFile = buildTestInputFile(baseDir, "complexity.cc");

@@ -29,13 +29,13 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class ExpressionEvaluatorTest {
 
   static boolean eval(String constExpr, CxxPreprocessor pp) {
-    return ExpressionEvaluator.eval(mock(CxxConfiguration.class), pp, constExpr);
+    return ExpressionEvaluator.eval(mock(CxxSquidConfiguration.class), pp, constExpr);
   }
 
   static boolean eval(String constExpr) {

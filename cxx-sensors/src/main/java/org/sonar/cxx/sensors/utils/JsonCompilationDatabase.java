@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxCompilationUnitSettings;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 
 /**
  * JsonCompilationDatabase
@@ -49,13 +49,13 @@ public class JsonCompilationDatabase {
   }
 
   /**
-   * Set up the given CxxConfiguration from the JSON compilation database
+   * Set up the given CxxSquidConfiguration from the JSON compilation database
    *
-   * @param config
+   * @param squidConfig
    * @param compileCommandsFile
    * @throws IOException
    */
-  public static void parse(CxxConfiguration config, File compileCommandsFile) throws IOException {
+  public static void parse(CxxSquidConfiguration squidConfig, File compileCommandsFile) throws IOException {
 
     LOG.debug("Parsing 'JSON Compilation Database' format");
 
@@ -81,9 +81,9 @@ public class JsonCompilationDatabase {
       parseCommandObject(settings, cwd, commandObject);
 
       if ("__global__".equals(commandObject.getFile())) {
-        config.setGlobalCompilationUnitSettings(settings);
+        squidConfig.setGlobalCompilationUnitSettings(settings);
       } else {
-        config.addCompilationUnitSettings(absPath.toAbsolutePath().normalize().toString(), settings);
+        squidConfig.addCompilationUnitSettings(absPath.toAbsolutePath().normalize().toString(), settings);
       }
     }
   }

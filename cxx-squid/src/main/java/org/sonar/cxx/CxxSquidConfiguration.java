@@ -32,16 +32,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nullable;
-import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.squidbridge.api.SquidConfiguration;
 
-public class CxxConfiguration extends SquidConfiguration {
+public class CxxSquidConfiguration extends SquidConfiguration {
 
   public static final String OVERALLINCLUDEKEY = "CxxOverallInclude";
   public static final String OVERALLDEFINEKEY = "CxxOverallDefine";
-  private static final Logger LOG = Loggers.get(CxxConfiguration.class);
+  private static final Logger LOG = Loggers.get(CxxSquidConfiguration.class);
 
   private boolean ignoreHeaderComments;
   private final Map<String, List<String>> uniqueIncludes = new HashMap<>();
@@ -52,24 +51,18 @@ public class CxxConfiguration extends SquidConfiguration {
   private String jsonCompilationDatabaseFile;
   private CxxCompilationUnitSettings globalCompilationUnitSettings;
   private final Map<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
+  private String[] publicApiFileSuffixes = new String[]{};
+  private int functionComplexityThreshold = 10;
+  private int functionSizeThreshold = 20;
 
   private final CxxVCppBuildLogParser cxxVCppParser;
 
-  public CxxConfiguration() {
-    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
-    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<>());
-    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+  public CxxSquidConfiguration() {
+    this(Charset.defaultCharset());
   }
 
-  public CxxConfiguration(Charset encoding) {
+  public CxxSquidConfiguration(Charset encoding) {
     super(encoding);
-    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
-    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<>());
-    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
-  }
-
-  public CxxConfiguration(FileSystem fs) {
-    super(fs.encoding());
     uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
     uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
@@ -193,6 +186,30 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public Set<String> getCompilationUnitSourceFiles() {
     return Collections.unmodifiableSet(compilationUnitSettings.keySet());
+  }
+
+  public void setPublicApiFileSuffixes(String[] suffixes) {
+    publicApiFileSuffixes = suffixes.clone();
+  }
+
+  public String[] getPublicApiFileSuffixes() {
+    return publicApiFileSuffixes.clone();
+  }
+
+  public void setFunctionComplexityThreshold(int threshold) {
+    functionComplexityThreshold = threshold;
+  }
+
+  public int getFunctionComplexityThreshold() {
+    return functionComplexityThreshold;
+  }
+
+  public void setFunctionSizeThreshold(int threshold) {
+    functionSizeThreshold = threshold;
+  }
+
+  public int getFunctionSizeThreshold() {
+    return functionSizeThreshold;
   }
 
   public void setCompilationPropertiesWithBuildLog(@Nullable List<File> reports,

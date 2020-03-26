@@ -22,16 +22,10 @@ package org.sonar.cxx.visitors;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import org.sonar.api.config.Configuration;
-import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.internal.google.common.base.Splitter;
-import org.sonar.api.internal.google.common.collect.Iterables;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
 
@@ -67,49 +61,20 @@ import org.sonar.squidbridge.api.SourceFile;
  */
 public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApiVisitor<G> {
 
-  /**
-   * Key of the file suffix parameter
-   */
-  public static final String FILE_SUFFIXES_KEY = "sonar.cxx.api.file.suffixes";
-
-  /**
-   * Default API files knows suffixes
-   */
-  public static final String DEFAULT_FILE_SUFFIXES = ".hxx,.hpp,.hh,.h";
-
   private static final Logger LOG = Loggers.get(CxxPublicApiVisitor.class);
 
-  private int totalAPINr;
-  private int undocumentedAPINr;
+  private int publicApiCounter;
+  private int undocumentedApiCounter;
 
-  public CxxPublicApiVisitor(Configuration config) {
+  public CxxPublicApiVisitor(CxxSquidConfiguration squidConfig) {
     super();
-    String[] suffixes = Arrays.stream(config.getStringArray(FILE_SUFFIXES_KEY))
-      .filter(s -> s != null && !s.trim().isEmpty()).toArray(String[]::new);
-    if (suffixes.length == 0) {
-      suffixes = Iterables.toArray(Splitter.on(',').split(DEFAULT_FILE_SUFFIXES), String.class);
-    }
-    withHeaderFileSuffixes(Arrays.asList(suffixes));
-  }
-
-  public static List<PropertyDefinition> properties() {
-    return Collections.unmodifiableList(Arrays.asList(
-      PropertyDefinition.builder(FILE_SUFFIXES_KEY)
-        .defaultValue(DEFAULT_FILE_SUFFIXES)
-        .name("Header file suffixes")
-        .multiValues(true)
-        .description(
-          "Comma-separated list of suffixes for files to analyze API. To not filter, leave the list empty.")
-        .subCategory("Public API")
-        .onQualifiers(Qualifiers.PROJECT)
-        .build()
-    ));
+    withHeaderFileSuffixes(squidConfig.getPublicApiFileSuffixes());
   }
 
   @Override
   public void visitFile(AstNode astNode) {
-    totalAPINr = 0;
-    undocumentedAPINr = 0;
+    publicApiCounter = 0;
+    undocumentedApiCounter = 0;
     super.visitFile(astNode);
   }
 
@@ -118,8 +83,8 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
     super.leaveFile(astNode);
 
     SourceFile sourceFile = (SourceFile) getContext().peekSourceCode();
-    sourceFile.setMeasure(CxxMetric.PUBLIC_API, totalAPINr);
-    sourceFile.setMeasure(CxxMetric.PUBLIC_UNDOCUMENTED_API, undocumentedAPINr);
+    sourceFile.setMeasure(CxxMetric.PUBLIC_API, publicApiCounter);
+    sourceFile.setMeasure(CxxMetric.PUBLIC_UNDOCUMENTED_API, undocumentedApiCounter);
   }
 
   @Override
@@ -128,10 +93,10 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
     LOG.debug("node: {} line: {} id: '{}' documented: {}", node.getType(), node.getTokenLine(), id, commented);
 
     if (!commented) {
-      undocumentedAPINr++;
+      undocumentedApiCounter++;
     }
 
-    totalAPINr++;
+    publicApiCounter++;
   }
 
 }

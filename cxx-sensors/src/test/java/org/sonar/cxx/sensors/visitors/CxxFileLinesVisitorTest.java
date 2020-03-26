@@ -85,7 +85,7 @@ public class CxxFileLinesVisitorTest {
 
     var visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, context);
 
-    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context, visitor);
+    CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()), visitor);
 
     var softly = new SoftAssertions();
     softly.assertThat(fileLinesContext.linesOfCode).containsExactlyInAnyOrderElementsOf(testLines);
@@ -107,7 +107,7 @@ public class CxxFileLinesVisitorTest {
 
     var visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, context);
 
-    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context, visitor);
+    CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()), visitor);
 
     assertThat(fileLinesContext.executableLines).containsExactlyInAnyOrder(10, 26, 34, 35, 56, 59, 69, 70, 72, 73,
                                                                            75, 76, 79, 87, 90, 98, 102, 118, 119, 126);

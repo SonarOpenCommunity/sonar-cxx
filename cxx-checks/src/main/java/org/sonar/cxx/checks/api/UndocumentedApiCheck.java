@@ -22,7 +22,6 @@ package org.sonar.cxx.checks.api;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import java.util.Arrays;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -48,8 +47,8 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
  * </ul>
  * <p>
  * Public API items are considered documented if they have Doxygen comments.<br>
- * Function arguments are not counted since they can be documented in function
- * documentation and this visitor does not parse Doxygen comments.<br>
+ * Function arguments are not counted since they can be documented in function documentation and this visitor does not
+ * parse Doxygen comments.<br>
  * This visitor should be applied only on header files.<br>
  * Currently, no filtering is applied using preprocessing directive.<br>
  * <p>
@@ -73,8 +72,7 @@ public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
 
   private static final Logger LOG = Loggers.get(UndocumentedApiCheck.class);
 
-  private static final List<String> DEFAULT_NAME_SUFFIX = Arrays.asList(".h",
-    ".hh", ".hpp", ".H");
+  private static final String[] DEFAULT_NAME_SUFFIX = new String[]{".h", ".hh", ".hpp", ".H"};
 
   public UndocumentedApiCheck() {
     super();

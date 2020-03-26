@@ -27,19 +27,19 @@ import java.nio.file.Paths;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.cxx.CxxCompilationUnitSettings;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 
 public class JsonCompilationDatabaseTest {
 
   @Test
   public void testGlobalSettings() throws Exception {
-    var conf = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
-    JsonCompilationDatabase.parse(conf, file);
+    JsonCompilationDatabase.parse(squidConfig, file);
 
-    CxxCompilationUnitSettings cus = conf.getGlobalCompilationUnitSettings();
+    CxxCompilationUnitSettings cus = squidConfig.getGlobalCompilationUnitSettings();
 
     assertThat(cus).isNotNull();
     assertThat(cus.getDefines().containsKey("UNIT_DEFINE")).isFalse();
@@ -50,15 +50,15 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testExtensionSettings() throws Exception {
-    var conf = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
     var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
-    JsonCompilationDatabase.parse(conf, file);
+    JsonCompilationDatabase.parse(squidConfig, file);
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-extension.cpp");
     String filename = absPath.toAbsolutePath().normalize().toString();
 
-    CxxCompilationUnitSettings cus = conf.getCompilationUnitSettings(filename);
+    CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
     assertThat(cus.getDefines().containsKey("UNIT_DEFINE")).isTrue();
@@ -69,17 +69,17 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testCommandSettings() throws Exception {
-    var conf = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
-    JsonCompilationDatabase.parse(conf, file);
+    JsonCompilationDatabase.parse(squidConfig, file);
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-with-command.cpp");
     String filename = absPath.toAbsolutePath().normalize().toString();
 
-    CxxCompilationUnitSettings cus = conf.getCompilationUnitSettings(filename);
+    CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
     assertThat(cus.getDefines().containsKey("COMMAND_DEFINE")).isTrue();
@@ -95,17 +95,17 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testArgumentParser() throws Exception {
-    var conf = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
-    JsonCompilationDatabase.parse(conf, file);
+    JsonCompilationDatabase.parse(squidConfig, file);
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-argument-parser.cpp");
     String filename = absPath.toAbsolutePath().normalize().toString();
 
-    CxxCompilationUnitSettings cus = conf.getCompilationUnitSettings(filename);
+    CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
 
@@ -128,17 +128,17 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testArgumentSettings() throws Exception {
-    var conf = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
-    JsonCompilationDatabase.parse(conf, file);
+    JsonCompilationDatabase.parse(squidConfig, file);
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-with-arguments.cpp");
     String filename = absPath.toAbsolutePath().normalize().toString();
 
-    CxxCompilationUnitSettings cus = conf.getCompilationUnitSettings(filename);
+    CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
     assertThat(cus.getDefines().containsKey("ARG_DEFINE")).isTrue();
@@ -154,17 +154,17 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testRelativeDirectorySettings() throws Exception {
-    var conf = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
-    JsonCompilationDatabase.parse(conf, file);
+    JsonCompilationDatabase.parse(squidConfig, file);
 
     Path cwd = Paths.get("src");
     Path absPath = cwd.resolve("test-with-relative-directory.cpp");
     String filename = absPath.toAbsolutePath().normalize().toString();
 
-    CxxCompilationUnitSettings cus = conf.getCompilationUnitSettings(filename);
+    CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
     assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
@@ -175,17 +175,17 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testArgumentAsListSettings() throws Exception {
-    var conf = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
-    JsonCompilationDatabase.parse(conf, file);
+    JsonCompilationDatabase.parse(squidConfig, file);
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-with-arguments-as-list.cpp");
     String filename = absPath.toAbsolutePath().normalize().toString();
 
-    CxxCompilationUnitSettings cus = conf.getCompilationUnitSettings(filename);
+    CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
     assertThat(cus.getDefines().containsKey("ARG_DEFINE")).isTrue();
@@ -201,37 +201,37 @@ public class JsonCompilationDatabaseTest {
 
   @Test
   public void testUnknownUnitSettings() throws Exception {
-    var conf = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/compile_commands.json");
 
-    JsonCompilationDatabase.parse(conf, file);
+    JsonCompilationDatabase.parse(squidConfig, file);
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("unknown.cpp");
     String filename = absPath.toAbsolutePath().normalize().toString();
 
-    CxxCompilationUnitSettings cus = conf.getCompilationUnitSettings(filename);
+    CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNull();
   }
 
   @Test(expected = JsonMappingException.class)
   public void testInvalidJson() throws Exception {
-    var conf = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/invalid.json");
 
-    JsonCompilationDatabase.parse(conf, file);
+    JsonCompilationDatabase.parse(squidConfig, file);
   }
 
   @Test(expected = FileNotFoundException.class)
   public void testFileNotFound() throws Exception {
-    var conf = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/org/sonar/cxx/sensors/json-compilation-database-project/not-found.json");
 
-    JsonCompilationDatabase.parse(conf, file);
+    JsonCompilationDatabase.parse(squidConfig, file);
   }
 
 }

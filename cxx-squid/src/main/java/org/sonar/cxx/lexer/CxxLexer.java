@@ -33,7 +33,7 @@ import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.opt;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.or;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
@@ -60,16 +60,16 @@ public final class CxxLexer {
   }
 
   public static Lexer create(Preprocessor... preprocessors) {
-    return create(new CxxConfiguration(), preprocessors);
+    return create(new CxxSquidConfiguration(), preprocessors);
   }
 
-  public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) {
+  public static Lexer create(CxxSquidConfiguration squidConfig, Preprocessor... preprocessors) {
 
     //
     // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
     //
     Lexer.Builder builder = Lexer.builder()
-      .withCharset(conf.getCharset())
+      .withCharset(squidConfig.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)
       .withChannel(new BlackHoleChannel("\\s"))
       // C++ Standard, Section 2.8 "Comments"

@@ -27,65 +27,65 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 
-public class CxxConfigurationTest {
+public class CxxSquidConfigurationTest {
 
   private static final String VC_KEY = "Visual C++";
   private static final String VC_CHARSET = "UTF8";
 
   @Test
   public void emptyValueShouldReturnNoDirsOrDefines() {
-    var config = new CxxConfiguration();
-    config.setCompilationPropertiesWithBuildLog(new ArrayList<>(), VC_KEY, VC_CHARSET);
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setCompilationPropertiesWithBuildLog(new ArrayList<>(), VC_KEY, VC_CHARSET);
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
-    softly.assertThat(config.getDefines().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getDefines().size()).isEqualTo(0);
     softly.assertAll();
   }
 
   @Test
   public void emptyValueShouldReturnWhenNull() {
-    var config = new CxxConfiguration();
-    config.setCompilationPropertiesWithBuildLog(null, VC_KEY, VC_CHARSET);
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setCompilationPropertiesWithBuildLog(null, VC_KEY, VC_CHARSET);
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
-    assertThat(config.getDefines().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    assertThat(squidConfig.getDefines().size()).isEqualTo(0);
     softly.assertAll();
   }
 
   @Test
   public void emptyValueShouldUseIncludeDirsIfSet() {
-    var config = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
     String[] data = {"dir1", "dir2"};
-    config.setIncludeDirectories(data);
-    config.setCompilationPropertiesWithBuildLog(new ArrayList<>(), VC_KEY, VC_CHARSET);
-    assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
+    squidConfig.setIncludeDirectories(data);
+    squidConfig.setCompilationPropertiesWithBuildLog(new ArrayList<>(), VC_KEY, VC_CHARSET);
+    assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(2);
   }
 
   @Test
   public void correctlyCreatesConfiguration1() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/vc++13.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(13);
-    softly.assertThat(config.getDefines().size()).isEqualTo(26 + 5);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(13);
+    softly.assertThat(squidConfig.getDefines().size()).isEqualTo(26 + 5);
     softly.assertAll();
   }
 
   @Test
   public void shouldHandleSpecificCommonOptionsCorrectly() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformCommon.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
-    List<String> defines = config.getDefines();
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    List<String> defines = squidConfig.getDefines();
     softly.assertThat(defines.size()).isEqualTo(20 + 5);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("_OPENMP 200203")).isTrue();
@@ -103,14 +103,14 @@ public class CxxConfigurationTest {
   }
 
   public void shouldHandleSpecificCommonWin32OptionsCorrectly() {
-    var config = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformCommonWin32.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
-    List<String> defines = config.getDefines();
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    List<String> defines = squidConfig.getDefines();
     softly.assertThat(defines.size()).isEqualTo(3);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("_WIN32")).isTrue();
@@ -119,14 +119,14 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificCommonx64OptionsCorrectly() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformCommonX64.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
-    List<String> defines = config.getDefines();
+    assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    List<String> defines = squidConfig.getDefines();
 
     var softly = new SoftAssertions();
     softly.assertThat(defines.size()).isEqualTo(15 + 5);
@@ -142,15 +142,15 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV100OptionsCorrectly() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv100.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
-    List<String> defines = config.getDefines();
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    List<String> defines = squidConfig.getDefines();
     softly.assertThat(defines.size()).isEqualTo(12 + 6);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("_CPPUNWIND")).isTrue();
@@ -162,15 +162,15 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV110OptionsCorrectly() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv110.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
-    List<String> defines = config.getDefines();
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    List<String> defines = squidConfig.getDefines();
     softly.assertThat(defines.size()).isEqualTo(13 + 5);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("__cplusplus_winrt 201009")).isTrue();
@@ -186,15 +186,15 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV120OptionsCorrectly() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv120.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
-    List<String> defines = config.getDefines();
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    List<String> defines = squidConfig.getDefines();
     softly.assertThat(defines.size()).isEqualTo(15 + 6);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("__AVX2__ 1")).isTrue();
@@ -213,15 +213,15 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV140OptionsCorrectly() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv140.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
-    List<String> defines = config.getDefines();
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    List<String> defines = squidConfig.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 6);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("__AVX2__ 1")).isTrue();
@@ -239,15 +239,15 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleTFSAgentV141OptionsCorrectly() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/TFS-agent-msvc14.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
-    List<String> defines = config.getDefines();
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(2);
+    List<String> defines = squidConfig.getDefines();
     assertThat(defines.size()).isEqualTo(34);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("_CPPUNWIND")).isTrue();
@@ -261,15 +261,15 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleTFSAgentV141mpOptionsCorrectly() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/TFS-agent-msvc14-mp.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
-    List<String> defines = config.getDefines();
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(2);
+    List<String> defines = squidConfig.getDefines();
     assertThat(defines.size()).isEqualTo(34);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("_CPPUNWIND")).isTrue();
@@ -283,15 +283,15 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV141x86OptionsCorrectly() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv141x86.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
-    List<String> defines = config.getDefines();
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    List<String> defines = squidConfig.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 12);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("_M_IX86 600")).isTrue();
@@ -305,15 +305,15 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV141x64OptionsCorrectly() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/platformToolsetv141x64.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
-    List<String> defines = config.getDefines();
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    List<String> defines = squidConfig.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 14);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("_M_IX86 600")).isFalse();
@@ -327,28 +327,28 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleBuildLog() {
-    var config = new CxxConfiguration();
-    config.setBaseDir(".");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setBaseDir(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/logfile/ParallelBuildLog.txt"));
-    config.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
+    squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(config.getIncludeDirectories().size()).isEqualTo(15);
-    softly.assertThat(config.getDefines().size()).isEqualTo(30);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(15);
+    softly.assertThat(squidConfig.getDefines().size()).isEqualTo(30);
     softly.assertAll();
   }
 
   @Test
   public void shouldGetSourceFilesList() {
-    var config = new CxxConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
 
     var files = new String[]{"testfile", "anotherfile", "thirdfile"};
     for (var filename : files) {
-      config.addCompilationUnitSettings(filename, new CxxCompilationUnitSettings());
+      squidConfig.addCompilationUnitSettings(filename, new CxxCompilationUnitSettings());
     }
 
-    Set<String> sourceFiles = config.getCompilationUnitSourceFiles();
+    Set<String> sourceFiles = squidConfig.getCompilationUnitSourceFiles();
 
     assertThat(sourceFiles.size()).isEqualTo(files.length);
     assertThat(files).containsOnly(files);

@@ -22,9 +22,8 @@ package org.sonar.cxx.checks.error;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.squidbridge.api.SourceFile;
@@ -32,16 +31,13 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class ParsingErrorRecoveryCheckTest {
 
-  private final MapSettings settings = new MapSettings();
-
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test_syntax_error_recovery() throws UnsupportedEncodingException, IOException {
-    var config = new CxxConfiguration();
-    config.setErrorRecoveryEnabled(true);
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setErrorRecoveryEnabled(true);
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError3.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(settings.asConfig(), tester.cxxFile, config,
-                                                         new ParsingErrorRecoveryCheck());
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig, new ParsingErrorRecoveryCheck());
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage("C++ Parser can't read code. Declaration is skipped.")

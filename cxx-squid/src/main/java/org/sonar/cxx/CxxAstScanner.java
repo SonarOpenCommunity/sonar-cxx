@@ -25,9 +25,6 @@ import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import static java.lang.Math.min;
 import java.util.Collection;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.api.config.Configuration;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxParser;
@@ -66,33 +63,29 @@ public final class CxxAstScanner {
    * Helper method for testing checks without having to deploy them on a Sonar instance.
    *
    * @param file is the file to be checked
-   * @param context SQ API batch side context
    * @param visitors AST checks and visitors to use
-   * @param language CxxLanguage to use
    * @return file checked with measures and issues
    */
   @SafeVarargs
-  public static SourceFile scanSingleFile(Configuration config, InputFile file, SensorContext context,
-                                          SquidAstVisitor<Grammar>... visitors) {
-    return scanSingleFileConfig(config, file, new CxxConfiguration(context.fileSystem().encoding()), visitors);
+  public static SourceFile scanSingleFile(File file, SquidAstVisitor<Grammar>... visitors) {
+    return scanSingleFileConfig(file, new CxxSquidConfiguration(), visitors);
   }
 
   /**
    * Helper method for scanning a single file
    *
    * @param file is the file to be checked
-   * @param cxxConfig the plugin configuration
+   * @param squidConfig the Squid configuration
    * @param visitors AST checks and visitors to use
-   * @param language for sensor
    * @return file checked with measures and issues
    */
-  public static SourceFile scanSingleFileConfig(Configuration config, InputFile file, CxxConfiguration cxxConfig,
+  public static SourceFile scanSingleFileConfig(File file, CxxSquidConfiguration squidConfig,
                                                 SquidAstVisitor<Grammar>... visitors) {
     if (!file.isFile()) {
       throw new IllegalArgumentException("File '" + file + "' not found.");
     }
-    AstScanner<Grammar> scanner = create(config, cxxConfig, visitors);
-    scanner.scanFile(new File(file.uri().getPath()));
+    AstScanner<Grammar> scanner = create(squidConfig, visitors);
+    scanner.scanFile(file);
     Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
     if (sources.size() != 1) {
       throw new IllegalStateException("Only one SourceFile was expected whereas "
@@ -104,16 +97,14 @@ public final class CxxAstScanner {
   /**
    * Create scanner for language
    *
-   * @param language for sensor
-   * @param conf config for sensor
+   * @param squidConfig the Squid configuration
    * @param visitors visitors AST checks and visitors to use
    * @return scanner for the given parameters
    */
   @SafeVarargs
-  public static AstScanner<Grammar> create(Configuration config, CxxConfiguration conf,
-                                           SquidAstVisitor<Grammar>... visitors) {
+  public static AstScanner<Grammar> create(CxxSquidConfiguration squidConfig, SquidAstVisitor<Grammar>... visitors) {
     var context = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
-    var parser = CxxParser.create(context, conf);
+    var parser = CxxParser.create(context, squidConfig);
     var builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
 
     /* Metrics */
@@ -190,13 +181,13 @@ public final class CxxAstScanner {
 
     /* Metrics */
     builder.withSquidAstVisitor(new LinesVisitor<>(CxxMetric.LINES));
-    builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<>(CxxMetric.LINES_OF_CODE));
+    builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<>());
     builder.withSquidAstVisitor(new CxxLinesOfCodeInFunctionBodyVisitor<>());
-    builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(config));
+    builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(squidConfig));
 
     builder.withSquidAstVisitor(CommentsVisitor.<Grammar>builder().withCommentMetric(CxxMetric.COMMENT_LINES)
       .withNoSonar(true)
-      .withIgnoreHeaderComment(conf.getIgnoreHeaderComments())
+      .withIgnoreHeaderComment(squidConfig.getIgnoreHeaderComments())
       .build());
 
     /* Statements */
@@ -212,8 +203,8 @@ public final class CxxAstScanner {
 
     builder.withSquidAstVisitor(new CxxCognitiveComplexityVisitor<>());
 
-    builder.withSquidAstVisitor(new CxxFunctionComplexityVisitor<>(config));
-    builder.withSquidAstVisitor(new CxxFunctionSizeVisitor<>(config));
+    builder.withSquidAstVisitor(new CxxFunctionComplexityVisitor<>(squidConfig));
+    builder.withSquidAstVisitor(new CxxFunctionSizeVisitor<>(squidConfig));
 
     // to emit a 'new file' event to the internals of the plugin
     builder.withSquidAstVisitor(new CxxFileVisitor<>());
@@ -224,7 +215,7 @@ public final class CxxAstScanner {
     /* External visitors (typically Check ones) */
     for (var visitor : visitors) {
       if (visitor instanceof CxxCharsetAwareVisitor) {
-        ((CxxCharsetAwareVisitor) visitor).setCharset(conf.getCharset());
+        ((CxxCharsetAwareVisitor) visitor).setCharset(squidConfig.getCharset());
       }
       builder.withSquidAstVisitor(visitor);
     }

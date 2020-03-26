@@ -24,7 +24,7 @@ import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.channel.BlackHoleChannel;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.channels.PreprocessorChannel;
 
 public final class IncludeLexer {
@@ -33,12 +33,12 @@ public final class IncludeLexer {
   }
 
   public static Lexer create(Preprocessor... preprocessors) {
-    return create(new CxxConfiguration(), preprocessors);
+    return create(new CxxSquidConfiguration(), preprocessors);
   }
 
-  public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) {
+  public static Lexer create(CxxSquidConfiguration squidConfig, Preprocessor... preprocessors) {
     Lexer.Builder builder = Lexer.builder()
-      .withCharset(conf.getCharset())
+      .withCharset(squidConfig.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)
       .withChannel(new BlackHoleChannel("\\s"))
       .withChannel(new PreprocessorChannel())
