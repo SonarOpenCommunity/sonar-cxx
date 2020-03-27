@@ -35,7 +35,7 @@ import org.sonar.colorizer.JavadocTokenizer;
 import org.sonar.colorizer.KeywordsTokenizer;
 import org.sonar.colorizer.StringTokenizer;
 import org.sonar.colorizer.Tokenizer;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxParser;
@@ -145,8 +145,8 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
     );
   }
 
-  CxxConfiguration getConfiguration() {
-    var config = new CxxConfiguration(getCharset());
+  CxxSquidConfiguration getConfiguration() {
+    var config = new CxxSquidConfiguration(getCharset());
     config.setErrorRecoveryEnabled("true".equals(errorRecoveryEnabled.getValue()));
     config.setDefines(getStringLines(defines.getValue()));
     config.setIncludeDirectories(getStringArray(includeDirectories.getValue()));

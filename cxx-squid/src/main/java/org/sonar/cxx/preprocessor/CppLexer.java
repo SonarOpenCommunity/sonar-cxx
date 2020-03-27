@@ -31,7 +31,7 @@ import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.opt;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.or;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CppKeyword;
 import org.sonar.cxx.api.CppPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
@@ -44,7 +44,7 @@ public final class CppLexer {
   private static final String BIN_PREFIX = "0[bB]";
   private static final String EXPONENT = "[eE][+-]?+[0-9_]([']?+[0-9_]++)*+";
   private static final String BINARY_EXPONENT = "[pP][+-]?+[0-9]([']?+[0-9]++)*+"; // since C++17
-  //private static final String INTEGER_SUFFIX = "(((U|u)(LL|ll|L|l)?)|((LL|ll|L|l)(u|U)?))";  
+  //private static final String INTEGER_SUFFIX = "(((U|u)(LL|ll|L|l)?)|((LL|ll|L|l)(u|U)?))";
   //private static final String FLOAT_SUFFIX = "(f|l|F|L)";
   // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
   private static final String UD_SUFFIX = "[_a-zA-Z][_a-zA-Z0-9]*+";
@@ -57,39 +57,38 @@ public final class CppLexer {
   }
 
   public static Lexer create() {
-    return create(new CxxConfiguration());
+    return create(new CxxSquidConfiguration());
   }
 
-  public static Lexer create(CxxConfiguration conf) {
+  public static Lexer create(CxxSquidConfiguration squidConfig) {
 
     //
     // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
     //
     Lexer.Builder builder = Lexer.builder()
-      .withCharset(conf.getCharset())
+      .withCharset(squidConfig.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)
       .withChannel(regexp(CxxTokenType.WS, "\\s+"))
       .withChannel(commentRegexp("//[^\\n\\r]*+"))
       .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
       .withChannel(new CharacterLiteralsChannel())
       .withChannel(new StringLiteralsChannel())
-
       // C++ Standard, Section 2.14.2 "Integer literals"
       // C++ Standard, Section 2.14.4 "Floating literals"
       .withChannel(
         regexp(CxxTokenType.NUMBER,
-          and(
-            or(
-              g(POINT, DECDIGIT_SEQUENCE, opt(g(EXPONENT))),
-              g(HEX_PREFIX, opt(g(HEXDIGIT_SEQUENCE)), opt(POINT), opt(g(HEXDIGIT_SEQUENCE)), opt(g(BINARY_EXPONENT))),
-              g(BIN_PREFIX, BINDIGIT_SEQUENCE),
-              g(DECDIGIT_SEQUENCE, opt(POINT), opt(g(DECDIGIT_SEQUENCE)), opt(g(EXPONENT)))
-            ),
-            opt(g(UD_SUFFIX))
-          )
+               and(
+                 or(
+                   g(POINT, DECDIGIT_SEQUENCE, opt(g(EXPONENT))),
+                   g(HEX_PREFIX, opt(g(HEXDIGIT_SEQUENCE)), opt(POINT), opt(g(HEXDIGIT_SEQUENCE)), opt(
+                     g(BINARY_EXPONENT))),
+                   g(BIN_PREFIX, BINDIGIT_SEQUENCE),
+                   g(DECDIGIT_SEQUENCE, opt(POINT), opt(g(DECDIGIT_SEQUENCE)), opt(g(EXPONENT)))
+                 ),
+                 opt(g(UD_SUFFIX))
+               )
         )
       )
-
       .withChannel(new KeywordChannel(and("#", o2n("\\s"), "[a-z]", o2n("\\w")), CppKeyword.values()))
       .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true))
       .withChannel(new PunctuatorChannel(CppPunctuator.values()))

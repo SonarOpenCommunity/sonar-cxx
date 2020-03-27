@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import org.junit.Rule;
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -35,13 +34,12 @@ public class FileNameCheckTest {
   @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
   private final FileNameCheck check = new FileNameCheck();
-  private final MapSettings settings = new MapSettings();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void bad_name() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/badFile_name.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
 
     String format = "(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$";
     String message = "Rename this file to match this regular expression: \"%s\".";
@@ -53,7 +51,7 @@ public class FileNameCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void good_name_camel_case() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileName.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
 
     checkMessagesVerifier.verify(file.getCheckMessages());
   }
@@ -62,7 +60,7 @@ public class FileNameCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void good_name_snake_case() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/file_name.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
 
     checkMessagesVerifier.verify(file.getCheckMessages());
   }

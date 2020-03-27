@@ -28,14 +28,11 @@ import org.junit.Test;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.CxxAstScanner;
 
 public class CxxParseErrorLoggerVisitorTest {
-
-  private final MapSettings settings = new MapSettings();
 
   @Rule
   public LogTester logTester = new LogTester();
@@ -48,7 +45,7 @@ public class CxxParseErrorLoggerVisitorTest {
     context.fileSystem().add(inputFile);
 
     logTester.setLevel(LoggerLevel.DEBUG);
-    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context);
+    CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()));
   }
 
   @Test

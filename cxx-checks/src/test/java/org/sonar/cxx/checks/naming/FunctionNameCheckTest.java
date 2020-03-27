@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.naming;
 
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -29,15 +28,13 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class FunctionNameCheckTest {
 
-  private final MapSettings settings = new MapSettings();
-
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws Exception {
     var check = new FunctionNameCheck();
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionName.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(8).withMessage(
       "Rename function \"Badly_Named_Function\" to match the regular expression ^[a-z_][a-z0-9_]{2,30}$.")

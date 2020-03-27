@@ -22,8 +22,8 @@ package org.sonar.cxx.visitors;
 import java.io.IOException;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
@@ -31,16 +31,15 @@ import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxFunctionSizeVisitorTest {
 
-  private final MapSettings settings = new MapSettings();
-
   @Test
   public void testPublishMeasuresForFile() throws IOException {
 
-    settings.setProperty(CxxFunctionSizeVisitor.FUNCTION_SIZE_THRESHOLD_KEY, 5);
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    squidConfig.setFunctionSizeThreshold(5);
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/FunctionComplexity.cc",
                                                                    ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig);
 
     var softly = new SoftAssertions();
     softly.assertThat(file.getInt(CxxMetric.BIG_FUNCTIONS)).isEqualTo(4);
@@ -52,7 +51,7 @@ public class CxxFunctionSizeVisitorTest {
   @Test
   public void testPublishMeasuresForEmptyFile() throws IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/EmptyFile.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
 
     var softly = new SoftAssertions();
     softly.assertThat(file.getInt(CxxMetric.BIG_FUNCTIONS)).isEqualTo(0);

@@ -127,7 +127,7 @@ public class CxxVCppBuildLogParser {
       LOG.debug("build log parser baseDir='{}'", baseDir);
       Path currentProjectPath = Paths.get(baseDir);
 
-      List<String> overallIncludes = uniqueIncludes.get(CxxConfiguration.OVERALLINCLUDEKEY);
+      List<String> overallIncludes = uniqueIncludes.get(CxxSquidConfiguration.OVERALLINCLUDEKEY);
 
       while ((line = br.readLine()) != null) {
         if (line.trim().startsWith("INCLUDE=")) { // handle environment includes

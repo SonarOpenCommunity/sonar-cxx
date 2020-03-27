@@ -21,23 +21,23 @@ package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 
 public final class CppParser {
 
   private CppParser() {
   }
 
-  public static Parser<Grammar> create(CxxConfiguration conf) {
+  public static Parser<Grammar> create(CxxSquidConfiguration squidConfig) {
     return Parser.builder(CppGrammar.create())
-      .withLexer(CppLexer.create(conf))
+      .withLexer(CppLexer.create(squidConfig))
       .build();
   }
 
-  public static Parser<Grammar> createConstantExpressionParser(CxxConfiguration conf) {
+  public static Parser<Grammar> createConstantExpressionParser(CxxSquidConfiguration squidConfig) {
     Grammar grammar = CppGrammar.create();
     Parser<Grammar> parser = Parser.builder(grammar)
-      .withLexer(CppLexer.create(conf))
+      .withLexer(CppLexer.create(squidConfig))
       .build();
     parser.setRootRule(grammar.rule(CppGrammar.constantExpression));
     return parser;

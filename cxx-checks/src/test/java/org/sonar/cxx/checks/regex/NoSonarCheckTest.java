@@ -22,7 +22,6 @@ package org.sonar.cxx.checks.regex;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -32,14 +31,13 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class NoSonarCheckTest {
 
   private final NoSonarCheck check = new NoSonarCheck();
-  private final MapSettings settings = new MapSettings();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
       "src/test/resources/checks/NoSonarTagPresenceCheck.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage("Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?")

@@ -42,6 +42,8 @@ import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.internal.google.common.base.Splitter;
+import org.sonar.api.internal.google.common.collect.Iterables;
 import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContextFactory;
@@ -51,9 +53,9 @@ import org.sonar.api.scanner.sensor.ProjectSensor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetrics;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
@@ -88,6 +90,19 @@ public class CxxSquidSensor implements ProjectSensor {
 
   private static final String USE_ANT_STYLE_WILDCARDS
                                 = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
+
+  /**
+   * Key of the file suffix parameter
+   */
+  public static final String API_FILE_SUFFIXES_KEY = "sonar.cxx.api.file.suffixes";
+
+  /**
+   * Default API files knows suffixes
+   */
+  public static final String API_DEFAULT_FILE_SUFFIXES = ".hxx,.hpp,.hh,.h";
+
+  public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "sonar.cxx.funccomplexity.threshold";
+  public static final String FUNCTION_SIZE_THRESHOLD_KEY = "sonar.cxx.funcsize.threshold";
 
   public static final String KEY = "Squid";
   private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
@@ -125,20 +140,18 @@ public class CxxSquidSensor implements ProjectSensor {
   }
 
   public static List<PropertyDefinition> properties() {
-    String subcateg1 = "General";
-    String subcateg2 = "Defines & Includes";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(INCLUDE_DIRECTORIES_KEY)
         .multiValues(true)
         .name("Include directories")
         .description("Comma-separated list of directories to search the included files in. "
                        + "May be defined either relative to projects root or absolute.")
-        .subCategory(subcateg2)
+        .subCategory("Defines & Includes")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(FORCE_INCLUDE_FILES_KEY)
         .multiValues(true)
-        .subCategory(subcateg2)
+        .subCategory("Defines & Includes")
         .name("Force includes")
         .description("Comma-separated list of files which should to be included implicitly at the "
                        + "beginning of each source file.")
@@ -149,7 +162,7 @@ public class CxxSquidSensor implements ProjectSensor {
         .description("Additional macro definitions (one per line) to use when analysing the source code. Use to provide"
                        + "macros which cannot be resolved by other means."
                        + " Use the 'force includes' setting to inject more complex, multi-line macros.")
-        .subCategory(subcateg2)
+        .subCategory("Defines & Includes")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.TEXT)
         .build(),
@@ -160,7 +173,7 @@ public class CxxSquidSensor implements ProjectSensor {
                        + " an error or 'True' (tolerant=default) continues. See <a href='https://github.com/SonarOpenCommunity/"
                      + "sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>"
                        + "sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
-        .subCategory(subcateg1)
+        .subCategory("General")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
         .build(),
@@ -170,7 +183,7 @@ public class CxxSquidSensor implements ProjectSensor {
                        + " if the produced log during compilation adds enough information (MSBuild verbosity set to"
                        + " detailed or diagnostic)."
                        + USE_ANT_STYLE_WILDCARDS)
-        .subCategory(subcateg2)
+        .subCategory("Defines & Includes")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
@@ -178,15 +191,40 @@ public class CxxSquidSensor implements ProjectSensor {
         .defaultValue(DEFAULT_CHARSET_DEF)
         .name("MSBuild log encoding")
         .description("The encoding to use when reading a MSBuild log. Leave empty to use default UTF-8.")
-        .subCategory(subcateg2)
+        .subCategory("Defines & Includes")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(JSON_COMPILATION_DATABASE_KEY)
-        .subCategory(subcateg2)
+        .subCategory("Defines & Includes")
         .name("JSON Compilation Database")
         .description("JSON Compilation Database file to use as specification for what defines and includes should be "
                        + "used for source files.")
         .onQualifiers(Qualifiers.PROJECT)
+        .build(),
+      PropertyDefinition.builder(API_FILE_SUFFIXES_KEY)
+        .defaultValue(API_DEFAULT_FILE_SUFFIXES)
+        .name("Header file suffixes")
+        .multiValues(true)
+        .description(
+          "Comma-separated list of suffixes for files to analyze API. To not filter, leave the list empty.")
+        .subCategory("Public API")
+        .onQualifiers(Qualifiers.PROJECT)
+        .build(),
+      PropertyDefinition.builder(FUNCTION_COMPLEXITY_THRESHOLD_KEY)
+        .defaultValue("10")
+        .name("Cyclomatic complexity threshold")
+        .description("Cyclomatic complexity threshold used to classify a function as complex")
+        .subCategory("Metrics")
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.INTEGER)
+        .build(),
+      PropertyDefinition.builder(FUNCTION_SIZE_THRESHOLD_KEY)
+        .defaultValue("20")
+        .name("Function size threshold")
+        .description("Function size threshold to consider a function to be too big")
+        .subCategory("Metrics")
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.INTEGER)
         .build()
     ));
   }
@@ -205,14 +243,14 @@ public class CxxSquidSensor implements ProjectSensor {
   @Override
   public void execute(SensorContext context) {
 
-    var visitors = new ArrayList<SquidAstVisitor<Grammar>>((Collection) checks.all());
+    var visitors = new ArrayList<SquidAstVisitor<Grammar>>(checks.all());
     visitors.add(new CxxHighlighterVisitor(context));
     visitors.add(new CxxFileLinesVisitor(this.config, fileLinesContextFactory, context));
 
     visitors.add(new CxxCpdVisitor(context));
 
-    CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), context);
-    AstScanner<Grammar> scanner = CxxAstScanner.create(this.config, cxxConf,
+    CxxSquidConfiguration squidConfig = createConfiguration(context.fileSystem(), context);
+    AstScanner<Grammar> scanner = CxxAstScanner.create(squidConfig,
                                                        visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
     Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
@@ -245,14 +283,25 @@ public class CxxSquidSensor implements ProjectSensor {
     return new String[0];
   }
 
-  private CxxConfiguration createConfiguration(FileSystem fs, SensorContext context) {
-    var cxxConf = new CxxConfiguration(fs);
-    cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
+  private CxxSquidConfiguration createConfiguration(FileSystem fs, SensorContext context) {
+    var squidConfig = new CxxSquidConfiguration(fs.encoding());
+    squidConfig.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = getStringLinesOption(DEFINES_KEY);
-    cxxConf.setDefines(lines);
-    cxxConf.setIncludeDirectories(this.config.getStringArray(INCLUDE_DIRECTORIES_KEY));
-    cxxConf.setErrorRecoveryEnabled(this.config.getBoolean(ERROR_RECOVERY_KEY).orElse(Boolean.FALSE));
-    cxxConf.setForceIncludeFiles(this.config.getStringArray(FORCE_INCLUDE_FILES_KEY));
+    squidConfig.setDefines(lines);
+    squidConfig.setIncludeDirectories(this.config.getStringArray(INCLUDE_DIRECTORIES_KEY));
+    squidConfig.setErrorRecoveryEnabled(this.config.getBoolean(ERROR_RECOVERY_KEY).orElse(Boolean.FALSE));
+    squidConfig.setForceIncludeFiles(this.config.getStringArray(FORCE_INCLUDE_FILES_KEY));
+
+    String[] suffixes = Arrays.stream(config.getStringArray(API_FILE_SUFFIXES_KEY))
+      .filter(s -> s != null && !s.trim().isEmpty()).toArray(String[]::new);
+    if (suffixes.length == 0) {
+      suffixes = Iterables.toArray(Splitter.on(',').split(API_DEFAULT_FILE_SUFFIXES), String.class);
+    }
+    squidConfig.setPublicApiFileSuffixes(suffixes);
+
+    squidConfig.setFunctionComplexityThreshold(config.getInt(FUNCTION_COMPLEXITY_THRESHOLD_KEY).orElse(10));
+    squidConfig.setFunctionSizeThreshold(config.getInt(FUNCTION_SIZE_THRESHOLD_KEY).orElse(20));
+
     // FIXME this.config.getStringArray(C_FILES_PATTERNS_KEY) must be fixed
     // 1. it doesn't match C plugin (C_FILES_PATTERNS_KEY) as key makes sense
     //    for C++ plugin only
@@ -261,12 +310,12 @@ public class CxxSquidSensor implements ProjectSensor {
     //    default value instead
     //    For proper implemenation see CppLanguage::CppLanguage()
     //    or createStringArray(config.getStringArray(C_FILES_PATTERNS_KEY), DEFAULT_C_FILES)
-    cxxConf.setJsonCompilationDatabaseFile(this.config.get(JSON_COMPILATION_DATABASE_KEY)
+    squidConfig.setJsonCompilationDatabaseFile(this.config.get(JSON_COMPILATION_DATABASE_KEY)
       .orElse(null));
 
-    if (cxxConf.getJsonCompilationDatabaseFile() != null) {
+    if (squidConfig.getJsonCompilationDatabaseFile() != null) {
       try {
-        JsonCompilationDatabase.parse(cxxConf, new File(cxxConf.getJsonCompilationDatabaseFile()));
+        JsonCompilationDatabase.parse(squidConfig, new File(squidConfig.getJsonCompilationDatabaseFile()));
       } catch (IOException e) {
         LOG.debug("Cannot access Json DB File: {}", e);
       }
@@ -276,11 +325,11 @@ public class CxxSquidSensor implements ProjectSensor {
     final boolean buildLogPathsDefined = buildLogPaths != null && buildLogPaths.length != 0;
     if (buildLogPathsDefined) {
       List<File> reports = CxxReportSensor.getReports(context.config(), fs.baseDir(), REPORT_PATH_KEY);
-      cxxConf.setCompilationPropertiesWithBuildLog(reports, "Visual C++",
-                                                   this.config.get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF));
+      squidConfig.setCompilationPropertiesWithBuildLog(reports, "Visual C++",
+                                                       this.config.get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF));
     }
 
-    return cxxConf;
+    return squidConfig;
   }
 
   private void save(Collection<SourceCode> squidSourceFiles, SensorContext context) {

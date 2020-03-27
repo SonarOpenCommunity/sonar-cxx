@@ -28,7 +28,6 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.postjob.PostJobContext;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.CxxAstScanner;
@@ -36,8 +35,6 @@ import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 
 public class FinalReportTest {
-
-  private final MapSettings settings = new MapSettings();
 
   @org.junit.Rule
   public LogTester logTester = new LogTester();
@@ -57,7 +54,7 @@ public class FinalReportTest {
 
     CxxParseErrorLoggerVisitor.resetReport();
     CxxPreprocessor.resetReport();
-    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context);
+    CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()));
 
     var postjob = new FinalReport();
     postjob.execute(postJobContext);

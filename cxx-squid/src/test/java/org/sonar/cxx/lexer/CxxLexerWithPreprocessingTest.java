@@ -38,7 +38,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
@@ -335,10 +335,10 @@ public class CxxLexerWithPreprocessingTest {
 
   @Test
   public void external_define() {
-    var conf = new CxxConfiguration();
-    conf.setDefines(new String[]{"M body"});
-    var cxxpp = new CxxPreprocessor(context, conf);
-    lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setDefines(new String[]{"M body"});
+    var cxxpp = new CxxPreprocessor(context, squidConfig);
+    lexer = CxxLexer.create(squidConfig, cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("M");
     var softly = new SoftAssertions();
@@ -350,10 +350,10 @@ public class CxxLexerWithPreprocessingTest {
 
   @Test
   public void external_defines_with_params() {
-    var conf = new CxxConfiguration();
-    conf.setDefines(new String[]{"minus(a, b) a - b"});
-    var cxxpp = new CxxPreprocessor(context, conf);
-    lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setDefines(new String[]{"minus(a, b) a - b"});
+    var cxxpp = new CxxPreprocessor(context, squidConfig);
+    lexer = CxxLexer.create(squidConfig, cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("minus(1, 2)");
     var softly = new SoftAssertions();
@@ -413,7 +413,7 @@ public class CxxLexerWithPreprocessingTest {
     SquidAstVisitorContext<Grammar> ctx = mock(SquidAstVisitorContext.class);
     when(ctx.getFile()).thenReturn(new File("/home/joe/file.cc"));
 
-    var pp = new CxxPreprocessor(ctx, new CxxConfiguration(), scp);
+    var pp = new CxxPreprocessor(ctx, new CxxSquidConfiguration(), scp);
     lexer = CxxLexer.create(pp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("#include <file>\n"
@@ -624,10 +624,10 @@ public class CxxLexerWithPreprocessingTest {
 
   @Test
   public void externalMacrosCannotBeOverriden() {
-    CxxConfiguration conf = mock(CxxConfiguration.class);
-    when(conf.getDefines()).thenReturn(Arrays.asList("name goodvalue"));
-    var cxxpp = new CxxPreprocessor(context, conf);
-    lexer = CxxLexer.create(conf, cxxpp);
+    CxxSquidConfiguration squidConfig = mock(CxxSquidConfiguration.class);
+    when(squidConfig.getDefines()).thenReturn(Arrays.asList("name goodvalue"));
+    var cxxpp = new CxxPreprocessor(context, squidConfig);
+    lexer = CxxLexer.create(squidConfig, cxxpp);
 
     List<Token> tokens = lexer.lex("#define name badvalue\n"
                                      + "name");
@@ -644,11 +644,11 @@ public class CxxLexerWithPreprocessingTest {
    */
   @Test
   public void defaultMacros() {
-    CxxConfiguration conf = mock(CxxConfiguration.class);
-    when(conf.getDefines()).thenReturn(Arrays.asList());
-    var cxxpp = new CxxPreprocessor(context, conf);
+    CxxSquidConfiguration squidConfig = mock(CxxSquidConfiguration.class);
+    when(squidConfig.getDefines()).thenReturn(Arrays.asList());
+    var cxxpp = new CxxPreprocessor(context, squidConfig);
 
-    final Lexer l = CxxLexer.create(conf, cxxpp);
+    final Lexer l = CxxLexer.create(squidConfig, cxxpp);
     final List<Token> tokens = l.lex("__LINE__");
 
     var softly = new SoftAssertions();
@@ -668,11 +668,11 @@ public class CxxLexerWithPreprocessingTest {
    */
   @Test
   public void configuredDefinesOverrideDefaultMacros() {
-    CxxConfiguration conf = mock(CxxConfiguration.class);
-    when(conf.getDefines()).thenReturn(Arrays.asList("__LINE__ 123"));
-    var cxxpp = new CxxPreprocessor(context, conf);
+    CxxSquidConfiguration squidConfig = mock(CxxSquidConfiguration.class);
+    when(squidConfig.getDefines()).thenReturn(Arrays.asList("__LINE__ 123"));
+    var cxxpp = new CxxPreprocessor(context, squidConfig);
 
-    final Lexer l = CxxLexer.create(conf, cxxpp);
+    final Lexer l = CxxLexer.create(squidConfig, cxxpp);
     final List<Token> tokens = l.lex("__LINE__");
 
     var softly = new SoftAssertions();
@@ -697,10 +697,10 @@ public class CxxLexerWithPreprocessingTest {
     final String forceIncludePath = "/home/user/force.h";
     var forceIncludeFile = new File(forceIncludePath);
 
-    var conf = new CxxConfiguration();
-    conf.setForceIncludeFiles(Collections.singletonList(forceIncludePath));
-    conf.setDefines(new String[]{"__LINE__ 123"});
-    conf.setErrorRecoveryEnabled(false);
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.setForceIncludeFiles(Collections.singletonList(forceIncludePath));
+    squidConfig.setDefines(new String[]{"__LINE__ 123"});
+    squidConfig.setErrorRecoveryEnabled(false);
 
     final SourceCodeProvider provider = mock(SourceCodeProvider.class);
     when(provider.getSourceCodeFile(Mockito.eq(forceIncludePath), Mockito.any(String.class), Mockito.anyBoolean()))
@@ -708,8 +708,8 @@ public class CxxLexerWithPreprocessingTest {
     when(provider.getSourceCode(Mockito.eq(forceIncludeFile), Mockito.any(Charset.class)))
       .thenReturn("#define __LINE__ 345");
 
-    var cxxpp = new CxxPreprocessor(context, conf, provider);
-    final Lexer l = CxxLexer.create(conf, cxxpp);
+    var cxxpp = new CxxPreprocessor(context, squidConfig, provider);
+    final Lexer l = CxxLexer.create(squidConfig, cxxpp);
 
     final List<Token> tokens = l.lex("__LINE__\n");
 

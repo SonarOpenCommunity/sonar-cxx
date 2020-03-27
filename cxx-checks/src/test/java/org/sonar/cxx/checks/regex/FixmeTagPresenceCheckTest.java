@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import org.junit.Rule;
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -34,15 +33,13 @@ public class FixmeTagPresenceCheckTest {
 
   @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
-  private final MapSettings settings = new MapSettings();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void detected() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FixmeTagPresenceCheck.cc",
                                                                    ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context,
-                                                   new FixmeTagPresenceCheck());
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), new FixmeTagPresenceCheck());
 
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Take the required action to fix the issue indicated by this comment.")

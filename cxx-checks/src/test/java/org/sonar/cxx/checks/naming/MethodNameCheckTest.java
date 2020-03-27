@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.naming;
 
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -29,14 +28,12 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class MethodNameCheckTest {
 
-  private final MapSettings settings = new MapSettings();
-
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test() throws Exception {
     var check = new MethodNameCheck();
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/MethodName.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(settings.asConfig(), tester.cxxFile, tester.context, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(12).withMessage(
       "Rename method \"Badly_Named_Method2\" to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")

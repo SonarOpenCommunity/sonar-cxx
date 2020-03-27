@@ -26,10 +26,10 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 import java.util.regex.Pattern;
+import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.measures.MetricDef;
 
 /**
  * Visitor that computes the number of lines of code of a file.
@@ -41,11 +41,10 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
 
   public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
-  private final MetricDef metric;
   private int lastTokenLine;
 
-  public CxxLinesOfCodeVisitor(MetricDef metric) {
-    this.metric = metric;
+  public CxxLinesOfCodeVisitor() {
+
   }
 
   /**
@@ -69,7 +68,7 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
     String[] tokenLines = EOL_PATTERN.split(token.getValue(), -1);
 
     int firstLineAlreadyCounted = lastTokenLine == token.getLine() ? 1 : 0;
-    getContext().peekSourceCode().add(metric, (double) tokenLines.length - firstLineAlreadyCounted);
+    getContext().peekSourceCode().add(CxxMetric.LINES_OF_CODE, (double) tokenLines.length - firstLineAlreadyCounted);
 
     lastTokenLine = token.getLine() + tokenLines.length - 1;
 

@@ -59,7 +59,7 @@ public class CxxCpdVisitorTest {
     context.fileSystem().add(inputFile);
 
     var cxxCpdVisitor = new CxxCpdVisitor(context);
-    CxxAstScanner.scanSingleFile(settings.asConfig(), inputFile, context, cxxCpdVisitor);
+    CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()), cxxCpdVisitor);
   }
 
   @Test
