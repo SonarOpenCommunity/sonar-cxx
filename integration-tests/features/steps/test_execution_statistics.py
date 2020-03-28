@@ -241,7 +241,7 @@ def step_impl(context):
     assert _contains_line_matching(context.log, context.text)
 
 
-@given(u'a report outside the projects directory, e.g. "/tmp/cppcheck-v1.xml"')
+@given(u'a report outside the projects directory, e.g. "/tmp/cppcheck-v2.xml"')
 def step_impl(context):
     report_fname = "cppcheck-v1.xml"
     source = os.path.join(TESTDATADIR, "cppcheck_project", report_fname)

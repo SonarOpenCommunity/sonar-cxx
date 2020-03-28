@@ -57,20 +57,7 @@ public class CxxCppCheckSensorTest {
     var sensor = new CxxCppCheckSensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(11);
-  }
-
-  @Test
-  public void shouldReportProjectLevelViolationsV1() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
-                         "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
-    context.setSettings(settings);
-
-    var sensor = new CxxCppCheckSensor();
-    sensor.execute(context);
-
-    assertThat(context.allIssues()).hasSize(3);
+    assertThat(context.allIssues()).hasSize(7);
   }
 
   @Test

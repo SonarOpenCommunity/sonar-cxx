@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.cppcheck;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -35,7 +34,7 @@ import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 
 /**
- * Sensor for cppcheck (static code analyzer).
+ * Sensor for Cppcheck - A tool for static C/C++ code analysis
  *
  * @author fbonin
  * @author vhardion
@@ -44,16 +43,6 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private static final Logger LOG = Loggers.get(CxxCppCheckSensor.class);
-
-  private final List<CppcheckParser> parsers = new LinkedList<>();
-
-  /**
-   * CxxCppCheckSensor for CppCheck Sensor
-   */
-  public CxxCppCheckSensor() {
-    parsers.add(new CppcheckParserV2(this));
-    parsers.add(new CppcheckParserV1(this));
-  }
 
   public static List<PropertyDefinition> properties() {
     String subcateg = "Cppcheck";
@@ -82,22 +71,12 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(final SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException {
-    boolean parsed = false;
-
-    for (var parser : parsers) {
-      try {
-        parser.processReport(context, report);
-        LOG.info("Added report '{}' (parsed by: {})", report, parser);
-        parsed = true;
-        break;
-      } catch (XMLStreamException e) {
-        LOG.debug("Report {} cannot be parsed by {}", report, parser, e);
-      }
-    }
-
-    if (!parsed) {
+  protected void processReport(final SensorContext context, File report) throws javax.xml.stream.XMLStreamException {
+    CppcheckParser parser = new CppcheckParser(this);
+    try {
+      parser.processReport(context, report);
+      LOG.info("Added report '{}' (parsed by: {})", report, parser);
+    } catch (XMLStreamException e) {
       LOG.error("Report {} cannot be parsed", report);
     }
   }

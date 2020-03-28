@@ -97,5 +97,4 @@ Feature: Importing Cppcheck reports
     And the number of violations fed is <violations>
     Examples:
       | reportpath      | violations |
-      | cppcheck-v1.xml | 6          |
       | cppcheck-v2.xml | 6          |
