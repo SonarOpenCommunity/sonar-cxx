@@ -10,10 +10,7 @@ clean:
 
 sonar: cppcheck sonar_sonar
 
-cppcheck: cppcheck_v1 cppcheck_v2 cppcheck_relative_to_src
-
-cppcheck_v1:
-	cppcheck -v --enable=all --xml src -Isrc 2> cppcheck-v1.xml
+cppcheck: cppcheck_v2 cppcheck_relative_to_src
 
 cppcheck_v2:
 	cppcheck -v --enable=all --xml --xml-version=2 src -Isrc 2> cppcheck-v2.xml

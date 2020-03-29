@@ -67,7 +67,7 @@ public class CxxReportSensor_getReports_Test {
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
-    assertThat(reports.size()).isEqualTo(2);
+    assertThat(reports.size()).isEqualTo(1);
   }
 
   @Test
@@ -100,7 +100,7 @@ public class CxxReportSensor_getReports_Test {
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",**/*.xml");
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
-    assertThat(reports.size()).isEqualTo(7);
+    assertThat(reports.size()).isEqualTo(6);
   }
 
   @Test
@@ -118,7 +118,7 @@ public class CxxReportSensor_getReports_Test {
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",path/**/*.xml");
 
     List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
-    assertThat(reports.size()).isEqualTo(6);
+    assertThat(reports.size()).isEqualTo(5);
   }
 
   @Test

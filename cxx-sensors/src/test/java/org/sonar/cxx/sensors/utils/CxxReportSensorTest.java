@@ -31,7 +31,7 @@ import org.sonar.api.config.internal.MapSettings;
 public class CxxReportSensorTest {
 
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
-  private final String VALID_REPORT_PATH_LIST = "cppcheck-reports/*V1.xml, cppcheck-reports/*V2.xml";
+  private final String VALID_REPORT_PATH_LIST = "cppcheck-reports/*empty.xml, cppcheck-reports/*V2.xml";
   private final String INVALID_REPORT_PATH = "something";
   private final String REPORT_PATH_PROPERTY_KEY = "sonar.cxx.reportPath";
 
@@ -83,7 +83,7 @@ public class CxxReportSensorTest {
     assertThat(reports).isNotNull();
     assertThat(reports.get(0).exists()).isTrue();
     assertThat(reports.get(0).isAbsolute()).isTrue();
-    assertThat(reports.size() == 6).isTrue();
+    assertThat(reports.size()).isEqualTo(3);
   }
 
   @Test
@@ -93,7 +93,7 @@ public class CxxReportSensorTest {
     assertThat(reports).isNotNull();
     assertThat(reports.get(0).exists()).isTrue();
     assertThat(reports.get(0).isAbsolute()).isTrue();
-    assertThat(reports.size() == 5).isTrue();
+    assertThat(reports.size()).isEqualTo(3);
   }
 
   private class CxxReportSensorImpl extends CxxReportSensor {

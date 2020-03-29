@@ -122,7 +122,9 @@ public class StaxParser {
    */
   public void parse(URL xmlUrl) throws XMLStreamException {
     try {
-      parse(xmlUrl.openStream());
+      try (var xml = xmlUrl.openStream()) {
+        parse(xml);
+      }
     } catch (IOException e) {
       throw new XMLStreamException(e);
     }
