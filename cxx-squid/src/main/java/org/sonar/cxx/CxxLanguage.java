@@ -42,7 +42,7 @@ public class CxxLanguage extends AbstractLanguage {
   /**
    * cxx language name
    */
-  public static final String NAME = "C++ (Community)";
+  public static final String NAME = "CXX";
 
   /**
    * Key of the file suffix parameter
