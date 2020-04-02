@@ -146,7 +146,7 @@ public class TestUtils {
       scanner.scan();
       for (var path : scanner.getIncludedFiles()) {
         target = new File(dir, path);
-        fs.add(TestInputFileBuilder.create("ProjectKey", target.getPath()).setLanguage("cpp").setType(ftype).build());
+        fs.add(TestInputFileBuilder.create("ProjectKey", target.getPath()).setLanguage("c++").setType(ftype).build());
       }
     }
   }

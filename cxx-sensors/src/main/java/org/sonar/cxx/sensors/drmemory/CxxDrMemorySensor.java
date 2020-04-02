@@ -30,7 +30,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
@@ -63,10 +62,10 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   }
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "Dr Memory";
+    String subcateg = "Dr. Memory";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Dr Memory report(s)")
+        .name("Dr. Memory report(s)")
         .description("Path to <a href='http://drmemory.org/'>Dr. Memory</a> reports(s), relative to projects root."
                        + USE_ANT_STYLE_WILDCARDS)
         .subCategory(subcateg)
@@ -79,8 +78,8 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(CxxLanguage.NAME + " DrMemorySensor")
-      .onlyOnLanguage(CxxLanguage.KEY)
+      .name("import Dr. Memory report(s)")
+      .onlyOnLanguage("c++")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

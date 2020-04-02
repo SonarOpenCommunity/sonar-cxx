@@ -27,7 +27,6 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 
 public class CxxCompilerGccSensor extends CxxCompilerSensor {
@@ -80,8 +79,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(CxxLanguage.NAME + " CxxCompilerGccSensor")
-      .onlyOnLanguage(CxxLanguage.KEY)
+      .name("import GCC compiler report(s)")
+      .onlyOnLanguage("c++")
       .createIssuesForRuleRepositories(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

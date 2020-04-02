@@ -40,7 +40,6 @@ import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
@@ -218,7 +217,7 @@ public class CxxSquidSensorTest {
     var target = new File(baseDir, fileName);
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(StandardCharsets.UTF_8).setLanguage(CxxLanguage.KEY)
+      .setCharset(StandardCharsets.UTF_8).setLanguage("c++")
       .setType(InputFile.Type.MAIN).build();
     return inputFile;
   }

@@ -44,7 +44,6 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxFileLinesVisitorTest {
@@ -75,7 +74,7 @@ public class CxxFileLinesVisitorTest {
   public void TestLinesOfCode() throws UnsupportedEncodingException, IOException {
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(StandardCharsets.UTF_8).setLanguage(CxxLanguage.KEY)
+      .setCharset(StandardCharsets.UTF_8).setLanguage("c++")
       .setType(InputFile.Type.MAIN).build();
 
     SensorContextTester context = SensorContextTester.create(baseDir);
@@ -97,7 +96,7 @@ public class CxxFileLinesVisitorTest {
 
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(StandardCharsets.UTF_8).setLanguage(CxxLanguage.KEY)
+      .setCharset(StandardCharsets.UTF_8).setLanguage("c++")
       .setType(InputFile.Type.MAIN).build();
 
     SensorContextTester context = SensorContextTester.create(baseDir);

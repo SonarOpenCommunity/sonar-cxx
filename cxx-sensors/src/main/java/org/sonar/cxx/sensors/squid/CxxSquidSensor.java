@@ -53,7 +53,6 @@ import org.sonar.api.scanner.sensor.ProjectSensor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxMetric;
@@ -232,8 +231,8 @@ public class CxxSquidSensor implements ProjectSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(CxxLanguage.NAME + " SquidSensor")
-      .onlyOnLanguage(CxxLanguage.KEY)
+      .name("source code analyzer")
+      .onlyOnLanguage("c++")
       .onlyOnFileType(InputFile.Type.MAIN);
   }
 
@@ -253,10 +252,9 @@ public class CxxSquidSensor implements ProjectSensor {
     AstScanner<Grammar> scanner = CxxAstScanner.create(squidConfig,
                                                        visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
-    Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
-      .and(context.fileSystem().predicates()
-        .hasLanguage(CxxLanguage.KEY), context.fileSystem().predicates()
-           .hasType(InputFile.Type.MAIN)));
+    Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(
+      context.fileSystem().predicates().and(context.fileSystem().predicates().hasLanguage("c++"),
+                                            context.fileSystem().predicates().hasType(InputFile.Type.MAIN)));
 
     var files = new ArrayList<File>();
     for (var file : inputFiles) {

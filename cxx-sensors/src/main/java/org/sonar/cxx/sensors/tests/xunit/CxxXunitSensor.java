@@ -37,7 +37,6 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -89,7 +88,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(CxxLanguage.NAME + " XunitSensor")
+      .name("import xUnit Test report(s)")
       //.onlyOnLanguage(getLanguage().getKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }
