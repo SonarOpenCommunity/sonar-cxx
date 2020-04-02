@@ -31,7 +31,6 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.scanner.sensor.ProjectSensor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import static org.sonar.cxx.sensors.utils.CxxReportSensor.getReports;
 import static org.sonar.cxx.sensors.utils.CxxReportSensor.resolveFilename;
 import org.sonar.cxx.sensors.utils.CxxUtils;
@@ -50,7 +49,7 @@ public class XlstSensor implements ProjectSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(CxxLanguage.NAME + " XlstSensor");
+      .name("XSL transformation(s)");
   }
 
   @Override

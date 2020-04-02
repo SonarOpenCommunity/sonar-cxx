@@ -38,7 +38,6 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -74,8 +73,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
     String subcateg = "Coverage";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Unit test coverage report(s)")
-        .description("List of paths to reports containing unit test coverage data, relative to projects root."
+        .name("Coverage report(s)")
+        .description("List of paths to reports containing coverage data, relative to projects root."
                        + " The values are separated by commas."
                        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
                      + "here</a> for supported formats.")
@@ -84,6 +83,14 @@ public class CxxCoverageSensor extends CxxReportSensor {
         .multiValues(true)
         .build()
     ));
+  }
+
+  @Override
+  public void describe(SensorDescriptor descriptor) {
+    descriptor
+      .name("import coverage report(s)")
+      .onlyOnLanguage("c++")
+      .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }
 
   /**
@@ -108,14 +115,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
     measuresTotal.putAll(measuresForReport);
     LOG.info("Added coverage report '{}' (parsed by: {})", report, parser);
-  }
-
-  @Override
-  public void describe(SensorDescriptor descriptor) {
-    descriptor
-      .name(CxxLanguage.NAME + " CoverageSensor")
-      .onlyOnLanguage(CxxLanguage.KEY)
-      .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }
 
   /**

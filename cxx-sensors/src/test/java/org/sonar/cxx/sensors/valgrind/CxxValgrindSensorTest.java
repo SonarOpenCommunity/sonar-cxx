@@ -32,7 +32,6 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxValgrindSensorTest {
@@ -57,7 +56,7 @@ public class CxxValgrindSensorTest {
   @Test
   public void shouldSaveViolationIfErrorIsInside() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    context.fileSystem().add(TestInputFileBuilder.create("myProjectKey", "dir/file").setLanguage("cpp").initMetadata(
+    context.fileSystem().add(TestInputFileBuilder.create("myProjectKey", "dir/file").setLanguage("c++").initMetadata(
       "asd\nasdas\nasda\n").build());
     var valgrindErrors = new HashSet<ValgrindError>();
     valgrindErrors.add(mockValgrindError(true));
@@ -82,8 +81,8 @@ public class CxxValgrindSensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " ValgrindSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
+    softly.assertThat(descriptor.name()).isEqualTo("import Valgrind report(s)");
+    softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.KEY);
     softly.assertAll();
   }

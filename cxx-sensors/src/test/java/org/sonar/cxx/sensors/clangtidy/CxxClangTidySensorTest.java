@@ -29,7 +29,6 @@ import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -71,7 +70,7 @@ public class CxxClangTidySensorTest {
 
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n")
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n")
       .build());
 
     var sensor = new CxxClangTidySensor();
@@ -90,7 +89,7 @@ public class CxxClangTidySensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxClangTidySensor();
     sensor.execute(context);
@@ -108,7 +107,7 @@ public class CxxClangTidySensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxClangTidySensor();
     sensor.execute(context);
@@ -127,7 +126,7 @@ public class CxxClangTidySensorTest {
 
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n")
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n")
       .build());
 
     var sensor = new CxxClangTidySensor();
@@ -151,7 +150,7 @@ public class CxxClangTidySensorTest {
 
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n")
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n")
       .build());
 
     var sensor = new CxxClangTidySensor();
@@ -167,12 +166,9 @@ public class CxxClangTidySensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name())
-      .isEqualTo(CxxLanguage.NAME + " ClangTidySensor");
-    softly.assertThat(descriptor.languages())
-      .containsOnly(CxxLanguage.KEY);
-    softly.assertThat(descriptor.ruleRepositories())
-      .containsOnly(CxxClangTidyRuleRepository.KEY);
+    softly.assertThat(descriptor.name()).isEqualTo("import Clang-Tidy report(s)");
+    softly.assertThat(descriptor.languages()).containsOnly("c++");
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangTidyRuleRepository.KEY);
     softly.assertAll();
   }
 

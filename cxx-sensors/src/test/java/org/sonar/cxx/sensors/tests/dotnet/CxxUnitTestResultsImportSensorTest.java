@@ -39,7 +39,6 @@ import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 public class CxxUnitTestResultsImportSensorTest {
@@ -61,8 +60,8 @@ public class CxxUnitTestResultsImportSensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " Unit Test Results Import");
-    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
+    softly.assertThat(descriptor.name()).isEqualTo("import VSTest/xUnit/NUnit Test report(s)");
+    softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertAll();
   }
 

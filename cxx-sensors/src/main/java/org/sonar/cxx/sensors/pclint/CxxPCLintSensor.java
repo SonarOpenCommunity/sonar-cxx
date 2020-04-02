@@ -36,7 +36,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -89,8 +88,8 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(CxxLanguage.NAME + " PCLintSensor")
-      .onlyOnLanguage(CxxLanguage.KEY)
+      .name("import PC-lint report(s)")
+      .onlyOnLanguage("c++")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

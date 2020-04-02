@@ -34,7 +34,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -62,7 +61,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
     String subcateg = "Clang-Tidy";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Clang-Tidy analyzer report(s)")
+        .name("Clang-Tidy report(s)")
         .description("Path to Clang-Tidy reports, relative to projects root. If neccessary, "
                        + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
         .subCategory(subcateg)
@@ -83,8 +82,8 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(CxxLanguage.NAME + " ClangTidySensor")
-      .onlyOnLanguage(CxxLanguage.KEY)
+      .name("import Clang-Tidy report(s)")
+      .onlyOnLanguage("c++")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

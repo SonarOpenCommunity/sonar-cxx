@@ -28,7 +28,6 @@ import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -50,17 +49,17 @@ public class CxxVeraxxSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/tests/SAMPLE-test.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/tests/SAMPLE-test.h")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/tests/main.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxVeraxxSensor();
     sensor.execute(context);
@@ -75,8 +74,8 @@ public class CxxVeraxxSensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " VeraxxSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
+    softly.assertThat(descriptor.name()).isEqualTo("import Vera++ report(s)");
+    softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxVeraxxRuleRepository.KEY);
     softly.assertAll();
   }

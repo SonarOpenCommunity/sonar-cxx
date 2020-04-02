@@ -29,7 +29,6 @@ import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -110,7 +109,7 @@ public class CxxXunitSensorTest {
     var sensor = new CxxXunitSensor(settings.asConfig());
     sensor.describe(descriptor);
 
-    assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " XunitSensor");
+    assertThat(descriptor.name()).isEqualTo("import xUnit Test report(s)");
   }
 
   File cppunitReport() {

@@ -35,7 +35,6 @@ import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.batch.sensor.issue.Issue.Flow;
 import org.sonar.api.batch.sensor.issue.IssueLocation;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -71,12 +70,12 @@ public class CxxClangSASensorTest {
     /*
      * 2 issues
      */
-    DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cpp")
+    DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("c++")
       .initMetadata("asd\nasdas\nasda\n").build();
     /*
      * 1 issue
      */
-    DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cpp")
+    DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("c++")
       .initMetadata("asd\nasdas\nasda\n").build();
 
     context.fileSystem().add(testFile0);
@@ -103,12 +102,12 @@ public class CxxClangSASensorTest {
     /*
      * 2 issues
      */
-    DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cpp")
+    DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("c++")
       .setContents(generateTestFileContents(100, 80)).build();
     /*
      * 1 issue
      */
-    DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cpp")
+    DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("c++")
       .setContents(generateTestFileContents(100, 80)).build();
 
     context.fileSystem().add(testFile0);
@@ -163,7 +162,7 @@ public class CxxClangSASensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxClangSASensor();
     sensor.execute(context);
@@ -178,8 +177,8 @@ public class CxxClangSASensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " ClangSASensor");
-    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
+    softly.assertThat(descriptor.name()).isEqualTo("import Clang Static Analyzer report(s)");
+    softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangSARuleRepository.KEY);
     softly.assertAll();
   }

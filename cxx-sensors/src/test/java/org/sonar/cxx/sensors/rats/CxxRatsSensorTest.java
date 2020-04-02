@@ -28,7 +28,6 @@ import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxRatsSensorTest {
@@ -49,8 +48,8 @@ public class CxxRatsSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp").setLanguage(
-      "cpp").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "report.c").setLanguage("cpp").initMetadata(
+      "c++").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "report.c").setLanguage("c++").initMetadata(
       "asd\nasdas\nasda\n").build());
 
     sensor = new CxxRatsSensor();
@@ -66,8 +65,8 @@ public class CxxRatsSensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " RatsSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
+    softly.assertThat(descriptor.name()).isEqualTo("import RATS report(s)");
+    softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxRatsRuleRepository.KEY);
     softly.assertAll();
   }

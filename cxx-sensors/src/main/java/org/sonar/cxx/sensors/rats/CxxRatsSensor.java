@@ -34,7 +34,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -79,8 +78,8 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name(CxxLanguage.NAME + " RatsSensor")
-      .onlyOnLanguage(CxxLanguage.KEY)
+      .name("import RATS report(s)")
+      .onlyOnLanguage("c++")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

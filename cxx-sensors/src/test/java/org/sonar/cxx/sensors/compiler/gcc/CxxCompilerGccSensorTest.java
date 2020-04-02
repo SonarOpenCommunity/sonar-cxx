@@ -30,7 +30,6 @@ import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCompilerGccSensorTest {
@@ -49,8 +48,8 @@ public class CxxCompilerGccSensorTest {
     var sensor = new CxxCompilerGccSensor();
     sensor.describe(descriptor);
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo(CxxLanguage.NAME + " CxxCompilerGccSensor");
-    softly.assertThat(descriptor.languages()).containsOnly(CxxLanguage.KEY);
+    softly.assertThat(descriptor.name()).isEqualTo("import GCC compiler report(s)");
+    softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories())
       .containsOnly(CxxCompilerGccRuleRepository.KEY);
     softly.assertAll();
@@ -63,7 +62,7 @@ public class CxxCompilerGccSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/zipmanager.cpp")
-      .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxCompilerGccSensor();
     sensor.execute(context);
@@ -78,7 +77,7 @@ public class CxxCompilerGccSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "main.c")
-      .setLanguage("c").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxCompilerGccSensor();
     sensor.execute(context);

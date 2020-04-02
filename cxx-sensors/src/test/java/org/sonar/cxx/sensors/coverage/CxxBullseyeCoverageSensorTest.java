@@ -53,21 +53,21 @@ public class CxxBullseyeCoverageSensorTest {
       context.setSettings(settings);
 
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "main.cpp")
-        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source_1.cpp")
-        .setLanguage("cpp").initMetadata(
+        .setLanguage("c++").initMetadata(
         "asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.h").setLanguage("cpp")
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.h").setLanguage("c++")
         .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.cpp").setLanguage("cpp")
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.cpp").setLanguage("c++")
         .initMetadata(
           "asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.h").setLanguage("cpp").initMetadata(
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.h").setLanguage("c++").initMetadata(
         "asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n").build());
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.cpp").setLanguage("cpp")
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.cpp").setLanguage("c++")
         .initMetadata(
           "asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
@@ -135,19 +135,19 @@ public class CxxBullseyeCoverageSensorTest {
 
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
                                                            "randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h")
-        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
                                                            "randomfoldernamethatihopeknowmachinehas/test/test.c")
-        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
                                                            "randomfoldernamethatihopeknowmachinehas/test2/test2.c")
-        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
                                                            "randomfoldernamethatihopeknowmachinehas/main.c")
-        .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
 
       var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
@@ -191,7 +191,7 @@ public class CxxBullseyeCoverageSensorTest {
       }
 
       for (var filepath : fileList) {
-        context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", filepath).setLanguage("cpp").initMetadata(
+        context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", filepath).setLanguage("c++").initMetadata(
           sourceContent.toString()).build());
       }
       var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
