@@ -42,12 +42,6 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxValgrindSensor.class);
 
-  /**
-   * CxxValgrindSensor for Valgrind Sensor
-   */
-  public CxxValgrindSensor() {
-  }
-
   private static String createErrorMsg(ValgrindError error, ValgrindStack stack, int stackNr) {
     var errorMsg = new StringBuilder(512);
     errorMsg.append(error.getText());
@@ -59,13 +53,13 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   }
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "Valgrind";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Valgrind report(s)")
-        .description("Path to <a href='http://valgrind.org/'>Valgrind</a> report(s), relative to projects root."
+        .name("Valgrind XML report(s)")
+        .description("Path to <a href='http://valgrind.org/'>Valgrind</a> XML report(s), relative to projects root."
                        + USE_ANT_STYLE_WILDCARDS)
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Valgrind")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build()
@@ -108,7 +102,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    LOG.debug("Parsing 'Valgrind' format");
+    LOG.debug("Processing 'Valgrind' format");
     var parser = new ValgrindReportParser();
     saveErrors(context, parser.processReport(report));
   }

@@ -57,7 +57,7 @@ public class CxxOtherRepositoryTest {
 
   @Test
   public void verifyTemplateRuleIsFound() {
-    settings.setProperty(CxxOtherRepository.RULES_KEY, "");
+    settings.setProperty(CxxOtherSensor.RULES_KEY, "");
     var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
 
     var context = new RulesDefinition.Context();
@@ -69,9 +69,8 @@ public class CxxOtherRepositoryTest {
 
   @Test
   public void createNonEmptyRulesTest() {
-    settings.setProperty(CxxOtherRepository.RULES_KEY, profile1);
-    var def = new CxxOtherRepository(settings.asConfig(),
-                                 new RulesDefinitionXmlLoader());
+    settings.setProperty(CxxOtherSensor.RULES_KEY, profile1);
+    var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
 
     var context = new RulesDefinition.Context();
     def.define(context);
@@ -82,9 +81,8 @@ public class CxxOtherRepositoryTest {
 
   @Test
   public void createNullRulesTest() {
-    settings.setProperty(CxxOtherRepository.RULES_KEY, "");
-    var def = new CxxOtherRepository(settings.asConfig(),
-                                 new RulesDefinitionXmlLoader());
+    settings.setProperty(CxxOtherSensor.RULES_KEY, "");
+    var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
 
     var context = new RulesDefinition.Context();
     def.define(context);
@@ -95,7 +93,7 @@ public class CxxOtherRepositoryTest {
 
   @Test
   public void verifyRuleValuesTest() {
-    settings.setProperty(CxxOtherRepository.RULES_KEY, profile2);
+    settings.setProperty(CxxOtherSensor.RULES_KEY, profile2);
     var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
 
     var context = new RulesDefinition.Context();

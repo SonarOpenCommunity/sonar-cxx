@@ -59,7 +59,7 @@ public class CppcheckParser {
 
   public void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    LOG.debug("Parsing 'Cppcheck V2' format");
+    LOG.debug("Processing 'Cppcheck V2' format");
     var parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}

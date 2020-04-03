@@ -31,10 +31,6 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 
 class ValgrindReportParser {
 
-  ValgrindReportParser() {
-    // do nothing - just for reference
-  }
-
   /**
    * Parses given valgrind report
    *

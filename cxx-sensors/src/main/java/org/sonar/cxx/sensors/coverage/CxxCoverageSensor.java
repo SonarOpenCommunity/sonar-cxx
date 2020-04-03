@@ -78,7 +78,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
                        + " The values are separated by commas."
                        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
                      + "here</a> for supported formats.")
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Coverage")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build()

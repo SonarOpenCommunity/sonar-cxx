@@ -65,20 +65,15 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   private static final Pattern SUPPLEMENTAL_MSG_PATTERN
                                  = Pattern.compile(PREFIX_DURING_SPECIFIC_WALK_MSG + "\\s+(.+):(\\d+):(\\d+)\\s+.+");
 
-  /**
-   * CxxPCLintSensor for PC-lint Sensor
-   */
-  public CxxPCLintSensor() {
-  }
-
   public static List<PropertyDefinition> properties() {
-    String subcateg = "PC-lint";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("PC-lint report(s)")
-        .description("Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> reports(s), relative to projects"
-                       + "  root." + USE_ANT_STYLE_WILDCARDS)
-        .subCategory(subcateg)
+        .name("PC-lint XML report(s)")
+        .description(
+          "Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> XML reports(s), relative to projects"
+            + "  root." + USE_ANT_STYLE_WILDCARDS)
+        .category("CXX External Analyzers")
+        .subCategory("PC-lint")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build()
@@ -97,7 +92,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    LOG.debug("Parsing 'PC-Lint' format");
+    LOG.debug("Processing 'PC-Lint' format");
 
     var parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**

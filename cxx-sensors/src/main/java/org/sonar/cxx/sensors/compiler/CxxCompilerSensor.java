@@ -36,9 +36,6 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxCompilerSensor.class);
 
-  protected CxxCompilerSensor() {
-  }
-
   @Override
   protected void processReport(final SensorContext context, File report) throws javax.xml.stream.XMLStreamException {
 
@@ -50,7 +47,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
       return;
     }
 
-    LOG.info("Parsing '{}' initialized with report '{}', Charset= '{}'", getCompilerKey(), report, reportCharset);
+    LOG.info("Processing '{}' initialized with report '{}', Charset= '{}'", getCompilerKey(), report, reportCharset);
 
     try (var scanner = new Scanner(report, reportCharset)) {
       Pattern pattern = Pattern.compile(reportRegEx);

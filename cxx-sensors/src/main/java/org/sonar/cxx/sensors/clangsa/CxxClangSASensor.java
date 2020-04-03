@@ -49,10 +49,18 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxClangSASensor.class);
 
-  /**
-   * CxxClangSASensor for Clang Static Analyzer Sensor
-   */
-  public CxxClangSASensor() {
+  public static List<PropertyDefinition> properties() {
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(REPORT_PATH_KEY)
+        .name("Clang Static Analyzer report(s)")
+        .description("Path to Clang Static Analyzer reports, relative to projects root. If neccessary, "
+                       + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
+        .category("External Analyzers")
+        .subCategory("Clang Static Analyzer")
+        .onQualifiers(Qualifiers.PROJECT)
+        .multiValues(true)
+        .build()
+    ));
   }
 
   private static NSObject require(@Nullable NSObject object, String errorMsg) {
@@ -60,20 +68,6 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
       throw new IllegalArgumentException(errorMsg);
     }
     return object;
-  }
-
-  public static List<PropertyDefinition> properties() {
-    String subcateg = "Clang Static Analyzer";
-    return Collections.unmodifiableList(Arrays.asList(
-      PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Clang Static Analyzer report(s)")
-        .description("Path to Clang Static Analyzer reports, relative to projects root. If neccessary, "
-                       + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
-        .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT)
-        .multiValues(true)
-        .build()
-    ));
   }
 
   @Override
@@ -85,11 +79,24 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
+  private void addFlowToIssue(final NSDictionary diagnostic, final NSObject[] sourceFiles, final CxxReportIssue issue) {
+    NSObject[] path = ((NSArray) require(diagnostic.objectForKey("path"), "Missing mandatory entry 'path'")).getArray();
+    for (var pathObject : path) {
+      var pathElement = new PathElement(pathObject);
+      if (pathElement.getKind() != PathElementKind.EVENT) {
+        continue;
+      }
+
+      var event = new PathEvent(pathObject, sourceFiles);
+      issue.addFlowElement(event.getFilePath(), event.getLineNumber(), event.getExtendedMessage());
+    }
+  }
+
   @Override
   protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
 
-    LOG.debug("Processing clangsa report '{}''", report.getName());
+    LOG.debug("Processing 'Clang Static Analyzer' report '{}''", report.getName());
 
     try {
       File f = new File(report.getPath());
@@ -198,16 +205,4 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
     }
   }
 
-  private void addFlowToIssue(final NSDictionary diagnostic, final NSObject[] sourceFiles, final CxxReportIssue issue) {
-    NSObject[] path = ((NSArray) require(diagnostic.objectForKey("path"), "Missing mandatory entry 'path'")).getArray();
-    for (var pathObject : path) {
-      var pathElement = new PathElement(pathObject);
-      if (pathElement.getKind() != PathElementKind.EVENT) {
-        continue;
-      }
-
-      var event = new PathEvent(pathObject, sourceFiles);
-      issue.addFlowElement(event.getFilePath(), event.getLineNumber(), event.getExtendedMessage());
-    }
-  }
 }

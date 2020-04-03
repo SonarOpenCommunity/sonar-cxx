@@ -32,9 +32,6 @@ public class CxxCoverageCache {
 
   private static final Map<String, Map<String, CoverageMeasures>> CACHE_UNIT = new HashMap<>();
 
-  public CxxCoverageCache() {
-  }
-
   public Map<String, Map<String, CoverageMeasures>> unitCoverageCache() {
     return CACHE_UNIT;
   }

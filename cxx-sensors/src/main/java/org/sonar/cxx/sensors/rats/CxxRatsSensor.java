@@ -48,12 +48,6 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxRatsSensor.class);
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
 
-  /**
-   * CxxRatsSensor for RATS Sensor
-   */
-  public CxxRatsSensor() {
-  }
-
   private static String getVulnerabilityType(@Nullable Element child) {
     if (child != null) {
       return child.getTextTrim();
@@ -62,13 +56,13 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   }
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "RATS";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("RATS report(s)")
         .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/>"
                        + " reports(s), relative to projects root." + USE_ANT_STYLE_WILDCARDS)
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("RATS")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build()
@@ -87,7 +81,7 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(final SensorContext context, File report)
     throws org.jdom2.JDOMException, java.io.IOException {
-    LOG.debug("Parsing 'RATS' format");
+    LOG.debug("Processing 'RATS' format");
 
     try {
       var builder = new SAXBuilder(XMLReaders.NONVALIDATING);
