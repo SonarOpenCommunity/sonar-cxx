@@ -45,20 +45,14 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
   private static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);
 
-  /**
-   * CxxVeraxxSensor for C++ Vera Sensor
-   */
-  public CxxVeraxxSensor() {
-  }
-
   public static List<PropertyDefinition> properties() {
-    String subcateg = "Vera++";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Vera++ report(s)")
-        .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s),"
+        .name("Vera++ XML report(s)")
+        .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> XML reports(s),"
                        + " relative to projects root." + USE_ANT_STYLE_WILDCARDS)
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Vera++")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build()
@@ -77,7 +71,7 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    LOG.debug("Parsing 'Vera++' format");
+    LOG.debug("Processing 'Vera++' format");
     try {
       var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
         try {

@@ -97,7 +97,7 @@ public class XlstSensor implements ProjectSensor {
         break;
       }
 
-      LOG.debug("XLST: Converting " + stylesheet + " with " + inputs + " to " + outputs + ".");
+      LOG.debug("XLST: Converting '{}' with '{}' to '{}'.", inputs, stylesheet, outputs);
       transformFileList(context, baseDir.getAbsolutePath(), stylesheet, inputs, outputs);
     }
   }

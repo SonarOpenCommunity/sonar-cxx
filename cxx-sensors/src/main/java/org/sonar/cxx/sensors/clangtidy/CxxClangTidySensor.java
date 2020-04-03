@@ -51,29 +51,24 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
                                 = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): (.+)";
   private static final Pattern PATTERN = Pattern.compile(REGEX);
 
-  /**
-   * CxxClangTidySensor for clang-tidy Sensor
-   */
-  public CxxClangTidySensor() {
-  }
-
   public static List<PropertyDefinition> properties() {
-    String subcateg = "Clang-Tidy";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Clang-Tidy report(s)")
         .description("Path to Clang-Tidy reports, relative to projects root. If neccessary, "
                        + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Clang-Tidy")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
       PropertyDefinition.builder(REPORT_CHARSET_DEF)
         .defaultValue(DEFAULT_CHARSET_DEF)
-        .name("Encoding")
+        .name("Clang-Tidy Encoding")
         .description("The encoding to use when reading the clang-tidy report."
                        + " Leave empty to use parser's default UTF-8.")
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Clang-Tidy")
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));
@@ -92,7 +87,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   protected void processReport(final SensorContext context, File report) {
     final String reportCharset = getContextStringProperty(context,
                                                           REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
-    LOG.debug("Parsing 'clang-tidy' report, CharSet= '{}'", reportCharset);
+    LOG.debug("Processing 'Clang-Tidy' report, CharSet= '{}'", reportCharset);
 
     try (var scanner = new Scanner(report, reportCharset)) {
       // sample:

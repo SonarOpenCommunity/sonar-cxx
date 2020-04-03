@@ -49,12 +49,6 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   private static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
-  /**
-   * CxxDrMemorySensor for Doctor Memory Sensor
-   */
-  public CxxDrMemorySensor() {
-  }
-
   private static String getFrameText(Location frame, int frameNr) {
     var sb = new StringBuilder(512);
     sb.append("#").append(frameNr).append(" ").append(frame.getFile()).append(":").append(frame.getLine());
@@ -62,13 +56,13 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   }
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "Dr. Memory";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Dr. Memory report(s)")
         .description("Path to <a href='http://drmemory.org/'>Dr. Memory</a> reports(s), relative to projects root."
                        + USE_ANT_STYLE_WILDCARDS)
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Dr. Memory")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build()
@@ -99,7 +93,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
 
   @Override
   protected void processReport(final SensorContext context, File report) {
-    LOG.debug("Parsing 'Dr Memory' format");
+    LOG.debug("Processing 'Dr. Memory' format");
 
     for (var error : DrMemoryParser.parse(report, DEFAULT_CHARSET_DEF)) {
       if (error.getStackTrace().isEmpty()) {

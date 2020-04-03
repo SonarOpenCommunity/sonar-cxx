@@ -43,9 +43,6 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   public static final String DEFAULT_REGEX_DEF
                                = "(?<file>.*):(?<line>[0-9]+):[0-9]+:\\x20warning:\\x20(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
 
-  public CxxCompilerGccSensor() {
-  }
-
   public static List<PropertyDefinition> properties() {
     String subcateg = "GCC Compiler Warnings";
     return Collections.unmodifiableList(Arrays.asList(
@@ -53,7 +50,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
         .name("GCC Compiler Report(s)")
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
                        + USE_ANT_STYLE_WILDCARDS)
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Compiler")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
@@ -61,7 +59,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
         .defaultValue(CxxCompilerGccSensor.DEFAULT_CHARSET_DEF)
         .name("GCC Report Encoding")
         .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Compiler")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(REPORT_REGEX_DEF)
@@ -70,7 +69,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
                        + " <file>, <line>, <id>, <message>. Leave empty to use parser's default."
                        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
                        + "this page</a> for details regarding the different regular expression that can be use per compiler.")
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Compiler")
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));

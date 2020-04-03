@@ -145,12 +145,14 @@ public class CxxSquidSensor implements ProjectSensor {
         .name("Include directories")
         .description("Comma-separated list of directories to search the included files in. "
                        + "May be defined either relative to projects root or absolute.")
-        .subCategory("Defines & Includes")
+        .category("CXX")
+        .subCategory("(2) Defines & Includes")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(FORCE_INCLUDE_FILES_KEY)
         .multiValues(true)
-        .subCategory("Defines & Includes")
+        .category("CXX")
+        .subCategory("(2) Defines & Includes")
         .name("Force includes")
         .description("Comma-separated list of files which should to be included implicitly at the "
                        + "beginning of each source file.")
@@ -161,7 +163,8 @@ public class CxxSquidSensor implements ProjectSensor {
         .description("Additional macro definitions (one per line) to use when analysing the source code. Use to provide"
                        + "macros which cannot be resolved by other means."
                        + " Use the 'force includes' setting to inject more complex, multi-line macros.")
-        .subCategory("Defines & Includes")
+        .category("CXX")
+        .subCategory("(2) Defines & Includes")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.TEXT)
         .build(),
@@ -172,7 +175,8 @@ public class CxxSquidSensor implements ProjectSensor {
                        + " an error or 'True' (tolerant=default) continues. See <a href='https://github.com/SonarOpenCommunity/"
                      + "sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>"
                        + "sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
-        .subCategory("General")
+        .category("CXX")
+        .subCategory("(1) General")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
         .build(),
@@ -182,7 +186,8 @@ public class CxxSquidSensor implements ProjectSensor {
                        + " if the produced log during compilation adds enough information (MSBuild verbosity set to"
                        + " detailed or diagnostic)."
                        + USE_ANT_STYLE_WILDCARDS)
-        .subCategory("Defines & Includes")
+        .category("CXX")
+        .subCategory("(2) Defines & Includes")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
@@ -190,11 +195,13 @@ public class CxxSquidSensor implements ProjectSensor {
         .defaultValue(DEFAULT_CHARSET_DEF)
         .name("MSBuild log encoding")
         .description("The encoding to use when reading a MSBuild log. Leave empty to use default UTF-8.")
-        .subCategory("Defines & Includes")
+        .category("CXX")
+        .subCategory("(2) Defines & Includes")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(JSON_COMPILATION_DATABASE_KEY)
-        .subCategory("Defines & Includes")
+        .category("CXX")
+        .subCategory("(2) Defines & Includes")
         .name("JSON Compilation Database")
         .description("JSON Compilation Database file to use as specification for what defines and includes should be "
                        + "used for source files.")
@@ -202,18 +209,20 @@ public class CxxSquidSensor implements ProjectSensor {
         .build(),
       PropertyDefinition.builder(API_FILE_SUFFIXES_KEY)
         .defaultValue(API_DEFAULT_FILE_SUFFIXES)
-        .name("Header file suffixes")
+        .name("Pulic API file suffixes")
         .multiValues(true)
-        .description(
-          "Comma-separated list of suffixes for files to analyze API. To not filter, leave the list empty.")
-        .subCategory("Public API")
+        .description("Comma-separated list of suffixes for files that should be searched for API comments."
+                       + " To not filter, leave the list empty.")
+        .category("CXX")
+        .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(FUNCTION_COMPLEXITY_THRESHOLD_KEY)
         .defaultValue("10")
         .name("Cyclomatic complexity threshold")
         .description("Cyclomatic complexity threshold used to classify a function as complex")
-        .subCategory("Metrics")
+        .category("CXX")
+        .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.INTEGER)
         .build(),
@@ -221,7 +230,8 @@ public class CxxSquidSensor implements ProjectSensor {
         .defaultValue("20")
         .name("Function size threshold")
         .description("Function size threshold to consider a function to be too big")
-        .subCategory("Metrics")
+        .category("CXX")
+        .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.INTEGER)
         .build()

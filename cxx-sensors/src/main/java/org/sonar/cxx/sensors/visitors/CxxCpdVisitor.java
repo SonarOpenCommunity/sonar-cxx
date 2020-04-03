@@ -63,14 +63,14 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   }
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "Duplications";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(IGNORE_LITERALS_KEY)
         .defaultValue(Boolean.FALSE.toString())
         .name("Ignores literal value differences when evaluating a duplicate block")
         .description("Ignores literal (numbers, characters and strings) value differences when evaluating a duplicate "
                        + "block. This means that e.g. foo=42; and foo=43; will be seen as equivalent. Default is 'False'.")
-        .subCategory(subcateg)
+        .category("CXX")
+        .subCategory("(4) Duplications")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
         .build(),
@@ -79,7 +79,8 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
         .name("Ignores identifier value differences when evaluating a duplicate block")
         .description("Ignores identifier value differences when evaluating a duplicate block e.g. variable names, "
                        + "methods names, and so forth. Default is 'False'.")
-        .subCategory(subcateg)
+        .category("CXX")
+        .subCategory("(4) Duplications")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
         .build()

@@ -35,7 +35,7 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
 
   @Override
   public void accept(File file, UnitTestResults unitTestResults) {
-    LOG.info("Parsing the NUnit Test Results file " + file.getAbsolutePath());
+    LOG.info("Parsing the NUnit Test Results file '{}'", file.getAbsolutePath());
     new Parser(file, unitTestResults).parse();
   }
 

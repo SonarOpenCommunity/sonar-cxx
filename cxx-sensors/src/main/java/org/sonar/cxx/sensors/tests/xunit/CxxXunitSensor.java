@@ -63,14 +63,14 @@ public class CxxXunitSensor extends CxxReportSensor {
   }
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "xUnit Test";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Unit test execution report(s)")
         .description("Path to unit test execution report(s), relative to projects root."
                        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>"
                      + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("xUnit Test")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
@@ -79,7 +79,8 @@ public class CxxXunitSensor extends CxxReportSensor {
         .description("By default, the unit test execution reports are expected to be in the JUnitReport format."
                        + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is "
                      + "able to perform the according transformation.")
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("xUnit Test")
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));

@@ -77,7 +77,7 @@ public class CoberturaParser extends CxxCoverageParser {
   @Override
   public void processReport(File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
-    LOG.debug("Parsing 'Cobertura' format");
+    LOG.debug("Processing 'Cobertura Coverage' format");
     baseDir = Paths.get(".");
 
     var sourceParser = new StaxParser((SMHierarchicCursor rootCursor) -> {

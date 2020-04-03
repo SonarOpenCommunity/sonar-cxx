@@ -39,17 +39,14 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   public static final String DEFAULT_REGEX_DEF
                                = "(.*>)?(?<file>.*)\\((?<line>\\d+)\\)\\x20:\\x20warning\\x20(?<id>C\\d+):(?<message>.*)";
 
-  public CxxCompilerVcSensor() {
-  }
-
   public static List<PropertyDefinition> properties() {
-    String subcateg = "VC Compiler Warnings";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("VC Compiler Report(s)")
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
                        + USE_ANT_STYLE_WILDCARDS)
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Compiler")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
@@ -57,7 +54,8 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
         .defaultValue(DEFAULT_CHARSET_DEF)
         .name("VC Report Encoding")
         .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Compiler")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(REPORT_REGEX_DEF)
@@ -66,7 +64,8 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
                        + " &lt;file&gt;, &lt;line&gt;, &lt;id&gt;, &lt;message&gt;. Leave empty to use parser's default."
                      + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
                        + "this page</a> for details regarding the different regular expression that can be use per compiler.")
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Compiler")
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));

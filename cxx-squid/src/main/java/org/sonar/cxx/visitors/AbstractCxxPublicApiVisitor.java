@@ -26,6 +26,7 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -381,7 +382,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     skipFile = true;
 
     if (headerFileSuffixes != null) {
-      LOG.debug("Header file suffixes: {}", headerFileSuffixes.toString());
+      LOG.debug("Header file suffixes: {}", Arrays.toString(headerFileSuffixes));
       for (var suffix : headerFileSuffixes) {
         if (getContext().getFile().getName().endsWith(suffix)) {
           skipFile = false;

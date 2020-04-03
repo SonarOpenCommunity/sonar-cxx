@@ -60,7 +60,7 @@ public class CxxLanguage extends AbstractLanguage {
   private final Configuration config;
 
   public CxxLanguage(Configuration config) {
-    super(KEY);
+    super(KEY, NAME);
     this.config = config;
   }
 
@@ -71,7 +71,8 @@ public class CxxLanguage extends AbstractLanguage {
         .name("File suffixes")
         .multiValues(true)
         .description("Comma-separated list of suffixes for files to analyze. To not filter, leave the list empty.")
-        .subCategory("General")
+        .category("CXX")
+        .subCategory("(1) General")
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));

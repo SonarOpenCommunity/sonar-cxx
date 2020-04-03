@@ -44,16 +44,16 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxCppCheckSensor.class);
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "Cppcheck";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Cppcheck report(s)")
+        .name("Cppcheck XML report(s)")
         .description(
-          "Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, relative to"
+          "Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> XML report, relative to"
             + " projects root. Both XML formats (version 1 and version 2) are supported. If neccessary, <a href='https://"
           + "ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
         )
-        .subCategory(subcateg)
+        .category("CXX External Analyzers")
+        .subCategory("Cppcheck")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build()

@@ -114,7 +114,7 @@ public class VisualStudioParser extends CxxCoverageParser {
   @Override
   public void processReport(File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
-    LOG.debug("Parsing 'Visual Studio' format");
+    LOG.debug("Processing 'Visual Studio Coverage' format");
     var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
       rootCursor.advance();
       collectModuleMeasures(rootCursor.descendantElementCursor("module"), coverageData);

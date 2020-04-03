@@ -88,11 +88,16 @@ public class CxxCompilerSensorTest {
 
     private String regex = "";
 
-    public CxxCompilerSensorMock() {
-    }
-
     @Override
     public void describe(SensorDescriptor descriptor) {
+    }
+
+    public void testProcessReport(final SensorContext context, File report) throws XMLStreamException {
+      processReport(context, report);
+    }
+
+    public void setRegex(String regex) {
+      this.regex = regex;
     }
 
     @Override
@@ -120,13 +125,6 @@ public class CxxCompilerSensorTest {
       return "cxx.XXX";
     }
 
-    public void testProcessReport(final SensorContext context, File report) throws XMLStreamException {
-      processReport(context, report);
-    }
-
-    public void setRegex(String regex) {
-      this.regex = regex;
-    }
   }
 
 }

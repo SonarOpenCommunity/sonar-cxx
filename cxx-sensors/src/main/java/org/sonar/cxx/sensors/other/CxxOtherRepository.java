@@ -32,11 +32,10 @@ import org.sonar.api.utils.log.Loggers;
  */
 public class CxxOtherRepository implements RulesDefinition {
 
-  public static final String RULES_KEY = "other.rules";
-
-  private static final Logger LOG = Loggers.get(CxxOtherRepository.class);
   public static final String KEY = "other";
   private static final String NAME = "Other";
+
+  private static final Logger LOG = Loggers.get(CxxOtherRepository.class);
 
   private final RulesDefinitionXmlLoader xmlRuleLoader;
   private final Configuration config;
@@ -45,7 +44,6 @@ public class CxxOtherRepository implements RulesDefinition {
    * CxxOtherRepository
    *
    * @param xmlRuleLoader to load rules from XML file
-   * @param language for C or C++
    */
   public CxxOtherRepository(Configuration config, RulesDefinitionXmlLoader xmlRuleLoader) {
     this.xmlRuleLoader = xmlRuleLoader;
@@ -58,7 +56,7 @@ public class CxxOtherRepository implements RulesDefinition {
       .setName(NAME);
 
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), StandardCharsets.UTF_8.name());
-    for (var ruleDefs : this.config.getStringArray(RULES_KEY)) {
+    for (var ruleDefs : this.config.getStringArray(CxxOtherSensor.RULES_KEY)) {
       if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));

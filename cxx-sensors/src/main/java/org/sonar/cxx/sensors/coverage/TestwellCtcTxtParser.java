@@ -59,7 +59,7 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
    */
   @Override
   public void processReport(File report, final Map<String, CoverageMeasures> coverageData) {
-    LOG.debug("Parsing 'Testwell CTC++' textual format");
+    LOG.debug("Processing 'Testwell CTC++ Coverage' format");
 
     try (var s = new Scanner(report).useDelimiter(SECTION_SEP)) {
       scanner = s;

@@ -53,13 +53,14 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
-        .name("VSTest Reports Paths")
+        .name("Visual Studio Test Reports Paths")
         .description(
-          "Paths to VSTest reports. Multiple paths may be comma-delimited, or included via wildcards."
+          "Paths to Visual Studio Test Reports. Multiple paths may be comma-delimited, or included via wildcards."
             + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
             + " available.\n"
             + "Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
-        .subCategory("VSTest")
+        .category("CXX External Analyzers")
+        .subCategory("Unit Test")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY)
@@ -70,7 +71,8 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
             + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
             + " available.\n"
             + "Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
-        .subCategory("xUnit Test")
+        .category("CXX External Analyzers")
+        .subCategory("Unit Test")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
@@ -81,7 +83,8 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
             + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
             + " available.\n"
             + "Example: \"TestResult.xml\", \"TestResult1.xml,TestResult2.xml\" or \"C:/TestResult.xml\"")
-        .subCategory("NUnit Test")
+        .category("CXX External Analyzers")
+        .subCategory("Unit Test")
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));

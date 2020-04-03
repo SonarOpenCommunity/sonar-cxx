@@ -43,10 +43,6 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
 
   private int lastTokenLine;
 
-  public CxxLinesOfCodeVisitor() {
-
-  }
-
   /**
    * {@inheritDoc}
    */
