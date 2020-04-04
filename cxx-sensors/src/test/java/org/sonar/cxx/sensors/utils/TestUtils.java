@@ -93,7 +93,7 @@ public class TestUtils {
   public static CxxLanguage mockCxxLanguage() {
     CxxLanguage language = Mockito.mock(CxxLanguage.class);
     when(language.getKey()).thenReturn("c++");
-    when(language.getName()).thenReturn("c++");
+    when(language.getName()).thenReturn("CXX");
     when(language.getFileSuffixes())
       .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
 

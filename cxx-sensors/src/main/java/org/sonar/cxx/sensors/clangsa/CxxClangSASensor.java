@@ -73,7 +73,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name("import Clang Static Analyzer report(s)")
+      .name("CXX Clang Static Analyzer report import")
       .onlyOnLanguage("c++")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));

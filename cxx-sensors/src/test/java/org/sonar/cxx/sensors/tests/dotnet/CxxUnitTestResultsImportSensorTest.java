@@ -60,7 +60,7 @@ public class CxxUnitTestResultsImportSensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo("import VSTest/xUnit/NUnit Test report(s)");
+    softly.assertThat(descriptor.name()).isEqualTo("CXX VSTest/xUnit/NUnit Test report import");
     softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertAll();
   }

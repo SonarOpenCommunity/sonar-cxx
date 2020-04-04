@@ -81,7 +81,7 @@ public class CxxValgrindSensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo("import Valgrind report(s)");
+    softly.assertThat(descriptor.name()).isEqualTo("CXX Valgrind report import");
     softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.KEY);
     softly.assertAll();

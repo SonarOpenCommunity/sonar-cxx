@@ -241,7 +241,7 @@ public class CxxSquidSensor implements ProjectSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name("source code analyzer")
+      .name("CXX")
       .onlyOnLanguage("c++")
       .onlyOnFileType(InputFile.Type.MAIN);
   }

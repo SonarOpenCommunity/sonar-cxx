@@ -151,7 +151,7 @@ public class CxxOtherSensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo("import external analyser report(s)");
+    softly.assertThat(descriptor.name()).isEqualTo("CXX external analyser report import");
     softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxOtherRepository.KEY);
     softly.assertAll();

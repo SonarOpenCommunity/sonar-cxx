@@ -70,7 +70,9 @@ public class CxxLanguage extends AbstractLanguage {
         .defaultValue(DEFAULT_FILE_SUFFIXES)
         .name("File suffixes")
         .multiValues(true)
-        .description("Comma-separated list of suffixes for files to analyze. To not filter, leave the list empty.")
+        .description("Comma-separated list of suffixes for files to analyze. To turn off the CXX language,"
+                       + " set the value to 'sonar.cxx.file.suffixes=-'"
+                       + " (in the user interface set the first entry to '-').")
         .category("CXX")
         .subCategory("(1) General")
         .onQualifiers(Qualifiers.PROJECT)
@@ -89,6 +91,8 @@ public class CxxLanguage extends AbstractLanguage {
       .filter(s -> s != null && !s.trim().isEmpty()).toArray(String[]::new);
     if (suffixes.length == 0) {
       suffixes = Iterables.toArray(Splitter.on(',').split(DEFAULT_FILE_SUFFIXES), String.class);
+    } else if ("-".equals(suffixes[0])) {
+      suffixes = new String[]{"disabled"};
     }
     return suffixes;
   }

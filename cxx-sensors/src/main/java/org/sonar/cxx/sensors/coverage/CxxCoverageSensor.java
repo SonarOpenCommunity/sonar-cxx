@@ -89,7 +89,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name("import coverage report(s)")
+      .name("CXX coverage report import")
       .onlyOnLanguage("c++")
       .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }

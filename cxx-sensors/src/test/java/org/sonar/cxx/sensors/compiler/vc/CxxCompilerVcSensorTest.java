@@ -47,7 +47,7 @@ public class CxxCompilerVcSensorTest {
     var sensor = new CxxCompilerVcSensor();
     sensor.describe(descriptor);
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo("import Visual Studio compiler report(s)");
+    softly.assertThat(descriptor.name()).isEqualTo("CXX Visual Studio compiler report import");
     softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories())
       .containsOnly(CxxCompilerVcRuleRepository.KEY);

@@ -166,7 +166,7 @@ public class CxxClangTidySensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo("import Clang-Tidy report(s)");
+    softly.assertThat(descriptor.name()).isEqualTo("CXX Clang-Tidy report import");
     softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangTidyRuleRepository.KEY);
     softly.assertAll();
