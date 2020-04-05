@@ -72,7 +72,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name("import Dr. Memory report(s)")
+      .name("CXX Dr. Memory report import")
       .onlyOnLanguage("c++")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));

@@ -81,7 +81,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name("import external analyser report(s)")
+      .name("CXX external analyser report import")
       .onlyOnLanguage("c++")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));

@@ -79,7 +79,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name("import GCC compiler report(s)")
+      .name("CXX GCC compiler report import")
       .onlyOnLanguage("c++")
       .createIssuesForRuleRepositories(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));

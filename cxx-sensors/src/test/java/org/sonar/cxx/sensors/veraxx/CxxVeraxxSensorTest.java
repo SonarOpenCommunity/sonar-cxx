@@ -74,7 +74,7 @@ public class CxxVeraxxSensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo("import Vera++ report(s)");
+    softly.assertThat(descriptor.name()).isEqualTo("CXX Vera++ report import");
     softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxVeraxxRuleRepository.KEY);
     softly.assertAll();

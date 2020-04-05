@@ -48,7 +48,7 @@ public class CxxCompilerGccSensorTest {
     var sensor = new CxxCompilerGccSensor();
     sensor.describe(descriptor);
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo("import GCC compiler report(s)");
+    softly.assertThat(descriptor.name()).isEqualTo("CXX GCC compiler report import");
     softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories())
       .containsOnly(CxxCompilerGccRuleRepository.KEY);

@@ -92,7 +92,7 @@ public class CxxMSCoverageSensorTest {
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo("import coverage report(s)");
+    softly.assertThat(descriptor.name()).isEqualTo("CXX coverage report import");
     softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertAll();
   }

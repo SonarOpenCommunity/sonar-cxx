@@ -43,10 +43,10 @@ install:
       }
       if (!(Test-Path -Path "C:\sonarqube" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.9.2.zip',
-          'C:\sonarqube-7.9.2.zip'
+          'https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.9.3.zip',
+          'C:\sonarqube-7.9.3.zip'
         )
-        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-7.9.2.zip", "C:\sonarqube")
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-7.9.3.zip", "C:\sonarqube")
       }
   - ps: |
       If ($env:Platform -Match "x86") {
@@ -65,7 +65,7 @@ install:
   - cmd: SET PATH=C:\maven\apache-maven-3.6.3\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-4.2.0.1873\bin;%PATH%
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.6.3
   - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.6.3
-  - cmd: SET SONARHOME=C:\sonarqube\sonarqube-7.9.2
+  - cmd: SET SONARHOME=C:\sonarqube\sonarqube-7.9.3
   - cmd: SET TestDataFolder=C:\projects\sonar-cxx\integration-tests\testdata
   - cmd: SET
 
@@ -96,7 +96,7 @@ build_script:
 artifacts:
   - path: 'sonar-cxx-plugin\target\*.jar'
   - path: 'sslr-cxx-toolkit\target\*.jar'
-
+      
 #---------------------------------#
 #        global handlers          #
 #---------------------------------#
@@ -107,4 +107,4 @@ on_failure:
   - ps: Get-ChildItem cxx-checks\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem sonar-cxx-plugin\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem *.log | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  - ps: Get-ChildItem C:\sonarqube\sonarqube-7.9.2\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem C:\sonarqube\sonarqube-7.9.3\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }

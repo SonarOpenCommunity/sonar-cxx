@@ -74,7 +74,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name("import Visual Studio compiler report(s)")
+      .name("CXX Visual Studio compiler report import")
       .onlyOnLanguage("c++")
       .createIssuesForRuleRepositories(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));

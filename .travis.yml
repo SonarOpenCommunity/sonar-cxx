@@ -6,7 +6,7 @@ sudo: required
 jdk:
   - openjdk11
 env:
-  - SONARLABEL=sonarqube-7.9.2 SONARAPI=SqApi79
+  - SONARLABEL=sonarqube-7.9.3 SONARAPI=SqApi79
 
 # shorten the VM hostname with the new workaround
 # https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913

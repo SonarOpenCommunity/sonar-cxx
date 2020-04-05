@@ -109,7 +109,7 @@ public class CxxXunitSensorTest {
     var sensor = new CxxXunitSensor(settings.asConfig());
     sensor.describe(descriptor);
 
-    assertThat(descriptor.name()).isEqualTo("import xUnit Test report(s)");
+    assertThat(descriptor.name()).isEqualTo("CXX xUnit Test report import");
   }
 
   File cppunitReport() {

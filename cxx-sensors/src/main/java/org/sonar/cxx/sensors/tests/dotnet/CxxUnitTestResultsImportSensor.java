@@ -93,7 +93,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name("import VSTest/xUnit/NUnit Test report(s)")
+      .name("CXX VSTest/xUnit/NUnit Test report import")
       .onlyWhenConfiguration(conf -> new UnitTestConfiguration(language, conf).hasUnitTestResultsProperty())
       .onlyOnLanguage("c++");
   }
