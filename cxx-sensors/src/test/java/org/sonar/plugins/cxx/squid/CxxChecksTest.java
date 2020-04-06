@@ -28,10 +28,10 @@ import org.junit.Test;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.internal.ActiveRulesBuilder;
 import org.sonar.api.batch.rule.internal.NewActiveRule;
+import org.sonar.api.resources.Language;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Rule;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
 import org.sonar.cxx.sensors.squid.CxxChecks;
 import org.sonar.cxx.sensors.utils.TestUtils;
@@ -148,8 +148,8 @@ public class CxxChecksTest {
     }
 
     @Override
-    public CxxLanguage getLanguage() {
-      return TestUtils.mockCxxLanguage();
+    public Language getLanguage() {
+      return TestUtils.mockLanguage();
     }
   }
 

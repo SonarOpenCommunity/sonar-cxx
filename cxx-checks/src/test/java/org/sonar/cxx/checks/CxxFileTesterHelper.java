@@ -23,11 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.cxx.CxxLanguage;
 
 /**
  *
@@ -57,16 +54,6 @@ public class CxxFileTesterHelper {
       fileName));
 
     return tester;
-  }
-
-  public static CxxLanguage mockCxxLanguage() {
-    CxxLanguage language = Mockito.mock(CxxLanguage.class);
-    when(language.getKey()).thenReturn("c++");
-    when(language.getName()).thenReturn("CXX");
-    when(language.getFileSuffixes())
-      .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
-
-    return language;
   }
 
 }
