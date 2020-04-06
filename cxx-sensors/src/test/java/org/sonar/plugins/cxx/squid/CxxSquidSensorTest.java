@@ -57,12 +57,7 @@ public class CxxSquidSensorTest {
     FileLinesContext fileLinesContext = mock(FileLinesContext.class);
     when(fileLinesContextFactory.createFor(Mockito.any(InputFile.class))).thenReturn(fileLinesContext);
 
-    sensor = new CxxSquidSensor(
-      settings.asConfig(),
-      fileLinesContextFactory,
-      checkFactory,
-      new NoSonarFilter(),
-      null);
+    sensor = new CxxSquidSensor(fileLinesContextFactory, checkFactory, new NoSonarFilter(), null);
   }
 
   @Test

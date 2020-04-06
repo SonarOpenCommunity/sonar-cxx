@@ -28,10 +28,8 @@ import com.sonar.sslr.api.TokenType;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
@@ -51,9 +49,8 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
   private static final Logger LOG = Loggers.get(CxxFileLinesVisitor.class);
 
-  private final Configuration config;
+  private final SensorContext context;
   private final FileLinesContextFactory fileLinesContextFactory;
-  private final FileSystem fileSystem;
   private List<Integer> linesOfCode;
   private List<Integer> executableLines;
   private int isWithinFunctionDefinition;
@@ -63,13 +60,10 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
    *
    * @param context for coverage analysis
    * @param fileLinesContextFactory container for linesOfCode, executableLines
-   * @param language properties
    */
-  public CxxFileLinesVisitor(Configuration config, FileLinesContextFactory fileLinesContextFactory,
-                             SensorContext context) {
-    this.config = config;
+  public CxxFileLinesVisitor(SensorContext context, FileLinesContextFactory fileLinesContextFactory) {
+    this.context = context;
     this.fileLinesContextFactory = fileLinesContextFactory;
-    this.fileSystem = context.fileSystem();
   }
 
   private static boolean isDefaultOrDeleteFunctionBody(AstNode astNode) {
@@ -190,7 +184,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
   @Override
   public void leaveFile(AstNode astNode) {
-    InputFile inputFile = fileSystem.inputFile(fileSystem.predicates().is(getContext().getFile()));
+    InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(getContext().getFile()));
     if (inputFile == null) {
       throw new IllegalStateException("InputFile is null, but it should not be.");
     }
@@ -202,7 +196,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       );
     } catch (IllegalArgumentException e) {
       LOG.error("NCLOC_DATA_KEY metric error: {}", e.getMessage());
-      CxxUtils.validateRecovery(e, config);
+      CxxUtils.validateRecovery(e, context.config());
     }
     try {
       executableLines.stream().sequential().distinct().forEach(
@@ -210,7 +204,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       );
     } catch (IllegalArgumentException e) {
       LOG.error("EXECUTABLE_LINES_DATA_KEY metric error: {}", e.getMessage());
-      CxxUtils.validateRecovery(e, config);
+      CxxUtils.validateRecovery(e, context.config());
     }
     fileLinesContext.save();
 

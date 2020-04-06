@@ -22,6 +22,7 @@ package org.sonar.cxx.sensors.tests.xunit;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,6 +35,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -169,55 +171,35 @@ public class CxxXunitSensor extends CxxReportSensor {
     if (testsCount > 0) {
 
       try {
-        context.<Integer>newMeasure()
-          .forMetric(CoreMetrics.TESTS)
-          .on(context.project())
-          .withValue(testsCount)
-          .save();
+        saveMetric(context, CoreMetrics.TESTS, testsCount);
       } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, context.config());
       }
 
       try {
-        context.<Integer>newMeasure()
-          .forMetric(CoreMetrics.TEST_ERRORS)
-          .on(context.project())
-          .withValue(testsErrors)
-          .save();
+        saveMetric(context, CoreMetrics.TEST_ERRORS, testsErrors);
       } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, context.config());
       }
 
       try {
-        context.<Integer>newMeasure()
-          .forMetric(CoreMetrics.TEST_FAILURES)
-          .on(context.project())
-          .withValue(testsFailures)
-          .save();
+        saveMetric(context, CoreMetrics.TEST_FAILURES, testsFailures);
       } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, context.config());
       }
 
       try {
-        context.<Integer>newMeasure()
-          .forMetric(CoreMetrics.SKIPPED_TESTS)
-          .on(context.project())
-          .withValue(testsSkipped)
-          .save();
+        saveMetric(context, CoreMetrics.SKIPPED_TESTS, testsSkipped);
       } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, context.config());
       }
 
       try {
-        context.<Long>newMeasure()
-          .forMetric(CoreMetrics.TEST_EXECUTION_TIME)
-          .on(context.project())
-          .withValue(testsTime)
-          .save();
+        saveMetric(context, CoreMetrics.TEST_EXECUTION_TIME, testsTime);
       } catch (IllegalArgumentException ex) {
         LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex.getMessage());
         CxxUtils.validateRecovery(ex, context.config());
@@ -247,6 +229,14 @@ public class CxxXunitSensor extends CxxReportSensor {
     }
 
     return transformed;
+  }
+
+  private <T extends Serializable> void saveMetric(SensorContext context, Metric<T> metric, T value) {
+    context.<T>newMeasure()
+      .withValue(value)
+      .forMetric(metric)
+      .on(context.project())
+      .save();
   }
 
 }

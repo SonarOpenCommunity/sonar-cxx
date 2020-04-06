@@ -39,7 +39,6 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
@@ -48,7 +47,6 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxFileLinesVisitorTest {
 
-  private final MapSettings settings = new MapSettings();
   private FileLinesContextFactory fileLinesContextFactory;
 
   private FileLinesContextForTesting fileLinesContext;
@@ -82,7 +80,7 @@ public class CxxFileLinesVisitorTest {
 
     when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
 
-    var visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, context);
+    var visitor = new CxxFileLinesVisitor(context, fileLinesContextFactory);
 
     CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()), visitor);
 
@@ -104,7 +102,7 @@ public class CxxFileLinesVisitorTest {
 
     when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
 
-    var visitor = new CxxFileLinesVisitor(settings.asConfig(), fileLinesContextFactory, context);
+    var visitor = new CxxFileLinesVisitor(context, fileLinesContextFactory);
 
     CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()), visitor);
 
