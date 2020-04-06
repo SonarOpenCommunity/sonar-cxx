@@ -24,6 +24,7 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
 import java.io.File;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +33,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.scanner.sensor.ProjectSensor;
 import org.sonar.cxx.CxxLanguage;
@@ -107,35 +109,22 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
     UnitTestResults aggregatedResults = unitTestResultsAggregator.aggregate(wildcardPatternFileProvider,
                                                                             unitTestResults, unitTestConf);
 
-    context.<Integer>newMeasure()
-      .forMetric(CoreMetrics.TESTS)
-      .on(context.project())
-      .withValue(aggregatedResults.tests())
-      .save();
-    context.<Integer>newMeasure()
-      .forMetric(CoreMetrics.TEST_ERRORS)
-      .on(context.project())
-      .withValue(aggregatedResults.errors())
-      .save();
-    context.<Integer>newMeasure()
-      .forMetric(CoreMetrics.TEST_FAILURES)
-      .on(context.project())
-      .withValue(aggregatedResults.failures())
-      .save();
-    context.<Integer>newMeasure()
-      .forMetric(CoreMetrics.SKIPPED_TESTS)
-      .on(context.project())
-      .withValue(aggregatedResults.skipped())
-      .save();
-
+    saveMetric(context, CoreMetrics.TESTS, aggregatedResults.tests());
+    saveMetric(context, CoreMetrics.TEST_ERRORS, aggregatedResults.errors());
+    saveMetric(context, CoreMetrics.TEST_FAILURES, aggregatedResults.failures());
+    saveMetric(context, CoreMetrics.SKIPPED_TESTS, aggregatedResults.skipped());
     Long executionTime = aggregatedResults.executionTime();
     if (executionTime != null) {
-      context.<Long>newMeasure()
-        .forMetric(CoreMetrics.TEST_EXECUTION_TIME)
-        .on(context.project())
-        .withValue(executionTime)
-        .save();
+      saveMetric(context, CoreMetrics.TEST_EXECUTION_TIME, executionTime);
     }
+  }
+
+  private <T extends Serializable> void saveMetric(SensorContext context, Metric<T> metric, T value) {
+    context.<T>newMeasure()
+      .withValue(value)
+      .forMetric(metric)
+      .on(context.project())
+      .save();
   }
 
 }
