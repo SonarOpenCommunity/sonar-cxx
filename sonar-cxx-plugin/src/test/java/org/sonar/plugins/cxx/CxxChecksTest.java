@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx.squid;
+package org.sonar.plugins.cxx;
 
 import com.sonar.sslr.api.Grammar;
 import java.util.ArrayList;
@@ -28,13 +28,11 @@ import org.junit.Test;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.internal.ActiveRulesBuilder;
 import org.sonar.api.batch.rule.internal.NewActiveRule;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.resources.Language;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Rule;
-import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
-import org.sonar.cxx.sensors.squid.CxxChecks;
-import org.sonar.cxx.sensors.utils.TestUtils;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
 
@@ -131,6 +129,8 @@ public class CxxChecksTest {
 
   public static class MyCustomPlSqlRulesDefinition extends CustomCxxRulesDefinition {
 
+    private static final Language LANGUAGE = new CxxLanguage(new MapSettings().asConfig());
+
     @Override
     public String repositoryName() {
       return "Custom Rule Repository";
@@ -149,7 +149,7 @@ public class CxxChecksTest {
 
     @Override
     public Language getLanguage() {
-      return TestUtils.mockLanguage();
+      return LANGUAGE;
     }
   }
 
