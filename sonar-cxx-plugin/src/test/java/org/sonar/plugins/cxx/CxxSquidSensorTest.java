@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx.squid;
+package org.sonar.plugins.cxx;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +28,8 @@ import org.assertj.core.util.Files;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
@@ -41,8 +42,6 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.cxx.CxxMetrics;
-import org.sonar.cxx.sensors.squid.CxxSquidSensor;
-import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxSquidSensorTest {
 
@@ -62,7 +61,7 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testCollectingSquidMetrics() throws IOException {
-    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/codechunks-project");
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/codechunks-project");
     DefaultInputFile inputFile0 = buildTestInputFile(baseDir, "code_chunks.cc");
 
     SensorContextTester context = SensorContextTester.create(baseDir);
@@ -82,7 +81,7 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testComplexitySquidMetrics() throws IOException {
-    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/complexity-project");
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/complexity-project");
     SensorContextTester context = SensorContextTester.create(baseDir);
     settings.setProperty(CxxSquidSensor.FUNCTION_COMPLEXITY_THRESHOLD_KEY, 3);
     settings.setProperty(CxxSquidSensor.FUNCTION_SIZE_THRESHOLD_KEY, 3);
@@ -114,7 +113,7 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testDocumentationSquidMetrics() throws IOException {
-    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/documentation-project");
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/documentation-project");
     DefaultInputFile inputFile = buildTestInputFile(baseDir, "documentation0.hh");
 
     SensorContextTester context = SensorContextTester.create(baseDir);
@@ -135,7 +134,7 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testReplacingOfExtenalMacros() throws IOException {
-    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/external-macro-project");
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/external-macro-project");
     SensorContextTester context = SensorContextTester.create(baseDir);
     settings.setProperty(CxxSquidSensor.DEFINES_KEY, "MACRO class A{};");
     context.setSettings(settings);
@@ -154,7 +153,7 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testFindingIncludedFiles() throws IOException {
-    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/include-directories-project");
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/include-directories-project");
     SensorContextTester context = SensorContextTester.create(baseDir);
     settings.setProperty(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY, "include");
     context.setSettings(settings);
@@ -174,7 +173,7 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testForceIncludedFiles() throws IOException {
-    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/force-include-project");
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/force-include-project");
     SensorContextTester context = SensorContextTester.create(baseDir);
     settings.setProperty(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY, "include");
     settings.setProperty(CxxSquidSensor.FORCE_INCLUDE_FILES_KEY, "force1.hh,subfolder/force2.hh");
@@ -198,7 +197,7 @@ public class CxxSquidSensorTest {
     // especially: when two files, both belonging to the set of
     // files to analyse, include each other, the preprocessor guards have to be disabled
     // and both have to be counted in terms of metrics
-    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors/circular-includes-project");
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-includes-project");
     DefaultInputFile inputFile = buildTestInputFile(baseDir, "test1.hh");
 
     SensorContextTester context = SensorContextTester.create(baseDir);

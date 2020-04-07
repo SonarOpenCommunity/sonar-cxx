@@ -17,23 +17,22 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx.squid;
+package org.sonar.plugins.cxx;
 
 import com.sonar.sslr.api.Grammar;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.resources.Language;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
-import org.sonar.cxx.sensors.utils.TestUtils;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 public class CustomCxxRulesDefinitionTest {
 
-  private static final Language LANGUAGE = TestUtils.mockLanguage();
+  private static final Language LANGUAGE = new CxxLanguage(new MapSettings().asConfig());
   private static final String REPOSITORY_NAME = "Custom Rule Repository";
   private static final String REPOSITORY_KEY = "CustomRuleRepository";
 
