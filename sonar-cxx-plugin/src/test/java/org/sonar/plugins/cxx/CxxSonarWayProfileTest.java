@@ -23,7 +23,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
-import org.sonar.cxx.CxxLanguage;
 
 public class CxxSonarWayProfileTest {
 

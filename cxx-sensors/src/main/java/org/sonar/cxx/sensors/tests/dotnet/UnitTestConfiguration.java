@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxLanguage;
 
 public class UnitTestConfiguration {
 
@@ -33,30 +32,27 @@ public class UnitTestConfiguration {
   private static final Logger LOG = Loggers.get(UnitTestConfiguration.class);
 
   private final Configuration config;
-  private final String vsKeyEffective;
-  private final String xUnitKeyEffective;
-  private final String nUnitKeyEffective;
 
-  public UnitTestConfiguration(CxxLanguage language, Configuration config) {
+  public UnitTestConfiguration(Configuration config) {
     this.config = config;
-    vsKeyEffective = VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY;
-    xUnitKeyEffective = XUNIT_TEST_RESULTS_PROPERTY_KEY;
-    nUnitKeyEffective = NUNIT_TEST_RESULTS_PROPERTY_KEY;
   }
 
   boolean hasVisualStudioTestResultsFile() {
-    LOG.debug(EXIST_CONFIGURATION_PARAMETER, vsKeyEffective, config.hasKey(vsKeyEffective));
-    return config.hasKey(vsKeyEffective);
+    LOG.debug(EXIST_CONFIGURATION_PARAMETER, VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY, config.hasKey(
+              VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY));
+    return config.hasKey(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
   }
 
   boolean hasXUnitTestResultsFile() {
-    LOG.debug(EXIST_CONFIGURATION_PARAMETER, xUnitKeyEffective, config.hasKey(xUnitKeyEffective));
-    return config.hasKey(xUnitKeyEffective);
+    LOG.debug(EXIST_CONFIGURATION_PARAMETER, XUNIT_TEST_RESULTS_PROPERTY_KEY, config.hasKey(
+              XUNIT_TEST_RESULTS_PROPERTY_KEY));
+    return config.hasKey(XUNIT_TEST_RESULTS_PROPERTY_KEY);
   }
 
   boolean hasNUnitTestResultsFile() {
-    LOG.debug(EXIST_CONFIGURATION_PARAMETER, nUnitKeyEffective, config.hasKey(nUnitKeyEffective));
-    return config.hasKey(nUnitKeyEffective);
+    LOG.debug(EXIST_CONFIGURATION_PARAMETER, NUNIT_TEST_RESULTS_PROPERTY_KEY,
+              config.hasKey(NUNIT_TEST_RESULTS_PROPERTY_KEY));
+    return config.hasKey(NUNIT_TEST_RESULTS_PROPERTY_KEY);
   }
 
   boolean hasUnitTestResultsProperty() {
@@ -64,15 +60,15 @@ public class UnitTestConfiguration {
   }
 
   String[] getVisualStudioTestResultsFiles() {
-    return config.getStringArray(vsKeyEffective);
+    return config.getStringArray(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
   }
 
   String[] getXUnitTestResultsFiles() {
-    return config.getStringArray(xUnitKeyEffective);
+    return config.getStringArray(XUNIT_TEST_RESULTS_PROPERTY_KEY);
   }
 
   String[] getNUnitTestResultsFiles() {
-    return config.getStringArray(nUnitKeyEffective);
+    return config.getStringArray(NUNIT_TEST_RESULTS_PROPERTY_KEY);
   }
 
 }

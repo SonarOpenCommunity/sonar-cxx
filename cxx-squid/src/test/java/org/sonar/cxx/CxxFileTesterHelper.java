@@ -22,8 +22,6 @@ package org.sonar.cxx;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
@@ -51,16 +49,6 @@ public class CxxFileTesterHelper {
     tester.cxxFile = tester.context.fileSystem().inputFile(tester.context.fileSystem().predicates().hasPath(
       fileName));
     return tester;
-  }
-
-  public static CxxLanguage mockCxxLanguage() {
-    CxxLanguage language = Mockito.mock(CxxLanguage.class);
-    when(language.getKey()).thenReturn("c++");
-    when(language.getName()).thenReturn("CXX");
-    when(language.getFileSuffixes())
-      .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
-
-    return language;
   }
 
 }

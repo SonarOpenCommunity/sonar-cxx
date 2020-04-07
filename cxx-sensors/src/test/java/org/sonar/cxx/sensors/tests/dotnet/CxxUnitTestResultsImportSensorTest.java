@@ -26,7 +26,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import static org.assertj.core.groups.Tuple.tuple;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -37,26 +36,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 public class CxxUnitTestResultsImportSensorTest {
 
   @Rule
   public TemporaryFolder temp = new TemporaryFolder();
 
-  private final MapSettings settings = new MapSettings();
-
-  @Before
-  public void setUp() {
-    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
-  }
-
   @Test
   public void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
-    var sensor = new CxxUnitTestResultsImportSensor(mock(CxxUnitTestResultsAggregator.class), settings.asConfig());
+    var sensor = new CxxUnitTestResultsImportSensor(mock(CxxUnitTestResultsAggregator.class));
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
@@ -82,8 +72,7 @@ public class CxxUnitTestResultsImportSensorTest {
                                              Mockito.any(UnitTestResults.class), same(unitTestConf)))
       .thenReturn(results);
 
-    new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, settings.asConfig())
-      .analyze(context, results, unitTestConf);
+    new CxxUnitTestResultsImportSensor(unitTestResultsAggregator).analyze(context, results, unitTestConf);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results),
                                                 same(unitTestConf));
@@ -114,8 +103,7 @@ public class CxxUnitTestResultsImportSensorTest {
                                              Mockito.any(UnitTestResults.class), same(unitTestConf)))
       .thenReturn(results);
 
-    new CxxUnitTestResultsImportSensor(unitTestResultsAggregator, settings.asConfig())
-      .analyze(context, results, unitTestConf);
+    new CxxUnitTestResultsImportSensor(unitTestResultsAggregator).analyze(context, results, unitTestConf);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results),
                                                 same(unitTestConf));

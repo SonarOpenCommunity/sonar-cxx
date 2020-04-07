@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.sonar.api.Plugin;
 import org.sonar.cxx.AggregateMeasureComputer;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.DensityMeasureComputer;
 import org.sonar.cxx.postjobs.FinalReport;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;

@@ -22,10 +22,10 @@ package org.sonar.plugins.cxx.squid;
 import com.sonar.sslr.api.Grammar;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
+import org.sonar.api.resources.Language;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.squid.CustomCxxRulesDefinition;
 import org.sonar.cxx.sensors.utils.TestUtils;
 import org.sonar.cxx.tag.Tag;
@@ -33,7 +33,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 public class CustomCxxRulesDefinitionTest {
 
-  private static final CxxLanguage LANGUAGE = TestUtils.mockCxxLanguage();
+  private static final Language LANGUAGE = TestUtils.mockLanguage();
   private static final String REPOSITORY_NAME = "Custom Rule Repository";
   private static final String REPOSITORY_KEY = "CustomRuleRepository";
 
@@ -82,7 +82,7 @@ public class CustomCxxRulesDefinitionTest {
     }
 
     @Override
-    public CxxLanguage getLanguage() {
+    public Language getLanguage() {
       return LANGUAGE;
     }
   }

@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
-import org.sonar.cxx.CxxLanguage;
+import org.sonar.api.resources.Language;
 
 public class TestUtils {
 
@@ -90,8 +90,8 @@ public class TestUtils {
     return fs;
   }
 
-  public static CxxLanguage mockCxxLanguage() {
-    CxxLanguage language = Mockito.mock(CxxLanguage.class);
+  public static Language mockLanguage() {
+    Language language = Mockito.mock(Language.class);
     when(language.getKey()).thenReturn("c++");
     when(language.getName()).thenReturn("CXX");
     when(language.getFileSuffixes())
@@ -132,7 +132,7 @@ public class TestUtils {
       return;
     }
 
-    String[] suffixes = mockCxxLanguage().getFileSuffixes();
+    String[] suffixes = mockLanguage().getFileSuffixes();
     var includes = new String[suffixes.length];
     for (var i = 0; i < includes.length; ++i) {
       includes[i] = "**/*" + suffixes[i];

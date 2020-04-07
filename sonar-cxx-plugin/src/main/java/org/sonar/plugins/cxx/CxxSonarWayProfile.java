@@ -26,7 +26,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
-import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.checks.CheckList;
 import org.sonarsource.api.sonarlint.SonarLintSide;
 

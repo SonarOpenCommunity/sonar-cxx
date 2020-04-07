@@ -30,25 +30,20 @@ import java.util.Collections;
 import java.util.List;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.scanner.sensor.ProjectSensor;
-import org.sonar.cxx.CxxLanguage;
 
 public class CxxUnitTestResultsImportSensor implements ProjectSensor {
 
   private final WildcardPatternFileProvider wildcardPatternFileProvider
                                               = new WildcardPatternFileProvider(new File("."), File.separator);
   private final CxxUnitTestResultsAggregator unitTestResultsAggregator;
-  protected final CxxLanguage language;
 
-  public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator,
-                                        Configuration config) {
+  public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator) {
     this.unitTestResultsAggregator = unitTestResultsAggregator;
-    this.language = new CxxLanguage(config);
   }
 
   public static List<PropertyDefinition> properties() {
@@ -96,13 +91,13 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX VSTest/xUnit/NUnit Test report import")
-      .onlyWhenConfiguration(conf -> new UnitTestConfiguration(language, conf).hasUnitTestResultsProperty())
+      .onlyWhenConfiguration(conf -> new UnitTestConfiguration(conf).hasUnitTestResultsProperty())
       .onlyOnLanguage("c++");
   }
 
   @Override
   public void execute(SensorContext context) {
-    analyze(context, new UnitTestResults(), new UnitTestConfiguration(language, context.config()));
+    analyze(context, new UnitTestResults(), new UnitTestConfiguration(context.config()));
   }
 
   void analyze(SensorContext context, UnitTestResults unitTestResults, UnitTestConfiguration unitTestConf) {

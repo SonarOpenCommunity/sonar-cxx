@@ -21,20 +21,15 @@ package org.sonar.plugins.cxx;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.cxx.CxxLanguage;
 
 public class CxxRuleRepositoryTest {
-
-  private final MapSettings settings = new MapSettings();
 
   @Test
   public void rulesTest() {
     var context = new RulesDefinition.Context();
     assertThat(context.repositories()).isEmpty();
-    var language = new CxxLanguage(settings.asConfig());
-    new CxxRuleRepository(language).define(context);
+    new CxxRuleRepository().define(context);
 
     assertThat(context.repositories()).hasSize(1);
     assertThat(context.repository("cxx").rules()).hasSize(27);
