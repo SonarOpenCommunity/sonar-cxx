@@ -17,104 +17,78 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.visitors;
+package org.sonar.plugins.cxx;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.util.Files;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.rule.ActiveRules;
+import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxFileLinesVisitorTest {
-
-  private FileLinesContextFactory fileLinesContextFactory;
+public class CxxFileLinesContextTest {
 
   private FileLinesContextForTesting fileLinesContext;
-  private File baseDir;
-  private File target;
-  private Set<Integer> testLines;
 
   @Before
-  public void setUp() {
-    fileLinesContextFactory = mock(FileLinesContextFactory.class);
+  public void setUp() throws IOException {
+    ActiveRules rules = mock(ActiveRules.class);
+    var checkFactory = new CheckFactory(rules);
+    FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);
     fileLinesContext = new FileLinesContextForTesting();
+    when(fileLinesContextFactory.createFor(Mockito.any(InputFile.class))).thenReturn(fileLinesContext);
 
-    baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
-    target = new File(baseDir, "ncloc.cc");
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx");
+    SensorContextTester context = SensorContextTester.create(baseDir);
+    DefaultInputFile inputFile = TestUtils.buildInputFile(baseDir, "ncloc.cc");
+    context.fileSystem().add(inputFile);
 
-    testLines = Stream.of(8, 10, 14, 16, 17, 21, 22, 23, 26, 31, 34, 35, 42, 44, 45, 49, 51, 53, 55, 56,
-                          58, 59, 63, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 79, 82, 84, 86, 87, 89,
-                          90, 95, 98, 99, 100, 102, 107, 108, 109, 110, 111, 113, 115, 118, 119, 124, 126)
-      .collect(Collectors.toCollection(HashSet::new));
+    CxxSquidSensor sensor = new CxxSquidSensor(fileLinesContextFactory, checkFactory, new NoSonarFilter(), null);
+    sensor.execute(context);
   }
 
   @Test
   public void TestLinesOfCode() throws UnsupportedEncodingException, IOException {
-    String content = Files.contentOf(target, StandardCharsets.UTF_8);
-    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(StandardCharsets.UTF_8).setLanguage("c++")
-      .setType(InputFile.Type.MAIN).build();
-
-    SensorContextTester context = SensorContextTester.create(baseDir);
-    context.fileSystem().add(inputFile);
-
-    when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
-
-    var visitor = new CxxFileLinesVisitor(context, fileLinesContextFactory);
-
-    CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()), visitor);
+    Set<Integer> linesOfCode = Stream.of(
+      8, 10, 14, 16, 17, 21, 22, 23, 26, 31, 34, 35, 42, 44, 45, 49, 51, 53, 55, 56,
+      58, 59, 63, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 79, 82, 84, 86, 87, 89,
+      90, 95, 98, 99, 100, 102, 107, 108, 109, 110, 111, 113, 115, 118, 119, 124, 126)
+      .collect(Collectors.toCollection(HashSet::new));
 
     var softly = new SoftAssertions();
-    softly.assertThat(fileLinesContext.linesOfCode).containsExactlyInAnyOrderElementsOf(testLines);
+    assertThat(fileLinesContext.linesOfCode).containsExactlyInAnyOrderElementsOf(linesOfCode);
     softly.assertAll();
   }
 
   @Test
   public void TestExecutableLinesOfCode() throws UnsupportedEncodingException, IOException {
-
-    String content = Files.contentOf(target, StandardCharsets.UTF_8);
-    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target).setContents(content)
-      .setCharset(StandardCharsets.UTF_8).setLanguage("c++")
-      .setType(InputFile.Type.MAIN).build();
-
-    SensorContextTester context = SensorContextTester.create(baseDir);
-    context.fileSystem().add(inputFile);
-
-    when(fileLinesContextFactory.createFor(inputFile)).thenReturn(fileLinesContext);
-
-    var visitor = new CxxFileLinesVisitor(context, fileLinesContextFactory);
-
-    CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()), visitor);
-
-    assertThat(fileLinesContext.executableLines).containsExactlyInAnyOrder(10, 26, 34, 35, 56, 59, 69, 70, 72, 73,
-                                                                           75, 76, 79, 87, 90, 98, 102, 118, 119, 126);
+    assertThat(fileLinesContext.executableLines).containsExactlyInAnyOrder(
+      10, 26, 34, 35, 56, 59, 69, 70, 72, 73,
+      75, 76, 79, 87, 90, 98, 102, 118, 119, 126);
   }
 
   private class FileLinesContextForTesting implements FileLinesContext {
 
     public final Set<Integer> executableLines = new HashSet<>();
     public final Set<Integer> linesOfCode = new HashSet<>();
-    public final Set<Integer> linesOfComments = new HashSet<>();
 
     @Override
     public void setIntValue(String metricKey, int line, int value) {

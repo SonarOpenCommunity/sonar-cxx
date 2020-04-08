@@ -54,6 +54,8 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   private String[] publicApiFileSuffixes = new String[]{};
   private int functionComplexityThreshold = 10;
   private int functionSizeThreshold = 20;
+  private boolean cpdIgnoreLiteral = false;
+  private boolean cpdIgnoreIdentifier = false;
 
   private final CxxVCppBuildLogParser cxxVCppParser;
 
@@ -210,6 +212,22 @@ public class CxxSquidConfiguration extends SquidConfiguration {
 
   public int getFunctionSizeThreshold() {
     return functionSizeThreshold;
+  }
+
+  public void setCpdIgnoreLiteral(boolean cpdIgnoreLiteral) {
+    this.cpdIgnoreLiteral = cpdIgnoreLiteral;
+  }
+
+  public boolean getCpdIgnoreLiteral() {
+    return this.cpdIgnoreLiteral;
+  }
+
+  public void setCpdIgnoreIdentifier(boolean cpdIgnoreIdentifier) {
+    this.cpdIgnoreIdentifier = cpdIgnoreIdentifier;
+  }
+
+  public boolean getCpdIgnoreIdentifier() {
+    return this.cpdIgnoreIdentifier;
   }
 
   public void setCompilationPropertiesWithBuildLog(@Nullable List<File> reports,

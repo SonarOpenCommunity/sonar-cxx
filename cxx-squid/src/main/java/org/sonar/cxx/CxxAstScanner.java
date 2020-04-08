@@ -30,10 +30,13 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.cxx.visitors.CxxCognitiveComplexityVisitor;
+import org.sonar.cxx.visitors.CxxCpdVisitor;
 import org.sonar.cxx.visitors.CxxCyclomaticComplexityVisitor;
+import org.sonar.cxx.visitors.CxxFileLinesVisitor;
 import org.sonar.cxx.visitors.CxxFileVisitor;
 import org.sonar.cxx.visitors.CxxFunctionComplexityVisitor;
 import org.sonar.cxx.visitors.CxxFunctionSizeVisitor;
+import org.sonar.cxx.visitors.CxxHighlighterVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeInFunctionBodyVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeVisitor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
@@ -184,7 +187,6 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<>());
     builder.withSquidAstVisitor(new CxxLinesOfCodeInFunctionBodyVisitor<>());
     builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(squidConfig));
-
     builder.withSquidAstVisitor(CommentsVisitor.<Grammar>builder().withCommentMetric(CxxMetric.COMMENT_LINES)
       .withNoSonar(true)
       .withIgnoreHeaderComment(squidConfig.getIgnoreHeaderComments())
@@ -202,7 +204,6 @@ public final class CxxAstScanner {
       .build()));
 
     builder.withSquidAstVisitor(new CxxCognitiveComplexityVisitor<>());
-
     builder.withSquidAstVisitor(new CxxFunctionComplexityVisitor<>(squidConfig));
     builder.withSquidAstVisitor(new CxxFunctionSizeVisitor<>(squidConfig));
 
@@ -211,6 +212,15 @@ public final class CxxAstScanner {
 
     // log syntax errors
     builder.withSquidAstVisitor(new CxxParseErrorLoggerVisitor<>());
+
+    /* Highlighter */
+    builder.withSquidAstVisitor(new CxxHighlighterVisitor());
+
+    /* CPD */
+    builder.withSquidAstVisitor(new CxxCpdVisitor(squidConfig));
+
+    /* NCLOC & EXECUTABLE_LINES */
+    builder.withSquidAstVisitor(new CxxFileLinesVisitor());
 
     /* External visitors (typically Check ones) */
     for (var visitor : visitors) {

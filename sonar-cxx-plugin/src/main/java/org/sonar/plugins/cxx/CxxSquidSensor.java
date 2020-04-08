@@ -35,9 +35,13 @@ import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.TextRange;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.batch.sensor.cpd.NewCpdTokens;
+import org.sonar.api.batch.sensor.highlighting.NewHighlighting;
+import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.config.PropertyDefinition;
@@ -45,6 +49,7 @@ import org.sonar.api.internal.google.common.base.Splitter;
 import org.sonar.api.internal.google.common.collect.Iterables;
 import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Qualifiers;
@@ -59,9 +64,8 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
-import org.sonar.cxx.sensors.visitors.CxxCpdVisitor;
-import org.sonar.cxx.sensors.visitors.CxxFileLinesVisitor;
-import org.sonar.cxx.sensors.visitors.CxxHighlighterVisitor;
+import org.sonar.cxx.visitors.CxxCpdVisitor;
+import org.sonar.cxx.visitors.CxxHighlighterVisitor;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.SquidAstVisitor;
@@ -102,6 +106,9 @@ public class CxxSquidSensor implements ProjectSensor {
 
   public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "sonar.cxx.funccomplexity.threshold";
   public static final String FUNCTION_SIZE_THRESHOLD_KEY = "sonar.cxx.funcsize.threshold";
+
+  public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.cpd.ignoreLiterals";
+  public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
 
   private final FileLinesContextFactory fileLinesContextFactory;
   private final CxxChecks checks;
@@ -230,6 +237,26 @@ public class CxxSquidSensor implements ProjectSensor {
         .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.INTEGER)
+        .build(),
+      PropertyDefinition.builder(CPD_IGNORE_LITERALS_KEY)
+        .defaultValue(Boolean.FALSE.toString())
+        .name("Ignores literal value differences when evaluating a duplicate block")
+        .description("Ignores literal (numbers, characters and strings) value differences when evaluating a duplicate "
+                       + "block. This means that e.g. foo=42; and foo=43; will be seen as equivalent. Default is 'False'.")
+        .category("CXX")
+        .subCategory("(4) Duplications")
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.BOOLEAN)
+        .build(),
+      PropertyDefinition.builder(CPD_IGNORE_IDENTIFIERS_KEY)
+        .defaultValue(Boolean.FALSE.toString())
+        .name("Ignores identifier value differences when evaluating a duplicate block")
+        .description("Ignores identifier value differences when evaluating a duplicate block e.g. variable names, "
+                       + "methods names, and so forth. Default is 'False'.")
+        .category("CXX")
+        .subCategory("(4) Duplications")
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.BOOLEAN)
         .build()
     ));
   }
@@ -250,13 +277,8 @@ public class CxxSquidSensor implements ProjectSensor {
 
     this.context = context;
 
-    var visitors = new ArrayList<SquidAstVisitor<Grammar>>(checks.all());
-    visitors.add(new CxxHighlighterVisitor(context));
-    visitors.add(new CxxFileLinesVisitor(context, fileLinesContextFactory));
-
-    visitors.add(new CxxCpdVisitor(context));
-
     CxxSquidConfiguration squidConfig = createConfiguration();
+    var visitors = new ArrayList<SquidAstVisitor<Grammar>>(checks.all());
     AstScanner<Grammar> scanner = CxxAstScanner.create(squidConfig, visitors.toArray(
                                                        new SquidAstVisitor[visitors.size()]));
 
@@ -305,6 +327,9 @@ public class CxxSquidSensor implements ProjectSensor {
     }
     squidConfig.setPublicApiFileSuffixes(suffixes);
 
+    squidConfig.setCpdIgnoreLiteral(context.config().getBoolean(CPD_IGNORE_LITERALS_KEY).orElse(Boolean.FALSE));
+    squidConfig.setCpdIgnoreIdentifier(context.config().getBoolean(CPD_IGNORE_IDENTIFIERS_KEY).orElse(Boolean.FALSE));
+
     squidConfig.setFunctionComplexityThreshold(context.config().getInt(FUNCTION_COMPLEXITY_THRESHOLD_KEY).orElse(10));
     squidConfig.setFunctionSizeThreshold(context.config().getInt(FUNCTION_SIZE_THRESHOLD_KEY).orElse(20));
 
@@ -331,37 +356,40 @@ public class CxxSquidSensor implements ProjectSensor {
     return squidConfig;
   }
 
-  private void save(Collection<SourceCode> squidSourceFiles) {
+  private void save(Collection<SourceCode> sourceCodeFiles) {
     // don't publish metrics on modules, which were not analyzed
     // otherwise hierarchical multi-module projects will contain wrong metrics ( == 0)
     // see also AggregateMeasureComputer
-    if (squidSourceFiles.isEmpty()) {
+    if (sourceCodeFiles.isEmpty()) {
       return;
     }
 
-    for (var squidSourceFile : squidSourceFiles) {
-      SourceFile squidFile = (SourceFile) squidSourceFile;
-      var ioFile = new File(squidFile.getKey());
+    for (var sourceCodeFile : sourceCodeFiles) {
+      SourceFile sourceFile = (SourceFile) sourceCodeFile;
+      var ioFile = new File(sourceFile.getKey());
       InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(ioFile));
 
-      saveMeasures(inputFile, squidFile);
-      saveViolations(inputFile, squidFile);
+      saveMeasures(inputFile, sourceFile);
+      saveViolations(inputFile, sourceFile);
+      saveFileLinesContext(inputFile, sourceFile);
+      saveCpdTokens(inputFile, sourceFile);
+      saveHighlighting(inputFile, sourceFile);
     }
   }
 
-  private void saveMeasures(InputFile inputFile, SourceFile squidFile) {
+  private void saveMeasures(InputFile inputFile, SourceFile sourceFile) {
 
     // NOSONAR
-    noSonarFilter.noSonarInFile(inputFile, squidFile.getNoSonarTagLines());
+    noSonarFilter.noSonarInFile(inputFile, sourceFile.getNoSonarTagLines());
 
     // CORE METRICS
-    saveMetric(inputFile, CoreMetrics.NCLOC, squidFile.getInt(CxxMetric.LINES_OF_CODE));
-    saveMetric(inputFile, CoreMetrics.STATEMENTS, squidFile.getInt(CxxMetric.STATEMENTS));
-    saveMetric(inputFile, CoreMetrics.FUNCTIONS, squidFile.getInt(CxxMetric.FUNCTIONS));
-    saveMetric(inputFile, CoreMetrics.CLASSES, squidFile.getInt(CxxMetric.CLASSES));
-    saveMetric(inputFile, CoreMetrics.COMPLEXITY, squidFile.getInt(CxxMetric.COMPLEXITY));
-    saveMetric(inputFile, CoreMetrics.COGNITIVE_COMPLEXITY, squidFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY));
-    saveMetric(inputFile, CoreMetrics.COMMENT_LINES, squidFile.getInt(CxxMetric.COMMENT_LINES));
+    saveMetric(inputFile, CoreMetrics.NCLOC, sourceFile.getInt(CxxMetric.LINES_OF_CODE));
+    saveMetric(inputFile, CoreMetrics.STATEMENTS, sourceFile.getInt(CxxMetric.STATEMENTS));
+    saveMetric(inputFile, CoreMetrics.FUNCTIONS, sourceFile.getInt(CxxMetric.FUNCTIONS));
+    saveMetric(inputFile, CoreMetrics.CLASSES, sourceFile.getInt(CxxMetric.CLASSES));
+    saveMetric(inputFile, CoreMetrics.COMPLEXITY, sourceFile.getInt(CxxMetric.COMPLEXITY));
+    saveMetric(inputFile, CoreMetrics.COGNITIVE_COMPLEXITY, sourceFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY));
+    saveMetric(inputFile, CoreMetrics.COMMENT_LINES, sourceFile.getInt(CxxMetric.COMMENT_LINES));
 
     // CUSTOM METRICS
     //
@@ -369,22 +397,22 @@ public class CxxSquidSensor implements ProjectSensor {
     // below metrics are calculated by means of DensityMeasureComputer
     //
     // 1. PUBLIC API
-    saveMetric(inputFile, CxxMetrics.PUBLIC_API, squidFile.getInt(CxxMetric.PUBLIC_API));
-    saveMetric(inputFile, CxxMetrics.PUBLIC_UNDOCUMENTED_API, squidFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+    saveMetric(inputFile, CxxMetrics.PUBLIC_API, sourceFile.getInt(CxxMetric.PUBLIC_API));
+    saveMetric(inputFile, CxxMetrics.PUBLIC_UNDOCUMENTED_API, sourceFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
 
     // 2. FUNCTION COMPLEXITY
-    saveMetric(inputFile, CxxMetrics.COMPLEX_FUNCTIONS, squidFile.getInt(CxxMetric.COMPLEX_FUNCTIONS));
-    saveMetric(inputFile, CxxMetrics.COMPLEX_FUNCTIONS_LOC, squidFile.getInt(CxxMetric.COMPLEX_FUNCTIONS_LOC));
+    saveMetric(inputFile, CxxMetrics.COMPLEX_FUNCTIONS, sourceFile.getInt(CxxMetric.COMPLEX_FUNCTIONS));
+    saveMetric(inputFile, CxxMetrics.COMPLEX_FUNCTIONS_LOC, sourceFile.getInt(CxxMetric.COMPLEX_FUNCTIONS_LOC));
 
     // 3. FUNCTION SIZE
-    saveMetric(inputFile, CxxMetrics.LOC_IN_FUNCTIONS, squidFile.getInt(CxxMetric.LOC_IN_FUNCTIONS));
-    saveMetric(inputFile, CxxMetrics.BIG_FUNCTIONS, squidFile.getInt(CxxMetric.BIG_FUNCTIONS));
-    saveMetric(inputFile, CxxMetrics.BIG_FUNCTIONS_LOC, squidFile.getInt(CxxMetric.BIG_FUNCTIONS_LOC));
+    saveMetric(inputFile, CxxMetrics.LOC_IN_FUNCTIONS, sourceFile.getInt(CxxMetric.LOC_IN_FUNCTIONS));
+    saveMetric(inputFile, CxxMetrics.BIG_FUNCTIONS, sourceFile.getInt(CxxMetric.BIG_FUNCTIONS));
+    saveMetric(inputFile, CxxMetrics.BIG_FUNCTIONS_LOC, sourceFile.getInt(CxxMetric.BIG_FUNCTIONS_LOC));
   }
 
-  private void saveViolations(InputFile inputFile, SourceFile squidFile) {
-    if (squidFile.hasCheckMessages()) {
-      for (var message : squidFile.getCheckMessages()) {
+  private void saveViolations(InputFile inputFile, SourceFile sourceFile) {
+    if (sourceFile.hasCheckMessages()) {
+      for (var message : sourceFile.getCheckMessages()) {
         int line = 1;
         if (message.getLine() != null && message.getLine() > 0) {
           line = message.getLine();
@@ -403,8 +431,8 @@ public class CxxSquidSensor implements ProjectSensor {
       }
     }
 
-    if (MultiLocatitionSquidCheck.hasMultiLocationCheckMessages(squidFile)) {
-      for (var issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(squidFile)) {
+    if (MultiLocatitionSquidCheck.hasMultiLocationCheckMessages(sourceFile)) {
+      for (var issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(sourceFile)) {
         final NewIssue newIssue = context.newIssue()
           .forRule(RuleKey.of(CheckList.REPOSITORY_KEY, issue.getRuleId()));
         int locationNr = 0;
@@ -421,8 +449,58 @@ public class CxxSquidSensor implements ProjectSensor {
         }
         newIssue.save();
       }
-      MultiLocatitionSquidCheck.eraseMultilineCheckMessages(squidFile);
+      MultiLocatitionSquidCheck.eraseMultilineCheckMessages(sourceFile);
     }
+  }
+
+  private void saveFileLinesContext(InputFile inputFile, SourceFile sourceFile) {
+    // measures for the lines of file
+    FileLinesContext fileLinesContext = fileLinesContextFactory.createFor(inputFile);
+    List<Integer> linesOfCode = (List<Integer>) sourceFile.getData(CxxMetric.NCLOC_DATA);
+    linesOfCode.stream().sequential().distinct().forEach(
+      line -> fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1)
+    );
+    List<Integer> executableLines = (List<Integer>) sourceFile.getData(CxxMetric.EXECUTABLE_LINES_DATA);
+    executableLines.stream().sequential().distinct().forEach(
+      line -> fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, line, 1)
+    );
+    fileLinesContext.save();
+  }
+
+  private void saveCpdTokens(InputFile inputFile, SourceFile sourceFile) {
+    NewCpdTokens cpdTokens = context.newCpdTokens().onFile(inputFile);
+
+    List<CxxCpdVisitor.CpdToken> data = (List<CxxCpdVisitor.CpdToken>) sourceFile.getData(CxxMetric.CPD_TOKENS_DATA);
+    data.forEach((item) -> {
+      try {
+        TextRange range = inputFile.newRange(item.startLine, item.startCol, item.endLine, item.endCol);
+        cpdTokens.addToken(range, item.token);
+      } catch (IllegalArgumentException | IllegalStateException e) {
+        // ignore range errors: parsing errors could lead to wrong location data
+        LOG.debug("CPD error in file '{}' at line:{}, column:{}", inputFile.filename(), item.startLine, item.startCol);
+      }
+    });
+
+    cpdTokens.save();
+  }
+
+  private void saveHighlighting(InputFile inputFile, SourceFile sourceFile) {
+    NewHighlighting newHighlighting = context.newHighlighting().onFile(inputFile);
+
+    List<CxxHighlighterVisitor.Highlight> data = (List<CxxHighlighterVisitor.Highlight>) sourceFile.getData(
+      CxxMetric.HIGHLIGTHING_DATA);
+    data.forEach((item) -> {
+      try {
+        newHighlighting.highlight(item.startLine, item.startLineOffset, item.endLine, item.endLineOffset,
+                                  TypeOfText.forCssClass(item.typeOfText));
+      } catch (IllegalArgumentException ex) {
+        // ignore highlight errors: parsing errors could lead to wrong location data
+        LOG.debug("Highlighting error in file '{}' at start:{}:{} end:{}:{}", inputFile.filename(),
+                  item.startLine, item.startLineOffset, item.endLine, item.endLineOffset);
+      }
+    });
+
+    newHighlighting.save();
   }
 
   private <T extends Serializable> void saveMetric(InputFile file, Metric<T> metric, T value) {
