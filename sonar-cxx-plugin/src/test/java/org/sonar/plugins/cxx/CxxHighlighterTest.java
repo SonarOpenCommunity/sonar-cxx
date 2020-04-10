@@ -17,45 +17,48 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.visitors;
+package org.sonar.plugins.cxx;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.assertj.core.util.Files;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.rule.ActiveRules;
+import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.config.internal.MapSettings;
-import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.sensors.utils.TestUtils;
+import org.sonar.api.issue.NoSonarFilter;
+import org.sonar.api.measures.FileLinesContext;
+import org.sonar.api.measures.FileLinesContextFactory;
 
 public class CxxHighlighterTest {
 
+  private CxxSquidSensor sensor;
   private SensorContextTester context;
-  private final MapSettings settings = new MapSettings();
-
-  private File target;
+  private DefaultInputFile inputFile;
 
   @Before
   public void scanFile() throws IOException {
-    File baseDir = TestUtils.loadResource("/org/sonar/cxx/sensors");
-    target = new File(baseDir, "highlighter.cc");
+    ActiveRules rules = mock(ActiveRules.class);
+    var checkFactory = new CheckFactory(rules);
+    FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);
+    FileLinesContext fileLinesContext = mock(FileLinesContext.class);
+    when(fileLinesContextFactory.createFor(Mockito.any(InputFile.class))).thenReturn(fileLinesContext);
 
-    String content = Files.contentOf(target, StandardCharsets.UTF_8);
-    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target)
-      .setContents(content).setCharset(StandardCharsets.UTF_8).build();
-
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx");
+    inputFile = TestUtils.buildInputFile(baseDir, "highlighter.cc");
     context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
 
-    CxxHighlighterVisitor cxxHighlighter = new CxxHighlighterVisitor(context);
-    CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()), cxxHighlighter);
+    sensor = new CxxSquidSensor(fileLinesContextFactory, checkFactory, new NoSonarFilter(), null);
+    sensor.execute(context);
   }
 
   @Test
@@ -211,8 +214,8 @@ public class CxxHighlighterTest {
   }
 
   private void checkInternal(int line, int column, String messageComplement, TypeOfText expectedTypeOfText) {
-    String componentKey = "ProjectKey:" + target.getName();
-    List<TypeOfText> foundTypeOfTexts = context.highlightingTypeAt(componentKey, line, column);
+    List<TypeOfText> foundTypeOfTexts = context.highlightingTypeAt(
+      "ProjectKey:" + inputFile.file().getName(), line, column);
 
     int expectedNumberOfTypeOfText = expectedTypeOfText == null ? 0 : 1;
     String message = "number of TypeOfTexts at line " + line + " and column " + column + messageComplement;

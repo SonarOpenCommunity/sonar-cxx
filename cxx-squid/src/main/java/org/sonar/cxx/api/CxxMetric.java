@@ -40,7 +40,11 @@ public enum CxxMetric implements MetricDef {
   COMPLEX_FUNCTIONS_LOC,
   LOC_IN_FUNCTIONS,
   BIG_FUNCTIONS,
-  BIG_FUNCTIONS_LOC;
+  BIG_FUNCTIONS_LOC,
+  NCLOC_DATA,
+  EXECUTABLE_LINES_DATA,
+  CPD_TOKENS_DATA,
+  HIGHLIGTHING_DATA;
 
   @Override
   public String getName() {

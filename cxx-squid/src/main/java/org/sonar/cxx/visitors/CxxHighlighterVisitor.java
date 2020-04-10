@@ -17,57 +17,38 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.visitors;
+package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Nullable;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.api.batch.sensor.highlighting.NewHighlighting;
-import org.sonar.api.batch.sensor.highlighting.TypeOfText;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxTokenType;
-import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.squidbridge.SquidAstVisitor;
 
 public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 
-  private static final Logger LOG = Loggers.get(CxxHighlighterVisitor.class);
-
-  private NewHighlighting newHighlighting;
-  private final SensorContext context;
-
-  public CxxHighlighterVisitor(SensorContext context) {
-    this.context = context;
-  }
+  private static final Pattern EOL_PATTERN = Pattern.compile("\\R");
+  private List<Highlight> highlighting = null;
 
   @Override
   public void visitFile(@Nullable AstNode astNode) {
-    newHighlighting = context.newHighlighting();
-    InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates()
-      .is(getContext().getFile().getAbsoluteFile()));
-    if (inputFile != null) {
-      newHighlighting.onFile(inputFile);
-    }
+    highlighting = new ArrayList<>();
   }
 
   @Override
   public void leaveFile(@Nullable AstNode astNode) {
-    try {
-      newHighlighting.save();
-    } catch (IllegalStateException e) {
-      // ignore highlight errors: parsing errors could lead to wrong location data
-      LOG.debug("Highlighting error in file: {}, error: {}", getContext().getFile().getAbsoluteFile(), e);
-    }
+    getContext().peekSourceCode().addData(CxxMetric.HIGHLIGTHING_DATA, highlighting);
+    highlighting = null;
   }
 
   @Override
@@ -75,28 +56,27 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     if (!token.isGeneratedCode()) {
       TokenLocation last = null;
       if (token.getType().equals(CxxTokenType.NUMBER)) {
-        last = highlight(last, new TokenLocation(token), TypeOfText.CONSTANT);
+        last = highlight(last, new TokenLocation(token), "c");
       } else if (token.getType() instanceof CxxKeyword) {
-        last = highlight(last, new TokenLocation(token), TypeOfText.KEYWORD);
+        last = highlight(last, new TokenLocation(token), "k");
       } else if (token.getType().equals(CxxTokenType.CHARACTER)) {
-        last = highlight(last, new TokenLocation(token), TypeOfText.STRING);
+        last = highlight(last, new TokenLocation(token), "s");
       } else if (token.getType().equals(CxxTokenType.STRING)) {
         Optional<Trivia> triviaWithConcatenatedLiterals = getTriviaWithConcatenatedLiterals(token);
         if (!triviaWithConcatenatedLiterals.isPresent()) {
-          last = highlight(last, new StringLocation(token), TypeOfText.STRING);
+          last = highlight(last, new StringLocation(token), "s");
         } else {
           for (var concatenatedLiterals : triviaWithConcatenatedLiterals.get().getTokens()) {
-            last = highlight(last, new StringLocation(concatenatedLiterals), TypeOfText.STRING);
+            last = highlight(last, new StringLocation(concatenatedLiterals), "s");
           }
         }
       }
 
       for (var trivia : token.getTrivia()) {
         if (trivia.isComment()) {
-          highlight(last, new CommentLocation(trivia.getToken()), TypeOfText.COMMENT);
-        } else if (trivia.isSkippedText()
-                     && trivia.getToken().getType().equals(CxxTokenType.PREPROCESSOR)) {
-          highlight(last, new PreprocessorDirectiveLocation(trivia.getToken()), TypeOfText.PREPROCESS_DIRECTIVE);
+          highlight(last, new CommentLocation(trivia.getToken()), "cd");
+        } else if (trivia.isSkippedText() && trivia.getToken().getType().equals(CxxTokenType.PREPROCESSOR)) {
+          highlight(last, new PreprocessorDirectiveLocation(trivia.getToken()), "p");
         }
       }
     }
@@ -107,24 +87,31 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       .filter(t -> t.isSkippedText() && CxxTokenType.STRING.equals(t.getToken().getType())).findFirst();
   }
 
-  private TokenLocation highlight(@Nullable TokenLocation last, TokenLocation current, TypeOfText typeOfText) {
-    try {
-      if (!current.overlaps(last)) {
-        newHighlighting.highlight(current.startLine(), current.startLineOffset(),
-                                  current.endLine(), current.endLineOffset(), typeOfText);
-      }
-    } catch (IllegalArgumentException ex) {
-      // ignore highlight errors: parsing errors could lead to wrong location data
-      LOG.debug("Highlighting error in file '{}' at start:{}:{} end:{}:{}",
-                getContext().getFile().getAbsoluteFile(),
-                current.startLine(),
-                current.startLineOffset(),
-                current.endLine(),
-                current.endLineOffset()
-      );
+  private TokenLocation highlight(@Nullable TokenLocation last, TokenLocation current, String typeOfText) {
+    if (!current.overlaps(last)) {
+      highlighting.add(new Highlight(current.startLine(), current.startLineOffset(),
+                                     current.endLine(), current.endLineOffset(), typeOfText));
     }
+
     return current;
   }
+
+  public static class Highlight {
+
+    public int startLine;
+    public int startLineOffset;
+    public int endLine;
+    public int endLineOffset;
+    public String typeOfText;
+
+    Highlight(int startLine, int startLineOffset, int endLine, int endLineOffset, String typeOfText) {
+      this.startLine = startLine;
+      this.startLineOffset = startLineOffset;
+      this.endLine = endLine;
+      this.endLineOffset = endLineOffset;
+      this.typeOfText = typeOfText;
+    }
+  };
 
   private static class TokenLocation {
 
@@ -174,7 +161,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       super(token);
       String value = token.getValue();
       if (value.startsWith("R")) { // Raw String?
-        String[] lines = CxxUtils.EOL_PATTERN.split(value, -1);
+        String[] lines = EOL_PATTERN.split(value, -1);
 
         if (lines.length > 1) {
           endLine = token.getLine() + lines.length - 1;
@@ -189,7 +176,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     public CommentLocation(Token token) {
       super(token);
       String value = token.getValue();
-      String[] lines = CxxUtils.EOL_PATTERN.split(value, -1);
+      String[] lines = EOL_PATTERN.split(value, -1);
 
       if (lines.length > 1) {
         endLine = token.getLine() + lines.length - 1;

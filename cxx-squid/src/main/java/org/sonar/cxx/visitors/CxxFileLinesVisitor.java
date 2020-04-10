@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.visitors;
+package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
@@ -26,45 +26,23 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.FileLinesContext;
-import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.squidbridge.SquidAstVisitor;
 
 /**
- * Visitor that computes {@link CoreMetrics#NCLOC_DATA_KEY} and {@link CoreMetrics#COMMENT_LINES_DATA_KEY} metrics used
+ * Visitor that computes {@link CoreMetrics#NCLOC_DATA_KEY} and {@link CoreMetrics#EXECUTABLE_LINES_DATA} metrics used
  * by the DevCockpit.
  */
 public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 
-  private static final Logger LOG = Loggers.get(CxxFileLinesVisitor.class);
-
-  private final SensorContext context;
-  private final FileLinesContextFactory fileLinesContextFactory;
   private List<Integer> linesOfCode;
   private List<Integer> executableLines;
   private int isWithinFunctionDefinition;
-
-  /**
-   * CxxFileLinesVisitor generates sets for linesOfCode, executableLines
-   *
-   * @param context for coverage analysis
-   * @param fileLinesContextFactory container for linesOfCode, executableLines
-   */
-  public CxxFileLinesVisitor(SensorContext context, FileLinesContextFactory fileLinesContextFactory) {
-    this.context = context;
-    this.fileLinesContextFactory = fileLinesContextFactory;
-  }
 
   private static boolean isDefaultOrDeleteFunctionBody(AstNode astNode) {
     AstNode node = astNode.getFirstChild(CxxGrammarImpl.functionBody);
@@ -184,38 +162,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
   @Override
   public void leaveFile(AstNode astNode) {
-    InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(getContext().getFile()));
-    if (inputFile == null) {
-      throw new IllegalStateException("InputFile is null, but it should not be.");
-    }
-    FileLinesContext fileLinesContext = fileLinesContextFactory.createFor(inputFile);
-
-    try {
-      linesOfCode.stream().sequential().distinct().forEach(
-        line -> fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1)
-      );
-    } catch (IllegalArgumentException e) {
-      LOG.error("NCLOC_DATA_KEY metric error: {}", e.getMessage());
-      CxxUtils.validateRecovery(e, context.config());
-    }
-    try {
-      executableLines.stream().sequential().distinct().forEach(
-        line -> fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, line, 1)
-      );
-    } catch (IllegalArgumentException e) {
-      LOG.error("EXECUTABLE_LINES_DATA_KEY metric error: {}", e.getMessage());
-      CxxUtils.validateRecovery(e, context.config());
-    }
-    fileLinesContext.save();
-
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("CxxFileLinesVisitor: '{}'", inputFile.uri().getPath());
-      LOG.debug("   lines:           '{}'", inputFile.lines());
-      LOG.debug("   executableLines: '{}'", new HashSet<>(executableLines));
-      LOG.debug("   linesOfCode:     '{}'", new HashSet<>(linesOfCode));
-    }
-
+    getContext().peekSourceCode().addData(CxxMetric.NCLOC_DATA, linesOfCode);
     linesOfCode = null;
+    getContext().peekSourceCode().addData(CxxMetric.EXECUTABLE_LINES_DATA, executableLines);
     executableLines = null;
   }
 

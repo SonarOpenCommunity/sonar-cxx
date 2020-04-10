@@ -20,9 +20,15 @@
 package org.sonar.plugins.cxx;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import javax.annotation.CheckForNull;
+import org.assertj.core.util.Files;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 
 public class TestUtils {
 
@@ -59,6 +65,17 @@ public class TestUtils {
       }
     }
     return null;
+  }
+
+  public static DefaultInputFile buildInputFile(File baseDir, String fileName) throws IOException {
+    var target = new File(baseDir, fileName);
+    String content = Files.contentOf(target, StandardCharsets.UTF_8);
+    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target)
+      .setContents(content)
+      .setCharset(StandardCharsets.UTF_8)
+      .setLanguage("c++")
+      .setType(InputFile.Type.MAIN).build();
+    return inputFile;
   }
 
 }
