@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import java.io.File;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 import org.junit.Before;
@@ -49,7 +48,7 @@ public class CxxXunitSensorTest {
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
     context.setSettings(settings);
 
-    var sensor = new CxxXunitSensor(settings.asConfig());
+    var sensor = new CxxXunitSensor();
     sensor.execute(context);
 
     assertThat(context.measures(context.project().key())).hasSize(0);
@@ -61,7 +60,7 @@ public class CxxXunitSensorTest {
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/xunit-result-SAMPLE_with_fileName.xml");
     context.setSettings(settings);
 
-    var sensor = new CxxXunitSensor(settings.asConfig());
+    var sensor = new CxxXunitSensor();
     sensor.execute(context);
 
     assertThat(context.measures(context.project().key())).hasSize(5);
@@ -81,39 +80,17 @@ public class CxxXunitSensorTest {
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
     context.setSettings(settings);
 
-    var sensor = new CxxXunitSensor(settings.asConfig());
+    var sensor = new CxxXunitSensor();
     sensor.execute(context);
-  }
-
-  @Test(expected = java.net.MalformedURLException.class)
-  public void transformReport_shouldThrowWhenGivenNotExistingStyleSheet()
-    throws java.io.IOException, javax.xml.transform.TransformerException {
-    settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");
-    var sensor = new CxxXunitSensor(settings.asConfig());
-    sensor.transformReport(cppunitReport());
-  }
-
-  @Test
-  public void transformReport_shouldTransformCppunitReport()
-    throws java.io.IOException, javax.xml.transform.TransformerException {
-    settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");
-    var sensor = new CxxXunitSensor(settings.asConfig());
-    File reportBefore = cppunitReport();
-    File reportAfter = sensor.transformReport(reportBefore);
-    assertThat(reportAfter).isNotSameAs(reportBefore);
   }
 
   @Test
   public void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
-    var sensor = new CxxXunitSensor(settings.asConfig());
+    var sensor = new CxxXunitSensor();
     sensor.describe(descriptor);
 
     assertThat(descriptor.name()).isEqualTo("CXX xUnit Test report import");
-  }
-
-  File cppunitReport() {
-    return new File(new File(fs.baseDir(), "xunit-reports"), "cppunit-report.xml");
   }
 
 }

@@ -19,17 +19,8 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import java.io.File;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import javax.xml.XMLConstants;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.log.Logger;
@@ -45,24 +36,6 @@ public final class CxxUtils {
 
   private CxxUtils() {
     // only static methods
-  }
-
-  /**
-   * transformFile
-   *
-   * @param stylesheetFile
-   * @param input
-   * @param output
-   * @exception TransformerException
-   */
-  public static void transformFile(Source stylesheetFile, File input, File output) throws TransformerException {
-    TransformerFactory factory = TransformerFactory.newInstance();
-    factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-    factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
-    factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-    Transformer transformer = factory.newTransformer(stylesheetFile);
-    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-    transformer.transform(new StreamSource(input), new StreamResult(output));
   }
 
   /**

@@ -25,6 +25,7 @@ import org.sonar.api.Plugin;
 import org.sonar.cxx.AggregateMeasureComputer;
 import org.sonar.cxx.DensityMeasureComputer;
 import org.sonar.cxx.postjobs.FinalReport;
+import org.sonar.cxx.prejobs.XlstSensor;
 import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
 import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
@@ -107,6 +108,10 @@ public final class CxxPlugin implements Plugin {
     l.add(AggregateMeasureComputer.class);
     // ComputeEngine: calculate new metrics from existing ones
     l.add(DensityMeasureComputer.class);
+
+    // pre jobs
+    l.add(DroppedPropertiesSensor.class);
+    l.add(XlstSensor.class);
 
     // issue sensors
     l.add(CxxSquidSensor.class);

@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.cxx;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import org.sonar.api.batch.Phase;
@@ -37,37 +38,39 @@ public class DroppedPropertiesSensor implements ProjectSensor {
   private static final String MSG_COMPILER = "Use 'sonar.cxx.vc' or 'sonar.cxx.gcc' instead."
                                                + " Use 'sonar.cxx.msbuild' to read includes and defines from MSBuild log file.";
 
-  private static final Map<String, String> ALL_REMOVED_PROPERTIES = new HashMap<String, String>() {
-    {
-      put("sonar.cxx.include_directories", "Use 'sonar.cxx.includeDirectories' instead."); // V0.9.1
-      put("sonar.cxx.externalrules.reportPath", "Use 'sonar.cxx.other.reportPath' instead."); // V0.9.1
-      put("sonar.cxx.cppncss.reportPath", ""); // V0.9.1
-      put("sonar.cxx.other.sqales", ""); // V0.9.6
-      put("sonar.cxx.xunit.provideDetails", ""); // V0.9.7
-      put("sonar.cxx.coverage.itReportPath", ""); // V0.9.8
-      put("sonar.cxx.coverage.overallReportPath", ""); // V0.9.8
-      put("sonar.cxx.forceZeroCoverage", ""); // V0.9.8
-      put("sonar.cxx.scanOnlySpecifiedSources", ""); // V1.0.0
-      put("sonar.cxx.compiler.parser", MSG_COMPILER); // V1.2.0
-      put("sonar.cxx.compiler.reportPath", MSG_COMPILER); // V1.2.0
-      put("sonar.cxx.compiler.regex", MSG_COMPILER); // V1.2.0
-      put("sonar.cxx.compiler.charset", MSG_COMPILER); // V1.2.0
-      put("sonar.cxx.missingIncludeWarnings", "Turn debug info on to get the information."); // V1.2.0
-      put("sonar.cxx.cFilesPatterns",
-          "Define C++ keywords in an own header file and include it with 'sonar.cxx.forceIncludes' instead."); // V2.0.0
-      put("sonar.cxx.suffixes.sources", "Use key 'sonar.cxx.file.suffixes' instead."); // V2.0.0
-      put("sonar.cxx.suffixes.headers",
-          "Use key 'sonar.cxx.file.suffixes' instead. For API detection use 'sonar.cxx.api.file.suffixes'."); // V2.0.0
-      put("sonar.cxx.other.xslt.1.stylesheet", "Use 'sonar.cxx.xslt.1.stylesheet' instead."); // V2.0.0
-      put("sonar.cxx.other.xslt.1.inputs", "Use 'sonar.cxx.xslt.1.inputs' instead."); // V2.0.0
-      put("sonar.cxx.other.xslt.1.outputs", "Use 'sonar.cxx.xslt.1.outputs' instead."); // V2.0.0
-    }
-  };
-
+  private static final Map<String, String> ALL_REMOVED_PROPERTIES = initRemovedProperties();
   private final AnalysisWarnings analysisWarnings;
 
   public DroppedPropertiesSensor(AnalysisWarnings analysisWarnings) {
     this.analysisWarnings = analysisWarnings;
+  }
+
+  private static Map<String, String> initRemovedProperties() {
+    var map = new HashMap<String, String>();
+    map.put("sonar.cxx.include_directories", "Use 'sonar.cxx.includeDirectories' instead."); // V0.9.1
+    map.put("sonar.cxx.externalrules.reportPath", "Use 'sonar.cxx.other.reportPath' instead."); // V0.9.1
+    map.put("sonar.cxx.cppncss.reportPath", ""); // V0.9.1
+    map.put("sonar.cxx.other.sqales", ""); // V0.9.6
+    map.put("sonar.cxx.xunit.provideDetails", ""); // V0.9.7
+    map.put("sonar.cxx.coverage.itReportPath", ""); // V0.9.8
+    map.put("sonar.cxx.coverage.overallReportPath", ""); // V0.9.8
+    map.put("sonar.cxx.forceZeroCoverage", ""); // V0.9.8
+    map.put("sonar.cxx.scanOnlySpecifiedSources", ""); // V1.0.0
+    map.put("sonar.cxx.compiler.parser", MSG_COMPILER); // V1.2.0
+    map.put("sonar.cxx.compiler.reportPath", MSG_COMPILER); // V1.2.0
+    map.put("sonar.cxx.compiler.regex", MSG_COMPILER); // V1.2.0
+    map.put("sonar.cxx.compiler.charset", MSG_COMPILER); // V1.2.0
+    map.put("sonar.cxx.missingIncludeWarnings", "Turn debug info on to get the information."); // V1.2.0
+    map.put("sonar.cxx.cFilesPatterns",
+            "Define C++ keywords in an own header file and include it with 'sonar.cxx.forceIncludes' instead."); // V2.0.0
+    map.put("sonar.cxx.suffixes.sources", "Use key 'sonar.cxx.file.suffixes' instead."); // V2.0.0
+    map.put("sonar.cxx.suffixes.headers",
+            "Use key 'sonar.cxx.file.suffixes' instead. For API detection use 'sonar.cxx.api.file.suffixes'."); // V2.0.0
+    map.put("sonar.cxx.other.xslt.1.stylesheet", "Use 'sonar.cxx.xslt.1.stylesheet' instead."); // V2.0.0
+    map.put("sonar.cxx.other.xslt.1.inputs", "Use 'sonar.cxx.xslt.1.inputs' instead."); // V2.0.0
+    map.put("sonar.cxx.other.xslt.1.outputs", "Use 'sonar.cxx.xslt.1.outputs' instead."); // V2.0.0
+    map.put("sonar.cxx.xunit.xsltURL", "Use 'sonar.cxx.xslt.xxx' instead."); // V2.0.0
+    return Collections.unmodifiableMap(map);
   }
 
   @Override
