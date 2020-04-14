@@ -63,11 +63,11 @@ public class TestUtils {
   /**
    * Mocks the filesystem given the root directory of the project
    *
-   * @param baseDir project root directory
    * @return mocked filesystem
    */
   public static DefaultFileSystem mockFileSystem() {
-    return mockFileSystem(TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project"), Arrays.asList(new File(".")),
+    return mockFileSystem(TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project"),
+                          Arrays.asList(new File(".")),
                           null);
   }
 
