@@ -37,7 +37,7 @@ Feature: Importing Cppcheck reports
     And the server log (if locatable) contains no error/warning messages
     But the analysis log contains a line matching
       """
-      .*WARN.*Cannot find the file .* skipping violations
+      .*WARN.*Cannot find the file .* skipping
       """
     And the number of violations fed is 0
 

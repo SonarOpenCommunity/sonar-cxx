@@ -55,7 +55,7 @@ Feature: Providing test execution measures
     Then the analysis breaks
     And the analysis log contains a line matching:
       """
-      .*ERROR.*Cannot feed the data into SonarQube, details: .*
+      .*ERROR.*Cannot feed the xUnit report data into SonarQube, details: .*
       """
 
 

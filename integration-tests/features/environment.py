@@ -42,7 +42,8 @@ JAR_CXX_PATTERN2 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHO
 JAR_CXX_PATTERN3 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*RC[0-9].jar")
 RELPATH_PLUGINS = "extensions/plugins"
 didstartsonar = False
-
+featureno = 0
+scenariono = 0
 
 RED = ""
 YELLOW = ""
@@ -106,6 +107,20 @@ def after_all(context):
     if didstartsonar:
         sonarhome = os.environ.get("SONARHOME", None)
         stop_sonar(sonarhome)
+
+def before_feature(context, feature):
+     global featureno
+     global scenariono
+     context.featurename=feature.name
+     featureno += 1
+     scenariono = 0
+     context.featureno=featureno
+
+def before_scenario(context, scenario):
+     global scenariono
+     context.scenarioname=scenario.name
+     scenariono +=1
+     context.scenariono=scenariono
 
 
 # -----------------------------------------------------------------------------

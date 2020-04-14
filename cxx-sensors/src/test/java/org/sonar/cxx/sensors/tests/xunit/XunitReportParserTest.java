@@ -28,7 +28,7 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class XunitReportParserTest {
 
-  XunitReportParser parserHandler = new XunitReportParser();
+  XunitReportParser parserHandler = new XunitReportParser("");
   StaxParser parser = new StaxParser(parserHandler, false);
   String pathPrefix = "/org/sonar/cxx/sensors/reports-project/xunit-reports/";
 
@@ -36,6 +36,8 @@ public class XunitReportParserTest {
   public void testParse() throws javax.xml.stream.XMLStreamException {
 
     var ioMap = new TreeMap<String, Integer>();
+
+    // report: number of tests
     ioMap.put("xunit-result-2.xml", 5);
     ioMap.put("xunit-result-SAMPLE_with_fileName.xml", 3);
     ioMap.put("xunit-result-SAMPLE.xml", 3);
@@ -45,17 +47,22 @@ public class XunitReportParserTest {
     ioMap.put("xunit-result-no-testsuite.xml", 0);
 
     for (var entry : ioMap.entrySet()) {
-      parserHandler = new XunitReportParser();
+      parserHandler = new XunitReportParser("");
       parser = new StaxParser(parserHandler, false);
       File report = TestUtils.loadResource(pathPrefix + entry.getKey());
       parser.parse(report);
-      assertEquals((int) entry.getValue(), parserHandler.getTestCases().size());
+
+      int tests = 0;
+      for (var testFile : parserHandler.getTestFiles()) {
+        tests += testFile.getTests();
+      }
+      assertEquals((int) entry.getValue(), tests);
     }
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenInvalidTime() throws javax.xml.stream.XMLStreamException {
-    parserHandler = new XunitReportParser();
+    parserHandler = new XunitReportParser("");
     parser = new StaxParser(parserHandler, false);
     File report = TestUtils.loadResource(pathPrefix + "invalid-time-xunit-report.xml");
     parser.parse(report);

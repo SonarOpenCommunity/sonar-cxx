@@ -20,16 +20,12 @@
 package org.sonar.cxx.sensors.tests.dotnet;
 
 import org.sonar.api.config.Configuration;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 
 public class UnitTestConfiguration {
 
   public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.vstest.reportsPaths";
   public static final String XUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.xunit.reportsPaths";
   public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.nunit.reportsPaths";
-  private static final String EXIST_CONFIGURATION_PARAMETER = "Exist configuration parameter: '{}':'{}'";
-  private static final Logger LOG = Loggers.get(UnitTestConfiguration.class);
 
   private final Configuration config;
 
@@ -38,20 +34,14 @@ public class UnitTestConfiguration {
   }
 
   boolean hasVisualStudioTestResultsFile() {
-    LOG.debug(EXIST_CONFIGURATION_PARAMETER, VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY, config.hasKey(
-              VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY));
     return config.hasKey(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
   }
 
   boolean hasXUnitTestResultsFile() {
-    LOG.debug(EXIST_CONFIGURATION_PARAMETER, XUNIT_TEST_RESULTS_PROPERTY_KEY, config.hasKey(
-              XUNIT_TEST_RESULTS_PROPERTY_KEY));
     return config.hasKey(XUNIT_TEST_RESULTS_PROPERTY_KEY);
   }
 
   boolean hasNUnitTestResultsFile() {
-    LOG.debug(EXIST_CONFIGURATION_PARAMETER, NUNIT_TEST_RESULTS_PROPERTY_KEY,
-              config.hasKey(NUNIT_TEST_RESULTS_PROPERTY_KEY));
     return config.hasKey(NUNIT_TEST_RESULTS_PROPERTY_KEY);
   }
 
