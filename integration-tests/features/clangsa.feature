@@ -1,11 +1,8 @@
 @SqApi79
 Feature: Importing Clang Static Analyzer reports
-  As a SonarQube user,
-  I want to import the Clang Static Analyzer reports into SonarQube.
-  In order to have all static code checking results in one place,
-  work with them, filter them etc. and derive metrics from them.
+  As a CXX plug-in user, I want to import Cppcheck reports into SonarQube
 
-  Scenario: The Clang reports are missing
+  Scenario: Clang Static Analyzer reports are missing
     Given the project "clangsa_project"
     When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPath=empty.plist"
     Then the analysis finishes successfully
@@ -27,7 +24,22 @@ Feature: Importing Clang Static Analyzer reports
       | divzero.plist   | 1          |
       | unused.plist    | 2          |
 
-  Scenario Outline: The Clang reports are invalid
+
+  Scenario Outline: Importing Clang Static Analyzer report(s) generated with scan-build
+    Given the project "clangsa_scanbuild_project"
+    And rule "ClangSA:core.DivideZero" is enabled
+    And rule "ClangSA:deadcode.DeadStores" is enabled
+    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPath=<reportpath>"
+    Then the analysis finishes successfully
+    And the analysis in server has completed
+    And the server log (if locatable) contains no error/warning messages
+    And the number of violations fed is <violations>
+    Examples:
+      | reportpath                   | violations |
+      | analyzer_reports/*/*.plist   | 2          |
+
+
+  Scenario Outline: Clang Static Analyzer reports are invalid
     Given the project "clangsa_project"
     When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPath=<reportpath>"
     Then the analysis finishes successfully
