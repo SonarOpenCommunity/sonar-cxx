@@ -23,9 +23,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
@@ -46,6 +49,7 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
   private static final Logger LOG = Loggers.get(CxxXunitSensor.class);
+  private SensorContext context;
 
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
@@ -76,17 +80,17 @@ public class CxxXunitSensor extends CxxReportSensor {
   @Override
   public void executeImpl(SensorContext context) {
     try {
+      this.context = context;
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), REPORT_PATH_KEY);
       if (!reports.isEmpty()) {
         XunitReportParser parserHandler = parseReport(reports);
-        List<TestCase> testcases = parserHandler.getTestCases();
-        save(context, testcases);
+        save(parserHandler.getTestFiles());
       } else {
         LOG.debug("No xUnit reports found, nothing to process");
       }
     } catch (IOException | XMLStreamException e) {
       var msg = new StringBuilder(256)
-        .append("Cannot feed the data into SonarQube, details: '")
+        .append("Cannot feed the xUnit report data into SonarQube, details: '")
         .append(e)
         .append("'")
         .toString();
@@ -102,7 +106,7 @@ public class CxxXunitSensor extends CxxReportSensor {
    * @throws IOException
    */
   private XunitReportParser parseReport(List<File> reports) throws XMLStreamException, IOException {
-    var parserHandler = new XunitReportParser();
+    var parserHandler = new XunitReportParser(context.fileSystem().baseDir().getPath());
     var parser = new StaxParser(parserHandler, false);
     for (var report : reports) {
       LOG.info("Processing xUnit report '{}'", report);
@@ -116,72 +120,60 @@ public class CxxXunitSensor extends CxxReportSensor {
     return parserHandler;
   }
 
-  private void save(final SensorContext context, List<TestCase> testcases) {
+  private void save(Collection<TestFile> testfiles) {
 
     int testsCount = 0;
     int testsSkipped = 0;
     int testsErrors = 0;
     int testsFailures = 0;
     long testsTime = 0;
-    for (var tc : testcases) {
-      if (tc.isSkipped()) {
-        testsSkipped++;
-      } else if (tc.isFailure()) {
-        testsFailures++;
-      } else if (tc.isError()) {
-        testsErrors++;
+    for (var tf : testfiles) {
+      if (!tf.getFilename().isEmpty()) {
+        InputFile inputFile = getInputFileIfInProject(context, tf.getFilename());
+        if (inputFile != null) {
+          if (inputFile.language() != null && inputFile.type() == Type.TEST) {
+            LOG.debug("Saving xUnit data for '{}': tests={} | errors:{} | failure:{} | skipped:{} | time:{}",
+                      tf.getFilename(), tf.getTests(), tf.getErrors(), tf.getFailures(), tf.getSkipped(),
+                      tf.getExecutionTime());
+            saveMetric(inputFile, CoreMetrics.TESTS, tf.getTests());
+            saveMetric(inputFile, CoreMetrics.TEST_ERRORS, tf.getErrors());
+            saveMetric(inputFile, CoreMetrics.TEST_FAILURES, tf.getFailures());
+            saveMetric(inputFile, CoreMetrics.SKIPPED_TESTS, tf.getSkipped());
+            saveMetric(inputFile, CoreMetrics.TEST_EXECUTION_TIME, tf.getExecutionTime());
+          }
+        }
       }
-      testsCount++;
-      testsTime += tc.getTime();
+      testsTime += tf.getExecutionTime();
+      testsCount += tf.getTests();
+      testsFailures += tf.getFailures();
+      testsErrors += tf.getErrors();
+      testsSkipped += tf.getSkipped();
     }
-    testsCount -= testsSkipped;
 
     if (testsCount > 0) {
-
-      try {
-        saveProjectMetric(context, CoreMetrics.TESTS, testsCount);
-      } catch (IllegalArgumentException ex) {
-        LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.validateRecovery(ex, context.config());
-      }
-
-      try {
-        saveProjectMetric(context, CoreMetrics.TEST_ERRORS, testsErrors);
-      } catch (IllegalArgumentException ex) {
-        LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.validateRecovery(ex, context.config());
-      }
-
-      try {
-        saveProjectMetric(context, CoreMetrics.TEST_FAILURES, testsFailures);
-      } catch (IllegalArgumentException ex) {
-        LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.validateRecovery(ex, context.config());
-      }
-
-      try {
-        saveProjectMetric(context, CoreMetrics.SKIPPED_TESTS, testsSkipped);
-      } catch (IllegalArgumentException ex) {
-        LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.validateRecovery(ex, context.config());
-      }
-
-      try {
-        saveProjectMetric(context, CoreMetrics.TEST_EXECUTION_TIME, testsTime);
-      } catch (IllegalArgumentException ex) {
-        LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.validateRecovery(ex, context.config());
-      }
-    } else {
-      LOG.debug("The reports contain no testcases");
+      LOG.debug("Saving xUnit report total data: tests={} | errors:{} | failure:{} | skipped:{} | time:{}",
+                testsCount, testsErrors, testsFailures, testsSkipped, testsTime);
+      saveMetric(CoreMetrics.TESTS, testsCount);
+      saveMetric(CoreMetrics.TEST_ERRORS, testsErrors);
+      saveMetric(CoreMetrics.TEST_FAILURES, testsFailures);
+      saveMetric(CoreMetrics.SKIPPED_TESTS, testsSkipped);
+      saveMetric(CoreMetrics.TEST_EXECUTION_TIME, testsTime);
     }
   }
 
-  private <T extends Serializable> void saveProjectMetric(SensorContext context, Metric<T> metric, T value) {
+  private <T extends Serializable> void saveMetric(Metric<T> metric, T value) {
     context.<T>newMeasure()
       .withValue(value)
       .forMetric(metric)
       .on(context.project())
+      .save();
+  }
+
+  private <T extends Serializable> void saveMetric(InputFile file, Metric<T> metric, T value) {
+    context.<T>newMeasure()
+      .withValue(value)
+      .forMetric(metric)
+      .on(file)
       .save();
   }
 

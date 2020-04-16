@@ -87,19 +87,17 @@ public abstract class CxxReportSensor implements ProjectSensor {
   public static String resolveFilename(final String baseDir, @Nullable final String filename) {
 
     if (filename != null && !filename.isEmpty()) {
-      // Normalization can return null if path is null, is invalid,
+      // normalization can return null if path is null, is invalid,
       // or is a path with back-ticks outside known directory structure
       String normalizedPath = FilenameUtils.normalize(filename);
       if ((normalizedPath != null) && (new File(normalizedPath).isAbsolute())) {
         return normalizedPath;
       }
 
-      // Prefix with absolute module base directory, attempt normalization again -- can still get null here
-      normalizedPath = FilenameUtils.normalize(baseDir + File.separator + filename);
-      if (normalizedPath != null) {
-        return normalizedPath;
-      }
+      // prefix with absolute module base directory, attempt normalization again -- can still get null here
+      return FilenameUtils.normalize(baseDir + File.separator + filename);
     }
+
     return null;
   }
 
@@ -121,7 +119,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
     }
 
     List<String> normalizedReportPaths = normalizeReportPaths(moduleBaseDir, reportPaths);
-    LOG.debug("Scanner uses normalized report path(s): '{}'", String.join(", ", normalizedReportPaths));
+    LOG.debug("Search report(s) in path(s): '{}'", String.join(", ", normalizedReportPaths));
 
     // Includes array cannot contain null elements
     var directoryScanner = new DirectoryScanner();
@@ -135,7 +133,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
       return Collections.emptyList();
     }
 
-    LOG.info("Parser will parse '{}' report file(s)", existingReportPaths.length);
+    LOG.info("Import '{}' report file(s)", existingReportPaths.length);
     return Arrays.stream(existingReportPaths).map(File::new).collect(Collectors.toList());
   }
 
@@ -153,20 +151,17 @@ public abstract class CxxReportSensor implements ProjectSensor {
    * @return
    */
   private static List<String> normalizeReportPaths(final File moduleBaseDir, String[] reportPaths) {
-    var includes = new ArrayList<String>();
+    var normalizedPaths = new ArrayList<String>();
     for (var reportPath : reportPaths) {
-
       String normalizedPath = resolveFilename(moduleBaseDir.getAbsolutePath(), reportPath.trim());
       if (normalizedPath != null) {
-        includes.add(normalizedPath);
-        continue;
+        normalizedPaths.add(normalizedPath);
+      } else {
+        LOG.debug("Not a valid report path '{}'", reportPath);
       }
-
-      LOG.debug("Not a valid report path '{}'", reportPath);
     }
 
-    LOG.debug("Normalized report includes to '{}'", includes);
-    return includes;
+    return normalizedPaths;
   }
 
   private InputFile getInputFileTryRealPath(SensorContext context, String path) {
@@ -175,7 +170,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
     try {
       realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
     } catch (IOException | RuntimeException e) {
-      LOG.debug("Unable to get the real path: module '{}', baseDir '{}', path '{}', exception '{}'",
+      LOG.debug("Unable to get the real path: '{}', baseDir '{}', path '{}', exception '{}'",
                 context.project().key(), context.fileSystem().baseDir(), path, e.getMessage());
       return null;
     }
@@ -229,7 +224,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
     }
 
     if (inputFile == null) {
-      LOG.warn("Cannot find the file '{}' in module '{}' base dir '{}', skipping violations.",
+      LOG.warn("Cannot find the file '{}' in '{}' with baseDir '{}', skipping.",
                path, context.project().key(), context.fileSystem().baseDir());
       notFoundFiles.add(path);
     }

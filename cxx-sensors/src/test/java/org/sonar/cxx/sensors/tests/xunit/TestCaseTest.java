@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -27,21 +26,17 @@ public class TestCaseTest {
 
   @Test
   public void rendersRightDetails() {
-    var ioMap = new HashMap<String, TestCase>();
-
-    ioMap.put(
-      "<testcase status=\"ok\" time=\"1\" name=\"name\"/>",
-      new TestCase("name", 1, "ok", "", "", "", "", "", ""));
-    ioMap.put(
-      "<testcase status=\"error\" time=\"1\" name=\"name\"><error message=\"errmsg\"><![CDATA[stack]]></error></testcase>",
-      new TestCase("name", 1, "error", "stack", "errmsg", "", "", "", ""));
-    ioMap.put(
-      "<testcase status=\"failure\" time=\"1\" name=\"name\"><failure message=\"errmsg\"><![CDATA[stack]]></failure></testcase>",
-      new TestCase("name", 1, "failure", "stack", "errmsg", "", "", "", ""));
-
-    for (var entry : ioMap.entrySet()) {
-      assertEquals(entry.getKey(), entry.getValue().getDetails());
-    }
+    var testCase = new TestCase("testCaseName", 1, "ok", "stack", "msg", "classname", "filename", "testSuiteName");
+    assertEquals("classname", testCase.getClassname());
+    assertEquals("testSuiteName:testCaseName", testCase.getFullname());
+    assertEquals("filename", testCase.getFilename());
+    assertEquals(true, testCase.isOk());
+    assertEquals(false, testCase.isError());
+    assertEquals(false, testCase.isFailure());
+    assertEquals(false, testCase.isSkipped());
+    assertEquals("msg", testCase.getErrorMessage());
+    assertEquals("stack", testCase.getStackTrace());
+    assertEquals(1, testCase.getExecutionTime());
   }
 
 }

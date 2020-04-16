@@ -24,8 +24,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 
 public class TestFileTest {
 
@@ -33,8 +31,7 @@ public class TestFileTest {
 
   @Before
   public void setUp() {
-    InputFile inputFile = TestInputFileBuilder.create("ProjectKey", "test.cpp").build();
-    testFile = new TestFile(inputFile);
+    testFile = new TestFile("test.cpp");
   }
 
   @Test
@@ -43,21 +40,20 @@ public class TestFileTest {
     assertEquals(0, testFile.getErrors());
     assertEquals(0, testFile.getFailures());
     assertEquals(0, testFile.getSkipped());
-    assertEquals(0, testFile.getTime());
-    assertEquals("<tests-details></tests-details>", testFile.getDetails());
+    assertEquals(0, testFile.getExecutionTime());
   }
 
   @Test
   public void addingTestCaseShouldIncrementStatistics() {
     int testBefore = testFile.getTests();
-    long timeBefore = testFile.getTime();
+    long timeBefore = testFile.getExecutionTime();
 
     final int EXEC_TIME = 10;
-    testFile.addTestCase(new TestCase("name", EXEC_TIME, "status", "stack", "msg",
-      "classname", "tcfilename", "tsname", "tsfilename"));
+    testFile.add(new TestCase("name", EXEC_TIME, "status", "stack", "msg",
+                              "classname", "tcfilename", "tsname"));
 
     assertEquals(testFile.getTests(), testBefore + 1);
-    assertEquals(testFile.getTime(), timeBefore + EXEC_TIME);
+    assertEquals(testFile.getExecutionTime(), timeBefore + EXEC_TIME);
   }
 
   @Test
@@ -66,7 +62,7 @@ public class TestFileTest {
     TestCase error = mock(TestCase.class);
     when(error.isError()).thenReturn(true);
 
-    testFile.addTestCase(error);
+    testFile.add(error);
 
     assertEquals(testFile.getErrors(), errorsBefore + 1);
   }
@@ -77,7 +73,7 @@ public class TestFileTest {
     TestCase failedTC = mock(TestCase.class);
     when(failedTC.isFailure()).thenReturn(true);
 
-    testFile.addTestCase(failedTC);
+    testFile.add(failedTC);
 
     assertEquals(testFile.getFailures(), failedBefore + 1);
   }
@@ -88,7 +84,7 @@ public class TestFileTest {
     TestCase skippedTC = mock(TestCase.class);
     when(skippedTC.isSkipped()).thenReturn(true);
 
-    testFile.addTestCase(skippedTC);
+    testFile.add(skippedTC);
 
     assertEquals(testFile.getSkipped(), skippedBefore + 1);
   }
