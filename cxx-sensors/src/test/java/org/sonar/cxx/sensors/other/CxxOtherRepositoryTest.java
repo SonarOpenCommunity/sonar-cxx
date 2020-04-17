@@ -30,30 +30,30 @@ public class CxxOtherRepositoryTest {
 
   private final MapSettings settings = new MapSettings();
 
-  String profile1 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
-                      + "<rules>\n"
-                      + "    <rule key=\"cpplint.readability/nolint-0\">\n"
-                      + "        <name><![CDATA[ Unknown NOLINT error category: %s  % category]]></name>\n"
-                      + "        <configKey><![CDATA[cpplint.readability/nolint-0@CPP_LINT]]></configKey>\n"
-                      + "        <category name=\"readability\" />\n"
-                      + "        <description><![CDATA[  Unknown NOLINT error category: %s  % category ]]></description>\n"
-                    + "    </rule>\n"
-                      + "    <rule key=\"cpplint.readability/fn_size-0\">\n"
-                      + "        <name>name</name>\n"
-                      + "        <configKey>key</configKey>\n"
-                      + "        <category name=\"readability\" />\n"
-                      + "        <description>descr</description>\n"
-                      + "    </rule></rules>";
+  private final String profile1 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
+                                    + "<rules>\n"
+                                    + "    <rule key=\"cpplint.readability/nolint-0\">\n"
+                                    + "        <name><![CDATA[ Unknown NOLINT error category: %s  % category]]></name>\n"
+                                  + "        <configKey><![CDATA[cpplint.readability/nolint-0@CPP_LINT]]></configKey>\n"
+                                    + "        <category name=\"readability\" />\n"
+                                    + "        <description><![CDATA[  Unknown NOLINT error category: %s  % category ]]></description>\n"
+                                  + "    </rule>\n"
+                                    + "    <rule key=\"cpplint.readability/fn_size-0\">\n"
+                                    + "        <name>name</name>\n"
+                                    + "        <configKey>key</configKey>\n"
+                                    + "        <category name=\"readability\" />\n"
+                                    + "        <description>descr</description>\n"
+                                    + "    </rule></rules>";
 
-  String profile2 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
-                      + "<rules>\n"
-                      + "    <rule key=\"key\">\n"
-                      + "        <name><![CDATA[name]]></name>\n"
-                      + "        <configKey><![CDATA[configKey]]></configKey>\n"
-                      + "        <category name=\"category\" />\n"
-                      + "        <description><![CDATA[description]]></description>\n"
-                      + "    </rule>\n"
-                      + "</rules>";
+  private final String profile2 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
+                                    + "<rules>\n"
+                                    + "    <rule key=\"key\">\n"
+                                    + "        <name><![CDATA[name]]></name>\n"
+                                    + "        <configKey><![CDATA[configKey]]></configKey>\n"
+                                    + "        <category name=\"category\" />\n"
+                                    + "        <description><![CDATA[description]]></description>\n"
+                                    + "    </rule>\n"
+                                    + "</rules>";
 
   @Test
   public void verifyTemplateRuleIsFound() {

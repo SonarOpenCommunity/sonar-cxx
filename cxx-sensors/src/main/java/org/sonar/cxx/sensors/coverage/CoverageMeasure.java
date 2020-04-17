@@ -38,16 +38,16 @@ class CoverageMeasure {
     return this.hits;
   }
 
+  void setHits(int hits) {
+    this.hits += hits;
+  }
+
   int getConditions() {
     return this.conditions;
   }
 
   int getCoveredConditions() {
     return this.coveredConditions;
-  }
-
-  void setHits(int hits) {
-    this.hits += hits;
   }
 
   void setConditions(int totalConditions, int coveredConditions) {

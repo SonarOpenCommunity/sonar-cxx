@@ -27,9 +27,9 @@ import org.junit.Test;
 
 public class ValgrindFrameTest {
 
-  ValgrindFrame frame;
-  ValgrindFrame equalFrame;
-  ValgrindFrame otherFrame;
+  private ValgrindFrame frame;
+  private ValgrindFrame equalFrame;
+  private ValgrindFrame otherFrame;
 
   @Before
   public void setUp() {

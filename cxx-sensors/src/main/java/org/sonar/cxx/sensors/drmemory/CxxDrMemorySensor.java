@@ -49,12 +49,6 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   private static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
-  private static String getFrameText(Location frame, int frameNr) {
-    var sb = new StringBuilder(512);
-    sb.append("#").append(frameNr).append(" ").append(frame.getFile()).append(":").append(frame.getLine());
-    return sb.toString();
-  }
-
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
@@ -67,6 +61,12 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
         .multiValues(true)
         .build()
     ));
+  }
+
+  private static String getFrameText(Location frame, int frameNr) {
+    var sb = new StringBuilder(512);
+    sb.append("#").append(frameNr).append(" ").append(frame.getFile()).append(":").append(frame.getLine());
+    return sb.toString();
   }
 
   @Override

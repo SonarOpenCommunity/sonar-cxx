@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.valgrind;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -99,7 +100,7 @@ class ValgrindError {
   }
 
   public List<ValgrindStack> getStacks() {
-    return stacks;
+    return new ArrayList(stacks);
   }
 
   String getKind() {

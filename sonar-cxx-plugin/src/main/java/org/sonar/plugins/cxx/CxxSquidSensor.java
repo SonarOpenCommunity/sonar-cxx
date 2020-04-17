@@ -91,9 +91,6 @@ public class CxxSquidSensor implements ProjectSensor {
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.msbuild.charset";
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
-  private static final String USE_ANT_STYLE_WILDCARDS
-                                = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
-
   /**
    * Key of the file suffix parameter
    */
@@ -109,14 +106,16 @@ public class CxxSquidSensor implements ProjectSensor {
 
   public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
+  private static final String USE_ANT_STYLE_WILDCARDS
+                                = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
+
+  private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
 
   private final FileLinesContextFactory fileLinesContextFactory;
   private final CxxChecks checks;
   private final NoSonarFilter noSonarFilter;
 
   private SensorContext context;
-
-  private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
 
   /**
    * {@inheritDoc}

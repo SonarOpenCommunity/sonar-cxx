@@ -44,14 +44,15 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
                                = "(?<file>.*):(?<line>[0-9]+):[0-9]+:\\x20warning:\\x20(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "GCC Compiler Warnings";
+    String subcateg = "Compiler";
+    String category = "CXX External Analyzers";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("GCC Compiler Report(s)")
         .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
                        + USE_ANT_STYLE_WILDCARDS)
-        .category("CXX External Analyzers")
-        .subCategory("Compiler")
+        .category(category)
+        .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
@@ -59,8 +60,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
         .defaultValue(CxxCompilerGccSensor.DEFAULT_CHARSET_DEF)
         .name("GCC Report Encoding")
         .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
-        .category("CXX External Analyzers")
-        .subCategory("Compiler")
+        .category(category)
+        .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(REPORT_REGEX_DEF)
@@ -69,8 +70,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
                        + " <file>, <line>, <id>, <message>. Leave empty to use parser's default."
                        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
                        + "this page</a> for details regarding the different regular expression that can be use per compiler.")
-        .category("CXX External Analyzers")
-        .subCategory("Compiler")
+        .category(category)
+        .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));

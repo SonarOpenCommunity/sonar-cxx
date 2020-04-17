@@ -46,6 +46,37 @@ public class CoberturaParser extends CxxCoverageParser {
     // no operation but necessary for list of coverage parsers
   }
 
+  /**
+   * Join two paths
+   *
+   * path1 | path2 | result ---------|----------|------- empty | empty | empty empty | absolute | absolute path2 empty |
+   * relative | relative path2 absolute | empty | empty relative | empty | empty absolute | absolute | absolute path2
+   * absolute | relative | absolute path1 + relative path2 relative | absolute | absolute path2 relative | relative |
+   * relative path1 + relative path2
+   *
+   * @param path1 first path
+   * @param path2 second path to be joined to first path
+   * @return joined path as string
+   */
+  public static String join(Path path1, Path path2) {
+    if (path2.toString().isEmpty()) {
+      return "";
+    }
+    if (!path1.isAbsolute()) {
+      path1 = Paths.get(".", path1.toString());
+    }
+    if (!path2.isAbsolute()) {
+      path2 = Paths.get(".", path2.toString());
+    }
+
+    Path result = path1.resolve(path2).normalize();
+    if (!result.isAbsolute()) {
+      result = Paths.get(".", result.toString());
+    }
+
+    return result.toString();
+  }
+
   private static void collectFileData(SMInputCursor clazz, CoverageMeasures builder) throws XMLStreamException {
     SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
 
@@ -114,37 +145,6 @@ public class CoberturaParser extends CxxCoverageParser {
     while (pack.getNext() != null) {
       collectFileMeasures(pack.descendantElementCursor("class"), coverageData);
     }
-  }
-
-  /**
-   * Join two paths
-   *
-   * path1 | path2 | result ---------|----------|------- empty | empty | empty empty | absolute | absolute path2 empty |
-   * relative | relative path2 absolute | empty | empty relative | empty | empty absolute | absolute | absolute path2
-   * absolute | relative | absolute path1 + relative path2 relative | absolute | absolute path2 relative | relative |
-   * relative path1 + relative path2
-   *
-   * @param path1 first path
-   * @param path2 second path to be joined to first path
-   * @return joined path as string
-   */
-  public static String join(Path path1, Path path2) {
-    if (path2.toString().isEmpty()) {
-      return "";
-    }
-    if (!path1.isAbsolute()) {
-      path1 = Paths.get(".", path1.toString());
-    }
-    if (!path2.isAbsolute()) {
-      path2 = Paths.get(".", path2.toString());
-    }
-
-    Path result = path1.resolve(path2).normalize();
-    if (!result.isAbsolute()) {
-      result = Paths.get(".", result.toString());
-    }
-
-    return result.toString();
   }
 
   private void collectFileMeasures(SMInputCursor clazz, Map<String, CoverageMeasures> coverageData)

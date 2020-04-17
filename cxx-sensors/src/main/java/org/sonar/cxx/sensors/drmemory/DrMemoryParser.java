@@ -139,33 +139,6 @@ public final class DrMemoryParser {
 
   public static class DrMemoryError {
 
-    public static class Location {
-
-      private String file = "";
-      private Integer line = 0;
-
-      public String getFile() {
-        return file;
-      }
-
-      public void setFile(String file) {
-        this.file = file;
-      }
-
-      public Integer getLine() {
-        return line;
-      }
-
-      public void setLine(Integer line) {
-        this.line = line;
-      }
-
-      @Override
-      public String toString() {
-        return "Location [file=" + file + ", line=" + line + "]";
-      }
-    }
-
     private DrMemoryErrorType type = DrMemoryErrorType.UNRECOGNIZED;
     private final List<Location> stackTrace = new ArrayList<>();
     private String message = "";
@@ -193,6 +166,33 @@ public final class DrMemoryParser {
     @Override
     public String toString() {
       return "DrMemoryError [type=" + type + ", stackTrace=" + stackTrace + ", message=" + message + "]";
+    }
+
+    public static class Location {
+
+      private String file = "";
+      private Integer line = 0;
+
+      public String getFile() {
+        return file;
+      }
+
+      public void setFile(String file) {
+        this.file = file;
+      }
+
+      public Integer getLine() {
+        return line;
+      }
+
+      public void setLine(Integer line) {
+        this.line = line;
+      }
+
+      @Override
+      public String toString() {
+        return "Location [file=" + file + ", line=" + line + "]";
+      }
     }
   }
 

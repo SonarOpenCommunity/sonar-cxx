@@ -165,6 +165,16 @@ public class StaxParser {
       this.inputToCheck = inputToCheck;
     }
 
+    private static void checkBufferForISOControlChars(byte[] buffer, int off, int len) {
+      for (var i = off; i < len; i++) {
+        char streamChar = (char) buffer[i];
+        if (Character.isISOControl(streamChar) && streamChar != '\n') {
+          // replace control chars by a simple space
+          buffer[i] = ' ';
+        }
+      }
+    }
+
     @Override
     public int read() throws IOException {
       return inputToCheck.read();
@@ -214,15 +224,6 @@ public class StaxParser {
       return inputToCheck.skip(n);
     }
 
-    private static void checkBufferForISOControlChars(byte[] buffer, int off, int len) {
-      for (var i = off; i < len; i++) {
-        char streamChar = (char) buffer[i];
-        if (Character.isISOControl(streamChar) && streamChar != '\n') {
-          // replace control chars by a simple space
-          buffer[i] = ' ';
-        }
-      }
-    }
   }
 
   /**

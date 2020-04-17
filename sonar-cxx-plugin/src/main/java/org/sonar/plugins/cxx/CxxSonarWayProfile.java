@@ -35,6 +35,19 @@ import org.sonarsource.api.sonarlint.SonarLintSide;
 @SonarLintSide
 public class CxxSonarWayProfile implements BuiltInQualityProfilesDefinition {
 
+  private static String readResource(URL resource) {
+    try {
+      return Resources.toString(resource, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      throw new IllegalStateException("Failed to read: " + resource, e);
+    }
+  }
+
+  static Profile readProfile() {
+    URL resource = CxxSonarWayProfile.class.getResource("/org/sonar/l10n/c++/rules/cxx/Sonar_way_profile.json");
+    return new Gson().fromJson(readResource(resource), Profile.class);
+  }
+
   @Override
   public void define(Context context) {
     NewBuiltInQualityProfile sonarWay = context.createBuiltInQualityProfile("Sonar way", CxxLanguage.KEY);
@@ -46,23 +59,10 @@ public class CxxSonarWayProfile implements BuiltInQualityProfilesDefinition {
     sonarWay.done();
   }
 
-  static Profile readProfile() {
-    URL resource = CxxSonarWayProfile.class.getResource("/org/sonar/l10n/c++/rules/cxx/Sonar_way_profile.json");
-    return new Gson().fromJson(readResource(resource), Profile.class);
-  }
-
-  private static String readResource(URL resource) {
-    try {
-      return Resources.toString(resource, StandardCharsets.UTF_8);
-    } catch (IOException e) {
-      throw new IllegalStateException("Failed to read: " + resource, e);
-    }
-  }
-
   static class Profile {
 
-    String name;
-    List<String> ruleKeys;
+    public String name;
+    public List<String> ruleKeys;
   }
 
 }

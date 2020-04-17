@@ -164,7 +164,7 @@ public final class ExpressionEvaluator {
   }
 
   private BigInteger evalToInt(String constExpr, @Nullable AstNode exprAst) {
-    AstNode constExprAst = null;
+    AstNode constExprAst;
     try {
       constExprAst = parser.parse(constExpr);
     } catch (com.sonar.sslr.api.RecognitionException re) {

@@ -61,4 +61,8 @@ public class TestUtils {
     return null;
   }
 
+  private TestUtils() {
+    // utility class
+  }
+
 }

@@ -56,6 +56,11 @@ public class FunctionComplexityCheck extends CxxCyclomaticComplexityCheck<Gramma
   }
 
   @Override
+  protected int getMaxComplexity() {
+    return max;
+  }
+
+  @Override
   protected Optional<AstNodeType> getScopeType() {
     return Optional.of(CxxGrammarImpl.functionDefinition);
   }
@@ -63,11 +68,6 @@ public class FunctionComplexityCheck extends CxxCyclomaticComplexityCheck<Gramma
   @Override
   protected String getScopeName() {
     return "function";
-  }
-
-  @Override
-  protected int getMaxComplexity() {
-    return max;
   }
 
 }

@@ -98,8 +98,8 @@ public class CxxPreprocessor extends Preprocessor {
    */
   private final MapChain<String, Macro> fixedMacros = new MapChain<>();
   /**
-   * If CxxSquidConfiguration contains any compilation unit settings, this map is filled with a set of pre-compiled macros.
-   * Those macros must be defined for each compilation unit:
+   * If CxxSquidConfiguration contains any compilation unit settings, this map is filled with a set of pre-compiled
+   * macros. Those macros must be defined for each compilation unit:
    * <ol>
    * <li>{@link Macro#UNIT_MACROS}</li>
    * <li>{@link CxxSquidConfiguration#getDefines()} and</li>
@@ -164,74 +164,6 @@ public class CxxPreprocessor extends Preprocessor {
     globalUnitMacros = parseGlobalUnitMacros();
 
     ctorInProgress = false;
-  }
-
-  private Map<String, Macro> parseConfiguredMacros() {
-    final List<String> configuredDefines = squidConfig.getDefines();
-    if (configuredDefines.isEmpty()) {
-      return Collections.emptyMap();
-    }
-    LOG.debug("parsing configured defines");
-    return parseMacroDefinitions(configuredDefines);
-  }
-
-  private void fillFixedMacros(Map<String, Macro> configuredMacros) {
-    if (!ctorInProgress || (getMacros() != fixedMacros) || !fixedMacros.getHighPrioMap().isEmpty()) {
-      throw new IllegalStateException("Preconditions for initial fill-out of fixedMacros were violated");
-    }
-
-    try {
-      getMacros().setHighPrio(true);
-      getMacros().putAll(Macro.STANDARD_MACROS);
-      getMacros().putAll(configuredMacros);
-      parseForcedIncludes();
-    } finally {
-      getMacros().setHighPrio(false);
-    }
-  }
-
-  /**
-   * Create temporary unitMacros map; This map will be used as an active macros' storage while parsing of forced
-   * includes. After parsing was over extract resulting macros and destroy the unitMacros. fixedMacros will be set as
-   * active macros again.
-   */
-  private Map<String, Macro> parsePredefinedUnitMacros(Map<String, Macro> configuredMacros) {
-    if (!ctorInProgress || (unitMacros != null)) {
-      throw new IllegalStateException("Preconditions for initial fill-out of predefinedUnitMacros were violated");
-    }
-
-    if (squidConfig.getCompilationUnitSourceFiles().isEmpty()
-        && (squidConfig.getGlobalCompilationUnitSettings() == null)) {
-      // configuration doesn't contain any settings for compilation units.
-      // CxxPreprocessor will use fixedMacros only
-      return Collections.emptyMap();
-    }
-
-    unitMacros = new MapChain<>();
-    if (getMacros() != unitMacros) {
-      throw new IllegalStateException("expected unitMacros as active macros map");
-    }
-
-    try {
-      getMacros().setHighPrio(true);
-      getMacros().putAll(Macro.UNIT_MACROS);
-      getMacros().putAll(configuredMacros);
-      parseForcedIncludes();
-      final HashMap<String, Macro> result = new HashMap<>(unitMacros.getHighPrioMap());
-      return result;
-    } finally {
-      getMacros().setHighPrio(false); // just for the symmetry
-      unitMacros = null; // remove unitMacros, switch getMacros() to fixedMacros
-    }
-  }
-
-  private Map<String, Macro> parseGlobalUnitMacros() {
-    final CxxCompilationUnitSettings globalCUSettings = squidConfig.getGlobalCompilationUnitSettings();
-    if (globalCUSettings == null) {
-      return Collections.emptyMap();
-    }
-    LOG.debug("parsing global compilation unit defines");
-    return parseMacroDefinitions(globalCUSettings.getDefines());
   }
 
   public static void finalReport() {
@@ -684,6 +616,74 @@ public class CxxPreprocessor extends Preprocessor {
   public Boolean expandHasIncludeExpression(AstNode exprAst) {
     final File file = getFileUnderAnalysis();
     return findIncludedFile(exprAst, exprAst.getToken(), file.getAbsolutePath()) != null;
+  }
+
+  private Map<String, Macro> parseConfiguredMacros() {
+    final List<String> configuredDefines = squidConfig.getDefines();
+    if (configuredDefines.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    LOG.debug("parsing configured defines");
+    return parseMacroDefinitions(configuredDefines);
+  }
+
+  private void fillFixedMacros(Map<String, Macro> configuredMacros) {
+    if (!ctorInProgress || (getMacros() != fixedMacros) || !fixedMacros.getHighPrioMap().isEmpty()) {
+      throw new IllegalStateException("Preconditions for initial fill-out of fixedMacros were violated");
+    }
+
+    try {
+      getMacros().setHighPrio(true);
+      getMacros().putAll(Macro.STANDARD_MACROS);
+      getMacros().putAll(configuredMacros);
+      parseForcedIncludes();
+    } finally {
+      getMacros().setHighPrio(false);
+    }
+  }
+
+  /**
+   * Create temporary unitMacros map; This map will be used as an active macros' storage while parsing of forced
+   * includes. After parsing was over extract resulting macros and destroy the unitMacros. fixedMacros will be set as
+   * active macros again.
+   */
+  private Map<String, Macro> parsePredefinedUnitMacros(Map<String, Macro> configuredMacros) {
+    if (!ctorInProgress || (unitMacros != null)) {
+      throw new IllegalStateException("Preconditions for initial fill-out of predefinedUnitMacros were violated");
+    }
+
+    if (squidConfig.getCompilationUnitSourceFiles().isEmpty()
+          && (squidConfig.getGlobalCompilationUnitSettings() == null)) {
+      // configuration doesn't contain any settings for compilation units.
+      // CxxPreprocessor will use fixedMacros only
+      return Collections.emptyMap();
+    }
+
+    unitMacros = new MapChain<>();
+    if (getMacros() != unitMacros) {
+      throw new IllegalStateException("expected unitMacros as active macros map");
+    }
+
+    try {
+      getMacros().setHighPrio(true);
+      getMacros().putAll(Macro.UNIT_MACROS);
+      getMacros().putAll(configuredMacros);
+      parseForcedIncludes();
+      final HashMap<String, Macro> result = new HashMap<>(unitMacros.getHighPrioMap());
+      return result;
+    } finally {
+      getMacros().setHighPrio(false); // just for the symmetry
+      unitMacros = null; // remove unitMacros, switch getMacros() to fixedMacros
+    }
+  }
+
+  private Map<String, Macro> parseGlobalUnitMacros() {
+    final CxxCompilationUnitSettings globalCUSettings = squidConfig.getGlobalCompilationUnitSettings();
+    if (globalCUSettings == null) {
+      return Collections.emptyMap();
+    }
+    LOG.debug("parsing global compilation unit defines");
+    return parseMacroDefinitions(globalCUSettings.getDefines());
   }
 
   private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) {

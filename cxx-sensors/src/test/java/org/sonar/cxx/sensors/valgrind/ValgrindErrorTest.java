@@ -27,9 +27,9 @@ import org.junit.Test;
 
 public class ValgrindErrorTest {
 
-  ValgrindError error;
-  ValgrindError equalError;
-  ValgrindError otherError;
+  private ValgrindError error;
+  private ValgrindError equalError;
+  private ValgrindError otherError;
 
   @Before
   public void setUp() {

@@ -87,11 +87,6 @@ public class CxxClangSASensorTest {
     assertThat(context.allIssues()).hasSize(3);
   }
 
-  private String generateTestFileContents(int linesNum, int lineLen) {
-    String line = RandomStringUtils.randomAscii(lineLen);
-    return String.join("\n", Collections.nCopies(linesNum, line));
-  }
-
   @Test
   public void shouldReportCorrectFlows() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
@@ -181,6 +176,11 @@ public class CxxClangSASensorTest {
     softly.assertThat(descriptor.languages()).containsOnly("c++");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangSARuleRepository.KEY);
     softly.assertAll();
+  }
+
+  private String generateTestFileContents(int linesNum, int lineLen) {
+    String line = RandomStringUtils.randomAscii(lineLen);
+    return String.join("\n", Collections.nCopies(linesNum, line));
   }
 
 }

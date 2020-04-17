@@ -162,12 +162,17 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
 
     public PathElementKind getKind() {
       String kind = ((NSString) require(pathDict.get("kind"), "Missing mandatory entry 'kind'")).getContent();
-      if ("event".equals(kind)) {
-        return PathElementKind.EVENT;
-      } else if ("control".equals(kind)) {
-        return PathElementKind.CONTROL;
-      } else {
+      if (null == kind) {
         return PathElementKind.UNKNOWN;
+      } else {
+        switch (kind) {
+          case "event":
+            return PathElementKind.EVENT;
+          case "control":
+            return PathElementKind.CONTROL;
+          default:
+            return PathElementKind.UNKNOWN;
+        }
       }
     }
   }

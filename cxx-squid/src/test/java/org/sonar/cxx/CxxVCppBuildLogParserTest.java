@@ -20,7 +20,11 @@
 package org.sonar.cxx;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,12 +39,11 @@ import org.sonar.api.internal.apachecommons.lang.SystemUtils;
  */
 public class CxxVCppBuildLogParserTest {
 
-  private static final String VC_CHARSET = "UTF8";
-
   public static final String OVERALLINCLUDEKEY = "CxxOverallInclude";
   public static final String OVERALLDEFINEKEY = "CxxOverallDefine";
   public static final String REFERENCE_DETAILED_LOG = "src/test/resources/logfile/msbuild-detailed-en.txt";
   public static final String UNIQUE_FILE = "C:\\Development\\Source\\Cpp\\Dummy\\src\\main.cpp";
+  private static final String VC_CHARSET = "UTF8";
 
   @BeforeClass
   public static void init() {

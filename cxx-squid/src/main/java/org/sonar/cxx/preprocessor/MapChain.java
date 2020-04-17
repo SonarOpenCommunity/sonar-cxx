@@ -114,15 +114,15 @@ public class MapChain<K, V> {
     move(key, highPrioDisabled, highPrioMap);
   }
 
+  public Map<K, V> getHighPrioMap() {
+    return Collections.unmodifiableMap(highPrioMap);
+  }
+
   private void move(K key, Map<K, V> from, Map<K, V> to) {
     V value = from.remove(key);
     if (value != null) {
       to.put(key, value);
     }
-  }
-
-  public Map<K, V> getHighPrioMap() {
-    return Collections.unmodifiableMap(highPrioMap);
   }
 
 }

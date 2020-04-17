@@ -85,17 +85,17 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     }
   }
 
-  public void addOverallDefine(String define) {
-    Set<String> overallDefs = uniqueDefines.get(OVERALLDEFINEKEY);
-    overallDefs.add(define);
-  }
-
   public List<String> getDefines() {
     var allDefines = new HashSet<String>();
     for (var elemSet : uniqueDefines.values()) {
       allDefines.addAll(elemSet);
     }
     return new ArrayList<>(allDefines);
+  }
+
+  public void addOverallDefine(String define) {
+    Set<String> overallDefs = uniqueDefines.get(OVERALLDEFINEKEY);
+    overallDefs.add(define);
   }
 
   public void setIncludeDirectories(List<String> includeDirectories) {
@@ -106,6 +106,16 @@ public class CxxSquidConfiguration extends SquidConfiguration {
         overallIncludes.add(include);
       }
     }
+  }
+
+  public List<Path> getIncludeDirectories() {
+    var allIncludes = new HashSet<Path>();
+    for (var elemList : uniqueIncludes.values()) {
+      for (var elem : elemList) {
+        allIncludes.add(Paths.get(elem));
+      }
+    }
+    return new ArrayList<>(allIncludes);
   }
 
   public void addOverallIncludeDirectory(String includeDirectory) {
@@ -122,28 +132,18 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     }
   }
 
-  public List<Path> getIncludeDirectories() {
-    var allIncludes = new HashSet<Path>();
-    for (var elemList : uniqueIncludes.values()) {
-      for (var elem : elemList) {
-        allIncludes.add(Paths.get(elem));
-      }
-    }
-    return new ArrayList<>(allIncludes);
-  }
-
   public void setForceIncludeFiles(List<String> forceIncludeFiles) {
     this.forceIncludeFiles = new ArrayList<>(forceIncludeFiles);
+  }
+
+  public List<String> getForceIncludeFiles() {
+    return new ArrayList<>(forceIncludeFiles);
   }
 
   public void setForceIncludeFiles(@Nullable String[] forceIncludeFiles) {
     if (forceIncludeFiles != null && forceIncludeFiles.length > 0) {
       setForceIncludeFiles(Arrays.asList(forceIncludeFiles));
     }
-  }
-
-  public List<String> getForceIncludeFiles() {
-    return new ArrayList<>(forceIncludeFiles);
   }
 
   public void setBaseDir(String baseDir) {

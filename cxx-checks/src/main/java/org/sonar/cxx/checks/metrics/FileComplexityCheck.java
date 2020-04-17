@@ -53,6 +53,11 @@ public class FileComplexityCheck extends CxxCyclomaticComplexityCheck<Grammar> {
   }
 
   @Override
+  protected int getMaxComplexity() {
+    return max;
+  }
+
+  @Override
   protected Optional<AstNodeType> getScopeType() {
     return Optional.empty();
   }
@@ -60,11 +65,6 @@ public class FileComplexityCheck extends CxxCyclomaticComplexityCheck<Grammar> {
   @Override
   protected String getScopeName() {
     return "file";
-  }
-
-  @Override
-  protected int getMaxComplexity() {
-    return max;
   }
 
 }

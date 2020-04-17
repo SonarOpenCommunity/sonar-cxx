@@ -45,9 +45,8 @@ import org.sonar.api.utils.log.Loggers;
  */
 public abstract class CxxReportSensor implements ProjectSensor {
 
-  private static final Logger LOG = Loggers.get(CxxReportSensor.class);
-
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
+  private static final Logger LOG = Loggers.get(CxxReportSensor.class);
 
   protected static final String USE_ANT_STYLE_WILDCARDS
                                   = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
@@ -164,32 +163,6 @@ public abstract class CxxReportSensor implements ProjectSensor {
     return normalizedPaths;
   }
 
-  private InputFile getInputFileTryRealPath(SensorContext context, String path) {
-    final Path absolutePath = context.fileSystem().baseDir().toPath().resolve(path);
-    Path realPath;
-    try {
-      realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
-    } catch (IOException | RuntimeException e) {
-      LOG.debug("Unable to get the real path: '{}', baseDir '{}', path '{}', exception '{}'",
-                context.project().key(), context.fileSystem().baseDir(), path, e.getMessage());
-      return null;
-    }
-
-    // if the real path is equal to the given one - skip search; we already
-    // tried such path
-    //
-    // IMPORTANT: don't use Path::equals(), since it's dependent on a file-system.
-    // SonarQube plugin API works with string paths, so the equality of strings
-    // is important
-    final String realPathString = realPath.toString();
-    if (absolutePath.toString().equals(realPathString)) {
-      return null;
-    }
-
-    return context.fileSystem()
-      .inputFile(context.fileSystem().predicates().hasAbsolutePath(realPathString));
-  }
-
   public InputFile getInputFileIfInProject(SensorContext context, String path) {
     if (notFoundFiles.contains(path)) {
       return null;
@@ -231,11 +204,6 @@ public abstract class CxxReportSensor implements ProjectSensor {
     return inputFile;
   }
 
-  /**
-   * override always executeImpl instead of execute
-   */
-  protected abstract void executeImpl(SensorContext context);
-
   @Override
   public void execute(SensorContext context) {
     notFoundFiles.clear();
@@ -246,5 +214,36 @@ public abstract class CxxReportSensor implements ProjectSensor {
   public String toString() {
     return getClass().getSimpleName();
   }
+
+  private InputFile getInputFileTryRealPath(SensorContext context, String path) {
+    final Path absolutePath = context.fileSystem().baseDir().toPath().resolve(path);
+    Path realPath;
+    try {
+      realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
+    } catch (IOException | RuntimeException e) {
+      LOG.debug("Unable to get the real path: '{}', baseDir '{}', path '{}', exception '{}'",
+                context.project().key(), context.fileSystem().baseDir(), path, e.getMessage());
+      return null;
+    }
+
+    // if the real path is equal to the given one - skip search; we already
+    // tried such path
+    //
+    // IMPORTANT: don't use Path::equals(), since it's dependent on a file-system.
+    // SonarQube plugin API works with string paths, so the equality of strings
+    // is important
+    final String realPathString = realPath.toString();
+    if (absolutePath.toString().equals(realPathString)) {
+      return null;
+    }
+
+    return context.fileSystem()
+      .inputFile(context.fileSystem().predicates().hasAbsolutePath(realPathString));
+  }
+
+  /**
+   * override always executeImpl instead of execute
+   */
+  protected abstract void executeImpl(SensorContext context);
 
 }

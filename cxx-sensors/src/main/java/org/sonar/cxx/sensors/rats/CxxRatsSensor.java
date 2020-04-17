@@ -48,13 +48,6 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxRatsSensor.class);
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
 
-  private static String getVulnerabilityType(@Nullable Element child) {
-    if (child != null) {
-      return child.getTextTrim();
-    }
-    return MISSING_RATS_TYPE;
-  }
-
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
@@ -67,6 +60,13 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
         .multiValues(true)
         .build()
     ));
+  }
+
+  private static String getVulnerabilityType(@Nullable Element child) {
+    if (child != null) {
+      return child.getTextTrim();
+    }
+    return MISSING_RATS_TYPE;
   }
 
   @Override

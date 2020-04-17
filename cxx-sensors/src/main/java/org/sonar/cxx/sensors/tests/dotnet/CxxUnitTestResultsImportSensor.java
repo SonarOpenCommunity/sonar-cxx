@@ -47,17 +47,21 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
   }
 
   public static List<PropertyDefinition> properties() {
+    String category = "CXX External Analyzers";
+    String subcategory = "Unit Test";
+    String NOTE
+             = " Note that while measures such as the number of tests are displayed at project level,"
+                 + " no drilldown is available.\n";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
         .name("Visual Studio Test Reports Paths")
         .description(
           "Paths to Visual Studio Test Reports. Multiple paths may be comma-delimited, or included via wildcards."
-            + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
-            + " available.\n"
+            + NOTE
             + "Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
-        .category("CXX External Analyzers")
-        .subCategory("Unit Test")
+        .category(category)
+        .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY)
@@ -65,11 +69,10 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
         .name("xUnit Test Reports Paths")
         .description(
           "Paths to xUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards."
-            + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
-            + " available.\n"
+            + NOTE
             + "Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
-        .category("CXX External Analyzers")
-        .subCategory("Unit Test")
+        .category(category)
+        .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
@@ -77,11 +80,10 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
         .name("NUnit Test Reports Paths")
         .description(
           "Paths to NUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards."
-            + " Note that while measures such as the number of tests are displayed at project level, no drilldown is"
-            + " available.\n"
+            + NOTE
             + "Example: \"TestResult.xml\", \"TestResult1.xml,TestResult2.xml\" or \"C:/TestResult.xml\"")
-        .category("CXX External Analyzers")
-        .subCategory("Unit Test")
+        .category(category)
+        .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));
@@ -100,7 +102,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
     analyze(context, new UnitTestResults(), new UnitTestConfiguration(context.config()));
   }
 
-  void analyze(SensorContext context, UnitTestResults unitTestResults, UnitTestConfiguration unitTestConf) {
+  public void analyze(SensorContext context, UnitTestResults unitTestResults, UnitTestConfiguration unitTestConf) {
     UnitTestResults aggregatedResults = unitTestResultsAggregator.aggregate(wildcardPatternFileProvider,
                                                                             unitTestResults, unitTestConf);
 

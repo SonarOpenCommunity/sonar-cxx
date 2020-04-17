@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 
 public class TestFileTest {
 
-  TestFile testFile;
+  private TestFile testFile;
 
   @Before
   public void setUp() {

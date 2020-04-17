@@ -86,14 +86,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
     ));
   }
 
-  @Override
-  public void describe(SensorDescriptor descriptor) {
-    descriptor
-      .name("CXX coverage report import")
-      .onlyOnLanguage("c++")
-      .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
-  }
-
   /**
    * @param parser
    * @param context
@@ -116,6 +108,14 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
     measuresTotal.putAll(measuresForReport);
     LOG.info("Added coverage report '{}' (parsed by: {})", report, parser);
+  }
+
+  @Override
+  public void describe(SensorDescriptor descriptor) {
+    descriptor
+      .name("CXX coverage report import")
+      .onlyOnLanguage("c++")
+      .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }
 
   /**
