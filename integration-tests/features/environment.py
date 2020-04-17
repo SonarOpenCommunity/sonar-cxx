@@ -310,8 +310,7 @@ def is_webui_up():
         response = requests.get(SONAR_URL + "/api/system/status")
         response.raise_for_status()
         status = response.json()['status']
-        if status != "UP":
-            sys.stdout.write(RED + status + ' ' + RESET)
+        sys.stdout.write(RESET + status + ' ')
         return status == "UP"
     except:
         return False

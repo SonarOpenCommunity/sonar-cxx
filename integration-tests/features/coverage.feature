@@ -1,8 +1,6 @@
 @SqApi79
 Feature: Importing coverage data
-  As a SonarQube user,
-  I want to import my coverage metric values into SonarQube
-  In order to be able to use relevant SonarQube features
+  As a CXX Plugin user, I want to import coverage test reports into SonarQube
 
   Scenario: Importing coverage reports
     Given the project "coverage_project"
@@ -23,9 +21,11 @@ Feature: Importing coverage data
       | line_coverage           | 25.0  |
       | branch_coverage         | 50    |
 
+
   Scenario: Zero coverage measures without coverage reports
     If we don't pass coverage reports all coverage measures, except the branch
     ones, should be 'zero'. The branch coverage measures remain 'None'
+
     Given the project "coverage_project"
     When I run sonar-scanner with following options:
       """
