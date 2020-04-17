@@ -20,6 +20,7 @@
 package org.sonar.cxx;
 
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -178,7 +179,7 @@ public final class CxxMetrics {
   }
 
   public static List<Metric> getMetrics() {
-    return METRICS;
+    return new ArrayList<>(METRICS);
   }
 
   public static Metric getMetric(final String key) {

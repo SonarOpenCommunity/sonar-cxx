@@ -55,7 +55,7 @@ public class XlstSensorTest {
 
   @Test
   public void noLoggingIfNotUsed() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
 
     var sensor = new XlstSensor();
     logTester.clear();
@@ -109,7 +109,7 @@ public class XlstSensorTest {
     sensor.execute(context);
 
     List<String> log = logTester.logs(LoggerLevel.ERROR);
-    assertThat(log).contains("XLST: sonar.cxx.xslt.1.stylesheet value is not defined.");
+    assertThat(log).contains("XLST: 'sonar.cxx.xslt.1.stylesheet' value is not defined.");
   }
 
   @Test
@@ -125,7 +125,7 @@ public class XlstSensorTest {
     sensor.execute(context);
 
     List<String> log = logTester.logs(LoggerLevel.ERROR);
-    assertThat(log).contains("XLST: sonar.cxx.xslt.1.inputs value is not defined.");
+    assertThat(log).contains("XLST: 'sonar.cxx.xslt.1.inputs' value is not defined.");
   }
 
   @Test
@@ -142,7 +142,7 @@ public class XlstSensorTest {
     sensor.execute(context);
 
     List<String> log = logTester.logs(LoggerLevel.ERROR);
-    assertThat(log).contains("XLST: sonar.cxx.xslt.1.outputs value is not defined.");
+    assertThat(log).contains("XLST: 'sonar.cxx.xslt.1.outputs' value is not defined.");
   }
 
   @Test

@@ -40,10 +40,6 @@ public class JsonCompilationDatabase {
 
   private static final Logger LOG = Loggers.get(JsonCompilationDatabase.class);
 
-  enum ArgNext {
-    NONE, DEFINE, INCLUDE, IQUOTE, ISYSTEM, IDIRAFTER;
-  }
-
   private JsonCompilationDatabase() {
     /* utility class is not meant to be instantiated */
   }
@@ -220,6 +216,10 @@ public class JsonCompilationDatabase {
     }
 
     return args.toArray(new String[0]);
+  }
+
+  private enum ArgNext {
+    NONE, DEFINE, INCLUDE, IQUOTE, ISYSTEM, IDIRAFTER;
   }
 
 }

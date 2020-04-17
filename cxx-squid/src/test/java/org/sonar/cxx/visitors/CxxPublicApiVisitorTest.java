@@ -34,9 +34,9 @@ import org.fest.assertions.Fail;
 import org.junit.Test;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
+import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.api.SourceFile;
 

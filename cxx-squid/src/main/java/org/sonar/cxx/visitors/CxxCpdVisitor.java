@@ -98,11 +98,11 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
 
   public static class CpdToken {
 
-    public int startLine;
-    public int startCol;
-    public int endLine;
-    public int endCol;
-    public String token;
+    public final int startLine;
+    public final int startCol;
+    public final int endLine;
+    public final int endCol;
+    public final String token;
 
     CpdToken(int startLine, int startCol, int endLine, int endCol, String token) {
       this.startLine = startLine;

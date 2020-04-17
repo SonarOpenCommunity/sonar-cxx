@@ -48,6 +48,7 @@ public class XlstSensor implements ProjectSensor {
   public static final String STYLESHEET_KEY = ".stylesheet";
   public static final String INPUT_KEY = ".inputs";
   public static final String OUTPUT_KEY = ".outputs";
+  private static final String MISSING_VALUE = "XLST: '{}' value is not defined.";
 
   private static final Logger LOG = Loggers.get(XlstSensor.class);
   private static final int MAX_STYLESHEETS = 10;
@@ -86,19 +87,19 @@ public class XlstSensor implements ProjectSensor {
 
       final String stylesheet = context.config().get(stylesheetKey).orElse("");
       if (stylesheet.isEmpty()) {
-        LOG.error("XLST: " + stylesheetKey + " value is not defined.");
+        LOG.error(MISSING_VALUE, stylesheetKey);
         paramError = true;
       }
 
       final List<File> inputs = getReports(context.config(), baseDir, inputKey);
       if (inputs.isEmpty()) {
-        LOG.error("XLST: " + inputKey + " value is not defined.");
+        LOG.error(MISSING_VALUE, inputKey);
         paramError = true;
       }
 
       final String outputs = context.config().get(outputKey).orElse("");
       if (outputs.isEmpty()) {
-        LOG.error("XLST: " + outputKey + " value is not defined.");
+        LOG.error(MISSING_VALUE, outputKey);
         paramError = true;
       }
 

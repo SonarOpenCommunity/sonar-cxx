@@ -42,16 +42,6 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
 
   private static final Logger LOG = Loggers.get(CxxValgrindSensor.class);
 
-  private static String createErrorMsg(ValgrindError error, ValgrindStack stack, int stackNr) {
-    var errorMsg = new StringBuilder(512);
-    errorMsg.append(error.getText());
-    if (error.getStacks().size() > 1) {
-      errorMsg.append(" (Stack ").append(stackNr).append(")");
-    }
-    errorMsg.append("\n\n").append(stack);
-    return errorMsg.toString();
-  }
-
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
@@ -64,6 +54,16 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
         .multiValues(true)
         .build()
     ));
+  }
+
+  private static String createErrorMsg(ValgrindError error, ValgrindStack stack, int stackNr) {
+    var errorMsg = new StringBuilder(512);
+    errorMsg.append(error.getText());
+    if (error.getStacks().size() > 1) {
+      errorMsg.append(" (Stack ").append(stackNr).append(")");
+    }
+    errorMsg.append("\n\n").append(stack);
+    return errorMsg.toString();
   }
 
   @Override

@@ -39,12 +39,12 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxParserTest {
 
-  String errSources = "/parser/bad/error_recovery_declaration.cc";
-  String[] goodFiles = {"own", "VC", "GCC", "cli", "cuda", "examples"};
-  String[] preprocessorFiles = {"preprocessor"};
-  String[] cCompatibilityFiles = {"C", "C99"};
-  String rootDir = "src/test/resources/parser";
-  File erroneousSources = null;
+  private final String errSources = "/parser/bad/error_recovery_declaration.cc";
+  private final String[] goodFiles = {"own", "VC", "GCC", "cli", "cuda", "examples"};
+  private final String[] preprocessorFiles = {"preprocessor"};
+  private final String[] cCompatibilityFiles = {"C", "C99"};
+  private final String rootDir = "src/test/resources/parser";
+  private File erroneousSources = null;
 
   public CxxParserTest() throws URISyntaxException {
     super();

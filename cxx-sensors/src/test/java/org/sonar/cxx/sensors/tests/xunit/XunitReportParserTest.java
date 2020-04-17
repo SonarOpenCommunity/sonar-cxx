@@ -28,9 +28,9 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class XunitReportParserTest {
 
-  XunitReportParser parserHandler = new XunitReportParser("");
-  StaxParser parser = new StaxParser(parserHandler, false);
-  String pathPrefix = "/org/sonar/cxx/sensors/reports-project/xunit-reports/";
+  private XunitReportParser parserHandler = new XunitReportParser("");
+  private StaxParser parser = new StaxParser(parserHandler, false);
+  private final String pathPrefix = "/org/sonar/cxx/sensors/reports-project/xunit-reports/";
 
   @Test
   public void testParse() throws javax.xml.stream.XMLStreamException {
@@ -52,11 +52,11 @@ public class XunitReportParserTest {
       File report = TestUtils.loadResource(pathPrefix + entry.getKey());
       parser.parse(report);
 
-      int tests = 0;
+      long tests = 0;
       for (var testFile : parserHandler.getTestFiles()) {
         tests += testFile.getTests();
       }
-      assertEquals((int) entry.getValue(), tests);
+      assertEquals((long) entry.getValue(), tests);
     }
   }
 

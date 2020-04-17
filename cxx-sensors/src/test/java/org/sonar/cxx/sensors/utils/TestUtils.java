@@ -151,4 +151,8 @@ public class TestUtils {
     }
   }
 
+  private TestUtils() {
+    // utility class
+  }
+
 }

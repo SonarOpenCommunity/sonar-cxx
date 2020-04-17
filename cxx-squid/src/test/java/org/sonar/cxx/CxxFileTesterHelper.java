@@ -51,4 +51,8 @@ public class CxxFileTesterHelper {
     return tester;
   }
 
+  private CxxFileTesterHelper() {
+    // utility class
+  }
+
 }

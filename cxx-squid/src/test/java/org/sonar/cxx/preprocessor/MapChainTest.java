@@ -24,7 +24,7 @@ import org.junit.Test;
 
 public class MapChainTest {
 
-  MapChain<String, String> mc;
+  private MapChain<String, String> mc;
 
   public MapChainTest() {
     mc = new MapChain<>();

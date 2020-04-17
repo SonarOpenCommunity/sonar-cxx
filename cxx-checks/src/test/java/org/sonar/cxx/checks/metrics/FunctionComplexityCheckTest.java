@@ -24,15 +24,12 @@ import java.io.UnsupportedEncodingException;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.utils.CxxReportLocation;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 
 public class FunctionComplexityCheckTest {
-
-  private final MapSettings settings = new MapSettings();
 
   @Test
   public void check() throws UnsupportedEncodingException, IOException {

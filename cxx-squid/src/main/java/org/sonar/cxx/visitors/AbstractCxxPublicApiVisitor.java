@@ -430,11 +430,6 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     }
   }
 
-  protected AbstractCxxPublicApiVisitor<G> withHeaderFileSuffixes(String[] headerFileSuffixes) {
-    this.headerFileSuffixes = headerFileSuffixes.clone();
-    return this;
-  }
-
   private void visitPublicApi(AstNode node, String id, List<Token> comments) {
     var doxygenComments = new ArrayList<Token>();
 
@@ -870,6 +865,11 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
           comments);
       }
     }
+  }
+
+  protected AbstractCxxPublicApiVisitor<G> withHeaderFileSuffixes(String[] headerFileSuffixes) {
+    this.headerFileSuffixes = headerFileSuffixes.clone();
+    return this;
   }
 
   protected abstract void onPublicApi(AstNode node, String id, List<Token> comments);

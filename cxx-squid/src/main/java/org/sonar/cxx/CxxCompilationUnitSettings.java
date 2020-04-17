@@ -35,12 +35,12 @@ public class CxxCompilationUnitSettings {
   private List<Path> includes = new ArrayList<>();
 
   public Map<String, String> getDefines() {
-    return defines;
+    return new HashMap<>(defines);
   }
 
   public void setDefines(@Nullable Map<String, String> defines) {
     if (defines != null) {
-      this.defines = defines;
+      this.defines = new HashMap<>(defines);
     }
   }
 

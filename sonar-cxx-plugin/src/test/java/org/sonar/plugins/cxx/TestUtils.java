@@ -78,4 +78,8 @@ public class TestUtils {
     return inputFile;
   }
 
+  private TestUtils() {
+    // utility class
+  }
+
 }

@@ -98,11 +98,11 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
 
   public static class Highlight {
 
-    public int startLine;
-    public int startLineOffset;
-    public int endLine;
-    public int endLineOffset;
-    public String typeOfText;
+    public final int startLine;
+    public final int startLineOffset;
+    public final int endLine;
+    public final int endLineOffset;
+    public final String typeOfText;
 
     Highlight(int startLine, int startLineOffset, int endLine, int endLineOffset, String typeOfText) {
       this.startLine = startLine;

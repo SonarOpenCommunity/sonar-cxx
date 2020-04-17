@@ -38,12 +38,12 @@ public final class Macro {
    * This is a collection of standard macros according to
    * http://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html
    */
-  public static final Map<String, Macro> STANDARD_MACROS = initStandardMacros();
+  protected static final Map<String, Macro> STANDARD_MACROS = initStandardMacros();
 
   /**
    * Smaller set of defines as rest is provides by compilation unit settings
    */
-  public static final Map<String, Macro> UNIT_MACROS = initUnitMacros();
+  protected static final Map<String, Macro> UNIT_MACROS = initUnitMacros();
 
   public final String name;
   public final List<Token> params;

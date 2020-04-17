@@ -39,8 +39,8 @@ public class CxxCompilerSensorTest {
   public LogTester logTester = new LogTester();
 
   private DefaultFileSystem fs;
-  SensorContextTester context;
-  CxxCompilerSensorMock sensor;
+  private SensorContextTester context;
+  private CxxCompilerSensorMock sensor;
 
   @Before
   public void setUp() {
