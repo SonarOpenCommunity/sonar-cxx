@@ -115,7 +115,7 @@ public class CxxCppCheckSensorTest {
     sensor.execute(context);
   }
 
-  @Test
+  //@Test
   public void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxCppCheckSensor();
