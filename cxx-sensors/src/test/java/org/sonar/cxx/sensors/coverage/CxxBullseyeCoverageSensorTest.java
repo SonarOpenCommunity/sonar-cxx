@@ -72,7 +72,7 @@ public class CxxBullseyeCoverageSensorTest {
           "asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
 
-      var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+      var sensor = new CxxCoverageSensor(new CxxCoverageCache());
       sensor.execute(context);
 
       assertThat(context.lineHits("ProjectKey:main.cpp", 7)).isEqualTo(1);
@@ -150,7 +150,7 @@ public class CxxBullseyeCoverageSensorTest {
         .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
 
-      var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+      var sensor = new CxxCoverageSensor(new CxxCoverageCache());
       sensor.execute(context);
 
       assertThat(context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", 4)).isEqualTo(1);
@@ -194,7 +194,7 @@ public class CxxBullseyeCoverageSensorTest {
         context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", filepath).setLanguage("c++").initMetadata(
           sourceContent.toString()).build());
       }
-      var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+      var sensor = new CxxCoverageSensor(new CxxCoverageCache());
       sensor.execute(context);
 
       var coveredCondition = new int[]{496, 524};

@@ -23,7 +23,6 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
@@ -37,10 +36,10 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxCompilerSensor.class);
 
   @Override
-  protected void processReport(final SensorContext context, File report) throws javax.xml.stream.XMLStreamException {
+  protected void processReport(File report) throws javax.xml.stream.XMLStreamException {
 
-    final String reportCharset = getCharset(context);
-    final String reportRegEx = getRegex(context);
+    final String reportCharset = getCharset();
+    final String reportRegEx = getRegex();
 
     if (reportRegEx.isEmpty()) {
       LOG.error("processReport terminated because of empty custom regular expression");
@@ -63,7 +62,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
           if (isInputValid(filename, line, id, msg)) {
             LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}", filename, line, id, msg);
             var issue = new CxxReportIssue(id, filename, line, msg);
-            saveUniqueViolation(context, issue);
+            saveUniqueViolation(issue);
           } else {
             LOG.warn("Invalid compiler warning: '{}''{}'", id, msg);
           }
@@ -84,18 +83,16 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
   /**
    * Character set of the report
    *
-   * @param context current context
    * @return
    */
-  protected abstract String getCharset(final SensorContext context);
+  protected abstract String getCharset();
 
   /**
    * Regular expression to parse the report
    *
-   * @param context current context
    * @return
    */
-  protected abstract String getRegex(final SensorContext context);
+  protected abstract String getRegex();
 
   /**
    * Derived classes can overload this method

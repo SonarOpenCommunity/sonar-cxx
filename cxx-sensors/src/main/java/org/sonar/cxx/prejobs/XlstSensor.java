@@ -53,6 +53,8 @@ public class XlstSensor implements ProjectSensor {
   private static final Logger LOG = Loggers.get(XlstSensor.class);
   private static final int MAX_STYLESHEETS = 10;
 
+  private SensorContext context;
+
   private static void transformFile(Source stylesheetFile, File input, File output) throws TransformerException {
     TransformerFactory factory = TransformerFactory.newInstance();
     factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
@@ -71,6 +73,7 @@ public class XlstSensor implements ProjectSensor {
 
   @Override
   public void execute(SensorContext context) {
+    this.context = context;
     File baseDir = context.fileSystem().baseDir();
     for (int i = 1; i <= MAX_STYLESHEETS; i++) {
       boolean paramError = false;
@@ -108,15 +111,11 @@ public class XlstSensor implements ProjectSensor {
       }
 
       LOG.debug("XLST: Converting '{}' with '{}' to '{}'.", inputs, stylesheet, outputs);
-      transformFileList(context, baseDir.getAbsolutePath(), stylesheet, inputs, outputs);
+      transformFileList(baseDir.getAbsolutePath(), stylesheet, inputs, outputs);
     }
   }
 
-  private void transformFileList(SensorContext context,
-                                 final String baseDir,
-                                 String stylesheet,
-                                 List<File> inputs,
-                                 String outputs) {
+  private void transformFileList(String baseDir, String stylesheet, List<File> inputs, String outputs) {
     for (int j = 0; j < inputs.size(); j++) {
       try {
         InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + stylesheet);

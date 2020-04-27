@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -78,13 +77,13 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }
 
-  private boolean frameIsInProject(SensorContext context, Location frame) {
-    return getInputFileIfInProject(context, frame.getFile()) != null;
+  private boolean frameIsInProject(Location frame) {
+    return getInputFileIfInProject(frame.getFile()) != null;
   }
 
-  private Location getLastOwnFrame(SensorContext context, DrMemoryError error) {
+  private Location getLastOwnFrame(DrMemoryError error) {
     for (var frame : error.getStackTrace()) {
-      if (frameIsInProject(context, frame)) {
+      if (frameIsInProject(frame)) {
         return frame;
       }
     }
@@ -92,15 +91,15 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(final SensorContext context, File report) {
+  protected void processReport(File report) {
     LOG.debug("Processing 'Dr. Memory' format");
 
     for (var error : DrMemoryParser.parse(report, DEFAULT_CHARSET_DEF)) {
       if (error.getStackTrace().isEmpty()) {
         var moduleIssue = new CxxReportIssue(error.getType().getId(), null, null, error.getMessage());
-        saveUniqueViolation(context, moduleIssue);
+        saveUniqueViolation(moduleIssue);
       } else {
-        Location lastOwnFrame = getLastOwnFrame(context, error);
+        Location lastOwnFrame = getLastOwnFrame(error);
         if (lastOwnFrame == null) {
           LOG.warn("Cannot find a project file to assign the DrMemory error '{}' to", error);
           continue;
@@ -112,13 +111,13 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
         // add all frames as secondary locations
         int frameNr = 0;
         for (var frame : error.getStackTrace()) {
-          boolean frameIsInProject = frameIsInProject(context, frame);
+          boolean frameIsInProject = frameIsInProject(frame);
           String mappedPath = (frameIsInProject) ? frame.getFile() : lastOwnFrame.getFile();
           Integer mappedLine = (frameIsInProject) ? frame.getLine() : lastOwnFrame.getLine();
           fileIssue.addLocation(mappedPath, mappedLine.toString(), getFrameText(frame, frameNr));
           ++frameNr;
         }
-        saveUniqueViolation(context, fileIssue);
+        saveUniqueViolation(fileIssue);
       }
     }
   }

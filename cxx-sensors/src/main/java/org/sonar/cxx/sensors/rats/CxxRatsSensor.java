@@ -28,7 +28,6 @@ import javax.xml.XMLConstants;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaders;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -79,8 +78,7 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(final SensorContext context, File report)
-    throws org.jdom2.JDOMException, java.io.IOException {
+  protected void processReport(File report) throws org.jdom2.JDOMException, java.io.IOException {
     LOG.debug("Processing 'RATS' format");
 
     try {
@@ -103,7 +101,7 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
             String line = lineElem.getTextTrim();
 
             var issue = new CxxReportIssue(type, fileName, line, message);
-            saveUniqueViolation(context, issue);
+            saveUniqueViolation(issue);
           }
         }
       }

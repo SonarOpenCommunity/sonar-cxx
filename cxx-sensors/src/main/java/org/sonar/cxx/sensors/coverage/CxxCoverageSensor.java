@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.coverage.NewCoverage;
 import org.sonar.api.config.Configuration;
@@ -59,9 +58,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * {@inheritDoc}
    *
    * @param cache for all coverage data
-   * @param context for current file
    */
-  public CxxCoverageSensor(CxxCoverageCache cache, SensorContext context) {
+  public CxxCoverageSensor(CxxCoverageCache cache) {
     this.cache = cache;
     parsers.add(new CoberturaParser());
     parsers.add(new BullseyeParser());
@@ -70,7 +68,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "Coverage";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Coverage report(s)")
@@ -88,7 +85,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
   /**
    * @param parser
-   * @param context
    * @param report
    * @param measuresTotal
    * @return true if report was parsed and results are available otherwise false
@@ -122,7 +118,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * {@inheritDoc}
    */
   @Override
-  public void executeImpl(SensorContext context) {
+  public void executeImpl() {
     Configuration conf = context.config();
     String[] reportsKey = conf.getStringArray(REPORT_PATH_KEY);
     LOG.info("Searching coverage reports by path with basedir '{}' and search prop '{}'",
@@ -135,7 +131,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), REPORT_PATH_KEY);
       Map<String, CoverageMeasures> coverageMeasures = processReports(reports, this.cache.unitCoverageCache());
-      saveMeasures(context, coverageMeasures);
+      saveMeasures(coverageMeasures);
     }
   }
 
@@ -169,12 +165,11 @@ public class CxxCoverageSensor extends CxxReportSensor {
     return measuresTotal;
   }
 
-  private void saveMeasures(SensorContext context,
-                            Map<String, CoverageMeasures> coverageMeasures) {
+  private void saveMeasures(Map<String, CoverageMeasures> coverageMeasures) {
     for (var entry : coverageMeasures.entrySet()) {
       final String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath != null) {
-        InputFile cxxFile = getInputFileIfInProject(context, filePath);
+        InputFile cxxFile = getInputFileIfInProject(filePath);
         LOG.debug("save coverage measure for file: '{}' cxxFile = '{}'", filePath, cxxFile);
 
         if (cxxFile != null) {
@@ -184,7 +179,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
           Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
           LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
 
-          measures.forEach((CoverageMeasure measure) -> checkCoverage(context, newCoverage, measure));
+          measures.forEach((CoverageMeasure measure) -> checkCoverage(newCoverage, measure));
 
           try {
             newCoverage.save();
@@ -209,7 +204,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
    * @param newCoverage
    * @param measure
    */
-  private void checkCoverage(SensorContext context, NewCoverage newCoverage, CoverageMeasure measure) {
+  private void checkCoverage(NewCoverage newCoverage, CoverageMeasure measure) {
     try {
       newCoverage.lineHits(measure.getLine(), measure.getHits());
       newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());

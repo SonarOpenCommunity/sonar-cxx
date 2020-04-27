@@ -23,7 +23,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -92,13 +91,13 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   }
 
   @Override
-  protected String getCharset(final SensorContext context) {
-    return getContextStringProperty(context, REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
+  protected String getCharset() {
+    return getContextStringProperty(REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
   }
 
   @Override
-  protected String getRegex(final SensorContext context) {
-    return getContextStringProperty(context, REPORT_REGEX_DEF, DEFAULT_REGEX_DEF);
+  protected String getRegex() {
+    return getContextStringProperty(REPORT_REGEX_DEF, DEFAULT_REGEX_DEF);
   }
 
   @Override

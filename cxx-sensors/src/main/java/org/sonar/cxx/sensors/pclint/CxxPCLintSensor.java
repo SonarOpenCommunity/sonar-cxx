@@ -30,7 +30,6 @@ import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -90,7 +89,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(final SensorContext context, File report)
+  protected void processReport(File report)
     throws javax.xml.stream.XMLStreamException {
     LOG.debug("Processing 'PC-Lint' format");
 
@@ -141,7 +140,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
               }
 
               if (currentIssue != null) {
-                saveUniqueViolation(context, currentIssue);
+                saveUniqueViolation(currentIssue);
               }
 
               currentIssue = new CxxReportIssue(id, file, line, msg);
@@ -152,7 +151,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
           }
 
           if (currentIssue != null) {
-            saveUniqueViolation(context, currentIssue);
+            saveUniqueViolation(currentIssue);
           }
         } catch (com.ctc.wstx.exc.WstxUnexpectedCharException
                    | com.ctc.wstx.exc.WstxEOFException

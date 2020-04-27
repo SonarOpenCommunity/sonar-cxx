@@ -72,7 +72,9 @@ public class CxxUnitTestResultsImportSensorTest {
                                              Mockito.any(UnitTestResults.class), same(unitTestConf)))
       .thenReturn(results);
 
-    new CxxUnitTestResultsImportSensor(unitTestResultsAggregator).analyze(context, results, unitTestConf);
+    var sensor = new CxxUnitTestResultsImportSensor(unitTestResultsAggregator);
+    sensor.execute(context); // set context
+    sensor.analyze(results, unitTestConf);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results),
                                                 same(unitTestConf));
@@ -103,7 +105,9 @@ public class CxxUnitTestResultsImportSensorTest {
                                              Mockito.any(UnitTestResults.class), same(unitTestConf)))
       .thenReturn(results);
 
-    new CxxUnitTestResultsImportSensor(unitTestResultsAggregator).analyze(context, results, unitTestConf);
+    var sensor = new CxxUnitTestResultsImportSensor(unitTestResultsAggregator);
+    sensor.execute(context); // set context
+    sensor.analyze(results, unitTestConf);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results),
                                                 same(unitTestConf));

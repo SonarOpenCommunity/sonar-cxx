@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -75,11 +74,11 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
       .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }
 
-  private boolean frameIsInProject(SensorContext context, ValgrindFrame frame) {
-    return frame.isLocationKnown() && (getInputFileIfInProject(context, frame.getPath()) != null);
+  private boolean frameIsInProject(ValgrindFrame frame) {
+    return frame.isLocationKnown() && (getInputFileIfInProject(frame.getPath()) != null);
   }
 
-  private CxxReportIssue createIssue(SensorContext context, ValgrindError error, ValgrindStack stack, int stackNr) {
+  private CxxReportIssue createIssue(ValgrindError error, ValgrindStack stack, int stackNr) {
     ValgrindFrame lastOwnFrame = stack.getLastOwnFrame(context.fileSystem().baseDir().getPath());
     if (lastOwnFrame == null) {
       LOG.warn("Cannot find a project file to assign the valgrind error '{}' to", error);
@@ -91,7 +90,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     var issue = new CxxReportIssue(error.getKind(), lastOwnFrame.getPath(), lastOwnFrame.getLine(), errorMsg);
     // add all frames as secondary locations
     for (var frame : stack.getFrames()) {
-      boolean frameIsInProject = frameIsInProject(context, frame);
+      boolean frameIsInProject = frameIsInProject(frame);
       String mappedPath = (frameIsInProject) ? frame.getPath() : lastOwnFrame.getPath();
       String mappedLine = (frameIsInProject) ? frame.getLine() : lastOwnFrame.getLine();
       issue.addLocation(mappedPath, mappedLine, frame.toString());
@@ -100,11 +99,10 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(final SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException {
+  protected void processReport(File report) throws javax.xml.stream.XMLStreamException {
     LOG.debug("Processing 'Valgrind' format");
     var parser = new ValgrindReportParser();
-    saveErrors(context, parser.processReport(report));
+    saveErrors(parser.processReport(report));
   }
 
   @Override
@@ -117,13 +115,13 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     return CxxValgrindRuleRepository.KEY;
   }
 
-  void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {
+  void saveErrors(Set<ValgrindError> valgrindErrors) {
     for (var error : valgrindErrors) {
       int stackNr = 0;
       for (var stack : error.getStacks()) {
-        CxxReportIssue issue = createIssue(context, error, stack, stackNr);
+        CxxReportIssue issue = createIssue(error, stack, stackNr);
         if (issue != null) {
-          saveUniqueViolation(context, issue);
+          saveUniqueViolation(issue);
         }
         ++stackNr;
       }

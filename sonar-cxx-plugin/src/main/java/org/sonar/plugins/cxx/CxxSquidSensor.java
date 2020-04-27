@@ -273,7 +273,6 @@ public class CxxSquidSensor implements ProjectSensor {
    */
   @Override
   public void execute(SensorContext context) {
-
     this.context = context;
 
     CxxSquidConfiguration squidConfig = createConfiguration();

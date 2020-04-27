@@ -36,8 +36,8 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxValgrindSensorTest {
 
-  private CxxValgrindSensor sensor;
   private DefaultFileSystem fs;
+  private CxxValgrindSensor sensor;
 
   @Before
   public void setUp() {
@@ -56,11 +56,15 @@ public class CxxValgrindSensorTest {
   @Test
   public void shouldSaveViolationIfErrorIsInside() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    context.fileSystem().add(TestInputFileBuilder.create("myProjectKey", "dir/file").setLanguage("c++").initMetadata(
-      "asd\nasdas\nasda\n").build());
+    context.fileSystem().add(
+      TestInputFileBuilder.create("myProjectKey", "dir/file")
+        .setLanguage("c++")
+        .initMetadata("asd\nasdas\nasda\n")
+        .build());
+    sensor.execute(context); // set context
     var valgrindErrors = new HashSet<ValgrindError>();
     valgrindErrors.add(mockValgrindError(true));
-    sensor.saveErrors(context, valgrindErrors);
+    sensor.saveErrors(valgrindErrors);
 
     assertThat(context.allIssues()).hasSize(1);
   }
@@ -68,9 +72,10 @@ public class CxxValgrindSensorTest {
   @Test
   public void shouldNotSaveViolationIfErrorIsOutside() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    sensor.execute(context); // set context
     var valgrindErrors = new HashSet<ValgrindError>();
     valgrindErrors.add(mockValgrindError(false));
-    sensor.saveErrors(context, valgrindErrors);
+    sensor.saveErrors(valgrindErrors);
 
     assertThat(context.allIssues()).hasSize(0);
   }

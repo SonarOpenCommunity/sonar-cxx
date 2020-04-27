@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -70,10 +69,10 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(final SensorContext context, File report) throws javax.xml.stream.XMLStreamException {
+  protected void processReport(File report) throws javax.xml.stream.XMLStreamException {
     CppcheckParser parser = new CppcheckParser(this);
     try {
-      parser.processReport(context, report);
+      parser.processReport(report);
       LOG.info("Added report '{}' (parsed by: {})", report, parser);
     } catch (XMLStreamException e) {
       LOG.error("Report {} cannot be parsed", report);

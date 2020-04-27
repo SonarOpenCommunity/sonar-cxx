@@ -53,26 +53,12 @@ public abstract class CxxReportSensor implements ProjectSensor {
 
   private final Set<String> notFoundFiles = new HashSet<>();
 
+  protected SensorContext context;
+
   /**
    * {@inheritDoc}
    */
   protected CxxReportSensor() {
-  }
-
-  /**
-   * Get string property from configuration. If the string is not set or empty, return the default value.
-   *
-   * @param context sensor context
-   * @param name Name of the property
-   * @param def Default value
-   * @return Value of the property if set and not empty, else default value.
-   */
-  public static String getContextStringProperty(SensorContext context, String name, String def) {
-    String s = context.config().get(name).orElse(null);
-    if (s == null || s.isEmpty()) {
-      return def;
-    }
-    return s;
   }
 
   /**
@@ -163,7 +149,22 @@ public abstract class CxxReportSensor implements ProjectSensor {
     return normalizedPaths;
   }
 
-  public InputFile getInputFileIfInProject(SensorContext context, String path) {
+  /**
+   * Get string property from configuration. If the string is not set or empty, return the default value.
+   *
+   * @param name Name of the property
+   * @param def Default value
+   * @return Value of the property if set and not empty, else default value.
+   */
+  public String getContextStringProperty(String name, String def) {
+    String s = context.config().get(name).orElse(null);
+    if (s == null || s.isEmpty()) {
+      return def;
+    }
+    return s;
+  }
+
+  public InputFile getInputFileIfInProject(String path) {
     if (notFoundFiles.contains(path)) {
       return null;
     }
@@ -193,7 +194,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
     // reason why we should avoid the resolution of symbolic links and not use
     // the Path::toRealPath() as the only search predicate.
     if (inputFile == null) {
-      inputFile = getInputFileTryRealPath(context, path);
+      inputFile = getInputFileTryRealPath(path);
     }
 
     if (inputFile == null) {
@@ -206,8 +207,9 @@ public abstract class CxxReportSensor implements ProjectSensor {
 
   @Override
   public void execute(SensorContext context) {
+    this.context = context;
     notFoundFiles.clear();
-    executeImpl(context);
+    executeImpl();
   }
 
   @Override
@@ -215,7 +217,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
     return getClass().getSimpleName();
   }
 
-  private InputFile getInputFileTryRealPath(SensorContext context, String path) {
+  private InputFile getInputFileTryRealPath(String path) {
     final Path absolutePath = context.fileSystem().baseDir().toPath().resolve(path);
     Path realPath;
     try {
@@ -244,6 +246,6 @@ public abstract class CxxReportSensor implements ProjectSensor {
   /**
    * override always executeImpl instead of execute
    */
-  protected abstract void executeImpl(SensorContext context);
+  protected abstract void executeImpl();
 
 }

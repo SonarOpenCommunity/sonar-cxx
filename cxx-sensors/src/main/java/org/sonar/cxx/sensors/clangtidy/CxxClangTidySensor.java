@@ -28,7 +28,6 @@ import java.util.Scanner;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -84,9 +83,8 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(final SensorContext context, File report) {
-    final String reportCharset = getContextStringProperty(context,
-                                                          REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
+  protected void processReport(File report) {
+    final String reportCharset = getContextStringProperty(REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
     LOG.debug("Processing 'Clang-Tidy' report, CharSet= '{}'", reportCharset);
 
     try (var scanner = new Scanner(report, reportCharset)) {
@@ -130,7 +128,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
           if (ruleId != null) {
             if (issue != null) {
-              saveUniqueViolation(context, issue);
+              saveUniqueViolation(issue);
             }
             issue = new CxxReportIssue(ruleId, path, line, info);
           } else if ((issue != null) && "note".equals(level)) {
@@ -139,7 +137,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         }
       }
       if (issue != null) {
-        saveUniqueViolation(context, issue);
+        saveUniqueViolation(issue);
       }
     } catch (final java.io.FileNotFoundException
                      | java.lang.IllegalArgumentException

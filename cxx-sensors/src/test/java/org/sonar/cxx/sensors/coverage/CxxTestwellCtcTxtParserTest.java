@@ -53,7 +53,7 @@ public class CxxTestwellCtcTxtParserTest {
                                          + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
                                        + "\n\n\n\n\n\n\n").build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
     sensor.execute(context);
 
     var softly = new SoftAssertions();
@@ -74,7 +74,7 @@ public class CxxTestwellCtcTxtParserTest {
                                          + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
                                        + "\n\n\n\n\n\n\n").build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
     sensor.execute(context);
 
     var softly = new SoftAssertions();
@@ -94,7 +94,7 @@ public class CxxTestwellCtcTxtParserTest {
                                          + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
                                        + "\n\n\n\n\n\n\n").build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
     sensor.execute(context);
 
     var softly = new SoftAssertions();
@@ -119,7 +119,7 @@ public class CxxTestwellCtcTxtParserTest {
                                          + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
                                        + "\n\n\n\n\n\n\n").build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
     sensor.execute(context);
 
     var softly = new SoftAssertions();
@@ -144,7 +144,7 @@ public class CxxTestwellCtcTxtParserTest {
                                          + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
                                        + "\n\n\n\n\n\n\n").build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
     sensor.execute(context);
 
     var softly = new SoftAssertions();
@@ -169,7 +169,7 @@ public class CxxTestwellCtcTxtParserTest {
                                          + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
                                        + "\n\n\n\n\n\n\n").build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
     sensor.execute(context);
 
     var softly = new SoftAssertions();
@@ -190,7 +190,7 @@ public class CxxTestwellCtcTxtParserTest {
                                          + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
                                        + "\n\n\n\n\n\n\n").build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache(), context);
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
     sensor.execute(context);
 
     var softly = new SoftAssertions();
