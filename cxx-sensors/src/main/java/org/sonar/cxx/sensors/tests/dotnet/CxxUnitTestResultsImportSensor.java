@@ -41,6 +41,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
   private final WildcardPatternFileProvider wildcardPatternFileProvider
                                               = new WildcardPatternFileProvider(new File("."), File.separator);
   private final CxxUnitTestResultsAggregator unitTestResultsAggregator;
+  private SensorContext context;
 
   public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator) {
     this.unitTestResultsAggregator = unitTestResultsAggregator;
@@ -99,24 +100,26 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
 
   @Override
   public void execute(SensorContext context) {
-    analyze(context, new UnitTestResults(), new UnitTestConfiguration(context.config()));
+    this.context = context;
+    analyze(new UnitTestResults(), new UnitTestConfiguration(context.config()));
   }
 
-  public void analyze(SensorContext context, UnitTestResults unitTestResults, UnitTestConfiguration unitTestConf) {
+  public void analyze(UnitTestResults unitTestResults, UnitTestConfiguration unitTestConf) {
     UnitTestResults aggregatedResults = unitTestResultsAggregator.aggregate(wildcardPatternFileProvider,
                                                                             unitTestResults, unitTestConf);
-
-    saveMetric(context, CoreMetrics.TESTS, aggregatedResults.tests());
-    saveMetric(context, CoreMetrics.TEST_ERRORS, aggregatedResults.errors());
-    saveMetric(context, CoreMetrics.TEST_FAILURES, aggregatedResults.failures());
-    saveMetric(context, CoreMetrics.SKIPPED_TESTS, aggregatedResults.skipped());
-    Long executionTime = aggregatedResults.executionTime();
-    if (executionTime != null) {
-      saveMetric(context, CoreMetrics.TEST_EXECUTION_TIME, executionTime);
+    if (aggregatedResults != null) {
+      saveMetric(CoreMetrics.TESTS, aggregatedResults.tests());
+      saveMetric(CoreMetrics.TEST_ERRORS, aggregatedResults.errors());
+      saveMetric(CoreMetrics.TEST_FAILURES, aggregatedResults.failures());
+      saveMetric(CoreMetrics.SKIPPED_TESTS, aggregatedResults.skipped());
+      Long executionTime = aggregatedResults.executionTime();
+      if (executionTime != null) {
+        saveMetric(CoreMetrics.TEST_EXECUTION_TIME, executionTime);
+      }
     }
   }
 
-  private <T extends Serializable> void saveMetric(SensorContext context, Metric<T> metric, T value) {
+  private <T extends Serializable> void saveMetric(Metric<T> metric, T value) {
     context.<T>newMeasure()
       .withValue(value)
       .forMetric(metric)

@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.List;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -69,7 +68,7 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(final SensorContext context, File report)
+  protected void processReport(File report)
     throws javax.xml.stream.XMLStreamException {
     LOG.debug("Processing 'Vera++' format");
     try {
@@ -92,7 +91,7 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
               String source = errorCursor.getAttrValue("source");
 
               var issue = new CxxReportIssue(source, name, line, message);
-              saveUniqueViolation(context, issue);
+              saveUniqueViolation(issue);
             } else {
               LOG.debug("Error in file '{}', with message '{}'",
                         name + "(" + errorCursor.getAttrValue("line") + ")",

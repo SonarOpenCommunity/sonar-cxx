@@ -25,7 +25,6 @@ import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -57,7 +56,7 @@ public class CppcheckParser {
     return msg;
   }
 
-  public void processReport(final SensorContext context, File report)
+  public void processReport(File report)
     throws javax.xml.stream.XMLStreamException {
     LOG.debug("Processing 'Cppcheck V2' format");
     var parser = new StaxParser(new StaxParser.XmlStreamHandler() {
@@ -83,7 +82,7 @@ public class CppcheckParser {
               SMInputCursor errorCursor = errorsCursor.childElementCursor("error");
 
               while (errorCursor.getNext() != null) {
-                processErrorTag(context, errorCursor);
+                processErrorTag(errorCursor);
               }
             }
           }
@@ -96,7 +95,7 @@ public class CppcheckParser {
         }
       }
 
-      private void processErrorTag(final SensorContext context, SMInputCursor errorCursor) throws XMLStreamException {
+      private void processErrorTag(SMInputCursor errorCursor) throws XMLStreamException {
         String id = requireAttributeSet(errorCursor.getAttrValue("id"),
                                         "Missing mandatory attribute /results/errors/error[@id]");
         String msg = requireAttributeSet(errorCursor.getAttrValue("msg"),
@@ -122,7 +121,7 @@ public class CppcheckParser {
             info = null;
           }
 
-          final boolean isLocationInProject = isLocationInProject(file, context);
+          final boolean isLocationInProject = isLocationInProject(file);
           if (issue == null) {
             // primary location
             // if primary location cannot be found in the current project (in
@@ -163,7 +162,7 @@ public class CppcheckParser {
         if (issue == null) {
           issue = new CxxReportIssue(id, null, null, issueText);
         }
-        sensor.saveUniqueViolation(context, issue);
+        sensor.saveUniqueViolation(issue);
       }
 
       private String makeRelativePath(String path, String basePath) {
@@ -174,10 +173,10 @@ public class CppcheckParser {
         }
       }
 
-      private boolean isLocationInProject(@Nullable String file, final SensorContext context) {
+      private boolean isLocationInProject(@Nullable String file) {
         // file == null means that we are dealing with a warning for the whole
         // project/module
-        return (file == null) || (sensor.getInputFileIfInProject(context, file) != null);
+        return (file == null) || (sensor.getInputFileIfInProject(file) != null);
       }
     });
 

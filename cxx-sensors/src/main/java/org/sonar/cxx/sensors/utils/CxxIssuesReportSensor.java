@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.rule.RuleKey;
@@ -51,16 +50,11 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   protected CxxIssuesReportSensor() {
   }
 
-  private static NewIssueLocation createNewIssueLocationModule(SensorContext context, NewIssue newIssue,
-                                                               CxxReportLocation location) {
-    return newIssue.newLocation().on(context.project()).message(location.getInfo());
-  }
-
   /**
    * {@inheritDoc}
    */
   @Override
-  public void executeImpl(SensorContext context) {
+  public void executeImpl() {
     try {
       LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'",
                context.fileSystem().baseDir(), getReportPathKey());
@@ -68,7 +62,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
       for (var report : reports) {
         LOG.info("Processing report '{}'", report);
-        executeReport(context, report);
+        executeReport(report);
       }
     } catch (Exception e) {
       var msg = new StringBuilder(256)
@@ -84,12 +78,11 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   /**
    * Saves code violation only if it wasn't already saved
    *
-   * @param context
    * @param issue
    */
-  public void saveUniqueViolation(SensorContext context, CxxReportIssue issue) {
+  public void saveUniqueViolation(CxxReportIssue issue) {
     if (uniqueIssues.add(issue)) {
-      saveViolation(context, issue);
+      saveViolation(issue);
     }
   }
 
@@ -99,9 +92,9 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
    * @param prevViolationsCount
    * @throws Exception
    */
-  private void executeReport(SensorContext context, File report) throws Exception {
+  private void executeReport(File report) throws Exception {
     try {
-      processReport(context, report);
+      processReport(report);
     } catch (EmptyReportException e) {
       LOG.warn("The report '{}' seems to be empty, ignoring.", report);
       LOG.debug("Cannot read report", e);
@@ -109,12 +102,15 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     }
   }
 
-  private NewIssueLocation createNewIssueLocationFile(SensorContext context, NewIssue newIssue,
-                                                      CxxReportLocation location) {
-    InputFile inputFile = getInputFileIfInProject(context, location.getFile());
+  private NewIssueLocation createNewIssueLocationProject(NewIssue newIssue, CxxReportLocation location) {
+    return newIssue.newLocation().on(context.project()).message(location.getInfo());
+  }
+
+  private NewIssueLocation createNewIssueLocationFile(NewIssue newIssue, CxxReportLocation location) {
+    InputFile inputFile = getInputFileIfInProject(location.getFile());
     if (inputFile != null) {
       int lines = inputFile.lines();
-      int lineNr = Integer.max(1, getLineAsInt(context, location.getLine(), lines));
+      int lineNr = Integer.max(1, getLineAsInt(location.getLine(), lines));
       var newIssueLocation = newIssue.newLocation()
         .on(inputFile)
         .at(inputFile.selectLine(lineNr))
@@ -129,25 +125,25 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
    * given project and context. Project or file-level violations can be saved by passing null for the according
    * parameters ('file' = null for project level, 'line' = null for file-level)
    */
-  private void saveViolation(SensorContext context, CxxReportIssue issue) {
+  private void saveViolation(CxxReportIssue issue) {
     NewIssue newIssue = context.newIssue().forRule(RuleKey.of(getRuleRepositoryKey(), issue.getRuleId()));
     var newIssueLocations = new ArrayList<NewIssueLocation>();
     var newIssueFlow = new ArrayList<NewIssueLocation>();
 
     for (var location : issue.getLocations()) {
       if (location.getFile() != null && !location.getFile().isEmpty()) {
-        NewIssueLocation newIssueLocation = createNewIssueLocationFile(context, newIssue, location);
+        NewIssueLocation newIssueLocation = createNewIssueLocationFile(newIssue, location);
         if (newIssueLocation != null) {
           newIssueLocations.add(newIssueLocation);
         }
       } else {
-        NewIssueLocation newIssueLocation = createNewIssueLocationModule(context, newIssue, location);
+        NewIssueLocation newIssueLocation = createNewIssueLocationProject(newIssue, location);
         newIssueLocations.add(newIssueLocation);
       }
     }
 
     for (var location : issue.getFlow()) {
-      NewIssueLocation newIssueLocation = createNewIssueLocationFile(context, newIssue, location);
+      NewIssueLocation newIssueLocation = createNewIssueLocationFile(newIssue, location);
       if (newIssueLocation != null) {
         newIssueFlow.add(newIssueLocation);
       } else {
@@ -177,7 +173,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     }
   }
 
-  private int getLineAsInt(SensorContext context, @Nullable String line, int maxLine) {
+  private int getLineAsInt(@Nullable String line, int maxLine) {
     int lineNr = 0;
     if (line != null) {
       try {
@@ -196,7 +192,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     return lineNr;
   }
 
-  protected abstract void processReport(final SensorContext context, File report) throws Exception;
+  protected abstract void processReport(File report) throws Exception;
 
   protected abstract String getReportPathKey();
 

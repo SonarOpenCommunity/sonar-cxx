@@ -29,7 +29,6 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.InputFile.Type;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.CoreMetrics;
@@ -49,7 +48,6 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
   private static final Logger LOG = Loggers.get(CxxXunitSensor.class);
-  private SensorContext context;
 
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
@@ -78,9 +76,8 @@ public class CxxXunitSensor extends CxxReportSensor {
    * {@inheritDoc}
    */
   @Override
-  public void executeImpl(SensorContext context) {
+  public void executeImpl() {
     try {
-      this.context = context;
       List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), REPORT_PATH_KEY);
       if (!reports.isEmpty()) {
         XunitReportParser parserHandler = parseReport(reports);
@@ -129,7 +126,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     long testsTime = 0;
     for (var tf : testfiles) {
       if (!tf.getFilename().isEmpty()) {
-        InputFile inputFile = getInputFileIfInProject(context, tf.getFilename());
+        InputFile inputFile = getInputFileIfInProject(tf.getFilename());
         if (inputFile != null) {
           if (inputFile.language() != null && inputFile.type() == Type.TEST) {
             LOG.debug("Saving xUnit data for '{}': tests={} | errors:{} | failure:{} | skipped:{} | time:{}",

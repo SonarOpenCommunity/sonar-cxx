@@ -30,7 +30,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nullable;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -93,9 +92,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(final SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException {
-
+  protected void processReport(File report) throws javax.xml.stream.XMLStreamException {
     LOG.debug("Processing 'Clang Static Analyzer' report '{}''", report.getName());
 
     try {
@@ -131,7 +128,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
 
         addFlowToIssue(diag, sourceFiles, issue);
 
-        saveUniqueViolation(context, issue);
+        saveUniqueViolation(issue);
       }
     } catch (Exception e) {
       LOG.error("Failed to parse clangsa report: {}", e.getMessage());

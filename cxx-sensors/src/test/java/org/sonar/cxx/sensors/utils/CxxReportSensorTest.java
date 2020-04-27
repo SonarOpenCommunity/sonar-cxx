@@ -24,7 +24,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.internal.MapSettings;
 
@@ -102,7 +101,7 @@ public class CxxReportSensorTest {
     }
 
     @Override
-    public void executeImpl(SensorContext context) {
+    public void executeImpl() {
     }
 
     @Override

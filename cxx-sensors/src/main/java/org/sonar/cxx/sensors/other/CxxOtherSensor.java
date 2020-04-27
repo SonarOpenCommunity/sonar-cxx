@@ -30,7 +30,6 @@ import javax.xml.transform.TransformerException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.PropertyType;
-import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -88,8 +87,8 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  public void processReport(final SensorContext context, File report) throws XMLStreamException, IOException,
-                                                                             URISyntaxException, TransformerException {
+  public void processReport(File report) throws XMLStreamException, IOException, URISyntaxException,
+                                                TransformerException {
     LOG.debug("Processing 'other' format");
 
     var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
@@ -103,7 +102,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
         String msg = errorCursor.getAttrValue("msg");
 
         var issue = new CxxReportIssue(id, file, line, msg);
-        saveUniqueViolation(context, issue);
+        saveUniqueViolation(issue);
       }
     });
 
