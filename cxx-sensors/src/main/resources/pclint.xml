@@ -20888,6 +20888,19 @@ immediately cast to the underlying type of the operand.
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
+    <key>M2012-12.5</key>
+    <name>M2012-12.5: The parameter of the sizeof call is invalid (MISRA C 2012)</name>
+    <description>
+      <![CDATA[(Mandatory) The sizeof operator shall not have an operand which is a function parameter declared as "array of type"]]>
+    </description>
+    <tag>misrac3</tag>
+    <internalKey>M2012-12.5</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
     <key>M2012-13.1</key>
     <name>M2012-13.1: Initializer list with persistent side effect (MISRA C 2012)</name>
     <description>
@@ -21803,6 +21816,71 @@ immediately cast to the underlying type of the operand.
     <tag>misrac3</tag>
     <internalKey>M2012-21.12</internalKey>
     <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>M2012-21.13</key>
+    <name>M2012-21.13: Value passed to ctype.h function has an invalid type (MISRA C 2012)</name>
+    <description>
+      <![CDATA[(Mandatory) Any value passed to a function in &lt;ctype.h&gt; shall be representable as an unsigned char or be the value EOF]]>
+    </description>
+    <tag>misrac3</tag>
+    <internalKey>M2012-21.13</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>M2012-21.15</key>
+    <name>M2012-21.15: Different pointer types in memcpy, memmove or memcmp function parameters (MISRA C 2012)</name>
+    <description>
+      <![CDATA[(Required) The pointer arguments to the Standard Library functions memcpy, memmove and memcmp shall be pointers to qualified or unqualified versions of compatible types]]>
+    </description>
+    <tag>misrac3</tag>
+    <internalKey>M2012-21.15</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>M2012-21.16</key>
+    <name>M2012-21.16: Invalid pointer types in memcmp function parameters (MISRA C 2012)</name>
+    <description>
+      <![CDATA[(Required) The pointer arguments to the Standard Library function memcmp shall point to either a pointer type, an essentially signed type, an essentially unsigned type, an essentially Boolean type or an essentially enum type]]>
+    </description>
+    <tag>misrac3</tag>
+    <internalKey>M2012-21.16</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>M2012-21.17</key>
+    <name>M2012-21.17: Read or write access beyond the bounds of an object passed as a parameter to function in string.h (MISRA C 2012)</name>
+    <description>
+      <![CDATA[(Mandatory) Use of the string handling functions from &lt;string.h&gt; shall not result in accesses beyond the bounds of the objects referenced by their pointer parameters]]>
+    </description>
+    <tag>misrac3</tag>
+    <internalKey>M2012-21.17</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>M2012-21.18</key>
+    <name>M2012-21.18: Size_t argument passed to string.h functions must be valid (MISRA C 2012)</name>
+    <description>
+      <![CDATA[(Mandatory) The size_t argument passed to any function in &lt;string.h&gt; shall have an appropriate value]]>
+    </description>
+    <tag>misrac3</tag>
+    <internalKey>M2012-21.18</internalKey>
+    <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
