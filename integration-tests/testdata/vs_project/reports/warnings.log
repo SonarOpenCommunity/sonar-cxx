@@ -1,0 +1,2 @@
+C:\projects\sonar-cxx\integration-tests\testdata\vs_project\src\main.cpp(9,17): warning C4457: declaration of 'i' hides function parameter [C:\projects\sonar-cxx\integration-tests\testdata\vs-project\vs-project.vcxproj]
+C:\projects\sonar-cxx\integration-tests\testdata\vs_project\src\main.cpp(9,13): warning C4189: 'i': local variable is initialized but not referenced [C:\projects\sonar-cxx\integration-tests\testdata\vs-project\vs-project.vcxproj]

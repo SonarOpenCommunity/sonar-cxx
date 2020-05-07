@@ -198,7 +198,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
     }
 
     if (inputFile == null) {
-      LOG.warn("Cannot find the file '{}' in '{}' with baseDir '{}', skipping.",
+      LOG.warn("Cannot find the file '{}' in project '{}' with baseDir '{}', skipping.",
                path, context.project().key(), context.fileSystem().baseDir());
       notFoundFiles.add(path);
     }
@@ -223,8 +223,8 @@ public abstract class CxxReportSensor implements ProjectSensor {
     try {
       realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
     } catch (IOException | RuntimeException e) {
-      LOG.debug("Unable to get the real path: '{}', baseDir '{}', path '{}', exception '{}'",
-                context.project().key(), context.fileSystem().baseDir(), path, e.getMessage());
+      LOG.debug("Unable to get the real path: project='{}' baseDir='{}' path='{}' absPath='{}' exception='{}'",
+                context.project().key(), context.fileSystem().baseDir(), path, absolutePath, e.toString());
       return null;
     }
 
