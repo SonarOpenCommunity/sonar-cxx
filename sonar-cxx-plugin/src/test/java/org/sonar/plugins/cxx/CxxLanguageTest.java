@@ -32,7 +32,7 @@ public class CxxLanguageTest {
   @Test
   public void testCxxLanguageStringConfiguration() throws Exception {
     var language = new CxxLanguage(settings.asConfig());
-    assertThat(language.getKey()).isEqualTo("c++");
+    assertThat(language.getKey()).isEqualTo("cxx");
   }
 
   @Test

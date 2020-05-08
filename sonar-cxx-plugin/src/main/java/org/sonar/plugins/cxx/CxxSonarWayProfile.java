@@ -44,7 +44,7 @@ public class CxxSonarWayProfile implements BuiltInQualityProfilesDefinition {
   }
 
   static Profile readProfile() {
-    URL resource = CxxSonarWayProfile.class.getResource("/org/sonar/l10n/c++/rules/cxx/Sonar_way_profile.json");
+    URL resource = CxxSonarWayProfile.class.getResource("/org/sonar/l10n/cxx/rules/cxx/Sonar_way_profile.json");
     return new Gson().fromJson(readResource(resource), Profile.class);
   }
 

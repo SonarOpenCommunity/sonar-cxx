@@ -72,7 +72,7 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX RATS report import")
-      .onlyOnLanguage("c++")
+      .onlyOnLanguage("cxx")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

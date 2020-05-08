@@ -148,11 +148,11 @@ public class CxxCoberturaSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxCoverageSensor(new CxxCoverageCache());
     sensor.execute(context);
@@ -178,11 +178,11 @@ public class CxxCoberturaSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxCoverageSensor(new CxxCoverageCache());
     sensor.execute(context);
@@ -230,11 +230,11 @@ public class CxxCoberturaSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxCoverageSensor(new CxxCoverageCache());
     sensor.execute(context);
@@ -252,11 +252,11 @@ public class CxxCoberturaSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxCoverageSensor(new CxxCoverageCache());
     sensor.execute(context);
@@ -274,10 +274,10 @@ public class CxxCoberturaSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "project2/source1.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
       .build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "project2/source2.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
       .build());
 
     var sensor = new CxxCoverageSensor(new CxxCoverageCache());

@@ -63,7 +63,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
   @Override
   public void define(Context context) {
     Charset charset = StandardCharsets.UTF_8;
-    NewRepository repository = context.createRepository(repositoryKey, "c++").setName(repositoryName);
+    NewRepository repository = context.createRepository(repositoryKey, "cxx").setName(repositoryName);
 
     var xmlLoader = new RulesDefinitionXmlLoader();
     if (!"".equals(fileName())) {

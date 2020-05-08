@@ -54,9 +54,9 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     sensor = new CxxOtherSensor();
     sensor.execute(context);
@@ -72,7 +72,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     sensor = new CxxOtherSensor();
     sensor.execute(context);
@@ -136,7 +136,7 @@ public class CxxOtherSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     sensor = new CxxOtherSensor();
     sensor.execute(context);
@@ -152,7 +152,7 @@ public class CxxOtherSensorTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX external analyser report import");
-    softly.assertThat(descriptor.languages()).containsOnly("c++");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxOtherRepository.KEY);
     softly.assertAll();
   }

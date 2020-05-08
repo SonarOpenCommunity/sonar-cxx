@@ -62,7 +62,7 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX Vera++ report import")
-      .onlyOnLanguage("c++")
+      .onlyOnLanguage("cxx")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
   }

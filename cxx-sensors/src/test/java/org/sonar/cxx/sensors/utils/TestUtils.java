@@ -92,7 +92,7 @@ public class TestUtils {
 
   public static Language mockLanguage() {
     Language language = Mockito.mock(Language.class);
-    when(language.getKey()).thenReturn("c++");
+    when(language.getKey()).thenReturn("cxx");
     when(language.getName()).thenReturn("CXX");
     when(language.getFileSuffixes())
       .thenReturn(new String[]{".cpp", ".hpp", ".h", ".cxx", ".c", ".cc", ".hxx", ".hh"});
@@ -146,7 +146,7 @@ public class TestUtils {
       scanner.scan();
       for (var path : scanner.getIncludedFiles()) {
         target = new File(dir, path);
-        fs.add(TestInputFileBuilder.create("ProjectKey", target.getPath()).setLanguage("c++").setType(ftype).build());
+        fs.add(TestInputFileBuilder.create("ProjectKey", target.getPath()).setLanguage("cxx").setType(ftype).build());
       }
     }
   }

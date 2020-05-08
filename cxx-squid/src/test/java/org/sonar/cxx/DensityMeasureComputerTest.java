@@ -31,7 +31,7 @@ import org.sonar.api.ce.measure.test.TestSettings;
 public class DensityMeasureComputerTest {
 
   private static TestMeasureComputerContext createContext(DensityMeasureComputer computer) {
-    var component = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
+    var component = new TestComponent("file", Type.FILE, new FileAttributesImpl("cxx", false));
     return new TestMeasureComputerContext(component, new TestSettings(), new MeasureComputerDefinitionBuilderImpl()
                                           .setInputMetrics(computer.getInputMetrics()).setOutputMetrics(computer
                                           .getOutputMetrics()).build());

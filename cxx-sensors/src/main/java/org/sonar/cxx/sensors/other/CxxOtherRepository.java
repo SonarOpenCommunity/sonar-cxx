@@ -52,7 +52,7 @@ public class CxxOtherRepository implements RulesDefinition {
 
   @Override
   public void define(Context context) {
-    NewRepository repository = context.createRepository(KEY, "c++")
+    NewRepository repository = context.createRepository(KEY, "cxx")
       .setName(NAME);
 
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), StandardCharsets.UTF_8.name());

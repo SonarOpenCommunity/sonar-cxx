@@ -49,7 +49,7 @@ public class CxxCompilerGccSensorTest {
     sensor.describe(descriptor);
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX GCC compiler report import");
-    softly.assertThat(descriptor.languages()).containsOnly("c++");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx");
     softly.assertThat(descriptor.ruleRepositories())
       .containsOnly(CxxCompilerGccRuleRepository.KEY);
     softly.assertAll();
@@ -62,7 +62,7 @@ public class CxxCompilerGccSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/zipmanager.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxCompilerGccSensor();
     sensor.execute(context);
@@ -77,7 +77,7 @@ public class CxxCompilerGccSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "main.c")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxCompilerGccSensor();
     sensor.execute(context);

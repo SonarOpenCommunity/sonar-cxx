@@ -58,7 +58,7 @@ public class CxxValgrindSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     context.fileSystem().add(
       TestInputFileBuilder.create("myProjectKey", "dir/file")
-        .setLanguage("c++")
+        .setLanguage("cxx")
         .initMetadata("asd\nasdas\nasda\n")
         .build());
     sensor.execute(context); // set context
@@ -87,7 +87,7 @@ public class CxxValgrindSensorTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX Valgrind report import");
-    softly.assertThat(descriptor.languages()).containsOnly("c++");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxValgrindRuleRepository.KEY);
     softly.assertAll();
   }

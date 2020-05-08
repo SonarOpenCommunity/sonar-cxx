@@ -64,7 +64,7 @@ public class CxxDrMemorySensorTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX Dr. Memory report import");
-    softly.assertThat(descriptor.languages()).containsOnly("c++");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxDrMemoryRuleRepository.KEY);
     softly.assertAll();
   }

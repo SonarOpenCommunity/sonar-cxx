@@ -50,11 +50,11 @@ public class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-SAMPLE.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.cpp").setLanguage("c++").initMetadata(
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.cpp").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.h").setLanguage("c++").initMetadata(
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.h").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "ZipManager.cpp").setLanguage("c++")
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "ZipManager.cpp").setLanguage("cxx")
       .initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxPCLintSensor();
@@ -69,7 +69,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE1.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("c++").initMetadata(
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
     var sensor = new CxxPCLintSensor();
@@ -84,7 +84,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE2.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("c++").initMetadata(
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
     var sensor = new CxxPCLintSensor();
@@ -99,7 +99,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRACPP.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("c++").initMetadata(
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
     var sensor = new CxxPCLintSensor();
@@ -117,7 +117,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-desc.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("c++").initMetadata(
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
     CxxPCLintSensor sensor = new CxxPCLintSensor();
@@ -133,7 +133,7 @@ public class CxxPCLintSensorTest {
                          "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("c++").initMetadata(
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
     var sensor = new CxxPCLintSensor();
@@ -148,7 +148,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA1998-SAMPLE.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("c++").initMetadata(
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
     var sensor = new CxxPCLintSensor();
@@ -189,7 +189,7 @@ public class CxxPCLintSensorTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX PC-lint report import");
-    softly.assertThat(descriptor.languages()).containsOnly("c++");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxPCLintRuleRepository.KEY);
     softly.assertAll();
   }
@@ -200,9 +200,9 @@ public class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-with-supplemental.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.cpp").setLanguage("c++").initMetadata(
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.cpp").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.h").setLanguage("c++").initMetadata(
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.h").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
     var sensor = new CxxPCLintSensor();

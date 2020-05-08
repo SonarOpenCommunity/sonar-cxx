@@ -48,7 +48,7 @@ public class CxxCompilerVcSensorTest {
     sensor.describe(descriptor);
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX Visual Studio compiler report import");
-    softly.assertThat(descriptor.languages()).containsOnly("c++");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx");
     softly.assertThat(descriptor.ruleRepositories())
       .containsOnly(CxxCompilerVcRuleRepository.KEY);
     softly.assertAll();
@@ -63,7 +63,7 @@ public class CxxCompilerVcSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "zipmanager.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxCompilerVcSensor();
     sensor.execute(context);
@@ -81,7 +81,7 @@ public class CxxCompilerVcSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "Server/source/zip/zipmanager.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxCompilerVcSensor();
     sensor.execute(context);

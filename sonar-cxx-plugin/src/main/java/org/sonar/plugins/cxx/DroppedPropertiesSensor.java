@@ -76,7 +76,7 @@ public class DroppedPropertiesSensor implements ProjectSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .onlyOnLanguage("c++")
+      .onlyOnLanguage("cxx")
       .onlyWhenConfiguration(configuration -> ALL_REMOVED_PROPERTIES.keySet().stream().anyMatch(configuration::hasKey))
       .name("CXX verify analysis parameters");
   }
