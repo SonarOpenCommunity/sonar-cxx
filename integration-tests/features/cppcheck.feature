@@ -103,7 +103,7 @@ Feature: Importing Cppcheck reports
 
   Scenario Outline: Importing Cppcheck reports with issues in C and C++ language
     Given the project "cppcheck_project_c_cpp"
-    And declared suffixes for c++ files to analyze are ".cpp,.cc,.hpp,.hh"
+    And declared suffixes for cxx files to analyze are ".cpp,.cc,.hpp,.hh"
     And rule "cppcheck:unusedVariable" is enabled
     And rule "cppcheck:unreadVariable" is enabled
     And rule "cppcheck:deallocDealloc" is enabled

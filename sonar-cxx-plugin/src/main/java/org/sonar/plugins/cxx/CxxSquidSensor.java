@@ -264,7 +264,7 @@ public class CxxSquidSensor implements ProjectSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX")
-      .onlyOnLanguage("c++")
+      .onlyOnLanguage("cxx")
       .onlyOnFileType(InputFile.Type.MAIN);
   }
 
@@ -281,7 +281,7 @@ public class CxxSquidSensor implements ProjectSensor {
                                                        new SquidAstVisitor[visitors.size()]));
 
     Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(
-      context.fileSystem().predicates().and(context.fileSystem().predicates().hasLanguage("c++"),
+      context.fileSystem().predicates().and(context.fileSystem().predicates().hasLanguage("cxx"),
                                             context.fileSystem().predicates().hasType(InputFile.Type.MAIN)));
 
     var files = new ArrayList<File>();

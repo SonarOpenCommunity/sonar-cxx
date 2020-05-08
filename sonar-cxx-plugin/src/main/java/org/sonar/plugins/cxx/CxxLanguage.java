@@ -37,7 +37,7 @@ public class CxxLanguage extends AbstractLanguage {
   /**
    * cxx language key
    */
-  public static final String KEY = "c++";
+  public static final String KEY = "cxx";
 
   /**
    * cxx language name

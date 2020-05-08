@@ -31,7 +31,7 @@ public class CxxSonarWayProfileTest {
     var profileDef = new CxxSonarWayProfile();
     var context = new BuiltInQualityProfilesDefinition.Context();
     profileDef.define(context);
-    BuiltInQualityProfilesDefinition.BuiltInQualityProfile profile = context.profile("c++", "Sonar way");
+    BuiltInQualityProfilesDefinition.BuiltInQualityProfile profile = context.profile("cxx", "Sonar way");
     assertThat(profile.language()).isEqualTo(CxxLanguage.KEY);
     assertThat(profile.name()).isEqualTo("Sonar way");
     List<BuiltInQualityProfilesDefinition.BuiltInActiveRule> activeRules = profile.rules();

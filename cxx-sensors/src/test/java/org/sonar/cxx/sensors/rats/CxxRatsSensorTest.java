@@ -48,8 +48,8 @@ public class CxxRatsSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp").setLanguage(
-      "c++").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "report.c").setLanguage("c++").initMetadata(
+      "cxx").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "report.c").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
     sensor = new CxxRatsSensor();
@@ -66,7 +66,7 @@ public class CxxRatsSensorTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX RATS report import");
-    softly.assertThat(descriptor.languages()).containsOnly("c++");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxRatsRuleRepository.KEY);
     softly.assertAll();
   }

@@ -48,7 +48,7 @@ public class AggregateMeasureComputerTest {
   public void ignoreFiles() {
     var aggregator = new AggregateMeasureComputer();
 
-    var file = new TestComponent("file", Type.FILE, new FileAttributesImpl("c++", false));
+    var file = new TestComponent("file", Type.FILE, new FileAttributesImpl("cxx", false));
     TestMeasureComputerContext context = createContext(aggregator, file);
 
     context.addChildrenMeasures(CxxMetrics.PUBLIC_API_KEY, 4, 3, 2, 1);

@@ -70,7 +70,7 @@ public class CxxClangTidySensorTest {
 
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n")
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n")
       .build());
 
     var sensor = new CxxClangTidySensor();
@@ -89,7 +89,7 @@ public class CxxClangTidySensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxClangTidySensor();
     sensor.execute(context);
@@ -107,7 +107,7 @@ public class CxxClangTidySensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxClangTidySensor();
     sensor.execute(context);
@@ -126,7 +126,7 @@ public class CxxClangTidySensorTest {
 
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n")
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n")
       .build());
 
     var sensor = new CxxClangTidySensor();
@@ -150,7 +150,7 @@ public class CxxClangTidySensorTest {
 
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n")
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n")
       .build());
 
     var sensor = new CxxClangTidySensor();
@@ -167,7 +167,7 @@ public class CxxClangTidySensorTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX Clang-Tidy report import");
-    softly.assertThat(descriptor.languages()).containsOnly("c++");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangTidyRuleRepository.KEY);
     softly.assertAll();
   }

@@ -73,7 +73,7 @@ public class TestUtils {
     DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target)
       .setContents(content)
       .setCharset(StandardCharsets.UTF_8)
-      .setLanguage("c++")
+      .setLanguage("cxx")
       .setType(InputFile.Type.MAIN).build();
     return inputFile;
   }

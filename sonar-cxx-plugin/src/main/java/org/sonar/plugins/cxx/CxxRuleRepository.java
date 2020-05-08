@@ -25,7 +25,7 @@ import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 public class CxxRuleRepository implements RulesDefinition {
 
-  private static final String REPOSITORY_NAME = "c++ SonarQube";
+  private static final String REPOSITORY_NAME = "cxx SonarQube";
 
   @Override
   public void define(Context context) {

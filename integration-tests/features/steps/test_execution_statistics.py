@@ -75,7 +75,7 @@ def step_impl(context, project):
     data = _got_key_from_quality_profile(profiles)
     default_profile_key = None
     for key, name in data.iteritems():
-        if name == "Sonar way - c++":
+        if name == "Sonar way - cxx":
             default_profile_key = key
 
     url = (SONAR_URL + "/api/qualityprofiles/set_default")
@@ -84,7 +84,7 @@ def step_impl(context, project):
 
     copy_profile_key = None
     for key, name in data.iteritems():
-        if name == "Sonar way copy - c++":
+        if name == "Sonar way copy - cxx":
             copy_profile_key = key
 
     if copy_profile_key:
@@ -101,7 +101,7 @@ def step_impl(context, project):
     profiles = _get_json(response)["profiles"]
     data = _got_key_from_quality_profile(profiles)
     for key, name in data.iteritems():
-        if name == "Sonar way copy - c++":
+        if name == "Sonar way copy - cxx":
             context.profile_key = key
 
     url = (SONAR_URL + "/api/qualityprofiles/set_default")
@@ -121,7 +121,7 @@ def step_impl(context, plat):
         context.scenario.skip(reason='scenario meant to run only in specified platform')
 
 
-@given(u'declared suffixes for c++ files to analyze are "{extensions}"')
+@given(u'declared suffixes for cxx files to analyze are "{extensions}"')
 def step_impl(context, extensions):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
     url = (SONAR_URL + "/api/settings/reset")

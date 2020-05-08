@@ -70,12 +70,12 @@ public class CxxClangSASensorTest {
     /*
      * 2 issues
      */
-    DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("c++")
+    DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cxx")
       .initMetadata("asd\nasdas\nasda\n").build();
     /*
      * 1 issue
      */
-    DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("c++")
+    DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cxx")
       .initMetadata("asd\nasdas\nasda\n").build();
 
     context.fileSystem().add(testFile0);
@@ -97,12 +97,12 @@ public class CxxClangSASensorTest {
     /*
      * 2 issues
      */
-    DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("c++")
+    DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cxx")
       .setContents(generateTestFileContents(100, 80)).build();
     /*
      * 1 issue
      */
-    DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("c++")
+    DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cxx")
       .setContents(generateTestFileContents(100, 80)).build();
 
     context.fileSystem().add(testFile0);
@@ -157,7 +157,7 @@ public class CxxClangSASensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc")
-      .setLanguage("c++").initMetadata("asd\nasdas\nasda\n").build());
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
     var sensor = new CxxClangSASensor();
     sensor.execute(context);
@@ -173,7 +173,7 @@ public class CxxClangSASensorTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX Clang Static Analyzer report import");
-    softly.assertThat(descriptor.languages()).containsOnly("c++");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangSARuleRepository.KEY);
     softly.assertAll();
   }
