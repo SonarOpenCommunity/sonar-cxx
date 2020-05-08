@@ -21,26 +21,22 @@ package org.sonar.cxx.sensors.cppcheck;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
+import org.sonar.cxx.sensors.utils.RuleRepository;
 
 /**
  * {@inheritDoc}
  */
-public class CxxCppCheckRuleRepository extends CxxAbstractRuleRepository {
+public class CxxCppCheckRuleRepository extends RuleRepository {
 
   public static final String KEY = "cppcheck";
   private static final String NAME = "Cppcheck";
+  private static final String FILE = "/cppcheck.xml";
 
   /**
    * {@inheritDoc}
    */
   public CxxCppCheckRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME);
-  }
-
-  @Override
-  protected String fileName() {
-    return "/cppcheck.xml";
+    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
   }
 
 }

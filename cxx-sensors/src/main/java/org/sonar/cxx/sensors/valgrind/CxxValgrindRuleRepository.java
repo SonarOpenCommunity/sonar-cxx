@@ -21,26 +21,22 @@ package org.sonar.cxx.sensors.valgrind;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
+import org.sonar.cxx.sensors.utils.RuleRepository;
 
 /**
  * {@inheritDoc}
  */
-public class CxxValgrindRuleRepository extends CxxAbstractRuleRepository {
+public class CxxValgrindRuleRepository extends RuleRepository {
 
   public static final String KEY = "valgrind";
   private static final String NAME = "Valgrind";
+  private static final String FILE = "/valgrind.xml";
 
   /**
    * {@inheritDoc}
    */
   public CxxValgrindRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME);
-  }
-
-  @Override
-  protected String fileName() {
-    return "/valgrind.xml";
+    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
   }
 
 }

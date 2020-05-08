@@ -197,5 +197,4 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   protected abstract String getReportPathKey();
 
   protected abstract String getRuleRepositoryKey();
-
 }

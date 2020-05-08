@@ -21,26 +21,22 @@ package org.sonar.cxx.sensors.drmemory;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
+import org.sonar.cxx.sensors.utils.RuleRepository;
 
 /**
  * {@inheritDoc}
  */
-public class CxxDrMemoryRuleRepository extends CxxAbstractRuleRepository {
+public class CxxDrMemoryRuleRepository extends RuleRepository {
 
   public static final String KEY = "drmemory";
   private static final String NAME = "Dr Memory";
+  private static final String FILE = "/drmemory.xml";
 
   /**
    * {@inheritDoc}
    */
   public CxxDrMemoryRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME);
-  }
-
-  @Override
-  protected String fileName() {
-    return "/drmemory.xml";
+    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
   }
 
 }
