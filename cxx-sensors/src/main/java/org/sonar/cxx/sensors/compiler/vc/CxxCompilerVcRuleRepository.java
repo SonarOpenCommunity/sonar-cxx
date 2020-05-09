@@ -21,26 +21,22 @@ package org.sonar.cxx.sensors.compiler.vc;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
+import org.sonar.cxx.sensors.utils.RuleRepository;
 
 /**
  * {@inheritDoc}
  */
-public class CxxCompilerVcRuleRepository extends CxxAbstractRuleRepository {
+public class CxxCompilerVcRuleRepository extends RuleRepository {
 
   public static final String KEY = "compiler-vc";
   private static final String NAME = "Compiler-VC";
+  private static final String FILE = "/compiler-vc.xml";
 
   /**
    * {@inheritDoc}
    */
   public CxxCompilerVcRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME);
-  }
-
-  @Override
-  protected String fileName() {
-    return "/compiler-vc.xml";
+    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
   }
 
 }

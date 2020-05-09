@@ -37,27 +37,30 @@ import org.sonar.api.utils.log.Loggers;
 /**
  * {@inheritDoc}
  */
-public abstract class CxxAbstractRuleRepository implements RulesDefinition {
+public class RuleRepository implements RulesDefinition {
 
-  private static final Logger LOG = Loggers.get(CxxAbstractRuleRepository.class);
+  private static final Logger LOG = Loggers.get(RuleRepository.class);
 
   private final ServerFileSystem fileSystem;
   private final RulesDefinitionXmlLoader xmlRuleLoader;
   protected final String repositoryKey;
   protected final String repositoryName;
+  protected final String repositoryFile;
 
   /**
    * {@inheritDoc}
    */
-  public CxxAbstractRuleRepository(
+  protected RuleRepository(
     ServerFileSystem fileSystem,
     RulesDefinitionXmlLoader xmlRuleLoader,
     String key,
-    String name) {
+    String name,
+    String file) {
     this.fileSystem = fileSystem;
     this.xmlRuleLoader = xmlRuleLoader;
     this.repositoryKey = key;
     this.repositoryName = name;
+    this.repositoryFile = file;
   }
 
   @Override
@@ -66,12 +69,12 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     NewRepository repository = context.createRepository(repositoryKey, "cxx").setName(repositoryName);
 
     var xmlLoader = new RulesDefinitionXmlLoader();
-    if (!"".equals(fileName())) {
-      InputStream xmlStream = getClass().getResourceAsStream(fileName());
+    if (!"".equals(repositoryFile)) {
+      InputStream xmlStream = getClass().getResourceAsStream(repositoryFile);
       xmlLoader.load(repository, xmlStream, charset);
 
       for (var userExtensionXml : getExtensions(repositoryKey, "xml")) {
-        try (InputStream input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
+        try ( InputStream input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
           xmlRuleLoader.load(repository, input, charset);
         } catch (IOException | IllegalStateException ex) {
           LOG.info("Cannot Load XML '{}'", ex);
@@ -94,7 +97,5 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     }
     return files;
   }
-
-  protected abstract String fileName();
 
 }

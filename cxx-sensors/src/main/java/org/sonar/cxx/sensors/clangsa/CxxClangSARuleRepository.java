@@ -21,26 +21,22 @@ package org.sonar.cxx.sensors.clangsa;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
+import org.sonar.cxx.sensors.utils.RuleRepository;
 
 /**
  * {@inheritDoc}
  */
-public class CxxClangSARuleRepository extends CxxAbstractRuleRepository {
+public class CxxClangSARuleRepository extends RuleRepository {
 
   public static final String KEY = "ClangSA";
   private static final String NAME = "Clang-SA";
+  private static final String FILE = "/clangsa.xml";
 
   /**
    * {@inheritDoc}
    */
   public CxxClangSARuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME);
-  }
-
-  @Override
-  protected String fileName() {
-    return "/clangsa.xml";
+    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
   }
 
 }

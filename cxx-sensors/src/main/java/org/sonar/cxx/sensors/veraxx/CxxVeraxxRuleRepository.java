@@ -21,26 +21,22 @@ package org.sonar.cxx.sensors.veraxx;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
+import org.sonar.cxx.sensors.utils.RuleRepository;
 
 /**
  * {@inheritDoc}
  */
-public class CxxVeraxxRuleRepository extends CxxAbstractRuleRepository {
+public class CxxVeraxxRuleRepository extends RuleRepository {
 
   public static final String KEY = "vera++";
   private static final String NAME = "Vera++";
+  private static final String FILE = "/vera++.xml";
 
   /**
    * {@inheritDoc}
    */
   public CxxVeraxxRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME);
-  }
-
-  @Override
-  protected String fileName() {
-    return "/vera++.xml";
+    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
   }
 
 }

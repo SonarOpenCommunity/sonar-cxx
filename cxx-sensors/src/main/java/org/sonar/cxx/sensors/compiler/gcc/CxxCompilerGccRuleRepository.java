@@ -21,26 +21,22 @@ package org.sonar.cxx.sensors.compiler.gcc;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
+import org.sonar.cxx.sensors.utils.RuleRepository;
 
 /**
  * {@inheritDoc}
  */
-public class CxxCompilerGccRuleRepository extends CxxAbstractRuleRepository {
+public class CxxCompilerGccRuleRepository extends RuleRepository {
 
   public static final String KEY = "compiler-gcc";
   private static final String NAME = "Compiler-GCC";
+  private static final String FILE = "/compiler-gcc.xml";
 
   /**
    * {@inheritDoc}
    */
   public CxxCompilerGccRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME);
-  }
-
-  @Override
-  protected String fileName() {
-    return "/compiler-gcc.xml";
+    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
   }
 
 }
