@@ -19,9 +19,9 @@
  */
 package org.sonar.cxx.utils;
 
-import java.nio.file.Paths;
 import java.util.Objects;
 import javax.annotation.Nullable;
+import org.sonar.api.utils.PathUtils;
 
 /**
  * Each issues in SonarQube might have multiple locations; Encapsulate its properties in this structure
@@ -34,11 +34,8 @@ public class CxxReportLocation {
 
   public CxxReportLocation(@Nullable String file, @Nullable String line, String info) {
     super();
-    if (file != null) {
-      this.file = Paths.get(file).normalize().toString();
-    } else {
-      this.file = null;
-    }
+    // normalize file, removing double and single dot path steps => avoids duplicates
+    this.file = PathUtils.sanitize(file);
     this.line = line;
     this.info = info;
   }

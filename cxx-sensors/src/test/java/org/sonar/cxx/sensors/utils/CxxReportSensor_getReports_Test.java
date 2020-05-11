@@ -27,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 
 public class CxxReportSensor_getReports_Test {
@@ -43,8 +44,10 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.touch(absReportFile);
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
+    var context = SensorContextTester.create(base.getRoot());
+    context.setSettings(settings);
 
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
     assertThat(reports.size()).isEqualTo(1);
   }
 
@@ -54,8 +57,10 @@ public class CxxReportSensor_getReports_Test {
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
+    var context = SensorContextTester.create(base.getRoot());
+    context.setSettings(settings);
 
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
     assertThat(reports.size()).isEqualTo(1);
   }
 
@@ -65,8 +70,10 @@ public class CxxReportSensor_getReports_Test {
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
+    var context = SensorContextTester.create(base.getRoot());
+    context.setSettings(settings);
 
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
     assertThat(reports.size()).isEqualTo(1);
   }
 
@@ -79,8 +86,10 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.touch(new File(base.getRoot(), relativeReport));
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + "," + relativeReport);
+    var context = SensorContextTester.create(base.getRoot());
+    context.setSettings(settings);
 
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
     assertThat(reports.size()).isEqualTo(2);
   }
 
@@ -98,8 +107,10 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.touch(new File(base.getRoot(), "some/reports/b"));
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",**/*.xml");
+    var context = SensorContextTester.create(base.getRoot());
+    context.setSettings(settings);
 
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
     assertThat(reports.size()).isEqualTo(6);
   }
 
@@ -116,8 +127,10 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.touch(new File(base.getRoot(), "some/reports/b.xml"));
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",path/**/*.xml");
+    var context = SensorContextTester.create(base.getRoot());
+    context.setSettings(settings);
 
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
     assertThat(reports.size()).isEqualTo(5);
   }
 
@@ -129,8 +142,10 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/2.xml"));
 
     settings.setProperty(REPORT_PATH_KEY, "../" + base.getRoot().getName() + "/path/**/*.xml");
+    var context = SensorContextTester.create(base.getRoot());
+    context.setSettings(settings);
 
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
     assertThat(reports.size()).isEqualTo(4);
   }
 
@@ -143,8 +158,10 @@ public class CxxReportSensor_getReports_Test {
                                             + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../"
                                           + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../"
                                           + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../*.xml");
+    var context = SensorContextTester.create(base.getRoot());
+    context.setSettings(settings);
 
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
     assertThat(reports.size()).isEqualTo(0);
   }
 
