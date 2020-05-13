@@ -157,6 +157,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
                    | com.ctc.wstx.exc.WstxEOFException
                    | com.ctc.wstx.exc.WstxIOException e) {
           LOG.error("Ignore XML error from PC-lint '{}'", CxxUtils.getStackTrace(e));
+          throw new EmptyReportException("Lint report" + report + "cannot be parsed", e);
         }
       }
 
