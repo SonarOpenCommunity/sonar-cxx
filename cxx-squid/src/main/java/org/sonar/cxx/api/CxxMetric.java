@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.api;
 
+import javax.annotation.CheckForNull;
 import org.sonar.squidbridge.measures.CalculatedMetricFormula;
 import org.sonar.squidbridge.measures.MetricDef;
 
@@ -67,6 +68,7 @@ public enum CxxMetric implements MetricDef {
   }
 
   @Override
+  @CheckForNull
   public CalculatedMetricFormula getCalculatedMetricFormula() {
     return null;
   }

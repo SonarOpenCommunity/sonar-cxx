@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.tools.ant.DirectoryScanner;
@@ -83,7 +84,7 @@ public final class CxxUtils {
    * @param antPattern relative or absolute path (could also be Ant pattern)
    * @return normalized absolute path (or null in case of error)
    */
-  @Nullable
+  @CheckForNull
   public static String resolveAntPath(final String baseDir, @Nullable final String antPattern) {
     if (antPattern != null && !antPattern.isBlank()) {
       String path;

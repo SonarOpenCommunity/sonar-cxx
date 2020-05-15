@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
@@ -73,7 +74,7 @@ public final class CxxChecks {
     return allVisitors;
   }
 
-  @Nullable
+  @CheckForNull
   public RuleKey ruleKey(SquidAstVisitor<Grammar> check) {
     for (var checks : checksByRepository) {
       RuleKey ruleKey = checks.ruleKey(check);

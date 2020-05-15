@@ -28,6 +28,7 @@ import com.sonar.sslr.impl.ast.AstXmlPrinter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxKeyword;
@@ -132,6 +133,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     return false;
   }
 
+  @CheckForNull
   private static AstNode getTypedefNode(AstNode classSpecifier) {
     AstNode declSpecifier = classSpecifier.getFirstAncestor(CxxGrammarImpl.declSpecifier);
     if (declSpecifier != null) {

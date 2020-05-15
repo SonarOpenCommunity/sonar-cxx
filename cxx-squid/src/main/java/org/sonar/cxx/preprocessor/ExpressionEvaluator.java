@@ -29,6 +29,7 @@ import java.math.BigInteger;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -152,6 +153,7 @@ public final class ExpressionEvaluator {
     return "'\0'".equals(charValue) ? BigInteger.ZERO : BigInteger.ONE;
   }
 
+  @CheckForNull
   private static AstNode getNextOperand(@Nullable AstNode node) {
     AstNode sibling = node;
     if (sibling != null) {

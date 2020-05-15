@@ -24,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -81,6 +82,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
     return getInputFileIfInProject(frame.getFile()) != null;
   }
 
+  @CheckForNull
   private Location getLastOwnFrame(DrMemoryError error) {
     for (var frame : error.getStackTrace()) {
       if (frameIsInProject(frame)) {
