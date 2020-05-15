@@ -78,7 +78,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   @Override
   public void executeImpl() {
     try {
-      List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), REPORT_PATH_KEY);
+      List<File> reports = getReports(REPORT_PATH_KEY);
       if (!reports.isEmpty()) {
         XunitReportParser parserHandler = parseReport(reports);
         save(parserHandler.getTestFiles());

@@ -88,12 +88,12 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
 
   @Override
   protected String getCharset() {
-    return getContextStringProperty(REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
+    return context.config().get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF);
   }
 
   @Override
   protected String getRegex() {
-    return getContextStringProperty(REPORT_REGEX_DEF, DEFAULT_REGEX_DEF);
+    return context.config().get(REPORT_REGEX_DEF).orElse(DEFAULT_REGEX_DEF);
   }
 
   @Override

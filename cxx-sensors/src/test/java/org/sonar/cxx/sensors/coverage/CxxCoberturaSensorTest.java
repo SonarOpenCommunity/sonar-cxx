@@ -34,6 +34,7 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
+import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -206,7 +207,7 @@ public class CxxCoberturaSensorTest {
     List<String> log = logTester.logs();
     assertThat(log).contains(
       "Property 'sonar.cxx.coverage.reportPath': cannot find any files matching the Ant pattern(s) '"
-        + new File(fs.baseDir(), reportPathValue).getAbsolutePath() + "'");
+        + PathUtils.sanitize(new File(fs.baseDir(), reportPathValue).getAbsolutePath()) + "'");
   }
 
   @Test
