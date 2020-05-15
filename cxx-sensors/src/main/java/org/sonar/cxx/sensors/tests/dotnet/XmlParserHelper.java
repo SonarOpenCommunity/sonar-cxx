@@ -27,7 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -81,7 +81,7 @@ public class XmlParserHelper implements AutoCloseable {
     }
   }
 
-  @Nullable
+  @CheckForNull
   String nextStartTag() {
     try {
       while (stream.hasNext()) {
@@ -96,7 +96,7 @@ public class XmlParserHelper implements AutoCloseable {
     }
   }
 
-  @Nullable
+  @CheckForNull
   String nextStartOrEndTag() {
     try {
       while (stream.hasNext()) {
@@ -132,7 +132,7 @@ public class XmlParserHelper implements AutoCloseable {
     return value == null ? 0 : tagToIntValue(name, value);
   }
 
-  @Nullable
+  @CheckForNull
   Double getDoubleAttribute(String name) {
     String value = getAttribute(name);
     if (value == null) {
@@ -156,7 +156,7 @@ public class XmlParserHelper implements AutoCloseable {
     return value;
   }
 
-  @Nullable
+  @CheckForNull
   String getAttribute(String name) {
     for (var i = 0; i < stream.getAttributeCount(); i++) {
       if (name.equals(stream.getAttributeLocalName(i))) {

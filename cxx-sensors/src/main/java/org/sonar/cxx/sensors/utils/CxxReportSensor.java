@@ -26,7 +26,7 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.scanner.sensor.ProjectSensor;
@@ -70,7 +70,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
    * @param path relative or absolute path
    * @return InputFile if path is part of project, otherwise none
    */
-  @Nullable
+  @CheckForNull
   public InputFile getInputFileIfInProject(String path) {
     InputFile inputFile = null;
 
@@ -115,7 +115,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
    * @param path relative or absolute path
    * @return InputFile if path is part of project, otherwise none
    */
-  @Nullable
+  @CheckForNull
   private InputFile getInputFileTryRealPath(String path) {
 
     // create absolute path (relative to baseDir)

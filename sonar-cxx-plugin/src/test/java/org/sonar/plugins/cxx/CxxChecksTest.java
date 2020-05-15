@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx;
 import com.sonar.sslr.api.Grammar;
 import java.util.ArrayList;
 import java.util.Collections;
+import javax.annotation.CheckForNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -105,6 +106,7 @@ public class CxxChecksTest {
     assertThat(checks.ruleKey(new MyCustomRule())).isNull();
   }
 
+  @CheckForNull
   public SquidAstVisitor<Grammar> check(CxxChecks cxxChecks, String repository, String rule) {
     RuleKey key = RuleKey.of(repository, rule);
 

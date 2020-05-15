@@ -22,6 +22,7 @@ package org.sonar.cxx.visitors;
 import com.sonar.sslr.api.Grammar;
 import java.util.HashSet;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.utils.AnnotationUtils;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -75,7 +76,7 @@ public class MultiLocatitionSquidCheck<G extends Grammar> extends SquidCheck<G> 
       return c.peekSourceCode().getParent(SourceFile.class);
     } else {
       throw new IllegalStateException("Unable to get SourceFile on source code '"
-        + (c.peekSourceCode() == null ? "[NULL]" : c.peekSourceCode().getKey()) + "'");
+                                        + (c.peekSourceCode() == null ? "[NULL]" : c.peekSourceCode().getKey()) + "'");
     }
   }
 
@@ -130,6 +131,7 @@ public class MultiLocatitionSquidCheck<G extends Grammar> extends SquidCheck<G> 
     }
 
     @Override
+    @CheckForNull
     public CalculatedMetricFormula getCalculatedMetricFormula() {
       return null;
     }

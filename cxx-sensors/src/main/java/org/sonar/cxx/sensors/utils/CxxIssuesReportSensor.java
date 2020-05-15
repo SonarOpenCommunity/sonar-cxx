@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.issue.NewIssue;
@@ -134,6 +135,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     return lineNr;
   }
 
+  @CheckForNull
   private NewIssueLocation createNewIssueLocation(NewIssue newIssue, CxxReportLocation location) {
     InputFile inputFile = getInputFileIfInProject(location.getFile());
     if (inputFile != null) {

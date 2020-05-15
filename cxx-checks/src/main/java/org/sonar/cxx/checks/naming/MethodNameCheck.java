@@ -24,7 +24,7 @@ import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -58,8 +58,8 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
   public String format = DEFAULT;
   private Pattern pattern = null;
 
-  private static @Nullable
-  AstNode getMethodName(AstNode functionDefinition) {
+  @CheckForNull
+  private static AstNode getMethodName(AstNode functionDefinition) {
     AstNode declId = functionDefinition.getFirstDescendant(CxxGrammarImpl.declaratorId);
     AstNode result = null;
     if (declId != null) {
@@ -73,8 +73,8 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
     return result;
   }
 
-  private static @Nullable
-  AstNode getInsideMemberDeclaration(AstNode declId) {
+  @CheckForNull
+  private static AstNode getInsideMemberDeclaration(AstNode declId) {
     AstNode result = null;
     if (declId.hasAncestor(CxxGrammarImpl.memberDeclaration)) {
       AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
@@ -110,8 +110,8 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
     return result;
   }
 
-  private static @Nullable
-  AstNode getOutsideMemberDeclaration(AstNode declId) {
+  @CheckForNull
+  private static AstNode getOutsideMemberDeclaration(AstNode declId) {
     AstNode nestedNameSpecifier = declId.getFirstDescendant(CxxGrammarImpl.nestedNameSpecifier);
     AstNode result = null;
     if (nestedNameSpecifier != null) {
