@@ -24,6 +24,7 @@ Sensors for **static and dynamic code analysis**:
 * Visual Studio Core Guideline Checker warnings support
 * Clang Static Analyzer support (https://clang-analyzer.llvm.org/)
 * Clang Tidy warnings support (http://clang.llvm.org/extra/clang-tidy/)
+* Infer warnings support (https://fbinfer.com/)
 * PC-Lint warnings support (http://www.gimpel.com/)
 * RATS (https://github.com/andrew-d/rough-auditing-tool-for-security)
 * Valgrind (http://valgrind.org/)
@@ -37,7 +38,7 @@ Sensors for **static and dynamic code analysis**:
 * CppUnit file format
 * VSTest file format
 * NUnit file format
-* extentions over XSLT possible
+* extensions over XSLT possible
 
 **Coverage** sensors for:
 * Visual Studio coverage reports
