@@ -29,6 +29,7 @@ import org.sonar.cxx.utils.CxxReportIssue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Parser for Infer reports
@@ -45,15 +46,18 @@ public class InferParser {
     this.sensor = sensor;
   }
 
-  public void processReport(File report) throws FileNotFoundException {
+  public void processReport(File report) throws IOException {
     LOG.debug("Processing 'Infer JSON' format");
 
-    Gson gson = new Gson();
-    JsonReader reader = new JsonReader(new FileReader(report));
-    InferIssue[] inferIssues = gson.fromJson(reader, InferIssue[].class);
+    InferIssue[] inferIssues;
+
+    try (JsonReader reader = new JsonReader(new FileReader(report))) {
+      Gson gson = new Gson();
+      inferIssues = gson.fromJson(reader,InferIssue[].class);
+    }
 
     for(InferIssue issue : inferIssues) {
-      LOG.debug("Read: " + issue.toString());
+      LOG.debug("Read: {}", issue.toString());
       if(sensor.getInputFileIfInProject(issue.getFile()) != null) {
         CxxReportIssue cxxReportIssue = new CxxReportIssue(
                 issue.getBugType(), issue.getFile(),

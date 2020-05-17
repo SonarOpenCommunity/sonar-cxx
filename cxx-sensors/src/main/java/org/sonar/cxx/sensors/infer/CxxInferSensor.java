@@ -28,6 +28,7 @@ import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -70,7 +71,7 @@ public class CxxInferSensor extends CxxIssuesReportSensor {
     try {
       parser.processReport(report);
       LOG.info("Added report '{}' (parsed by: {})", report, parser);
-    } catch (FileNotFoundException e) {
+    } catch (IOException e) {
       LOG.error("Report {} cannot be found", report);
     }
   }
