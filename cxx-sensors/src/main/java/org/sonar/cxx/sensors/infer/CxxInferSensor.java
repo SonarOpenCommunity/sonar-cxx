@@ -25,7 +25,7 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
-import org.sonar.cxx.sensors.utils.EmptyReportException;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,7 +72,7 @@ public class CxxInferSensor extends CxxIssuesReportSensor {
       parser.processReport(report);
       LOG.info("Added report '{}' (parsed by: {})", report, parser);
     } catch (IOException e) {
-      throw new EmptyReportException("Cannot read infer report", e);
+      throw new InvalidReportException("Cannot read infer report", e);
     }
   }
 
