@@ -58,7 +58,7 @@ public class InferParser {
 
     for(InferIssue issue : inferIssues) {
       LOG.debug("Read: {}", issue.toString());
-      if(sensor.getInputFileIfInProject(issue.getFile()) != null) {
+      if(issue.getFile() != null) {
         CxxReportIssue cxxReportIssue = new CxxReportIssue(
                 issue.getBugType(), issue.getFile(),
                 String.valueOf(issue.getLine()), issue.getQualifier());
