@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 
 public class CxxReportPatternMatchingTest {
@@ -71,7 +72,9 @@ public class CxxReportPatternMatchingTest {
       setupExample(allpaths);
 
       settings.setProperty(REPORT_PATH_KEY, pattern);
-      reports = CxxReportSensor.getReports(settings.asConfig(), base.getRoot(), REPORT_PATH_KEY);
+      var context = SensorContextTester.create(base.getRoot());
+      context.setSettings(settings);
+      reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
       String[] parsedPaths = expected.split(",");
       var expectedFiles = new LinkedList<File>();
       for (var path : parsedPaths) {

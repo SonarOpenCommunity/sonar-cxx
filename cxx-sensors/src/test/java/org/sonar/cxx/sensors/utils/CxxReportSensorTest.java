@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 
 public class CxxReportSensorTest {
@@ -57,28 +58,36 @@ public class CxxReportSensorTest {
   public void getReports_shouldFindNothingIfNoKey() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
 
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, "");
+    var context = SensorContextTester.create(baseDir);
+    context.setSettings(settings);
+    List<File> reports = CxxUtils.getFiles(context, "");
     assertThat(reports).isNotNull();
   }
 
   @Test
   public void getReports_shouldFindNothingIfNoPath() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, "");
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
+    var context = SensorContextTester.create(baseDir);
+    context.setSettings(settings);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_PROPERTY_KEY);
     assertThat(reports).isNotNull();
   }
 
   @Test
   public void getReports_shouldFindNothingIfInvalidPath() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
+    var context = SensorContextTester.create(baseDir);
+    context.setSettings(settings);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_PROPERTY_KEY);
     assertThat(reports).isNotNull();
   }
 
   @Test
   public void getReports_shouldFindSomething() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
+    var context = SensorContextTester.create(baseDir);
+    context.setSettings(settings);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_PROPERTY_KEY);
     assertThat(reports).isNotNull();
     assertThat(reports.get(0).exists()).isTrue();
     assertThat(reports.get(0).isAbsolute()).isTrue();
@@ -88,7 +97,9 @@ public class CxxReportSensorTest {
   @Test
   public void getReports_shouldFindSomethingList() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH_LIST);
-    List<File> reports = CxxReportSensor.getReports(settings.asConfig(), baseDir, REPORT_PATH_PROPERTY_KEY);
+    var context = SensorContextTester.create(baseDir);
+    context.setSettings(settings);
+    List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_PROPERTY_KEY);
     assertThat(reports).isNotNull();
     assertThat(reports.get(0).exists()).isTrue();
     assertThat(reports.get(0).isAbsolute()).isTrue();

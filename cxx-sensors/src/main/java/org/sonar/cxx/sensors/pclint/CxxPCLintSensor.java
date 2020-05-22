@@ -161,9 +161,9 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
       }
 
       private void addSecondaryLocationsToCurrentIssue(@Nonnull CxxReportIssue currentIssue,
-                                                       String file,
-                                                       String line,
-                                                       String msg) {
+                                                       @Nullable String file,
+                                                       @Nullable String line,
+                                                       @Nullable String msg) {
         if (currentIssue.getLocations().isEmpty()) {
           LOG.error("The issue of {} must have the primary location. Skip adding more locations",
                     currentIssue.toString());

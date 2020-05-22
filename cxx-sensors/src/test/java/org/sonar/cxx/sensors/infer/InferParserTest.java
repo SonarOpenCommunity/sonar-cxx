@@ -17,30 +17,29 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
+package org.sonar.cxx.sensors.infer;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.google.gson.Gson;
 import org.junit.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarEdition;
-import org.sonar.api.SonarQubeSide;
-import org.sonar.api.SonarRuntime;
-import org.sonar.api.internal.SonarRuntimeImpl;
-import org.sonar.api.utils.Version;
 
-public class CxxPluginTest {
+import static org.junit.Assert.assertEquals;
+
+public class InferParserTest {
 
   @Test
-  public void testGetExtensions() throws Exception {
-    SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(
-      Version.create(7, 9),
-      SonarQubeSide.SCANNER,
-      SonarEdition.COMMUNITY
-    );
-    var context = new Plugin.Context(runtime);
-    var plugin = new CxxPlugin();
-    plugin.define(context);
-    assertThat(context.getExtensions()).hasSize(74);
+  public void shouldParseImportantInformation() {
+    InferParser.InferIssue expected = new InferParser.InferIssue();
+    expected.setBugType("TotoType");
+    expected.setFile("path/to/toto.c");
+    expected.setLine(11);
+    expected.setQualifier("Toto should not be toto.");
+
+    String json = "{'bug_type':'TotoType','qualifier':'Toto should not be toto.',"
+            + "'line':11,'file':'path/to/toto.c'}";
+    Gson gson = new Gson();
+    InferParser.InferIssue value = gson.fromJson(json, InferParser.InferIssue.class);
+
+    assertEquals(expected.toString(), value.toString());
   }
 
 }

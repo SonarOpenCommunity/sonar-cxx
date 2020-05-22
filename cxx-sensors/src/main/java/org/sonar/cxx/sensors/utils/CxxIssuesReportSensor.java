@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.issue.NewIssue;
@@ -58,7 +59,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     try {
       LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'",
                context.fileSystem().baseDir(), getReportPathKey());
-      List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), getReportPathKey());
+      List<File> reports = getReports(getReportPathKey());
 
       for (var report : reports) {
         LOG.info("Processing report '{}'", report);
@@ -78,11 +79,24 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   /**
    * Saves code violation only if it wasn't already saved
    *
+   * Saves a code violation which is detected in the given file/line and has given ruleId and message. Saves it to the
+   * given project and context. Project or file-level violations can be saved by passing null for the according
+   * parameters ('file' = null for project level, 'line' = null for file-level)
+   *
    * @param issue
    */
   public void saveUniqueViolation(CxxReportIssue issue) {
     if (uniqueIssues.add(issue)) {
-      saveViolation(issue);
+      try {
+        NewIssue newIssue = context.newIssue();
+        if (addLocations(newIssue, issue)) {
+          addFlow(newIssue, issue);
+          newIssue.save();
+        }
+      } catch (RuntimeException ex) {
+        LOG.error("Could not add the issue '{}':{}', skipping issue", issue.toString(), CxxUtils.getStackTrace(ex));
+        CxxUtils.validateRecovery(ex, context.config());
+      }
     }
   }
 
@@ -102,48 +116,69 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     }
   }
 
-  private NewIssueLocation createNewIssueLocationProject(NewIssue newIssue, CxxReportLocation location) {
-    return newIssue.newLocation().on(context.project()).message(location.getInfo());
+  private int getLineAsInt(@Nullable String line, int lines) {
+    int lineNr = 0;
+    if (line != null) {
+      try {
+        lineNr = Integer.parseInt(line);
+        if (lineNr < 1) {
+          lineNr = 1;
+        } else if (lineNr > lines) { // https://jira.sonarsource.com/browse/SONAR-6792
+          lineNr = lines;
+        }
+      } catch (java.lang.NumberFormatException nfe) {
+        LOG.warn("Skipping invalid line number: {}", line);
+        CxxUtils.validateRecovery(nfe, context.config());
+        lineNr = -1;
+      }
+    }
+    return lineNr;
   }
 
-  private NewIssueLocation createNewIssueLocationFile(NewIssue newIssue, CxxReportLocation location) {
+  @CheckForNull
+  private NewIssueLocation createNewIssueLocation(NewIssue newIssue, CxxReportLocation location) {
     InputFile inputFile = getInputFileIfInProject(location.getFile());
     if (inputFile != null) {
-      int lines = inputFile.lines();
-      int lineNr = Integer.max(1, getLineAsInt(location.getLine(), lines));
-      var newIssueLocation = newIssue.newLocation()
+      int line = Integer.max(1, getLineAsInt(location.getLine(), inputFile.lines()));
+      return newIssue.newLocation()
         .on(inputFile)
-        .at(inputFile.selectLine(lineNr))
+        .at(inputFile.selectLine(line))
         .message(location.getInfo());
-      return newIssueLocation;
     }
     return null;
   }
 
-  /**
-   * Saves a code violation which is detected in the given file/line and has given ruleId and message. Saves it to the
-   * given project and context. Project or file-level violations can be saved by passing null for the according
-   * parameters ('file' = null for project level, 'line' = null for file-level)
-   */
-  private void saveViolation(CxxReportIssue issue) {
-    NewIssue newIssue = context.newIssue().forRule(RuleKey.of(getRuleRepositoryKey(), issue.getRuleId()));
-    var newIssueLocations = new ArrayList<NewIssueLocation>();
-    var newIssueFlow = new ArrayList<NewIssueLocation>();
-
+  private boolean addLocations(NewIssue newIssue, CxxReportIssue issue) {
+    boolean first = true;
     for (var location : issue.getLocations()) {
+      NewIssueLocation newLocation = null;
       if (location.getFile() != null && !location.getFile().isEmpty()) {
-        NewIssueLocation newIssueLocation = createNewIssueLocationFile(newIssue, location);
-        if (newIssueLocation != null) {
-          newIssueLocations.add(newIssueLocation);
-        }
+        newLocation = createNewIssueLocation(newIssue, location);
       } else {
-        NewIssueLocation newIssueLocation = createNewIssueLocationProject(newIssue, location);
-        newIssueLocations.add(newIssueLocation);
+        newLocation = newIssue.newLocation()
+          .on(context.project())
+          .message(location.getInfo());
+      }
+
+      if (newLocation != null) {
+        if (first) {
+          newIssue
+            .forRule(RuleKey.of(getRuleRepositoryKey(), issue.getRuleId()))
+            .at(newLocation);
+          first = false;
+        } else {
+          newIssue.addLocation(newLocation);
+        }
       }
     }
 
+    return !first;
+  }
+
+  private void addFlow(NewIssue newIssue, CxxReportIssue issue) {
+    var newIssueFlow = new ArrayList<NewIssueLocation>();
     for (var location : issue.getFlow()) {
-      NewIssueLocation newIssueLocation = createNewIssueLocationFile(newIssue, location);
+      NewIssueLocation newIssueLocation = createNewIssueLocation(newIssue, location);
       if (newIssueLocation != null) {
         newIssueFlow.add(newIssueLocation);
       } else {
@@ -153,43 +188,9 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       }
     }
 
-    if (!newIssueLocations.isEmpty()) {
-      try {
-        newIssue.at(newIssueLocations.get(0));
-        for (var i = 1; i < newIssueLocations.size(); i++) {
-          newIssue.addLocation(newIssueLocations.get(i));
-        }
-
-        if (!newIssueFlow.isEmpty()) {
-          newIssue.addFlow(newIssueFlow);
-        }
-
-        newIssue.save();
-
-      } catch (RuntimeException ex) {
-        LOG.error("Could not add the issue '{}':{}', skipping issue", issue.toString(), CxxUtils.getStackTrace(ex));
-        CxxUtils.validateRecovery(ex, context.config());
-      }
+    if (!newIssueFlow.isEmpty()) {
+      newIssue.addFlow(newIssueFlow);
     }
-  }
-
-  private int getLineAsInt(@Nullable String line, int maxLine) {
-    int lineNr = 0;
-    if (line != null) {
-      try {
-        lineNr = Integer.parseInt(line);
-        if (lineNr < 1) {
-          lineNr = 1;
-        } else if (lineNr > maxLine) { // https://jira.sonarsource.com/browse/SONAR-6792
-          lineNr = maxLine;
-        }
-      } catch (java.lang.NumberFormatException nfe) {
-        LOG.warn("Skipping invalid line number: {}", line);
-        CxxUtils.validateRecovery(nfe, context.config());
-        lineNr = -1;
-      }
-    }
-    return lineNr;
   }
 
   protected abstract void processReport(File report) throws Exception;

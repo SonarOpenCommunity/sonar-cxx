@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -78,6 +79,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
     return frame.isLocationKnown() && (getInputFileIfInProject(frame.getPath()) != null);
   }
 
+  @CheckForNull
   private CxxReportIssue createIssue(ValgrindError error, ValgrindStack stack, int stackNr) {
     ValgrindFrame lastOwnFrame = stack.getLastOwnFrame(context.fileSystem().baseDir().getPath());
     if (lastOwnFrame == null) {

@@ -23,19 +23,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import javax.annotation.Nullable;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.tools.ant.DirectoryScanner;
+import javax.annotation.CheckForNull;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.api.config.Configuration;
 import org.sonar.api.scanner.sensor.ProjectSensor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -61,147 +54,44 @@ public abstract class CxxReportSensor implements ProjectSensor {
   protected CxxReportSensor() {
   }
 
+  public List<File> getReports(String reportPathKey) {
+    return CxxUtils.getFiles(context, reportPathKey);
+  }
+
   /**
-   * resolveFilename normalizes the report full path
+   * Get InputFile for path.
    *
-   * @param baseDir of the project
-   * @param filename of the report
-   * @return String
-   */
-  @Nullable
-  public static String resolveFilename(final String baseDir, @Nullable final String filename) {
-
-    if (filename != null && !filename.isEmpty()) {
-      // normalization can return null if path is null, is invalid,
-      // or is a path with back-ticks outside known directory structure
-      String normalizedPath = FilenameUtils.normalize(filename);
-      if ((normalizedPath != null) && (new File(normalizedPath).isAbsolute())) {
-        return normalizedPath;
-      }
-
-      // prefix with absolute module base directory, attempt normalization again -- can still get null here
-      return FilenameUtils.normalize(baseDir + File.separator + filename);
-    }
-
-    return null;
-  }
-
-  /**
-   * Use the given {@link Configuration} object in order to get a list of Ant patterns referenced by key
-   * <code>reportPathKey</code>. Apply <code>moduleBaseDir</code> in order to make relative Ant patterns to absolute
-   * ones. Resolve Ant patterns and returns the list of existing files.
+   * IMPORTANT: SQ allows creation of NewIssue only if InputFile exists. This internal check is performed by a simple
+   * string comparison of the absolute path (relative paths are made absolute to baseDir first and forward/back slashes
+   * are also normalized. The resolution of symbolic links and case-sensitive paths is not supported by SQ. In the case
+   * of reports that contain case-insensitive paths (e.g. Visual Studio warnings are always lowercase), the function
+   * must normalize them.
    *
-   * @param config project (module) configuration
-   * @param moduleBaseDir project (module) base directory
-   * @param reportPathKey configuration key for the external reports (CSV list of Ant patterns)
-   * @return List<File> list of report paths
+   * @param path relative or absolute path
+   * @return InputFile if path is part of project, otherwise none
    */
-  public static List<File> getReports(Configuration config, final File moduleBaseDir, String reportPathKey) {
-    String[] reportPaths = config.getStringArray(reportPathKey);
-    if (reportPaths == null || reportPaths.length == 0) {
-      LOG.info("Undefined report path value for key '{}'", reportPathKey);
-      return Collections.emptyList();
-    }
-
-    List<String> normalizedReportPaths = normalizeReportPaths(moduleBaseDir, reportPaths);
-    LOG.debug("Search report(s) in path(s): '{}'", String.join(", ", normalizedReportPaths));
-
-    // Includes array cannot contain null elements
-    var directoryScanner = new DirectoryScanner();
-    directoryScanner.setIncludes(normalizedReportPaths.toArray(new String[normalizedReportPaths.size()]));
-    directoryScanner.scan();
-    String[] existingReportPaths = directoryScanner.getIncludedFiles();
-
-    if (existingReportPaths.length == 0) {
-      LOG.warn("Property '{}': cannot find any files matching the Ant pattern(s) '{}'", reportPathKey,
-               String.join(", ", normalizedReportPaths));
-      return Collections.emptyList();
-    }
-
-    LOG.info("Import '{}' report file(s)", existingReportPaths.length);
-    return Arrays.stream(existingReportPaths).map(File::new).collect(Collectors.toList());
-  }
-
-  /**
-   * @param property String with comma separated items
-   * @return
-   */
-  public static String[] splitProperty(String property) {
-    return property.split(",");
-  }
-
-  /**
-   * @param moduleBaseDir
-   * @param reportPaths
-   * @return
-   */
-  private static List<String> normalizeReportPaths(final File moduleBaseDir, String[] reportPaths) {
-    var normalizedPaths = new ArrayList<String>();
-    for (var reportPath : reportPaths) {
-      String normalizedPath = resolveFilename(moduleBaseDir.getAbsolutePath(), reportPath.trim());
-      if (normalizedPath != null) {
-        normalizedPaths.add(normalizedPath);
-      } else {
-        LOG.debug("Not a valid report path '{}'", reportPath);
-      }
-    }
-
-    return normalizedPaths;
-  }
-
-  /**
-   * Get string property from configuration. If the string is not set or empty, return the default value.
-   *
-   * @param name Name of the property
-   * @param def Default value
-   * @return Value of the property if set and not empty, else default value.
-   */
-  public String getContextStringProperty(String name, String def) {
-    String s = context.config().get(name).orElse(null);
-    if (s == null || s.isEmpty()) {
-      return def;
-    }
-    return s;
-  }
-
+  @CheckForNull
   public InputFile getInputFileIfInProject(String path) {
-    if (notFoundFiles.contains(path)) {
-      return null;
+    InputFile inputFile = null;
+
+    // in case previous search failed don't search again
+    if (!notFoundFiles.contains(path)) {
+
+      // try the most generic search predicate first; usually it's the right one
+      inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(path));
+
+      // if there was nothing found, try to normalize the path: resolve symbolic links, make path case-sensitive
+      if (inputFile == null) {
+        inputFile = getInputFileTryRealPath(path);
+
+        if (inputFile == null) {
+          LOG.warn("Cannot find the file '{}' in project '{}' with baseDir '{}', skipping.",
+                   path, context.project().key(), context.fileSystem().baseDir());
+          notFoundFiles.add(path);
+        }
+      }
     }
 
-    // 1. try the most generic search predicate first; usually it's the right
-    // one
-    InputFile inputFile = context.fileSystem()
-      .inputFile(context.fileSystem().predicates().hasPath(path));
-
-    // 2. if there was nothing found, try to normalize the path by means of
-    // Path::toRealPath(). This helps if some 3rd party tools obfuscate the
-    // paths. E.g. the MS VC compiler tends to transform file paths to the lower
-    // case in its logs.
-    //
-    // IMPORTANT: SQ plugin API allows creation of NewIssue only on locations,
-    // which belong to the module. This internal check is performed by means
-    // of comparison of the paths. The paths which are managed by the framework
-    // (the reference paths) are NOT stored in the canonical form.
-    // E.g. the plugin API neither resolves symbolic links nor performs
-    // case-insensitive path normalization (could be relevant on Windows)
-    //
-    // Normalization by means of File::getCanonicalFile() or Path::toRealPath()
-    // can produce paths, which don't pass the mentioned check. E.g. resolution
-    // of symbolic links or letter case transformation
-    // might lead to the paths, which don't belong to the module's base
-    // directory (at least not in terms of parent-child semantic). This is the
-    // reason why we should avoid the resolution of symbolic links and not use
-    // the Path::toRealPath() as the only search predicate.
-    if (inputFile == null) {
-      inputFile = getInputFileTryRealPath(path);
-    }
-
-    if (inputFile == null) {
-      LOG.warn("Cannot find the file '{}' in project '{}' with baseDir '{}', skipping.",
-               path, context.project().key(), context.fileSystem().baseDir());
-      notFoundFiles.add(path);
-    }
     return inputFile;
   }
 
@@ -217,30 +107,34 @@ public abstract class CxxReportSensor implements ProjectSensor {
     return getClass().getSimpleName();
   }
 
+  /**
+   * Get InputFile for path.
+   *
+   * Resolution of symbolic links and case-sensitive paths.
+   *
+   * @param path relative or absolute path
+   * @return InputFile if path is part of project, otherwise none
+   */
+  @CheckForNull
   private InputFile getInputFileTryRealPath(String path) {
-    final Path absolutePath = context.fileSystem().baseDir().toPath().resolve(path);
-    Path realPath;
+
+    // create absolute path (relative to baseDir)
+    Path absPath = context.fileSystem().baseDir().toPath().resolve(path);
     try {
-      realPath = absolutePath.toRealPath(LinkOption.NOFOLLOW_LINKS);
+      // resolve symbolic links
+      Path realPath = absPath.toRealPath(LinkOption.NOFOLLOW_LINKS);
+
+      // if the real path is equal to the given one - skip search: we already tried such path
+      // IMPORTANT: SQ works with string paths, so the equality of strings is important
+      if (!absPath.toString().equals(realPath.toString())) {
+        return context.fileSystem().inputFile(
+          context.fileSystem().predicates().hasAbsolutePath(realPath.toString()));
+      }
     } catch (IOException | RuntimeException e) {
       LOG.debug("Unable to get the real path: project='{}' baseDir='{}' path='{}' absPath='{}' exception='{}'",
-                context.project().key(), context.fileSystem().baseDir(), path, absolutePath, e.toString());
-      return null;
+                context.project().key(), context.fileSystem().baseDir(), path, absPath, e.toString());
     }
-
-    // if the real path is equal to the given one - skip search; we already
-    // tried such path
-    //
-    // IMPORTANT: don't use Path::equals(), since it's dependent on a file-system.
-    // SonarQube plugin API works with string paths, so the equality of strings
-    // is important
-    final String realPathString = realPath.toString();
-    if (absolutePath.toString().equals(realPathString)) {
-      return null;
-    }
-
-    return context.fileSystem()
-      .inputFile(context.fileSystem().predicates().hasAbsolutePath(realPathString));
+    return null;
   }
 
   /**

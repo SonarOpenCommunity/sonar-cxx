@@ -28,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
@@ -62,6 +63,7 @@ public class SourceCodeProvider {
     }
   }
 
+  @CheckForNull
   public File getSourceCodeFile(String filename, String cwd, boolean quoted) {
     File result = null;
     var file = new File(filename);

@@ -129,7 +129,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     if (context.config().hasKey(REPORT_PATH_KEY)) {
       LOG.debug("Parsing unit test coverage reports");
 
-      List<File> reports = getReports(context.config(), context.fileSystem().baseDir(), REPORT_PATH_KEY);
+      List<File> reports = getReports(REPORT_PATH_KEY);
       Map<String, CoverageMeasures> coverageMeasures = processReports(reports, this.cache.unitCoverageCache());
       saveMeasures(coverageMeasures);
     }

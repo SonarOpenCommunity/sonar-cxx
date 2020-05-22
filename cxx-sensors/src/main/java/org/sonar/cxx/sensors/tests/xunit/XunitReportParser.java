@@ -29,7 +29,7 @@ import org.codehaus.staxmate.in.ElementFilter;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.ParsingUtils;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
+import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser.XmlStreamHandler;
 
@@ -128,7 +128,7 @@ public class XunitReportParser implements XmlStreamHandler {
   }
 
   private TestFile getTestFile(String filename) {
-    String absolute = CxxReportSensor.resolveFilename(baseDir, filename);
+    String absolute = CxxUtils.resolveAntPath(baseDir, filename);
     if (absolute != null) {
       absolute = absolute.toLowerCase();
     }
