@@ -70,6 +70,19 @@ public class DroppedPropertiesSensor implements ProjectSensor {
     map.put("sonar.cxx.other.xslt.1.inputs", "Use 'sonar.cxx.xslt.1.inputs' instead."); // V2.0.0
     map.put("sonar.cxx.other.xslt.1.outputs", "Use 'sonar.cxx.xslt.1.outputs' instead."); // V2.0.0
     map.put("sonar.cxx.xunit.xsltURL", "Use 'sonar.cxx.xslt.xxx' instead."); // V2.0.0
+    map.put("sonar.cxx.clangsa.reportPath", "Use 'sonar.cxx.clangsa.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.clangtidy.reportPath", "Use 'sonar.cxx.clangtidy.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.gcc.reportPath", "Use 'sonar.cxx.gcc.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.vc.reportPath", "Use 'sonar.cxx.vc.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.coverage.reportPath", "Use 'sonar.cxx.coverage.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.cppcheck.reportPath", "Use 'sonar.cxx.cppcheck.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.drmemory.reportPath", "Use 'sonar.cxx.drmemory.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.other.reportPath", "Use 'sonar.cxx.other.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.pclint.reportPath", "Use 'sonar.cxx.pclint.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.xunit.reportPath", "Use 'sonar.cxx.xunit.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.valgrind.reportPath", "Use 'sonar.cxx.valgrind.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.vera.reportPath", "Use 'sonar.cxx.vera.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.msbuild.reportPath", "Use 'sonar.cxx.msbuild.reportPaths' instead."); // V2.0.0
     return Collections.unmodifiableMap(map);
   }
 
