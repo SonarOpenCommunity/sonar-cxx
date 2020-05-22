@@ -17,30 +17,28 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
+package org.sonar.cxx.sensors.infer;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarEdition;
-import org.sonar.api.SonarQubeSide;
-import org.sonar.api.SonarRuntime;
-import org.sonar.api.internal.SonarRuntimeImpl;
-import org.sonar.api.utils.Version;
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
-public class CxxPluginTest {
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+
+public class CxxInferRuleRepositoryTest {
 
   @Test
-  public void testGetExtensions() throws Exception {
-    SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(
-      Version.create(7, 9),
-      SonarQubeSide.SCANNER,
-      SonarEdition.COMMUNITY
-    );
-    var context = new Plugin.Context(runtime);
-    var plugin = new CxxPlugin();
-    plugin.define(context);
-    assertThat(context.getExtensions()).hasSize(74);
+  public void createRulesTest() {
+    var def = new CxxInferRuleRepository(
+      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader());
+
+    var context = new RulesDefinition.Context();
+    def.define(context);
+
+    RulesDefinition.Repository repo = context.repository(CxxInferRuleRepository.KEY);
+    assertEquals(164, repo.rules().size());
   }
 
 }

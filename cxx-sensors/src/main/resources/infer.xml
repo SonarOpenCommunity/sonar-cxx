@@ -1,0 +1,2632 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<rules>
+  <rule>
+    <key>CustomRuleTemplate</key>
+    <cardinality>MULTIPLE</cardinality>
+    <name><![CDATA[Template for custom Custom rules]]></name>
+    <description>
+      <![CDATA[
+<p>
+Follow these steps to make your custom Custom rules available in SonarQube:
+</p>
+
+<ol>
+  <ol>
+    <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
+    <li>Enable the newly created rule in your quality profile.</li>
+    <li>Relaunch an analysis on your projects, et voila, your custom rules are executed!</li>
+  </ol>
+</ol>
+]]>
+    </description>
+    <severity>MAJOR</severity>
+  </rule>
+  <rule>
+    <key>ANALYSIS_STOPS</key>
+    <name>ANALYSIS_STOPS</name>
+    <description>
+      <![CDATA[
+ANALYSIS_STOPS (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ANALYSIS_STOPS</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ARRAY_OUT_OF_BOUNDS_L1</key>
+    <name>ARRAY_OUT_OF_BOUNDS_L1</name>
+    <description>
+      <![CDATA[
+ARRAY_OUT_OF_BOUNDS_L1 (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ARRAY_OUT_OF_BOUNDS_L1</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ARRAY_OUT_OF_BOUNDS_L2</key>
+    <name>ARRAY_OUT_OF_BOUNDS_L2</name>
+    <description>
+      <![CDATA[
+ARRAY_OUT_OF_BOUNDS_L2 (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ARRAY_OUT_OF_BOUNDS_L2</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ARRAY_OUT_OF_BOUNDS_L3</key>
+    <name>ARRAY_OUT_OF_BOUNDS_L3</name>
+    <description>
+      <![CDATA[
+ARRAY_OUT_OF_BOUNDS_L3 (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ARRAY_OUT_OF_BOUNDS_L3</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Abduction_case_not_implemented</key>
+    <name>Abduction_case_not_implemented</name>
+    <description>
+      <![CDATA[
+Abduction_case_not_implemented (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Abduction_case_not_implemented</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Array_of_pointsto</key>
+    <name>Array_of_pointsto</name>
+    <description>
+      <![CDATA[
+Array_of_pointsto (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Array_of_pointsto</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Assert_failure</key>
+    <name>Assert_failure</name>
+    <description>
+      <![CDATA[
+Assert_failure (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Assert_failure</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>BIABD_USE_AFTER_FREE</key>
+    <name>BIABD_USE_AFTER_FREE</name>
+    <description>
+      <![CDATA[
+BIABD_USE_AFTER_FREE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>BIABD_USE_AFTER_FREE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>BUFFER_OVERRUN_L1</key>
+    <name>BUFFER_OVERRUN_L1</name>
+    <description>
+      <![CDATA[
+BUFFER_OVERRUN_L1 (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>BUFFER_OVERRUN_L1</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>BUFFER_OVERRUN_L2</key>
+    <name>BUFFER_OVERRUN_L2</name>
+    <description>
+      <![CDATA[
+BUFFER_OVERRUN_L2 (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>BUFFER_OVERRUN_L2</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>BUFFER_OVERRUN_L3</key>
+    <name>BUFFER_OVERRUN_L3</name>
+    <description>
+      <![CDATA[
+BUFFER_OVERRUN_L3 (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>BUFFER_OVERRUN_L3</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>BUFFER_OVERRUN_L4</key>
+    <name>BUFFER_OVERRUN_L4</name>
+    <description>
+      <![CDATA[
+BUFFER_OVERRUN_L4 (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>BUFFER_OVERRUN_L4</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>BUFFER_OVERRUN_L5</key>
+    <name>BUFFER_OVERRUN_L5</name>
+    <description>
+      <![CDATA[
+BUFFER_OVERRUN_L5 (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>BUFFER_OVERRUN_L5</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>BUFFER_OVERRUN_R2</key>
+    <name>BUFFER_OVERRUN_R2</name>
+    <description>
+      <![CDATA[
+BUFFER_OVERRUN_R2 (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>BUFFER_OVERRUN_R2</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>BUFFER_OVERRUN_S2</key>
+    <name>BUFFER_OVERRUN_S2</name>
+    <description>
+      <![CDATA[
+BUFFER_OVERRUN_S2 (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>BUFFER_OVERRUN_S2</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>BUFFER_OVERRUN_T1</key>
+    <name>BUFFER_OVERRUN_T1</name>
+    <description>
+      <![CDATA[
+BUFFER_OVERRUN_T1 (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>BUFFER_OVERRUN_T1</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>BUFFER_OVERRUN_U5</key>
+    <name>BUFFER_OVERRUN_U5</name>
+    <description>
+      <![CDATA[
+BUFFER_OVERRUN_U5 (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>BUFFER_OVERRUN_U5</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Bad_footprint</key>
+    <name>Bad_footprint</name>
+    <description>
+      <![CDATA[
+Bad_footprint (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Bad_footprint</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CAPTURED_STRONG_SELF</key>
+    <name>CAPTURED_STRONG_SELF</name>
+    <description>
+      <![CDATA[
+CAPTURED_STRONG_SELF (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CAPTURED_STRONG_SELF</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CHECKERS_ALLOCATES_MEMORY</key>
+    <name>CHECKERS_ALLOCATES_MEMORY</name>
+    <description>
+      <![CDATA[
+CHECKERS_ALLOCATES_MEMORY (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CHECKERS_ALLOCATES_MEMORY</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CHECKERS_ANNOTATION_REACHABILITY_ERROR</key>
+    <name>CHECKERS_ANNOTATION_REACHABILITY_ERROR</name>
+    <description>
+      <![CDATA[
+CHECKERS_ANNOTATION_REACHABILITY_ERROR (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CHECKERS_ANNOTATION_REACHABILITY_ERROR</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CHECKERS_CALLS_EXPENSIVE_METHOD</key>
+    <name>CHECKERS_CALLS_EXPENSIVE_METHOD</name>
+    <description>
+      <![CDATA[
+CHECKERS_CALLS_EXPENSIVE_METHOD (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CHECKERS_CALLS_EXPENSIVE_METHOD</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CHECKERS_EXPENSIVE_OVERRIDES_UNANNOTATED</key>
+    <name>CHECKERS_EXPENSIVE_OVERRIDES_UNANNOTATED</name>
+    <description>
+      <![CDATA[
+CHECKERS_EXPENSIVE_OVERRIDES_UNANNOTATED (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CHECKERS_EXPENSIVE_OVERRIDES_UNANNOTATED</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CHECKERS_FRAGMENT_RETAINS_VIEW</key>
+    <name>CHECKERS_FRAGMENT_RETAINS_VIEW</name>
+    <description>
+      <![CDATA[
+CHECKERS_FRAGMENT_RETAINS_VIEW (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CHECKERS_FRAGMENT_RETAINS_VIEW</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CHECKERS_IMMUTABLE_CAST</key>
+    <name>CHECKERS_IMMUTABLE_CAST</name>
+    <description>
+      <![CDATA[
+CHECKERS_IMMUTABLE_CAST (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CHECKERS_IMMUTABLE_CAST</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CHECKERS_PRINTF_ARGS</key>
+    <name>CHECKERS_PRINTF_ARGS</name>
+    <description>
+      <![CDATA[
+CHECKERS_PRINTF_ARGS (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CHECKERS_PRINTF_ARGS</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CLASS_CAST_EXCEPTION</key>
+    <name>CLASS_CAST_EXCEPTION</name>
+    <description>
+      <![CDATA[
+CLASS_CAST_EXCEPTION (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CLASS_CAST_EXCEPTION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CLASS_LOAD</key>
+    <name>CLASS_LOAD</name>
+    <description>
+      <![CDATA[
+CLASS_LOAD (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CLASS_LOAD</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>COMPARING_FLOAT_FOR_EQUALITY</key>
+    <name>COMPARING_FLOAT_FOR_EQUALITY</name>
+    <description>
+      <![CDATA[
+COMPARING_FLOAT_FOR_EQUALITY (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>COMPARING_FLOAT_FOR_EQUALITY</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>COMPONENT_FACTORY_FUNCTION</key>
+    <name>COMPONENT_FACTORY_FUNCTION</name>
+    <description>
+      <![CDATA[
+COMPONENT_FACTORY_FUNCTION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>COMPONENT_FACTORY_FUNCTION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>COMPONENT_FILE_CYCLOMATIC_COMPLEXITY</key>
+    <name>COMPONENT_FILE_CYCLOMATIC_COMPLEXITY</name>
+    <description>
+      <![CDATA[
+COMPONENT_FILE_CYCLOMATIC_COMPLEXITY (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>COMPONENT_FILE_CYCLOMATIC_COMPLEXITY</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>COMPONENT_FILE_LINE_COUNT</key>
+    <name>COMPONENT_FILE_LINE_COUNT</name>
+    <description>
+      <![CDATA[
+COMPONENT_FILE_LINE_COUNT (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>COMPONENT_FILE_LINE_COUNT</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>COMPONENT_INITIALIZER_WITH_SIDE_EFFECTS</key>
+    <name>COMPONENT_INITIALIZER_WITH_SIDE_EFFECTS</name>
+    <description>
+      <![CDATA[
+COMPONENT_INITIALIZER_WITH_SIDE_EFFECTS (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>COMPONENT_INITIALIZER_WITH_SIDE_EFFECTS</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>COMPONENT_WITH_MULTIPLE_FACTORY_METHODS</key>
+    <name>COMPONENT_WITH_MULTIPLE_FACTORY_METHODS</name>
+    <description>
+      <![CDATA[
+COMPONENT_WITH_MULTIPLE_FACTORY_METHODS (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>COMPONENT_WITH_MULTIPLE_FACTORY_METHODS</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>COMPONENT_WITH_UNCONVENTIONAL_SUPERCLASS</key>
+    <name>COMPONENT_WITH_UNCONVENTIONAL_SUPERCLASS</name>
+    <description>
+      <![CDATA[
+COMPONENT_WITH_UNCONVENTIONAL_SUPERCLASS (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>COMPONENT_WITH_UNCONVENTIONAL_SUPERCLASS</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CONDITION_ALWAYS_FALSE</key>
+    <name>CONDITION_ALWAYS_FALSE</name>
+    <description>
+      <![CDATA[
+CONDITION_ALWAYS_FALSE (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CONDITION_ALWAYS_FALSE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CONDITION_ALWAYS_TRUE</key>
+    <name>CONDITION_ALWAYS_TRUE</name>
+    <description>
+      <![CDATA[
+CONDITION_ALWAYS_TRUE (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CONDITION_ALWAYS_TRUE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CONSTANT_ADDRESS_DEREFERENCE</key>
+    <name>CONSTANT_ADDRESS_DEREFERENCE</name>
+    <description>
+      <![CDATA[
+CONSTANT_ADDRESS_DEREFERENCE (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CONSTANT_ADDRESS_DEREFERENCE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CREATE_INTENT_FROM_URI</key>
+    <name>CREATE_INTENT_FROM_URI</name>
+    <description>
+      <![CDATA[
+CREATE_INTENT_FROM_URI (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CREATE_INTENT_FROM_URI</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>CROSS_SITE_SCRIPTING</key>
+    <name>CROSS_SITE_SCRIPTING</name>
+    <description>
+      <![CDATA[
+CROSS_SITE_SCRIPTING (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>CROSS_SITE_SCRIPTING</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Cannot_star</key>
+    <name>Cannot_star</name>
+    <description>
+      <![CDATA[
+Cannot_star (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Cannot_star</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Codequery</key>
+    <name>Codequery</name>
+    <description>
+      <![CDATA[
+Codequery (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Codequery</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>DANGLING_POINTER_DEREFERENCE</key>
+    <name>DANGLING_POINTER_DEREFERENCE</name>
+    <description>
+      <![CDATA[
+DANGLING_POINTER_DEREFERENCE (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>DANGLING_POINTER_DEREFERENCE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>DEADLOCK</key>
+    <name>DEADLOCK</name>
+    <description>
+      <![CDATA[
+DEADLOCK (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>DEADLOCK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>DEAD_STORE</key>
+    <name>DEAD_STORE</name>
+    <description>
+      <![CDATA[
+DEAD_STORE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>DEAD_STORE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>DEALLOCATE_STACK_VARIABLE</key>
+    <name>DEALLOCATE_STACK_VARIABLE</name>
+    <description>
+      <![CDATA[
+DEALLOCATE_STACK_VARIABLE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>DEALLOCATE_STACK_VARIABLE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>DEALLOCATE_STATIC_MEMORY</key>
+    <name>DEALLOCATE_STATIC_MEMORY</name>
+    <description>
+      <![CDATA[
+DEALLOCATE_STATIC_MEMORY (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>DEALLOCATE_STATIC_MEMORY</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>DEALLOCATION_MISMATCH</key>
+    <name>DEALLOCATION_MISMATCH</name>
+    <description>
+      <![CDATA[
+DEALLOCATION_MISMATCH (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>DEALLOCATION_MISMATCH</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>DIVIDE_BY_ZERO</key>
+    <name>DIVIDE_BY_ZERO</name>
+    <description>
+      <![CDATA[
+DIVIDE_BY_ZERO (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>DIVIDE_BY_ZERO</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>DO_NOT_REPORT</key>
+    <name>DO_NOT_REPORT</name>
+    <description>
+      <![CDATA[
+DO_NOT_REPORT (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>DO_NOT_REPORT</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>EMPTY_VECTOR_ACCESS</key>
+    <name>EMPTY_VECTOR_ACCESS</name>
+    <description>
+      <![CDATA[
+EMPTY_VECTOR_ACCESS (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>EMPTY_VECTOR_ACCESS</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_BAD_NESTED_CLASS_ANNOTATION</key>
+    <name>ERADICATE_BAD_NESTED_CLASS_ANNOTATION</name>
+    <description>
+      <![CDATA[
+ERADICATE_BAD_NESTED_CLASS_ANNOTATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_BAD_NESTED_CLASS_ANNOTATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_CONDITION_REDUNDANT</key>
+    <name>ERADICATE_CONDITION_REDUNDANT</name>
+    <description>
+      <![CDATA[
+ERADICATE_CONDITION_REDUNDANT (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_CONDITION_REDUNDANT</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_CONDITION_REDUNDANT_NONNULL</key>
+    <name>ERADICATE_CONDITION_REDUNDANT_NONNULL</name>
+    <description>
+      <![CDATA[
+ERADICATE_CONDITION_REDUNDANT_NONNULL (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_CONDITION_REDUNDANT_NONNULL</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_FIELD_NOT_INITIALIZED</key>
+    <name>ERADICATE_FIELD_NOT_INITIALIZED</name>
+    <description>
+      <![CDATA[
+ERADICATE_FIELD_NOT_INITIALIZED (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_FIELD_NOT_INITIALIZED</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_FIELD_NOT_NULLABLE</key>
+    <name>ERADICATE_FIELD_NOT_NULLABLE</name>
+    <description>
+      <![CDATA[
+ERADICATE_FIELD_NOT_NULLABLE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_FIELD_NOT_NULLABLE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_FIELD_OVER_ANNOTATED</key>
+    <name>ERADICATE_FIELD_OVER_ANNOTATED</name>
+    <description>
+      <![CDATA[
+ERADICATE_FIELD_OVER_ANNOTATED (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_FIELD_OVER_ANNOTATED</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_INCONSISTENT_SUBCLASS_PARAMETER_ANNOTATION</key>
+    <name>ERADICATE_INCONSISTENT_SUBCLASS_PARAMETER_ANNOTATION</name>
+    <description>
+      <![CDATA[
+ERADICATE_INCONSISTENT_SUBCLASS_PARAMETER_ANNOTATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_INCONSISTENT_SUBCLASS_PARAMETER_ANNOTATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_INCONSISTENT_SUBCLASS_RETURN_ANNOTATION</key>
+    <name>ERADICATE_INCONSISTENT_SUBCLASS_RETURN_ANNOTATION</name>
+    <description>
+      <![CDATA[
+ERADICATE_INCONSISTENT_SUBCLASS_RETURN_ANNOTATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_INCONSISTENT_SUBCLASS_RETURN_ANNOTATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_META_CLASS_CAN_BE_NULLSAFE</key>
+    <name>ERADICATE_META_CLASS_CAN_BE_NULLSAFE</name>
+    <description>
+      <![CDATA[
+ERADICATE_META_CLASS_CAN_BE_NULLSAFE (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_META_CLASS_CAN_BE_NULLSAFE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_META_CLASS_IS_NULLSAFE</key>
+    <name>ERADICATE_META_CLASS_IS_NULLSAFE</name>
+    <description>
+      <![CDATA[
+ERADICATE_META_CLASS_IS_NULLSAFE (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_META_CLASS_IS_NULLSAFE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_META_CLASS_NEEDS_IMPROVEMENT</key>
+    <name>ERADICATE_META_CLASS_NEEDS_IMPROVEMENT</name>
+    <description>
+      <![CDATA[
+ERADICATE_META_CLASS_NEEDS_IMPROVEMENT (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_META_CLASS_NEEDS_IMPROVEMENT</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_NULLABLE_DEREFERENCE</key>
+    <name>ERADICATE_NULLABLE_DEREFERENCE</name>
+    <description>
+      <![CDATA[
+ERADICATE_NULLABLE_DEREFERENCE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_NULLABLE_DEREFERENCE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_PARAMETER_NOT_NULLABLE</key>
+    <name>ERADICATE_PARAMETER_NOT_NULLABLE</name>
+    <description>
+      <![CDATA[
+ERADICATE_PARAMETER_NOT_NULLABLE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_PARAMETER_NOT_NULLABLE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_REDUNDANT_NESTED_CLASS_ANNOTATION</key>
+    <name>ERADICATE_REDUNDANT_NESTED_CLASS_ANNOTATION</name>
+    <description>
+      <![CDATA[
+ERADICATE_REDUNDANT_NESTED_CLASS_ANNOTATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_REDUNDANT_NESTED_CLASS_ANNOTATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_RETURN_NOT_NULLABLE</key>
+    <name>ERADICATE_RETURN_NOT_NULLABLE</name>
+    <description>
+      <![CDATA[
+ERADICATE_RETURN_NOT_NULLABLE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_RETURN_NOT_NULLABLE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_RETURN_OVER_ANNOTATED</key>
+    <name>ERADICATE_RETURN_OVER_ANNOTATED</name>
+    <description>
+      <![CDATA[
+ERADICATE_RETURN_OVER_ANNOTATED (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_RETURN_OVER_ANNOTATED</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_UNCHECKED_USAGE_IN_NULLSAFE</key>
+    <name>ERADICATE_UNCHECKED_USAGE_IN_NULLSAFE</name>
+    <description>
+      <![CDATA[
+ERADICATE_UNCHECKED_USAGE_IN_NULLSAFE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_UNCHECKED_USAGE_IN_NULLSAFE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>ERADICATE_UNVETTED_THIRD_PARTY_IN_NULLSAFE</key>
+    <name>ERADICATE_UNVETTED_THIRD_PARTY_IN_NULLSAFE</name>
+    <description>
+      <![CDATA[
+ERADICATE_UNVETTED_THIRD_PARTY_IN_NULLSAFE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>ERADICATE_UNVETTED_THIRD_PARTY_IN_NULLSAFE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>EXECUTION_TIME_COMPLEXITY_INCREASE</key>
+    <name>EXECUTION_TIME_COMPLEXITY_INCREASE</name>
+    <description>
+      <![CDATA[
+EXECUTION_TIME_COMPLEXITY_INCREASE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>EXECUTION_TIME_COMPLEXITY_INCREASE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>EXECUTION_TIME_COMPLEXITY_INCREASE_UI_THREAD</key>
+    <name>EXECUTION_TIME_COMPLEXITY_INCREASE_UI_THREAD</name>
+    <description>
+      <![CDATA[
+EXECUTION_TIME_COMPLEXITY_INCREASE_UI_THREAD (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>EXECUTION_TIME_COMPLEXITY_INCREASE_UI_THREAD</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>EXECUTION_TIME_UNREACHABLE_AT_EXIT</key>
+    <name>EXECUTION_TIME_UNREACHABLE_AT_EXIT</name>
+    <description>
+      <![CDATA[
+EXECUTION_TIME_UNREACHABLE_AT_EXIT (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>EXECUTION_TIME_UNREACHABLE_AT_EXIT</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>EXPENSIVE_EXECUTION_TIME</key>
+    <name>EXPENSIVE_EXECUTION_TIME</name>
+    <description>
+      <![CDATA[
+EXPENSIVE_EXECUTION_TIME (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>EXPENSIVE_EXECUTION_TIME</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>EXPENSIVE_EXECUTION_TIME_UI_THREAD</key>
+    <name>EXPENSIVE_EXECUTION_TIME_UI_THREAD</name>
+    <description>
+      <![CDATA[
+EXPENSIVE_EXECUTION_TIME_UI_THREAD (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>EXPENSIVE_EXECUTION_TIME_UI_THREAD</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>EXPENSIVE_LOOP_INVARIANT_CALL</key>
+    <name>EXPENSIVE_LOOP_INVARIANT_CALL</name>
+    <description>
+      <![CDATA[
+EXPENSIVE_LOOP_INVARIANT_CALL (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>EXPENSIVE_LOOP_INVARIANT_CALL</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>EXPOSED_INSECURE_INTENT_HANDLING</key>
+    <name>EXPOSED_INSECURE_INTENT_HANDLING</name>
+    <description>
+      <![CDATA[
+EXPOSED_INSECURE_INTENT_HANDLING (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>EXPOSED_INSECURE_INTENT_HANDLING</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Failure_exe</key>
+    <name>Failure_exe</name>
+    <description>
+      <![CDATA[
+Failure_exe (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Failure_exe</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>GLOBAL_VARIABLE_INITIALIZED_WITH_FUNCTION_OR_METHOD_CALL</key>
+    <name>GLOBAL_VARIABLE_INITIALIZED_WITH_FUNCTION_OR_METHOD_CALL</name>
+    <description>
+      <![CDATA[
+GLOBAL_VARIABLE_INITIALIZED_WITH_FUNCTION_OR_METHOD_CALL (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>GLOBAL_VARIABLE_INITIALIZED_WITH_FUNCTION_OR_METHOD_CALL</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>GUARDEDBY_VIOLATION</key>
+    <name>GUARDEDBY_VIOLATION</name>
+    <description>
+      <![CDATA[
+GUARDEDBY_VIOLATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>GUARDEDBY_VIOLATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>IMPURE_FUNCTION</key>
+    <name>IMPURE_FUNCTION</name>
+    <description>
+      <![CDATA[
+IMPURE_FUNCTION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>IMPURE_FUNCTION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INEFFICIENT_KEYSET_ITERATOR</key>
+    <name>INEFFICIENT_KEYSET_ITERATOR</name>
+    <description>
+      <![CDATA[
+INEFFICIENT_KEYSET_ITERATOR (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INEFFICIENT_KEYSET_ITERATOR</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INFERBO_ALLOC_IS_BIG</key>
+    <name>INFERBO_ALLOC_IS_BIG</name>
+    <description>
+      <![CDATA[
+INFERBO_ALLOC_IS_BIG (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INFERBO_ALLOC_IS_BIG</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INFERBO_ALLOC_IS_NEGATIVE</key>
+    <name>INFERBO_ALLOC_IS_NEGATIVE</name>
+    <description>
+      <![CDATA[
+INFERBO_ALLOC_IS_NEGATIVE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INFERBO_ALLOC_IS_NEGATIVE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INFERBO_ALLOC_IS_ZERO</key>
+    <name>INFERBO_ALLOC_IS_ZERO</name>
+    <description>
+      <![CDATA[
+INFERBO_ALLOC_IS_ZERO (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INFERBO_ALLOC_IS_ZERO</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INFERBO_ALLOC_MAY_BE_BIG</key>
+    <name>INFERBO_ALLOC_MAY_BE_BIG</name>
+    <description>
+      <![CDATA[
+INFERBO_ALLOC_MAY_BE_BIG (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INFERBO_ALLOC_MAY_BE_BIG</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INFERBO_ALLOC_MAY_BE_NEGATIVE</key>
+    <name>INFERBO_ALLOC_MAY_BE_NEGATIVE</name>
+    <description>
+      <![CDATA[
+INFERBO_ALLOC_MAY_BE_NEGATIVE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INFERBO_ALLOC_MAY_BE_NEGATIVE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INFERBO_ALLOC_MAY_BE_TAINTED</key>
+    <name>INFERBO_ALLOC_MAY_BE_TAINTED</name>
+    <description>
+      <![CDATA[
+INFERBO_ALLOC_MAY_BE_TAINTED (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INFERBO_ALLOC_MAY_BE_TAINTED</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INFINITE_EXECUTION_TIME</key>
+    <name>INFINITE_EXECUTION_TIME</name>
+    <description>
+      <![CDATA[
+INFINITE_EXECUTION_TIME (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INFINITE_EXECUTION_TIME</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INHERENTLY_DANGEROUS_FUNCTION</key>
+    <name>INHERENTLY_DANGEROUS_FUNCTION</name>
+    <description>
+      <![CDATA[
+INHERENTLY_DANGEROUS_FUNCTION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INHERENTLY_DANGEROUS_FUNCTION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INSECURE_INTENT_HANDLING</key>
+    <name>INSECURE_INTENT_HANDLING</name>
+    <description>
+      <![CDATA[
+INSECURE_INTENT_HANDLING (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INSECURE_INTENT_HANDLING</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INTEGER_OVERFLOW_L1</key>
+    <name>INTEGER_OVERFLOW_L1</name>
+    <description>
+      <![CDATA[
+INTEGER_OVERFLOW_L1 (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INTEGER_OVERFLOW_L1</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INTEGER_OVERFLOW_L2</key>
+    <name>INTEGER_OVERFLOW_L2</name>
+    <description>
+      <![CDATA[
+INTEGER_OVERFLOW_L2 (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INTEGER_OVERFLOW_L2</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INTEGER_OVERFLOW_L5</key>
+    <name>INTEGER_OVERFLOW_L5</name>
+    <description>
+      <![CDATA[
+INTEGER_OVERFLOW_L5 (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INTEGER_OVERFLOW_L5</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INTEGER_OVERFLOW_R2</key>
+    <name>INTEGER_OVERFLOW_R2</name>
+    <description>
+      <![CDATA[
+INTEGER_OVERFLOW_R2 (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INTEGER_OVERFLOW_R2</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INTEGER_OVERFLOW_U5</key>
+    <name>INTEGER_OVERFLOW_U5</name>
+    <description>
+      <![CDATA[
+INTEGER_OVERFLOW_U5 (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INTEGER_OVERFLOW_U5</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INTERFACE_NOT_THREAD_SAFE</key>
+    <name>INTERFACE_NOT_THREAD_SAFE</name>
+    <description>
+      <![CDATA[
+INTERFACE_NOT_THREAD_SAFE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INTERFACE_NOT_THREAD_SAFE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>INVARIANT_CALL</key>
+    <name>INVARIANT_CALL</name>
+    <description>
+      <![CDATA[
+INVARIANT_CALL (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>INVARIANT_CALL</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>IVAR_NOT_NULL_CHECKED</key>
+    <name>IVAR_NOT_NULL_CHECKED</name>
+    <description>
+      <![CDATA[
+IVAR_NOT_NULL_CHECKED (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>IVAR_NOT_NULL_CHECKED</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Internal_error</key>
+    <name>Internal_error</name>
+    <description>
+      <![CDATA[
+Internal_error (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Internal_error</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>JAVASCRIPT_INJECTION</key>
+    <name>JAVASCRIPT_INJECTION</name>
+    <description>
+      <![CDATA[
+JAVASCRIPT_INJECTION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>JAVASCRIPT_INJECTION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>LOCKLESS_VIOLATION</key>
+    <name>LOCKLESS_VIOLATION</name>
+    <description>
+      <![CDATA[
+LOCKLESS_VIOLATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>LOCKLESS_VIOLATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>LOCK_CONSISTENCY_VIOLATION</key>
+    <name>LOCK_CONSISTENCY_VIOLATION</name>
+    <description>
+      <![CDATA[
+LOCK_CONSISTENCY_VIOLATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>LOCK_CONSISTENCY_VIOLATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>LOGGING_PRIVATE_DATA</key>
+    <name>LOGGING_PRIVATE_DATA</name>
+    <description>
+      <![CDATA[
+LOGGING_PRIVATE_DATA (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>LOGGING_PRIVATE_DATA</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Leak_after_array_abstraction</key>
+    <name>Leak_after_array_abstraction</name>
+    <description>
+      <![CDATA[
+Leak_after_array_abstraction (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Leak_after_array_abstraction</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Leak_in_footprint</key>
+    <name>Leak_in_footprint</name>
+    <description>
+      <![CDATA[
+Leak_in_footprint (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Leak_in_footprint</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>MEMORY_LEAK</key>
+    <name>MEMORY_LEAK</name>
+    <description>
+      <![CDATA[
+MEMORY_LEAK (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>MEMORY_LEAK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>MISSING_REQUIRED_PROP</key>
+    <name>MISSING_REQUIRED_PROP</name>
+    <description>
+      <![CDATA[
+MISSING_REQUIRED_PROP (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>MISSING_REQUIRED_PROP</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>MIXED_SELF_WEAKSELF</key>
+    <name>MIXED_SELF_WEAKSELF</name>
+    <description>
+      <![CDATA[
+MIXED_SELF_WEAKSELF (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>MIXED_SELF_WEAKSELF</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>MULTIPLE_WEAKSELF</key>
+    <name>MULTIPLE_WEAKSELF</name>
+    <description>
+      <![CDATA[
+MULTIPLE_WEAKSELF (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>MULTIPLE_WEAKSELF</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>MUTABLE_LOCAL_VARIABLE_IN_COMPONENT_FILE</key>
+    <name>MUTABLE_LOCAL_VARIABLE_IN_COMPONENT_FILE</name>
+    <description>
+      <![CDATA[
+MUTABLE_LOCAL_VARIABLE_IN_COMPONENT_FILE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>MUTABLE_LOCAL_VARIABLE_IN_COMPONENT_FILE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Missing_fld</key>
+    <name>Missing_fld</name>
+    <description>
+      <![CDATA[
+Missing_fld (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Missing_fld</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>NULLPTR_DEREFERENCE</key>
+    <name>NULLPTR_DEREFERENCE</name>
+    <description>
+      <![CDATA[
+NULLPTR_DEREFERENCE (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>NULLPTR_DEREFERENCE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>NULL_DEREFERENCE</key>
+    <name>NULL_DEREFERENCE</name>
+    <description>
+      <![CDATA[
+NULL_DEREFERENCE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>NULL_DEREFERENCE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>NULL_TEST_AFTER_DEREFERENCE</key>
+    <name>NULL_TEST_AFTER_DEREFERENCE</name>
+    <description>
+      <![CDATA[
+NULL_TEST_AFTER_DEREFERENCE (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>NULL_TEST_AFTER_DEREFERENCE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>PARAMETER_NOT_NULL_CHECKED</key>
+    <name>PARAMETER_NOT_NULL_CHECKED</name>
+    <description>
+      <![CDATA[
+PARAMETER_NOT_NULL_CHECKED (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>PARAMETER_NOT_NULL_CHECKED</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>POINTER_SIZE_MISMATCH</key>
+    <name>POINTER_SIZE_MISMATCH</name>
+    <description>
+      <![CDATA[
+POINTER_SIZE_MISMATCH (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>POINTER_SIZE_MISMATCH</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>PRECONDITION_NOT_FOUND</key>
+    <name>PRECONDITION_NOT_FOUND</name>
+    <description>
+      <![CDATA[
+PRECONDITION_NOT_FOUND (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>PRECONDITION_NOT_FOUND</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>PRECONDITION_NOT_MET</key>
+    <name>PRECONDITION_NOT_MET</name>
+    <description>
+      <![CDATA[
+PRECONDITION_NOT_MET (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>PRECONDITION_NOT_MET</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>PREMATURE_NIL_TERMINATION_ARGUMENT</key>
+    <name>PREMATURE_NIL_TERMINATION_ARGUMENT</name>
+    <description>
+      <![CDATA[
+PREMATURE_NIL_TERMINATION_ARGUMENT (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>PREMATURE_NIL_TERMINATION_ARGUMENT</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>PULSE_MEMORY_LEAK</key>
+    <name>PULSE_MEMORY_LEAK</name>
+    <description>
+      <![CDATA[
+PULSE_MEMORY_LEAK (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>PULSE_MEMORY_LEAK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>PURE_FUNCTION</key>
+    <name>PURE_FUNCTION</name>
+    <description>
+      <![CDATA[
+PURE_FUNCTION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>PURE_FUNCTION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>QUANDARY_TAINT_ERROR</key>
+    <name>QUANDARY_TAINT_ERROR</name>
+    <description>
+      <![CDATA[
+QUANDARY_TAINT_ERROR (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>QUANDARY_TAINT_ERROR</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>REGISTERED_OBSERVER_BEING_DEALLOCATED</key>
+    <name>REGISTERED_OBSERVER_BEING_DEALLOCATED</name>
+    <description>
+      <![CDATA[
+REGISTERED_OBSERVER_BEING_DEALLOCATED (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>REGISTERED_OBSERVER_BEING_DEALLOCATED</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>RESOURCE_LEAK</key>
+    <name>RESOURCE_LEAK</name>
+    <description>
+      <![CDATA[
+RESOURCE_LEAK (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>RESOURCE_LEAK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>RETAIN_CYCLE</key>
+    <name>RETAIN_CYCLE</name>
+    <description>
+      <![CDATA[
+RETAIN_CYCLE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>RETAIN_CYCLE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>RETURN_EXPRESSION_REQUIRED</key>
+    <name>RETURN_EXPRESSION_REQUIRED</name>
+    <description>
+      <![CDATA[
+RETURN_EXPRESSION_REQUIRED (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>RETURN_EXPRESSION_REQUIRED</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>RETURN_STATEMENT_MISSING</key>
+    <name>RETURN_STATEMENT_MISSING</name>
+    <description>
+      <![CDATA[
+RETURN_STATEMENT_MISSING (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>RETURN_STATEMENT_MISSING</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>RETURN_VALUE_IGNORED</key>
+    <name>RETURN_VALUE_IGNORED</name>
+    <description>
+      <![CDATA[
+RETURN_VALUE_IGNORED (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>RETURN_VALUE_IGNORED</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>SHELL_INJECTION</key>
+    <name>SHELL_INJECTION</name>
+    <description>
+      <![CDATA[
+SHELL_INJECTION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>SHELL_INJECTION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>SHELL_INJECTION_RISK</key>
+    <name>SHELL_INJECTION_RISK</name>
+    <description>
+      <![CDATA[
+SHELL_INJECTION_RISK (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>SHELL_INJECTION_RISK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>SKIP_FUNCTION</key>
+    <name>SKIP_FUNCTION</name>
+    <description>
+      <![CDATA[
+SKIP_FUNCTION (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>SKIP_FUNCTION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>SKIP_POINTER_DEREFERENCE</key>
+    <name>SKIP_POINTER_DEREFERENCE</name>
+    <description>
+      <![CDATA[
+SKIP_POINTER_DEREFERENCE (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>SKIP_POINTER_DEREFERENCE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>SQL_INJECTION</key>
+    <name>SQL_INJECTION</name>
+    <description>
+      <![CDATA[
+SQL_INJECTION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>SQL_INJECTION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>SQL_INJECTION_RISK</key>
+    <name>SQL_INJECTION_RISK</name>
+    <description>
+      <![CDATA[
+SQL_INJECTION_RISK (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>SQL_INJECTION_RISK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>STACK_VARIABLE_ADDRESS_ESCAPE</key>
+    <name>STACK_VARIABLE_ADDRESS_ESCAPE</name>
+    <description>
+      <![CDATA[
+STACK_VARIABLE_ADDRESS_ESCAPE (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>STACK_VARIABLE_ADDRESS_ESCAPE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>STARVATION</key>
+    <name>STARVATION</name>
+    <description>
+      <![CDATA[
+STARVATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>STARVATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>STATIC_INITIALIZATION_ORDER_FIASCO</key>
+    <name>STATIC_INITIALIZATION_ORDER_FIASCO</name>
+    <description>
+      <![CDATA[
+STATIC_INITIALIZATION_ORDER_FIASCO (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>STATIC_INITIALIZATION_ORDER_FIASCO</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>STRICT_MODE_VIOLATION</key>
+    <name>STRICT_MODE_VIOLATION</name>
+    <description>
+      <![CDATA[
+STRICT_MODE_VIOLATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>STRICT_MODE_VIOLATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>STRONG_SELF_NOT_CHECKED</key>
+    <name>STRONG_SELF_NOT_CHECKED</name>
+    <description>
+      <![CDATA[
+STRONG_SELF_NOT_CHECKED (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>STRONG_SELF_NOT_CHECKED</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Symexec_memory_error</key>
+    <name>Symexec_memory_error</name>
+    <description>
+      <![CDATA[
+Symexec_memory_error (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Symexec_memory_error</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>THREAD_SAFETY_VIOLATION</key>
+    <name>THREAD_SAFETY_VIOLATION</name>
+    <description>
+      <![CDATA[
+THREAD_SAFETY_VIOLATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>THREAD_SAFETY_VIOLATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>TOPL_ERROR</key>
+    <name>TOPL_ERROR</name>
+    <description>
+      <![CDATA[
+TOPL_ERROR (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>TOPL_ERROR</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNARY_MINUS_APPLIED_TO_UNSIGNED_EXPRESSION</key>
+    <name>UNARY_MINUS_APPLIED_TO_UNSIGNED_EXPRESSION</name>
+    <description>
+      <![CDATA[
+UNARY_MINUS_APPLIED_TO_UNSIGNED_EXPRESSION (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNARY_MINUS_APPLIED_TO_UNSIGNED_EXPRESSION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNINITIALIZED_VALUE</key>
+    <name>UNINITIALIZED_VALUE</name>
+    <description>
+      <![CDATA[
+UNINITIALIZED_VALUE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNINITIALIZED_VALUE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNREACHABLE_CODE</key>
+    <name>UNREACHABLE_CODE</name>
+    <description>
+      <![CDATA[
+UNREACHABLE_CODE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNREACHABLE_CODE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNTRUSTED_BUFFER_ACCESS</key>
+    <name>UNTRUSTED_BUFFER_ACCESS</name>
+    <description>
+      <![CDATA[
+UNTRUSTED_BUFFER_ACCESS (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNTRUSTED_BUFFER_ACCESS</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNTRUSTED_DESERIALIZATION</key>
+    <name>UNTRUSTED_DESERIALIZATION</name>
+    <description>
+      <![CDATA[
+UNTRUSTED_DESERIALIZATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNTRUSTED_DESERIALIZATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNTRUSTED_DESERIALIZATION_RISK</key>
+    <name>UNTRUSTED_DESERIALIZATION_RISK</name>
+    <description>
+      <![CDATA[
+UNTRUSTED_DESERIALIZATION_RISK (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNTRUSTED_DESERIALIZATION_RISK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNTRUSTED_ENVIRONMENT_CHANGE_RISK</key>
+    <name>UNTRUSTED_ENVIRONMENT_CHANGE_RISK</name>
+    <description>
+      <![CDATA[
+UNTRUSTED_ENVIRONMENT_CHANGE_RISK (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNTRUSTED_ENVIRONMENT_CHANGE_RISK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNTRUSTED_FILE</key>
+    <name>UNTRUSTED_FILE</name>
+    <description>
+      <![CDATA[
+UNTRUSTED_FILE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNTRUSTED_FILE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNTRUSTED_FILE_RISK</key>
+    <name>UNTRUSTED_FILE_RISK</name>
+    <description>
+      <![CDATA[
+UNTRUSTED_FILE_RISK (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNTRUSTED_FILE_RISK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNTRUSTED_HEAP_ALLOCATION</key>
+    <name>UNTRUSTED_HEAP_ALLOCATION</name>
+    <description>
+      <![CDATA[
+UNTRUSTED_HEAP_ALLOCATION (disabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNTRUSTED_HEAP_ALLOCATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNTRUSTED_INTENT_CREATION</key>
+    <name>UNTRUSTED_INTENT_CREATION</name>
+    <description>
+      <![CDATA[
+UNTRUSTED_INTENT_CREATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNTRUSTED_INTENT_CREATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNTRUSTED_URL_RISK</key>
+    <name>UNTRUSTED_URL_RISK</name>
+    <description>
+      <![CDATA[
+UNTRUSTED_URL_RISK (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNTRUSTED_URL_RISK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>UNTRUSTED_VARIABLE_LENGTH_ARRAY</key>
+    <name>UNTRUSTED_VARIABLE_LENGTH_ARRAY</name>
+    <description>
+      <![CDATA[
+UNTRUSTED_VARIABLE_LENGTH_ARRAY (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>UNTRUSTED_VARIABLE_LENGTH_ARRAY</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>USER_CONTROLLED_SQL_RISK</key>
+    <name>USER_CONTROLLED_SQL_RISK</name>
+    <description>
+      <![CDATA[
+USER_CONTROLLED_SQL_RISK (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>USER_CONTROLLED_SQL_RISK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>USE_AFTER_DELETE</key>
+    <name>USE_AFTER_DELETE</name>
+    <description>
+      <![CDATA[
+USE_AFTER_DELETE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>USE_AFTER_DELETE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>USE_AFTER_FREE</key>
+    <name>USE_AFTER_FREE</name>
+    <description>
+      <![CDATA[
+USE_AFTER_FREE (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>USE_AFTER_FREE</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>USE_AFTER_LIFETIME</key>
+    <name>USE_AFTER_LIFETIME</name>
+    <description>
+      <![CDATA[
+USE_AFTER_LIFETIME (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>USE_AFTER_LIFETIME</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Unknown_proc</key>
+    <name>Unknown_proc</name>
+    <description>
+      <![CDATA[
+Unknown_proc (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Unknown_proc</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>VECTOR_INVALIDATION</key>
+    <name>VECTOR_INVALIDATION</name>
+    <description>
+      <![CDATA[
+VECTOR_INVALIDATION (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>VECTOR_INVALIDATION</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>WEAK_SELF_IN_NO_ESCAPE_BLOCK</key>
+    <name>WEAK_SELF_IN_NO_ESCAPE_BLOCK</name>
+    <description>
+      <![CDATA[
+WEAK_SELF_IN_NO_ESCAPE_BLOCK (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>WEAK_SELF_IN_NO_ESCAPE_BLOCK</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>Wrong_argument_number</key>
+    <name>Wrong_argument_number</name>
+    <description>
+      <![CDATA[
+Wrong_argument_number (enabled by default)
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>infer</tag>
+    <internalKey>Wrong_argument_number</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+</rules>

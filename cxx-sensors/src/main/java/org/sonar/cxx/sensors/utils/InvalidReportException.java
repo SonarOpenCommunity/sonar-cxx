@@ -17,30 +17,43 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
+package org.sonar.cxx.sensors.utils;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarEdition;
-import org.sonar.api.SonarQubeSide;
-import org.sonar.api.SonarRuntime;
-import org.sonar.api.internal.SonarRuntimeImpl;
-import org.sonar.api.utils.Version;
+/**
+ * InvalidReportException is thrown when an invalid report is detected
+ */
+@SuppressWarnings("serial")
+public class InvalidReportException extends RuntimeException {
 
-public class CxxPluginTest {
+  public InvalidReportException() {
+  }
 
-  @Test
-  public void testGetExtensions() throws Exception {
-    SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(
-      Version.create(7, 9),
-      SonarQubeSide.SCANNER,
-      SonarEdition.COMMUNITY
-    );
-    var context = new Plugin.Context(runtime);
-    var plugin = new CxxPlugin();
-    plugin.define(context);
-    assertThat(context.getExtensions()).hasSize(74);
+  /**
+   * {@inheritDoc}
+   *
+   * @param message is used for additional information
+   */
+  public InvalidReportException(String message) {
+    super(message);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @param throwable is used to forward details
+   */
+  public InvalidReportException(Throwable throwable) {
+    super(throwable);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @param message is used for additional information
+   * @param throwable is used to forward details
+   */
+  public InvalidReportException(String message, Throwable throwable) {
+    super(message, throwable);
   }
 
 }
