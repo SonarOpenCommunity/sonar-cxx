@@ -64,7 +64,7 @@ public class InferParser {
                 String.valueOf(issue.getLine()), issue.getQualifier());
         sensor.saveUniqueViolation(cxxReportIssue);
       } else {
-        LOG.debug("Cannot find the file '{}', skipping violations", issue.getFile());
+        LOG.debug("Invalid infer issue '{}', skipping violations", issue.toString());
       }
     }
   }

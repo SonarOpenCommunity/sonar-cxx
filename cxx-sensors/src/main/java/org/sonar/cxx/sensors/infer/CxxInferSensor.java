@@ -38,7 +38,7 @@ import java.util.List;
  */
 public class CxxInferSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.infer.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.infer.reportPaths";
   private static final Logger LOG = Loggers.get(CxxInferSensor.class);
 
   public static List<PropertyDefinition> properties() {
