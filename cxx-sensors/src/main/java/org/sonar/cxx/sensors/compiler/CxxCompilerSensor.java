@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.Nullable;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
@@ -48,7 +49,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
 
     LOG.info("Processing '{}' initialized with report '{}', Charset= '{}'", getCompilerKey(), report, reportCharset);
 
-    try (var scanner = new Scanner(report, reportCharset)) {
+    try ( var scanner = new Scanner(report, reportCharset)) {
       Pattern pattern = Pattern.compile(reportRegEx);
       LOG.info("Using pattern : '{}'", pattern);
 
@@ -106,7 +107,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
    * @param msg
    * @return true, if valid
    */
-  protected boolean isInputValid(String filename, String line, String id, String msg) {
+  protected boolean isInputValid(@Nullable String filename, @Nullable String line, @Nullable String id, String msg) {
     if ((id == null) || id.isEmpty()) {
       return false;
     }

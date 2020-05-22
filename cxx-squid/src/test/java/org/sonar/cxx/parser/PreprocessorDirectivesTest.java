@@ -22,6 +22,7 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.api.AstNode;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.Nullable;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 
@@ -449,7 +450,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
     return s;
   }
 
-  private void iterate(AstNode node, List<String> values) {
+  private void iterate(@Nullable AstNode node, List<String> values) {
     while (node != null) {
       AstNode child = node.getFirstChild();
       if (child != null) {

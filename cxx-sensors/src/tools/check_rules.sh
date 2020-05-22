@@ -17,7 +17,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 RULES_DIR="$(readlink -f $SCRIPT_DIR/../main/resources/)"
 RULES=( "clangsa.xml" "clangtidy.xml" "compiler-gcc.xml" "compiler-vc.xml" \
-"cppcheck.xml" "drmemory.xml" "external-rule.xml" "pclint.xml" \
+"cppcheck.xml" "drmemory.xml" "external-rule.xml" "infer.xml" "pclint.xml" \
 "rats.xml" "valgrind.xml" "vera++.xml" )
 
 declare -i RC_CHECK=0

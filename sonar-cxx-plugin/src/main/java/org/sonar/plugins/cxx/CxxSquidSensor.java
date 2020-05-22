@@ -62,7 +62,7 @@ import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
-import org.sonar.cxx.sensors.utils.CxxReportSensor;
+import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.JsonCompilationDatabase;
 import org.sonar.cxx.visitors.CxxCpdVisitor;
 import org.sonar.cxx.visitors.CxxHighlighterVisitor;
@@ -345,7 +345,7 @@ public class CxxSquidSensor implements ProjectSensor {
     final String[] buildLogPaths = context.config().getStringArray(REPORT_PATH_KEY);
     final boolean buildLogPathsDefined = buildLogPaths != null && buildLogPaths.length != 0;
     if (buildLogPathsDefined) {
-      List<File> reports = CxxReportSensor.getReports(context.config(), context.fileSystem().baseDir(), REPORT_PATH_KEY);
+      List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
       squidConfig.setCompilationPropertiesWithBuildLog(reports, "Visual C++",
                                                        context.config().get(REPORT_CHARSET_DEF).orElse(
                                                          DEFAULT_CHARSET_DEF));

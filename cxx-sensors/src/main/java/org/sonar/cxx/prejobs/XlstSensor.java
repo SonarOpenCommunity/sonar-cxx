@@ -37,8 +37,6 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.scanner.sensor.ProjectSensor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import static org.sonar.cxx.sensors.utils.CxxReportSensor.getReports;
-import static org.sonar.cxx.sensors.utils.CxxReportSensor.resolveFilename;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 
 @Phase(name = Phase.Name.PRE)
@@ -74,7 +72,6 @@ public class XlstSensor implements ProjectSensor {
   @Override
   public void execute(SensorContext context) {
     this.context = context;
-    File baseDir = context.fileSystem().baseDir();
     for (int i = 1; i <= MAX_STYLESHEETS; i++) {
       boolean paramError = false;
 
@@ -94,7 +91,7 @@ public class XlstSensor implements ProjectSensor {
         paramError = true;
       }
 
-      final List<File> inputs = getReports(context.config(), baseDir, inputKey);
+      final List<File> inputs = CxxUtils.getFiles(context, inputKey);
       if (inputs.isEmpty()) {
         LOG.error(MISSING_VALUE, inputKey);
         paramError = true;
@@ -111,7 +108,7 @@ public class XlstSensor implements ProjectSensor {
       }
 
       LOG.debug("XLST: Converting '{}' with '{}' to '{}'.", inputs, stylesheet, outputs);
-      transformFileList(baseDir.getAbsolutePath(), stylesheet, inputs, outputs);
+      transformFileList(context.fileSystem().baseDir().getAbsolutePath(), stylesheet, inputs, outputs);
     }
   }
 
@@ -123,7 +120,7 @@ public class XlstSensor implements ProjectSensor {
         if (inputStream != null) {
           stylesheetFile = new StreamSource(inputStream);
         } else {
-          stylesheetFile = new StreamSource(new File(resolveFilename(baseDir, stylesheet)));
+          stylesheetFile = new StreamSource(new File(CxxUtils.resolveAntPath(baseDir, stylesheet)));
         }
         File inputFile = inputs.get(j);
         File outputFile = createOutputFile(inputFile.getPath(), outputs);

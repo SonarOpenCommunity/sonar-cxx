@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -298,7 +299,7 @@ public class CxxPreprocessor extends Preprocessor {
     return newTokens;
   }
 
-  @Nullable
+  @CheckForNull
   private static Token predConcatToken(List<Token> tokens) {
     while (!tokens.isEmpty()) {
       Token last = tokens.remove(tokens.size() - 1);
@@ -325,7 +326,7 @@ public class CxxPreprocessor extends Preprocessor {
     return null;
   }
 
-  @Nullable
+  @CheckForNull
   private static Token succConcatToken(Iterator<Token> it) {
     Token succ = null;
     while (it.hasNext()) {
@@ -930,6 +931,7 @@ public class CxxPreprocessor extends Preprocessor {
     return result;
   }
 
+  @CheckForNull
   private File findIncludedFile(AstNode ast, Token token, String currFileName) {
     String includedFileName = null;
     boolean quoted = false;
