@@ -112,8 +112,8 @@ public class CxxCompilerSensorTest {
     }
 
     @Override
-    protected String getReportPathKey() {
-      return "cxx.reportPath";
+    protected String getReportPathsKey() {
+      return "cxx.reportPaths";
     }
 
     @Override

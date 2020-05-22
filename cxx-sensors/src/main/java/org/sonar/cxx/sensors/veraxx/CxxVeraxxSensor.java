@@ -41,7 +41,7 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxVeraxxSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPaths";
   private static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);
 
   public static List<PropertyDefinition> properties() {
@@ -64,7 +64,7 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
       .name("CXX Vera++ report import")
       .onlyOnLanguage("cxx")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
 
   @Override
@@ -108,7 +108,7 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected String getReportPathKey() {
+  protected String getReportPathsKey() {
     return REPORT_PATH_KEY;
   }
 

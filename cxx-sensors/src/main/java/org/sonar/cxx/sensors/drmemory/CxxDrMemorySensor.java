@@ -45,7 +45,7 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxDrMemorySensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.drmemory.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.drmemory.reportPaths";
   private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   private static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
@@ -75,7 +75,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
       .name("CXX Dr. Memory report import")
       .onlyOnLanguage("cxx")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
 
   private boolean frameIsInProject(Location frame) {
@@ -125,7 +125,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected String getReportPathKey() {
+  protected String getReportPathsKey() {
     return REPORT_PATH_KEY;
   }
 

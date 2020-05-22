@@ -54,8 +54,8 @@ public abstract class CxxReportSensor implements ProjectSensor {
   protected CxxReportSensor() {
   }
 
-  public List<File> getReports(String reportPathKey) {
-    return CxxUtils.getFiles(context, reportPathKey);
+  public List<File> getReports(String reportPathsKey) {
+    return CxxUtils.getFiles(context, reportPathsKey);
   }
 
   /**

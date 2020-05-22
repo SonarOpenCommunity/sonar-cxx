@@ -10,7 +10,7 @@ Feature: Importing Cppcheck reports
     And rule "cppcheck:doubleFree" is enabled
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=empty.xml"
+    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPaths=empty.xml"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -29,7 +29,7 @@ Feature: Importing Cppcheck reports
     And rule "cppcheck:doubleFree" is enabled
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=relative-to-src.xml"
+    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPaths=relative-to-src.xml"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -64,7 +64,7 @@ Feature: Importing Cppcheck reports
     And rule "cppcheck:doubleFree" is enabled
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
+    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -74,7 +74,7 @@ Feature: Importing Cppcheck reports
       """
     And the number of violations fed is <violations>
     Examples:
-      | reportpath          | violations |
+      | reportpaths          | violations |
       | unparsable.xml      | 0          |
       | wrongly_encoded.xml | 0          |
 
@@ -87,7 +87,7 @@ Feature: Importing Cppcheck reports
     And rule "cppcheck:doubleFree" is enabled
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
+    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -97,7 +97,7 @@ Feature: Importing Cppcheck reports
       """
     And the number of violations fed is <violations>
     Examples:
-      | reportpath      | violations |
+      | reportpaths      | violations |
       | cppcheck-v2.xml | 6          |
 
 
@@ -110,7 +110,7 @@ Feature: Importing Cppcheck reports
     And rule "cppcheck:doubleFree" is enabled
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
+    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -120,5 +120,5 @@ Feature: Importing Cppcheck reports
       """
     And the number of violations fed is <violations>
     Examples:
-      | reportpath      | violations |
+      | reportpaths      | violations |
       | cppcheck-v2.xml | 6          |

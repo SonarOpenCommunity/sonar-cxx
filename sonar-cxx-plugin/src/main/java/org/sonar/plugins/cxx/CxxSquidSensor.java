@@ -87,7 +87,7 @@ public class CxxSquidSensor implements ProjectSensor {
   /**
    * the following settings are in use by the feature to read configuration settings from the VC compiler report
    */
-  public static final String REPORT_PATH_KEY = "sonar.cxx.msbuild.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.msbuild.reportPaths";
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.msbuild.charset";
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 

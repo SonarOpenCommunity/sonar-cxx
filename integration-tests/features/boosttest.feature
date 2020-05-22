@@ -30,7 +30,7 @@ Feature: Providing test execution measures
     testcases in SonarQube, i.e. the drilldown won't be possible.
 
     Given the project "boosttest_project"
-    When I run "sonar-scanner -X -Dsonar.cxx.xslt.1.inputs=btest_test_simple-test_suite.xml -Dsonar.cxx.xunit.reportPath=btest_test_simple-test_suite.after_xslt"
+    When I run "sonar-scanner -X -Dsonar.cxx.xslt.1.inputs=btest_test_simple-test_suite.xml -Dsonar.cxx.xunit.reportPaths=btest_test_simple-test_suite.after_xslt"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
@@ -52,7 +52,7 @@ Feature: Providing test execution measures
     Verify the support of nested testsuites.
 
     Given the project "boosttest_project"
-    When I run "sonar-scanner -X -Dsonar.cxx.xslt.1.inputs=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.after_xslt"
+    When I run "sonar-scanner -X -Dsonar.cxx.xslt.1.inputs=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.reportPaths=btest_test_nested-test_suite.after_xslt"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
@@ -75,7 +75,7 @@ Feature: Providing test execution measures
     dummy cpp unittest file in the test folder is needed.
 
     Given the project "boosttest_project"
-    When I run "sonar-scanner -X -Dsonar.tests=cxx-xunit -Dsonar.cxx.xslt.1.stylesheet=boosttest-1.x-to-junit-dummy-1.0.xsl -Dsonar.cxx.xslt.1.inputs=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.after_xslt"
+    When I run "sonar-scanner -X -Dsonar.tests=cxx-xunit -Dsonar.cxx.xslt.1.stylesheet=boosttest-1.x-to-junit-dummy-1.0.xsl -Dsonar.cxx.xslt.1.inputs=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.reportPaths=btest_test_nested-test_suite.after_xslt"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
@@ -96,7 +96,7 @@ Feature: Providing test execution measures
     Test if plugin is able to handle this.
     Given the project "boosttest_project"
     And platform is not "Windows"
-    When I run "sonar-scanner -X -Dsonar.cxx.includeDirectories=/usr/include -Dsonar.cxx.xslt.1.inputs=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.after_xslt"
+    When I run "sonar-scanner -X -Dsonar.cxx.includeDirectories=/usr/include -Dsonar.cxx.xslt.1.inputs=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.reportPaths=btest_test_nested-test_suite.after_xslt"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:

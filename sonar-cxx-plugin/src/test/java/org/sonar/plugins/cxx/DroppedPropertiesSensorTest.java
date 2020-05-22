@@ -54,13 +54,13 @@ public class DroppedPropertiesSensorTest {
   @Test
   public void testNoLongerSupported() throws Exception {
     SensorContextTester contextTester = SensorContextTester.create(tmp.newFolder());
-    MapSettings mapSettings = new MapSettings().setProperty("sonar.cxx.cppncss.reportPath", "value");
+    MapSettings mapSettings = new MapSettings().setProperty("sonar.cxx.cppncss.reportPaths", "value");
     contextTester.setSettings(mapSettings);
     List<String> analysisWarnings = new ArrayList<>();
     DroppedPropertiesSensor sensor = new DroppedPropertiesSensor(analysisWarnings::add);
     sensor.execute(contextTester);
 
-    String msg = "CXX property 'sonar.cxx.cppncss.reportPath' is no longer supported.";
+    String msg = "CXX property 'sonar.cxx.cppncss.reportPaths' is no longer supported.";
     assertThat(logTester.logs(LoggerLevel.WARN)).contains(msg);
     assertThat(analysisWarnings).containsExactly(msg);
   }

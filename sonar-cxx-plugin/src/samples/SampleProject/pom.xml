@@ -530,13 +530,13 @@
     <sonar.scm.enabled>true</sonar.scm.enabled>
     <sonar.scm.url>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/cxx/src/sample/SampleProject</sonar.scm.url>
 
-    <sonar.cxx.cppcheck.reportPath>cppcheck-reports/cppcheck-result-*.xml</sonar.cxx.cppcheck.reportPath>
-    <sonar.cxx.coverage.reportPath>gcovr-reports/gcovr-result-*.xml</sonar.cxx.coverage.reportPath>
-    <sonar.cxx.coverage.itReportPath>gcovr-reports/gcovr-result-*.xml</sonar.cxx.coverage.itReportPath>
-    <sonar.cxx.coverage.overallReportPath>gcovr-reports/gcovr-result-*.xml</sonar.cxx.coverage.overallReportPath>
-    <sonar.cxx.rats.reportPath>rats-reports/rats-result-*.xml</sonar.cxx.rats.reportPath>
-    <sonar.cxx.vera.reportPath>vera++-reports/vera++-result-*.xml</sonar.cxx.vera.reportPath>
-    <sonar.cxx.xunit.reportPath>xunit-reports/xunit-result-*.xml</sonar.cxx.xunit.reportPath>
+    <sonar.cxx.cppcheck.reportPaths>cppcheck-reports/cppcheck-result-*.xml</sonar.cxx.cppcheck.reportPaths>
+    <sonar.cxx.coverage.reportPaths>gcovr-reports/gcovr-result-*.xml</sonar.cxx.coverage.reportPaths>
+    <sonar.cxx.coverage.itReportPaths>gcovr-reports/gcovr-result-*.xml</sonar.cxx.coverage.itReportPaths>
+    <sonar.cxx.coverage.overallReportPaths>gcovr-reports/gcovr-result-*.xml</sonar.cxx.coverage.overallReportPaths>
+    <sonar.cxx.rats.reportPaths>rats-reports/rats-result-*.xml</sonar.cxx.rats.reportPaths>
+    <sonar.cxx.vera.reportPaths>vera++-reports/vera++-result-*.xml</sonar.cxx.vera.reportPaths>
+    <sonar.cxx.xunit.reportPaths>xunit-reports/xunit-result-*.xml</sonar.cxx.xunit.reportPaths>
 
     <sonar.cxx.defines>Q_OBJECT, Q_SLOTS</sonar.cxx.defines>
     <sonar.tests>sources/tests</sonar.tests>

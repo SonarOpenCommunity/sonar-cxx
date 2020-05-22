@@ -46,7 +46,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  */
 public class CxxXunitSensor extends CxxReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPaths";
   private static final Logger LOG = Loggers.get(CxxXunitSensor.class);
 
   public static List<PropertyDefinition> properties() {

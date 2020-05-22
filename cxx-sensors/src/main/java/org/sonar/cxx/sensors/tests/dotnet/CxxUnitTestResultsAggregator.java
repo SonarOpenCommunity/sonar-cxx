@@ -59,10 +59,10 @@ public class CxxUnitTestResultsAggregator {
 
   private static void aggregate(WildcardPatternFileProvider wildcardPatternFileProvider, String[] reportPaths,
                                 UnitTestResultsParser parser, UnitTestResults unitTestResults) {
-    for (var reportPathPattern : reportPaths) {
-      LOG.info("Report path pattern: '{}'", reportPathPattern);
-      if (!reportPathPattern.isEmpty()) {
-        for (var reportFile : wildcardPatternFileProvider.listFiles(reportPathPattern)) {
+    for (var reportPathsPattern : reportPaths) {
+      LOG.info("Report path pattern: '{}'", reportPathsPattern);
+      if (!reportPathsPattern.isEmpty()) {
+        for (var reportFile : wildcardPatternFileProvider.listFiles(reportPathsPattern)) {
           parser.accept(reportFile, unitTestResults);
         }
       }

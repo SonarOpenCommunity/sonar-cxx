@@ -48,16 +48,16 @@ public class DroppedPropertiesSensor implements ProjectSensor {
   private static Map<String, String> initRemovedProperties() {
     var map = new HashMap<String, String>();
     map.put("sonar.cxx.include_directories", "Use 'sonar.cxx.includeDirectories' instead."); // V0.9.1
-    map.put("sonar.cxx.externalrules.reportPath", "Use 'sonar.cxx.other.reportPath' instead."); // V0.9.1
-    map.put("sonar.cxx.cppncss.reportPath", ""); // V0.9.1
+    map.put("sonar.cxx.externalrules.reportPaths", "Use 'sonar.cxx.other.reportPaths' instead."); // V0.9.1
+    map.put("sonar.cxx.cppncss.reportPaths", ""); // V0.9.1
     map.put("sonar.cxx.other.sqales", ""); // V0.9.6
     map.put("sonar.cxx.xunit.provideDetails", ""); // V0.9.7
-    map.put("sonar.cxx.coverage.itReportPath", ""); // V0.9.8
-    map.put("sonar.cxx.coverage.overallReportPath", ""); // V0.9.8
+    map.put("sonar.cxx.coverage.itReportPaths", ""); // V0.9.8
+    map.put("sonar.cxx.coverage.overallReportPaths", ""); // V0.9.8
     map.put("sonar.cxx.forceZeroCoverage", ""); // V0.9.8
     map.put("sonar.cxx.scanOnlySpecifiedSources", ""); // V1.0.0
     map.put("sonar.cxx.compiler.parser", MSG_COMPILER); // V1.2.0
-    map.put("sonar.cxx.compiler.reportPath", MSG_COMPILER); // V1.2.0
+    map.put("sonar.cxx.compiler.reportPaths", MSG_COMPILER); // V1.2.0
     map.put("sonar.cxx.compiler.regex", MSG_COMPILER); // V1.2.0
     map.put("sonar.cxx.compiler.charset", MSG_COMPILER); // V1.2.0
     map.put("sonar.cxx.missingIncludeWarnings", "Turn debug info on to get the information."); // V1.2.0

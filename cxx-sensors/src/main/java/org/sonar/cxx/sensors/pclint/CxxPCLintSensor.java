@@ -51,7 +51,7 @@ import org.sonar.cxx.utils.CxxReportLocation;
  */
 public class CxxPCLintSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPaths";
   public static final Pattern MISRA_RULE_PATTERN = Pattern.compile(
     // Rule nn.nn -or- Rule nn-nn-nn
     "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])");
@@ -85,7 +85,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
       .name("CXX PC-lint report import")
       .onlyOnLanguage("cxx")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
 
   @Override
@@ -237,7 +237,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected String getReportPathKey() {
+  protected String getReportPathsKey() {
     return REPORT_PATH_KEY;
   }
 

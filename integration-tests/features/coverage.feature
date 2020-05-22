@@ -6,7 +6,7 @@ Feature: Importing coverage data
     Given the project "coverage_project"
     When I run sonar-scanner with following options:
       """
-      -Dsonar.cxx.coverage.reportPath=ut-coverage.xml,it-coverage.xml,overall-coverage.xml
+      -Dsonar.cxx.coverage.reportPaths=ut-coverage.xml,it-coverage.xml,overall-coverage.xml
       """
     Then the analysis finishes successfully
     And the analysis in server has completed
@@ -29,7 +29,7 @@ Feature: Importing coverage data
     Given the project "coverage_project"
     When I run sonar-scanner with following options:
       """
-      -Dsonar.cxx.coverage.reportPath=dummy.xml
+      -Dsonar.cxx.coverage.reportPaths=dummy.xml
       """
     Then the analysis finishes successfully
     And the analysis in server has completed

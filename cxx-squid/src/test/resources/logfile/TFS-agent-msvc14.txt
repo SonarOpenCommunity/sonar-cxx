@@ -47,15 +47,15 @@
 2017-12-18T08:06:58.6250998Z   C:\SCA-tools\Cppcheck\cppcheck.exe -v -q --platform=win32W --enable=all --xml-version=2 --includes-file=CppCheck.includes -DCODE_ANALYSIS -DWIN32 -D_DEBUG -D_WINDOWS -D_USRDLL -DCROOTFINDER_EXPORTS -D_WINDLL -D_UNICODE -DUNICODE  dllmain.cpp RootFinder.cpp stdafx.cpp RootFinder.h stdafx.h targetver.h 2>"C:\agent\_work\1\s\Source\RootFinder\cppcheck-report.xml"
 2017-12-18T08:06:58.6876002Z SQEnvCheck:
 2017-12-18T08:06:58.6876002Z   sonar.log.level               = INFO
-2017-12-18T08:06:58.6876002Z   sonar.cxx.compiler.reportPath = C:\agent\_work\1\s\CppTesting.sln.log
+2017-12-18T08:06:58.6876002Z   sonar.cxx.compiler.reportPaths = C:\agent\_work\1\s\CppTesting.sln.log
 2017-12-18T08:06:58.6876002Z   sonar.cxx.compiler.parser     = Visual C++
 2017-12-18T08:06:58.6876002Z   sonar.cxx.compiler.charset    = UTF-8
 2017-12-18T08:06:58.6876002Z   sonar.cxx.compiler.regex      = ^\x20+(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20(.*)\x20\[C:\\agent\\_work\\1\\s\\Source\\RootFinder\\RootFinder.vcxproj\]$
-2017-12-18T08:06:58.6876002Z   sonar.cxx.cppcheck.reportPath = cppcheck-report.xml
-2017-12-18T08:06:58.6876002Z   sonar.cxx.pclint.reportPath   = pclint-report.xml
-2017-12-18T08:06:58.6876002Z   sonar.cxx.vera.reportPath     = vera-report.xml
-2017-12-18T08:06:58.6876002Z   sonar.cxx.rats.reportPath     = rats-report.xml
-2017-12-18T08:06:58.6876002Z   sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
+2017-12-18T08:06:58.6876002Z   sonar.cxx.cppcheck.reportPaths = cppcheck-report.xml
+2017-12-18T08:06:58.6876002Z   sonar.cxx.pclint.reportPaths   = pclint-report.xml
+2017-12-18T08:06:58.6876002Z   sonar.cxx.vera.reportPaths     = vera-report.xml
+2017-12-18T08:06:58.6876002Z   sonar.cxx.rats.reportPaths     = rats-report.xml
+2017-12-18T08:06:58.6876002Z   sonar.cxx.coverage.reportPaths = C:/agent/_work/1/s/TestResults/**/*.coveragexml
 2017-12-18T08:06:58.6876002Z   sonar.cxx.file.suffixes       = .cc,.cpp,.c,.cu,.h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
 2017-12-18T08:06:58.6876002Z   sonar.cxx.forceIncludes       = sonar-defines.h
 2017-12-18T08:06:58.6876002Z   sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include
@@ -100,15 +100,15 @@
 2017-12-18T08:07:03.3305616Z   C:\SCA-tools\Cppcheck\cppcheck.exe -v -q --platform=win32W --enable=all --xml-version=2 --includes-file=CppCheck.includes -DCODE_ANALYSIS -DWIN32 -D_DEBUG -D_WINDOWS -D_USRDLL -DMOTORCONTROLLER_EXPORTS -D_WINDLL -D_UNICODE -DUNICODE  dllmain.cpp MotorController.cpp stdafx.cpp MotorController.h stdafx.h targetver.h 2>"C:\agent\_work\1\s\Source\MotorController\cppcheck-report.xml"
 2017-12-18T08:07:03.4148615Z SQEnvCheck:
 2017-12-18T08:07:03.4148615Z   sonar.log.level               = INFO
-2017-12-18T08:07:03.4148615Z   sonar.cxx.compiler.reportPath = C:\agent\_work\1\s\CppTesting.sln.log
+2017-12-18T08:07:03.4148615Z   sonar.cxx.compiler.reportPaths = C:\agent\_work\1\s\CppTesting.sln.log
 2017-12-18T08:07:03.4148615Z   sonar.cxx.compiler.parser     = Visual C++
 2017-12-18T08:07:03.4148615Z   sonar.cxx.compiler.charset    = UTF-8
 2017-12-18T08:07:03.4148615Z   sonar.cxx.compiler.regex      = ^\x20+(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20(.*)\x20\[C:\\agent\\_work\\1\\s\\Source\\MotorController\\MotorController.vcxproj\]$
-2017-12-18T08:07:03.4148615Z   sonar.cxx.cppcheck.reportPath = cppcheck-report.xml
-2017-12-18T08:07:03.4148615Z   sonar.cxx.pclint.reportPath   = pclint-report.xml
-2017-12-18T08:07:03.4148615Z   sonar.cxx.vera.reportPath     = vera-report.xml
-2017-12-18T08:07:03.4148615Z   sonar.cxx.rats.reportPath     = rats-report.xml
-2017-12-18T08:07:03.4148615Z   sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
+2017-12-18T08:07:03.4148615Z   sonar.cxx.cppcheck.reportPaths = cppcheck-report.xml
+2017-12-18T08:07:03.4148615Z   sonar.cxx.pclint.reportPaths   = pclint-report.xml
+2017-12-18T08:07:03.4148615Z   sonar.cxx.vera.reportPaths     = vera-report.xml
+2017-12-18T08:07:03.4148615Z   sonar.cxx.rats.reportPaths     = rats-report.xml
+2017-12-18T08:07:03.4148615Z   sonar.cxx.coverage.reportPaths = C:/agent/_work/1/s/TestResults/**/*.coveragexml
 2017-12-18T08:07:03.4148615Z   sonar.cxx.file.suffixes       = .cc,.cpp,.c,.cu,.h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
 2017-12-18T08:07:03.4148615Z   sonar.cxx.forceIncludes       = sonar-defines.h
 2017-12-18T08:07:03.4148615Z   sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include
@@ -182,15 +182,15 @@
 2017-12-18T08:07:12.1388561Z   C:\SCA-tools\Cppcheck\cppcheck.exe -v -q --platform=win32W --enable=all --xml-version=2 --includes-file=CppCheck.includes -DCODE_ANALYSIS -DWIN32 -D_DEBUG -D_WINDOWS -DCALCULATION_EXPORTS -D_WINDLL -D_UNICODE -DUNICODE  Addition.cpp Calculation.cpp Multiply.cpp stdafx.cpp Addition.h Multiply.h stdafx.h targetver.h 2>"C:\agent\_work\1\s\Source\Calculation\cppcheck-report.xml"
 2017-12-18T08:07:12.2013619Z SQEnvCheck:
 2017-12-18T08:07:12.2013619Z   sonar.log.level               = INFO
-2017-12-18T08:07:12.2013619Z   sonar.cxx.compiler.reportPath = C:\agent\_work\1\s\CppTesting.sln.log
+2017-12-18T08:07:12.2013619Z   sonar.cxx.compiler.reportPaths = C:\agent\_work\1\s\CppTesting.sln.log
 2017-12-18T08:07:12.2013619Z   sonar.cxx.compiler.parser     = Visual C++
 2017-12-18T08:07:12.2013619Z   sonar.cxx.compiler.charset    = UTF-8
 2017-12-18T08:07:12.2013619Z   sonar.cxx.compiler.regex      = ^\x20+(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20(.*)\x20\[C:\\agent\\_work\\1\\s\\Source\\Calculation\\Calculation.vcxproj\]$
-2017-12-18T08:07:12.2013619Z   sonar.cxx.cppcheck.reportPath = cppcheck-report.xml
-2017-12-18T08:07:12.2013619Z   sonar.cxx.pclint.reportPath   = pclint-report.xml
-2017-12-18T08:07:12.2013619Z   sonar.cxx.vera.reportPath     = vera-report.xml
-2017-12-18T08:07:12.2013619Z   sonar.cxx.rats.reportPath     = rats-report.xml
-2017-12-18T08:07:12.2013619Z   sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
+2017-12-18T08:07:12.2013619Z   sonar.cxx.cppcheck.reportPaths = cppcheck-report.xml
+2017-12-18T08:07:12.2013619Z   sonar.cxx.pclint.reportPaths   = pclint-report.xml
+2017-12-18T08:07:12.2013619Z   sonar.cxx.vera.reportPaths     = vera-report.xml
+2017-12-18T08:07:12.2013619Z   sonar.cxx.rats.reportPaths     = rats-report.xml
+2017-12-18T08:07:12.2013619Z   sonar.cxx.coverage.reportPaths = C:/agent/_work/1/s/TestResults/**/*.coveragexml
 2017-12-18T08:07:12.2013619Z   sonar.cxx.file.suffixes       = .cc,.cpp,.c,.cu,.h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
 2017-12-18T08:07:12.2013619Z   sonar.cxx.forceIncludes       = sonar-defines.h
 2017-12-18T08:07:12.2169834Z   sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include
@@ -429,15 +429,15 @@
 2017-12-18T08:07:46.3541019Z   IsUnitTest = True
 2017-12-18T08:07:46.3541019Z SQEnvCheck:
 2017-12-18T08:07:46.3541019Z   sonar.log.level               = INFO
-2017-12-18T08:07:46.3541019Z   sonar.cxx.compiler.reportPath = C:\agent\_work\1\s\CppTesting.sln.log
+2017-12-18T08:07:46.3541019Z   sonar.cxx.compiler.reportPaths = C:\agent\_work\1\s\CppTesting.sln.log
 2017-12-18T08:07:46.3541019Z   sonar.cxx.compiler.parser     = Visual C++
 2017-12-18T08:07:46.3541019Z   sonar.cxx.compiler.charset    = UTF-8
 2017-12-18T08:07:46.3541019Z   sonar.cxx.compiler.regex      = ^\x20+(.*)\((\d+)\)\x20*:\x20warning\x20(C\d+):\x20(.*)\x20\[C:\\agent\\_work\\1\\s\\Source\\SQCxxTestData\\SQCxxTestData.vcxproj\]$
-2017-12-18T08:07:46.3541019Z   sonar.cxx.cppcheck.reportPath = cppcheck-report.xml
-2017-12-18T08:07:46.3541019Z   sonar.cxx.pclint.reportPath   = pclint-report.xml
-2017-12-18T08:07:46.3541019Z   sonar.cxx.vera.reportPath     = vera-report.xml
-2017-12-18T08:07:46.3541019Z   sonar.cxx.rats.reportPath     = rats-report.xml
-2017-12-18T08:07:46.3541019Z   sonar.cxx.coverage.reportPath = C:/agent/_work/1/s/TestResults/**/*.coveragexml
+2017-12-18T08:07:46.3541019Z   sonar.cxx.cppcheck.reportPaths = cppcheck-report.xml
+2017-12-18T08:07:46.3541019Z   sonar.cxx.pclint.reportPaths   = pclint-report.xml
+2017-12-18T08:07:46.3541019Z   sonar.cxx.vera.reportPaths     = vera-report.xml
+2017-12-18T08:07:46.3541019Z   sonar.cxx.rats.reportPaths     = rats-report.xml
+2017-12-18T08:07:46.3541019Z   sonar.cxx.coverage.reportPaths = C:/agent/_work/1/s/TestResults/**/*.coveragexml
 2017-12-18T08:07:46.3541019Z   sonar.cxx.file.suffixes       = .cc,.cpp,.c,.cu,.h,.hh,.hpp,.inl,.cuh,.inc,.cuinc
 2017-12-18T08:07:46.3541019Z   sonar.cxx.forceIncludes       = sonar-defines.h
 2017-12-18T08:07:46.3541019Z   sonar.cxx.includeDirectories  = C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.11.25503/atlmfc/include,,C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/VS/include,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt,,,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared,C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt,Include/um,C:/agent/_work/1/s/_Globals/Include,../../src/_Globals/Include

@@ -47,7 +47,7 @@ import org.sonar.cxx.sensors.utils.EmptyReportException;
 public class CxxCoverageSensor extends CxxReportSensor {
 
   // Configuration properties before SQ 6.2
-  public static final String REPORT_PATH_KEY = "sonar.cxx.coverage.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.coverage.reportPaths";
 
   private static final Logger LOG = Loggers.get(CxxCoverageSensor.class);
 

@@ -46,7 +46,7 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxOtherSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.other.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.other.reportPaths";
   public static final String RULES_KEY = "sonar.cxx.other.rules";
 
   private static final Logger LOG = Loggers.get(CxxOtherSensor.class);
@@ -83,7 +83,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
       .name("CXX external analyser report import")
       .onlyOnLanguage("cxx")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
 
   @Override
@@ -110,7 +110,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected String getReportPathKey() {
+  protected String getReportPathsKey() {
     return REPORT_PATH_KEY;
   }
 

@@ -31,7 +31,7 @@ import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 public class CxxCompilerGccSensor extends CxxCompilerSensor {
 
   public static final String KEY = "GCC";
-  public static final String REPORT_PATH_KEY = "sonar.cxx.gcc.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.gcc.reportPaths";
   public static final String REPORT_REGEX_DEF = "sonar.cxx.gcc.regex";
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.gcc.charset";
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
@@ -82,7 +82,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
       .name("CXX GCC compiler report import")
       .onlyOnLanguage("cxx")
       .createIssuesForRuleRepositories(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
 
   @Override
@@ -112,7 +112,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   }
 
   @Override
-  protected String getReportPathKey() {
+  protected String getReportPathsKey() {
     return REPORT_PATH_KEY;
   }
 

@@ -39,7 +39,7 @@ import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
  */
 public class CxxCppCheckSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPaths";
   private static final Logger LOG = Loggers.get(CxxCppCheckSensor.class);
 
   public static List<PropertyDefinition> properties() {
@@ -65,7 +65,7 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
       .name("CXX Cppcheck report import")
       .onlyOnLanguage("cxx")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
 
   @Override
@@ -80,7 +80,7 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected String getReportPathKey() {
+  protected String getReportPathsKey() {
     return REPORT_PATH_KEY;
   }
 
