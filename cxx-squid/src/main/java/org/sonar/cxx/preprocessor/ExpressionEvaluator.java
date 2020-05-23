@@ -140,7 +140,7 @@ public final class ExpressionEvaluator {
     BigInteger number;
     try {
       number = decode(intValue);
-    } catch (java.lang.NumberFormatException nfe) {
+    } catch (java.lang.NumberFormatException e) {
       LOG.warn("Cannot decode the number '{}' falling back to value '{}' instead", intValue, BigInteger.ONE);
       number = BigInteger.ONE;
     }
@@ -169,13 +169,13 @@ public final class ExpressionEvaluator {
     AstNode constExprAst;
     try {
       constExprAst = parser.parse(constExpr);
-    } catch (com.sonar.sslr.api.RecognitionException re) {
+    } catch (com.sonar.sslr.api.RecognitionException e) {
       if (exprAst != null) {
         LOG.warn("Error evaluating expression '{}' for AstExp '{}', assuming 0", constExpr, exprAst.getToken());
       } else {
         LOG.warn("Error evaluating expression '{}', assuming 0", constExpr);
       }
-      LOG.debug("EvalToInt failed: {}", re);
+      LOG.debug("EvalToInt failed: {}", e);
       return BigInteger.ZERO;
     }
 

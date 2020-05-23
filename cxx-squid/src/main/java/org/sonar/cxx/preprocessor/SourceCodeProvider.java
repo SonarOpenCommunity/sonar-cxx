@@ -57,7 +57,7 @@ public class SourceCodeProvider {
           LOG.warn("include root '{}' is not a directory", includeRoot.toString());
         }
 
-      } catch (IOException | InvalidPathException ex) {
+      } catch (IOException | InvalidPathException e) {
         LOG.error("cannot get absolute path of include root '{}'", includeRoot.toString());
       }
     }
@@ -109,8 +109,8 @@ public class SourceCodeProvider {
     if (result != null) {
       try {
         result = result.getCanonicalFile();
-      } catch (java.io.IOException io) {
-        LOG.error("cannot get canonical form of: '{}'", result, io);
+      } catch (java.io.IOException e) {
+        LOG.error("cannot get canonical form of: '{}'", result, e);
       }
     }
 

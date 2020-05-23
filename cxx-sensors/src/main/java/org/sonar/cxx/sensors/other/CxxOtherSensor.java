@@ -20,13 +20,10 @@
 package org.sonar.cxx.sensors.other;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.transform.TransformerException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.PropertyType;
@@ -36,6 +33,8 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -87,26 +86,29 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  public void processReport(File report) throws XMLStreamException, IOException, URISyntaxException,
-                                                TransformerException {
-    LOG.debug("Processing 'other' format");
+  public void processReport(File report) throws ReportException {
+    LOG.debug("Processing 'other' report '{}'", report.getName());
 
-    var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
-      rootCursor.advance();
+    try {
+      var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+        rootCursor.advance();
 
-      SMInputCursor errorCursor = rootCursor.childElementCursor("error");
-      while (errorCursor.getNext() != null) {
-        String file = errorCursor.getAttrValue("file");
-        String line = errorCursor.getAttrValue("line");
-        String id = errorCursor.getAttrValue("id");
-        String msg = errorCursor.getAttrValue("msg");
+        SMInputCursor errorCursor = rootCursor.childElementCursor("error");
+        while (errorCursor.getNext() != null) {
+          String file = errorCursor.getAttrValue("file");
+          String line = errorCursor.getAttrValue("line");
+          String id = errorCursor.getAttrValue("id");
+          String msg = errorCursor.getAttrValue("msg");
 
-        var issue = new CxxReportIssue(id, file, line, msg);
-        saveUniqueViolation(issue);
-      }
-    });
+          var issue = new CxxReportIssue(id, file, line, msg);
+          saveUniqueViolation(issue);
+        }
+      });
 
-    parser.parse(report);
+      parser.parse(report);
+    } catch (XMLStreamException e) {
+      throw new InvalidReportException("The 'other' report is invalid", e);
+    }
   }
 
   @Override

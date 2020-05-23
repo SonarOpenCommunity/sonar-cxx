@@ -41,6 +41,6 @@ public interface CoverageParser {
    * some specific module!
    * @throws XMLStreamException javax.xml.stream.XMLStreamException
    */
-  void processReport(File report, Map<String, CoverageMeasures> coverageData) throws XMLStreamException;
+  void parse(File report, Map<String, CoverageMeasures> coverageData) throws XMLStreamException;
 
 }

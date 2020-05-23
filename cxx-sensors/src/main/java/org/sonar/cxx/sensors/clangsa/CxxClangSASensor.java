@@ -36,6 +36,8 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -92,7 +94,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(File report) throws javax.xml.stream.XMLStreamException {
+  protected void processReport(File report) throws ReportException {
     LOG.debug("Processing 'Clang Static Analyzer' report '{}''", report.getName());
 
     try {
@@ -131,7 +133,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
         saveUniqueViolation(issue);
       }
     } catch (Exception e) {
-      LOG.error("Failed to parse clangsa report: {}", e.getMessage());
+      throw new InvalidReportException("The 'Clang Static Analyzer' report is invalid", e);
     }
   }
 

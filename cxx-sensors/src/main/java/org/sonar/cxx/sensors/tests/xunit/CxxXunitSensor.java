@@ -86,13 +86,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         LOG.debug("No xUnit reports found, nothing to process");
       }
     } catch (IOException | XMLStreamException e) {
-      var msg = new StringBuilder(256)
-        .append("Cannot feed the xUnit report data into SonarQube, details: '")
-        .append(e)
-        .append("'")
-        .toString();
-      LOG.error(msg);
-      CxxUtils.validateRecovery(e, context.config());
+      CxxUtils.validateRecovery("Invalid xUnit report", e, context.config());
     }
   }
 

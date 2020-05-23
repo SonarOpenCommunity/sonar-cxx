@@ -21,14 +21,17 @@ package org.sonar.cxx.sensors.compiler;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import javax.xml.stream.XMLStreamException;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.LogTester;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCompilerSensorTest {
@@ -37,45 +40,50 @@ public class CxxCompilerSensorTest {
   public LogTester logTester = new LogTester();
 
   private DefaultFileSystem fs;
+  private final MapSettings settings = new MapSettings();
+  private SensorContextTester context;
   private CxxCompilerSensorMock sensor;
 
   @Before
   public void setUp() {
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
     fs = TestUtils.mockFileSystem();
-    sensor = new CxxCompilerSensorMock();
+    context = SensorContextTester.create(fs.baseDir());
+    context.setSettings(settings);
+    sensor = new CxxCompilerSensorMock(context);
   }
 
   @Test
-  public void testFileNotFound() throws XMLStreamException {
+  public void testFileNotFound() {
     var report = new File("");
     sensor.setRegex("*");
-    sensor.testProcessReport(report);
+    sensor.testExecuteReport(report);
     String log = logTester.logs().toString();
     assertThat(log.contains("FileNotFoundException")).isTrue();
   }
 
   @Test
-  public void testRegexEmpty() throws XMLStreamException {
+  public void testRegexEmpty() {
     var report = new File("");
-    sensor.testProcessReport(report);
+    sensor.testExecuteReport(report);
     String log = logTester.logs().toString();
     assertThat(log.contains("empty custom regular expression")).isTrue();
   }
 
   @Test
-  public void testRegexInvalid() throws XMLStreamException {
+  public void testRegexInvalid() {
     var report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
     sensor.setRegex("*");
-    sensor.testProcessReport(report);
+    sensor.testExecuteReport(report);
     String log = logTester.logs().toString();
     assertThat(log.contains("PatternSyntaxException")).isTrue();
   }
 
   @Test
-  public void testRegexNamedGroupMissing() throws XMLStreamException {
+  public void testRegexNamedGroupMissing() {
     var report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
     sensor.setRegex(".*");
-    sensor.testProcessReport(report);
+    sensor.testExecuteReport(report);
     String log = logTester.logs().toString();
     assertThat(log.contains("No group with name")).isTrue();
   }
@@ -84,12 +92,16 @@ public class CxxCompilerSensorTest {
 
     private String regex = "";
 
+    public CxxCompilerSensorMock(SensorContext context) {
+      this.context = context;
+    }
+
     @Override
     public void describe(SensorDescriptor descriptor) {
     }
 
-    public void testProcessReport(File report) throws XMLStreamException {
-      processReport(report);
+    public void testExecuteReport(File report) {
+      executeReport(report);
     }
 
     public void setRegex(String regex) {

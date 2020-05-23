@@ -491,7 +491,7 @@ public class CxxSquidSensor implements ProjectSensor {
       try {
         newHighlighting.highlight(item.startLine, item.startLineOffset, item.endLine, item.endLineOffset,
                                   TypeOfText.forCssClass(item.typeOfText));
-      } catch (IllegalArgumentException ex) {
+      } catch (IllegalArgumentException e) {
         // ignore highlight errors: parsing errors could lead to wrong location data
         LOG.debug("Highlighting error in file '{}' at start:{}:{} end:{}:{}", inputFile.filename(),
                   item.startLine, item.startLineOffset, item.endLine, item.endLineOffset);

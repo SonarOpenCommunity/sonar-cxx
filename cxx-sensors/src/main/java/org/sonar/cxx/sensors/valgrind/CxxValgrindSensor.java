@@ -25,12 +25,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -101,10 +104,15 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(File report) throws javax.xml.stream.XMLStreamException {
-    LOG.debug("Processing 'Valgrind' format");
-    var parser = new ValgrindReportParser();
-    saveErrors(parser.processReport(report));
+  protected void processReport(File report) throws ReportException {
+    LOG.debug("Processing 'Valgrind' report '{}'", report.getName());
+
+    try {
+      var parser = new ValgrindReportParser();
+      saveErrors(parser.parse(report));
+    } catch (XMLStreamException e) {
+      throw new InvalidReportException("The 'Valgrind' report is invalid", e);
+    }
   }
 
   @Override

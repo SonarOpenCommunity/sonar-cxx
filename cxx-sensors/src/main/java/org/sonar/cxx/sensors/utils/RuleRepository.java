@@ -76,8 +76,8 @@ public class RuleRepository implements RulesDefinition {
       for (var userExtensionXml : getExtensions(repositoryKey, "xml")) {
         try ( InputStream input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
           xmlRuleLoader.load(repository, input, charset);
-        } catch (IOException | IllegalStateException ex) {
-          LOG.info("Cannot Load XML '{}'", ex);
+        } catch (IOException | IllegalStateException e) {
+          LOG.info("Cannot Load XML '{}'", e);
         }
       }
     }

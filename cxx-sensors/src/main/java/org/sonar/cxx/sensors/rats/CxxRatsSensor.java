@@ -20,12 +20,14 @@
 package org.sonar.cxx.sensors.rats;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nullable;
 import javax.xml.XMLConstants;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaders;
 import org.sonar.api.batch.sensor.SensorDescriptor;
@@ -34,7 +36,8 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
-import org.sonar.cxx.sensors.utils.CxxUtils;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -78,14 +81,15 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(File report) throws org.jdom2.JDOMException, java.io.IOException {
-    LOG.debug("Processing 'RATS' format");
+  protected void processReport(File report) throws ReportException {
+    LOG.debug("Processing 'RATS' report '{}'", report.getName());
 
     try {
       var builder = new SAXBuilder(XMLReaders.NONVALIDATING);
       builder.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
       builder.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
       Element root = builder.build(report).getRootElement();
+
       List<Element> vulnerabilities = root.getChildren("vulnerability");
       for (var vulnerability : vulnerabilities) {
         String type = getVulnerabilityType(vulnerability.getChild("type"));
@@ -105,9 +109,8 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
           }
         }
       }
-    } catch (org.jdom2.input.JDOMParseException e) {
-      // when RATS fails the XML file might be incomplete
-      LOG.error("Ignore incomplete XML output from RATS '{}'", CxxUtils.getStackTrace(e));
+    } catch (JDOMException | IOException e) {
+      throw new InvalidReportException("The 'RATS' report is invalid", e);
     }
   }
 

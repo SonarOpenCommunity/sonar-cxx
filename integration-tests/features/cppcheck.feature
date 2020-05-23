@@ -16,7 +16,7 @@ Feature: Importing Cppcheck reports
     And the server log (if locatable) contains no error/warning messages
     But the analysis log contains a line matching
       """
-      .*WARN.*The report '.*' seems to be empty, ignoring.
+      .*WARN: The 'Cppcheck V2' report is empty.*, skipping
       """
     And the number of violations fed is 0
 
@@ -70,7 +70,7 @@ Feature: Importing Cppcheck reports
     And the server log (if locatable) contains no error/warning messages
     But the analysis log contains a line matching
       """
-      .*ERROR.*Report .* cannot be parsed
+      .*WARN: The 'Cppcheck V2' report is invalid.*, skipping
       """
     And the number of violations fed is <violations>
     Examples:

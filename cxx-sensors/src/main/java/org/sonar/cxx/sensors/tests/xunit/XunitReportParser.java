@@ -60,8 +60,8 @@ public class XunitReportParser implements XmlStreamHandler {
       while (testSuiteCursor.getNext() != null) {
         parseTestSuiteTag(testSuiteCursor);
       }
-    } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-      throw new EmptyReportException("Cannot read Xunit report", eofExc);
+    } catch (com.ctc.wstx.exc.WstxEOFException e) {
+      throw new EmptyReportException("The 'xUnit' report is empty", e);
     }
   }
 

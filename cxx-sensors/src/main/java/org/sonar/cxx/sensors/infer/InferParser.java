@@ -22,14 +22,15 @@ package org.sonar.cxx.sensors.infer;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.utils.CxxReportIssue;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.sensors.utils.EmptyReportException;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.ReportException;
+import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
  * Parser for Infer reports
@@ -46,25 +47,29 @@ public class InferParser {
     this.sensor = sensor;
   }
 
-  public void processReport(File report) throws IOException {
-    LOG.debug("Processing 'Infer JSON' format");
-
+  public void parse(File report) throws ReportException {
     InferIssue[] inferIssues;
 
-    try (JsonReader reader = new JsonReader(new FileReader(report))) {
-      Gson gson = new Gson();
-      inferIssues = gson.fromJson(reader,InferIssue[].class);
+    try {
+      try ( JsonReader reader = new JsonReader(new FileReader(report))) {
+        inferIssues = new Gson().fromJson(reader, InferIssue[].class);
+        if (inferIssues == null) {
+          throw new EmptyReportException("The 'Infer JSON' report is empty");
+        }
+      }
+    } catch (IOException e) {
+      throw new InvalidReportException("The 'Infer JSON' report is invalid", e);
     }
 
-    for(InferIssue issue : inferIssues) {
+    for (InferIssue issue : inferIssues) {
       LOG.debug("Read: {}", issue.toString());
-      if(issue.getFile() != null) {
+      if (issue.getFile() != null) {
         CxxReportIssue cxxReportIssue = new CxxReportIssue(
-                issue.getBugType(), issue.getFile(),
-                String.valueOf(issue.getLine()), issue.getQualifier());
+          issue.getBugType(), issue.getFile(),
+          String.valueOf(issue.getLine()), issue.getQualifier());
         sensor.saveUniqueViolation(cxxReportIssue);
       } else {
-        LOG.debug("Invalid infer issue '{}', skipping violations", issue.toString());
+        LOG.debug("Invalid infer issue '{}', skipping", issue.toString());
       }
     }
   }
@@ -72,6 +77,7 @@ public class InferParser {
   @Override
   public String toString() {
     return getClass().getSimpleName();
+
   }
 
   public static class InferIssue {
@@ -117,7 +123,7 @@ public class InferParser {
     @Override
     public String toString() {
       return String.format("InferIssue [bugType=%s, file=%s, line=%d, qualifier=%s]",
-              getBugType(), getFile(), getLine(), getQualifier());
+                           getBugType(), getFile(), getLine(), getQualifier());
     }
   }
 

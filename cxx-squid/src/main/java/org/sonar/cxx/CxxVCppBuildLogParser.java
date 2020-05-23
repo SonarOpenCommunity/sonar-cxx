@@ -174,8 +174,8 @@ public class CxxVCppBuildLogParser {
           LOG.debug("build log parser cl.exe line='{}'", line);
         }
       }
-    } catch (IOException ex) {
-      LOG.error("Cannot parse build log", ex);
+    } catch (IOException e) {
+      LOG.error("Cannot parse build log", e);
     }
     if (detectedPlatform) {
       LOG.info("Detected VS platform toolset: {}.{}", platformToolset.substring(0, 3), platformToolset.substring(3));
@@ -244,10 +244,10 @@ public class CxxVCppBuildLogParser {
       }
 
       parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);
-    } catch (InvalidPathException ex) {
-      LOG.warn("Cannot extract information from current element: {} - {}", data, ex);
-    } catch (NullPointerException ex2) {
-      LOG.error("Bug in parser, please report: '{}' - '{}'", data + " @ " + currentProjectPath, ex2);
+    } catch (InvalidPathException e) {
+      LOG.warn("Cannot extract information from current element: {} - {}", data, e);
+    } catch (NullPointerException e) {
+      LOG.error("Bug in parser, please report: '{}' - '{}'", data + " @ " + currentProjectPath, e);
     }
   }
 
@@ -315,11 +315,11 @@ public class CxxVCppBuildLogParser {
       if (!includesPerUnit.contains(includePath)) {
         includesPerUnit.add(includePath);
       }
-    } catch (IOException io) {
+    } catch (IOException e) {
       if (LOG.isDebugEnabled()) {
-        LOG.error("Cannot parse include path using element '{}' : '{}'", element, io);
+        LOG.error("Cannot parse include path using element '{}' : '{}'", element, e);
       } else {
-        LOG.error("Cannot parse include path using element '{}' : '{}'", element, io.getMessage());
+        LOG.error("Cannot parse include path using element '{}' : '{}'", element, e.getMessage());
       }
     }
   }

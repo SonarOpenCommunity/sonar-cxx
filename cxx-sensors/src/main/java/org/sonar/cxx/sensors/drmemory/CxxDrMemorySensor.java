@@ -33,6 +33,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -93,8 +94,8 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(File report) {
-    LOG.debug("Processing 'Dr. Memory' format");
+  protected void processReport(File report) throws ReportException {
+    LOG.debug("Processing 'Dr. Memory' report '{}'", report.getName());
 
     for (var error : DrMemoryParser.parse(report, DEFAULT_CHARSET_DEF)) {
       if (error.getStackTrace().isEmpty()) {
