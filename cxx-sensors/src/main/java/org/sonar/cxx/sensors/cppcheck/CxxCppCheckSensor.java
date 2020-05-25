@@ -30,6 +30,8 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.ReportException;
 
 /**
  * Sensor for Cppcheck - A tool for static C/C++ code analysis
@@ -69,13 +71,14 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(File report) throws javax.xml.stream.XMLStreamException {
+  protected void processReport(File report) throws ReportException {
+    LOG.debug("Processing 'Cppcheck V2' report '{}'", report.getName());
+
     CppcheckParser parser = new CppcheckParser(this);
     try {
-      parser.processReport(report);
-      LOG.info("Added report '{}' (parsed by: {})", report, parser);
+      parser.parse(report);
     } catch (XMLStreamException e) {
-      LOG.error("Report {} cannot be parsed", report);
+      throw new InvalidReportException("The 'Cppcheck V2' report is invalid", e);
     }
   }
 

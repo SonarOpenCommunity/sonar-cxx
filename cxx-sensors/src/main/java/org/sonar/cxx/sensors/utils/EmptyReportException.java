@@ -23,7 +23,7 @@ package org.sonar.cxx.sensors.utils;
  * EmptyReportException is thrown when an empty report is detected
  */
 @SuppressWarnings("serial")
-public class EmptyReportException extends RuntimeException {
+public class EmptyReportException extends ReportException {
 
   public EmptyReportException() {
   }

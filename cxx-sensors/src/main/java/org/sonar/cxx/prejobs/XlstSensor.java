@@ -126,13 +126,7 @@ public class XlstSensor implements ProjectSensor {
         File outputFile = createOutputFile(inputFile.getPath(), outputs);
         transformFile(stylesheetFile, inputFile, outputFile);
       } catch (TransformerException | NullPointerException e) {
-        String msg = new StringBuilder(256)
-          .append("Cannot transform report files: '")
-          .append(e)
-          .append("'")
-          .toString();
-        LOG.error(msg);
-        CxxUtils.validateRecovery(e, context.config());
+        CxxUtils.validateRecovery("Cannot XLS transform files", e, context.config());
       }
     }
   }

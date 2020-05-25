@@ -23,7 +23,7 @@ package org.sonar.cxx.sensors.utils;
  * InvalidReportException is thrown when an invalid report is detected
  */
 @SuppressWarnings("serial")
-public class InvalidReportException extends RuntimeException {
+public class InvalidReportException extends ReportException {
 
   public InvalidReportException() {
   }

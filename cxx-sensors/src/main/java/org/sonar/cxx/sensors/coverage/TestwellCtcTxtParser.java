@@ -58,10 +58,10 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
    * {@inheritDoc}
    */
   @Override
-  public void processReport(File report, final Map<String, CoverageMeasures> coverageData) {
+  public void parse(File report, final Map<String, CoverageMeasures> coverageData) {
     LOG.debug("Processing 'Testwell CTC++ Coverage' format");
 
-    try (var s = new Scanner(report).useDelimiter(SECTION_SEP)) {
+    try ( var s = new Scanner(report).useDelimiter(SECTION_SEP)) {
       scanner = s;
       Matcher headerMatcher = FILE_HEADER.matcher(scanner.next());
       while (parseUnit(coverageData, headerMatcher)) {

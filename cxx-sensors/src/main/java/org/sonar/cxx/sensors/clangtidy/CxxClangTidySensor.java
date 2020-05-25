@@ -34,6 +34,8 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -83,9 +85,9 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(File report) {
+  protected void processReport(File report) throws ReportException {
     String reportCharset = context.config().get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF);
-    LOG.debug("Processing 'Clang-Tidy' report, CharSet= '{}'", reportCharset);
+    LOG.debug("Processing 'Clang-Tidy' report '{}', CharSet= '{}'", report.getName(), reportCharset);
 
     try ( var scanner = new Scanner(report, reportCharset)) {
       // sample:
@@ -143,7 +145,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
                      | java.lang.IllegalArgumentException
                      | java.lang.IllegalStateException
                      | java.util.InputMismatchException e) {
-      LOG.error("Failed to parse clang-tidy report: {}", e);
+      throw new InvalidReportException("The 'Clang-Tidy' report is invalid", e);
     }
   }
 

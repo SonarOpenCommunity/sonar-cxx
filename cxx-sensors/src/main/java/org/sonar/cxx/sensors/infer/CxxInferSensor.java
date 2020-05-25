@@ -19,17 +19,15 @@
  */
 package org.sonar.cxx.sensors.infer;
 
+import java.io.File;
+import java.util.List;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
-import org.sonar.cxx.sensors.utils.InvalidReportException;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
+import org.sonar.cxx.sensors.utils.ReportException;
 
 /**
  * Sensor for Infer - A static analyzer for Java, C, C++, and Objective-C
@@ -43,17 +41,17 @@ public class CxxInferSensor extends CxxIssuesReportSensor {
 
   public static List<PropertyDefinition> properties() {
     return List.of(PropertyDefinition.builder(REPORT_PATH_KEY)
-            .name("Infer JSON report(s)")
-            .description(
-                    "Path to a <a href='https://fbinfer.com/>Infer</a> JSON report, relative to"
-                            + " projects root. Only JSON format is supported. If necessary, <a href='https://"
-                            + "ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
-            )
-            .category("CXX External Analyzers")
-            .subCategory("Infer")
-            .onQualifiers(Qualifiers.PROJECT)
-            .multiValues(true)
-            .build());
+      .name("Infer JSON report(s)")
+      .description(
+        "Path to a <a href='https://fbinfer.com/>Infer</a> JSON report, relative to"
+          + " projects root. Only JSON format is supported. If necessary, <a href='https://"
+          + "ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
+      )
+      .category("CXX External Analyzers")
+      .subCategory("Infer")
+      .onQualifiers(Qualifiers.PROJECT)
+      .multiValues(true)
+      .build());
   }
 
   @Override
@@ -66,14 +64,11 @@ public class CxxInferSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(File report) {
+  protected void processReport(File report) throws ReportException {
+    LOG.debug("Processing 'Infer JSON' report '{}'", report.getName());
+
     InferParser parser = new InferParser(this);
-    try {
-      parser.processReport(report);
-      LOG.info("Added report '{}' (parsed by: {})", report, parser);
-    } catch (IOException e) {
-      throw new InvalidReportException("Cannot read infer report", e);
-    }
+    parser.parse(report);
   }
 
   @Override

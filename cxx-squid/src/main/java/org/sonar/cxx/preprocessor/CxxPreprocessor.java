@@ -197,7 +197,7 @@ public class CxxPreprocessor extends Preprocessor {
     List<Token> rest = new ArrayList<>(tokens);
     try {
       rest = match(rest, "(");
-    } catch (MismatchException me) {
+    } catch (MismatchException e) {
       return 0;
     }
 
@@ -206,16 +206,16 @@ public class CxxPreprocessor extends Preprocessor {
         rest = matchArgument(rest, arguments);
         try {
           rest = match(rest, ",");
-        } catch (MismatchException me) {
+        } catch (MismatchException e) {
           break;
         }
       } while (true);
-    } catch (MismatchException me) {
+    } catch (MismatchException e) {
     }
     try {
       rest = match(rest, ")");
-    } catch (MismatchException me) {
-      LOG.error("MismatchException : '{}' rest: '{}'", me.getMessage(), rest);
+    } catch (MismatchException e) {
+      LOG.error("MismatchException : '{}' rest: '{}'", e.getMessage(), rest);
       return 0;
     }
     return tokens.size() - rest.size();
@@ -516,9 +516,9 @@ public class CxxPreprocessor extends Preprocessor {
       AstNode lineAst;
       try {
         lineAst = pplineParser.parse(token.getValue()).getFirstChild();
-      } catch (com.sonar.sslr.api.RecognitionException re) {
+      } catch (com.sonar.sslr.api.RecognitionException e) {
         LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
-        LOG.debug("Parser exception: '{}'", re);
+        LOG.debug("Parser exception: '{}'", e);
         return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
                                       new ArrayList<>());
       }
@@ -964,7 +964,7 @@ public class CxxPreprocessor extends Preprocessor {
       AstNode includeBodyAst = null;
       try {
         includeBodyAst = pplineParser.parse("#include " + expandedIncludeBody);
-      } catch (com.sonar.sslr.api.RecognitionException re) {
+      } catch (com.sonar.sslr.api.RecognitionException e) {
         parseError = true;
       }
 
@@ -1139,8 +1139,8 @@ public class CxxPreprocessor extends Preprocessor {
 
       try {
         IncludeLexer.create(this).lex(getCodeProvider().getSourceCode(includedFile, charset));
-      } catch (IOException ex) {
-        LOG.error("[{}: Cannot read file]: {}", includedFile.getAbsoluteFile(), ex);
+      } catch (IOException e) {
+        LOG.error("[{}: Cannot read file]: {}", includedFile.getAbsoluteFile(), e);
       } finally {
         currentFileState = globalStateStack.pop();
       }

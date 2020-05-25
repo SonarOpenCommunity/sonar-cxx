@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorDescriptor;
@@ -31,8 +32,9 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
-import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -68,15 +70,15 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(File report)
-    throws javax.xml.stream.XMLStreamException {
-    LOG.debug("Processing 'Vera++' format");
+  protected void processReport(File report) throws ReportException {
+    LOG.debug("Processing 'Vera++' report '{}'", report.getName());
+
     try {
       var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
         try {
           rootCursor.advance();
-        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-          throw new EmptyReportException("Cannot read vera++ report ", eofExc);
+        } catch (com.ctc.wstx.exc.WstxEOFException e) {
+          throw new EmptyReportException("The 'Vera++' report is empty", e);
         }
 
         SMInputCursor fileCursor = rootCursor.childElementCursor("file");
@@ -102,8 +104,8 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
       });
 
       parser.parse(report);
-    } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
-      LOG.error("Ignore XML error from Veraxx '{}'", CxxUtils.getStackTrace(e));
+    } catch (XMLStreamException e) {
+      throw new InvalidReportException("The 'Vera++' report is invalid", e);
     }
   }
 

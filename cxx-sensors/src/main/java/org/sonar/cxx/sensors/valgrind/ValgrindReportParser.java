@@ -38,7 +38,7 @@ class ValgrindReportParser {
    * @return Set<ValgrindError>
    * @exception XMLStreamException javax.xml.stream.XMLStreamException
    */
-  public Set<ValgrindError> processReport(File report) throws XMLStreamException {
+  public Set<ValgrindError> parse(File report) throws XMLStreamException {
     ValgrindReportStreamHandler streamHandler = new ValgrindReportStreamHandler();
     new StaxParser(streamHandler).parse(report);
     return streamHandler.valgrindErrors;
@@ -126,8 +126,8 @@ class ValgrindReportParser {
     public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
       try {
         rootCursor.advance();
-      } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-        throw new EmptyReportException("Cannot read Valgrind report", eofExc);
+      } catch (com.ctc.wstx.exc.WstxEOFException e) {
+        throw new EmptyReportException("The 'Valgrind' report is empty", e);
       }
 
       SMInputCursor errorCursor = rootCursor.childElementCursor("error");

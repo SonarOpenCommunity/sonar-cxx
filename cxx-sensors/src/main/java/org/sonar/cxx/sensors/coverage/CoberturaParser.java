@@ -106,8 +106,7 @@ public class CoberturaParser extends CxxCoverageParser {
    * {@inheritDoc}
    */
   @Override
-  public void processReport(File report, final Map<String, CoverageMeasures> coverageData)
-    throws XMLStreamException {
+  public void parse(File report, final Map<String, CoverageMeasures> coverageData) throws XMLStreamException {
     LOG.debug("Processing 'Cobertura Coverage' format");
     baseDir = Paths.get(".");
 
