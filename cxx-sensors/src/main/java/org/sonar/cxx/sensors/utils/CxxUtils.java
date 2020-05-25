@@ -99,19 +99,19 @@ public final class CxxUtils {
   }
 
   /**
-   * Use the given context object in order to get a list of Ant patterns referenced by key reportPathKey. Apply
+   * Use the given context object in order to get a list of Ant patterns referenced by key reportPathsKey. Apply
    * context.fileSystem().baseDir() in order to make relative Ant patterns to absolute ones. Resolve Ant patterns and
    * returns the list of existing files.
    *
    * @param context sensor context
-   * @param reportPathKey configuration key for files (CSV list of Ant patterns)
+   * @param reportPathsKey configuration key for files (CSV list of Ant patterns)
    *
    * @return List<File> matching file list
    */
-  public static List<File> getFiles(SensorContext context, String reportPathKey) {
-    String[] reportPaths = context.config().getStringArray(reportPathKey);
+  public static List<File> getFiles(SensorContext context, String reportPathsKey) {
+    String[] reportPaths = context.config().getStringArray(reportPathsKey);
     if (reportPaths == null || reportPaths.length == 0) {
-      LOG.info("Undefined report path value for key '{}'", reportPathKey);
+      LOG.info("Undefined report path value for key '{}'", reportPathsKey);
       return Collections.emptyList();
     }
 
@@ -133,7 +133,7 @@ public final class CxxUtils {
     String[] existingReportPaths = directoryScanner.getIncludedFiles();
 
     if (existingReportPaths.length == 0) {
-      LOG.warn("Property '{}': cannot find any files matching the Ant pattern(s) '{}'", reportPathKey,
+      LOG.warn("Property '{}': cannot find any files matching the Ant pattern(s) '{}'", reportPathsKey,
                String.join(", ", normalizedReportPaths));
       return Collections.emptyList();
     }

@@ -41,7 +41,7 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.clangtidy.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.clangtidy.reportPaths";
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.clangtidy.charset";
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
   private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
@@ -79,7 +79,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
       .name("CXX Clang-Tidy report import")
       .onlyOnLanguage("cxx")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
 
   @Override
@@ -148,7 +148,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected String getReportPathKey() {
+  protected String getReportPathsKey() {
     return REPORT_PATH_KEY;
   }
 

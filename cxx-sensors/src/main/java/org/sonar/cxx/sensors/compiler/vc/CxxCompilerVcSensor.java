@@ -31,7 +31,7 @@ import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 public class CxxCompilerVcSensor extends CxxCompilerSensor {
 
   public static final String KEY = "Visual C++";
-  public static final String REPORT_PATH_KEY = "sonar.cxx.vc.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.vc.reportPaths";
   public static final String REPORT_REGEX_DEF = "sonar.cxx.vc.regex";
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.vc.charset";
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
@@ -78,7 +78,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
       .name("CXX Visual Studio compiler report import")
       .onlyOnLanguage("cxx")
       .createIssuesForRuleRepositories(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
 
   @Override
@@ -97,7 +97,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   }
 
   @Override
-  protected String getReportPathKey() {
+  protected String getReportPathsKey() {
     return REPORT_PATH_KEY;
   }
 

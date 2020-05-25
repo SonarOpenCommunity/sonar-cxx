@@ -44,7 +44,7 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxClangSASensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.clangsa.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.clangsa.reportPaths";
 
   private static final Logger LOG = Loggers.get(CxxClangSASensor.class);
 
@@ -75,7 +75,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
       .name("CXX Clang Static Analyzer report import")
       .onlyOnLanguage("cxx")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
 
   private void addFlowToIssue(final NSDictionary diagnostic, final NSObject[] sourceFiles, final CxxReportIssue issue) {
@@ -136,7 +136,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected String getReportPathKey() {
+  protected String getReportPathsKey() {
     return REPORT_PATH_KEY;
   }
 

@@ -4,7 +4,7 @@ Feature: Importing Clang Static Analyzer reports
 
   Scenario: Clang Static Analyzer reports are missing
     Given the project "clangsa_project"
-    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPath=empty.plist"
+    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPaths=empty.plist"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -14,13 +14,13 @@ Feature: Importing Clang Static Analyzer reports
     Given the project "clangsa_project"
     And rule "ClangSA:core.DivideZero" is enabled
     And rule "ClangSA:deadcode.DeadStores" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPath=<reportpath>"
+    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
     And the number of violations fed is <violations>
     Examples:
-      | reportpath      | violations |
+      | reportpaths      | violations |
       | divzero.plist   | 1          |
       | unused.plist    | 2          |
 
@@ -29,24 +29,24 @@ Feature: Importing Clang Static Analyzer reports
     Given the project "clangsa_scanbuild_project"
     And rule "ClangSA:core.DivideZero" is enabled
     And rule "ClangSA:deadcode.DeadStores" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPath=<reportpath>"
+    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
     And the number of violations fed is <violations>
     Examples:
-      | reportpath                   | violations |
+      | reportpaths                   | violations |
       | analyzer_reports/*/*.plist   | 2          |
 
 
   Scenario Outline: Clang Static Analyzer reports are invalid
     Given the project "clangsa_project"
-    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPath=<reportpath>"
+    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
     And the number of violations fed is <violations>
     Examples:
-      | reportpath          | violations |
+      | reportpaths          | violations |
       | unparsable.plist    | 0          |
       | wrongformat.plist   | 0          |

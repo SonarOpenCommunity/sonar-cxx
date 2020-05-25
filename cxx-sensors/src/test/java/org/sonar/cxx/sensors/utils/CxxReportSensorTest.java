@@ -33,7 +33,7 @@ public class CxxReportSensorTest {
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
   private final String VALID_REPORT_PATH_LIST = "cppcheck-reports/*empty.xml, cppcheck-reports/*V2.xml";
   private final String INVALID_REPORT_PATH = "something";
-  private final String REPORT_PATH_PROPERTY_KEY = "sonar.cxx.reportPath";
+  private final String REPORT_PATH_PROPERTY_KEY = "sonar.cxx.reportPaths";
 
   private File baseDir;
   private final MapSettings settings = new MapSettings();

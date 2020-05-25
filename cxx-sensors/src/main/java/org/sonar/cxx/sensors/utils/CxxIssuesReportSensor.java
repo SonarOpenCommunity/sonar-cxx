@@ -58,8 +58,8 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   public void executeImpl() {
     try {
       LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'",
-               context.fileSystem().baseDir(), getReportPathKey());
-      List<File> reports = getReports(getReportPathKey());
+               context.fileSystem().baseDir(), getReportPathsKey());
+      List<File> reports = getReports(getReportPathsKey());
 
       for (var report : reports) {
         LOG.info("Processing report '{}'", report);
@@ -195,7 +195,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
   protected abstract void processReport(File report) throws Exception;
 
-  protected abstract String getReportPathKey();
+  protected abstract String getReportPathsKey();
 
   protected abstract String getRuleRepositoryKey();
 }

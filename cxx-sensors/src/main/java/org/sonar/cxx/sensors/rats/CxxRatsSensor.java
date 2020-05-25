@@ -42,7 +42,7 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxRatsSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPaths";
 
   private static final Logger LOG = Loggers.get(CxxRatsSensor.class);
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
@@ -74,7 +74,7 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
       .name("CXX RATS report import")
       .onlyOnLanguage("cxx")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
-      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathKey()));
+      .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
 
   @Override
@@ -112,7 +112,7 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected String getReportPathKey() {
+  protected String getReportPathsKey() {
     return REPORT_PATH_KEY;
   }
 

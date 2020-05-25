@@ -197,8 +197,8 @@ public class CxxCoberturaSensorTest {
   @Test
   public void shouldReportNoCoverageSaved() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    final String reportPathValue = "coverage-reports/cobertura/specific-cases/does-not-exist.xml";
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, reportPathValue);
+    final String reportPathsValue = "coverage-reports/cobertura/specific-cases/does-not-exist.xml";
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, reportPathsValue);
     context.setSettings(settings);
 
     var sensor = new CxxCoverageSensor(new CxxCoverageCache());
@@ -206,8 +206,8 @@ public class CxxCoberturaSensorTest {
 
     List<String> log = logTester.logs();
     assertThat(log).contains(
-      "Property 'sonar.cxx.coverage.reportPath': cannot find any files matching the Ant pattern(s) '"
-        + PathUtils.sanitize(new File(fs.baseDir(), reportPathValue).getAbsolutePath()) + "'");
+      "Property 'sonar.cxx.coverage.reportPaths': cannot find any files matching the Ant pattern(s) '"
+        + PathUtils.sanitize(new File(fs.baseDir(), reportPathsValue).getAbsolutePath()) + "'");
   }
 
   @Test

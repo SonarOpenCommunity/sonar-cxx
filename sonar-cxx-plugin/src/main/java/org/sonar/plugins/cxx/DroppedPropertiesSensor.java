@@ -48,16 +48,16 @@ public class DroppedPropertiesSensor implements ProjectSensor {
   private static Map<String, String> initRemovedProperties() {
     var map = new HashMap<String, String>();
     map.put("sonar.cxx.include_directories", "Use 'sonar.cxx.includeDirectories' instead."); // V0.9.1
-    map.put("sonar.cxx.externalrules.reportPath", "Use 'sonar.cxx.other.reportPath' instead."); // V0.9.1
-    map.put("sonar.cxx.cppncss.reportPath", ""); // V0.9.1
+    map.put("sonar.cxx.externalrules.reportPaths", "Use 'sonar.cxx.other.reportPaths' instead."); // V0.9.1
+    map.put("sonar.cxx.cppncss.reportPaths", ""); // V0.9.1
     map.put("sonar.cxx.other.sqales", ""); // V0.9.6
     map.put("sonar.cxx.xunit.provideDetails", ""); // V0.9.7
-    map.put("sonar.cxx.coverage.itReportPath", ""); // V0.9.8
-    map.put("sonar.cxx.coverage.overallReportPath", ""); // V0.9.8
+    map.put("sonar.cxx.coverage.itReportPaths", ""); // V0.9.8
+    map.put("sonar.cxx.coverage.overallReportPaths", ""); // V0.9.8
     map.put("sonar.cxx.forceZeroCoverage", ""); // V0.9.8
     map.put("sonar.cxx.scanOnlySpecifiedSources", ""); // V1.0.0
     map.put("sonar.cxx.compiler.parser", MSG_COMPILER); // V1.2.0
-    map.put("sonar.cxx.compiler.reportPath", MSG_COMPILER); // V1.2.0
+    map.put("sonar.cxx.compiler.reportPaths", MSG_COMPILER); // V1.2.0
     map.put("sonar.cxx.compiler.regex", MSG_COMPILER); // V1.2.0
     map.put("sonar.cxx.compiler.charset", MSG_COMPILER); // V1.2.0
     map.put("sonar.cxx.missingIncludeWarnings", "Turn debug info on to get the information."); // V1.2.0
@@ -70,6 +70,19 @@ public class DroppedPropertiesSensor implements ProjectSensor {
     map.put("sonar.cxx.other.xslt.1.inputs", "Use 'sonar.cxx.xslt.1.inputs' instead."); // V2.0.0
     map.put("sonar.cxx.other.xslt.1.outputs", "Use 'sonar.cxx.xslt.1.outputs' instead."); // V2.0.0
     map.put("sonar.cxx.xunit.xsltURL", "Use 'sonar.cxx.xslt.xxx' instead."); // V2.0.0
+    map.put("sonar.cxx.clangsa.reportPath", "Use 'sonar.cxx.clangsa.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.clangtidy.reportPath", "Use 'sonar.cxx.clangtidy.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.gcc.reportPath", "Use 'sonar.cxx.gcc.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.vc.reportPath", "Use 'sonar.cxx.vc.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.coverage.reportPath", "Use 'sonar.cxx.coverage.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.cppcheck.reportPath", "Use 'sonar.cxx.cppcheck.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.drmemory.reportPath", "Use 'sonar.cxx.drmemory.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.other.reportPath", "Use 'sonar.cxx.other.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.pclint.reportPath", "Use 'sonar.cxx.pclint.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.xunit.reportPath", "Use 'sonar.cxx.xunit.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.valgrind.reportPath", "Use 'sonar.cxx.valgrind.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.vera.reportPath", "Use 'sonar.cxx.vera.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.msbuild.reportPath", "Use 'sonar.cxx.msbuild.reportPaths' instead."); // V2.0.0
     return Collections.unmodifiableMap(map);
   }
 

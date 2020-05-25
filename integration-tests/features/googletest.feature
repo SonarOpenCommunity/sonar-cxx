@@ -31,7 +31,7 @@ Feature: Providing test execution measures
     testcases in SonarQube, i.e. the drilldown won't be possible.
 
     Given the project "googletest_project"
-    When I run "sonar-scanner -X -Dsonar.cxx.xunit.reportPath=gtest_without_fixture.xml"
+    When I run "sonar-scanner -X -Dsonar.cxx.xunit.reportPaths=gtest_without_fixture.xml"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
@@ -51,7 +51,7 @@ Feature: Providing test execution measures
 
   Scenario: Importing invalid Google Test report
     Given the project "googletest_project"
-    When I run "sonar-scanner -Dsonar.cxx.errorRecoveryEnabled=false -Dsonar.cxx.xunit.reportPath=invalid_report.xml"
+    When I run "sonar-scanner -Dsonar.cxx.errorRecoveryEnabled=false -Dsonar.cxx.xunit.reportPaths=invalid_report.xml"
     Then the analysis breaks
     And the analysis log contains a line matching:
       """
@@ -65,7 +65,7 @@ Feature: Providing test execution measures
     correct source code files.
 
     Given the project "googletest_project"
-    When I run "sonar-scanner -X -Dsonar.cxx.xunit.reportPath=<reportpath>"
+    When I run "sonar-scanner -X -Dsonar.cxx.xunit.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
@@ -82,7 +82,7 @@ Feature: Providing test execution measures
       | skipped_tests        | 0     |
       | test_execution_time  | 0     |
     Examples:
-      | reportpath              |
+      | reportpaths              |
       | gtest_fname_in_ts.xml   |
       | gtest_fname_in_tc.xml   |
       | gtest_fname_in_both.xml |
@@ -90,7 +90,7 @@ Feature: Providing test execution measures
 
   Scenario Outline: Google Test reports cannot be found or are empty
     Given the project "googletest_project"
-    When I run "sonar-scanner -Dsonar.cxx.xunit.reportPath=<reportpath>"
+    When I run "sonar-scanner -Dsonar.cxx.xunit.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
@@ -109,6 +109,6 @@ Feature: Providing test execution measures
       | skipped_tests        | None  |
       | test_execution_time  | None  |
     Examples:
-      | reportpath       |
+      | reportpaths       |
       | notexistingpath  |
       | empty_report.xml |

@@ -14,7 +14,7 @@
     <!-- RATS ANALYSIS -->
     <property name="sonar.cxx.rats.execPath" value="C:/SonarCXXTools/rats-2.3/rats.exe" /> <!-- CHANGE TO MATCH YOUR INSTALATION, REQUIRED -->
     <property name="sonar.cxx.rats.reportDir" value="reports/rats" /> <!-- CHANGE THE RATS REPORT DIRECTORY, OPTIONAL -->
-    <property name="sonar.cxx.rats.reportPath" value="${sonar.cxx.rats.reportDir}/rats-result-*.xml" /> <!-- CHANGE THE RATS REPORT DIRECTORY PATTERN, REQUIRED -->
+    <property name="sonar.cxx.rats.reportPaths" value="${sonar.cxx.rats.reportDir}/rats-result-*.xml" /> <!-- CHANGE THE RATS REPORT DIRECTORY PATTERN, REQUIRED -->
     <property name="sonar.cxx.rats.warningLevel" value="3" /> <!-- BEST TO HAVE MAXIMUM ERROR LEVEL REPORTING = 3 -->
     <property name="sonar.cxx.rats.outputFile" value="/rats-result-1.xml" />
 
@@ -30,7 +30,7 @@
     <!-- CPPCHECK ANALYSIS -->
     <property name="sonar.cxx.cppcheck.execPath" value="C:/SonarCXXTools/cppcheck/cppcheck.exe" /> <!-- CHANGE TO MATCH YOUR INSTALATION, REQUIRED -->
     <property name="sonar.cxx.cppcheck.reportDir" value="reports/cppcheck" /> <!-- CHANGE THE RATS REPORT DIRECTORY, OPTIONAL -->
-    <property name="sonar.cxx.cppcheck.reportPath" value="${sonar.cxx.cppcheck.reportDir}/cppcheck-result-*.xml" />
+    <property name="sonar.cxx.cppcheck.reportPaths" value="${sonar.cxx.cppcheck.reportDir}/cppcheck-result-*.xml" />
     <property name="sonar.cxx.cppcheck.outputFile" value="/cppcheck-result-1.xml" />
     <property name="sonar.cxx.cppcheck.checks" value="all" /> <!-- BEST TO HAVE MAXIMUM ERROR LEVEL REPORTING = 3 -->
 
@@ -48,7 +48,7 @@
     <!-- VERA++ ANALYSIS -->
     <property name="sonar.cxx.vera.execPath" value="C:/SonarCXXTools/vera++/vera++.exe" /> <!-- CHANGE TO MATCH YOUR INSTALATION, REQUIRED -->
     <property name="sonar.cxx.vera.reportDir" value="reports/veraxx" /> <!-- CHANGE THE RATS REPORT DIRECTORY, OPTIONAL -->
-    <property name="sonar.cxx.vera.reportPath" value="${sonar.cxx.vera.reportDir}/veraxx-result-*.xml" />
+    <property name="sonar.cxx.vera.reportPaths" value="${sonar.cxx.vera.reportDir}/veraxx-result-*.xml" />
     <property name="sonar.cxx.vera.outputFile" value="/veraxx-result-1.xml" />
     <property name="sonar.cxx.vera.checkstyleScript" value="C:/SonarCXXTools/scripts/vera2checkstyle.pl" /> <!-- CHANGE TO MATCH YOUR INSTALATION, REQUIRED -->
 

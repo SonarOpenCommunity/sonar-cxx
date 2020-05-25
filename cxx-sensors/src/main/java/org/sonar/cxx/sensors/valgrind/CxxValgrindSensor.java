@@ -38,7 +38,7 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public class CxxValgrindSensor extends CxxIssuesReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPaths";
 
   private static final Logger LOG = Loggers.get(CxxValgrindSensor.class);
 
@@ -108,7 +108,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected String getReportPathKey() {
+  protected String getReportPathsKey() {
     return REPORT_PATH_KEY;
   }
 
