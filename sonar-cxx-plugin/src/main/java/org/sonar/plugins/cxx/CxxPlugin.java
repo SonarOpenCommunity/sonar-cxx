@@ -139,7 +139,6 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxRatsRuleRepository.class);
     l.add(CxxCppCheckRuleRepository.class);
     l.add(CxxInferRuleRepository.class);
-    //l.add(TestOnlyRuleRepository.class); //@todo test only
     l.add(CxxPCLintRuleRepository.class);
     l.add(CxxDrMemoryRuleRepository.class);
     l.add(CxxCompilerVcRuleRepository.class);

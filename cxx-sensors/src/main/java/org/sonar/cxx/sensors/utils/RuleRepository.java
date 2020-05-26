@@ -39,10 +39,10 @@ import org.sonar.api.utils.log.Loggers;
  */
 public class RuleRepository implements RulesDefinition {
 
-  protected static final Logger LOG = Loggers.get(RuleRepository.class);
+  private static final Logger LOG = Loggers.get(RuleRepository.class);
 
-  protected final ServerFileSystem fileSystem;
-  protected final RulesDefinitionXmlLoader xmlRuleLoader;
+  private final ServerFileSystem fileSystem;
+  private final RulesDefinitionXmlLoader xmlRuleLoader;
   protected final String repositoryKey;
   protected final String repositoryName;
   protected final String repositoryFile;
