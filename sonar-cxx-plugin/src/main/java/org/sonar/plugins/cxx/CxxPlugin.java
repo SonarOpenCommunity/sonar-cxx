@@ -38,6 +38,7 @@ import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
 import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
+import org.sonar.cxx.sensors.cppcheck.TestOnlyRepository;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemoryRuleRepository;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
 import org.sonar.cxx.sensors.infer.CxxInferRuleRepository;
@@ -138,6 +139,7 @@ public final class CxxPlugin implements Plugin {
     // rule provides
     l.add(CxxRatsRuleRepository.class);
     l.add(CxxCppCheckRuleRepository.class);
+    l.add(TestOnlyRepository.class); //@todo test only
     l.add(CxxInferRuleRepository.class);
     l.add(CxxPCLintRuleRepository.class);
     l.add(CxxDrMemoryRuleRepository.class);

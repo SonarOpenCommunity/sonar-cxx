@@ -40,7 +40,7 @@ public class CxxPluginTest {
     var context = new Plugin.Context(runtime);
     var plugin = new CxxPlugin();
     plugin.define(context);
-    assertThat(context.getExtensions()).hasSize(74);
+    assertThat(context.getExtensions()).hasSize(75);
   }
 
 }
