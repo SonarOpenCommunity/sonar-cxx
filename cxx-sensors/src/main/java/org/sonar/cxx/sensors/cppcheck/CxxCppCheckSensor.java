@@ -65,7 +65,7 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX Cppcheck report import")
-      .onlyOnLanguages("c++", "xxx")
+      .onlyOnLanguages("cxx", "xxx")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
