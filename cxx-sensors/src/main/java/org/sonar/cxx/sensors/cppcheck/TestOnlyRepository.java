@@ -19,6 +19,10 @@
  */
 package org.sonar.cxx.sensors.cppcheck;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.sensors.utils.RuleRepository;
@@ -37,6 +41,28 @@ public class TestOnlyRepository extends RuleRepository {
    */
   public TestOnlyRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
     super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
+  }
+
+  @Override
+  public void define(Context context) {
+    Charset charset = StandardCharsets.UTF_8;
+    NewRepository repository = context.createRepository(repositoryKey, "xxx").setName(repositoryName);
+
+    var xmlLoader = new RulesDefinitionXmlLoader();
+    if (!"".equals(repositoryFile)) {
+      InputStream xmlStream = getClass().getResourceAsStream(repositoryFile);
+      xmlLoader.load(repository, xmlStream, charset);
+
+      for (var userExtensionXml : getExtensions(repositoryKey, "xml")) {
+        try ( InputStream input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
+          xmlRuleLoader.load(repository, input, charset);
+        } catch (IOException | IllegalStateException e) {
+          LOG.info("Cannot Load XML '{}'", e);
+        }
+      }
+    }
+
+    repository.done();
   }
 
 }
