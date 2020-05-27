@@ -46,7 +46,7 @@ public class TestOnlyRepository extends RuleRepository {
   @Override
   public void define(Context context) {
     Charset charset = StandardCharsets.UTF_8;
-    NewRepository repository = context.createRepository(repositoryKey, "xxx").setName(repositoryName);
+    NewRepository repository = context.createRepository(repositoryKey, "xxx").setName(repositoryName); // @todo unknown language
 
     var xmlLoader = new RulesDefinitionXmlLoader();
     if (!"".equals(repositoryFile)) {
