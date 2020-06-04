@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
     <artifactId>cxx</artifactId>
-    <version>1.3.2-SNAPSHOT</version>
+    <version>1.3.3-SNAPSHOT</version>
   </parent>
 
   <artifactId>integration-tests</artifactId>
@@ -19,9 +19,9 @@
   </properties>
 
   <dependencies>
-    
-     <!-- set dependencies to aggregate coverage results -->
-     
+
+    <!-- set dependencies to aggregate coverage results -->
+
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-checks</artifactId>
@@ -31,7 +31,7 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-sensors</artifactId>
       <version>${project.version}</version>
-    </dependency>         
+    </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-squid</artifactId>
@@ -47,7 +47,7 @@
       <artifactId>sonar-cxx-plugin</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
+
     <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-jvm-deps -->
 
     <!-- https://mvnrepository.com/artifact/io.cucumber/gherkin -->
@@ -166,7 +166,7 @@
             </execution>
           </executions>
         </plugin>
-       <plugin>
+        <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <executions>

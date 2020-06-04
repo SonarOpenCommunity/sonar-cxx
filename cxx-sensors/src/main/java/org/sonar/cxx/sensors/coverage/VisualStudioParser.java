@@ -65,6 +65,9 @@ public class VisualStudioParser extends CxxCoverageParser {
     while (sourceFile.getNext() != null) {
       String id = sourceFile.getAttrValue("id");
       CoverageMeasures builder = coverageData.remove(id);
+      if (builder == null) {
+        builder = CoverageMeasures.create();
+      }
       // replace id with path
       coverageData.put(sourceFile.getAttrValue("path"), builder);
     }
