@@ -36,7 +36,7 @@ install:
 
       if (!(Test-Path -Path "C:\sonar-scanner" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873.zip',
+          'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.3.0.2102.zip',
           'C:\sonar-scanner-dist.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonar-scanner-dist.zip", "C:\sonar-scanner")
@@ -62,7 +62,7 @@ install:
         $env:VCVARS_PLATFORM="amd64"
         $env:LANG_PLATFORM="-x64"
       }
-  - cmd: SET PATH=C:\maven\apache-maven-3.5.4\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-4.2.0.1873\bin;%PATH%
+  - cmd: SET PATH=C:\maven\apache-maven-3.5.4\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-4.3.0.2102\bin;%PATH%
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.5.4
   - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.5.4
   - cmd: SET SONARHOME=C:\sonarqube\sonarqube-6.7.7
@@ -82,7 +82,7 @@ build_script:
   - C:\Python27\Scripts\pip.exe install requests
   - C:\Python27\Scripts\pip.exe install behave
   - C:\Python27\Scripts\pip.exe install colorama
-  - mvn versions:set -DnewVersion=1.3.2.%APPVEYOR_BUILD_NUMBER%
+  - mvn versions:set -DnewVersion=1.3.3.%APPVEYOR_BUILD_NUMBER%
   - mvn clean install -B -e -V
   - IF "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -B -e -V -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken%)
   - REM IF NOT "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -B -e -X -V -Dsonar.verbose=true -Dsonar.pullrequest.base=master -Dsonar.pullrequest.branch=%APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH% -Dsonar.pullrequest.key=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=%APPVEYOR_PROJECT_SLUG%)
