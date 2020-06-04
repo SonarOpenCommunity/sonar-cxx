@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<results>
+  <modules>
+    <module name="motorcontrollertests.dll" path="motorcontrollertests.dll" id="90C384AC434113489E676A60CDB33C3201000000" block_coverage="0.00" line_coverage="0.00" blocks_covered="0" blocks_not_covered="0" lines_covered="0" lines_partially_covered="0" lines_not_covered="0">
+    </module>
+    <module name="motorcontroller.dll" path="motorcontroller.dll" id="A1E1B3AB4B13CA4ABAB1762485ED1A5A01000000" block_coverage="100.00" line_coverage="100.00" blocks_covered="6" blocks_not_covered="0" lines_covered="19" lines_partially_covered="0" lines_not_covered="0">
+      <source_files>
+        <source_file id="0" path="source\motorcontroller\motorcontroller.cpp" checksum_type="MD5" checksum="26CBE880D9B7848E90D9E5CB8D2D387F">
+        </source_file>
+      </source_files>
+    </module>
+    <module name="rootfinder.dll" path="rootfinder.dll" id="E8A9D1FF141ACB43ABF21234BC6FC09A01000000" block_coverage="100.00" line_coverage="100.00" blocks_covered="10" blocks_not_covered="0" lines_covered="16" lines_partially_covered="0" lines_not_covered="0">
+      <source_files>
+        <source_file id="1" path="source\rootfinder\rootfinder.cpp" checksum_type="MD5" checksum="9723D97667A8FD69D91610FA2CAC3E64">
+        </source_file>
+      </source_files>
+      <functions>
+        <function id="71328" name="_DllMain@12" type_name="" block_coverage="100.00" line_coverage="100.00" blocks_covered="1" blocks_not_covered="0" lines_covered="4" lines_partially_covered="0" lines_not_covered="0">
+          <ranges>
+            <range source_id="0" covered="yes" start_line="8" start_column="0" end_line="8" end_column="0" />
+          </ranges>
+        </function>
+      </functions>
+    </module>
+    <module name="rootfindertests.dll" path="rootfindertests.dll" id="FB3116647F2D8F40989B8156916EE8F301000000" block_coverage="0.00" line_coverage="0.00" blocks_covered="0" blocks_not_covered="0" lines_covered="0" lines_partially_covered="0" lines_not_covered="0">
+    </module>
+  </modules>
+</results>

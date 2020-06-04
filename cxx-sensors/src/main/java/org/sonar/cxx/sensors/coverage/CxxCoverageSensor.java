@@ -151,7 +151,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
             // Only use first coverage parser which handles the data correctly
             break;
           } catch (EmptyReportException e) {
-            LOG.debug("Report is empty {}", e);
+            LOG.debug("Report is empty {}", e.getMessage());
           }
         }
         if (cacheCov.get(report.getAbsolutePath()) != null) {
