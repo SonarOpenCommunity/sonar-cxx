@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
     <artifactId>cxx</artifactId>
-    <version>1.3.2-SNAPSHOT</version>
+    <version>1.3.3-SNAPSHOT</version>
   </parent>
 
   <artifactId>sslr-cxx-toolkit</artifactId>

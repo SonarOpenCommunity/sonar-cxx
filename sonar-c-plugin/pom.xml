@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
     <artifactId>cxx</artifactId>
-    <version>1.3.2-SNAPSHOT</version>
+    <version>1.3.3-SNAPSHOT</version>
   </parent>
 
 
@@ -23,7 +23,7 @@
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
     <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>

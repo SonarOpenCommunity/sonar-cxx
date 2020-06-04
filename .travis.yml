@@ -8,15 +8,29 @@ jdk:
   - openjdk11
 env:
   - SONARLABEL=sonarqube-6.7.7 SONARAPI=SqApi67
-  - SONARLABEL=sonarqube-7.9.2 SONARAPI=SqApi79
+  - SONARLABEL=sonarqube-7.9.3 SONARAPI=SqApi79
+  - SONARLABEL=sonarqube-8.0 SONARAPI=SqApi79
+  - SONARLABEL=sonarqube-8.1.0.31237 SONARAPI=SqApi79
+  - SONARLABEL=sonarqube-8.2.0.32929 SONARAPI=SqApi79
+
 matrix:
   exclude:
     - jdk: oraclejdk8
-      env: SONARLABEL=sonarqube-7.9.2 SONARAPI=SqApi79
+      env: SONARLABEL=sonarqube-7.9.3 SONARAPI=SqApi79
+    - jdk: oraclejdk8
+      env: SONARLABEL=sonarqube-8.0 SONARAPI=SqApi79
+    - jdk: oraclejdk8
+      env: SONARLABEL=sonarqube-8.1.0.31237 SONARAPI=SqApi79
+    - jdk: oraclejdk8
+      env: SONARLABEL=sonarqube-8.2.0.32929 SONARAPI=SqApi79
+  allow_failures:
+    - env: SONARLABEL=sonarqube-8.0 SONARAPI=SqApi79
+    - env: SONARLABEL=sonarqube-8.1.0.31237 SONARAPI=SqApi79
+    - env: SONARLABEL=sonarqube-8.2.0.32929 SONARAPI=SqApi79
 
 branches:
   only:
-    - master
+    - /^(?i:master).*$/
 
 # shorten the VM hostname with the new workaround
 # https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913
@@ -51,8 +65,8 @@ install:
   - pushd /tmp
   - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonarqube/$SONARLABEL.zip
   - unzip -qq $SONARLABEL.zip
-  - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873.zip
-  - unzip -qq sonar-scanner-cli-4.2.0.1873.zip
+  - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.3.0.2102.zip
+  - unzip -qq sonar-scanner-cli-4.3.0.2102.zip
   - wget -nv --timeout=10 https://github.com/htacg/tidy-html5/archive/5.6.0.zip --output-document=tidy-html5.zip
   - unzip -qq tidy-html5.zip
   - pushd tidy-html5-5.6.0/build/cmake/
@@ -70,7 +84,7 @@ script:
   - mvn install -B -e -V -DskipTests=true
   - mvn test -B -e -V
   - bash cxx-sensors/src/tools/check_rules.sh
-  - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-4.2.0.1873/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture --tags=$SONARAPI
+  - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-4.3.0.2102/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture --tags=$SONARAPI
 
 after_failure:
   - cat $SONARHOME/logs/sonar.log
