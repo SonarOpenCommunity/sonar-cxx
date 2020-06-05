@@ -48,10 +48,12 @@ public class CxxMSCoverageSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
       .build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/rootfinder/rootfinder.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
       .build());
 
     var sensor = new CxxCoverageSensor(new CxxCoverageCache());
@@ -68,6 +70,25 @@ public class CxxMSCoverageSensorTest {
     }
   }
 
+  @Test(expected = Test.None.class /* no exception expected */)
+  public void shouldReadFaultyReportAndNotCrash() {
+    context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/faulty.xml");
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/rootfinder/rootfinder.cpp")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .build());
+
+    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+    sensor.execute(context);
+  }
+
   @Test
   public void shouldConsumeEmptyReport() {
     context = SensorContextTester.create(fs.baseDir());
@@ -75,7 +96,8 @@ public class CxxMSCoverageSensorTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
       .build());
 
     var sensor = new CxxCoverageSensor(new CxxCoverageCache());
