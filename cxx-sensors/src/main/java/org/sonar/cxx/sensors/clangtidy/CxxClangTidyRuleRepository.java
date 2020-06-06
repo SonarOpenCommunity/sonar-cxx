@@ -21,13 +21,14 @@ package org.sonar.cxx.sensors.clangtidy;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.RuleRepository;
+import org.sonar.cxx.sensors.utils.RulesDefinitionXml;
 
 /**
  * {@inheritDoc}
  */
-public class CxxClangTidyRuleRepository extends RuleRepository {
+public class CxxClangTidyRuleRepository extends RulesDefinitionXml {
 
+  private static final String LANGUAGE = "cxx";
   public static final String KEY = "ClangTidy";
   private static final String NAME = "Clang-Tidy";
   private static final String FILE = "/clangtidy.xml";
@@ -36,7 +37,7 @@ public class CxxClangTidyRuleRepository extends RuleRepository {
    * {@inheritDoc}
    */
   public CxxClangTidyRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
+    super(fileSystem, xmlRuleLoader, LANGUAGE, KEY, NAME, FILE);
   }
 
 }

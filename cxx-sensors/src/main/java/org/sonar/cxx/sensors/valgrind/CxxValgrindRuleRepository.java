@@ -21,13 +21,14 @@ package org.sonar.cxx.sensors.valgrind;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.RuleRepository;
+import org.sonar.cxx.sensors.utils.RulesDefinitionXml;
 
 /**
  * {@inheritDoc}
  */
-public class CxxValgrindRuleRepository extends RuleRepository {
+public class CxxValgrindRuleRepository extends RulesDefinitionXml {
 
+  private static final String LANGUAGE = "cxx";
   public static final String KEY = "valgrind";
   private static final String NAME = "Valgrind";
   private static final String FILE = "/valgrind.xml";
@@ -36,7 +37,7 @@ public class CxxValgrindRuleRepository extends RuleRepository {
    * {@inheritDoc}
    */
   public CxxValgrindRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
+    super(fileSystem, xmlRuleLoader, LANGUAGE, KEY, NAME, FILE);
   }
 
 }
