@@ -21,13 +21,14 @@ package org.sonar.cxx.sensors.compiler.gcc;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.RuleRepository;
+import org.sonar.cxx.sensors.utils.RulesDefinitionXml;
 
 /**
  * {@inheritDoc}
  */
-public class CxxCompilerGccRuleRepository extends RuleRepository {
+public class CxxCompilerGccRuleRepository extends RulesDefinitionXml {
 
+  private static final String LANGUAGE = "cxx";
   public static final String KEY = "compiler-gcc";
   private static final String NAME = "Compiler-GCC";
   private static final String FILE = "/compiler-gcc.xml";
@@ -36,7 +37,7 @@ public class CxxCompilerGccRuleRepository extends RuleRepository {
    * {@inheritDoc}
    */
   public CxxCompilerGccRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
+    super(fileSystem, xmlRuleLoader, LANGUAGE, KEY, NAME, FILE);
   }
 
 }

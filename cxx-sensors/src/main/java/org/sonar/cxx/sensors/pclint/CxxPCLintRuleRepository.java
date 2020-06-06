@@ -21,13 +21,14 @@ package org.sonar.cxx.sensors.pclint;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.RuleRepository;
+import org.sonar.cxx.sensors.utils.RulesDefinitionXml;
 
 /**
  * {@inheritDoc}
  */
-public class CxxPCLintRuleRepository extends RuleRepository {
+public class CxxPCLintRuleRepository extends RulesDefinitionXml {
 
+  private static final String LANGUAGE = "cxx";
   public static final String KEY = "pclint";
   private static final String NAME = "PC-lint";
   private static final String FILE = "/pclint.xml";
@@ -36,7 +37,7 @@ public class CxxPCLintRuleRepository extends RuleRepository {
    * {@inheritDoc}
    */
   public CxxPCLintRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
+    super(fileSystem, xmlRuleLoader, LANGUAGE, KEY, NAME, FILE);
   }
 
 }

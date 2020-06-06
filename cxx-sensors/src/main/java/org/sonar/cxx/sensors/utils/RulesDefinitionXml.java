@@ -37,36 +37,40 @@ import org.sonar.api.utils.log.Loggers;
 /**
  * {@inheritDoc}
  */
-public class RuleRepository implements RulesDefinition {
+public class RulesDefinitionXml implements RulesDefinition {
 
-  private static final Logger LOG = Loggers.get(RuleRepository.class);
+  private static final Logger LOG = Loggers.get(RulesDefinitionXml.class);
 
   private final ServerFileSystem fileSystem;
   private final RulesDefinitionXmlLoader xmlRuleLoader;
-  protected final String repositoryKey;
-  protected final String repositoryName;
-  protected final String repositoryFile;
+  private final String repositoryLanguage;
+  private final String repositoryKey;
+  private final String repositoryName;
+  private final String repositoryFile;
 
   /**
    * {@inheritDoc}
    */
-  protected RuleRepository(
+  protected RulesDefinitionXml(
     ServerFileSystem fileSystem,
     RulesDefinitionXmlLoader xmlRuleLoader,
-    String key,
-    String name,
-    String file) {
+    String repositoryLanguage,
+    String repositoryKey,
+    String repositoryName,
+    String repositoryFile) {
     this.fileSystem = fileSystem;
     this.xmlRuleLoader = xmlRuleLoader;
-    this.repositoryKey = key;
-    this.repositoryName = name;
-    this.repositoryFile = file;
+    this.repositoryLanguage = repositoryLanguage;
+    this.repositoryKey = repositoryKey;
+    this.repositoryName = repositoryName;
+    this.repositoryFile = repositoryFile;
   }
 
   @Override
   public void define(Context context) {
     Charset charset = StandardCharsets.UTF_8;
-    NewRepository repository = context.createRepository(repositoryKey, "cxx").setName(repositoryName);
+    NewRepository repository = context.createRepository(repositoryKey, repositoryLanguage)
+      .setName(repositoryName);
 
     var xmlLoader = new RulesDefinitionXmlLoader();
     if (!"".equals(repositoryFile)) {

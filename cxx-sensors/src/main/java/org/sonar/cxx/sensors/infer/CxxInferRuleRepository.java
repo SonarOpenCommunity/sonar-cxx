@@ -21,13 +21,14 @@ package org.sonar.cxx.sensors.infer;
 
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
-import org.sonar.cxx.sensors.utils.RuleRepository;
+import org.sonar.cxx.sensors.utils.RulesDefinitionXml;
 
 /**
  * {@inheritDoc}
  */
-public class CxxInferRuleRepository extends RuleRepository {
+public class CxxInferRuleRepository extends RulesDefinitionXml {
 
+  private static final String LANGUAGE = "cxx";
   public static final String KEY = "infer";
   private static final String NAME = "Infer";
   private static final String FILE = "/infer.xml";
@@ -36,7 +37,7 @@ public class CxxInferRuleRepository extends RuleRepository {
    * {@inheritDoc}
    */
   public CxxInferRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
-    super(fileSystem, xmlRuleLoader, KEY, NAME, FILE);
+    super(fileSystem, xmlRuleLoader, LANGUAGE, KEY, NAME, FILE);
   }
 
 }
