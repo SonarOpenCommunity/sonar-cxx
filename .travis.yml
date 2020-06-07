@@ -1,19 +1,23 @@
 language: java
 
-dist: trusty
-sudo: required
+os: linux
+dist: xenial
 
 jdk:
   - openjdk11
 env:
   - SONARLABEL=sonarqube-7.9.3 SONARAPI=SqApi79
 
-# shorten the VM hostname with the new workaround
-# https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913
 addons:
+  # shorten the VM hostname with the new workaround
+  # https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913
   hosts:
     - myshorthost
   hostname: myshorthost
+  apt:
+    packages:
+      # needed for 'xmllint'
+      - libxml2-utils
 
 before_cache:
   # remove all the artifacts that are installed in local repo because of mvn deploy
@@ -27,14 +31,6 @@ cache:
   - '$HOME/.sonar'
   - '$HOME/jvm'
   - '$HOME/maven'
-
-before_install:
-  - cat /etc/hosts # optionally check the content
-  # Boost 1.55 is pre-installed on Ubuntu Trusty
-  #- travis_retry sudo apt-add-repository -y ppa:boost-latest/ppa
-  #- travis_retry sudo apt-get -qq update
-  #- travis_retry sudo apt-get -qq install boost1.55
-  - travis_retry sudo apt-get -qq install libxml2-utils
 
 install:
   - export SONARHOME="/tmp/$SONARLABEL"
