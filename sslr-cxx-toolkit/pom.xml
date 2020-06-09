@@ -32,7 +32,7 @@
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-colorizer</artifactId>
-      <version>3.6</version>
+      <version>5.1</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
