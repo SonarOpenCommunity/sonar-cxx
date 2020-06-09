@@ -17,11 +17,12 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.coverage;
+package org.sonar.cxx.sensors.coverage.cobertura;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,21 +31,22 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.sensors.coverage.CoverageMeasures;
+import org.sonar.cxx.sensors.coverage.CoverageParser;
+import org.sonar.cxx.sensors.utils.EmptyReportException;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 
 /**
  * {@inheritDoc}
  */
-public class CoberturaParser extends CxxCoverageParser {
+public class CoberturaParser implements CoverageParser {
 
   private static final Logger LOG = Loggers.get(CoberturaParser.class);
   private static final Pattern CONDITION_PATTERN = Pattern.compile("\\((.*?)\\)");
 
   private Path baseDir = Paths.get(".");
-
-  public CoberturaParser() {
-    // no operation but necessary for list of coverage parsers
-  }
 
   /**
    * Join two paths
@@ -106,21 +108,31 @@ public class CoberturaParser extends CxxCoverageParser {
    * {@inheritDoc}
    */
   @Override
-  public void parse(File report, final Map<String, CoverageMeasures> coverageData) throws XMLStreamException {
+  public Map<String, CoverageMeasures> parse(File report) throws ReportException {
     LOG.debug("Processing 'Cobertura Coverage' format");
-    baseDir = Paths.get(".");
+    var coverageData = new HashMap<String, CoverageMeasures>();
+    try {
+      baseDir = Paths.get(".");
 
-    var sourceParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
-      rootCursor.advance();
-      readBaseDir(rootCursor.descendantElementCursor("source"));
-    });
-    sourceParser.parse(report);
+      var sourceParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+        try {
+          rootCursor.advance();
+        } catch (com.ctc.wstx.exc.WstxEOFException e) {
+          throw new EmptyReportException("Coverage report " + report + " result is empty (parsed by " + this + ")");
+        }
+        readBaseDir(rootCursor.descendantElementCursor("source"));
+      });
+      sourceParser.parse(report);
 
-    var packageParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
-      rootCursor.advance();
-      collectPackageMeasures(rootCursor.descendantElementCursor("package"), coverageData);
-    });
-    packageParser.parse(report);
+      var packageParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+        rootCursor.advance();
+        collectPackageMeasures(rootCursor.descendantElementCursor("package"), coverageData);
+      });
+      packageParser.parse(report);
+    } catch (XMLStreamException e) {
+      throw new InvalidReportException("Cobertura coverage report '" + report + "' cannot be parsed.", e);
+    }
+    return coverageData;
   }
 
   @Override

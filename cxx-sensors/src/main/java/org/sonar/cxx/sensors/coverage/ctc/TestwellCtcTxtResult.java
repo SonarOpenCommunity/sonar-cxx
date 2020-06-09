@@ -20,7 +20,7 @@
  /*
  * Derived from https://github.com/Londran/sonar-ctc/blob/master/src/main/java/org/sonar/plugins/ctc/api/parser/CtcResult.java
  */
-package org.sonar.cxx.sensors.coverage;
+package org.sonar.cxx.sensors.coverage.ctc;
 
 import java.util.regex.Pattern;
 

@@ -118,9 +118,12 @@ public final class CxxUtils {
   public static List<File> getFiles(SensorContext context, String reportPathsKey) {
     String[] reportPaths = context.config().getStringArray(reportPathsKey);
     if (reportPaths == null || reportPaths.length == 0) {
-      LOG.info("Undefined report path value for key '{}'", reportPathsKey);
+      LOG.info("Undefined value for key '{}'", reportPathsKey);
       return Collections.emptyList();
     }
+
+    LOG.debug("Searching '{}' files with Ant pattern '{}'", reportPathsKey, reportPaths);
+    LOG.debug("Create absolute paths with basedir '{}'", context.fileSystem().baseDir());
 
     var normalizedReportPaths = new ArrayList<String>();
     for (var reportPath : reportPaths) {
@@ -128,10 +131,10 @@ public final class CxxUtils {
       if (normalizedPath != null) {
         normalizedReportPaths.add(normalizedPath);
       } else {
-        LOG.debug("Not a valid report path '{}'", reportPath);
+        LOG.debug("Not a valid path '{}'", reportPath);
       }
     }
-    LOG.debug("Search report(s) in path(s): '{}'", String.join(", ", normalizedReportPaths));
+    LOG.debug("Search files(s) in path(s): '{}'", String.join(", ", normalizedReportPaths));
 
     // Includes array cannot contain null elements
     var directoryScanner = new DirectoryScanner();
@@ -145,7 +148,7 @@ public final class CxxUtils {
       return Collections.emptyList();
     }
 
-    LOG.debug("Found '{}' report file(s)", existingReportPaths.length);
+    LOG.debug("Found '{}' file(s)", existingReportPaths.length);
     return Arrays.stream(existingReportPaths).map(File::new).collect(Collectors.toList());
   }
 

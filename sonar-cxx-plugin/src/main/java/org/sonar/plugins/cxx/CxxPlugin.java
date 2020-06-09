@@ -34,8 +34,10 @@ import org.sonar.cxx.sensors.compiler.gcc.CxxCompilerGccRuleRepository;
 import org.sonar.cxx.sensors.compiler.gcc.CxxCompilerGccSensor;
 import org.sonar.cxx.sensors.compiler.vc.CxxCompilerVcRuleRepository;
 import org.sonar.cxx.sensors.compiler.vc.CxxCompilerVcSensor;
-import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
-import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
+import org.sonar.cxx.sensors.coverage.bullseye.CxxCoverageBullseyeSensor;
+import org.sonar.cxx.sensors.coverage.cobertura.CxxCoverageCoberturaSensor;
+import org.sonar.cxx.sensors.coverage.ctc.CxxCoverageTestwellCtcTxtSensor;
+import org.sonar.cxx.sensors.coverage.vs.CxxCoverageVisualStudioSensor;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemoryRuleRepository;
@@ -88,7 +90,10 @@ public final class CxxPlugin implements Plugin {
     l.addAll(CxxOtherSensor.properties());
     l.addAll(CxxClangTidySensor.properties());
     l.addAll(CxxClangSASensor.properties());
-    l.addAll(CxxCoverageSensor.properties());
+    l.addAll(CxxCoverageBullseyeSensor.properties());
+    l.addAll(CxxCoverageCoberturaSensor.properties());
+    l.addAll(CxxCoverageTestwellCtcTxtSensor.properties());
+    l.addAll(CxxCoverageVisualStudioSensor.properties());
     l.addAll(CxxXunitSensor.properties());
     l.addAll(CxxUnitTestResultsImportSensor.properties());
     l.addAll(CxxCompilerVcSensor.properties());
@@ -101,7 +106,6 @@ public final class CxxPlugin implements Plugin {
     var l = new ArrayList<Object>();
 
     // utility classes
-    l.add(CxxCoverageCache.class);
     l.add(CxxUnitTestResultsAggregator.class);
 
     // metrics
@@ -133,7 +137,12 @@ public final class CxxPlugin implements Plugin {
     // test sensors
     l.add(CxxXunitSensor.class);
     l.add(CxxUnitTestResultsImportSensor.class);
-    l.add(CxxCoverageSensor.class);
+
+    // coverage sensors
+    l.add(CxxCoverageBullseyeSensor.class);
+    l.add(CxxCoverageCoberturaSensor.class);
+    l.add(CxxCoverageTestwellCtcTxtSensor.class);
+    l.add(CxxCoverageVisualStudioSensor.class);
 
     // rule provides
     l.add(CxxRatsRuleRepository.class);

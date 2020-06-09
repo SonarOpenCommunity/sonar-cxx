@@ -17,23 +17,10 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.coverage;
-
-import java.util.HashMap;
-import java.util.Map;
-import org.sonar.api.scanner.ScannerSide;
-
 /**
- *
- * @author jocs
+ * Package with sensor to evaluate coverage tool specific report files.
  */
-@ScannerSide
-public class CxxCoverageCache {
+@ParametersAreNonnullByDefault
+package org.sonar.cxx.sensors.coverage.cobertura;
 
-  private static final Map<String, Map<String, CoverageMeasures>> CACHE_UNIT = new HashMap<>();
-
-  public Map<String, Map<String, CoverageMeasures>> unitCoverageCache() {
-    return CACHE_UNIT;
-  }
-
-}
+import javax.annotation.ParametersAreNonnullByDefault;

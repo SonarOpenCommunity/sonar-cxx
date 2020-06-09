@@ -28,6 +28,7 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.sensors.coverage.bullseye.CxxCoverageBullseyeSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -49,7 +50,7 @@ public class CxxBullseyeCoverageSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
     if (TestUtils.isWindows()) {
-      settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, coverageReport);
+      settings.setProperty(CxxCoverageBullseyeSensor.REPORT_PATH_KEY, coverageReport);
       context.setSettings(settings);
 
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "main.cpp")
@@ -72,7 +73,7 @@ public class CxxBullseyeCoverageSensorTest {
           "asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
 
-      var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+      var sensor = new CxxCoverageBullseyeSensor();
       sensor.execute(context);
 
       assertThat(context.lineHits("ProjectKey:main.cpp", 7)).isEqualTo(1);
@@ -130,7 +131,7 @@ public class CxxBullseyeCoverageSensorTest {
     String coverageReport = "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-win.xml";
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     if (TestUtils.isWindows()) {
-      settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, coverageReport);
+      settings.setProperty(CxxCoverageBullseyeSensor.REPORT_PATH_KEY, coverageReport);
       context.setSettings(settings);
 
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
@@ -150,7 +151,7 @@ public class CxxBullseyeCoverageSensorTest {
         .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
 
-      var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+      var sensor = new CxxCoverageBullseyeSensor();
       sensor.execute(context);
 
       assertThat(context.lineHits("ProjectKey:randomfoldernamethatihopeknowmachinehas/test/test.c", 4)).isEqualTo(1);
@@ -165,7 +166,7 @@ public class CxxBullseyeCoverageSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
 
     if (TestUtils.isWindows()) {
-      settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, coverageReport);
+      settings.setProperty(CxxCoverageBullseyeSensor.REPORT_PATH_KEY, coverageReport);
       context.setSettings(settings);
 
       var fileList = new String[]{
@@ -194,7 +195,7 @@ public class CxxBullseyeCoverageSensorTest {
         context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", filepath)
           .setLanguage("cxx").initMetadata(sourceContent.toString()).build());
       }
-      var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+      var sensor = new CxxCoverageBullseyeSensor();
       sensor.execute(context);
 
       var coveredCondition = new int[]{496, 524};

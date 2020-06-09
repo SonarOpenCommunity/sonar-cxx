@@ -20,11 +20,12 @@
  /*
  * Derived from https://github.com/Londran/sonar-ctc/blob/master/src/main/java/org/sonar/plugins/ctc/api/parser/CtcTextParser.java
  */
-package org.sonar.cxx.sensors.coverage;
+package org.sonar.cxx.sensors.coverage.ctc;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -32,15 +33,19 @@ import java.util.regex.Matcher;
 import org.apache.commons.io.FilenameUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.FILE_HEADER;
-import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.FILE_RESULT;
-import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.LINE_RESULT;
-import static org.sonar.cxx.sensors.coverage.TestwellCtcTxtResult.SECTION_SEP;
+import org.sonar.cxx.sensors.coverage.CoverageMeasures;
+import org.sonar.cxx.sensors.coverage.CoverageParser;
+import static org.sonar.cxx.sensors.coverage.ctc.TestwellCtcTxtResult.FILE_HEADER;
+import static org.sonar.cxx.sensors.coverage.ctc.TestwellCtcTxtResult.FILE_RESULT;
+import static org.sonar.cxx.sensors.coverage.ctc.TestwellCtcTxtResult.LINE_RESULT;
+import static org.sonar.cxx.sensors.coverage.ctc.TestwellCtcTxtResult.SECTION_SEP;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.ReportException;
 
 /**
  * {@inheritDoc}
  */
-public class TestwellCtcTxtParser extends CxxCoverageParser {
+public class TestwellCtcTxtParser implements CoverageParser {
 
   private static final Logger LOG = Loggers.get(TestwellCtcTxtParser.class);
 
@@ -50,28 +55,24 @@ public class TestwellCtcTxtParser extends CxxCoverageParser {
   private static final int LINE_NR_GROUP = 3;
   private Scanner scanner;
 
-  public TestwellCtcTxtParser() {
-    // no operation but necessary for list of coverage parsers
-  }
-
   /**
    * {@inheritDoc}
    */
   @Override
-  public void parse(File report, final Map<String, CoverageMeasures> coverageData) {
+  public Map<String, CoverageMeasures> parse(File report) throws ReportException {
     LOG.debug("Processing 'Testwell CTC++ Coverage' format");
-
+    var coverageData = new HashMap<String, CoverageMeasures>();
     try ( var s = new Scanner(report).useDelimiter(SECTION_SEP)) {
       scanner = s;
       Matcher headerMatcher = FILE_HEADER.matcher(scanner.next());
       while (parseUnit(coverageData, headerMatcher)) {
         headerMatcher.reset(scanner.next());
       }
-    } catch (FileNotFoundException e) {
-      LOG.warn("File not found '{}'", e.getMessage());
-    } catch (NoSuchElementException e) {
-      LOG.debug("File section not found.");
+    } catch (FileNotFoundException | NoSuchElementException e) {
+      throw new InvalidReportException("Testwell CTC++ coverage report '" + report + "' cannot be parsed.", e);
     }
+
+    return coverageData;
   }
 
   private boolean parseUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher) {

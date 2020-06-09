@@ -28,6 +28,7 @@ import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
+import org.sonar.cxx.sensors.coverage.vs.CxxCoverageVisualStudioSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxMSCoverageSensorTest {
@@ -44,7 +45,7 @@ public class CxxMSCoverageSensorTest {
   @Test
   public void shouldReportCorrectCoverage() {
     context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/MSCoverage.xml");
+    settings.setProperty(CxxCoverageVisualStudioSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/MSCoverage.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
@@ -56,7 +57,7 @@ public class CxxMSCoverageSensorTest {
       .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
       .build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+    var sensor = new CxxCoverageVisualStudioSensor();
     sensor.execute(context);
 
     var oneHitlinesA = new int[]{12, 14, 16, 19, 20, 21, 23, 25, 26, 27, 28};
@@ -70,10 +71,47 @@ public class CxxMSCoverageSensorTest {
     }
   }
 
+  @Test
+  public void shouldReportCoverageWhenVisualStudioCase() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(CxxCoverageVisualStudioSensor.REPORT_PATH_KEY,
+                         "coverage-reports/MSCoverage/coverage-result-visual-studio.xml");
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "project2/source1.cpp")
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "project2/source2.cpp")
+      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .build());
+
+    var sensor = new CxxCoverageVisualStudioSensor();
+    sensor.execute(context);
+
+    var oneHitlinesA = new int[]{4, 5, 6, 8, 13, 15, 16, 25};
+    var zeroHitlinesA = new int[]{9, 10, 22, 23};
+    for (var zeroHitline : zeroHitlinesA) {
+      assertThat(context.lineHits("ProjectKey:project2/source1.cpp", zeroHitline)).isEqualTo(0);
+    }
+    for (var oneHitline : oneHitlinesA) {
+      assertThat(context.lineHits("ProjectKey:project2/source1.cpp", oneHitline)).isEqualTo(1);
+    }
+
+    var oneHitlinesB = new int[]{4, 5, 6, 8, 9, 10, 13, 21, 25};
+    var zeroHitlinesB = new int[]{15, 16, 22, 23};
+    for (var zeroHitline : zeroHitlinesB) {
+      assertThat(context.lineHits("ProjectKey:project2/source2.cpp", zeroHitline)).isEqualTo(0);
+    }
+    for (var oneHitline : oneHitlinesB) {
+      assertThat(context.lineHits("ProjectKey:project2/source2.cpp", oneHitline)).isEqualTo(1);
+    }
+
+  }
+
   @Test(expected = Test.None.class /* no exception expected */)
   public void shouldReadFaultyReportAndNotCrash() {
     context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/faulty.xml");
+    settings.setProperty(CxxCoverageVisualStudioSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/faulty.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
@@ -85,14 +123,14 @@ public class CxxMSCoverageSensorTest {
       .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
       .build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+    var sensor = new CxxCoverageVisualStudioSensor();
     sensor.execute(context);
   }
 
   @Test
   public void shouldConsumeEmptyReport() {
     context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/empty-report.xml");
+    settings.setProperty(CxxCoverageVisualStudioSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/empty-report.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
@@ -100,7 +138,7 @@ public class CxxMSCoverageSensorTest {
       .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
       .build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+    var sensor = new CxxCoverageVisualStudioSensor();
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", 1)).isNull();
@@ -110,11 +148,11 @@ public class CxxMSCoverageSensorTest {
   public void sensorDescriptor() {
     context = SensorContextTester.create(fs.baseDir());
     var descriptor = new DefaultSensorDescriptor();
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+    var sensor = new CxxCoverageVisualStudioSensor();
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo("CXX coverage report import");
+    softly.assertThat(descriptor.name()).isEqualTo("CXX Visual Studio XML coverage report import");
     softly.assertThat(descriptor.languages()).containsOnly("cxx");
     softly.assertAll();
   }

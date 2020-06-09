@@ -17,9 +17,10 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.coverage;
+package org.sonar.cxx.sensors.coverage.bullseye;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -31,22 +32,23 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.sensors.coverage.CoverageMeasures;
+import org.sonar.cxx.sensors.coverage.CoverageParser;
+import org.sonar.cxx.sensors.utils.EmptyReportException;
+import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 
 /**
  * {@inheritDoc}
  */
-public class BullseyeParser extends CxxCoverageParser {
+public class BullseyeParser implements CoverageParser {
 
   private static final Logger LOG = Loggers.get(BullseyeParser.class);
 
   private String prevLine;
   private int totalconditions;
   private int totalcoveredconditions;
-
-  public BullseyeParser() {
-    // no operation but necessary for list of coverage parsers
-  }
 
   private static String ensureRefPathIsCorrect(@Nullable String refPath) {
     if (refPath == null || refPath.isEmpty()) {
@@ -75,20 +77,30 @@ public class BullseyeParser extends CxxCoverageParser {
    * {@inheritDoc}
    */
   @Override
-  public void parse(File report, final Map<String, CoverageMeasures> coverageData) throws XMLStreamException {
+  public Map<String, CoverageMeasures> parse(File report) throws ReportException {
     LOG.debug("Processing 'Bullseye Coverage' format");
-    var topLevelparser = new StaxParser((SMHierarchicCursor rootCursor) -> {
-      rootCursor.advance();
-      collectCoverageLeafNodes(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("src"), coverageData);
-    });
+    var coverageData = new HashMap<String, CoverageMeasures>();
+    try {
+      var topLevelparser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+        try {
+          rootCursor.advance();
+        } catch (com.ctc.wstx.exc.WstxEOFException e) {
+          throw new EmptyReportException("Coverage report " + report + " result is empty (parsed by " + this + ")");
+        }
+        collectCoverageLeafNodes(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("src"), coverageData);
+      });
 
-    var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
-      rootCursor.advance();
-      collectCoverage2(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("folder"), coverageData);
-    });
+      var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
+        rootCursor.advance();
+        collectCoverage2(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("folder"), coverageData);
+      });
 
-    topLevelparser.parse(report);
-    parser.parse(report);
+      topLevelparser.parse(report);
+      parser.parse(report);
+    } catch(XMLStreamException e) {
+      throw new InvalidReportException("Bullseye coverage report '" + report + "' cannot be parsed.", e);
+    }
+    return coverageData;
   }
 
   @Override
