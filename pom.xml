@@ -262,7 +262,7 @@
     <java.version>11</java.version>
     <maven.compiler.version>3.8.1</maven.compiler.version>
     <sslr.version>1.23</sslr.version>
-    <sslr-squid-bridge.version>2.6.1</sslr-squid-bridge.version>
+    <sslr-squid-bridge.version>2.7.0.377</sslr-squid-bridge.version>
     <!-- we depend on API ${sonar.version} but we keep backward compatibility with LTS -->
     <sonarQubeMinVersion>7.9</sonarQubeMinVersion>
   </properties>
