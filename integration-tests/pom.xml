@@ -86,7 +86,7 @@
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>tag-expressions</artifactId>
-      <version>2.0.4</version>
+      <version>3.0.0</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-jython -->
     <dependency>
