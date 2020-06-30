@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.utils;
 
+import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.Objects;
 import javax.annotation.Nullable;
@@ -34,11 +35,15 @@ public class CxxReportLocation {
 
   public CxxReportLocation(@Nullable String file, @Nullable String line, String info) {
     super();
-    if (file != null) {
-      this.file = Paths.get(file).normalize().toString();
-    } else {
-      this.file = null;
+    String normalized = file;
+    if (normalized != null) {
+      try {
+        normalized = Paths.get(normalized).normalize().toString();
+      } catch (InvalidPathException e) {
+        normalized = null;
+      }
     }
+    this.file = normalized;
     this.line = line;
     this.info = info;
   }
