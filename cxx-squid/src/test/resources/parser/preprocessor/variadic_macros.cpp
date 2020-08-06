@@ -7,6 +7,9 @@
 #define CHECK3(...) { printf(__VA_ARGS__); }
 #define MACRO(s, ...) printf(s, __VA_ARGS__)
 
+//Check macro substutiuon doesn't happen in the middle of a string.
+int mainMACRO();
+
 int main() {
     CHECK1(0, "here %s %s %s", "are", "some", "varargs1(1)\n");
     CHECK1(0, "here %s %s %s", "are", "some", "varargs1(2)\n");   // won't print
