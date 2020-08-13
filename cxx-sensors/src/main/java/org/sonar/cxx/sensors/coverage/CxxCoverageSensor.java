@@ -95,7 +95,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     try {
       parser.parse(report, measuresForReport);
     } catch (XMLStreamException e) {
-      throw new EmptyReportException("Coverage report" + report + "cannot be parsed by" + parser, e);
+      throw new EmptyReportException("Coverage report " + report + " cannot be parsed by " + parser, e);
     }
 
     if (measuresForReport.isEmpty()) {
