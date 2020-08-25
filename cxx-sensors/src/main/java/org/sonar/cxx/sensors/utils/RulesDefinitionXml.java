@@ -84,6 +84,12 @@ public class RulesDefinitionXml implements RulesDefinition {
           LOG.info("Cannot Load XML '{}'", e);
         }
       }
+
+      // add repository key as tag to make it possible to filter in issues by tool (tag must be a-z,0-9,-,+)
+      String tag = repositoryKey.toLowerCase().replaceAll("[^a-z0-9-+]", "-");
+      for (NewRule rule : repository.rules()) {
+        rule.addTags(tag);
+      }
     }
 
     repository.done();

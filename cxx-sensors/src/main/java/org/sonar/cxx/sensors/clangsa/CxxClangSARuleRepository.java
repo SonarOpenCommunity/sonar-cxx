@@ -29,7 +29,7 @@ import org.sonar.cxx.sensors.utils.RulesDefinitionXml;
 public class CxxClangSARuleRepository extends RulesDefinitionXml {
 
   private static final String LANGUAGE = "cxx";
-  public static final String KEY = "ClangSA";
+  public static final String KEY = "clangsa";
   private static final String NAME = "Clang-SA";
   private static final String FILE = "/clangsa.xml";
 
