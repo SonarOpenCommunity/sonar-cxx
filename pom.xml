@@ -357,7 +357,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.5.6</version>
+        <version>3.5.9</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
