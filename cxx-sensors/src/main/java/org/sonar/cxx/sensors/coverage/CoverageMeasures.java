@@ -38,17 +38,17 @@ public final class CoverageMeasures {
     // empty
   }
 
-  static CoverageMeasures create() {
+  static public CoverageMeasures create() {
     return new CoverageMeasures();
   }
 
-  void setHits(int lineId, int hits) {
+  public void setHits(int lineId, int hits) {
     lineMeasures.computeIfAbsent(lineId, v -> new CoverageMeasure(lineId));
     CoverageMeasure coverageMeasure = lineMeasures.get(lineId);
     coverageMeasure.setHits(hits);
   }
 
-  void setConditions(int lineId, int totalConditions, int coveredConditions) {
+  public void setConditions(int lineId, int totalConditions, int coveredConditions) {
     lineMeasures.computeIfAbsent(lineId, v -> new CoverageMeasure(lineId));
     CoverageMeasure coverageMeasure = lineMeasures.get(lineId);
     coverageMeasure.setConditions(totalConditions, coveredConditions);
@@ -60,7 +60,7 @@ public final class CoverageMeasures {
     return measures.values();
   }
 
-  Set<Integer> getCoveredLines() {
+  public Set<Integer> getCoveredLines() {
     var coveredLines = new HashSet<Integer>();
     lineMeasures.forEach((key, value) -> {
       if (value.getHits() != 0) {
@@ -70,7 +70,7 @@ public final class CoverageMeasures {
     return Collections.unmodifiableSet(coveredLines);
   }
 
-  Set<Integer> getCoveredConditions() {
+  public Set<Integer> getCoveredConditions() {
     var coveredConditionLines = new HashSet<Integer>();
     lineMeasures.forEach((key, value) -> {
       if (value.getCoveredConditions() != 0) {

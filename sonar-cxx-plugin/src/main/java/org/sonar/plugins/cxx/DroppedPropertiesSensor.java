@@ -74,7 +74,6 @@ public class DroppedPropertiesSensor implements ProjectSensor {
     map.put("sonar.cxx.clangtidy.reportPath", "Use 'sonar.cxx.clangtidy.reportPaths' instead."); // V2.0.0
     map.put("sonar.cxx.gcc.reportPath", "Use 'sonar.cxx.gcc.reportPaths' instead."); // V2.0.0
     map.put("sonar.cxx.vc.reportPath", "Use 'sonar.cxx.vc.reportPaths' instead."); // V2.0.0
-    map.put("sonar.cxx.coverage.reportPath", "Use 'sonar.cxx.coverage.reportPaths' instead."); // V2.0.0
     map.put("sonar.cxx.cppcheck.reportPath", "Use 'sonar.cxx.cppcheck.reportPaths' instead."); // V2.0.0
     map.put("sonar.cxx.drmemory.reportPath", "Use 'sonar.cxx.drmemory.reportPaths' instead."); // V2.0.0
     map.put("sonar.cxx.other.reportPath", "Use 'sonar.cxx.other.reportPaths' instead."); // V2.0.0
@@ -83,6 +82,9 @@ public class DroppedPropertiesSensor implements ProjectSensor {
     map.put("sonar.cxx.valgrind.reportPath", "Use 'sonar.cxx.valgrind.reportPaths' instead."); // V2.0.0
     map.put("sonar.cxx.vera.reportPath", "Use 'sonar.cxx.vera.reportPaths' instead."); // V2.0.0
     map.put("sonar.cxx.msbuild.reportPath", "Use 'sonar.cxx.msbuild.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.coverage.reportPath", "Use 'sonar.cxx.bullseye.reportPaths'"
+                                               + ", 'sonar.cxx.cobertura.reportPaths', 'sonar.cxx.vscoveragexml.reportPaths' or 'sonar.cxx.ctctxt.reportPaths'"
+                                             + " instead."); // V2.0.0
     return Collections.unmodifiableMap(map);
   }
 

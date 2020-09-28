@@ -36,6 +36,9 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.LogTester;
+import org.sonar.cxx.sensors.coverage.cobertura.CoberturaParser;
+import org.sonar.cxx.sensors.coverage.cobertura.CxxCoverageCoberturaSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCoberturaSensorTest {
@@ -145,7 +148,8 @@ public class CxxCoberturaSensorTest {
   @Test
   public void shouldReportCorrectCoverageForAllTypesOfCoverage() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
+    settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
+                         "coverage-reports/cobertura/coverage-result-cobertura.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
@@ -155,7 +159,7 @@ public class CxxCoberturaSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+    var sensor = new CxxCoverageCoberturaSensor();
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
@@ -175,7 +179,8 @@ public class CxxCoberturaSensorTest {
   @Test
   public void shouldReportCorrectCoverageSQ62() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
+    settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
+                         "coverage-reports/cobertura/coverage-result-cobertura.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
@@ -185,7 +190,7 @@ public class CxxCoberturaSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+    var sensor = new CxxCoverageCoberturaSensor();
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
@@ -198,35 +203,35 @@ public class CxxCoberturaSensorTest {
   public void shouldReportNoCoverageSaved() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     final String reportPathsValue = "coverage-reports/cobertura/specific-cases/does-not-exist.xml";
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, reportPathsValue);
+    settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY, reportPathsValue);
     context.setSettings(settings);
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+    var sensor = new CxxCoverageCoberturaSensor();
     sensor.execute(context);
 
     List<String> log = logTester.logs();
     assertThat(log).contains(
-      "Property 'sonar.cxx.coverage.reportPaths': cannot find any files matching the Ant pattern(s) '"
+      "Property 'sonar.cxx.cobertura.reportPaths': cannot find any files matching the Ant pattern(s) '"
         + PathUtils.sanitize(new File(fs.baseDir(), reportPathsValue).getAbsolutePath()) + "'");
   }
 
   @Test
   public void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
+    settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
     context.setSettings(settings);
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+    var sensor = new CxxCoverageCoberturaSensor();
     sensor.execute(context);
 
     assertThat(linesOfCodeByFile.isEmpty()).isTrue();
   }
 
   @Test
-  public void shouldReportNoCoverageWhenInvalidFilesEmpty() {
+  public void shouldReportNoCoverageWhenReportEmpty() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
+    settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml");
     context.setSettings(settings);
 
@@ -237,7 +242,7 @@ public class CxxCoberturaSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+    var sensor = new CxxCoverageCoberturaSensor();
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 1)).isNull();
@@ -246,9 +251,10 @@ public class CxxCoberturaSensorTest {
   }
 
   @Test
-  public void shouldReportNoCoverageWhenFilesInvalid() {
+  public void shouldReportNoCoverageWhenReportInvalid() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
+    settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
     context.setSettings(settings);
 
@@ -259,49 +265,12 @@ public class CxxCoberturaSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
+    var sensor = new CxxCoverageCoberturaSensor();
     sensor.execute(context);
 
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 1)).isNull();
     assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", 1)).isNull();
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isNull();
-  }
-
-  @Test
-  public void shouldReportCoverageWhenVisualStudioCase() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY,
-                         "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio.xml");
-    context.setSettings(settings);
-
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "project2/source1.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
-      .build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "project2/source2.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
-      .build());
-
-    var sensor = new CxxCoverageSensor(new CxxCoverageCache());
-    sensor.execute(context);
-
-    var oneHitlinesA = new int[]{4, 5, 6, 8, 13, 15, 16, 25};
-    var zeroHitlinesA = new int[]{9, 10, 22, 23};
-    for (var zeroHitline : zeroHitlinesA) {
-      assertThat(context.lineHits("ProjectKey:project2/source1.cpp", zeroHitline)).isEqualTo(0);
-    }
-    for (var oneHitline : oneHitlinesA) {
-      assertThat(context.lineHits("ProjectKey:project2/source1.cpp", oneHitline)).isEqualTo(1);
-    }
-
-    var oneHitlinesB = new int[]{4, 5, 6, 8, 9, 10, 13, 21, 25};
-    var zeroHitlinesB = new int[]{15, 16, 22, 23};
-    for (var zeroHitline : zeroHitlinesB) {
-      assertThat(context.lineHits("ProjectKey:project2/source2.cpp", zeroHitline)).isEqualTo(0);
-    }
-    for (var oneHitline : oneHitlinesB) {
-      assertThat(context.lineHits("ProjectKey:project2/source2.cpp", oneHitline)).isEqualTo(1);
-    }
-
   }
 
 }

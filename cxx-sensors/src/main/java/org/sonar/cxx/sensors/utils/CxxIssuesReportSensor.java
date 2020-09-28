@@ -57,9 +57,6 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
    */
   @Override
   public void executeImpl() {
-    LOG.debug("Searching reports by relative path with basedir '{}' and search prop '{}'",
-              context.fileSystem().baseDir(), getReportPathsKey());
-
     List<File> reports = getReports(getReportPathsKey());
     for (var report : reports) {
       executeReport(report);
