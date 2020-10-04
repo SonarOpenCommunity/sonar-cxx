@@ -40,8 +40,6 @@ import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
  * Custom Rule Import, all static analysis are supported.
- *
- * @author jorge costa, stefan weiser
  */
 public class CxxOtherSensor extends CxxIssuesReportSensor {
 
@@ -97,10 +95,11 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
         while (errorCursor.getNext() != null) {
           String file = errorCursor.getAttrValue("file");
           String line = errorCursor.getAttrValue("line");
+          String column = errorCursor.getAttrValue("column");
           String id = errorCursor.getAttrValue("id");
           String msg = errorCursor.getAttrValue("msg");
 
-          var issue = new CxxReportIssue(id, file, line, msg);
+          var issue = new CxxReportIssue(id, file, line, column, msg);
           saveUniqueViolation(issue);
         }
       });

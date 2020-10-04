@@ -99,7 +99,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
 
     for (var error : DrMemoryParser.parse(report, DEFAULT_CHARSET_DEF)) {
       if (error.getStackTrace().isEmpty()) {
-        var moduleIssue = new CxxReportIssue(error.getType().getId(), null, null, error.getMessage());
+        var moduleIssue = new CxxReportIssue(error.getType().getId(), null, null, null, error.getMessage());
         saveUniqueViolation(moduleIssue);
       } else {
         Location lastOwnFrame = getLastOwnFrame(error);
@@ -108,8 +108,8 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
           continue;
         }
         var fileIssue = new CxxReportIssue(error.getType().getId(),
-                                       lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), error
-                                       .getMessage());
+                                       lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), null,
+                                       error.getMessage());
 
         // add all frames as secondary locations
         int frameNr = 0;
@@ -117,7 +117,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
           boolean frameIsInProject = frameIsInProject(frame);
           String mappedPath = (frameIsInProject) ? frame.getFile() : lastOwnFrame.getFile();
           Integer mappedLine = (frameIsInProject) ? frame.getLine() : lastOwnFrame.getLine();
-          fileIssue.addLocation(mappedPath, mappedLine.toString(), getFrameText(frame, frameNr));
+          fileIssue.addLocation(mappedPath, mappedLine.toString(), null, getFrameText(frame, frameNr));
           ++frameNr;
         }
         saveUniqueViolation(fileIssue);

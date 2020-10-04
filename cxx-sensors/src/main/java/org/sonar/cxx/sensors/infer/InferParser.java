@@ -65,8 +65,7 @@ public class InferParser {
       LOG.debug("Read: {}", issue.toString());
       if (issue.getFile() != null) {
         CxxReportIssue cxxReportIssue = new CxxReportIssue(
-          issue.getBugType(), issue.getFile(),
-          String.valueOf(issue.getLine()), issue.getQualifier());
+          issue.getBugType(), issue.getFile(), String.valueOf(issue.getLine()), null, issue.getQualifier());
         sensor.saveUniqueViolation(cxxReportIssue);
       } else {
         LOG.debug("Invalid infer issue '{}', skipping", issue.toString());

@@ -30,13 +30,15 @@ public class CxxReportLocation {
 
   private final String file;
   private final String line;
+  private final String column;
   private final String info;
 
-  public CxxReportLocation(@Nullable String file, @Nullable String line, String info) {
+  public CxxReportLocation(@Nullable String file, @Nullable String line, @Nullable String column, String info) {
     super();
     // normalize file, removing double and single dot path steps => avoids duplicates
     this.file = PathUtils.sanitize(file);
     this.line = line;
+    this.column = column;
     this.info = info;
   }
 
@@ -48,18 +50,27 @@ public class CxxReportLocation {
     return line;
   }
 
+  public String getColumn() {
+    return column;
+  }
+
   public String getInfo() {
     return info;
   }
 
   @Override
   public String toString() {
-    return "CxxReportLocation [file=" + file + ", line=" + line + ", info=" + info + "]";
+    return "CxxReportLocation ["
+             + "file=" + file
+             + ", line=" + line
+             + ", column=" + column
+             + ", info=" + info
+             + "]";
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(file, info, line);
+    return Objects.hash(file, line, column, info);
   }
 
   @Override
@@ -74,7 +85,10 @@ public class CxxReportLocation {
       return false;
     }
     CxxReportLocation other = (CxxReportLocation) obj;
-    return Objects.equals(file, other.file) && Objects.equals(info, other.info) && Objects.equals(line, other.line);
+    return Objects.equals(line, other.line)
+             && Objects.equals(column, other.column)
+             && Objects.equals(file, other.file)
+             && Objects.equals(info, other.info);
   }
 
 }

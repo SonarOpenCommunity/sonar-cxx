@@ -52,86 +52,86 @@ public class FunctionCognitiveComplexityCheckTest {
     CxxReportIssue issue0 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("13"))
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 13"));
     softly.assertThat(issue0.getLocations()).containsOnly(
-      new CxxReportLocation(null, "13",
+      new CxxReportLocation(null, "13", null,
                             "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
-      new CxxReportLocation(null, "14", "+1: if statement"),
-      new CxxReportLocation(null, "15", "+2: if statement (incl 1 for nesting)"),
-      new CxxReportLocation(null, "16", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "17", "+1: else statement"),
-      new CxxReportLocation(null, "18", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "20", "+1: else statement"),
-      new CxxReportLocation(null, "21", "+2: if statement (incl 1 for nesting)"),
-      new CxxReportLocation(null, "22", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "23", "+1: else statement"),
-      new CxxReportLocation(null, "24", "+3: conditional operator (incl 2 for nesting)"));
+      new CxxReportLocation(null, "14", null, "+1: if statement"),
+      new CxxReportLocation(null, "15", null, "+2: if statement (incl 1 for nesting)"),
+      new CxxReportLocation(null, "16", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "17", null, "+1: else statement"),
+      new CxxReportLocation(null, "18", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "20", null, "+1: else statement"),
+      new CxxReportLocation(null, "21", null, "+2: if statement (incl 1 for nesting)"),
+      new CxxReportLocation(null, "22", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "23", null, "+1: else statement"),
+      new CxxReportLocation(null, "24", null, "+3: conditional operator (incl 2 for nesting)"));
 
     CxxReportIssue issue1 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("33"))
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 33"));
     softly.assertThat(issue1.getLocations()).containsOnly(
-      new CxxReportLocation(null, "33",
+      new CxxReportLocation(null, "33", null,
                             "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
-      new CxxReportLocation(null, "34", "+1: if statement"),
-      new CxxReportLocation(null, "35", "+2: if statement (incl 1 for nesting)"),
-      new CxxReportLocation(null, "36", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "37", "+1: else statement"),
-      new CxxReportLocation(null, "38", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "40", "+1: else statement"),
-      new CxxReportLocation(null, "41", "+2: if statement (incl 1 for nesting)"),
-      new CxxReportLocation(null, "42", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "43", "+1: else statement"),
-      new CxxReportLocation(null, "44", "+3: conditional operator (incl 2 for nesting)"));
+      new CxxReportLocation(null, "34", null, "+1: if statement"),
+      new CxxReportLocation(null, "35", null, "+2: if statement (incl 1 for nesting)"),
+      new CxxReportLocation(null, "36", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "37", null, "+1: else statement"),
+      new CxxReportLocation(null, "38", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "40", null, "+1: else statement"),
+      new CxxReportLocation(null, "41", null, "+2: if statement (incl 1 for nesting)"),
+      new CxxReportLocation(null, "42", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "43", null, "+1: else statement"),
+      new CxxReportLocation(null, "44", null, "+3: conditional operator (incl 2 for nesting)"));
 
     CxxReportIssue issue2 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("51"))
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 51"));
     softly.assertThat(issue2.getLocations()).containsOnly(
-      new CxxReportLocation(null, "51",
+      new CxxReportLocation(null, "51", null,
                             "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
-      new CxxReportLocation(null, "52", "+1: if statement"),
-      new CxxReportLocation(null, "53", "+2: if statement (incl 1 for nesting)"),
-      new CxxReportLocation(null, "54", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "55", "+1: else statement"),
-      new CxxReportLocation(null, "56", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "58", "+1: else statement"),
-      new CxxReportLocation(null, "59", "+2: if statement (incl 1 for nesting)"),
-      new CxxReportLocation(null, "60", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "61", "+1: else statement"),
-      new CxxReportLocation(null, "62", "+3: conditional operator (incl 2 for nesting)"));
+      new CxxReportLocation(null, "52", null, "+1: if statement"),
+      new CxxReportLocation(null, "53", null, "+2: if statement (incl 1 for nesting)"),
+      new CxxReportLocation(null, "54", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "55", null, "+1: else statement"),
+      new CxxReportLocation(null, "56", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "58", null, "+1: else statement"),
+      new CxxReportLocation(null, "59", null, "+2: if statement (incl 1 for nesting)"),
+      new CxxReportLocation(null, "60", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "61", null, "+1: else statement"),
+      new CxxReportLocation(null, "62", null, "+3: conditional operator (incl 2 for nesting)"));
 
     CxxReportIssue issue3 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("72"))
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 72"));
     softly.assertThat(issue3.getLocations()).containsOnly(
-      new CxxReportLocation(null, "72",
+      new CxxReportLocation(null, "72", null,
                             "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
-      new CxxReportLocation(null, "73", "+1: if statement"),
-      new CxxReportLocation(null, "74", "+2: if statement (incl 1 for nesting)"),
-      new CxxReportLocation(null, "75", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "76", "+1: else statement"),
-      new CxxReportLocation(null, "77", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "79", "+1: else statement"),
-      new CxxReportLocation(null, "80", "+2: if statement (incl 1 for nesting)"),
-      new CxxReportLocation(null, "81", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "82", "+1: else statement"),
-      new CxxReportLocation(null, "83", "+3: conditional operator (incl 2 for nesting)"));
+      new CxxReportLocation(null, "73", null, "+1: if statement"),
+      new CxxReportLocation(null, "74", null, "+2: if statement (incl 1 for nesting)"),
+      new CxxReportLocation(null, "75", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "76", null, "+1: else statement"),
+      new CxxReportLocation(null, "77", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "79", null, "+1: else statement"),
+      new CxxReportLocation(null, "80", null, "+2: if statement (incl 1 for nesting)"),
+      new CxxReportLocation(null, "81", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "82", null, "+1: else statement"),
+      new CxxReportLocation(null, "83", null, "+3: conditional operator (incl 2 for nesting)"));
 
     CxxReportIssue issue4 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("89"))
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 89"));
     softly.assertThat(issue4.getLocations()).containsOnly(
-      new CxxReportLocation(null, "89",
+      new CxxReportLocation(null, "89", null,
                             "The Cognitive Complexity of this function is 18 which is greater than 5 authorized."),
-      new CxxReportLocation(null, "91", "+1: if statement"),
-      new CxxReportLocation(null, "91", "+1: logical operator"),
-      new CxxReportLocation(null, "91", "+1: logical operator"),
-      new CxxReportLocation(null, "94", "+1: catch-clause"),
-      new CxxReportLocation(null, "96", "+1: catch-clause"),
-      new CxxReportLocation(null, "98", "+1: catch-clause"),
-      new CxxReportLocation(null, "100", "+1: catch-clause"),
-      new CxxReportLocation(null, "102", "+1: catch-clause"),
-      new CxxReportLocation(null, "104", "+1: catch-clause"),
-      new CxxReportLocation(null, "106", "+1: catch-clause"),
-      new CxxReportLocation(null, "107", "+2: iteration statement (incl 1 for nesting)"),
-      new CxxReportLocation(null, "108", "+3: conditional operator (incl 2 for nesting)"),
-      new CxxReportLocation(null, "110", "+2: conditional operator (incl 1 for nesting)"),
-      new CxxReportLocation(null, "113", "+1: switch statement"));
+      new CxxReportLocation(null, "91", null, "+1: if statement"),
+      new CxxReportLocation(null, "91", null, "+1: logical operator"),
+      new CxxReportLocation(null, "91", null, "+1: logical operator"),
+      new CxxReportLocation(null, "94", null, "+1: catch-clause"),
+      new CxxReportLocation(null, "96", null, "+1: catch-clause"),
+      new CxxReportLocation(null, "98", null, "+1: catch-clause"),
+      new CxxReportLocation(null, "100", null, "+1: catch-clause"),
+      new CxxReportLocation(null, "102", null, "+1: catch-clause"),
+      new CxxReportLocation(null, "104", null, "+1: catch-clause"),
+      new CxxReportLocation(null, "106", null, "+1: catch-clause"),
+      new CxxReportLocation(null, "107", null, "+2: iteration statement (incl 1 for nesting)"),
+      new CxxReportLocation(null, "108", null, "+3: conditional operator (incl 2 for nesting)"),
+      new CxxReportLocation(null, "110", null, "+2: conditional operator (incl 1 for nesting)"),
+      new CxxReportLocation(null, "113", null, "+1: switch statement"));
     softly.assertAll();
   }
 

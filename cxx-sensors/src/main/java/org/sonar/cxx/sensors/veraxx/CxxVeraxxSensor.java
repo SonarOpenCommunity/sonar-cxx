@@ -92,7 +92,7 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
               String message = errorCursor.getAttrValue("message");
               String source = errorCursor.getAttrValue("source");
 
-              var issue = new CxxReportIssue(source, name, line, message);
+              var issue = new CxxReportIssue(source, name, line, null, message);
               saveUniqueViolation(issue);
             } else {
               LOG.debug("Error in file '{}', with message '{}'",

@@ -1,5 +1,5 @@
 1 warning generated.
-sources\utils\code_chunks.cpp:11:18: warning: Dereference of null pointer (loaded from variable 'x') [clang-analyzer-core.NullDereference]
+sources\utils\code_chunks.cpp:11:9: warning: Dereference of null pointer (loaded from variable 'x') [clang-analyzer-core.NullDereference]
     printf("%d", *x);
                  ^
 sources\utils\code_chunks.cpp:7:5: note: 'x' initialized to a null pointer value
@@ -11,6 +11,6 @@ sources\utils\code_chunks.cpp:8:9: note: Assuming 'argc' is <= 1
 sources\utils\code_chunks.cpp:8:5: note: Taking false branch
     if (argc > 1) {
     ^
-sources\utils\code_chunks.cpp:11:18: note: Dereference of null pointer (loaded from variable 'x')
+sources\utils\code_chunks.cpp:11:9: note: Dereference of null pointer (loaded from variable 'x')
     printf("%d", *x);
                  ^

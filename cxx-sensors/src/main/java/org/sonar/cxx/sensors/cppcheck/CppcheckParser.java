@@ -129,11 +129,11 @@ public class CppcheckParser {
               return;
             }
 
-            issue = new CxxReportIssue(id, file, line, issueText);
+            issue = new CxxReportIssue(id, file, line, null, issueText);
             // add the same <file>:<line> second time if there is additional
             // information about the flow/analysis
             if (info != null && !msg.equals(info)) {
-              issue.addLocation(file, line, info);
+              issue.addLocation(file, line, null, info);
             }
           } else if (info != null) {
             // secondary location
@@ -142,7 +142,7 @@ public class CppcheckParser {
             // we'll use a primary location and move the affected path to the
             // info
             if (isLocationInProject) {
-              issue.addLocation(file, line, info);
+              issue.addLocation(file, line, null, info);
             } else {
               CxxReportLocation primaryLocation = issue.getLocations().get(0);
               String primaryFile = primaryLocation.getFile();
@@ -151,14 +151,14 @@ public class CppcheckParser {
               var extendedInfo = new StringBuilder(512);
               extendedInfo.append(makeRelativePath(file, primaryFile)).append(":").append(line).append(" ")
                 .append(info);
-              issue.addLocation(primaryFile, primaryLine, extendedInfo.toString());
+              issue.addLocation(primaryFile, primaryLine, null, extendedInfo.toString());
             }
           }
         }
 
         // no <location> tags: issue raised on the whole module/project
         if (issue == null) {
-          issue = new CxxReportIssue(id, null, null, issueText);
+          issue = new CxxReportIssue(id, null, null, null, issueText);
         }
         sensor.saveUniqueViolation(issue);
       }

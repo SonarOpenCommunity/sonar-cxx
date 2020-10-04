@@ -71,12 +71,12 @@ public class CxxClangSASensorTest {
      * 2 issues
      */
     DefaultInputFile testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n").build();
+      .initMetadata("asd\nasdghzui\nasd\nasd\nasdghtlout\nasdghtkouilh\nasd\nasdkhgkjgkjhgjg\nasd\n").build();
     /*
      * 1 issue
      */
     DefaultInputFile testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n").build();
+      .initMetadata("asd\nasdas\nasdaghtzutiojklmg\n").build();
 
     context.fileSystem().add(testFile0);
     context.fileSystem().add(testFile1);
@@ -124,16 +124,16 @@ public class CxxClangSASensorTest {
         IssueLocation issueLocation = flow.locations().get(1);
         assertThat(issueLocation.inputComponent()).isEqualTo(testFile0);
         assertThat(issueLocation.message()).isEqualTo("'a' declared without an initial value");
-        assertThat(issueLocation.textRange().start().line()).isEqualTo(31);
-        assertThat(issueLocation.textRange().end().line()).isEqualTo(31);
+        assertThat(issueLocation.textRange().start().line()).isEqualTo(5);
+        assertThat(issueLocation.textRange().end().line()).isEqualTo(5);
       }
 
       {
         IssueLocation issueLocation = flow.locations().get(0);
         assertThat(issueLocation.inputComponent()).isEqualTo(testFile0);
         assertThat(issueLocation.message()).isEqualTo("Branch condition evaluates to a garbage value");
-        assertThat(issueLocation.textRange().start().line()).isEqualTo(32);
-        assertThat(issueLocation.textRange().end().line()).isEqualTo(32);
+        assertThat(issueLocation.textRange().start().line()).isEqualTo(6);
+        assertThat(issueLocation.textRange().end().line()).isEqualTo(6);
       }
     }
 

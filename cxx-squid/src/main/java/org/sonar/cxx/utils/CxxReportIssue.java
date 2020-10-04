@@ -35,22 +35,22 @@ public class CxxReportIssue {
   private final List<CxxReportLocation> locations;
   private final List<CxxReportLocation> flow;
 
-  public CxxReportIssue(String ruleId, @Nullable String file, @Nullable String line, String info) {
+  public CxxReportIssue(String ruleId, @Nullable String file, @Nullable String line, @Nullable String column,
+                        String info) {
     super();
     this.ruleId = ruleId;
     this.locations = new ArrayList<>();
     this.flow = new ArrayList<>();
-    addLocation(file, line, info);
+    addLocation(file, line, column, info);
   }
 
-  public final void addLocation(@Nullable String file, @Nullable String line, String info) {
-    locations.add(new CxxReportLocation(file, line, info));
+  public final void addLocation(@Nullable String file, @Nullable String line, @Nullable String column, String info) {
+    locations.add(new CxxReportLocation(file, line, column, info));
   }
 
-  public final void addFlowElement(@Nullable String file, @Nullable String line, String info) {
-    flow.add(0, new CxxReportLocation(file, line, info));
+  public final void addFlowElement(@Nullable String file, @Nullable String line, @Nullable String column, String info) {
+    flow.add(0, new CxxReportLocation(file, line, column, info));
   }
-
 
   public String getRuleId() {
     return ruleId;
@@ -73,7 +73,7 @@ public class CxxReportIssue {
 
   @Override
   public int hashCode() {
-    return Objects.hash(locations, flow, ruleId);
+    return Objects.hash(ruleId, locations, flow);
   }
 
   @Override
@@ -88,8 +88,9 @@ public class CxxReportIssue {
       return false;
     }
     CxxReportIssue other = (CxxReportIssue) obj;
-    return Objects.equals(locations, other.locations) && Objects.equals(flow, other.flow)
-        && Objects.equals(ruleId, other.ruleId);
+    return Objects.equals(ruleId, other.ruleId)
+             && Objects.equals(locations, other.locations)
+             && Objects.equals(flow, other.flow);
   }
 
 }

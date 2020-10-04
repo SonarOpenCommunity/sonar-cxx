@@ -104,7 +104,7 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
           for (var lineElem : lines) {
             String line = lineElem.getTextTrim();
 
-            var issue = new CxxReportIssue(type, fileName, line, message);
+            var issue = new CxxReportIssue(type, fileName, line, null, message);
             saveUniqueViolation(issue);
           }
         }

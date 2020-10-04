@@ -25,8 +25,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.TextRange;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.rule.RuleKey;
@@ -103,33 +103,36 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     }
   }
 
-  private int getLineAsInt(@Nullable String line, int lines) {
-    int lineNr = 0;
-    if (line != null) {
-      try {
-        lineNr = Integer.parseInt(line);
-        if (lineNr < 1) {
-          lineNr = 1;
-        } else if (lineNr > lines) { // https://jira.sonarsource.com/browse/SONAR-6792
-          lineNr = lines;
+  private TextRange getRange(CxxReportLocation location, InputFile inputFile) {
+    int line = 1, column = -1;
+    try {
+      if (location.getLine() != null) {
+        // https://jira.sonarsource.com/browse/SONAR-6792
+        line = Integer.max(1, Integer.min(Integer.parseInt(location.getLine()), inputFile.lines()));
+        if (location.getColumn() != null) {
+          column = Integer.max(0, Integer.parseInt(location.getColumn()));
         }
-      } catch (java.lang.NumberFormatException e) {
-        var msg = "Invalid line number: '" + line + "'";
-        CxxUtils.validateRecovery(msg, e, context.config());
-        lineNr = -1;
       }
+    } catch (java.lang.NumberFormatException e) {
+      CxxUtils.validateRecovery("Invalid issue range: " + e.getMessage(), e, context.config());
     }
-    return lineNr;
+
+    if (column < 0) {
+      return inputFile.selectLine(line);
+    } else {
+      // since we do not have more information, we select only one character
+      return inputFile.newRange(line, column, line, column + 1);
+    }
   }
 
   @CheckForNull
   private NewIssueLocation createNewIssueLocation(NewIssue newIssue, CxxReportLocation location) {
     InputFile inputFile = getInputFileIfInProject(location.getFile());
     if (inputFile != null) {
-      int line = Integer.max(1, getLineAsInt(location.getLine(), inputFile.lines()));
+      TextRange range = getRange(location, inputFile);
       return newIssue.newLocation()
         .on(inputFile)
-        .at(inputFile.selectLine(line))
+        .at(range)
         .message(location.getInfo());
     }
     return null;

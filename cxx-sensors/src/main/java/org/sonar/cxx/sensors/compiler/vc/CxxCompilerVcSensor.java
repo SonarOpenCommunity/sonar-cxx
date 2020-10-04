@@ -62,7 +62,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
       PropertyDefinition.builder(REPORT_REGEX_DEF)
         .name("VC Regular Expression")
         .description("Regular expression to identify the four named groups of the compiler warning message:"
-                       + " &lt;file&gt;, &lt;line&gt;, &lt;id&gt;, &lt;message&gt;. Leave empty to use parser's default."
+                       + " &lt;file&gt;, &lt;line&gt;, &lt;column&gt;, &lt;id&gt;, &lt;message&gt;. Leave empty to use parser's default."
                      + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
                        + "this page</a> for details regarding the different regular expression that can be use per compiler.")
         .category(category)

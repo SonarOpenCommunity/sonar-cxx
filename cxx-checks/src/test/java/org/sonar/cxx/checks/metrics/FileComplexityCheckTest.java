@@ -51,10 +51,11 @@ public class FileComplexityCheckTest {
     CxxReportIssue actualIssue = issues.iterator().next();
     softly.assertThat(actualIssue.getRuleId()).isEqualTo("FileComplexity");
     softly.assertThat(actualIssue.getLocations()).containsOnly(
-      new CxxReportLocation(null, "1",
+      new CxxReportLocation(null, "1", null,
                             "The Cyclomatic Complexity of this file is 2 which is greater than 1 authorized."),
-      new CxxReportLocation(null, "3", "+1: function definition"),
-      new CxxReportLocation(null, "5", "+1: function definition"));
+       new CxxReportLocation(null, "3", null, "+1: function definition"),
+       new CxxReportLocation(null, "5", null, "+1: function definition")
+    );
     softly.assertAll();
   }
 
