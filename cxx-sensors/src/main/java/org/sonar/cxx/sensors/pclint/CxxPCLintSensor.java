@@ -144,7 +144,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
                 saveUniqueViolation(currentIssue);
               }
 
-              currentIssue = new CxxReportIssue(id, file, line, msg);
+              currentIssue = new CxxReportIssue(id, file, line, null, msg);
             } else {
               LOG.warn("PC-lint warning ignored: {}", msg);
               LOG.debug("File: {}, Line: {}, ID: {}, msg: {}", file, line, id, msg);
@@ -196,7 +196,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
           line = primaryLocation.getLine();
         }
 
-        currentIssue.addFlowElement(file, line, msg);
+        currentIssue.addFlowElement(file, line, null, msg);
       }
 
       private boolean isInputValid(@Nullable String file, @Nullable String line,

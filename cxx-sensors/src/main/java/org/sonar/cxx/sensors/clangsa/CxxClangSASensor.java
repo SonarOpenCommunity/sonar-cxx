@@ -89,7 +89,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
       }
 
       var event = new PathEvent(pathObject, sourceFiles);
-      issue.addFlowElement(event.getFilePath(), event.getLineNumber(), event.getExtendedMessage());
+      issue.addFlowElement(event.getFilePath(), event.getLineNumber(), event.getColumnNumber(), event.getExtendedMessage());
     }
   }
 
@@ -118,6 +118,8 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
                                                        "Missing mandatory entry 'diagnostics/location'");
         int line = ((NSNumber) require(location.get("line"),
                                        "Missing mandatory entry 'diagnostics/location/line'")).intValue();
+        int column = ((NSNumber) require(location.get("col"),
+                                       "Missing mandatory entry 'diagnostics/location/col'")).intValue();
         int fileIndex = ((NSNumber) require(location.get("file"),
                                             "Missing mandatory entry 'diagnostics/location/file'")).intValue();
 
@@ -126,7 +128,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
         }
         String filePath = ((NSString) sourceFiles[fileIndex]).getContent();
 
-        var issue = new CxxReportIssue(checkerName, filePath, Integer.toString(line), description);
+        var issue = new CxxReportIssue(checkerName, filePath, Integer.toString(line), Integer.toString(column), description);
 
         addFlowToIssue(diag, sourceFiles, issue);
 
@@ -194,6 +196,11 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
     public String getLineNumber() {
       int lineNumber = ((NSNumber) require(getLocation().get("line"), "Missing mandatory entry 'line'")).intValue();
       return Integer.toString(lineNumber);
+    }
+
+    public String getColumnNumber() {
+      int columnNumber = ((NSNumber) require(getLocation().get("col"), "Missing mandatory entry 'col'")).intValue();
+      return Integer.toString(columnNumber);
     }
 
     public String getFilePath() {

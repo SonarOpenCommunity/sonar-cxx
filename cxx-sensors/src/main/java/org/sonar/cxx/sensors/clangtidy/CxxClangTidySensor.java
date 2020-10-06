@@ -105,7 +105,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
           MatchResult m = matcher.toMatchResult();
           String path = m.group(1); // relative paths
           String line = m.group(2);
-          //String column = m.group(3);
+          String column = m.group(3);
           String level = m.group(4); // error, warning, note, ...
           String txt = m.group(5); // info( [ruleId])?
           String info = null;
@@ -132,9 +132,9 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
             if (issue != null) {
               saveUniqueViolation(issue);
             }
-            issue = new CxxReportIssue(ruleId, path, line, info);
+            issue = new CxxReportIssue(ruleId, path, line, column, info);
           } else if ((issue != null) && "note".equals(level)) {
-            issue.addFlowElement(path, line, info);
+            issue.addFlowElement(path, line, column, info);
           }
         }
       }

@@ -70,8 +70,10 @@ public class CxxClangTidySensorTest {
 
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n")
-      .build());
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdasdgghs\nasda\n")
+      .build()
+    );
 
     var sensor = new CxxClangTidySensor();
     sensor.execute(context);
@@ -88,8 +90,12 @@ public class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder
+      .create("ProjectKey", "sources/utils/code_chunks.cpp")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdasdfghtz\nasda\n")
+      .build()
+    );
 
     var sensor = new CxxClangTidySensor();
     sensor.execute(context);
@@ -106,8 +112,12 @@ public class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder
+      .create("ProjectKey", "sources/utils/code_chunks.cpp")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdas\nasda\n")
+      .build()
+    );
 
     var sensor = new CxxClangTidySensor();
     sensor.execute(context);
@@ -126,8 +136,10 @@ public class CxxClangTidySensorTest {
 
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n")
-      .build());
+      .setLanguage("cxx")
+      .initMetadata("ab\nab\nab\nab\nab\nab\nabcdefg\nabdefgrqwe\nab\nab\nabcdefghijklm\n")
+      .build()
+    );
 
     var sensor = new CxxClangTidySensor();
     sensor.execute(context);
@@ -150,8 +162,10 @@ public class CxxClangTidySensorTest {
 
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n")
-      .build());
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdas\nasda\n")
+      .build()
+    );
 
     var sensor = new CxxClangTidySensor();
     sensor.execute(context);
