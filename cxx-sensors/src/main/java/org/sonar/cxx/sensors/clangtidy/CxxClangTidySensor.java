@@ -91,11 +91,8 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
     try ( var scanner = new Scanner(report, reportCharset)) {
       // sample:
-      // E:\Development\SonarQube\cxx\sonar-cxx\sonar-cxx-plugin\src\test\resources\org\sonar\plugins\cxx\
-      //   reports-project\clang-tidy-reports\..\..\cpd.cc:76:20:
-      //   warning: ISO C++11 does not allow conversion from string literal to 'char *'
-      //   [clang-diagnostic-writable-strings]
-      CxxReportIssue issue = null;
+      // c:\a\file.cc:5:20: warning: ... conversion from string literal to 'char *' [clang-diagnostic-writable-strings]
+      CxxReportIssue currentIssue = null;
       while (scanner.hasNextLine()) {
         String nextLine = scanner.nextLine();
         final Matcher matcher = PATTERN.matcher(nextLine);
@@ -107,39 +104,48 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
           String line = m.group(2);
           String column = m.group(3);
           String level = m.group(4); // error, warning, note, ...
-          String txt = m.group(5); // info( [ruleId])?
-          String info = null;
-          String ruleId = null;
+          String info = m.group(5); // info( [ruleId])?
 
-          if (txt.endsWith("]")) { // [ruleId]
-            for (var i = txt.length() - 2; i >= 0; i--) {
-              char c = txt.charAt(i);
-              if (c == '[') {
-                info = txt.substring(0, i - 1);
-                ruleId = txt.substring(i + 1, txt.length() - 1);
-                break;
-              }
-              if (!(Character.isLetterOrDigit(c) || c == '-' || c == '.')) {
-                break;
-              }
-            }
-          }
-          if (info == null) {
-            info = txt;
-          }
+          CxxReportIssue newIssue = null;
+          Boolean saveIssue = true;
 
-          if (ruleId != null) {
-            if (issue != null) {
-              saveUniqueViolation(issue);
+          switch (level) {
+            case "note":
+              saveIssue = false;
+              if (currentIssue != null) {
+                currentIssue.addFlowElement(path, line, column, info);
+              }
+              break;
+            case "warning":
+            case "error":
+              if (info.endsWith("]")) { // [ruleId]
+                for (var i = info.length() - 2; i >= 0; i--) {
+                  char c = info.charAt(i);
+                  if (!(Character.isLetterOrDigit(c) || c == '-' || c == '.' || c == '_')) {
+                    if (c == '[') {
+                      String ruleId = info.substring(i + 1, info.length() - 1);
+                      info = info.substring(0, i - 1);
+                      newIssue = new CxxReportIssue(ruleId, path, line, column, info);
+                    }
+                    break;
+                  }
+                }
+              }
+              break;
+          }
+          if (saveIssue) {
+            if (currentIssue != null) {
+              saveUniqueViolation(currentIssue);
+              currentIssue = null;
             }
-            issue = new CxxReportIssue(ruleId, path, line, column, info);
-          } else if ((issue != null) && "note".equals(level)) {
-            issue.addFlowElement(path, line, column, info);
+            currentIssue = newIssue;
+            newIssue = null;
           }
         }
       }
-      if (issue != null) {
-        saveUniqueViolation(issue);
+      if (currentIssue != null) {
+        saveUniqueViolation(currentIssue);
+        currentIssue = null;
       }
     } catch (final java.io.FileNotFoundException
                      | java.lang.IllegalArgumentException
