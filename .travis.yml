@@ -6,7 +6,7 @@ dist: xenial
 jdk:
   - openjdk11
 env:
-  - SONARLABEL=sonarqube-7.9.3 SONARAPI=SqApi79
+  - SONARLABEL=sonarqube-7.9.4 SONARAPI=SqApi79
 
 addons:
   # shorten the VM hostname with the new workaround
@@ -37,8 +37,8 @@ install:
   - pushd /tmp
   - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonarqube/$SONARLABEL.zip
   - unzip -qq $SONARLABEL.zip
-  - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873.zip
-  - unzip -qq sonar-scanner-cli-4.2.0.1873.zip
+  - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.5.0.2216.zip
+  - unzip -qq sonar-scanner-cli-4.5.0.2216.zip
   - wget -nv --timeout=10 https://github.com/htacg/tidy-html5/archive/5.6.0.zip --output-document=tidy-html5.zip
   - unzip -qq tidy-html5.zip
   - pushd tidy-html5-5.6.0/build/cmake/
