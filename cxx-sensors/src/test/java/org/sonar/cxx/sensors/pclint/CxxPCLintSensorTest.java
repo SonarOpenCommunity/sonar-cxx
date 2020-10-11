@@ -123,7 +123,7 @@ public class CxxPCLintSensorTest {
     CxxPCLintSensor sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(0);
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test
@@ -139,7 +139,7 @@ public class CxxPCLintSensorTest {
     var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(0);
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test

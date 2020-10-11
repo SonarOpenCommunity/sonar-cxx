@@ -89,8 +89,8 @@ public class CxxReportSensorTest {
     context.setSettings(settings);
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_PROPERTY_KEY);
     assertThat(reports).isNotNull();
-    assertThat(reports.get(0).exists()).isTrue();
-    assertThat(reports.get(0).isAbsolute()).isTrue();
+    assertThat(reports.get(0)).exists();
+    assertThat(reports.get(0)).isAbsolute();
     assertThat(reports.size()).isEqualTo(3);
   }
 
@@ -101,8 +101,8 @@ public class CxxReportSensorTest {
     context.setSettings(settings);
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_PROPERTY_KEY);
     assertThat(reports).isNotNull();
-    assertThat(reports.get(0).exists()).isTrue();
-    assertThat(reports.get(0).isAbsolute()).isTrue();
+    assertThat(reports.get(0)).exists();
+    assertThat(reports.get(0)).isAbsolute();
     assertThat(reports.size()).isEqualTo(3);
   }
 

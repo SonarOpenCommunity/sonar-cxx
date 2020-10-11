@@ -26,18 +26,16 @@ package org.sonar.cxx.sensors.tests.dotnet;
 import java.io.File;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
 public class WildcardPatternFileProviderTest {
 
   @Rule
   public TemporaryFolder tmp = new TemporaryFolder();
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private static String path(String... elements) {
     return String.join(File.separator, elements);
@@ -112,7 +110,8 @@ public class WildcardPatternFileProviderTest {
       .containsOnly(new File(tmp.getRoot(), path("c", "c22", "c31", "foo.txt")));
 
     assertThat(listFiles(new File(tmp.getRoot(), path("**", "c?1", "foo.txt")).getAbsolutePath()))
-      .containsOnly(new File(tmp.getRoot(), path("c", "c21", "foo.txt")), new File(tmp.getRoot(), path("c", "c22", "c31", "foo.txt")));
+      .containsOnly(new File(tmp.getRoot(), path("c", "c21", "foo.txt")), new File(tmp.getRoot(),
+                                                                                   path("c", "c22", "c31", "foo.txt")));
 
     assertThat(listFiles(new File(tmp.getRoot(), path("?", "**", "foo.txt")).getAbsolutePath()))
       .containsOnly(
@@ -168,7 +167,8 @@ public class WildcardPatternFileProviderTest {
       .containsOnly(new File(tmp.getRoot(), path("c", "c22", "c31", "foo.txt")));
 
     assertThat(listFiles(path("**", "c?1", "foo.txt"), tmp.getRoot()))
-      .containsOnly(new File(tmp.getRoot(), path("c", "c21", "foo.txt")), new File(tmp.getRoot(), path("c", "c22", "c31", "foo.txt")));
+      .containsOnly(new File(tmp.getRoot(), path("c", "c21", "foo.txt")), new File(tmp.getRoot(),
+                                                                                   path("c", "c22", "c31", "foo.txt")));
 
     assertThat(listFiles(path("?", "**", "foo.txt"), tmp.getRoot()))
       .containsOnly(
@@ -179,18 +179,19 @@ public class WildcardPatternFileProviderTest {
 
   @Test
   public void should_fail_with_current_folder_access_after_wildcard() {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("Cannot contain '.' or '..' after the first wildcard.");
-
-    listFiles(new File(tmp.getRoot(), path("?", ".", "foo.txt")).getAbsolutePath());
+    IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+                                              listFiles(new File(tmp.getRoot(), path("?", ".", "foo.txt"))
+                                                .getAbsolutePath());
+                                            });
+    assertThat(e).hasMessage("Cannot contain '.' or '..' after the first wildcard.");
   }
 
   @Test
   public void should_fail_with_parent_folder_access_after_wildcard() {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("Cannot contain '.' or '..' after the first wildcard.");
-
-    listFiles(path("*", "..", "foo.txt"), tmp.getRoot());
+    IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+                                              listFiles(path("*", "..", "foo.txt"), tmp.getRoot());
+                                            });
+    assertThat(e).hasMessage("Cannot contain '.' or '..' after the first wildcard.");
   }
 
 }

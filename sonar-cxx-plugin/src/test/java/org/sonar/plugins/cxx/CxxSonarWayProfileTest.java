@@ -35,7 +35,7 @@ public class CxxSonarWayProfileTest {
     assertThat(profile.language()).isEqualTo(CxxLanguage.KEY);
     assertThat(profile.name()).isEqualTo("Sonar way");
     List<BuiltInQualityProfilesDefinition.BuiltInActiveRule> activeRules = profile.rules();
-    assertThat(activeRules.size()).as("Expected number of rules in profile").isGreaterThanOrEqualTo(0);
+    assertThat(activeRules.size()).as("Expected number of rules in profile").isNotNegative();
   }
 
 }

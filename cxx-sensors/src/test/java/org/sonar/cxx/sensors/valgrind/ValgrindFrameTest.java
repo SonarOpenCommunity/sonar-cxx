@@ -63,8 +63,8 @@ public class ValgrindFrameTest {
 
   @Test
   public void frameHashWorksAsExpected() {
-    assertThat(frame.hashCode() == equalFrame.hashCode()).isTrue();
-    assertThat(frame.hashCode() != otherFrame.hashCode()).isTrue();
+    assertThat(frame.hashCode()).isEqualTo(equalFrame.hashCode());
+    assertThat(frame.hashCode()).isNotEqualTo(otherFrame.hashCode());
   }
 
   @Test

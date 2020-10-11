@@ -164,15 +164,15 @@ public class CxxCoberturaSensorTest {
 
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 3)).isEqualTo(4);
-    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", 2)).isEqualTo(0);
+    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", 2)).isZero();
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 8)).isEqualTo(8);
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 3)).isEqualTo(4);
-    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", 2)).isEqualTo(0);
+    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", 2)).isZero();
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 8)).isEqualTo(8);
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 3)).isEqualTo(4);
-    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", 2)).isEqualTo(0);
+    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", 2)).isZero();
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 8)).isEqualTo(8);
   }
 
@@ -195,7 +195,7 @@ public class CxxCoberturaSensorTest {
 
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 1)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", 3)).isEqualTo(4);
-    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", 2)).isEqualTo(0);
+    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", 2)).isZero();
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", 8)).isEqualTo(8);
   }
 
@@ -225,7 +225,7 @@ public class CxxCoberturaSensorTest {
     var sensor = new CxxCoverageCoberturaSensor();
     sensor.execute(context);
 
-    assertThat(linesOfCodeByFile.isEmpty()).isTrue();
+    assertThat(linesOfCodeByFile).isEmpty();
   }
 
   @Test

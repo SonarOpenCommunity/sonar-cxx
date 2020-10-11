@@ -50,7 +50,7 @@ public class CxxValgrindSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     sensor.execute(context);
 
-    assertThat(context.allAnalysisErrors().isEmpty()).isTrue();
+    assertThat(context.allAnalysisErrors()).isEmpty();
   }
 
   @Test
@@ -77,7 +77,7 @@ public class CxxValgrindSensorTest {
     valgrindErrors.add(mockValgrindError(false));
     sensor.saveErrors(valgrindErrors);
 
-    assertThat(context.allIssues()).hasSize(0);
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test

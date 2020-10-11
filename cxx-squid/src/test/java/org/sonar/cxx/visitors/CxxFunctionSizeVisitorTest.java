@@ -54,8 +54,8 @@ public class CxxFunctionSizeVisitorTest {
     SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
 
     var softly = new SoftAssertions();
-    softly.assertThat(file.getInt(CxxMetric.BIG_FUNCTIONS)).isEqualTo(0);
-    softly.assertThat(file.getInt(CxxMetric.BIG_FUNCTIONS_LOC)).isEqualTo(0);
+    softly.assertThat(file.getInt(CxxMetric.BIG_FUNCTIONS)).isZero();
+    softly.assertThat(file.getInt(CxxMetric.BIG_FUNCTIONS_LOC)).isZero();
     softly.assertAll();
   }
 

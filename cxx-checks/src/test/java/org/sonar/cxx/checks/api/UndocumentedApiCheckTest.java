@@ -111,7 +111,7 @@ public class UndocumentedApiCheckTest {
       errors.append(msg.formatDefaultMessage());
       errors.append("\r\n");
     }
-    assertThat(errors.length()).isEqualTo(0);
+    assertThat(errors.length()).isZero();
   }
 
   @Test
@@ -128,7 +128,7 @@ public class UndocumentedApiCheckTest {
       errors.append(msg.formatDefaultMessage());
       errors.append("\r\n");
     }
-    assertThat(errors.length()).isEqualTo(0);
+    assertThat(errors.length()).isZero();
   }
 
 }

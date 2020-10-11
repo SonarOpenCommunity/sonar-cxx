@@ -37,8 +37,8 @@ public class CxxSquidConfigurationTest {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.setCompilationPropertiesWithBuildLog(new ArrayList<>(), VC_KEY, VC_CHARSET);
     var softly = new SoftAssertions();
-    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
-    softly.assertThat(squidConfig.getDefines().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isZero();
+    softly.assertThat(squidConfig.getDefines().size()).isZero();
     softly.assertAll();
   }
 
@@ -47,8 +47,8 @@ public class CxxSquidConfigurationTest {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.setCompilationPropertiesWithBuildLog(null, VC_KEY, VC_CHARSET);
     var softly = new SoftAssertions();
-    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
-    assertThat(squidConfig.getDefines().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isZero();
+    assertThat(squidConfig.getDefines().size()).isZero();
     softly.assertAll();
   }
 
@@ -84,21 +84,21 @@ public class CxxSquidConfigurationTest {
     squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isZero();
     List<String> defines = squidConfig.getDefines();
     softly.assertThat(defines.size()).isEqualTo(20 + 5);
     ValidateDefaultAsserts(softly, defines);
-    softly.assertThat(defines.contains("_OPENMP 200203")).isTrue();
-    softly.assertThat(defines.contains("_WIN32")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86 600")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
-    softly.assertThat(defines.contains("_WCHAR_T_DEFINED 1")).isTrue();
-    softly.assertThat(defines.contains("_NATIVE_WCHAR_T_DEFINED 1")).isTrue();
-    softly.assertThat(defines.contains("_VC_NODEFAULTLIB")).isTrue();
-    softly.assertThat(defines.contains("_MT")).isTrue();
-    softly.assertThat(defines.contains("_DLL")).isTrue();
-    softly.assertThat(defines.contains("_DEBUG")).isTrue();
-    softly.assertThat(defines.contains("_VC_NODEFAULTLIB")).isTrue();
+    softly.assertThat(defines).contains("_OPENMP 200203");
+    softly.assertThat(defines).contains("_WIN32");
+    softly.assertThat(defines).contains("_M_IX86 600");
+    softly.assertThat(defines).contains("_M_IX86_FP 2");
+    softly.assertThat(defines).contains("_WCHAR_T_DEFINED 1");
+    softly.assertThat(defines).contains("_NATIVE_WCHAR_T_DEFINED 1");
+    softly.assertThat(defines).contains("_VC_NODEFAULTLIB");
+    softly.assertThat(defines).contains("_MT");
+    softly.assertThat(defines).contains("_DLL");
+    softly.assertThat(defines).contains("_DEBUG");
+    softly.assertThat(defines).contains("_VC_NODEFAULTLIB");
     softly.assertAll();
   }
 
@@ -109,11 +109,11 @@ public class CxxSquidConfigurationTest {
     squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isZero();
     List<String> defines = squidConfig.getDefines();
     softly.assertThat(defines.size()).isEqualTo(3);
     ValidateDefaultAsserts(softly, defines);
-    softly.assertThat(defines.contains("_WIN32")).isTrue();
+    softly.assertThat(defines).contains("_WIN32");
     softly.assertAll();
   }
 
@@ -125,18 +125,18 @@ public class CxxSquidConfigurationTest {
     files.add(new File("src/test/resources/logfile/platformCommonX64.txt"));
     squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
-    assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    assertThat(squidConfig.getIncludeDirectories().size()).isZero();
     List<String> defines = squidConfig.getDefines();
 
     var softly = new SoftAssertions();
     softly.assertThat(defines.size()).isEqualTo(15 + 5);
     ValidateDefaultAsserts(softly, defines);
-    softly.assertThat(defines.contains("_Wp64")).isTrue();
-    softly.assertThat(defines.contains("_WIN32")).isTrue();
-    softly.assertThat(defines.contains("_WIN64")).isTrue();
-    softly.assertThat(defines.contains("_M_X64 100")).isTrue();
+    softly.assertThat(defines).contains("_Wp64");
+    softly.assertThat(defines).contains("_WIN32");
+    softly.assertThat(defines).contains("_WIN64");
+    softly.assertThat(defines).contains("_M_X64 100");
     softly.assertThat(defines.contains("_M_IX86")).isFalse();
-    softly.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
+    softly.assertThat(defines).contains("_M_IX86_FP 2");
     softly.assertAll();
   }
 
@@ -149,14 +149,14 @@ public class CxxSquidConfigurationTest {
     squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isZero();
     List<String> defines = squidConfig.getDefines();
     softly.assertThat(defines.size()).isEqualTo(12 + 6);
     ValidateDefaultAsserts(softly, defines);
-    softly.assertThat(defines.contains("_CPPUNWIND")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86 600")).isTrue();
-    softly.assertThat(defines.contains("_WIN32")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
+    softly.assertThat(defines).contains("_CPPUNWIND");
+    softly.assertThat(defines).contains("_M_IX86 600");
+    softly.assertThat(defines).contains("_WIN32");
+    softly.assertThat(defines).contains("_M_IX86_FP 2");
     softly.assertAll();
   }
 
@@ -169,18 +169,18 @@ public class CxxSquidConfigurationTest {
     squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isZero();
     List<String> defines = squidConfig.getDefines();
     softly.assertThat(defines.size()).isEqualTo(13 + 5);
     ValidateDefaultAsserts(softly, defines);
-    softly.assertThat(defines.contains("__cplusplus_winrt 201009")).isTrue();
-    softly.assertThat(defines.contains("_CPPUNWIND")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86 600")).isTrue();
-    softly.assertThat(defines.contains("_WIN32")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
-    softly.assertThat(defines.contains("_MSC_VER 1700")).isTrue();
-    softly.assertThat(defines.contains("_MSC_FULL_VER 1700610301")).isTrue();
-    softly.assertThat(defines.contains("_ATL_VER 0x0B00")).isTrue();
+    softly.assertThat(defines).contains("__cplusplus_winrt 201009");
+    softly.assertThat(defines).contains("_CPPUNWIND");
+    softly.assertThat(defines).contains("_M_IX86 600");
+    softly.assertThat(defines).contains("_WIN32");
+    softly.assertThat(defines).contains("_M_IX86_FP 2");
+    softly.assertThat(defines).contains("_MSC_VER 1700");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 1700610301");
+    softly.assertThat(defines).contains("_ATL_VER 0x0B00");
     softly.assertAll();
   }
 
@@ -193,21 +193,21 @@ public class CxxSquidConfigurationTest {
     squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isZero();
     List<String> defines = squidConfig.getDefines();
     softly.assertThat(defines.size()).isEqualTo(15 + 6);
     ValidateDefaultAsserts(softly, defines);
-    softly.assertThat(defines.contains("__AVX2__ 1")).isTrue();
-    softly.assertThat(defines.contains("__AVX__ 1")).isTrue();
-    softly.assertThat(defines.contains("__cplusplus_winrt 201009")).isTrue();
-    softly.assertThat(defines.contains("_CPPUNWIND")).isTrue();
-    softly.assertThat(defines.contains("_M_ARM_FP")).isTrue();
-    softly.assertThat(defines.contains("_WIN32")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86 600")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
-    softly.assertThat(defines.contains("_MSC_VER 1800")).isTrue();
-    softly.assertThat(defines.contains("_MSC_FULL_VER 180031101")).isTrue();
-    softly.assertThat(defines.contains("_ATL_VER 0x0C00")).isTrue();
+    softly.assertThat(defines).contains("__AVX2__ 1");
+    softly.assertThat(defines).contains("__AVX__ 1");
+    softly.assertThat(defines).contains("__cplusplus_winrt 201009");
+    softly.assertThat(defines).contains("_CPPUNWIND");
+    softly.assertThat(defines).contains("_M_ARM_FP");
+    softly.assertThat(defines).contains("_WIN32");
+    softly.assertThat(defines).contains("_M_IX86 600");
+    softly.assertThat(defines).contains("_M_IX86_FP 2");
+    softly.assertThat(defines).contains("_MSC_VER 1800");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 180031101");
+    softly.assertThat(defines).contains("_ATL_VER 0x0C00");
     softly.assertAll();
   }
 
@@ -220,20 +220,20 @@ public class CxxSquidConfigurationTest {
     squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isZero();
     List<String> defines = squidConfig.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 6);
     ValidateDefaultAsserts(softly, defines);
-    softly.assertThat(defines.contains("__AVX2__ 1")).isTrue();
-    softly.assertThat(defines.contains("__AVX__ 1")).isTrue();
-    softly.assertThat(defines.contains("__cplusplus_winrt 201009")).isTrue();
-    softly.assertThat(defines.contains("_CPPUNWIND")).isTrue();
-    softly.assertThat(defines.contains("_M_ARM_FP")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86 600")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
-    softly.assertThat(defines.contains("_MSC_VER 1900")).isTrue();
-    softly.assertThat(defines.contains("_MSC_FULL_VER 190024215")).isTrue();
-    softly.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
+    softly.assertThat(defines).contains("__AVX2__ 1");
+    softly.assertThat(defines).contains("__AVX__ 1");
+    softly.assertThat(defines).contains("__cplusplus_winrt 201009");
+    softly.assertThat(defines).contains("_CPPUNWIND");
+    softly.assertThat(defines).contains("_M_ARM_FP");
+    softly.assertThat(defines).contains("_M_IX86 600");
+    softly.assertThat(defines).contains("_M_IX86_FP 2");
+    softly.assertThat(defines).contains("_MSC_VER 1900");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 190024215");
+    softly.assertThat(defines).contains("_ATL_VER 0x0E00");
     softly.assertAll();
   }
 
@@ -250,12 +250,12 @@ public class CxxSquidConfigurationTest {
     List<String> defines = squidConfig.getDefines();
     assertThat(defines.size()).isEqualTo(34);
     ValidateDefaultAsserts(softly, defines);
-    softly.assertThat(defines.contains("_CPPUNWIND")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86 600")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
-    softly.assertThat(defines.contains("_MSC_VER 1910")).isTrue();
-    softly.assertThat(defines.contains("_MSC_FULL_VER 191024629")).isTrue();
-    softly.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
+    softly.assertThat(defines).contains("_CPPUNWIND");
+    softly.assertThat(defines).contains("_M_IX86 600");
+    softly.assertThat(defines).contains("_M_IX86_FP 2");
+    softly.assertThat(defines).contains("_MSC_VER 1910");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 191024629");
+    softly.assertThat(defines).contains("_ATL_VER 0x0E00");
     softly.assertAll();
   }
 
@@ -272,12 +272,12 @@ public class CxxSquidConfigurationTest {
     List<String> defines = squidConfig.getDefines();
     assertThat(defines.size()).isEqualTo(34);
     ValidateDefaultAsserts(softly, defines);
-    softly.assertThat(defines.contains("_CPPUNWIND")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86 600")).isTrue();
-    softly.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
-    softly.assertThat(defines.contains("_MSC_VER 1910")).isTrue();
-    softly.assertThat(defines.contains("_MSC_FULL_VER 191024629")).isTrue();
-    softly.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
+    softly.assertThat(defines).contains("_CPPUNWIND");
+    softly.assertThat(defines).contains("_M_IX86 600");
+    softly.assertThat(defines).contains("_M_IX86_FP 2");
+    softly.assertThat(defines).contains("_MSC_VER 1910");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 191024629");
+    softly.assertThat(defines).contains("_ATL_VER 0x0E00");
     softly.assertAll();
   }
 
@@ -290,16 +290,16 @@ public class CxxSquidConfigurationTest {
     squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isZero();
     List<String> defines = squidConfig.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 12);
     ValidateDefaultAsserts(softly, defines);
-    softly.assertThat(defines.contains("_M_IX86 600")).isTrue();
-    softly.assertThat(defines.contains("__cplusplus 199711L")).isTrue();
-    softly.assertThat(defines.contains("_MSC_VER 1910")).isTrue();
-    softly.assertThat(defines.contains("_MSC_FULL_VER 191024629")).isTrue();
+    softly.assertThat(defines).contains("_M_IX86 600");
+    softly.assertThat(defines).contains("__cplusplus 199711L");
+    softly.assertThat(defines).contains("_MSC_VER 1910");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 191024629");
     // check atldef.h for _ATL_VER
-    softly.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
+    softly.assertThat(defines).contains("_ATL_VER 0x0E00");
     softly.assertAll();
   }
 
@@ -312,16 +312,16 @@ public class CxxSquidConfigurationTest {
     squidConfig.setCompilationPropertiesWithBuildLog(files, VC_KEY, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(squidConfig.getIncludeDirectories().size()).isEqualTo(0);
+    softly.assertThat(squidConfig.getIncludeDirectories().size()).isZero();
     List<String> defines = squidConfig.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 14);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("_M_IX86 600")).isFalse();
-    softly.assertThat(defines.contains("__cplusplus 199711L")).isTrue();
-    softly.assertThat(defines.contains("_MSC_VER 1910")).isTrue();
-    softly.assertThat(defines.contains("_MSC_FULL_VER 191024629")).isTrue();
+    softly.assertThat(defines).contains("__cplusplus 199711L");
+    softly.assertThat(defines).contains("_MSC_VER 1910");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 191024629");
     // check atldef.h for _ATL_VER
-    softly.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
+    softly.assertThat(defines).contains("_ATL_VER 0x0E00");
     softly.assertAll();
   }
 
@@ -355,14 +355,14 @@ public class CxxSquidConfigurationTest {
   }
 
   private void ValidateDefaultAsserts(SoftAssertions softly, List<String> defines) {
-    softly.assertThat(defines.contains("_INTEGRAL_MAX_BITS 64")).isTrue();
-    softly.assertThat(defines.contains("_MSC_BUILD 1")).isTrue();
-    softly.assertThat(defines.contains("__COUNTER__ 0")).isTrue();
-    softly.assertThat(defines.contains("__DATE__ \"??? ?? ????\"")).isTrue();
-    softly.assertThat(defines.contains("__FILE__ \"file\"")).isTrue();
-    softly.assertThat(defines.contains("__LINE__ 1")).isTrue();
-    softly.assertThat(defines.contains("__TIME__ \"??:??:??\"")).isTrue();
-    softly.assertThat(defines.contains("__TIMESTAMP__ \"??? ?? ???? ??:??:??\"")).isTrue();
+    softly.assertThat(defines).contains("_INTEGRAL_MAX_BITS 64");
+    softly.assertThat(defines).contains("_MSC_BUILD 1");
+    softly.assertThat(defines).contains("__COUNTER__ 0");
+    softly.assertThat(defines).contains("__DATE__ \"??? ?? ????\"");
+    softly.assertThat(defines).contains("__FILE__ \"file\"");
+    softly.assertThat(defines).contains("__LINE__ 1");
+    softly.assertThat(defines).contains("__TIME__ \"??:??:??\"");
+    softly.assertThat(defines).contains("__TIMESTAMP__ \"??? ?? ???? ??:??:??\"");
     softly.assertAll();
   }
 

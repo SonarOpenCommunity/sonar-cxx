@@ -25,34 +25,35 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // mailto:info AT sonarsource DOT com
 import java.io.File;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Rule;
+import static org.junit.Assert.assertThrows;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.mock;
 
 public class VisualStudioTestResultsFileParserTest {
 
   private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/MSTest-reports/";
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void no_counters() {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("The mandatory <Counters> tag is missing in ");
-    thrown.expectMessage(new File(REPORT_PATH + "no_counters.trx").getAbsolutePath());
-    new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "no_counters.trx"),
-                                                   mock(UnitTestResults.class));
+    IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+                                              new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH
+                                                                                                        + "no_counters.trx"),
+                                                                                             mock(UnitTestResults.class));
+                                            });
+    assertThat(e).hasMessageContaining("The mandatory <Counters> tag is missing in "
+                                         + new File(REPORT_PATH + "no_counters.trx").getAbsolutePath());
   }
 
   @Test
   public void wrong_passed_number() {
-    thrown.expect(ParseErrorException.class);
-    thrown.expectMessage("Expected an integer instead of \"foo\" for the attribute \"passed\" in ");
-    thrown.expectMessage(new File(REPORT_PATH + "wrong_passed_number.trx").getAbsolutePath());
-    new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "wrong_passed_number.trx"), mock(
-                                                   UnitTestResults.class));
+    ParseErrorException e = assertThrows(ParseErrorException.class, () -> {
+                                         new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH
+                                                                                                   + "wrong_passed_number.trx"),
+                                                                                        mock(
+                                                                                          UnitTestResults.class));
+                                       });
+    assertThat(e).hasMessageContaining("Expected an integer instead of \"foo\" for the attribute \"passed\" in "
+                                         + new File(REPORT_PATH + "wrong_passed_number.trx").getAbsolutePath());
   }
 
   @Test
@@ -75,9 +76,9 @@ public class VisualStudioTestResultsFileParserTest {
 
     assertThat(results.tests()).isEqualTo(3);
     assertThat(results.passedPercentage()).isEqualTo(3 * 100.0 / 3);
-    assertThat(results.skipped()).isEqualTo(0);
-    assertThat(results.failures()).isEqualTo(0);
-    assertThat(results.errors()).isEqualTo(0);
+    assertThat(results.skipped()).isZero();
+    assertThat(results.failures()).isZero();
+    assertThat(results.errors()).isZero();
   }
 
 }

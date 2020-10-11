@@ -71,7 +71,7 @@ public class CxxSquidSensorTest {
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.NCLOC).value()).isEqualTo(54);
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(50);
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(7);
-    softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.CLASSES).value()).isEqualTo(0);
+    softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.CLASSES).value()).isZero();
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.COMPLEXITY).value()).isEqualTo(19);
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.COGNITIVE_COMPLEXITY).value()).isEqualTo(8);
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.COMMENT_LINES).value()).isEqualTo(15);
@@ -184,8 +184,8 @@ public class CxxSquidSensorTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(1);
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(0);
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(0);
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isZero();
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isZero();
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.CLASSES).value()).isEqualTo(1);
     softly.assertAll();
   }
@@ -203,9 +203,9 @@ public class CxxSquidSensorTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(9);
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(0);
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isZero();
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(9);
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.CLASSES).value()).isEqualTo(0);
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.CLASSES).value()).isZero();
     softly.assertAll();
 
   }
@@ -227,7 +227,7 @@ public class CxxSquidSensorTest {
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(1);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.STATEMENTS).value()).isEqualTo(2);
     softly.assertThat(context.measure(inputFile.key(), CoreMetrics.FUNCTIONS).value()).isEqualTo(1);
-    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.CLASSES).value()).isEqualTo(0);
+    softly.assertThat(context.measure(inputFile.key(), CoreMetrics.CLASSES).value()).isZero();
     softly.assertAll();
   }
 
