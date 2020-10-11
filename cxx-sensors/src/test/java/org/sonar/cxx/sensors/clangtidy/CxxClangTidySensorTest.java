@@ -20,6 +20,7 @@
 package org.sonar.cxx.sensors.clangtidy;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
@@ -28,6 +29,7 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
@@ -60,11 +62,60 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
+  public void shouldReportDefaultRuleId() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(
+      CxxClangTidySensor.REPORT_PATH_KEY,
+      "clang-tidy-reports/cpd.report-default-rule-id.txt"
+    );
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder
+      .create("ProjectKey", "sources/utils/code_chunks.cpp")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdasdfghtzsdfghjuio\nasda\n")
+      .build()
+    );
+
+    var sensor = new CxxClangTidySensor();
+    sensor.execute(context);
+
+    assertThat(context.allIssues()).hasSize(4);
+    var issuesList = new ArrayList<Issue>(context.allIssues());
+    assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("clang-diagnostic-error");
+    assertThat(issuesList.get(1).ruleKey().rule()).isEqualTo("clang-diagnostic-error");
+    assertThat(issuesList.get(2).ruleKey().rule()).isEqualTo("clang-diagnostic-warning");
+    assertThat(issuesList.get(3).ruleKey().rule()).isEqualTo("clang-diagnostic-unknown");
+  }
+
+  @Test
   public void shouldReportErrors() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
       "clang-tidy-reports/cpd.report-error.txt"
+    );
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder
+      .create("ProjectKey", "sources/utils/code_chunks.cpp")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdasdgghs\nasda\n")
+      .build()
+    );
+
+    var sensor = new CxxClangTidySensor();
+    sensor.execute(context);
+
+    assertThat(context.allIssues()).hasSize(1);
+  }
+
+  @Test
+  public void shouldReportFatalErrors() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(
+      CxxClangTidySensor.REPORT_PATH_KEY,
+      "clang-tidy-reports/cpd.report-fatal-error.txt"
     );
     context.setSettings(settings);
 

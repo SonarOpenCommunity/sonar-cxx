@@ -300,12 +300,12 @@ def create_template_rules(rules):
     rules.append(rule)
 
 def create_clang_default_rules(rules):
-    # defaults clang error (not associated with any activation switch)
+    # defaults clang error (not associated with any activation switch): error, fatal error
     rule_key = "clang-diagnostic-error"
     rule_name = "clang-diagnostic-error"
     rule_type = DIAG_CLASS["CLASS_ERROR"]["sonarqube_type"]
     rule_severity = SEVERITY["SEV_Remark"]["sonarqube_severity"] 
-    rule_description = "<p>Diagnostic text: compiler error, e.g header file not found</p>"
+    rule_description = "<p>Default compiler diagnostic for errors without an explicit check name. Compiler error, e.g header file not found.</p>"
 
     rule = et.Element('rule')
     et.SubElement(rule, 'key').text = rule_key
@@ -315,12 +315,12 @@ def create_clang_default_rules(rules):
     et.SubElement(rule, 'type').text = rule_type
     rules.append(rule)
   
-    # defaults clang warning (not associated with any activation switch)
+    # defaults clang warning (not associated with any activation switch): warning
     rule_key = "clang-diagnostic-warning"
     rule_name = "clang-diagnostic-warning"
     rule_type = DIAG_CLASS["CLASS_WARNING"]["sonarqube_type"]
     rule_severity = SEVERITY["SEV_Warning"]["sonarqube_severity"] 
-    rule_description = "<p>Diagnostic text: default compiler warnings</p>"
+    rule_description = "<p>Default compiler diagnostic for warnings without an explicit check name.</p>"
 
     rule = et.Element('rule')
     et.SubElement(rule, 'key').text = rule_key
@@ -330,6 +330,21 @@ def create_clang_default_rules(rules):
     et.SubElement(rule, 'type').text = rule_type
     rules.append(rule)
 
+    # defaults clang issue (not associated with any activation switch): all other levels
+    rule_key = "clang-diagnostic-unknown"
+    rule_name = "clang-diagnostic-unknown"
+    rule_type = DIAG_CLASS["CLASS_REMARK"]["sonarqube_type"]
+    rule_severity = SEVERITY["SEV_Remark"]["sonarqube_severity"] 
+    rule_description = "<p>(Unkown) compiler diagnostic without an explicit check name.</p>"
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = rule_key
+    et.SubElement(rule, 'name').text = rule_name
+    et.SubElement(rule, 'description').append(CDATA(rule_description))
+    et.SubElement(rule, 'severity').text = rule_severity
+    et.SubElement(rule, 'type').text = rule_type
+    rules.append(rule)
+    
 def collect_warnings(data, diag_group_id, warnings_in_group):
     diag_group = data[diag_group_id]
 
@@ -365,6 +380,7 @@ DIAG_CLASS = {"CLASS_EXTENSION": {"weight": 0, "sonarqube_type": "CODE_SMELL", "
               "CLASS_REMARK": {"weight": 0, "sonarqube_type": "CODE_SMELL", "printable": "remark"},
               "CLASS_WARNING": {"weight": 0, "sonarqube_type": "CODE_SMELL", "printable": "warning"},
               "CLASS_ERROR": {"weight": 1, "sonarqube_type": "BUG", "printable": "error"}
+              "CLASS_FATAL_ERROR": {"weight": 1, "sonarqube_type": "BUG", "printable": "fatal error"}              
               }
 
 # see Severity in JSON

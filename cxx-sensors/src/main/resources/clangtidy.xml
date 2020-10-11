@@ -25,7 +25,7 @@
   <key>clang-diagnostic-error</key>
   <name>clang-diagnostic-error</name>
   <description><![CDATA[
-      <p>Diagnostic text: compiler error, e.g header file not found</p>
+      <p>Default compiler diagnostic for errors without an explicit check name. Compiler error, e.g header file not found.</p>
       ]]></description>
   <severity>INFO</severity>
   <type>BUG</type>
@@ -34,9 +34,18 @@
   <key>clang-diagnostic-warning</key>
   <name>clang-diagnostic-warning</name>
   <description><![CDATA[
-      <p>Diagnostic text: default compiler warnings</p>
+      <p>Default compiler diagnostic for warnings without an explicit check name.</p>
       ]]></description>
   <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>clang-diagnostic-unknown</key>
+  <name>clang-diagnostic-unknown</name>
+  <description><![CDATA[
+      <p>(Unkown) compiler diagnostic without an explicit check name.</p>
+      ]]></description>
+  <severity>INFO</severity>
   <type>CODE_SMELL</type>
 </rule>
 <rule>
