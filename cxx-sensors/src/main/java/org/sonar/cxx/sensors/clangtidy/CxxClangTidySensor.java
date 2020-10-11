@@ -75,6 +75,31 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
     ));
   }
 
+  /**
+   * Extract the rule id from info
+   *
+   * @param info text (with rule id)
+   * @param defaultRuleId rule id to use if info has no or invalid rule id
+   * @return sting array: ruleId, info
+   */
+  protected static String[] splitRuleId(String info, String defaultRuleId) {
+    String ruleId = defaultRuleId;
+
+    if (info.endsWith("]")) { // [ruleId]
+      for (var i = info.length() - 2; i >= 0; i--) {
+        char c = info.charAt(i);
+        if (!(Character.isLetterOrDigit(c) || c == '-' || c == '.' || c == '_')) {
+          if (c == '[') {
+            ruleId = info.substring(i + 1, info.length() - 1);
+            info = info.substring(0, i - 1);
+          }
+          break;
+        }
+      }
+    }
+    return new String[]{ruleId, info};
+  }
+
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
@@ -98,13 +123,13 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         final Matcher matcher = PATTERN.matcher(nextLine);
         if (matcher.matches()) {
           // group: 1      2      3         4        5
-          //      <path>:<line>:<column>: <level>: <txt>
+          //      <path>:<line>:<column>: <level>: <info>
           MatchResult m = matcher.toMatchResult();
           String path = m.group(1); // relative paths
           String line = m.group(2);
           String column = m.group(3);
           String level = m.group(4); // error, warning, note, ...
-          String info = m.group(5); // info( [ruleId])?
+          String info = m.group(5); // info [ruleId]
 
           CxxReportIssue newIssue = null;
           Boolean saveIssue = true;
@@ -116,21 +141,21 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
                 currentIssue.addFlowElement(path, line, column, info);
               }
               break;
-            case "warning":
+            case "warning": {
+              String [] rule = splitRuleId(info, "clang-diagnostic-warning");
+              newIssue = new CxxReportIssue(rule[0], path, line, column, rule[1]);
+            }
+              break;
             case "error":
-              if (info.endsWith("]")) { // [ruleId]
-                for (var i = info.length() - 2; i >= 0; i--) {
-                  char c = info.charAt(i);
-                  if (!(Character.isLetterOrDigit(c) || c == '-' || c == '.' || c == '_')) {
-                    if (c == '[') {
-                      String ruleId = info.substring(i + 1, info.length() - 1);
-                      info = info.substring(0, i - 1);
-                      newIssue = new CxxReportIssue(ruleId, path, line, column, info);
-                    }
-                    break;
-                  }
-                }
-              }
+            case "fatal error": {
+              String [] rule = splitRuleId(info, "clang-diagnostic-error");
+              newIssue = new CxxReportIssue(rule[0], path, line, column, rule[1]);
+            }
+              break;
+            default: {
+              String [] rule = splitRuleId(info, "clang-diagnostic-unknown");
+              newIssue = new CxxReportIssue(rule[0], path, line, column, rule[1]);
+            }
               break;
           }
           if (saveIssue) {

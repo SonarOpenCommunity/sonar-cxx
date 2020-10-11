@@ -1,0 +1,15 @@
+sources\utils\code_chunks.cpp:2:10: fatal error: info without rule id
+    void foo(int bar);
+         ^
+
+sources\utils\code_chunks.cpp:2:11: error: info without rule id
+    void foo(int bar);
+          ^
+
+sources\utils\code_chunks.cpp:2:12: warning: info without rule id
+    void foo(int bar);
+           ^
+
+sources\utils\code_chunks.cpp:2:13: remark: info without rule id
+    void foo(int bar);
+            ^
