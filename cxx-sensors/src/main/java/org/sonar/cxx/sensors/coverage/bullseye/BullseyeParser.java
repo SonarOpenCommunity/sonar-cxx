@@ -36,7 +36,6 @@ import org.sonar.cxx.sensors.coverage.CoverageMeasures;
 import org.sonar.cxx.sensors.coverage.CoverageParser;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
-import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 
 /**
@@ -77,7 +76,7 @@ public class BullseyeParser implements CoverageParser {
    * {@inheritDoc}
    */
   @Override
-  public Map<String, CoverageMeasures> parse(File report) throws ReportException {
+  public Map<String, CoverageMeasures> parse(File report)  {
     LOG.debug("Processing 'Bullseye Coverage' format");
     var coverageData = new HashMap<String, CoverageMeasures>();
     try {
@@ -85,7 +84,7 @@ public class BullseyeParser implements CoverageParser {
         try {
           rootCursor.advance();
         } catch (com.ctc.wstx.exc.WstxEOFException e) {
-          throw new EmptyReportException("Coverage report " + report + " result is empty (parsed by " + this + ")");
+          throw new EmptyReportException("Coverage report " + report + " result is empty (parsed by " + this + ")", e);
         }
         collectCoverageLeafNodes(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("src"), coverageData);
       });

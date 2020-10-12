@@ -107,7 +107,9 @@ public class CxxSquidSensor implements ProjectSensor {
   public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
   private static final String USE_ANT_STYLE_WILDCARDS
-                                = " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.";
+                                = " Use <a href='"
+                                    + "https://ant.apache.org/manual/dirtasks.html"
+                                    + "'>Ant-style wildcards</a> if neccessary.";
 
   private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
 
@@ -174,9 +176,9 @@ public class CxxSquidSensor implements ProjectSensor {
         .defaultValue(Boolean.TRUE.toString())
         .name("Parse error recovery")
         .description("Defines mode for error handling of report files and parsing errors. `False' (strict) breaks after"
-                       + " an error or 'True' (tolerant=default) continues. See <a href='https://github.com/SonarOpenCommunity/"
-                     + "sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>"
-                       + "sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
+                       + " an error or 'True' (tolerant=default) continues. See <a href='"
+                       + "https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled"
+                     + "'>sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
         .category("CXX")
         .subCategory("(1) General")
         .onQualifiers(Qualifiers.PROJECT)
@@ -240,8 +242,9 @@ public class CxxSquidSensor implements ProjectSensor {
       PropertyDefinition.builder(CPD_IGNORE_LITERALS_KEY)
         .defaultValue(Boolean.FALSE.toString())
         .name("Ignores literal value differences when evaluating a duplicate block")
-        .description("Ignores literal (numbers, characters and strings) value differences when evaluating a duplicate "
-                       + "block. This means that e.g. foo=42; and foo=43; will be seen as equivalent. Default is 'False'.")
+        .description(
+          "Ignores literal (numbers, characters and strings) value differences when evaluating a duplicate "
+            + "block. This means that e.g. foo=42; and foo=43; will be seen as equivalent. Default is 'False'.")
         .category("CXX")
         .subCategory("(4) Duplications")
         .onQualifiers(Qualifiers.PROJECT)

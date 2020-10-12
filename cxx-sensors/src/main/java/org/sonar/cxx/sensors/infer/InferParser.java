@@ -29,7 +29,6 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
-import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -47,7 +46,7 @@ public class InferParser {
     this.sensor = sensor;
   }
 
-  public void parse(File report) throws ReportException {
+  public void parse(File report) {
     InferIssue[] inferIssues;
 
     try {

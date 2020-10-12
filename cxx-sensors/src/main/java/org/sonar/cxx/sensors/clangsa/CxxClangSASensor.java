@@ -37,7 +37,6 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
-import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -54,8 +53,9 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Clang Static Analyzer report(s)")
-        .description("Path to Clang Static Analyzer reports, relative to projects root. If neccessary, "
-                       + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
+        .description(
+          "Path to Clang Static Analyzer reports, relative to projects root. If neccessary, "
+          + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
         .category("External Analyzers")
         .subCategory("Clang Static Analyzer")
         .onQualifiers(Qualifiers.PROJECT)
@@ -81,7 +81,9 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   }
 
   private void addFlowToIssue(final NSDictionary diagnostic, final NSObject[] sourceFiles, final CxxReportIssue issue) {
-    NSObject[] path = ((NSArray) require(diagnostic.objectForKey("path"), "Missing mandatory entry 'path'")).getArray();
+    NSObject[] path = ((NSArray) require(
+      diagnostic.objectForKey("path"), "Missing mandatory entry 'path'")
+      ).getArray();
     for (var pathObject : path) {
       var pathElement = new PathElement(pathObject);
       if (pathElement.getKind() != PathElementKind.EVENT) {
@@ -89,12 +91,14 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
       }
 
       var event = new PathEvent(pathObject, sourceFiles);
-      issue.addFlowElement(event.getFilePath(), event.getLineNumber(), event.getColumnNumber(), event.getExtendedMessage());
+      issue.addFlowElement(
+        event.getFilePath(), event.getLineNumber(), event.getColumnNumber(), event.getExtendedMessage()
+      );
     }
   }
 
   @Override
-  protected void processReport(File report) throws ReportException {
+  protected void processReport(File report)  {
     LOG.debug("Processing 'Clang Static Analyzer' report '{}''", report.getName());
 
     try {
@@ -128,7 +132,10 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
         }
         String filePath = ((NSString) sourceFiles[fileIndex]).getContent();
 
-        var issue = new CxxReportIssue(checkerName, filePath, Integer.toString(line), Integer.toString(column), description);
+        var issue = new CxxReportIssue(
+          checkerName, filePath,
+          Integer.toString(line), Integer.toString(column),
+          description);
 
         addFlowToIssue(diag, sourceFiles, issue);
 

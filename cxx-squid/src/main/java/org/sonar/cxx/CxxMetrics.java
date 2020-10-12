@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
-import org.sonar.api.utils.SonarException;
 
 public final class CxxMetrics {
 
@@ -99,9 +98,10 @@ public final class CxxMetrics {
     .create();
 
   public static final String COMPLEX_FUNCTIONS_LOC_PERC_KEY = "CXX-perc_loc_in_complex_functions";
-  public static final Metric<Double> COMPLEX_FUNCTIONS_LOC_PERC = new Metric.Builder(COMPLEX_FUNCTIONS_LOC_PERC_KEY,
-                                                                                     "Complex Functions Lines of Code (%)",
-                                                                                     Metric.ValueType.PERCENT)
+  public static final Metric<Double> COMPLEX_FUNCTIONS_LOC_PERC = new Metric.Builder(
+    COMPLEX_FUNCTIONS_LOC_PERC_KEY,
+    "Complex Functions Lines of Code (%)",
+    Metric.ValueType.PERCENT)
     .setDescription("% of lines of code in functions with high cyclomatic complexity")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
@@ -168,7 +168,7 @@ public final class CxxMetrics {
           Metric metric = (Metric) field.get(null);
           METRICS.add(metric);
         } catch (IllegalAccessException e) {
-          throw new SonarException("can not introspect " + CxxMetrics.class + " to get metrics", e);
+          throw new IllegalStateException("can not introspect " + CxxMetrics.class + " to get metrics", e);
         }
       }
     }

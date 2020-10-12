@@ -58,7 +58,7 @@ public class SourceCodeProvider {
         }
 
       } catch (IOException | InvalidPathException e) {
-        LOG.error("cannot get absolute path of include root '{}'", includeRoot.toString());
+        LOG.error("cannot get absolute path of include root '{}'", includeRoot.toString(), e);
       }
     }
   }

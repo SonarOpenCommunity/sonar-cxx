@@ -25,12 +25,12 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
-import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -42,7 +42,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
   private final Set<String> notExistingGroupName = new HashSet<>();
 
   @Override
-  protected void processReport(File report) throws ReportException {
+  protected void processReport(File report) {
 
     final String reportCharset = getCharset();
     final String reportRegEx = getRegex();
@@ -72,7 +72,8 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
           String id = alignId(getSubSequence(matcher, "id"));
           String msg = alignMessage(getSubSequence(matcher, "message"));
           if (isInputValid(filename, line, column, id, msg)) {
-            LOG.debug("Scanner-matches file='{}' line='{}' column='{}' id='{}' msg={}", filename, line, column, id, msg);
+            LOG.debug("Scanner-matches file='{}' line='{}' column='{}' id='{}' msg={}",
+                      filename, line, column, id, msg);
             var issue = new CxxReportIssue(id, filename, line, column, msg);
             saveUniqueViolation(issue);
           } else {
@@ -136,7 +137,8 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
    * @param filename
    * @return
    */
-  protected String alignFilename(String filename) {
+  @CheckForNull
+  protected String alignFilename(@Nullable String filename) {
     return filename;
   }
 
@@ -146,7 +148,8 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
    * @param line
    * @return
    */
-  protected String alignLine(String line) {
+  @CheckForNull
+  protected String alignLine(@Nullable String line) {
     return line;
   }
 
@@ -156,7 +159,8 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
    * @param column
    * @return
    */
-  protected String alignColumn(String column) {
+  @CheckForNull
+  protected String alignColumn(@Nullable String column) {
     return column;
   }
 
@@ -166,7 +170,8 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
    * @param id
    * @return
    */
-  protected String alignId(String id) {
+  @CheckForNull
+  protected String alignId(@Nullable String id) {
     return id;
   }
 
@@ -183,6 +188,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
   /**
    * Returns the input subsequence captured by the given named-capturing group.
    */
+  @CheckForNull
   private String getSubSequence(Matcher matcher, String groupName) {
     try {
       if (!notExistingGroupName.contains(groupName)) {
@@ -190,6 +196,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
       }
     } catch (IllegalArgumentException e) {
       notExistingGroupName.add(groupName);
+      LOG.warn("named-capturing group '{}' is not used in regex.", groupName, e);
     }
     return null;
   }

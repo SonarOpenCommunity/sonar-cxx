@@ -35,10 +35,11 @@ public class CxxCoverageCoberturaSensor extends CoverageSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Cobertura XML coverage report(s)")
-        .description("List of paths to reports containing coverage data, relative to projects root."
-                       + " The values are separated by commas."
-                       + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
-                     + "here</a> for supported formats.")
+        .description(
+          "List of paths to reports containing coverage data, relative to projects root."
+            + " The values are separated by commas."
+            + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
+            + "here</a> for supported formats.")
         .category("CXX External Analyzers")
         .subCategory("Coverage")
         .onQualifiers(Qualifiers.PROJECT)

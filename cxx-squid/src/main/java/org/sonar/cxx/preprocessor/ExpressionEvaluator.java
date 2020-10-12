@@ -217,7 +217,8 @@ public final class ExpressionEvaluator {
       final String id = exprAst.getTokenValue();
       if (macroEvaluationStack.contains(id)) {
         LOG.debug("ExpressionEvaluator: self-referential macro '{}' detected;"
-                    + " assume true; evaluation stack = ['{} <- {}']", id, id, String.join(" <- ", macroEvaluationStack));
+                    + " assume true; evaluation stack = ['{} <- {}']",
+                  id, id, String.join(" <- ", macroEvaluationStack));
         return BigInteger.ONE;
       }
       final String value = preprocessor.valueOf(id);

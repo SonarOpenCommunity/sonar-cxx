@@ -31,7 +31,6 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
-import org.sonar.cxx.sensors.utils.ReportException;
 
 /**
  * Sensor for Cppcheck - A tool for static C/C++ code analysis
@@ -50,8 +49,9 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
         .name("Cppcheck XML report(s)")
         .description(
           "Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> XML report, relative to"
-            + " projects root. Both XML formats (version 1 and version 2) are supported. If neccessary, <a href='https://"
-          + "ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
+            + " projects root. Both XML formats (version 1 and version 2) are supported. "
+            + "If neccessary, <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> "
+            + "are at your service."
         )
         .category("CXX External Analyzers")
         .subCategory("Cppcheck")
@@ -71,7 +71,7 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(File report) throws ReportException {
+  protected void processReport(File report) {
     LOG.debug("Processing 'Cppcheck V2' report '{}'", report.getName());
 
     CppcheckParser parser = new CppcheckParser(this);
