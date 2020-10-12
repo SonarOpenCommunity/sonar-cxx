@@ -52,9 +52,10 @@ public class NoSonarCheck extends SquidCheck<Grammar> implements AstAndTokenVisi
 
         for (var commentLine : commentLines) {
           if (commentLine.contains("NOSONAR")) {
-            getContext().createLineViolation(this,
-                                             "Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?",
-                                             line);
+            getContext().createLineViolation(
+              this,
+              "Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?",
+              line);
           }
           line++;
         }

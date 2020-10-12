@@ -34,7 +34,6 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
-import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -64,8 +63,10 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
         .build(),
       PropertyDefinition.builder(RULES_KEY)
         .name("External rules")
-        .description("Rule sets for 'external' code analysers. Use one value per rule set. See <a href='https:"
-                       + "//github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>this page</a> for details.")
+        .description(
+          "Rule sets for 'external' code analysers. Use one value per rule set. See <a href='"
+            + "https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis"
+            + "'>this page</a> for details.")
         .type(PropertyType.TEXT)
         .multiValues(true)
         .category("CXX External Analyzers")
@@ -84,7 +85,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  public void processReport(File report) throws ReportException {
+  public void processReport(File report) {
     LOG.debug("Processing 'other' report '{}'", report.getName());
 
     try {

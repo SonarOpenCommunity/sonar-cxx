@@ -35,7 +35,6 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
-import org.sonar.cxx.sensors.utils.ReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -56,8 +55,9 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Clang-Tidy report(s)")
-        .description("Path to Clang-Tidy reports, relative to projects root. If neccessary, "
-                       + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
+        .description(
+          "Path to Clang-Tidy reports, relative to projects root. If neccessary, "
+          + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
         .category("CXX External Analyzers")
         .subCategory("Clang-Tidy")
         .onQualifiers(Qualifiers.PROJECT)
@@ -110,7 +110,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(File report) throws ReportException {
+  protected void processReport(File report)  {
     String reportCharset = context.config().get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF);
     LOG.debug("Processing 'Clang-Tidy' report '{}', CharSet= '{}'", report.getName(), reportCharset);
 

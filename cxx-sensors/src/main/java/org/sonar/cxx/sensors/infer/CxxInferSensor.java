@@ -27,7 +27,6 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
-import org.sonar.cxx.sensors.utils.ReportException;
 
 /**
  * Sensor for Infer - A static analyzer for Java, C, C++, and Objective-C
@@ -64,7 +63,7 @@ public class CxxInferSensor extends CxxIssuesReportSensor {
   }
 
   @Override
-  protected void processReport(File report) throws ReportException {
+  protected void processReport(File report) {
     LOG.debug("Processing 'Infer JSON' report '{}'", report.getName());
 
     InferParser parser = new InferParser(this);

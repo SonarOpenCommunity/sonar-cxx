@@ -116,8 +116,8 @@ public class WildcardPatternFileProvider {
     var fileTillFirstWildcardElement = new File(pathTillFirstWildcardElement);
 
     File absoluteFileTillFirstWildcardElement = fileTillFirstWildcardElement.isAbsolute()
-                                                  ? fileTillFirstWildcardElement : new File(baseDir,
-                                                                                            pathTillFirstWildcardElement);
+                                                  ? fileTillFirstWildcardElement
+                                                  : new File(baseDir, pathTillFirstWildcardElement);
 
     List<String> wildcardElements = elements.subList(elementsTillFirstWildcard.size(), elements.size());
     if (wildcardElements.isEmpty()) {

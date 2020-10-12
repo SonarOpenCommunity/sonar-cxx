@@ -183,7 +183,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     }
   }
 
-  protected abstract void processReport(File report) throws ReportException;
+  protected abstract void processReport(File report);
 
   protected abstract String getReportPathsKey();
 

@@ -70,7 +70,7 @@ public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharset
   public void visitFile(AstNode astNode) {
 
     // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-    try (var br = new BufferedReader(
+    try ( var br = new BufferedReader(
       new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
       String line;
       int nr = 0;
@@ -79,11 +79,13 @@ public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharset
         ++nr;
         if (line.contains("\t")) {
           if (createLineViolation) {
-            getContext().createLineViolation(this,
-                                             "Replace all tab characters in this line by sequences of white-spaces.", nr);
+            getContext().createLineViolation(
+              this,
+              "Replace all tab characters in this line by sequences of white-spaces.", nr);
           } else {
-            getContext().createFileViolation(this,
-                                             "Replace all tab characters in this file by sequences of white-spaces.");
+            getContext().createFileViolation(
+              this,
+              "Replace all tab characters in this file by sequences of white-spaces.");
             break;
           }
         }

@@ -33,8 +33,10 @@ import org.sonar.squidbridge.SquidAstVisitor;
 public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> {
 
   private static final String SYNTAX_ERROR_MSG
-                                = "Source code parser: {} syntax error(s) detected. Syntax errors could cause invalid software metric values."
-                                  + " Root cause are typically missing includes, missing macros or compiler specific extensions.";
+                                = "Source code parser: {} syntax error(s) detected. "
+                                    + "Syntax errors could cause invalid software metric values."
+                                    + " Root cause are typically missing includes, "
+                                    + "missing macros or compiler specific extensions.";
   private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);
   private static int errors = 0;
 

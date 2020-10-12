@@ -36,7 +36,8 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.vc.charset";
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
   public static final String DEFAULT_REGEX_DEF
-                               = "(.*>)?(?<file>.*)\\((?<line>\\d+)\\)\\x20:\\x20warning\\x20(?<id>C\\d+):(?<message>.*)";
+                               = "(.*>)?(?<file>.*)\\((?<line>\\d+)\\)\\x20:\\x20warning\\x20"
+                                   + "(?<id>C\\d+):(?<message>.*)";
 
   public static List<PropertyDefinition> properties() {
     String category = "CXX External Analyzers";
@@ -61,10 +62,12 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
         .build(),
       PropertyDefinition.builder(REPORT_REGEX_DEF)
         .name("VC Regular Expression")
-        .description("Regular expression to identify the four named groups of the compiler warning message:"
-                       + " &lt;file&gt;, &lt;line&gt;, &lt;column&gt;, &lt;id&gt;, &lt;message&gt;. Leave empty to use parser's default."
-                     + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
-                       + "this page</a> for details regarding the different regular expression that can be use per compiler.")
+        .description(
+          "Regular expression to identify the four named groups of the compiler warning message:"
+            + " &lt;file&gt;, &lt;line&gt;, &lt;column&gt;, &lt;id&gt;, &lt;message&gt;. "
+            + "Leave empty to use parser's default."
+            + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
+            + "this page</a> for details regarding the different regular expression that can be use per compiler.")
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)

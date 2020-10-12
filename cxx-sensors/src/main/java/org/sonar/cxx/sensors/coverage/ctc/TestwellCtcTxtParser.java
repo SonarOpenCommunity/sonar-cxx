@@ -40,7 +40,6 @@ import static org.sonar.cxx.sensors.coverage.ctc.TestwellCtcTxtResult.FILE_RESUL
 import static org.sonar.cxx.sensors.coverage.ctc.TestwellCtcTxtResult.LINE_RESULT;
 import static org.sonar.cxx.sensors.coverage.ctc.TestwellCtcTxtResult.SECTION_SEP;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
-import org.sonar.cxx.sensors.utils.ReportException;
 
 /**
  * {@inheritDoc}
@@ -59,7 +58,7 @@ public class TestwellCtcTxtParser implements CoverageParser {
    * {@inheritDoc}
    */
   @Override
-  public Map<String, CoverageMeasures> parse(File report) throws ReportException {
+  public Map<String, CoverageMeasures> parse(File report) {
     LOG.debug("Processing 'Testwell CTC++ Coverage' format");
     var coverageData = new HashMap<String, CoverageMeasures>();
     try ( var s = new Scanner(report).useDelimiter(SECTION_SEP)) {

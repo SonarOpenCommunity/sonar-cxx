@@ -68,13 +68,13 @@ public abstract class CoverageSensor extends CxxReportSensor {
       processReport(report);
       LOG.info("Processing successful");
     } catch (EmptyReportException e) {
-      LOG.warn(e.getMessage());
+      LOG.warn(e.getMessage(), e);
     } catch (ReportException e) {
       CxxUtils.validateRecovery(e.getMessage(), e, context.config());
     }
   }
 
-  protected void processReport(File report) throws ReportException {
+  protected void processReport(File report) {
     var coverageData = parser.parse(report);
     if (coverageData.isEmpty()) {
       throw new EmptyReportException("Coverage report " + report + " result is empty (parsed by " + parser + ")");

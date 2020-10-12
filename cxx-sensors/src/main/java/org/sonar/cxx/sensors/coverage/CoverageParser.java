@@ -38,6 +38,6 @@ public interface CoverageParser {
    *
    * @throws ReportException EmptyReportException or InvalidReportException
    */
-  Map<String, CoverageMeasures> parse(File report) throws ReportException;
+  Map<String, CoverageMeasures> parse(File report);
 
 }

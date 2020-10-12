@@ -60,8 +60,8 @@ public class CxxOtherRepository implements RulesDefinition {
       if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));
-        } catch (IllegalStateException ex) {
-          LOG.info("Cannot load rules XML '{}'", ex);
+        } catch (IllegalStateException e) {
+          LOG.info("Cannot load rules XML '{}'", e);
         }
       }
     }

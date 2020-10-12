@@ -23,6 +23,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -40,7 +42,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
    */
   public static final String DEFAULT_ID = "default";
   public static final String DEFAULT_REGEX_DEF
-                               = "(?<file>.*):(?<line>[0-9]+):[0-9]+:\\x20warning:\\x20(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
+                               = "(?<file>.*):(?<line>[0-9]+):[0-9]+:\\x20warning:\\x20"
+                                   + "(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
 
   public static List<PropertyDefinition> properties() {
     String subcateg = "Compiler";
@@ -65,10 +68,12 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
         .build(),
       PropertyDefinition.builder(REPORT_REGEX_DEF)
         .name("GCC Regular Expression")
-        .description("Regular expression to identify the four named groups of the compiler warning message:"
-                       + "  &lt;file&gt;,  &lt;line&gt;,  &lt;column&gt;,  &lt;id&gt;,  &lt;message&gt;. Leave empty to use parser's default."
-                     + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
-                       + "this page</a> for details regarding the different regular expression that can be use per compiler.")
+        .description(
+          "Regular expression to identify the four named groups of the compiler warning message:"
+            + "  &lt;file&gt;,  &lt;line&gt;,  &lt;column&gt;,  &lt;id&gt;,  &lt;message&gt;. "
+            + "Leave empty to use parser's default."
+            + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
+            + "this page</a> for details regarding the different regular expression that can be use per compiler.")
         .category(category)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
@@ -101,7 +106,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   }
 
   @Override
-  protected String alignId(String id) {
+  @CheckForNull
+  protected String alignId(@Nullable String id) {
     /* Some gcc warnings are not associated to any activation switch and don't have a matching id.
 	 * In these cases a default id is used.
      */

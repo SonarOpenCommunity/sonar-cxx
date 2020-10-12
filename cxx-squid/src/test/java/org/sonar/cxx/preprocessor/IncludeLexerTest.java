@@ -34,15 +34,19 @@ public class IncludeLexerTest {
 
   @Test
   public void proper_preprocessor_directives_are_created() {
-    assertThat(LEXER.lex("#include <iostream>").contains(hasToken("#include <iostream>", CxxTokenType.PREPROCESSOR)));
-    assertThat(LEXER.lex("#define lala").contains(hasToken("#define lala", CxxTokenType.PREPROCESSOR)));
-    assertThat(LEXER.lex("#ifdef lala").contains(hasToken("#ifdef lala", CxxTokenType.PREPROCESSOR)));
+    assertThat(hasToken("#include <iostream>", CxxTokenType.PREPROCESSOR)
+      .matches(LEXER.lex("#include <iostream>"))).isTrue();
+    assertThat(hasToken("#define lala", CxxTokenType.PREPROCESSOR)
+      .matches(LEXER.lex("#define lala"))).isTrue();
+    assertThat(hasToken("#ifdef lala", CxxTokenType.PREPROCESSOR)
+      .matches(LEXER.lex("#ifdef lala"))).isTrue();
   }
 
   @Test
   public void continued_lines_are_handled_correctly() {
     List<Token> tokens = LEXER.lex("#define\\\nname");
-    assertThat(tokens.contains(hasToken("#define name", CxxTokenType.PREPROCESSOR)));
+    assertThat(hasToken("#define name", CxxTokenType.PREPROCESSOR)
+      .matches(tokens)).isTrue();
     assertThat(tokens).hasSize(2);
   }
 
@@ -50,14 +54,16 @@ public class IncludeLexerTest {
   public void multiline_comment_with_Include_is_swallowed() {
     List<Token> tokens = LEXER.lex("/* This is a multiline comment\n   #include should be swallowed\n */");
     assertThat(tokens).hasSize(1);
-    assertThat(tokens.contains(hasToken("EOF", EOF)));
+    assertThat(hasToken("EOF", EOF)
+      .matches(tokens)).isTrue();
   }
 
   @Test
   public void singleline_comment_with_Include_is_swallowed() {
     List<Token> tokens = LEXER.lex("// #include should be swallowed\n");
     assertThat(tokens).hasSize(1);
-    assertThat(tokens.contains(hasToken("EOF", EOF)));
+    assertThat(hasToken("EOF", EOF)
+      .matches(tokens)).isTrue();
   }
 
   @Test
@@ -66,7 +72,8 @@ public class IncludeLexerTest {
     // generating any tokens
     List<Token> tokens = LEXER.lex("void foo();");
     assertThat(tokens).hasSize(1);
-    assertThat(tokens.contains(hasToken("EOF", EOF)));
+    assertThat(hasToken("EOF", EOF)
+      .matches(tokens)).isTrue();
   }
 
 }
