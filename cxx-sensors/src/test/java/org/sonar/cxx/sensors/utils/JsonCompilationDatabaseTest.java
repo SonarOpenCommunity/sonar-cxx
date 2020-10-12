@@ -43,9 +43,9 @@ public class JsonCompilationDatabaseTest {
 
     assertThat(cus).isNotNull();
     assertThat(cus.getDefines().containsKey("UNIT_DEFINE")).isFalse();
-    assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isTrue();
+    assertThat(cus.getDefines()).containsKey("GLOBAL_DEFINE");
     assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isFalse();
-    assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isTrue();
+    assertThat(cus.getIncludes()).contains(Paths.get("/usr/include"));
   }
 
   @Test
@@ -61,9 +61,9 @@ public class JsonCompilationDatabaseTest {
     CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
-    assertThat(cus.getDefines().containsKey("UNIT_DEFINE")).isTrue();
+    assertThat(cus.getDefines()).containsKey("UNIT_DEFINE");
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
-    assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
+    assertThat(cus.getIncludes()).contains(Paths.get("/usr/local/include"));
     assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isFalse();
   }
 
@@ -82,14 +82,14 @@ public class JsonCompilationDatabaseTest {
     CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
-    assertThat(cus.getDefines().containsKey("COMMAND_DEFINE")).isTrue();
-    assertThat(cus.getDefines().containsKey("COMMAND_SPACE_DEFINE")).isTrue();
-    assertThat(cus.getDefines().get("COMMAND_SPACE_DEFINE")).isEqualTo("\" foo 'bar' zoo \"");
-    assertThat(cus.getDefines().containsKey("SIMPLE")).isTrue();
-    assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("1");
+    assertThat(cus.getDefines()).containsKey("COMMAND_DEFINE");
+    assertThat(cus.getDefines()).containsKey("COMMAND_SPACE_DEFINE");
+    assertThat(cus.getDefines()).containsEntry("COMMAND_SPACE_DEFINE", "\" foo 'bar' zoo \"");
+    assertThat(cus.getDefines()).containsKey("SIMPLE");
+    assertThat(cus.getDefines()).containsEntry("SIMPLE", "1");
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
-    assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("/another/include/dir"))).isTrue();
+    assertThat(cus.getIncludes()).contains(Paths.get("/usr/local/include"));
+    assertThat(cus.getIncludes()).contains(Paths.get("/another/include/dir"));
     assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isFalse();
   }
 
@@ -109,21 +109,21 @@ public class JsonCompilationDatabaseTest {
 
     assertThat(cus).isNotNull();
 
-    assertThat(cus.getDefines().get("MACRO1")).isEqualTo("1");
-    assertThat(cus.getDefines().get("MACRO2")).isEqualTo("2");
-    assertThat(cus.getDefines().get("MACRO3")).isEqualTo("1");
-    assertThat(cus.getDefines().get("MACRO4")).isEqualTo("4");
-    assertThat(cus.getDefines().get("MACRO5")).isEqualTo("\" a 'b' c \"");
-    assertThat(cus.getDefines().get("MACRO6")).isEqualTo("\"With spaces, quotes and \\-es.\"");
+    assertThat(cus.getDefines()).containsEntry("MACRO1", "1");
+    assertThat(cus.getDefines()).containsEntry("MACRO2", "2");
+    assertThat(cus.getDefines()).containsEntry("MACRO3", "1");
+    assertThat(cus.getDefines()).containsEntry("MACRO4", "4");
+    assertThat(cus.getDefines()).containsEntry("MACRO5", "\" a 'b' c \"");
+    assertThat(cus.getDefines()).containsEntry("MACRO6", "\"With spaces, quotes and \\-es.\"");
 
-    assertThat(cus.getIncludes().contains(Paths.get("/aaa/bbb"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("/ccc/ddd"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("/eee/fff"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("/ggg/hhh"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("/iii/jjj"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("/kkk/lll"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("/mmm/nnn"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("/ooo/ppp"))).isTrue();
+    assertThat(cus.getIncludes()).contains(Paths.get("/aaa/bbb"));
+    assertThat(cus.getIncludes()).contains(Paths.get("/ccc/ddd"));
+    assertThat(cus.getIncludes()).contains(Paths.get("/eee/fff"));
+    assertThat(cus.getIncludes()).contains(Paths.get("/ggg/hhh"));
+    assertThat(cus.getIncludes()).contains(Paths.get("/iii/jjj"));
+    assertThat(cus.getIncludes()).contains(Paths.get("/kkk/lll"));
+    assertThat(cus.getIncludes()).contains(Paths.get("/mmm/nnn"));
+    assertThat(cus.getIncludes()).contains(Paths.get("/ooo/ppp"));
   }
 
   @Test
@@ -141,14 +141,14 @@ public class JsonCompilationDatabaseTest {
     CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
-    assertThat(cus.getDefines().containsKey("ARG_DEFINE")).isTrue();
-    assertThat(cus.getDefines().containsKey("ARG_SPACE_DEFINE")).isTrue();
-    assertThat(cus.getDefines().get("ARG_SPACE_DEFINE")).isEqualTo("\" foo 'bar' zoo \"");
-    assertThat(cus.getDefines().containsKey("SIMPLE")).isTrue();
-    assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("1");
+    assertThat(cus.getDefines()).containsKey("ARG_DEFINE");
+    assertThat(cus.getDefines()).containsKey("ARG_SPACE_DEFINE");
+    assertThat(cus.getDefines()).containsEntry("ARG_SPACE_DEFINE", "\" foo 'bar' zoo \"");
+    assertThat(cus.getDefines()).containsKey("SIMPLE");
+    assertThat(cus.getDefines()).containsEntry("SIMPLE", "1");
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
-    assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("/another/include/dir"))).isTrue();
+    assertThat(cus.getIncludes()).contains(Paths.get("/usr/local/include"));
+    assertThat(cus.getIncludes()).contains(Paths.get("/another/include/dir"));
     assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isFalse();
   }
 
@@ -167,9 +167,9 @@ public class JsonCompilationDatabaseTest {
     CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
-    assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("src/another/include/dir"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("parent/include/dir"))).isTrue();
+    assertThat(cus.getIncludes()).contains(Paths.get("/usr/local/include"));
+    assertThat(cus.getIncludes()).contains(Paths.get("src/another/include/dir"));
+    assertThat(cus.getIncludes()).contains(Paths.get("parent/include/dir"));
     assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isFalse();
   }
 
@@ -188,14 +188,14 @@ public class JsonCompilationDatabaseTest {
     CxxCompilationUnitSettings cus = squidConfig.getCompilationUnitSettings(filename);
 
     assertThat(cus).isNotNull();
-    assertThat(cus.getDefines().containsKey("ARG_DEFINE")).isTrue();
-    assertThat(cus.getDefines().containsKey("ARG_SPACE_DEFINE")).isTrue();
-    assertThat(cus.getDefines().get("ARG_SPACE_DEFINE")).isEqualTo("\" foo 'bar' zoo \"");
-    assertThat(cus.getDefines().containsKey("SIMPLE")).isTrue();
-    assertThat(cus.getDefines().get("SIMPLE")).isEqualTo("1");
+    assertThat(cus.getDefines()).containsKey("ARG_DEFINE");
+    assertThat(cus.getDefines()).containsKey("ARG_SPACE_DEFINE");
+    assertThat(cus.getDefines()).containsEntry("ARG_SPACE_DEFINE", "\" foo 'bar' zoo \"");
+    assertThat(cus.getDefines()).containsKey("SIMPLE");
+    assertThat(cus.getDefines()).containsEntry("SIMPLE", "1");
     assertThat(cus.getDefines().containsKey("GLOBAL_DEFINE")).isFalse();
-    assertThat(cus.getIncludes().contains(Paths.get("/usr/local/include"))).isTrue();
-    assertThat(cus.getIncludes().contains(Paths.get("/another/include/dir"))).isTrue();
+    assertThat(cus.getIncludes()).contains(Paths.get("/usr/local/include"));
+    assertThat(cus.getIncludes()).contains(Paths.get("/another/include/dir"));
     assertThat(cus.getIncludes().contains(Paths.get("/usr/include"))).isFalse();
   }
 

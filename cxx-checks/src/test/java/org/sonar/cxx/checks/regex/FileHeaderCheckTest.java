@@ -21,9 +21,9 @@ package org.sonar.cxx.checks.regex;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import org.junit.Rule;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -31,9 +31,6 @@ import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class FileHeaderCheckTest {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
@@ -177,13 +174,12 @@ public class FileHeaderCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void should_fail_with_bad_regular_expression() {
-    thrown.expect(IllegalStateException.class);
-    thrown.expectMessage("Unable to compile the regular expression: \"*\"");
-
     var check = new FileHeaderCheck();
     check.headerFormat = "*";
     check.isRegularExpression = true;
-    check.init();
+
+    IllegalStateException e = assertThrows(IllegalStateException.class, check::init);
+    assertThat(e).hasMessage("Unable to compile the regular expression: \"*\"");
   }
 
 }

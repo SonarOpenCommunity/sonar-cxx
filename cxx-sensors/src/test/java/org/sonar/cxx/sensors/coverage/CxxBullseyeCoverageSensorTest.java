@@ -81,7 +81,7 @@ public class CxxBullseyeCoverageSensorTest {
       var zeroHitLines = new int[]{5, 10, 15, 17, 28, 32, 35, 40, 41, 44};
       for (var line : zeroHitLines) {
         LOG.debug("Check zero line coverage: {}", line);
-        assertThat(context.lineHits("ProjectKey:source_1.cpp", line)).isEqualTo(0);
+        assertThat(context.lineHits("ProjectKey:source_1.cpp", line)).isZero();
       }
 
       var oneHitlinesA = new int[]{7, 12, 17, 30};
@@ -219,9 +219,9 @@ public class CxxBullseyeCoverageSensorTest {
       assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 495)).isEqualTo(1);
 
       LOG.debug("Switch-label probe");
-      assertThat(context.lineHits("ProjectKey:covfile/import/cereal/archives/json.hpp", 474)).isEqualTo(0);
+      assertThat(context.lineHits("ProjectKey:covfile/import/cereal/archives/json.hpp", 474)).isZero();
       assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 474)).isEqualTo(1);
-      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 474)).isEqualTo(0);
+      assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 474)).isZero();
       assertThat(context.lineHits("ProjectKey:covfile/import/cereal/archives/json.hpp", 475)).isEqualTo(1);
       assertThat(context.conditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 475)).isEqualTo(1);
       assertThat(context.coveredConditions("ProjectKey:covfile/import/cereal/archives/json.hpp", 475)).isEqualTo(1);

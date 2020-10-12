@@ -103,7 +103,7 @@ public class CxxOtherSensorTest {
     sensor = new CxxOtherSensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(0);
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test
@@ -115,7 +115,7 @@ public class CxxOtherSensorTest {
     sensor = new CxxOtherSensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(0);
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test(expected = IllegalStateException.class)

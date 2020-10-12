@@ -89,7 +89,7 @@ public class CxxCppCheckSensorTest {
     var sensor = new CxxCppCheckSensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(0);
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test
@@ -101,7 +101,7 @@ public class CxxCppCheckSensorTest {
     var sensor = new CxxCppCheckSensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(0);
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test(expected = IllegalStateException.class)

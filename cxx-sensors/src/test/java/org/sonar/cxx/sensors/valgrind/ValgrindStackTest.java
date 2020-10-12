@@ -73,8 +73,8 @@ public class ValgrindStackTest {
 
   @Test
   public void stackHashWorksAsExpected() {
-    assertThat(stack.hashCode() == equalStack.hashCode()).isTrue();
-    assertThat(stack.hashCode() != otherStack.hashCode()).isTrue();
+    assertThat(stack.hashCode()).isEqualTo(equalStack.hashCode());
+    assertThat(stack.hashCode()).isNotEqualTo(otherStack.hashCode());
   }
 
   @Test

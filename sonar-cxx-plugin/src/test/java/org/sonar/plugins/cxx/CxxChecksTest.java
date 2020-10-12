@@ -95,7 +95,7 @@ public class CxxChecksTest {
   public void shouldWorkWithoutCustomChecks() {
     CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
     checks.addCustomChecks(null);
-    assertThat(checks.all()).hasSize(0);
+    assertThat(checks.all()).isEmpty();
   }
 
   @SuppressWarnings("rawtypes")

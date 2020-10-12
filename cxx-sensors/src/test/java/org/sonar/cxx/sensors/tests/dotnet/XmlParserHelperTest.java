@@ -26,25 +26,23 @@ package org.sonar.cxx.sensors.tests.dotnet;
 import java.io.File;
 import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Rule;
+import static org.junit.Assert.assertThrows;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class XmlParserHelperTest {
 
   private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/MSTest-reports/";
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void invalid_prolog() throws IOException {
-    thrown.expectMessage("Error while parsing the XML file: ");
-    thrown.expectMessage("invalid_prolog.txt");
-
-    try (var helper = new XmlParserHelper(new File(REPORT_PATH + "invalid_prolog.txt"))) {
-      helper.nextStartTag();
-    }
+    IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
+                                           try ( var helper = new XmlParserHelper(new File(REPORT_PATH
+                                                                                         + "invalid_prolog.txt"))) {
+                                             helper.nextStartTag();
+                                           }
+                                         });
+    assertThat(e).hasMessageContaining("Error while parsing the XML file: "
+                                         + new File(REPORT_PATH + "invalid_prolog.txt").getAbsolutePath());
   }
 
   @Test
@@ -71,15 +69,11 @@ public class XmlParserHelperTest {
     assertThat(xml.getDoubleAttribute("myCommaDouble")).isEqualTo(1.234);
     assertThat(xml.getDoubleAttribute("nonExisting")).isNull();
 
-    thrown.expectMessage("valid.xml");
-    thrown.expectMessage("Expected an double instead of \"hello\" for the attribute \"myString\"");
-    xml.getDoubleAttribute("myString");
-    try {
-      xml.close();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    ParseErrorException e = assertThrows(ParseErrorException.class, () -> {
+                                         xml.getDoubleAttribute("myString");
+                                       });
+    assertThat(e).hasMessageContaining("Expected an double instead of \"hello\" for the attribute \"myString\" in "
+                                         + new File(REPORT_PATH + "valid.xml").getAbsolutePath());
   }
 
 }

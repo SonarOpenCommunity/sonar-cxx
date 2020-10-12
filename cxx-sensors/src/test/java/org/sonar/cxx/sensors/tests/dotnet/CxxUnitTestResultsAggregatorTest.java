@@ -28,9 +28,7 @@ import static java.util.Arrays.asList;
 import java.util.Collections;
 import java.util.HashSet;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -39,9 +37,6 @@ import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 
 public class CxxUnitTestResultsAggregatorTest {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private final String key1 = UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY;
   private final String key2 = UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY;

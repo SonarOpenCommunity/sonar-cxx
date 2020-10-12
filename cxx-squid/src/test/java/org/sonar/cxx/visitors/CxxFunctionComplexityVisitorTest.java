@@ -54,8 +54,8 @@ public class CxxFunctionComplexityVisitorTest {
     SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile());
 
     var softly = new SoftAssertions();
-    softly.assertThat(file.getInt(CxxMetric.COMPLEX_FUNCTIONS)).isEqualTo(0);
-    softly.assertThat(file.getInt(CxxMetric.COMPLEX_FUNCTIONS_LOC)).isEqualTo(0);
+    softly.assertThat(file.getInt(CxxMetric.COMPLEX_FUNCTIONS)).isZero();
+    softly.assertThat(file.getInt(CxxMetric.COMPLEX_FUNCTIONS_LOC)).isZero();
     softly.assertAll();
   }
 

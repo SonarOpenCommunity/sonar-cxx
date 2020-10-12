@@ -162,7 +162,7 @@ public class CxxReportSensor_getReports_Test {
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
-    assertThat(reports.size()).isEqualTo(0);
+    assertThat(reports.size()).isZero();
   }
 
 }

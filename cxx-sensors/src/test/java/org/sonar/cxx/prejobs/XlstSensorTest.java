@@ -93,7 +93,7 @@ public class XlstSensorTest {
     logTester.clear();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(0);
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test

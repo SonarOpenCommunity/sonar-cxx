@@ -24,7 +24,7 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
 import java.util.List;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.cxx.api.CppKeyword;
 import org.sonar.cxx.api.CppPunctuator;
@@ -35,45 +35,46 @@ public class CppLexerTest {
 
   @Test
   public void cpp_keywords() {
-    assertThat(LEXER.lex("#define"), hasToken("#define", CppKeyword.DEFINE));
-    assertThat(LEXER.lex("#include"), hasToken("#include", CppKeyword.INCLUDE));
+    assertThat(LEXER.lex("#define").contains(hasToken("#define", CppKeyword.DEFINE)));
+    assertThat(LEXER.lex("#define").contains(hasToken("#define", CppKeyword.DEFINE)));
+    assertThat(LEXER.lex("#include").contains(hasToken("#include", CppKeyword.INCLUDE)));
   }
 
   @Test
   public void cpp_keywords_with_whitespaces() {
-    assertThat(LEXER.lex("#  define"), hasToken("#define", CppKeyword.DEFINE));
-    assertThat(LEXER.lex("#\tinclude"), hasToken("#include", CppKeyword.INCLUDE));
+    assertThat(LEXER.lex("#  define").contains(hasToken("#define", CppKeyword.DEFINE)));
+    assertThat(LEXER.lex("#\tinclude").contains(hasToken("#include", CppKeyword.INCLUDE)));
   }
 
   @Test
   public void cpp_keywords_indented() {
-    assertThat(LEXER.lex(" #define"), hasToken("#define", CppKeyword.DEFINE));
-    assertThat(LEXER.lex("\t#define"), hasToken("#define", CppKeyword.DEFINE));
+    assertThat(LEXER.lex(" #define").contains(hasToken("#define", CppKeyword.DEFINE)));
+    assertThat(LEXER.lex("\t#define").contains(hasToken("#define", CppKeyword.DEFINE)));
   }
 
   @Test
   public void cpp_identifiers() {
-    assertThat(LEXER.lex("lala"), hasToken("lala", IDENTIFIER));
+    assertThat(LEXER.lex("lala").contains(hasToken("lala", IDENTIFIER)));
   }
 
   @Test
   public void cpp_operators() {
-    assertThat(LEXER.lex("#"), hasToken("#", CppPunctuator.HASH));
-    assertThat(LEXER.lex("##"), hasToken("##", CppPunctuator.HASHHASH));
+    assertThat(LEXER.lex("#").contains(hasToken("#", CppPunctuator.HASH)));
+    assertThat(LEXER.lex("##").contains(hasToken("##", CppPunctuator.HASHHASH)));
   }
 
   @Test
   public void hashhash_followed_by_word() {
     List<Token> tokens = LEXER.lex("##a");
-    assertThat(tokens, hasToken("##", CppPunctuator.HASHHASH));
-    assertThat(tokens, hasToken("a", IDENTIFIER));
+    assertThat(tokens.contains(hasToken("##", CppPunctuator.HASHHASH)));
+    assertThat(tokens.contains(hasToken("a", IDENTIFIER)));
   }
 
   @Test
   public void hash_followed_by_word() {
     List<Token> tokens = LEXER.lex("#a");
-    assertThat(tokens, hasToken("#", CppPunctuator.HASH));
-    assertThat(tokens, hasToken("a", IDENTIFIER));
+    assertThat(tokens.contains(hasToken("#", CppPunctuator.HASH)));
+    assertThat(tokens.contains(hasToken("a", IDENTIFIER)));
   }
 
 }

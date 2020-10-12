@@ -61,8 +61,8 @@ public class CxxPublicApiVisitorTest {
 
     SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig);
 
-    assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(0);
-    assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
+    assertThat(file.getInt(CxxMetric.PUBLIC_API)).isZero();
+    assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isZero();
   }
 
   @Test

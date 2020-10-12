@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.infer;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,8 +30,6 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class CxxInferSensorTest {
 
@@ -97,7 +96,7 @@ public class CxxInferSensorTest {
     var sensor = new CxxInferSensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(0);
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test(expected = IllegalStateException.class)

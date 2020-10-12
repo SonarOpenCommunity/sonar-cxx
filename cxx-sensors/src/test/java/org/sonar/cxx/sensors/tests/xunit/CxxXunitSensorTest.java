@@ -51,7 +51,7 @@ public class CxxXunitSensorTest {
     var sensor = new CxxXunitSensor();
     sensor.execute(context);
 
-    assertThat(context.measures(context.project().key())).hasSize(0);
+    assertThat(context.measures(context.project().key())).isEmpty();
   }
 
   @Test

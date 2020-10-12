@@ -91,7 +91,7 @@ public class CxxMSCoverageSensorTest {
     var oneHitlinesA = new int[]{4, 5, 6, 8, 13, 15, 16, 25};
     var zeroHitlinesA = new int[]{9, 10, 22, 23};
     for (var zeroHitline : zeroHitlinesA) {
-      assertThat(context.lineHits("ProjectKey:project2/source1.cpp", zeroHitline)).isEqualTo(0);
+      assertThat(context.lineHits("ProjectKey:project2/source1.cpp", zeroHitline)).isZero();
     }
     for (var oneHitline : oneHitlinesA) {
       assertThat(context.lineHits("ProjectKey:project2/source1.cpp", oneHitline)).isEqualTo(1);
@@ -100,7 +100,7 @@ public class CxxMSCoverageSensorTest {
     var oneHitlinesB = new int[]{4, 5, 6, 8, 9, 10, 13, 21, 25};
     var zeroHitlinesB = new int[]{15, 16, 22, 23};
     for (var zeroHitline : zeroHitlinesB) {
-      assertThat(context.lineHits("ProjectKey:project2/source2.cpp", zeroHitline)).isEqualTo(0);
+      assertThat(context.lineHits("ProjectKey:project2/source2.cpp", zeroHitline)).isZero();
     }
     for (var oneHitline : oneHitlinesB) {
       assertThat(context.lineHits("ProjectKey:project2/source2.cpp", oneHitline)).isEqualTo(1);

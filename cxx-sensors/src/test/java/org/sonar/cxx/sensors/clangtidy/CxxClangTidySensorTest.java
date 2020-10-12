@@ -58,7 +58,7 @@ public class CxxClangTidySensorTest {
     var sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(0);
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test
@@ -221,7 +221,7 @@ public class CxxClangTidySensorTest {
     var sensor = new CxxClangTidySensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(0);
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test
