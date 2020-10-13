@@ -56,7 +56,7 @@ script:
   - mvn install -B -e -V -DskipTests=true
   - mvn test -B -e -V
   - bash cxx-sensors/src/tools/check_rules.sh
-  - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-4.2.0.1873/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture --tags=$SONARAPI
+  - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-4.5.0.2216/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture --tags=$SONARAPI
 
 after_failure:
   - cat $SONARHOME/logs/sonar.log
