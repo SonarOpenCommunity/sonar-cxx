@@ -62,7 +62,7 @@ install:
         $env:VCVARS_PLATFORM="amd64"
         $env:LANG_PLATFORM="-x64"
       }
-  - cmd: SET PATH=C:\maven\apache-maven-3.6.3\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-4.2.0.1873\bin;%PATH%
+  - cmd: SET PATH=C:\maven\apache-maven-3.6.3\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-4.5.0.2216\bin;%PATH%
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.6.3
   - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.6.3
   - cmd: SET SONARHOME=C:\sonarqube\sonarqube-7.9.4
