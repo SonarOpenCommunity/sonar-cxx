@@ -215,7 +215,7 @@ public class CxxSquidSensorTest {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/force-include-project");
     SensorContextTester context = SensorContextTester.create(baseDir);
     settings.setProperty(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY, "include");
-    settings.setProperty(CxxSquidSensor.FORCE_INCLUDE_FILES_KEY, "force1.hh,subfolder/force2.hh");
+    settings.setProperty(CxxSquidSensor.FORCE_INCLUDES_KEY, "force1.hh,subfolder/force2.hh");
     context.setSettings(settings);
 
     DefaultInputFile inputFile = TestUtils.buildInputFile(baseDir, "src/src1.cc");

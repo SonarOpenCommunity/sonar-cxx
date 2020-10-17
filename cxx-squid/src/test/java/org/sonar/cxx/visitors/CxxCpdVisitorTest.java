@@ -27,8 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.utils.TestUtils;
 import org.sonar.squidbridge.api.SourceFile;
 
@@ -41,8 +41,10 @@ public class CxxCpdVisitorTest {
     File baseDir = TestUtils.loadResource("/visitors");
     var file = new File(baseDir, "cpd.cc");
     var squidConfig = new CxxSquidConfiguration();
-    squidConfig.setCpdIgnoreIdentifier(true);
-    squidConfig.setCpdIgnoreLiteral(true);
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.CPD_IGNORE_LITERALS, "true");
+    squidConfig
+      .add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.CPD_IGNORE_IDENTIFIERS, "true");
+
     var cpdVisitor = new CxxCpdVisitor(squidConfig);
     sourceFile = CxxAstScanner.scanSingleFile(file, cpdVisitor);
   }

@@ -25,8 +25,8 @@ import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxFunctionSizeVisitorTest {
@@ -35,8 +35,8 @@ public class CxxFunctionSizeVisitorTest {
   public void testPublishMeasuresForFile() throws IOException {
 
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
-    squidConfig.setFunctionSizeThreshold(5);
-
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.FUNCTION_SIZE_THRESHOLD,
+                    "5");
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/FunctionComplexity.cc",
                                                                    ".", "");
     SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig);

@@ -36,8 +36,8 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.squidbridge.api.SourceFile;
 
 public class CxxPublicApiVisitorTest {
@@ -57,7 +57,8 @@ public class CxxPublicApiVisitorTest {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".",
                                                                    "");
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
-    squidConfig.setPublicApiFileSuffixes(new String[]{".hpp"});
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.API_FILE_SUFFIXES,
+                    new String[]{".hpp"});
 
     SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig);
 
@@ -206,7 +207,8 @@ public class CxxPublicApiVisitorTest {
     throws UnsupportedEncodingException, IOException {
 
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
-    squidConfig.setPublicApiFileSuffixes(new String[]{getFileExtension(fileName)});
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.API_FILE_SUFFIXES,
+                    new String[]{getFileExtension(fileName)});
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
     SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig);

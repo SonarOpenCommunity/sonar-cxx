@@ -17,14 +17,10 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx;
+package org.sonar.cxx.config;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -37,11 +33,9 @@ import org.sonar.api.internal.apachecommons.lang.SystemUtils;
  *
  * @author rudolfgrauberger
  */
-public class CxxVCppBuildLogParserTest {
+public class MsBuildTest {
 
-  public static final String OVERALLINCLUDEKEY = "CxxOverallInclude";
-  public static final String OVERALLDEFINEKEY = "CxxOverallDefine";
-  public static final String REFERENCE_DETAILED_LOG = "src/test/resources/logfile/msbuild-detailed-en.txt";
+  public static final String REFERENCE_DETAILED_LOG = "src/test/resources/msbuild/msbuild-detailed-en.txt";
   public static final String UNIQUE_FILE = "C:\\Development\\Source\\Cpp\\Dummy\\src\\main.cpp";
   private static final String VC_CHARSET = "UTF8";
 
@@ -70,7 +64,7 @@ public class CxxVCppBuildLogParserTest {
   @Test
   public void relativeIncludesVS2019ReferenceLog() {
 
-    String REFERENCE_LOG = "src/test/resources/logfile/msbuild-azure-devops-en.txt";
+    String REFERENCE_LOG = "src/test/resources/msbuild/msbuild-azure-devops-en.txt";
     List<String> includes = getIncludesForUniqueFile(REFERENCE_LOG);
 
     var softly = new SoftAssertions();
@@ -84,7 +78,7 @@ public class CxxVCppBuildLogParserTest {
   public void relativeIncludesFromGermanLog() {
 
     List<String> refIncludes = getIncludesForReferenceLogFile();
-    List<String> includes = getIncludesForUniqueFile("src/test/resources/logfile/msbuild-detailed-de.txt");
+    List<String> includes = getIncludesForUniqueFile("src/test/resources/msbuild/msbuild-detailed-de.txt");
 
     var softly = new SoftAssertions();
 
@@ -96,7 +90,7 @@ public class CxxVCppBuildLogParserTest {
   public void relativeIncludesFromFrenchLog() {
 
     List<String> refIncludes = getIncludesForReferenceLogFile();
-    List<String> includes = getIncludesForUniqueFile("src/test/resources/logfile/msbuild-detailed-fr.txt");
+    List<String> includes = getIncludesForUniqueFile("src/test/resources/msbuild/msbuild-detailed-fr.txt");
 
     var softly = new SoftAssertions();
 
@@ -109,17 +103,13 @@ public class CxxVCppBuildLogParserTest {
   }
 
   private List<String> getIncludesForUniqueFile(String log) {
-    var uniqueIncludes = new HashMap<String, List<String>>();
-    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<>());
-    var uniqueDefines = new HashMap<String, Set<String>>();
-    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<>());
-
+    var squidConfig = new CxxSquidConfiguration();
     var logFile = new File(log);
 
-    var parser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
-    parser.parseVCppLog(logFile, ".", VC_CHARSET);
+    var parser = new MsBuild(squidConfig);
+    parser.parse(logFile, ".", VC_CHARSET);
 
-    List<String> includes = uniqueIncludes.get(UNIQUE_FILE);
+    List<String> includes = squidConfig.getValues(UNIQUE_FILE, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
     return includes;
   }
 }

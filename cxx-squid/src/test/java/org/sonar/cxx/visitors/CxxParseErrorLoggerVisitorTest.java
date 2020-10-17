@@ -20,7 +20,6 @@
 package org.sonar.cxx.visitors;
 
 import java.io.File;
-import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Rule;
@@ -50,13 +49,14 @@ public class CxxParseErrorLoggerVisitorTest {
 
   @Test
   public void handleParseErrorTest() throws Exception {
-    List<String> log = logTester.logs(LoggerLevel.DEBUG);
-    assertThat(log).hasSize(11);
-    assertThat(log.get(6)).contains("skip declaration: namespace X {");
-    assertThat(log.get(7)).contains("skip declaration: void test :: f1 ( ) {");
-    assertThat(log.get(8)).contains("syntax error: i = unsigend int ( i + 1 )");
-    assertThat(log.get(9)).contains("skip declaration: void test :: f3 ( ) {");
-    assertThat(log.get(10)).contains("syntax error: int i = 0 i ++");
+    String log = String.join("\n", logTester.logs(LoggerLevel.DEBUG));
+
+    assertThat(log).isNotEmpty();
+    assertThat(log).contains("skip declaration: namespace X {");
+    assertThat(log).contains("skip declaration: void test :: f1 ( ) {");
+    assertThat(log).contains("syntax error: i = unsigend int ( i + 1 )");
+    assertThat(log).contains("skip declaration: void test :: f3 ( ) {");
+    assertThat(log).contains("syntax error: int i = 0 i ++");
   }
 
 }

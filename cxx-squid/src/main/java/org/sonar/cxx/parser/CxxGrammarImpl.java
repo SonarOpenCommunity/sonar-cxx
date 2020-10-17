@@ -22,11 +22,11 @@ package org.sonar.cxx.parser;
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import com.sonar.sslr.api.Grammar;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import static org.sonar.cxx.api.CxxTokenType.CHARACTER;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
 
@@ -334,7 +334,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   cudaKernel;
 
   public static Grammar create(CxxSquidConfiguration squidConfig) {
-    LexerfulGrammarBuilder b = LexerfulGrammarBuilder.create();
+    var b = LexerfulGrammarBuilder.create();
 
     toplevel(b, squidConfig);
     expressions(b);
@@ -402,7 +402,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   //
   private static void toplevel(LexerfulGrammarBuilder b, CxxSquidConfiguration squidConfig) {
 
-    if (squidConfig.getErrorRecoveryEnabled()) {
+    if (squidConfig.getBoolean(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
+                               CxxSquidConfiguration.ERROR_RECOVERY_ENABLED).orElse(Boolean.TRUE)) {
       b.rule(translationUnit).is(
         b.zeroOrMore(
           b.firstOf(

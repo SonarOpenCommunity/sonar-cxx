@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx;
 
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import java.io.IOException;

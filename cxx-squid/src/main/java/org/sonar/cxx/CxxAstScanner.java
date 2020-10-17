@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx;
 
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
@@ -189,8 +190,9 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(squidConfig));
     builder.withSquidAstVisitor(CommentsVisitor.<Grammar>builder().withCommentMetric(CxxMetric.COMMENT_LINES)
       .withNoSonar(true)
-      .withIgnoreHeaderComment(squidConfig.getIgnoreHeaderComments())
-      .build());
+      .withIgnoreHeaderComment(false)
+      .build()
+    );
 
     /* Statements */
     builder.withSquidAstVisitor(CounterVisitor.<Grammar>builder()

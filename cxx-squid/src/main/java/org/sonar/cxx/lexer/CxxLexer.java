@@ -33,7 +33,7 @@ import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.opt;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.or;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
-import org.sonar.cxx.CxxSquidConfiguration;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;

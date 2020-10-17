@@ -27,9 +27,9 @@ import com.sonar.sslr.api.Token;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
 
@@ -42,8 +42,10 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   private List<CpdToken> cpdTokens = null;
 
   public CxxCpdVisitor(CxxSquidConfiguration squidConfig) {
-    this.ignoreLiterals = squidConfig.getCpdIgnoreLiteral();
-    this.ignoreIdentifiers = squidConfig.getCpdIgnoreIdentifier();
+    this.ignoreLiterals = squidConfig.getBoolean(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
+                                                 CxxSquidConfiguration.CPD_IGNORE_LITERALS).orElse(Boolean.FALSE);
+    this.ignoreIdentifiers = squidConfig.getBoolean(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
+                                                    CxxSquidConfiguration.CPD_IGNORE_IDENTIFIERS).orElse(Boolean.FALSE);
   }
 
   @Override

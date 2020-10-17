@@ -29,7 +29,7 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.sonar.cxx.CxxSquidConfiguration;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class ExpressionEvaluatorTest {

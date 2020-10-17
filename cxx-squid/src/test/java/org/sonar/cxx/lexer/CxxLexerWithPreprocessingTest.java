@@ -26,7 +26,6 @@ import com.sonar.sslr.impl.Lexer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,10 +37,10 @@ import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
@@ -336,7 +335,8 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void external_define() {
     var squidConfig = new CxxSquidConfiguration();
-    squidConfig.setDefines(new String[]{"M body"});
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
+                    "M body");
     var cxxpp = new CxxPreprocessor(context, squidConfig);
     lexer = CxxLexer.create(squidConfig, cxxpp, new JoinStringsPreprocessor());
 
@@ -351,7 +351,8 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void external_defines_with_params() {
     var squidConfig = new CxxSquidConfiguration();
-    squidConfig.setDefines(new String[]{"minus(a, b) a - b"});
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
+                    "minus(a, b) a - b");
     var cxxpp = new CxxPreprocessor(context, squidConfig);
     lexer = CxxLexer.create(squidConfig, cxxpp, new JoinStringsPreprocessor());
 
@@ -407,7 +408,7 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void includes_are_working() throws IOException {
     SourceCodeProvider scp = mock(SourceCodeProvider.class);
-    when(scp.getSourceCodeFile(anyString(), anyString(), eq(false))).thenReturn(new File(""));
+    when(scp.getSourceCodeFile(anyString(), anyString(), eq(false))).thenReturn(new File("file"));
     when(scp.getSourceCode(any(File.class), any(Charset.class))).thenReturn("#define A B\n");
 
     SquidAstVisitorContext<Grammar> ctx = mock(SquidAstVisitorContext.class);
@@ -623,18 +624,18 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void externalMacrosCannotBeOverriden() {
-    CxxSquidConfiguration squidConfig = mock(CxxSquidConfiguration.class);
-    when(squidConfig.getDefines()).thenReturn(Arrays.asList("name goodvalue"));
+  public void overwriteGlobalMacro() {
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.DEFINES, "macro globalvalue");
     var cxxpp = new CxxPreprocessor(context, squidConfig);
     lexer = CxxLexer.create(squidConfig, cxxpp);
 
-    List<Token> tokens = lexer.lex("#define name badvalue\n"
-                                     + "name");
+    List<Token> tokens = lexer.lex("#define macro overriden\n"
+                                     + "macro");
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // goodvalue + EOF
-    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("goodvalue").hasType(
+    softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("overriden").hasType(
       GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
@@ -644,8 +645,7 @@ public class CxxLexerWithPreprocessingTest {
    */
   @Test
   public void defaultMacros() {
-    CxxSquidConfiguration squidConfig = mock(CxxSquidConfiguration.class);
-    when(squidConfig.getDefines()).thenReturn(Arrays.asList());
+    var squidConfig = new CxxSquidConfiguration();
     var cxxpp = new CxxPreprocessor(context, squidConfig);
 
     final Lexer l = CxxLexer.create(squidConfig, cxxpp);
@@ -668,8 +668,8 @@ public class CxxLexerWithPreprocessingTest {
    */
   @Test
   public void configuredDefinesOverrideDefaultMacros() {
-    CxxSquidConfiguration squidConfig = mock(CxxSquidConfiguration.class);
-    when(squidConfig.getDefines()).thenReturn(Arrays.asList("__LINE__ 123"));
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.DEFINES, "__LINE__ 123");
     var cxxpp = new CxxPreprocessor(context, squidConfig);
 
     final Lexer l = CxxLexer.create(squidConfig, cxxpp);
@@ -698,9 +698,12 @@ public class CxxLexerWithPreprocessingTest {
     var forceIncludeFile = new File(forceIncludePath);
 
     var squidConfig = new CxxSquidConfiguration();
-    squidConfig.setForceIncludeFiles(Collections.singletonList(forceIncludePath));
-    squidConfig.setDefines(new String[]{"__LINE__ 123"});
-    squidConfig.setErrorRecoveryEnabled(false);
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.FORCE_INCLUDES,
+                    Collections.singletonList(forceIncludePath));
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
+                    "__LINE__ 123");
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
+                    "false");
 
     final SourceCodeProvider provider = mock(SourceCodeProvider.class);
     when(provider.getSourceCodeFile(Mockito.eq(forceIncludePath), Mockito.any(String.class), Mockito.anyBoolean()))
