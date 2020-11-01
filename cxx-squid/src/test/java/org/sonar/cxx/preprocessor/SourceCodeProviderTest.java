@@ -22,7 +22,6 @@ package org.sonar.cxx.preprocessor;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
@@ -64,7 +63,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "source.hh";
-    Path includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath();
+    String includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -76,7 +75,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "source";
-    Path includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath();
+    String includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -88,7 +87,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "source.hh";
-    Path includeRoot = Paths.get("resources/codeprovider");
+    String includeRoot = Paths.get("resources/codeprovider").toString();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -100,7 +99,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "source";
-    Path includeRoot = Paths.get("resources/codeprovider");
+    String includeRoot = Paths.get("resources/codeprovider").toString();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -112,7 +111,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "codeprovider/source.hh";
-    Path includeRoot = Paths.get("src/test/resources").toAbsolutePath();
+    String includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -124,7 +123,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "codeprovider/source";
-    Path includeRoot = Paths.get("src/test/resources").toAbsolutePath();
+    String includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -136,7 +135,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "codeprovider/source.hh";
-    Path includeRoot = Paths.get("resources");
+    String includeRoot = Paths.get("resources").toString();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, dummycwd, true));
@@ -148,7 +147,7 @@ public class SourceCodeProviderTest {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "codeprovider/source";
-    Path includeRoot = Paths.get("resources");
+    String includeRoot = Paths.get("resources").toString();
 
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, dummycwd, true));

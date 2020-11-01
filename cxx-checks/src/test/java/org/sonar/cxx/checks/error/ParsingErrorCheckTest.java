@@ -24,9 +24,9 @@ import java.io.UnsupportedEncodingException;
 import static org.hamcrest.Matchers.containsString;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
@@ -36,7 +36,8 @@ public class ParsingErrorCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test_syntax_error_recognition() throws UnsupportedEncodingException, IOException {
     var squidConfig = new CxxSquidConfiguration();
-    squidConfig.setErrorRecoveryEnabled(false);
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
+                    "false");
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError1.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig, new ParsingErrorCheck());
@@ -50,7 +51,8 @@ public class ParsingErrorCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void test_syntax_error_pperror() throws UnsupportedEncodingException, IOException {
     var squidConfig = new CxxSquidConfiguration();
-    squidConfig.setErrorRecoveryEnabled(false);
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
+                    "false");
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError2.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig, new ParsingErrorCheck());

@@ -23,7 +23,6 @@ import com.sonar.sslr.api.Token;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,19 +30,6 @@ import javax.annotation.Nullable;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
 
 public final class Macro {
-
-  public static final String CPLUSPLUS = "__cplusplus";
-
-  /**
-   * This is a collection of standard macros according to
-   * http://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html
-   */
-  protected static final Map<String, Macro> STANDARD_MACROS = initStandardMacros();
-
-  /**
-   * Smaller set of defines as rest is provides by compilation unit settings
-   */
-  protected static final Map<String, Macro> UNIT_MACROS = initUnitMacros();
 
   public final String name;
   public final List<Token> params;
@@ -82,31 +68,6 @@ public final class Macro {
       .setType(STRING)
       .build());
     this.isVariadic = false;
-  }
-
-  private static Map<String, Macro> initStandardMacros() {
-    var map = new HashMap<String, Macro>();
-    add(map, "__FILE__", "\"file\"");
-    add(map, "__LINE__", "1");
-    // indicates 'date unknown'. should suffice
-    add(map, "__DATE__", "\"??? ?? ????\"");
-    // indicates 'time unknown'. should suffice
-    add(map, "__TIME__", "\"??:??:??\"");
-    add(map, "__STDC__", "1");
-    add(map, "__STDC_HOSTED__", "1");
-    add(map, CPLUSPLUS, "201103L");
-    // __has_include support (C++17)
-    add(map, "__has_include", "1");
-    return Collections.unmodifiableMap(map);
-  }
-
-  private static Map<String, Macro> initUnitMacros() {
-    var map = new HashMap<String, Macro>();
-    add(map, "__FILE__", "\"file\"");
-    add(map, "__LINE__", "1");
-    add(map, "__DATE__", "\"??? ?? ????\"");
-    add(map, "__TIME__", "\"??:??:??\"");
-    return Collections.unmodifiableMap(map);
   }
 
   private static void add(Map<String, Macro> map, String name, String body) {

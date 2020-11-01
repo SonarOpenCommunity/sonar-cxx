@@ -21,7 +21,7 @@ package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
-import org.sonar.cxx.CxxSquidConfiguration;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 
 public final class CppParser {
 

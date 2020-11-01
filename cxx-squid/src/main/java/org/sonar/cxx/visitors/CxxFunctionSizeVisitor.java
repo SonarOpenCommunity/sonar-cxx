@@ -23,8 +23,8 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.SourceFile;
@@ -41,7 +41,9 @@ public class CxxFunctionSizeVisitor<G extends Grammar> extends SquidAstVisitor<G
   private int totalLoc;
 
   public CxxFunctionSizeVisitor(CxxSquidConfiguration squidConfig) {
-    this.sizeThreshold = squidConfig.getFunctionSizeThreshold();
+    this.sizeThreshold = squidConfig.getInt(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
+                                            CxxSquidConfiguration.FUNCTION_SIZE_THRESHOLD)
+      .orElse(20);
     LOG.debug("Function size threshold: " + this.sizeThreshold);
   }
 

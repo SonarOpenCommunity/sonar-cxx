@@ -42,23 +42,23 @@ public class SourceCodeProvider {
   private static final Logger LOG = Loggers.get(SourceCodeProvider.class);
   private final List<Path> includeRoots = new LinkedList<>();
 
-  public void setIncludeRoots(List<Path> includeRoots, String baseDir) {
-    for (var includeRoot : includeRoots) {
+  public void setIncludeRoots(List<String> roots, String baseDir) {
+    for (var root : roots) {
+      var path = Paths.get(root);
       try {
-        if (!includeRoot.isAbsolute()) {
-          includeRoot = Paths.get(baseDir).resolve(includeRoot);
+        if (!path.isAbsolute()) {
+          path = Paths.get(baseDir).resolve(path);
         }
-        includeRoot = includeRoot.toRealPath();
+        path = path.toRealPath();
 
-        if (Files.isDirectory(includeRoot)) {
-          LOG.debug("storing include root: '{}'", includeRoot.toString());
-          this.includeRoots.add(includeRoot);
+        if (Files.isDirectory(path)) {
+          LOG.debug("storing include root: '{}'", path.toString());
+          includeRoots.add(path);
         } else {
-          LOG.warn("include root '{}' is not a directory", includeRoot.toString());
+          LOG.warn("include root '{}' is not a directory", path.toString());
         }
-
       } catch (IOException | InvalidPathException e) {
-        LOG.error("cannot get absolute path of include root '{}'", includeRoot.toString(), e);
+        LOG.error("cannot get absolute path of include root '{}'", path.toString(), e);
       }
     }
   }

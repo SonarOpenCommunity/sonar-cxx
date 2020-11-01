@@ -17,35 +17,39 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx;
+package org.sonar.cxx.config;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 /**
- * CxxVCppBuildLogParser
+ * MsBuild
  */
-public class CxxVCppBuildLogParser {
+public class MsBuild {
+
+ /**
+   * the following settings are in use by the feature to read configuration settings from the VC compiler report
+   */
+  public static final String REPORT_PATH_KEY = "sonar.cxx.msbuild.reportPaths";
+  public static final String REPORT_CHARSET_DEF = "sonar.cxx.msbuild.charset";
+  public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
+
+  private static final Logger LOG = Loggers.get(MsBuild.class);
 
   private static final String MSC_IX86_600 = "_M_IX86 600";
-
   private static final String MSC_X64_100 = "_M_X64 100";
-
-  private static final Logger LOG = Loggers.get(CxxVCppBuildLogParser.class);
 
   private static final String CPPWINRTVERSION = "__cplusplus_winrt=201009";
   private static final String CPPVERSION = "__cplusplus=199711L";
@@ -64,21 +68,18 @@ public class CxxVCppBuildLogParser {
   // It seems that the required line in any language has these elements: "ClCompile" and (*.vcxproj)
   private static final Pattern PATH_TO_VCXPROJ = Pattern.compile("^(?:\\S+)\\s(?:\"ClCompile\").*\"(.+vcxproj)\".*$");
 
-  private final Map<String, List<String>> uniqueIncludes;
-  private final Map<String, Set<String>> uniqueDefines;
   private String platformToolset = "V120";
   private String platform = "Win32";
+
+  private final CxxSquidConfiguration squidConfig;
 
   /**
    * CxxVCppBuildLogParser (ctor)
    *
-   * @param uniqueIncludesIn
-   * @param uniqueDefinesIn
+   * @param db
    */
-  public CxxVCppBuildLogParser(Map<String, List<String>> uniqueIncludesIn,
-                               Map<String, Set<String>> uniqueDefinesIn) {
-    uniqueIncludes = uniqueIncludesIn;
-    uniqueDefines = uniqueDefinesIn;
+  public MsBuild(CxxSquidConfiguration squidConfig) {
+    this.squidConfig = squidConfig;
   }
 
   private static List<String> getMatches(Pattern pattern, String text) {
@@ -109,7 +110,7 @@ public class CxxVCppBuildLogParser {
    * @param projectPath
    * @param compilationFile
    */
-  public void parseVCppLine(String line, String projectPath, String compilationFile) {
+  public void parse(String line, String projectPath, String compilationFile) {
     this.parseVCppCompilerCLLine(line, projectPath, compilationFile);
   }
 
@@ -119,23 +120,21 @@ public class CxxVCppBuildLogParser {
    * @param baseDir
    * @param charsetName
    */
-  public void parseVCppLog(File buildLog, String baseDir, String charsetName) {
+  public void parse(File buildLog, String baseDir, String charsetName) {
+     LOG.info("Processing MsBuild log '{}', CharSet= '{}'", buildLog.getName(), charsetName);
+
     boolean detectedPlatform = false;
     try (var br = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(buildLog.toPath()),
                                                        charsetName))) {
       String line;
       LOG.debug("build log parser baseDir='{}'", baseDir);
-      Path currentProjectPath = Paths.get(baseDir);
-
-      List<String> overallIncludes = uniqueIncludes.get(CxxSquidConfiguration.OVERALLINCLUDEKEY);
+      var currentProjectPath = Paths.get(baseDir);
 
       while ((line = br.readLine()) != null) {
         if (line.trim().startsWith("INCLUDE=")) { // handle environment includes
           String[] includes = line.split("=")[1].split(";");
           for (var include : includes) {
-            if (!overallIncludes.contains(include)) {
-              overallIncludes.add(include);
-            }
+            squidConfig.add(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.INCLUDE_DIRECTORIES,include);
           }
         }
 
@@ -234,15 +233,6 @@ public class CxxVCppBuildLogParser {
       // b) if path is absolute: fileElement == path
       // c) otherwise fileElement == currentProjectPath\path
       fileElement = currentProjectPath.resolve(path).toAbsolutePath().toString();
-
-      if (!uniqueDefines.containsKey(fileElement)) {
-        uniqueDefines.put(fileElement, new HashSet<>());
-      }
-
-      if (!uniqueIncludes.containsKey(fileElement)) {
-        uniqueIncludes.put(fileElement, new ArrayList<>());
-      }
-
       parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);
     } catch (InvalidPathException e) {
       LOG.warn("Cannot extract information from current element: {} - {}", data, e);
@@ -295,13 +285,9 @@ public class CxxVCppBuildLogParser {
   }
 
   private void parseInclude(String element, String project, String fileElement) {
-
-    List<String> includesPerUnit = uniqueIncludes.get(fileElement);
-
     try {
       var includeRoot = new File(element.replace("\"", ""));
-      String includePath;
-      Path p = Paths.get(project);
+      var p = Paths.get(project);
       if (!includeRoot.isAbsolute()) {
         // handle path without drive information but represent absolute path
         var pseudoAbsolute = new File(p.getRoot().toString(), includeRoot.toString());
@@ -311,10 +297,7 @@ public class CxxVCppBuildLogParser {
           includeRoot = new File(project, includeRoot.getPath());
         }
       }
-      includePath = includeRoot.getCanonicalPath();
-      if (!includesPerUnit.contains(includePath)) {
-        includesPerUnit.add(includePath);
-      }
+      squidConfig.add(fileElement, CxxSquidConfiguration.INCLUDE_DIRECTORIES,includeRoot.getCanonicalPath());
     } catch (IOException e) {
       if (LOG.isDebugEnabled()) {
         LOG.error("Cannot parse include path using element '{}' : '{}'", element, e);
@@ -325,19 +308,14 @@ public class CxxVCppBuildLogParser {
   }
 
   private void addMacro(String macroElem, String file) {
-
-    Set<String> definesPerUnit = uniqueDefines.get(file);
-
     String macro = macroElem.replace('=', ' ');
-    if (!definesPerUnit.contains(macro)) {
-      definesPerUnit.add(macro);
-    }
+    squidConfig.add(file, CxxSquidConfiguration.DEFINES, macro);
   }
 
   private boolean existMacro(String macroElem, String file) {
-    Set<String> definesPerUnit = uniqueDefines.get(file);
     String macro = macroElem.replace('=', ' ');
-    return definesPerUnit.contains(macro);
+    List<String> values = squidConfig.getValues(file, CxxSquidConfiguration.DEFINES);
+    return values.contains(macro);
   }
 
   private void parseCommonCompilerOptions(String line, String fileElement) {

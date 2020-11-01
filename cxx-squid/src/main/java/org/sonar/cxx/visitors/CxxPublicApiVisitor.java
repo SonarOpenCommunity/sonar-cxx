@@ -19,14 +19,16 @@
  */
 package org.sonar.cxx.visitors;
 
+import com.google.common.base.Splitter;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import java.util.List;
+import org.sonar.api.internal.google.common.collect.Iterables;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.squidbridge.api.SourceFile;
 
 /**
@@ -61,6 +63,16 @@ import org.sonar.squidbridge.api.SourceFile;
  */
 public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApiVisitor<G> {
 
+  /**
+   * Key of the file suffix parameter
+   */
+  public static final String API_FILE_SUFFIXES_KEY = "sonar.cxx.api.file.suffixes";
+
+  /**
+   * Default API files knows suffixes
+   */
+  public static final String API_DEFAULT_FILE_SUFFIXES = ".hxx,.hpp,.hh,.h";
+
   private static final Logger LOG = Loggers.get(CxxPublicApiVisitor.class);
 
   private int publicApiCounter;
@@ -68,7 +80,14 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
 
   public CxxPublicApiVisitor(CxxSquidConfiguration squidConfig) {
     super();
-    withHeaderFileSuffixes(squidConfig.getPublicApiFileSuffixes());
+    String[] suffixes = squidConfig.getValues(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
+                                              CxxSquidConfiguration.API_FILE_SUFFIXES)
+      .stream()
+      .filter(s -> s != null && !s.trim().isEmpty()).toArray(String[]::new);
+    if (suffixes.length == 0) {
+      suffixes = Iterables.toArray(Splitter.on(',').split(API_DEFAULT_FILE_SUFFIXES), String.class);
+    }
+    withHeaderFileSuffixes(suffixes);
   }
 
   @Override

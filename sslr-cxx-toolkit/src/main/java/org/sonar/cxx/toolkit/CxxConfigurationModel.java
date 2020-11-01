@@ -35,9 +35,9 @@ import org.sonar.colorizer.JavadocTokenizer;
 import org.sonar.colorizer.KeywordsTokenizer;
 import org.sonar.colorizer.StringTokenizer;
 import org.sonar.colorizer.Tokenizer;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.squidbridge.SquidAstVisitorContextImpl;
 import org.sonar.squidbridge.api.SourceProject;
@@ -146,11 +146,15 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   }
 
   CxxSquidConfiguration getConfiguration() {
-    var config = new CxxSquidConfiguration(getCharset());
-    config.setErrorRecoveryEnabled("true".equals(errorRecoveryEnabled.getValue()));
-    config.setDefines(getStringLines(defines.getValue()));
-    config.setIncludeDirectories(getStringArray(includeDirectories.getValue()));
-    config.setForceIncludeFiles(getStringArray(forceIncludes.getValue()));
+    var config = new CxxSquidConfiguration("", getCharset());
+    config.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
+               errorRecoveryEnabled.getValue());
+    config.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
+               getStringLines(defines.getValue()));
+    config.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.FORCE_INCLUDES,
+               getStringArray(forceIncludes.getValue()));
+    config.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.INCLUDE_DIRECTORIES,
+               getStringArray(includeDirectories.getValue()));
     return config;
   }
 

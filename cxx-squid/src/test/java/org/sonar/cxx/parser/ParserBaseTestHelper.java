@@ -24,7 +24,7 @@ import com.sonar.sslr.impl.Parser;
 import java.io.File;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.sonar.cxx.CxxSquidConfiguration;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 
@@ -40,7 +40,8 @@ public class ParserBaseTestHelper {
 
   public ParserBaseTestHelper() {
     squidConfig = new CxxSquidConfiguration();
-    squidConfig.setErrorRecoveryEnabled(false);
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
+                    "false");
 
     var file = new File("snippet.cpp").getAbsoluteFile();
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);

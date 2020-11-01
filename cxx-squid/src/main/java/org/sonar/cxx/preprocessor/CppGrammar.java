@@ -104,7 +104,7 @@ public enum CppGrammar implements GrammarRuleKey {
   allButComma;
 
   public static Grammar create() {
-    LexerfulGrammarBuilder b = LexerfulGrammarBuilder.create();
+    var b = LexerfulGrammarBuilder.create();
 
     toplevelDefinitionGrammar(b);
     defineLineGrammar(b);

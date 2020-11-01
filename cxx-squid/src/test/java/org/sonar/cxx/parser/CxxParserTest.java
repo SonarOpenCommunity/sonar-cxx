@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.sonar.cxx.CxxSquidConfiguration;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxParserTest {
@@ -77,7 +77,8 @@ public class CxxParserTest {
     };
 
     var squidConfig = new CxxSquidConfiguration();
-    squidConfig.setErrorRecoveryEnabled(false);
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
+                    "false");
 
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     Parser<Grammar> p = CxxParser.create(context, squidConfig);
@@ -98,23 +99,22 @@ public class CxxParserTest {
   @SuppressWarnings("unchecked")
   @Test
   public void testPreproccessorParsingOnDiverseSourceFiles() {
-    var squidConfig = new CxxSquidConfiguration();
-    squidConfig.setErrorRecoveryEnabled(false);
-    String baseDir = new File("src/test").getAbsolutePath();
-    squidConfig.setBaseDir(baseDir);
-    squidConfig.setIncludeDirectories(Arrays.asList(
-      "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\INCLUDE",
-      "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\ATLMFC\\INCLUDE",
-      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\ucrt",
-      "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.6.1\\include\\um",
-      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\shared",
-      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\um",
-      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\winrt",
-      "C:\\Workspaces\\boost\\boost_1_61_0",
-      "resources",
-      "resources\\parser\\preprocessor")
+    var squidConfig = new CxxSquidConfiguration(new File("src/test").getAbsolutePath());
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
+                    "false");
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.INCLUDE_DIRECTORIES,
+                    Arrays.asList(
+                      "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\INCLUDE",
+                      "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\ATLMFC\\INCLUDE",
+                      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\ucrt",
+                      "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.6.1\\include\\um",
+                      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\shared",
+                      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\um",
+                      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\winrt",
+                      "C:\\Workspaces\\boost\\boost_1_61_0",
+                      "resources",
+                      "resources\\parser\\preprocessor")
     );
-
     var map = new HashMap<String, Integer>() {
       private static final long serialVersionUID = 1433381506274827684L;
 
@@ -148,7 +148,8 @@ public class CxxParserTest {
     when(context.getFile()).thenReturn(erroneousSources);
 
     var squidConfig = new CxxSquidConfiguration();
-    squidConfig.setErrorRecoveryEnabled(false);
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
+                    "false");
 
     Parser<Grammar> p = CxxParser.create(context, squidConfig);
 
@@ -168,7 +169,8 @@ public class CxxParserTest {
     // The error recovery works, if:
     // - but doesn't cause such an error if we run with default settings
     var squidConfig = new CxxSquidConfiguration();
-    squidConfig.setErrorRecoveryEnabled(true);
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
+                    "true");
     Parser<Grammar> p = CxxParser.create(context, squidConfig);
     AstNode root = p.parse(erroneousSources); //<-- this shouldn't throw now
     assertThat(root.getNumberOfChildren()).isEqualTo(6);

@@ -21,13 +21,12 @@ package org.sonar.cxx.checks.regex;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxSquidConfiguration;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
@@ -51,8 +50,7 @@ public class FileRegularExpressionCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void fileRegExInvertWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     var check = new FileRegularExpressionCheck();
-    Charset charset = StandardCharsets.UTF_8;
-    var squidConfig = new CxxSquidConfiguration(charset);
+    var squidConfig = new CxxSquidConfiguration("", StandardCharsets.UTF_8);
     check.regularExpression = "stdafx\\.h";
     check.invertRegularExpression = true;
     check.message = "Found no 'stdafx.h' in file!";
@@ -69,8 +67,7 @@ public class FileRegularExpressionCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void fileRegExCodingErrorActionReplace() throws UnsupportedEncodingException, IOException {
     var check = new FileRegularExpressionCheck();
-    Charset charset = StandardCharsets.US_ASCII;
-    var squidConfig = new CxxSquidConfiguration(charset);
+    var squidConfig = new CxxSquidConfiguration("", StandardCharsets.US_ASCII);
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
 
@@ -87,8 +84,7 @@ public class FileRegularExpressionCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void fileRegExWithFilePattern() throws UnsupportedEncodingException, IOException {
     var check = new FileRegularExpressionCheck();
-    Charset charset = StandardCharsets.UTF_8;
-    var squidConfig = new CxxSquidConfiguration(charset);
+    var squidConfig = new CxxSquidConfiguration("", StandardCharsets.UTF_8);
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in a .cc file!";
@@ -105,8 +101,7 @@ public class FileRegularExpressionCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void fileRegExInvertWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
     var check = new FileRegularExpressionCheck();
-    Charset charset = StandardCharsets.UTF_8;
-    var squidConfig = new CxxSquidConfiguration(charset);
+    var squidConfig = new CxxSquidConfiguration("", StandardCharsets.UTF_8);
     check.matchFilePattern = "/**/*.h"; // all files with not .h file extension
     check.invertFilePattern = true;
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
