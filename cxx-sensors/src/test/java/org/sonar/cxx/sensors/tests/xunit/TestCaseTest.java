@@ -20,6 +20,8 @@
 package org.sonar.cxx.sensors.tests.xunit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class TestCaseTest {
@@ -30,10 +32,10 @@ public class TestCaseTest {
     assertEquals("classname", testCase.getClassname());
     assertEquals("testSuiteName:testCaseName", testCase.getFullname());
     assertEquals("filename", testCase.getFilename());
-    assertEquals(true, testCase.isOk());
-    assertEquals(false, testCase.isError());
-    assertEquals(false, testCase.isFailure());
-    assertEquals(false, testCase.isSkipped());
+    assertTrue(testCase.isOk());
+    assertFalse(testCase.isError());
+    assertFalse(testCase.isFailure());
+    assertFalse(testCase.isSkipped());
     assertEquals("msg", testCase.getErrorMessage());
     assertEquals("stack", testCase.getStackTrace());
     assertEquals(1, testCase.getExecutionTime());

@@ -23,6 +23,7 @@ import java.io.File;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -73,7 +74,7 @@ public class ValgrindStackTest {
 
   @Test
   public void stackHashWorksAsExpected() {
-    assertThat(stack.hashCode()).isEqualTo(equalStack.hashCode());
+    assertThat(stack).hasSameHashCodeAs(equalStack);
     assertThat(stack.hashCode()).isNotEqualTo(otherStack.hashCode());
   }
 
@@ -89,7 +90,7 @@ public class ValgrindStackTest {
     stack1.addFrame(frame0);
 
     var softly = new SoftAssertions();
-    softly.assertThat(new ValgrindStack().toString()).isEqualTo("");
+    softly.assertThat(new ValgrindStack().toString()).isEmpty();
     softly.assertThat(stack0.toString()).isEqualTo(frame0.toString());
     softly.assertThat(stack1.toString()).isEqualTo(frame1.toString() + "\n" + frame0.toString());
     softly.assertAll();
@@ -97,7 +98,7 @@ public class ValgrindStackTest {
 
   @Test
   public void getLastOwnFrame_returnsNullOnEmptyStack() {
-    assertEquals(null, new ValgrindStack().getLastOwnFrame("somepath"));
+    assertNull(new ValgrindStack().getLastOwnFrame("somepath"));
   }
 
   @Test
@@ -106,7 +107,7 @@ public class ValgrindStackTest {
     var stack = new ValgrindStack();
     stack.addFrame(frame);
 
-    assertEquals(null, new ValgrindStack().getLastOwnFrame("somepath"));
+    assertNull(new ValgrindStack().getLastOwnFrame("somepath"));
   }
 
   @Test

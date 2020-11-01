@@ -116,7 +116,7 @@ public class CxxPreprocessor extends Preprocessor {
    */
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context,
                          CxxSquidConfiguration squidConfig,
-                         SourceCodeProvider mockCodeProvider) {
+                         @Nullable SourceCodeProvider mockCodeProvider) {
     this.context = context;
     this.squidConfig = squidConfig;
     this.mockCodeProvider = mockCodeProvider;

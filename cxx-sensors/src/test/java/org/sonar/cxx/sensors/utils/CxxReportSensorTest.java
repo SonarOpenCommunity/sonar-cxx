@@ -91,7 +91,7 @@ public class CxxReportSensorTest {
     assertThat(reports).isNotNull();
     assertThat(reports.get(0)).exists();
     assertThat(reports.get(0)).isAbsolute();
-    assertThat(reports.size()).isEqualTo(3);
+    assertThat(reports).hasSize(3);
   }
 
   @Test
@@ -103,7 +103,7 @@ public class CxxReportSensorTest {
     assertThat(reports).isNotNull();
     assertThat(reports.get(0)).exists();
     assertThat(reports.get(0)).isAbsolute();
-    assertThat(reports.size()).isEqualTo(3);
+    assertThat(reports).hasSize(3);
   }
 
   private class CxxReportSensorImpl extends CxxReportSensor {

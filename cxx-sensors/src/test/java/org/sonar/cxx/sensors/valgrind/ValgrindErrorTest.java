@@ -63,7 +63,7 @@ public class ValgrindErrorTest {
 
   @Test
   public void errorHashWorksAsExpected() {
-    assertThat(error.hashCode()).isEqualTo(equalError.hashCode());
+    assertThat(error).hasSameHashCodeAs(equalError);
     assertThat(error.hashCode()).isNotEqualTo(otherError.hashCode());
   }
 

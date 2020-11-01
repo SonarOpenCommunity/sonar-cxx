@@ -604,10 +604,10 @@ public class CxxLexerTest {
   @Test
   public void blank_lines() {
     var softly = new SoftAssertions();
-    softly.assertThat(lexer.lex("    // comment\\n").size()).isEqualTo(1);
-    softly.assertThat(lexer.lex("    \n").size()).isEqualTo(1);
-    softly.assertThat(lexer.lex("    ").size()).isEqualTo(1);
-    softly.assertThat(lexer.lex("line\n\n").size()).isEqualTo(2);
+    softly.assertThat(lexer.lex("    // comment\\n")).hasSize(1);
+    softly.assertThat(lexer.lex("    \n")).hasSize(1);
+    softly.assertThat(lexer.lex("    ")).hasSize(1);
+    softly.assertThat(lexer.lex("line\n\n")).hasSize(2);
     softly.assertAll();
   }
 

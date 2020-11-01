@@ -187,7 +187,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
         // the UI is not ready. For this case, use the parent issue's file and line for now.
         CxxReportLocation primaryLocation = currentIssue.getLocations().get(0);
         if (!primaryLocation.getFile().equals(file)) {
-          if (!msg.startsWith(PREFIX_DURING_SPECIFIC_WALK_MSG)) {
+          if (msg != null && !msg.startsWith(PREFIX_DURING_SPECIFIC_WALK_MSG)) {
             msg = String.format("%s %s:%s %s", PREFIX_DURING_SPECIFIC_WALK_MSG, file, line, msg);
           }
 
