@@ -30,7 +30,7 @@ public class CxxMetricsTest {
   @Test
   public void getMetricsTest() {
     List<Metric> list = CxxMetrics.getMetrics();
-    assertThat(list.size()).isEqualTo(12);
+    assertThat(list).hasSize(12);
   }
 
   @Test

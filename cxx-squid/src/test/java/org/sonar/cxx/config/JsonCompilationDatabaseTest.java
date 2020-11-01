@@ -66,12 +66,14 @@ public class JsonCompilationDatabaseTest {
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
 
-    assertThat(defines).isNotEmpty();
-    assertThat(defines).contains("UNIT_DEFINE 1");
-    assertThat(defines).contains("GLOBAL_DEFINE 1");
-    assertThat(includes).isNotEmpty();
-    assertThat(includes).contains(unifyPath("/usr/local/include"));
-    assertThat(includes).contains(unifyPath("/usr/include"));
+    assertThat(defines)
+      .isNotEmpty()
+      .contains("UNIT_DEFINE 1")
+      .contains("GLOBAL_DEFINE 1");
+    assertThat(includes)
+      .isNotEmpty()
+      .contains(unifyPath("/usr/local/include"))
+      .contains(unifyPath("/usr/include"));
   }
 
   @Test
@@ -90,15 +92,17 @@ public class JsonCompilationDatabaseTest {
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
 
-    assertThat(defines).isNotEmpty();
-    assertThat(defines).contains("COMMAND_DEFINE 1");
-    assertThat(defines).contains("COMMAND_SPACE_DEFINE \" foo 'bar' zoo \"");
-    assertThat(defines).contains("SIMPLE 1");
-    assertThat(defines).contains("GLOBAL_DEFINE 1");
-    assertThat(includes).isNotEmpty();
-    assertThat(includes).contains(unifyPath("/usr/local/include"));
-    assertThat(includes).contains(unifyPath("/another/include/dir"));
-    assertThat(includes).contains(unifyPath("/usr/include"));
+    assertThat(defines)
+      .isNotEmpty()
+      .contains("COMMAND_DEFINE 1")
+      .contains("COMMAND_SPACE_DEFINE \" foo 'bar' zoo \"")
+      .contains("SIMPLE 1")
+      .contains("GLOBAL_DEFINE 1");
+    assertThat(includes)
+      .isNotEmpty()
+      .contains(unifyPath("/usr/local/include"))
+      .contains(unifyPath("/another/include/dir"))
+      .contains(unifyPath("/usr/include"));
   }
 
   @Test
@@ -117,23 +121,25 @@ public class JsonCompilationDatabaseTest {
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
 
-    assertThat(defines).isNotEmpty();
-    assertThat(defines).contains("MACRO1 1");
-    assertThat(defines).contains("MACRO2 2");
-    assertThat(defines).contains("MACRO3 1");
-    assertThat(defines).contains("MACRO4 4");
-    assertThat(defines).contains("MACRO5 \" a 'b' c \"");
-    assertThat(defines).contains("MACRO6 \"With spaces, quotes and \\-es.\"");
+    assertThat(defines)
+      .isNotEmpty()
+      .contains("MACRO1 1")
+      .contains("MACRO2 2")
+      .contains("MACRO3 1")
+      .contains("MACRO4 4")
+      .contains("MACRO5 \" a 'b' c \"")
+      .contains("MACRO6 \"With spaces, quotes and \\-es.\"");
 
-    assertThat(includes).isNotEmpty();
-    assertThat(includes).contains(unifyPath("/aaa/bbb"));
-    assertThat(includes).contains(unifyPath("/ccc/ddd"));
-    assertThat(includes).contains(unifyPath("/eee/fff"));
-    assertThat(includes).contains(unifyPath("/ggg/hhh"));
-    assertThat(includes).contains(unifyPath("/iii/jjj"));
-    assertThat(includes).contains(unifyPath("/kkk/lll"));
-    assertThat(includes).contains(unifyPath("/mmm/nnn"));
-    assertThat(includes).contains(unifyPath("/ooo/ppp"));
+    assertThat(includes)
+      .isNotEmpty()
+      .contains(unifyPath("/aaa/bbb"))
+      .contains(unifyPath("/ccc/ddd"))
+      .contains(unifyPath("/eee/fff"))
+      .contains(unifyPath("/ggg/hhh"))
+      .contains(unifyPath("/iii/jjj"))
+      .contains(unifyPath("/kkk/lll"))
+      .contains(unifyPath("/mmm/nnn"))
+      .contains(unifyPath("/ooo/ppp"));
   }
 
   @Test
@@ -152,15 +158,17 @@ public class JsonCompilationDatabaseTest {
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
 
-    assertThat(defines).isNotEmpty();
-    assertThat(defines).contains("ARG_DEFINE 1");
-    assertThat(defines).contains("ARG_SPACE_DEFINE \" foo 'bar' zoo \"");
-    assertThat(defines).contains("SIMPLE 1");
-    assertThat(defines).contains("GLOBAL_DEFINE 1");
-    assertThat(includes).isNotEmpty();
-    assertThat(includes).contains(unifyPath("/usr/local/include"));
-    assertThat(includes).contains(unifyPath("/another/include/dir"));
-    assertThat(includes).contains(unifyPath("/usr/include"));
+    assertThat(defines)
+      .isNotEmpty()
+      .contains("ARG_DEFINE 1")
+      .contains("ARG_SPACE_DEFINE \" foo 'bar' zoo \"")
+      .contains("SIMPLE 1")
+      .contains("GLOBAL_DEFINE 1");
+    assertThat(includes)
+      .isNotEmpty()
+      .contains(unifyPath("/usr/local/include"))
+      .contains(unifyPath("/another/include/dir"))
+      .contains(unifyPath("/usr/include"));
   }
 
   @Test
@@ -178,11 +186,12 @@ public class JsonCompilationDatabaseTest {
 
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
 
-    assertThat(includes).isNotEmpty();
-    assertThat(includes).contains(unifyPath("/usr/local/include"));
-    assertThat(includes).contains(unifyPath("src/another/include/dir"));
-    assertThat(includes).contains(unifyPath("parent/include/dir"));
-    assertThat(includes).contains(unifyPath("/usr/include"));
+    assertThat(includes)
+      .isNotEmpty()
+      .contains(unifyPath("/usr/local/include"))
+      .contains(unifyPath("src/another/include/dir"))
+      .contains(unifyPath("parent/include/dir"))
+      .contains(unifyPath("/usr/include"));
   }
 
   @Test
@@ -201,15 +210,17 @@ public class JsonCompilationDatabaseTest {
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
 
-    assertThat(defines).isNotEmpty();
-    assertThat(defines).contains("ARG_DEFINE 1");
-    assertThat(defines).contains("ARG_SPACE_DEFINE \" foo 'bar' zoo \"");
-    assertThat(defines).contains("SIMPLE 1");
-    assertThat(defines).contains("GLOBAL_DEFINE 1");
-    assertThat(includes).isNotEmpty();
-    assertThat(includes).contains(unifyPath("/usr/local/include"));
-    assertThat(includes).contains(unifyPath("/another/include/dir"));
-    assertThat(includes).contains(unifyPath("/usr/include"));
+    assertThat(defines)
+      .isNotEmpty()
+      .contains("ARG_DEFINE 1")
+      .contains("ARG_SPACE_DEFINE \" foo 'bar' zoo \"")
+      .contains("SIMPLE 1")
+      .contains("GLOBAL_DEFINE 1");
+    assertThat(includes)
+      .isNotEmpty()
+      .contains(unifyPath("/usr/local/include"))
+      .contains(unifyPath("/another/include/dir"))
+      .contains(unifyPath("/usr/include"));
   }
 
   @Test
@@ -228,10 +239,12 @@ public class JsonCompilationDatabaseTest {
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
 
-    assertThat(defines).isNotEmpty();
-    assertThat(defines).contains("GLOBAL_DEFINE 1");
-    assertThat(includes).isNotEmpty();
-    assertThat(includes).contains(unifyPath("/usr/include"));
+    assertThat(defines)
+      .isNotEmpty()
+      .contains("GLOBAL_DEFINE 1");
+    assertThat(includes)
+      .isNotEmpty()
+      .contains(unifyPath("/usr/include"));
   }
 
   @Test(expected = JsonMappingException.class)

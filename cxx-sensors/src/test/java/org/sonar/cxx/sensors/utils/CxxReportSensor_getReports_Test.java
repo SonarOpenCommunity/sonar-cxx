@@ -48,7 +48,7 @@ public class CxxReportSensor_getReports_Test {
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
-    assertThat(reports.size()).isEqualTo(1);
+    assertThat(reports).hasSize(1);
   }
 
   @Test
@@ -61,7 +61,7 @@ public class CxxReportSensor_getReports_Test {
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
-    assertThat(reports.size()).isEqualTo(1);
+    assertThat(reports).hasSize(1);
   }
 
   @Test
@@ -74,7 +74,7 @@ public class CxxReportSensor_getReports_Test {
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
-    assertThat(reports.size()).isEqualTo(1);
+    assertThat(reports).hasSize(1);
   }
 
   @Test
@@ -90,7 +90,7 @@ public class CxxReportSensor_getReports_Test {
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
-    assertThat(reports.size()).isEqualTo(2);
+    assertThat(reports).hasSize(2);
   }
 
   @Test
@@ -111,7 +111,7 @@ public class CxxReportSensor_getReports_Test {
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
-    assertThat(reports.size()).isEqualTo(6);
+    assertThat(reports).hasSize(6);
   }
 
   @Test
@@ -131,7 +131,7 @@ public class CxxReportSensor_getReports_Test {
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
-    assertThat(reports.size()).isEqualTo(5);
+    assertThat(reports).hasSize(5);
   }
 
   @Test
@@ -146,7 +146,7 @@ public class CxxReportSensor_getReports_Test {
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
-    assertThat(reports.size()).isEqualTo(4);
+    assertThat(reports).hasSize(4);
   }
 
   @Test

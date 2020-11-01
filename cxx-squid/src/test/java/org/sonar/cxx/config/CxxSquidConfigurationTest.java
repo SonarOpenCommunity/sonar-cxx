@@ -374,7 +374,7 @@ public class CxxSquidConfigurationTest {
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.INCLUDE_DIRECTORIES,
                     new String[]{"dir1", "dir2"});
     squidConfig.readMsBuildFiles(new ArrayList<>(), VC_CHARSET);
-    assertThat(getIncludeDirectories(squidConfig).size()).isEqualTo(2);
+    assertThat(getIncludeDirectories(squidConfig)).hasSize(2);
   }
 
   @Test
@@ -385,8 +385,8 @@ public class CxxSquidConfigurationTest {
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isEqualTo(13);
-    softly.assertThat(getDefines(squidConfig).size()).isEqualTo(26 + 5);
+    softly.assertThat(getIncludeDirectories(squidConfig)).hasSize(13);
+    softly.assertThat(getDefines(squidConfig)).hasSize(26 + 5);
     softly.assertAll();
   }
 
@@ -400,7 +400,7 @@ public class CxxSquidConfigurationTest {
     var softly = new SoftAssertions();
     softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
     List<String> defines = getDefines(squidConfig);
-    softly.assertThat(defines.size()).isEqualTo(20 + 5);
+    softly.assertThat(defines).hasSize(20 + 5);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines).contains("_OPENMP 200203");
     softly.assertThat(defines).contains("_WIN32");
@@ -425,7 +425,7 @@ public class CxxSquidConfigurationTest {
     var softly = new SoftAssertions();
     softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
     List<String> defines = getDefines(squidConfig);
-    softly.assertThat(defines.size()).isEqualTo(3);
+    softly.assertThat(defines).hasSize(3);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines).contains("_WIN32");
     softly.assertAll();
@@ -442,7 +442,7 @@ public class CxxSquidConfigurationTest {
     List<String> defines = getDefines(squidConfig);
 
     var softly = new SoftAssertions();
-    softly.assertThat(defines.size()).isEqualTo(15 + 5);
+    softly.assertThat(defines).hasSize(15 + 5);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines).contains("_Wp64");
     softly.assertThat(defines).contains("_WIN32");
@@ -463,7 +463,7 @@ public class CxxSquidConfigurationTest {
     var softly = new SoftAssertions();
     softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
     List<String> defines = getDefines(squidConfig);
-    softly.assertThat(defines.size()).isEqualTo(12 + 6);
+    softly.assertThat(defines).hasSize(12 + 6);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines).contains("_CPPUNWIND");
     softly.assertThat(defines).contains("_M_IX86 600");
@@ -482,7 +482,7 @@ public class CxxSquidConfigurationTest {
     var softly = new SoftAssertions();
     softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
     List<String> defines = getDefines(squidConfig);
-    softly.assertThat(defines.size()).isEqualTo(13 + 5);
+    softly.assertThat(defines).hasSize(13 + 5);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines).contains("__cplusplus_winrt 201009");
     softly.assertThat(defines).contains("_CPPUNWIND");
@@ -505,7 +505,7 @@ public class CxxSquidConfigurationTest {
     var softly = new SoftAssertions();
     softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
     List<String> defines = getDefines(squidConfig);
-    softly.assertThat(defines.size()).isEqualTo(15 + 6);
+    softly.assertThat(defines).hasSize(15 + 6);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines).contains("__AVX2__ 1");
     softly.assertThat(defines).contains("__AVX__ 1");
@@ -531,7 +531,7 @@ public class CxxSquidConfigurationTest {
     var softly = new SoftAssertions();
     softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
     List<String> defines = getDefines(squidConfig);
-    assertThat(defines.size()).isEqualTo(15 + 6);
+    assertThat(defines).hasSize(15 + 6);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines).contains("__AVX2__ 1");
     softly.assertThat(defines).contains("__AVX__ 1");
@@ -554,9 +554,9 @@ public class CxxSquidConfigurationTest {
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isEqualTo(2);
+    softly.assertThat(getIncludeDirectories(squidConfig)).hasSize(2);
     List<String> defines = getDefines(squidConfig);
-    assertThat(defines.size()).isEqualTo(34);
+    assertThat(defines).hasSize(34);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines).contains("_CPPUNWIND");
     softly.assertThat(defines).contains("_M_IX86 600");
@@ -575,9 +575,9 @@ public class CxxSquidConfigurationTest {
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isEqualTo(2);
+    softly.assertThat(getIncludeDirectories(squidConfig)).hasSize(2);
     List<String> defines = getDefines(squidConfig);
-    assertThat(defines.size()).isEqualTo(34);
+    assertThat(defines).hasSize(34);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines).contains("_CPPUNWIND");
     softly.assertThat(defines).contains("_M_IX86 600");
@@ -598,7 +598,7 @@ public class CxxSquidConfigurationTest {
     var softly = new SoftAssertions();
     softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
     List<String> defines = getDefines(squidConfig);
-    assertThat(defines.size()).isEqualTo(15 + 12);
+    assertThat(defines).hasSize(15 + 12);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines).contains("_M_IX86 600");
     softly.assertThat(defines).contains("__cplusplus 199711L");
@@ -619,7 +619,7 @@ public class CxxSquidConfigurationTest {
     var softly = new SoftAssertions();
     softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
     List<String> defines = getDefines(squidConfig);
-    assertThat(defines.size()).isEqualTo(15 + 14);
+    assertThat(defines).hasSize(15 + 14);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines.contains("_M_IX86 600")).isFalse();
     softly.assertThat(defines).contains("__cplusplus 199711L");
@@ -638,8 +638,8 @@ public class CxxSquidConfigurationTest {
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isEqualTo(15);
-    softly.assertThat(getDefines(squidConfig).size()).isEqualTo(30);
+    softly.assertThat(getIncludeDirectories(squidConfig)).hasSize(15);
+    softly.assertThat(getDefines(squidConfig)).hasSize(30);
     softly.assertAll();
   }
 

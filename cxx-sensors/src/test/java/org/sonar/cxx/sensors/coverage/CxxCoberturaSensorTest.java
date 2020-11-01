@@ -82,7 +82,7 @@ public class CxxCoberturaSensorTest {
       Path rel2 = Paths.get("\\test2\\report.txt");
 
       result = CoberturaParser.join(empty, empty);
-      assertThat(result).isEqualTo("");
+      assertThat(result).isEmpty();
 
       result = CoberturaParser.join(empty, abs2);
       assertThat(result).isEqualTo("c:\\test2\\report.txt");
@@ -91,10 +91,10 @@ public class CxxCoberturaSensorTest {
       assertThat(result).isEqualTo(".\\test2\\report.txt");
 
       result = CoberturaParser.join(abs1, empty);
-      assertThat(result).isEqualTo("");
+      assertThat(result).isEmpty();
 
       result = CoberturaParser.join(rel1, empty);
-      assertThat(result).isEqualTo("");
+      assertThat(result).isEmpty();
 
       result = CoberturaParser.join(abs1, abs2);
       assertThat(result).isEqualTo("c:\\test2\\report.txt");
@@ -116,7 +116,7 @@ public class CxxCoberturaSensorTest {
       Path rel2 = Paths.get("test2/report.txt");
 
       result = CoberturaParser.join(empty, empty);
-      assertThat(result).isEqualTo("");
+      assertThat(result).isEmpty();
 
       result = CoberturaParser.join(empty, abs2);
       assertThat(result).isEqualTo("/home/test2/report.txt");
@@ -125,10 +125,10 @@ public class CxxCoberturaSensorTest {
       assertThat(result).isEqualTo("./test2/report.txt");
 
       result = CoberturaParser.join(abs1, empty);
-      assertThat(result).isEqualTo("");
+      assertThat(result).isEmpty();
 
       result = CoberturaParser.join(rel1, empty);
-      assertThat(result).isEqualTo("");
+      assertThat(result).isEmpty();
 
       result = CoberturaParser.join(abs1, abs2);
       assertThat(result).isEqualTo("/home/test2/report.txt");

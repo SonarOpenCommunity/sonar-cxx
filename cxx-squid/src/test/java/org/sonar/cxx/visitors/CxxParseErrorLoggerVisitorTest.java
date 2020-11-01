@@ -51,12 +51,13 @@ public class CxxParseErrorLoggerVisitorTest {
   public void handleParseErrorTest() throws Exception {
     String log = String.join("\n", logTester.logs(LoggerLevel.DEBUG));
 
-    assertThat(log).isNotEmpty();
-    assertThat(log).contains("skip declaration: namespace X {");
-    assertThat(log).contains("skip declaration: void test :: f1 ( ) {");
-    assertThat(log).contains("syntax error: i = unsigend int ( i + 1 )");
-    assertThat(log).contains("skip declaration: void test :: f3 ( ) {");
-    assertThat(log).contains("syntax error: int i = 0 i ++");
+    assertThat(log)
+      .isNotEmpty()
+      .contains("skip declaration: namespace X {")
+      .contains("skip declaration: void test :: f1 ( ) {")
+      .contains("syntax error: i = unsigend int ( i + 1 )")
+      .contains("skip declaration: void test :: f3 ( ) {")
+      .contains("syntax error: int i = 0 i ++");
   }
 
 }

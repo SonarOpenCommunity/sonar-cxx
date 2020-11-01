@@ -389,16 +389,17 @@ public class CxxSquidSensor implements ProjectSensor {
           line = message.getLine();
         }
 
-        NewIssue newIssue = context.newIssue().forRule(
-          RuleKey.of(CheckList.REPOSITORY_KEY,
-                     checks.ruleKey(
-                       (SquidAstVisitor<Grammar>) message.getCheck())
-                       .rule()));
-        NewIssueLocation location = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
-          .message(message.getText(Locale.ENGLISH));
+        RuleKey ruleKey = checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck());
+        if (ruleKey != null) {
+          NewIssue newIssue = context.newIssue().forRule(RuleKey.of(CheckList.REPOSITORY_KEY, ruleKey.rule()));
+          NewIssueLocation location = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
+            .message(message.getText(Locale.ENGLISH));
 
-        newIssue.at(location);
-        newIssue.save();
+          newIssue.at(location);
+          newIssue.save();
+        } else {
+          LOG.debug("Unknown rule key: %s", message);
+        }
       }
     }
 

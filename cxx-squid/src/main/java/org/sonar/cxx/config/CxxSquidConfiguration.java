@@ -273,11 +273,13 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   public List<String> getChildrenValues(String level, String key) {
     List<String> result = new ArrayList<>();
     Element eLevel = findLevel(level, parentList.getFirst());
-    for (var child : eLevel.getChildren()) {
-      Element eKey = child.getChild(key);
-      if (eKey != null) {
-        for (var value : eKey.getChildren("Value")) {
-          result.add(value.getText());
+    if (eLevel != null) {
+      for (var child : eLevel.getChildren()) {
+        Element eKey = child.getChild(key);
+        if (eKey != null) {
+          for (var value : eKey.getChildren("Value")) {
+            result.add(value.getText());
+          }
         }
       }
     }
@@ -423,7 +425,11 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @return unified path
    */
   private String unifyPath(String path) {
-    return PathUtils.sanitize(path).toLowerCase();
+    String result = PathUtils.sanitize(path);
+    if (result == null) {
+      result = "unknown";
+    }
+    return result.toLowerCase();
   }
 
   /**
@@ -437,7 +443,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @return the containing Element or null if unattached or a root Element
    */
   @CheckForNull
-  private Element getParentElement(Element element) {
+  private Element getParentElement(@Nullable Element element) {
     var parentIterator = parentList.iterator();
     while (parentIterator.hasNext()) {
       var next = parentIterator.next();
@@ -449,7 +455,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
         }
       }
     }
-    return element.getParentElement();
+    return element != null ? element.getParentElement() : null;
   }
 
   /**

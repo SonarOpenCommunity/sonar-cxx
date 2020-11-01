@@ -25,6 +25,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 public class SourceCodeProviderTest {
@@ -162,7 +163,7 @@ public class SourceCodeProviderTest {
     String cwd = new File("src/test/resources/codeprovider").getAbsolutePath();
     String path = "source.hh";
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, cwd, true));
-    assertEquals(null, codeProvider.getSourceCodeFile(path, cwd, false));
+    assertNull(codeProvider.getSourceCodeFile(path, cwd, false));
   }
 
   @Test
@@ -170,7 +171,7 @@ public class SourceCodeProviderTest {
     String cwd = new File("src/test/resources").getAbsolutePath();
     String path = "codeprovider/source.hh";
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, cwd, true));
-    assertEquals(null, codeProvider.getSourceCodeFile(path, cwd, false));
+    assertNull(codeProvider.getSourceCodeFile(path, cwd, false));
   }
 
   @Test
@@ -178,7 +179,7 @@ public class SourceCodeProviderTest {
     String cwd = new File("src/test/resources/codeprovider/folder").getAbsolutePath();
     String path = "../source.hh";
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, cwd, true));
-    assertEquals(null, codeProvider.getSourceCodeFile(path, cwd, false));
+    assertNull(codeProvider.getSourceCodeFile(path, cwd, false));
   }
 
   @Test

@@ -20,6 +20,7 @@
 package org.sonar.cxx.preprocessor;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 public class MapChainTest {
@@ -49,7 +50,7 @@ public class MapChainTest {
     mc.setHighPrio(false);
     mc.put("k", "v");
     mc.removeLowPrio("k");
-    assertEquals(null, mc.get("k"));
+    assertNull(mc.get("k"));
   }
 
   @Test
@@ -63,7 +64,7 @@ public class MapChainTest {
 
   @Test
   public void gettingOverwrittenMapping() {
-    assertEquals(null, mc.get("k"));
+    assertNull(mc.get("k"));
   }
 
   @Test
@@ -71,7 +72,7 @@ public class MapChainTest {
     mc.setHighPrio(false);
     mc.put("k", "v");
     mc.clearLowPrio();
-    assertEquals(null, mc.get("k"));
+    assertNull(mc.get("k"));
   }
 
   @Test
@@ -92,8 +93,8 @@ public class MapChainTest {
     mc.disable("khigh");
     mc.disable("klow");
 
-    assertEquals(null, mc.get("khigh"));
-    assertEquals(null, mc.get("klow"));
+    assertNull(mc.get("khigh"));
+    assertNull(mc.get("klow"));
   }
 
   @Test

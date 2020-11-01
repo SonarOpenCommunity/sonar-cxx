@@ -60,7 +60,7 @@ public class FinalReportTest {
     postjob.execute(postJobContext);
 
     var log = logTester.logs(LoggerLevel.WARN);
-    assertThat(log.size()).isEqualTo(2);
+    assertThat(log).hasSize(2);
     assertThat(log.get(0)).contains("include directive error(s)");
     assertThat(log.get(1)).contains("syntax error(s) detected");
   }
