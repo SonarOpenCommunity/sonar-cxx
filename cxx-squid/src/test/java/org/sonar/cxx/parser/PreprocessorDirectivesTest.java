@@ -91,11 +91,10 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
         + "A;")))
       .isEqualTo("a ; EOF");
 
-    //@todo
-    // assert (serialize(p.parse(
-    //   "#define A_B A/*Comment*/B\n"
-    //   +" A_B;"))
-    //   .equals("A B ; EOF"));
+    assertThat(serialize(p.parse(
+      "#define A_B A/*Comment*/B\n"
+        + " A_B;"))
+      .equals("A B ; EOF"));
   }
 
   @Test
