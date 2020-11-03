@@ -28,18 +28,45 @@ import org.sonar.sslr.channel.CodeReader;
 public class PreprocessorChannel extends Channel<Lexer> {
 
   private static final char EOF = (char) -1;
+  private final StringLiteralsChannel stringLiteralsChannel = new StringLiteralsChannel();
+  private final StringBuilder sb = new StringBuilder(256);
 
-  private static String read(CodeReader code) {
-    var sb = new StringBuilder(256);
-    char ch;
+  @Override
+  public boolean consume(CodeReader code, Lexer output) {
+    int line = code.getLinePosition();
+    int column = code.getColumnPosition();
 
+    char charAt = code.charAt(0);
+    if ((charAt != '#')) {
+      return false;
+    }
+    read(code);
+
+    output.addToken(Token.builder()
+      .setLine(line)
+      .setColumn(column)
+      .setURI(output.getURI())
+      .setValueAndOriginalValue(sb.toString())
+      .setType(CxxTokenType.PREPROCESSOR)
+      .build());
+    sb.setLength(0);
+    return true;
+  }
+
+  private void read(CodeReader code) {
     while (true) {
-      ch = (char) code.pop();
+      char ch = code.charAt(0);
       if (isNewline(ch) || ch == EOF) {
+        code.pop();
         break;
+      } else if (stringLiteralsChannel.read(code, sb)) {
+        continue;
       }
-      if (ch == '/' && code.charAt(0) == '*') {
-        consumeComment(code);
+      ch = (char) code.pop();
+      if (ch == '/' && code.charAt(0) == '/') {
+        consumeSingleLineComment(code);
+      } else if (ch == '/' && code.charAt(0) == '*') {
+        consumeMultiLineComment(code);
       } else if (ch == '\\' && isNewline((char) code.peek())) {
         // the newline is escaped: we have a the multi line preprocessor directive
         // consume both the backslash and the newline, insert a space instead
@@ -49,7 +76,6 @@ public class PreprocessorChannel extends Channel<Lexer> {
         sb.append(ch);
       }
     }
-    return sb.toString();
   }
 
   private static void consumeNewline(CodeReader code) {
@@ -63,12 +89,21 @@ public class PreprocessorChannel extends Channel<Lexer> {
     }
   }
 
-  private static void consumeComment(CodeReader code) {
-    char ch;
+  private static void consumeSingleLineComment(CodeReader code) {
+    code.pop(); // initial '/'
+    while (true) {
+      char charAt = code.charAt(0);
+      if (isNewline(charAt) || charAt == EOF) {
+        break;
+      }
+      code.pop();
+    }
+  }
 
+  private static void consumeMultiLineComment(CodeReader code) {
     code.pop(); // initial '*'
     while (true) {
-      ch = (char) code.pop();
+      char ch = (char) code.pop();
       if (ch == EOF) {
         break;
       }
@@ -81,28 +116,6 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
   private static boolean isNewline(char ch) {
     return (ch == '\n') || (ch == '\r');
-  }
-
-  @Override
-  public boolean consume(CodeReader code, Lexer output) {
-    int line = code.getLinePosition();
-    int column = code.getColumnPosition();
-
-    char ch = code.charAt(0);
-    if ((ch != '#')) {
-      return false;
-    }
-
-    String tokenValue = read(code);
-    output.addToken(Token.builder()
-      .setLine(line)
-      .setColumn(column)
-      .setURI(output.getURI())
-      .setValueAndOriginalValue(tokenValue)
-      .setType(CxxTokenType.PREPROCESSOR)
-      .build());
-
-    return true;
   }
 
 }

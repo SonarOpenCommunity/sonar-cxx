@@ -90,14 +90,14 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
 
   private void readUdSuffix(CodeReader code) {
     for (int start_index = index, len = 0;; index++) {
-      char c = code.charAt(index);
-      if (c == EOF) {
+      char charAt = code.charAt(index);
+      if (charAt == EOF) {
         return;
       }
-      if (Character.isLowerCase(c) || Character.isUpperCase(c) || (c == '_')) {
+      if (Character.isLowerCase(charAt) || Character.isUpperCase(charAt) || (charAt == '_')) {
         len++;
       } else {
-        if (Character.isDigit(c)) {
+        if (Character.isDigit(charAt)) {
           if (len > 0) {
             len++;
           } else {

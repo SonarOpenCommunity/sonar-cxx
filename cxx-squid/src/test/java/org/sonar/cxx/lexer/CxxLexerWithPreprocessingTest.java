@@ -891,7 +891,20 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#define A B(cf)\n"
                                      + "#define B(n) 0x##n\n"
                                      + "A");
-    assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("0xcf").hasType(CxxKeyword.INT));
+    assertThat(tokens).anySatisfy(token -> assertThat(token)
+      .isValue("0xcf")
+      .hasType(CxxKeyword.INT));
+  }
+
+  @Test
+  public void string_problem_1903() {
+    List<Token> tokens = lexer.lex("void f1() {}\n"
+                                     + "#define BROKEN_DEFINE \" /a/path/*\"\n"
+                                     + "void f2() {}");
+
+    var softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(13);
+    softly.assertAll();
   }
 
 }

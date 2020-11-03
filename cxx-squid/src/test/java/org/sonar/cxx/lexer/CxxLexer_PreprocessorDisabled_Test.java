@@ -67,16 +67,27 @@ public class CxxLexer_PreprocessorDisabled_Test {
   }
 
   @Test
-  public void preprocessor_directive_with_multiline_comment() {
+  public void preprocessor_directive_with_comment() {
     var softly = new SoftAssertions();
-    softly.assertThat(lexer.lex("#define A B/*CCC*/\n")).anySatisfy(token -> assertThat(token).isValue("#define A B")
+    softly.assertThat(lexer.lex("#define A B*/\n")).anySatisfy(token -> assertThat(token)
+      .isValue("#define A B*/")
       .hasType(CxxTokenType.PREPROCESSOR));
-    softly.assertThat(lexer.lex("#define A B/**/C\n")).anySatisfy(token -> assertThat(token).isValue("#define A BC")
+    softly.assertThat(lexer.lex("#define A B/*CCC*/\n")).anySatisfy(token -> assertThat(token)
+      .isValue("#define A B")
       .hasType(CxxTokenType.PREPROCESSOR));
-    softly.assertThat(lexer.lex("#define A B/*C\n\n\nC*/\n")).anySatisfy(token -> assertThat(token).isValue(
-      "#define A B").hasType(CxxTokenType.PREPROCESSOR));
-    softly.assertThat(lexer.lex("#define A B*/\n")).anySatisfy(token -> assertThat(token).isValue("#define A B*/")
+    softly.assertThat(lexer.lex("#define A B/**/C\n")).anySatisfy(token -> assertThat(token)
+      .isValue("#define A BC")
       .hasType(CxxTokenType.PREPROCESSOR));
+    softly.assertThat(lexer.lex("#define A B/*C\n\n\nC*/D\n")).anySatisfy(token -> assertThat(token)
+      .isValue("#define A BD").hasType(CxxTokenType.PREPROCESSOR));
+    softly.assertThat(lexer.lex("#define A \"a/*\" B\n")).anySatisfy(token -> assertThat(token)
+      .isValue("#define A \"a/*\" B").hasType(CxxTokenType.PREPROCESSOR));
+    softly.assertThat(lexer.lex("#define A \"-str/*\"-/*CCC*/\n")).anySatisfy(token -> assertThat(token)
+      .isValue("#define A \"-str/*\"-").hasType(CxxTokenType.PREPROCESSOR));
+    softly.assertThat(lexer.lex("#define A B/*-\"str\"-*/C\n")).anySatisfy(token -> assertThat(token)
+      .isValue("#define A BC").hasType(CxxTokenType.PREPROCESSOR));
+    softly.assertThat(lexer.lex("#define A B//-/*-\"str\"-*/\n")).anySatisfy(token -> assertThat(token)
+      .isValue("#define A B").hasType(CxxTokenType.PREPROCESSOR));
     softly.assertAll();
   }
 
