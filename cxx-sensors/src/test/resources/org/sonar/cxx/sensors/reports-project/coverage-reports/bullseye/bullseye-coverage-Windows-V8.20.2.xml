@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BullseyeCoverage XML 8.20.2 Windows x64 -->
+<BullseyeCoverage name="coverage.cov" dir="root" buildId="745ae38_2020-11-09_19:52:34" version="6" xmlns="https://www.bullseye.com/covxml"
+                  fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+  <folder name="folder" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+    <src name="test.cpp" mtime="1604936026" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+      <fn name="Core::TokenHandler::~TokenHandler()" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+        <probe line="3" column="7" kind="function" event="full"/>
+        <block line="3" entered="1"/>
+      </fn>
+    </src>
+  </folder>
+</BullseyeCoverage>

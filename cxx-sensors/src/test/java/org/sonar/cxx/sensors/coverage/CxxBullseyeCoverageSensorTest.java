@@ -233,4 +233,36 @@ public class CxxBullseyeCoverageSensorTest {
     }
   }
 
+  @Test
+  public void shouldIgnoreBlocks() {
+
+    // report contains a block tag => ignore
+    String coverageReport = "coverage-reports/bullseye/bullseye-coverage-Windows-V8.20.2.xml";
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+
+    if (TestUtils.isWindows()) {
+      settings.setProperty(CxxCoverageBullseyeSensor.REPORT_PATH_KEY, coverageReport);
+      context.setSettings(settings);
+
+      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "root/folder/test.cpp")
+        .setLanguage("cxx")
+        .initMetadata(
+          "namespace Core {\n"
+            + "    class TokenHandler {\n"
+            + "    public:\n"
+            + "        virtual ~TokenHandler() {}\n"
+            + "        virtual void OnHandle() = 0;\n"
+            + "    };\n"
+            + "}\n"
+        )
+        .build()
+      );
+
+      var sensor = new CxxCoverageBullseyeSensor();
+      sensor.execute(context);
+
+      assertThat(context.lineHits("ProjectKey:root/folder/test.cpp", 3)).isEqualTo(1);
+    }
+  }
+
 }
