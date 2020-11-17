@@ -158,7 +158,7 @@ public class BullseyeParser implements CoverageParser {
   }
 
   private void funcWalk(SMInputCursor func, CoverageMeasures fileMeasuresBuilderIn) throws XMLStreamException {
-    SMInputCursor prob = func.childElementCursor();
+    SMInputCursor prob = func.childElementCursor("probe");
     while (prob.getNext() != null) {
       probWalk(prob, fileMeasuresBuilderIn);
     }
@@ -166,7 +166,7 @@ public class BullseyeParser implements CoverageParser {
   }
 
   private void fileWalk(SMInputCursor file, CoverageMeasures fileMeasuresBuilderIn) throws XMLStreamException {
-    SMInputCursor func = file.childElementCursor();
+    SMInputCursor func = file.childElementCursor("fn");
     while (func.getNext() != null) {
       funcWalk(func, fileMeasuresBuilderIn);
     }
