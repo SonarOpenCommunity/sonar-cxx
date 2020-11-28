@@ -29,11 +29,11 @@ public:
      */
     int publicAttribute;
 
-    int inlineCommentedAttr; //!< inlineCommentedAttr comment 
+    int inlineCommentedAttr; //!< inlineCommentedAttr comment
 
     void inlinePublicMethod(); //!< inlinePublicMethod comment
 
-    int attr1, //!< attr1 doc 
+    int attr1, //!< attr1 doc
         attr2; ///< attr2 doc
 
     // ignore friend declaration
@@ -71,7 +71,7 @@ protected:
      */
     struct protectedStruct {
         int protectedStructField; ///< protectedStructField doc
-        int protectedStructField2; ///< protectedStructField2 doc  
+        int protectedStructField2; ///< protectedStructField2 doc
     };
 
     /*!
@@ -139,7 +139,7 @@ private:
  */
 extern int globalVar;
 
-int globalVarInline; //!< globalVarInline doc 
+int globalVarInline; //!< globalVarInline doc
 
 int
 /**
@@ -203,7 +203,28 @@ void globalFuncDef() {}
 #define sint32 unsigned int
 #define bool char
 /**
- * linkageSpecification doc.
+ * linkageSpecification1 doc.
  * @return value doc
  */
-EXTERN_C EXPORT sint32 CALLCONV linkageSpecification(byte* params);
+EXTERN_C EXPORT sint32 CALLCONV linkageSpecification1(byte* params);
+
+extern "C" {
+
+   /**
+    * linkageSpecification2 doc.
+    */
+   extern void linkageSpecification2();
+}
+
+extern "C" {
+
+   /**
+    * linkageSpecification3 doc.
+    */
+   extern void linkageSpecification3();
+
+   /**
+    * linkageSpecification4 doc.
+    */
+   extern void linkageSpecification4();
+}

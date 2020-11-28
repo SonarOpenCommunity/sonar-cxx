@@ -73,7 +73,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void to_delete() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/public_api.h")).isEqualTo(tuple(44, 0));
+    assertThat(testFile("src/test/resources/metrics/public_api.h")).isEqualTo(tuple(47, 0));
 
   }
 
@@ -162,7 +162,10 @@ public class CxxPublicApiVisitorTest {
 //        expectedIdCommentMap.put("operator=", "operator=");
     expectedIdCommentMap.put("testUnnamedStructVar", "testUnnamedStructVar");
     expectedIdCommentMap.put("globalFuncDef", "globalFuncDef");
-    expectedIdCommentMap.put("linkageSpecification", "linkageSpecification");
+    expectedIdCommentMap.put("linkageSpecification1", "linkageSpecification1");
+    expectedIdCommentMap.put("linkageSpecification2", "linkageSpecification2");
+    expectedIdCommentMap.put("linkageSpecification3", "linkageSpecification3");
+    expectedIdCommentMap.put("linkageSpecification4", "linkageSpecification4");
 
     // check completeness
     for (var id : expectedIdCommentMap.keySet()) {
