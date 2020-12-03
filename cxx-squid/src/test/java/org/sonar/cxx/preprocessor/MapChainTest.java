@@ -32,85 +32,43 @@ public class MapChainTest {
   }
 
   @Test
-  public void gettingHighPrioMapping() {
-    mc.setHighPrio(true);
+  public void getMapping() {
     mc.put("k", "v");
     assertEquals("v", mc.get("k"));
   }
 
   @Test
-  public void gettingLowPrioMapping() {
-    mc.setHighPrio(false);
+  public void removeMapping() {
     mc.put("k", "v");
-    assertEquals("v", mc.get("k"));
-  }
-
-  @Test
-  public void removeLowPrioMapping() {
-    mc.setHighPrio(false);
-    mc.put("k", "v");
-    mc.removeLowPrio("k");
+    mc.remove("k");
     assertNull(mc.get("k"));
   }
 
   @Test
-  public void gettingNotExistingMapping() {
-    mc.setHighPrio(false);
-    mc.put("k", "vlow");
-    mc.setHighPrio(true);
-    mc.put("k", "vhigh");
-    assertEquals("vhigh", mc.get("k"));
-  }
-
-  @Test
-  public void gettingOverwrittenMapping() {
+  public void noValueMapping() {
     assertNull(mc.get("k"));
   }
 
   @Test
-  public void clearingLowPrioDeletesLowPrioMappings() {
-    mc.setHighPrio(false);
+  public void clearMapping() {
     mc.put("k", "v");
-    mc.clearLowPrio();
+    mc.clear();
     assertNull(mc.get("k"));
-  }
-
-  @Test
-  public void clearingLowPrioDoesntAffectHighPrioMappings() {
-    mc.setHighPrio(true);
-    mc.put("k", "v");
-    mc.clearLowPrio();
-    assertEquals("v", mc.get("k"));
   }
 
   @Test
   public void disable() {
-    mc.setHighPrio(true);
-    mc.put("khigh", "vhigh");
-    mc.setHighPrio(false);
-    mc.put("klow", "vlow");
-
-    mc.disable("khigh");
-    mc.disable("klow");
-
-    assertNull(mc.get("khigh"));
-    assertNull(mc.get("klow"));
+    mc.put("k", "v");
+    mc.disable("k");
+    assertNull(mc.get("k"));
   }
 
   @Test
   public void enable() {
-    mc.setHighPrio(true);
-    mc.put("khigh", "vhigh");
-    mc.setHighPrio(false);
-    mc.put("klow", "vlow");
-    mc.disable("khigh");
-    mc.disable("klow");
-
-    mc.enable("khigh");
-    mc.enable("klow");
-
-    assertEquals("vhigh", mc.get("khigh"));
-    assertEquals("vlow", mc.get("klow"));
+    mc.put("k", "v");
+    mc.disable("k");
+    mc.enable("k");
+    assertEquals("v", mc.get("k"));
   }
 
 }

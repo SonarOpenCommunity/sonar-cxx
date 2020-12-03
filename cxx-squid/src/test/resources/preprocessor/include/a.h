@@ -1,0 +1,1 @@
+#define INCLUDE "using: include/a.h"

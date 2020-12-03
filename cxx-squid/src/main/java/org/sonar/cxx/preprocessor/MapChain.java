@@ -32,11 +32,8 @@ import java.util.Map;
  */
 public class MapChain<K, V> {
 
-  private final Map<K, V> highPrioMap = new HashMap<>();
-  private final Map<K, V> lowPrioMap = new HashMap<>();
-  private final Map<K, V> highPrioDisabled = new HashMap<>();
-  private final Map<K, V> lowPrioDisabled = new HashMap<>();
-  private boolean isHighPrioEnabled = false;
+  private final Map<K, V> enabled = new HashMap<>();
+  private final Map<K, V> disabled = new HashMap<>();
 
   /**
    * get
@@ -45,12 +42,7 @@ public class MapChain<K, V> {
    * @return V
    */
   public V get(Object key) {
-    V value = highPrioMap.get(key);
-    return value != null ? value : lowPrioMap.get(key);
-  }
-
-  public void setHighPrio(boolean value) {
-    isHighPrioEnabled = value;
+    return enabled.get(key);
   }
 
   /**
@@ -61,37 +53,29 @@ public class MapChain<K, V> {
    * @return V
    */
   public V put(K key, V value) {
-    if (isHighPrioEnabled) {
-      return highPrioMap.put(key, value);
-    } else {
-      return lowPrioMap.put(key, value);
-    }
+    return enabled.put(key, value);
   }
 
   public void putAll(Map<K, V> m) {
-    if (isHighPrioEnabled) {
-      highPrioMap.putAll(m);
-    } else {
-      lowPrioMap.putAll(m);
-    }
+    enabled.putAll(m);
   }
 
   /**
-   * removeLowPrio
+   * remove
    *
    * @param key
    * @return V
    */
-  public V removeLowPrio(K key) {
-    return lowPrioMap.remove(key);
+  public V remove(K key) {
+    return enabled.remove(key);
   }
 
   /**
-   * clearLowPrio
+   * clear
    */
-  public void clearLowPrio() {
-    lowPrioMap.clear();
-    lowPrioDisabled.clear();
+  public void clear() {
+    enabled.clear();
+    disabled.clear();
   }
 
   /**
@@ -100,8 +84,7 @@ public class MapChain<K, V> {
    * @param key
    */
   public void disable(K key) {
-    move(key, lowPrioMap, lowPrioDisabled);
-    move(key, highPrioMap, highPrioDisabled);
+    move(key, enabled, disabled);
   }
 
   /**
@@ -110,12 +93,11 @@ public class MapChain<K, V> {
    * @param key
    */
   public void enable(K key) {
-    move(key, lowPrioDisabled, lowPrioMap);
-    move(key, highPrioDisabled, highPrioMap);
+    move(key, disabled, enabled);
   }
 
-  public Map<K, V> getHighPrioMap() {
-    return Collections.unmodifiableMap(highPrioMap);
+  public Map<K, V> getMap() {
+    return Collections.unmodifiableMap(enabled);
   }
 
   private void move(K key, Map<K, V> from, Map<K, V> to) {

@@ -19,6 +19,8 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.sonar.sslr.api.Grammar;
+import java.io.File;
 import java.math.BigInteger;
 import org.assertj.core.api.SoftAssertions;
 import static org.junit.Assert.assertEquals;
@@ -395,7 +397,12 @@ public class ExpressionEvaluatorTest {
 
   @Test
   public void std_macro_evaluated_as_expected() {
-    var pp = new CxxPreprocessor(mock(SquidAstVisitorContext.class));
+    var file = new File("dummy.cpp");
+    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
+    when(context.getFile()).thenReturn(file);
+
+    var pp = new CxxPreprocessor(context);
+    pp.init();
 
     assertTrue(eval("__LINE__", pp));
     assertTrue(eval("__STDC__", pp));

@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -78,21 +77,16 @@ public class CxxPreprocessor extends Preprocessor {
 
   private final SquidAstVisitorContext<Grammar> context;
   private final CxxSquidConfiguration squidConfig;
-  private boolean ctorInProgress = true;
-
   private final SourceCodeProvider mockCodeProvider;
-  private final MapChain<String, Macro> globalMacros = new MapChain<>();
-  private final Deque<State> globalStateStack = new LinkedList<>();
+
+  private MapChain<String, Macro> unitMacros = null;
 
   private SourceCodeProvider unitCodeProvider;
-  private MapChain<String, Macro> unitMacros;
   private File currentContextFile;
-  private State currentFileState = new State(null);
 
   private final Set<File> analysedFiles = new HashSet<>();
   private final Parser<Grammar> pplineParser;
 
-  private static final String EVALUATED_TO_FALSE = "[{}:{}]: '{}' evaluated to false, skipping tokens that follow";
   private static final String MISSING_INCLUDE_MSG =
      "Preprocessor: {} include directive error(s). "
      + "This is only relevant if parser creates syntax errors."
@@ -121,23 +115,109 @@ public class CxxPreprocessor extends Preprocessor {
     this.squidConfig = squidConfig;
     this.mockCodeProvider = mockCodeProvider;
     pplineParser = CppParser.create(squidConfig);
-    initPredefinedMacros();
 
     if (this.mockCodeProvider != null) {
       this.mockCodeProvider.setIncludeRoots(
-        squidConfig.getValues(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.INCLUDE_DIRECTORIES),
+        this.squidConfig.getValues(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.INCLUDE_DIRECTORIES),
+        this.squidConfig.getBaseDir());
+    }
+
+    addPredefinedMacros();
+  }
+
+  /**
+   * Method called before the lexing starts which can be overridden to initialize a state for instance.
+   *
+   * Method can be called:
+   * a) for a new "physical" file (including SquidAstVisitorContext mock)
+   * b) while processing of #include directive.
+   */
+  @Override
+  public void init() {
+    // make sure, that the following code is executed for a new file only
+    if (currentContextFile != context.getFile()) {
+
+      // In case "physical" file is preprocessed, SquidAstVisitorContext::getFile() cannot return null.
+      // Did you forget to setup the mock properly?
+      currentContextFile = context.getFile();
+      Objects.requireNonNull(currentContextFile, "SquidAstVisitorContext::getFile() must be non-null");
+
+      unitCodeProvider = new SourceCodeProvider();
+
+      // unit specific include directories
+      unitCodeProvider.setIncludeRoots(
+        squidConfig.getValues(currentContextFile.getAbsolutePath(), CxxSquidConfiguration.INCLUDE_DIRECTORIES),
         squidConfig.getBaseDir());
+
+      // unit specific macros
+      unitMacros = new MapChain<>();
+      addUnitMacros();
+      parseForcedIncludes();
     }
-    try {
-      globalMacros.setHighPrio(true);
-      // PREDEFINED_MACROS & GLOBAL
-      var defines = squidConfig.getValues(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.DEFINES);
-      Collections.reverse(defines);
-      globalMacros.putAll(parseMacroDefinitions(defines));
-    } finally {
-      globalMacros.setHighPrio(false);
+  }
+
+  @Override
+  public PreprocessorAction process(List<Token> tokens) { //TODO: deprecated PreprocessorAction
+    Token token = tokens.get(0);
+    TokenType ttype = token.getType();
+    String rootFilePath = getFileUnderAnalysis().getAbsolutePath();
+
+    if (ttype.equals(PREPROCESSOR)) {
+
+      AstNode lineAst;
+      try {
+        lineAst = pplineParser.parse(token.getValue()).getFirstChild();
+      } catch (com.sonar.sslr.api.RecognitionException e) {
+        LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
+        LOG.debug("Parser exception: '{}'", e);
+        return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
+                                      new ArrayList<>());
+      }
+
+      AstNodeType lineKind = lineAst.getType();
+
+      if (lineKind.equals(ifdefLine)) {
+        return handleIfdefLine(lineAst, token, rootFilePath);
+      } else if (lineKind.equals(ifLine)) {
+        return handleIfLine(lineAst, token, rootFilePath);
+      } else if (lineKind.equals(endifLine)) {
+        return handleEndifLine(token, rootFilePath);
+      } else if (lineKind.equals(elseLine)) {
+        return handleElseLine(token, rootFilePath);
+      } else if (lineKind.equals(elifLine)) {
+        return handleElIfLine(lineAst, token, rootFilePath);
+      }
+
+      if (unitCodeProvider.doSkipBlock()) {
+        return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
+                                      new ArrayList<>());
+      }
+
+      if (lineKind.equals(defineLine)) {
+        return handleDefineLine(lineAst, token, rootFilePath);
+      } else if (lineKind.equals(includeLine)) {
+        return handleIncludeLine(lineAst, token, rootFilePath, squidConfig.getCharset());
+      } else if (lineKind.equals(undefLine)) {
+        return handleUndefLine(lineAst, token);
+      }
+
+      // Ignore all other preprocessor directives (which are not handled explicitly) and strip them from the stream
+      return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
+                                    new ArrayList<>());
     }
-    ctorInProgress = false;
+
+    if (!ttype.equals(EOF)) {
+      if (unitCodeProvider.doSkipBlock()) {
+        return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
+                                      new ArrayList<>());
+      }
+
+      if (!ttype.equals(STRING) && !ttype.equals(NUMBER)) {
+        return handleIdentifiersAndKeywords(tokens, token, rootFilePath);
+      }
+    }
+
+    return PreprocessorAction.NO_OPERATION;
   }
 
   public static void finalReport() {
@@ -421,117 +501,16 @@ public class CxxPreprocessor extends Preprocessor {
     return str.substring(1, str.length() - 1);
   }
 
-  /**
-   * Method called before the lexing starts which can be overridden to initialize a state for instance.
-   *
-   * Method can be called:
-   * a) while construction,
-   * b) for a new "physical" file or
-   * c) while processing of #include directive.
-   */
-  @Override
-  public void init() {
-    // Make sure, that the following code is executed for a new "physical" file only.
-    boolean processingNewSourceFile = !ctorInProgress && (context.getFile() != currentContextFile);
-
-    if (processingNewSourceFile) {
-      currentContextFile = context.getFile();
-
-      // In case "physical" file is preprocessed, SquidAstVisitorContext::getFile() cannot return null
-      // Did you forget to setup the mock properly?
-      Objects.requireNonNull(context.getFile(), "SquidAstVisitorContext::getFile() must be non-null");
-
-      unitCodeProvider = new SourceCodeProvider();
-      unitCodeProvider.setIncludeRoots(
-        squidConfig.getValues(currentContextFile.getAbsolutePath(), CxxSquidConfiguration.INCLUDE_DIRECTORIES),
-        squidConfig.getBaseDir());
-
-      unitMacros = new MapChain<>();
-      var defines = squidConfig.getValues(currentContextFile.getAbsolutePath(), CxxSquidConfiguration.DEFINES);
-            Collections.reverse(defines);
-      unitMacros.putAll(parseMacroDefinitions(defines));
-      parseForcedIncludes();
-    }
-  }
-
-  @Override
-  public PreprocessorAction process(List<Token> tokens) { //TODO: deprecated PreprocessorAction
-    final Token token = tokens.get(0);
-    final TokenType ttype = token.getType();
-    final String rootFilePath = getFileUnderAnalysis().getAbsolutePath();
-
-    if (ttype.equals(PREPROCESSOR)) {
-
-      AstNode lineAst;
-      try {
-        lineAst = pplineParser.parse(token.getValue()).getFirstChild();
-      } catch (com.sonar.sslr.api.RecognitionException e) {
-        LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
-        LOG.debug("Parser exception: '{}'", e);
-        return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                      new ArrayList<>());
-      }
-
-      AstNodeType lineKind = lineAst.getType();
-
-      if (lineKind.equals(ifdefLine)) {
-        return handleIfdefLine(lineAst, token, rootFilePath);
-      } else if (lineKind.equals(ifLine)) {
-        return handleIfLine(lineAst, token, rootFilePath);
-      } else if (lineKind.equals(endifLine)) {
-        return handleEndifLine(token, rootFilePath);
-      } else if (lineKind.equals(elseLine)) {
-        return handleElseLine(token, rootFilePath);
-      } else if (lineKind.equals(elifLine)) {
-        return handleElIfLine(lineAst, token, rootFilePath);
-      }
-
-      if (currentFileState.skipPreprocessorDirectives) {
-        return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                      new ArrayList<>());
-      }
-
-      if (lineKind.equals(defineLine)) {
-        return handleDefineLine(lineAst, token, rootFilePath);
-      } else if (lineKind.equals(includeLine)) {
-        return handleIncludeLine(lineAst, token, rootFilePath, squidConfig.getCharset());
-      } else if (lineKind.equals(undefLine)) {
-        return handleUndefLine(lineAst, token);
-      }
-
-      // Ignore all other preprocessor directives (which are not handled explicitly)
-      // and strip them from the stream
-      return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                    new ArrayList<>());
-    }
-
-    if (!ttype.equals(EOF)) {
-      if (currentFileState.skipPreprocessorDirectives) {
-        return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                      new ArrayList<>());
-      }
-
-      if (!ttype.equals(STRING) && !ttype.equals(NUMBER)) {
-        return handleIdentifiersAndKeywords(tokens, token, rootFilePath);
-      }
-    }
-
-    return PreprocessorAction.NO_OPERATION;
-  }
-
   public void finishedPreprocessing(File file) {
     // From 16.3.5 "Scope of macro definitions":
-    // A macro definition lasts (independent of block structure) until
-    // a corresponding #undef directive is encountered or (if none
-    // is encountered) until the end of the translation unit.
+    // A macro definition lasts (independent of block structure) until a corresponding #undef directive is encountered
+    // or (if none is encountered) until the end of the translation unit.
 
     LOG.debug("finished preprocessing '{}'", file);
 
     analysedFiles.clear();
-    globalMacros.clearLowPrio();
     unitMacros = null;
     unitCodeProvider = null;
-    currentFileState.reset();
     currentContextFile = null;
   }
 
@@ -539,12 +518,8 @@ public class CxxPreprocessor extends Preprocessor {
     return mockCodeProvider != null ? mockCodeProvider : unitCodeProvider;
   }
 
-  public final MapChain<String, Macro> getMacros() {
-    return unitMacros != null ? unitMacros : globalMacros;
-  }
-
-  public final Macro getMacro(String macroname) {
-    return getMacros().get(macroname);
+  public Macro getMacro(String macroname) {
+    return unitMacros.get(macroname);
   }
 
   public String valueOf(String macroname) {
@@ -563,7 +538,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   public Boolean expandHasIncludeExpression(AstNode exprAst) {
-    final File file = getFileUnderAnalysis();
+    File file = getFileUnderAnalysis();
     return findIncludedFile(exprAst, exprAst.getToken(), file.getAbsolutePath()) != null;
   }
 
@@ -571,7 +546,7 @@ public class CxxPreprocessor extends Preprocessor {
    * This is a collection of standard macros according to
    * http://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html
    */
-  private void initPredefinedMacros() {
+  private void addPredefinedMacros() {
     String[] predefinedMacros = {
       "__FILE__ \"file\"",
       "__LINE__ 1",
@@ -591,19 +566,25 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
+  private void addUnitMacros() {
+    var defines = squidConfig.getValues(currentContextFile.getAbsolutePath(), CxxSquidConfiguration.DEFINES);
+    Collections.reverse(defines);
+    unitMacros.putAll(parseMacroDefinitions(defines));
+  }
+
   private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) {
-    if (!currentFileState.skipPreprocessorDirectives) {
+    if (unitCodeProvider.doNotSkipBlock()) {
       Macro macro = getMacro(getMacroName(ast));
       TokenType tokType = ast.getToken().getType();
       if ((tokType.equals(IFDEF) && macro == null) || (tokType.equals(IFNDEF) && macro != null)) {
-        LOG.trace(EVALUATED_TO_FALSE, filename, token.getLine(), token.getValue());
-        currentFileState.skipPreprocessorDirectives = true;
+        // evaluated to false
+        unitCodeProvider.skipBlock(true);
       }
-      if (!currentFileState.skipPreprocessorDirectives) {
-        currentFileState.conditionWasTrue = true;
+      if (unitCodeProvider.doNotSkipBlock()) {
+        unitCodeProvider.expressionWas(true);
       }
     } else {
-      currentFileState.conditionalInclusionCounter++;
+      unitCodeProvider.nestedBlock(+1);
     }
 
     return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
@@ -644,8 +625,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   /**
-   * Parse the configured forced includes and store into the macro library. Current macro library depends on the return
-   * value of CxxPreprocessor#getMacros()
+   * Parse the configured forced includes and store into the macro library.
    */
   private void parseForcedIncludes() {
     for (var include :  squidConfig.getValues(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
@@ -661,16 +641,15 @@ public class CxxPreprocessor extends Preprocessor {
   private List<Token> expandMacro(String macroName, String macroExpression) {
     // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further replacement
     List<Token> tokens = null;
-    getMacros().disable(macroName);
+    unitMacros.disable(macroName);
     try {
       tokens = stripEOF(CxxLexer.create(this).lex(macroExpression));
     } finally {
-      getMacros().enable(macroName);
+      unitMacros.enable(macroName);
     }
 
-    // make sure that all expanded Tokens are marked as generated
-    // it will prevent them from being involved into NCLOC / complexity /
-    // highlighting
+    // make sure that all expanded Tokens are marked as generated it will prevent them from being involved into
+    // NCLOC / complexity / highlighting
     for (var token : tokens) {
       if (!token.isGeneratedCode()) {
         token = Token.builder(token).setGeneratedCode(true).build();
@@ -681,8 +660,8 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private List<Token> replaceParams(List<Token> body, List<Token> parameters, List<Token> arguments) {
-    // Replace all parameters by according arguments
-    // "Stringify" the argument if the according parameter is preceded by an #
+    // replace all parameters by according arguments "Stringify" the argument if the according parameter is
+    // preceded by an #
 
     var newTokens = new ArrayList<Token>();
     if (!body.isEmpty()) {
@@ -703,9 +682,8 @@ public class CxxPreprocessor extends Preprocessor {
           }
           newTokens.add(curr);
         } else if (index == arguments.size()) {
-          // EXTENSION: GCC's special meaning of token paste operator
-          // If variable argument is left out then the comma before the paste
-          // operator will be deleted
+          // EXTENSION: GCC's special meaning of token paste operator:
+          // If variable argument is left out then the comma before the paste operator will be deleted.
           int j = i;
           while (j > 0 && body.get(j - 1).getType().equals(WS)) {
             j--;
@@ -745,20 +723,17 @@ public class CxxPreprocessor extends Preprocessor {
             tokenPastingRightOp = false;
           } else {
             if (i > 0 && "#".equals(body.get(i - 1).getValue())) {
-              // If the token is a macro, the macro is not expanded - the macro
-              // name is converted into a string.
+              // if the token is a macro, the macro is not expanded - the macro name is converted into a string
               newTokens.remove(newTokens.size() - 1);
               newValue = encloseWithQuotes(quote(replacement.getValue()));
             } else {
-              // otherwise the arguments have to be fully expanded before
-              // expanding the body of the macro
+              // otherwise the arguments have to be fully expanded before expanding the body of the macro
               newValue = serialize(expandMacro("", replacement.getValue()));
             }
           }
 
           if (newValue.isEmpty() && VARIADICPARAMETER.equals(curr.getValue())) {
-            // the Visual C++ implementation will suppress a trailing comma
-            // if no arguments are passed to the ellipsis
+            // the Visual C++ implementation will suppress a trailing comma if no arguments are passed to the ellipsis
             for (var n = newTokens.size() - 1; n != 0; n = newTokens.size() - 1) {
               if (newTokens.get(n).getType().equals(WS)) {
                 newTokens.remove(n);
@@ -814,10 +789,10 @@ public class CxxPreprocessor extends Preprocessor {
         continue;
       }
 
-      final String defineString = "#define " + define;
+      String defineString = "#define " + define;
 
       LOG.debug("parsing external macro: '{}'", defineString);
-      final Macro macro = parseMacroDefinition(defineString);
+      Macro macro = parseMacroDefinition(defineString);
 
       if (macro != null) {
         LOG.debug("storing external macro: '{}'", macro);
@@ -853,9 +828,6 @@ public class CxxPreprocessor extends Preprocessor {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
       String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
-      LOG
-        .trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'", includeBody, expandedIncludeBody);
-
       boolean parseError = false;
       AstNode includeBodyAst = null;
       try {
@@ -876,8 +848,8 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     if (includedFileName != null) {
-      final File file = getFileUnderAnalysis();
-      final String dir = file.getParent();
+      File file = getFileUnderAnalysis();
+      String dir = file.getParent();
       return getCodeProvider().getSourceCodeFile(includedFileName, dir, quoted);
     }
 
@@ -885,50 +857,40 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private File getFileUnderAnalysis() {
-    if (ctorInProgress) {
-      // a) CxxPreprocessor is parsing artificial #include and #define
-      // directives in order to initialize preprocessor with default macros
-      // and forced includes.
-      // This code is running in constructor of CxxPreprocessor. There is no
-      // information about the current file. Therefore return some artificial
-      // path under the project base directory.
-      return new File(squidConfig.getBaseDir(), "CxxPreprocessorCtorInProgress.cpp").getAbsoluteFile();
-    } else if (currentFileState.includeUnderAnalysis != null) {
-      // b) CxxPreprocessor is called recursively in order to parse the #include
-      // directive. Return path to the included file.
-      return currentFileState.includeUnderAnalysis;
+    if (unitCodeProvider.getIncludeUnderAnalysis() != null) {
+      // a) CxxPreprocessor is called recursively in order to parse the #include directive.
+      //    Return path to the included file.
+      return unitCodeProvider.getIncludeUnderAnalysis();
+    } else {
+      // b) CxxPreprocessor is called in the ordinary mode: it is preprocessing the file, tracked in
+      //    org.sonar.squidbridge.SquidAstVisitorContext. This file cannot be null. If it is null - you forgot to
+      //    setup the test mock.
+      Objects.requireNonNull(context.getFile(), "SquidAstVisitorContext::getFile() must be non-null");
+      return context.getFile();
     }
-
-    // c) CxxPreprocessor is called in the ordinary mode: it is preprocessing the
-    // file, tracked in org.sonar.squidbridge.SquidAstVisitorContext. This file cannot
-    // be null. If it is null - you forgot to setup the test mock.
-    Objects.requireNonNull(context.getFile(), "SquidAstVisitorContext::getFile() must be non-null");
-    return context.getFile();
   }
 
-  PreprocessorAction handleIfLine(AstNode ast, Token token, String filename) {
-    if (!currentFileState.skipPreprocessorDirectives) {
-      currentFileState.conditionWasTrue = false;
-      LOG.trace("[{}:{}]: handling #if line '{}'", filename, token.getLine(), token.getValue());
-      try {
-        currentFileState.skipPreprocessorDirectives = false;
-        currentFileState.skipPreprocessorDirectives = !ExpressionEvaluator.eval(squidConfig, this,
-                                                                                ast.getFirstDescendant(
-                                                                                  CppGrammar.constantExpression));
+  void handleConstantExpression(AstNode ast,Token token, String filename){
+    try {
+      unitCodeProvider.skipBlock(false);
+      boolean result = ExpressionEvaluator.eval(squidConfig, this, ast.getFirstDescendant(CppGrammar.constantExpression));
+      unitCodeProvider.expressionWas(result);
+      unitCodeProvider.skipBlock(!result);
       } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
                   filename, token.getLine(), token.getValue());
         LOG.error("{}", e);
-        currentFileState.skipPreprocessorDirectives = false;
+        unitCodeProvider.expressionWas(true);
+        unitCodeProvider.skipBlock(false);
       }
+  }
 
-      if (currentFileState.skipPreprocessorDirectives) {
-        LOG.trace(EVALUATED_TO_FALSE, filename, token.getLine(), token.getValue());
-      } else {
-        currentFileState.conditionWasTrue = true;
-      }
+  PreprocessorAction handleIfLine(AstNode ast, Token token, String filename) {
+    if (unitCodeProvider.doNotSkipBlock()) {
+      unitCodeProvider.expressionWas(false);
+      handleConstantExpression(ast, token, filename);
     } else {
-      currentFileState.conditionalInclusionCounter++;
+      unitCodeProvider.nestedBlock(+1);
     }
 
     return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
@@ -936,32 +898,14 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   PreprocessorAction handleElIfLine(AstNode ast, Token token, String filename) {
-    // Handling of an elif line is similar to handling of an if line but doesn't increase the nesting level
-    if (currentFileState.conditionalInclusionCounter == 0) {
-      //the preceding clauses had been evaluated to false
-      if (currentFileState.skipPreprocessorDirectives && !currentFileState.conditionWasTrue) {
-        try {
-          LOG.trace("[{}:{}]: handling #elif line '{}'", filename, token.getLine(), token.getValue());
-
-          currentFileState.skipPreprocessorDirectives = false;
-          currentFileState.skipPreprocessorDirectives = !ExpressionEvaluator.eval(squidConfig, this,
-                                                                                  ast.getFirstDescendant(
-                                                                                    CppGrammar.constantExpression));
-        } catch (EvaluationException e) {
-          LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
-                    filename, token.getLine(), token.getValue());
-          LOG.error("{}", e);
-          currentFileState.skipPreprocessorDirectives = false;
-        }
-
-        if (currentFileState.skipPreprocessorDirectives) {
-          LOG.trace(EVALUATED_TO_FALSE, filename, token.getLine(), token.getValue());
-        } else {
-          currentFileState.conditionWasTrue = true;
-        }
+    // handling of an #elif line is similar to handling of an #if line but doesn't increase the nesting level
+    if (unitCodeProvider.isNotNestedBlock()) {
+      if (unitCodeProvider.doSkipBlock() && unitCodeProvider.expressionWasFalse()) {
+        // the preceding expression had been evaluated to false
+        handleConstantExpression(ast, token, filename);
       } else {
-        LOG.trace("[{}:{}]: skipping tokens inside the #elif", filename, token.getLine());
-        currentFileState.skipPreprocessorDirectives = true;
+        // other block was already true: skipping tokens inside this #elif
+        unitCodeProvider.skipBlock(true);
       }
     }
 
@@ -970,14 +914,14 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   PreprocessorAction handleElseLine(Token token, String filename) {
-    if (currentFileState.conditionalInclusionCounter == 0) {
-      if (currentFileState.skipPreprocessorDirectives && !currentFileState.conditionWasTrue) {
-        LOG.trace("[{}:{}]: #else, returning to non-skipping mode", filename, token.getLine());
-        currentFileState.skipPreprocessorDirectives = false;
-        currentFileState.conditionWasTrue = true;
+    if (unitCodeProvider.isNotNestedBlock()) {
+      if (unitCodeProvider.doSkipBlock() && unitCodeProvider.expressionWasFalse()) {
+        // other block(s) were false: #else returning to non-skipping mode
+        unitCodeProvider.expressionWas(true);
+        unitCodeProvider.skipBlock(false);
       } else {
-        LOG.trace("[{}:{}]: skipping tokens inside the #else", filename, token.getLine());
-        currentFileState.skipPreprocessorDirectives = true;
+        // other block was true: skipping tokens inside the #else
+        unitCodeProvider.skipBlock(true);
       }
     }
 
@@ -986,14 +930,13 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   PreprocessorAction handleEndifLine(Token token, String filename) {
-    if (currentFileState.conditionalInclusionCounter > 0) {
-      currentFileState.conditionalInclusionCounter--;
+    if (unitCodeProvider.isNestedBlock()) {
+      // nested #endif
+      unitCodeProvider.nestedBlock(-1);
     } else {
-      if (currentFileState.skipPreprocessorDirectives) {
-        LOG.trace("[{}:{}]: #endif, returning to non-skipping mode", filename, token.getLine());
-        currentFileState.skipPreprocessorDirectives = false;
-      }
-      currentFileState.conditionWasTrue = false;
+      // after last #endif, switching to non-skipping mode
+      unitCodeProvider.skipBlock(false);
+      unitCodeProvider.expressionWas(false);
     }
 
     return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
@@ -1001,11 +944,9 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   PreprocessorAction handleDefineLine(AstNode ast, Token token, String filename) {
-    // Here we have a define directive. Parse it and store the result in a dictionary.
-
+    // Here we have a define directive. Parse it and store the macro in a dictionary.
     Macro macro = parseMacroDefinition(ast);
-    LOG.trace("[{}:{}]: storing macro: '{}'", filename, token.getLine(), macro);
-    getMacros().put(macro.name, macro);
+    unitMacros.put(macro.name, macro);
 
     return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
                                   new ArrayList<>());
@@ -1013,32 +954,25 @@ public class CxxPreprocessor extends Preprocessor {
 
   PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename, Charset charset) {
     //
-    // Included files have to be scanned with the (only) goal of gathering macros.
-    // This is done as follows:
+    // Included files have to be scanned with the (only) goal of gathering macros. This is done as follows:
     //
     // a) pipe the body of the include directive through a lexer to properly expand
     //    all macros which may be in there.
     // b) extract the filename out of the include body and try to find it
     // c) if not done yet, process it using a special lexer, which calls back only
     //    if it finds relevant preprocessor directives (currently: include's and define's)
-
-    final File includedFile = findIncludedFile(ast, token, filename);
+    File includedFile = findIncludedFile(ast, token, filename);
     if (includedFile == null) {
       missingIncludeFilesCounter++;
       LOG.debug("[" + filename + ":" + token.getLine() + "]: cannot find include file '" + token.getValue() + "'");
     } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
-      LOG.trace("[{}:{}]: processing {}, resolved to file '{}'", filename, token.getLine(), token.getValue(),
-                includedFile.getAbsolutePath());
-
-      globalStateStack.push(currentFileState);
-      currentFileState = new State(includedFile);
-
+      unitCodeProvider.pushFileState(includedFile);
       try {
         IncludeLexer.create(this).lex(getCodeProvider().getSourceCode(includedFile, charset));
       } catch (IOException e) {
-        LOG.error("[{}: Cannot read file]: {}", includedFile.getAbsoluteFile(), e);
+        LOG.error("[{}: Cannot read include file]: {}", includedFile.getAbsoluteFile(), e);
       } finally {
-        currentFileState = globalStateStack.pop();
+        unitCodeProvider.popFileState();
       }
     }
 
@@ -1048,18 +982,16 @@ public class CxxPreprocessor extends Preprocessor {
 
   PreprocessorAction handleUndefLine(AstNode ast, Token token) {
     String macroName = ast.getFirstDescendant(IDENTIFIER).getTokenValue();
-    getMacros().removeLowPrio(macroName);
+    unitMacros.remove(macroName);
     return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
                                   new ArrayList<>());
   }
 
   PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) {
     //
-    // Every identifier and every keyword can be a macro instance.
-    // Pipe the resulting string through a lexer to create proper Tokens
-    // and to expand recursively all macros which may be in there.
+    // Every identifier and every keyword can be a macro instance. Pipe the resulting string through a lexer to
+    // create proper Tokens and to expand recursively all macros which may be in there.
     //
-
     PreprocessorAction ppaction = PreprocessorAction.NO_OPERATION;
     Macro macro = getMacro(curr.getValue());
     if (macro != null) {
@@ -1082,7 +1014,7 @@ public class CxxPreprocessor extends Preprocessor {
 
         // Rescanning to expand function like macros, in case it requires consuming more tokens
         List<Token> outTokens = new LinkedList<>();
-        getMacros().disable(macro.name);
+        unitMacros.disable(macro.name);
         while (!replTokens.isEmpty()) {
           Token c = replTokens.get(0);
           PreprocessorAction action = PreprocessorAction.NO_OPERATION;
@@ -1106,17 +1038,8 @@ public class CxxPreprocessor extends Preprocessor {
           }
         }
         replTokens = outTokens;
-        getMacros().enable(macro.name);
-
+        unitMacros.enable(macro.name);
         replTokens = reallocate(replTokens, curr);
-
-        if (LOG.isTraceEnabled()) {
-          LOG.trace("[{}:{}]: replacing '" + curr.getValue()
-                      + (tokensConsumed == 1
-                         ? ""
-                         : serialize(tokens.subList(1, tokensConsumed))) + "' -> '" + serialize(replTokens) + '\'',
-                    filename, curr.getLine());
-        }
 
         ppaction = new PreprocessorAction(
           tokensConsumed,
@@ -1126,73 +1049,6 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     return ppaction;
-  }
-
-  public static class Include {
-
-    private final int line;
-    private final String path;
-
-    Include(int line, String path) {
-      this.line = line;
-      this.path = path;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-
-      Include that = (Include) o;
-
-      if (line != that.line) {
-        return false;
-      }
-
-      return (path == null) ? that.path == null : path.equals(that.path);
-    }
-
-    @Override
-    public int hashCode() {
-      return 31 * line + (path != null ? path.hashCode() : 0);
-    }
-
-    public String getPath() {
-      return path;
-    }
-
-    public int getLine() {
-      return line;
-    }
-  }
-
-  private static class State {
-
-    private boolean skipPreprocessorDirectives;
-    private boolean conditionWasTrue;
-    private int conditionalInclusionCounter;
-    private File includeUnderAnalysis;
-
-    public State(@Nullable File includeUnderAnalysis) {
-      this.skipPreprocessorDirectives = false;
-      this.conditionWasTrue = false;
-      this.conditionalInclusionCounter = 0;
-      this.includeUnderAnalysis = includeUnderAnalysis;
-    }
-
-    /**
-     * reset preprocessor state
-     */
-    public final void reset() {
-      skipPreprocessorDirectives = false;
-      conditionWasTrue = false;
-      conditionalInclusionCounter = 0;
-      includeUnderAnalysis = null;
-    }
   }
 
   static class MismatchException extends Exception {
@@ -1213,22 +1069,6 @@ public class CxxPreprocessor extends Preprocessor {
 
     MismatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
       super(message, cause, enableSuppression, writableStackTrace);
-    }
-  }
-
-  static class PreprocessorRuntimeException extends RuntimeException {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = -6568372484065119533L;
-
-    public PreprocessorRuntimeException(String message) {
-      super(message);
-    }
-
-    public PreprocessorRuntimeException(String message, Throwable throwable) {
-      super(message, throwable);
     }
   }
 
