@@ -886,12 +886,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(iterationStatement).is(
       b.firstOf(
-        b.sequence(CxxKeyword.WHILE, "(", condition, ")", statement), // C++
+        b.sequence(CxxKeyword.WHILE, "(", condition, ")",
+                   statement), // C++
         b.sequence(CxxKeyword.DO, statement, CxxKeyword.WHILE, "(", expression, ")", ";"), // C++
         b.sequence(CxxKeyword.FOR, "(", initStatement, b.optional(condition), ";", b.optional(expression), ")",
                    statement), // C++
-        b.sequence(CxxKeyword.FOR, "(", forRangeDeclaration, ":", forRangeInitializer, ")", statement), // C++
-        b.sequence(CxxKeyword.FOR, "each", "(", forRangeDeclaration, "in", forRangeInitializer, ")", statement) // C++/CLI
+        b.sequence(CxxKeyword.FOR, "(", b.optional(initStatement), forRangeDeclaration, ":", forRangeInitializer, ")",
+                   statement), // C++
+        b.sequence(CxxKeyword.FOR, "each", "(", forRangeDeclaration, "in", forRangeInitializer, ")",
+                   statement) // C++/CLI
       )
     );
 

@@ -188,6 +188,7 @@ public class StatementTest extends ParserBaseTestHelper {
     assertThat(p).matches("for ( initStatement condition ; ) statement");
     assertThat(p).matches("for ( initStatement condition ; expression ) statement");
     assertThat(p).matches("for ( forRangeDeclaration : forRangeInitializer ) statement");
+    assertThat(p).matches("for ( initStatement forRangeDeclaration : forRangeInitializer ) statement");
   }
 
   @Test
