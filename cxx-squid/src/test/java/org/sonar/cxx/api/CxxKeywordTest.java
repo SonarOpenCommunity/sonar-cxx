@@ -27,7 +27,7 @@ public class CxxKeywordTest {
   @Test
   public void test() {
     var softly = new SoftAssertions();
-    softly.assertThat(CxxKeyword.values()).hasSize(86);
+    softly.assertThat(CxxKeyword.values()).hasSize(88);
     softly.assertThat(CxxKeyword.keywordValues()).hasSize(CxxKeyword.values().length);
     softly.assertAll();
   }

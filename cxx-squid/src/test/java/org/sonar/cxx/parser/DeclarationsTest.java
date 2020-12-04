@@ -215,6 +215,8 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("friend");
     assertThat(p).matches("typedef");
     assertThat(p).matches("constexpr");
+    assertThat(p).matches("consteval");
+    assertThat(p).matches("constinit");
     assertThat(p).matches("inline");
   }
 
@@ -230,6 +232,8 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("friend");
     assertThat(p).matches("typedef");
     assertThat(p).matches("constexpr");
+    assertThat(p).matches("consteval");
+    assertThat(p).matches("constinit");
     assertThat(p).matches("inline");
 
     // enum specifier
