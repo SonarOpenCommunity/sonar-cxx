@@ -39,6 +39,7 @@ public enum CxxKeyword implements TokenType {
   CASE("case"),
   CATCH("catch"),
   CHAR("char"),
+  CHAR8_T("char8_t"),
   CHAR16_T("char16_t"),
   CHAR32_T("char32_t"),
   CLASS("class"),

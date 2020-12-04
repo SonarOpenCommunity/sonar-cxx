@@ -475,12 +475,13 @@ public class CxxLexerTest {
   }
 
   /**
-   * C++ Standard, Section 2.14.3 "Character literals"
+   * C++ Standard, Character literals
    */
   @Test
   public void character_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("''").tokenValue("''").tokenType(CxxTokenType.CHARACTER).build(), // char: empty
+      LiteralValuesBuilder.builder("u8''").tokenValue("u8''").tokenType(CxxTokenType.CHARACTER).build(), // char: prefix u8
       LiteralValuesBuilder.builder("u''").tokenValue("u''").tokenType(CxxTokenType.CHARACTER).build(), // char: prefix u
       LiteralValuesBuilder.builder("U''").tokenValue("U''").tokenType(CxxTokenType.CHARACTER).build(), // char: prefix U
       LiteralValuesBuilder.builder("L''").tokenValue("L''").tokenType(CxxTokenType.CHARACTER).build(), // char: prefix L
@@ -501,15 +502,16 @@ public class CxxLexerTest {
   }
 
   /**
-   * C++ Standard, Section 2.14.5 "String literals"
+   * C++ Standard, String literals
    */
   @Test
   public void string_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("\"\"").tokenValue("\"\"").tokenType(CxxTokenType.STRING).build(), // string: empty
+      LiteralValuesBuilder.builder("u8\"\"").tokenValue("u8\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix u8
       LiteralValuesBuilder.builder("u\"\"").tokenValue("u\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix u
-      LiteralValuesBuilder.builder("u8\"\"").tokenValue("u8\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix U
-      LiteralValuesBuilder.builder("U\"\"").tokenValue("U\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix L
+      LiteralValuesBuilder.builder("U\"\"").tokenValue("U\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix U
+      LiteralValuesBuilder.builder("L\"\"").tokenValue("L\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix L
 
       LiteralValuesBuilder.builder("\"a\"").tokenValue("\"a\"").tokenType(CxxTokenType.STRING).build(), // string: trivial
 
