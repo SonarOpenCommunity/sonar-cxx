@@ -84,6 +84,9 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
     ch = code.charAt(index);
     if ((ch == 'u') || (ch == 'U') || ch == 'L') {
       index++;
+      if (ch == 'u' && code.charAt(index) == '8') {
+        index++;
+      }
       ch = code.charAt(index);
     }
   }

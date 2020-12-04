@@ -181,7 +181,8 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("auto to_string(int value) -> std::string;");
     assertThat(p).matches("auto size() const -> std::size_t;");
     assertThat(p).matches("auto str() const;");
-    assertThat(p).matches("auto equal_range(ForwardIterator first, ForwardIterator last, const Type& value) -> std::pair<ForwardIterator, ForwardIterator>;");
+    assertThat(p).matches(
+      "auto equal_range(ForwardIterator first, ForwardIterator last, const Type& value) -> std::pair<ForwardIterator, ForwardIterator>;");
 
     assertThat(p).matches("auto str() const -> const char*;");
     assertThat(p).matches("auto std::map::at(const key_type& key) -> mapped_type&;");
@@ -329,6 +330,7 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("nestedNameSpecifier templateName");
 
     assertThat(p).matches("char");
+    assertThat(p).matches("char8_t");
     assertThat(p).matches("char16_t");
     assertThat(p).matches("char32_t");
     assertThat(p).matches("wchar_t");
@@ -622,16 +624,23 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("cliPropertyModifiers property typeSpecifier declarator ;");
     assertThat(p).matches("cliAttributes cliPropertyModifiers property typeSpecifier declarator ;");
     assertThat(p).matches("cliAttributes cliPropertyModifiers property cliPropertyOrEventName declarator ;");
-    assertThat(p).matches("cliAttributes cliPropertyModifiers property nestedNameSpecifier cliPropertyOrEventName declarator ;");
+    assertThat(p).matches(
+      "cliAttributes cliPropertyModifiers property nestedNameSpecifier cliPropertyOrEventName declarator ;");
 
     assertThat(p).matches("property typeSpecifier declarator { cliAccessorSpecification }");
     assertThat(p).matches("cliPropertyModifiers property typeSpecifier declarator { cliAccessorSpecification }");
-    assertThat(p).matches("cliPropertyModifiers property typeSpecifier declarator cliPropertyIndexes { cliAccessorSpecification }");
-    assertThat(p).matches("cliAttributes cliPropertyModifiers property typeSpecifier declarator { cliAccessorSpecification }");
-    assertThat(p).matches("cliAttributes cliPropertyModifiers property cliPropertyOrEventName declarator { cliAccessorSpecification }");
-    assertThat(p).matches("cliAttributes cliPropertyModifiers property nestedNameSpecifier cliPropertyOrEventName declarator { cliAccessorSpecification }");
-    assertThat(p).matches("cliAttributes cliPropertyModifiers property typeSpecifier declarator cliPropertyIndexes { cliAccessorSpecification }");
-    assertThat(p).matches("cliAttributes cliPropertyModifiers property nestedNameSpecifier cliPropertyOrEventName declarator cliPropertyIndexes { cliAccessorSpecification }");
+    assertThat(p).matches(
+      "cliPropertyModifiers property typeSpecifier declarator cliPropertyIndexes { cliAccessorSpecification }");
+    assertThat(p).matches(
+      "cliAttributes cliPropertyModifiers property typeSpecifier declarator { cliAccessorSpecification }");
+    assertThat(p).matches(
+      "cliAttributes cliPropertyModifiers property cliPropertyOrEventName declarator { cliAccessorSpecification }");
+    assertThat(p).matches(
+      "cliAttributes cliPropertyModifiers property nestedNameSpecifier cliPropertyOrEventName declarator { cliAccessorSpecification }");
+    assertThat(p).matches(
+      "cliAttributes cliPropertyModifiers property typeSpecifier declarator cliPropertyIndexes { cliAccessorSpecification }");
+    assertThat(p).matches(
+      "cliAttributes cliPropertyModifiers property nestedNameSpecifier cliPropertyOrEventName declarator cliPropertyIndexes { cliAccessorSpecification }");
   }
 
   @Test
@@ -723,9 +732,11 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("[returnvalue:Attr(x)]");
     assertThat(p).matches("[AttributeUsage( AttributeTargets::All )]");
     assertThat(p).matches("[AttributeUsage(AttributeTargets::Class | AttributeTargets::Method)]");
-    assertThat(p).matches("[ AnotherAttr( gcnew array<Object ^> { 3.14159, \"pi\" }, var1 = gcnew array<Object ^> { \"a\", \"b\" } ) ]");
+    assertThat(p).matches(
+      "[ AnotherAttr( gcnew array<Object ^> { 3.14159, \"pi\" }, var1 = gcnew array<Object ^> { \"a\", \"b\" } ) ]");
     assertThat(p).matches("[System::Diagnostics::DebuggerNonUserCodeAttribute]");
-    assertThat(p).matches("[System::CodeDom::Compiler::GeneratedCodeAttribute(L\"System.Data.Design.TypedDataSetGenerator\", L\"4.0.0.0\")]");
+    assertThat(p).matches(
+      "[System::CodeDom::Compiler::GeneratedCodeAttribute(L\"System.Data.Design.TypedDataSetGenerator\", L\"4.0.0.0\")]");
   }
 
 }
