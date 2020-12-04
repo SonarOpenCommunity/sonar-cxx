@@ -1005,6 +1005,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         CxxKeyword.FRIEND, // C++
         CxxKeyword.TYPEDEF, // C++
         CxxKeyword.CONSTEXPR, // C++
+        CxxKeyword.CONSTEVAL, // C++
+        CxxKeyword.CONSTINIT, // C++
         CxxKeyword.INLINE // C++
       )
     );
