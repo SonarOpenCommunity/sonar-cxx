@@ -274,11 +274,13 @@ public class StatementTest extends ParserBaseTestHelper {
 
     mockRule(CxxGrammarImpl.expression);
     mockRule(CxxGrammarImpl.bracedInitList);
+    mockRule(CxxGrammarImpl.coroutineReturnStatement);
 
     assertThat(p).matches("break ;");
     assertThat(p).matches("continue ;");
     assertThat(p).matches("return expression ;");
     assertThat(p).matches("return bracedInitList ;");
+    assertThat(p).matches("coroutineReturnStatement");
     assertThat(p).matches("goto foo ;");
   }
 
@@ -287,6 +289,15 @@ public class StatementTest extends ParserBaseTestHelper {
     p.setRootRule(g.rule(CxxGrammarImpl.jumpStatement));
 
     assertThat(p).matches("return foo()->i;");
+  }
+
+  @Test
+  public void coroutineReturnStatement() {
+    p.setRootRule(g.rule(CxxGrammarImpl.jumpStatement));
+    mockRule(CxxGrammarImpl.exprOrBracedInitList);
+
+    assertThat(p).matches("co_return ;");
+    assertThat(p).matches("co_return exprOrBracedInitList ;");
   }
 
 }
