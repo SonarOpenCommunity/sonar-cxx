@@ -36,8 +36,10 @@ public class OverloadingTest extends ParserBaseTestHelper {
     p.setRootRule(g.rule(CxxGrammarImpl.overloadableOperator));
 
     assertThat(p).matches("new");
+    assertThat(p).matches("delete");
     assertThat(p).matches("new[]");
     assertThat(p).matches("delete[]");
+    assertThat(p).matches("co_await");
     assertThat(p).matches("()");
     assertThat(p).matches("[]");
   }
@@ -45,12 +47,12 @@ public class OverloadingTest extends ParserBaseTestHelper {
   @Test
   public void literalOperatorId_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.literalOperatorId));
-    
+
     // operator "" identifier
     //    the identifier to use as the ud-suffix
     assertThat(p).matches("operator \"\" _ud_suffix");
-    
-    // operator user-defined-string-literal (since C++14) 	
+
+    // operator user-defined-string-literal (since C++14)
     //   the character sequence "" followed, without a space, by the character
     //   sequence that becomes the ud-suffix
     assertThat(p).matches("operator \"\"if");

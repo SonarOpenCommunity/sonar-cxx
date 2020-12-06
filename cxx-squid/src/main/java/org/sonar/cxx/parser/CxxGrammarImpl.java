@@ -77,6 +77,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   unaryExpression,
   unaryOperator,
   binaryOperator,
+  awaitExpression,
   newExpression,
   newPlacement,
   newTypeId,
@@ -98,6 +99,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   logicalAndExpression,
   logicalOrExpression,
   conditionalExpression,
+  yieldExpression,
   assignmentExpression,
   assignmentOperator,
   expression,
@@ -116,6 +118,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   forRangeDeclaration,
   forRangeInitializer,
   jumpStatement,
+  coroutineReturnStatement,
   declarationStatement,
   // Declarations
   declarationSeq,
@@ -650,6 +653,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         postfixExpression, // C++
         b.sequence("++", castExpression), // C++
         b.sequence("--", castExpression), // C++
+        awaitExpression, // C++
         b.sequence(
           CxxKeyword.SIZEOF,
           b.firstOf(
@@ -667,6 +671,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(unaryOperator).is(
       b.firstOf("*", "&", "+", "-", "!", CxxKeyword.NOT, "~", CxxKeyword.COMPL) // C++
+    );
+
+    b.rule(awaitExpression).is(
+      CxxKeyword.CO_AWAIT, castExpression // C++
     );
 
     b.rule(newExpression).is( // todo gcnew must be string
@@ -781,6 +789,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       logicalOrExpression, b.optional("?", b.optional(expression), ":", assignmentExpression) // C++
     ).skipIfOneChild();
 
+    b.rule(yieldExpression).is(
+      CxxKeyword.CO_YIELD, b.firstOf(assignmentExpression, bracedInitList) // C++
+    );
+
     b.rule(throwExpression).is(
       CxxKeyword.THROW, b.optional(assignmentExpression) // C++
     );
@@ -789,6 +801,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(
         b.sequence(logicalOrExpression, assignmentOperator, initializerClause), // C++ (PEG: different order)
         conditionalExpression, // C++ (PEG: different order)
+        yieldExpression, // C++
         throwExpression // C++
       )
     ).skipIfOneChild();
@@ -923,8 +936,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(CxxKeyword.BREAK, ";"), // C++
         b.sequence(CxxKeyword.CONTINUE, ";"), // C++
         b.sequence(CxxKeyword.RETURN, b.optional(exprOrBracedInitList), ";"), // C++
+        coroutineReturnStatement, // C++
         b.sequence(CxxKeyword.GOTO, IDENTIFIER, ";") // C++
       )
+    );
+
+    b.rule(coroutineReturnStatement).is(
+      CxxKeyword.CO_RETURN, b.optional(exprOrBracedInitList), ";"
     );
 
     b.rule(declarationStatement).is(
@@ -1826,6 +1844,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(CxxKeyword.NEW, "[", "]"),
         b.sequence(CxxKeyword.DELETE, "[", "]"),
         CxxKeyword.NEW, CxxKeyword.DELETE,
+        CxxKeyword.CO_AWAIT,
         "+", "-", "*", "/", "%", "^", CxxKeyword.XOR, "&", CxxKeyword.BITAND, "|", CxxKeyword.BITOR, "~",
         CxxKeyword.COMPL, "!", CxxKeyword.NOT, "=", "<", ">", "+=", "-=", "*=", "/=", "%=", "^=", CxxKeyword.XOR_EQ,
         "&=", CxxKeyword.AND_EQ, "|=", CxxKeyword.OR_EQ, "<<", ">>", ">>=", "<<=", "==", "!=", CxxKeyword.NOT_EQ,

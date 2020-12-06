@@ -263,9 +263,14 @@ public class ExpressionTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.noexceptExpression);
     mockRule(CxxGrammarImpl.newExpression);
     mockRule(CxxGrammarImpl.deleteExpression);
+    mockRule(CxxGrammarImpl.awaitExpression);
 
     assertThat(p).matches("postfixExpression");
     assertThat(p).matches("sizeof postfixExpression");
+    assertThat(p).matches("awaitExpression");
+    assertThat(p).matches("noexceptExpression");
+    assertThat(p).matches("newExpression");
+    assertThat(p).matches("deleteExpression");
   }
 
   @Test
@@ -383,14 +388,17 @@ public class ExpressionTest extends ParserBaseTestHelper {
   @Test
   public void assignmentExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.assignmentExpression));
+
     mockRule(CxxGrammarImpl.conditionalExpression);
     mockRule(CxxGrammarImpl.logicalOrExpression);
     mockRule(CxxGrammarImpl.assignmentOperator);
     mockRule(CxxGrammarImpl.initializerClause);
+    mockRule(CxxGrammarImpl.yieldExpression);
     mockRule(CxxGrammarImpl.throwExpression);
 
     assertThat(p).matches("conditionalExpression");
     assertThat(p).matches("logicalOrExpression assignmentOperator initializerClause");
+    assertThat(p).matches("yieldExpression");
     assertThat(p).matches("throwExpression");
   }
 
@@ -594,6 +602,17 @@ public class ExpressionTest extends ParserBaseTestHelper {
     assertThat(p).matches("(int []){ 1, 2, 4, 8 }");
     assertThat(p).matches("(int [3]) {1}");
     assertThat(p).matches("(const float []){1e0, 1e1, 1e2}");
+  }
+
+  @Test
+  public void yieldExpression() {
+    p.setRootRule(g.rule(CxxGrammarImpl.yieldExpression));
+
+    mockRule(CxxGrammarImpl.assignmentExpression);
+    mockRule(CxxGrammarImpl.bracedInitList);
+
+    assertThat(p).matches("co_yield assignmentExpression");
+    assertThat(p).matches("co_yield bracedInitList");
   }
 
 }
