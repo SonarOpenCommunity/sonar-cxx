@@ -323,6 +323,7 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.typeName);
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.simpleTemplateId);
+    mockRule(CxxGrammarImpl.placeholderTypeSpecifier);
     mockRule(CxxGrammarImpl.templateName);
     mockRule(CxxGrammarImpl.decltypeSpecifier);
 
@@ -330,6 +331,7 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("nestedNameSpecifier typeName");
     assertThat(p).matches("nestedNameSpecifier template simpleTemplateId");
     assertThat(p).matches("nestedNameSpecifier template simpleTemplateId");
+    assertThat(p).matches("placeholderTypeSpecifier");
     assertThat(p).matches("templateName");
     assertThat(p).matches("nestedNameSpecifier templateName");
 
@@ -377,6 +379,18 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     p.setRootRule(g.rule(CxxGrammarImpl.typeName));
 
     assertThat(p).matches("sometype<int>");
+  }
+
+  @Test
+  public void placeholderTypeSpecifier() {
+    p.setRootRule(g.rule(CxxGrammarImpl.placeholderTypeSpecifier));
+
+    mockRule(CxxGrammarImpl.className);
+
+    assertThat(p).matches("auto");
+    assertThat(p).matches("typeConstraint auto");
+    assertThat(p).matches("decltype ( auto )");
+    assertThat(p).matches("typeConstraint decltype ( auto )");
   }
 
   @Test

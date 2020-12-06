@@ -100,6 +100,22 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
+  public void typeConstraint() {
+    p.setRootRule(g.rule(CxxGrammarImpl.typeConstraint));
+
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
+    mockRule(CxxGrammarImpl.conceptName);
+    mockRule(CxxGrammarImpl.templateArgumentList);
+
+    assertThat(p).matches("conceptName");
+    assertThat(p).matches("nestedNameSpecifier conceptName");
+    assertThat(p).matches("conceptName < >");
+    assertThat(p).matches("conceptName < templateArgumentList >");
+    assertThat(p).matches("nestedNameSpecifier conceptName < >");
+    assertThat(p).matches("nestedNameSpecifier conceptName < templateArgumentList >");
+  }
+
+  @Test
   public void templateId() {
     p.setRootRule(g.rule(CxxGrammarImpl.templateId));
 
