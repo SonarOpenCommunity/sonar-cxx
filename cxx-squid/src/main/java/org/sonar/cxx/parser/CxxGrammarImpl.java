@@ -150,6 +150,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   simpleTypeSpecifier,
   typeName,
   decltypeSpecifier,
+  placeholderTypeSpecifier,
   elaboratedTypeSpecifier,
   enumName,
   enumSpecifier,
@@ -262,6 +263,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   templateParameter,
   typeParameter,
   typeParameterKey,
+  typeConstraint,
   innerTypeParameter,
   simpleTemplateId,
   templateId,
@@ -274,6 +276,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   innerTemplateId,
   innerTemplateArgumentList,
   innerTemplateArgument,
+  conceptName,
   typenameSpecifier,
   explicitInstantiation,
   explicitSpecialization,
@@ -1105,6 +1108,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(
         b.sequence(b.optional(nestedNameSpecifier), typeName), // C++
         b.sequence(nestedNameSpecifier, CxxKeyword.TEMPLATE, simpleTemplateId), // C++
+        placeholderTypeSpecifier, // C++
         b.sequence(b.optional(nestedNameSpecifier), templateName), // C++
         CxxKeyword.CHAR, // C++
         CxxKeyword.CHAR8_T, // C++
@@ -1139,6 +1143,14 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(
         b.sequence(expression, ")"), // C++
         b.sequence(CxxKeyword.AUTO, ")") // C++
+      )
+    );
+
+    b.rule(placeholderTypeSpecifier).is(
+      b.optional(typeConstraint), // C++
+      b.firstOf(
+        CxxKeyword.AUTO, // C++
+        b.sequence(CxxKeyword.DECLTYPE, "(", CxxKeyword.AUTO, ")") // C++
       )
     );
 
@@ -2004,6 +2016,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
+    b.rule(typeConstraint).is(
+      b.optional(nestedNameSpecifier), // C++
+      conceptName, // C++
+      b.optional(b.sequence("<", b.optional(templateArgumentList), ">")) // C++
+    );
+
     b.rule(simpleTemplateId).is(
       templateName, "<",
       b.firstOf(
@@ -2102,6 +2120,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(constantExpression, b.next(b.firstOf(">>", ",")))
       //        idExpression
       )
+    );
+
+    b.rule(conceptName).is(
+      IDENTIFIER // C++
     );
 
     b.rule(typenameSpecifier).is( // todo
