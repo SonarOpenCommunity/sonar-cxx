@@ -951,7 +951,8 @@ designator:
    . identifier
 
 expr-or-braced-init-list:
-   expression braced-init-list
+   expression
+   braced-init-list
 
 function-definition:
    attribute-specifier-seqopt decl-specifier-seqopt declarator virt-specifier-seqopt function-body

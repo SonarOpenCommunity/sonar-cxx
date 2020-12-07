@@ -221,6 +221,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   braceOrEqualInitializer,
   initializerClause,
   initializerList,
+  designatedInitializerList,
+  designatedInitializerClause,
+  designator,
   bracedInitList,
   exprOrBracedInitList,
   // Classes
@@ -1576,36 +1579,49 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     ).skip();
 
     b.rule(initializerClause).is(
-      // C-COMPATIBILITY: C99 designated initializers
-      b.optional(
-        b.firstOf(
-          b.sequence(b.zeroOrMore("[", constantExpression, "]"), b.zeroOrMore(".", IDENTIFIER), "="), // C99
-          b.sequence("[", constantExpression, "...", constantExpression, "]", "=") // EXTENSION: gcc's designated initializers range
-        )
-      ),
       b.firstOf(
         assignmentExpression, // C++
         bracedInitList // C++
       )
     ).skipIfOneChild();
 
-    b.rule(initializerList).is(
-      initializerClause, b.optional("..."), b.zeroOrMore(",", initializerClause, b.optional("...")) // C++
-    );
-
     b.rule(bracedInitList).is(
       "{",
       b.firstOf(
         b.sequence(LITERAL, b.oneOrMore(",", LITERAL), "}"), // syntax sugar: speed-up initialisation of big arrays
         b.sequence(initializerList, b.optional(","), "}"), // C++
+        b.sequence(designatedInitializerList, b.optional(","), "}"), // C++
         "}" // C++
+      )
+    );
+
+    b.rule(initializerList).is(
+      initializerClause, b.optional("..."), b.zeroOrMore(",", initializerClause, b.optional("...")) // C++
+    );
+
+    b.rule(designatedInitializerList).is(
+      designatedInitializerClause, b.zeroOrMore(",", designatedInitializerClause) // C++
+    );
+
+    b.rule(designatedInitializerClause).is(
+      b.firstOf(
+        b.sequence(designator, braceOrEqualInitializer), // C++
+        initializerClause // C99 mixed
+      )
+    );
+
+    b.rule(designator).is(
+      b.firstOf(
+        b.oneOrMore(b.sequence(".", IDENTIFIER)), // C++ & C99
+        b.sequence("[", constantExpression, "]", b.zeroOrMore(".", IDENTIFIER)), // C99 designated initializers
+        b.sequence("[", constantExpression, "...", constantExpression, "]") // EXTENSION: gcc's designated initializers range
       )
     );
 
     b.rule(exprOrBracedInitList).is(
       b.firstOf(
-        expression,
-        bracedInitList
+        expression, // C++
+        bracedInitList // C++
       )
     ).skip();
 
