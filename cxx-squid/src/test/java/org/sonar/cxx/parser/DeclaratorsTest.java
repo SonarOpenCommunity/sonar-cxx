@@ -133,7 +133,8 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq");
     assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq");
     assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier");
-    assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier noexceptSpecifier");
+    assertThat(p).matches(
+      "( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier noexceptSpecifier");
   }
 
   @Test
@@ -447,7 +448,8 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     assertThat(p).matches("virtual const char* what() const throw() { return \"read empty stack\"; }");
     assertThat(p).matches("void foo() override {}");
     assertThat(p).matches("void foo(::P& c) {}");
-    assertThat(p).matches("auto equal_range(ForwardIterator first, ForwardIterator last, const Type& value) -> std::pair<ForwardIterator, ForwardIterator> { return pair; }");
+    assertThat(p).matches(
+      "auto equal_range(ForwardIterator first, ForwardIterator last, const Type& value) -> std::pair<ForwardIterator, ForwardIterator> { return pair; }");
     assertThat(p).matches("auto to_string(int value) -> std::string { return \"\"; }");
     assertThat(p).matches("auto size() const -> std::size_t { return 0; }");
 //  ToDo : make this work
@@ -494,11 +496,6 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
 
     assertThat(p).matches("(istream_iterator<string>(cin))");
     assertThat(p).matches("istream_iterator<string>()");
-
-    // C-COMPATIBILITY: C99 designated initializers
-    assertThat(p).matches(".name = string(\"Something\")");
-    assertThat(p).matches("[5] = {}");
-    assertThat(p).matches(".values = { [4] = 5, [5 ... 7] = 1, [2] = 0 }");
   }
 
   @Test
@@ -512,23 +509,6 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     assertThat(p).matches("{}");
     assertThat(p).matches("{ initializerList }");
     assertThat(p).matches("assignmentExpression");
-
-    // C-COMPATIBILITY: C99 designated initializers
-    assertThat(p).matches(".fieldName = {}");
-    assertThat(p).matches(".fieldName = { initializerList }");
-    assertThat(p).matches(".fieldName = assignmentExpression");
-    assertThat(p).matches("[constantExpression] = {}");
-    assertThat(p).matches("[constantExpression] = { initializerList }");
-    assertThat(p).matches("[constantExpression] = assignmentExpression");
-    assertThat(p).matches(".a.b = {}");
-    assertThat(p).matches("[constantExpression][constantExpression] = {}");
-    assertThat(p).matches("[constantExpression][constantExpression].a = {}");
-    assertThat(p).matches("[constantExpression][constantExpression].a.b = {}");
-
-    // C-COMPATIBILITY: EXTENSION: gcc's designated initializers range
-    assertThat(p).matches("[constantExpression ... constantExpression] = {}");
-    assertThat(p).matches("[constantExpression ... constantExpression] = { initializerList }");
-    assertThat(p).matches("[constantExpression ... constantExpression] = assignmentExpression");
   }
 
   @Test
@@ -551,14 +531,57 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
   }
 
   @Test
+  public void designatedInitializerList() {
+    p.setRootRule(g.rule(CxxGrammarImpl.designatedInitializerList));
+
+    mockRule(CxxGrammarImpl.designatedInitializerClause);
+
+    assertThat(p).matches("designatedInitializerClause");
+    assertThat(p).matches("designatedInitializerClause , designatedInitializerClause");
+  }
+
+  @Test
+  public void designatedInitializerClause_reallife() {
+    p.setRootRule(g.rule(CxxGrammarImpl.designatedInitializerClause));
+
+    assertThat(p).matches(".name = string(\"Something\")");
+    assertThat(p).matches(".name = {1}");
+    assertThat(p).matches(".name{2}");
+
+    // C-COMPATIBILITY: C99 designated initializers
+    assertThat(p).matches("[5] = {}");
+    // EXTENSION: gcc's designated initializers range
+    assertThat(p).matches(".values = { [4] = 5, [5 ... 7] = 1, [2] = 0 }");
+  }
+
+  @Test
+  public void designator() {
+    p.setRootRule(g.rule(CxxGrammarImpl.designator));
+
+    mockRule(CxxGrammarImpl.constantExpression);
+
+    assertThat(p).matches(". IDENTIFIER");
+    assertThat(p).matches(". IDENTIFIER . IDENTIFIER");
+    // C99 designated initializers
+    assertThat(p).matches("[ constantExpression ]");
+    assertThat(p).matches("[ constantExpression ] . IDENTIFIER");
+    assertThat(p).matches("[ constantExpression ] . IDENTIFIER . IDENTIFIER");
+    // EXTENSION: gcc's designated initializers range
+    assertThat(p).matches("[ constantExpression ... constantExpression ]");
+  }
+
+  @Test
   public void bracedInitList() {
     p.setRootRule(g.rule(CxxGrammarImpl.bracedInitList));
 
     mockRule(CxxGrammarImpl.initializerList);
+    mockRule(CxxGrammarImpl.designatedInitializerList);
 
     assertThat(p).matches("{}");
     assertThat(p).matches("{ initializerList }");
     assertThat(p).matches("{ initializerList , }");
+    assertThat(p).matches("{ designatedInitializerList }");
+    assertThat(p).matches("{ designatedInitializerList , }");
   }
 
 }
