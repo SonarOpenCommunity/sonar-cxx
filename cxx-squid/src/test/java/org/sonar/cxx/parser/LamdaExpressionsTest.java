@@ -117,10 +117,8 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
     p.setRootRule(g.rule(CxxGrammarImpl.captureList));
     mockRule(CxxGrammarImpl.capture);
 
-    assertThat(p).matches("capture"); // or 1, optional out
-    assertThat(p).matches("capture ..."); // or 1, optional in
-    assertThat(p).matches("capture , capture"); // or 1, optional out
-    assertThat(p).matches("capture , capture ..."); // or 1, optional in
+    assertThat(p).matches("capture");
+    assertThat(p).matches("capture , capture");
   }
 
   @Test
@@ -138,7 +136,9 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
     p.setRootRule(g.rule(CxxGrammarImpl.simpleCapture));
 
     assertThat(p).matches("foo");
+    assertThat(p).matches("foo ...");
     assertThat(p).matches("&foo");
+    assertThat(p).matches("&foo ");
     assertThat(p).matches("this");
     assertThat(p).matches("*this");
   }
@@ -149,7 +149,9 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.initializer);
 
     assertThat(p).matches("foo initializer");
+    assertThat(p).matches("... foo initializer");
     assertThat(p).matches("&foo initializer");
+    assertThat(p).matches("&... foo initializer");
   }
 
   @Test
@@ -160,6 +162,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
     assertThat(p).matches("&r = x");
     assertThat(p).matches("u = move(u)");
     assertThat(p).matches("value = std::move(ptr)");
+    assertThat(p).matches("...args=std::move(args)");
   }
 
   @Test
@@ -177,7 +180,8 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
     assertThat(p).matches("( parameterDeclarationClause ) trailingReturnType"); // trailingReturnType in
     assertThat(p).matches("( parameterDeclarationClause ) mutable noexceptSpecifier"); // complex 1
     assertThat(p).matches("( parameterDeclarationClause ) mutable noexceptSpecifier attributeSpecifierSeq"); // complex 2
-    assertThat(p).matches("( parameterDeclarationClause ) mutable noexceptSpecifier attributeSpecifierSeq trailingReturnType"); // complex
+    assertThat(p).matches(
+      "( parameterDeclarationClause ) mutable noexceptSpecifier attributeSpecifierSeq trailingReturnType"); // complex
     // 3
     assertThat(p).matches("( parameterDeclarationClause ) noexceptSpecifier attributeSpecifierSeq"); // complex 4
     assertThat(p).matches("( parameterDeclarationClause ) noexceptSpecifier attributeSpecifierSeq trailingReturnType"); // complex 5

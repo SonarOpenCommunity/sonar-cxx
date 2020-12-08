@@ -508,7 +508,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(lambdaExpression).is(
-      lambdaIntroducer, b.optional(lambdaDeclarator), compoundStatement // C++
+      lambdaIntroducer, // C++
+      b.optional(
+        b.sequence("<", templateParameterList, ">" /*, b.optional(requiresClause)*/) // C++ (todo requiresClause)
+      ),
+      b.optional(lambdaDeclarator), // C++
+      compoundStatement // C++
     );
 
     b.rule(lambdaIntroducer).is(
@@ -528,7 +533,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(captureList).is(
-      b.sequence(capture, b.optional("...")), b.zeroOrMore(",", capture, b.optional("...")) // C++
+      b.sequence(capture, b.zeroOrMore(",", capture)) // C++
     );
 
     b.rule(capture).is(
@@ -540,8 +545,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(simpleCapture).is(
       b.firstOf(
-        IDENTIFIER, // C++
-        b.sequence("&", IDENTIFIER), // C++
+        b.sequence(IDENTIFIER, b.optional("...")), // C++
+        b.sequence("&", IDENTIFIER, b.optional("...")), // C++
         CxxKeyword.THIS, // C++
         b.sequence("*", CxxKeyword.THIS) // C++
       )
@@ -549,8 +554,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(initCapture).is(
       b.firstOf(
-        b.sequence(IDENTIFIER, initializer), // C++
-        b.sequence("&", IDENTIFIER, initializer) // C++
+        b.sequence(b.optional("..."), IDENTIFIER, initializer), // C++
+        b.sequence("&", b.optional("..."), IDENTIFIER, initializer) // C++
       )
     );
 
