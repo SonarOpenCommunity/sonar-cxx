@@ -1,0 +1,495 @@
+Annex A (informative)
+
+**A.1 Keywords [gram.key]**
+
+typedef-name:
+   identifier
+   simple-template-id // todo
+
+**A.2 Lexical conventions [gram.lex]**
+
+preprocessing-token:
+   header-name
+   import-keyword // todo
+   module-keyword // todo
+   export-keyword // todo
+   identifier
+   pp-number
+   character-literal
+   user-defined-character-literal
+   string-literal
+   user-defined-string-literal
+   preprocessing-op-or-punc
+   each non-white-space character that cannot be one of the above
+
+token:
+   identifier
+   keyword
+   literal
+   operator-or-punctuator // todo
+
+keyword: // todo
+   any identifier listed in Table 5
+   import-keyword
+   module-keyword
+   export-keyword
+
+preprocessing-op-or-punc: // todo
+   preprocessing-operator
+   operator-or-punctuator
+
+preprocessing-operator: one of // todo
+ # ## %: %:%:
+
+operator-or-punctuator: one of: // todo
+ { } [ ] ( )
+ <: :> <% %> ; : ...
+ ? :: . .* -> ->* ~
+ ! + - * / % ^ & |
+ = += -= *= /= %= ^= &= |=
+ == != < > <= >= <=> && ||
+ << >> <<= >>= ++ -- ,
+ and or xor not bitand bitor compl
+ and_eq or_eq xor_eq not_eq
+
+**A.3 Basics [gram.basic]**
+
+translation-unit:
+   declaration-seqopt
+   global-module-fragmentopt module-declaration declaration-seqopt private-module-fragmentopt // todo
+
+**A.4 Expressions [gram.expr]**
+
+primary-expression:
+   literal
+   this
+   ( expression )
+   id-expression
+   lambda-expression
+   fold-expression
+   requires-expression // todo
+
+unqualified-id:
+   identifier
+   operator-function-id
+   conversion-function-id
+   literal-operator-id
+   ~ type-name // todo
+   ~ decltype-specifier
+   template-id
+
+lambda-expression:
+   lambda-introducer lambda-declaratoropt compound-statement
+   lambda-introducer < template-parameter-list > requires-clauseopt lambda-declaratoropt compound-statement // todo partial
+
+lambda-declarator: // todo
+   ( parameter-declaration-clause ) decl-specifier-seqopt noexcept-specifieropt attribute-specifier-seqopt trailing-return-typeopt requires-clauseopt lambda-capture: capture-default capture-list capture-default , capture-list
+
+requires-expression: // todo
+   requires requirement-parameter-listopt requirement-body
+
+requirement-parameter-list: // todo
+   ( parameter-declaration-clauseopt )
+
+requirement-body: // todo
+   { requirement-seq }
+
+requirement-seq: // todo
+   requirement
+   requirement-seq requirement
+
+requirement: // todo
+   simple-requirement
+   type-requirement
+   compound-requirement
+   nested-requirement
+
+simple-requirement: // todo
+   expression ;
+
+type-requirement: // todo
+   typename nested-name-specifieropt type-name ;
+
+compound-requirement: // todo
+   { expression } noexceptopt return-type-requirementopt ;
+
+return-type-requirement: // todo
+   -> type-constraint
+
+nested-requirement: // todo
+   requires constraint-expression ;
+
+postfix-expression: // todo pseudo-destructor-name
+   primary-expression
+   postfix-expression [ expr-or-braced-init-list ]
+   postfix-expression ( expression-listopt )
+   simple-type-specifier ( expression-listopt )
+   typename-specifier ( expression-listopt )
+   simple-type-specifier braced-init-list
+   typename-specifier braced-init-list
+   postfix-expression . templateopt id-expression
+   postfix-expression -> templateopt id-expression
+   postfix-expression ++
+   postfix-expression --
+   dynamic_cast < type-id > ( expression )
+   static_cast < type-id > ( expression )
+   reinterpret_cast < type-id > ( expression )
+   const_cast < type-id > ( expression )
+   typeid ( expression )
+   typeid ( type-id )
+
+// todo remove pseudo-destructor-name
+
+unary-expression:
+   postfix-expression
+   unary-operator cast-expression // todo
+   ++ cast-expression
+   -- cast-expression
+   await-expression // todo
+   sizeof unary-expression
+   sizeof( type-id )
+   sizeof...( identifier )
+   alignof( type-id )
+   noexcept-expression
+   new-expression
+   delete-expression
+
+noptr-new-declarator:
+   [ expressionopt ] attribute-specifier-seqopt // todo
+   noptr-new-declarator [ constant-expression ] attribute-specifier-seqopt
+
+new-initializer:
+   ( expression-listopt )
+   braced-init-list
+
+noexcept-expression // remove todo
+
+compare-expression: // todo
+   shift-expression
+   compare-expression <=> shift-expression
+
+relational-expression: // todo
+   compare-expression
+   relational-expression < compare-expression
+   relational-expression > compare-expression
+   relational-expression <= compare-expression
+   relational-expression >= compare-expression
+
+assignment-expression:
+   conditional-expression
+   yield-expression // todo
+   throw-expression
+   logical-or-expression assignment-operator initializer-clause // todo
+
+**A.5 Statements [gram.stmt]**
+
+**A.6 Declarations [gram.dcl]**
+
+declaration:
+   block-declaration
+   nodeclspec-function-declaration
+   function-definition
+   template-declaration
+   deduction-guide
+   explicit-instantiation
+   explicit-specialization
+   export-declaration // todo
+   linkage-specification
+   namespace-definition
+   empty-declaration
+   attribute-declaration
+   module-import-declaration // todo
+
+block-declaration:
+   simple-declaration
+   asm-declaration // todo
+   namespace-alias-definition
+   using-declaration
+   using-enum-declaration // todo
+   using-directive
+   static_assert-declaration
+   alias-declaration
+   opaque-enum-declaration
+
+function-specifier:
+   virtual
+   explicit-specifier // todo
+
+explicit-specifier: // todo
+   explicit( constant-expression )
+   explicit
+
+typedef-name:
+   identifier
+   simple-template-id // todo
+
+decltype-specifier // todo, different
+
+simple-type-specifier:
+   nested-name-specifieropt type-name
+   nested-name-specifier template simple-template-id
+   decltype-specifier // todo
+   placeholder-type-specifier // todo
+   nested-name-specifieropt template-name
+   char
+   char8_t // todo
+   char16_t
+   char32_t
+   wchar_t
+   bool
+   short
+   int
+   long
+   signed
+   unsigned
+   float
+   double
+   void
+   // todo remove auto & decltype-specifier
+
+type-name:
+   class-name
+   enum-name
+   typedef-name
+   // todo remove simple-template-id
+
+elaborated-type-specifier:
+   class-key attribute-specifier-seqopt nested-name-specifieropt identifier
+   class-key simple-template-id
+   class-key nested-name-specifier templateopt simple-template-id
+   elaborated-enum-specifier // todo
+
+elaborated-enum-specifier: // todo
+   enum nested-name-specifieropt identifier
+
+decltype-specifier: // todo
+   decltype( expression )
+
+placeholder-type-specifier: // todo
+   type-constraintopt auto
+   type-constraintopt decltype(auto)
+
+init-declarator:
+   declarator initializeropt
+   declarator requires-clause // todo
+
+function-definition:
+   attribute-specifier-seqopt decl-specifier-seqopt declarator virt-specifier-seqopt function-body
+   attribute-specifier-seqopt decl-specifier-seqopt declarator requires-clause function-body
+
+opaque-enum-declaration:
+   enum-key attribute-specifier-seqopt enum-head-name enum-baseopt ; // todo
+
+using-enum-declaration: // todo
+   using elaborated-enum-specifier ;
+
+nested-namespace-definition:
+   namespace enclosing-namespace-specifier ::inlineopt identifier { namespace-body } // todo
+
+enclosing-namespace-specifier:
+   identifier
+   enclosing-namespace-specifier ::inlineopt identifier // todo
+
+using-directive:
+   attribute-specifier-seqopt usingnamespace nested-name-specifieropt namespace-name ;
+
+asm-declaration: // todo
+   attribute-specifier-seqopt asm( string-literal );
+
+attribute:
+   attribute-token
+   attribute-argument-clauseopt
+
+**A.7 Modules [gram.module]**
+
+module-declaration:
+   export-keywordopt module-keyword module-name module-partitionopt attribute-specifier-seqopt ;
+
+module-name:
+module-name-qualifieropt identifier
+
+module-partition:
+   : module-name-qualifieropt identifier
+
+module-name-qualifier:
+   identifier .
+   module-name-qualifier identifier .
+
+export-declaration:
+   export declaration
+   export{ declaration-seqopt }
+   export-keyword module-import-declaration
+
+module-import-declaration:
+   import-keyword module-name attribute-specifier-seqopt ;
+   import-keyword module-partition attribute-specifier-seqopt ;
+   import-keyword header-name attribute-specifier-seqopt ;
+
+global-module-fragment:
+   module-keyword ; declaration-seqopt
+
+private-module-fragment:
+module-keyword :private; declaration-seqopt
+
+**A.8 Classes [gram.class]**
+
+member-declaration:
+   attribute-specifier-seqopt decl-specifier-seqopt member-declarator-listopt ;
+   function-definition
+   using-declaration
+   using-enum-declaration // todo
+   static_assert-declaration
+   template-declaration
+   explicit-specialization // todo
+   deduction-guide
+   alias-declaration
+   opaque-enum-declaration // todo
+   empty-declaration
+
+member-declarator:
+   declarator virt-specifier-seqopt pure-specifieropt
+   declarator requires-clause // todo
+   declarator brace-or-equal-initializeropt
+   identifieropt attribute-specifier-seqopt : constant-expression brace-or-equal-initializeropt // todo
+
+base-specifier: // todo
+   attribute-specifier-seqopt class-or-decltype
+   attribute-specifier-seqopt virtual access-specifieropt class-or-decltype
+   attribute-specifier-seqopt access-specifier virtualopt class-or-decltype
+
+class-or-decltype: // todo
+   nested-name-specifieropt type-name
+   nested-name-specifier template simple-template-id
+   decltype-specifier
+
+// ##### todo compare A.10
+
+**A.9 Overloading [gram.over]**
+
+operator: one of // todo
+  new delete new[] delete[] co_await () [] -> ->*
+  ~ ! + - * / % ^ &
+  | = += -= *= /= %= ^= &=
+  |= == != < > <= >= <=> &&
+  || << >> <<= >>= ++ -- ,
+
+**A.10 Templates [gram.temp]**
+
+template-declaration: // todo
+   template-head declaration
+   template-head concept-definition
+
+template-head: // todo
+   template < template-parameter-list > requires-clauseopt
+
+requires-clause: // todo
+   requires constraint-logical-or-expression
+
+constraint-logical-or-expression: // todo
+   constraint-logical-and-expression
+   constraint-logical-or-expression || constraint-logical-and-expression
+
+constraint-logical-and-expression: // todo
+   primary-expression
+   constraint-logical-and-expression && primary-expression
+
+template-parameter: // todo check
+   type-parameter parameter-declaration
+
+type-parameter: // todo
+   type-parameter-key ...opt identifieropt
+   type-parameter-key identifieropt = type-id
+   type-constraint ...opt identifieropt
+   type-constraint identifieropt = type-id
+   template-head type-parameter-key ...opt identifieropt
+   template-head type-parameter-key identifieropt = id-expression
+
+type-constraint: // todo
+   nested-name-specifieropt concept-name
+   nested-name-specifieropt concept-name < template-argument-listopt >
+
+constraint-expression: // todo
+   logical-or-expression
+
+deduction-guide: // todo
+   explicit-specifieropt template-name ( parameter-declaration-clause )-> simple-template-id ;
+
+concept-definition: // todo
+   concept concept-name = constraint-expression ;
+
+concept-name: // todo
+   identifier
+
+**A.11 Exception handling [gram.except]**
+
+noexcept-specifier:
+   noexcept ( constant-expression )
+   noexcept
+   // todo throw removed, keep it?
+
+**A.12 Preprocessing directives [gram.cpp]**
+
+preprocessing-file:
+   groupopt
+   module-file // todo
+
+module-file: // todo
+   pp-global-module-fragmentopt pp-module groupopt pp-private-module-fragmentopt
+
+pp-global-module-fragment: // todo
+   module; new-line groupopt
+
+pp-private-module-fragment: // todo
+   module : private ; new-line groupopt
+
+group-part:
+   control-line
+   if-section // todo
+   text-line
+   # conditionally-supported-directive
+
+control-line:
+   # include pp-tokens new-line
+   pp-import // todo
+   # define identifier replacement-list new-line
+   # define identifier lparen identifier-listopt ) replacement-list new-line
+   # define identifier lparen ... ) replacement-list new-line
+   # define identifier lparen identifier-list , ... ) replacement-list new-line
+   # undef identifier new-line
+   # line pp-tokens new-line
+   # error pp-tokensopt new-line
+   # pragma pp-tokensopt new-line
+   # new-line
+
+defined-macro-expression: // todo
+   defined identifier
+   defined ( identifier )
+
+h-preprocessing-token: // todo
+   any preprocessing-token other than >
+
+h-pp-tokens: // todo
+   h-preprocessing-token
+   h-pp-tokens h-preprocessing-token
+
+header-name-tokens: // todo
+   string-literal
+   < h-pp-tokens >
+
+has-include-expression: // todo
+   __has_include( header-name )
+   __has_include( header-name-tokens )
+
+has-attribute-expression: // todo
+   __has_cpp_attribute ( pp-tokens )
+
+pp-module: // todo
+   exportopt module pp-tokensopt ; new-line
+
+pp-import: // todo
+   exportopt import header-name pp-tokensopt ; new-line
+   exportopt import header-name-tokens pp-tokensopt ; new-line
+   exportopt import pp-tokens ; new-line
+
+va-opt-replacement: // todo
+   __VA_OPT__ ( pp-tokensopt )
