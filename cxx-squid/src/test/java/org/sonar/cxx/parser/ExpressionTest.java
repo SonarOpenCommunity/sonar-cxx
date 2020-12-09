@@ -511,13 +511,13 @@ public class ExpressionTest extends ParserBaseTestHelper {
   @Test
   public void relationalExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.relationalExpression));
-    mockRule(CxxGrammarImpl.shiftExpression);
+    mockRule(CxxGrammarImpl.compareExpression);
 
-    assertThat(p).matches("shiftExpression");
-    assertThat(p).matches("shiftExpression < shiftExpression");
-    assertThat(p).matches("shiftExpression > shiftExpression");
-    assertThat(p).matches("shiftExpression <= shiftExpression");
-    assertThat(p).matches("shiftExpression >= shiftExpression");
+    assertThat(p).matches("compareExpression");
+    assertThat(p).matches("compareExpression < compareExpression");
+    assertThat(p).matches("compareExpression > compareExpression");
+    assertThat(p).matches("compareExpression <= compareExpression");
+    assertThat(p).matches("compareExpression >= compareExpression");
   }
 
   @Test
@@ -528,6 +528,15 @@ public class ExpressionTest extends ParserBaseTestHelper {
     assertThat(p).matches("additiveExpression");
     assertThat(p).matches("additiveExpression << additiveExpression");
     assertThat(p).matches("additiveExpression >> additiveExpression");
+  }
+
+  @Test
+  public void compareExpression() {
+    p.setRootRule(g.rule(CxxGrammarImpl.compareExpression));
+    mockRule(CxxGrammarImpl.shiftExpression);
+
+    assertThat(p).matches("shiftExpression");
+    assertThat(p).matches("shiftExpression <=> shiftExpression");
   }
 
   @Test

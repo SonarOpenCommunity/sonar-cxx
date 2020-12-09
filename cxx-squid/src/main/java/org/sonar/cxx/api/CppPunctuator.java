@@ -43,6 +43,7 @@ public enum CppPunctuator implements TokenType {
   GT(">"),
   LT_EQ("<="),
   GT_EQ(">="),
+  SPACESHIP("<=>"),
   // Logical operators
   NOT("!"),
   AND("&&"),
@@ -51,7 +52,7 @@ public enum CppPunctuator implements TokenType {
   BW_NOT("~"),
   BW_AND("&"),
   BW_OR("|"),
-  BW_XOR("ˆ"),
+  BW_XOR("^"),
   BW_LSHIFT("<<"),
   BW_RSHIFT(">>"),
   // Compound assignment operators
@@ -128,5 +129,4 @@ public enum CppPunctuator implements TokenType {
   public boolean hasToBeSkippedFromAst(AstNode node) {
     return false;
   }
-
 }

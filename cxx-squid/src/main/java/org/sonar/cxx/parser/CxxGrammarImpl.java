@@ -91,6 +91,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   multiplicativeExpression,
   additiveExpression,
   shiftExpression,
+  compareExpression,
   relationalExpression,
   equalityExpression,
   andExpression,
@@ -762,8 +763,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       additiveExpression, b.zeroOrMore(b.firstOf("<<", ">>"), additiveExpression) // C++
     ).skipIfOneChild();
 
+    b.rule(compareExpression).is(
+      shiftExpression, b.zeroOrMore("<=>", shiftExpression)
+    ).skipIfOneChild();
+
     b.rule(relationalExpression).is(
-      shiftExpression, b.zeroOrMore(b.firstOf("<", ">", "<=", ">="), shiftExpression) // C++
+      compareExpression, b.zeroOrMore(b.firstOf("<", ">", "<=", ">="), compareExpression) // C++
     ).skipIfOneChild();
 
     b.rule(equalityExpression).is(
@@ -1876,7 +1881,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         "+", "-", "*", "/", "%", "^", CxxKeyword.XOR, "&", CxxKeyword.BITAND, "|", CxxKeyword.BITOR, "~",
         CxxKeyword.COMPL, "!", CxxKeyword.NOT, "=", "<", ">", "+=", "-=", "*=", "/=", "%=", "^=", CxxKeyword.XOR_EQ,
         "&=", CxxKeyword.AND_EQ, "|=", CxxKeyword.OR_EQ, "<<", ">>", ">>=", "<<=", "==", "!=", CxxKeyword.NOT_EQ,
-        "<=", ">=", "&&", CxxKeyword.AND, "||", CxxKeyword.OR, "++", "--", ",", "->*", "->",
+        "<=", ">=", "<=>", "&&", CxxKeyword.AND, "||", CxxKeyword.OR, "++", "--", ",", "->*", "->",
         b.sequence("(", ")"),
         b.sequence("[", "]")
       )

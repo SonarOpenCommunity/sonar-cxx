@@ -29,7 +29,7 @@ public class CxxPunctuatorTest {
   @Test
   public void test() {
     var softly = new SoftAssertions();
-    softly.assertThat(CxxPunctuator.values()).hasSize(49);
+    softly.assertThat(CxxPunctuator.values()).hasSize(50);
 
     AstNode astNode = mock(AstNode.class);
     for (var punctuator : CxxPunctuator.values()) {
