@@ -29,7 +29,7 @@ public class CppPunctuatorTest {
 
   @Test
   public void test() {
-    assertThat(CppPunctuator.values()).hasSize(70);
+    assertThat(CppPunctuator.values()).hasSize(71);
 
     AstNode astNode = mock(AstNode.class);
     var softly = new SoftAssertions();

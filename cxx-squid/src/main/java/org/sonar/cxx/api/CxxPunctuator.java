@@ -23,7 +23,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.TokenType;
 
 /**
- * C++ Standard, as of 2010-03-26, Section 2.13 "Operators and punctuators"
+ * C++ Standard, Section 2.13 "Operators and punctuators"
  */
 public enum CxxPunctuator implements TokenType {
 
@@ -43,6 +43,7 @@ public enum CxxPunctuator implements TokenType {
   GT(">"),
   LT_EQ("<="),
   GT_EQ(">="),
+  SPACESHIP("<=>"),
   // Logical operators
   NOT("!"),
   AND("&&"),
