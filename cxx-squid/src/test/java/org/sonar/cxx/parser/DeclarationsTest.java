@@ -366,12 +366,10 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.className);
     mockRule(CxxGrammarImpl.enumName);
     mockRule(CxxGrammarImpl.typedefName);
-    mockRule(CxxGrammarImpl.simpleTemplateId);
 
     assertThat(p).matches("className");
     assertThat(p).matches("enumName");
     assertThat(p).matches("typedefName");
-    assertThat(p).matches("simpleTemplateId");
   }
 
   @Test

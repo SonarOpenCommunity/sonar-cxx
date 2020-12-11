@@ -2,18 +2,6 @@
 #include <iostream>
 #include <string>
 
-// issue #733
-template <typename LE, typename RE, typename std::enable_if<is_etl_expr<LE>::value, int>::type = 42>
-void operator-(LE&& lhs, RE&& rhs){}
-
-// issue #733
-namespace etl {
-template <typename LE, typename RE, cpp_enable_if(is_etl_expr<LE>::value, is_etl_expr<RE>::value)>
-auto operator-(LE&& lhs, RE&& rhs) -> detail::left_binary_helper<LE, RE, minus_binary_op> {
-    validate_expression(lhs, rhs);
-    return {lhs, rhs};
-}
-}
 
 //
 // below samples from: http://en.cppreference.com/w/cpp/types/enable_if

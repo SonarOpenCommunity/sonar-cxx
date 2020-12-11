@@ -31,8 +31,10 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.declarator);
     mockRule(CxxGrammarImpl.asmLabel);
     mockRule(CxxGrammarImpl.initializer);
+    mockRule(CxxGrammarImpl.requiresClause);
 
     assertThat(p).matches("declarator");
+    assertThat(p).matches("declarator requiresClause");
     assertThat(p).matches("declarator initializer");
     assertThat(p).matches("declarator asmLabel");
     assertThat(p).matches("declarator asmLabel initializer");
@@ -424,12 +426,16 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.functionDeclSpecifierSeq);
     mockRule(CxxGrammarImpl.declarator);
     mockRule(CxxGrammarImpl.virtSpecifierSeq);
+    mockRule(CxxGrammarImpl.requiresClause);
     mockRule(CxxGrammarImpl.functionBody);
 
     assertThat(p).matches("declarator functionBody");
     assertThat(p).matches("attributeSpecifierSeq declarator functionBody");
     assertThat(p).matches("attributeSpecifierSeq functionDeclSpecifierSeq declarator functionBody");
     assertThat(p).matches("attributeSpecifierSeq functionDeclSpecifierSeq declarator virtSpecifierSeq functionBody");
+    assertThat(p).matches("declarator requiresClause functionBody");
+    assertThat(p).matches("attributeSpecifierSeq declarator requiresClause functionBody");
+    assertThat(p).matches("attributeSpecifierSeq functionDeclSpecifierSeq declarator requiresClause functionBody");
   }
 
   @Test

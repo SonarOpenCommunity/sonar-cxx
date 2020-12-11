@@ -2,10 +2,6 @@ Annex A (informative)
 
 **A.1 Keywords [gram.key]**
 
-typedef-name:
-   identifier
-   simple-template-id // todo
-
 **A.2 Lexical conventions [gram.lex]**
 
 preprocessing-token:
@@ -41,17 +37,6 @@ preprocessing-op-or-punc: // todo
 preprocessing-operator: one of // todo
  # ## %: %:%:
 
-operator-or-punctuator: one of: // todo
- { } [ ] ( )
- <: :> <% %> ; : ...
- ? :: . .* -> ->* ~
- ! + - * / % ^ & |
- = += -= *= /= %= ^= &= |=
- == != < > <= >= <=> && ||
- << >> <<= >>= ++ -- ,
- and or xor not bitand bitor compl
- and_eq or_eq xor_eq not_eq
-
 **A.3 Basics [gram.basic]**
 
 translation-unit:
@@ -59,15 +44,6 @@ translation-unit:
    global-module-fragmentopt module-declaration declaration-seqopt private-module-fragmentopt // todo
 
 **A.4 Expressions [gram.expr]**
-
-primary-expression:
-   literal
-   this
-   ( expression )
-   id-expression
-   lambda-expression
-   fold-expression
-   requires-expression // todo
 
 unqualified-id:
    identifier
@@ -84,40 +60,6 @@ lambda-expression:
 
 lambda-declarator: // todo
    ( parameter-declaration-clause ) decl-specifier-seqopt noexcept-specifieropt attribute-specifier-seqopt trailing-return-typeopt requires-clauseopt lambda-capture: capture-default capture-list capture-default , capture-list
-
-requires-expression: // todo
-   requires requirement-parameter-listopt requirement-body
-
-requirement-parameter-list: // todo
-   ( parameter-declaration-clauseopt )
-
-requirement-body: // todo
-   { requirement-seq }
-
-requirement-seq: // todo
-   requirement
-   requirement-seq requirement
-
-requirement: // todo
-   simple-requirement
-   type-requirement
-   compound-requirement
-   nested-requirement
-
-simple-requirement: // todo
-   expression ;
-
-type-requirement: // todo
-   typename nested-name-specifieropt type-name ;
-
-compound-requirement: // todo
-   { expression } noexceptopt return-type-requirementopt ;
-
-return-type-requirement: // todo
-   -> type-constraint
-
-nested-requirement: // todo
-   requires constraint-expression ;
 
 postfix-expression: // todo pseudo-destructor-name
    primary-expression
@@ -163,23 +105,6 @@ new-initializer:
    braced-init-list
 
 noexcept-expression // remove todo
-
-compare-expression: // todo
-   shift-expression
-   compare-expression <=> shift-expression
-
-relational-expression: // todo
-   compare-expression
-   relational-expression < compare-expression
-   relational-expression > compare-expression
-   relational-expression <= compare-expression
-   relational-expression >= compare-expression
-
-assignment-expression:
-   conditional-expression
-   yield-expression // todo
-   throw-expression
-   logical-or-expression assignment-operator initializer-clause // todo
 
 **A.5 Statements [gram.stmt]**
 
@@ -246,12 +171,6 @@ simple-type-specifier:
    double
    void
    // todo remove auto & decltype-specifier
-
-type-name:
-   class-name
-   enum-name
-   typedef-name
-   // todo remove simple-template-id
 
 elaborated-type-specifier:
    class-key attribute-specifier-seqopt nested-name-specifieropt identifier
@@ -375,50 +294,8 @@ operator: one of // todo
 
 **A.10 Templates [gram.temp]**
 
-template-declaration: // todo
-   template-head declaration
-   template-head concept-definition
-
-template-head: // todo
-   template < template-parameter-list > requires-clauseopt
-
-requires-clause: // todo
-   requires constraint-logical-or-expression
-
-constraint-logical-or-expression: // todo
-   constraint-logical-and-expression
-   constraint-logical-or-expression || constraint-logical-and-expression
-
-constraint-logical-and-expression: // todo
-   primary-expression
-   constraint-logical-and-expression && primary-expression
-
-template-parameter: // todo check
-   type-parameter parameter-declaration
-
-type-parameter: // todo
-   type-parameter-key ...opt identifieropt
-   type-parameter-key identifieropt = type-id
-   type-constraint ...opt identifieropt
-   type-constraint identifieropt = type-id
-   template-head type-parameter-key ...opt identifieropt
-   template-head type-parameter-key identifieropt = id-expression
-
-type-constraint: // todo
-   nested-name-specifieropt concept-name
-   nested-name-specifieropt concept-name < template-argument-listopt >
-
-constraint-expression: // todo
-   logical-or-expression
-
 deduction-guide: // todo
    explicit-specifieropt template-name ( parameter-declaration-clause )-> simple-template-id ;
-
-concept-definition: // todo
-   concept concept-name = constraint-expression ;
-
-concept-name: // todo
-   identifier
 
 **A.11 Exception handling [gram.except]**
 
