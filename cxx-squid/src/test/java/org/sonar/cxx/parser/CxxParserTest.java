@@ -85,8 +85,13 @@ public class CxxParserTest {
 
     for (var file : files) {
       when(context.getFile()).thenReturn(file);
-      AstNode root = p.parse(file);
-      CxxParser.finishedParsing(file);
+      AstNode root = null;
+      try {
+        root = p.parse(file);
+        CxxParser.finishedParsing(file);
+      } catch (Exception e) {
+        throw new IllegalStateException(file.toString(), e);
+      }
       if (map.containsKey(file.getName())) {
         assertThat(root.getNumberOfChildren()).as("check number of nodes for file %s", file.getName()).isEqualTo(map
           .get(file.getName()));

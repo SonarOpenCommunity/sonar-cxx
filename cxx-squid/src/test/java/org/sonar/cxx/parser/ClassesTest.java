@@ -202,16 +202,22 @@ public class ClassesTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.constantExpression);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.virtSpecifierSeq);
+    mockRule(CxxGrammarImpl.requiresClause);
 
     assertThat(p).matches("declarator");
     assertThat(p).matches("declarator virtSpecifierSeq");
     assertThat(p).matches("declarator virtSpecifierSeq pureSpecifier");
+    assertThat(p).matches("declarator pureSpecifier");
 
+    assertThat(p).matches("declarator requiresClause");
     assertThat(p).matches("declarator braceOrEqualInitializer");
 
     assertThat(p).matches(": constantExpression");
     assertThat(p).matches("foo : constantExpression");
     assertThat(p).matches("foo attributeSpecifierSeq : constantExpression");
+    assertThat(p).matches(": constantExpression braceOrEqualInitializer");
+    assertThat(p).matches("foo : constantExpression braceOrEqualInitializer");
+    assertThat(p).matches("foo attributeSpecifierSeq : constantExpression braceOrEqualInitializer");
   }
 
   @Test

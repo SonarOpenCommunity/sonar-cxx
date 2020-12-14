@@ -34,8 +34,12 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.lambdaIntroducer);
     mockRule(CxxGrammarImpl.lambdaDeclarator);
     mockRule(CxxGrammarImpl.compoundStatement);
+    mockRule(CxxGrammarImpl.templateParameterList);
+    mockRule(CxxGrammarImpl.requiresClause);
 
     assertThat(p).matches("lambdaIntroducer compoundStatement");
+    assertThat(p).matches("lambdaIntroducer < templateParameterList > compoundStatement");
+    assertThat(p).matches("lambdaIntroducer < templateParameterList > requiresClause compoundStatement");
     assertThat(p).matches("lambdaIntroducer lambdaDeclarator compoundStatement");
   }
 
@@ -172,6 +176,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.noexceptSpecifier);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.trailingReturnType);
+    mockRule(CxxGrammarImpl.requiresClause);
 
     assertThat(p).matches("( parameterDeclarationClause ) "); // all opt out
     assertThat(p).matches("( parameterDeclarationClause ) mutable"); // mutable in
@@ -186,6 +191,8 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
     assertThat(p).matches("( parameterDeclarationClause ) noexceptSpecifier attributeSpecifierSeq"); // complex 4
     assertThat(p).matches("( parameterDeclarationClause ) noexceptSpecifier attributeSpecifierSeq trailingReturnType"); // complex 5
     assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq trailingReturnType"); // complex 6
+    assertThat(p).matches(
+      "( parameterDeclarationClause ) noexceptSpecifier attributeSpecifierSeq trailingReturnType requiresClause");
   }
 
 }

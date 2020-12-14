@@ -34,6 +34,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.idExpression);
     mockRule(CxxGrammarImpl.lambdaExpression);
     mockRule(CxxGrammarImpl.foldExpression);
+    mockRule(CxxGrammarImpl.requiresExpression);
 
     assertThat(p)
       .matches("LITERAL")
@@ -41,7 +42,18 @@ public class ExpressionTest extends ParserBaseTestHelper {
       .matches("( expression )")
       .matches("idExpression")
       .matches("lambdaExpression")
-      .matches("foldExpression");
+      .matches("foldExpression")
+      .matches("requiresExpression");
+  }
+
+  @Test
+  public void primaryExpression_reallife() {
+    p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
+
+    assertThat(p).matches("(istream_iterator<string>(cin))");
+
+    // GCCs extension: statement expression
+    assertThat(p).matches("({ int i = 0; a = i++; })");
   }
 
   @Test
@@ -58,13 +70,119 @@ public class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void primaryExpression_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
+  public void requiresExpression() {
+    p.setRootRule(g.rule(CxxGrammarImpl.requiresExpression));
 
-    assertThat(p).matches("(istream_iterator<string>(cin))");
+    mockRule(CxxGrammarImpl.requirementParameterList);
+    mockRule(CxxGrammarImpl.requirementBody);
 
-    // GCCs extension: statement expression
-    assertThat(p).matches("({ int i = 0; a = i++; })");
+    assertThat(p)
+      .matches("requires requirementBody")
+      .matches("requires requirementParameterList requirementBody");
+  }
+
+  @Test
+  public void requirementParameterList() {
+    p.setRootRule(g.rule(CxxGrammarImpl.requirementParameterList));
+
+    mockRule(CxxGrammarImpl.parameterDeclarationClause);
+
+    assertThat(p)
+      .matches("( )")
+      .matches("( parameterDeclarationClause )");
+  }
+
+  @Test
+  public void requirementBody() {
+    p.setRootRule(g.rule(CxxGrammarImpl.requirementBody));
+
+    mockRule(CxxGrammarImpl.requirementSeq);
+
+    assertThat(p)
+      .matches("{ requirementSeq }");
+  }
+
+  @Test
+  public void requirementSeq() {
+    p.setRootRule(g.rule(CxxGrammarImpl.requirementSeq));
+
+    mockRule(CxxGrammarImpl.requirement);
+
+    assertThat(p)
+      .matches("requirement")
+      .matches("requirement requirement");
+
+  }
+
+  @Test
+  public void requirement() {
+    p.setRootRule(g.rule(CxxGrammarImpl.requirement));
+
+    mockRule(CxxGrammarImpl.simpleRequirement);
+    mockRule(CxxGrammarImpl.typeRequirement);
+    mockRule(CxxGrammarImpl.compoundRequirement);
+    mockRule(CxxGrammarImpl.nestedRequirement);
+
+    assertThat(p)
+      .matches("simpleRequirement")
+      .matches("typeRequirement")
+      .matches("compoundRequirement")
+      .matches("nestedRequirement");
+  }
+
+  @Test
+  public void simpleRequirement() {
+    p.setRootRule(g.rule(CxxGrammarImpl.simpleRequirement));
+
+    mockRule(CxxGrammarImpl.expression);
+
+    assertThat(p)
+      .matches("expression ;");
+  }
+
+  @Test
+  public void typeRequirement() {
+    p.setRootRule(g.rule(CxxGrammarImpl.typeRequirement));
+
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
+    mockRule(CxxGrammarImpl.typeName);
+
+    assertThat(p)
+      .matches("typename typeName ;")
+      .matches("typename nestedNameSpecifier typeName ;");
+  }
+
+  @Test
+  public void compoundRequirement() {
+    p.setRootRule(g.rule(CxxGrammarImpl.compoundRequirement));
+
+    mockRule(CxxGrammarImpl.expression);
+    mockRule(CxxGrammarImpl.returnTypeRequirement);
+
+    assertThat(p)
+      .matches("{ expression } ;")
+      .matches("{ expression } noexcept ;")
+      .matches("{ expression } returnTypeRequirement ;")
+      .matches("{ expression } noexcept returnTypeRequirement ;");
+  }
+
+  public void returnTypeRequirement() {
+    p.setRootRule(g.rule(CxxGrammarImpl.returnTypeRequirement));
+
+    mockRule(CxxGrammarImpl.typeConstraint);
+
+    assertThat(p)
+      .matches("-> typeConstraint");
+  }
+
+  @Test
+  public void nestedRequirement() {
+    p.setRootRule(g.rule(CxxGrammarImpl.nestedRequirement));
+
+    mockRule(CxxGrammarImpl.constraintExpression);
+
+    assertThat(p)
+      .matches("requires constraintExpression ;");
   }
 
   @Test
@@ -83,7 +201,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.operatorFunctionId);
     mockRule(CxxGrammarImpl.conversionFunctionId);
     mockRule(CxxGrammarImpl.literalOperatorId);
-    mockRule(CxxGrammarImpl.className);
+    mockRule(CxxGrammarImpl.typeName);
     mockRule(CxxGrammarImpl.decltypeSpecifier);
     mockRule(CxxGrammarImpl.templateId);
 
@@ -91,7 +209,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
     assertThat(p).matches("operatorFunctionId");
     assertThat(p).matches("conversionFunctionId");
     assertThat(p).matches("literalOperatorId");
-    assertThat(p).matches("~ className");
+    assertThat(p).matches("~ typeName");
     assertThat(p).matches("~ decltypeSpecifier");
     assertThat(p).matches("templateId");
   }
