@@ -17,15 +17,15 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.api;
+package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.TokenType;
 
 /**
- * C++ Standard, Section 2.13 "Operators and punctuators"
+ * C++ Standard, 2.13 Operators and punctuators
  */
-public enum CxxPunctuator implements TokenType {
+public enum CppPunctuator implements TokenType {
 
   // Basic arithmetic operators
   PLUS("+"),
@@ -67,11 +67,10 @@ public enum CxxPunctuator implements TokenType {
   BW_LSHIFT_ASSIGN("<<="),
   BW_RSHIFT_ASSIGN(">>="),
   // Member and pointer operators
-  ARROW("->"), // ARROW?
-  DOT("."), // DOT?
-  DOT_STAR(".*"), // DOT_MUL?
-  ARROW_STAR("->*"), // ARROW_MUL?
-
+  ARROW("->"),
+  DOT("."),
+  DOT_STAR(".*"),
+  ARROW_STAR("->*"),
   // Delimiters
   SEMICOLON(";"),
   COLON(":"),
@@ -85,11 +84,34 @@ public enum CxxPunctuator implements TokenType {
   SQBR_RIGHT("]"),
   // Other operators
   QUEST("?"),
-  ELLIPSIS("...");
+  ELLIPSIS("..."),
+  HASH("#"),
+  HASHHASH("##"),
+  // Trigraphs etc.
+  LT_COLON("<:"),
+  GT_COLON(":>"),
+  LT_MOD("<%"),
+  GT_MOD("%>"),
+  MOD_COLON("%:"),
+  MOD_COLON_MOD_COLON("%:%:"),
+  NEW("new"),
+  DELETE("delete"),
+  // Aliases
+  AL_AND("and"),
+  AL_AND_EQ("and_eq"),
+  AL_BITAND("bitand"),
+  AL_BITOR("bitor"),
+  AL_COMPL("compl"),
+  AL_NOT("not"),
+  AL_NOT_EQ("not_eq"),
+  AL_OR("or"),
+  AL_OR_EQ("or_eq"),
+  AL_AL_XOR("xor"),
+  AL_XOR_EQ("xor_eq");
 
   private final String value;
 
-  CxxPunctuator(String word) {
+  CppPunctuator(String word) {
     this.value = word;
   }
 
@@ -107,5 +129,4 @@ public enum CxxPunctuator implements TokenType {
   public boolean hasToBeSkippedFromAst(AstNode node) {
     return false;
   }
-
 }

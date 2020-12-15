@@ -26,7 +26,7 @@ import com.sonar.sslr.api.Trivia;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.parser.CxxTokenType;
 
 public class JoinStringsPreprocessor extends Preprocessor {
 

@@ -17,18 +17,22 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.api;
+package org.sonar.cxx.parser;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 
-public class CxxKeywordTest {
+public class CxxTokenTypeTest {
 
   @Test
   public void test() {
     var softly = new SoftAssertions();
-    softly.assertThat(CxxKeyword.values()).hasSize(93);
-    softly.assertThat(CxxKeyword.keywordValues()).hasSize(CxxKeyword.values().length);
+    softly.assertThat(CxxTokenType.values()).hasSize(5);
+
+    for (var tokenType : CxxTokenType.values()) {
+      softly.assertThat(tokenType.getName()).isEqualTo(tokenType.name());
+      softly.assertThat(tokenType.getValue()).isEqualTo(tokenType.name());
+    }
     softly.assertAll();
   }
 

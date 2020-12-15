@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.api;
+package org.sonar.cxx.parser;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.TokenType;
@@ -25,8 +25,9 @@ import com.sonar.sslr.api.TokenType;
 /**
  * C++ Standard, Section 2.12 "Keywords"
  *
- * In this list are only C++ keywords allowed. All other extensions must be handled as identifiers (e.g. final,
- * override, ...)
+ * In this list are only C++ keywords allowed.
+ * Identifiers with special meaning when appearing in a certain context: final, import, module, override (not in list).
+ * All other extensions must be handled as identifiers.
  */
 public enum CxxKeyword implements TokenType {
 
@@ -62,7 +63,6 @@ public enum CxxKeyword implements TokenType {
   ELSE("else"),
   ENUM("enum"),
   EXPLICIT("explicit"),
-  EXPORT("export"),
   EXTERN("extern"),
   FALSE("false"),
   FLOAT("float"),
@@ -124,7 +124,7 @@ public enum CxxKeyword implements TokenType {
   XOR_EQ("xor_eq"),
   TYPEID("typeid"),
   // C++/CLI keywords
-  GCNEW("gcnew");
+  GCNEW("gcnew"); // todo remove it
   private final String value;
 
   CxxKeyword(String value) {

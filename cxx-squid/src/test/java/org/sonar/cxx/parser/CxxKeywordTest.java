@@ -17,25 +17,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.api;
+package org.sonar.cxx.parser;
 
-import com.sonar.sslr.api.AstNode;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
-import static org.mockito.Mockito.mock;
 
-public class CppPunctuatorTest {
+public class CxxKeywordTest {
 
   @Test
   public void test() {
-    assertThat(CppPunctuator.values()).hasSize(71);
-
-    AstNode astNode = mock(AstNode.class);
     var softly = new SoftAssertions();
-    for (var punctuator : CppPunctuator.values()) {
-      softly.assertThat(punctuator.hasToBeSkippedFromAst(astNode)).isFalse();
-    }
+    softly.assertThat(CxxKeyword.values()).hasSize(92);
+    softly.assertThat(CxxKeyword.keywordValues()).hasSize(CxxKeyword.values().length);
     softly.assertAll();
   }
 

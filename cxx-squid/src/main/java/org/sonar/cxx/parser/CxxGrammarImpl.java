@@ -22,11 +22,10 @@ package org.sonar.cxx.parser;
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import com.sonar.sslr.api.Grammar;
-import org.sonar.cxx.api.CxxKeyword;
-import static org.sonar.cxx.api.CxxTokenType.CHARACTER;
-import static org.sonar.cxx.api.CxxTokenType.NUMBER;
-import static org.sonar.cxx.api.CxxTokenType.STRING;
 import org.sonar.cxx.config.CxxSquidConfiguration;
+import static org.sonar.cxx.parser.CxxTokenType.CHARACTER;
+import static org.sonar.cxx.parser.CxxTokenType.NUMBER;
+import static org.sonar.cxx.parser.CxxTokenType.STRING;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
 
@@ -237,6 +236,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   designator,
   bracedInitList,
   exprOrBracedInitList,
+  // Modules
+  moduleDeclaration,
+  moduleName,
+  modulePartition,
+  moduleNameQualifier,
+  exportDeclaration,
+  moduleImportDeclaration,
+  globalModuleFragment,
+  privateModuleFragment,
   // Classes
   className,
   classSpecifier,
@@ -361,11 +369,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   public static Grammar create(CxxSquidConfiguration squidConfig) {
     var b = LexerfulGrammarBuilder.create();
 
-    toplevel(b, squidConfig);
+    toplevel(b);
     expressions(b);
     statements(b);
-    declarations(b);
+    declarations(b, squidConfig);
     declarators(b);
+    modules(b);
     classes(b);
     properties(b);
     derivedClasses(b);
@@ -425,32 +434,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
   // A.3 Basic concepts
   //
-  private static void toplevel(LexerfulGrammarBuilder b, CxxSquidConfiguration squidConfig) {
-
-    if (squidConfig.getBoolean(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
-                               CxxSquidConfiguration.ERROR_RECOVERY_ENABLED).orElse(Boolean.TRUE)) {
-      b.rule(translationUnit).is(
-        b.zeroOrMore(
-          b.firstOf(
-            declaration,
-            recoveredDeclaration)
-        ), EOF
-      );
-      b.rule(recoveredDeclaration).is(
-        b.oneOrMore(
-          b.nextNot(
-            b.firstOf(
-              declaration,
-              EOF
-            )
-          ), b.anyToken()
-        )
-      );
-    } else {
-      b.rule(translationUnit).is(
-        b.zeroOrMore(declaration), EOF
-      );
-    }
+  private static void toplevel(LexerfulGrammarBuilder b) {
+    b.rule(translationUnit).is(
+      b.firstOf(
+        b.sequence(b.optional(globalModuleFragment), moduleDeclaration,
+                   b.optional(declarationSeq), b.optional(privateModuleFragment)), // C++
+        b.optional(declarationSeq) // C++
+      ),
+      EOF
+    );
   }
 
   // A.4 Expressions
@@ -750,7 +742,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       CxxKeyword.CO_AWAIT, castExpression // C++
     );
 
-    b.rule(newExpression).is( // todo gcnew must be string
+    b.rule(newExpression).is(
       b.sequence(
         b.optional("::"),
         b.firstOf(
@@ -1029,13 +1021,29 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
   // A.6 Declarations
   //
-  private static void declarations(LexerfulGrammarBuilder b) {
-    b.rule(declarationSeq).is(
-      b.oneOrMore(declaration) // C++
-    ).skipIfOneChild();
+  private static void declarations(LexerfulGrammarBuilder b, CxxSquidConfiguration squidConfig) {
+
+    if (squidConfig.getBoolean(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
+                               CxxSquidConfiguration.ERROR_RECOVERY_ENABLED).orElse(Boolean.TRUE)) {
+      b.rule(declarationSeq).is(
+        b.oneOrMore(
+          b.firstOf(
+            declaration, // C++
+            recoveredDeclaration
+          )
+        )
+      ).skipIfOneChild();
+    } else {
+      b.rule(declarationSeq).is(
+        b.oneOrMore(declaration) // C++
+      ).skipIfOneChild();
+    }
 
     b.rule(declaration).is(
       b.firstOf(
+        // identifiers with special meaning: import and module => must be placed before rules that start with an identifier!
+        moduleImportDeclaration, // C++ import ...
+
         blockDeclaration, // C++
         nodeclspecFunctionDeclaration, // C++
         functionDefinition, // C++
@@ -1044,11 +1052,25 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         cliGenericDeclaration, // C++/CLI
         explicitInstantiation, // C++
         explicitSpecialization, // C++
+        exportDeclaration, // C++
         linkageSpecification, // C++
         namespaceDefinition, // C++
         emptyDeclaration, // C++
         attributeDeclaration, // C++
+
         vcAtlDeclaration // Attributted-ATL
+      )
+    );
+
+    b.rule(recoveredDeclaration).is(
+      // eat all tokens until the next declaration is recognized
+      b.oneOrMore(
+        b.nextNot(
+          b.firstOf(
+            declaration,
+            EOF
+          )
+        ), b.anyToken()
       )
     );
 
@@ -1705,6 +1727,56 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     ).skip();
 
+  }
+
+  // A.7 Modules
+  //
+  private static void modules(LexerfulGrammarBuilder b) {
+
+    b.rule(moduleDeclaration).is(
+      b.optional("export"), "module", moduleName,
+      b.optional(modulePartition), b.optional(attributeSpecifierSeq), ";"
+    );
+
+    b.rule(moduleName).is(
+      b.optional(moduleNameQualifier), IDENTIFIER
+    );
+
+    b.rule(modulePartition).is(
+      ":", b.optional(moduleNameQualifier), IDENTIFIER
+    );
+
+    b.rule(moduleNameQualifier).is(
+      IDENTIFIER, ".", b.zeroOrMore(IDENTIFIER, ".")
+    );
+
+    b.rule(exportDeclaration).is(
+      "export",
+      b.firstOf(
+        declaration,
+        b.sequence("{", b.optional(declarationSeq), "}"),
+        moduleImportDeclaration
+      )
+    );
+
+    b.rule(moduleImportDeclaration).is(
+      "import",
+      b.firstOf(
+        moduleName,
+        modulePartition
+      //####todo headerName
+      ),
+      b.optional(attributeSpecifierSeq),
+      ";"
+    );
+
+    b.rule(globalModuleFragment).is(
+      "module", ";", b.optional(declarationSeq)
+    );
+
+    b.rule(privateModuleFragment).is(
+      "module", ":", "private", ";", b.optional(declarationSeq)
+    );
   }
 
   // A.8 Classes
@@ -2383,7 +2455,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(
         b.sequence(CxxKeyword.NOEXCEPT, "(", constantExpression, ")"), // C++
         CxxKeyword.NOEXCEPT, // C++
-        b.sequence(CxxKeyword.THROW, "(", b.optional(typeIdList), ")") // C++ / Microsoft: typeIdList
+        // removed with C++20, keep it for backward compatibility (C++ / Microsoft: typeIdList)
+        b.sequence(CxxKeyword.THROW, "(", b.optional(typeIdList), ")")
       )
     );
 

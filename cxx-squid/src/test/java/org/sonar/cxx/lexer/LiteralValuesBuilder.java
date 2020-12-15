@@ -20,7 +20,7 @@
 package org.sonar.cxx.lexer;
 
 import com.sonar.sslr.api.TokenType;
-import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.parser.CxxTokenType;
 
 public final class LiteralValuesBuilder {
 

@@ -31,6 +31,7 @@ import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.config.CxxSquidConfiguration;
+import org.sonar.cxx.parser.CxxLexer;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.cxx.utils.TestUtils;
@@ -130,6 +131,15 @@ public class CxxLexerIncludeTest {
     assertThat(result).isEqualTo("\"propagated\"");
   }
 
+  @Test
+  public void bracket_import_with_IncludeDirectories() {
+    // Angle-bracket form / preprocessor include file search order:
+    // 1) Along the path that's specified by each /I compiler option (IncludeDirectories).
+
+    String result = tryImport("<a.h>", "INCLUDE", absolute("."), null);
+    assertThat(result).isEqualTo("\"using: include/a.h\"");
+  }
+
   private File root() {
     return TestUtils.loadResource("/preprocessor/include");
   }
@@ -147,6 +157,18 @@ public class CxxLexerIncludeTest {
   private String tryInclude(String include, String macro,
                             @Nullable List<String> includeDirectories,
                             @Nullable List<String> defines) {
+    return tryCmd("#include", include, macro, includeDirectories, defines);
+  }
+
+  private String tryImport(String include, String macro,
+                           @Nullable List<String> includeDirectories,
+                           @Nullable List<String> defines) {
+    return tryCmd("import", include, macro, includeDirectories, defines);
+  }
+
+  private String tryCmd(String cmd, String include, String macro,
+                        @Nullable List<String> includeDirectories,
+                        @Nullable List<String> defines) {
     var squidConfig = new CxxSquidConfiguration();
     if (includeDirectories != null) {
       squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.INCLUDE_DIRECTORIES,
@@ -164,8 +186,9 @@ public class CxxLexerIncludeTest {
     var pp = new CxxPreprocessor(context, squidConfig);
     var lexer = CxxLexer.create(squidConfig, pp, new JoinStringsPreprocessor());
 
-    String fileContent = "#include " + include + "\n" + macro;
+    String fileContent = cmd + " " + include + "\n" + macro;
     List<Token> tokens = lexer.lex(fileContent);
     return tokens.get(0).getValue();
   }
+
 }

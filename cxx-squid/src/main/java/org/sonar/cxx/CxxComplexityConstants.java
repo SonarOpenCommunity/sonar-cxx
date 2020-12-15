@@ -20,8 +20,8 @@
 package org.sonar.cxx;
 
 import com.sonar.sslr.api.AstNodeType;
-import org.sonar.cxx.api.CxxKeyword;
-import org.sonar.cxx.api.CxxPunctuator;
+import org.sonar.cxx.parser.CxxKeyword;
+import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 
 public final class CxxComplexityConstants {

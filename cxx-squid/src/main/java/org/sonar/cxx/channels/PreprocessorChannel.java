@@ -20,26 +20,45 @@
 package org.sonar.cxx.channels;
 
 import com.sonar.sslr.api.Token;
+import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.impl.Lexer;
-import org.sonar.cxx.api.CxxTokenType;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.sslr.channel.Channel;
 import org.sonar.sslr.channel.CodeReader;
 
+// Detects preprocessor directives:
+// This channel detects source code lines which should be handled by the preprocessor.
+// If a line is not marked CxxTokenType.PREPROCESSOR it is not handled by CppLexer and CppGrammar.
+//
 public class PreprocessorChannel extends Channel<Lexer> {
 
   private static final char EOF = (char) -1;
   private final StringLiteralsChannel stringLiteralsChannel = new StringLiteralsChannel();
   private final StringBuilder sb = new StringBuilder(256);
+  private final Matcher matcher;
+
+  public PreprocessorChannel(TokenType[]
+    ... keywordSets) {
+    String regexp = "#";
+    for (var keywords : keywordSets) {
+      for (var keyword : keywords) {
+        regexp += "|" + keyword.getValue() + "\\s";
+      }
+    }
+    matcher = Pattern.compile(regexp).matcher("");
+  }
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {
     int line = code.getLinePosition();
     int column = code.getColumnPosition();
 
-    char charAt = code.charAt(0);
-    if ((charAt != '#')) {
+    if (code.popTo(matcher, sb) <= 0) {
       return false;
     }
+
     read(code);
 
     output.addToken(Token.builder()
@@ -49,7 +68,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
       .setValueAndOriginalValue(sb.toString())
       .setType(CxxTokenType.PREPROCESSOR)
       .build());
-    sb.setLength(0);
+    sb.delete(0, sb.length());
     return true;
   }
 

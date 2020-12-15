@@ -39,91 +39,19 @@ preprocessing-operator: one of // todo
 
 **A.3 Basics [gram.basic]**
 
-translation-unit:
-   declaration-seqopt
-   global-module-fragmentopt module-declaration declaration-seqopt private-module-fragmentopt // todo
-
 **A.4 Expressions [gram.expr]**
 
-unqualified-id:
-   identifier
-   operator-function-id
-   conversion-function-id
-   literal-operator-id
-   ~ type-name // todo
-   ~ decltype-specifier
-   template-id
-
-lambda-expression:
-   lambda-introducer lambda-declaratoropt compound-statement
-   lambda-introducer < template-parameter-list > requires-clauseopt lambda-declaratoropt compound-statement // todo partial
-
-lambda-declarator: // todo
-   ( parameter-declaration-clause ) decl-specifier-seqopt noexcept-specifieropt attribute-specifier-seqopt trailing-return-typeopt requires-clauseopt lambda-capture: capture-default capture-list capture-default , capture-list
-
-postfix-expression: // todo pseudo-destructor-name
-   primary-expression
-   postfix-expression [ expr-or-braced-init-list ]
-   postfix-expression ( expression-listopt )
-   simple-type-specifier ( expression-listopt )
-   typename-specifier ( expression-listopt )
-   simple-type-specifier braced-init-list
-   typename-specifier braced-init-list
-   postfix-expression . templateopt id-expression
-   postfix-expression -> templateopt id-expression
-   postfix-expression ++
-   postfix-expression --
-   dynamic_cast < type-id > ( expression )
-   static_cast < type-id > ( expression )
-   reinterpret_cast < type-id > ( expression )
-   const_cast < type-id > ( expression )
-   typeid ( expression )
-   typeid ( type-id )
-
 // todo remove pseudo-destructor-name
-
-unary-expression:
-   postfix-expression
-   unary-operator cast-expression // todo
-   ++ cast-expression
-   -- cast-expression
-   await-expression // todo
-   sizeof unary-expression
-   sizeof( type-id )
-   sizeof...( identifier )
-   alignof( type-id )
-   noexcept-expression
-   new-expression
-   delete-expression
 
 noptr-new-declarator:
    [ expressionopt ] attribute-specifier-seqopt // todo
    noptr-new-declarator [ constant-expression ] attribute-specifier-seqopt
-
-new-initializer:
-   ( expression-listopt )
-   braced-init-list
 
 noexcept-expression // remove todo
 
 **A.5 Statements [gram.stmt]**
 
 **A.6 Declarations [gram.dcl]**
-
-declaration:
-   block-declaration
-   nodeclspec-function-declaration
-   function-definition
-   template-declaration
-   deduction-guide
-   explicit-instantiation
-   explicit-specialization
-   export-declaration // todo
-   linkage-specification
-   namespace-definition
-   empty-declaration
-   attribute-declaration
-   module-import-declaration // todo
 
 block-declaration:
    simple-declaration
@@ -143,10 +71,6 @@ function-specifier:
 explicit-specifier: // todo
    explicit( constant-expression )
    explicit
-
-typedef-name:
-   identifier
-   simple-template-id // todo
 
 decltype-specifier // todo, different
 
@@ -184,14 +108,6 @@ elaborated-enum-specifier: // todo
 decltype-specifier: // todo
    decltype( expression )
 
-placeholder-type-specifier: // todo
-   type-constraintopt auto
-   type-constraintopt decltype(auto)
-
-init-declarator:
-   declarator initializeropt
-   declarator requires-clause // todo
-
 function-definition:
    attribute-specifier-seqopt decl-specifier-seqopt declarator virt-specifier-seqopt function-body
    attribute-specifier-seqopt decl-specifier-seqopt declarator requires-clause function-body
@@ -210,45 +126,12 @@ enclosing-namespace-specifier:
    enclosing-namespace-specifier ::inlineopt identifier // todo
 
 using-directive:
-   attribute-specifier-seqopt usingnamespace nested-name-specifieropt namespace-name ;
+   attribute-specifier-seqopt using namespace nested-name-specifieropt namespace-name ;
 
 asm-declaration: // todo
    attribute-specifier-seqopt asm( string-literal );
 
-attribute:
-   attribute-token
-   attribute-argument-clauseopt
-
 **A.7 Modules [gram.module]**
-
-module-declaration:
-   export-keywordopt module-keyword module-name module-partitionopt attribute-specifier-seqopt ;
-
-module-name:
-module-name-qualifieropt identifier
-
-module-partition:
-   : module-name-qualifieropt identifier
-
-module-name-qualifier:
-   identifier .
-   module-name-qualifier identifier .
-
-export-declaration:
-   export declaration
-   export{ declaration-seqopt }
-   export-keyword module-import-declaration
-
-module-import-declaration:
-   import-keyword module-name attribute-specifier-seqopt ;
-   import-keyword module-partition attribute-specifier-seqopt ;
-   import-keyword header-name attribute-specifier-seqopt ;
-
-global-module-fragment:
-   module-keyword ; declaration-seqopt
-
-private-module-fragment:
-module-keyword :private; declaration-seqopt
 
 **A.8 Classes [gram.class]**
 
@@ -264,12 +147,6 @@ member-declaration:
    alias-declaration
    opaque-enum-declaration // todo
    empty-declaration
-
-member-declarator:
-   declarator virt-specifier-seqopt pure-specifieropt
-   declarator requires-clause // todo
-   declarator brace-or-equal-initializeropt
-   identifieropt attribute-specifier-seqopt : constant-expression brace-or-equal-initializeropt // todo
 
 base-specifier: // todo
    attribute-specifier-seqopt class-or-decltype
@@ -298,11 +175,6 @@ deduction-guide: // todo
    explicit-specifieropt template-name ( parameter-declaration-clause )-> simple-template-id ;
 
 **A.11 Exception handling [gram.except]**
-
-noexcept-specifier:
-   noexcept ( constant-expression )
-   noexcept
-   // todo throw removed, keep it?
 
 **A.12 Preprocessing directives [gram.cpp]**
 

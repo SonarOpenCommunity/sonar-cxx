@@ -210,6 +210,29 @@ public class CppGrammarTest {
   }
 
   @Test
+  public void importLine_reallife() {
+    p.setRootRule(g.rule(CppGrammar.ppImport));
+
+    assertThat(p).matches("import foo;");
+    assertThat(p).matches("export import foo;");
+    assertThat(p).matches("import foo.foo;");
+    assertThat(p).matches("export import :foo;");
+
+    assertThat(p).matches("import <file>");
+    assertThat(p).matches("import \"jabadu\"");
+  }
+
+  @Test
+  public void moduleLine_reallife() {
+    p.setRootRule(g.rule(CppGrammar.ppModule));
+
+    assertThat(p).matches("module;");
+    assertThat(p).matches("module :private;");
+    assertThat(p).matches("export module foo;");
+    assertThat(p).matches("export module foo:foo;");
+  }
+
+  @Test
   public void expandedIncludeBody() {
     p.setRootRule(g.rule(CppGrammar.expandedIncludeBody));
 
