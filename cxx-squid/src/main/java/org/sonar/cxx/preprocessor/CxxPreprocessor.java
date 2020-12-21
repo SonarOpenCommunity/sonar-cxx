@@ -20,7 +20,6 @@
 package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import com.sonar.sslr.api.Grammar;
@@ -48,19 +47,12 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import static org.sonar.cxx.api.CppKeyword.IFDEF;
-import static org.sonar.cxx.api.CppKeyword.IFNDEF;
-import static org.sonar.cxx.api.CppPunctuator.BR_RIGHT;
-import static org.sonar.cxx.api.CppPunctuator.COMMA;
-import static org.sonar.cxx.api.CppPunctuator.HASH;
-import static org.sonar.cxx.api.CppPunctuator.HASHHASH;
-import static org.sonar.cxx.api.CppPunctuator.LT;
-import static org.sonar.cxx.api.CxxTokenType.NUMBER;
-import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
-import static org.sonar.cxx.api.CxxTokenType.STRING;
-import static org.sonar.cxx.api.CxxTokenType.WS;
 import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.cxx.lexer.CxxLexer;
+import org.sonar.cxx.parser.CxxLexer;
+import static org.sonar.cxx.parser.CxxTokenType.NUMBER;
+import static org.sonar.cxx.parser.CxxTokenType.PREPROCESSOR;
+import static org.sonar.cxx.parser.CxxTokenType.STRING;
+import static org.sonar.cxx.parser.CxxTokenType.WS;
 import static org.sonar.cxx.preprocessor.CppGrammar.defineLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.elifLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.elseLine;
@@ -69,8 +61,45 @@ import static org.sonar.cxx.preprocessor.CppGrammar.ifLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.ifdefLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.includeLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.undefLine;
+import static org.sonar.cxx.preprocessor.CppKeyword.IFDEF;
+import static org.sonar.cxx.preprocessor.CppKeyword.IFNDEF;
+import static org.sonar.cxx.preprocessor.CppPunctuator.BR_RIGHT;
+import static org.sonar.cxx.preprocessor.CppPunctuator.COMMA;
+import static org.sonar.cxx.preprocessor.CppPunctuator.HASH;
+import static org.sonar.cxx.preprocessor.CppPunctuator.HASHHASH;
+import static org.sonar.cxx.preprocessor.CppPunctuator.LT;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
+/**
+ * Implements a C++ preprocessor according to '**A.12 Preprocessing directives [gram.cpp]**'.
+ * The grammar for single lines is implemented in 'CppGrammar'.
+ *
+ * **A.12 Preprocessing directives [gram.cpp]**
+ *
+ * preprocessing-file:
+ *    groupopt
+ *   module-file
+ *
+ * module-file:
+ *   pp-global-module-fragmentopt pp-module groupopt pp-private-module-fragmentopt
+ *
+ * group:
+ *   group-part
+ *   group group-part
+ *
+ * group-part:
+ *   control-line
+ *   if-section
+ *   text-line
+ *   # conditionally-supported-directive
+ *
+ * if-section:
+ *   if-group elif-groupsopt else-groupopt endif-line
+ *
+ * elif-groups:
+ *   elif-group
+ *   elif-groups elif-group
+ */
 public class CxxPreprocessor extends Preprocessor {
 
   private static final Logger LOG = Loggers.get(CxxPreprocessor.class);
@@ -170,46 +199,47 @@ public class CxxPreprocessor extends Preprocessor {
       } catch (com.sonar.sslr.api.RecognitionException e) {
         LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
         LOG.debug("Parser exception: '{}'", e);
-        return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                      new ArrayList<>());
+        return oneConsumedToken(token);
       }
 
-      AstNodeType lineKind = lineAst.getType();
-
-      if (lineKind.equals(ifdefLine)) {
-        return handleIfdefLine(lineAst, token, rootFilePath);
-      } else if (lineKind.equals(ifLine)) {
-        return handleIfLine(lineAst, token, rootFilePath);
-      } else if (lineKind.equals(endifLine)) {
-        return handleEndifLine(token, rootFilePath);
-      } else if (lineKind.equals(elseLine)) {
-        return handleElseLine(token, rootFilePath);
-      } else if (lineKind.equals(elifLine)) {
-        return handleElIfLine(lineAst, token, rootFilePath);
+      CppGrammar type = (CppGrammar) lineAst.getType();
+      switch (type) {
+        case ifdefLine:
+          return handleIfdefLine(lineAst, token, rootFilePath);
+        case ifLine:
+          return handleIfLine(lineAst, token, rootFilePath);
+        case endifLine:
+          return handleEndifLine(token, rootFilePath);
+        case elseLine:
+          return handleElseLine(token, rootFilePath);
+        case elifLine:
+          return handleElIfLine(lineAst, token, rootFilePath);
       }
 
       if (unitCodeProvider.doSkipBlock()) {
-        return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                      new ArrayList<>());
+        return oneConsumedToken(token);
       }
 
-      if (lineKind.equals(defineLine)) {
-        return handleDefineLine(lineAst, token, rootFilePath);
-      } else if (lineKind.equals(includeLine)) {
-        return handleIncludeLine(lineAst, token, rootFilePath, squidConfig.getCharset());
-      } else if (lineKind.equals(undefLine)) {
-        return handleUndefLine(lineAst, token);
+      switch (type) {
+        case defineLine:
+          return handleDefineLine(lineAst, token, rootFilePath);
+        case includeLine:
+          return handleIncludeLine(lineAst, token, rootFilePath, squidConfig.getCharset());
+        case ppImport:
+          return handleImportLine(lineAst, token, rootFilePath, squidConfig.getCharset());
+        case ppModule:
+          return handleModuleLine(lineAst, token);
+        case undefLine:
+          return handleUndefLine(lineAst, token);
       }
 
       // Ignore all other preprocessor directives (which are not handled explicitly) and strip them from the stream
-      return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                    new ArrayList<>());
+      return oneConsumedToken(token);
     }
 
     if (!ttype.equals(EOF)) {
       if (unitCodeProvider.doSkipBlock()) {
-        return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                      new ArrayList<>());
+        return oneConsumedToken(token);
       }
 
       if (!ttype.equals(STRING) && !ttype.equals(NUMBER)) {
@@ -244,6 +274,10 @@ public class CxxPreprocessor extends Preprocessor {
 
   private static String serialize(List<Token> tokens, String spacer) {
     return tokens.stream().map(Token::getValue).collect(Collectors.joining(spacer));
+  }
+
+  private static List<Token> serialize(AstNode ast) {
+    return ast.getChildren().stream().map(AstNode::getToken).collect(Collectors.toList());
   }
 
   private static int matchArguments(List<Token> tokens, List<Token> arguments) {
@@ -587,8 +621,7 @@ public class CxxPreprocessor extends Preprocessor {
       unitCodeProvider.nestedBlock(+1);
     }
 
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                  new ArrayList<>());
+    return oneConsumedToken(token);
   }
 
   private void parseIncludeLine(String includeLine, String filename, Charset charset) {
@@ -893,8 +926,7 @@ public class CxxPreprocessor extends Preprocessor {
       unitCodeProvider.nestedBlock(+1);
     }
 
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                  new ArrayList<>());
+    return oneConsumedToken(token);
   }
 
   PreprocessorAction handleElIfLine(AstNode ast, Token token, String filename) {
@@ -909,8 +941,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
     }
 
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                  new ArrayList<>());
+    return oneConsumedToken(token);
   }
 
   PreprocessorAction handleElseLine(Token token, String filename) {
@@ -925,8 +956,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
     }
 
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                  new ArrayList<>());
+    return oneConsumedToken(token);
   }
 
   PreprocessorAction handleEndifLine(Token token, String filename) {
@@ -939,8 +969,7 @@ public class CxxPreprocessor extends Preprocessor {
       unitCodeProvider.expressionWas(false);
     }
 
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                  new ArrayList<>());
+    return oneConsumedToken(token);
   }
 
   PreprocessorAction handleDefineLine(AstNode ast, Token token, String filename) {
@@ -948,8 +977,7 @@ public class CxxPreprocessor extends Preprocessor {
     Macro macro = parseMacroDefinition(ast);
     unitMacros.put(macro.name, macro);
 
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                  new ArrayList<>());
+    return oneConsumedToken(token);
   }
 
   PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename, Charset charset) {
@@ -976,15 +1004,36 @@ public class CxxPreprocessor extends Preprocessor {
       }
     }
 
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                  new ArrayList<>());
+    return oneConsumedToken(token);
+  }
+
+  PreprocessorAction handleImportLine(AstNode ast, Token token, String filename, Charset charset) {
+    if (ast.getFirstDescendant(CppGrammar.expandedIncludeBody) != null)  {
+      // import <file>
+      return handleIncludeLine(ast, token, filename, charset);
+    }
+
+    // forward to parser: ...  import ...
+    List<Token> replTokens = stripEOF(serialize(ast));
+    String line = serialize(replTokens);
+    replTokens = stripEOF(CxxLexer.create2().lex(line));
+
+    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),replTokens);
+  }
+
+  PreprocessorAction handleModuleLine(AstNode ast, Token token) {
+    // forward to parser: ...  module ...
+    List<Token> replTokens = stripEOF(serialize(ast));
+    String line = serialize(replTokens);
+    replTokens = stripEOF(CxxLexer.create2().lex(line));
+
+    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),replTokens);
   }
 
   PreprocessorAction handleUndefLine(AstNode ast, Token token) {
     String macroName = ast.getFirstDescendant(IDENTIFIER).getTokenValue();
     unitMacros.remove(macroName);
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),
-                                  new ArrayList<>());
+    return oneConsumedToken(token);
   }
 
   PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) {
@@ -1049,6 +1098,10 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     return ppaction;
+  }
+
+  private PreprocessorAction oneConsumedToken(Token token) {
+    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)), Collections.emptyList());
   }
 
   static class MismatchException extends Exception {

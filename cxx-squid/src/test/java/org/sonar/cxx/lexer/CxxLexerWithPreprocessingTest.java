@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.lexer;
 
+import org.sonar.cxx.parser.CxxLexer;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
@@ -37,9 +38,9 @@ import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.sonar.cxx.api.CxxKeyword;
-import org.sonar.cxx.api.CxxPunctuator;
-import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.parser.CxxKeyword;
+import org.sonar.cxx.parser.CxxPunctuator;
+import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;

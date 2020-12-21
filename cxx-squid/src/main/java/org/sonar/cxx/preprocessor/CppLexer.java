@@ -31,12 +31,11 @@ import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.opt;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.or;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
-import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.cxx.api.CppKeyword;
-import org.sonar.cxx.api.CppPunctuator;
-import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
+import org.sonar.cxx.channels.KeywordChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 
 public final class CppLexer {
 
@@ -90,6 +89,7 @@ public final class CppLexer {
         )
       )
       .withChannel(new KeywordChannel(and("#", o2n("\\s"), "[a-z]", o2n("\\w")), CppKeyword.values()))
+      //###.withChannel(new SpecialIdentifiers("import"))
       .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true))
       .withChannel(new PunctuatorChannel(CppPunctuator.values()))
       .withChannel(new UnknownCharacterChannel());

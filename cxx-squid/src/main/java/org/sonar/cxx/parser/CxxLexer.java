@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.lexer;
+package org.sonar.cxx.parser;
 
 import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.impl.Lexer;
@@ -33,13 +33,12 @@ import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.opt;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.or;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
-import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.cxx.api.CxxKeyword;
-import org.sonar.cxx.api.CxxPunctuator;
-import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.channels.BackslashChannel;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.channels.PreprocessorChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
+import org.sonar.cxx.config.CxxSquidConfiguration;
+import org.sonar.cxx.preprocessor.CppSpecialIdentifier;
 
 public final class CxxLexer {
 
@@ -77,8 +76,10 @@ public final class CxxLexer {
       .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
       // backslash at the end of the line: just throw away
       .withChannel(new BackslashChannel())
-      // Preprocessor directives
-      .withChannel(new PreprocessorChannel())
+      // detects preprocessor directives:
+      // This channel detects source code lines which should be handled by the preprocessor.
+      // If a line is not marked CxxTokenType.PREPROCESSOR it is not handled by CppLexer and CppGrammar.
+      .withChannel(new PreprocessorChannel(CppSpecialIdentifier.values()))
       // C++ Standard, Section 2.14.3 "Character literals"
       .withChannel(new CharacterLiteralsChannel())
       // C++ Standard, Section 2.14.5 "String literals"
@@ -111,6 +112,52 @@ public final class CxxLexer {
     for (var preprocessor : preprocessors) {
       builder.withPreprocessor(preprocessor);
     }
+
+    return builder.build();
+  }
+
+  public static Lexer create2() {
+
+    //
+    // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
+    //
+    Lexer.Builder builder = Lexer.builder()
+      .withCharset(new CxxSquidConfiguration().getCharset())
+      .withFailIfNoChannelToConsumeOneCharacter(true)
+      .withChannel(new BlackHoleChannel("\\s"))
+      // C++ Standard, Section 2.8 "Comments"
+      .withChannel(commentRegexp("//[^\\n\\r]*+"))
+      .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
+      // backslash at the end of the line: just throw away
+      .withChannel(new BackslashChannel())
+      // C++ Standard, Section 2.14.3 "Character literals"
+      .withChannel(new CharacterLiteralsChannel())
+      // C++ Standard, Section 2.14.5 "String literals"
+      .withChannel(new StringLiteralsChannel())
+      // C++ Standard, Section 2.14.2 "Integer literals"
+      // C++ Standard, Section 2.14.4 "Floating literals"
+      .withChannel(
+        regexp(CxxTokenType.NUMBER,
+               and(
+                 or(
+                   g(POINT, DECDIGIT_SEQUENCE, opt(g(EXPONENT))),
+                   g(HEX_PREFIX, opt(g(HEXDIGIT_SEQUENCE)), opt(POINT), opt(g(HEXDIGIT_SEQUENCE)), opt(
+                     g(BINARY_EXPONENT))),
+                   g(BIN_PREFIX, BINDIGIT_SEQUENCE),
+                   g(DECDIGIT_SEQUENCE, opt(POINT), opt(g(DECDIGIT_SEQUENCE)), opt(g(EXPONENT)))
+                 ),
+                 opt(g(UD_SUFFIX))
+               )
+        )
+      )
+      // C++ Standard, Section 2.14.7 "Pointer literals"
+      .withChannel(regexp(CxxTokenType.NUMBER, CxxKeyword.NULLPTR.getValue() + "\\b"))
+      // C++ Standard, Section 2.12 "Keywords"
+      // C++ Standard, Section 2.11 "Identifiers"
+      .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true, CxxKeyword.values()))
+      // C++ Standard, Section 2.13 "Operators and punctuators"
+      .withChannel(new PunctuatorChannel(CxxPunctuator.values()))
+      .withChannel(new UnknownCharacterChannel());
 
     return builder.build();
   }

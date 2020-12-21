@@ -17,39 +17,29 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.api;
+package org.sonar.cxx.channels;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.TokenType;
+import com.sonar.sslr.impl.Lexer;
+import org.sonar.sslr.channel.Channel;
+import org.sonar.sslr.channel.CodeReader;
 
-public enum CxxTokenType implements TokenType {
+public class BackslashChannel extends Channel<Lexer> {
 
-  NUMBER,
-  STRING,
-  CHARACTER,
-  PREPROCESSOR,
-  PREPROCESSOR_DEFINE,
-  PREPROCESSOR_INCLUDE,
-  PREPROCESSOR_IFDEF,
-  PREPROCESSOR_IFNDEF,
-  PREPROCESSOR_IF,
-  PREPROCESSOR_ELSE,
-  PREPROCESSOR_ENDIF,
-  WS; // whitespace
-
-  @Override
-  public String getName() {
-    return name();
+  private static boolean isNewLine(char ch) {
+    return (ch == '\n') || (ch == '\r');
   }
 
   @Override
-  public String getValue() {
-    return name();
-  }
+  public boolean consume(CodeReader code, Lexer output) {
+    char ch = (char) code.peek();
 
-  @Override
-  public boolean hasToBeSkippedFromAst(AstNode node) {
-    return this == WS;
+    if ((ch == '\\') && isNewLine(code.charAt(1))) {
+      // just throw away the backslash
+      code.pop();
+      return true;
+    }
+
+    return false;
   }
 
 }

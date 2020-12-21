@@ -21,7 +21,7 @@ package org.sonar.cxx.channels;
 
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
-import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.sslr.channel.Channel;
 import org.sonar.sslr.channel.CodeReader;
 
@@ -51,7 +51,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       .setValueAndOriginalValue(csb.toString())
       .setType(CxxTokenType.STRING)
       .build());
-    csb.setLength(0);
+    csb.delete(0, csb.length());
     return true;
   }
 
@@ -109,10 +109,10 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       index++;
     }
     String delimiter = sb.toString();
-    sb.setLength(0);
+    sb.delete(0, sb.length());
     do {
       index -= sb.length();
-      sb.setLength(0);
+      sb.delete(0, sb.length());
       while ((charAt = code.charAt(index)) != ')') { // raw_character*
         if (charAt == EOF) {
           return false;
@@ -132,7 +132,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
         }
       }
     } while (!sb.toString().equals(delimiter));
-    sb.setLength(0);
+    sb.delete(0, sb.length());
     index++;
     return true;
   }

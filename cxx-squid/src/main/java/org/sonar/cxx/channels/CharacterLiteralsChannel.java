@@ -21,7 +21,7 @@ package org.sonar.cxx.channels;
 
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
-import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.sslr.channel.Channel;
 import org.sonar.sslr.channel.CodeReader;
 
@@ -60,7 +60,7 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
       .setValueAndOriginalValue(sb.toString())
       .setType(CxxTokenType.CHARACTER)
       .build());
-    sb.setLength(0);
+    sb.delete(0, sb.length());
     return true;
   }
 

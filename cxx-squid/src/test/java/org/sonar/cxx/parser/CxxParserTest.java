@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import javax.annotation.Nullable;
 import org.apache.commons.io.FileUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -44,141 +45,127 @@ public class CxxParserTest {
   private final String[] preprocessorFiles = {"preprocessor"};
   private final String[] cCompatibilityFiles = {"C", "C99"};
   private final String rootDir = "src/test/resources/parser";
+
   private File erroneousSources = null;
+  private final SquidAstVisitorContext<Grammar> context;
 
   public CxxParserTest() throws URISyntaxException {
     super();
     erroneousSources = new File(CxxParserTest.class.getResource(errSources).toURI());
+    context = mock(SquidAstVisitorContext.class);
   }
 
   @Test
-  public void testParsingOnDiverseSourceFiles() {
-    List<File> files = listFiles(goodFiles, new String[]{"cc", "cpp", "hpp"});
+  public void testParsingOnDiverseCppSourceFiles() {
     var map = new HashMap<String, Integer>() {
       private static final long serialVersionUID = 6029310517902718597L;
 
       {
+        // file, number of declarations
         put("ignore.hpp", 2);
-        put("ignore1.cpp", 2);
-        put("ignoreparam.hpp", 4);
-        put("ignoreparam1.cpp", 2);
-        put("inbuf1.cpp", 2);
-        put("io1.cpp", 3);
-        put("outbuf1.cpp", 2);
-        put("outbuf1.hpp", 2);
-        put("outbuf1x.cpp", 2);
+        put("ignore1.cpp", 1);
+        put("ignoreparam.hpp", 3);
+        put("ignoreparam1.cpp", 1);
+        put("inbuf1.cpp", 1);
+        put("io1.cpp", 2);
+        put("outbuf1.cpp", 1);
+        put("outbuf1.hpp", 1);
+        put("outbuf1x.cpp", 1);
         put("outbuf1x.hpp", 4);
-        put("outbuf2.cpp", 2);
-        put("outbuf2.hpp", 3);
-        put("outbuf3.cpp", 2);
-        put("outbuf3.hpp", 2);
-        put("outbuf2.cpp", 2);
+        put("outbuf2.cpp", 1);
+        put("outbuf2.hpp", 2);
+        put("outbuf3.cpp", 1);
+        put("outbuf3.hpp", 1);
+        put("outbuf2.cpp", 1);
       }
     };
 
-    var squidConfig = new CxxSquidConfiguration();
-    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
-                    "false");
+    Parser<Grammar> p = createParser(null, false, null);
 
-    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
-    Parser<Grammar> p = CxxParser.create(context, squidConfig);
+    for (var file : listFiles(goodFiles, new String[]{"cc", "cpp", "hpp"})) {
+      AstNode root = parse(p, file);
+      verify(root, file, map);
+    }
+  }
 
-    for (var file : files) {
-      when(context.getFile()).thenReturn(file);
-      AstNode root = null;
-      try {
-        root = p.parse(file);
-        CxxParser.finishedParsing(file);
-      } catch (Exception e) {
-        throw new IllegalStateException(file.toString(), e);
-      }
-      if (map.containsKey(file.getName())) {
-        assertThat(root.getNumberOfChildren()).as("check number of nodes for file %s", file.getName()).isEqualTo(map
-          .get(file.getName()));
-      } else {
-        assertThat(root.hasChildren()).isTrue();
-      }
+  //@Test todo
+  public void testParsingOnDiverseCSourceFiles() {
+    var map = new HashMap<String, Integer>() {
+    };
+
+    Parser<Grammar> p = createParser(null, false, null);
+
+    for (var file : listFiles(cCompatibilityFiles, new String[]{"cc", "h"})) { // todo add "c"
+      AstNode root = parse(p, file);
+      verify(root, file, map);
     }
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void testPreproccessorParsingOnDiverseSourceFiles() {
-    var squidConfig = new CxxSquidConfiguration(new File("src/test").getAbsolutePath());
-    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
-                    "false");
-    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.INCLUDE_DIRECTORIES,
-                    Arrays.asList(
-                      "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\INCLUDE",
-                      "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\ATLMFC\\INCLUDE",
-                      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\ucrt",
-                      "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.6.1\\include\\um",
-                      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\shared",
-                      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\um",
-                      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\winrt",
-                      "C:\\Workspaces\\boost\\boost_1_61_0",
-                      "resources",
-                      "resources\\parser\\preprocessor")
-    );
+    var includes = Arrays.asList(
+      "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\INCLUDE",
+      "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\ATLMFC\\INCLUDE",
+      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\ucrt",
+      "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.6.1\\include\\um",
+      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\shared",
+      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\um",
+      "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\winrt",
+      "C:\\Workspaces\\boost\\boost_1_61_0",
+      "resources",
+      "resources\\parser\\preprocessor");
+
     var map = new HashMap<String, Integer>() {
       private static final long serialVersionUID = 1433381506274827684L;
 
       {
-        put("variadic_macros.cpp", 2);
-        put("apply_wrap.hpp", 1);
-        put("boost_macros_short.hpp", 1);
-        put("boost_macros.hpp", 1);
+        // file, number of declarations
+        put("variadic_macros.cpp", 1);
+        put("apply_wrap.hpp", 0);
+        put("boost_macros_short.hpp", 0);
+        put("boost_macros.hpp", 0);
       }
     };
 
-    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
-    Parser<Grammar> p = CxxParser.create(context, squidConfig);
-    List<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"});
-    for (var file : files) {
-      when(context.getFile()).thenReturn(file);
-      AstNode root = p.parse(file);
-      CxxParser.finishedParsing(file);
-      if (map.containsKey(file.getName())) {
-        assertThat(root.getNumberOfChildren()).as("check number of nodes for file %s", file.getName()).isEqualTo(map
-          .get(file.getName()));
-      } else {
-        assertThat(root.hasChildren()).isTrue();
-      }
+    var baseDir = new File("src/test").getAbsolutePath();
+    Parser<Grammar> p = createParser(baseDir, false, includes);
+
+    for (var file : listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"})) {
+      AstNode root = parse(p, file);
+      verify(root, file, map);
     }
   }
 
   @Test
   public void testParseErrorRecoveryDisabled() {
-    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
-    when(context.getFile()).thenReturn(erroneousSources);
-
-    var squidConfig = new CxxSquidConfiguration();
-    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
-                    "false");
-
-    Parser<Grammar> p = CxxParser.create(context, squidConfig);
+    Parser<Grammar> p = createParser(null, false, null);
 
     // The error recovery works, if:
     // - a syntacticly incorrect file causes a parse error when recovery is disabled
     assertThatThrownBy(() -> {
-      p.parse(erroneousSources);
-    }).isInstanceOf(com.sonar.sslr.api.RecognitionException.class);
+      parse(p, erroneousSources);
+    }).isInstanceOf(IllegalStateException.class);
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void testParseErrorRecoveryEnabled() {
-    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
-    when(context.getFile()).thenReturn(erroneousSources);
+    var map = new HashMap<String, Integer>() {
+      private static final long serialVersionUID = 3433381506274827684L;
+
+      {
+        // file, number of declarations
+        put(erroneousSources.getAbsolutePath(), 5);
+      }
+    };
+
+    Parser<Grammar> p = createParser(null, true, null);
 
     // The error recovery works, if:
     // - but doesn't cause such an error if we run with default settings
-    var squidConfig = new CxxSquidConfiguration();
-    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
-                    "true");
-    Parser<Grammar> p = CxxParser.create(context, squidConfig);
-    AstNode root = p.parse(erroneousSources); //<-- this shouldn't throw now
-    assertThat(root.getNumberOfChildren()).isEqualTo(6);
+    AstNode root = parse(p, erroneousSources); //<-- this shouldn't throw now
+    verify(root, erroneousSources, map);
   }
 
   private List<File> listFiles(String[] dirs, String[] extensions) {
@@ -189,4 +176,42 @@ public class CxxParserTest {
     return files;
   }
 
+  private Parser<Grammar> createParser(String baseDir, boolean errorRecovery, @Nullable List<String> includes) {
+    CxxSquidConfiguration squidConfig;
+    if (baseDir != null) {
+      squidConfig = new CxxSquidConfiguration(baseDir);
+    } else {
+      squidConfig = new CxxSquidConfiguration();
+    }
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
+                    errorRecovery ? "true" : "false");
+    if (includes != null) {
+      squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.INCLUDE_DIRECTORIES,
+                      includes);
+    }
+
+    return CxxParser.create(context, squidConfig);
+  }
+
+  private AstNode parse(Parser<Grammar> parser, File file) {
+    when(context.getFile()).thenReturn(file);
+    AstNode root = null;
+    try {
+      root = parser.parse(file);
+      CxxParser.finishedParsing(file);
+    } catch (Exception e) {
+      throw new IllegalStateException(file.toString(), e);
+    }
+    return root;
+  }
+
+  void verify(AstNode root, File file, HashMap<String, Integer> map) {
+    assertThat(root.hasChildren()).isTrue();
+    if (map.containsKey(file.getName())) {
+      List<AstNode> declarations = root.getDescendants(CxxGrammarImpl.declaration);
+      assertThat(declarations.size())
+        .as("check number of declarations for file '%s'", file.getName())
+        .isEqualTo(map.get(file.getName()));
+    }
+  }
 }

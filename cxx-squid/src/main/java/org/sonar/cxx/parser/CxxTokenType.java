@@ -17,46 +17,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.api;
+package org.sonar.cxx.parser;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.TokenType;
 
-/**
- * C++ Standard, Section 16 "Preprocessing directives"
- */
-public enum CppKeyword implements TokenType {
+public enum CxxTokenType implements TokenType {
 
-  IF("#if"),
-  IFDEF("#ifdef"),
-  IFNDEF("#ifndef"),
-  ELIF("#elif"),
-  ELSE("#else"),
-  ENDIF("#endif"),
-  INCLUDE("#include"),
-  DEFINE("#define"),
-  UNDEF("#undef"),
-  LINE("#line"),
-  ERROR("#error"),
-  PRAGMA("#pragma"),
-  // extensions
-  WARNING("#warning"),
-  INCLUDE_NEXT("#include_next");
-
-  private final String value;
-
-  CppKeyword(String value) {
-    this.value = value;
-  }
-
-  public static String[] keywordValues() {
-    CppKeyword[] keywordsEnum = CppKeyword.values();
-    var keywords = new String[keywordsEnum.length];
-    for (var i = 0; i < keywords.length; i++) {
-      keywords[i] = keywordsEnum[i].getValue();
-    }
-    return keywords;
-  }
+  NUMBER,
+  STRING,
+  CHARACTER,
+  PREPROCESSOR,
+  WS; // whitespace
 
   @Override
   public String getName() {
@@ -65,12 +37,12 @@ public enum CppKeyword implements TokenType {
 
   @Override
   public String getValue() {
-    return value;
+    return name();
   }
 
   @Override
   public boolean hasToBeSkippedFromAst(AstNode node) {
-    return false;
+    return this == WS;
   }
 
 }

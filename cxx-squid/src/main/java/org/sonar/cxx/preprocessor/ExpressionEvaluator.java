@@ -34,8 +34,7 @@ import javax.annotation.Nullable;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.cxx.api.CppPunctuator;
-import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.parser.CxxTokenType;
 
 public final class ExpressionEvaluator {
 

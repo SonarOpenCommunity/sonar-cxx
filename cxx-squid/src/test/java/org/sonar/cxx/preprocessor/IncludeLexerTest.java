@@ -26,7 +26,7 @@ import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
-import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.parser.CxxTokenType;
 
 public class IncludeLexerTest {
 

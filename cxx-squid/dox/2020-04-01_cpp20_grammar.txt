@@ -1,4 +1,4 @@
-Annex A (informative)
+﻿Annex A (informative)
 
 **A.1 Keywords [gram.key]**
 
@@ -1042,7 +1042,7 @@ qualified-namespace-specifier:
    nested-name-specifieropt namespace-name
 
 using-directive:
-   attribute-specifier-seqopt usingnamespace nested-name-specifieropt namespace-name ;
+   attribute-specifier-seqopt using namespace nested-name-specifieropt namespace-name ;
 
 using-declaration:
    using using-declarator-list ;
@@ -1113,7 +1113,7 @@ module-declaration:
    export-keywordopt module-keyword module-name module-partitionopt attribute-specifier-seqopt ;
 
 module-name:
-module-name-qualifieropt identifier
+   module-name-qualifieropt identifier
 
 module-partition:
    : module-name-qualifieropt identifier
@@ -1136,7 +1136,7 @@ global-module-fragment:
    module-keyword ; declaration-seqopt
 
 private-module-fragment:
-module-keyword :private; declaration-seqopt
+   module-keyword :private; declaration-seqopt
 
 **A.8 Classes [gram.class]**
 

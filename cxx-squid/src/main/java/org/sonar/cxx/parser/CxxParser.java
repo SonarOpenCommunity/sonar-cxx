@@ -24,7 +24,6 @@ import com.sonar.sslr.impl.Parser;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.cxx.lexer.CxxLexer;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.squidbridge.SquidAstVisitorContext;

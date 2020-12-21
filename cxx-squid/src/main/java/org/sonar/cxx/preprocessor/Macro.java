@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
-import static org.sonar.cxx.api.CxxTokenType.STRING;
+import static org.sonar.cxx.parser.CxxTokenType.STRING;
 
 public final class Macro {
 

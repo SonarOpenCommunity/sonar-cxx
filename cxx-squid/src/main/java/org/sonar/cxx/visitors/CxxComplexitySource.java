@@ -21,8 +21,8 @@ package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.TokenType;
-import org.sonar.cxx.api.CxxKeyword;
-import org.sonar.cxx.api.CxxPunctuator;
+import org.sonar.cxx.parser.CxxKeyword;
+import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 
 /**

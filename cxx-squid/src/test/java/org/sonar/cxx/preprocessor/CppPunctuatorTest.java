@@ -17,7 +17,26 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-@ParametersAreNonnullByDefault
-package org.sonar.cxx.lexer;
+package org.sonar.cxx.preprocessor;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import com.sonar.sslr.api.AstNode;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.Test;
+import static org.mockito.Mockito.mock;
+
+public class CppPunctuatorTest {
+
+  @Test
+  public void test() {
+    assertThat(CppPunctuator.values()).hasSize(71);
+
+    AstNode astNode = mock(AstNode.class);
+    var softly = new SoftAssertions();
+    for (var punctuator : CppPunctuator.values()) {
+      softly.assertThat(punctuator.hasToBeSkippedFromAst(astNode)).isFalse();
+    }
+    softly.assertAll();
+  }
+
+}
