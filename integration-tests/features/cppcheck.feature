@@ -10,7 +10,7 @@ Feature: Importing Cppcheck reports
     And rule "cppcheck:doubleFree" is enabled
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPaths=empty.xml"
+    When I run sonar-scanner with "-X -Dsonar.cxx.cppcheck.reportPaths=empty.xml"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -29,7 +29,7 @@ Feature: Importing Cppcheck reports
     And rule "cppcheck:doubleFree" is enabled
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPaths=relative-to-src.xml"
+    When I run sonar-scanner with "-X -Dsonar.cxx.cppcheck.reportPaths=relative-to-src.xml"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -49,7 +49,7 @@ Feature: Importing Cppcheck reports
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
     And platform is not "Windows"
-    When I run "sonar-scanner -X"
+    When I run sonar-scanner with "-X"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -64,7 +64,7 @@ Feature: Importing Cppcheck reports
     And rule "cppcheck:doubleFree" is enabled
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPaths=<reportpaths>"
+    When I run sonar-scanner with "-X -Dsonar.cxx.cppcheck.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -87,7 +87,7 @@ Feature: Importing Cppcheck reports
     And rule "cppcheck:doubleFree" is enabled
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPaths=<reportpaths>"
+    When I run sonar-scanner with "-X -Dsonar.cxx.cppcheck.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -110,7 +110,7 @@ Feature: Importing Cppcheck reports
     And rule "cppcheck:doubleFree" is enabled
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPaths=<reportpaths>"
+    When I run sonar-scanner with "-X -Dsonar.cxx.cppcheck.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages

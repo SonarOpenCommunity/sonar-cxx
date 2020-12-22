@@ -12,7 +12,7 @@ Feature: Smoketests
     And rule "cppcheck:uninitvar" is enabled
     And rule "cppcheck:unusedFunction" is enabled
     And rule "cppcheck:missingInclude" is enabled
-    When I run "sonar-scanner -X"
+    When I run sonar-scanner with "-X"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
@@ -86,7 +86,7 @@ Feature: Smoketests
     And rule "cpplint_whitespace_parens_5" is created based on "other:CustomRuleTemplate" in repository "other"
     And rule "cpplint_whitespace_line_length_1" is created based on "other:CustomRuleTemplate" in repository "other"
     And rule "cpplint_tekla_custom_include_files_0" is created based on "other:CustomRuleTemplate" in repository "other"
-    When I run "sonar-scanner -X"
+    When I run sonar-scanner with "-X"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:

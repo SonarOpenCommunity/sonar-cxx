@@ -6,7 +6,7 @@ dist: xenial
 jdk:
   - openjdk11
 env:
-  - SONARLABEL=sonarqube-7.9.4 SONARAPI=SqApi79
+  - SONARLABEL=sonarqube-8.6.0.39681 SONARAPI=SqApi79
 
 addons:
   # shorten the VM hostname with the new workaround
@@ -59,7 +59,7 @@ script:
   - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-4.5.0.2216/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture --tags=$SONARAPI
 
 after_failure:
-  - cat $SONARHOME/logs/sonar.log
+  - cat $SONARHOME/logs/sonar-*.log
   - cat $SONARHOME/logs/web.log
   - cat $SONARHOME/logs/ce.log
   - cat $SONARHOME/logs/es.log

@@ -23,30 +23,43 @@ import re
 import os
 import sys
 import requests
-from requests.auth import HTTPBasicAuth
 import json
 import time
+
+from requests.auth import HTTPBasicAuth
 
 SONAR_ERROR_RE = re.compile(".* ERROR .*")
 SONAR_WARN_RE = re.compile(".* WARN .*")
 SONAR_WARN_TO_IGNORE_RE = re.compile(".*H2 database should.*|.*Starting search|.*Starting web")
 SONAR_LOG_FOLDER = "logs"
-SONAR_LOG_FILE = "sonar.log"
 
 RED = ""
 YELLOW = ""
 GREEN = ""
+BRIGHT = ""
 RESET = ""
 RESET_ALL = ""
-BRIGHT = ""
-INDENT = "    "
+try:
+    import colorama
+    colorama.init()
+    RED = colorama.Fore.RED
+    YELLOW = colorama.Fore.YELLOW
+    GREEN = colorama.Fore.GREEN
+    RESET = colorama.Fore.RESET
+    BRIGHT = colorama.Style.BRIGHT
+    RESET_ALL = colorama.Style.RESET_ALL   
+except ImportError:
+    print("Can't init colorama!")
+    pass
 
+INDENT = "    "    
 SONAR_URL = "http://localhost:9000"
 
 def get_sonar_log_folder(sonarhome):
     return os.path.join(sonarhome, SONAR_LOG_FOLDER)
 
 def get_sonar_log_file(sonarhome):
+    SONAR_LOG_FILE = "sonar-" + time.strftime("%Y%m%d") + ".log"
     return os.path.join(get_sonar_log_folder(sonarhome), SONAR_LOG_FILE)
 
 def sonar_analysis_finished(logpath):
@@ -69,21 +82,26 @@ def sonar_analysis_finished(logpath):
     status = ""
     while True:
         time.sleep(1)
-        response = requests.get(url)
+        response = requests.get(url, auth=HTTPBasicAuth('admin', 'admin'))
+        if not response.text:
+            print(BRIGHT + "     CURRENT STATUS : no response" + RESET_ALL)
+            continue
         task = json.loads(response.text).get("task", None)
+        if not task:
+            print(BRIGHT + "     CURRENT STATUS : ?" + RESET_ALL)
+            continue
         print(BRIGHT + "     CURRENT STATUS : " + task["status"] + RESET_ALL)
         if task["status"] == "IN_PROGRESS" or task["status"] == "PENDING":
             continue
 
         if task["status"] == "SUCCESS":
             break
-
         if task["status"] == "FAILED":
             status = "BACKGROUND TASK AS FAILED. CHECK SERVER : " + logpath + ".server"
             break
 
     serverlogurl = url.replace("task?id", "logs?taskId")
-    r = requests.get(serverlogurl, auth=HTTPBasicAuth('admin', 'admin'),timeout=10)
+    r = requests.get(serverlogurl, auth=HTTPBasicAuth('admin', 'admin'), timeout=10)
 
     writepath = logpath + ".server"
     f = open(writepath, 'w')
@@ -153,10 +171,8 @@ def analyse_log_lines(lines, toignore=None):
             badlines.append(line)
             errors += 1
         elif is_sonar_warning(line, toingore_re):
-            if "JOURNAL_FLUSHER" not in line and "high disk watermark" not in line and "shards will be relocated away from this node" not in line:
-                sys.stdout.write("found warning '%s'" % line)
-                badlines.append(line)
-                warnings += 1
+            badlines.append(line)
+            warnings += 1
 
     return badlines, errors, warnings
 

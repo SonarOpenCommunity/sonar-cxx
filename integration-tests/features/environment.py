@@ -29,10 +29,11 @@ import requests
 
 from glob import glob
 from shutil import copyfile
+from shutil import move
 from subprocess import Popen, PIPE, check_call
 from common import analyse_log, get_sonar_log_file, cleanup_logs, print_logs
 from tempfile import mkstemp
-from shutil import move
+from requests.auth import HTTPBasicAuth
 
 SONAR_URL = "http://localhost:9000"
 INDENT = "    "
@@ -44,13 +45,14 @@ RELPATH_PLUGINS = "extensions/plugins"
 didstartsonar = False
 featureno = 0
 scenariono = 0
+sq_process = None
 
 RED = ""
 YELLOW = ""
 GREEN = ""
+BRIGHT = ""
 RESET = ""
 RESET_ALL = ""
-BRIGHT = ""
 try:
     import colorama
     colorama.init()
@@ -59,8 +61,9 @@ try:
     GREEN = colorama.Fore.GREEN
     RESET = colorama.Fore.RESET
     BRIGHT = colorama.Style.BRIGHT
-    RESET_ALL = colorama.Style.RESET_ALL
+    RESET_ALL = colorama.Style.RESET_ALL   
 except ImportError:
+    print("Can't init colorama!")
     pass
 
 
@@ -69,12 +72,19 @@ except ImportError:
 # -----------------------------------------------------------------------------
 def before_all(context):
     global didstartsonar
-    print(BRIGHT + "\nSetting up the test environment" + RESET_ALL)
 
+    sys.stdout.write("\n\n" + BRIGHT + 80 * "-" + "\n")
+    sys.stdout.write("starting SonarQube ...\n")
+    sys.stdout.write(80 * "-" + RESET_ALL + "\n")    
+    sys.stdout.flush() 
+
+    print(BRIGHT + "\nSonarQube already running? " + RESET_ALL)    
     if is_webui_up():
-        print(INDENT + "using the SonarQube already running on '%s'\n\n" % SONAR_URL)
+        print("\n" + INDENT + "using the SonarQube already running on '%s'\n\n" % SONAR_URL)
         return
 
+    print(BRIGHT + "\nSetting up the test environment" + RESET_ALL)
+    
     sonarhome = os.environ.get("SONARHOME", None)
     if sonarhome is None:
         sys.stderr.write(RED
@@ -102,11 +112,24 @@ def before_all(context):
 
     didstartsonar = True
     check_logs(sonarhome)
+    
+    sys.stdout.write("\n\n" + BRIGHT + 80 * "-" + "\n")
+    sys.stdout.write("starting tests ...\n")
+    sys.stdout.write(80 * "-" + RESET_ALL + "\n")    
+    sys.stdout.flush()    
 
 def after_all(context):
     if didstartsonar:
+        sys.stdout.write(BRIGHT + 80 * "-" + "\n")
+        sys.stdout.write("stopping SonarQube ...\n")
+        sys.stdout.write(80 * "-" + RESET_ALL + "\n")    
+        sys.stdout.flush()    
         sonarhome = os.environ.get("SONARHOME", None)
         stop_sonar(sonarhome)
+        sys.stdout.write(BRIGHT + 80 * "-" + "\n")
+        sys.stdout.write("Summary:\n")
+        sys.stdout.write(80 * "-" + RESET_ALL + "\n")        
+        sys.stdout.flush()
 
 def before_feature(context, feature):
      global featureno
@@ -146,6 +169,7 @@ def install_plugin(sonarhome):
     copyfile(jpath, os.path.join(pluginspath, os.path.basename(jpath)))
 
     sys.stdout.write(GREEN + "OK\n" + RESET)
+    sys.stdout.flush()
     return True
 
 
@@ -165,43 +189,34 @@ def jar_cxx_path():
 def start_sonar(sonarhome):
     sys.stdout.write(INDENT + "starting SonarQube ... ")
     sys.stdout.flush()
+    start_script(sonarhome)    
     now = time.time()
-    start_script(sonarhome)
     if not wait_for_sonar(300, is_webui_up):
         sys.stdout.write(RED + "FAILED, duration: %03.1f s\n" % (time.time() - now) + RESET)
+        sys.stdout.flush()
         return False
 
     sys.stdout.write(GREEN + "OK, duration: %03.1f s\n" % (time.time() - now) + RESET)
+    sys.stdout.flush()
     return True
 
 
 def stop_sonar(sonarhome):
-    if platform.system() == "Windows":
-        if platform.machine() == "x86_64" or platform.machine() == "AMD64":
-            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "UninstallNTService.bat")]
-            check_call(command, stdout=PIPE, shell=os.name == "nt")
-        elif platform.machine() == "i686":
-            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "UninstallNTService.bat")]
-            check_call(command, stdout=PIPE, shell=os.name == "nt")
-
-        if not wait_for_sonar(300, is_webui_down):
-            sys.stdout.write(RED + "FAILED\n" + RESET)
-            return False
-
-    sys.stdout.write(INDENT + "stopping SonarQube ... ")
-    sys.stdout.flush()
     rc = check_call(stop_script(sonarhome))
     if rc != 0 or not wait_for_sonar(300, is_webui_down):
         sys.stdout.write(RED + "FAILED\n" + RESET)
+        sys.stdout.flush()
         return False
 
     sys.stdout.write(GREEN + "OK\n\n" + RESET)
+    sys.stdout.flush()
     return True
 
 
 class UnsupportedPlatform(Exception):
     def __init__(self, msg):
         super(UnsupportedPlatform, self).__init__(msg)
+
 
 def replace(file_path, pattern, subst):
     #Create temp file
@@ -216,65 +231,48 @@ def replace(file_path, pattern, subst):
     #Move new file
     move(abs_path, file_path)
 
+
 def start_script(sonarhome):
+    global sq_process
     command = None
 
     replace(os.path.join(sonarhome, "conf", "wrapper.conf"), "wrapper.java.command=java", "wrapper.java.command=" + (os.environ['JAVA_HOME'] + '/bin/java').replace("\\","/"))
 
     if platform.system() == "Linux":
+
         script = linux_script(sonarhome)
         if script:
             command = [script, "start"]
-
         Popen(command, stdout=PIPE, shell=os.name == "nt")
+
     elif platform.system() == "Windows":
+
         replace(os.path.join(sonarhome, "conf", "sonar.properties"), "#sonar.path.data=data", "sonar.path.data=" + os.path.join(sonarhome,"data").replace("\\","/"))
         replace(os.path.join(sonarhome, "conf", "sonar.properties"), "#sonar.path.temp=temp", "sonar.path.temp=" + os.path.join(sonarhome,"temp").replace("\\","/"))
         replace(os.path.join(sonarhome, "conf", "wrapper.conf"), "wrapper.java.additional.1=-Djava.awt.headless=true", "wrapper.java.additional.1=-Djava.awt.headless=true -Djava.io.tmpdir=" + os.path.join(sonarhome,"temp").replace("\\","/"))
 
-        if platform.machine() == "x86_64":
-            sys.stdout.write(GREEN + "Install Service...\n")
-            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "InstallNTService.bat")]
-            check_call(command, stdout=PIPE, shell=os.name == "nt")
-            sys.stdout.write(GREEN + "Install Service... Ok\n" + RESET)
-            sys.stdout.write(GREEN + "Start Service... \n")
-            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "StartNTService.bat")]
-            Popen(command, stdout=PIPE, shell=os.name == "nt")
-            sys.stdout.write(GREEN + "Start Service... Ok \n")
-        elif platform.machine() == "i686":
-            sys.stdout.write(GREEN + "Install Service...\n")
-            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "InstallNTService.bat")]
-            check_call(command, stdout=PIPE, shell=os.name == "nt")
-            sys.stdout.write(GREEN + "Install Service... Ok\n" + RESET)
-            sys.stdout.write(GREEN + "Start Service... \n")
-            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "StartNTService.bat")]
-            Popen(command, stdout=PIPE, shell=os.name == "nt")
-            sys.stdout.write(GREEN + "Start Service... Ok \n" + RESET)
-        elif platform.machine() == "AMD64":
-            sys.stdout.write(GREEN + "Install Service...\n")
-            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "InstallNTService.bat")]
-            check_call(command, stdout=PIPE, shell=os.name == "nt")
-            sys.stdout.write(GREEN + "Install Service... Ok\n" + RESET)
-            sys.stdout.write(GREEN + "Start Service... \n")
-            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "StartNTService.bat")]
-            Popen(command, stdout=PIPE, shell=os.name == "nt")
-            sys.stdout.write(GREEN + "Start Service... Ok \n" + RESET)
+        command = ["cmd", "/c", os.path.join(sonarhome, "bin/windows-x86-64/StartSonar.bat")]
+        sq_process = Popen(command, stdout=PIPE, shell=os.name == "nt")
 
-        sys.stdout.write(GREEN + "Start on windows done... Ok \n" + RESET)
     elif platform.system() == "Darwin":
+
         command = [os.path.join(sonarhome, "bin/macosx-universal-64/sonar.sh"), "start"]
         Popen(command, stdout=PIPE, shell=os.name == "nt")
+
     if command is None:
+
         msg = "Dont know how to find the start script for the platform %s-%s" % (platform.system(), platform.machine())
         raise UnsupportedPlatform(msg)
 
+    sys.stdout.write("START ")
+    sys.stdout.flush()
     return command
 
 
 def stop_script(sonarhome):
+    global sq_process
     command = None
-
-
+    
     if platform.system() == "Linux":
         script = linux_script(sonarhome)
         if script:
@@ -282,11 +280,15 @@ def stop_script(sonarhome):
     elif platform.system() == "Darwin":
         command = [os.path.join(sonarhome, "bin/macosx-universal-64/sonar.sh"), "stop"]
     elif platform.system() == "Windows":
-        command = ["cmd", "/c", "dir"]
+        command = ["TASKKILL", "/F", "/PID", "{}".format(sq_process.pid), "/T"]
+        sq_process = None
     if command is None:
         msg = "Dont know how to find the stop script for the platform %s-%s" % (platform.system(), platform.machine())
         raise UnsupportedPlatform(msg)
-
+    
+    sys.stdout.write("STOP\n")
+    sys.stdout.flush()
+    
     return command
 
 
@@ -298,6 +300,9 @@ def linux_script(sonarhome):
 
 
 def wait_for_sonar(timeout, criteria):
+    sys.stdout.write("WAIT ")
+    sys.stdout.flush()
+    time.sleep(60)
     for _ in range(timeout):
         if criteria():
             return True
@@ -305,20 +310,25 @@ def wait_for_sonar(timeout, criteria):
     return False
 
 
-def is_webui_up():
+def is_webui_up():    
     try:
-        response = requests.get(SONAR_URL + "/api/system/status")
+        response = requests.get(SONAR_URL + "/api/system/status", auth=HTTPBasicAuth('admin', 'admin'))
         response.raise_for_status()
         status = response.json()['status']
         sys.stdout.write(RESET + status + ' ')
+        sys.stdout.flush()
         return status == "UP"
     except:
+        sys.stdout.write("NOSTATUS ")
+        sys.stdout.flush()
         return False
 
 
 def is_webui_down():
+    sys.stdout.write("DOWN? ")
+    sys.stdout.flush()
     try:
-        response = requests.get(SONAR_URL + "/api/system/status")
+        response = requests.get(SONAR_URL + "/api/system/status", auth=HTTPBasicAuth('admin', 'admin'))
         response.raise_for_status()
         return False
     except:
@@ -340,10 +350,11 @@ def check_logs(sonarhome):
 
     if badlines:
         for line in badlines:
-            sys.stdout.write(2*INDENT + line)
+            sys.stdout.write(line)
 
     summary_msg = "%i errors and %i warnings\n" % (errors, warnings)
-
-    print(2*INDENT + len(summary_msg) * "-")
-    print(2*INDENT + summary_msg)
+    print(len(summary_msg) * "-")
+    print(summary_msg)
+    
+    sys.stdout.flush()
     return errors == 0

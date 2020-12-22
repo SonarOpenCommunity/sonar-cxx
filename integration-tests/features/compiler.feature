@@ -7,7 +7,7 @@ Feature: Importing compiler reports
     And rule "compiler-vc:C4189" is enabled
     And rule "compiler-vc:C4457" is enabled
     And platform is "Windows"
-    When I run "sonar-scanner -X"
+    When I run sonar-scanner with "-X"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
