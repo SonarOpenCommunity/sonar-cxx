@@ -25,11 +25,12 @@ import json
 import requests
 import platform
 import sys
-from   requests.auth import HTTPBasicAuth
 import subprocess
 import shutil
+
 from behave import given, when, then, model
 from common import analyse_log, build_regexp, get_sonar_log_file, analyse_log_lines, sonar_analysis_finished
+from requests.auth import HTTPBasicAuth
 
 RED = ""
 YELLOW = ""
@@ -73,23 +74,23 @@ def step_impl(context, project):
     response = _rest_api_get(url)
     profiles = _get_json(response)["profiles"]
     data = _got_key_from_quality_profile(profiles)
-    default_profile_key = None
+    default_profile_key = '?'
     for key, name in data.iteritems():
         if name == "Sonar way - cxx":
             default_profile_key = key
 
     url = (SONAR_URL + "/api/qualityprofiles/set_default")
-    payload = {'profileKey': default_profile_key}
+    payload = {'language': 'cxx', 'qualityProfile': 'Sonar way'}
     _rest_api_set(url, payload)
 
     copy_profile_key = None
     for key, name in data.iteritems():
-        if name == "Sonar way copy - cxx":
+        if name == "Sonar way copy":
             copy_profile_key = key
 
     if copy_profile_key:
         url = (SONAR_URL + "/api/qualityprofiles/delete")
-        payload = {'profileKey': copy_profile_key}
+        payload = {'language': 'cxx', 'qualityProfile': 'Sonar way copy'}
         _rest_api_set(url, payload)
 
     url = (SONAR_URL + "/api/qualityprofiles/copy")
@@ -105,7 +106,7 @@ def step_impl(context, project):
             context.profile_key = key
 
     url = (SONAR_URL + "/api/qualityprofiles/set_default")
-    payload = {'profileKey': context.profile_key}
+    payload = {'language': 'cxx', 'qualityProfile': 'Sonar way copy'}
     _rest_api_set(url, payload)
 
 
@@ -142,7 +143,7 @@ def step_impl(context, extensions):
 def step_impl(context, rule):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
     url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
-    payload = {'profile_key': context.profile_key, 'rule_key': rule, "severity": "MAJOR"}
+    payload = {'key': context.profile_key, 'rule': rule, "severity": "MAJOR"}
     _rest_api_set(url, payload)
 
 
@@ -153,13 +154,8 @@ def step_impl(context, rule, templaterule, repository):
     payload = {'custom_key': rule, 'html_description': "nodesc", "name": rule, "severity": "MAJOR", "template_key": templaterule, "markdown_description": "nodesc"}
     _rest_api_set(url, payload)
     url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
-    payload = {'profile_key': context.profile_key, 'rule_key': repository + ":" + rule, "severity": "MAJOR"}
+    payload = {'key': context.profile_key, 'rule': repository + ":" + rule, "severity": "MAJOR"}
     _rest_api_set(url, payload)
-
-
-@when(u'I run "{command}"')
-def step_impl(context, command):
-    _run_command(context, command)
 
 
 @then(u'the analysis finishes successfully')
@@ -249,10 +245,20 @@ def step_impl(context):
     shutil.copyfile(source, target)
 
 
+@when(u'I run "{command}"')
+def step_impl(context, command):
+    _run_command(context, command)
+
+
+@when(u'I run sonar-scanner with "{params}"')
+def step_impl(context, params):
+    _run_command(context, "sonar-scanner -Dsonar.login=admin -Dsonar.password=admin " + params)
+
+
 @when(u'I run sonar-scanner with following options')
 def step_impl(context):
     arguments = [line for line in context.text.split("\n") if line != '']
-    command = "sonar-scanner " + " ".join(arguments)
+    command = "sonar-scanner -Dsonar.login=admin -Dsonar.password=admin " + " ".join(arguments)
     _run_command(context, command)
 
 
@@ -281,9 +287,9 @@ def _rest_api_set(url, payload):
         return response
     except requests.exceptions.RequestException as e:
         if response and response.text:
-            assert False, "error _rest_api_set: %s -> %s, %s" % (url, str(e), response.text)
+            assert False, "error _rest_api_set: %s %s -> %s, %s" % (url, str(payload), str(e), response.text)
         else:
-            assert False, "error _rest_api_set: %s -> %s" % (url, str(e))
+            assert False, "error _rest_api_set: %s %s -> %s" % (url, str(payload), str(e))
 
 def _get_json(response):
     try:
@@ -336,7 +342,7 @@ def _contains_line_matching(filepath, pattern):
 
 def _assert_measures(project, measures):
     metrics_to_query = measures.keys()
-    url = (SONAR_URL + "/api/measures/component?componentKey=" + project + "&metricKeys="
+    url = (SONAR_URL + "/api/measures/component?component=" + project + "&metricKeys="
            + ",".join(metrics_to_query))
 
     print(BRIGHT + "\nGet measures with query : " + url + RESET_ALL)
@@ -373,10 +379,12 @@ def _run_command(context, command):
                                )
         proc.communicate()
 
-    # print log file result for debugging
-    #if proc.returncode != 0:
-    #    with open(context.log, "r") as log:
-    #        print(RED + log.read() + RESET_ALL)
+    # print errors and warnings from log file
+    if proc.returncode != 0:
+        print(RED + "cmd: " + command + RESET_ALL)
+        with open(context.log, "r") as log:
+            for line in log:
+                if  "WARN:" in line or "ERROR:" in line:
+                    print(RED + line + RESET_ALL)
 
     context.rc = proc.returncode
-

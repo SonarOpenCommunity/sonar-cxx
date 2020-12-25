@@ -4,7 +4,7 @@ Feature: Importing Clang Static Analyzer reports
 
   Scenario: Clang Static Analyzer reports are missing
     Given the project "clangsa_project"
-    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPaths=empty.plist"
+    When I run sonar-scanner with "-X -Dsonar.cxx.clangsa.reportPaths=empty.plist"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -14,7 +14,7 @@ Feature: Importing Clang Static Analyzer reports
     Given the project "clangsa_project"
     And rule "clangsa:core.DivideZero" is enabled
     And rule "clangsa:deadcode.DeadStores" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPaths=<reportpaths>"
+    When I run sonar-scanner with "-X -Dsonar.cxx.clangsa.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -29,7 +29,7 @@ Feature: Importing Clang Static Analyzer reports
     Given the project "clangsa_scanbuild_project"
     And rule "clangsa:core.DivideZero" is enabled
     And rule "clangsa:deadcode.DeadStores" is enabled
-    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPaths=<reportpaths>"
+    When I run sonar-scanner with "-X -Dsonar.cxx.clangsa.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
@@ -41,7 +41,7 @@ Feature: Importing Clang Static Analyzer reports
 
   Scenario Outline: Clang Static Analyzer reports are invalid
     Given the project "clangsa_project"
-    When I run "sonar-scanner -X -Dsonar.cxx.clangsa.reportPaths=<reportpaths>"
+    When I run sonar-scanner with "-X -Dsonar.cxx.clangsa.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
