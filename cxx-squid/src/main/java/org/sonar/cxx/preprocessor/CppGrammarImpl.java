@@ -50,7 +50,7 @@ import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
  * Deviating from the grammar in the standard, whitespaces between the tokens must also be processed here.
  */
 @SuppressWarnings({"squid:S00115", "squid:S00103"})
-public enum CppGrammar implements GrammarRuleKey {
+public enum CppGrammarImpl implements GrammarRuleKey {
   preprocessorLine,
   defineLine,
   includeLine,

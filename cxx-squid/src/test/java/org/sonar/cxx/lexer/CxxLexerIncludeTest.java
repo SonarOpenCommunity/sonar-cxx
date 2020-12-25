@@ -184,7 +184,7 @@ public class CxxLexerIncludeTest {
     when(context.getFile()).thenReturn(file);
 
     var pp = new CxxPreprocessor(context, squidConfig);
-    var lexer = CxxLexer.create(squidConfig, pp, new JoinStringsPreprocessor());
+    var lexer = CxxLexer.create(squidConfig.getCharset(), pp, new JoinStringsPreprocessor());
 
     String fileContent = cmd + " " + include + "\n" + macro;
     List<Token> tokens = lexer.lex(fileContent);

@@ -31,11 +31,11 @@ import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.opt;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.or;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
+import java.nio.charset.Charset;
 import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.channels.KeywordChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
-import org.sonar.cxx.config.CxxSquidConfiguration;
 
 public final class CppLexer {
 
@@ -56,16 +56,16 @@ public final class CppLexer {
   }
 
   public static Lexer create() {
-    return create(new CxxSquidConfiguration());
+    return create(Charset.defaultCharset());
   }
 
-  public static Lexer create(CxxSquidConfiguration squidConfig) {
+  public static Lexer create(Charset charset) {
 
     //
     // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
     //
     Lexer.Builder builder = Lexer.builder()
-      .withCharset(squidConfig.getCharset())
+      .withCharset(charset)
       .withFailIfNoChannelToConsumeOneCharacter(true)
       .withChannel(regexp(CxxTokenType.WS, "\\s+"))
       .withChannel(commentRegexp("//[^\\n\\r]*+"))
