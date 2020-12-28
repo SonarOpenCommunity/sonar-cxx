@@ -242,6 +242,36 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
+  public void va_opt_macros() {
+    // C++20 : Replacement-list may contain the token sequence __VA_OPT__ ( content ),
+    // which is replaced by content if __VA_ARGS__ is non-empty, and expands to nothing otherwise.
+
+    assertThat(serialize(p.parse(
+      "#define LOG(msg, ...) printf(msg __VA_OPT__(,) __VA_ARGS__)\n"
+        + "LOG(\"hello world\");")))
+      .isEqualTo("printf ( \"hello world\" ) ; EOF");
+
+    assertThat(serialize(p.parse(
+      "#define LOG(msg, ...) printf(msg __VA_OPT__(,) __VA_ARGS__)\n"
+        + "LOG(\"hello world\", );")))
+      .isEqualTo("printf ( \"hello world\" ) ; EOF");
+
+    assertThat(serialize(p.parse(
+      "#define LOG(msg, ...) printf(msg __VA_OPT__(,) __VA_ARGS__)\n"
+        + "LOG(\"hello %d\", n);")))
+      .isEqualTo("printf ( \"hello %d\" , n ) ; EOF");
+    assertThat(serialize(p.parse(
+      "#define SDEF(sname, ...) S sname __VA_OPT__(= { __VA_ARGS__ })\n"
+        + "SDEF(foo);")))
+      .isEqualTo("S foo ; EOF");
+
+    assertThat(serialize(p.parse(
+      "#define SDEF(sname, ...) S sname __VA_OPT__(= { __VA_ARGS__ })\n"
+        + "SDEF(bar, 1, 2);")))
+      .isEqualTo("S bar = { 1 , 2 } ; EOF");
+  }
+
+  @Test
   public void stringification() {
     // default use case
     assertThat(serialize(p.parse(

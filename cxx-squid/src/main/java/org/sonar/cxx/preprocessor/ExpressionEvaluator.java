@@ -33,7 +33,6 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.parser.CxxTokenType;
 
 public final class ExpressionEvaluator {
@@ -44,19 +43,19 @@ public final class ExpressionEvaluator {
   private final CxxPreprocessor preprocessor;
   private final Deque<String> macroEvaluationStack;
 
-  private ExpressionEvaluator(CxxSquidConfiguration squidConfig, CxxPreprocessor preprocessor) {
-    parser = CppParser.createConstantExpressionParser(squidConfig);
+  private ExpressionEvaluator(CxxPreprocessor preprocessor) {
+    parser = CppParser.createConstantExpressionParser(preprocessor.getCharset());
 
     this.preprocessor = preprocessor;
     macroEvaluationStack = new LinkedList<>();
   }
 
-  public static boolean eval(CxxSquidConfiguration squidConfig, CxxPreprocessor preprocessor, String constExpr) {
-    return new ExpressionEvaluator(squidConfig, preprocessor).evalToBoolean(constExpr, null);
+  public static boolean eval(CxxPreprocessor preprocessor, String constExpr) {
+    return new ExpressionEvaluator(preprocessor).evalToBoolean(constExpr, null);
   }
 
-  public static boolean eval(CxxSquidConfiguration squidConfig, CxxPreprocessor preprocessor, AstNode constExpr) {
-    return new ExpressionEvaluator(squidConfig, preprocessor).evalToBoolean(constExpr);
+  public static boolean eval(CxxPreprocessor preprocessor, AstNode constExpr) {
+    return new ExpressionEvaluator(preprocessor).evalToBoolean(constExpr);
   }
 
   public static BigInteger decode(String number) {
@@ -239,7 +238,7 @@ public final class ExpressionEvaluator {
     // Evaluation of booleans and 'pass-through's
     //
     AstNodeType nodeType = exprAst.getType();
-    if (nodeType.equals(CppGrammar.bool)) {
+    if (nodeType.equals(CppGrammarImpl.bool)) {
       return evalBool(exprAst.getTokenValue());
     }
     return evalToInt(exprAst.getFirstChild());
@@ -250,37 +249,37 @@ public final class ExpressionEvaluator {
     // More complex expressions with more than one child
     //
     AstNodeType nodeType = exprAst.getType();
-    if (nodeType.equals(CppGrammar.unaryExpression)) {
+    if (nodeType.equals(CppGrammarImpl.unaryExpression)) {
       return evalUnaryExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.conditionalExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.conditionalExpression)) {
       return evalConditionalExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.logicalOrExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.logicalOrExpression)) {
       return evalLogicalOrExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.logicalAndExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.logicalAndExpression)) {
       return evalLogicalAndExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.inclusiveOrExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.inclusiveOrExpression)) {
       return evalInclusiveOrExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.exclusiveOrExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.exclusiveOrExpression)) {
       return evalExclusiveOrExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.andExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.andExpression)) {
       return evalAndExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.equalityExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.equalityExpression)) {
       return evalEqualityExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.relationalExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.relationalExpression)) {
       return evalRelationalExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.shiftExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.shiftExpression)) {
       return evalShiftExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.additiveExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.additiveExpression)) {
       return evalAdditiveExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.multiplicativeExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.multiplicativeExpression)) {
       return evalMultiplicativeExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.primaryExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.primaryExpression)) {
       return evalPrimaryExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.definedExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.definedExpression)) {
       return evalDefinedExpression(exprAst);
-    } else if (nodeType.equals(CppGrammar.functionlikeMacro)) {
+    } else if (nodeType.equals(CppGrammarImpl.functionlikeMacro)) {
       return evalFunctionlikeMacro(exprAst);
-    } else if (nodeType.equals(CppGrammar.hasIncludeExpression)) {
+    } else if (nodeType.equals(CppGrammarImpl.hasIncludeExpression)) {
       return evalHasIncludeExpression(exprAst);
     } else {
       LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '"

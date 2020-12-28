@@ -4,20 +4,6 @@ Annex A (informative)
 
 **A.2 Lexical conventions [gram.lex]**
 
-preprocessing-token:
-   header-name
-   import-keyword // todo
-   module-keyword // todo
-   export-keyword // todo
-   identifier
-   pp-number
-   character-literal
-   user-defined-character-literal
-   string-literal
-   user-defined-string-literal
-   preprocessing-op-or-punc
-   each non-white-space character that cannot be one of the above
-
 token:
    identifier
    keyword
@@ -170,75 +156,3 @@ operator: one of // todo
   || << >> <<= >>= ++ -- ,
 
 **A.10 Templates [gram.temp]**
-
-deduction-guide: // todo
-   explicit-specifieropt template-name ( parameter-declaration-clause )-> simple-template-id ;
-
-**A.11 Exception handling [gram.except]**
-
-**A.12 Preprocessing directives [gram.cpp]**
-
-preprocessing-file:
-   groupopt
-   module-file // todo
-
-module-file: // todo
-   pp-global-module-fragmentopt pp-module groupopt pp-private-module-fragmentopt
-
-pp-global-module-fragment: // todo
-   module; new-line groupopt
-
-pp-private-module-fragment: // todo
-   module : private ; new-line groupopt
-
-group-part:
-   control-line
-   if-section // todo
-   text-line
-   # conditionally-supported-directive
-
-control-line:
-   # include pp-tokens new-line
-   pp-import // todo
-   # define identifier replacement-list new-line
-   # define identifier lparen identifier-listopt ) replacement-list new-line
-   # define identifier lparen ... ) replacement-list new-line
-   # define identifier lparen identifier-list , ... ) replacement-list new-line
-   # undef identifier new-line
-   # line pp-tokens new-line
-   # error pp-tokensopt new-line
-   # pragma pp-tokensopt new-line
-   # new-line
-
-defined-macro-expression: // todo
-   defined identifier
-   defined ( identifier )
-
-h-preprocessing-token: // todo
-   any preprocessing-token other than >
-
-h-pp-tokens: // todo
-   h-preprocessing-token
-   h-pp-tokens h-preprocessing-token
-
-header-name-tokens: // todo
-   string-literal
-   < h-pp-tokens >
-
-has-include-expression: // todo
-   __has_include( header-name )
-   __has_include( header-name-tokens )
-
-has-attribute-expression: // todo
-   __has_cpp_attribute ( pp-tokens )
-
-pp-module: // todo
-   exportopt module pp-tokensopt ; new-line
-
-pp-import: // todo
-   exportopt import header-name pp-tokensopt ; new-line
-   exportopt import header-name-tokens pp-tokensopt ; new-line
-   exportopt import pp-tokens ; new-line
-
-va-opt-replacement: // todo
-   __VA_OPT__ ( pp-tokensopt )

@@ -53,14 +53,14 @@ import static org.sonar.cxx.parser.CxxTokenType.NUMBER;
 import static org.sonar.cxx.parser.CxxTokenType.PREPROCESSOR;
 import static org.sonar.cxx.parser.CxxTokenType.STRING;
 import static org.sonar.cxx.parser.CxxTokenType.WS;
-import static org.sonar.cxx.preprocessor.CppGrammar.defineLine;
-import static org.sonar.cxx.preprocessor.CppGrammar.elifLine;
-import static org.sonar.cxx.preprocessor.CppGrammar.elseLine;
-import static org.sonar.cxx.preprocessor.CppGrammar.endifLine;
-import static org.sonar.cxx.preprocessor.CppGrammar.ifLine;
-import static org.sonar.cxx.preprocessor.CppGrammar.ifdefLine;
-import static org.sonar.cxx.preprocessor.CppGrammar.includeLine;
-import static org.sonar.cxx.preprocessor.CppGrammar.undefLine;
+import static org.sonar.cxx.preprocessor.CppGrammarImpl.defineLine;
+import static org.sonar.cxx.preprocessor.CppGrammarImpl.elifLine;
+import static org.sonar.cxx.preprocessor.CppGrammarImpl.elseLine;
+import static org.sonar.cxx.preprocessor.CppGrammarImpl.endifLine;
+import static org.sonar.cxx.preprocessor.CppGrammarImpl.ifLine;
+import static org.sonar.cxx.preprocessor.CppGrammarImpl.ifdefLine;
+import static org.sonar.cxx.preprocessor.CppGrammarImpl.includeLine;
+import static org.sonar.cxx.preprocessor.CppGrammarImpl.undefLine;
 import static org.sonar.cxx.preprocessor.CppKeyword.IFDEF;
 import static org.sonar.cxx.preprocessor.CppKeyword.IFNDEF;
 import static org.sonar.cxx.preprocessor.CppPunctuator.BR_RIGHT;
@@ -121,7 +121,6 @@ public class CxxPreprocessor extends Preprocessor {
      + "This is only relevant if parser creates syntax errors."
      + " The preprocessor searches for include files in the with "
      + "'sonar.cxx.includeDirectories' defined directories and order.";
-  private static final String VARIADICPARAMETER = "__VA_ARGS__";
   private static int missingIncludeFilesCounter = 0;
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context) {
@@ -143,7 +142,7 @@ public class CxxPreprocessor extends Preprocessor {
     this.context = context;
     this.squidConfig = squidConfig;
     this.mockCodeProvider = mockCodeProvider;
-    pplineParser = CppParser.create(squidConfig);
+    pplineParser = CppParser.create(squidConfig.getCharset());
 
     if (this.mockCodeProvider != null) {
       this.mockCodeProvider.setIncludeRoots(
@@ -152,6 +151,10 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     addPredefinedMacros();
+  }
+
+  public Charset getCharset() {
+    return squidConfig.getCharset();
   }
 
   /**
@@ -187,54 +190,12 @@ public class CxxPreprocessor extends Preprocessor {
 
   @Override
   public PreprocessorAction process(List<Token> tokens) { //TODO: deprecated PreprocessorAction
+    String rootFilePath = getFileUnderAnalysis().getAbsolutePath();
     Token token = tokens.get(0);
     TokenType ttype = token.getType();
-    String rootFilePath = getFileUnderAnalysis().getAbsolutePath();
 
     if (ttype.equals(PREPROCESSOR)) {
-
-      AstNode lineAst;
-      try {
-        lineAst = pplineParser.parse(token.getValue()).getFirstChild();
-      } catch (com.sonar.sslr.api.RecognitionException e) {
-        LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
-        LOG.debug("Parser exception: '{}'", e);
-        return oneConsumedToken(token);
-      }
-
-      CppGrammar type = (CppGrammar) lineAst.getType();
-      switch (type) {
-        case ifdefLine:
-          return handleIfdefLine(lineAst, token, rootFilePath);
-        case ifLine:
-          return handleIfLine(lineAst, token, rootFilePath);
-        case endifLine:
-          return handleEndifLine(token, rootFilePath);
-        case elseLine:
-          return handleElseLine(token, rootFilePath);
-        case elifLine:
-          return handleElIfLine(lineAst, token, rootFilePath);
-      }
-
-      if (unitCodeProvider.doSkipBlock()) {
-        return oneConsumedToken(token);
-      }
-
-      switch (type) {
-        case defineLine:
-          return handleDefineLine(lineAst, token, rootFilePath);
-        case includeLine:
-          return handleIncludeLine(lineAst, token, rootFilePath, squidConfig.getCharset());
-        case ppImport:
-          return handleImportLine(lineAst, token, rootFilePath, squidConfig.getCharset());
-        case ppModule:
-          return handleModuleLine(lineAst, token);
-        case undefLine:
-          return handleUndefLine(lineAst, token);
-      }
-
-      // Ignore all other preprocessor directives (which are not handled explicitly) and strip them from the stream
-      return oneConsumedToken(token);
+      return handlePreprocessorDirective(token, rootFilePath);
     }
 
     if (!ttype.equals(EOF)) {
@@ -249,6 +210,52 @@ public class CxxPreprocessor extends Preprocessor {
 
     return PreprocessorAction.NO_OPERATION;
   }
+
+  private PreprocessorAction handlePreprocessorDirective(Token token, String rootFilePath) {
+    AstNode lineAst;
+    try {
+      lineAst = pplineParser.parse(token.getValue()).getFirstChild();
+    } catch (com.sonar.sslr.api.RecognitionException e) {
+      LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
+      LOG.debug("Parser exception: '{}'", e);
+      return oneConsumedToken(token);
+    }
+
+    CppGrammarImpl type = (CppGrammarImpl) lineAst.getType();
+    switch (type) {
+      case ifdefLine:
+        return handleIfdefLine(lineAst, token, rootFilePath);
+      case ifLine:
+        return handleIfLine(lineAst, token, rootFilePath);
+      case endifLine:
+        return handleEndifLine(token, rootFilePath);
+      case elseLine:
+        return handleElseLine(token, rootFilePath);
+      case elifLine:
+        return handleElIfLine(lineAst, token, rootFilePath);
+      default:
+        if (unitCodeProvider.doSkipBlock()) {
+          return oneConsumedToken(token);
+        }
+        break;
+    }
+
+    switch (type) {
+      case defineLine:
+        return handleDefineLine(lineAst, token, rootFilePath);
+      case includeLine:
+        return handleIncludeLine(lineAst, token, rootFilePath, squidConfig.getCharset());
+      case ppImport:
+        return handleImportLine(lineAst, token, rootFilePath, squidConfig.getCharset());
+      case ppModule:
+        return handleModuleLine(lineAst, token);
+      case undefLine:
+        return handleUndefLine(lineAst, token);
+      default:
+        // ignore all other preprocessor directives (which are not handled explicitly) and strip them from the stream
+        return oneConsumedToken(token);
+    }
+ }
 
   public static void finalReport() {
     if (missingIncludeFilesCounter != 0) {
@@ -493,32 +500,33 @@ public class CxxPreprocessor extends Preprocessor {
 
   private static Macro parseMacroDefinition(AstNode defineLineAst) {
     AstNode ast = defineLineAst.getFirstChild();
-    AstNode nameNode = ast.getFirstDescendant(CppGrammar.ppToken);
+    AstNode nameNode = ast.getFirstDescendant(CppGrammarImpl.ppToken);
     String macroName = nameNode.getTokenValue();
 
-    AstNode paramList = ast.getFirstDescendant(CppGrammar.parameterList);
+    AstNode paramList = ast.getFirstDescendant(CppGrammarImpl.parameterList);
     List<Token> macroParams = paramList == null
                                 ? "objectlikeMacroDefinition".equals(ast.getName()) ? null : new LinkedList<>()
                                 : getParams(paramList);
 
-    AstNode vaargs = ast.getFirstDescendant(CppGrammar.variadicparameter);
+    AstNode vaargs = ast.getFirstDescendant(CppGrammarImpl.variadicparameter);
     if ((vaargs != null) && (macroParams != null)) {
       AstNode identifier = vaargs.getFirstChild(IDENTIFIER);
       macroParams.add(identifier == null
                         ? Token.builder()
-          .setLine(vaargs.getToken().getLine())
-          .setColumn(vaargs.getToken().getColumn())
-          .setURI(vaargs.getToken().getURI())
-          .setValueAndOriginalValue(VARIADICPARAMETER)
-          .setType(IDENTIFIER)
-          .setGeneratedCode(true)
-          .build()
+                          .setLine(vaargs.getToken().getLine())
+                          .setColumn(vaargs.getToken().getColumn())
+                          .setURI(vaargs.getToken().getURI())
+                          .setValueAndOriginalValue("__VA_ARGS__")
+                          .setType(IDENTIFIER)
+                          .setGeneratedCode(true)
+                          .build()
                         : identifier.getToken());
     }
 
-    AstNode replList = ast.getFirstDescendant(CppGrammar.replacementList);
+    AstNode replList = ast.getFirstDescendant(CppGrammarImpl.replacementList);
     List<Token> macroBody = replList == null
-                              ? new LinkedList<>() : replList.getTokens().subList(0, replList.getTokens().size() - 1);
+                              ? new LinkedList<>()
+                              : replList.getTokens().subList(0, replList.getTokens().size() - 1);
 
     return new Macro(macroName, macroParams, macroBody, vaargs != null);
   }
@@ -626,7 +634,7 @@ public class CxxPreprocessor extends Preprocessor {
 
   private void parseIncludeLine(String includeLine, String filename, Charset charset) {
     AstNode includeAst = pplineParser.parse(includeLine);
-    handleIncludeLine(includeAst, includeAst.getFirstDescendant(CppGrammar.includeBodyQuoted)
+    handleIncludeLine(includeAst, includeAst.getFirstDescendant(CppGrammarImpl.includeBodyQuoted)
                       .getToken(), filename, charset);
   }
 
@@ -637,7 +645,7 @@ public class CxxPreprocessor extends Preprocessor {
     Macro macro = getMacro(macroName);
     if (macro != null && macro.checkArgumentsCount(arguments.size())) {
       if (arguments.size() > macro.params.size()) {
-        //Group all arguments into the last one
+        // group all arguments into the last one (__VA_ARGS__)
         List<Token> vaargs = arguments.subList(macro.params.size() - 1, arguments.size());
         Token firstToken = vaargs.get(0);
         arguments = arguments.subList(0, macro.params.size() - 1);
@@ -692,28 +700,77 @@ public class CxxPreprocessor extends Preprocessor {
     return tokens;
   }
 
+  private static void expandVaOpt(List<Token> tokens, boolean keep) {
+    // va-opt-replacement:
+    //    __VA_OPT__ ( pp-tokensopt )
+    //
+    int firstIndex = -1, lastIndex = -1;
+    int brackets = 0;
+
+    for (int i = 0; i < tokens.size(); i++) {
+      switch (tokens.get(i).getValue()) {
+        case "(":
+          brackets++;
+          break;
+        case ")":
+          brackets--;
+          break;
+      }
+      if (brackets > 0) {
+        if (firstIndex == -1) {
+          firstIndex = i;
+        }
+      } else {
+        if (firstIndex != -1 && lastIndex == -1) {
+          lastIndex = i;
+          break;
+        }
+      }
+    }
+    var replTokens = new ArrayList<Token>();
+    if (firstIndex > 0 && lastIndex < tokens.size()) {
+      if (keep) {
+        // keep pp-tokensopt, remove ) and __VA_OPT__ (
+        tokens.subList(lastIndex, lastIndex+1).clear();
+        tokens.subList(0, firstIndex).clear();
+      } else {
+        // remove from body:  __VA_OPT__ ( pp-tokensopt )
+        tokens.subList(firstIndex - 1, lastIndex + 1).clear();
+      }
+    }
+  }
+
   private List<Token> replaceParams(List<Token> body, List<Token> parameters, List<Token> arguments) {
     // replace all parameters by according arguments "Stringify" the argument if the according parameter is
     // preceded by an #
 
     var newTokens = new ArrayList<Token>();
     if (!body.isEmpty()) {
-      var defParamValues = new ArrayList<String>();
-      for (var t : parameters) {
-        defParamValues.add(t.getValue());
-      }
-
       boolean tokenPastingLeftOp = false;
       boolean tokenPastingRightOp = false;
 
+      // container to search parameter by name
+      var paramterIndex = new HashMap<String, Integer>();
+      for(int index=0; index<parameters.size(); index++) {
+        paramterIndex.put(parameters.get(index).getValue(),index);
+      }
+
       for (var i = 0; i < body.size(); ++i) {
         Token curr = body.get(i);
-        int index = defParamValues.indexOf(curr.getValue());
+        int index = -1;
+        if (curr.getType().equals(IDENTIFIER)) {
+          index = paramterIndex.getOrDefault(curr.getValue(), -1);
+        }
         if (index == -1) {
-          if (tokenPastingRightOp && !curr.getType().equals(WS) && !curr.getType().equals(HASHHASH)) {
-            tokenPastingRightOp = false;
+          if (curr.getValue().equals("__VA_OPT__")) {
+            boolean keep = parameters.size() == arguments.size();
+            expandVaOpt(body.subList(i, body.size()), keep);
+          } else {
+            if (tokenPastingRightOp && !curr.getType().equals(WS) && !curr.getType().equals(HASHHASH)) {
+              tokenPastingRightOp = false;
+            }
+            newTokens.add(curr);
           }
-          newTokens.add(curr);
         } else if (index == arguments.size()) {
           // EXTENSION: GCC's special meaning of token paste operator:
           // If variable argument is left out then the comma before the paste operator will be deleted.
@@ -765,7 +822,7 @@ public class CxxPreprocessor extends Preprocessor {
             }
           }
 
-          if (newValue.isEmpty() && VARIADICPARAMETER.equals(curr.getValue())) {
+          if (newValue.isEmpty() && "__VA_ARGS__".equals(curr.getValue())) {
             // the Visual C++ implementation will suppress a trailing comma if no arguments are passed to the ellipsis
             for (var n = newTokens.size() - 1; n != 0; n = newTokens.size() - 1) {
               if (newTokens.get(n).getType().equals(WS)) {
@@ -778,8 +835,12 @@ public class CxxPreprocessor extends Preprocessor {
               }
             }
           } else {
-            newTokens.add(Token.builder().setLine(replacement.getLine()).setColumn(replacement.getColumn())
-              .setURI(replacement.getURI()).setValueAndOriginalValue(newValue).setType(replacement.getType())
+            newTokens.add(Token.builder()
+              .setLine(replacement.getLine())
+              .setColumn(replacement.getColumn())
+              .setURI(replacement.getURI())
+              .setValueAndOriginalValue(newValue)
+              .setType(replacement.getType())
               .setGeneratedCode(true).build());
           }
         }
@@ -794,8 +855,12 @@ public class CxxPreprocessor extends Preprocessor {
           newTokens.remove(n);
         } else if (newTokens.get(n).getType().equals(HASH)) {
           newTokens.remove(n);
-          newTokens.add(n, Token.builder().setLine(newTokens.get(n).getLine()).setColumn(newTokens.get(n).getColumn())
-                        .setURI(newTokens.get(n).getURI()).setValueAndOriginalValue("\"\"").setType(STRING)
+          newTokens.add(n, Token.builder()
+                        .setLine(newTokens.get(n).getLine())
+                        .setColumn(newTokens.get(n).getColumn())
+                        .setURI(newTokens.get(n).getURI())
+                        .setValueAndOriginalValue("\"\"")
+                        .setType(STRING)
                         .setGeneratedCode(true).build());
           break;
         } else {
@@ -808,7 +873,7 @@ public class CxxPreprocessor extends Preprocessor {
 
   private Macro parseMacroDefinition(String macroDef) {
     return parseMacroDefinition(pplineParser.parse(macroDef)
-      .getFirstDescendant(CppGrammar.defineLine));
+      .getFirstDescendant(CppGrammarImpl.defineLine));
   }
 
   /**
@@ -840,11 +905,11 @@ public class CxxPreprocessor extends Preprocessor {
     String includedFileName = null;
     boolean quoted = false;
 
-    AstNode node = ast.getFirstDescendant(CppGrammar.includeBodyQuoted);
+    AstNode node = ast.getFirstDescendant(CppGrammarImpl.includeBodyQuoted);
     if (node != null) {
       includedFileName = stripQuotes(node.getFirstChild().getTokenValue());
       quoted = true;
-    } else if ((node = ast.getFirstDescendant(CppGrammar.includeBodyBracketed)) != null) {
+    } else if ((node = ast.getFirstDescendant(CppGrammarImpl.includeBodyBracketed)) != null) {
       node = node.getFirstDescendant(LT).getNextSibling();
       var sb = new StringBuilder(256);
       while (true) {
@@ -857,7 +922,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       includedFileName = sb.toString();
-    } else if ((node = ast.getFirstDescendant(CppGrammar.includeBodyFreeform)) != null) {
+    } else if ((node = ast.getFirstDescendant(CppGrammarImpl.includeBodyFreeform)) != null) {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
       String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
@@ -870,7 +935,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       if (parseError || ((includeBodyAst != null)
-                         && includeBodyAst.getFirstDescendant(CppGrammar.includeBodyFreeform) != null)) {
+                         && includeBodyAst.getFirstDescendant(CppGrammarImpl.includeBodyFreeform) != null)) {
         LOG.warn("[{}:{}]: cannot parse included filename: '{}'",
                  currFileName, token.getLine(), expandedIncludeBody);
         LOG.debug("Token : {}", token.toString());
@@ -906,7 +971,7 @@ public class CxxPreprocessor extends Preprocessor {
   void handleConstantExpression(AstNode ast,Token token, String filename){
     try {
       unitCodeProvider.skipBlock(false);
-      boolean result = ExpressionEvaluator.eval(squidConfig, this, ast.getFirstDescendant(CppGrammar.constantExpression));
+      boolean result = ExpressionEvaluator.eval(this, ast.getFirstDescendant(CppGrammarImpl.constantExpression));
       unitCodeProvider.expressionWas(result);
       unitCodeProvider.skipBlock(!result);
       } catch (EvaluationException e) {
@@ -1008,24 +1073,61 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   PreprocessorAction handleImportLine(AstNode ast, Token token, String filename, Charset charset) {
-    if (ast.getFirstDescendant(CppGrammar.expandedIncludeBody) != null)  {
+    if (ast.getFirstDescendant(CppGrammarImpl.expandedIncludeBody) != null)  {
       // import <file>
       return handleIncludeLine(ast, token, filename, charset);
     }
 
     // forward to parser: ...  import ...
-    List<Token> replTokens = stripEOF(serialize(ast));
-    String line = serialize(replTokens);
-    replTokens = stripEOF(CxxLexer.create2().lex(line));
-
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),replTokens);
+    return mapModuleTokens(ast, token);
   }
 
   PreprocessorAction handleModuleLine(AstNode ast, Token token) {
     // forward to parser: ...  module ...
-    List<Token> replTokens = stripEOF(serialize(ast));
-    String line = serialize(replTokens);
-    replTokens = stripEOF(CxxLexer.create2().lex(line));
+    return mapModuleTokens(ast, token);
+  }
+
+  PreprocessorAction mapModuleTokens(AstNode ast, Token token) {
+    List<Token> replTokens = new ArrayList<>();
+    for (Token ppToken : stripEOF(serialize(ast))) {
+      String value = ppToken.getValue();
+      TokenType type = ppToken.getType();
+      Token newToken = ppToken;
+      boolean convert = true;
+
+      // identifier with special meaning?
+//      if (type.equals(IDENTIFIER)) {
+//        if (value.equals(CppSpecialIdentifier.MODULE.getValue())) {
+//          type = CppSpecialIdentifier.MODULE;
+//          convert = false;
+//        } else if (value.equals(CppSpecialIdentifier.IMPORT.getValue())) {
+//          type = CppSpecialIdentifier.IMPORT;
+//          convert = false;
+//        } else if (value.equals(CppSpecialIdentifier.EXPORT.getValue())) {
+//          type = CppSpecialIdentifier.EXPORT;
+//          convert = false;
+//        }
+//      }
+
+      // convert pp token to cxx token
+      if (convert) {
+        List<Token> cxxTokens = CxxLexer.create().lex(value);
+        newToken = cxxTokens.get(0);
+        type = newToken.getType();
+      }
+
+      if (!type.equals(EOF)) {
+        newToken = Token.builder()
+          .setLine(token.getLine())
+          .setColumn(ppToken.getColumn())
+          .setURI(ppToken.getURI())
+          .setValueAndOriginalValue(ppToken.getValue())
+          .setType(type)
+          .build();
+
+        replTokens.add(newToken);
+      }
+    }
 
     return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),replTokens);
   }

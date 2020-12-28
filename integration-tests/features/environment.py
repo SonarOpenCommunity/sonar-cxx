@@ -64,7 +64,6 @@ try:
     RESET_ALL = colorama.Style.RESET_ALL   
 except ImportError:
     print("Can't init colorama!")
-    pass
 
 
 # -----------------------------------------------------------------------------

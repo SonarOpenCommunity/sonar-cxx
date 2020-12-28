@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.lexer;
 
-import org.sonar.cxx.parser.CxxLexer;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
@@ -38,11 +37,12 @@ import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.sonar.cxx.parser.CxxKeyword;
-import org.sonar.cxx.parser.CxxPunctuator;
-import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import static org.sonar.cxx.lexer.LexerAssert.assertThat;
+import org.sonar.cxx.parser.CxxKeyword;
+import org.sonar.cxx.parser.CxxLexer;
+import org.sonar.cxx.parser.CxxPunctuator;
+import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.cxx.preprocessor.SourceCodeProvider;
@@ -107,7 +107,7 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void expanding_functionlike_macros_withvarargs() {
+  public void expanding_functionlike_macros_with_varargs() {
     List<Token> tokens = lexer.lex("#define wrapper(...) __VA_ARGS__\n wrapper(1, 2)");
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(4);
@@ -117,7 +117,7 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void expanding_functionlike_macros_withnamedvarargs() {
+  public void expanding_functionlike_macros_withnamed_varargs() {
     List<Token> tokens = lexer.lex("#define wrapper(args...) args\n wrapper(1, 2)");
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(4);
@@ -127,7 +127,7 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void expanding_functionlike_macros_withemptyvarargs() {
+  public void expanding_functionlike_macros_with_empty_varargs() {
     List<Token> tokens = lexer.lex("#define wrapper(...) (__VA_ARGS__)\n wrapper()");
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(3);
@@ -137,7 +137,7 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void expanding_macro_with_empty_parameterlist() {
+  public void expanding_macro_with_empty_parameter_list() {
     List<Token> tokens = lexer.lex("#define M() 0\n M()");
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
@@ -339,7 +339,7 @@ public class CxxLexerWithPreprocessingTest {
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
                     "M body");
     var cxxpp = new CxxPreprocessor(context, squidConfig);
-    lexer = CxxLexer.create(squidConfig, cxxpp, new JoinStringsPreprocessor());
+    lexer = CxxLexer.create(squidConfig.getCharset(), cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("M");
     var softly = new SoftAssertions();
@@ -355,7 +355,7 @@ public class CxxLexerWithPreprocessingTest {
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
                     "minus(a, b) a - b");
     var cxxpp = new CxxPreprocessor(context, squidConfig);
-    lexer = CxxLexer.create(squidConfig, cxxpp, new JoinStringsPreprocessor());
+    lexer = CxxLexer.create(squidConfig.getCharset(), cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("minus(1, 2)");
     var softly = new SoftAssertions();
@@ -629,7 +629,7 @@ public class CxxLexerWithPreprocessingTest {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.DEFINES, "macro globalvalue");
     var cxxpp = new CxxPreprocessor(context, squidConfig);
-    lexer = CxxLexer.create(squidConfig, cxxpp);
+    lexer = CxxLexer.create(squidConfig.getCharset(), cxxpp);
 
     List<Token> tokens = lexer.lex("#define macro overriden\n"
                                      + "macro");
@@ -649,7 +649,7 @@ public class CxxLexerWithPreprocessingTest {
     var squidConfig = new CxxSquidConfiguration();
     var cxxpp = new CxxPreprocessor(context, squidConfig);
 
-    final Lexer l = CxxLexer.create(squidConfig, cxxpp);
+    final Lexer l = CxxLexer.create(squidConfig.getCharset(), cxxpp);
     final List<Token> tokens = l.lex("__LINE__");
 
     var softly = new SoftAssertions();
@@ -673,7 +673,7 @@ public class CxxLexerWithPreprocessingTest {
     squidConfig.add(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.DEFINES, "__LINE__ 123");
     var cxxpp = new CxxPreprocessor(context, squidConfig);
 
-    final Lexer l = CxxLexer.create(squidConfig, cxxpp);
+    final Lexer l = CxxLexer.create(squidConfig.getCharset(), cxxpp);
     final List<Token> tokens = l.lex("__LINE__");
 
     var softly = new SoftAssertions();
@@ -713,7 +713,7 @@ public class CxxLexerWithPreprocessingTest {
       .thenReturn("#define __LINE__ 345");
 
     var cxxpp = new CxxPreprocessor(context, squidConfig, provider);
-    final Lexer l = CxxLexer.create(squidConfig, cxxpp);
+    final Lexer l = CxxLexer.create(squidConfig.getCharset(), cxxpp);
 
     final List<Token> tokens = l.lex("__LINE__\n");
 

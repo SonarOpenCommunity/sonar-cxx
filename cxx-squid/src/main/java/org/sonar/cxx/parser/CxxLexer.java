@@ -33,11 +33,11 @@ import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.opt;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.or;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
+import java.nio.charset.Charset;
 import org.sonar.cxx.channels.BackslashChannel;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.channels.PreprocessorChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
-import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.preprocessor.CppSpecialIdentifier;
 
 public final class CxxLexer {
@@ -59,16 +59,16 @@ public final class CxxLexer {
   }
 
   public static Lexer create(Preprocessor... preprocessors) {
-    return create(new CxxSquidConfiguration(), preprocessors);
+    return create(Charset.defaultCharset(), preprocessors);
   }
 
-  public static Lexer create(CxxSquidConfiguration squidConfig, Preprocessor... preprocessors) {
+  public static Lexer create(Charset charset, Preprocessor... preprocessors) {
 
     //
     // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
     //
     Lexer.Builder builder = Lexer.builder()
-      .withCharset(squidConfig.getCharset())
+      .withCharset(charset)
       .withFailIfNoChannelToConsumeOneCharacter(true)
       .withChannel(new BlackHoleChannel("\\s"))
       // C++ Standard, Section 2.8 "Comments"
@@ -112,52 +112,6 @@ public final class CxxLexer {
     for (var preprocessor : preprocessors) {
       builder.withPreprocessor(preprocessor);
     }
-
-    return builder.build();
-  }
-
-  public static Lexer create2() {
-
-    //
-    // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
-    //
-    Lexer.Builder builder = Lexer.builder()
-      .withCharset(new CxxSquidConfiguration().getCharset())
-      .withFailIfNoChannelToConsumeOneCharacter(true)
-      .withChannel(new BlackHoleChannel("\\s"))
-      // C++ Standard, Section 2.8 "Comments"
-      .withChannel(commentRegexp("//[^\\n\\r]*+"))
-      .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
-      // backslash at the end of the line: just throw away
-      .withChannel(new BackslashChannel())
-      // C++ Standard, Section 2.14.3 "Character literals"
-      .withChannel(new CharacterLiteralsChannel())
-      // C++ Standard, Section 2.14.5 "String literals"
-      .withChannel(new StringLiteralsChannel())
-      // C++ Standard, Section 2.14.2 "Integer literals"
-      // C++ Standard, Section 2.14.4 "Floating literals"
-      .withChannel(
-        regexp(CxxTokenType.NUMBER,
-               and(
-                 or(
-                   g(POINT, DECDIGIT_SEQUENCE, opt(g(EXPONENT))),
-                   g(HEX_PREFIX, opt(g(HEXDIGIT_SEQUENCE)), opt(POINT), opt(g(HEXDIGIT_SEQUENCE)), opt(
-                     g(BINARY_EXPONENT))),
-                   g(BIN_PREFIX, BINDIGIT_SEQUENCE),
-                   g(DECDIGIT_SEQUENCE, opt(POINT), opt(g(DECDIGIT_SEQUENCE)), opt(g(EXPONENT)))
-                 ),
-                 opt(g(UD_SUFFIX))
-               )
-        )
-      )
-      // C++ Standard, Section 2.14.7 "Pointer literals"
-      .withChannel(regexp(CxxTokenType.NUMBER, CxxKeyword.NULLPTR.getValue() + "\\b"))
-      // C++ Standard, Section 2.12 "Keywords"
-      // C++ Standard, Section 2.11 "Identifiers"
-      .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true, CxxKeyword.values()))
-      // C++ Standard, Section 2.13 "Operators and punctuators"
-      .withChannel(new PunctuatorChannel(CxxPunctuator.values()))
-      .withChannel(new UnknownCharacterChannel());
 
     return builder.build();
   }
