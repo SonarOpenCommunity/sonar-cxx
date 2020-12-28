@@ -122,9 +122,8 @@ public enum CxxKeyword implements TokenType {
   OR_EQ("or_eq"),
   XOR("xor"),
   XOR_EQ("xor_eq"),
-  TYPEID("typeid"),
-  // C++/CLI keywords
-  GCNEW("gcnew"); // todo remove it
+  TYPEID("typeid");
+
   private final String value;
 
   CxxKeyword(String value) {

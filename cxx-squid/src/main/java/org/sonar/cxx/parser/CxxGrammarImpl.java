@@ -715,6 +715,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(unaryExpression).is(
       b.firstOf(
         b.sequence(unaryOperator, castExpression), // C++ (PEG: different order)
+        newExpression, // C++
         postfixExpression, // C++
         b.sequence("++", castExpression), // C++
         b.sequence("--", castExpression), // C++
@@ -729,7 +730,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         ),
         b.sequence(CxxKeyword.ALIGNOF, "(", typeId, ")"), // C++
         noexceptExpression, // C++
-        newExpression, // C++
         deleteExpression // C++
       )
     ).skipIfOneChild();
@@ -747,7 +747,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.optional("::"),
         b.firstOf(
           CxxKeyword.NEW,
-          CxxKeyword.GCNEW
+          "gcnew"
         ),
         b.firstOf(
           b.sequence("(", typeId, ")", b.optional(newInitializer)),
@@ -2400,7 +2400,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(
         typeId,
         b.sequence(b.firstOf("ref", "value"), b.firstOf(CxxKeyword.CLASS, CxxKeyword.STRUCT)),
-        CxxKeyword.GCNEW
+        "gcnew"
       )
     );
   }
