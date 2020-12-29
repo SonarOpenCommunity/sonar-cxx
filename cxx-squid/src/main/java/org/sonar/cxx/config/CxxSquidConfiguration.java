@@ -234,6 +234,30 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   }
 
   /**
+   * Used to read multi-valued properties from one level.
+   *
+   * The method can return an empty list if the property is not set.
+   *
+   * @param level level to read
+   * @param property key that is searched for
+   * @return the values with the specified key value
+   */
+  public List<String> getLevelValues(String level, String key) {
+    List<String> result = new ArrayList<>();
+    Element eLevel = findLevel(level, null);
+    if (eLevel != null) {
+      Element eKey = eLevel.getChild(key);
+      if (eKey != null) {
+        for (var value : eKey.getChildren("Value")) {
+          result.add(value.getText());
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /**
    * Used to read multi-valued properties.
    *
    * Collects all found values over all levels. It starts with the given level and further found values in parent levels
@@ -474,6 +498,10 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     if (Verifier.checkElementName(level) == null) {
       xpath = "/CompilationDatabase/" + level;
     } else {
+      // handle special case 'FILES empty' no need to search in tree
+      if (parentList.getFirst().getContentSize() == 0) {
+        return defaultElement;
+      }
       xpath = "//Files/File[@path='" + unifyPath(level) + "']";
     }
     XPathExpression<Element> expr = xFactory.compile(xpath, Filters.element());

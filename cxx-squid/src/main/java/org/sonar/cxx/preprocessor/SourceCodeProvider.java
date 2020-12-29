@@ -29,6 +29,7 @@ import java.nio.file.Paths;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.utils.log.Logger;
@@ -45,9 +46,15 @@ public class SourceCodeProvider {
 
   private final List<Path> includeRoots = new LinkedList<>();
   private final Deque<State> ppState = new LinkedList<>();
+  private final File contextFile;
+  private String fileUnderAnalysisPath;
 
-  public SourceCodeProvider() {
-    pushFileState(null);
+  public SourceCodeProvider(File contextFile) {
+    // In case "physical" file is preprocessed, SquidAstVisitorContext::getFile() cannot return null.
+    // Did you forget to setup the mock properly?
+    Objects.requireNonNull(contextFile, "SquidAstVisitorContext::getFile() must be non-null!");
+    pushFileState(contextFile);
+    this.contextFile = contextFile;
   }
 
   public void setIncludeRoots(List<String> roots, String baseDir) {
@@ -57,26 +64,28 @@ public class SourceCodeProvider {
         if (!path.isAbsolute()) {
           path = Paths.get(baseDir).resolve(path);
         }
-        path = path.toRealPath();
+        path = path.toRealPath(); // IOException if the file does not exist
 
         if (Files.isDirectory(path)) {
-          LOG.debug("storing include root: '{}'", path.toString());
+          LOG.debug("add include path: '{}'", path.toString());
           includeRoots.add(path);
         } else {
-          LOG.warn("include root '{}' is not a directory", path.toString());
+          LOG.warn("invalid include root '{}'", path.toString());
         }
       } catch (IOException | InvalidPathException e) {
-        LOG.error("cannot get absolute path of include root '{}'", path.toString(), e);
+        LOG.error("invalid include root '{}'", path.toString(), e);
       }
     }
   }
 
   public void pushFileState(File currentFile) {
     ppState.push(new State(currentFile));
+    fileUnderAnalysisPath = getFileUnderAnalysis().getAbsolutePath();
   }
 
   public void popFileState() {
     ppState.pop();
+    fileUnderAnalysisPath = getFileUnderAnalysis().getAbsolutePath();
   }
 
   public void skipBlock(boolean state) {
@@ -115,12 +124,16 @@ public class SourceCodeProvider {
     return ppState.peek().nestedBlock <= 0;
   }
 
-  public File getIncludeUnderAnalysis() {
-    return ppState.peek().includeUnderAnalysis;
+  public File getFileUnderAnalysis() {
+    return ppState.peek().fileUnderAnalysis;
+  }
+
+  public String getFileUnderAnalysisPath() {
+    return fileUnderAnalysisPath;
   }
 
   @CheckForNull
-  public File getSourceCodeFile(String filename, String cwd, boolean quoted) {
+  public File getSourceCodeFile(String filename, boolean quoted) {
     File result = null;
     var file = new File(filename);
 
@@ -133,6 +146,10 @@ public class SourceCodeProvider {
     } else {
       if (quoted) {
         // Quoted form: The preprocessor searches for include files in this order:
+        String cwd = getFileUnderAnalysis().getParent();
+        if (cwd == null) {
+          cwd = ".";
+        }
         var abspath = new File(new File(cwd), file.getPath());
         if (abspath.isFile()) {
           // 1) In the same directory as the file that contains the #include statement.
@@ -144,8 +161,8 @@ public class SourceCodeProvider {
           //    The search begins in the directory of the parent include file and continues upward through the
           //    directories of any grandparent include files.
           for (var parent : ppState) {
-            if (parent.includeUnderAnalysis != null) {
-              abspath = new File(parent.includeUnderAnalysis.getParentFile(), file.getPath());
+            if (parent.fileUnderAnalysis != contextFile) {
+              abspath = new File(parent.fileUnderAnalysis.getParentFile(), file.getPath());
               if (abspath.exists()) {
                 result = abspath;
                 break;
@@ -189,13 +206,13 @@ public class SourceCodeProvider {
     private boolean skipBlock;
     private boolean expression;
     private int nestedBlock;
-    private File includeUnderAnalysis;
+    private File fileUnderAnalysis;
 
-    public State(@Nullable File includeUnderAnalysis) {
+    public State(@Nullable File fileUnderAnalysis) {
       this.skipBlock = false;
       this.expression = false;
       this.nestedBlock = 0;
-      this.includeUnderAnalysis = includeUnderAnalysis;
+      this.fileUnderAnalysis = fileUnderAnalysis;
     }
 
   }
