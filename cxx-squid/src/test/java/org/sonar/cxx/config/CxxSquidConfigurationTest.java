@@ -247,6 +247,19 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
+  public void testLevelValues() {
+    var db = new CxxSquidConfiguration();
+    db.add(CxxSquidConfiguration.GLOBAL, "key", "value1");
+    db.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value2");
+    List<String> values = db.getLevelValues(CxxSquidConfiguration.GLOBAL, "key");
+
+    var softly = new SoftAssertions();
+    softly.assertThat(values).hasSize(1);
+    softly.assertThat(values.get(0)).isEqualTo("value1");
+    softly.assertAll();
+  }
+
+  @Test
   public void testPathNames() {
     var db = new CxxSquidConfiguration();
     db.add("/a/b/c.cpp", "key1", "value1");

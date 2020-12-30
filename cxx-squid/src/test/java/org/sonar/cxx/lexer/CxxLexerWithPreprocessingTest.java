@@ -409,7 +409,7 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void includes_are_working() throws IOException {
     SourceCodeProvider scp = mock(SourceCodeProvider.class);
-    when(scp.getSourceCodeFile(anyString(), anyString(), eq(false))).thenReturn(new File("file"));
+    when(scp.getSourceCodeFile(anyString(), eq(false))).thenReturn(new File("file"));
     when(scp.getSourceCode(any(File.class), any(Charset.class))).thenReturn("#define A B\n");
 
     SquidAstVisitorContext<Grammar> ctx = mock(SquidAstVisitorContext.class);
@@ -707,7 +707,7 @@ public class CxxLexerWithPreprocessingTest {
                     "false");
 
     final SourceCodeProvider provider = mock(SourceCodeProvider.class);
-    when(provider.getSourceCodeFile(Mockito.eq(forceIncludePath), Mockito.any(String.class), Mockito.anyBoolean()))
+    when(provider.getSourceCodeFile(Mockito.eq(forceIncludePath), Mockito.anyBoolean()))
       .thenReturn(forceIncludeFile);
     when(provider.getSourceCode(Mockito.eq(forceIncludeFile), Mockito.any(Charset.class)))
       .thenReturn("#define __LINE__ 345");

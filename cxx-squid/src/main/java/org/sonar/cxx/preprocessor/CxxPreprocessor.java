@@ -40,7 +40,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
@@ -109,6 +108,8 @@ public class CxxPreprocessor extends Preprocessor {
   private final SourceCodeProvider mockCodeProvider;
 
   private MapChain<String, Macro> unitMacros = null;
+  private MapChain<String, Macro> globalMacros = null;
+  private List<String> globalIncludeDirectories = null;
 
   private SourceCodeProvider unitCodeProvider;
   private File currentContextFile;
@@ -163,47 +164,61 @@ public class CxxPreprocessor extends Preprocessor {
    * Method can be called:
    * a) for a new "physical" file (including SquidAstVisitorContext mock)
    * b) while processing of #include directive.
+   *
+   * Attention: This function is called for each file and is therefore extremely performance critical!
    */
   @Override
   public void init() {
     // make sure, that the following code is executed for a new file only
     if (currentContextFile != context.getFile()) {
-
-      // In case "physical" file is preprocessed, SquidAstVisitorContext::getFile() cannot return null.
-      // Did you forget to setup the mock properly?
       currentContextFile = context.getFile();
-      Objects.requireNonNull(currentContextFile, "SquidAstVisitorContext::getFile() must be non-null");
 
-      unitCodeProvider = new SourceCodeProvider();
-
-      // unit specific include directories
-      unitCodeProvider.setIncludeRoots(
-        squidConfig.getValues(currentContextFile.getAbsolutePath(), CxxSquidConfiguration.INCLUDE_DIRECTORIES),
-        squidConfig.getBaseDir());
-
-      // unit specific macros
+      unitCodeProvider = new SourceCodeProvider(currentContextFile);
       unitMacros = new MapChain<>();
-      addUnitMacros();
-      parseForcedIncludes();
+      String path = currentContextFile.getAbsolutePath();
+
+      if (globalMacros != null) {
+        // reuse already parsed project macros
+        unitMacros.putAll(globalMacros);
+      } else {
+        // on project level do this only once for all units
+        addGlobalIncludeDirectories();
+        addGlobalMacros();
+        addGlobalForcedIncludes();
+        globalMacros = new MapChain<>();
+        globalMacros.putAll(unitMacros);
+      }
+
+      // add unit specific stuff
+      addUnitIncludeDirectories(path);
+      addUnitMacros(path);
+      addUnitForcedIncludes(path);
     }
   }
 
+  /**
+   * Handle preprocessed tokens.
+   *
+   * Tokens with type PREPROCESSOR are preprocessor directives.
+   *
+   */
   @Override
   public PreprocessorAction process(List<Token> tokens) { //TODO: deprecated PreprocessorAction
-    String rootFilePath = getFileUnderAnalysis().getAbsolutePath();
     Token token = tokens.get(0);
-    TokenType ttype = token.getType();
+    TokenType type = token.getType();
 
-    if (ttype.equals(PREPROCESSOR)) {
+    if (type.equals(PREPROCESSOR)) {
+      String rootFilePath = unitCodeProvider.getFileUnderAnalysisPath();
       return handlePreprocessorDirective(token, rootFilePath);
     }
 
-    if (!ttype.equals(EOF)) {
+    if (!type.equals(EOF)) {
       if (unitCodeProvider.doSkipBlock()) {
         return oneConsumedToken(token);
       }
 
-      if (!ttype.equals(STRING) && !ttype.equals(NUMBER)) {
+      if (!type.equals(STRING) && !type.equals(NUMBER)) {
+        String rootFilePath = unitCodeProvider.getFileUnderAnalysisPath();
         return handleIdentifiersAndKeywords(tokens, token, rootFilePath);
       }
     }
@@ -223,16 +238,16 @@ public class CxxPreprocessor extends Preprocessor {
 
     CppGrammarImpl type = (CppGrammarImpl) lineAst.getType();
     switch (type) {
-      case ifdefLine:
-        return handleIfdefLine(lineAst, token, rootFilePath);
       case ifLine:
         return handleIfLine(lineAst, token, rootFilePath);
+      case elifLine:
+        return handleElIfLine(lineAst, token, rootFilePath);
+      case ifdefLine:
+        return handleIfdefLine(lineAst, token, rootFilePath);
       case endifLine:
         return handleEndifLine(token, rootFilePath);
       case elseLine:
         return handleElseLine(token, rootFilePath);
-      case elifLine:
-        return handleElIfLine(lineAst, token, rootFilePath);
       default:
         if (unitCodeProvider.doSkipBlock()) {
           return oneConsumedToken(token);
@@ -241,10 +256,10 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     switch (type) {
-      case defineLine:
-        return handleDefineLine(lineAst, token, rootFilePath);
       case includeLine:
         return handleIncludeLine(lineAst, token, rootFilePath, squidConfig.getCharset());
+      case defineLine:
+        return handleDefineLine(lineAst, token, rootFilePath);
       case ppImport:
         return handleImportLine(lineAst, token, rootFilePath, squidConfig.getCharset());
       case ppModule:
@@ -580,8 +595,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   public Boolean expandHasIncludeExpression(AstNode exprAst) {
-    File file = getFileUnderAnalysis();
-    return findIncludedFile(exprAst, exprAst.getToken(), file.getAbsolutePath()) != null;
+    return findIncludedFile(exprAst, exprAst.getToken(), unitCodeProvider.getFileUnderAnalysisPath()) != null;
   }
 
   /**
@@ -608,10 +622,60 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  private void addUnitMacros() {
-    var defines = squidConfig.getValues(currentContextFile.getAbsolutePath(), CxxSquidConfiguration.DEFINES);
-    Collections.reverse(defines);
-    unitMacros.putAll(parseMacroDefinitions(defines));
+  private void addGlobalMacros() {
+    var defines = squidConfig.getValues(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.DEFINES);
+    if (!defines.isEmpty()) {
+      Collections.reverse(defines);
+      var macros = parseMacroDefinitions(defines);
+      if (!macros.isEmpty()) {
+        unitMacros.putAll(macros);
+      }
+    }
+  }
+
+  private void addUnitMacros(String level) {
+    var defines = squidConfig.getLevelValues(level, CxxSquidConfiguration.DEFINES);
+    if (!defines.isEmpty()) {
+      Collections.reverse(defines);
+      var macros = parseMacroDefinitions(defines);
+      if (!macros.isEmpty()) {
+        unitMacros.putAll(macros);
+      }
+    }
+  }
+
+  private void addGlobalIncludeDirectories() {
+    globalIncludeDirectories = squidConfig.getValues(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
+    unitCodeProvider.setIncludeRoots(globalIncludeDirectories,squidConfig.getBaseDir());
+  }
+
+  private void addUnitIncludeDirectories(String level) {
+    List<String> unitIncludeDirectories = squidConfig.getLevelValues(level, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
+    unitIncludeDirectories.addAll(globalIncludeDirectories);
+    unitCodeProvider.setIncludeRoots(unitIncludeDirectories,squidConfig.getBaseDir());
+  }
+
+  private void addGlobalForcedIncludes() {
+    for (var include : squidConfig.getValues(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.FORCE_INCLUDES)) {
+      if (!include.isEmpty()) {
+        LOG.debug("parsing force include: '{}'", include);
+        parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes",
+                         squidConfig.getCharset());
+      }
+    }
+  }
+
+  /**
+   * Parse the configured forced includes and store it into the macro library.
+   */
+  private void addUnitForcedIncludes(String level) {
+    for (var include : squidConfig.getLevelValues(level, CxxSquidConfiguration.FORCE_INCLUDES)) {
+      if (!include.isEmpty()) {
+        LOG.debug("parsing force include: '{}'", include);
+        parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes",
+                         squidConfig.getCharset());
+      }
+    }
   }
 
   private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) {
@@ -663,20 +727,6 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     return tokensConsumedMatchingArgs;
-  }
-
-  /**
-   * Parse the configured forced includes and store into the macro library.
-   */
-  private void parseForcedIncludes() {
-    for (var include :  squidConfig.getValues(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
-                                                  CxxSquidConfiguration.FORCE_INCLUDES)) {
-      if (!include.isEmpty()) {
-        LOG.debug("parsing force include: '{}'", include);
-        parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes",
-                         squidConfig.getCharset());
-      }
-    }
   }
 
   private List<Token> expandMacro(String macroName, String macroExpression) {
@@ -946,26 +996,10 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     if (includedFileName != null) {
-      File file = getFileUnderAnalysis();
-      String dir = file.getParent();
-      return getCodeProvider().getSourceCodeFile(includedFileName, dir, quoted);
+      return getCodeProvider().getSourceCodeFile(includedFileName, quoted);
     }
 
     return null;
-  }
-
-  private File getFileUnderAnalysis() {
-    if (unitCodeProvider.getIncludeUnderAnalysis() != null) {
-      // a) CxxPreprocessor is called recursively in order to parse the #include directive.
-      //    Return path to the included file.
-      return unitCodeProvider.getIncludeUnderAnalysis();
-    } else {
-      // b) CxxPreprocessor is called in the ordinary mode: it is preprocessing the file, tracked in
-      //    org.sonar.squidbridge.SquidAstVisitorContext. This file cannot be null. If it is null - you forgot to
-      //    setup the test mock.
-      Objects.requireNonNull(context.getFile(), "SquidAstVisitorContext::getFile() must be non-null");
-      return context.getFile();
-    }
   }
 
   void handleConstantExpression(AstNode ast,Token token, String filename){

@@ -60,6 +60,11 @@ public class MapChain<K, V> {
     enabled.putAll(m);
   }
 
+  public void putAll(MapChain<K, V> m) {
+    enabled.putAll(m.enabled);
+    disabled.putAll(m.disabled);
+  }
+
   /**
    * remove
    *

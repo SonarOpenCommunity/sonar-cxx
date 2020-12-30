@@ -56,7 +56,7 @@ public class CxxParserTest {
   }
 
   @Test
-  public void testParsingOnDiverseCppSourceFiles() {
+  public void testParsingCppSourceFiles() {
     var map = new HashMap<String, Integer>() {
       private static final long serialVersionUID = 6029310517902718597L;
 
@@ -82,28 +82,34 @@ public class CxxParserTest {
 
     Parser<Grammar> p = createParser(null, false, null);
 
+    long start = System.currentTimeMillis();
     for (var file : listFiles(goodFiles, new String[]{"cc", "cpp", "hpp"})) {
       AstNode root = parse(p, file);
       verify(root, file, map);
     }
+    long finish = System.currentTimeMillis();
+    double duration = (finish - start) / 1000.;
   }
 
   //@Test todo
-  public void testParsingOnDiverseCSourceFiles() {
+  public void testParsingCSourceFiles() {
     var map = new HashMap<String, Integer>() {
     };
 
     Parser<Grammar> p = createParser(null, false, null);
 
+    long start = System.currentTimeMillis();
     for (var file : listFiles(cCompatibilityFiles, new String[]{"cc", "h"})) { // todo add "c"
       AstNode root = parse(p, file);
       verify(root, file, map);
     }
+    long finish = System.currentTimeMillis();
+    double duration = (finish - start) / 1000.;
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void testPreproccessorParsingOnDiverseSourceFiles() {
+  public void testPreproccessorParsingSourceFiles() {
     var includes = Arrays.asList(
       "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\INCLUDE",
       "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\ATLMFC\\INCLUDE",
@@ -131,10 +137,13 @@ public class CxxParserTest {
     var baseDir = new File("src/test").getAbsolutePath();
     Parser<Grammar> p = createParser(baseDir, false, includes);
 
+    long start = System.currentTimeMillis();
     for (var file : listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"})) {
       AstNode root = parse(p, file);
       verify(root, file, map);
     }
+    long finish = System.currentTimeMillis();
+    double duration = (finish - start) / 1000.;
   }
 
   @Test
