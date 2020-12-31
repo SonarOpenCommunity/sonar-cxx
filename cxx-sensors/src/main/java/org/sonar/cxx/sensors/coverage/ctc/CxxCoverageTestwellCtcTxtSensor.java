@@ -56,7 +56,7 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX Testwell CTC++ TXT coverage report import")
-      .onlyOnLanguage("cxx")
+      .onlyOnLanguages("cxx", "cpp", "c")
       .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }
 

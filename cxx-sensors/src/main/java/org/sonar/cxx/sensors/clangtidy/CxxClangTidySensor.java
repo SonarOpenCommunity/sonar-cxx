@@ -104,7 +104,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX Clang-Tidy report import")
-      .onlyOnLanguage("cxx")
+      .onlyOnLanguages("cxx","cpp", "c")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }

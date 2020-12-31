@@ -117,7 +117,9 @@ public class CxxReportSensorTest {
 
     @Override
     public void describe(SensorDescriptor descriptor) {
-      descriptor.onlyOnLanguage("cxx").name("CxxReportSensorTest");
+      descriptor
+        .name("CxxReportSensorTest")
+        .onlyOnLanguages("cxx", "cpp", "c");
     }
   }
 

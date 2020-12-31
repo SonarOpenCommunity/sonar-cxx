@@ -69,7 +69,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX xUnit Test report import")
-      //.onlyOnLanguage(getLanguage().getKey())
+      //.onlyOnLanguages("cxx","cpp", "c")
       .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }
 
