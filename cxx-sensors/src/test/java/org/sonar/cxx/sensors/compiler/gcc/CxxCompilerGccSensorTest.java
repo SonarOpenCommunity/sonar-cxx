@@ -49,7 +49,7 @@ public class CxxCompilerGccSensorTest {
     sensor.describe(descriptor);
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX GCC compiler report import");
-    softly.assertThat(descriptor.languages()).containsOnly("cxx");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx", "cpp", "c");
     softly.assertThat(descriptor.ruleRepositories())
       .containsOnly(CxxCompilerGccRuleRepository.KEY);
     softly.assertAll();
