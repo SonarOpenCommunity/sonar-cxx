@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +34,7 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.TextScanner;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -114,7 +114,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
     String reportCharset = context.config().get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF);
     LOG.debug("Processing 'Clang-Tidy' report '{}', CharSet= '{}'", report.getName(), reportCharset);
 
-    try ( var scanner = new Scanner(report, reportCharset)) {
+    try ( var scanner = new TextScanner(report, reportCharset)) {
       // sample:
       // c:\a\file.cc:5:20: warning: ... conversion from string literal to 'char *' [clang-diagnostic-writable-strings]
       CxxReportIssue currentIssue = null;
@@ -172,7 +172,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         saveUniqueViolation(currentIssue);
         currentIssue = null;
       }
-    } catch (final java.io.FileNotFoundException
+    } catch (final java.io.IOException
                      | java.lang.IllegalArgumentException
                      | java.lang.IllegalStateException
                      | java.util.InputMismatchException e) {

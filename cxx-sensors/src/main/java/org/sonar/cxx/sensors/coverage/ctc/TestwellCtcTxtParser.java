@@ -23,12 +23,12 @@
 package org.sonar.cxx.sensors.coverage.ctc;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import org.apache.commons.io.FilenameUtils;
 import org.sonar.api.utils.log.Logger;
@@ -40,6 +40,7 @@ import static org.sonar.cxx.sensors.coverage.ctc.TestwellCtcTxtResult.FILE_RESUL
 import static org.sonar.cxx.sensors.coverage.ctc.TestwellCtcTxtResult.LINE_RESULT;
 import static org.sonar.cxx.sensors.coverage.ctc.TestwellCtcTxtResult.SECTION_SEP;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.TextScanner;
 
 /**
  * {@inheritDoc}
@@ -52,7 +53,6 @@ public class TestwellCtcTxtParser implements CoverageParser {
   private static final int CONDS_FALSE = 1;
   private static final int CONDS_TRUE = 2;
   private static final int LINE_NR_GROUP = 3;
-  private Scanner scanner;
 
   /**
    * {@inheritDoc}
@@ -61,31 +61,32 @@ public class TestwellCtcTxtParser implements CoverageParser {
   public Map<String, CoverageMeasures> parse(File report) {
     LOG.debug("Processing 'Testwell CTC++ Coverage' format");
     var coverageData = new HashMap<String, CoverageMeasures>();
-    try ( var s = new Scanner(report).useDelimiter(SECTION_SEP)) {
-      scanner = s;
+    try ( var scanner = new TextScanner(report, StandardCharsets.UTF_8.name())) {
+      scanner.useDelimiter(SECTION_SEP);
       Matcher headerMatcher = FILE_HEADER.matcher(scanner.next());
-      while (parseUnit(coverageData, headerMatcher)) {
+      while (parseUnit(scanner, coverageData, headerMatcher)) {
         headerMatcher.reset(scanner.next());
       }
-    } catch (FileNotFoundException | NoSuchElementException e) {
+    } catch (IOException | NoSuchElementException e) {
       throw new InvalidReportException("Testwell CTC++ coverage report '" + report + "' cannot be parsed.", e);
     }
 
     return coverageData;
   }
 
-  private boolean parseUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher) {
+  private boolean parseUnit(TextScanner scanner, final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher) {
     LOG.debug(headerMatcher.toString());
 
     if (headerMatcher.find(FROM_START)) {
-      parseFileUnit(coverageData, headerMatcher);
+      parseFileUnit(scanner, coverageData, headerMatcher);
     } else {
       return false;
     }
     return true;
   }
 
-  private void parseFileUnit(final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher) {
+  private void parseFileUnit(TextScanner scanner, final Map<String, CoverageMeasures> coverageData,
+                             Matcher headerMatcher) {
     LOG.debug("Parsing file section...");
 
     String normalFilename;
@@ -96,10 +97,10 @@ public class TestwellCtcTxtParser implements CoverageParser {
       normalFilename = FilenameUtils.normalize("./" + filename);
     }
     var file = new File(normalFilename);
-    addLines(file, coverageData);
+    addLines(scanner, file, coverageData);
   }
 
-  private void addLines(File file, final Map<String, CoverageMeasures> coverageData) {
+  private void addLines(TextScanner scanner, File file, final Map<String, CoverageMeasures> coverageData) {
     LOG.debug("Parsing function sections...");
 
     CoverageMeasures coverageMeasures = CoverageMeasures.create();

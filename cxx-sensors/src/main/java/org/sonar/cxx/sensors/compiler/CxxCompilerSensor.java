@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.compiler;
 
 import java.io.File;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,6 +30,7 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
+import org.sonar.cxx.sensors.utils.TextScanner;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -59,7 +59,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
 
     LOG.debug("Processing '{}' report '{}', Charset= '{}'", getCompilerKey(), report, reportCharset);
 
-    try ( var scanner = new Scanner(report, reportCharset)) {
+    try ( var scanner = new TextScanner(report, reportCharset)) {
       Pattern pattern = Pattern.compile(reportRegEx);
       LOG.debug("Using pattern : '{}'", pattern);
 
@@ -81,7 +81,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
           }
         }
       }
-    } catch (java.io.FileNotFoundException | java.lang.IllegalArgumentException | java.lang.IllegalStateException e) {
+    } catch (java.io.IOException | java.lang.IllegalArgumentException | java.lang.IllegalStateException e) {
       throw new InvalidReportException("The compiler report is invalid", e);
     }
   }

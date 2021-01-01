@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.sensors.coverage.ctc;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -30,8 +31,12 @@ import org.sonar.cxx.sensors.coverage.CoverageSensor;
 public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.ctctxt.reportPaths";
+  public static final String REPORT_CHARSET_DEF = "sonar.cxx.ctctxt.charset";
+  public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
 
   public static List<PropertyDefinition> properties() {
+    String category = "CXX External Analyzers";
+    String subcategory = "Coverage";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Testwell CTC++ TXT coverage report(s)")
@@ -40,10 +45,18 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
             + " The values are separated by commas."
             + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
             + "here</a> for supported formats.")
-        .category("CXX External Analyzers")
-        .subCategory("Coverage")
+        .category(category)
+        .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
+        .build(),
+      PropertyDefinition.builder(REPORT_CHARSET_DEF)
+        .defaultValue(DEFAULT_CHARSET_DEF)
+        .name("Testwell CTC++ TXT Report Encoding")
+        .description("The encoding to use when reading the coverage report. Leave empty to use parser's default UTF-8.")
+        .category(category)
+        .subCategory(subcategory)
+        .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));
   }
