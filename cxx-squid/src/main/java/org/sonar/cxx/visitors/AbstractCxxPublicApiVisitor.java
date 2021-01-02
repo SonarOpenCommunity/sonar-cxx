@@ -31,9 +31,9 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxPunctuator;
-import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
@@ -212,7 +212,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   private static String getOperatorId(AstNode operatorFunctionId) {
 
     var builder = new StringBuilder(operatorFunctionId.getTokenValue());
-    AstNode operator = operatorFunctionId.getFirstDescendant(CxxGrammarImpl.overloadableOperator);
+    AstNode operator = operatorFunctionId.getFirstDescendant(CxxGrammarImpl.operator);
 
     if (operator != null) {
 

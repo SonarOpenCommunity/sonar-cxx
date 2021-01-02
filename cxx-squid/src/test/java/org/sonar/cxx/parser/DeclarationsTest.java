@@ -349,7 +349,6 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p).matches("float");
     assertThat(p).matches("double");
     assertThat(p).matches("void");
-    assertThat(p).matches("auto");
     assertThat(p).matches("decltypeSpecifier");
   }
 
@@ -380,6 +379,16 @@ public class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
+  public void decltypeSpecifier() {
+    p.setRootRule(g.rule(CxxGrammarImpl.decltypeSpecifier));
+
+    mockRule(CxxGrammarImpl.expression);
+
+    assertThat(p).matches("decltype ( expression )");
+    assertThat(p).matches("decltype ( auto )");
+  }
+
+  @Test
   public void placeholderTypeSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.placeholderTypeSpecifier));
 
@@ -399,18 +408,16 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.simpleTemplateId);
+    mockRule(CxxGrammarImpl.elaboratedEnumSpecifier);
 
     assertThat(p).matches("classKey foo");
     assertThat(p).matches("classKey attributeSpecifierSeq foo");
     assertThat(p).matches("classKey nestedNameSpecifier foo");
     assertThat(p).matches("classKey attributeSpecifierSeq nestedNameSpecifier foo");
-
     assertThat(p).matches("classKey simpleTemplateId");
     assertThat(p).matches("classKey nestedNameSpecifier simpleTemplateId");
     assertThat(p).matches("classKey nestedNameSpecifier template simpleTemplateId");
-
-    assertThat(p).matches("enum foo");
-    assertThat(p).matches("enum nestedNameSpecifier foo");
+    assertThat(p).matches("elaboratedEnumSpecifier");
   }
 
   @Test
@@ -490,13 +497,13 @@ public class DeclarationsTest extends ParserBaseTestHelper {
 
     mockRule(CxxGrammarImpl.enumKey);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
-    mockRule(CxxGrammarImpl.nestedNameSpecifier);
+    mockRule(CxxGrammarImpl.enumHeadName);
     mockRule(CxxGrammarImpl.enumBase);
 
-    assertThat(p).matches("enumKey IDENTIFIER ;");
-    assertThat(p).matches("enumKey attributeSpecifierSeq IDENTIFIER ;");
-    assertThat(p).matches("enumKey attributeSpecifierSeq nestedNameSpecifier IDENTIFIER ;");
-    assertThat(p).matches("enumKey attributeSpecifierSeq nestedNameSpecifier IDENTIFIER enumBase ;");
+    assertThat(p).matches("enumKey enumHeadName ;");
+    assertThat(p).matches("enumKey enumHeadName enumBase ;");
+    assertThat(p).matches("enumKey attributeSpecifierSeq enumHeadName ;");
+    assertThat(p).matches("enumKey attributeSpecifierSeq enumHeadName enumBase ;");
   }
 
   @Test
@@ -567,7 +574,9 @@ public class DeclarationsTest extends ParserBaseTestHelper {
     assertThat(p)
       .matches("IDENTIFIER")
       .matches("IDENTIFIER :: IDENTIFIER")
-      .matches("IDENTIFIER :: IDENTIFIER :: IDENTIFIER");
+      .matches("IDENTIFIER :: IDENTIFIER :: IDENTIFIER")
+      .matches("IDENTIFIER :: inline IDENTIFIER")
+      .matches("IDENTIFIER :: inline IDENTIFIER :: inline IDENTIFIER");
   }
 
   @Test
@@ -576,6 +585,8 @@ public class DeclarationsTest extends ParserBaseTestHelper {
 
     assertThat(p).matches("namespace MyLib { double readAndProcessSum (std::istream&); }");
     assertThat(p).matches("namespace A::B::C { int i; }");
+    assertThat(p).matches("namespace A::B::inline C { /*...*/ }");
+    assertThat(p).matches("namespace A::inline B::C {}");
   }
 
   @Test

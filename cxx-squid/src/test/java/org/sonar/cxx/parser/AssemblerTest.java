@@ -26,13 +26,13 @@ public class AssemblerTest extends ParserBaseTestHelper {
 
   @Test
   public void asmIsoStandard() {
-    p.setRootRule(g.rule(CxxGrammarImpl.asmDefinition));
+    p.setRootRule(g.rule(CxxGrammarImpl.asmDeclaration));
     assertThat(p).matches("asm(\"mov eax, num\");");
   }
 
   @Test
   public void asmGcc() {
-    p.setRootRule(g.rule(CxxGrammarImpl.asmDefinition));
+    p.setRootRule(g.rule(CxxGrammarImpl.asmDeclaration));
     assertThat(p).matches("asm(\"mov eax, num\");");
     assertThat(p).matches("__asm__(\"mov eax, num\");");
     assertThat(p).matches("asm virtual(\"mov eax, num\");");
@@ -42,41 +42,41 @@ public class AssemblerTest extends ParserBaseTestHelper {
 
   @Test
   public void asmVcAssemblyInstruction1() {
-    p.setRootRule(g.rule(CxxGrammarImpl.asmDefinition));
+    p.setRootRule(g.rule(CxxGrammarImpl.asmDeclaration));
     assertThat(p).matches("__asm mov eax, num ;");
     assertThat(p).matches("asm mov eax, num ;");
   }
 
   @Test
   public void asmVcAssemblyInstructionList1() {
-    p.setRootRule(g.rule(CxxGrammarImpl.asmDefinition));
+    p.setRootRule(g.rule(CxxGrammarImpl.asmDeclaration));
     assertThat(p).matches("__asm { mov eax, num }");
     assertThat(p).matches("asm { mov eax, num }");
   }
 
   @Test
   public void asmVcAssemblyInstructionList2() {
-    p.setRootRule(g.rule(CxxGrammarImpl.asmDefinition));
+    p.setRootRule(g.rule(CxxGrammarImpl.asmDeclaration));
     assertThat(p).matches("__asm { mov eax, num };");
     assertThat(p).matches("asm { mov eax, num };");
   }
 
   @Test
   public void asmVcAssemblyInstructionList3() {
-    p.setRootRule(g.rule(CxxGrammarImpl.asmDefinition));
+    p.setRootRule(g.rule(CxxGrammarImpl.asmDeclaration));
     assertThat(p).matches(
-            "__asm {\n"
-            + "mov eax, num    ; Get first argument\n"
-            + "mov ecx, power  ; Get second argument\n"
-            + "shl eax, cl     ; EAX = EAX * ( 2 to the power of CL )\n"
-            + "}"
+      "__asm {\n"
+        + "mov eax, num    ; Get first argument\n"
+        + "mov ecx, power  ; Get second argument\n"
+        + "shl eax, cl     ; EAX = EAX * ( 2 to the power of CL )\n"
+        + "}"
     );
     assertThat(p).matches(
-            "asm {\n"
-            + "mov eax, num    ; Get first argument\n"
-            + "mov ecx, power  ; Get second argument\n"
-            + "shl eax, cl     ; EAX = EAX * ( 2 to the power of CL )\n"
-            + "}"
+      "asm {\n"
+        + "mov eax, num    ; Get first argument\n"
+        + "mov ecx, power  ; Get second argument\n"
+        + "shl eax, cl     ; EAX = EAX * ( 2 to the power of CL )\n"
+        + "}"
     );
   }
 
