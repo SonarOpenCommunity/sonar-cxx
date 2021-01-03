@@ -13,7 +13,7 @@ adds C++ support to SonarQube with the focus on integration of existing C++ tool
 
 This plugin is free software; you can redistribute it and/or modify it under the terms of the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.en.html) as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-* parser supporting C89, C99, C11, C++03, C++11, C++14 and C++17 standards
+* parser supporting C89, C99, C11, C17, C++03, C++11, C++14, C++17 and C++20 standards
   * Microsoft extensions: C++/CLI, Attributed ATL
   * GNU extensions
   * CUDA extensions
