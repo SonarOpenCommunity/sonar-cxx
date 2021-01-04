@@ -295,7 +295,6 @@ public class ExpressionTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.idExpression);
     mockRule(CxxGrammarImpl.typeId);
     mockRule(CxxGrammarImpl.exprOrBracedInitList);
-    mockRule(CxxGrammarImpl.pseudoDestructorName);
     mockRule(CxxGrammarImpl.cudaKernel);
 
     assertThat(p).matches("primaryExpression");
@@ -317,10 +316,8 @@ public class ExpressionTest extends ParserBaseTestHelper {
     assertThat(p).matches("primaryExpression ( expressionList )");
     assertThat(p).matches("primaryExpression . idExpression");
     assertThat(p).matches("primaryExpression . template idExpression");
-    assertThat(p).matches("primaryExpression . pseudoDestructorName");
     assertThat(p).matches("primaryExpression -> idExpression");
     assertThat(p).matches("primaryExpression -> template idExpression");
-    assertThat(p).matches("primaryExpression -> pseudoDestructorName");
     assertThat(p).matches("primaryExpression ++");
     assertThat(p).matches("primaryExpression --");
 
@@ -352,22 +349,6 @@ public class ExpressionTest extends ParserBaseTestHelper {
     p.setRootRule(g.rule(CxxGrammarImpl.expressionList));
 
     assertThat(p).matches("(istream_iterator<string>(cin)), istream_iterator<string>()");
-  }
-
-  @Test
-  public void pseudoDestructorName() {
-    p.setRootRule(g.rule(CxxGrammarImpl.pseudoDestructorName));
-
-    mockRule(CxxGrammarImpl.typeName);
-    mockRule(CxxGrammarImpl.nestedNameSpecifier);
-    mockRule(CxxGrammarImpl.simpleTemplateId);
-    mockRule(CxxGrammarImpl.decltypeSpecifier);
-
-    assertThat(p).matches("typeName :: ~ typeName");
-    assertThat(p).matches("nestedNameSpecifier typeName :: ~ typeName");
-    assertThat(p).matches("nestedNameSpecifier template simpleTemplateId :: ~ typeName");
-    assertThat(p).matches("~ typeName");
-    assertThat(p).matches("~ decltypeSpecifier");
   }
 
   @Test

@@ -85,7 +85,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   public boolean isExcluded(AstNode astNode) {
     AstNode statementNode = astNode.getFirstChild();
     return statementNode.is(CxxGrammarImpl.compoundStatement)
-             || statementNode.is(CxxGrammarImpl.emptyStatement)
+             || statementNode.is(CxxGrammarImpl.emptyDeclaration)
              || statementNode.is(CxxGrammarImpl.iterationStatement)
              || statementNode.is(CxxGrammarImpl.labeledStatement)
              || statementNode.is(CxxGrammarImpl.declaration)

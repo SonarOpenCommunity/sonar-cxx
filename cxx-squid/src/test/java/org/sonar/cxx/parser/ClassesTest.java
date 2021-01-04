@@ -103,32 +103,37 @@ public class ClassesTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.memberDeclSpecifierSeq);
     mockRule(CxxGrammarImpl.memberDeclaratorList);
     mockRule(CxxGrammarImpl.functionDefinition);
-    mockRule(CxxGrammarImpl.nestedNameSpecifier);
-    mockRule(CxxGrammarImpl.unqualifiedId);
     mockRule(CxxGrammarImpl.usingDeclaration);
+    mockRule(CxxGrammarImpl.usingEnumDeclaration);
     mockRule(CxxGrammarImpl.staticAssertDeclaration);
     mockRule(CxxGrammarImpl.templateDeclaration);
+    mockRule(CxxGrammarImpl.explicitSpecialization);
     mockRule(CxxGrammarImpl.deductionGuide);
     mockRule(CxxGrammarImpl.aliasDeclaration);
+    mockRule(CxxGrammarImpl.opaqueEnumDeclaration);
+    mockRule(CxxGrammarImpl.emptyDeclaration);
+    //----
     mockRule(CxxGrammarImpl.cliPropertyDefinition);
     mockRule(CxxGrammarImpl.cliEventDefinition);
     mockRule(CxxGrammarImpl.cliDelegateSpecifier);
     mockRule(CxxGrammarImpl.cliGenericDeclaration);
 
     assertThat(p).matches(";");
+    assertThat(p).matches("attributeSpecifierSeq ;");
+    assertThat(p).matches("memberDeclSpecifierSeq ;");
+    assertThat(p).matches("memberDeclaratorList ;");
     assertThat(p).matches("attributeSpecifierSeq memberDeclSpecifierSeq memberDeclaratorList ;");
 
     assertThat(p).matches("functionDefinition");
-    assertThat(p).matches("functionDefinition ;");
-
-    assertThat(p).matches("nestedNameSpecifier unqualifiedId ;");
-    assertThat(p).matches(":: nestedNameSpecifier template unqualifiedId ;");
-
     assertThat(p).matches("usingDeclaration");
+    assertThat(p).matches("usingEnumDeclaration");
     assertThat(p).matches("staticAssertDeclaration");
     assertThat(p).matches("templateDeclaration");
+    assertThat(p).matches("explicitSpecialization");
     assertThat(p).matches("deductionGuide");
     assertThat(p).matches("aliasDeclaration");
+    assertThat(p).matches("opaqueEnumDeclaration");
+    assertThat(p).matches("emptyDeclaration");
 
     assertThat(p).matches("cliPropertyDefinition");
     assertThat(p).matches("cliEventDefinition");
@@ -148,8 +153,8 @@ public class ClassesTest extends ParserBaseTestHelper {
     assertThat(p).matches("tnode *left;");
     assertThat(p).matches("tnode *right;");
     assertThat(p).matches("Result (*ptr)();");
-    assertThat(p).matches("A(const ::P& c) : m_value(c){};");
-    assertThat(p).matches("void foo(::P& c) {};");
+    assertThat(p).matches("A(const ::P& c) : m_value(c){}");
+    assertThat(p).matches("void foo(::P& c) {}");
 
     assertThat(p).matches("property int Property_Block {int get();}");
     assertThat(p).matches("property int Property_Block {int get() {return MyInt;}}");
@@ -283,30 +288,33 @@ public class ClassesTest extends ParserBaseTestHelper {
   public void baseSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.baseSpecifier));
 
-    mockRule(CxxGrammarImpl.baseTypeSpecifier);
+    mockRule(CxxGrammarImpl.classOrDecltype);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.accessSpecifier);
 
-    assertThat(p).matches("baseTypeSpecifier");
-    assertThat(p).matches("attributeSpecifierSeq baseTypeSpecifier");
+    assertThat(p).matches("classOrDecltype");
+    assertThat(p).matches("attributeSpecifierSeq classOrDecltype");
 
-    assertThat(p).matches("virtual baseTypeSpecifier");
-    assertThat(p).matches("attributeSpecifierSeq virtual accessSpecifier baseTypeSpecifier");
+    assertThat(p).matches("virtual classOrDecltype");
+    assertThat(p).matches("attributeSpecifierSeq virtual accessSpecifier classOrDecltype");
 
-    assertThat(p).matches("accessSpecifier baseTypeSpecifier");
-    assertThat(p).matches("attributeSpecifierSeq accessSpecifier virtual baseTypeSpecifier");
+    assertThat(p).matches("accessSpecifier classOrDecltype");
+    assertThat(p).matches("attributeSpecifierSeq accessSpecifier virtual classOrDecltype");
   }
 
   @Test
   public void classOrDecltype() {
     p.setRootRule(g.rule(CxxGrammarImpl.classOrDecltype));
 
-    mockRule(CxxGrammarImpl.className);
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
+    mockRule(CxxGrammarImpl.typeName);
+    mockRule(CxxGrammarImpl.simpleTemplateId);
     mockRule(CxxGrammarImpl.decltypeSpecifier);
 
-    assertThat(p).matches("className");
-    assertThat(p).matches("nestedNameSpecifier className");
+    assertThat(p).matches("typeName");
+    assertThat(p).matches("nestedNameSpecifier typeName");
+    assertThat(p).matches("template simpleTemplateId");
+    assertThat(p).matches("nestedNameSpecifier template simpleTemplateId");
     assertThat(p).matches("decltypeSpecifier");
   }
 
