@@ -128,6 +128,12 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   }
 
   @Override
+  public Parser<? extends Grammar> getParser() {
+    setUpdatedFlag(); // create always new parser
+    return super.getParser();
+  }
+
+  @Override
   public Parser<? extends Grammar> doGetParser() {
     var context = new SquidAstVisitorContextImpl<>(new SourceProject(""));
     context.setFile(new File("file.cpp").getAbsoluteFile(), CxxMetric.FILES);

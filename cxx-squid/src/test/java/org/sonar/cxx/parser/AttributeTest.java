@@ -20,35 +20,33 @@
 package org.sonar.cxx.parser;
 
 import org.junit.Test;
-import static org.sonar.sslr.tests.Assertions.assertThat;
 
 public class AttributeTest extends ParserBaseTestHelper {
 
   @Test
   public void classSpecifier_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifierSeq));
+    setRootRule(CxxGrammarImpl.attributeSpecifierSeq);
 
-    assertThat(p).matches("[[attr]]");
-    assertThat(p).matches("[[attr(a)]]");
-    assertThat(p).matches("[[attr(\"text\")]]");
-    assertThat(p).matches("[[attr(true)]]");
-    assertThat(p).matches("[[attr(int)]]");
-    assertThat(p).matches("[[attr(a, b, c)]]");
-    assertThat(p).matches("[[nmspc::attr]]");
-    assertThat(p).matches("[[nmspc::attr(args)]]");
-    assertThat(p).matches("[[attr1, attr2, attr3(args)]]");
-    assertThat(p).matches("[[db::id, db::test, db::type(\"INT\")]]");
-    assertThat(p).matches("[[omp::parallel(clause,clause)]]");
-
-    assertThat(p).matches("[[noreturn]]");
-    assertThat(p).matches("[[carries_dependency]]");
-    assertThat(p).matches("[[deprecated]]");
-    assertThat(p).matches("[[deprecated(\"reason\")]]");
-    assertThat(p).matches("[[fallthrough]]");
-    assertThat(p).matches("[[nodiscard]]");
-    assertThat(p).matches("[[maybe_unused]]");
-
-    assertThat(p).matches("[[attr1]] [[attr2]] [[attr3]]");
+    assertThatParser()
+      .matches("[[attr]]")
+      .matches("[[attr(a)]]")
+      .matches("[[attr(\"text\")]]")
+      .matches("[[attr(true)]]")
+      .matches("[[attr(int)]]")
+      .matches("[[attr(a, b, c)]]")
+      .matches("[[nmspc::attr]]")
+      .matches("[[nmspc::attr(args)]]")
+      .matches("[[attr1, attr2, attr3(args)]]")
+      .matches("[[db::id, db::test, db::type(\"INT\")]]")
+      .matches("[[omp::parallel(clause,clause)]]")
+      .matches("[[noreturn]]")
+      .matches("[[carries_dependency]]")
+      .matches("[[deprecated]]")
+      .matches("[[deprecated(\"reason\")]]")
+      .matches("[[fallthrough]]")
+      .matches("[[nodiscard]]")
+      .matches("[[maybe_unused]]")
+      .matches("[[attr1]] [[attr2]] [[attr3]]");
   }
 
 }

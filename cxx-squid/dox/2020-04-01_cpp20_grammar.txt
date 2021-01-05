@@ -1082,8 +1082,7 @@ attribute-list:
    attribute-list , attribute ...
 
 attribute:
-   attribute-token
-   attribute-argument-clauseopt
+   attribute-token attribute-argument-clauseopt
 
 attribute-token:
    identifier

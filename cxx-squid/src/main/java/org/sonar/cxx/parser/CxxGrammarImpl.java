@@ -38,8 +38,7 @@ import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
  * parse tree from the possible parses.
  *
  * By carefully choosing the order in which the grammar alternatives are specified, a programmer has a great deal of
- * control over which parse tree is selected.
- *
+ * control over which parse tree is selected. Additional syntax sugar like 'next', 'nextNot' can help.
  */
 /**
  * Based on the C++ Standard, Appendix A
@@ -84,7 +83,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   expressionList,
   unaryExpression,
   unaryOperator,
-  binaryOperator,
   awaitExpression,
   newExpression,
   newPlacement,
@@ -155,7 +153,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   typeSpecifierSeq,
   definingTypeSpecifier,
   definingTypeSpecifierSeq,
-  trailingTypeSpecifier,
   simpleTypeSpecifier,
   typeName,
   decltypeSpecifier,
@@ -287,6 +284,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   constraintLogicalAndExpression,
   templateParameter,
   typeParameter,
+  typeTraits,
   typeParameterKey,
   typeConstraint,
   innerTypeParameter,
@@ -373,12 +371,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     expressions(b);
     statements(b);
     declarations(b, squidConfig);
-    declarators(b);
     modules(b);
     classes(b);
     properties(b);
-    derivedClasses(b);
-    specialMemberFunctions(b);
     overloading(b);
     templates(b);
     generics(b);
@@ -432,7 +427,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(vcAtlDeclaration).is(vcAtlAttribute, ";");
   }
 
-  // A.3 Basic concepts
+  // **A.3 Basics [gram.basic]**
   //
   private static void toplevel(LexerfulGrammarBuilder b) {
     b.rule(translationUnit).is(
@@ -445,7 +440,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
   }
 
-  // A.4 Expressions
+  // **A.4 Expressions [gram.expr]**
   //
   private static void expressions(LexerfulGrammarBuilder b) {
     b.rule(primaryExpression).is(
@@ -483,18 +478,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         literalOperatorId, // C++
         b.sequence("~", typeName), // C++
         b.sequence("~", decltypeSpecifier), // C++
+        //----
         b.sequence("!", className), // C++/CLI
         cliGenericId, // C++/CLI
         CxxKeyword.DEFAULT // C++/CLI
       )
     ).skipIfOneChild();
-
-    b.rule(binaryOperator).is( // todo
-      b.firstOf(
-        "||", CxxKeyword.OR, "&&", CxxKeyword.AND, "&", CxxKeyword.BITAND, "|", CxxKeyword.BITOR, "^", CxxKeyword.XOR,
-        "==", "!=", CxxKeyword.NOT_EQ, "<=", "<", ">=", ">", "<<", ">>", "*", "/", "+", "-", assignmentOperator
-      )
-    );
 
     b.rule(qualifiedId).is(
       nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), unqualifiedId // C++
@@ -528,6 +517,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       "[", b.optional(lambdaCapture), "]" // C++
     );
 
+    b.rule(lambdaDeclarator).is(
+      "(", parameterDeclarationClause, ")", b.optional(declSpecifierSeq), b.optional(noexceptSpecifier),
+      b.optional(attributeSpecifierSeq), b.optional(trailingReturnType), b.optional(requiresClause) // C++
+    );
+
     b.rule(lambdaCapture).is(
       b.firstOf(
         b.sequence(captureDefault, b.optional(",", captureList)), // C++
@@ -536,7 +530,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(captureDefault).is(
-      b.firstOf("&", "="), // C++
+      b.firstOf(
+        "&",
+        "="
+      ), // C++
       b.nextNot(capture)
     );
 
@@ -567,25 +564,23 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(lambdaDeclarator).is(
-      "(", parameterDeclarationClause, ")", b.optional(declSpecifierSeq), b.optional(noexceptSpecifier),
-      b.optional(attributeSpecifierSeq), b.optional(trailingReturnType), b.optional(requiresClause) // C++
-    );
-
     b.rule(foldExpression).is(
+      "(",
       b.firstOf(
-        b.sequence("(", castExpression, foldOperator, "...", ")"), // C++
-        b.sequence("(", "...", foldOperator, castExpression, ")"), // C++
-        b.sequence("(", castExpression, foldOperator, "...", foldOperator, castExpression, ")") // C++
-      )
+        b.sequence(castExpression, foldOperator, "...", b.optional(foldOperator, castExpression)), // C++
+        b.sequence("...", foldOperator, castExpression) // C++
+      ),
+      ")"
     );
 
     b.rule(foldOperator).is(
       b.firstOf( // C++
-        "+", "-", "*", "/", "%", "ˆ", CxxKeyword.XOR, "&", CxxKeyword.BITAND, "|", CxxKeyword.BITOR, "<<", ">>",
-        "+=", "-=", "*=", "/=", "%=", "ˆ=", CxxKeyword.XOR_EQ, "&=", CxxKeyword.AND_EQ, "|=", CxxKeyword.OR_EQ, "<<=",
-        ">>=", "=",
-        "==", "!=", CxxKeyword.NOT_EQ, "<", ">", "<=", ">=", "&&", CxxKeyword.AND, "||", CxxKeyword.OR, ",", ".*", "->*"
+        "+", "-", "*", "/", "%", "ˆ", "&", "|", "<<", ">>",
+        "+=", "-=", "*=", "/=", "%=", "ˆ=", "&=", "|=", "<<=", ">>=", "=",
+        "==", "!=", "<", ">", "<=", ">=", "&&", "||", ",", ".*", "->*",
+        //----
+        CxxKeyword.XOR, CxxKeyword.BITAND, CxxKeyword.BITOR, CxxKeyword.XOR_EQ, CxxKeyword.AND_EQ, CxxKeyword.OR_EQ,
+        CxxKeyword.NOT_EQ, CxxKeyword.AND, CxxKeyword.OR
       )
     );
 
@@ -594,44 +589,44 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(requirementParameterList).is(
-      "(", b.optional(parameterDeclarationClause), ")"
+      "(", b.optional(parameterDeclarationClause), ")" // C++
     );
 
     b.rule(requirementBody).is(
-      "{", requirementSeq, "}"
+      "{", requirementSeq, "}" // C++
     );
 
     b.rule(requirementSeq).is(
-      b.oneOrMore(requirement)
+      b.oneOrMore(requirement) // C++
     );
 
     b.rule(requirement).is(
       b.firstOf(
-        simpleRequirement,
-        typeRequirement,
-        compoundRequirement,
-        nestedRequirement
+        simpleRequirement, // C++
+        typeRequirement, // C++
+        compoundRequirement, // C++
+        nestedRequirement // C++
       )
     );
 
     b.rule(simpleRequirement).is(
-      expression, ";"
+      expression, ";" // C++
     );
 
     b.rule(typeRequirement).is(
-      CxxKeyword.TYPENAME, b.optional(nestedNameSpecifier), typeName, ";"
+      CxxKeyword.TYPENAME, b.optional(nestedNameSpecifier), typeName, ";" // C++
     );
 
     b.rule(compoundRequirement).is(
-      "{", expression, "}", b.optional(CxxKeyword.NOEXCEPT), b.optional(returnTypeRequirement), ";"
+      "{", expression, "}", b.optional(CxxKeyword.NOEXCEPT), b.optional(returnTypeRequirement), ";" // C++
     );
 
     b.rule(returnTypeRequirement).is(
-      "->", typeConstraint
+      "->", typeConstraint // C++
     );
 
     b.rule(nestedRequirement).is(
-      CxxKeyword.REQUIRES, constraintExpression, ";"
+      CxxKeyword.REQUIRES, constraintExpression, ";" // C++
     );
 
     b.rule(postfixExpression).is(
@@ -669,17 +664,17 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       ),
       b.zeroOrMore(
         b.firstOf(
-          b.sequence("[", exprOrBracedInitList, "]"),
-          b.sequence("(", b.optional(expressionList), ")"),
+          b.sequence("[", exprOrBracedInitList, "]"), // C++
+          b.sequence("(", b.optional(expressionList), ")"), // C++
           b.sequence(
             b.firstOf(
               ".",
               "->"
             ),
-            b.sequence(b.optional(CxxKeyword.TEMPLATE), idExpression)
+            b.sequence(b.optional(CxxKeyword.TEMPLATE), idExpression) // C++
           ),
-          "++",
-          "--"
+          "++", // C++
+          "--" // C++
         )
       )
     ).skipIfOneChild();
@@ -723,28 +718,33 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     ).skipIfOneChild();
 
     b.rule(unaryOperator).is(
-      b.firstOf("*", "&", "+", "-", "!", CxxKeyword.NOT, "~", CxxKeyword.COMPL) // C++
+      b.firstOf("*", "&", "+", "-", "!", "~", CxxKeyword.NOT, CxxKeyword.COMPL) // C++
     );
 
     b.rule(awaitExpression).is(
       CxxKeyword.CO_AWAIT, castExpression // C++
     );
 
+    b.rule(noexceptExpression).is(
+      CxxKeyword.NOEXCEPT, "(", expression, ")" // C++
+    );
+
     b.rule(newExpression).is(
       b.sequence(
-        b.optional("::"),
+        b.optional("::"), // C++
         b.firstOf(
-          CxxKeyword.NEW,
-          "gcnew"
+          CxxKeyword.NEW, // C++
+          "gcnew" // C++/CLI
         ),
         b.firstOf(
-          b.sequence("(", typeId, ")", b.optional(newInitializer)),
+          b.sequence("(", typeId, ")"), // syntax sugar (todo)
           b.sequence(
             b.optional(newPlacement),
             b.firstOf(
-              b.sequence(newTypeId, b.optional(newInitializer)), // C++
-              b.sequence("(", typeId, ")", b.optional(newInitializer)) // C++
-            )
+              newTypeId, // C++
+              b.sequence("(", typeId, ")") // C++
+            ),
+            b.optional(newInitializer) // C++
           )
         )
       )
@@ -766,7 +766,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(noptrNewDeclarator).is(
-      "[", b.optional(expression), "]", b.optional(attributeSpecifierSeq),
+      "[", b.optional(expression), "]", b.optional(attributeSpecifierSeq), // C++
       b.zeroOrMore("[", constantExpression, "]", b.optional(attributeSpecifierSeq)) // C++
     );
 
@@ -781,14 +781,14 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.optional("::"), CxxKeyword.DELETE, b.optional("[", "]"), castExpression // C++
     );
 
-    b.rule(noexceptExpression).is(
-      CxxKeyword.NOEXCEPT, "(", expression, ")" // C++, keep to be backward compatible
-    );
-
     b.rule(castExpression).is(
       b.firstOf(
-        // bracedInitList: C-COMPATIBILITY: C99 compound literals
-        b.sequence("(", typeId, ")", b.firstOf(castExpression, bracedInitList)), // C++
+        b.sequence("(", typeId, ")",
+                   b.firstOf(
+                     castExpression, // C++
+                     bracedInitList // C-COMPATIBILITY: C99 compound literals
+                   )
+        ),
         unaryExpression // C++ (PEG: different order)
       )
     ).skipIfOneChild();
@@ -864,8 +864,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     ).skipIfOneChild();
 
     b.rule(assignmentOperator).is(
-      b.firstOf("=", "*=", "/=", "%=", "+=", "-=", ">>=", "<<=", "&=", CxxKeyword.AND_EQ, "^=", CxxKeyword.XOR_EQ, "|=",
-                CxxKeyword.OR_EQ) // C++
+      b.firstOf("=", "*=", "/=", "%=", "+=", "-=", ">>=", "<<=", "&=", "^=", "|=",
+                CxxKeyword.AND_EQ, CxxKeyword.XOR_EQ, CxxKeyword.OR_EQ) // C++
     );
 
     b.rule(expression).is(
@@ -877,7 +877,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
   }
 
-  // A.5 Statements
+  // **A.5 Statements [gram.stmt]**
   //
   private static void statements(LexerfulGrammarBuilder b) {
 
@@ -942,7 +942,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(conditionDeclSpecifierSeq).is( // todo decl-specifier-seq
+    b.rule(conditionDeclSpecifierSeq).is( // decl-specifier-seq
       b.oneOrMore(
         b.nextNot(declarator, b.firstOf("=", "{")),
         declSpecifier
@@ -964,20 +964,20 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(forRangeDeclaration).is( // todo
+    b.rule(forRangeDeclaration).is(
+      b.optional(attributeSpecifierSeq),
       b.firstOf(
-        b.sequence(b.optional(attributeSpecifierSeq), forRangeDeclSpecifierSeq, declarator), // C++
-        b.sequence(b.optional(attributeSpecifierSeq), declSpecifierSeq, b.optional(refQualifier), "[", identifierList,
-                   "]") // C++
+        b.sequence(forRangeDeclSpecifierSeq, declarator), // C++
+        b.sequence(declSpecifierSeq, b.optional(refQualifier), "[", identifierList, "]") // C++ todo declSpecifierSeq?
       )
     );
 
-    b.rule(forRangeDeclSpecifierSeq).is( // todo decl-specifier-seq
+    b.rule(forRangeDeclSpecifierSeq).is( // decl-specifier-seq
       b.oneOrMore(
         b.nextNot(b.optional(declarator), b.firstOf(":", "in")),
-        declSpecifier,
-        b.optional(attributeSpecifierSeq)
-      )
+        declSpecifier
+      ),
+      b.optional(attributeSpecifierSeq)
     ).skipIfOneChild();
 
     b.rule(forRangeInitializer).is(
@@ -1003,7 +1003,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
   }
 
-  // A.6 Declarations
+  // **A.6 Declarations [gram.dcl]**
   //
   private static void declarations(LexerfulGrammarBuilder b, CxxSquidConfiguration squidConfig) {
 
@@ -1082,11 +1082,17 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(simpleDeclaration).is(
       b.firstOf(
-        b.sequence(b.optional(declSpecifierSeq), b.optional(initDeclaratorList), ";"), // C++ // todo wrong
-        b.sequence(b.optional(cliAttributes), b.optional(attributeSpecifierSeq), b.optional(declSpecifierSeq), b
-                   .optional(initDeclaratorList), ";"), // C++ // todo wrong
-        b.sequence(b.optional(attributeSpecifierSeq), declSpecifierSeq, b.optional(refQualifier), "[", identifierList,
-                   "]", initializer, ";") // C++ // todo wrong
+        b.sequence( // todo
+          b.optional(cliAttributes),
+          b.optional(attributeSpecifierSeq),
+          b.firstOf(
+            b.sequence(declSpecifierSeq, b.optional(initDeclaratorList)),
+            b.sequence(b.optional(declSpecifierSeq), initDeclaratorList)
+          ),
+          ";"
+        ), // C++, C++/CLI
+        b.sequence(b.optional(attributeSpecifierSeq), declSpecifierSeq, b.optional(refQualifier),
+                   "[", identifierList, "]", initializer, ";") // C++
       )
     );
 
@@ -1144,10 +1150,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(explicitSpecifier).is(
-      b.firstOf(
-        b.sequence(CxxKeyword.EXPLICIT, "(", constantExpression, ")"), // C++
-        CxxKeyword.EXPLICIT // C++
-      )
+      CxxKeyword.EXPLICIT,
+      b.optional("(", constantExpression, ")")
     );
 
     b.rule(typedefName).is(
@@ -1159,21 +1163,19 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(typeSpecifier).is( // todo wrong
       b.firstOf(
-        classSpecifier, // C++
-        enumSpecifier, // C++
-        trailingTypeSpecifier // C++ (PEG: different order)
-
-      // simple-type-specifier
-      // elaborated-type-specifier
-      // typename-specifier
-      // cv-qualifier
+        classSpecifier, // ???
+        enumSpecifier, // ???
+        simpleTypeSpecifier, // C++
+        elaboratedTypeSpecifier, // C++
+        typenameSpecifier, // C++
+        cvQualifier, // C++
+        cliDelegateSpecifier // C++/CLI
       )
     ).skip();
 
     b.rule(typeSpecifierSeq).is(
-      b.oneOrMore(
-        typeSpecifier, b.optional(attributeSpecifierSeq) // C++
-      )
+      b.oneOrMore(typeSpecifier), // C++
+      b.optional(attributeSpecifierSeq) // C++
     ).skipIfOneChild();
 
     b.rule(definingTypeSpecifier).is(
@@ -1185,18 +1187,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     ).skip();
 
     b.rule(definingTypeSpecifierSeq).is(
-      b.oneOrMore(definingTypeSpecifier, b.optional(attributeSpecifierSeq)) // C++
+      b.oneOrMore(definingTypeSpecifier), // C++
+      b.optional(attributeSpecifierSeq) // C++
     ).skipIfOneChild();
-
-    b.rule(trailingTypeSpecifier).is( // todo wrong
-      b.firstOf(
-        simpleTypeSpecifier, // C++
-        elaboratedTypeSpecifier, // C++
-        typenameSpecifier, // C++
-        cvQualifier, // C++
-        cliDelegateSpecifier // C++/CLI
-      )
-    ).skip();
 
     b.rule(simpleTypeSpecifier).is(
       b.firstOf(
@@ -1218,7 +1211,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         CxxKeyword.FLOAT, // C++
         CxxKeyword.DOUBLE, // C++
         CxxKeyword.VOID, // C++
-        decltypeSpecifier // C++
+        decltypeSpecifier // C++ (PEG: different order)
       )
     ).skipIfOneChild();
 
@@ -1228,6 +1221,25 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         enumName, // C++
         typedefName // C++
       )
+    );
+
+    b.rule(elaboratedTypeSpecifier).is(
+      b.optional(cliAttributes),
+      b.firstOf( // PEG: different order
+        b.sequence(
+          classKey,
+          b.firstOf(
+            simpleTemplateId, // C++
+            b.sequence(nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), simpleTemplateId), // C++
+            b.sequence(b.optional(attributeSpecifierSeq), b.optional(nestedNameSpecifier), IDENTIFIER) // C++
+          )
+        ),
+        elaboratedEnumSpecifier // C++
+      )
+    );
+
+    b.rule(elaboratedEnumSpecifier).is(
+      CxxKeyword.ENUM, b.optional(nestedNameSpecifier), IDENTIFIER // C++
     );
 
     b.rule(decltypeSpecifier).is(
@@ -1247,23 +1259,276 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(elaboratedTypeSpecifier).is( // todo
-      b.optional(cliAttributes),
-      b.firstOf( // PEG: different order
-        b.sequence(
-          classKey,
-          b.firstOf(
-            simpleTemplateId, // C++
-            b.sequence(nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), simpleTemplateId), // C++
-            b.sequence(b.optional(attributeSpecifierSeq), b.optional(nestedNameSpecifier), IDENTIFIER) // C++
-          )
-        ),
-        elaboratedEnumSpecifier // C++
+    b.rule(initDeclaratorList).is(
+      initDeclarator, b.zeroOrMore(",", initDeclarator) // C++
+    );
+
+    b.rule(initDeclarator).is(
+      declarator,
+      b.firstOf(
+        requiresClause,
+        b.sequence(b.optional(asmLabel), b.optional(initializer)) // C++ (asmLabel: GCC ASM label)
       )
     );
 
-    b.rule(elaboratedEnumSpecifier).is(
-      CxxKeyword.ENUM, b.optional(nestedNameSpecifier), IDENTIFIER // C++
+    b.rule(declarator).is(
+      b.firstOf(
+        ptrDeclarator, // C++
+        b.sequence(noptrDeclarator, parametersAndQualifiers, trailingReturnType) // C++
+      )
+    );
+
+    b.rule(ptrDeclarator).is(
+      b.firstOf(
+        b.sequence(ptrOperator, ptrDeclarator), // C++
+        noptrDeclarator // C++ (PEG: different order)
+      )
+    ).skipIfOneChild();
+
+    b.rule(noptrDeclarator).is(
+      b.firstOf(
+        b.sequence(declaratorId, b.optional(attributeSpecifierSeq)), // C++
+        b.sequence("(", ptrDeclarator, ")") // C++
+      ),
+      b.zeroOrMore(
+        b.firstOf(
+          parametersAndQualifiers,
+          b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
+        )
+      )
+    ).skipIfOneChild();
+
+    b.rule(parametersAndQualifiers).is(
+      "(", parameterDeclarationClause, ")", // C++
+      b.optional(attributeSpecifierSeq), // C++ todo wrong position
+      b.optional(cvQualifierSeq), // C++
+      b.optional(cliFunctionModifiers), // C++/CLI
+      b.optional(refQualifier), // C++
+      b.optional(noexceptSpecifier), // C++
+      b.optional(trailingReturnType) // todo wrong?
+    );
+
+    b.rule(trailingReturnType).is(
+      "->", typeId // C++
+    );
+
+    b.rule(ptrOperator).is(
+      b.firstOf(
+        b.sequence("*", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq)), // C++
+        b.sequence("&", b.optional(attributeSpecifierSeq)), // C++
+        b.sequence("&&", b.optional(attributeSpecifierSeq)), // C++
+        b.sequence(nestedNameSpecifier, "*", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq)), //C++
+        //C++/CLI handle reference
+        b.sequence("^", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq)), // C++/CLI
+        b.sequence("%", b.optional(attributeSpecifierSeq)), // C++/CLI
+        // C++/CLI tracking reference
+        b.sequence("^%", b.optional(attributeSpecifierSeq)) // C++/CLI
+      )
+    );
+
+    b.rule(cvQualifierSeq).is(
+      b.oneOrMore(cvQualifier) // C++
+    ).skipIfOneChild();
+
+    b.rule(cvQualifier).is(
+      b.firstOf(
+        CxxKeyword.CONST, // C++
+        CxxKeyword.VOLATILE // C++
+      )
+    );
+
+    b.rule(refQualifier).is(
+      b.firstOf(
+        "&", // C++
+        "&&" // C++
+      )
+    );
+
+    b.rule(declaratorId).is(
+      b.firstOf(
+        b.sequence(b.optional(nestedNameSpecifier), className), // todo wrong?
+        b.sequence(b.optional("..."), idExpression) // C++
+      )
+    );
+
+    b.rule(typeId).is(
+      typeSpecifierSeq, b.optional(abstractDeclarator) // C++
+    ).skip();
+
+    b.rule(definingTypeId).is(
+      definingTypeSpecifierSeq, b.optional(abstractDeclarator) // C++
+    );
+
+    b.rule(abstractDeclarator).is(
+      b.firstOf(
+        ptrAbstractDeclarator, // C++
+        b.sequence(b.optional(noptrAbstractDeclarator), parametersAndQualifiers, trailingReturnType), // C++
+        abstractPackDeclarator // C++
+      )
+    );
+
+    b.rule(ptrAbstractDeclarator).is(
+      b.oneOrMore(
+        b.firstOf(
+          noptrAbstractDeclarator, // C++
+          b.sequence(ptrOperator, b.optional(noptrAbstractDeclarator)) // C++
+        )
+      )
+    );
+
+    b.rule(noptrAbstractDeclarator).is(
+      b.oneOrMore(
+        b.firstOf(
+          parametersAndQualifiers, // C++
+          b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq)), // C++
+          b.sequence("(", ptrAbstractDeclarator, ")") // C++
+        )
+      )
+    );
+
+    b.rule(abstractPackDeclarator).is(
+      b.firstOf(
+        noptrAbstractPackDeclarator, // C++
+        b.sequence(ptrOperator, abstractPackDeclarator) // C++
+      )
+    );
+
+    b.rule(noptrAbstractPackDeclarator).is(
+      b.oneOrMore(
+        b.firstOf(
+          parametersAndQualifiers, // C++
+          b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq)), // C++
+          "..." // C++
+        )
+      )
+    );
+
+    b.rule(parameterDeclarationClause).is(
+      b.firstOf(
+        b.sequence(parameterDeclarationList, ",", "..."), // C++
+        b.sequence(b.optional(parameterDeclarationList), b.optional("...")), // C++ (PEG: different order)
+        cliParameterArray // C++/CLI
+      )
+    );
+
+    b.rule(cliParameterArray).is(
+      b.optional(attribute), "...", parameterDeclaration // C++/CLI
+    );
+
+    b.rule(parameterDeclarationList).is(
+      parameterDeclaration, b.zeroOrMore(",", parameterDeclaration) // C++
+    );
+
+    b.rule(parameterDeclaration).is(
+      b.firstOf(
+        b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), parameterDeclSpecifierSeq, declarator,
+                   b.optional("=", initializerClause)), // C++
+        b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator),
+                   b.optional("=", initializerClause))) // C++
+    );
+
+    b.rule(parameterDeclSpecifierSeq).is( // is decl-specifier-seq
+      b.zeroOrMore(
+        b.nextNot(b.optional(declarator), b.firstOf("=", ")", ",")), declSpecifier, b.optional("...") // todo wrong ...
+      ),
+      b.optional(attributeSpecifierSeq)
+    ).skipIfOneChild();
+
+    b.rule(initializer).is(
+      b.firstOf(
+        braceOrEqualInitializer, // C++
+        b.sequence("(", expressionList, ")") // C++
+      )
+    );
+
+    b.rule(braceOrEqualInitializer).is(
+      b.firstOf(
+        b.sequence("=", initializerClause), // C++
+        bracedInitList // C++
+      )
+    ).skip();
+
+    b.rule(initializerClause).is(
+      b.firstOf(
+        assignmentExpression, // C++
+        bracedInitList // C++
+      )
+    ).skipIfOneChild();
+
+    b.rule(bracedInitList).is(
+      "{",
+      b.firstOf(
+        b.sequence(LITERAL, b.oneOrMore(",", LITERAL), "}"), // syntax sugar: speed-up initialisation of big arrays
+        b.sequence(initializerList, b.optional(","), "}"), // C++
+        b.sequence(designatedInitializerList, b.optional(","), "}"), // C++
+        "}" // C++
+      )
+    );
+
+    b.rule(initializerList).is(
+      initializerClause, b.optional("..."), b.zeroOrMore(",", initializerClause, b.optional("...")) // C++
+    );
+
+    b.rule(designatedInitializerList).is(
+      designatedInitializerClause, b.zeroOrMore(",", designatedInitializerClause) // C++
+    );
+
+    b.rule(designatedInitializerClause).is(
+      b.firstOf(
+        b.sequence(designator, braceOrEqualInitializer), // C++
+        initializerClause // C99 mixed
+      )
+    );
+
+    b.rule(designator).is(
+      b.firstOf(
+        b.oneOrMore(b.sequence(".", IDENTIFIER)), // C++ & C99
+        b.sequence("[", constantExpression, "]", b.zeroOrMore(".", IDENTIFIER)), // C99 designated initializers
+        b.sequence("[", constantExpression, "...", constantExpression, "]") // EXTENSION: gcc's designated initializers range
+      )
+    );
+
+    b.rule(exprOrBracedInitList).is(
+      b.firstOf(
+        expression, // C++
+        bracedInitList // C++
+      )
+    ).skip();
+
+    b.rule(functionDefinition).is(
+      b.optional(attributeSpecifierSeq), // C++
+      b.optional(cliAttributes), // C++/CLI
+      b.optional(functionDeclSpecifierSeq), // C++
+      declarator, //C++
+      b.firstOf(
+        requiresClause,
+        b.optional(virtSpecifierSeq) // C++
+      ),
+      functionBody // C++
+    );
+
+    b.rule(functionDeclSpecifierSeq).is( // is decl-specifier-seq
+      b.oneOrMore(
+        b.nextNot( // see functionDefinition
+          declarator,
+          b.firstOf(
+            requiresClause,
+            b.optional(virtSpecifierSeq)
+          ),
+          functionBody
+        ),
+        declSpecifier // C++
+      ),
+      b.optional(attributeSpecifierSeq)
+    ).skipIfOneChild();
+
+    b.rule(functionBody).is(
+      b.firstOf(
+        b.sequence(b.optional(ctorInitializer), compoundStatement), // C++
+        functionTryBlock, // C++
+        b.sequence("=", CxxKeyword.DELETE, ";"), // C++
+        b.sequence("=", CxxKeyword.DEFAULT, ";") // C++
+      )
     );
 
     b.rule(enumName).is(
@@ -1278,8 +1543,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(enumHead).is(
-      b.optional(vcAtlAttribute), b.optional(cliTopLevelVisibility), enumKey, b.optional(attributeSpecifierSeq), b
-      .optional(enumHeadName), b.optional(enumBase) // C++
+      b.optional(vcAtlAttribute), b.optional(cliTopLevelVisibility), enumKey, b.optional(attributeSpecifierSeq),
+      b.optional(enumHeadName), b.optional(enumBase) // C++
     );
 
     b.rule(enumHeadName).is(
@@ -1330,12 +1595,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(namedNamespaceDefinition).is(
-      b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, b.optional(attributeSpecifierSeq), IDENTIFIER, "{",
-      namespaceBody, "}" // C++
+      b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, b.optional(attributeSpecifierSeq), IDENTIFIER,
+      "{", namespaceBody, "}" // C++
     );
 
     b.rule(unnamedNamespaceDefinition).is(
-      b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, b.optional(attributeSpecifierSeq), "{", namespaceBody, "}" // C++
+      b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, b.optional(attributeSpecifierSeq),
+      "{", namespaceBody, "}" // C++
     );
 
     b.rule(nestedNamespaceDefinition).is(
@@ -1363,6 +1629,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.optional(nestedNameSpecifier), namespaceName // C++
     );
 
+    b.rule(usingDirective).is(
+      b.optional(attributeSpecifierSeq), CxxKeyword.USING, CxxKeyword.NAMESPACE, b.optional(nestedNameSpecifier),
+      namespaceName, ";" // C++
+    );
+
     b.rule(usingDeclaration).is(
       CxxKeyword.USING, usingDeclaratorList, ";" // C++
     );
@@ -1373,11 +1644,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(usingDeclarator).is(
       b.optional(CxxKeyword.TYPENAME), nestedNameSpecifier, unqualifiedId // C++
-    );
-
-    b.rule(usingDirective).is(
-      b.optional(attributeSpecifierSeq), CxxKeyword.USING, CxxKeyword.NAMESPACE, b.optional(nestedNameSpecifier),
-      namespaceName, ";" // C++
     );
 
     b.rule(asmDeclaration).is(
@@ -1474,296 +1740,28 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
   }
 
-  // A.7 Declarators
-  //
-  private static void declarators(LexerfulGrammarBuilder b) {
-    b.rule(initDeclaratorList).is(
-      initDeclarator, b.zeroOrMore(",", initDeclarator) // C++
-    );
-
-    b.rule(initDeclarator).is(
-      declarator,
-      b.firstOf(
-        requiresClause,
-        b.sequence(b.optional(asmLabel), b.optional(initializer)) // C++ (asmLabel: GCC ASM label)
-      )
-    );
-
-    b.rule(declarator).is(
-      b.firstOf(
-        ptrDeclarator, // C++
-        b.sequence(noptrDeclarator, parametersAndQualifiers, trailingReturnType) // C++
-      )
-    );
-
-    b.rule(ptrDeclarator).is(
-      b.firstOf(
-        b.sequence(ptrOperator, ptrDeclarator), // C++
-        noptrDeclarator // C++ (PEG: different order)
-      )
-    ).skipIfOneChild();
-
-    b.rule(noptrDeclarator).is(
-      b.firstOf(
-        b.sequence(declaratorId, b.optional(attributeSpecifierSeq)), // C++
-        b.sequence("(", ptrDeclarator, ")") // C++
-      ),
-      b.zeroOrMore(
-        b.firstOf(
-          parametersAndQualifiers,
-          b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
-        )
-      )
-    ).skipIfOneChild();
-
-    b.rule(parametersAndQualifiers).is(
-      "(", parameterDeclarationClause, ")", // C++
-      b.optional(attributeSpecifierSeq), // C++ todo wrong position
-      b.optional(cvQualifierSeq), // C++
-      b.optional(cliFunctionModifiers), // C++/CLI
-      b.optional(refQualifier), // C++
-      b.optional(noexceptSpecifier), // C++
-      b.optional(trailingReturnType) // todo wrong?
-    );
-
-    b.rule(trailingReturnType).is(
-      "->", typeId // C++
-    );
-
-    b.rule(ptrOperator).is(
-      b.firstOf(
-        b.sequence("*", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq)), // C++
-        b.sequence("&", b.optional(attributeSpecifierSeq)), // C++
-        b.sequence("&&", b.optional(attributeSpecifierSeq)), // C++
-        b.sequence(nestedNameSpecifier, "*", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq)), //C++
-        //C++/CLI handle reference
-        b.sequence("^", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq)), // C++/CLI
-        b.sequence("%", b.optional(attributeSpecifierSeq)), // C++/CLI
-        // C++/CLI tracking reference
-        b.sequence("^%", b.optional(attributeSpecifierSeq)) // C++/CLI
-      )
-    );
-
-    b.rule(cvQualifierSeq).is(
-      b.oneOrMore(cvQualifier) // C++
-    ).skipIfOneChild();
-
-    b.rule(cvQualifier).is(
-      b.firstOf(CxxKeyword.CONST, CxxKeyword.VOLATILE) // C++
-    );
-
-    b.rule(refQualifier).is(
-      b.firstOf("&", "&&") // C++
-    );
-
-    b.rule(declaratorId).is(
-      b.firstOf(
-        b.sequence(b.optional(nestedNameSpecifier), className), // todo wrong?
-        b.sequence(b.optional("..."), idExpression) // C++
-      )
-    );
-
-    b.rule(typeId).is(
-      typeSpecifierSeq, b.optional(abstractDeclarator) // C++
-    ).skip();
-
-    b.rule(definingTypeId).is(
-      definingTypeSpecifierSeq, b.optional(abstractDeclarator) // C++
-    );
-
-    b.rule(abstractDeclarator).is(
-      b.firstOf(
-        ptrAbstractDeclarator, // C++
-        b.sequence(b.optional(noptrAbstractDeclarator), parametersAndQualifiers, trailingReturnType), // C++
-        abstractPackDeclarator // C++
-      )
-    );
-
-    b.rule(ptrAbstractDeclarator).is(
-      b.oneOrMore(
-        b.firstOf(noptrAbstractDeclarator, ptrOperator) // C++ //todo wrong?
-      )
-    );
-
-    b.rule(noptrAbstractDeclarator).is(
-      b.oneOrMore(
-        b.firstOf(
-          parametersAndQualifiers, // C++
-          b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq)), // C++
-          b.sequence("(", ptrAbstractDeclarator, ")") // C++
-        )
-      )
-    );
-
-    b.rule(abstractPackDeclarator).is(
-      b.firstOf(
-        noptrAbstractPackDeclarator, // C++
-        b.sequence(ptrOperator, abstractPackDeclarator) // C++
-      )
-    );
-
-    b.rule(noptrAbstractPackDeclarator).is(
-      b.oneOrMore(
-        b.firstOf(
-          parametersAndQualifiers, // C++
-          b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq)), // C++
-          "..." // C++
-        )
-      )
-    );
-
-    b.rule(parameterDeclarationClause).is(
-      b.firstOf(
-        b.sequence(parameterDeclarationList, ",", "..."), // C++
-        b.sequence(b.optional(parameterDeclarationList), b.optional("...")), // C++ (PEG: different order)
-        cliParameterArray // C++/CLI
-      )
-    );
-
-    b.rule(cliParameterArray).is(
-      b.optional(attribute), "...", parameterDeclaration
-    );
-
-    b.rule(parameterDeclarationList).is(
-      parameterDeclaration, b.zeroOrMore(",", parameterDeclaration) // C++
-    );
-
-    b.rule(parameterDeclaration).is( //todo wrong
-      b.firstOf(
-        b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), parameterDeclSpecifierSeq, declarator,
-                   b.optional("=", initializerClause)), // C++
-        b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator), b
-                   .optional("=", initializerClause))) // C++
-    );
-
-    b.rule(parameterDeclSpecifierSeq).is( // todo is decl-specifier-seq
-      b.zeroOrMore(
-        b.nextNot(b.optional(declarator), b.firstOf("=", ")", ",")), declSpecifier, b.optional("...")
-      ),
-      b.optional(attributeSpecifierSeq)
-    ).skipIfOneChild();
-
-    b.rule(functionDefinition).is(
-      b.optional(attributeSpecifierSeq), // C++
-      b.optional(cliAttributes), // C++/CLI
-      b.optional(functionDeclSpecifierSeq), // todo is decl-specifier-seq
-      declarator, //C++
-      b.firstOf(
-        requiresClause,
-        b.optional(virtSpecifierSeq) // C++
-      ),
-      functionBody // C++
-    );
-
-    b.rule(functionDeclSpecifierSeq).is( // todo is decl-specifier-seq
-      b.oneOrMore(
-        b.nextNot( // see functionDefinition
-          declarator,
-          b.firstOf(
-            requiresClause,
-            b.optional(virtSpecifierSeq)
-          ),
-          functionBody
-        ),
-        declSpecifier // C++
-      ),
-      b.optional(attributeSpecifierSeq)
-    ).skipIfOneChild();
-
-    b.rule(functionBody).is(
-      b.firstOf(
-        b.sequence(b.optional(ctorInitializer), compoundStatement), // C++
-        functionTryBlock, // C++
-        b.sequence("=", CxxKeyword.DELETE, ";"), // C++
-        b.sequence("=", CxxKeyword.DEFAULT, ";") // C++
-      )
-    );
-
-    b.rule(initializer).is(
-      b.firstOf(
-        braceOrEqualInitializer, // C++
-        b.sequence("(", expressionList, ")") // C++
-      )
-    );
-
-    b.rule(braceOrEqualInitializer).is(
-      b.firstOf(
-        b.sequence("=", initializerClause), // C++
-        bracedInitList // C++
-      )
-    ).skip();
-
-    b.rule(initializerClause).is(
-      b.firstOf(
-        assignmentExpression, // C++
-        bracedInitList // C++
-      )
-    ).skipIfOneChild();
-
-    b.rule(bracedInitList).is(
-      "{",
-      b.firstOf(
-        b.sequence(LITERAL, b.oneOrMore(",", LITERAL), "}"), // syntax sugar: speed-up initialisation of big arrays
-        b.sequence(initializerList, b.optional(","), "}"), // C++
-        b.sequence(designatedInitializerList, b.optional(","), "}"), // C++
-        "}" // C++
-      )
-    );
-
-    b.rule(initializerList).is(
-      initializerClause, b.optional("..."), b.zeroOrMore(",", initializerClause, b.optional("...")) // C++
-    );
-
-    b.rule(designatedInitializerList).is(
-      designatedInitializerClause, b.zeroOrMore(",", designatedInitializerClause) // C++
-    );
-
-    b.rule(designatedInitializerClause).is(
-      b.firstOf(
-        b.sequence(designator, braceOrEqualInitializer), // C++
-        initializerClause // C99 mixed
-      )
-    );
-
-    b.rule(designator).is(
-      b.firstOf(
-        b.oneOrMore(b.sequence(".", IDENTIFIER)), // C++ & C99
-        b.sequence("[", constantExpression, "]", b.zeroOrMore(".", IDENTIFIER)), // C99 designated initializers
-        b.sequence("[", constantExpression, "...", constantExpression, "]") // EXTENSION: gcc's designated initializers range
-      )
-    );
-
-    b.rule(exprOrBracedInitList).is(
-      b.firstOf(
-        expression, // C++
-        bracedInitList // C++
-      )
-    ).skip();
-
-  }
-
-  // A.7 Modules
+  // **A.7 Modules [gram.module]**
   //
   private static void modules(LexerfulGrammarBuilder b) {
 
     b.rule(moduleDeclaration).is(
       b.optional("export"), "module", moduleName,
-      b.optional(modulePartition), b.optional(attributeSpecifierSeq), ";"
+      b.optional(modulePartition), b.optional(attributeSpecifierSeq), ";" // C++
     );
 
     b.rule(moduleName).is(
-      b.optional(moduleNameQualifier), IDENTIFIER
+      b.optional(moduleNameQualifier), IDENTIFIER // C++
     );
 
     b.rule(modulePartition).is(
-      ":", b.optional(moduleNameQualifier), IDENTIFIER
+      ":", b.optional(moduleNameQualifier), IDENTIFIER // C++
     );
 
     b.rule(moduleNameQualifier).is(
-      IDENTIFIER, ".", b.zeroOrMore(IDENTIFIER, ".")
+      IDENTIFIER, ".", b.zeroOrMore(IDENTIFIER, ".") // C++
     );
 
-    b.rule(exportDeclaration).is(
+    b.rule(exportDeclaration).is( // C++
       "export",
       b.firstOf(
         declaration,
@@ -1772,7 +1770,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(moduleImportDeclaration).is(
+    b.rule(moduleImportDeclaration).is( // C++
       "import",
       b.firstOf(
         moduleName,
@@ -1784,15 +1782,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(globalModuleFragment).is(
-      "module", ";", b.optional(declarationSeq)
+      "module", ";", b.optional(declarationSeq) // C++
     );
 
     b.rule(privateModuleFragment).is(
-      "module", ":", "private", ";", b.optional(declarationSeq)
+      "module", ":", "private", ";", b.optional(declarationSeq) // C++
     );
   }
 
-  // A.8 Classes
+  // **A.8 Classes [gram.class]**
   //
   private static void classes(LexerfulGrammarBuilder b) {
     b.rule(className).is(
@@ -1809,8 +1807,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(classHead).is(
       b.optional(cliTopLevelVisibility), b.optional(vcAtlAttribute), classKey, b.optional(attributeSpecifierSeq),
       b.firstOf(
-        b.sequence(classHeadName, b.optional(classVirtSpecifier), b.optional(baseClause), b.optional(
-                   attributeSpecifierSeq)), // C++ // todo wrong attributeSpecifierSeq
+        b.sequence(classHeadName, b.optional(classVirtSpecifier), b.optional(baseClause), // C++
+                   b.optional(attributeSpecifierSeq)), // Microsoft: attributeSpecifierSeq
         b.optional(baseClause) // C++
       )
     );
@@ -1819,7 +1817,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.optional(nestedNameSpecifier), className // C++
     );
 
-    b.rule(cliTopLevelVisibility).is(
+    b.rule(cliTopLevelVisibility).is( // C++/CLI
       b.firstOf(
         CxxKeyword.PUBLIC,
         CxxKeyword.PRIVATE
@@ -1835,9 +1833,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(classKey).is(
-      b.firstOf(b.sequence(b.optional(b.firstOf("ref", "value", "interface")), CxxKeyword.CLASS), // C++, C++/CLI
-                b.sequence(b.optional(b.firstOf("ref", "value", "interface")), CxxKeyword.STRUCT), // C++, C++/CLI
-                CxxKeyword.UNION // C++, C++/CLI
+      b.firstOf(
+        b.sequence(b.optional(b.firstOf("ref", "value", "interface")), CxxKeyword.CLASS), // C++, C++/CLI
+        b.sequence(b.optional(b.firstOf("ref", "value", "interface")), CxxKeyword.STRUCT), // C++, C++/CLI
+        CxxKeyword.UNION // C++, C++/CLI
       )
     );
 
@@ -1857,7 +1856,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
           b.optional(attributeSpecifierSeq),
           b.optional(b.firstOf(cliAttributes, vcAtlAttribute)),
           b.optional(b.firstOf("initonly", "literal")),
-          b.optional(memberDeclSpecifierSeq), // todo decl-specifier-seqopt
+          b.optional(memberDeclSpecifierSeq), // is decl-specifier-seqopt
           b.optional(memberDeclaratorList),
           ";"
         ),
@@ -1878,23 +1877,23 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(cliDelegateDeclSpecifierSeq).is(
+    b.rule(cliDelegateDeclSpecifierSeq).is( // C++/CLI
       b.oneOrMore(
         b.nextNot(b.optional(declarator), emptyDeclaration),
         declSpecifier
       )
     ).skipIfOneChild();
 
-    b.rule(cliDelegateSpecifier).is(
+    b.rule(cliDelegateSpecifier).is( // C++/CLI
       b.optional(cliAttributes), b.optional(cliTopLevelVisibility), "delegate", cliDelegateDeclSpecifierSeq, declarator,
       emptyDeclaration
     );
 
-    b.rule(memberDeclSpecifierSeq).is(
+    b.rule(memberDeclSpecifierSeq).is( // is decl-specifier-seqopt
       b.oneOrMore(
         b.nextNot(b.optional(memberDeclaratorList), emptyDeclaration), declSpecifier
       ),
-      b.optional(attributeSpecifierSeq) // todo wrong position
+      b.optional(attributeSpecifierSeq)
     ).skipIfOneChild();
 
     b.rule(memberDeclaratorList).is(
@@ -1905,11 +1904,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(
         b.sequence(declarator, requiresClause), // C++
         b.sequence(declarator, braceOrEqualInitializer), // C++
-        b.sequence(b.optional(IDENTIFIER), b.optional(attributeSpecifierSeq), ":", constantExpression, b.optional(
-                   braceOrEqualInitializer)), // C++
-        b
-          .sequence(declarator, b.optional(virtSpecifierSeq), b.optional(cliFunctionModifiers), b
-                    .optional(pureSpecifier)) // C++
+        b.sequence(b.optional(IDENTIFIER), b.optional(attributeSpecifierSeq), ":", constantExpression,
+                   b.optional(braceOrEqualInitializer)), // C++
+        b.sequence(declarator, b.optional(virtSpecifierSeq), b.optional(cliFunctionModifiers),
+                   b.optional(pureSpecifier)) // C++
       )
     );
 
@@ -1935,11 +1933,19 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(cliFunctionModifier).is(
       b.firstOf("abstract", CxxKeyword.NEW, "sealed") // C++/CLI
     );
-  }
 
-  // A.9 Derived classes
-  //
-  private static void derivedClasses(LexerfulGrammarBuilder b) {
+    b.rule(conversionFunctionId).is(
+      CxxKeyword.OPERATOR, conversionTypeId // C++
+    );
+
+    b.rule(conversionTypeId).is(
+      typeSpecifierSeq, b.optional(conversionDeclarator) // C++
+    );
+
+    b.rule(conversionDeclarator).is(
+      b.oneOrMore(ptrOperator) // C++
+    );
+
     b.rule(baseClause).is(
       ":", baseSpecifierList // C++
     );
@@ -1967,31 +1973,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(accessSpecifier).is(
       b.firstOf(
-        b.sequence(CxxKeyword.PROTECTED, CxxKeyword.PUBLIC), // ???
-        b.sequence(CxxKeyword.PUBLIC, CxxKeyword.PROTECTED), // ???
-        b.sequence(CxxKeyword.PROTECTED, CxxKeyword.PRIVATE), // ???
-        b.sequence(CxxKeyword.PRIVATE, CxxKeyword.PROTECTED), // ???
+        b.sequence(CxxKeyword.PROTECTED, CxxKeyword.PUBLIC), // C++/CLI
+        b.sequence(CxxKeyword.PUBLIC, CxxKeyword.PROTECTED), // C++/CLI
+        b.sequence(CxxKeyword.PROTECTED, CxxKeyword.PRIVATE), // C++/CLI
+        b.sequence(CxxKeyword.PRIVATE, CxxKeyword.PROTECTED), // C++/CLI
         CxxKeyword.PRIVATE, // C++
         CxxKeyword.PROTECTED, // C++
         CxxKeyword.PUBLIC, // C++
-        "internal" // ???
+        "internal" // C++/CLI
       )
-    );
-  }
-
-  // A.10 Special member functions
-  //
-  private static void specialMemberFunctions(LexerfulGrammarBuilder b) {
-    b.rule(conversionFunctionId).is(
-      CxxKeyword.OPERATOR, conversionTypeId // C++
-    );
-
-    b.rule(conversionTypeId).is(
-      typeSpecifierSeq, b.optional(conversionDeclarator) // C++
-    );
-
-    b.rule(conversionDeclarator).is(
-      b.oneOrMore(ptrOperator) // C++
     );
 
     b.rule(ctorInitializer).is(
@@ -2015,9 +2005,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         IDENTIFIER // C++
       )
     );
+
   }
 
-  // A.11 Overloading
+  // **A.9 Overloading [gram.over]**
   //
   private static void overloading(LexerfulGrammarBuilder b) {
     b.rule(operatorFunctionId).is(
@@ -2039,9 +2030,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(literalOperatorId).is(
-      // operator string-literal identifier
-      // operator user-defined-string-literal
-      CxxKeyword.OPERATOR, STRING, b.optional(IDENTIFIER)
+      CxxKeyword.OPERATOR, STRING, b.optional(IDENTIFIER) // C++ (string-literal and user-defined-string-literal is both STRING)
     );
   }
 
@@ -2124,7 +2113,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
   }
 
-  // A.12 Templates
+  // **A.10 Templates [gram.temp]**
   //
   private static void templates(LexerfulGrammarBuilder b) {
     b.rule(templateDeclaration).is(
@@ -2139,7 +2128,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       CxxKeyword.TEMPLATE,
       "<",
       b.firstOf(
-        b.sequence(templateParameterList, ">", b.optional(requiresClause)),
+        b.sequence(templateParameterList, ">", b.optional(requiresClause)), // C++
         b.sequence(b.oneOrMore(templateParameter, ","), innerTypeParameter, ">>") // syntax sugar C++
       )
     );
@@ -2172,6 +2161,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(
           typeParameterKey,
           b.firstOf(
+            typeTraits, // syntax sugar to handle type traits ... ::type
             b.sequence(b.optional(IDENTIFIER), "=", typeId), // C++
             b.sequence(b.optional("..."), b.optional(IDENTIFIER)) // C++ (PEG: different order)
           )
@@ -2192,6 +2182,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
           )
         )
       )
+    );
+
+    b.rule(typeTraits).is( // syntax sugar to handle type trais (not part of standard)
+      nestedNameSpecifier, "type", b.optional("*"), b.optional("=", initializerClause)
     );
 
     b.rule(innerTypeParameter).is(
@@ -2290,16 +2284,14 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       innerTemplateArgument, b.optional("..."), b.zeroOrMore(",", innerTemplateArgument, b.optional("..."))
     );
 
-    b.rule(templateArgument).is( //todo
+    b.rule(templateArgument).is(
       b.firstOf(
         b.sequence(typeId, b.next(b.firstOf(">", ",", "..."))), // C++
-        b.sequence(typenameSpecifier, b.next(b.firstOf(">", ",", "..."))), // seen in gnu system headers
-        // FIXME: workaround to parse stuff like "carray<int, 10>"
-        // actually, it should be covered by the next rule (constantExpression)
+        // FIXME: workaround to parse stuff like "carray<int, 10>" actually, it should be covered by the next rule (constantExpression)
         // but it doesnt work because of ambiguity template syntax <--> relationalExpression
         b.sequence(shiftExpression, b.next(b.firstOf(">", ",", "..."))),
-        b.sequence(constantExpression, b.next(b.firstOf(">", ",", "..."))) // C++
-      //        idExpression
+        b.sequence(constantExpression, b.next(b.firstOf(">", ",", "..."))), // C++
+        b.sequence(idExpression, b.next(b.firstOf(">", ",", "..."))) // C++
       )
     );
 
@@ -2309,17 +2301,21 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(typenameSpecifier, b.next(b.firstOf(">>", ",", "..."))), // seen in gnu system headers
         // FIXME: workaround to parse stuff like "carray<int, 10>", see above
         b.sequence(additiveExpression, b.next(b.firstOf(">>", ","))),
-        b.sequence(constantExpression, b.next(b.firstOf(">>", ",")))
-      //        idExpression
+        b.sequence(constantExpression, b.next(b.firstOf(">>", ","))),
+        b.sequence(idExpression, b.next(b.firstOf(">>", ",")))
       )
     );
 
     b.rule(constraintExpression).is(
-      logicalOrExpression
+      logicalOrExpression // C++
+    );
+
+    b.rule(deductionGuide).is(
+      b.optional(explicitSpecifier), templateName, "(", parameterDeclarationClause, ")", "->", simpleTemplateId, ";" // C++
     );
 
     b.rule(conceptDefinition).is(
-      CxxKeyword.CONCEPT, conceptName, "=", constraintExpression, ";"
+      CxxKeyword.CONCEPT, conceptName, "=", constraintExpression, ";" // C++
     );
 
     b.rule(conceptName).is(
@@ -2352,9 +2348,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       CxxKeyword.TEMPLATE, "<", ">", declaration // C++
     );
 
-    b.rule(deductionGuide).is(
-      b.optional(CxxKeyword.EXTERN), templateName, "(", parameterDeclarationClause, ")", "->", simpleTemplateId, ";" // C++ // todo EXTERN
-    );
   }
 
   private static void generics(LexerfulGrammarBuilder b) {
@@ -2407,7 +2400,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
   }
 
-  // A.13 Exception handling
+  // **A.11 Exception handling [gram.except]**
   //
   private static void exceptionHandling(LexerfulGrammarBuilder b) {
 
@@ -2448,8 +2441,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             b.optional(abstractDeclarator) // C++
           )
         ),
-        b.sequence(b.optional(attributeSpecifierSeq), typeSpecifierSeq, b.optional(abstractDeclarator)), // C++
-        "..."
+        "..." // C++
       )
     );
 
@@ -2465,7 +2457,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(typeIdList).is(
       b.firstOf(
         b.sequence(typeId, b.optional("..."), b.zeroOrMore(",", typeId, b.optional("..."))), // C++
-        "..."// Microsoft extension
+        "..." // Microsoft extension
       )
     );
 
