@@ -76,4 +76,14 @@ public class CheckUtils {
     return false;
   }
 
+  public static boolean isFunctionDefinition(AstNode node) {
+    if (node.is(CxxGrammarImpl.functionDefinition)) {
+      AstNode decl = node.getFirstDescendant(CxxGrammarImpl.declarator);
+      if (decl != null && decl.hasDescendant(CxxGrammarImpl.parametersAndQualifiers)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }

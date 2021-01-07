@@ -27,3 +27,6 @@ void MyClass::method_name_ok1()
 void MyClass::too_long_function_name_because_it_has_more_than_30_characters1()
 {
 }
+
+// #2027
+int bar {};
