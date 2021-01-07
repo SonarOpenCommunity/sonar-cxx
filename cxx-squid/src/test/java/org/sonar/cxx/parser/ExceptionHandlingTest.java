@@ -20,57 +20,58 @@
 package org.sonar.cxx.parser;
 
 import org.junit.Test;
-import static org.sonar.sslr.tests.Assertions.assertThat;
 
 public class ExceptionHandlingTest extends ParserBaseTestHelper {
 
   @Test
   public void exceptionDeclaration() {
-    p.setRootRule(g.rule(CxxGrammarImpl.exceptionDeclaration));
+    setRootRule(CxxGrammarImpl.exceptionDeclaration);
 
     mockRule(CxxGrammarImpl.typeSpecifierSeq);
     mockRule(CxxGrammarImpl.declarator);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.abstractDeclarator);
 
-    assertThat(p).matches("...");
-
-    assertThat(p).matches("typeSpecifierSeq declarator");
-    assertThat(p).matches("attributeSpecifierSeq typeSpecifierSeq declarator");
-
-    assertThat(p).matches("typeSpecifierSeq");
-    assertThat(p).matches("attributeSpecifierSeq typeSpecifierSeq abstractDeclarator");
+    assertThatParser()
+      .matches("...")
+      .matches("typeSpecifierSeq declarator")
+      .matches("attributeSpecifierSeq typeSpecifierSeq declarator")
+      .matches("typeSpecifierSeq")
+      .matches("attributeSpecifierSeq typeSpecifierSeq abstractDeclarator");
   }
 
   @Test
   public void exceptionSpecification_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.noexceptSpecifier));
+    setRootRule(CxxGrammarImpl.noexceptSpecifier);
 
-    assertThat(p).matches("throw()");
-    assertThat(p).matches("throw(...)");
+    assertThatParser()
+      .matches("throw()")
+      .matches("throw(...)");
   }
 
   @Test
   public void typeIdList() {
-    p.setRootRule(g.rule(CxxGrammarImpl.typeIdList));
+    setRootRule(CxxGrammarImpl.typeIdList);
 
     mockRule(CxxGrammarImpl.typeId);
 
-    assertThat(p).matches("typeId");
-    assertThat(p).matches("typeId ...");
-    assertThat(p).matches("typeId , typeId");
-    assertThat(p).matches("typeId , typeId ...");
-    assertThat(p).matches("...");
+    assertThatParser()
+      .matches("typeId")
+      .matches("typeId ...")
+      .matches("typeId , typeId")
+      .matches("typeId , typeId ...")
+      .matches("...");
   }
 
   @Test
   public void noexceptSpecification() {
-    p.setRootRule(g.rule(CxxGrammarImpl.noexceptSpecifier));
+    setRootRule(CxxGrammarImpl.noexceptSpecifier);
 
     mockRule(CxxGrammarImpl.constantExpression);
 
-    assertThat(p).matches("noexcept");
-    assertThat(p).matches("noexcept ( constantExpression )");
+    assertThatParser()
+      .matches("noexcept")
+      .matches("noexcept ( constantExpression )");
   }
 
 }

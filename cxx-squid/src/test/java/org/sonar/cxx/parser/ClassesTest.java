@@ -20,29 +20,30 @@
 package org.sonar.cxx.parser;
 
 import org.junit.Test;
-import static org.sonar.sslr.tests.Assertions.assertThat;
 
 public class ClassesTest extends ParserBaseTestHelper {
 
   @Test
   public void className_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.className));
+    setRootRule(CxxGrammarImpl.className);
 
-    assertThat(p).matches("lala<int>");
+    assertThatParser()
+      .matches("lala<int>");
   }
 
   @Test
   public void classSpecifier_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.classSpecifier));
+    setRootRule(CxxGrammarImpl.classSpecifier);
 
-    assertThat(p).matches("class foo final : bar { }");
-    assertThat(p).matches("class foo final : bar { ; }");
-    assertThat(p).matches("class foo final : bar { int foo(); }");
+    assertThatParser()
+      .matches("class foo final : bar { }")
+      .matches("class foo final : bar { ; }")
+      .matches("class foo final : bar { int foo(); }");
   }
 
   @Test
   public void classHead() {
-    p.setRootRule(g.rule(CxxGrammarImpl.classHead));
+    setRootRule(CxxGrammarImpl.classHead);
 
     mockRule(CxxGrammarImpl.classKey);
     mockRule(CxxGrammarImpl.classHeadName);
@@ -50,54 +51,56 @@ public class ClassesTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.baseClause);
     mockRule(CxxGrammarImpl.classVirtSpecifier);
 
-    assertThat(p).matches("classKey classHeadName");
-    assertThat(p).matches("classKey attributeSpecifierSeq classHeadName");
-    assertThat(p).matches("classKey attributeSpecifierSeq classHeadName classVirtSpecifier");
-    assertThat(p).matches("classKey attributeSpecifierSeq classHeadName classVirtSpecifier baseClause");
-
-    assertThat(p).matches("classKey");
-    assertThat(p).matches("classKey attributeSpecifierSeq");
-    assertThat(p).matches("classKey attributeSpecifierSeq baseClause");
+    assertThatParser()
+      .matches("classKey classHeadName")
+      .matches("classKey attributeSpecifierSeq classHeadName")
+      .matches("classKey attributeSpecifierSeq classHeadName classVirtSpecifier")
+      .matches("classKey attributeSpecifierSeq classHeadName classVirtSpecifier baseClause")
+      .matches("classKey")
+      .matches("classKey attributeSpecifierSeq")
+      .matches("classKey attributeSpecifierSeq baseClause");
   }
 
   @Test
   public void classHeadName() {
-    p.setRootRule(g.rule(CxxGrammarImpl.classHeadName));
+    setRootRule(CxxGrammarImpl.classHeadName);
 
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.className);
 
-    assertThat(p).matches("className");
-    assertThat(p).matches("nestedNameSpecifier className");
+    assertThatParser()
+      .matches("className")
+      .matches("nestedNameSpecifier className");
   }
 
   @Test
   public void memberSpecification() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memberSpecification));
+    setRootRule(CxxGrammarImpl.memberSpecification);
 
     mockRule(CxxGrammarImpl.memberDeclaration);
     mockRule(CxxGrammarImpl.accessSpecifier);
 
-    assertThat(p).matches("memberDeclaration");
-    assertThat(p).matches("memberDeclaration accessSpecifier :");
-
-    assertThat(p).matches("accessSpecifier :");
-    assertThat(p).matches("accessSpecifier : memberDeclaration");
+    assertThatParser()
+      .matches("memberDeclaration")
+      .matches("memberDeclaration accessSpecifier :")
+      .matches("accessSpecifier :")
+      .matches("accessSpecifier : memberDeclaration");
   }
 
   @Test
   public void memberSpecification_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memberSpecification));
+    setRootRule(CxxGrammarImpl.memberSpecification);
 
-    assertThat(p).matches("int foo();");
-    assertThat(p).matches("protected:");
-    assertThat(p).matches("Result (*ptr)();");
-    assertThat(p).matches("protected: Result (*ptr)();");
+    assertThatParser()
+      .matches("int foo();")
+      .matches("protected:")
+      .matches("Result (*ptr)();")
+      .matches("protected: Result (*ptr)();");
   }
 
   @Test
   public void memberDeclaration() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memberDeclaration));
+    setRootRule(CxxGrammarImpl.memberDeclaration);
 
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.memberDeclSpecifierSeq);
@@ -118,88 +121,85 @@ public class ClassesTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.cliDelegateSpecifier);
     mockRule(CxxGrammarImpl.cliGenericDeclaration);
 
-    assertThat(p).matches(";");
-    assertThat(p).matches("attributeSpecifierSeq ;");
-    assertThat(p).matches("memberDeclSpecifierSeq ;");
-    assertThat(p).matches("memberDeclaratorList ;");
-    assertThat(p).matches("attributeSpecifierSeq memberDeclSpecifierSeq memberDeclaratorList ;");
-
-    assertThat(p).matches("functionDefinition");
-    assertThat(p).matches("usingDeclaration");
-    assertThat(p).matches("usingEnumDeclaration");
-    assertThat(p).matches("staticAssertDeclaration");
-    assertThat(p).matches("templateDeclaration");
-    assertThat(p).matches("explicitSpecialization");
-    assertThat(p).matches("deductionGuide");
-    assertThat(p).matches("aliasDeclaration");
-    assertThat(p).matches("opaqueEnumDeclaration");
-    assertThat(p).matches("emptyDeclaration");
-
-    assertThat(p).matches("cliPropertyDefinition");
-    assertThat(p).matches("cliEventDefinition");
-    assertThat(p).matches("cliDelegateSpecifier");
-    assertThat(p).matches("cliGenericDeclaration");
+    assertThatParser()
+      .matches(";")
+      .matches("attributeSpecifierSeq ;")
+      .matches("memberDeclSpecifierSeq ;")
+      .matches("memberDeclaratorList ;")
+      .matches("attributeSpecifierSeq memberDeclSpecifierSeq memberDeclaratorList ;")
+      .matches("functionDefinition")
+      .matches("usingDeclaration")
+      .matches("usingEnumDeclaration")
+      .matches("staticAssertDeclaration")
+      .matches("templateDeclaration")
+      .matches("explicitSpecialization")
+      .matches("deductionGuide")
+      .matches("aliasDeclaration")
+      .matches("opaqueEnumDeclaration")
+      .matches("emptyDeclaration")
+      .matches("cliPropertyDefinition")
+      .matches("cliEventDefinition")
+      .matches("cliDelegateSpecifier")
+      .matches("cliGenericDeclaration");
   }
 
   @Test
   public void memberDeclaration_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memberDeclaration));
+    setRootRule(CxxGrammarImpl.memberDeclaration);
 
-    assertThat(p).matches("int foo();");
-    assertThat(p).matches("int foo(){}");
-
-    assertThat(p).matches("char tword[20];");
-    assertThat(p).matches("int count;");
-    assertThat(p).matches("tnode *left;");
-    assertThat(p).matches("tnode *right;");
-    assertThat(p).matches("Result (*ptr)();");
-    assertThat(p).matches("A(const ::P& c) : m_value(c){}");
-    assertThat(p).matches("void foo(::P& c) {}");
-
-    assertThat(p).matches("property int Property_Block {int get();}");
-    assertThat(p).matches("property int Property_Block {int get() {return MyInt;}}");
-    assertThat(p).matches("property int^ Caption {void set(int ^value) {caption=value;}}");
-    assertThat(p).matches("property int^ Caption {int ^get() {return caption;}}");
-    assertThat(p).matches("property String^ Caption {int ^String() {return caption;}}");
-    assertThat(p).matches("property System::String^ Caption {int ^String() {return caption;}}");
-
-    assertThat(p).matches("event ClickEventHandler^ OnClick;");
-    assertThat(p).matches("event MyDel^ E {raise() {pE->Invoke();}}");
-
-    assertThat(p).matches("generic<typename T> ref class List {};");
-    assertThat(p).matches("generic<typename T> ref class Queue : public List<T> {};");
-    assertThat(p).matches("generic <typename ItemType> ref class Stack { void Add(ItemType item) {}};");
-    assertThat(p).matches("generic <typename ItemType> ref struct Stack { void Add(ItemType item) {}};");
-
-    assertThat(p).matches("delegate void MyDel();");
-    assertThat(p).matches("public delegate void MyDel();");
-    assertThat(p).matches("delegate void ClickEventHandler(int, double);");
-    assertThat(p).matches("delegate void Del(int i);");
-    assertThat(p).matches("public delegate void DblClickEventHandler(String^);");
+    assertThatParser()
+      .matches("int foo();")
+      .matches("int foo(){}")
+      .matches("char tword[20];")
+      .matches("int count;")
+      .matches("tnode *left;")
+      .matches("tnode *right;")
+      .matches("Result (*ptr)();")
+      .matches("A(const ::P& c) : m_value(c){}")
+      .matches("void foo(::P& c) {}")
+      .matches("property int Property_Block {int get();}")
+      .matches("property int Property_Block {int get() {return MyInt;}}")
+      .matches("property int^ Caption {void set(int ^value) {caption=value;}}")
+      .matches("property int^ Caption {int ^get() {return caption;}}")
+      .matches("property String^ Caption {int ^String() {return caption;}}")
+      .matches("property System::String^ Caption {int ^String() {return caption;}}")
+      .matches("event ClickEventHandler^ OnClick;")
+      .matches("event MyDel^ E {raise() {pE->Invoke();}}")
+      .matches("generic<typename T> ref class List {};")
+      .matches("generic<typename T> ref class Queue : public List<T> {};")
+      .matches("generic <typename ItemType> ref class Stack { void Add(ItemType item) {}};")
+      .matches("generic <typename ItemType> ref struct Stack { void Add(ItemType item) {}};")
+      .matches("delegate void MyDel();")
+      .matches("public delegate void MyDel();")
+      .matches("delegate void ClickEventHandler(int, double);")
+      .matches("delegate void Del(int i);")
+      .matches("public delegate void DblClickEventHandler(String^);");
   }
 
   ;
 
   @Test
   public void memberDeclaratorList() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memberDeclaratorList));
+    setRootRule(CxxGrammarImpl.memberDeclaratorList);
 
     mockRule(CxxGrammarImpl.memberDeclarator);
 
-    assertThat(p).matches("memberDeclarator");
-    assertThat(p).matches("memberDeclarator , memberDeclarator");
+    assertThatParser()
+      .matches("memberDeclarator")
+      .matches("memberDeclarator , memberDeclarator");
   }
 
   @Test
   public void memberDeclaratorList_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memberDeclaratorList));
+    setRootRule(CxxGrammarImpl.memberDeclaratorList);
 
-    assertThat(p).matches("tword[20]");
+    assertThatParser()
+      .matches("tword[20]");
   }
 
   @Test
   public void memberDeclarator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memberDeclarator));
+    setRootRule(CxxGrammarImpl.memberDeclarator);
 
     mockRule(CxxGrammarImpl.declarator);
     mockRule(CxxGrammarImpl.pureSpecifier);
@@ -209,113 +209,117 @@ public class ClassesTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.virtSpecifierSeq);
     mockRule(CxxGrammarImpl.requiresClause);
 
-    assertThat(p).matches("declarator");
-    assertThat(p).matches("declarator virtSpecifierSeq");
-    assertThat(p).matches("declarator virtSpecifierSeq pureSpecifier");
-    assertThat(p).matches("declarator pureSpecifier");
-
-    assertThat(p).matches("declarator requiresClause");
-    assertThat(p).matches("declarator braceOrEqualInitializer");
-
-    assertThat(p).matches(": constantExpression");
-    assertThat(p).matches("foo : constantExpression");
-    assertThat(p).matches("foo attributeSpecifierSeq : constantExpression");
-    assertThat(p).matches(": constantExpression braceOrEqualInitializer");
-    assertThat(p).matches("foo : constantExpression braceOrEqualInitializer");
-    assertThat(p).matches("foo attributeSpecifierSeq : constantExpression braceOrEqualInitializer");
+    assertThatParser()
+      .matches("declarator")
+      .matches("declarator virtSpecifierSeq")
+      .matches("declarator virtSpecifierSeq pureSpecifier")
+      .matches("declarator pureSpecifier")
+      .matches("declarator requiresClause")
+      .matches("declarator braceOrEqualInitializer")
+      .matches(": constantExpression")
+      .matches("foo : constantExpression")
+      .matches("foo attributeSpecifierSeq : constantExpression")
+      .matches(": constantExpression braceOrEqualInitializer")
+      .matches("foo : constantExpression braceOrEqualInitializer")
+      .matches("foo attributeSpecifierSeq : constantExpression braceOrEqualInitializer");
   }
 
   @Test
   public void memberDeclarator_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memberDeclarator));
+    setRootRule(CxxGrammarImpl.memberDeclarator);
 
-    assertThat(p).matches("tword[20]");
-    assertThat(p).matches("ThisAllocated : 1");
+    assertThatParser()
+      .matches("tword[20]")
+      .matches("ThisAllocated : 1");
   }
 
   @Test
   public void virtSpecifierSeq() {
-    p.setRootRule(g.rule(CxxGrammarImpl.virtSpecifierSeq));
+    setRootRule(CxxGrammarImpl.virtSpecifierSeq);
 
     mockRule(CxxGrammarImpl.virtSpecifier);
 
-    assertThat(p).matches("virtSpecifier");
-    assertThat(p).matches("virtSpecifier virtSpecifier");
+    assertThatParser()
+      .matches("virtSpecifier")
+      .matches("virtSpecifier virtSpecifier");
   }
 
   @Test
   public void virtSpecifierSeq_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.virtSpecifierSeq));
+    setRootRule(CxxGrammarImpl.virtSpecifierSeq);
 
-    assertThat(p).matches("override");
-    assertThat(p).matches("final");
-    assertThat(p).matches("override final");
-    assertThat(p).matches("final override");
+    assertThatParser()
+      .matches("override")
+      .matches("final")
+      .matches("override final")
+      .matches("final override");
   }
 
   @Test
   public void cliFunctionModifier_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.cliFunctionModifier));
+    setRootRule(CxxGrammarImpl.cliFunctionModifier);
 
-    assertThat(p).matches("abstract");
-    assertThat(p).matches("new");
-    assertThat(p).matches("sealed");
+    assertThatParser()
+      .matches("abstract")
+      .matches("new")
+      .matches("sealed");
   }
 
   @Test
   public void virtSpecifier() {
-    p.setRootRule(g.rule(CxxGrammarImpl.virtSpecifier));
+    setRootRule(CxxGrammarImpl.virtSpecifier);
 
-    assertThat(p).matches("override");
-    assertThat(p).matches("final");
+    assertThatParser()
+      .matches("override")
+      .matches("final");
   }
 
   @Test
   public void baseSpecifierList() {
-    p.setRootRule(g.rule(CxxGrammarImpl.baseSpecifierList));
+    setRootRule(CxxGrammarImpl.baseSpecifierList);
 
     mockRule(CxxGrammarImpl.baseSpecifier);
 
-    assertThat(p).matches("baseSpecifier");
-    assertThat(p).matches("baseSpecifier ...");
-
-    assertThat(p).matches("baseSpecifier , baseSpecifier");
-    assertThat(p).matches("baseSpecifier , baseSpecifier ...");
-    assertThat(p).matches("baseSpecifier ..., baseSpecifier ...");
+    assertThatParser()
+      .matches("baseSpecifier")
+      .matches("baseSpecifier ...")
+      .matches("baseSpecifier , baseSpecifier")
+      .matches("baseSpecifier , baseSpecifier ...")
+      .matches("baseSpecifier ..., baseSpecifier ...");
   }
 
   @Test
   public void baseSpecifier() {
-    p.setRootRule(g.rule(CxxGrammarImpl.baseSpecifier));
+    setRootRule(CxxGrammarImpl.baseSpecifier);
 
     mockRule(CxxGrammarImpl.classOrDecltype);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.accessSpecifier);
 
-    assertThat(p).matches("classOrDecltype");
-    assertThat(p).matches("attributeSpecifierSeq classOrDecltype");
-
-    assertThat(p).matches("virtual classOrDecltype");
-    assertThat(p).matches("attributeSpecifierSeq virtual accessSpecifier classOrDecltype");
-
-    assertThat(p).matches("accessSpecifier classOrDecltype");
-    assertThat(p).matches("attributeSpecifierSeq accessSpecifier virtual classOrDecltype");
+    assertThatParser()
+      .matches("classOrDecltype")
+      .matches("attributeSpecifierSeq classOrDecltype")
+      .matches("virtual classOrDecltype")
+      .matches("attributeSpecifierSeq virtual accessSpecifier classOrDecltype")
+      .matches("accessSpecifier classOrDecltype")
+      .matches("attributeSpecifierSeq accessSpecifier virtual classOrDecltype");
   }
 
   @Test
   public void classOrDecltype() {
-    p.setRootRule(g.rule(CxxGrammarImpl.classOrDecltype));
+    setRootRule(CxxGrammarImpl.classOrDecltype);
 
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.typeName);
     mockRule(CxxGrammarImpl.simpleTemplateId);
     mockRule(CxxGrammarImpl.decltypeSpecifier);
 
-    assertThat(p).matches("typeName");
-    assertThat(p).matches("nestedNameSpecifier typeName");
-    assertThat(p).matches("template simpleTemplateId");
-    assertThat(p).matches("nestedNameSpecifier template simpleTemplateId");
-    assertThat(p).matches("decltypeSpecifier");
+    assertThatParser()
+      .matches("typeName")
+      .matches("nestedNameSpecifier typeName")
+      .matches("template simpleTemplateId")
+      .matches("nestedNameSpecifier template simpleTemplateId")
+      .matches("decltypeSpecifier");
   }
 
 }

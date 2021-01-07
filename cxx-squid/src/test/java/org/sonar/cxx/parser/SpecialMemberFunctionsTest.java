@@ -20,54 +20,58 @@
 package org.sonar.cxx.parser;
 
 import org.junit.Test;
-import static org.sonar.sslr.tests.Assertions.assertThat;
 
 public class SpecialMemberFunctionsTest extends ParserBaseTestHelper {
 
   @Test
   public void ctorInitializer_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.ctorInitializer));
+    setRootRule(CxxGrammarImpl.ctorInitializer);
 
-    assertThat(p).matches(": theValue(v)");
+    assertThatParser()
+      .matches(": theValue(v)");
   }
 
   @Test
   public void memInitializerList() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memInitializerList));
+    setRootRule(CxxGrammarImpl.memInitializerList);
 
     mockRule(CxxGrammarImpl.memInitializer);
 
-    assertThat(p).matches("memInitializer");
-    assertThat(p).matches("memInitializer ...");
-    assertThat(p).matches("memInitializer , memInitializer");
-    assertThat(p).matches("memInitializer , memInitializer ...");
+    assertThatParser()
+      .matches("memInitializer")
+      .matches("memInitializer ...")
+      .matches("memInitializer , memInitializer")
+      .matches("memInitializer , memInitializer ...");
   }
 
   @Test
   public void memInitializer() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memInitializer));
+    setRootRule(CxxGrammarImpl.memInitializer);
 
     mockRule(CxxGrammarImpl.memInitializerId);
     mockRule(CxxGrammarImpl.expressionList);
     mockRule(CxxGrammarImpl.bracedInitList);
 
-    assertThat(p).matches("memInitializerId ( )");
-    assertThat(p).matches("memInitializerId ( expressionList )");
-    assertThat(p).matches("memInitializerId bracedInitList");
+    assertThatParser()
+      .matches("memInitializerId ( )")
+      .matches("memInitializerId ( expressionList )")
+      .matches("memInitializerId bracedInitList");
   }
 
   @Test
   public void memInitializer_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memInitializer));
+    setRootRule(CxxGrammarImpl.memInitializer);
 
-    assertThat(p).matches("theValue(v)");
+    assertThatParser()
+      .matches("theValue(v)");
   }
 
   @Test
   public void memInitializerId_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memInitializerId));
+    setRootRule(CxxGrammarImpl.memInitializerId);
 
-    assertThat(p).matches("theValue");
+    assertThatParser()
+      .matches("theValue");
   }
 
 }

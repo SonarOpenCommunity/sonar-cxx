@@ -20,82 +20,87 @@
 package org.sonar.cxx.parser;
 
 import org.junit.Test;
-import static org.sonar.sslr.tests.Assertions.assertThat;
 
 public class DeclaratorsTest extends ParserBaseTestHelper {
 
   @Test
   public void initDeclarator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.initDeclarator));
+    setRootRule(CxxGrammarImpl.initDeclarator);
 
     mockRule(CxxGrammarImpl.declarator);
     mockRule(CxxGrammarImpl.asmLabel);
     mockRule(CxxGrammarImpl.initializer);
     mockRule(CxxGrammarImpl.requiresClause);
 
-    assertThat(p).matches("declarator");
-    assertThat(p).matches("declarator requiresClause");
-    assertThat(p).matches("declarator initializer");
-    assertThat(p).matches("declarator asmLabel");
-    assertThat(p).matches("declarator asmLabel initializer");
+    assertThatParser()
+      .matches("declarator")
+      .matches("declarator requiresClause")
+      .matches("declarator initializer")
+      .matches("declarator asmLabel")
+      .matches("declarator asmLabel initializer");
   }
 
   @Test
   public void initDeclaratorList() {
-    p.setRootRule(g.rule(CxxGrammarImpl.initDeclaratorList));
+    setRootRule(CxxGrammarImpl.initDeclaratorList);
 
     mockRule(CxxGrammarImpl.initDeclarator);
 
-    assertThat(p).matches("initDeclarator");
-    assertThat(p).matches("initDeclarator , initDeclarator");
+    assertThatParser()
+      .matches("initDeclarator")
+      .matches("initDeclarator , initDeclarator");
   }
 
   @Test
   public void initDeclaratorList_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.initDeclaratorList));
+    setRootRule(CxxGrammarImpl.initDeclaratorList);
 
-    assertThat(p).matches("a");
-    assertThat(p).matches("foo(string, bool)");
+    assertThatParser()
+      .matches("a")
+      .matches("foo(string, bool)");
   }
 
   @Test
   public void initDeclarator_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.initDeclarator));
+    setRootRule(CxxGrammarImpl.initDeclarator);
 
-    assertThat(p).matches("coll((istream_iterator<string>(cin)), istream_iterator<string>())");
-    assertThat(p).matches("a");
+    assertThatParser()
+      .matches("coll((istream_iterator<string>(cin)), istream_iterator<string>())")
+      .matches("a");
   }
 
   @Test
   public void declarator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.declarator));
+    setRootRule(CxxGrammarImpl.declarator);
 
     mockRule(CxxGrammarImpl.ptrDeclarator);
     mockRule(CxxGrammarImpl.noptrDeclarator);
     mockRule(CxxGrammarImpl.parametersAndQualifiers);
     mockRule(CxxGrammarImpl.trailingReturnType);
 
-    assertThat(p).matches("ptrDeclarator");
-    assertThat(p).matches("noptrDeclarator parametersAndQualifiers trailingReturnType");
+    assertThatParser()
+      .matches("ptrDeclarator")
+      .matches("noptrDeclarator parametersAndQualifiers trailingReturnType");
   }
 
   @Test
   public void declarator_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.declarator));
+    setRootRule(CxxGrammarImpl.declarator);
 
-    assertThat(p).matches("a");
-    assertThat(p).matches("foo()");
-    assertThat(p).matches("max(int a, int b, int c)");
-    assertThat(p).matches("tword[20]");
-    assertThat(p).matches("*what() throw()");
-    assertThat(p).matches("foo(string, bool)");
-    assertThat(p).matches("foo(const string p1, bool p2)");
-    assertThat(p).matches("foo(const string &p1, bool p2)");
+    assertThatParser()
+      .matches("a")
+      .matches("foo()")
+      .matches("max(int a, int b, int c)")
+      .matches("tword[20]")
+      .matches("*what() throw()")
+      .matches("foo(string, bool)")
+      .matches("foo(const string p1, bool p2)")
+      .matches("foo(const string &p1, bool p2)");
   }
 
   @Test
   public void noptrDeclarator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.noptrDeclarator));
+    setRootRule(CxxGrammarImpl.noptrDeclarator);
 
     mockRule(CxxGrammarImpl.declaratorId);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
@@ -103,27 +108,29 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.constantExpression);
     mockRule(CxxGrammarImpl.ptrDeclarator);
 
-    assertThat(p).matches("declaratorId");
-    assertThat(p).matches("declaratorId attributeSpecifierSeq");
-    assertThat(p).matches("declaratorId parametersAndQualifiers");
-    assertThat(p).matches("declaratorId [ ]");
-    assertThat(p).matches("declaratorId [ constantExpression ]");
-    assertThat(p).matches("declaratorId [ ] attributeSpecifierSeq");
-    assertThat(p).matches("declaratorId [ constantExpression ] attributeSpecifierSeq");
-    assertThat(p).matches("declaratorId [ ] attributeSpecifierSeq");
-    assertThat(p).matches("( ptrDeclarator )");
+    assertThatParser()
+      .matches("declaratorId")
+      .matches("declaratorId attributeSpecifierSeq")
+      .matches("declaratorId parametersAndQualifiers")
+      .matches("declaratorId [ ]")
+      .matches("declaratorId [ constantExpression ]")
+      .matches("declaratorId [ ] attributeSpecifierSeq")
+      .matches("declaratorId [ constantExpression ] attributeSpecifierSeq")
+      .matches("declaratorId [ ] attributeSpecifierSeq")
+      .matches("( ptrDeclarator )");
   }
 
   @Test
   public void noptrDeclarator_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.noptrDeclarator));
+    setRootRule(CxxGrammarImpl.noptrDeclarator);
 
-    assertThat(p).matches("coll");
+    assertThatParser()
+      .matches("coll");
   }
 
   @Test
   public void parametersAndQualifiers() {
-    p.setRootRule(g.rule(CxxGrammarImpl.parametersAndQualifiers));
+    setRootRule(CxxGrammarImpl.parametersAndQualifiers);
 
     mockRule(CxxGrammarImpl.parameterDeclarationClause);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
@@ -131,138 +138,149 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.refQualifier);
     mockRule(CxxGrammarImpl.noexceptSpecifier);
 
-    assertThat(p).matches("( parameterDeclarationClause )");
-    assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq");
-    assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq");
-    assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier");
-    assertThat(p).matches(
-      "( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier noexceptSpecifier");
+    assertThatParser()
+      .matches("( parameterDeclarationClause )")
+      .matches("( parameterDeclarationClause ) attributeSpecifierSeq")
+      .matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq")
+      .matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier")
+      .matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier noexceptSpecifier");
   }
 
   @Test
   public void parametersAndQualifiers_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.parametersAndQualifiers));
+    setRootRule(CxxGrammarImpl.parametersAndQualifiers);
 
-    assertThat(p).matches("(ostream& strm, const int& i)");
-    assertThat(p).matches("(string, bool)");
+    assertThatParser()
+      .matches("(ostream& strm, const int& i)")
+      .matches("(string, bool)");
   }
 
   @Test
   public void ptrDeclarator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.ptrDeclarator));
+    setRootRule(CxxGrammarImpl.ptrDeclarator);
 
     mockRule(CxxGrammarImpl.noptrDeclarator);
     mockRule(CxxGrammarImpl.ptrOperator);
 
-    assertThat(p).matches("noptrDeclarator");
-    assertThat(p).matches("ptrOperator noptrDeclarator");
-    assertThat(p).matches("ptrOperator ptrOperator noptrDeclarator");
+    assertThatParser()
+      .matches("noptrDeclarator")
+      .matches("ptrOperator noptrDeclarator")
+      .matches("ptrOperator ptrOperator noptrDeclarator");
 
   }
 
   @Test
   public void ptrDeclarator_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.ptrDeclarator));
+    setRootRule(CxxGrammarImpl.ptrDeclarator);
 
-    assertThat(p).matches("A::*foo");
+    assertThatParser()
+      .matches("A::*foo");
   }
 
   @Test
   public void ptrOperator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.ptrOperator));
+    setRootRule(CxxGrammarImpl.ptrOperator);
 
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.cvQualifierSeq);
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
 
-    assertThat(p).matches("*");
-    assertThat(p).matches("* attributeSpecifierSeq");
-    assertThat(p).matches("* attributeSpecifierSeq cvQualifierSeq");
-    assertThat(p).matches("&");
-    assertThat(p).matches("& attributeSpecifierSeq");
-    assertThat(p).matches("&&");
-    assertThat(p).matches("&& attributeSpecifierSeq");
-    assertThat(p).matches("nestedNameSpecifier *");
-    assertThat(p).matches("nestedNameSpecifier * cvQualifierSeq");
-    assertThat(p).matches("nestedNameSpecifier * attributeSpecifierSeq cvQualifierSeq");
+    assertThatParser()
+      .matches("*")
+      .matches("* attributeSpecifierSeq")
+      .matches("* attributeSpecifierSeq cvQualifierSeq")
+      .matches("&")
+      .matches("& attributeSpecifierSeq")
+      .matches("&&")
+      .matches("&& attributeSpecifierSeq")
+      .matches("nestedNameSpecifier *")
+      .matches("nestedNameSpecifier * cvQualifierSeq")
+      .matches("nestedNameSpecifier * attributeSpecifierSeq cvQualifierSeq");
   }
 
   @Test
   public void ptrOperator_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.ptrOperator));
+    setRootRule(CxxGrammarImpl.ptrOperator);
 
-    assertThat(p).matches("A::*");
+    assertThatParser()
+      .matches("A::*");
   }
 
   @Test
   public void cvQualifierSeq() {
-    p.setRootRule(g.rule(CxxGrammarImpl.cvQualifierSeq));
+    setRootRule(CxxGrammarImpl.cvQualifierSeq);
 
     mockRule(CxxGrammarImpl.cvQualifier);
 
-    assertThat(p).matches("cvQualifier");
-    assertThat(p).matches("cvQualifier cvQualifier");
+    assertThatParser()
+      .matches("cvQualifier")
+      .matches("cvQualifier cvQualifier");
   }
 
   @Test
   public void declaratorId() {
-    p.setRootRule(g.rule(CxxGrammarImpl.declaratorId));
+    setRootRule(CxxGrammarImpl.declaratorId);
 
     mockRule(CxxGrammarImpl.idExpression);
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.className);
 
-    assertThat(p).matches("idExpression");
-    assertThat(p).matches("... idExpression");
-    assertThat(p).matches("className");
-    assertThat(p).matches("nestedNameSpecifier className");
+    assertThatParser()
+      .matches("idExpression")
+      .matches("... idExpression")
+      .matches("className")
+      .matches("nestedNameSpecifier className");
   }
 
   @Test
   public void declaratorId_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.declaratorId));
+    setRootRule(CxxGrammarImpl.declaratorId);
 
-    assertThat(p).matches("lala<int>");
-    assertThat(p).matches("operator==<B>");
+    assertThatParser()
+      .matches("lala<int>")
+      .matches("operator==<B>");
   }
 
   @Test
   public void typeId() {
-    p.setRootRule(g.rule(CxxGrammarImpl.typeId));
+    setRootRule(CxxGrammarImpl.typeId);
 
     mockRule(CxxGrammarImpl.typeSpecifierSeq);
     mockRule(CxxGrammarImpl.abstractDeclarator);
 
-    assertThat(p).matches("typeSpecifierSeq");
-    assertThat(p).matches("typeSpecifierSeq abstractDeclarator");
+    assertThatParser()
+      .matches("typeSpecifierSeq")
+      .matches("typeSpecifierSeq abstractDeclarator");
   }
 
   @Test
   public void typeId_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.typeId));
+    setRootRule(CxxGrammarImpl.typeId);
 
-    assertThat(p).matches("int");
-    assertThat(p).matches("int *");
-    assertThat(p).matches("int *[3]");
-    assertThat(p).matches("int (*)[3]");
-    assertThat(p).matches("int *()");
-    assertThat(p).matches("int (*)(double)");
+    assertThatParser()
+      .matches("int")
+      .matches("int *")
+      .matches("int *[3]")
+      .matches("int (*)[3]")
+      .matches("int *()")
+      .matches("int (*)(double)");
   }
 
   @Test
   public void definingTypeId() {
-    p.setRootRule(g.rule(CxxGrammarImpl.definingTypeId));
+    setRootRule(CxxGrammarImpl.definingTypeId);
 
     mockRule(CxxGrammarImpl.definingTypeSpecifierSeq);
     mockRule(CxxGrammarImpl.abstractDeclarator);
 
-    assertThat(p).matches("definingTypeSpecifierSeq");
-    assertThat(p).matches("definingTypeSpecifierSeq abstractDeclarator");
+    assertThatParser()
+      .matches("definingTypeSpecifierSeq")
+      .matches("definingTypeSpecifierSeq abstractDeclarator");
   }
 
   @Test
   public void abstractDeclarator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.abstractDeclarator));
+    setRootRule(CxxGrammarImpl.abstractDeclarator);
 
     mockRule(CxxGrammarImpl.ptrAbstractDeclarator);
     mockRule(CxxGrammarImpl.noptrAbstractDeclarator);
@@ -270,115 +288,122 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.trailingReturnType);
     mockRule(CxxGrammarImpl.abstractPackDeclarator);
 
-    assertThat(p).matches("ptrAbstractDeclarator");
-    assertThat(p).matches("parametersAndQualifiers trailingReturnType");
-    assertThat(p).matches("noptrAbstractDeclarator parametersAndQualifiers trailingReturnType");
-    assertThat(p).matches("abstractPackDeclarator");
+    assertThatParser()
+      .matches("ptrAbstractDeclarator")
+      .matches("parametersAndQualifiers trailingReturnType")
+      .matches("noptrAbstractDeclarator parametersAndQualifiers trailingReturnType")
+      .matches("abstractPackDeclarator");
   }
 
   @Test
   public void ptrAbstractDeclarator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.ptrAbstractDeclarator));
+    setRootRule(CxxGrammarImpl.ptrAbstractDeclarator);
 
     mockRule(CxxGrammarImpl.noptrAbstractDeclarator);
     mockRule(CxxGrammarImpl.ptrOperator);
 
-    assertThat(p).matches("ptrOperator");
-    assertThat(p).matches("ptrOperator ptrOperator");
-    assertThat(p).matches("ptrOperator noptrAbstractDeclarator");
-    assertThat(p).matches("ptrOperator ptrOperator noptrAbstractDeclarator");
-    assertThat(p).matches("noptrAbstractDeclarator");
+    assertThatParser()
+      .matches("ptrOperator")
+      .matches("ptrOperator ptrOperator")
+      .matches("ptrOperator noptrAbstractDeclarator")
+      .matches("ptrOperator ptrOperator noptrAbstractDeclarator")
+      .matches("noptrAbstractDeclarator");
   }
 
   @Test
   public void noptrAbstractDeclarator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.noptrAbstractDeclarator));
+    setRootRule(CxxGrammarImpl.noptrAbstractDeclarator);
 
     mockRule(CxxGrammarImpl.parametersAndQualifiers);
     mockRule(CxxGrammarImpl.constantExpression);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.ptrAbstractDeclarator);
 
-    assertThat(p).matches("parametersAndQualifiers");
-    assertThat(p).matches("( ptrAbstractDeclarator ) parametersAndQualifiers");
-
-    assertThat(p).matches("[ ]");
-    assertThat(p).matches("[ constantExpression ]");
-    assertThat(p).matches("[ constantExpression ] attributeSpecifierSeq");
-    assertThat(p).matches("( ptrAbstractDeclarator ) [ constantExpression ] attributeSpecifierSeq");
-
-    assertThat(p).matches("( ptrAbstractDeclarator )");
+    assertThatParser()
+      .matches("parametersAndQualifiers")
+      .matches("( ptrAbstractDeclarator ) parametersAndQualifiers")
+      .matches("[ ]")
+      .matches("[ constantExpression ]")
+      .matches("[ constantExpression ] attributeSpecifierSeq")
+      .matches("( ptrAbstractDeclarator ) [ constantExpression ] attributeSpecifierSeq")
+      .matches("( ptrAbstractDeclarator )");
   }
 
   @Test
   public void abstractPackDeclarator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.abstractPackDeclarator));
+    setRootRule(CxxGrammarImpl.abstractPackDeclarator);
 
     mockRule(CxxGrammarImpl.noptrAbstractPackDeclarator);
     mockRule(CxxGrammarImpl.ptrOperator);
 
-    assertThat(p).matches("noptrAbstractPackDeclarator");
-    assertThat(p).matches("ptrOperator noptrAbstractPackDeclarator");
-    assertThat(p).matches("ptrOperator ptrOperator noptrAbstractPackDeclarator");
+    assertThatParser()
+      .matches("noptrAbstractPackDeclarator")
+      .matches("ptrOperator noptrAbstractPackDeclarator")
+      .matches("ptrOperator ptrOperator noptrAbstractPackDeclarator");
   }
 
   @Test
   public void noptrAbstractPackDeclarator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.noptrAbstractPackDeclarator));
+    setRootRule(CxxGrammarImpl.noptrAbstractPackDeclarator);
 
     mockRule(CxxGrammarImpl.parametersAndQualifiers);
     mockRule(CxxGrammarImpl.constantExpression);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
 
-    assertThat(p).matches("...");
-    assertThat(p).matches("... parametersAndQualifiers");
-    assertThat(p).matches("... [ ] ");
-    assertThat(p).matches("... [ constantExpression ] ");
-    assertThat(p).matches("... [ constantExpression ] attributeSpecifierSeq");
+    assertThatParser()
+      .matches("...")
+      .matches("... parametersAndQualifiers")
+      .matches("... [ ] ")
+      .matches("... [ constantExpression ] ")
+      .matches("... [ constantExpression ] attributeSpecifierSeq");
   }
 
   @Test
   public void parameterDeclarationList() {
-    p.setRootRule(g.rule(CxxGrammarImpl.parameterDeclarationList));
+    setRootRule(CxxGrammarImpl.parameterDeclarationList);
 
     mockRule(CxxGrammarImpl.parameterDeclaration);
 
-    assertThat(p).matches("parameterDeclaration");
-    assertThat(p).matches("parameterDeclaration , parameterDeclaration");
+    assertThatParser()
+      .matches("parameterDeclaration")
+      .matches("parameterDeclaration , parameterDeclaration");
   }
 
   @Test
   public void parameterDeclarationList_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.parameterDeclarationList));
+    setRootRule(CxxGrammarImpl.parameterDeclarationList);
 
-    assertThat(p).matches("ostream& strm, const int& i");
-    assertThat(p).matches("string, bool");
+    assertThatParser()
+      .matches("ostream& strm, const int& i")
+      .matches("string, bool");
   }
 
   @Test
   public void parameterDeclarationClause() {
-    p.setRootRule(g.rule(CxxGrammarImpl.parameterDeclarationClause));
+    setRootRule(CxxGrammarImpl.parameterDeclarationClause);
 
     mockRule(CxxGrammarImpl.parameterDeclarationList);
 
-    assertThat(p).matches("");
-    assertThat(p).matches("parameterDeclarationList");
-    assertThat(p).matches("...");
-    assertThat(p).matches("parameterDeclarationList ...");
-    assertThat(p).matches("parameterDeclarationList , ...");
+    assertThatParser()
+      .matches("")
+      .matches("parameterDeclarationList")
+      .matches("...")
+      .matches("parameterDeclarationList ...")
+      .matches("parameterDeclarationList , ...");
   }
 
   @Test
   public void parameterDeclarationClause_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.parameterDeclarationClause));
+    setRootRule(CxxGrammarImpl.parameterDeclarationClause);
 
-    assertThat(p).matches("ostream& strm, const int& i");
-    assertThat(p).matches("string, bool");
+    assertThatParser()
+      .matches("ostream& strm, const int& i")
+      .matches("string, bool");
   }
 
   @Test
   public void parameterDeclaration() {
-    p.setRootRule(g.rule(CxxGrammarImpl.parameterDeclaration));
+    setRootRule(CxxGrammarImpl.parameterDeclaration);
 
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.parameterDeclSpecifierSeq);
@@ -386,41 +411,40 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.initializerClause);
     mockRule(CxxGrammarImpl.abstractDeclarator);
 
-    assertThat(p).matches("parameterDeclSpecifierSeq declarator");
-    assertThat(p).matches("attributeSpecifierSeq parameterDeclSpecifierSeq declarator");
-
-    assertThat(p).matches("parameterDeclSpecifierSeq declarator = initializerClause");
-    assertThat(p).matches("attributeSpecifierSeq parameterDeclSpecifierSeq declarator = initializerClause");
-
-    assertThat(p).matches("parameterDeclSpecifierSeq");
-    assertThat(p).matches("parameterDeclSpecifierSeq abstractDeclarator");
-    assertThat(p).matches("attributeSpecifierSeq parameterDeclSpecifierSeq abstractDeclarator");
-
-    assertThat(p).matches("parameterDeclSpecifierSeq = initializerClause");
-    assertThat(p).matches("parameterDeclSpecifierSeq abstractDeclarator = initializerClause");
-    assertThat(p).matches("attributeSpecifierSeq parameterDeclSpecifierSeq abstractDeclarator = initializerClause");
+    assertThatParser()
+      .matches("parameterDeclSpecifierSeq declarator")
+      .matches("attributeSpecifierSeq parameterDeclSpecifierSeq declarator")
+      .matches("parameterDeclSpecifierSeq declarator = initializerClause")
+      .matches("attributeSpecifierSeq parameterDeclSpecifierSeq declarator = initializerClause")
+      .matches("parameterDeclSpecifierSeq")
+      .matches("parameterDeclSpecifierSeq abstractDeclarator")
+      .matches("attributeSpecifierSeq parameterDeclSpecifierSeq abstractDeclarator")
+      .matches("parameterDeclSpecifierSeq = initializerClause")
+      .matches("parameterDeclSpecifierSeq abstractDeclarator = initializerClause")
+      .matches("attributeSpecifierSeq parameterDeclSpecifierSeq abstractDeclarator = initializerClause");
   }
 
   @Test
   public void parameterDeclaration_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.parameterDeclaration));
+    setRootRule(CxxGrammarImpl.parameterDeclaration);
 
-    assertThat(p).matches("ostream& strm");
-    assertThat(p).matches("const int& i");
-    assertThat(p).matches("const paramtype<T> param");
-    assertThat(p).matches("const auto_ptr<T>& p");
-    assertThat(p).matches("string");
-    assertThat(p).matches("::P& c");
-    assertThat(p).matches("bool (A::*bar)(void)");
-    // CLI extension
-    assertThat(p).matches("const int^ i");
-    assertThat(p).matches("const int% i");
-    assertThat(p).matches("const int^% i");
+    assertThatParser()
+      .matches("ostream& strm")
+      .matches("const int& i")
+      .matches("const paramtype<T> param")
+      .matches("const auto_ptr<T>& p")
+      .matches("string")
+      .matches("::P& c")
+      .matches("bool (A::*bar)(void)")
+      // CLI extension
+      .matches("const int^ i")
+      .matches("const int% i")
+      .matches("const int^% i");
   }
 
   @Test
   public void functionDefinition() {
-    p.setRootRule(g.rule(CxxGrammarImpl.functionDefinition));
+    setRootRule(CxxGrammarImpl.functionDefinition);
 
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.functionDeclSpecifierSeq);
@@ -429,165 +453,176 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.requiresClause);
     mockRule(CxxGrammarImpl.functionBody);
 
-    assertThat(p).matches("declarator functionBody");
-    assertThat(p).matches("attributeSpecifierSeq declarator functionBody");
-    assertThat(p).matches("attributeSpecifierSeq functionDeclSpecifierSeq declarator functionBody");
-    assertThat(p).matches("attributeSpecifierSeq functionDeclSpecifierSeq declarator virtSpecifierSeq functionBody");
-    assertThat(p).matches("declarator requiresClause functionBody");
-    assertThat(p).matches("attributeSpecifierSeq declarator requiresClause functionBody");
-    assertThat(p).matches("attributeSpecifierSeq functionDeclSpecifierSeq declarator requiresClause functionBody");
+    assertThatParser()
+      .matches("declarator functionBody")
+      .matches("attributeSpecifierSeq declarator functionBody")
+      .matches("attributeSpecifierSeq functionDeclSpecifierSeq declarator functionBody")
+      .matches("attributeSpecifierSeq functionDeclSpecifierSeq declarator virtSpecifierSeq functionBody")
+      .matches("declarator requiresClause functionBody")
+      .matches("attributeSpecifierSeq declarator requiresClause functionBody")
+      .matches("attributeSpecifierSeq functionDeclSpecifierSeq declarator requiresClause functionBody");
   }
 
   @Test
   public void functionDefinition_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.functionDefinition));
+    setRootRule(CxxGrammarImpl.functionDefinition);
 
-    assertThat(p).matches("int foo(){}");
-    assertThat(p).matches("int A::foo(){}");
-    assertThat(p).matches("static int foo(){}");
-    assertThat(p).matches("main(){}");
-    assertThat(p).matches("int max(int a, int b, int c) { int m = (a > b) ? a : b; return (m > c) ? m : c; }");
-    assertThat(p).matches("AddValue (const T& v) : theValue(v) {}");
-    assertThat(p).matches("void operator[] () {}");
-    assertThat(p).matches("void operator() (T& elem) const {elem += theValue;}");
-    assertThat(p).matches("int main(){}");
-    assertThat(p).matches("virtual const char* what() const throw() { return \"read empty stack\"; }");
-    assertThat(p).matches("void foo() override {}");
-    assertThat(p).matches("void foo(::P& c) {}");
-    assertThat(p).matches(
-      "auto equal_range(ForwardIterator first, ForwardIterator last, const Type& value) -> std::pair<ForwardIterator, ForwardIterator> { return pair; }");
-    assertThat(p).matches("auto to_string(int value) -> std::string { return \"\"; }");
-    assertThat(p).matches("auto size() const -> std::size_t { return 0; }");
+    assertThatParser()
+      .matches("int foo(){}")
+      .matches("int A::foo(){}")
+      .matches("static int foo(){}")
+      .matches("main(){}")
+      .matches("int max(int a, int b, int c) { int m = (a > b) ? a : b; return (m > c) ? m : c; }")
+      .matches("AddValue (const T& v) : theValue(v) {}")
+      .matches("void operator[] () {}")
+      .matches("void operator() (T& elem) const {elem += theValue;}")
+      .matches("int main(){}")
+      .matches("virtual const char* what() const throw() { return \"read empty stack\"; }")
+      .matches("void foo() override {}")
+      .matches("void foo(::P& c) {}")
+      .matches(
+        "auto equal_range(ForwardIterator first, ForwardIterator last, const Type& value) -> std::pair<ForwardIterator, ForwardIterator> { return pair; }")
+      .matches("auto to_string(int value) -> std::string { return \"\"; }")
+      .matches("auto size() const -> std::size_t { return 0; }");
 //  ToDo : make this work
-//    assertThat(p).matches("auto str() const -> const char* { return nullptr; }");
-//    assertThat(p).matches("auto std::map::at(const key_type& key) -> mapped_type& { return value; }");
+//    .matches("auto str() const -> const char* { return nullptr; }");
+//    .matches("auto std::map::at(const key_type& key) -> mapped_type& { return value; }");
   }
 
   @Test
   public void functionBody() {
-    p.setRootRule(g.rule(CxxGrammarImpl.functionBody));
+    setRootRule(CxxGrammarImpl.functionBody);
 
     mockRule(CxxGrammarImpl.compoundStatement);
     mockRule(CxxGrammarImpl.ctorInitializer);
     mockRule(CxxGrammarImpl.functionTryBlock);
 
-    assertThat(p).matches("compoundStatement");
-    assertThat(p).matches("ctorInitializer compoundStatement");
-
-    assertThat(p).matches("functionTryBlock");
-    assertThat(p).matches("= default ;");
-    assertThat(p).matches("= delete ;");
+    assertThatParser()
+      .matches("compoundStatement")
+      .matches("ctorInitializer compoundStatement")
+      .matches("functionTryBlock")
+      .matches("= default ;")
+      .matches("= delete ;");
   }
 
   @Test
   public void functionBody_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.functionBody));
+    setRootRule(CxxGrammarImpl.functionBody);
 
-    assertThat(p).matches("{ /* ... */ }");
-    assertThat(p).matches(": lala(0) {}");
-    assertThat(p).matches("{ return \"read empty stack\"; }");
+    assertThatParser()
+      .matches("{ /* ... */ }")
+      .matches(": lala(0) {}")
+      .matches("{ return \"read empty stack\"; }");
   }
 
   @Test
   public void initializer_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.initializer));
+    setRootRule(CxxGrammarImpl.initializer);
 
-    assertThat(p).matches("(new int(42))");
-    assertThat(p).matches("((istream_iterator<string>(cin)), istream_iterator<string>())");
+    assertThatParser()
+      .matches("(new int(42))")
+      .matches("((istream_iterator<string>(cin)), istream_iterator<string>())");
   }
 
   @Test
   public void initializerClause_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.initializerClause));
+    setRootRule(CxxGrammarImpl.initializerClause);
 
-    assertThat(p).matches("(istream_iterator<string>(cin))");
-    assertThat(p).matches("istream_iterator<string>()");
+    assertThatParser()
+      .matches("(istream_iterator<string>(cin))")
+      .matches("istream_iterator<string>()");
   }
 
   @Test
   public void initializerClause() {
-    p.setRootRule(g.rule(CxxGrammarImpl.initializerClause));
+    setRootRule(CxxGrammarImpl.initializerClause);
 
     mockRule(CxxGrammarImpl.assignmentExpression);
     mockRule(CxxGrammarImpl.initializerList);
     mockRule(CxxGrammarImpl.constantExpression);
 
-    assertThat(p).matches("{}");
-    assertThat(p).matches("{ initializerList }");
-    assertThat(p).matches("assignmentExpression");
+    assertThatParser()
+      .matches("{}")
+      .matches("{ initializerList }")
+      .matches("assignmentExpression");
   }
 
   @Test
   public void initializerList() {
-    p.setRootRule(g.rule(CxxGrammarImpl.initializerList));
+    setRootRule(CxxGrammarImpl.initializerList);
 
     mockRule(CxxGrammarImpl.initializerClause);
 
-    assertThat(p).matches("initializerClause");
-    assertThat(p).matches("initializerClause ...");
-    assertThat(p).matches("initializerClause , initializerClause");
-    assertThat(p).matches("initializerClause , initializerClause ...");
+    assertThatParser()
+      .matches("initializerClause")
+      .matches("initializerClause ...")
+      .matches("initializerClause , initializerClause")
+      .matches("initializerClause , initializerClause ...");
   }
 
   @Test
   public void initializerList_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.initializerList));
+    setRootRule(CxxGrammarImpl.initializerList);
 
-    assertThat(p).matches("(istream_iterator<string>(cin)), istream_iterator<string>()");
+    assertThatParser()
+      .matches("(istream_iterator<string>(cin)), istream_iterator<string>()");
   }
 
   @Test
   public void designatedInitializerList() {
-    p.setRootRule(g.rule(CxxGrammarImpl.designatedInitializerList));
+    setRootRule(CxxGrammarImpl.designatedInitializerList);
 
     mockRule(CxxGrammarImpl.designatedInitializerClause);
 
-    assertThat(p).matches("designatedInitializerClause");
-    assertThat(p).matches("designatedInitializerClause , designatedInitializerClause");
+    assertThatParser()
+      .matches("designatedInitializerClause")
+      .matches("designatedInitializerClause , designatedInitializerClause");
   }
 
   @Test
   public void designatedInitializerClause_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.designatedInitializerClause));
+    setRootRule(CxxGrammarImpl.designatedInitializerClause);
 
-    assertThat(p).matches(".name = string(\"Something\")");
-    assertThat(p).matches(".name = {1}");
-    assertThat(p).matches(".name{2}");
-
-    // C-COMPATIBILITY: C99 designated initializers
-    assertThat(p).matches("[5] = {}");
-    // EXTENSION: gcc's designated initializers range
-    assertThat(p).matches(".values = { [4] = 5, [5 ... 7] = 1, [2] = 0 }");
+    assertThatParser()
+      .matches(".name = string(\"Something\")")
+      .matches(".name = {1}")
+      .matches(".name{2}")
+      // C-COMPATIBILITY: C99 designated initializers
+      .matches("[5] = {}")
+      // EXTENSION: gcc's designated initializers range
+      .matches(".values = { [4] = 5, [5 ... 7] = 1, [2] = 0 }");
   }
 
   @Test
   public void designator() {
-    p.setRootRule(g.rule(CxxGrammarImpl.designator));
+    setRootRule(CxxGrammarImpl.designator);
 
     mockRule(CxxGrammarImpl.constantExpression);
 
-    assertThat(p).matches(". IDENTIFIER");
-    assertThat(p).matches(". IDENTIFIER . IDENTIFIER");
-    // C99 designated initializers
-    assertThat(p).matches("[ constantExpression ]");
-    assertThat(p).matches("[ constantExpression ] . IDENTIFIER");
-    assertThat(p).matches("[ constantExpression ] . IDENTIFIER . IDENTIFIER");
-    // EXTENSION: gcc's designated initializers range
-    assertThat(p).matches("[ constantExpression ... constantExpression ]");
+    assertThatParser()
+      .matches(". IDENTIFIER")
+      .matches(". IDENTIFIER . IDENTIFIER")
+      // C99 designated initializers
+      .matches("[ constantExpression ]")
+      .matches("[ constantExpression ] . IDENTIFIER")
+      .matches("[ constantExpression ] . IDENTIFIER . IDENTIFIER")
+      // EXTENSION: gcc's designated initializers range
+      .matches("[ constantExpression ... constantExpression ]");
   }
 
   @Test
   public void bracedInitList() {
-    p.setRootRule(g.rule(CxxGrammarImpl.bracedInitList));
+    setRootRule(CxxGrammarImpl.bracedInitList);
 
     mockRule(CxxGrammarImpl.initializerList);
     mockRule(CxxGrammarImpl.designatedInitializerList);
 
-    assertThat(p).matches("{}");
-    assertThat(p).matches("{ initializerList }");
-    assertThat(p).matches("{ initializerList , }");
-    assertThat(p).matches("{ designatedInitializerList }");
-    assertThat(p).matches("{ designatedInitializerList , }");
+    assertThatParser()
+      .matches("{}")
+      .matches("{ initializerList }")
+      .matches("{ initializerList , }")
+      .matches("{ designatedInitializerList }")
+      .matches("{ designatedInitializerList , }");
   }
 
 }

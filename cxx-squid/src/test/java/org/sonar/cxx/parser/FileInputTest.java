@@ -20,17 +20,16 @@
 package org.sonar.cxx.parser;
 
 import org.junit.Test;
-import static org.sonar.sslr.tests.Assertions.assertThat;
 
 public class FileInputTest extends ParserBaseTestHelper {
 
   @Test
   public void translationUnit() {
-    p.setRootRule(g.rule(CxxGrammarImpl.translationUnit));
+    setRootRule(CxxGrammarImpl.translationUnit);
 
     mockRule(CxxGrammarImpl.declaration);
 
-    assertThat(p)
+    assertThatParser()
       .matches("declaration")
       .matches("declaration declaration")
       .matches("declaration\ndeclaration")

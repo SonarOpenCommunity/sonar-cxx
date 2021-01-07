@@ -19,14 +19,19 @@
  */
 package org.sonar.cxx.parser;
 
+import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+import javax.annotation.Nullable;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.squidbridge.SquidAstVisitorContext;
+import org.sonar.squidbridge.SquidAstVisitorContextImpl;
 import org.sonar.sslr.grammar.GrammarRuleKey;
+import org.sonar.sslr.tests.ParserAssert;
 
 /**
  * SquidAstVisitorContext is mock with a fake file path. You can use this base class for preprocessing tokens. You
@@ -35,8 +40,8 @@ import org.sonar.sslr.grammar.GrammarRuleKey;
 public class ParserBaseTestHelper {
 
   protected CxxSquidConfiguration squidConfig = null;
-  protected Parser<Grammar> p = null;
-  protected Grammar g = null;
+  private Parser<Grammar> p = null;
+  private Grammar g = null;
 
   public ParserBaseTestHelper() {
     squidConfig = new CxxSquidConfiguration();
@@ -44,15 +49,49 @@ public class ParserBaseTestHelper {
                     "false");
 
     var file = new File("snippet.cpp").getAbsoluteFile();
-    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
+    SquidAstVisitorContextImpl<Grammar> context = mock(SquidAstVisitorContextImpl.class);
     when(context.getFile()).thenReturn(file);
 
     p = CxxParser.create(context, squidConfig);
+    //var builder = AstScanner.<Grammar>builder(context).setBaseParser(p);
     g = p.getGrammar();
   }
 
-  void mockRule(GrammarRuleKey key) {
-    g.rule(key).mock();
+  public void setRootRule(GrammarRuleKey ruleKey) {
+    p.setRootRule(g.rule(ruleKey));
+  }
+
+  public void mockRule(GrammarRuleKey ruleKey) {
+    g.rule(ruleKey).mock();
+  }
+
+  public ParserAssert assertThatParser() {
+    return org.sonar.sslr.tests.Assertions.assertThat(p);
+  }
+
+  public String parse(String input) {
+    return serialize(p.parse(input));
+  }
+
+  private String serialize(AstNode root) {
+    var values = new LinkedList<String>();
+    iterate(root, values);
+    String s = String.join(" ", values);
+    return s;
+  }
+
+  private void iterate(@Nullable AstNode node, List<String> values) {
+    while (node != null) {
+      AstNode child = node.getFirstChild();
+      if (child != null) {
+        iterate(child, values);
+      } else {
+        if (node.getType() instanceof CxxGrammarImpl == false) {
+          values.add(node.getTokenValue());
+        }
+      }
+      node = node.getNextSibling();
+    }
   }
 
 }

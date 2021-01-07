@@ -20,60 +20,64 @@
 package org.sonar.cxx.parser;
 
 import org.junit.Test;
-import static org.sonar.sslr.tests.Assertions.assertThat;
 
 public class AttributedAtlTest extends ParserBaseTestHelper {
 
   @Test
   public void vcAtlDeclaration() {
-    p.setRootRule(g.rule(CxxGrammarImpl.declaration));
+    setRootRule(CxxGrammarImpl.declaration);
 
-    assertThat(p).matches("[x];");
+    assertThatParser()
+      .matches("[x];");
   }
 
   @Test
   public void vcAtlEnum() {
-    p.setRootRule(g.rule(CxxGrammarImpl.enumSpecifier));
+    setRootRule(CxxGrammarImpl.enumSpecifier);
 
-    assertThat(p).matches("[x] enum X {}");
+    assertThatParser()
+      .matches("[x] enum X {}");
   }
 
   @Test
   public void vcAtlClass() {
-    p.setRootRule(g.rule(CxxGrammarImpl.classSpecifier));
+    setRootRule(CxxGrammarImpl.classSpecifier);
 
-    assertThat(p).matches("[x] class X {}");
-    assertThat(p).matches("[x] struct X {}");
+    assertThatParser()
+      .matches("[x] class X {}")
+      .matches("[x] struct X {}");
   }
 
   @Test
   public void vcAtlMember() {
-    p.setRootRule(g.rule(CxxGrammarImpl.memberSpecification));
+    setRootRule(CxxGrammarImpl.memberSpecification);
 
-    assertThat(p).matches("[x] int m([y] int p);");
+    assertThatParser()
+      .matches("[x] int m([y] int p);");
   }
 
   @Test
   public void vcAtlRealWorldExample() {
-    p.setRootRule(g.rule(CxxGrammarImpl.translationUnit));
+    setRootRule(CxxGrammarImpl.translationUnit);
 
-    assertThat(p).matches(
-      "  [module(name=\"MyModule\")];"
-      + "[emitidl(false)];"
-      + "[export, helpstring(\"description\")] enum MyEnum {};"
-      + "["
-      + "  dispinterface,"
-      + "  nonextensible,"
-      + "  hidden,"
-      + "  uuid(\"0815\"),"
-      + "  helpstring(\"description\")"
-      + "]"
-      + "struct IMyInterface"
-      + "{"
-      + "  [id(1), helpstring(\"description\")] HRESULT M1(int p1);"
-      + "  [propget, id(DISPID_VALUE), helpstring(\"description\")] HRESULT M2([in] VARIANT p1, [out, retval] MyService** p2);"
-      + "};"
-    );
+    assertThatParser()
+      .matches(
+        "  [module(name=\"MyModule\")];"
+          + "[emitidl(false)];"
+          + "[export, helpstring(\"description\")] enum MyEnum {};"
+          + "["
+          + "  dispinterface,"
+          + "  nonextensible,"
+          + "  hidden,"
+          + "  uuid(\"0815\"),"
+          + "  helpstring(\"description\")"
+          + "]"
+          + "struct IMyInterface"
+          + "{"
+          + "  [id(1), helpstring(\"description\")] HRESULT M1(int p1);"
+          + "  [propget, id(DISPID_VALUE), helpstring(\"description\")] HRESULT M2([in] VARIANT p1, [out, retval] MyService** p2);"
+        + "};"
+      );
   }
 
 }

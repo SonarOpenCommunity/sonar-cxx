@@ -20,7 +20,6 @@
 package org.sonar.cxx.parser;
 
 import org.junit.Test;
-import static org.sonar.sslr.tests.Assertions.assertThat;
 
 /**
  *
@@ -30,163 +29,181 @@ public class BalancedTokensTest extends ParserBaseTestHelper {
 
   @Test
   public void attributeSpecifierSeq() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifierSeq));
+    setRootRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.attributeSpecifier);
 
-    assertThat(p)
+    assertThatParser()
       .matches("attributeSpecifier")
       .matches("attributeSpecifier attributeSpecifier");
   }
 
   @Test
   public void attributeSpecifierSeq_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifierSeq));
+    setRootRule(CxxGrammarImpl.attributeSpecifierSeq);
 
-    assertThat(p).matches("[ [ using CC : opt ( 1 ), debug]]");
-    assertThat(p).matches("[ [ using CC : opt ( 1 ) ] ] [ [ CC :: debug ] ]");
-    assertThat(p).matches("[ [ foo :: bar ( { foo }  [ bar ] ) ] ] [ [ foo :: bar ( { foo }  [ bar ] ) ] ]");
+    assertThatParser()
+      .matches("[ [ using CC : opt ( 1 ), debug]]")
+      .matches("[ [ using CC : opt ( 1 ) ] ] [ [ CC :: debug ] ]")
+      .matches("[ [ foo :: bar ( { foo }  [ bar ] ) ] ] [ [ foo :: bar ( { foo }  [ bar ] ) ] ]");
   }
 
   @Test
   public void attributeSpecifier() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifier));
+    setRootRule(CxxGrammarImpl.attributeSpecifier);
+
     mockRule(CxxGrammarImpl.attributeList);
     mockRule(CxxGrammarImpl.attributeUsingPrefix);
     mockRule(CxxGrammarImpl.alignmentSpecifier);
 
-    assertThat(p).matches("[ [ attributeList ] ]");
-    assertThat(p).matches("[ [ attributeUsingPrefix attributeList ] ]");
-    assertThat(p).matches("alignmentSpecifier");
+    assertThatParser()
+      .matches("[ [ attributeList ] ]")
+      .matches("[ [ attributeUsingPrefix attributeList ] ]")
+      .matches("alignmentSpecifier");
   }
 
   @Test
   public void attributeSpecifier_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifier));
+    setRootRule(CxxGrammarImpl.attributeSpecifier);
 
-    assertThat(p).matches("[ [ foo :: bar ( { foo }  [ bar ] ) ] ]");
+    assertThatParser()
+      .matches("[ [ foo :: bar ( { foo }  [ bar ] ) ] ]");
   }
 
   @Test
   public void alignmentSpecifier() {
-    p.setRootRule(g.rule(CxxGrammarImpl.alignmentSpecifier));
+    setRootRule(CxxGrammarImpl.alignmentSpecifier);
+
     mockRule(CxxGrammarImpl.typeId);
     mockRule(CxxGrammarImpl.constantExpression);
     mockRule(CxxGrammarImpl.attributeUsingPrefix);
     mockRule(CxxGrammarImpl.attributeNamespace);
 
-    assertThat(p).matches("alignas ( typeId )");
-    assertThat(p).matches("alignas ( typeId ... )");
-    assertThat(p).matches("alignas ( constantExpression )");
-    assertThat(p).matches("attributeUsingPrefix :");
-    assertThat(p).matches("using attributeNamespace :");
+    assertThatParser()
+      .matches("alignas ( typeId )")
+      .matches("alignas ( typeId ... )")
+      .matches("alignas ( constantExpression )")
+      .matches("attributeUsingPrefix :")
+      .matches("using attributeNamespace :");
   }
 
   @Test
   public void attributeUsingPrefix() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeUsingPrefix));
+    setRootRule(CxxGrammarImpl.attributeUsingPrefix);
     mockRule(CxxGrammarImpl.attributeNamespace);
 
-    assertThat(p).matches("using attributeNamespace :");
+    assertThatParser()
+      .matches("using attributeNamespace :");
   }
 
   @Test
   public void attributeList() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeList));
+    setRootRule(CxxGrammarImpl.attributeList);
     mockRule(CxxGrammarImpl.attribute);
 
-    assertThat(p).matches("");
-    assertThat(p).matches("attribute");
-    assertThat(p).matches("attribute ...");
-    assertThat(p).matches(",");
-    assertThat(p).matches(", attribute");
-    assertThat(p).matches("attribute , attribute");
-    assertThat(p).matches("attribute ... , attribute");
-    assertThat(p).matches("attribute ... , attribute ...");
-    assertThat(p).matches("attribute , attribute , attribute");
+    assertThatParser()
+      .matches("")
+      .matches("attribute")
+      .matches("attribute ...")
+      .matches(",")
+      .matches(", attribute")
+      .matches("attribute , attribute")
+      .matches("attribute ... , attribute")
+      .matches("attribute ... , attribute ...")
+      .matches("attribute , attribute , attribute");
   }
 
   @Test
   public void attributeList_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeList));
+    setRootRule(CxxGrammarImpl.attributeList);
 
-    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] )");
-    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] ) , foo :: bar ( { foo }  [ bar ] )");
-    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] ) , ");
-    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] ) ...");
-    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] ) ... , foo :: bar ( { foo }  [ bar ] ) ...");
+    assertThatParser()
+      .matches("foo :: bar ( { foo }  [ bar ] )")
+      .matches("foo :: bar ( { foo }  [ bar ] ) , foo :: bar ( { foo }  [ bar ] )")
+      .matches("foo :: bar ( { foo }  [ bar ] ) , ")
+      .matches("foo :: bar ( { foo }  [ bar ] ) ...")
+      .matches("foo :: bar ( { foo }  [ bar ] ) ... , foo :: bar ( { foo }  [ bar ] ) ...");
   }
 
   @Test
   public void attribute() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attribute));
+    setRootRule(CxxGrammarImpl.attribute);
+
     mockRule(CxxGrammarImpl.attributeToken);
     mockRule(CxxGrammarImpl.attributeArgumentClause);
 
-    assertThat(p).matches("attributeToken");
-    assertThat(p).matches("attributeToken attributeArgumentClause");
+    assertThatParser()
+      .matches("attributeToken")
+      .matches("attributeToken attributeArgumentClause");
   }
 
   @Test
   public void attribute_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attribute));
+    setRootRule(CxxGrammarImpl.attribute);
 
-    assertThat(p).matches("foo");
-    assertThat(p).matches("foo :: bar");
-    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] )");
+    assertThatParser()
+      .matches("foo")
+      .matches("foo :: bar")
+      .matches("foo :: bar ( { foo }  [ bar ] )");
   }
 
   @Test
   public void attributeToken() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeToken));
+    setRootRule(CxxGrammarImpl.attributeToken);
     mockRule(CxxGrammarImpl.attributeScopedToken);
 
-    assertThat(p).matches("foo");
-    assertThat(p).matches("attributeScopedToken");
+    assertThatParser()
+      .matches("foo")
+      .matches("attributeScopedToken");
   }
 
   @Test
   public void attributeScopedToken() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeScopedToken));
+    setRootRule(CxxGrammarImpl.attributeScopedToken);
     mockRule(CxxGrammarImpl.attributeNamespace);
 
-    assertThat(p).matches("attributeNamespace :: foo");
+    assertThatParser()
+      .matches("attributeNamespace :: foo");
   }
 
   @Test
   public void attributeScopedToken_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeScopedToken));
+    setRootRule(CxxGrammarImpl.attributeScopedToken);
 
-    assertThat(p).matches("foo :: bar");
+    assertThatParser()
+      .matches("foo :: bar");
   }
 
   @Test
   public void attributeNamespace() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeNamespace));
+    setRootRule(CxxGrammarImpl.attributeNamespace);
 
-    assertThat(p).matches("foo");
+    assertThatParser()
+      .matches("foo");
   }
 
   @Test
   public void attributeArgumentClause() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeArgumentClause));
+    setRootRule(CxxGrammarImpl.attributeArgumentClause);
     mockRule(CxxGrammarImpl.balancedTokenSeq);
 
-    assertThat(p).matches("( balancedTokenSeq )");
+    assertThatParser()
+      .matches("( balancedTokenSeq )");
   }
 
   @Test
   public void attributeArgumentClause_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeArgumentClause));
+    setRootRule(CxxGrammarImpl.attributeArgumentClause);
 
-    assertThat(p).matches("( foo )");
+    assertThatParser()
+      .matches("( foo )");
   }
 
   @Test
   public void balancedTokenSeq() {
-    p.setRootRule(g.rule(CxxGrammarImpl.balancedTokenSeq));
+    setRootRule(CxxGrammarImpl.balancedTokenSeq);
     mockRule(CxxGrammarImpl.balancedToken);
 
-    assertThat(p)
+    assertThatParser()
       .matches("balancedToken")
       .matches("balancedToken balancedToken")
       .matches("balancedToken balancedToken balancedToken");
@@ -194,17 +211,19 @@ public class BalancedTokensTest extends ParserBaseTestHelper {
 
   @Test
   public void balancedTokenSeq_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.balancedTokenSeq));
+    setRootRule(CxxGrammarImpl.balancedTokenSeq);
 
-    assertThat(p).matches("[ ( foo ) { } ( bar ) ]");
+    assertThatParser()
+      .matches("[ ( foo ) { } ( bar ) ]");
   }
 
   @Test
   public void balancedToken() {
-    p.setRootRule(g.rule(CxxGrammarImpl.balancedToken));
+    setRootRule(CxxGrammarImpl.balancedToken);
     mockRule(CxxGrammarImpl.balancedTokenSeq);
 
-    assertThat(p).matches("foo")
+    assertThatParser()
+      .matches("foo")
       .matches("( balancedTokenSeq )")
       .matches("[ balancedTokenSeq ]")
       .matches("{ balancedTokenSeq }");
@@ -212,9 +231,10 @@ public class BalancedTokensTest extends ParserBaseTestHelper {
 
   @Test
   public void balancedToken_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.balancedToken));
+    setRootRule(CxxGrammarImpl.balancedToken);
 
-    assertThat(p).matches("[ foo ]")
+    assertThatParser()
+      .matches("[ foo ]")
       .matches("{ foo }")
       .matches("( foo )")
       .matches("( ( foo ) ( bar ) )")
