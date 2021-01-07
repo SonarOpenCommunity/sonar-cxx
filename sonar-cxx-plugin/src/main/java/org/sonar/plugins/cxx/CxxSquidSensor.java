@@ -81,8 +81,8 @@ public class CxxSquidSensor implements ProjectSensor {
   public static final String FORCE_INCLUDES_KEY = "sonar.cxx.forceIncludes";
   public static final String JSON_COMPILATION_DATABASE_KEY = "sonar.cxx.jsonCompilationDatabase";
 
-  public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "sonar.cxx.funccomplexity.threshold";
-  public static final String FUNCTION_SIZE_THRESHOLD_KEY = "sonar.cxx.funcsize.threshold";
+  public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "sonar.cxx.metric.func.complexity.threshold";
+  public static final String FUNCTION_SIZE_THRESHOLD_KEY = "sonar.cxx.metric.func.size.threshold";
 
   public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
@@ -203,8 +203,9 @@ public class CxxSquidSensor implements ProjectSensor {
         .build(),
       PropertyDefinition.builder(FUNCTION_COMPLEXITY_THRESHOLD_KEY)
         .defaultValue("10")
-        .name("Cyclomatic complexity threshold")
-        .description("Cyclomatic complexity threshold used to classify a function as complex")
+        .name("Threshold value for the cyclomatic complexity metric of a function")
+        .description(
+          "Functions with a higher cyclomatic complexity are classified as complex. The values are displayed under measures.")
         .category("CXX")
         .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
@@ -212,8 +213,8 @@ public class CxxSquidSensor implements ProjectSensor {
         .build(),
       PropertyDefinition.builder(FUNCTION_SIZE_THRESHOLD_KEY)
         .defaultValue("20")
-        .name("Function size threshold")
-        .description("Function size threshold to consider a function to be too big")
+        .name("Threshold for the function size metric")
+        .description("Larger functions are considered too large. The values are displayed under measures.")
         .category("CXX")
         .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
