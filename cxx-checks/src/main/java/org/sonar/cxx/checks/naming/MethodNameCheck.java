@@ -29,6 +29,7 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.checks.utils.CheckUtils;
+import static org.sonar.cxx.checks.utils.CheckUtils.isFunctionDefinition;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
@@ -59,15 +60,17 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
   private Pattern pattern = null;
 
   @CheckForNull
-  private static AstNode getMethodName(AstNode functionDefinition) {
-    AstNode declId = functionDefinition.getFirstDescendant(CxxGrammarImpl.declaratorId);
+  private static AstNode getMethodName(AstNode node) {
     AstNode result = null;
-    if (declId != null) {
-      // method inside of class
-      result = getInsideMemberDeclaration(declId);
-      if (result == null) {
-        // a nested name - method outside of class
-        result = getOutsideMemberDeclaration(declId);
+    if (isFunctionDefinition(node)) {
+      AstNode declId = node.getFirstDescendant(CxxGrammarImpl.declaratorId);
+      if (declId != null) {
+        // method inside of class
+        result = getInsideMemberDeclaration(declId);
+        if (result == null) {
+          // a nested name - method outside of class
+          result = getOutsideMemberDeclaration(declId);
+        }
       }
     }
     return result;
