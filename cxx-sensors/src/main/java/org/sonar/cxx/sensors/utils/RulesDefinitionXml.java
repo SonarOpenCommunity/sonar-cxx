@@ -68,18 +68,18 @@ public class RulesDefinitionXml implements RulesDefinition {
 
   @Override
   public void define(Context context) {
-    Charset charset = StandardCharsets.UTF_8;
+    Charset encoding = StandardCharsets.UTF_8;
     NewRepository repository = context.createRepository(repositoryKey, repositoryLanguage)
       .setName(repositoryName);
 
     var xmlLoader = new RulesDefinitionXmlLoader();
     if (!"".equals(repositoryFile)) {
       InputStream xmlStream = getClass().getResourceAsStream(repositoryFile);
-      xmlLoader.load(repository, xmlStream, charset);
+      xmlLoader.load(repository, xmlStream, encoding);
 
       for (var userExtensionXml : getExtensions(repositoryKey, "xml")) {
         try ( InputStream input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
-          xmlRuleLoader.load(repository, input, charset);
+          xmlRuleLoader.load(repository, input, encoding);
         } catch (IOException | IllegalStateException e) {
           LOG.info("Cannot Load XML '{}'", e);
         }

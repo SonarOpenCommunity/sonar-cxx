@@ -59,7 +59,7 @@ public class CxxCompilerVcSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCompilerVcSensor.REPORT_PATH_KEY,
                          "compiler-reports/BuildLog.htm");
-    settings.setProperty(CxxCompilerVcSensor.REPORT_CHARSET_DEF, StandardCharsets.UTF_16.name());
+    settings.setProperty(CxxCompilerVcSensor.REPORT_ENCODING_DEF, StandardCharsets.UTF_16.name());
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "zipmanager.cpp")
@@ -75,7 +75,7 @@ public class CxxCompilerVcSensorTest {
   public void shouldReportBCorrectVcViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCompilerVcSensor.REPORT_PATH_KEY, "compiler-reports/VC-report.vclog");
-    settings.setProperty(CxxCompilerVcSensor.REPORT_CHARSET_DEF, StandardCharsets.UTF_8.name());
+    settings.setProperty(CxxCompilerVcSensor.REPORT_ENCODING_DEF, StandardCharsets.UTF_8.name());
     settings.setProperty(CxxCompilerVcSensor.REPORT_REGEX_DEF,
                          ".*>(?<file>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)");
     context.setSettings(settings);

@@ -87,6 +87,15 @@ public class DroppedPropertiesSensor implements ProjectSensor {
                                              + " instead."); // V2.0.0
     map.put("sonar.cxx.funccomplexity.threshold", "Use 'sonar.cxx.metric.func.complexity.threshold' instead."); // V2.0.0
     map.put("sonar.cxx.funcsize.threshold", "Use 'sonar.cxx.metric.func.size.threshold' instead."); // V2.0.0
+    map.put("sonar.cxx.vstest.reportsPaths", "Use 'sonar.cxx.vstest.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.xunit.reportsPaths", "Use 'sonar.cxx.xunit.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.nunit.reportsPaths", "Use 'sonar.cxx.nunit.reportPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.clangtidy.charset", "Use 'sonar.cxx.clangtidy.encoding' instead."); // V2.0.0
+    map.put("sonar.cxx.gcc.charset", "Use 'sonar.cxx.gcc.encoding' instead."); // V2.0.0
+    map.put("sonar.cxx.vc.charset", "Use 'sonar.cxx.vc.encoding' instead."); // V2.0.0
+    map.put("sonar.cxx.ctctxt.charset", "Use 'sonar.cxx.ctctxt.encoding' instead."); // V2.0.0
+    map.put("sonar.cxx.msbuild.charset", "Use 'sonar.cxx.msbuild.encoding' instead."); // V2.0.0
+
     return Collections.unmodifiableMap(map);
   }
 

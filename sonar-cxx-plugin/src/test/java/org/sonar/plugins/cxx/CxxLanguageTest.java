@@ -46,7 +46,7 @@ public class CxxLanguageTest {
   @Test
   public void shouldReturnDefaultFileSuffixes1() {
     var cxx = new CxxLanguage(settings.asConfig());
-    String[] expected = {".cxx", ".cpp", ".cc", ".c", ".hxx", ".hpp", ".hh", ".h"};
+    String[] expected = {"disabled"};
     assertThat(cxx.getFileSuffixes(), is(expected));
   }
 
@@ -54,12 +54,12 @@ public class CxxLanguageTest {
   public void shouldReturnDefaultFileSuffixes2() {
     settings.setProperty(CxxLanguage.FILE_SUFFIXES_KEY, "");
     var cxx = new CxxLanguage(settings.asConfig());
-    String[] expected = {".cxx", ".cpp", ".cc", ".c", ".hxx", ".hpp", ".hh", ".h"};
+    String[] expected = {"disabled"};
     assertThat(cxx.getFileSuffixes(), is(expected));
   }
 
   @Test
-  public void shouldBeEmpty() {
+  public void shouldBeDisabled() {
     settings.setProperty(CxxLanguage.FILE_SUFFIXES_KEY, "-");
     var cxx = new CxxLanguage(settings.asConfig());
     String[] expected = {"disabled"};

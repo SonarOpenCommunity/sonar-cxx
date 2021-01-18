@@ -43,8 +43,8 @@ import org.sonar.cxx.utils.CxxReportIssue;
 public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.clangtidy.reportPaths";
-  public static final String REPORT_CHARSET_DEF = "sonar.cxx.clangtidy.charset";
-  public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
+  public static final String REPORT_ENCODING_DEF = "sonar.cxx.clangtidy.encoding";
+  public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
   private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
 
   private static final String REGEX
@@ -63,8 +63,8 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
-      PropertyDefinition.builder(REPORT_CHARSET_DEF)
-        .defaultValue(DEFAULT_CHARSET_DEF)
+      PropertyDefinition.builder(REPORT_ENCODING_DEF)
+        .defaultValue(DEFAULT_ENCODING_DEF)
         .name("Clang-Tidy Encoding")
         .description("The encoding to use when reading the clang-tidy report."
                        + " Leave empty to use parser's default UTF-8.")
@@ -111,10 +111,10 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
   @Override
   protected void processReport(File report)  {
-    String reportCharset = context.config().get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF);
-    LOG.debug("Processing 'Clang-Tidy' report '{}', CharSet= '{}'", report.getName(), reportCharset);
+    String reportEncoding = context.config().get(REPORT_ENCODING_DEF).orElse(DEFAULT_ENCODING_DEF);
+    LOG.debug("Processing 'Clang-Tidy' report '{}', Encoding= '{}'", report.getName(), reportEncoding);
 
-    try ( var scanner = new TextScanner(report, reportCharset)) {
+    try ( var scanner = new TextScanner(report, reportEncoding)) {
       // sample:
       // c:\a\file.cc:5:20: warning: ... conversion from string literal to 'char *' [clang-diagnostic-writable-strings]
       CxxReportIssue currentIssue = null;

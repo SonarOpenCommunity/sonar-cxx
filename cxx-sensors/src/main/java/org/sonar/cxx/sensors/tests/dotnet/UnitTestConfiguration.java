@@ -23,9 +23,8 @@ import org.sonar.api.config.Configuration;
 
 public class UnitTestConfiguration {
 
-  public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.vstest.reportsPaths";
-  public static final String XUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.xunit.reportsPaths";
-  public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.nunit.reportsPaths";
+  public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.vstest.reportPaths";
+  public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.nunit.reportPaths";
 
   private final Configuration config;
 
@@ -37,24 +36,16 @@ public class UnitTestConfiguration {
     return config.hasKey(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
   }
 
-  boolean hasXUnitTestResultsFile() {
-    return config.hasKey(XUNIT_TEST_RESULTS_PROPERTY_KEY);
-  }
-
   boolean hasNUnitTestResultsFile() {
     return config.hasKey(NUNIT_TEST_RESULTS_PROPERTY_KEY);
   }
 
   boolean hasUnitTestResultsProperty() {
-    return hasVisualStudioTestResultsFile() || hasXUnitTestResultsFile() || hasNUnitTestResultsFile();
+    return hasVisualStudioTestResultsFile() || hasNUnitTestResultsFile();
   }
 
   String[] getVisualStudioTestResultsFiles() {
     return config.getStringArray(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
-  }
-
-  String[] getXUnitTestResultsFiles() {
-    return config.getStringArray(XUNIT_TEST_RESULTS_PROPERTY_KEY);
   }
 
   String[] getNUnitTestResultsFiles() {

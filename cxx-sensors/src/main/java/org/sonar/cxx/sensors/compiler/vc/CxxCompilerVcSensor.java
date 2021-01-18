@@ -33,8 +33,8 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   public static final String KEY = "Visual C++";
   public static final String REPORT_PATH_KEY = "sonar.cxx.vc.reportPaths";
   public static final String REPORT_REGEX_DEF = "sonar.cxx.vc.regex";
-  public static final String REPORT_CHARSET_DEF = "sonar.cxx.vc.charset";
-  public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
+  public static final String REPORT_ENCODING_DEF = "sonar.cxx.vc.encoding";
+  public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
   public static final String DEFAULT_REGEX_DEF
                                = "(.*>)?(?<file>.*)\\((?<line>\\d+)\\)\\x20:\\x20warning\\x20"
                                    + "(?<id>C\\d+):(?<message>.*)";
@@ -52,8 +52,8 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
-      PropertyDefinition.builder(REPORT_CHARSET_DEF)
-        .defaultValue(DEFAULT_CHARSET_DEF)
+      PropertyDefinition.builder(REPORT_ENCODING_DEF)
+        .defaultValue(DEFAULT_ENCODING_DEF)
         .name("VC Report Encoding")
         .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
         .category(category)
@@ -90,8 +90,8 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   }
 
   @Override
-  protected String getCharset() {
-    return context.config().get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF);
+  protected String getEncoding() {
+    return context.config().get(REPORT_ENCODING_DEF).orElse(DEFAULT_ENCODING_DEF);
   }
 
   @Override

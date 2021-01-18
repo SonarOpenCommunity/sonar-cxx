@@ -47,7 +47,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.drmemory.reportPaths";
   private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
-  private static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
+  private static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
 
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
@@ -96,7 +96,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   protected void processReport(File report) {
     LOG.debug("Processing 'Dr. Memory' report '{}'", report.getName());
 
-    for (var error : DrMemoryParser.parse(report, DEFAULT_CHARSET_DEF)) {
+    for (var error : DrMemoryParser.parse(report, DEFAULT_ENCODING_DEF)) {
       if (error.getStackTrace().isEmpty()) {
         var moduleIssue = new CxxReportIssue(error.getType().getId(), null, null, null, error.getMessage());
         saveUniqueViolation(moduleIssue);

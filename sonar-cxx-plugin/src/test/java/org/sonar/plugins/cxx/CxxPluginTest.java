@@ -33,14 +33,14 @@ public class CxxPluginTest {
   @Test
   public void testGetExtensions() throws Exception {
     SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(
-      Version.create(7, 9),
+      Version.create(8, 6),
       SonarQubeSide.SCANNER,
       SonarEdition.COMMUNITY
     );
     var context = new Plugin.Context(runtime);
     var plugin = new CxxPlugin();
     plugin.define(context);
-    assertThat(context.getExtensions()).hasSize(80);
+    assertThat(context.getExtensions()).hasSize(79);
   }
 
 }

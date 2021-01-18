@@ -43,8 +43,8 @@ public class MsBuild {
    * the following settings are in use by the feature to read configuration settings from the VC compiler report
    */
   public static final String REPORT_PATH_KEY = "sonar.cxx.msbuild.reportPaths";
-  public static final String REPORT_CHARSET_DEF = "sonar.cxx.msbuild.charset";
-  public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
+  public static final String REPORT_ENCODING_DEF = "sonar.cxx.msbuild.encoding";
+  public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
 
   private static final Logger LOG = Loggers.get(MsBuild.class);
 
@@ -118,14 +118,14 @@ public class MsBuild {
    *
    * @param buildLog
    * @param baseDir
-   * @param charsetName
+   * @param encodingName
    */
-  public void parse(File buildLog, String baseDir, String charsetName) {
-     LOG.info("Processing MsBuild log '{}', CharSet= '{}'", buildLog.getName(), charsetName);
+  public void parse(File buildLog, String baseDir, String encodingName) {
+     LOG.info("Processing MsBuild log '{}', Encoding= '{}'", buildLog.getName(), encodingName);
 
     boolean detectedPlatform = false;
     try (var br = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(buildLog.toPath()),
-                                                       charsetName))) {
+                                                       encodingName))) {
       String line;
       LOG.debug("build log parser baseDir='{}'", baseDir);
       var currentProjectPath = Paths.get(baseDir);

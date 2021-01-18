@@ -31,8 +31,8 @@ import org.sonar.cxx.sensors.coverage.CoverageSensor;
 public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.ctctxt.reportPaths";
-  public static final String REPORT_CHARSET_DEF = "sonar.cxx.ctctxt.charset";
-  public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
+  public static final String REPORT_ENCODING_DEF = "sonar.cxx.ctctxt.encoding";
+  public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
 
   public static List<PropertyDefinition> properties() {
     String category = "CXX External Analyzers";
@@ -50,8 +50,8 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
-      PropertyDefinition.builder(REPORT_CHARSET_DEF)
-        .defaultValue(DEFAULT_CHARSET_DEF)
+      PropertyDefinition.builder(REPORT_ENCODING_DEF)
+        .defaultValue(DEFAULT_ENCODING_DEF)
         .name("Testwell CTC++ TXT Report Encoding")
         .description("The encoding to use when reading the coverage report. Leave empty to use parser's default UTF-8.")
         .category(category)

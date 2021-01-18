@@ -65,17 +65,6 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
-      PropertyDefinition.builder(UnitTestConfiguration.XUNIT_TEST_RESULTS_PROPERTY_KEY)
-        .multiValues(true)
-        .name("xUnit Test Reports Paths")
-        .description(
-          "Paths to xUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards."
-            + NOTE
-            + "Example: \"report.xml\", \"report1.xml,report2.xml\" or \"C:/report.xml\"")
-        .category(category)
-        .subCategory(subcategory)
-        .onQualifiers(Qualifiers.PROJECT)
-        .build(),
       PropertyDefinition.builder(UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
         .name("NUnit Test Reports Paths")
@@ -93,7 +82,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name("CXX VSTest/xUnit/NUnit Test report import")
+      .name("CXX VSTest/NUnit Test report import")
       .onlyWhenConfiguration(conf -> new UnitTestConfiguration(conf).hasUnitTestResultsProperty())
       .onlyOnLanguages("cxx", "cpp", "c");
   }
