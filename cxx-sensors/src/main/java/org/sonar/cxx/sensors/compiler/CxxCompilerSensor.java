@@ -44,7 +44,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(File report) {
 
-    final String reportCharset = getCharset();
+    final String reportEncoding = getEncoding();
     final String reportRegEx = getRegex();
 
     if (reportRegEx.isEmpty()) {
@@ -57,9 +57,9 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
       return;
     }
 
-    LOG.debug("Processing '{}' report '{}', Charset= '{}'", getCompilerKey(), report, reportCharset);
+    LOG.debug("Processing '{}' report '{}', Encoding= '{}'", getCompilerKey(), report, reportEncoding);
 
-    try ( var scanner = new TextScanner(report, reportCharset)) {
+    try ( var scanner = new TextScanner(report, reportEncoding)) {
       Pattern pattern = Pattern.compile(reportRegEx);
       LOG.debug("Using pattern : '{}'", pattern);
 
@@ -94,11 +94,11 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
   protected abstract String getCompilerKey();
 
   /**
-   * Character set of the report
+   * Encoding of the report
    *
    * @return
    */
-  protected abstract String getCharset();
+  protected abstract String getEncoding();
 
   /**
    * Regular expression to parse the report

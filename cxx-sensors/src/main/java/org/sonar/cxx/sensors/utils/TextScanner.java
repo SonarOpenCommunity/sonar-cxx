@@ -37,7 +37,7 @@ public class TextScanner implements Closeable {
   /**
    * Constructs a new {@code Scanner} that produces values scanned from the specified file.
    *
-   * Bytes from the file are converted into characters using the found charset.
+   * Bytes from the file are converted into characters using the found encoding.
    * Tries first to read a BOM. If no BOM exists defaultEncoding is used.
    *
    * @param source A file to be scanned
@@ -47,7 +47,7 @@ public class TextScanner implements Closeable {
    * @throws IllegalArgumentException if the specified encoding is not found
    */
   public TextScanner(File source, String defaultEncoding) throws IOException {
-    String charsetName;
+    String encodingName;
 
     try ( BOMInputStream bomInputStream = new BOMInputStream(new FileInputStream(source),
                                                              ByteOrderMark.UTF_8,
@@ -56,10 +56,10 @@ public class TextScanner implements Closeable {
                                                              ByteOrderMark.UTF_32LE,
                                                              ByteOrderMark.UTF_32BE)) {
       ByteOrderMark bom = bomInputStream.getBOM();
-      charsetName = bom == null ? defaultEncoding : bom.getCharsetName();
+      encodingName = bom == null ? defaultEncoding : bom.getCharsetName();
     }
 
-    scanner = new Scanner(source, charsetName);
+    scanner = new Scanner(source, encodingName);
   }
 
   /**

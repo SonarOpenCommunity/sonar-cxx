@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx;
 
-import org.sonar.cxx.config.CxxSquidConfiguration;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
@@ -27,6 +26,7 @@ import java.io.File;
 import static java.lang.Math.min;
 import java.util.Collection;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;

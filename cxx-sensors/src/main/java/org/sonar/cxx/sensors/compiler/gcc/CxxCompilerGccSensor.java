@@ -35,8 +35,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   public static final String KEY = "GCC";
   public static final String REPORT_PATH_KEY = "sonar.cxx.gcc.reportPaths";
   public static final String REPORT_REGEX_DEF = "sonar.cxx.gcc.regex";
-  public static final String REPORT_CHARSET_DEF = "sonar.cxx.gcc.charset";
-  public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
+  public static final String REPORT_ENCODING_DEF = "sonar.cxx.gcc.encoding";
+  public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
   /**
    * Default id used for gcc warnings not associated with any activation switch.
    */
@@ -58,8 +58,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
-      PropertyDefinition.builder(REPORT_CHARSET_DEF)
-        .defaultValue(CxxCompilerGccSensor.DEFAULT_CHARSET_DEF)
+      PropertyDefinition.builder(REPORT_ENCODING_DEF)
+        .defaultValue(CxxCompilerGccSensor.DEFAULT_ENCODING_DEF)
         .name("GCC Report Encoding")
         .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
         .category(category)
@@ -96,8 +96,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   }
 
   @Override
-  protected String getCharset() {
-    return context.config().get(REPORT_CHARSET_DEF).orElse(DEFAULT_CHARSET_DEF);
+  protected String getEncoding() {
+    return context.config().get(REPORT_ENCODING_DEF).orElse(DEFAULT_ENCODING_DEF);
   }
 
   @Override

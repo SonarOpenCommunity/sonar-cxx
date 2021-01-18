@@ -114,7 +114,7 @@ public class CxxCompilerSensorTest {
     }
 
     @Override
-    protected String getCharset() {
+    protected String getEncoding() {
       return StandardCharsets.UTF_8.name();
     }
 

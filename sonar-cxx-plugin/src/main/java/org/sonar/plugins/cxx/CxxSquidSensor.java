@@ -175,8 +175,8 @@ public class CxxSquidSensor implements ProjectSensor {
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
-      PropertyDefinition.builder(MsBuild.REPORT_CHARSET_DEF)
-        .defaultValue(MsBuild.DEFAULT_CHARSET_DEF)
+      PropertyDefinition.builder(MsBuild.REPORT_ENCODING_DEF)
+        .defaultValue(MsBuild.DEFAULT_ENCODING_DEF)
         .name("MSBuild log encoding")
         .description("The encoding to use when reading a MSBuild log. Leave empty to use default UTF-8.")
         .category("CXX")
@@ -322,8 +322,8 @@ public class CxxSquidSensor implements ProjectSensor {
     squidConfig.readJsonCompilationDb();
 
     List<File> logFiles = CxxUtils.getFiles(context, MsBuild.REPORT_PATH_KEY);
-    squidConfig.readMsBuildFiles(logFiles, context.config().get(MsBuild.REPORT_CHARSET_DEF)
-                                 .orElse(MsBuild.DEFAULT_CHARSET_DEF));
+    squidConfig.readMsBuildFiles(logFiles, context.config().get(MsBuild.REPORT_ENCODING_DEF)
+                                 .orElse(MsBuild.DEFAULT_ENCODING_DEF));
 
     return squidConfig;
   }

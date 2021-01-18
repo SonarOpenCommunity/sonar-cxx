@@ -36,7 +36,6 @@ public class CxxUnitTestResultsAggregator {
   private static final Logger LOG = Loggers.get(CxxUnitTestResultsAggregator.class);
 
   private final VisualStudioTestResultsFileParser visualStudioTestResultsFileParser;
-  private final XUnitTestResultsFileParser xunitTestResultsFileParser;
   private final NUnitTestResultsFileParser nunitTestResultsFileParser;
 
   /**
@@ -46,14 +45,12 @@ public class CxxUnitTestResultsAggregator {
    * @param settings SQ Configuration
    */
   public CxxUnitTestResultsAggregator() {
-    this(new VisualStudioTestResultsFileParser(), new XUnitTestResultsFileParser(), new NUnitTestResultsFileParser());
+    this(new VisualStudioTestResultsFileParser(), new NUnitTestResultsFileParser());
   }
 
   CxxUnitTestResultsAggregator(VisualStudioTestResultsFileParser visualStudioTestResultsFileParser,
-                               XUnitTestResultsFileParser xunitTestResultsFileParser,
                                NUnitTestResultsFileParser nunitTestResultsFileParser) {
     this.visualStudioTestResultsFileParser = visualStudioTestResultsFileParser;
-    this.xunitTestResultsFileParser = xunitTestResultsFileParser;
     this.nunitTestResultsFileParser = nunitTestResultsFileParser;
   }
 
@@ -74,11 +71,6 @@ public class CxxUnitTestResultsAggregator {
     if (unitTestConf.hasVisualStudioTestResultsFile()) {
       aggregate(wildcardPatternFileProvider, unitTestConf.getVisualStudioTestResultsFiles(),
                 visualStudioTestResultsFileParser, unitTestResults);
-    }
-
-    if (unitTestConf.hasXUnitTestResultsFile()) {
-      aggregate(wildcardPatternFileProvider, unitTestConf.getXUnitTestResultsFiles(), xunitTestResultsFileParser,
-                unitTestResults);
     }
 
     if (unitTestConf.hasNUnitTestResultsFile()) {

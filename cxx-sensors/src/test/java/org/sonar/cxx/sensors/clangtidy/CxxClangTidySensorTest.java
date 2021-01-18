@@ -42,7 +42,7 @@ public class CxxClangTidySensorTest {
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    settings.setProperty(CxxClangTidySensor.REPORT_CHARSET_DEF, StandardCharsets.UTF_8.name());
+    settings.setProperty(CxxClangTidySensor.REPORT_ENCODING_DEF, StandardCharsets.UTF_8.name());
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
   }
 

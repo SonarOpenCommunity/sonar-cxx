@@ -47,14 +47,14 @@ public final class DrMemoryParser {
    * DrMemory parser
    *
    * @param file with findings
-   * @param charset file encoding character set
+   * @param encoding file encoding character set
    * @return list of issues extracted from file
    */
-  public static List<DrMemoryError> parse(File file, String charset) {
+  public static List<DrMemoryError> parse(File file, String encoding) {
 
     var result = new ArrayList<DrMemoryError>();
 
-    List<String> elements = getElements(file, charset);
+    List<String> elements = getElements(file, encoding);
 
     for (var element : elements) {
       Matcher m = RX_MESSAGE_FINDER.matcher(element);
@@ -85,14 +85,14 @@ public final class DrMemoryParser {
    * get all DrMemory elements from file
    *
    * @param file with findings
-   * @param charset file encoding character set
+   * @param encoding file encoding character set
    * @return list of elements from report file
    */
-  public static List<String> getElements(File file, String charset) {
+  public static List<String> getElements(File file, String encoding) {
 
     var list = new ArrayList<String>();
-    try (var br = new BufferedReader(
-      new InputStreamReader(java.nio.file.Files.newInputStream(file.toPath()), charset))) {
+    try ( var br = new BufferedReader(
+      new InputStreamReader(java.nio.file.Files.newInputStream(file.toPath()), encoding))) {
       var sb = new StringBuilder(4096);
       String line;
       int cnt = 0;
