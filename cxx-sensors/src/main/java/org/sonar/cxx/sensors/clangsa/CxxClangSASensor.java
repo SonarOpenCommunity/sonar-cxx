@@ -56,7 +56,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
         .description(
           "Path to Clang Static Analyzer reports, relative to projects root. If neccessary, "
           + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
-        .category("External Analyzers")
+        .category("CXX External Analyzers")
         .subCategory("Clang Static Analyzer")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
