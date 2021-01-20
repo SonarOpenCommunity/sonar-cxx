@@ -36,6 +36,8 @@ from tempfile import mkstemp
 from requests.auth import HTTPBasicAuth
 
 SONAR_URL = "http://localhost:9000"
+SONAR_LOGIN = os.getenv('sonar.login', 'admin')
+SONAR_PASSWORD = os.getenv('sonar.password', 'admin')
 INDENT = "    "
 BASEDIR = os.path.dirname(os.path.realpath(__file__))
 JAR_CXX_PATTERN1 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*[0-9].jar")
@@ -311,7 +313,7 @@ def wait_for_sonar(timeout, criteria):
 
 def is_webui_up():    
     try:
-        response = requests.get(SONAR_URL + "/api/system/status", auth=HTTPBasicAuth('admin', 'admin'))
+        response = requests.get(SONAR_URL + "/api/system/status", auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
         response.raise_for_status()
         status = response.json()['status']
         sys.stdout.write(RESET + status + ' ')
@@ -327,7 +329,7 @@ def is_webui_down():
     sys.stdout.write("DOWN? ")
     sys.stdout.flush()
     try:
-        response = requests.get(SONAR_URL + "/api/system/status", auth=HTTPBasicAuth('admin', 'admin'))
+        response = requests.get(SONAR_URL + "/api/system/status", auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
         response.raise_for_status()
         return False
     except:
