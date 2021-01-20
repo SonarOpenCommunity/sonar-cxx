@@ -29,18 +29,19 @@ public class ModuleTest extends ParserBaseTestHelper {
 
     mockRule(CxxGrammarImpl.globalModuleFragment);
     mockRule(CxxGrammarImpl.moduleDeclaration);
-    mockRule(CxxGrammarImpl.declarationSeq);
+    mockRule(CxxGrammarImpl.declaration);
     mockRule(CxxGrammarImpl.privateModuleFragment);
 
     assertThatParser()
       .matches("moduleDeclaration")
-      .matches("moduleDeclaration declarationSeq")
+      .matches("moduleDeclaration declaration")
+      .matches("moduleDeclaration declaration declaration") // declarationSeq
       .matches("globalModuleFragment moduleDeclaration")
-      .matches("globalModuleFragment moduleDeclaration declarationSeq")
+      .matches("globalModuleFragment moduleDeclaration declaration")
       .matches("moduleDeclaration privateModuleFragment")
-      .matches("moduleDeclaration declarationSeq privateModuleFragment")
+      .matches("moduleDeclaration declaration privateModuleFragment")
       .matches("globalModuleFragment moduleDeclaration privateModuleFragment")
-      .matches("globalModuleFragment moduleDeclaration declarationSeq privateModuleFragment");
+      .matches("globalModuleFragment moduleDeclaration declaration privateModuleFragment");
   }
 
   @Test

@@ -367,10 +367,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   public static Grammar create(CxxSquidConfiguration squidConfig) {
     var b = LexerfulGrammarBuilder.create();
 
-    toplevel(b);
+    toplevel(b, squidConfig);
     expressions(b);
     statements(b);
-    declarations(b, squidConfig);
+    declarations(b);
     modules(b);
     classes(b);
     properties(b);
@@ -429,15 +429,55 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
   // **A.3 Basics [gram.basic]**
   //
-  private static void toplevel(LexerfulGrammarBuilder b) {
-    b.rule(translationUnit).is(
-      b.firstOf(
-        b.sequence(b.optional(globalModuleFragment), moduleDeclaration,
-                   b.optional(declarationSeq), b.optional(privateModuleFragment)), // C++
-        b.optional(declarationSeq) // C++
-      ),
-      EOF
-    );
+  private static void toplevel(LexerfulGrammarBuilder b, CxxSquidConfiguration squidConfig) {
+    if (squidConfig.getBoolean(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
+                               CxxSquidConfiguration.ERROR_RECOVERY_ENABLED).orElse(Boolean.TRUE)) {
+      //
+      // parsing with error recovery
+      //
+      b.rule(translationUnit).is(
+        b.firstOf(
+          b.sequence(b.optional(globalModuleFragment),
+                     moduleDeclaration,
+                     b.zeroOrMore(
+                       b.firstOf(
+                         declaration,
+                         recoveredDeclaration)
+                     ),
+                     b.optional(privateModuleFragment)),
+          b.zeroOrMore(
+            b.firstOf(
+              declaration,
+              recoveredDeclaration)
+          )
+        ),
+        EOF
+      );
+
+      // eat all tokens until the next declaration is recognized
+      // this works only on top level!!!
+      b.rule(recoveredDeclaration).is(
+        b.oneOrMore(
+          b.nextNot(
+            b.firstOf(
+              declaration,
+              EOF
+            )
+          ), b.anyToken()
+        )
+      );
+    } else {
+      b.rule(translationUnit).is(
+        b.firstOf(
+          b.sequence(b.optional(globalModuleFragment),
+                     moduleDeclaration,
+                     b.zeroOrMore(declaration),
+                     b.optional(privateModuleFragment)), // C++
+          b.zeroOrMore(declaration) // C++
+        ),
+        EOF
+      );
+    }
   }
 
   // **A.4 Expressions [gram.expr]**
@@ -1005,23 +1045,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
   // **A.6 Declarations [gram.dcl]**
   //
-  private static void declarations(LexerfulGrammarBuilder b, CxxSquidConfiguration squidConfig) {
+  private static void declarations(LexerfulGrammarBuilder b) {
 
-    if (squidConfig.getBoolean(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
-                               CxxSquidConfiguration.ERROR_RECOVERY_ENABLED).orElse(Boolean.TRUE)) {
-      b.rule(declarationSeq).is(
-        b.oneOrMore(
-          b.firstOf(
-            declaration, // C++
-            recoveredDeclaration
-          )
-        )
-      ).skipIfOneChild();
-    } else {
-      b.rule(declarationSeq).is(
-        b.oneOrMore(declaration) // C++
-      ).skipIfOneChild();
-    }
+    b.rule(declarationSeq).is(
+      b.oneOrMore(declaration) // C++
+    ).skipIfOneChild();
 
     b.rule(declaration).is(
       b.firstOf(
@@ -1043,18 +1071,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         attributeDeclaration, // C++
 
         vcAtlDeclaration // Attributted-ATL
-      )
-    );
-
-    b.rule(recoveredDeclaration).is(
-      // eat all tokens until the next declaration is recognized
-      b.oneOrMore(
-        b.nextNot(
-          b.firstOf(
-            declaration,
-            EOF
-          )
-        ), b.anyToken()
       )
     );
 
