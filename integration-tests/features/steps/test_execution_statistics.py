@@ -53,6 +53,8 @@ except ImportError:
 TESTDATADIR = os.path.normpath(os.path.join(os.path.realpath(__file__),
                                             "..", "..", "..", "testdata"))
 SONAR_URL = "http://localhost:9000"
+SONAR_LOGIN = os.getenv('sonar.login', 'admin')
+SONAR_PASSWORD = os.getenv('sonar.password', 'admin')
 
 TEST_METRICS_ORDER = [
     "tests",
@@ -237,14 +239,6 @@ def step_impl(context):
     assert _contains_line_matching(context.log, context.text)
 
 
-@given(u'a report outside the projects directory, e.g. "/tmp/cppcheck-v2.xml"')
-def step_impl(context):
-    report_fname = "cppcheck-v1.xml"
-    source = os.path.join(TESTDATADIR, "cppcheck_project", report_fname)
-    target = os.path.join("/tmp", report_fname)
-    shutil.copyfile(source, target)
-
-
 @when(u'I run "{command}"')
 def step_impl(context, command):
     _run_command(context, command)
@@ -252,13 +246,13 @@ def step_impl(context, command):
 
 @when(u'I run sonar-scanner with "{params}"')
 def step_impl(context, params):
-    _run_command(context, "sonar-scanner -Dsonar.login=admin -Dsonar.password=admin " + params)
+    _run_command(context, "sonar-scanner -Dsonar.login=" + SONAR_LOGIN + " -Dsonar.password=" + SONAR_PASSWORD + " " + params)
 
 
 @when(u'I run sonar-scanner with following options')
 def step_impl(context):
     arguments = [line for line in context.text.split("\n") if line != '']
-    command = "sonar-scanner -Dsonar.login=admin -Dsonar.password=admin " + " ".join(arguments)
+    command = "sonar-scanner -Dsonar.login=" + SONAR_LOGIN + " -Dsonar.password=" + SONAR_PASSWORD + " " + " ".join(arguments)
     _run_command(context, command)
 
 
@@ -268,7 +262,7 @@ def step_impl(context):
 def _rest_api_get(url):
     try:
         response = None
-        response = requests.get(url, timeout=60, auth=HTTPBasicAuth('admin', 'admin'))
+        response = requests.get(url, timeout=60, auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
         response.raise_for_status()
         if not response.text:
             assert False, "error _rest_api_get: no response %s" % url
@@ -282,7 +276,7 @@ def _rest_api_get(url):
 def _rest_api_set(url, payload):
     try:
         response = None
-        response = requests.post(url, payload, timeout=60, auth=HTTPBasicAuth('admin', 'admin'))
+        response = requests.post(url, payload, timeout=60, auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
         response.raise_for_status()
         return response
     except requests.exceptions.RequestException as e:

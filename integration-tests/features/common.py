@@ -54,6 +54,8 @@ except ImportError:
 
 INDENT = "    "    
 SONAR_URL = "http://localhost:9000"
+SONAR_LOGIN = os.getenv('sonar.login', 'admin')
+SONAR_PASSWORD = os.getenv('sonar.password', 'admin')
 
 def get_sonar_log_folder(sonarhome):
     return os.path.join(sonarhome, SONAR_LOG_FOLDER)
@@ -82,7 +84,7 @@ def sonar_analysis_finished(logpath):
     status = ""
     while True:
         time.sleep(1)
-        response = requests.get(url, auth=HTTPBasicAuth('admin', 'admin'))
+        response = requests.get(url, auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
         if not response.text:
             print(BRIGHT + "     CURRENT STATUS : no response" + RESET_ALL)
             continue
@@ -101,7 +103,7 @@ def sonar_analysis_finished(logpath):
             break
 
     serverlogurl = url.replace("task?id", "logs?taskId")
-    r = requests.get(serverlogurl, auth=HTTPBasicAuth('admin', 'admin'), timeout=10)
+    r = requests.get(serverlogurl, auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD), timeout=10)
 
     writepath = logpath + ".server"
     f = open(writepath, 'w')
