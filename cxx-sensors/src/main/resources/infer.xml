@@ -19,7 +19,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
 </ol>
 ]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>ANALYSIS_STOPS</key>
@@ -29,9 +28,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
 ANALYSIS_STOPS (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ANALYSIS_STOPS</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -45,9 +41,6 @@ ANALYSIS_STOPS (disabled by default)
 ARRAY_OUT_OF_BOUNDS_L1 (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ARRAY_OUT_OF_BOUNDS_L1</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -61,9 +54,6 @@ ARRAY_OUT_OF_BOUNDS_L1 (disabled by default)
 ARRAY_OUT_OF_BOUNDS_L2 (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ARRAY_OUT_OF_BOUNDS_L2</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -77,9 +67,6 @@ ARRAY_OUT_OF_BOUNDS_L2 (disabled by default)
 ARRAY_OUT_OF_BOUNDS_L3 (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ARRAY_OUT_OF_BOUNDS_L3</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -93,9 +80,6 @@ ARRAY_OUT_OF_BOUNDS_L3 (disabled by default)
 Abduction_case_not_implemented (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Abduction_case_not_implemented</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -109,9 +93,6 @@ Abduction_case_not_implemented (enabled by default)
 Array_of_pointsto (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Array_of_pointsto</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -125,9 +106,6 @@ Array_of_pointsto (enabled by default)
 Assert_failure (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Assert_failure</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -141,9 +119,6 @@ Assert_failure (enabled by default)
 BIABD_USE_AFTER_FREE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>BIABD_USE_AFTER_FREE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -157,9 +132,6 @@ BIABD_USE_AFTER_FREE (enabled by default)
 BUFFER_OVERRUN_L1 (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>BUFFER_OVERRUN_L1</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -173,9 +145,6 @@ BUFFER_OVERRUN_L1 (enabled by default)
 BUFFER_OVERRUN_L2 (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>BUFFER_OVERRUN_L2</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -189,9 +158,6 @@ BUFFER_OVERRUN_L2 (enabled by default)
 BUFFER_OVERRUN_L3 (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>BUFFER_OVERRUN_L3</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -205,9 +171,6 @@ BUFFER_OVERRUN_L3 (enabled by default)
 BUFFER_OVERRUN_L4 (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>BUFFER_OVERRUN_L4</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -221,9 +184,6 @@ BUFFER_OVERRUN_L4 (disabled by default)
 BUFFER_OVERRUN_L5 (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>BUFFER_OVERRUN_L5</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -237,9 +197,6 @@ BUFFER_OVERRUN_L5 (disabled by default)
 BUFFER_OVERRUN_R2 (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>BUFFER_OVERRUN_R2</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -253,9 +210,6 @@ BUFFER_OVERRUN_R2 (enabled by default)
 BUFFER_OVERRUN_S2 (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>BUFFER_OVERRUN_S2</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -269,9 +223,6 @@ BUFFER_OVERRUN_S2 (enabled by default)
 BUFFER_OVERRUN_T1 (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>BUFFER_OVERRUN_T1</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -285,9 +236,6 @@ BUFFER_OVERRUN_T1 (enabled by default)
 BUFFER_OVERRUN_U5 (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>BUFFER_OVERRUN_U5</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -301,9 +249,6 @@ BUFFER_OVERRUN_U5 (disabled by default)
 Bad_footprint (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Bad_footprint</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -317,9 +262,6 @@ Bad_footprint (enabled by default)
 CAPTURED_STRONG_SELF (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CAPTURED_STRONG_SELF</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -333,9 +275,6 @@ CAPTURED_STRONG_SELF (enabled by default)
 CHECKERS_ALLOCATES_MEMORY (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CHECKERS_ALLOCATES_MEMORY</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -349,9 +288,6 @@ CHECKERS_ALLOCATES_MEMORY (enabled by default)
 CHECKERS_ANNOTATION_REACHABILITY_ERROR (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CHECKERS_ANNOTATION_REACHABILITY_ERROR</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -365,9 +301,6 @@ CHECKERS_ANNOTATION_REACHABILITY_ERROR (enabled by default)
 CHECKERS_CALLS_EXPENSIVE_METHOD (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CHECKERS_CALLS_EXPENSIVE_METHOD</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -381,9 +314,6 @@ CHECKERS_CALLS_EXPENSIVE_METHOD (enabled by default)
 CHECKERS_EXPENSIVE_OVERRIDES_UNANNOTATED (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CHECKERS_EXPENSIVE_OVERRIDES_UNANNOTATED</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -397,9 +327,6 @@ CHECKERS_EXPENSIVE_OVERRIDES_UNANNOTATED (enabled by default)
 CHECKERS_FRAGMENT_RETAINS_VIEW (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CHECKERS_FRAGMENT_RETAINS_VIEW</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -413,9 +340,6 @@ CHECKERS_FRAGMENT_RETAINS_VIEW (enabled by default)
 CHECKERS_IMMUTABLE_CAST (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CHECKERS_IMMUTABLE_CAST</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -429,9 +353,6 @@ CHECKERS_IMMUTABLE_CAST (enabled by default)
 CHECKERS_PRINTF_ARGS (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CHECKERS_PRINTF_ARGS</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -445,9 +366,6 @@ CHECKERS_PRINTF_ARGS (enabled by default)
 CLASS_CAST_EXCEPTION (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CLASS_CAST_EXCEPTION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -461,9 +379,6 @@ CLASS_CAST_EXCEPTION (disabled by default)
 CLASS_LOAD (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CLASS_LOAD</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -477,9 +392,6 @@ CLASS_LOAD (enabled by default)
 COMPARING_FLOAT_FOR_EQUALITY (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>COMPARING_FLOAT_FOR_EQUALITY</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -493,9 +405,6 @@ COMPARING_FLOAT_FOR_EQUALITY (enabled by default)
 COMPONENT_FACTORY_FUNCTION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>COMPONENT_FACTORY_FUNCTION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -509,9 +418,6 @@ COMPONENT_FACTORY_FUNCTION (enabled by default)
 COMPONENT_FILE_CYCLOMATIC_COMPLEXITY (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>COMPONENT_FILE_CYCLOMATIC_COMPLEXITY</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -525,9 +431,6 @@ COMPONENT_FILE_CYCLOMATIC_COMPLEXITY (enabled by default)
 COMPONENT_FILE_LINE_COUNT (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>COMPONENT_FILE_LINE_COUNT</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -541,9 +444,6 @@ COMPONENT_FILE_LINE_COUNT (disabled by default)
 COMPONENT_INITIALIZER_WITH_SIDE_EFFECTS (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>COMPONENT_INITIALIZER_WITH_SIDE_EFFECTS</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -557,9 +457,6 @@ COMPONENT_INITIALIZER_WITH_SIDE_EFFECTS (enabled by default)
 COMPONENT_WITH_MULTIPLE_FACTORY_METHODS (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>COMPONENT_WITH_MULTIPLE_FACTORY_METHODS</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -573,9 +470,6 @@ COMPONENT_WITH_MULTIPLE_FACTORY_METHODS (enabled by default)
 COMPONENT_WITH_UNCONVENTIONAL_SUPERCLASS (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>COMPONENT_WITH_UNCONVENTIONAL_SUPERCLASS</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -589,9 +483,6 @@ COMPONENT_WITH_UNCONVENTIONAL_SUPERCLASS (enabled by default)
 CONDITION_ALWAYS_FALSE (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CONDITION_ALWAYS_FALSE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -605,9 +496,6 @@ CONDITION_ALWAYS_FALSE (disabled by default)
 CONDITION_ALWAYS_TRUE (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CONDITION_ALWAYS_TRUE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -621,9 +509,6 @@ CONDITION_ALWAYS_TRUE (disabled by default)
 CONSTANT_ADDRESS_DEREFERENCE (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CONSTANT_ADDRESS_DEREFERENCE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -637,9 +522,6 @@ CONSTANT_ADDRESS_DEREFERENCE (disabled by default)
 CREATE_INTENT_FROM_URI (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CREATE_INTENT_FROM_URI</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -653,9 +535,6 @@ CREATE_INTENT_FROM_URI (enabled by default)
 CROSS_SITE_SCRIPTING (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>CROSS_SITE_SCRIPTING</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -669,9 +548,6 @@ CROSS_SITE_SCRIPTING (enabled by default)
 Cannot_star (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Cannot_star</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -685,9 +561,6 @@ Cannot_star (enabled by default)
 Codequery (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Codequery</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -701,9 +574,6 @@ Codequery (enabled by default)
 DANGLING_POINTER_DEREFERENCE (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>DANGLING_POINTER_DEREFERENCE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -717,9 +587,6 @@ DANGLING_POINTER_DEREFERENCE (disabled by default)
 DEADLOCK (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>DEADLOCK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -733,9 +600,6 @@ DEADLOCK (enabled by default)
 DEAD_STORE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>DEAD_STORE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -749,9 +613,6 @@ DEAD_STORE (enabled by default)
 DEALLOCATE_STACK_VARIABLE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>DEALLOCATE_STACK_VARIABLE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -765,9 +626,6 @@ DEALLOCATE_STACK_VARIABLE (enabled by default)
 DEALLOCATE_STATIC_MEMORY (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>DEALLOCATE_STATIC_MEMORY</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -781,9 +639,6 @@ DEALLOCATE_STATIC_MEMORY (enabled by default)
 DEALLOCATION_MISMATCH (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>DEALLOCATION_MISMATCH</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -797,9 +652,6 @@ DEALLOCATION_MISMATCH (enabled by default)
 DIVIDE_BY_ZERO (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>DIVIDE_BY_ZERO</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -813,9 +665,6 @@ DIVIDE_BY_ZERO (disabled by default)
 DO_NOT_REPORT (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>DO_NOT_REPORT</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -829,9 +678,6 @@ DO_NOT_REPORT (enabled by default)
 EMPTY_VECTOR_ACCESS (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>EMPTY_VECTOR_ACCESS</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -845,9 +691,6 @@ EMPTY_VECTOR_ACCESS (enabled by default)
 ERADICATE_BAD_NESTED_CLASS_ANNOTATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_BAD_NESTED_CLASS_ANNOTATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -861,9 +704,6 @@ ERADICATE_BAD_NESTED_CLASS_ANNOTATION (enabled by default)
 ERADICATE_CONDITION_REDUNDANT (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_CONDITION_REDUNDANT</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -877,9 +717,6 @@ ERADICATE_CONDITION_REDUNDANT (enabled by default)
 ERADICATE_CONDITION_REDUNDANT_NONNULL (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_CONDITION_REDUNDANT_NONNULL</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -893,9 +730,6 @@ ERADICATE_CONDITION_REDUNDANT_NONNULL (enabled by default)
 ERADICATE_FIELD_NOT_INITIALIZED (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_FIELD_NOT_INITIALIZED</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -909,9 +743,6 @@ ERADICATE_FIELD_NOT_INITIALIZED (enabled by default)
 ERADICATE_FIELD_NOT_NULLABLE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_FIELD_NOT_NULLABLE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -925,9 +756,6 @@ ERADICATE_FIELD_NOT_NULLABLE (enabled by default)
 ERADICATE_FIELD_OVER_ANNOTATED (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_FIELD_OVER_ANNOTATED</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -941,9 +769,6 @@ ERADICATE_FIELD_OVER_ANNOTATED (enabled by default)
 ERADICATE_INCONSISTENT_SUBCLASS_PARAMETER_ANNOTATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_INCONSISTENT_SUBCLASS_PARAMETER_ANNOTATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -957,9 +782,6 @@ ERADICATE_INCONSISTENT_SUBCLASS_PARAMETER_ANNOTATION (enabled by default)
 ERADICATE_INCONSISTENT_SUBCLASS_RETURN_ANNOTATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_INCONSISTENT_SUBCLASS_RETURN_ANNOTATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -973,9 +795,6 @@ ERADICATE_INCONSISTENT_SUBCLASS_RETURN_ANNOTATION (enabled by default)
 ERADICATE_META_CLASS_CAN_BE_NULLSAFE (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_META_CLASS_CAN_BE_NULLSAFE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -989,9 +808,6 @@ ERADICATE_META_CLASS_CAN_BE_NULLSAFE (disabled by default)
 ERADICATE_META_CLASS_IS_NULLSAFE (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_META_CLASS_IS_NULLSAFE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1005,9 +821,6 @@ ERADICATE_META_CLASS_IS_NULLSAFE (disabled by default)
 ERADICATE_META_CLASS_NEEDS_IMPROVEMENT (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_META_CLASS_NEEDS_IMPROVEMENT</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1021,9 +834,6 @@ ERADICATE_META_CLASS_NEEDS_IMPROVEMENT (disabled by default)
 ERADICATE_NULLABLE_DEREFERENCE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_NULLABLE_DEREFERENCE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1037,9 +847,6 @@ ERADICATE_NULLABLE_DEREFERENCE (enabled by default)
 ERADICATE_PARAMETER_NOT_NULLABLE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_PARAMETER_NOT_NULLABLE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1053,9 +860,6 @@ ERADICATE_PARAMETER_NOT_NULLABLE (enabled by default)
 ERADICATE_REDUNDANT_NESTED_CLASS_ANNOTATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_REDUNDANT_NESTED_CLASS_ANNOTATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1069,9 +873,6 @@ ERADICATE_REDUNDANT_NESTED_CLASS_ANNOTATION (enabled by default)
 ERADICATE_RETURN_NOT_NULLABLE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_RETURN_NOT_NULLABLE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1085,9 +886,6 @@ ERADICATE_RETURN_NOT_NULLABLE (enabled by default)
 ERADICATE_RETURN_OVER_ANNOTATED (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_RETURN_OVER_ANNOTATED</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1101,9 +899,6 @@ ERADICATE_RETURN_OVER_ANNOTATED (enabled by default)
 ERADICATE_UNCHECKED_USAGE_IN_NULLSAFE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_UNCHECKED_USAGE_IN_NULLSAFE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1117,9 +912,6 @@ ERADICATE_UNCHECKED_USAGE_IN_NULLSAFE (enabled by default)
 ERADICATE_UNVETTED_THIRD_PARTY_IN_NULLSAFE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>ERADICATE_UNVETTED_THIRD_PARTY_IN_NULLSAFE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1133,9 +925,6 @@ ERADICATE_UNVETTED_THIRD_PARTY_IN_NULLSAFE (enabled by default)
 EXECUTION_TIME_COMPLEXITY_INCREASE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>EXECUTION_TIME_COMPLEXITY_INCREASE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1149,9 +938,6 @@ EXECUTION_TIME_COMPLEXITY_INCREASE (enabled by default)
 EXECUTION_TIME_COMPLEXITY_INCREASE_UI_THREAD (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>EXECUTION_TIME_COMPLEXITY_INCREASE_UI_THREAD</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1165,9 +951,6 @@ EXECUTION_TIME_COMPLEXITY_INCREASE_UI_THREAD (enabled by default)
 EXECUTION_TIME_UNREACHABLE_AT_EXIT (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>EXECUTION_TIME_UNREACHABLE_AT_EXIT</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1181,9 +964,6 @@ EXECUTION_TIME_UNREACHABLE_AT_EXIT (disabled by default)
 EXPENSIVE_EXECUTION_TIME (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>EXPENSIVE_EXECUTION_TIME</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1197,9 +977,6 @@ EXPENSIVE_EXECUTION_TIME (disabled by default)
 EXPENSIVE_EXECUTION_TIME_UI_THREAD (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>EXPENSIVE_EXECUTION_TIME_UI_THREAD</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1213,9 +990,6 @@ EXPENSIVE_EXECUTION_TIME_UI_THREAD (disabled by default)
 EXPENSIVE_LOOP_INVARIANT_CALL (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>EXPENSIVE_LOOP_INVARIANT_CALL</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1229,9 +1003,6 @@ EXPENSIVE_LOOP_INVARIANT_CALL (enabled by default)
 EXPOSED_INSECURE_INTENT_HANDLING (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>EXPOSED_INSECURE_INTENT_HANDLING</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1245,9 +1016,6 @@ EXPOSED_INSECURE_INTENT_HANDLING (enabled by default)
 Failure_exe (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Failure_exe</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1261,9 +1029,6 @@ Failure_exe (enabled by default)
 GLOBAL_VARIABLE_INITIALIZED_WITH_FUNCTION_OR_METHOD_CALL (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>GLOBAL_VARIABLE_INITIALIZED_WITH_FUNCTION_OR_METHOD_CALL</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1277,9 +1042,6 @@ GLOBAL_VARIABLE_INITIALIZED_WITH_FUNCTION_OR_METHOD_CALL (disabled by default)
 GUARDEDBY_VIOLATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>GUARDEDBY_VIOLATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1293,9 +1055,6 @@ GUARDEDBY_VIOLATION (enabled by default)
 IMPURE_FUNCTION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>IMPURE_FUNCTION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1309,9 +1068,6 @@ IMPURE_FUNCTION (enabled by default)
 INEFFICIENT_KEYSET_ITERATOR (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INEFFICIENT_KEYSET_ITERATOR</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1325,9 +1081,6 @@ INEFFICIENT_KEYSET_ITERATOR (enabled by default)
 INFERBO_ALLOC_IS_BIG (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INFERBO_ALLOC_IS_BIG</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1341,9 +1094,6 @@ INFERBO_ALLOC_IS_BIG (enabled by default)
 INFERBO_ALLOC_IS_NEGATIVE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INFERBO_ALLOC_IS_NEGATIVE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1357,9 +1107,6 @@ INFERBO_ALLOC_IS_NEGATIVE (enabled by default)
 INFERBO_ALLOC_IS_ZERO (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INFERBO_ALLOC_IS_ZERO</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1373,9 +1120,6 @@ INFERBO_ALLOC_IS_ZERO (enabled by default)
 INFERBO_ALLOC_MAY_BE_BIG (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INFERBO_ALLOC_MAY_BE_BIG</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1389,9 +1133,6 @@ INFERBO_ALLOC_MAY_BE_BIG (enabled by default)
 INFERBO_ALLOC_MAY_BE_NEGATIVE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INFERBO_ALLOC_MAY_BE_NEGATIVE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1405,9 +1146,6 @@ INFERBO_ALLOC_MAY_BE_NEGATIVE (enabled by default)
 INFERBO_ALLOC_MAY_BE_TAINTED (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INFERBO_ALLOC_MAY_BE_TAINTED</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1421,9 +1159,6 @@ INFERBO_ALLOC_MAY_BE_TAINTED (enabled by default)
 INFINITE_EXECUTION_TIME (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INFINITE_EXECUTION_TIME</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1437,9 +1172,6 @@ INFINITE_EXECUTION_TIME (disabled by default)
 INHERENTLY_DANGEROUS_FUNCTION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INHERENTLY_DANGEROUS_FUNCTION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1453,9 +1185,6 @@ INHERENTLY_DANGEROUS_FUNCTION (enabled by default)
 INSECURE_INTENT_HANDLING (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INSECURE_INTENT_HANDLING</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1469,9 +1198,6 @@ INSECURE_INTENT_HANDLING (enabled by default)
 INTEGER_OVERFLOW_L1 (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INTEGER_OVERFLOW_L1</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1485,9 +1211,6 @@ INTEGER_OVERFLOW_L1 (enabled by default)
 INTEGER_OVERFLOW_L2 (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INTEGER_OVERFLOW_L2</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1501,9 +1224,6 @@ INTEGER_OVERFLOW_L2 (enabled by default)
 INTEGER_OVERFLOW_L5 (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INTEGER_OVERFLOW_L5</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1517,9 +1237,6 @@ INTEGER_OVERFLOW_L5 (disabled by default)
 INTEGER_OVERFLOW_R2 (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INTEGER_OVERFLOW_R2</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1533,9 +1250,6 @@ INTEGER_OVERFLOW_R2 (enabled by default)
 INTEGER_OVERFLOW_U5 (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INTEGER_OVERFLOW_U5</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1549,9 +1263,6 @@ INTEGER_OVERFLOW_U5 (disabled by default)
 INTERFACE_NOT_THREAD_SAFE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INTERFACE_NOT_THREAD_SAFE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1565,9 +1276,6 @@ INTERFACE_NOT_THREAD_SAFE (enabled by default)
 INVARIANT_CALL (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>INVARIANT_CALL</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1581,9 +1289,6 @@ INVARIANT_CALL (disabled by default)
 IVAR_NOT_NULL_CHECKED (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>IVAR_NOT_NULL_CHECKED</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1597,9 +1302,6 @@ IVAR_NOT_NULL_CHECKED (enabled by default)
 Internal_error (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Internal_error</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1613,9 +1315,6 @@ Internal_error (enabled by default)
 JAVASCRIPT_INJECTION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>JAVASCRIPT_INJECTION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1629,9 +1328,6 @@ JAVASCRIPT_INJECTION (enabled by default)
 LOCKLESS_VIOLATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>LOCKLESS_VIOLATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1645,9 +1341,6 @@ LOCKLESS_VIOLATION (enabled by default)
 LOCK_CONSISTENCY_VIOLATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>LOCK_CONSISTENCY_VIOLATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1661,9 +1354,6 @@ LOCK_CONSISTENCY_VIOLATION (enabled by default)
 LOGGING_PRIVATE_DATA (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>LOGGING_PRIVATE_DATA</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1677,9 +1367,6 @@ LOGGING_PRIVATE_DATA (enabled by default)
 Leak_after_array_abstraction (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Leak_after_array_abstraction</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1693,9 +1380,6 @@ Leak_after_array_abstraction (enabled by default)
 Leak_in_footprint (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Leak_in_footprint</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1709,9 +1393,6 @@ Leak_in_footprint (enabled by default)
 MEMORY_LEAK (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>MEMORY_LEAK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1725,9 +1406,6 @@ MEMORY_LEAK (enabled by default)
 MISSING_REQUIRED_PROP (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>MISSING_REQUIRED_PROP</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1741,9 +1419,6 @@ MISSING_REQUIRED_PROP (enabled by default)
 MIXED_SELF_WEAKSELF (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>MIXED_SELF_WEAKSELF</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1757,9 +1432,6 @@ MIXED_SELF_WEAKSELF (enabled by default)
 MULTIPLE_WEAKSELF (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>MULTIPLE_WEAKSELF</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1773,9 +1445,6 @@ MULTIPLE_WEAKSELF (enabled by default)
 MUTABLE_LOCAL_VARIABLE_IN_COMPONENT_FILE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>MUTABLE_LOCAL_VARIABLE_IN_COMPONENT_FILE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1789,9 +1458,6 @@ MUTABLE_LOCAL_VARIABLE_IN_COMPONENT_FILE (enabled by default)
 Missing_fld (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Missing_fld</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1805,9 +1471,6 @@ Missing_fld (enabled by default)
 NULLPTR_DEREFERENCE (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>NULLPTR_DEREFERENCE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1821,9 +1484,6 @@ NULLPTR_DEREFERENCE (disabled by default)
 NULL_DEREFERENCE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>NULL_DEREFERENCE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1837,9 +1497,6 @@ NULL_DEREFERENCE (enabled by default)
 NULL_TEST_AFTER_DEREFERENCE (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>NULL_TEST_AFTER_DEREFERENCE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1853,9 +1510,6 @@ NULL_TEST_AFTER_DEREFERENCE (disabled by default)
 PARAMETER_NOT_NULL_CHECKED (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>PARAMETER_NOT_NULL_CHECKED</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1869,9 +1523,6 @@ PARAMETER_NOT_NULL_CHECKED (enabled by default)
 POINTER_SIZE_MISMATCH (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>POINTER_SIZE_MISMATCH</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1885,9 +1536,6 @@ POINTER_SIZE_MISMATCH (enabled by default)
 PRECONDITION_NOT_FOUND (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>PRECONDITION_NOT_FOUND</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1901,9 +1549,6 @@ PRECONDITION_NOT_FOUND (enabled by default)
 PRECONDITION_NOT_MET (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>PRECONDITION_NOT_MET</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1917,9 +1562,6 @@ PRECONDITION_NOT_MET (enabled by default)
 PREMATURE_NIL_TERMINATION_ARGUMENT (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>PREMATURE_NIL_TERMINATION_ARGUMENT</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1933,9 +1575,6 @@ PREMATURE_NIL_TERMINATION_ARGUMENT (enabled by default)
 PULSE_MEMORY_LEAK (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>PULSE_MEMORY_LEAK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1949,9 +1588,6 @@ PULSE_MEMORY_LEAK (disabled by default)
 PURE_FUNCTION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>PURE_FUNCTION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1965,9 +1601,6 @@ PURE_FUNCTION (enabled by default)
 QUANDARY_TAINT_ERROR (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>QUANDARY_TAINT_ERROR</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1981,9 +1614,6 @@ QUANDARY_TAINT_ERROR (enabled by default)
 REGISTERED_OBSERVER_BEING_DEALLOCATED (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>REGISTERED_OBSERVER_BEING_DEALLOCATED</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1997,9 +1627,6 @@ REGISTERED_OBSERVER_BEING_DEALLOCATED (enabled by default)
 RESOURCE_LEAK (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>RESOURCE_LEAK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2013,9 +1640,6 @@ RESOURCE_LEAK (enabled by default)
 RETAIN_CYCLE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>RETAIN_CYCLE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2029,9 +1653,6 @@ RETAIN_CYCLE (enabled by default)
 RETURN_EXPRESSION_REQUIRED (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>RETURN_EXPRESSION_REQUIRED</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2045,9 +1666,6 @@ RETURN_EXPRESSION_REQUIRED (enabled by default)
 RETURN_STATEMENT_MISSING (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>RETURN_STATEMENT_MISSING</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2061,9 +1679,6 @@ RETURN_STATEMENT_MISSING (enabled by default)
 RETURN_VALUE_IGNORED (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>RETURN_VALUE_IGNORED</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2077,9 +1692,6 @@ RETURN_VALUE_IGNORED (disabled by default)
 SHELL_INJECTION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>SHELL_INJECTION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2093,9 +1705,6 @@ SHELL_INJECTION (enabled by default)
 SHELL_INJECTION_RISK (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>SHELL_INJECTION_RISK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2109,9 +1718,6 @@ SHELL_INJECTION_RISK (enabled by default)
 SKIP_FUNCTION (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>SKIP_FUNCTION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2125,9 +1731,6 @@ SKIP_FUNCTION (disabled by default)
 SKIP_POINTER_DEREFERENCE (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>SKIP_POINTER_DEREFERENCE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2141,9 +1744,6 @@ SKIP_POINTER_DEREFERENCE (disabled by default)
 SQL_INJECTION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>SQL_INJECTION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2157,9 +1757,6 @@ SQL_INJECTION (enabled by default)
 SQL_INJECTION_RISK (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>SQL_INJECTION_RISK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2173,9 +1770,6 @@ SQL_INJECTION_RISK (enabled by default)
 STACK_VARIABLE_ADDRESS_ESCAPE (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>STACK_VARIABLE_ADDRESS_ESCAPE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2189,9 +1783,6 @@ STACK_VARIABLE_ADDRESS_ESCAPE (disabled by default)
 STARVATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>STARVATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2205,9 +1796,6 @@ STARVATION (enabled by default)
 STATIC_INITIALIZATION_ORDER_FIASCO (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>STATIC_INITIALIZATION_ORDER_FIASCO</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2221,9 +1809,6 @@ STATIC_INITIALIZATION_ORDER_FIASCO (enabled by default)
 STRICT_MODE_VIOLATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>STRICT_MODE_VIOLATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2237,9 +1822,6 @@ STRICT_MODE_VIOLATION (enabled by default)
 STRONG_SELF_NOT_CHECKED (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>STRONG_SELF_NOT_CHECKED</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2253,9 +1835,6 @@ STRONG_SELF_NOT_CHECKED (enabled by default)
 Symexec_memory_error (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Symexec_memory_error</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2269,9 +1848,6 @@ Symexec_memory_error (enabled by default)
 THREAD_SAFETY_VIOLATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>THREAD_SAFETY_VIOLATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2285,9 +1861,6 @@ THREAD_SAFETY_VIOLATION (enabled by default)
 TOPL_ERROR (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>TOPL_ERROR</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2301,9 +1874,6 @@ TOPL_ERROR (enabled by default)
 UNARY_MINUS_APPLIED_TO_UNSIGNED_EXPRESSION (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNARY_MINUS_APPLIED_TO_UNSIGNED_EXPRESSION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2317,9 +1887,6 @@ UNARY_MINUS_APPLIED_TO_UNSIGNED_EXPRESSION (disabled by default)
 UNINITIALIZED_VALUE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNINITIALIZED_VALUE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2333,9 +1900,6 @@ UNINITIALIZED_VALUE (enabled by default)
 UNREACHABLE_CODE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNREACHABLE_CODE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2349,9 +1913,6 @@ UNREACHABLE_CODE (enabled by default)
 UNTRUSTED_BUFFER_ACCESS (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNTRUSTED_BUFFER_ACCESS</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2365,9 +1926,6 @@ UNTRUSTED_BUFFER_ACCESS (disabled by default)
 UNTRUSTED_DESERIALIZATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNTRUSTED_DESERIALIZATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2381,9 +1939,6 @@ UNTRUSTED_DESERIALIZATION (enabled by default)
 UNTRUSTED_DESERIALIZATION_RISK (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNTRUSTED_DESERIALIZATION_RISK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2397,9 +1952,6 @@ UNTRUSTED_DESERIALIZATION_RISK (enabled by default)
 UNTRUSTED_ENVIRONMENT_CHANGE_RISK (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNTRUSTED_ENVIRONMENT_CHANGE_RISK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2413,9 +1965,6 @@ UNTRUSTED_ENVIRONMENT_CHANGE_RISK (enabled by default)
 UNTRUSTED_FILE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNTRUSTED_FILE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2429,9 +1978,6 @@ UNTRUSTED_FILE (enabled by default)
 UNTRUSTED_FILE_RISK (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNTRUSTED_FILE_RISK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2445,9 +1991,6 @@ UNTRUSTED_FILE_RISK (enabled by default)
 UNTRUSTED_HEAP_ALLOCATION (disabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNTRUSTED_HEAP_ALLOCATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2461,9 +2004,6 @@ UNTRUSTED_HEAP_ALLOCATION (disabled by default)
 UNTRUSTED_INTENT_CREATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNTRUSTED_INTENT_CREATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2477,9 +2017,6 @@ UNTRUSTED_INTENT_CREATION (enabled by default)
 UNTRUSTED_URL_RISK (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNTRUSTED_URL_RISK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2493,9 +2030,6 @@ UNTRUSTED_URL_RISK (enabled by default)
 UNTRUSTED_VARIABLE_LENGTH_ARRAY (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>UNTRUSTED_VARIABLE_LENGTH_ARRAY</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2509,9 +2043,6 @@ UNTRUSTED_VARIABLE_LENGTH_ARRAY (enabled by default)
 USER_CONTROLLED_SQL_RISK (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>USER_CONTROLLED_SQL_RISK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2525,9 +2056,6 @@ USER_CONTROLLED_SQL_RISK (enabled by default)
 USE_AFTER_DELETE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>USE_AFTER_DELETE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2541,9 +2069,6 @@ USE_AFTER_DELETE (enabled by default)
 USE_AFTER_FREE (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>USE_AFTER_FREE</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2557,9 +2082,6 @@ USE_AFTER_FREE (enabled by default)
 USE_AFTER_LIFETIME (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>USE_AFTER_LIFETIME</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2573,9 +2095,6 @@ USE_AFTER_LIFETIME (enabled by default)
 Unknown_proc (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Unknown_proc</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2589,9 +2108,6 @@ Unknown_proc (enabled by default)
 VECTOR_INVALIDATION (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>VECTOR_INVALIDATION</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2605,9 +2121,6 @@ VECTOR_INVALIDATION (enabled by default)
 WEAK_SELF_IN_NO_ESCAPE_BLOCK (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>WEAK_SELF_IN_NO_ESCAPE_BLOCK</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2621,9 +2134,6 @@ WEAK_SELF_IN_NO_ESCAPE_BLOCK (enabled by default)
 Wrong_argument_number (enabled by default)
 ]]>
     </description>
-    <tag>bug</tag>
-    <tag>infer</tag>
-    <internalKey>Wrong_argument_number</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>

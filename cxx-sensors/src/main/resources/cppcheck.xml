@@ -19,7 +19,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
 </ol>
 ]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>AssignmentAddressToInteger</key>
@@ -39,8 +38,6 @@ pointer types (or typedefs like uintptr_t).
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>AssignmentAddressToInteger</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -64,8 +61,6 @@ pointer types (or typedefs like uintptr_t).
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>AssignmentIntegerToAddress</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -89,8 +84,6 @@ is to always return an integer.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>CastAddressToIntegerAtReturn</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -114,8 +107,6 @@ always return a pointer.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>CastIntegerToAddressAtReturn</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -129,9 +120,7 @@ always return a pointer.
 Skipping configuration 'X' since the value of 'X' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly.
 ]]>
     </description>
-    <internalKey>ConfigurationNotChecked</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -150,9 +139,6 @@ behaviour.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>IOWithoutPositioning</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -173,8 +159,6 @@ prevent that the iterator is incremented beyond the end.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>StlMissingComparison</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -188,8 +172,6 @@ prevent that the iterator is incremented beyond the end.
 The array 'array' is too small, the function 'function' expects a bigger one.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>argumentSize</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -211,8 +193,6 @@ calculations, the behaviour is undefined. Arithmetic operations on
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>arithOperationsOnVoidPointer</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -231,9 +211,6 @@ Array 'arr[16]' accessed at index 16, which is out of bounds.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>arrayIndexOutOfBounds</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -251,8 +228,6 @@ Array 'arr[16]' accessed at index 16, which is out of bounds.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>arrayIndexOutOfBoundsCond</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -275,9 +250,7 @@ be accessed if the index is out of limits.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>arrayIndexThenCheck</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -297,8 +270,6 @@ release builds, this is a bug.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>assertWithSideEffect</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -317,9 +288,6 @@ Boolean value assigned to pointer.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>assignBoolToPointer</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -337,9 +305,7 @@ Mismatching assignment and comparison, comparison '' is always false.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>assignIfError</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -359,8 +325,6 @@ bug.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>assignmentInAssert</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -382,9 +346,6 @@ variable is invalid after the function ends.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>autoVariables</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -403,9 +364,6 @@ You should only free memory that has been allocated dynamically.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>autovarInvalidDeallocation</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -424,9 +382,7 @@ mean '&&'?
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>bitwiseOnBoolean</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -444,9 +400,6 @@ you modify the container inside.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>boostForeachError</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -464,9 +417,6 @@ Buffer is accessed out of bounds: buf
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>bufferAccessOutOfBounds</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -479,8 +429,6 @@ Buffer is accessed out of bounds: buf
 The buffer 'buffer' is not null-terminated after the call to strncpy(). This will cause bugs later in the code if the code assumes the buffer is null-terminated.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>bufferNotZeroTerminated</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -500,9 +448,7 @@ reference which is usually recommended in C++.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>catchExceptionByValue</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -514,8 +460,6 @@ reference which is usually recommended in C++.
 Signed 'char' type used as array index. If the value can be greater than 127 there will be a buffer underflow because of sign extension.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>charArrayIndex</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -542,8 +486,6 @@ The "not expected" will be printed on the screen.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>charBitOp</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -563,8 +505,6 @@ dereference it?
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>charLiteralWithCharPtrCompare</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -588,8 +528,6 @@ when the file contains a matching character.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>checkCastIntToCharAndBack</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -610,9 +548,7 @@ The code ''a+b?c:d'' should be written as either ''(a+b)?c:d'' or
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>clarifyCalculation</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -630,9 +566,7 @@ with parentheses.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>clarifyCondition</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -651,8 +585,6 @@ meaningless. Did you intend to write '(*A)++;'?
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>clarifyStatement</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -681,9 +613,7 @@ return statement, it is less likely such code is misunderstood.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>commaSeparatedReturn</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -700,8 +630,6 @@ Comparison of a boolean expression with an integer other than 0 or 1.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>compareBoolExpressionWithInt</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -723,9 +651,7 @@ separate expressions.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>comparisonError</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -744,8 +670,6 @@ statement which is always false.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>comparisonFunctionIsAlwaysTrueOrFalse</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -766,9 +690,7 @@ results.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>comparisonOfBoolWithBoolError</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -780,8 +702,6 @@ results.
 The expression 'varname' is of type 'bool' and it is compared against an integer value that is neither 1 nor 0.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>comparisonOfBoolWithInt</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -802,9 +722,7 @@ operator could cause unexpected results.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>comparisonOfFuncReturningBoolError</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -823,9 +741,7 @@ relational (<, >, <= or >=) operator could cause unexpected results.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>comparisonOfTwoFuncsReturningBoolError</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -842,8 +758,6 @@ Redundant code: Found a statement that begins with type constant.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>constStatement</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -863,8 +777,6 @@ copy constructor instead of allocating new memory.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>copyCtorPointerCopying</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -883,9 +795,6 @@ Invalid usage of output stream: '<< std::cout'.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>coutCerrMisusage</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -909,9 +818,7 @@ w.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>cstyleCast</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -923,9 +830,6 @@ w.securecoding.cert.org/confluence/display/cplusplus/EXP05-CPP.+Do+not
 Dead pointer usage. Pointer 'pointer' is dead if it has been assigned '&amp;x' at line 0.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>deadpointer</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -943,9 +847,6 @@ Deallocating a deallocated pointer: varname
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>deallocDealloc</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -963,9 +864,6 @@ Returning/dereferencing 'p' after it is deallocated / released
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>deallocret</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -983,9 +881,6 @@ Dereferencing 'varname' after it is deallocated / released
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>deallocuse</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1004,8 +899,6 @@ that the iterator is valid before dereferencing it - not after.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>derefInvalidIterator</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1024,9 +917,6 @@ Memory pointed to by 'varname' is freed twice.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>doubleFree</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1045,8 +935,6 @@ defined in its parent class 'class'.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>duplInheritedMember</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1067,9 +955,7 @@ examine this code carefully to determine if it is correct.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>duplicateBranch</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1088,9 +974,7 @@ be removed.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>duplicateBreak</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1109,9 +993,7 @@ code carefully to determine if it is correct.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>duplicateExpression</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1129,9 +1011,6 @@ comparing it with another iterator is invalid operation.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>eraseDereference</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1149,8 +1028,6 @@ Exception thrown in invalid state, 'p' points at deallocated memory.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>exceptDeallocThrow</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1171,9 +1048,7 @@ copying or slicing, use a bare 'throw;'.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>exceptRethrowCopy</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1192,8 +1067,6 @@ in an outer scope the program will terminate.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>exceptThrowInDestructor</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1213,8 +1086,6 @@ behaviour on non-linux systems.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>fflushOnInputStream</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1238,9 +1109,7 @@ state?
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>functionConst</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1264,8 +1133,6 @@ unnamed namespace.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>functionStatic</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1284,8 +1151,6 @@ Return value of function malloc() is not used.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>ignoredReturnValue</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1307,8 +1172,6 @@ larger than one byte. Did you forget to multiply the size with
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>incompleteArrayFill</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1329,8 +1192,6 @@ numbers correct? Are you comparing the correct variables?
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>incorrectLogicOperator</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1350,8 +1211,6 @@ true.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>incorrectStringBooleanError</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1371,8 +1230,6 @@ substr().
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>incorrectStringCompare</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1393,9 +1250,7 @@ set to true. You should assign it the value 'true' instead.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>incrementboolean</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1416,9 +1271,7 @@ prevents order dependent initialization errors.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>initializerList</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -1430,9 +1283,6 @@ prevents order dependent initialization errors.
 Buffer overrun possible for long command line arguments.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>insecureCmdLineArgs</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1450,9 +1300,6 @@ Signed integer overflow for expression ''.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>integerOverflow</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1471,9 +1318,6 @@ the valid values are '1:4'.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidFunctionArg</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1491,9 +1335,6 @@ Invalid func_name() argument nr 1. A non-boolean value is required.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidFunctionArgBool</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1511,9 +1352,6 @@ Invalid iterator: iterator
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidIterator1</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1526,9 +1364,6 @@ Invalid iterator: iterator
 After push_back|push_front|insert(), the iterator 'iterator' may be invalid.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>invalidIterator2</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1547,8 +1382,6 @@ without a conversion specifier.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidLengthModifierError</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1562,9 +1395,6 @@ without a conversion specifier.
 Invalid pointer 'pointer' after push_back().
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>invalidPointer</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1583,8 +1413,6 @@ data representation.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidPointerCast</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1604,8 +1432,6 @@ Unknown.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidPrintfArgType_float</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1619,8 +1445,6 @@ Unknown.
 %X in format string (no. 1) requires 'unsigned int' but the argument type is Unknown.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>invalidPrintfArgType_int</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1640,8 +1464,6 @@ Unknown.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidPrintfArgType_n</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1661,8 +1483,6 @@ is Unknown.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidPrintfArgType_p</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1682,8 +1502,6 @@ Unknown.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidPrintfArgType_s</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1703,8 +1521,6 @@ Unknown.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidPrintfArgType_sint</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1724,8 +1540,6 @@ type is Unknown.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidPrintfArgType_uint</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1745,8 +1559,6 @@ is Unknown.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidScanfArgType_float</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1766,8 +1578,6 @@ Unknown.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidScanfArgType_int</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1787,8 +1597,6 @@ is Unknown.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidScanfArgType_s</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1808,9 +1616,6 @@ buffer '[0]', use %-1s to prevent overflowing it.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidScanfFormatWidth</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1847,8 +1652,6 @@ e.com/source/xnu/xnu-1456.1.26/libkern/stdio/scanf.c
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidscanf</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1862,8 +1665,6 @@ e.com/source/xnu/xnu-1456.1.26/libkern/stdio/scanf.c
 scanf without field width limits can crash with huge input data on libc versions older than 2.13-25. Add a field width specifier to fix this problem:\012    %i => %3i\012\012Sample program that can crash:\012\012#include &lt;stdio.h&gt;\012int main()\012{\012    int a;\012    scanf("%i", &amp;a);\012    return 0;\012}\012\012To make it crash:\012perl -e 'print "5"x2100000' | ./a.out
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>invalidscanf_libc</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1877,9 +1678,6 @@ scanf without field width limits can crash with huge input data on libc versions
 Same iterator is used with different containers 'container1' and 'container2'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>iterators</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1897,9 +1695,6 @@ Allocation with funcName, funcName doesn't release it.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>leakNoVarFunctionCall</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1917,9 +1712,6 @@ Return value of allocation function 'funcName' is not stored.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>leakReturnValNotUsed</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1938,8 +1730,6 @@ strcmp() instead?
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>literalWithCharPtrCompare</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1960,9 +1750,6 @@ members remain uninitialized. Consider using 'new' instead.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>mallocOnClassError</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -1982,8 +1769,6 @@ members remain uninitialized. Consider using 'new' instead.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>mallocOnClassWarning</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2002,9 +1787,6 @@ Memory leak: varname
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>memleak</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -2022,9 +1804,6 @@ Common realloc mistake: 'varname' nulled but not freed upon failure
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>memleakOnRealloc</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -2045,9 +1824,6 @@ created.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>memsetClass</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -2070,8 +1846,6 @@ value 0.0.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>memsetClassFloat</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2090,9 +1864,6 @@ Using 'memfunc' on class that contains a reference.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>memsetClassReference</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -2113,8 +1884,6 @@ floating-point value is implementation defined.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>memsetFloat</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2136,8 +1905,6 @@ value.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>memsetValueOutOfRange</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2159,8 +1926,6 @@ specified value.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>memsetZeroBytes</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2179,9 +1944,6 @@ Mismatching allocation and deallocation: varname
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>mismatchAllocDealloc</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -2199,9 +1961,6 @@ The allocated size sz is not a multiple of the underlying type's size.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>mismatchSize</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -2220,9 +1979,7 @@ Mismatching bitmasks. Result is always 0 (X = Y & 0xf0; Z = X & 0x1;
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>mismatchingBitAnd</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2239,9 +1996,6 @@ Iterators of different containers 'v1' and 'v2' are used together.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>mismatchingContainers</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -2254,9 +2008,7 @@ Iterators of different containers 'v1' and 'v2' are used together.
 Include file: "" not found.
 ]]>
     </description>
-    <internalKey>missingInclude</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2268,9 +2020,7 @@ Include file: "" not found.
       Include file: <> not found. Please note: Cppcheck does not need standard library headers to get proper results.
 ]]>
     </description>
-    <internalKey>missingIncludeSystem</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2288,8 +2038,6 @@ less than 1.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>moduloAlwaysTrueFalse</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2309,9 +2057,7 @@ previous condition at line 1.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>multiCondition</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2329,9 +2075,7 @@ it is suspicious.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>nanInArithmeticExpression</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2348,9 +2092,6 @@ Negative array index
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>negativeIndex</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -2363,9 +2104,6 @@ Negative array index
 Memory allocation size is negative.Negative allocation size has no specified behaviour.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>negativeMemoryAllocationSize</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -2386,9 +2124,7 @@ undefined behavior.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>noConstructor</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2400,9 +2136,7 @@ undefined behavior.
 'class class' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory.
 ]]>
     </description>
-    <internalKey>noCopyConstructor</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -2414,8 +2148,6 @@ undefined behavior.
 Non reentrant function 'crypt' called. For threadsafe applications it is recommended to use the reentrant replacement function 'crypt_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionscrypt</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2429,8 +2161,6 @@ Non reentrant function 'crypt' called. For threadsafe applications it is recomme
 Non reentrant function 'ctermid' called. For threadsafe applications it is recommended to use the reentrant replacement function 'ctermid_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsctermid</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2444,8 +2174,6 @@ Non reentrant function 'ctermid' called. For threadsafe applications it is recom
 Non reentrant function 'ecvt' called. For threadsafe applications it is recommended to use the reentrant replacement function 'ecvt_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsecvt</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2459,8 +2187,6 @@ Non reentrant function 'ecvt' called. For threadsafe applications it is recommen
 Non reentrant function 'fcvt' called. For threadsafe applications it is recommended to use the reentrant replacement function 'fcvt_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsfcvt</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2474,8 +2200,6 @@ Non reentrant function 'fcvt' called. For threadsafe applications it is recommen
 Non reentrant function 'fgetgrent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'fgetgrent_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsfgetgrent</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2489,8 +2213,6 @@ Non reentrant function 'fgetgrent' called. For threadsafe applications it is rec
 Non reentrant function 'fgetpwent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'fgetpwent_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsfgetpwent</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2504,8 +2226,6 @@ Non reentrant function 'fgetpwent' called. For threadsafe applications it is rec
 Non reentrant function 'fgetspent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'fgetspent_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsfgetspent</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2519,8 +2239,6 @@ Non reentrant function 'fgetspent' called. For threadsafe applications it is rec
 Non reentrant function 'gcvt' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gcvt_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgcvt</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2534,8 +2252,6 @@ Non reentrant function 'gcvt' called. For threadsafe applications it is recommen
 Non reentrant function 'getgrent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getgrent_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetgrent</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2549,8 +2265,6 @@ Non reentrant function 'getgrent' called. For threadsafe applications it is reco
 Non reentrant function 'getgrgid' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getgrgid_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetgrgid</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2564,8 +2278,6 @@ Non reentrant function 'getgrgid' called. For threadsafe applications it is reco
 Non reentrant function 'getgrnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getgrnam_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetgrnam</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2579,8 +2291,6 @@ Non reentrant function 'getgrnam' called. For threadsafe applications it is reco
 Non reentrant function 'gethostbyaddr' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostbyaddr_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgethostbyaddr</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2594,8 +2304,6 @@ Non reentrant function 'gethostbyaddr' called. For threadsafe applications it is
 Non reentrant function 'gethostbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostbyname_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgethostbyname</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2609,8 +2317,6 @@ Non reentrant function 'gethostbyname' called. For threadsafe applications it is
 Non reentrant function 'gethostbyname2' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostbyname2_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgethostbyname2</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2624,8 +2330,6 @@ Non reentrant function 'gethostbyname2' called. For threadsafe applications it i
 Non reentrant function 'gethostent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gethostent_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgethostent</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2639,8 +2343,6 @@ Non reentrant function 'gethostent' called. For threadsafe applications it is re
 Non reentrant function 'getlogin' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getlogin_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetlogin</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2654,8 +2356,6 @@ Non reentrant function 'getlogin' called. For threadsafe applications it is reco
 Non reentrant function 'getnetbyaddr' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getnetbyaddr_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetnetbyaddr</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2669,8 +2369,6 @@ Non reentrant function 'getnetbyaddr' called. For threadsafe applications it is 
 Non reentrant function 'getnetbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getnetbyname_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetnetbyname</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2684,8 +2382,6 @@ Non reentrant function 'getnetbyname' called. For threadsafe applications it is 
 Non reentrant function 'getnetgrent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getnetgrent_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetnetgrent</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2699,8 +2395,6 @@ Non reentrant function 'getnetgrent' called. For threadsafe applications it is r
 Non reentrant function 'getprotobyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getprotobyname_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetprotobyname</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2714,8 +2408,6 @@ Non reentrant function 'getprotobyname' called. For threadsafe applications it i
 Non reentrant function 'getpwent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getpwent_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetpwent</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2729,8 +2421,6 @@ Non reentrant function 'getpwent' called. For threadsafe applications it is reco
 Non reentrant function 'getpwnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getpwnam_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetpwnam</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2744,8 +2434,6 @@ Non reentrant function 'getpwnam' called. For threadsafe applications it is reco
 Non reentrant function 'getpwuid' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getpwuid_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetpwuid</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2759,8 +2447,6 @@ Non reentrant function 'getpwuid' called. For threadsafe applications it is reco
 Non reentrant function 'getrpcbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getrpcbyname_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetrpcbyname</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2774,8 +2460,6 @@ Non reentrant function 'getrpcbyname' called. For threadsafe applications it is 
 Non reentrant function 'getrpcbynumber' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getrpcbynumber_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetrpcbynumber</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2789,8 +2473,6 @@ Non reentrant function 'getrpcbynumber' called. For threadsafe applications it i
 Non reentrant function 'getrpcent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getrpcent_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetrpcent</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2804,8 +2486,6 @@ Non reentrant function 'getrpcent' called. For threadsafe applications it is rec
 Non reentrant function 'getservbyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getservbyname_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetservbyname</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2819,8 +2499,6 @@ Non reentrant function 'getservbyname' called. For threadsafe applications it is
 Non reentrant function 'getservbyport' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getservbyport_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetservbyport</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2834,8 +2512,6 @@ Non reentrant function 'getservbyport' called. For threadsafe applications it is
 Non reentrant function 'getservent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getservent_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetservent</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2849,8 +2525,6 @@ Non reentrant function 'getservent' called. For threadsafe applications it is re
 Non reentrant function 'getspent' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getspent_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetspent</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2864,8 +2538,6 @@ Non reentrant function 'getspent' called. For threadsafe applications it is reco
 Non reentrant function 'getspnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'getspnam_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgetspnam</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2879,8 +2551,6 @@ Non reentrant function 'getspnam' called. For threadsafe applications it is reco
 Non reentrant function 'gmtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'gmtime_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsgmtime</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2894,8 +2564,6 @@ Non reentrant function 'gmtime' called. For threadsafe applications it is recomm
 Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionslocaltime</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2909,8 +2577,6 @@ Non reentrant function 'localtime' called. For threadsafe applications it is rec
 Non reentrant function 'readdir' called. For threadsafe applications it is recommended to use the reentrant replacement function 'readdir_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsreaddir</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2924,8 +2590,6 @@ Non reentrant function 'readdir' called. For threadsafe applications it is recom
 Non reentrant function 'strtok' called. For threadsafe applications it is recommended to use the reentrant replacement function 'strtok_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsstrtok</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2939,8 +2603,6 @@ Non reentrant function 'strtok' called. For threadsafe applications it is recomm
 Non reentrant function 'tempnam' called. For threadsafe applications it is recommended to use the reentrant replacement function 'tempnam_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionstempnam</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2954,8 +2616,6 @@ Non reentrant function 'tempnam' called. For threadsafe applications it is recom
 Non reentrant function 'ttyname' called. For threadsafe applications it is recommended to use the reentrant replacement function 'ttyname_r'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>nonreentrantFunctionsttyname</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2974,9 +2634,6 @@ Null pointer dereference
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>nullPointer</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -2989,9 +2646,7 @@ Null pointer dereference
 Obsolete function 'asctime_r' called. It is recommended to use the function 'strftime' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsasctime_r</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3003,9 +2658,7 @@ Obsolete function 'asctime_r' called. It is recommended to use the function 'str
 Obsolete function 'bcmp' called. It is recommended to use the function 'memcmp' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsbcmp</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3017,9 +2670,7 @@ Obsolete function 'bcmp' called. It is recommended to use the function 'memcmp' 
 Obsolete function 'bcopy' called. It is recommended to use the 'memmove' or 'memcpy' function instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsbcopy</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3031,9 +2682,7 @@ Obsolete function 'bcopy' called. It is recommended to use the 'memmove' or 'mem
 Obsolete function 'bsd_signal' called. It is recommended to use the function 'sigaction' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsbsd_signal</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3045,9 +2694,7 @@ Obsolete function 'bsd_signal' called. It is recommended to use the function 'si
 Obsolete function 'bzero' called. It is recommended to use the function 'memset' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsbzero</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3059,9 +2706,7 @@ Obsolete function 'bzero' called. It is recommended to use the function 'memset'
 Obsolete function 'ctime_r' called. It is recommended to use the function 'strftime' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsctime_r</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3073,9 +2718,7 @@ Obsolete function 'ctime_r' called. It is recommended to use the function 'strft
 Obsolete function 'ecvt' called. It is recommended to use the function 'sprintf' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsecvt</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3087,9 +2730,7 @@ Obsolete function 'ecvt' called. It is recommended to use the function 'sprintf'
 Obsolete function 'fcvt' called. It is recommended to use the function 'sprintf' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsfcvt</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3101,9 +2742,7 @@ Obsolete function 'fcvt' called. It is recommended to use the function 'sprintf'
 Obsolete function 'ftime' called. It is recommended to use time(), gettimeofday() or clock_gettime() instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsftime</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3115,9 +2754,7 @@ Obsolete function 'ftime' called. It is recommended to use time(), gettimeofday(
 Obsolete function 'gcvt' called. It is recommended to use the function 'sprintf' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsgcvt</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3129,9 +2766,7 @@ Obsolete function 'gcvt' called. It is recommended to use the function 'sprintf'
 Obsolete function 'getcontext' called. Due to portability issues, applications are recommended to be rewritten to use POSIX threads.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsgetcontext</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3143,9 +2778,7 @@ Obsolete function 'getcontext' called. Due to portability issues, applications a
 Obsolete function 'gethostbyaddr' called. It is recommended to use the function 'getnameinfo' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsgethostbyaddr</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3157,9 +2790,7 @@ Obsolete function 'gethostbyaddr' called. It is recommended to use the function 
 Obsolete function 'gethostbyname' called. It is recommended to use the function 'getaddrinfo' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsgethostbyname</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3171,9 +2802,7 @@ Obsolete function 'gethostbyname' called. It is recommended to use the function 
 Obsolete function 'getwd' called. It is recommended to use the function 'getcwd' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsgetwd</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3185,9 +2814,7 @@ Obsolete function 'getwd' called. It is recommended to use the function 'getcwd'
 Obsolete function 'index' called. It is recommended to use the function 'strchr' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsindex</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3199,9 +2826,7 @@ Obsolete function 'index' called. It is recommended to use the function 'strchr'
 Obsolete function 'makecontext' called. Due to portability issues, applications are recommended to be rewritten to use POSIX threads.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsmakecontext</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3213,9 +2838,7 @@ Obsolete function 'makecontext' called. Due to portability issues, applications 
 Obsolete function 'pthread_attr_getstackaddr' called. It is recommended to use the function 'pthread_attr_getstack' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionspthread_attr_getstackaddr</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3227,9 +2850,7 @@ Obsolete function 'pthread_attr_getstackaddr' called. It is recommended to use t
 Obsolete function 'pthread_attr_setstackaddr' called. It is recommended to use the function 'pthread_attr_setstack' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionspthread_attr_setstackaddr</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3241,9 +2862,7 @@ Obsolete function 'pthread_attr_setstackaddr' called. It is recommended to use t
 Obsolete function 'rand_r' called. It is recommended to use the function 'rand' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsrand_r</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3255,9 +2874,7 @@ Obsolete function 'rand_r' called. It is recommended to use the function 'rand' 
 Obsolete function 'rindex' called. It is recommended to use the function 'strrchr' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsrindex</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3269,9 +2886,7 @@ Obsolete function 'rindex' called. It is recommended to use the function 'strrch
 Obsolete function 'scalb' called. It is recommended to use 'scalbln', 'scalblnf' or 'scalblnl' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsscalbln</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3283,9 +2898,7 @@ Obsolete function 'scalb' called. It is recommended to use 'scalbln', 'scalblnf'
 Obsolete function 'swapcontext' called. Due to portability issues, applications are recommended to be rewritten to use POSIX threads.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsswapcontext</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3297,9 +2910,7 @@ Obsolete function 'swapcontext' called. Due to portability issues, applications 
 Obsolete function 'tmpnam' called. It is recommended to use 'tmpfile', 'mkstemp' or 'mkdtemp' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionstmpnam</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3311,9 +2922,7 @@ Obsolete function 'tmpnam' called. It is recommended to use 'tmpfile', 'mkstemp'
 Obsolete function 'tmpnam_r' called. It is recommended to use 'tmpfile', 'mkstemp' or 'mkdtemp' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionstmpnam_r</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3325,9 +2934,7 @@ Obsolete function 'tmpnam_r' called. It is recommended to use 'tmpfile', 'mkstem
 Obsolete function 'ualarm' called. It is recommended to use 'timer_create', 'timer_delete', 'timer_getoverrun', 'timer_gettime' or 'timer_settime' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsualarm</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3339,9 +2946,7 @@ Obsolete function 'ualarm' called. It is recommended to use 'timer_create', 'tim
 The obsolete function 'usleep' is called. POSIX.1-2001 declares usleep() function obsolete and POSIX.1-2008 removes it. It is recommended that new applications use the 'nanosleep' or 'setitimer' function.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsusleep</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3353,9 +2958,7 @@ The obsolete function 'usleep' is called. POSIX.1-2001 declares usleep() functio
 Obsolete function 'utime' called. It is recommended to use the function 'utimensat' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsutime</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3367,9 +2970,7 @@ Obsolete function 'utime' called. It is recommended to use the function 'utimens
 Obsolete function 'vfork' called. It is recommended to use the function 'fork' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionsvfork</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3381,9 +2982,7 @@ Obsolete function 'vfork' called. It is recommended to use the function 'fork' i
 Obsolete function 'wcswcs' called. It is recommended to use the function 'wcsstr' instead.
 ]]>
     </description>
-    <internalKey>obsoleteFunctionswcswcs</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3406,9 +3005,7 @@ the book "Effective C++" by Scott Meyers.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>operatorEq</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3425,9 +3022,7 @@ the book "Effective C++" by Scott Meyers.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>operatorEqRetRefThis</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3446,8 +3041,6 @@ instance of the class.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>operatorEqToSelf</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3467,8 +3060,6 @@ Member variable 'classname::' is not assigned a value in
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>operatorEqVarError</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3488,8 +3079,6 @@ condition is 'x' and inner condition is '!x').
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>oppositeInnerCondition</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3503,9 +3092,6 @@ condition is 'x' and inner condition is '!x').
 index is out of bounds: Supplied size 2 is larger than actual size 1.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>outOfBounds</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -3524,8 +3110,6 @@ const reference which is usually faster and recommended in C++.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>passedByValue</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3546,9 +3130,6 @@ is undefined behaviour. Probably a dereference is forgotten.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>pointerArithBool</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -3567,9 +3148,7 @@ check if it is.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>pointerLessThanZero</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3586,8 +3165,6 @@ Pointer arithmetic overflow.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>pointerOutOfBounds</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3607,9 +3184,7 @@ check if it is not.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>pointerPositive</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3628,8 +3203,6 @@ likely to lead to a buffer overflow. You probably intend to write
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>pointerSize</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3643,8 +3216,6 @@ likely to lead to a buffer overflow. You probably intend to write
 Possible buffer overflow if strlen(source) is larger than or equal to sizeof(destination). The source buffer is larger than the destination buffer so there is the potential for overflowing the destination buffer.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>possibleBufferAccessOutOfBounds</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3666,8 +3237,6 @@ a copy of the previous value around and adds a little extra code.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>postfixOperator</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3681,9 +3250,6 @@ a copy of the previous value around and adds a little extra code.
 #error message
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>preprocessorErrorDirective</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -3702,8 +3268,6 @@ deallocated before it is allocated.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>publicAllocationError</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3722,9 +3286,6 @@ Read operation on a file that was opened only for writing.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>readWriteOnlyFile</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -3743,8 +3304,6 @@ Variable 'var' is reassigned a value before the old one has been used.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>redundantAssignInSwitch</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3763,9 +3322,7 @@ Variable 'var' is reassigned a value before the old one has been used.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>redundantAssignment</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3782,9 +3339,7 @@ Redundant condition: If x > 11 the condition x > 10 is always true.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>redundantCondition</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3801,8 +3356,6 @@ Buffer 'var' is being written before its old content has been used.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>redundantCopy</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3822,8 +3375,6 @@ Buffer 'var' is being written before its old content has been used.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>redundantCopyInSwitch</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3844,8 +3395,6 @@ reference.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>redundantCopyLocalConst</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -3865,9 +3414,7 @@ it. It is safe to call the remove method on a non-existing element.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>redundantIfRemove</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -3884,9 +3431,6 @@ Resource leak: varname
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>resourceLeak</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -3904,9 +3448,6 @@ Address of an auto-variable returned.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>returnAddressOfAutoVariable</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -3927,9 +3468,6 @@ invalid.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>returnAddressOfFunctionParameter</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -3947,9 +3485,6 @@ Pointer to local array variable returned.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>returnLocalVariable</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -3967,9 +3502,6 @@ Reference to local variable returned.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>returnReference</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -3987,9 +3519,6 @@ Reference to temporary returned.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>returnTempReference</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4008,8 +3537,6 @@ no effect.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>seekOnAppendedFile</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4028,8 +3555,6 @@ Redundant assignment of 'varname' to itself.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>selfAssignment</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4048,9 +3573,6 @@ Member variable 'var' is initialized by itself.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>selfInitialization</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4068,9 +3590,6 @@ Shifting by a negative value is undefined behaviour
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>shiftNegative</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4088,9 +3607,6 @@ Shifting 32-bit value by 40 bits is undefined behaviour
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>shiftTooManyBits</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4109,8 +3625,6 @@ unsigned value and used in an unsigned calculation.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>signConversion</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4124,8 +3638,6 @@ unsigned value and used in an unsigned calculation.
 The size argument is given as a char constant.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>sizeArgumentAsChar</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4144,8 +3656,6 @@ Found calculation inside sizeof().
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>sizeofCalculation</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4167,8 +3677,6 @@ only as part of a GNU C extension, which defines 'sizeof(void)' to be
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>sizeofDereferencedVoidPointer</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4188,8 +3696,6 @@ you intend to multiply instead?
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>sizeofDivisionMemfunc</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4210,8 +3716,6 @@ which defines 'sizeof(void)' to be 1.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>sizeofVoid</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4232,8 +3736,6 @@ equivalent to 'sizeof(size_t)'
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>sizeofsizeof</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4255,8 +3757,6 @@ results.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>sizeofwithnumericparameter</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4284,8 +3784,6 @@ the array in bytes).
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>sizeofwithsilentarraypointer</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4310,9 +3808,6 @@ results are undefined."
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>sprintfOverlappingData</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4331,8 +3826,6 @@ the comparison is unnecessary and looks suspicious.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>staticStringCompare</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4353,9 +3846,6 @@ instead to compare iterators.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>stlBoundaries</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4374,8 +3864,6 @@ not properly checked.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>stlIfFind</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4398,8 +3886,6 @@ should compare with std::string::npos.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>stlIfStrFind</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4418,9 +3904,6 @@ When i==foo.size(), foo[i] is out of bounds.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>stlOutOfBounds</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4440,8 +3923,6 @@ but list.empty() is guaranteed to take constant time.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>stlSize</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4461,9 +3942,6 @@ until its string is deleted.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>stlcstr</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4483,8 +3961,6 @@ string.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>stlcstrParam</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4505,8 +3981,6 @@ the string.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>stlcstrReturn</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4526,9 +4000,6 @@ string literal.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>strPlusChar</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4547,8 +4018,6 @@ could be a logic bug.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>stringCompare</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4562,8 +4031,6 @@ could be a logic bug.
 At most, strncat appends the 3rd parameter's amount of characters and adds a terminating null byte.\012The safe way to use strncat is to subtract one from the remaining space in the buffer and use it as 3rd parameter.Source: http://www.cplusplus.com/reference/cstring/strncat/\012Source: http://www.opensource.apple.com/source/Libc/Libc-167/gen.subproj/i386.subproj/strncat.c
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>strncatUsage</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4582,8 +4049,6 @@ Suspicious use of ; at the end of '' statement.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>suspiciousSemicolon</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4597,9 +4062,7 @@ Suspicious use of ; at the end of '' statement.
 Switch falls through case without comment. 'break;' missing?
 ]]>
     </description>
-    <internalKey>switchCaseFallThrough</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4611,8 +4074,6 @@ Switch falls through case without comment. 'break;' missing?
 If the source string's size fits or exceeds the given size, strncpy() does not add a zero at the end of the buffer. This causes bugs later in the code if the code assumes buffer is null-terminated.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>terminateStrncpy</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4631,8 +4092,6 @@ Suspicious pointer subtraction. Did you intend to write '->'?
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>thisSubtraction</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4655,9 +4114,7 @@ However that may increase the checking time. For more details, use
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>toomanyconfigs</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4674,9 +4131,7 @@ Variable 'varname' is not assigned a value.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unassignedVariable</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4694,8 +4149,6 @@ constructor.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uninitMemberVar</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4714,9 +4167,6 @@ Uninitialized struct member: a.b
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uninitStructMember</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4734,9 +4184,6 @@ Memory is allocated but not initialized: varname
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uninitdata</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4755,9 +4202,6 @@ it).
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uninitstring</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4775,9 +4219,6 @@ Uninitialized variable: varname
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uninitvar</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -4790,9 +4231,7 @@ Uninitialized variable: varname
 The variable 'name' forward declaration is unnecessary. Type variable is already declared earlier.
 ]]>
     </description>
-    <internalKey>unnecessaryForwardDeclaration</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4804,8 +4243,6 @@ The variable 'name' forward declaration is unnecessary. Type variable is already
 The extra qualification 'type' is unnecessary and is considered an error by many compilers.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>unnecessaryQualification</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -4825,9 +4262,7 @@ precision.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unpreciseMathCall</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4845,9 +4280,7 @@ be executed.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unreachableCode</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4864,9 +4297,7 @@ Variable 'varname' is assigned a value that is never used.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unreadVariable</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4885,9 +4316,7 @@ proper cleanup in the destructor.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unsafeClassCanLeak</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4905,9 +4334,7 @@ either pointless or an error to check if it is.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unsignedLessThanZero</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4925,9 +4352,7 @@ to test it.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unsignedPositive</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4944,9 +4369,7 @@ Variable 'varname' is allocated memory that is never used.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unusedAllocatedMemory</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4963,9 +4386,7 @@ The function 'funcName' is never used.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unusedFunction</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4982,9 +4403,7 @@ Unused private function: 'classname::funcname'
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unusedPrivateFunction</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5001,9 +4420,7 @@ Instance of 'varname' object is destroyed immediately.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unusedScopedObject</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5020,9 +4437,7 @@ struct member 'structname::variable' is never used.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unusedStructMember</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5039,9 +4454,7 @@ Unused variable: varname
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unusedVariable</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5053,9 +4466,6 @@ Unused variable: varname
 Object pointed by an 'auto_ptr' is destroyed using operator 'delete'. This means that you should only use 'auto_ptr' for pointers obtained with operator 'new'. This excludes arrays, which are allocated by operator 'new[]' and must be deallocated by operator 'delete[]'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>useAutoPointerArray</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5068,9 +4478,6 @@ Object pointed by an 'auto_ptr' is destroyed using operator 'delete'. This means
 An element of container must be able to be copied but 'auto_ptr' does not fulfill this requirement. You should consider to use 'shared_ptr' or 'unique_ptr'. It is suitable for use in containers, because they no longer copy their values, they move them.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>useAutoPointerContainer</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5083,9 +4490,7 @@ An element of container must be able to be copied but 'auto_ptr' does not fulfil
 'std::auto_ptr' has semantics of strict ownership, meaning that the 'auto_ptr' instance is the sole entity responsible for the object's lifetime. If an 'auto_ptr' is copied, the source looses the reference.
 ]]>
     </description>
-    <internalKey>useAutoPointerCopy</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5102,9 +4507,6 @@ Used file that is not opened.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>useClosedFile</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5126,8 +4528,6 @@ passing the value to the constructor in the initialization list.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>useInitializationList</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5146,9 +4546,7 @@ Assignment of function parameter has no effect outside the function.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>uselessAssignmentArg</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5166,8 +4564,6 @@ Did you forget dereferencing it?
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uselessAssignmentPtrArg</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5189,8 +4585,6 @@ wrong.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uselessCallsCompare</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5210,8 +4604,6 @@ Ineffective call of function 'empty()'. Did you intend to call
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uselessCallsEmpty</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5233,8 +4625,6 @@ values. Use the erase method of the container to delete them.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uselessCallsRemove</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5254,8 +4644,6 @@ object. Use operator= instead.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uselessCallsSubstr</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5276,8 +4664,6 @@ Is the object or the parameter wrong here?
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uselessCallsSwap</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5296,9 +4682,6 @@ va_list 'vl' was opened but not closed by va_end().
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>va_end_missing</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5316,9 +4699,6 @@ va_list 'vl' used before va_start() was called.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>va_list_usedBeforeStarted</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5337,9 +4717,6 @@ undefined behaviour.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>va_start_referencePassed</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5358,9 +4735,6 @@ in between.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>va_start_subsequentCalls</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5379,8 +4753,6 @@ Did you intend to pass 'arg2'?
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>va_start_wrongParameter</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5456,8 +4828,6 @@ return 0;
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>varFuncNullUB</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5471,9 +4841,7 @@ return 0;
 variable 'name' hides enumerator with same name
 ]]>
     </description>
-    <internalKey>variableHidingEnum</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5485,9 +4853,7 @@ variable 'name' hides enumerator with same name
 The variable 'name' hides a typedef with the same name.
 ]]>
     </description>
-    <internalKey>variableHidingTypedef</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5524,9 +4890,7 @@ reduce the variable scope 1 level.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>variableScope</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5548,9 +4912,6 @@ destructor to the base class.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>virtualDestructor</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5568,9 +4929,6 @@ Write operation on a file that was opened only for reading.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>writeReadOnlyFile</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5591,9 +4949,6 @@ dimension, which does not match.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>wrongPipeParameterSize</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5611,9 +4966,6 @@ printf format string requires 3 parameters but only 2 are given.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>wrongPrintfScanfArgNum</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5631,8 +4983,6 @@ printf: referencing parameter 2 while 1 arguments given
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>wrongPrintfScanfParameterPositionError</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5651,8 +5001,6 @@ Passing value '#' to #() leads to implementation-defined result.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>wrongmathcall</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5671,9 +5019,6 @@ Division by zero.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>zerodiv</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5691,9 +5036,6 @@ Either the condition is redundant or there is division by zero.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>zerodivcond</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5706,8 +5048,6 @@ Either the condition is redundant or there is division by zero.
       The result of the expression 'expression' is of type 'bool'. Comparing 'bool' value using relational (<, >, <= or >=) operator could cause unexpected results.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>comparisonOfBoolWithInvalidComparator</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5726,8 +5066,6 @@ Identical condition 'x', second condition is always false
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>identicalConditionAfterEarlyExit</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5741,9 +5079,6 @@ Identical condition 'x', second condition is always false
 Mismatching address is freed. The address you get from malloc() must be freed without offset.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>invalidFree</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5756,8 +5091,6 @@ Mismatching address is freed. The address you get from malloc() must be freed wi
 Redundant bitwise operation on 'varname' in 'switch' statement. 'break;' missing?
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>redundantBitwiseOperationInSwitch</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5777,9 +5110,6 @@ behaviour
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>shiftTooManyBitsSigned</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5792,9 +5122,6 @@ behaviour
 Dangerous usage of c_str(). The string is destroyed after the c_str() call so the thrown pointer is invalid.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>stlcstrthrow</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5814,9 +5141,7 @@ suspicious as the same code is executed regardless of the condition.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>duplicateExpressionTernary</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5836,9 +5161,7 @@ some mistakes when using the class can be avoided.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>noExplicitConstructor</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5848,9 +5171,6 @@ some mistakes when using the class can be avoided.
     <description>
       Abstract class &apos;classname&apos; has a copy/move constructor that is not explicit.
     </description>
-    <internalKey>noExplicitCopyMoveConstructor</internalKey>
-    <severity>MAJOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5867,9 +5187,6 @@ No 'return' statement in non-void function causes undefined behavior.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>operatorEqMissingReturnStatement</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5888,9 +5205,7 @@ declared private and left unimplemented.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>operatorEqShouldBeLeftUnimplemented</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5907,9 +5222,7 @@ Redundant pointer operation on 'varname' - it's already a pointer.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>redundantPointerOp</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5926,9 +5239,6 @@ Exception thrown in function declared not to throw exceptions.
     ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>throwInNoexceptFunction</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5951,9 +5261,6 @@ appropriate C library function.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>useAutoPointerMalloc</internalKey>
-    <severity>MAJOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -5968,10 +5275,8 @@ Declaration of array with negative size is undefined behaviour
 <p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
 ]]>
     </description>
-    <tag>bug</tag>
     <tag>cert</tag>
     <tag>cwe</tag>
-    <internalKey>negativeArraySize</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -5991,8 +5296,6 @@ you intend to use '&'?
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>badBitmaskCheck</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6011,9 +5314,7 @@ Condition 'x' is always false
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>knownConditionTrueFalse</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6031,8 +5332,6 @@ used: pointer
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>nullPointerDefaultArg</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6052,8 +5351,6 @@ dereference: pointer.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>nullPointerRedundantCheck</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6066,9 +5363,7 @@ dereference: pointer.
       Obsolete function &apos;alloca&apos; called. In C99 and later it is recommended to use a variable length array instead.
     </description>
     <tag>cwe</tag>
-    <internalKey>obsoleteFunctionsalloca</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6086,9 +5381,6 @@ Use InterlockedDecrement() return value instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>raceAfterInterlockedDecrement</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -6106,9 +5398,7 @@ Label '' is not used.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unusedLabel</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6126,9 +5416,6 @@ behaviour.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>stringLiteralWrite</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -6149,9 +5436,7 @@ example 'l = a * b;' => 'l = (long)a * b;'.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>truncLongCastAssignment</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6171,9 +5456,7 @@ example 'return a*b;' => 'return (long)a*b'.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>truncLongCastReturn</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6191,9 +5474,7 @@ Boolean value assigned to floating point variable.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>assignBoolToFloat</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6211,8 +5492,6 @@ unless there is overflow, and overflow is undefined behaviour.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidTestForOverflow</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6231,9 +5510,6 @@ Expression 'x = x++;' depends on order of evaluation of side effects
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>unknownEvaluationOrder</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -6253,8 +5529,6 @@ than 127 there will be a buffer underflow because of sign extension.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>signedCharArrayIndex</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6275,8 +5549,6 @@ platform.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>unknownSignCharArrayIndex</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6296,8 +5568,6 @@ switch()?
     ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>unusedLabelSwitch</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6319,8 +5589,6 @@ make_shared&lt;int&gt;() instead.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>leakUnsafeArgAlloc</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6341,8 +5609,6 @@ instead?
     ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>suspiciousCase</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6361,8 +5627,6 @@ Multiplying sizeof() with sizeof() indicates a logic error.
       ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>multiplySizeof</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6382,8 +5646,6 @@ size of the pointer, not the size of the memory area it points to.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>divideSizeof</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6402,9 +5664,7 @@ Reading from empty STL container 'var'
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>reademptycontainer</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6422,9 +5682,6 @@ Pointer arithmetic with NULL pointer.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>nullPointerArithmetic</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -6442,8 +5699,6 @@ Shifting a negative value is technically undefined behaviour
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>shiftNegativeLHS</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6462,8 +5717,6 @@ Access of moved variable 'v'.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>accessMoved</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6482,8 +5735,6 @@ Access of forwarded variable 'v'.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>accessForwarded</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6502,9 +5753,6 @@ Undefined behaviour: float (1e+100) to integer conversion overflow.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>floatConversionOverflow</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -6524,9 +5772,7 @@ definition 'B'.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>funcArgNamesDifferent</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6544,8 +5790,6 @@ definition ''
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>funcArgOrderDifferent</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6559,8 +5803,6 @@ definition ''
 The class 'class' has 'operator=' but lack of 'copy constructor'.
     ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>copyCtorAndEqOperator</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6575,9 +5817,7 @@ The class 'class' has 'operator=' but lack of 'copy constructor'.
 Public interface of Class is not safe. When calling Class::dostuff(), if parameter x is 0 that leads to division by zero.
     ]]>
     </description>
-    <internalKey>unsafeClassDivZero</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6589,8 +5829,6 @@ Public interface of Class is not safe. When calling Class::dostuff(), if paramet
 Comparison is wrong. Result of 'ptr+1' can't be 0 unless there is pointer overflow, and pointer overflow is undefined behaviour.
     ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>pointerAdditionResultNotNull</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6604,9 +5842,7 @@ Comparison is wrong. Result of 'ptr+1' can't be 0 unless there is pointer overfl
 The expression 'strcmp(x,"def") != 0' is suspicious. It overlaps 'strcmp(x,"abc") == 0'.
 ]]>
     </description>
-    <internalKey>overlappingStrcmp</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
@@ -6627,9 +5863,7 @@ Obsolete function 'LocalAlloc' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>LocalAllocCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6647,9 +5881,7 @@ Obsolete function 'RtlFillBytes' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>RtlFillBytesCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6667,9 +5899,7 @@ Obsolete function 'RtlZeroBytes' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>RtlZeroBytesCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6687,9 +5917,7 @@ Obsolescent function 'asctime_r' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>asctime_rCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6707,8 +5935,6 @@ not reassigned before array goes out of scope.
     ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>autoVariablesAssignGlobalPointer</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -6728,9 +5954,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>bcmpCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6748,9 +5972,7 @@ or 'memmove' instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>bcopyCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6768,9 +5990,7 @@ Obsolescent function 'bsd_signal' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>bsd_signalCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6788,9 +6008,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>bzeroCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6808,9 +6026,7 @@ is recommended to use the reentrant replacement function 'crypt_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>cryptCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6829,9 +6045,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>ctermidCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6849,9 +6063,7 @@ Obsolescent function 'ctime_r' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>ctime_rCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6869,9 +6081,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>ecvtCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6889,9 +6099,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>fcvtCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6910,9 +6118,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>fgetgrentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6931,9 +6137,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>fgetpwentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6952,9 +6156,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>fgetspentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6972,9 +6174,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>gcvtCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -6992,9 +6192,7 @@ to be rewritten to use POSIX threads.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getcontextCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7013,9 +6211,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getgrentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7034,9 +6230,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getgrgidCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7055,9 +6249,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getgrnamCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7075,9 +6267,7 @@ Obsolescent function 'gethostbyaddr' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>gethostbyaddrCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7096,9 +6286,7 @@ function 'gethostbyname2_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>gethostbyname2Called</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7117,9 +6305,7 @@ function 'gethostent_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>gethostentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7138,9 +6324,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getloginCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7159,9 +6343,7 @@ function 'getnetbyaddr_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getnetbyaddrCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7180,9 +6362,7 @@ function 'getnetbyname_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getnetbynameCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7201,9 +6381,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getnetentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7222,9 +6400,7 @@ function 'getnetgrent_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getnetgrentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7243,9 +6419,7 @@ function 'getprotobyname_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getprotobynameCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7264,9 +6438,7 @@ function 'getprotobynumber_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getprotobynumberCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7285,9 +6457,7 @@ function 'getprotoent_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getprotoentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7306,9 +6476,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getpwentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7327,9 +6495,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getpwnamCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7348,9 +6514,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getpwuidCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7369,9 +6533,7 @@ function 'getrpcbyname_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getrpcbynameCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7390,9 +6552,7 @@ function 'getrpcbynumber_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getrpcbynumberCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7411,9 +6571,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getrpcentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7432,9 +6590,7 @@ recommended to use the functions 'fgets' or 'gets_s' instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getsCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7453,9 +6609,7 @@ function 'getservbyname_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getservbynameCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7474,9 +6628,7 @@ function 'getservbyport_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getservbyportCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7495,9 +6647,7 @@ function 'getservent_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getserventCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7516,9 +6666,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getspentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7537,9 +6685,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getspnamCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7557,9 +6703,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>getwdCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7577,9 +6721,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>indexCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7597,9 +6739,7 @@ see MSDN for details.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>lstrcatCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7617,9 +6757,7 @@ recommended to be rewritten to use POSIX threads.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>makecontextCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7639,9 +6777,7 @@ POSIX.1-2008. Use 'mkstemp' or 'mkdtemp' instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>mktempCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7659,9 +6795,7 @@ recommended to use 'pthread_attr_getstack' instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>pthread_attr_getstackaddrCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7679,9 +6813,7 @@ recommended to use 'pthread_attr_setstack' instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>pthread_attr_setstackaddrCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7699,9 +6831,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>rand_rCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7720,9 +6850,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>readdirCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7740,9 +6868,7 @@ Obsolescent function 'rindex' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>rindexCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7761,9 +6887,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>scalbCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7782,9 +6906,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>sgetspentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7801,8 +6923,6 @@ Found function call inside sizeof().
     ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>sizeofFunctionCall</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -7822,9 +6942,7 @@ Obsolete function 'std::asctime' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>std::asctimeCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7842,9 +6960,7 @@ is recommended to use the reentrant replacement function 'strtok_r'.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>std::strtokCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7862,9 +6978,7 @@ or '_strlwr_s' instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>strlwrCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7882,9 +6996,7 @@ or '_strupr_s' instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>struprCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7902,9 +7014,7 @@ recommended to be rewritten to use POSIX threads.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>swapcontextCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7923,9 +7033,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>tempnamCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7943,9 +7051,7 @@ Obsolescent function 'tmpnam_r' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>tmpnam_rCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7964,9 +7070,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>ttynameCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -7985,9 +7089,7 @@ Obsolescent function 'ualarm' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>ualarmCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8007,9 +7109,7 @@ function.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>usleepCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8027,9 +7127,7 @@ Obsolescent function 'utime' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>utimeCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8047,9 +7145,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>vforkCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8067,9 +7163,7 @@ Obsolescent function 'wcswcs' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wcswcsCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8088,9 +7182,7 @@ any new code.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxApp::MacOpenFileCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8109,9 +7201,7 @@ code.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxArtProvider::InsertCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8131,9 +7221,7 @@ user to change the year interactively. Only in generic
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxCalendarCtrl::EnableYearChangeCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8152,9 +7240,7 @@ new code.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxComboCtrl::GetTextIndentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8173,9 +7259,7 @@ code.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxComboCtrl::HidePopupCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8194,9 +7278,7 @@ new code.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxComboCtrl::SetTextIndentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8215,9 +7297,7 @@ code.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxComboCtrl::ShowPopupCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8237,9 +7317,7 @@ code.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxDataViewCustomRenderer::ActivateCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8256,9 +7334,7 @@ This function is deprecated and is replaced by 'wxLog' functionality.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxDebugContext::GetLevelCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8277,9 +7353,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxDos2UnixFilenameCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8297,9 +7371,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxFileNameFromPathCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8317,9 +7389,7 @@ use 'wxGetCwd' instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxGetWorkingDirectoryCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8337,9 +7407,7 @@ col, horiz, vert)' instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxGrid::SetCellAlignmentCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8358,9 +7426,7 @@ does free it instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxSizerItem::SetSizerCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8379,9 +7445,7 @@ which does free it instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxSizerItem::SetSpacerCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8398,9 +7462,7 @@ This function is deprecated.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxSizerItem::SetWindowCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8418,9 +7480,7 @@ compatibility. You should not use it in new code.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxString::IsNullCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8438,9 +7498,7 @@ compatibility. You should not use it in new code.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxString::LengthCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8458,9 +7516,7 @@ This is the same as 'wxString::MakeLower' and is kept for wxWidgets
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxString::LowerCaseCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8478,9 +7534,7 @@ Obsolete function 'asctime' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>asctimeCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8498,9 +7552,7 @@ Obsolescent function 'gethostbyname' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>gethostbynameCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8519,9 +7571,7 @@ it is recommended to use the reentrant replacement function
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>localtimeCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8536,9 +7586,7 @@ Non reentrant function 'strtok' called. For threadsafe applications it is recomm
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>strtokCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8556,9 +7604,7 @@ Obsolescent function 'tmpnam' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>tmpnamCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8577,9 +7623,7 @@ specification for funcname() also.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>unhandledExceptionSpecification</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8591,9 +7635,7 @@ specification for funcname() also.
       The configuration '' was not checked because its code equals another one.
     ]]>
     </description>
-    <internalKey>purgedConfiguration</internalKey>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8607,9 +7649,7 @@ Internal Cppcheck tool error. Create an issue on the Cppcheck issue tracker.
 <p><a href="http://trac.cppcheck.net/" target="_blank">Cppcheck development</a></p>
 ]]>
     </description>
-    <internalKey>internalError</internalKey>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8627,9 +7667,7 @@ Obsolete function 'QString::vsprintf' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>QString::vsprintfCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8647,9 +7685,7 @@ Obsolete function 'asctime_s' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>asctime_sCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8667,9 +7703,7 @@ suspicious as the same code is executed regardless of the condition.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>duplicateValueTernary</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8687,8 +7721,6 @@ and inner condition is 'x').
     ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>identicalInnerCondition</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -8702,9 +7734,7 @@ and inner condition is 'x').
       The function '' overrides a function in a base class but is not marked with a 'override' specifier.
     ]]>
     </description>
-    <internalKey>missingOverride</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8722,8 +7752,6 @@ has dynamic memory/resource allocation(s).
     ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>noDestructor</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -8743,8 +7771,6 @@ has dynamic memory/resource allocation(s).
     ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>noOperatorEq</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -8765,9 +7791,7 @@ examine this code carefully to determine if it is correct.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>oppositeExpression</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8779,8 +7803,6 @@ examine this code carefully to determine if it is correct.
       Call of pure virtual function 'f' in constructor. The call will fail during runtime.
     ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>pureVirtualCall</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -8800,9 +7822,7 @@ use 'qInstallMessageHandler' instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>qInstallMsgHandlerCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8820,9 +7840,7 @@ Obsolete function 'qrand' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>qrandCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8840,9 +7858,7 @@ Obsolete function 'qsrand' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>qsrandCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8860,9 +7876,7 @@ Obsolete function 'std::asctime_s' called. It is recommended to use
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>std::asctime_sCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8880,9 +7894,7 @@ instead.
     ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>umaskCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8894,8 +7906,6 @@ instead.
       Virtual function 'f' is called from constructor '' at line 1. Dynamic binding is not used.
     ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>virtualCallInConstructor</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -8915,9 +7925,7 @@ Obsolete function 'QString::sprintf' called. It is recommended to use
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>QString::sprintfCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -8934,9 +7942,6 @@ Out of bounds access in expression 'container[x]'
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>containerOutOfBounds</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -8954,8 +7959,6 @@ Conversion of char literal 'x' to bool always evaluates to true.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>incorrectCharBooleanError</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -8975,8 +7978,6 @@ used together.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>mismatchingContainerExpression</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -8995,9 +7996,7 @@ Same iterators expression are used for algorithm.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>sameIteratorExpression</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9014,9 +8013,7 @@ Consider using  algorithm instead of a raw loop.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>useStlAlgorithm</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9035,9 +8032,7 @@ should not use it in new code.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxString::StripCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9054,9 +8049,6 @@ Non-local variable 'x' will use object.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>danglingLifetime</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9076,9 +8068,7 @@ examine this code carefully to determine if it is correct.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>duplicateAssignExpression</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9096,9 +8086,6 @@ required.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidFunctionArgStr</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9116,9 +8103,6 @@ Using object that is out of scope.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidLifetime</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9137,9 +8121,6 @@ Same iterator is used with different containers 'container1' and
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>iterators1</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9158,9 +8139,6 @@ different scopes.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>iterators3</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9178,9 +8156,6 @@ Comparison of iterators from containers 'container1' and 'container2'.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>iteratorsCmp1</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9199,9 +8174,6 @@ in different scopes.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>iteratorsCmp2</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9219,9 +8191,6 @@ Returning object that will be invalid when returning.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>returnDanglingLifetime</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9234,9 +8203,7 @@ Returning object that will be invalid when returning.
 Non-boolean value returned from function returning bool
 ]]>
     </description>
-    <internalKey>returnNonBoolInBooleanFunction</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9253,9 +8220,7 @@ Local variable 'function' shadows outer function
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>shadowFunction</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9272,9 +8237,7 @@ Local variable shadows outer variable
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>shadowVar</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9291,9 +8254,7 @@ Argument 'x' to function f is always 0
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>constArgument</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9310,9 +8271,6 @@ Non-local reference variable 'x' to local variable 'y'
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>danglingReference</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9330,9 +8288,7 @@ The if condition is the same as the previous if condition
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>duplicateCondition</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9344,8 +8300,6 @@ The if condition is the same as the previous if condition
       Width -1 given in format string (no. 99) is smaller than destination buffer '[0]'.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>invalidScanfFormatWidth_smaller</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -9365,9 +8319,6 @@ Same iterator is used with different containers 'container0' and
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>iterators2</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9386,8 +8337,6 @@ NULL pointer.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>nullPointerArithmeticRedundantCheck</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -9407,9 +8356,7 @@ can only be set at construction time.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>wxBitmap::SetDepthCalled</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9426,9 +8373,6 @@ Comparing pointers that point to different objects
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>comparePointers</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9446,9 +8390,7 @@ Duplicate expression for the condition and assignment.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>duplicateConditionalAssign</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9465,9 +8407,6 @@ Array index -1 is out of bounds.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>negativeContainerIndex</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9485,9 +8424,6 @@ The address of local variable '' is accessed at non-zero index.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>objectIndex</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9505,8 +8441,6 @@ Searching before insertion is not necessary.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>stlFindInsert</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -9526,8 +8460,6 @@ constructor.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>uninitMemberVarPrivate</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -9547,9 +8479,7 @@ Variable 'x' can be declared with const
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>constVariable</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9566,9 +8496,7 @@ Parameter 'x' can be declared with const
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>constParameter</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9585,9 +8513,6 @@ Using object to temporary.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>danglingTemporaryLifetime</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9605,9 +8530,6 @@ Using object that may be invalid.
 ]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidContainer</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9626,9 +8548,7 @@ overwritten before it is read.
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>redundantInitialization</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9645,9 +8565,7 @@ Local variable 'argument' shadows outer argument
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>shadowArgument</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9664,9 +8582,7 @@ Local variable 'variable' shadows outer variable
 ]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>shadowVariable</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9678,8 +8594,6 @@ Local variable 'variable' shadows outer variable
 Unsafe class checking: The const reference member 'UnsafeClass::var' is initialized by a const reference constructor argument. You need to be careful about lifetime issues. If you pass a local variable or temporary value in this constructor argument, be extra careful. If the argument is always some global object that is never destroyed then this is safe usage. However it would be defensive to make the member 'UnsafeClass::var' a non-reference variable or a smart pointer.
 ]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>unsafeClassRefMember</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -9700,9 +8614,6 @@ Calling 'erase' while iterating the container is invalid.
       <![CDATA[]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>invalidContainerLoop</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9721,9 +8632,7 @@ Argument 'x' to function f is always 0
       <![CDATA[]]>
     </description>
     <tag>cwe</tag>
-    <internalKey>knownArgument</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9741,9 +8650,6 @@ Iterator 'it' from different container 'v1' are used together.
       <![CDATA[]]>
     </description>
     <tag>cwe</tag>
-    <tag>bug</tag>
-    <internalKey>mismatchingContainerIterator</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -9757,9 +8663,7 @@ Iterator 'it' from different container 'v1' are used together.
       ]]>
       <![CDATA[]]>
     </description>
-    <internalKey>moduloofone</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -9772,8 +8676,6 @@ Iterator 'it' from different container 'v1' are used together.
       ]]>
       <![CDATA[]]>
     </description>
-    <tag>bug</tag>
-    <internalKey>thisUseAfterFree</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
