@@ -19,13 +19,13 @@
  */
 package org.sonar.plugins.cxx;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.internal.google.common.base.Splitter;
-import org.sonar.api.internal.google.common.collect.Iterables;
 import org.sonar.api.resources.AbstractLanguage;
 import org.sonar.api.resources.Qualifiers;
 

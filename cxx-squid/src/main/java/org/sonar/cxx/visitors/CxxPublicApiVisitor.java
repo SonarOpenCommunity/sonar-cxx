@@ -20,11 +20,11 @@
 package org.sonar.cxx.visitors;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import java.util.List;
-import org.sonar.api.internal.google.common.collect.Iterables;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxMetric;
