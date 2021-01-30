@@ -11,7 +11,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -24,7 +23,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -37,7 +35,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -50,7 +47,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -63,7 +59,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -76,7 +71,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -89,7 +83,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -102,7 +95,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -115,7 +107,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -128,7 +119,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -141,7 +131,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -154,7 +143,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -167,7 +155,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -180,7 +167,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -193,7 +179,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -206,7 +191,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -219,7 +203,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -232,7 +215,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -245,7 +227,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -258,7 +239,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -271,7 +251,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -284,7 +263,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -297,7 +275,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -310,7 +287,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -323,7 +299,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -336,7 +311,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -349,7 +323,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -362,7 +335,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -375,7 +347,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -388,7 +359,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -401,7 +371,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -414,7 +383,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -427,7 +395,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -440,7 +407,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>alpha</tag>
   </rule>
@@ -453,7 +419,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>apimodeling</tag>
   </rule>
@@ -466,7 +431,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -479,7 +443,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -492,7 +455,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -505,7 +467,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -518,7 +479,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -531,7 +491,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -544,7 +503,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -557,7 +515,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -570,7 +527,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -583,7 +539,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -596,7 +551,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -609,7 +563,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -622,7 +575,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -635,7 +587,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -648,7 +599,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
@@ -661,7 +611,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>cplusplus</tag>
   </rule>
@@ -674,7 +623,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>cplusplus</tag>
   </rule>
@@ -687,7 +635,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>cplusplus</tag>
   </rule>
@@ -700,7 +647,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>deadcode</tag>
   </rule>
@@ -713,7 +659,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>llvm</tag>
   </rule>
@@ -726,7 +671,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>nullability</tag>
   </rule>
@@ -739,7 +683,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>nullability</tag>
   </rule>
@@ -752,7 +695,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>nullability</tag>
   </rule>
@@ -765,7 +707,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>nullability</tag>
   </rule>
@@ -778,7 +719,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>nullability</tag>
   </rule>
@@ -791,7 +731,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
@@ -804,7 +743,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
@@ -817,7 +755,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
@@ -830,7 +767,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
@@ -843,7 +779,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
@@ -856,7 +791,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
@@ -869,7 +803,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -882,7 +815,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -895,7 +827,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -908,7 +839,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -921,7 +851,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -934,7 +863,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -947,7 +875,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -960,7 +887,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -973,7 +899,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -986,7 +911,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -999,7 +923,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1012,7 +935,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1025,7 +947,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1038,7 +959,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1051,7 +971,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1064,7 +983,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1077,7 +995,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1090,7 +1007,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1103,7 +1019,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1116,7 +1031,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1129,7 +1043,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1142,7 +1055,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1155,7 +1067,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1168,7 +1079,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1181,7 +1091,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
@@ -1194,7 +1103,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
@@ -1207,7 +1115,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
@@ -1220,7 +1127,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
@@ -1233,7 +1139,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
@@ -1246,7 +1151,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
@@ -1259,7 +1163,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
@@ -1272,7 +1175,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
@@ -1285,7 +1187,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
@@ -1298,7 +1199,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
@@ -1311,7 +1211,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
@@ -1324,7 +1223,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
@@ -1337,7 +1235,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
@@ -1350,7 +1247,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
@@ -1363,7 +1259,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
@@ -1376,7 +1271,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
@@ -1389,7 +1283,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
@@ -1402,7 +1295,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
@@ -1415,7 +1307,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>valist</tag>
   </rule>
@@ -1428,7 +1319,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>valist</tag>
   </rule>
@@ -1441,7 +1331,6 @@ Rules list was generated based on clang version 5.0.0 (tags/RELEASE_500/final) -
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
 ]]>    </description>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <tag>valist</tag>
   </rule>

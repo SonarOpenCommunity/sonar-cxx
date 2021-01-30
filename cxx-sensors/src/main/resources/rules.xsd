@@ -23,6 +23,9 @@
                             -->
                             <xs:element name="name" type="xs:string" />
                             <xs:element name="description" type="xs:string" />
+                            <!--
+                            Optional format of description. Supported values are HTML (default) and MARKDOWN.
+                            -->
                             <xs:element name="descriptionFormat" minOccurs="0" maxOccurs="1">
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">
@@ -33,6 +36,10 @@
                             </xs:element>
                             <xs:element name="tag" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
                             <xs:element name="internalKey" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                            <!--
+                            Default severity when enabling the rule in a Quality profile.
+                            Possible values are INFO, MINOR, MAJOR (default), CRITICAL, BLOCKER.
+                            -->
                             <xs:element name="severity" >
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">
@@ -44,6 +51,9 @@
                                     </xs:restriction>
                                 </xs:simpleType>
                             </xs:element>
+                            <!--
+                            Type as defined by the SonarQube Quality Model. Possible values are CODE_SMELL (default), BUG and VULNERABILITY.
+                            -->
                             <xs:element name="type" minOccurs="0" maxOccurs="1">
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">

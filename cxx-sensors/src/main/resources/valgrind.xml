@@ -18,7 +18,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
 </ol>
       ]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>InvalidFree</key>
@@ -28,7 +27,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       that the block is already freed or that the block has never been
       allocated on the heap.
     </description>
-    <internalKey>InvalidFree</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -45,7 +43,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       - deallocate with 'delete' when allocated with 'new'
       - deallocate with 'delete []' when allocated with 'new []'
     </description>
-    <internalKey>MismatchedFree</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -60,7 +57,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Memcheck reckons it shouldn't. The reasons include reading memory which
       isn't mapped, reading already freed memory etc.
     </description>
-    <internalKey>InvalidRead</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -76,7 +72,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       which isn't mapped, writing to already freed memory, writing to
       read-only memory etc.
     </description>
-    <internalKey>InvalidWrite</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -89,7 +84,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       The program tried to jump or move to an invalid address.
     </description>
-    <internalKey>InvalidJump</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -105,7 +99,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       strcat, strncat. The blocks pointed to by their 'src' and 'dst' pointers
       aren't allowed to overlap.
     </description>
-    <internalKey>Overlap</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -118,9 +111,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Invalid memory pool specified in client request.
     </description>
-    <internalKey>InvalidMemPool</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -132,7 +123,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Programs behavior relies on a variable whose value is not initialized,
       i.e. the program has undefined behavior.
     </description>
-    <internalKey>UninitCondition</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -145,8 +135,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Other uses of undefined values (primarily memory addresses).
     </description>
-    <internalKey>UninitValue</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -159,9 +147,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       A system call has been passed an 'out' or 'in' buffer which
       either isn't fully addressable or hasn't been properly initialized.
     </description>
-    <internalKey>SyscallParam</internalKey>
     <severity>CRITICAL</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -172,9 +158,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       "Error" resulting from a client check request.
     </description>
-    <internalKey>ClientCheck</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -190,8 +174,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       likely a symptom of having lost the pointer at some earlier point in
       the program. Such cases should be fixed by the programmer.
     </description>
-    <internalKey>Leak_DefinitelyLost</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -206,8 +188,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       themselves lost. For example, if you have a binary tree and the root
       node is lost, all its children nodes will be indirectly lost.
     </description>
-    <internalKey>Leak_IndirectlyLost</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -223,9 +203,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       happens to point into a block, and so you shouldn't consider this OK
       unless you know you have interior-pointers.
     </description>
-    <internalKey>Leak_PossiblyLost</internalKey>
-    <severity>MAJOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -239,9 +216,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       the programmer could, at least in principle, have freed it before
       the exit.
     </description>
-    <internalKey>Leak_StillReachable</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>

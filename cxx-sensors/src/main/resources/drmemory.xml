@@ -20,7 +20,6 @@ An unaddressable access is an access to an invalid memory address. Examples incl
 </p>
      ]]>
     </description>
-    <internalKey>UnadressableAccess</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -44,7 +43,6 @@ In order to avoid false positives, Dr. Memory does not report the use of uniniti
 </p>
      ]]>
     </description>
-    <internalKey>UninitializedRead</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -64,8 +62,6 @@ Whenever a pointer that does not refer to a valid malloc region is passed to fre
 </p>
      ]]>
     </description>
-    <internalKey>InvalidHeapArgument</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
@@ -84,8 +80,6 @@ On Windows, Dr. Memory identifies common errors in using the Windows GDI API
 </p>
      ]]>
     </description>
-    <internalKey>GdiUsageError</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>20min</remediationFunctionGapMultiplier>
@@ -105,8 +99,6 @@ The type of handle (kernel, user, or GDI) is listed along with the callstack whe
 </p>
      ]]>
     </description>
-    <internalKey>HandleLeak</internalKey>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
@@ -125,9 +117,7 @@ Dr. Memory reports warnings about unusual memory-related conditions that an appl
 </p>
      ]]>
     </description>
-    <internalKey>DrMemoryWarning</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription></gapDescription>
@@ -145,9 +135,7 @@ Dr. Memory detects a possible memory leak
 </p>
      ]]>
     </description>
-    <internalKey>PossibleMemoryLeak</internalKey>
     <severity>MINOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription></gapDescription>
@@ -165,9 +153,6 @@ Dr. Memory detects a memory leak
 </p>
      ]]>
     </description>
-    <internalKey>MemoryLeak</internalKey>
-    <severity>MAJOR</severity>
-    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription></gapDescription>
