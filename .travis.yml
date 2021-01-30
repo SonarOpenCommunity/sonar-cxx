@@ -5,7 +5,8 @@ dist: xenial
 
 jdk:
   - openjdk11
-env:
+env: 
+  - SONARLABEL=sonarqube-7.9.5 SONARAPI=SqApi79
   - SONARLABEL=sonarqube-8.6.0.39681 SONARAPI=SqApi79
 
 addons:
