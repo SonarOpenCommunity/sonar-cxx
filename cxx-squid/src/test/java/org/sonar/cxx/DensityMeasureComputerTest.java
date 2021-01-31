@@ -40,8 +40,8 @@ public class DensityMeasureComputerTest {
   @Test
   public void metricsNumber() {
     var computer = new DensityMeasureComputer();
-    assertThat(computer.getInputMetrics().length).isEqualTo(8);
-    assertThat(computer.getOutputMetrics().length).isEqualTo(5);
+    assertThat(computer.getInputMetrics()).hasSize(8);
+    assertThat(computer.getOutputMetrics()).hasSize(5);
   }
 
   @Test

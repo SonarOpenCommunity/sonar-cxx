@@ -47,7 +47,8 @@ public class FunctionCognitiveComplexityCheckTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(issues).hasSize(5);
-    softly.assertThat(issues).allSatisfy(issue -> "FunctionCognitiveComplexity".equals(issue.getRuleId()));
+    softly.assertThat(issues)
+      .allSatisfy(issue -> assertThat(issue.getRuleId()).isEqualTo("FunctionCognitiveComplexity"));
 
     CxxReportIssue issue0 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("13"))
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 13"));
