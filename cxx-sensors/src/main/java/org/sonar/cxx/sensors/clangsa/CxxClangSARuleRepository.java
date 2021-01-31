@@ -40,4 +40,9 @@ public class CxxClangSARuleRepository extends RulesDefinitionXml {
     super(fileSystem, xmlRuleLoader, LANGUAGE, KEY, NAME, FILE);
   }
 
+  @Override
+  public void prepareRule(NewRule rule) {
+    rule.addDeprecatedRuleKey("ClangSA", rule.key()); // V1.3 repository name
+  }
+
 }
