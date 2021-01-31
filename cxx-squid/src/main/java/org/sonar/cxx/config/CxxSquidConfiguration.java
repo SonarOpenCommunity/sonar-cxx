@@ -545,7 +545,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @param key to add the value
    * @param value to add
    */
-  private void setValue(Element key, String value) {
+  static private void setValue(Element key, String value) {
     var eValue = new Element("Value");
     eValue.setText(value);
     key.addContent(eValue);

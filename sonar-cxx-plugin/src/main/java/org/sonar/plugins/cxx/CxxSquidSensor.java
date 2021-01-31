@@ -205,7 +205,8 @@ public class CxxSquidSensor implements ProjectSensor {
         .defaultValue("10")
         .name("Threshold value for the cyclomatic complexity metric of a function")
         .description(
-          "Functions with a higher cyclomatic complexity are classified as complex. The values are displayed under measures.")
+          "Functions with a higher cyclomatic complexity are classified as complex."
+            + " The values are displayed under measures.")
         .category("CXX")
         .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)

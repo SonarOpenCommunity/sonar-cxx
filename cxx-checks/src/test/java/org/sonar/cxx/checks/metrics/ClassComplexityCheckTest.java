@@ -47,7 +47,7 @@ public class ClassComplexityCheckTest {
     assertThat(issues).isNotNull();
     var softly = new SoftAssertions();
     softly.assertThat(issues).hasSize(3);
-    softly.assertThat(issues).allSatisfy(issue -> "ClassComplexity".equals(issue.getRuleId()));
+    softly.assertThat(issues).allSatisfy(issue -> assertThat(issue.getRuleId()).isEqualTo("ClassComplexity"));
 
     CxxReportIssue issue0 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("9"))
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 9"));

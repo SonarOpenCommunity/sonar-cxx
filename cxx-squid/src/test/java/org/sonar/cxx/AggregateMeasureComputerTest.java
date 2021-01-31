@@ -41,7 +41,7 @@ public class AggregateMeasureComputerTest {
   @Test
   public void metricsNumber() {
     var aggregator = new AggregateMeasureComputer();
-    assertThat(aggregator.getAggregatedMetrics().length).isEqualTo(7);
+    assertThat(aggregator.getAggregatedMetrics()).hasSize(7);
   }
 
   @Test

@@ -86,7 +86,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       } else {
         LOG.debug("No xUnit reports found, nothing to process");
       }
-    } catch (IOException | XMLStreamException e) {
+    } catch (XMLStreamException e) {
       CxxUtils.validateRecovery("Invalid xUnit report", e, context.config());
     }
   }
@@ -97,7 +97,7 @@ public class CxxXunitSensor extends CxxReportSensor {
    * @throws XMLStreamException
    * @throws IOException
    */
-  private XunitReportParser parseReport(List<File> reports) throws XMLStreamException, IOException {
+  private XunitReportParser parseReport(List<File> reports) throws XMLStreamException {
     var parserHandler = new XunitReportParser(context.fileSystem().baseDir().getPath());
     var parser = new StaxParser(parserHandler, false);
     for (var report : reports) {

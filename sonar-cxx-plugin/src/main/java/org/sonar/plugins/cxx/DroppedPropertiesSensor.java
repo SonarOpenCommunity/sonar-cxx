@@ -85,7 +85,8 @@ public class DroppedPropertiesSensor implements ProjectSensor {
     map.put("sonar.cxx.coverage.reportPath", "Use 'sonar.cxx.bullseye.reportPaths'"
                                                + ", 'sonar.cxx.cobertura.reportPaths', 'sonar.cxx.vscoveragexml.reportPaths' or 'sonar.cxx.ctctxt.reportPaths'"
                                              + " instead."); // V2.0.0
-    map.put("sonar.cxx.funccomplexity.threshold", "Use 'sonar.cxx.metric.func.complexity.threshold' instead."); // V2.0.0
+    map.put("sonar.cxx.funccomplexity.threshold",
+            "Use 'sonar.cxx.metric.func.complexity.threshold' instead."); // V2.0.0
     map.put("sonar.cxx.funcsize.threshold", "Use 'sonar.cxx.metric.func.size.threshold' instead."); // V2.0.0
     map.put("sonar.cxx.vstest.reportsPaths", "Use 'sonar.cxx.vstest.reportPaths' instead."); // V2.0.0
     map.put("sonar.cxx.xunit.reportsPaths", "Use 'sonar.cxx.xunit.reportPaths' instead."); // V2.0.0

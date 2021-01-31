@@ -27,7 +27,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -73,9 +72,7 @@ public class CxxFileLinesContextTest {
       90, 95, 98, 99, 100, 102, 107, 108, 109, 110, 111, 113, 115, 118, 119, 124, 126)
       .collect(Collectors.toCollection(HashSet::new));
 
-    var softly = new SoftAssertions();
     assertThat(fileLinesContext.linesOfCode).containsExactlyInAnyOrderElementsOf(linesOfCode);
-    softly.assertAll();
   }
 
   @Test

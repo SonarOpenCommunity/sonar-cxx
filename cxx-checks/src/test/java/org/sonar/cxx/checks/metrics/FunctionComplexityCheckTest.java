@@ -41,7 +41,7 @@ public class FunctionComplexityCheckTest {
     assertThat(issues).isNotNull();
     var softly = new SoftAssertions();
     softly.assertThat(issues).hasSize(5);
-    softly.assertThat(issues).allSatisfy(issue -> "FunctionComplexity".equals(issue.getRuleId()));
+    softly.assertThat(issues).allSatisfy(issue -> assertThat(issue.getRuleId()).isEqualTo("FunctionComplexity"));
 
     var issue0 = issues.stream()
       .filter(issue -> issue.getLocations().get(0).getLine().equals("13"))
