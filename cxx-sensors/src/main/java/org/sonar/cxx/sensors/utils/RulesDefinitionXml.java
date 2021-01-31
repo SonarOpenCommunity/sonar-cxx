@@ -88,6 +88,7 @@ public class RulesDefinitionXml implements RulesDefinition {
       // add repository key as tag to make it possible to filter in issues by tool (tag must be a-z,0-9,-,+)
       String tag = repositoryKey.toLowerCase().replaceAll("[^a-z0-9-+]", "-");
       for (NewRule rule : repository.rules()) {
+        prepareRule(rule);
         rule.addTags(tag);
       }
     }
@@ -106,6 +107,13 @@ public class RulesDefinitionXml implements RulesDefinition {
       }
     }
     return files;
+  }
+
+  /**
+   * Can be overridden in derived repositories to set rule properties.
+   */
+  public void prepareRule(NewRule rule) {
+
   }
 
 }
