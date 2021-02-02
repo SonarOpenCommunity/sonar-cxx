@@ -65,7 +65,7 @@ public class DroppedPropertiesSensor implements ProjectSensor {
             "Define C++ keywords in an own header file and include it with 'sonar.cxx.forceIncludes' instead."); // V2.0.0
     map.put("sonar.cxx.suffixes.sources", "Use key 'sonar.cxx.file.suffixes' instead."); // V2.0.0
     map.put("sonar.cxx.suffixes.headers",
-            "Use key 'sonar.cxx.file.suffixes' instead. For API detection use 'sonar.cxx.api.file.suffixes'."); // V2.0.0
+            "Use key 'sonar.cxx.file.suffixes' instead. For API detection use 'sonar.cxx.metric.api.file.suffixes'."); // V2.0.0
     map.put("sonar.cxx.other.xslt.1.stylesheet", "Use 'sonar.cxx.xslt.1.stylesheet' instead."); // V2.0.0
     map.put("sonar.cxx.other.xslt.1.inputs", "Use 'sonar.cxx.xslt.1.inputs' instead."); // V2.0.0
     map.put("sonar.cxx.other.xslt.1.outputs", "Use 'sonar.cxx.xslt.1.outputs' instead."); // V2.0.0
@@ -96,6 +96,8 @@ public class DroppedPropertiesSensor implements ProjectSensor {
     map.put("sonar.cxx.vc.charset", "Use 'sonar.cxx.vc.encoding' instead."); // V2.0.0
     map.put("sonar.cxx.ctctxt.charset", "Use 'sonar.cxx.ctctxt.encoding' instead."); // V2.0.0
     map.put("sonar.cxx.msbuild.charset", "Use 'sonar.cxx.msbuild.encoding' instead."); // V2.0.0
+    map.put("sonar.cxx.cpd.ignoreLiterals", "Use 'sonar.cxx.metric.cpd.ignoreLiterals' instead."); // V2.0.0
+    map.put("sonar.cxx.cpd.ignoreIdentifiers", "Use 'sonar.cxx.metric.cpd.ignoreIdentifiers' instead."); // V2.0.0
 
     return Collections.unmodifiableMap(map);
   }
