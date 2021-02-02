@@ -84,8 +84,8 @@ public class CxxSquidSensor implements ProjectSensor {
   public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "sonar.cxx.metric.func.complexity.threshold";
   public static final String FUNCTION_SIZE_THRESHOLD_KEY = "sonar.cxx.metric.func.size.threshold";
 
-  public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.cpd.ignoreLiterals";
-  public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
+  public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.metric.cpd.ignoreLiterals";
+  public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.metric.cpd.ignoreIdentifiers";
   private static final String USE_ANT_STYLE_WILDCARDS
                                 = " Use <a href='"
                                     + "https://ant.apache.org/manual/dirtasks.html"

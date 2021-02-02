@@ -66,7 +66,7 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
   /**
    * Key of the file suffix parameter
    */
-  public static final String API_FILE_SUFFIXES_KEY = "sonar.cxx.api.file.suffixes";
+  public static final String API_FILE_SUFFIXES_KEY = "sonar.cxx.metric.api.file.suffixes";
 
   /**
    * Default API files knows suffixes
