@@ -46,19 +46,30 @@ import org.sonar.cxx.utils.CxxReportIssue;
 public class CxxDrMemorySensor extends CxxIssuesReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.drmemory.reportPaths";
-  private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
+  public static final String REPORT_ENCODING_DEF = "sonar.cxx.drmemory.encoding";
   private static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
+  private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
 
   public static List<PropertyDefinition> properties() {
+    String category = "CXX External Analyzers";
+    String subcategory = "Dr. Memory";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Dr. Memory report(s)")
         .description("Path to <a href='http://drmemory.org/'>Dr. Memory</a> reports(s), relative to projects root."
                        + USE_ANT_STYLE_WILDCARDS)
-        .category("CXX External Analyzers")
-        .subCategory("Dr. Memory")
+        .category(category)
+        .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
+        .build(),
+      PropertyDefinition.builder(REPORT_ENCODING_DEF)
+        .defaultValue(DEFAULT_ENCODING_DEF)
+        .name("Dr. Memory Report Encoding")
+        .description("The encoding to use when reading the report. Leave empty to use parser's default UTF-8.")
+        .category(category)
+        .subCategory(subcategory)
+        .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));
   }
@@ -94,9 +105,10 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
 
   @Override
   protected void processReport(File report) {
-    LOG.debug("Processing 'Dr. Memory' report '{}'", report.getName());
+    String reportEncoding = context.config().get(REPORT_ENCODING_DEF).orElse(DEFAULT_ENCODING_DEF);
+    LOG.debug("Processing 'Dr. Memory' report '{}', Encoding= '{}'", report.getName(), reportEncoding);
 
-    for (var error : DrMemoryParser.parse(report, DEFAULT_ENCODING_DEF)) {
+    for (var error : DrMemoryParser.parse(report, reportEncoding)) {
       if (error.getStackTrace().isEmpty()) {
         var moduleIssue = new CxxReportIssue(error.getType().getId(), null, null, null, error.getMessage());
         saveUniqueViolation(moduleIssue);
