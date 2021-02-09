@@ -98,6 +98,8 @@ public class DroppedPropertiesSensor implements ProjectSensor {
     map.put("sonar.cxx.msbuild.charset", "Use 'sonar.cxx.msbuild.encoding' instead."); // V2.0.0
     map.put("sonar.cxx.cpd.ignoreLiterals", "Use 'sonar.cxx.metric.cpd.ignoreLiterals' instead."); // V2.0.0
     map.put("sonar.cxx.cpd.ignoreIdentifiers", "Use 'sonar.cxx.metric.cpd.ignoreIdentifiers' instead."); // V2.0.0
+    map.put("sonar.cxx.nunit.reportPaths", "If possible use 'sonar.cs.nunit.reportsPaths' instead."); // V2.0.0
+    map.put("sonar.cxx.vstest.reportPaths", "If possible use 'sonar.cs.vstest.reportsPaths' instead."); // V2.0.0
 
     return Collections.unmodifiableMap(map);
   }
