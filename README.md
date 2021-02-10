@@ -18,68 +18,68 @@ This plugin is free software; you can redistribute it and/or modify it under the
 * parser supporting
   * `C89`, `C99`, `C11`, `C17`
   * `C++03`, `C++11`, `C++14`,`C++17`, `C++20`
-  * Microsoft extensions: C++/CLI, Attributed ATL
+  * Microsoft extensions: `C++/CLI`, `Attributed ATL`
   * GNU extensions
   * CUDA extensions
 * Microsoft Windows and Linux for runtime environment
 
 Sensors for **static and dynamic code analysis**:
 * Cppcheck warnings support (http://cppcheck.sourceforge.net/)
-  - [[sonar.cxx.cppcheck.reportPaths]]
+  - [sonar.cxx.cppcheck.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.cppcheck.reportPaths)
 * GCC/G++ warnings support (https://gcc.gnu.org/)
-  - [[sonar.cxx.gcc.reportPaths]]
+  - [sonar.cxx.gcc.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.gcc.reportPaths)
 * Visual Studio and Core Guideline Checker warnings support (https://www.visualstudio.com/)
-  - [[sonar.cxx.vc.reportPaths]]
+  - [sonar.cxx.vc.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.vc.reportPaths)
 * Clang Static Analyzer support (https://clang-analyzer.llvm.org/)
-  - [[sonar.cxx.clangsa.reportPaths]]
+  - [sonar.cxx.clangsa.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.clangsa.reportPaths)
 * Clang Tidy warnings support (http://clang.llvm.org/extra/clang-tidy/)
-  - [[sonar.cxx.clangtidy.reportPaths]]
+  - [sonar.cxx.clangtidy.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.clangtidy.reportPaths)
 * Infer warnings support (https://fbinfer.com/)
-  - [[sonar.cxx.infer.reportPaths]]
+  - [sonar.cxx.infer.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.infer.reportPaths)
 * PC-Lint warnings support (http://www.gimpel.com/)
-  - [[sonar.cxx.pclint.reportPaths]]
+  - [sonar.cxx.pclint.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.pclint.reportPaths)
 * RATS (https://github.com/andrew-d/rough-auditing-tool-for-security)
-  - [[sonar.cxx.rats.reportPaths]]
+  - [sonar.cxx.rats.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.rats.reportPaths)
 * Valgrind (http://valgrind.org/)
-  - [[sonar.cxx.valgrind.reportPaths]]
+  - [sonar.cxx.valgrind.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.valgrind.reportPaths)
 * Vera++ (https://bitbucket.org/verateam/vera/wiki/Home)
-  - [[sonar.cxx.vera.reportPaths]]
+  - [sonar.cxx.vera.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.vera.reportPaths)
 * Dr. Memory warnings support (http://drmemory.org/)
-  - [[sonar.cxx.drmemory.reportPaths]]
+  - [sonar.cxx.drmemory.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.drmemory.reportPaths)
 * [Generic Issue Import Format](https://docs.sonarqube.org/latest/analysis/generic-issue/) support
 * any other tools can be integrated
-  - [[sonar.cxx.other.reportPaths]]
+  - [sonar.cxx.other.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.other.reportPaths)
 
 **Test framework** sensors for:
 * XUnit file format
-  - [[sonar.cxx.xunit.reportPaths]]
+  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths)
 * Google Test file format (https://github.com/google/googletest)
-  - [[sonar.cxx.xunit.reportPaths]]
+  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths)
 * Boost.Test file format (https://www.boost.org/doc/libs/release/libs/test/)
-  - [[sonar.cxx.xunit.reportPaths]] with [[sonar.cxx.xslt]]
+  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
 * CppTest file format (https://cpptest.sourceforge.io/)
-  - [[sonar.cxx.xunit.reportPaths]] with [[sonar.cxx.xslt]] 
+  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt) 
 * CppUnit file format (https://sourceforge.net/projects/cppunit/)
-  - [[sonar.cxx.xunit.reportPaths]] with [[sonar.cxx.xslt]]
+  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
 * VSTest file format (https://github.com/microsoft/vstest)
-  - [[sonar.cxx.vstest.reportPaths]]
+  - [sonar.cxx.vstest.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.vstest.reportPaths)
 * NUnit file format (https://nunit.org/)
-  - [[sonar.cxx.nunit.reportPaths]]
+  - [sonar.cxx.nunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.nunit.reportPaths)
 * [Generic Test Data](https://docs.sonarqube.org/latest/analysis/generic-test/) support
 * extensions over XSLT possible
-  - [[sonar.cxx.xslt]]
+  - [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
 
 **Coverage** sensors for:
 * Visual Studio coverage reports (https://www.visualstudio.com/)
-  - [[sonar.cxx.vscoveragexml.reportPaths]]
+  - [sonar.cxx.vscoveragexml.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.vscoveragexml.reportPaths)
 * Bullseye coverage reports (http://www.bullseye.com/)
-  - [[sonar.cxx.bullseye.reportPaths]]
+  - [sonar.cxx.bullseye.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.bullseye.reportPaths)
 * Cobertura coverage reports (http://cobertura.github.io/cobertura/)
    * gcov / gcovr coverage reports --xml https://gcovr.com/en/stable/guide.html
    * OpenCppCoverage --export_type=cobertura (https://github.com/OpenCppCoverage/OpenCppCoverage/)
-     - [[sonar.cxx.cobertura.reportPaths]]
+   * [sonar.cxx.cobertura.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.cobertura.reportPaths)
 * Testwell CTC++ coverage reports (https://www.verifysoft.com/en_ctcpp.html)
-  - [[sonar.cxx.ctctxt.reportPaths]]
+  - [sonar.cxx.ctctxt.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.ctctxt.reportPaths)
 * [Generic Coverage](https://docs.sonarqube.org/latest/analysis/generic-test/) support
 
 Simple to **customize**
@@ -87,7 +87,7 @@ Simple to **customize**
 * custom rules by XPath checks possible
 * custom rules by regular expression checks possible
 * easy 3rd party tool integration with XML rule definitions and reports possible
-  - [[sonar.cxx.other.reportPaths]]
+  - [sonar.cxx.other.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.other.reportPaths)
 
 # Quickstart
 1. [Setup a SonarQube instance](https://docs.sonarqube.org/latest/setup/overview/)
