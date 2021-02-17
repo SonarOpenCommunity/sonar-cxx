@@ -64,7 +64,7 @@ def get_sonar_log_file(sonarhome):
     if "sonarqube-7." in sonarhome:
         SONAR_LOG_FILE = "sonar.log"
     else:
-        SONAR_LOG_FILE = "sonar-" + time.strftime("%Y%m%d") + ".log"    
+        SONAR_LOG_FILE = "sonar." + time.strftime("%Y%m%d") + ".log"    
     return os.path.join(get_sonar_log_folder(sonarhome), SONAR_LOG_FILE)
 
 def sonar_analysis_finished(logpath):
