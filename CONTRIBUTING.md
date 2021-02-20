@@ -2,7 +2,7 @@ You are welcome to contribute. Help is needed.
 
 ### Testing
 
-Test your sources with latest version of C++ community plugin. [Write issues](https://github.com/SonarOpenCommunity/sonar-cxx/issues) you find from C++ community plugin. Please check always if your [issue](https://github.com/SonarOpenCommunity/sonar-cxx/issues?state=open) does not already exist before you create a new one. In case of parsing problems it is mostly helpful to add also example code.
+Test your sources with latest version of _cxx plugin_. [Write issues](https://github.com/SonarOpenCommunity/sonar-cxx/issues) you find from _cxx plugin_. Please check always if your [issue](https://github.com/SonarOpenCommunity/sonar-cxx/issues?state=open) does not already exist before you create a new one. In case of parsing problems it is mostly helpful to add also example code.
 
 ### Marketing
 
