@@ -3,25 +3,22 @@
   <rule>
     <key>CustomRuleTemplate</key>
     <cardinality>MULTIPLE</cardinality>
-    <name>Template for custom Custom rules</name>
+    <name>Rule template for PC-Lint custom rules</name>
     <description>
       <![CDATA[
-      
 <p>
-Follow these steps to make your custom Custom rules available in SonarQube:
+Follow these steps to make your custom rules available in SonarQube:
 </p>
-
 <ol>
   <ol>
     <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
     <li>Enable the newly created rule in your quality profile</li>
   </ol>
   <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
-</ol>
-      
+</ol>  
     ]]>
     </description>
-    </rule>
+  </rule>
   <rule>
     <key>1</key>
     <name>L0001: Unclosed Comment (Location)</name>
