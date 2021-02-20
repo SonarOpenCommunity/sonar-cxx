@@ -84,7 +84,7 @@ Sensors for **static and dynamic code analysis**:
 * [Generic Coverage](https://docs.sonarqube.org/latest/analysis/generic-test/) support
 
 Simple to **customize**
-* custom rules by [regular expression template](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/CXX-Custom-Template-Rules) possible
+* custom rules by [regular expression template](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/CXX-Custom-Regex-Rules) possible
 * custom rules by [XPath template rule](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/CXX-Custom-XPath-Rules) possible
 * [extend CXX repositories](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/CXX-Custom-Template-Rules) with custom rules
 * easy 3rd party tool integration with XML rule definitions and reports possible
