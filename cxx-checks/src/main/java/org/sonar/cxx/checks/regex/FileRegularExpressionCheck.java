@@ -47,7 +47,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
  */
 @Rule(
   key = "FileRegularExpression",
-  name = "File RegEx rule",
+  name = "Track files matching a regular expression",
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale
@@ -126,7 +126,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
       return;
     }
     // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-    try (var br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
+    try ( var br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
       final String fileContent = br.lines().collect(Collectors.joining(System.lineSeparator()));
       Matcher matcher = pattern.matcher(fileContent);
       if (compare(invertRegularExpression, matcher.find())) {

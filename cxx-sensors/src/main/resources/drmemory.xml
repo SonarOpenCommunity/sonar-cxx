@@ -1,5 +1,25 @@
-<?xml version="1.0" encoding="us-ascii"?>
-<rules>    
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+  <rule>
+    <key>CustomRuleTemplate</key>
+    <cardinality>MULTIPLE</cardinality>
+    <name>Rule template for Dr. Memory custom rules</name>
+    <description>
+     <![CDATA[   
+<p>
+Follow these steps to make your custom rules available in SonarQube:
+</p>
+
+<ol>
+  <ol>
+    <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
+    <li>Enable the newly created rule in your quality profile</li>
+  </ol>
+  <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
+</ol>
+    ]]>    
+    </description>
+  </rule>
   <rule>
     <key>UnadressableAccess</key>
     <name>An unaddressable access is an access to an invalid memory address</name>

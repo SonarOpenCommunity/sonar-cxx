@@ -1,14 +1,13 @@
 <rules>
-  <rule> 
+  <rule>
     <key>CustomRuleTemplate</key>
     <cardinality>MULTIPLE</cardinality>
-    <name><![CDATA[Template for custom Custom rules]]></name>
+    <name>Rule template for RATS custom rules</name>
     <description>
       <![CDATA[
 <p>
-Follow these steps to make your custom Custom rules available in SonarQube:
+Follow these steps to make your custom rules available in SonarQube:
 </p>
-
 <ol>
   <ol>
     <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
@@ -3977,7 +3976,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       file system check (such as stat) on the same resource.
     </description>
     <tag>security</tag>
-     <severity>MINOR</severity>
+    <severity>MINOR</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
@@ -4284,13 +4283,13 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <!-- end of update from RATS 2.3 rats-c.xml -->
-  
+
   <!-- added from RATS 2.4 rats-c.xml -->
   <rule>
     <key>strcpy</key>
     <name>strcpy</name>
     <description>
-	  Check to be sure that the format string passed as argument 2 to
+      Check to be sure that the format string passed as argument 2 to
       this function call does not come from an untrusted source that could
       have added formatting characters that the code is not prepared to
       handle. Additionally, the format string could contain `%s' without
@@ -4406,5 +4405,5 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <!-- end of update from RATS 2.4 rats-c.xml -->
-  
+
 </rules>

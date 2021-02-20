@@ -32,7 +32,7 @@ import org.sonar.squidbridge.checks.AbstractXPathCheck;
 
 @Rule(
   key = "XPath",
-  name = "XPath rule",
+  name = "Track breaches of an XPath rule",
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale

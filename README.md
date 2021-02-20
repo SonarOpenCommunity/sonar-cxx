@@ -16,11 +16,12 @@ The sensors for reading reports can be used with the _CXX plugin_ or [SonarCFami
 This plugin is free software; you can redistribute it and/or modify it under the terms of the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.en.html) as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
 * parser supporting
-  * `C89`, `C99`, `C11`, `C17`
   * `C++03`, `C++11`, `C++14`,`C++17`, `C++20`
+  * `C89`, `C99`, `C11`, `C17`
+* compiler specific extensions
   * Microsoft extensions: `C++/CLI`, `Attributed ATL`
   * GNU extensions
-  * CUDA extensions
+  * `CUDA` extensions
 * Microsoft Windows and Linux for runtime environment
 
 Sensors for **static and dynamic code analysis**:
@@ -47,7 +48,7 @@ Sensors for **static and dynamic code analysis**:
 * **Dr. Memory** warnings support (http://drmemory.org/)
   - [sonar.cxx.drmemory.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.drmemory.reportPaths)
 * [Generic Issue Import Format](https://docs.sonarqube.org/latest/analysis/generic-issue/) support
-* any other tools can be integrated
+* any other tool can be integrated
   - [sonar.cxx.other.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.other.reportPaths)
 
 **Test framework** sensors for:
@@ -83,11 +84,13 @@ Sensors for **static and dynamic code analysis**:
 * [Generic Coverage](https://docs.sonarqube.org/latest/analysis/generic-test/) support
 
 Simple to **customize**
-* provide the ability to write custom rules
-* custom rules by XPath checks possible
-* custom rules by regular expression checks possible
+* custom rules by [regular expression template](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/CXX-Custom-Template-Rules) possible
+* custom rules by [XPath template rule](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/CXX-Custom-XPath-Rules) possible
+* [extend CXX repositories](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/CXX-Custom-Template-Rules) with custom rules
 * easy 3rd party tool integration with XML rule definitions and reports possible
   - [sonar.cxx.other.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.other.reportPaths)
+* provide the ability to add custom rules
+  * [Writing a SonarQube plugin](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/CXX-Custom-Rules) in Java that uses SonarQube APIs to add new rules
 
 # Quickstart
 1. [Setup a SonarQube instance](https://docs.sonarqube.org/latest/setup/overview/)

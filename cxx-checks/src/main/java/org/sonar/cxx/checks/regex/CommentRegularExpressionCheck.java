@@ -29,7 +29,7 @@ import org.sonar.squidbridge.checks.AbstractCommentRegularExpressionCheck;
 
 @Rule(
   key = "CommentRegularExpression",
-  name = "Regular expression on comment",
+  name = "Track comments matching a regular expression",
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale

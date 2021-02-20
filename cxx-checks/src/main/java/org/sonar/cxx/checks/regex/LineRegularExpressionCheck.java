@@ -46,7 +46,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
  */
 @Rule(
   key = "LineRegularExpression",
-  name = "Line RegEx rule",
+  name = "Track lines matching a regular expression",
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale
@@ -123,7 +123,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
   public void visitFile(AstNode fileNode) {
     if (compare(invertFilePattern, matchFile())) {
       // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-      try (var br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
+      try ( var br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
         String line;
         int nr = 0;
 
