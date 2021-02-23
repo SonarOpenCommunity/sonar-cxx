@@ -15,6 +15,7 @@ You have struggled getting started? Something is missing or not up to date? Feel
 ### Development
 
 First, you may want to [Build the plugin](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Build-the-plugin). Then you’ll be ready to jump in and get your hands dirty.
+
 * Visit the Hosting on the Forge page and hop on the [issue list](https://github.com/SonarOpenCommunity/sonar-cxx/issues) to discuss your goal, get feedback and find contributors to help you.
 * You have encountered some issues while extending the plugin. Feel free to comment on the API so that it can be improved. To do so, just post a new issue on the [developer list](https://github.com/SonarOpenCommunity/sonar-cxx/issues).
 * Help fellow developers by answering their questions on the [developer list](https://github.com/SonarOpenCommunity/sonar-cxx/issues).
