@@ -13,10 +13,10 @@ adds C++ support to SonarQube with the focus on integration of existing C++ tool
 
 The sensors for reading reports can be used with the _CXX plugin_ or [SonarCFamily](https://www.sonarsource.com/cpp/) plugin.
 
-# License
+## License
 This plugin is free software; you can redistribute it and/or modify it under the terms of the [GNU Lesser General Public License](https://github.com/SonarOpenCommunity/sonar-cxx/blob/master/LICENSE) as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-# Features
+## Features
 * parser supporting
   * `C++03`, `C++11`, `C++14`,`C++17`, `C++20`
   * `C89`, `C99`, `C11`, `C17`
@@ -94,20 +94,20 @@ Simple to **customize**
 * provide the ability to add custom rules
   * [Writing a SonarQube plugin](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/CXX-Custom-Rules) in Java that uses SonarQube APIs to add new rules
 
-# Quickstart
+## Quickstart
 1. [Setup a SonarQube instance](https://docs.sonarqube.org/latest/setup/overview/)
 2. [Install the Plugin](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Install-the-Plugin)
 3. [Run an analysis](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Scan-Source-Code)
 
-# Resources
+## Resources
 - [Latest release](https://github.com/SonarOpenCommunity/sonar-cxx/releases)
 - [Documentation](https://github.com/SonarOpenCommunity/sonar-cxx/wiki)
 - [Issue Tracker](https://github.com/SonarOpenCommunity/sonar-cxx/issues)
 
-# Contributing
+## Contributing
 You are welcome to contribute. [Help is needed](https://github.com/SonarOpenCommunity/sonar-cxx/blob/master/CONTRIBUTING.md).
 
-# Alternatives
+## Alternatives
 That's not the only choice when you are looking for C++ support in SonarQube there is also
 * the commercial [C/C++ plugin from SonarSource](http://www.sonarsource.com/products/plugins/languages/cpp/).
 * the commercial [C/C++ plugin from CppDepend](http://www.cppdepend.com/sonarplugin)
