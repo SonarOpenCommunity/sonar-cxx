@@ -7,15 +7,11 @@ assignees: ''
 
 ---
 
----
-
 **Before you create a new issue**
 - Is it really a _cxx-plugin_ issue or a general _SonarQube_ issue? To track _SonarQube_ issues use the [community from SonarSource](https://community.sonarsource.com/) please.
 - Please read the [Wiki](https://github.com/SonarOpenCommunity/sonar-cxx/wiki) first, maybe you will find a solution there.
 - Please [turn debug info on](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-debug-information) and reproduce your issue. The debug info in the log file could help to solve or locate the issue.
 - Please check if there is not already a [bug report](https://github.com/SonarOpenCommunity/sonar-cxx/issues) for your issue.
-
----
 
 **Describe the bug**
 A clear and concise description of what the bug is.
