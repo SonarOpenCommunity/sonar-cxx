@@ -36,15 +36,14 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
 
   public static List<PropertyDefinition> properties() {
     String category = "CXX External Analyzers";
-    String subcategory = "Coverage";
+    String subcategory = "Testwell CTC++";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Testwell CTC++ TXT coverage report(s)")
+        .name("Testwell CTC++ Coverage Report(s)")
         .description(
-          "List of paths to reports containing coverage data, relative to projects root."
-            + " The values are separated by commas."
-            + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
-            + "here</a> for supported formats.")
+          "Comma-separated list of paths pointing to coverage reports (absolute or relative to the project base directory)."
+          + " Ant patterns are accepted for relative path. The reports have to conform to the `Testwell CTC++ textural format`."
+        )
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
@@ -52,8 +51,10 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
         .build(),
       PropertyDefinition.builder(REPORT_ENCODING_DEF)
         .defaultValue(DEFAULT_ENCODING_DEF)
-        .name("Testwell CTC++ TXT Report Encoding")
-        .description("The encoding to use when reading the coverage report. Leave empty to use parser's default UTF-8.")
+        .name("Testwell CTC++ Report Encoding")
+        .description(
+          "Defines the encoding to be used to read the files from `sonar.cxx.ctctxt.reportPaths` (default is `UTF-8`)."
+        )
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)

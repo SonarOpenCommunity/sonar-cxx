@@ -41,12 +41,14 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
 
   public static List<PropertyDefinition> properties() {
     String category = "CXX External Analyzers";
-    String subcategory = "Compiler";
+    String subcategory = "Visual C++";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("VC Compiler Report(s)")
-        .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
-                       + USE_ANT_STYLE_WILDCARDS)
+        .name("Visual C++ Compiler Report(s)")
+        .description(
+          "Comma-separated paths (absolute or relative to the project base directory) to `*.log` files with"
+            + " `Visual Studio` warnings. Ant patterns are accepted for relative paths."
+        )
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
@@ -55,7 +57,9 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
       PropertyDefinition.builder(REPORT_ENCODING_DEF)
         .defaultValue(DEFAULT_ENCODING_DEF)
         .name("VC Report Encoding")
-        .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
+        .description(
+          "Defines the encoding to be used to read the files from `sonar.cxx.vc.reportPaths` (default is `UTF-8`)."
+        )
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
@@ -63,11 +67,9 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
       PropertyDefinition.builder(REPORT_REGEX_DEF)
         .name("VC Regular Expression")
         .description(
-          "Regular expression to identify the four named groups of the compiler warning message:"
-            + " &lt;file&gt;, &lt;line&gt;, &lt;column&gt;, &lt;id&gt;, &lt;message&gt;. "
-            + "Leave empty to use parser's default."
-            + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
-            + "this page</a> for details regarding the different regular expression that can be use per compiler.")
+          "Java regular expressions to parse the `Visual Studio` warnings. You can use the named-capturing groups"
+            + " `<file>`, `<line>`, `<column>`, `<id>` and `<message>`."
+        )
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
@@ -78,7 +80,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name("CXX Visual Studio compiler report import")
+      .name("CXX Visual C++ compiler report import")
       .onlyOnLanguages("cxx", "cpp", "c")
       .createIssuesForRuleRepositories(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));

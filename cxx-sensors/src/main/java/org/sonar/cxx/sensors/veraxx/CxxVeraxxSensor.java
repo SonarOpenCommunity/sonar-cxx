@@ -48,9 +48,11 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Vera++ XML report(s)")
-        .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> XML reports(s),"
-                       + " relative to projects root." + USE_ANT_STYLE_WILDCARDS)
+        .name("Vera++ Report(s)")
+        .description(
+          "Comma-separated paths (absolute or relative to the project base directory) to `*.xml` files with"
+            + " `Vera++` issues. Ant patterns are accepted for relative paths."
+        )
         .category("CXX External Analyzers")
         .subCategory("Vera++")
         .onQualifiers(Qualifiers.PROJECT)

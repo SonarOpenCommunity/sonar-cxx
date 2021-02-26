@@ -46,13 +46,15 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
                                    + "(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "Compiler";
+    String subcateg = "GCC";
     String category = "CXX External Analyzers";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("GCC Compiler Report(s)")
-        .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
-                       + USE_ANT_STYLE_WILDCARDS)
+        .description(
+          "Comma-separated paths (absolute or relative to the project base directory) to `*.log` files with"
+            + " `GCC` warnings. Ant patterns are accepted for relative paths."
+        )
         .category(category)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
@@ -61,7 +63,9 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
       PropertyDefinition.builder(REPORT_ENCODING_DEF)
         .defaultValue(CxxCompilerGccSensor.DEFAULT_ENCODING_DEF)
         .name("GCC Report Encoding")
-        .description("The encoding to use when reading the compiler report. Leave empty to use parser's default UTF-8.")
+        .description(
+          "Defines the encoding to be used to read the files from `sonar.cxx.gcc.reportPaths` (default is `UTF-8`)."
+        )
         .category(category)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
@@ -69,11 +73,9 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
       PropertyDefinition.builder(REPORT_REGEX_DEF)
         .name("GCC Regular Expression")
         .description(
-          "Regular expression to identify the four named groups of the compiler warning message:"
-            + "  &lt;file&gt;,  &lt;line&gt;,  &lt;column&gt;,  &lt;id&gt;,  &lt;message&gt;. "
-            + "Leave empty to use parser's default."
-            + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>"
-            + "this page</a> for details regarding the different regular expression that can be use per compiler.")
+          "Java regular expressions to parse the `GCC` warnings. You can use the named-capturing groups"
+            + " `<file>`, `<line>`, `<column>`, `<id>` and `<message>`."
+        )
         .category(category)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)

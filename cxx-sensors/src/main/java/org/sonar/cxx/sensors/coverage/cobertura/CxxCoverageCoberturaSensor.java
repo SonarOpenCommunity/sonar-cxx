@@ -34,14 +34,13 @@ public class CxxCoverageCoberturaSensor extends CoverageSensor {
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Cobertura XML coverage report(s)")
+        .name("Cobertura Coverage Report(s)")
         .description(
-          "List of paths to reports containing coverage data, relative to projects root."
-            + " The values are separated by commas."
-            + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
-            + "here</a> for supported formats.")
+          "Comma-separated list of paths pointing to coverage reports (absolute or relative to the project base directory)."
+          + " Ant patterns are accepted for relative path. The reports have to conform to the `Cobertura XML format`."
+        )
         .category("CXX External Analyzers")
-        .subCategory("Coverage")
+        .subCategory("Cobertura")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build()

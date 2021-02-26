@@ -52,9 +52,11 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("RATS report(s)")
-        .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/>"
-                       + " reports(s), relative to projects root." + USE_ANT_STYLE_WILDCARDS)
+        .name("RATS Report(s)")
+        .description(
+          "Comma-separated paths (absolute or relative to the project base directory) to `*.xml` files with"
+            + " `RATS` issues. Ant patterns are accepted for relative paths."
+        )
         .category("CXX External Analyzers")
         .subCategory("RATS")
         .onQualifiers(Qualifiers.PROJECT)

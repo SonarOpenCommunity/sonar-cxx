@@ -52,10 +52,11 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Clang Static Analyzer report(s)")
+        .name("Clang Static Analyzer Report(s)")
         .description(
-          "Path to Clang Static Analyzer reports, relative to projects root. If neccessary, "
-          + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
+          "Comma-separated paths (absolute or relative to the project base directory) to `*.plist` files with"
+            + " `Clang Static Analyzer` issues. Ant patterns are accepted for relative paths."
+        )
         .category("CXX External Analyzers")
         .subCategory("Clang Static Analyzer")
         .onQualifiers(Qualifiers.PROJECT)

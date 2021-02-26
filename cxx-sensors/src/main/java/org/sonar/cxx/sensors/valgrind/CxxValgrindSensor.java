@@ -47,9 +47,11 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Valgrind XML report(s)")
-        .description("Path to <a href='http://valgrind.org/'>Valgrind</a> XML report(s), relative to projects root."
-                       + USE_ANT_STYLE_WILDCARDS)
+        .name("Valgrind Report(s)")
+        .description(
+          "Comma-separated paths (absolute or relative to the project base directory) to `*.xml` files with"
+            + " `Valgrind` issues. Ant patterns are accepted for relative paths."
+        )
         .category("CXX External Analyzers")
         .subCategory("Valgrind")
         .onQualifiers(Qualifiers.PROJECT)

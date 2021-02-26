@@ -34,14 +34,13 @@ public class CxxCoverageVisualStudioSensor extends CoverageSensor {
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Visual Studio XML coverage report(s)")
+        .name("Visual C++ Coverage Report(s)")
         .description(
-          "List of paths to reports containing coverage data, relative to projects root."
-            + " The values are separated by commas."
-            + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>"
-            + "here</a> for supported formats.")
+          "Comma-separated list of paths pointing to coverage reports (absolute or relative to the project base directory)."
+          + " Ant patterns are accepted for relative path. The reports have to conform to the `Visual Studio Coverage XML format`."
+        )
         .category("CXX External Analyzers")
-        .subCategory("Coverage")
+        .subCategory("Visual C++")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build()

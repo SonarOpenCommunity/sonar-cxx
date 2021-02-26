@@ -55,9 +55,11 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
     String subcategory = "Dr. Memory";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Dr. Memory report(s)")
-        .description("Path to <a href='http://drmemory.org/'>Dr. Memory</a> reports(s), relative to projects root."
-                       + USE_ANT_STYLE_WILDCARDS)
+        .name("Dr. Memory Report(s)")
+        .description(
+          "Comma-separated paths (absolute or relative to the project base directory) to `*.txt` files with"
+            + " `Dr. Memory` issues. Ant patterns are accepted for relative paths."
+        )
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
@@ -66,7 +68,9 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
       PropertyDefinition.builder(REPORT_ENCODING_DEF)
         .defaultValue(DEFAULT_ENCODING_DEF)
         .name("Dr. Memory Report Encoding")
-        .description("The encoding to use when reading the report. Leave empty to use parser's default UTF-8.")
+        .description(
+          "Defines the encoding to be used to read the files from `sonar.cxx.drmemory.reportPaths` (default is `UTF-8`)."
+        )
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)

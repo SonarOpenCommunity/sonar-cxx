@@ -49,31 +49,29 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
 
   public static List<PropertyDefinition> properties() {
     String category = "CXX External Analyzers";
-    String subcategory = "Unit Test";
-    String NOTE
-             = " Note that while measures such as the number of tests are displayed at project level,"
-                 + " no drilldown is available.\n";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
-        .name("Visual Studio Test Reports Paths")
+        .name("VSTest Report(s)")
         .description(
-          "Paths to Visual Studio Test Reports. Multiple paths may be comma-delimited, or included via wildcards."
-            + NOTE
-            + "Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
+          "Paths to VSTest reports. Multiple paths may be comma-delimited, or included via wildcards."
+            + " Note that while measures such as the number of tests are displayed at project level, no drilldown"
+            + " is available."
+        )
         .category(category)
-        .subCategory(subcategory)
+        .subCategory("Visual C++")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
-        .name("NUnit Test Reports Paths")
+        .name("NUnit Report(s)")
         .description(
           "Paths to NUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards."
-            + NOTE
-            + "Example: \"TestResult.xml\", \"TestResult1.xml,TestResult2.xml\" or \"C:/TestResult.xml\"")
+            + " Note that while measures such as the number of tests are displayed at project level, no drilldown"
+            + " is available."
+        )
         .category(category)
-        .subCategory(subcategory)
+        .subCategory("NUnit")
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));

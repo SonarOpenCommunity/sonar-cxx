@@ -86,10 +86,6 @@ public class CxxSquidSensor implements ProjectSensor {
 
   public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.metric.cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.metric.cpd.ignoreIdentifiers";
-  private static final String USE_ANT_STYLE_WILDCARDS
-                                = " Use <a href='"
-                                    + "https://ant.apache.org/manual/dirtasks.html"
-                                    + "'>Ant-style wildcards</a> if neccessary.";
 
   private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
 
@@ -126,87 +122,103 @@ public class CxxSquidSensor implements ProjectSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(INCLUDE_DIRECTORIES_KEY)
         .multiValues(true)
-        .name("Include directories")
-        .description("Comma-separated list of directories to search the included files in. "
-                       + "May be defined either relative to projects root or absolute.")
+        .name("(2.2) Include Directories")
+        .description(
+          "Comma-separated list of directories where the preprocessor looks for include files."
+            + " The path may be either absolute or relative to the project base directory."
+        )
         .category("CXX")
-        .subCategory("(2) Defines & Includes")
+        .subCategory("(2) Preprocessor")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(FORCE_INCLUDES_KEY)
         .multiValues(true)
         .category("CXX")
-        .subCategory("(2) Defines & Includes")
-        .name("Force includes")
-        .description("Comma-separated list of files which should to be included implicitly at the "
-                       + "beginning of each source file.")
+        .subCategory("(2) Preprocessor")
+        .name("(2.3) Force Includes")
+        .description(
+          "Comma-separated list of include files implicitly inserted at the beginning of each source file."
+            + " This has the same effect as specifying the file with double quotation marks in an `#include` directive"
+            + " on the first line of every source file. If you add multiple files they are included in the order they"
+            + " are listed from left to right. The path may be either absolute or relative to the"
+            + " project base directory."
+        )
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(DEFINES_KEY)
-        .name("Default macros")
-        .description("Additional macro definitions (one per line) to use when analysing the source code. Use to provide"
-                       + "macros which cannot be resolved by other means."
-                       + " Use the 'force includes' setting to inject more complex, multi-line macros.")
+        .name("(2.1) Macros")
+        .description(
+          "List of macros to be used by the preprocessor during analysis. Enter one macro per line."
+            + " The syntax is the same as `#define` directives, except for the `#define` keyword itself."
+        )
         .category("CXX")
-        .subCategory("(2) Defines & Includes")
+        .subCategory("(2) Preprocessor")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.TEXT)
         .build(),
       PropertyDefinition.builder(ERROR_RECOVERY_KEY)
         .defaultValue(Boolean.TRUE.toString())
-        .name("Parse error recovery")
-        .description("Defines mode for error handling of report files and parsing errors. `False' (strict) breaks after"
-                       + " an error or 'True' (tolerant=default) continues. See <a href='"
-                       + "https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled"
-                     + "'>sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
+        .name("Parse Error Recovery")
+        .description(
+          "Defines the mode for error handling of report files and parsing errors."
+            + " `False` (strict) terminates after an error or `True` (tolerant) continues."
+        )
         .category("CXX")
         .subCategory("(1) General")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
         .build(),
       PropertyDefinition.builder(MsBuild.REPORT_PATH_KEY)
-        .name("Path(s) to MSBuild log(s)")
-        .description("Extract includes, defines and compiler options from the build log. This works only"
-                       + " if the produced log during compilation adds enough information (MSBuild verbosity set to"
-                       + " detailed or diagnostic)."
-                       + USE_ANT_STYLE_WILDCARDS)
+        .name("(2.5) Path(s) to MSBuild Log(s)")
+        .description(
+          "Read one ore more MSBuild .LOG files to automatically extract the required macros `sonar.cxx.defines`"
+            + " and include directories `sonar.cxx.includeDirectories`. The path may be either absolute or relative"
+            + " to the project base directory."
+        )
         .category("CXX")
-        .subCategory("(2) Defines & Includes")
+        .subCategory("(2) Preprocessor")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
       PropertyDefinition.builder(MsBuild.REPORT_ENCODING_DEF)
         .defaultValue(MsBuild.DEFAULT_ENCODING_DEF)
-        .name("MSBuild log encoding")
-        .description("The encoding to use when reading a MSBuild log. Leave empty to use default UTF-8.")
+        .name("(2.6) MSBuild Log Encoding")
+        .description(
+          "Defines the encoding to be used to read the files from `sonar.cxx.msbuild.reportPaths` (default is `UTF-8`)."
+        )
         .category("CXX")
-        .subCategory("(2) Defines & Includes")
+        .subCategory("(2) Preprocessor")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(JSON_COMPILATION_DATABASE_KEY)
         .category("CXX")
-        .subCategory("(2) Defines & Includes")
-        .name("JSON Compilation Database")
-        .description("JSON Compilation Database file to use as specification for what defines and includes should be "
-                       + "used for source files.")
+        .subCategory("(2) Preprocessor")
+        .name("(2.4) JSON Compilation Database")
+        .description(
+          "Read a JSON Compilation Database file to automatically extract the required macros `sonar.cxx.defines`"
+            + " and include directories `sonar.cxx.includeDirectories` from a file. The path may be either absolute"
+            + " or relative to the project base directory."
+        )
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(CxxPublicApiVisitor.API_FILE_SUFFIXES_KEY)
         .defaultValue(CxxPublicApiVisitor.API_DEFAULT_FILE_SUFFIXES)
-        .name("Pulic API file suffixes")
+        .name("Pulic API File suffixes")
         .multiValues(true)
-        .description("Comma-separated list of suffixes for files that should be searched for API comments."
-                       + " To not filter, leave the list empty.")
+        .description(
+          "Comma-separated list of suffixes for files to be searched for API comments and to create API metrics."
+        )
         .category("CXX")
         .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(FUNCTION_COMPLEXITY_THRESHOLD_KEY)
         .defaultValue("10")
-        .name("Threshold value for the cyclomatic complexity metric of a function")
+        .name("Complex Functions ...")
         .description(
-          "Functions with a higher cyclomatic complexity are classified as complex."
-            + " The values are displayed under measures.")
+          "The parameter defines the threshold for `Complex Functions ...`."
+            + " Functions and methods with a higher cyclomatic complexity are classified as `complex`."
+        )
         .category("CXX")
         .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
@@ -214,8 +226,11 @@ public class CxxSquidSensor implements ProjectSensor {
         .build(),
       PropertyDefinition.builder(FUNCTION_SIZE_THRESHOLD_KEY)
         .defaultValue("20")
-        .name("Threshold for the function size metric")
-        .description("Larger functions are considered too large. The values are displayed under measures.")
+        .name("Big Functions ...")
+        .description(
+          "The parameter defines the threshold for `Big Functions ...`."
+            + " Functions and methods with more lines of code are classified as `big`."
+        )
         .category("CXX")
         .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
@@ -223,10 +238,12 @@ public class CxxSquidSensor implements ProjectSensor {
         .build(),
       PropertyDefinition.builder(CPD_IGNORE_LITERALS_KEY)
         .defaultValue(Boolean.FALSE.toString())
-        .name("Ignores literal value differences when evaluating a duplicate block")
+        .name("Ignores Literal Value Differences")
         .description(
-          "Ignores literal (numbers, characters and strings) value differences when evaluating a duplicate "
-            + "block. This means that e.g. foo=42; and foo=43; will be seen as equivalent. Default is 'False'.")
+          "Configure the metrics `Duplications` (Copy Paste Detection). `True` ignores literal"
+            + " (numbers, characters and strings) value differences when evaluating a duplicate block. This means"
+            + " that e.g. `foo=42;` and `foo=43;` will be seen as equivalent."
+        )
         .category("CXX")
         .subCategory("(4) Duplications")
         .onQualifiers(Qualifiers.PROJECT)
@@ -234,9 +251,11 @@ public class CxxSquidSensor implements ProjectSensor {
         .build(),
       PropertyDefinition.builder(CPD_IGNORE_IDENTIFIERS_KEY)
         .defaultValue(Boolean.FALSE.toString())
-        .name("Ignores identifier value differences when evaluating a duplicate block")
-        .description("Ignores identifier value differences when evaluating a duplicate block e.g. variable names, "
-                       + "methods names, and so forth. Default is 'False'.")
+        .name("Ignores Identifier Value Differences")
+        .description(
+          "Configure the metrics `Duplications` (Copy Paste Detection). `True` ignores identifier value differences"
+            + " when evaluating a duplicate block e.g. variable names, methods names, and so forth."
+        )
         .category("CXX")
         .subCategory("(4) Duplications")
         .onQualifiers(Qualifiers.PROJECT)

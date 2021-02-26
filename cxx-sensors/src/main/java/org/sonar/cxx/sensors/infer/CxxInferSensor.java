@@ -40,11 +40,10 @@ public class CxxInferSensor extends CxxIssuesReportSensor {
 
   public static List<PropertyDefinition> properties() {
     return List.of(PropertyDefinition.builder(REPORT_PATH_KEY)
-      .name("Infer JSON report(s)")
+      .name("Infer Report(s)")
       .description(
-        "Path to a <a href='https://fbinfer.com/>Infer</a> JSON report, relative to"
-          + " projects root. Only JSON format is supported. If necessary, <a href='https://"
-          + "ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
+        "Comma-separated paths (absolute or relative to the project base directory) to `*.json` files with"
+          + " `Infer` issues. Ant patterns are accepted for relative paths."
       )
       .category("CXX External Analyzers")
       .subCategory("Infer")

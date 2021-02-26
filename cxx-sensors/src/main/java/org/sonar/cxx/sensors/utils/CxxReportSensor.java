@@ -41,11 +41,6 @@ public abstract class CxxReportSensor implements ProjectSensor {
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   private static final Logger LOG = Loggers.get(CxxReportSensor.class);
 
-  protected static final String USE_ANT_STYLE_WILDCARDS
-                                  = " Use <a href='"
-                                      + "https://ant.apache.org/manual/dirtasks.html"
-                                      + "'>Ant-style wildcards</a> if neccessary.";
-
   private final Set<String> notFoundFiles = new HashSet<>();
 
   protected SensorContext context;

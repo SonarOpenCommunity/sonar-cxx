@@ -54,10 +54,11 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Clang-Tidy report(s)")
+        .name("Clang-Tidy Report(s)")
         .description(
-          "Path to Clang-Tidy reports, relative to projects root. If neccessary, "
-          + "<a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
+          "Comma-separated paths (absolute or relative to the project base directory) to `*.txt` files with"
+            + " `Clang-Tidy` issues. Ant patterns are accepted for relative paths."
+        )
         .category("CXX External Analyzers")
         .subCategory("Clang-Tidy")
         .onQualifiers(Qualifiers.PROJECT)
@@ -65,9 +66,9 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         .build(),
       PropertyDefinition.builder(REPORT_ENCODING_DEF)
         .defaultValue(DEFAULT_ENCODING_DEF)
-        .name("Clang-Tidy Encoding")
-        .description("The encoding to use when reading the clang-tidy report."
-                       + " Leave empty to use parser's default UTF-8.")
+        .name("Clang-Tidy Report Encoding")
+        .description("Defines the encoding to be used to read the files from `sonar.cxx.clangtidy.reportPaths`"
+          + " (default is `UTF-8`).")
         .category("CXX External Analyzers")
         .subCategory("Clang-Tidy")
         .onQualifiers(Qualifiers.PROJECT)

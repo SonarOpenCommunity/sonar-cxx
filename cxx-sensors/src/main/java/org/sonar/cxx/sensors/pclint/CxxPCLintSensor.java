@@ -68,10 +68,11 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("PC-lint XML report(s)")
+        .name("PC-lint Report(s)")
         .description(
-          "Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> XML reports(s), relative to projects"
-            + "  root." + USE_ANT_STYLE_WILDCARDS)
+          "Comma-separated paths (absolute or relative to the project base directory) to `*.xml` files with"
+            + " `PC-lint` issues. Ant patterns are accepted for relative paths."
+        )
         .category("CXX External Analyzers")
         .subCategory("PC-lint")
         .onQualifiers(Qualifiers.PROJECT)

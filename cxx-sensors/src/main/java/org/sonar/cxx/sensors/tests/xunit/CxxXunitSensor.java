@@ -52,13 +52,15 @@ public class CxxXunitSensor extends CxxReportSensor {
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
-        .name("Unit test execution report(s)")
+        .name("xUnit Report(s)")
         .description(
-          "Path to unit test execution report(s), relative to projects root."
-            + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>"
-            + "here</a> for supported formats." + USE_ANT_STYLE_WILDCARDS)
+          "Comma-separated list of paths to the various directories containing the *.xml xUnit report files."
+            + " Each path may be absolute or relative to the project base directory. Ant patterns are accepted for"
+            + " relative paths. Note that while measures such as the number of tests are displayed at project level,"
+            + " no drilldown is available."
+        )
         .category("CXX External Analyzers")
-        .subCategory("xUnit Test")
+        .subCategory("xUnit")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build()
