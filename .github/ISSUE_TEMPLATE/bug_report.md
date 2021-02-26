@@ -7,6 +7,16 @@ assignees: ''
 
 ---
 
+---
+
+**Before you create a new issue**
+- Is it really a _cxx-plugin_ issue or a general _SonarQube_ issue? To track _SonarQube_ issues use the [community from SonarSource](https://community.sonarsource.com/) please.
+- Please read the [Wiki](https://github.com/SonarOpenCommunity/sonar-cxx/wiki) first, maybe you will find a solution there.
+- Please [turn debug info on](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-debug-information) and reproduce your issue. The debug info in the log file could help to solve or locate the issue.
+- Please check if there is not already a [bug report](https://github.com/SonarOpenCommunity/sonar-cxx/issues) for your issue.
+
+---
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
@@ -24,15 +34,10 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
+ - OS: [e.g. Linux]
+ - SonarQube version: [e.g. 8.7.0]
+ - cxx plugin version: [e.g. 2.0.0]
+ - sonar-scanner version: [e.g. 4.6.0.2311]
+ 
 **Additional context**
 Add any other context about the problem here.
