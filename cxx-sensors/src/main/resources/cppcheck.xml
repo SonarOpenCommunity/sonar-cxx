@@ -9014,7 +9014,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-8.3</key>
-    <name>misra-c2012-8.3: Different declaration of object function(MISRA C 2012)</name>
+    <name>misra-c2012-8.3: Different declaration of object function (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required)  All declarations of an object or function shall use the same names and type qualifiers]]>
     </description>
@@ -9025,7 +9025,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-8.4</key>
-    <name>misra-c2012-8.4: Non compatible declaration with external linkage(MISRA C 2012)</name>
+    <name>misra-c2012-8.4: Non compatible declaration with external linkage (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) A compatible declaration shall be visible when an object or function with external linkage is defined]]>
     </description>
@@ -9036,7 +9036,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-8.5</key>
-    <name>misra-c2012-8.5: An external element declared in several files(MISRA C 2012)</name>
+    <name>misra-c2012-8.5: An external element declared in several files (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) An external object or function shall be declared once in one and only one file]]>
     </description>
@@ -9079,7 +9079,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-8.9</key>
-    <name>misra-c2012-8.9: Object define outside of block for single function usage(MISRA C 2012)</name>
+    <name>misra-c2012-8.9: Object define outside of block for single function usage (MISRA C 2012)</name>
     <description>
       <![CDATA[(Advisory) An object should be defined at block scope if its identifier only appears in a single function]]>
     </description>
@@ -9208,7 +9208,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-10.2</key>
-    <name>misra-c2012-10.2: Inapropriate ussage of character type in operation(MISRA C 2012)</name>
+    <name>misra-c2012-10.2: Inapropriate ussage of character type in operation (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) Expressions of essentially character type shall not be used inappropriately in addition and subtraction operations]]>
     </description>
@@ -9230,7 +9230,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-10.4</key>
-    <name>misra-c2012-10.4: Operation with different type cathegory(MISRA C 2012)</name>
+    <name>misra-c2012-10.4: Operation with different type category (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) Both operands of an operator in which the usual arithmetic conversions are performed shall have the same essential type category]]>
     </description>
@@ -9273,7 +9273,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-10.8</key>
-    <name>misra-c2012-10.8: Type conversion of composit expression(MISRA C 2012)</name>
+    <name>misra-c2012-10.8: Type conversion of composit expression (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) The value of a composite expression shall not be cast to a different essential type category or a wider essential type]]>
     </description>
@@ -9284,7 +9284,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-11.1</key>
-    <name>misra-c2012-11.1: Convertion between pointer to function and other type(MISRA C 2012)</name>
+    <name>misra-c2012-11.1: Convertion between pointer to function and other type (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) Conversions shall not be performed between a pointer to a function and any other type]]>
     </description>
@@ -9328,7 +9328,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-11.5</key>
-    <name>misra-c2012-11.5: Conversion between pointer to void and pointer to object(MISRA C 2012)</name>
+    <name>misra-c2012-11.5: Conversion between pointer to void and pointer to object (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) A conversion should not be performed from pointer to void into pointer to object ]]>
     </description>
@@ -9339,7 +9339,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-11.6</key>
-    <name>misra-c2012-11.6: Conversion between pointer to void and arithmetic type(MISRA C 2012)</name>
+    <name>misra-c2012-11.6: Conversion between pointer to void and arithmetic type (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) A cast shall not be performed between pointer to void and an arithmetic type]]>
     </description>
@@ -9383,7 +9383,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-12.1</key>
-    <name>misra-c2012-12.1: Precedence of expression non explicit(MISRA C 2012)</name>
+    <name>misra-c2012-12.1: Precedence of expression non explicit (MISRA C 2012)</name>
     <description>
       <![CDATA[(Advisory) The precedence of operators within expressions should be made explicit]]>
     </description>
@@ -9445,7 +9445,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-13.2</key>
-    <name>misra-c2012-13.2: Different value of expression and persistent side effect(MISRA C 2012)</name>
+    <name>misra-c2012-13.2: Different value of expression and persistent side effect (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) The value of an expression and its persistent side effects shall be the same under all permitted evaluation orders]]>
     </description>
@@ -9795,7 +9795,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-18.2</key>
-    <name>misra-c2012-18.2: Substraction between different array with pointers(MISRA C 2012)</name>
+    <name>misra-c2012-18.2: Substraction between different array with pointers (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) Subtraction between pointers shall only be applied to pointers that address elements of the same array]]>
     </description>
@@ -9806,7 +9806,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-18.3</key>
-    <name>misra-c2012-18.3: Relational or subtract operator applied to pointers  (MISRA C 2012)</name>
+    <name>misra-c2012-18.3: Relational or subtract operator applied to pointers (MISRA C 2012)</name>
     <description>
       <![CDATA[
 (Required) The relational operators &gt;, &gt;=, &lt; and &lt;= shall not be applied to objects of pointer type except where they point into the same object
@@ -10059,7 +10059,7 @@ Iterator 'it' from different container 'v1' are used together.
     </rule>
   <rule>
     <key>misra-c2012-21.2</key>
-    <name>misra-c2012-21.2: Illegal macro name using reserved identifier(MISRA C 2012)</name>
+    <name>misra-c2012-21.2: Illegal macro name using reserved identifier (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) A reserved identifier or macro name shall not be declared]]>
     </description>
