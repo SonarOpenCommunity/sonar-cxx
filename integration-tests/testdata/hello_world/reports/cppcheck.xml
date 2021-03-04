@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="1.90"/>
+    <errors>
+        <error id="unusedVariable" severity="style" msg="Unused variable: x" verbose="Unused variable: x">
+            <location file="src/main.cc" line="4"/>
+        </error>
+    </errors>
+</results>

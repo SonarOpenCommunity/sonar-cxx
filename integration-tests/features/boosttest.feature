@@ -68,29 +68,6 @@ Feature: Providing test execution measures
       | test_execution_time  | 3     |
 
 
-  Scenario: Simulate virtual Boost.Test file
-    Starting with SQ 4.2 virtual files are no more supported.
-    With 'boosttest-1.x-to-junit-1.0-dummy.xsl' it is possible to simulate this feature again.
-    The stylesheet set the filename tag to './cxx-xunit/dummy.cpp' additional the
-    dummy cpp unittest file in the test folder is needed.
-
-    Given the project "boosttest_project"
-    When I run sonar-scanner with "-X -Dsonar.tests=cxx-xunit -Dsonar.cxx.xslt.1.stylesheet=boosttest-1.x-to-junit-dummy-1.0.xsl -Dsonar.cxx.xslt.1.inputs=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.reportPaths=btest_test_nested-test_suite.after_xslt"
-    Then the analysis finishes successfully
-    And the analysis in server has completed
-    And the analysis log contains no error/warning messages except those matching:
-      """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
-      """
-    And the following metrics have following values:
-      | metric               | value |
-      | tests                | 4     |
-      | test_failures        | 0     |
-      | test_errors          | 4     |
-      | skipped_tests        | 0     |
-      | test_execution_time  | 3     |
-
-
   Scenario: Test with real Boost.Test framework
     Real boost test framework is a very complex usecase for preprocessor and parser.
     Test if plugin is able to handle this.

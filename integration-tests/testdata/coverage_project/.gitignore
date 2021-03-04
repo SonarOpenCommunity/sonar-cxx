@@ -1,7 +1,0 @@
-.sonar
-app
-*.[oa]
-*.gcda
-*.gcno
-unit-test
-integration-test
