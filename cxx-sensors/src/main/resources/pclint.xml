@@ -16790,14 +16790,14 @@ immediately cast to the underlying type of the operand.
     <severity>INFO</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
-    </rule>
+  </rule>
   <rule>
     <key>M2012-1.1</key>
     <name>M2012-1.1: Violations of the standard C (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) Violations of the standard C syntax and constraints]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -16808,7 +16808,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) Language extensions should not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -16818,7 +16818,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) There shall be no occurrence of undefined or critical unspecified behaviour]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -16829,7 +16829,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A project shall not contain unreachable code]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -16840,7 +16840,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) There shall be no dead code]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -16851,7 +16851,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) A project should not contain unused ty pe declarations]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -16861,7 +16861,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) A project should not contain unused tag declarations ]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -16871,7 +16871,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) A project should not contain unused macro declarations]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -16881,7 +16881,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) A function should not contain unused label declarations]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -16891,7 +16891,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) There should be no unused parameters in functions]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -16901,7 +16901,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The character sequences /* an d // shall not be used within a comment]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -16912,7 +16912,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Line-splicing shall not be used in // comments]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -16923,7 +16923,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Octal and hexadecimal escape sequences shall be terminated]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -16934,7 +16934,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) Trigraphs should not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -16944,29 +16944,29 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) External identifiers shall be distinct]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>M2012-5.2</key>
-    <name>M2012-5.2: Indistinct identifiers in same scope(MISRA C 2012)</name>
+    <name>M2012-5.2: Indistinct identifiers in same scope (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) Identifiers declared in the same scope and name space shall be distinct]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>M2012-5.3</key>
-    <name>M2012-5.3: Identifier hiding other identifier(MISRA C 2012)</name>
+    <name>M2012-5.3: Identifier hiding other identifier (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) An identifier declared in an inner scope shall not hide an identifier declared in an outer scope]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -16977,7 +16977,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Macro identifiers shall be distinct]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -16988,7 +16988,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Identifiers shall be distinct from macro names]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -16999,7 +16999,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A typedef name shall be a unique identifier]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17010,7 +17010,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A tag name shall be a unique identifier]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17021,7 +17021,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Identifiers that define objects or functions with external linkage shall be unique]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17032,7 +17032,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Identifiers that define objects or functions with internal linkage should be unique]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17042,7 +17042,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Bit-fields shall only be declared with an appropriate type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17053,7 +17053,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) Single-bit named bit fields shall not be of a signed type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17063,7 +17063,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Octal constants shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17074,7 +17074,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A “u” or “U” suffix shall be applied to all integer constants that are represented in an unsigned type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17085,7 +17085,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The lowercase character “l” shall not be used in a literal suffix ]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17096,7 +17096,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A string literal shall not be assigned to an object unless the object’s type is “pointer to const-qualifi ed char” ]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17107,7 +17107,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Types shall be explicitly specified]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17118,7 +17118,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Function types shall be in prototype form with named parameters]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17129,7 +17129,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required)  All declarations of an object or function shall use the same names and type qualifiers]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17140,7 +17140,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A compatible declaration shall be visible when an object or function with external linkage is defined]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17151,7 +17151,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) An external object or function shall be declared once in one and only one file]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17162,7 +17162,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) An identifier with external linkage shall have exactly one external definition]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17173,7 +17173,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) Functions and objects should not be defined with external linkage if they are referenced in only one translation unit]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17183,7 +17183,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The static storage class specifier shall be used in all declarations of objects and functions that have internal linkage]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17194,7 +17194,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) An object should be defined at block scope if its identifier only appears in a single function]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17204,7 +17204,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) An inline function shall be declared with the static storage class]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17215,7 +17215,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) When an array with external linkage is declared, its size should be explicitly specified]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17225,7 +17225,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Within an enumerator list, the value of an implicitly-specified enumeration constant shall be unique]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17236,7 +17236,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) A pointer should point to a const-qualified type whenever possible]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17246,7 +17246,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The restrict type qualifier shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17257,7 +17257,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) The value of an object with automatic storage duration shall not be read before it has been set]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>BLOCKER</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17268,7 +17268,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The initializer for an aggregate or union shall be enclosed in braces]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17279,7 +17279,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Arrays shall not be partially initialized]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17290,7 +17290,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) An element of an object shall not be initialized more than once]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17301,7 +17301,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Where designated initializers are used to initialize an array object the size of the array shall be specified explicitly]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17312,7 +17312,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Operands shall not be of an inappropriate essential type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17323,7 +17323,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Expressions of essentially character type shall not be used inappropriately in addition and subtraction operations]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17334,7 +17334,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The value of an expression shall not be assigned to an object with a narrower essential type or of a different essential type category]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17345,7 +17345,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Both operands of an operator in which the usual arithmetic conversions are performed shall have the same essential type category]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17356,7 +17356,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) The value of an expression should not be cast to an inappropriate essential type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17366,7 +17366,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The value of a composite expression shall not be assigned to an object with wider essential type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17377,7 +17377,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) If a composite expression is used as one operand of an operator in which the usual arithmetic conversions are performed then the other operand shall not have wider essential type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17388,7 +17388,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The value of a composite expression shall not be cast to a different essential type category or a wider essential type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17399,7 +17399,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Conversions shall not be performed between a pointer to a function and any other type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17410,7 +17410,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Conversions shall not be performed between a pointer to an incomplete type and any other type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17421,7 +17421,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A cast shall not be performed between a pointer to object type and a pointer to a different object type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17432,7 +17432,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A conversion should not be performed between a pointer to object and an integer type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17443,7 +17443,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A conversion should not be performed from pointer to void into pointer to object ]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17454,7 +17454,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A cast shall not be performed between pointer to void and an arithmetic type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17465,7 +17465,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A cast shall not be performed between pointer to object and a non-integer arithmetic type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17476,7 +17476,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A cast shall not remove any const or volatile qualification from the type pointed to by a pointer]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17487,7 +17487,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The macro NULL shall be the only permitted form of integer null pointer constant]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17498,7 +17498,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) The precedence of operators within expressions should be made explicit]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17508,7 +17508,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The right hand operand of a shift operator shall lie in the range zero to one less than the width in bits of the essential type of the left hand operand]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17519,7 +17519,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) The comma operator should not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17529,7 +17529,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) Evaluation of constant expressions should not lead to unsigned integer wrap-around]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17539,7 +17539,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) The sizeof operator shall not have an operand which is a function parameter declared as "array of type"]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17549,7 +17549,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Initializer lists shall not contain persistent side effects ]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17560,7 +17560,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The value of an expression and its persistent side effects shall be the same under all permitted evaluation orders]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17571,7 +17571,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) A full expression containing an increment (++) or decrement (--) operator should have no other potential side effects other than that caused by the increment or decrement operator]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17581,7 +17581,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) The result of an assignment operator should not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17589,12 +17589,9 @@ immediately cast to the underlying type of the operand.
     <key>M2012-13.5</key>
     <name>M2012-13.5: Side effects on right hand of logical operator (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Advisory) The right hand operand of a logical &amp;&amp; or || operator shall not contain persistent side effects 
-
-		]]>
+      <![CDATA[(Advisory) The right hand operand of a logical &amp;&amp; or || operator shall not contain persistent side effects]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17604,7 +17601,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) The operand of the sizeof operator shall not contain any expression which has potential side effects]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>BLOCKER</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17615,7 +17612,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A loop counter shall not have essentially floating type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17626,7 +17623,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A for loop shall be well-formed]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17637,7 +17634,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Controlling expressions shall not be invariant]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17648,7 +17645,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The controlling expression of an if statement and the controlling expression of an iteration-statement shall have essentially Boolean type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17659,7 +17656,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) The goto statement should not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17669,7 +17666,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The goto statement shall jump to a label declared later in the same function ]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17680,7 +17677,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Any label referenced by a goto statement shall be declared in the same block, or in any block enclosing the goto statement]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17691,7 +17688,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) There should be no more than one break or goto statement used to terminate any iteration statement]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17701,7 +17698,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory)  A function should have a single point of exit at the end]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17711,7 +17708,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The body of an iteration-statement or a selection-statement shall be acompound-statement]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17722,7 +17719,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) All if ... else if constructs shall be terminated with an else statement]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17733,7 +17730,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) All switch statements shall be well-formed]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17744,7 +17741,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) A switch label shall only be used when the most closely-enclosing compound statement is the body of a switch statement ]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17755,7 +17752,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) An unconditional break statement shall terminate every switch-clause]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17766,7 +17763,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Every switch statement shall have a default label]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17777,7 +17774,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A default label shall appear as either the first or the last switch label of a switch statement]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17788,7 +17785,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Every switch statement shall have at least two switch-clauses]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17799,21 +17796,18 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A switch-expression shall not have essentially Boolean type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>M2012-17.1</key>
-    <name>M2012-17.1: Usage of   stdarg.h   is forbidden (MISRA C 2012)</name>
+    <name>M2012-17.1: Usage of stdarg.h is forbidden (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Required) The features of &lt;stdarg.h&gt; shall not be used 
-
-		]]>
+      <![CDATA[(Required) The features of &lt;stdarg.h&gt; shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17824,7 +17818,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Functions shall not call themselves, either directly or indirectly]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17835,7 +17829,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) A function shall not be declared implicitly]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>BLOCKER</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17846,7 +17840,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) All exit paths from a function with non-void return type shall have an explicit return statement with an expression]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>BLOCKER</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17857,7 +17851,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) The function argument corresponding to a parameter declared to have an array type shall have an appropriate number of elements]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17867,7 +17861,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) The declaration of an array parameter shall not contain the static keyword between the [ ]]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>BLOCKER</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17878,7 +17872,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The value returned by a function having non-void return type shall be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17889,7 +17883,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) A function parameter should not be modified ]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17899,7 +17893,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A pointer resulting from arithmetic on a pointer operand shall address an element of the same array as that pointer operand]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17910,7 +17904,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Subtraction between pointers shall only be applied to pointers that address elements of the same array]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17919,12 +17913,9 @@ immediately cast to the underlying type of the operand.
     <key>M2012-18.3</key>
     <name>M2012-18.3: Relational or subtract operator applied to pointers (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Required) The relational operators &gt;, &gt;=, &lt; and &lt;= shall not be applied to objects of pointer type except where they point into the same object
-
-		]]>
+      <![CDATA[(Required) The relational operators &gt;, &gt;=, &lt; and &lt;= shall not be applied to objects of pointer type except where they point into the same object]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17935,7 +17926,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) The +, -, += and -= operators should not be applied to an expression of pointer type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17945,7 +17936,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) Declarations should contain no more than two levels of pointer nesting]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -17955,7 +17946,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The address of an object with automatic storage shall not be copied to another object that persists after the first object has ceased to exist]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17966,7 +17957,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Flexible array members shall not be declared]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17977,7 +17968,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Variable-length array types shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17988,7 +17979,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) An object shall not be assigned or copied to an overlapping object]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>BLOCKER</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -17999,7 +17990,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) The union keyword should not be used ]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -18009,7 +18000,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) #include directives should only be preceded by preprocessor directives or comments]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -18019,7 +18010,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The ',' or \ characters and the /* or // character sequences shall not occur in a header file name]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18028,12 +18019,9 @@ immediately cast to the underlying type of the operand.
     <key>M2012-20.3</key>
     <name>M2012-20.3: #include followed by wrong sequence (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Required) The #include directive shall be followed by either a &lt;filename&gt; or "filename" sequence
-
-		]]>
+      <![CDATA[(Required) The #include directive shall be followed by either a &lt;filename&gt; or "filename" sequence]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18044,7 +18032,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A macro shall not be defined with the same name as a keyword]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18055,7 +18043,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) #undef should not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -18065,7 +18053,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Tokens that look like a preprocessing directive shall not occur within a macro argument]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18076,7 +18064,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) Expressions resulting from the expansion of macro parameters shall be enclosed in parentheses]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18087,7 +18075,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The controlling expression of a #if or #elif preprocessing directive shall evaluate to 0 or 1]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18098,7 +18086,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) All identifiers used in the controlling expression of #if or #elif preprocessing directives shall be #define'd before evaluation]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18109,7 +18097,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Advisory) The # and ## preprocessor operators should not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -18119,18 +18107,18 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A macro parameter immediately following a # operator shall not immediately be followed by a ## operator]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>M2012-20.12</key>
-    <name>M2012-20.12: Macro operator usedas an operand to # or ## and is subject to replacment (MISRA C 2012)</name>
+    <name>M2012-20.12: Macro operator usedas an operand to # or ## and is subject to replacement (MISRA C 2012)</name>
     <description>
       <![CDATA[(Required) A macro parameter used as an operand to the # or ## operators, which is itself subject to further macro replacement, shall only be used as an operand to these operators]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18141,7 +18129,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A line whose first token is # shall be a valid preprocessing directive]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18152,7 +18140,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) All #else, #elif and #endif preprocessor directives shall reside in the same file as the #if, #ifdef or #ifndef directive to which they are related]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18163,7 +18151,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) #define and #undef shall not be used on a reserved identifier or reserved macro name]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18174,49 +18162,40 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) A reserved identifier or macro name shall not be declared]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>M2012-21.3</key>
-    <name>M2012-21.3: Usage of memory allocation and deallocation from   stdlib.h   is forbidden (MISRA C 2012)</name>
+    <name>M2012-21.3: Usage of memory allocation and deallocation from stdlib.h is forbidden (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Required) The memory allocation and deallocation functions of &lt;stdlib.h&gt; shall not be used
-
-		]]>
+      <![CDATA[(Required) The memory allocation and deallocation functions of &lt;stdlib.h&gt; shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>M2012-21.4</key>
-    <name>M2012-21.4: Usage of   setjmp.h   is forbidden (MISRA C 2012)</name>
+    <name>M2012-21.4: Usage of setjmp.h is forbidden (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Required) The standard header file &lt;setjmp.h&gt; shall not be used 
-
-		]]>
+      <![CDATA[(Required) The standard header file &lt;setjmp.h&gt; shall not be used ]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>M2012-21.5</key>
-    <name>M2012-21.5: Usage of   signal.h   is forbidden (MISRA C 2012)</name>
+    <name>M2012-21.5: Usage of signal.h is forbidden (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Required) The standard header file &lt;signal.h&gt; shall not be used
-
-		]]>
+      <![CDATA[(Required) The standard header file &lt;signal.h&gt; shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18227,7 +18206,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The Standard Library input/output functions shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18236,12 +18215,9 @@ immediately cast to the underlying type of the operand.
     <key>M2012-21.7</key>
     <name>M2012-21.7: Usage of atol, atol and atoll is forbidden (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Required) The atof, atoi, atol and atoll functions of &lt;stdlib.h&gt; shall not be used
-
-		]]>
+      <![CDATA[(Required) The atof, atoi, atol and atoll functions of &lt;stdlib.h&gt; shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18250,12 +18226,9 @@ immediately cast to the underlying type of the operand.
     <key>M2012-21.8</key>
     <name>M2012-21.8: Usage of abort, exit, getenv and system is forbidden (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Required) The library functions abort, exit, getenv and system of &lt;stdlib.h&gt; shall not be used
-
-		]]>
+      <![CDATA[(Required) The library functions abort, exit, getenv and system of &lt;stdlib.h&gt; shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18264,12 +18237,9 @@ immediately cast to the underlying type of the operand.
     <key>M2012-21.9</key>
     <name>M2012-21.9: Usage of bsearch and qsort is forbidden (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Required) The library functions bsearch and qsort of &lt;stdlib.h&gt; shall not be used
-
-		]]>
+      <![CDATA[(Required) The library functions bsearch and qsort of &lt;stdlib.h&gt; shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18280,35 +18250,29 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The Standard Library time and date functions shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>M2012-21.11</key>
-    <name>M2012-21.11: Usage of   tgmath.h   is forbidden (MISRA C 2012)</name>
+    <name>M2012-21.11: Usage of tgmath.h is forbidden (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Required) The standard header file &lt;tgmath.h&gt; shall not be used
-
-		]]>
+      <![CDATA[(Required) The standard header file &lt;tgmath.h&gt; shall not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>M2012-21.12</key>
-    <name>M2012-21.12: Usage of exception handling from   fenv.h   is forbidden (MISRA C 2012)</name>
+    <name>M2012-21.12: Usage of exception handling from fenv.h is forbidden (MISRA C 2012)</name>
     <description>
-      <![CDATA[
-(Advisory) The exception handling features of &lt;fenv.h&gt; should not be used
-
-		]]>
+      <![CDATA[(Advisory) The exception handling features of &lt;fenv.h&gt; should not be used]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -18318,7 +18282,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) Any value passed to a function in &lt;ctype.h&gt; shall be representable as an unsigned char or be the value EOF]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -18328,7 +18292,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The pointer arguments to the Standard Library functions memcpy, memmove and memcmp shall be pointers to qualified or unqualified versions of compatible types]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
@@ -18338,7 +18302,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The pointer arguments to the Standard Library function memcmp shall point to either a pointer type, an essentially signed type, an essentially unsigned type, an essentially Boolean type or an essentially enum type]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18349,7 +18313,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) Use of the string handling functions from &lt;string.h&gt; shall not result in accesses beyond the bounds of the objects referenced by their pointer parameters]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18360,7 +18324,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) The size_t argument passed to any function in &lt;string.h&gt; shall have an appropriate value]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18371,7 +18335,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) All resources obtained dynamically by means of Standard Library functions shall be explicitly released]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18382,7 +18346,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) A block of memory shall only be freed if it was allocated by means of a Standard Library function]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>BLOCKER</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18393,7 +18357,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Required) The same file shall not be open for read and write access at the same time on different streams]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>CRITICAL</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18404,7 +18368,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) There shall be no attempt to write to a stream which has been opened as read-only]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>BLOCKER</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18415,7 +18379,7 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) A pointer to a FILE object shall not be dereferenced]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>BLOCKER</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
@@ -18426,11 +18390,11 @@ immediately cast to the underlying type of the operand.
     <description>
       <![CDATA[(Mandatory) The value of a pointer to a FILE shall not be used after the associated stream has been closed]]>
     </description>
-    <tag>misrac3</tag>
+    <tag>misra-c2012</tag>
     <severity>BLOCKER</severity>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
-    </rule>
+  </rule>
   <rule>
     <key>1301</key>
     <name>L1301: integer sequences must have non-negative sequence length</name>
