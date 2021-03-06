@@ -101,6 +101,7 @@ Simple to **customize**
 
 ## Resources
 - [Latest release](https://github.com/SonarOpenCommunity/sonar-cxx/releases)
+- [Download latest snapshot](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master/artifacts)
 - [Documentation](https://github.com/SonarOpenCommunity/sonar-cxx/wiki)
 - [Issue Tracker](https://github.com/SonarOpenCommunity/sonar-cxx/issues)
 
