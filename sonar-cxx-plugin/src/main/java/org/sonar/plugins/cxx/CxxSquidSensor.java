@@ -72,6 +72,7 @@ import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
  */
 public class CxxSquidSensor implements ProjectSensor {
 
+  public static final String SQUID_DISABLED_KEY = "sonar.cxx.squid.disabled";
   public static final String DEFINES_KEY = "sonar.cxx.defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
@@ -143,6 +144,18 @@ public class CxxSquidSensor implements ProjectSensor {
             + " In the SonarQube UI, enter one entry per field."
         )
         .onQualifiers(Qualifiers.PROJECT)
+        .build(),
+      PropertyDefinition.builder(SQUID_DISABLED_KEY)
+        .defaultValue(Boolean.FALSE.toString())
+        .name("Disable code quality and metrics checks")
+        .description(
+          "Disable preprocessor, metrics, duplications detection. It could be time consuming on"
+            + " big projects."
+        )
+        .category("CXX")
+        .subCategory("(1) General")
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.BOOLEAN)
         .build(),
       PropertyDefinition.builder(DEFINES_KEY)
         .name("(2.1) Macros")
@@ -270,7 +283,8 @@ public class CxxSquidSensor implements ProjectSensor {
     descriptor
       .name("CXX")
       .onlyOnLanguage("cxx")
-      .onlyOnFileType(InputFile.Type.MAIN);
+      .onlyOnFileType(InputFile.Type.MAIN)
+      .onlyWhenConfiguration(conf -> !conf.getBoolean(SQUID_DISABLED_KEY).orElse(false));
   }
 
   /**
@@ -521,5 +535,4 @@ public class CxxSquidSensor implements ProjectSensor {
       .on(file)
       .save();
   }
-
 }
