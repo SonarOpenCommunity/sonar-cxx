@@ -196,7 +196,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
       }
     } catch (IllegalArgumentException e) {
       notExistingGroupName.add(groupName);
-      LOG.warn("named-capturing group '{}' is not used in regex.", groupName, e);
+      LOG.warn("named-capturing group '{}' is not used in regex.", groupName);
     }
     return null;
   }

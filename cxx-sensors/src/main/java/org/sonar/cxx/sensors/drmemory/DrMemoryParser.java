@@ -115,8 +115,8 @@ public final class DrMemoryParser {
         list.add(sb.toString());
       }
     } catch (IOException e) {
-      var msg = new StringBuilder(512).append("Cannot feed the data into sonar, details: '")
-        .append(e)
+      var msg = new StringBuilder(512).append("Cannot feed the data into SonarQube, details: '")
+        .append(e.getMessage())
         .append("'").toString();
       LOG.error(msg);
     }

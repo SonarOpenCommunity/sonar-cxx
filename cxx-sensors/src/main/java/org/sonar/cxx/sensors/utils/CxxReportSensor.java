@@ -129,7 +129,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
       }
     } catch (IOException | RuntimeException e) {
       LOG.debug("Unable to get the real path: project='{}' baseDir='{}' path='{}' absPath='{}' exception='{}'",
-                context.project().key(), context.fileSystem().baseDir(), path, absPath, e.toString());
+                context.project().key(), context.fileSystem().baseDir(), path, absPath, e.getMessage());
     }
     return null;
   }

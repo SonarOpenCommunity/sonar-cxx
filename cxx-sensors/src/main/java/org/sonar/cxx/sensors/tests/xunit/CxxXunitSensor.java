@@ -108,7 +108,6 @@ public class CxxXunitSensor extends CxxReportSensor {
         parser.parse(report);
       } catch (EmptyReportException e) {
         LOG.warn("The xUnit report '{}' seems to be empty, ignoring.", report);
-        LOG.debug("{}", e);
       }
     }
     return parserHandler;

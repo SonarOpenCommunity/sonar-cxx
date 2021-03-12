@@ -174,7 +174,7 @@ public class MsBuild {
         }
       }
     } catch (IOException e) {
-      LOG.error("Cannot parse build log", e);
+      LOG.error("Cannot parse build log: " + e.getMessage());
     }
     if (detectedPlatform) {
       LOG.info("Detected VS platform toolset: {}.{}", platformToolset.substring(0, 3), platformToolset.substring(3));
@@ -235,7 +235,7 @@ public class MsBuild {
       fileElement = currentProjectPath.resolve(path).toAbsolutePath().toString();
       parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);
     } catch (InvalidPathException e) {
-      LOG.warn("Cannot extract information from current element: {} - {}", data, e);
+      LOG.warn("Cannot extract information from current element: {} - {}", data, e.getMessage());
     } catch (NullPointerException e) {
       LOG.error("Bug in parser, please report: '{}' - '{}'", data + " @ " + currentProjectPath, e);
     }
@@ -299,11 +299,7 @@ public class MsBuild {
       }
       squidConfig.add(fileElement, CxxSquidConfiguration.INCLUDE_DIRECTORIES,includeRoot.getCanonicalPath());
     } catch (IOException e) {
-      if (LOG.isDebugEnabled()) {
-        LOG.error("Cannot parse include path using element '{}' : '{}'", element, e);
-      } else {
-        LOG.error("Cannot parse include path using element '{}' : '{}'", element, e.getMessage());
-      }
+      LOG.error("Cannot parse include path using element '{}' : '{}'", element, e.getMessage());
     }
   }
 

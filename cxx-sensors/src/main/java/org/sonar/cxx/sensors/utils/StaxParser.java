@@ -83,10 +83,10 @@ public class StaxParser {
    * @exception XMLStreamException javax.xml.stream.XMLStreamException
    */
   public void parse(File xmlFile) throws XMLStreamException {
-    try (InputStream input = java.nio.file.Files.newInputStream(xmlFile.toPath())) {
+    try ( InputStream input = java.nio.file.Files.newInputStream(xmlFile.toPath())) {
       parse(input);
     } catch (IOException e) {
-      LOG.debug("Cannot access file", e);
+      LOG.debug("Cannot access file: " + e.getMessage());
     }
   }
 
@@ -122,7 +122,7 @@ public class StaxParser {
    */
   public void parse(URL xmlUrl) throws XMLStreamException {
     try {
-      try (var xml = xmlUrl.openStream()) {
+      try ( var xml = xmlUrl.openStream()) {
         parse(xml);
       }
     } catch (IOException e) {
