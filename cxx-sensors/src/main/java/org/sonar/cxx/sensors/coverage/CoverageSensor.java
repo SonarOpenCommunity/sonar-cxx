@@ -68,7 +68,7 @@ public abstract class CoverageSensor extends CxxReportSensor {
       processReport(report);
       LOG.info("Processing successful");
     } catch (EmptyReportException e) {
-      LOG.warn(e.getMessage(), e);
+      LOG.warn(e.getMessage());
     } catch (ReportException e) {
       CxxUtils.validateRecovery(e.getMessage(), e, context.config());
     }

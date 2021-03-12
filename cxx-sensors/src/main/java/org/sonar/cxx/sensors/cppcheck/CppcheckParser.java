@@ -167,7 +167,7 @@ public class CppcheckParser {
         try {
           return Paths.get(basePath).relativize(Paths.get(path)).toString();
         } catch (IllegalArgumentException e) {
-          LOG.warn("Can't create relative path: basePath='{}', path='{}'", basePath, path, e);
+          LOG.warn("Can't create relative path: basePath='{}', path='{}'", basePath, path);
           return path;
         }
       }

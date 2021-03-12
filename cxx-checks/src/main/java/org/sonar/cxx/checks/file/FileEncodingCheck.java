@@ -59,9 +59,9 @@ public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharset
       Files.readAllLines(getContext().getFile().toPath(), charset);
     } catch (IOException e) {
       getContext().createFileViolation(this,
-        "Not all characters of the file can be encoded with the predefined charset "
-        + charset.name() + ".");
-      LOG.debug("Cannot Read File", e);
+                                       "Not all characters of the file can be encoded with the predefined charset "
+                                         + charset.name() + ".");
+      LOG.debug("Cannot Read File: " + e.getMessage());
     }
   }
 

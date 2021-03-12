@@ -73,7 +73,7 @@ public class SourceCodeProvider {
           LOG.warn("invalid include root '{}'", path.toString());
         }
       } catch (IOException | InvalidPathException e) {
-        LOG.error("invalid include root '{}'", path.toString(), e);
+        LOG.error("invalid include root '{}'", path.toString());
       }
     }
   }
@@ -189,7 +189,7 @@ public class SourceCodeProvider {
       try {
         result = result.getCanonicalFile();
       } catch (java.io.IOException e) {
-        LOG.error("cannot get canonical form of: '{}'", result, e);
+        LOG.error("cannot get canonical form of: '{}'", result);
       }
     }
 

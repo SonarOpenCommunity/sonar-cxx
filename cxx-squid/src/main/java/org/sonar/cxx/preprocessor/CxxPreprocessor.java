@@ -232,7 +232,7 @@ public class CxxPreprocessor extends Preprocessor {
       lineAst = pplineParser.parse(token.getValue()).getFirstChild();
     } catch (com.sonar.sslr.api.RecognitionException e) {
       LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
-      LOG.debug("Parser exception: '{}'", e);
+      LOG.debug("Parser exception: '{}'", e.getMessage());
       return oneConsumedToken(token);
     }
 
@@ -320,6 +320,7 @@ public class CxxPreprocessor extends Preprocessor {
         }
       } while (true);
     } catch (MismatchException e) {
+      // ...
     }
     try {
       rest = match(rest, ")");
@@ -1011,7 +1012,6 @@ public class CxxPreprocessor extends Preprocessor {
       } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
                   filename, token.getLine(), token.getValue());
-        LOG.error("{}", e);
         unitCodeProvider.expressionWas(true);
         unitCodeProvider.skipBlock(false);
       }
@@ -1097,7 +1097,7 @@ public class CxxPreprocessor extends Preprocessor {
       try {
         IncludeLexer.create(this).lex(getCodeProvider().getSourceCode(includedFile, charset));
       } catch (IOException e) {
-        LOG.error("[{}: Cannot read include file]: {}", includedFile.getAbsoluteFile(), e);
+        LOG.error("[{}: Cannot read include file]: {}", includedFile.getAbsoluteFile(), e.getMessage());
       } finally {
         unitCodeProvider.popFileState();
       }
