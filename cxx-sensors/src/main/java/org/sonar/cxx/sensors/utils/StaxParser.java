@@ -86,7 +86,7 @@ public class StaxParser {
     try ( InputStream input = java.nio.file.Files.newInputStream(xmlFile.toPath())) {
       parse(input);
     } catch (IOException e) {
-      LOG.debug("Cannot access file: " + e.getMessage());
+      LOG.error("Cannot access file: " + e.getMessage());
     }
   }
 

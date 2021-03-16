@@ -22,6 +22,7 @@ package org.sonar.cxx.checks.api;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import java.util.Arrays;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -77,14 +78,12 @@ public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
   public UndocumentedApiCheck() {
     super();
     withHeaderFileSuffixes(DEFAULT_NAME_SUFFIX);
+    LOG.debug("rule 'cxx:UndocumentedApi' file suffixes: {}", Arrays.toString(DEFAULT_NAME_SUFFIX));
   }
 
   @Override
   protected void onPublicApi(AstNode node, String id, List<Token> comments) {
-    boolean commented = !comments.isEmpty();
-
-    LOG.debug("node: {} line: {} id: '{}' documented: {}", node.getType(), node.getTokenLine(), id, commented);
-    if (!commented) {
+    if (comments.isEmpty()) {
       getContext().createLineViolation(this, "Undocumented API: " + id, node);
     }
   }

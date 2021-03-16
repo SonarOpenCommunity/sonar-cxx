@@ -66,7 +66,8 @@ public class XlstSensor implements ProjectSensor {
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .name("XSL transformation(s)");
+      .name("XSL transformation(s)")
+      .onlyWhenConfiguration(conf -> conf.hasKey(OTHER_XSLT_KEY + 1 + STYLESHEET_KEY));
   }
 
   @Override

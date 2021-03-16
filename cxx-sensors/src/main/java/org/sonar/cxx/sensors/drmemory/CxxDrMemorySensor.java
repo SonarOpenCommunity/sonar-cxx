@@ -110,7 +110,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(File report) {
     String reportEncoding = context.config().get(REPORT_ENCODING_DEF).orElse(DEFAULT_ENCODING_DEF);
-    LOG.debug("Processing 'Dr. Memory' report '{}', Encoding= '{}'", report.getName(), reportEncoding);
+    LOG.debug("Encoding='{}'", reportEncoding);
 
     for (var error : DrMemoryParser.parse(report, reportEncoding)) {
       if (error.getStackTrace().isEmpty()) {
@@ -119,7 +119,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
       } else {
         Location lastOwnFrame = getLastOwnFrame(error);
         if (lastOwnFrame == null) {
-          LOG.warn("Cannot find a project file to assign the DrMemory error '{}' to", error);
+          LOG.warn("Cannot find a file to assign the DrMemory error '{}' to", error);
           continue;
         }
         var fileIssue = new CxxReportIssue(error.getType().getId(),

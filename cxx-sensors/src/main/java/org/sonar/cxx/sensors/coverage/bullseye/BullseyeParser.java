@@ -77,7 +77,6 @@ public class BullseyeParser implements CoverageParser {
    */
   @Override
   public Map<String, CoverageMeasures> parse(File report)  {
-    LOG.debug("Processing 'Bullseye Coverage' format");
     var coverageData = new HashMap<String, CoverageMeasures>();
     try {
       var topLevelparser = new StaxParser((SMHierarchicCursor rootCursor) -> {
@@ -187,8 +186,6 @@ public class BullseyeParser implements CoverageParser {
         String filePath = buildPath(path, correctPath);
         CoverageMeasures fileMeasuresBuilderIn = CoverageMeasures.create();
         fileWalk(child, fileMeasuresBuilderIn);
-        LOG.debug("lines covered: '{}':'{}'", filePath, fileMeasuresBuilderIn.getCoveredLines());
-        LOG.debug("condition covered: '{}':'{}'", filePath, fileMeasuresBuilderIn.getCoveredConditions());
         coverageData.put(filePath, fileMeasuresBuilderIn);
       } else {
         recTreeWalk(correctPath, child, path, coverageData);
@@ -237,7 +234,7 @@ public class BullseyeParser implements CoverageParser {
       case "constant":
         break;
       default:
-        LOG.warn("BullseyeParser unknown probe kind '{}'", kind);
+        LOG.error("BullseyeParser unknown probe kind '{}'", kind);
     }
   }
 
@@ -257,7 +254,7 @@ public class BullseyeParser implements CoverageParser {
         // do nothing
         break;
       default:
-        LOG.warn("BullseyeParser unknown probe event '{}'", event);
+        LOG.error("BullseyeParser unknown probe event '{}'", event);
     }
   }
 

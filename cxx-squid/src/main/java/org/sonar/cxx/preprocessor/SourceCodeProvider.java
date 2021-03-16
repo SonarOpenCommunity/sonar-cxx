@@ -67,15 +67,18 @@ public class SourceCodeProvider {
         path = path.toRealPath(); // IOException if the file does not exist
 
         if (Files.isDirectory(path)) {
-          LOG.debug("add include path: '{}'", path.toString());
           includeRoots.add(path);
         } else {
-          LOG.warn("invalid include root '{}'", path.toString());
+          LOG.warn("preprocessor: invalid include file directory '{}'", path.toString());
         }
       } catch (IOException | InvalidPathException e) {
-        LOG.error("invalid include root '{}'", path.toString());
+        LOG.error("preprocessor: invalid include file directory '{}'", path.toString());
       }
     }
+  }
+
+  public List<Path> getIncludeRoots() {
+    return includeRoots;
   }
 
   public void pushFileState(File currentFile) {
@@ -189,7 +192,7 @@ public class SourceCodeProvider {
       try {
         result = result.getCanonicalFile();
       } catch (java.io.IOException e) {
-        LOG.error("cannot get canonical form of: '{}'", result);
+        LOG.error("preprocessor: cannot get canonical form of: '{}'", result);
       }
     }
 

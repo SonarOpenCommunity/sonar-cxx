@@ -59,7 +59,6 @@ public class TestwellCtcTxtParser implements CoverageParser {
    */
   @Override
   public Map<String, CoverageMeasures> parse(File report) {
-    LOG.debug("Processing 'Testwell CTC++ Coverage' format");
     var coverageData = new HashMap<String, CoverageMeasures>();
     try ( var scanner = new TextScanner(report, StandardCharsets.UTF_8.name())) {
       scanner.useDelimiter(SECTION_SEP);
@@ -75,8 +74,6 @@ public class TestwellCtcTxtParser implements CoverageParser {
   }
 
   private boolean parseUnit(TextScanner scanner, final Map<String, CoverageMeasures> coverageData, Matcher headerMatcher) {
-    LOG.debug(headerMatcher.toString());
-
     if (headerMatcher.find(FROM_START)) {
       parseFileUnit(scanner, coverageData, headerMatcher);
     } else {
@@ -87,8 +84,6 @@ public class TestwellCtcTxtParser implements CoverageParser {
 
   private void parseFileUnit(TextScanner scanner, final Map<String, CoverageMeasures> coverageData,
                              Matcher headerMatcher) {
-    LOG.debug("Parsing file section...");
-
     String normalFilename;
     String filename = headerMatcher.group(1);
     if (new File(filename).isAbsolute()) {
@@ -101,8 +96,6 @@ public class TestwellCtcTxtParser implements CoverageParser {
   }
 
   private void addLines(TextScanner scanner, File file, final Map<String, CoverageMeasures> coverageData) {
-    LOG.debug("Parsing function sections...");
-
     CoverageMeasures coverageMeasures = CoverageMeasures.create();
     for (var nextLine = scanner.next(); !FILE_RESULT.matcher(nextLine).find(); nextLine = scanner.next()) {
       parseLineSection(coverageMeasures, nextLine);
@@ -111,8 +104,6 @@ public class TestwellCtcTxtParser implements CoverageParser {
   }
 
   private void parseLineSection(CoverageMeasures coverageMeasures, String nextLine) {
-    LOG.debug("Found line section...");
-
     Matcher lineMatcher = LINE_RESULT.matcher(nextLine);
     if (lineMatcher.find(FROM_START)) {
       addEachLine(coverageMeasures, lineMatcher);

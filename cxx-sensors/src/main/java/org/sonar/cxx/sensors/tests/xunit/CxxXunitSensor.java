@@ -144,7 +144,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     }
 
     if (testsCount > 0) {
-      LOG.debug("Saving xUnit report total data: tests={} | errors:{} | failure:{} | skipped:{} | time:{}",
+      LOG.debug("Saving xUnit report data: tests={}, errors={}, failure={}, skipped={}, time={}",
                 testsCount, testsErrors, testsFailures, testsSkipped, testsTime);
       saveMetric(CoreMetrics.TESTS, testsCount);
       saveMetric(CoreMetrics.TEST_ERRORS, testsErrors);

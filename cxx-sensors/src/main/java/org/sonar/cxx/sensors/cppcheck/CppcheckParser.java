@@ -125,7 +125,8 @@ public class CppcheckParser {
             // if primary location cannot be found in the current project (in
             // the current module) we are not interested in this <error>
             if (!isLocationInProject) {
-              LOG.debug("Cannot find the file '{}', skipping violations", file);
+              LOG.debug("Cppcheck issue outside of project, skipping issue: {}:{} {}:{}",
+                        file, line, id, msg);
               return;
             }
 

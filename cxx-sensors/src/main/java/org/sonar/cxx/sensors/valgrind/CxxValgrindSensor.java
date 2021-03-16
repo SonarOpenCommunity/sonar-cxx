@@ -106,8 +106,6 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
 
   @Override
   protected void processReport(File report) {
-    LOG.debug("Processing 'Valgrind' report '{}'", report.getName());
-
     try {
       var parser = new ValgrindReportParser();
       saveErrors(parser.parse(report));

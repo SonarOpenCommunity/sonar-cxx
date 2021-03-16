@@ -117,7 +117,6 @@ public class VisualStudioParser implements CoverageParser {
    */
   @Override
   public Map<String, CoverageMeasures> parse(File report) {
-    LOG.debug("Processing 'Visual Studio Coverage' format");
     var coverageData = new HashMap<String, CoverageMeasures>();
     try {
       var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {

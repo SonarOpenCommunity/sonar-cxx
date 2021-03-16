@@ -83,8 +83,6 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
 
   @Override
   public void processReport(File report) {
-    LOG.debug("Processing 'other' report '{}'", report.getName());
-
     try {
       var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
         rootCursor.advance();

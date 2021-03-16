@@ -85,7 +85,7 @@ public final class Macro {
     if (body != null) {
       bodyStr = body.stream().map(Token::getValue).collect(Collectors.joining(" "));
     }
-    return name + paramsStr + " -> '" + bodyStr + "'";
+    return "{" + name + paramsStr + ":" + bodyStr + "}";
   }
 
   public boolean checkArgumentsCount(int count) {

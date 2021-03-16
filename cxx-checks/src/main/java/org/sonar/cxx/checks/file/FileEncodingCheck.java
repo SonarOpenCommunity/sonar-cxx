@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
@@ -45,7 +43,6 @@ import org.sonar.squidbridge.checks.SquidCheck;
 @NoSqale
 public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
-  private static final Logger LOG = Loggers.get(FileEncodingCheck.class);
   private Charset charset = StandardCharsets.UTF_8;
 
   @Override
@@ -61,7 +58,6 @@ public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharset
       getContext().createFileViolation(this,
                                        "Not all characters of the file can be encoded with the predefined charset "
                                          + charset.name() + ".");
-      LOG.debug("Cannot Read File: " + e.getMessage());
     }
   }
 

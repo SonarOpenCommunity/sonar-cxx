@@ -22,6 +22,7 @@ package org.sonar.cxx.preprocessor;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * MapChain
@@ -103,6 +104,14 @@ public class MapChain<K, V> {
 
   public Map<K, V> getMap() {
     return Collections.unmodifiableMap(enabled);
+  }
+
+  @Override
+  public String toString() {
+    String mapAsString = enabled.values().stream()
+      .map(value -> value.toString())
+      .collect(Collectors.joining(", ", "[", "]"));
+    return mapAsString;
   }
 
   private void move(K key, Map<K, V> from, Map<K, V> to) {
