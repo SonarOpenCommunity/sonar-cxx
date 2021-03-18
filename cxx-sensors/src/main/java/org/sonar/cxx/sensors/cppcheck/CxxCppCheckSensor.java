@@ -70,8 +70,6 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
 
   @Override
   protected void processReport(File report) {
-    LOG.debug("Processing 'Cppcheck V2' report '{}'", report.getName());
-
     CppcheckParser parser = new CppcheckParser(this);
     try {
       parser.parse(report);

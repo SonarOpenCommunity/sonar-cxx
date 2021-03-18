@@ -435,7 +435,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
         var jsonDb = new JsonCompilationDatabase(this);
         jsonDb.parse(new File(jsonDbFile.get()));
       } catch (IOException e) {
-        LOG.debug("Cannot access Json DB File: " + e.getMessage());
+        LOG.error("Cannot access Json DB File: " + e.getMessage());
       }
     }
   }

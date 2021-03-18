@@ -50,10 +50,17 @@ public class CoberturaParser implements CoverageParser {
   /**
    * Join two paths
    *
-   * path1 | path2 | result ---------|----------|------- empty | empty | empty empty | absolute | absolute path2 empty |
-   * relative | relative path2 absolute | empty | empty relative | empty | empty absolute | absolute | absolute path2
-   * absolute | relative | absolute path1 + relative path2 relative | absolute | absolute path2 relative | relative |
-   * relative path1 + relative path2
+   * path1 | path2 | result
+   * ---------|----------|-------
+   * empty | empty | empty
+   * empty | absolute | absolute path2
+   * empty | relative | relative path2
+   * absolute | empty | empty
+   * relative | empty | empty
+   * absolute | absolute | absolute path2
+   * absolute | relative | absolute path1 + relative path2
+   * relative | absolute | absolute path2
+   * relative | relative | relative path1 + relative path2
    *
    * @param path1 first path
    * @param path2 second path to be joined to first path
@@ -85,7 +92,7 @@ public class CoberturaParser implements CoverageParser {
       int lineId = Integer.parseInt(line.getAttrValue("number"));
       long noHits = Long.parseLong(line.getAttrValue("hits"));
       if (noHits > Integer.MAX_VALUE) {
-        LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by Sonar ({})",
+        LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by SonarQube ({})",
                  noHits, Integer.MAX_VALUE);
         noHits = Integer.MAX_VALUE;
       }
@@ -108,7 +115,6 @@ public class CoberturaParser implements CoverageParser {
    */
   @Override
   public Map<String, CoverageMeasures> parse(File report) {
-    LOG.debug("Processing 'Cobertura Coverage' format");
     var coverageData = new HashMap<String, CoverageMeasures>();
     try {
       baseDir = Paths.get(".");

@@ -139,7 +139,7 @@ public final class ExpressionEvaluator {
     try {
       number = decode(intValue);
     } catch (java.lang.NumberFormatException e) {
-      LOG.warn("Cannot decode the number '{}' falling back to value '{}' instead", intValue, BigInteger.ONE);
+      LOG.warn("preprocessor cannot decode the number '{}' falling back to value '{}' instead", intValue, BigInteger.ONE);
       number = BigInteger.ONE;
     }
 
@@ -169,9 +169,9 @@ public final class ExpressionEvaluator {
       constExprAst = parser.parse(constExpr);
     } catch (com.sonar.sslr.api.RecognitionException e) {
       if (exprAst != null) {
-        LOG.warn("Error evaluating expression '{}' for AstExp '{}', assuming 0", constExpr, exprAst.getToken());
+        LOG.warn("preprocessor error evaluating expression '{}' for token '{}', assuming 0", constExpr, exprAst.getToken());
       } else {
-        LOG.warn("Error evaluating expression '{}', assuming 0", constExpr);
+        LOG.warn("preprocessor error evaluating expression '{}', assuming 0", constExpr);
       }
       return BigInteger.ZERO;
     }
@@ -180,8 +180,6 @@ public final class ExpressionEvaluator {
   }
 
   private BigInteger evalToInt(AstNode exprAst) {
-    LOG.trace("Evaluating expression: {}", exprAst);
-
     int noChildren = exprAst.getNumberOfChildren();
     if (noChildren == 0) {
       return evalLeaf(exprAst);
@@ -213,7 +211,7 @@ public final class ExpressionEvaluator {
 
       final String id = exprAst.getTokenValue();
       if (macroEvaluationStack.contains(id)) {
-        LOG.debug("ExpressionEvaluator: self-referential macro '{}' detected;"
+        LOG.debug("preprocessor: self-referential macro '{}' detected;"
                     + " assume true; evaluation stack = ['{} <- {}']",
                   id, id, String.join(" <- ", macroEvaluationStack));
         return BigInteger.ONE;
@@ -281,7 +279,7 @@ public final class ExpressionEvaluator {
     } else if (nodeType.equals(CppGrammarImpl.hasIncludeExpression)) {
       return evalHasIncludeExpression(exprAst);
     } else {
-      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '"
+      LOG.error("preprocessor: unknown expression type '" + nodeType + "' for token '"
                   + exprAst.getToken() + "', assuming 0");
       return BigInteger.ZERO;
     }
@@ -536,8 +534,6 @@ public final class ExpressionEvaluator {
 
     String macroName = child.getNextSibling().getTokenValue();
     String value = preprocessor.valueOf(macroName);
-    LOG.trace("expanding '{}' to '{}'", macroName, value);
-
     return value == null ? BigInteger.ZERO : BigInteger.ONE;
   }
 
@@ -548,8 +544,7 @@ public final class ExpressionEvaluator {
     String value = preprocessor.expandFunctionLikeMacro(macroName, restTokens);
 
     if (value == null || "".equals(value)) {
-      LOG.error("Undefined functionlike macro '{}' assuming 0", macroName);
-      LOG.debug("Token : {}", exprAst.toString());
+      LOG.error("preprocessor: undefined function-like macro '{}' assuming 0", macroName);
       return BigInteger.ZERO;
     }
 

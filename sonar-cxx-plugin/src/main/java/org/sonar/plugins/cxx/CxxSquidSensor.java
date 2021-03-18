@@ -341,9 +341,11 @@ public class CxxSquidSensor implements ProjectSensor {
 
     squidConfig.readJsonCompilationDb();
 
-    List<File> logFiles = CxxUtils.getFiles(context, MsBuild.REPORT_PATH_KEY);
-    squidConfig.readMsBuildFiles(logFiles, context.config().get(MsBuild.REPORT_ENCODING_DEF)
-                                 .orElse(MsBuild.DEFAULT_ENCODING_DEF));
+    if (context.config().hasKey(MsBuild.REPORT_PATH_KEY)) {
+      List<File> logFiles = CxxUtils.getFiles(context, MsBuild.REPORT_PATH_KEY);
+      squidConfig.readMsBuildFiles(logFiles, context.config().get(MsBuild.REPORT_ENCODING_DEF)
+                                   .orElse(MsBuild.DEFAULT_ENCODING_DEF));
+    }
 
     return squidConfig;
   }

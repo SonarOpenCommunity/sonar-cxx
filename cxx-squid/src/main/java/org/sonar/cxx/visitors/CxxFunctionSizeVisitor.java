@@ -44,7 +44,7 @@ public class CxxFunctionSizeVisitor<G extends Grammar> extends SquidAstVisitor<G
     this.sizeThreshold = squidConfig.getInt(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
                                             CxxSquidConfiguration.FUNCTION_SIZE_THRESHOLD)
       .orElse(20);
-    LOG.debug("Function size threshold: " + this.sizeThreshold);
+    LOG.debug("'Big Functions' metric threshold (LOC): " + this.sizeThreshold);
   }
 
   @Override

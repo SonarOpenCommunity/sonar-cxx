@@ -63,8 +63,6 @@ public class CxxInferSensor extends CxxIssuesReportSensor {
 
   @Override
   protected void processReport(File report) {
-    LOG.debug("Processing 'Infer JSON' report '{}'", report.getName());
-
     InferParser parser = new InferParser(this);
     parser.parse(report);
   }

@@ -187,12 +187,25 @@ public class CxxPreprocessor extends Preprocessor {
         addGlobalForcedIncludes();
         globalMacros = new MapChain<>();
         globalMacros.putAll(unitMacros);
+
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("global include directories: {}", unitCodeProvider.getIncludeRoots());
+          LOG.debug("global macros: {}", globalMacros);
+        }
       }
 
+      LOG.debug("process unit '{}'", currentContextFile);
+
       // add unit specific stuff
-      addUnitIncludeDirectories(path);
-      addUnitMacros(path);
-      addUnitForcedIncludes(path);
+      boolean changes = addUnitIncludeDirectories(path);
+      if (changes && LOG.isDebugEnabled() ) {
+        LOG.debug("unit include directories: {}", unitCodeProvider.getIncludeRoots());
+      }
+      changes = addUnitMacros(path);
+      changes |= addUnitForcedIncludes(path);
+      if (changes && LOG.isDebugEnabled()) {
+        LOG.debug("unit macros: {}", unitMacros);
+      }
     }
   }
 
@@ -564,8 +577,6 @@ public class CxxPreprocessor extends Preprocessor {
     // A macro definition lasts (independent of block structure) until a corresponding #undef directive is encountered
     // or (if none is encountered) until the end of the translation unit.
 
-    LOG.debug("finished preprocessing '{}'", file);
-
     analysedFiles.clear();
     unitMacros = null;
     unitCodeProvider = null;
@@ -634,15 +645,17 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  private void addUnitMacros(String level) {
+  private boolean addUnitMacros(String level) {
     var defines = squidConfig.getLevelValues(level, CxxSquidConfiguration.DEFINES);
     if (!defines.isEmpty()) {
       Collections.reverse(defines);
       var macros = parseMacroDefinitions(defines);
       if (!macros.isEmpty()) {
         unitMacros.putAll(macros);
+        return true;
       }
     }
+    return false;
   }
 
   private void addGlobalIncludeDirectories() {
@@ -650,10 +663,12 @@ public class CxxPreprocessor extends Preprocessor {
     unitCodeProvider.setIncludeRoots(globalIncludeDirectories,squidConfig.getBaseDir());
   }
 
-  private void addUnitIncludeDirectories(String level) {
+  private boolean addUnitIncludeDirectories(String level) {
     List<String> unitIncludeDirectories = squidConfig.getLevelValues(level, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
+    boolean hasUnitIncludes = !unitIncludeDirectories.isEmpty();
     unitIncludeDirectories.addAll(globalIncludeDirectories);
     unitCodeProvider.setIncludeRoots(unitIncludeDirectories,squidConfig.getBaseDir());
+    return hasUnitIncludes;
   }
 
   private void addGlobalForcedIncludes() {
@@ -669,7 +684,8 @@ public class CxxPreprocessor extends Preprocessor {
   /**
    * Parse the configured forced includes and store it into the macro library.
    */
-  private void addUnitForcedIncludes(String level) {
+  private boolean addUnitForcedIncludes(String level) {
+    int oldHash = unitMacros.hashCode();
     for (var include : squidConfig.getLevelValues(level, CxxSquidConfiguration.FORCE_INCLUDES)) {
       if (!include.isEmpty()) {
         LOG.debug("parsing force include: '{}'", include);
@@ -677,6 +693,7 @@ public class CxxPreprocessor extends Preprocessor {
                          squidConfig.getCharset());
       }
     }
+    return oldHash != unitMacros.hashCode();
   }
 
   private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) {
@@ -939,12 +956,9 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       String defineString = "#define " + define;
-
-      LOG.debug("parsing external macro: '{}'", defineString);
       Macro macro = parseMacroDefinition(defineString);
 
       if (macro != null) {
-        LOG.debug("storing external macro: '{}'", macro);
         result.put(macro.name, macro);
       }
     }
@@ -1091,13 +1105,13 @@ public class CxxPreprocessor extends Preprocessor {
     File includedFile = findIncludedFile(ast, token, filename);
     if (includedFile == null) {
       missingIncludeFilesCounter++;
-      LOG.debug("[" + filename + ":" + token.getLine() + "]: cannot find include file '" + token.getValue() + "'");
+      LOG.debug("[" + filename + ":" + token.getLine() + "]: preprocessor cannot find include file '" + token.getValue() + "'");
     } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
       unitCodeProvider.pushFileState(includedFile);
       try {
         IncludeLexer.create(this).lex(getCodeProvider().getSourceCode(includedFile, charset));
       } catch (IOException e) {
-        LOG.error("[{}: Cannot read include file]: {}", includedFile.getAbsoluteFile(), e.getMessage());
+        LOG.error("[{}: preprocessor cannot read include file]: {}", includedFile.getAbsoluteFile(), e.getMessage());
       } finally {
         unitCodeProvider.popFileState();
       }

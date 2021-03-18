@@ -100,8 +100,6 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
 
   @Override
   protected void processReport(File report)  {
-    LOG.debug("Processing 'Clang Static Analyzer' report '{}''", report.getName());
-
     try {
       File f = new File(report.getPath());
 

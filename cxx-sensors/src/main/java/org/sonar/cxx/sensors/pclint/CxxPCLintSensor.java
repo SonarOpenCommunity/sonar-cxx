@@ -92,8 +92,6 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
 
   @Override
   protected void processReport(File report) {
-    LOG.debug("Processing 'PC-Lint' report '{}'", report.getName());
-
     var parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
@@ -146,8 +144,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
 
               currentIssue = new CxxReportIssue(id, file, line, null, msg);
             } else {
-              LOG.warn("PC-lint warning ignored: {}", msg);
-              LOG.debug("File: {}, Line: {}, ID: {}, msg: {}", file, line, id, msg);
+              LOG.debug("PC-lint warning ignored: file='{}', line={}, id={}, msg='{}'", file, line, id, msg);
             }
           }
 

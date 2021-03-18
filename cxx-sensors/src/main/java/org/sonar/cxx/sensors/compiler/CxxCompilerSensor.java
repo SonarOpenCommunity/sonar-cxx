@@ -57,11 +57,10 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
       return;
     }
 
-    LOG.debug("Processing '{}' report '{}', Encoding= '{}'", getCompilerKey(), report, reportEncoding);
-
     try ( var scanner = new TextScanner(report, reportEncoding)) {
       Pattern pattern = Pattern.compile(reportRegEx);
-      LOG.debug("Using pattern : '{}'", pattern);
+      LOG.debug("Processing '{}' report '{}', Encoding='{}', Pattern='{}'",
+                getCompilerKey(), report, reportEncoding, pattern);
 
       while (scanner.hasNextLine()) {
         Matcher matcher = pattern.matcher(scanner.nextLine());
@@ -72,12 +71,10 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
           String id = alignId(getSubSequence(matcher, "id"));
           String msg = alignMessage(getSubSequence(matcher, "message"));
           if (isInputValid(filename, line, column, id, msg)) {
-            LOG.debug("Scanner-matches file='{}' line='{}' column='{}' id='{}' msg={}",
-                      filename, line, column, id, msg);
             var issue = new CxxReportIssue(id, filename, line, column, msg);
             saveUniqueViolation(issue);
           } else {
-            LOG.warn("Invalid compiler warning: '{}''{}', skipping", id, msg);
+            LOG.debug("Invalid compiler warning: '{}''{}', skipping", id, msg);
           }
         }
       }
@@ -196,7 +193,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
       }
     } catch (IllegalArgumentException e) {
       notExistingGroupName.add(groupName);
-      LOG.warn("named-capturing group '{}' is not used in regex.", groupName);
+      LOG.debug("named-capturing group '{}' is not used in regex.", groupName);
     }
     return null;
   }

@@ -61,7 +61,7 @@ public class CxxOtherRepository implements RulesDefinition {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));
         } catch (IllegalStateException e) {
-          LOG.info("Cannot load rules XML '{}'", e.getMessage());
+          LOG.error("Cannot load Rules Definions '{}'", e.getMessage());
         }
       }
     }

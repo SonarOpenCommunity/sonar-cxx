@@ -66,7 +66,6 @@ public abstract class CoverageSensor extends CxxReportSensor {
     try {
       LOG.info("Processing report '{}'", report);
       processReport(report);
-      LOG.info("Processing successful");
     } catch (EmptyReportException e) {
       LOG.warn(e.getMessage());
     } catch (ReportException e) {
@@ -88,15 +87,10 @@ public abstract class CoverageSensor extends CxxReportSensor {
       final String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath != null) {
         InputFile cxxFile = getInputFileIfInProject(filePath);
-        LOG.debug("save coverage measure for file: '{}' cxxFile = '{}'", filePath, cxxFile);
 
         if (cxxFile != null) {
-
           NewCoverage newCoverage = context.newCoverage().onFile(cxxFile);
-
           Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
-          LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
-
           measures.forEach((CoverageMeasure measure) -> checkCoverage(newCoverage, measure));
 
           try {
@@ -107,13 +101,14 @@ public abstract class CoverageSensor extends CxxReportSensor {
             CxxUtils.validateRecovery(msg, e, context.config());
           }
         } else {
-          LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
           if (filePath.startsWith(context.fileSystem().baseDir().getAbsolutePath())) {
             LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);
+          } else {
+            LOG.debug("Ignoring coverage measures for '{}'", filePath);
           }
         }
       } else {
-        LOG.debug("Cannot sanitize file path '{}'", entry.getKey());
+        LOG.warn("Cannot sanitize file path '{}', ignoring coverage measures", entry.getKey());
       }
     }
   }
@@ -126,8 +121,6 @@ public abstract class CoverageSensor extends CxxReportSensor {
     try {
       newCoverage.lineHits(measure.getLine(), measure.getHits());
       newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
-      LOG.debug("line '{}' Hits '{}' Conditions '{}:{}'", measure.getLine(), measure.getHits(),
-                measure.getConditions(), measure.getCoveredConditions());
     } catch (RuntimeException e) {
       var msg = "Cannot save Conditions Hits for Line '" + measure.getLine() + "'";
       CxxUtils.validateRecovery(msg, e, context.config());

@@ -113,7 +113,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(File report)  {
     String reportEncoding = context.config().get(REPORT_ENCODING_DEF).orElse(DEFAULT_ENCODING_DEF);
-    LOG.debug("Processing 'Clang-Tidy' report '{}', Encoding= '{}'", report.getName(), reportEncoding);
+    LOG.debug("Encoding='{}'", reportEncoding);
 
     try ( var scanner = new TextScanner(report, reportEncoding)) {
       // sample:

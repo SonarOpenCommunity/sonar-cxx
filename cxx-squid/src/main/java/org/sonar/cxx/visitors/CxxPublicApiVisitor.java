@@ -24,6 +24,7 @@ import com.google.common.collect.Iterables;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import java.util.Arrays;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -88,6 +89,7 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
       suffixes = Iterables.toArray(Splitter.on(',').split(API_DEFAULT_FILE_SUFFIXES), String.class);
     }
     withHeaderFileSuffixes(suffixes);
+    LOG.debug(API_FILE_SUFFIXES_KEY + ": {}", Arrays.toString(suffixes));
   }
 
   @Override
@@ -101,17 +103,18 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
   public void leaveFile(AstNode astNode) {
     super.leaveFile(astNode);
 
-    SourceFile sourceFile = (SourceFile) getContext().peekSourceCode();
-    sourceFile.setMeasure(CxxMetric.PUBLIC_API, publicApiCounter);
-    sourceFile.setMeasure(CxxMetric.PUBLIC_UNDOCUMENTED_API, undocumentedApiCounter);
+    if (!skipFile) {
+      SourceFile sourceFile = (SourceFile) getContext().peekSourceCode();
+      sourceFile.setMeasure(CxxMetric.PUBLIC_API, publicApiCounter);
+      sourceFile.setMeasure(CxxMetric.PUBLIC_UNDOCUMENTED_API, undocumentedApiCounter);
+      LOG.debug("'Public API' metric for '{}': total={}, undocumented={}",
+                sourceFile.getName(), publicApiCounter, undocumentedApiCounter);
+    }
   }
 
   @Override
   protected void onPublicApi(AstNode node, String id, List<Token> comments) {
-    final boolean commented = !comments.isEmpty();
-    LOG.debug("node: {} line: {} id: '{}' documented: {}", node.getType(), node.getTokenLine(), id, commented);
-
-    if (!commented) {
+    if (comments.isEmpty()) {
       undocumentedApiCounter++;
     }
 

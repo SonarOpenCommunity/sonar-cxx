@@ -123,7 +123,6 @@ public final class CxxUtils {
     }
 
     LOG.debug("Searching '{}' files with Ant pattern '{}'", reportPathsKey, reportPaths);
-    LOG.debug("Create absolute paths with basedir '{}'", context.fileSystem().baseDir());
 
     var normalizedReportPaths = new ArrayList<String>();
     for (var reportPath : reportPaths) {

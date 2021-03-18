@@ -72,8 +72,6 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
 
   @Override
   protected void processReport(File report) {
-    LOG.debug("Processing 'Vera++' report '{}'", report.getName());
-
     try {
       var parser = new StaxParser((SMHierarchicCursor rootCursor) -> {
         try {
