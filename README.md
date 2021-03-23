@@ -110,9 +110,9 @@ You are welcome to contribute. [Help is needed](https://github.com/SonarOpenComm
 
 ## Alternatives
 That's not the only choice when you are looking for C++ support in SonarQube there is also
-* the commercial [SonarCFamily plugin from SonarSource](https://www.sonarsource.com/cpp/)
-* the commercial [C/C++ plugin from CppDepend](http://www.cppdepend.com/sonarplugin/)
-* the [Coverity plugin](https://github.com/coverity/coverity-sonar-plugin/)
-* the commercial [PVS-Studio plugin](https://www.viva64.com/en/pvs-studio-download/)
+* the commercial [SonarCFamily plugin from SonarSource](https://www.sonarsource.com/cpp)
+* the commercial [C/C++ plugin from CppDepend](http://www.cppdepend.com/sonarplugin)
+* the [Coverity plugin](https://github.com/coverity/coverity-sonar-plugin)
+* the commercial [PVS-Studio plugin](https://www.viva64.com/en/pvs-studio-download)
 
 Choose whatever fits your needs.
