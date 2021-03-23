@@ -6,12 +6,12 @@
 | **Travis CI**<br>(Linux Build and Integration Tests) | [![Build Status](https://travis-ci.org/SonarOpenCommunity/sonar-cxx.svg?branch=master)](https://travis-ci.org/SonarOpenCommunity/sonar-cxx) |
 | **AppVeyor CI**<br>(Windows Build and Deployment) | [![Build status](https://ci.appveyor.com/api/projects/status/f6p12h9n59w01770/branch/master?svg=true)](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master) | [Download latest snapshot](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master/artifacts) |
 
-# SonarQube C++ plugin (Community)
+# SonarQube C++ Community plugin (_cxx plugin_)
 
 [SonarQube](https://www.sonarqube.org) is an open platform to manage code quality. This plugin
 adds C++ support to SonarQube with the focus on integration of existing C++ tools.
 
-The sensors for reading reports can be used with the _CXX plugin_ or [SonarCFamily](https://www.sonarsource.com/cpp/) plugin.
+The sensors for reading reports can be used with this _cxx plugin_ or [SonarCFamily](https://www.sonarsource.com/cpp/) plugin.
 
 ## License
 This plugin is free software; you can redistribute it and/or modify it under the terms of the [GNU Lesser General Public License](https://github.com/SonarOpenCommunity/sonar-cxx/blob/master/LICENSE) as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
@@ -110,9 +110,9 @@ You are welcome to contribute. [Help is needed](https://github.com/SonarOpenComm
 
 ## Alternatives
 That's not the only choice when you are looking for C++ support in SonarQube there is also
-* the commercial [C/C++ plugin from SonarSource](http://www.sonarsource.com/products/plugins/languages/cpp/).
-* the commercial [C/C++ plugin from CppDepend](http://www.cppdepend.com/sonarplugin)
-* the [Coverity plugin](https://github.com/coverity/coverity-sonar-plugin)
+* the commercial [SonarCFamily plugin from SonarSource](https://www.sonarsource.com/cpp/)
+* the commercial [C/C++ plugin from CppDepend](http://www.cppdepend.com/sonarplugin/)
+* the [Coverity plugin](https://github.com/coverity/coverity-sonar-plugin/)
 * the commercial [PVS-Studio plugin](https://www.viva64.com/en/pvs-studio-download/)
 
 Choose whatever fits your needs.
