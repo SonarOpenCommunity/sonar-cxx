@@ -1,9 +1,31 @@
 #!/usr/bin/env python3
+
+# -*- coding: utf-8 -*-
+# SonarQube C++ Community Plugin (cxx plugin)
+# Copyright (C) 2010-2021 SonarOpenCommunity
+# http://github.com/SonarOpenCommunity/sonar-cxx
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 3 of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program; if not, write to the Free Software Foundation,
+#
+
 """
-Simple script to generate the rules xml file for sonar-cxx plugin
+Simple script to generate the rules xml file for SonarQube cxx plugin
 from the Clang Static Analyzer checkers.
 
-The clang compiler should be available in the PATH.
+The clang compiler should be available in the PATH
+or output of clang -cc1 -analyzer-checker-help
+as input file.
 """
 
 from xml.dom import minidom
@@ -74,11 +96,17 @@ def collect_checkers(clangsa_output):
 def main():
 
     parser = argparse.ArgumentParser(
-            description="""Generate the rules xml file for sonar-cxx
+            description="""Generate the rules xml file for cxx plugin
                            plugin from the Clang Static Analyzer checkers.
                            https://clang-analyzer.llvm.org/""",
             usage='%(prog)s -o clangsa.xml')
 
+    parser.add_argument('-i', '--input', dest='input_file', action='store',
+                        required=False,
+                        help="""Input file to read rules.
+                                If parameter does not exist
+                                it tries to call clang.""")
+                                
     parser.add_argument('-o', '--output', dest='output_file', action='store',
                         required=True,
                         help="""Output file to write the xml rules.
@@ -86,29 +114,34 @@ def main():
                                 it will be overwritten.""")
 
     args = parser.parse_args()
+    clang_version = "clang version ???".encode('utf-8')
 
-    try:
-        clang_version = ['clang', '--version']
-        version_info = subprocess.run(clang_version,
-                                      stdout=subprocess.PIPE,
-                                      check=True).stdout
-    except subprocess.CalledProcessError as cpe:
-        sys.exit(cpe.returncode)
+    if args.input_file:
+        with open(args.input_file, 'r') as input:   
+            checker_data = collect_checkers(input.read().encode('utf-8'))
+    else:
+        try:
+            clang_version = ['clang', '--version']
+            version_info = subprocess.run(clang_version,
+                                          stdout=subprocess.PIPE,
+                                          check=True).stdout
+        except subprocess.CalledProcessError as cpe:
+            sys.exit(cpe.returncode)
 
-    # Only the first line is interesting.
-    clang_version = version_info.splitlines()[0]
+        # Only the first line is interesting.
+        clang_version = version_info.splitlines()[0]
 
-    try:
-        clang_checkers = ['clang', '-cc1', '-analyzer-checker-help']
-        checkers_output = subprocess.run(clang_checkers,
-                                         stdout=subprocess.PIPE,
-                                         check=True).stdout
+        try:
+            clang_checkers = ['clang', '-cc1', '-analyzer-checker-help']
+            checkers_output = subprocess.run(clang_checkers,
+                                             stdout=subprocess.PIPE,
+                                             check=True).stdout
 
-        print("Collecting clang checkers ...", end='')
-        checker_data = collect_checkers(checkers_output)
+            print("Collecting clang checkers ...", end='')
+            checker_data = collect_checkers(checkers_output)
 
-    except subprocess.CalledProcessError as cpe:
-        sys.exit(cpe.returncode)
+        except subprocess.CalledProcessError as cpe:
+            sys.exit(cpe.returncode)
 
     if not checker_data:
         print("No checkers could be processed.")
@@ -123,7 +156,7 @@ def main():
     comment = " C and C++ rules for Clang Static Analyzer. " \
         "https://clang-analyzer.llvm.org/\n" + \
         "Rules list was generated based on " + \
-        clang_version.decode() + " "
+        clang_version.decode("utf-8") + " "
 
     rules.append(ET.Comment(comment))
 
@@ -140,6 +173,10 @@ def main():
         name.text = checker_name
         sev.text = "MAJOR"
         c_type.text = "BUG"
+
+        if sev.text != 'INFO':
+            ET.SubElement(rule, 'remediationFunction').text = 'LINEAR'
+            ET.SubElement(rule, 'remediationFunctionGapMultiplier').text = '5min'
 
         auto_tag = checker_name.split('.')[0]
         tag = ET.SubElement(rule, "tag")

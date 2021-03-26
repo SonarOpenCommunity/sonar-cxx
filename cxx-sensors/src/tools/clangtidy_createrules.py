@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# Sonar C++ Plugin (Community)
-# Copyright (C) 2010-2019 SonarOpenCommunity
+# SonarQube C++ Community Plugin (cxx plugin)
+# Copyright (C) 2010-2021 SonarOpenCommunity
 # http://github.com/SonarOpenCommunity/sonar-cxx
 #
 # This program is free software; you can redistribute it and/or
@@ -30,168 +30,15 @@ from utils_createrules import get_cdata_capable_xml_etree
 
 SEVERITY_MAP = {
 
-    # CODE_SMELL INFO
+    # last update: llvmorg-13-init-4898-g270a336ff462
+    # rule keys are in alphabetical order
 
-    "abseil-no-namespace": {"type": "CODE_SMELL", "severity": "INFO"},
-    "android-cloexec-creat": {"type": "CODE_SMELL", "severity": "INFO"},
-    "bugprone-suspicious-enum-usage": {"type": "CODE_SMELL", "severity": "INFO"},
-    "cert-dcl59-cpp": {"type": "CODE_SMELL", "severity": "INFO"},
-    "cppcoreguidelines-avoid-magic-numbers": {"type": "CODE_SMELL", "severity": "INFO"},
-    "cppcoreguidelines-no-malloc": {"type": "CODE_SMELL", "severity": "INFO"},
-    "fuchsia-default-arguments": {"type": "CODE_SMELL", "severity": "INFO"},
-    "fuchsia-header-anon-namespaces": {"type": "CODE_SMELL", "severity": "INFO"},
-    "fuchsia-multiple-inheritance": {"type": "CODE_SMELL", "severity": "INFO"},
-    "fuchsia-overloaded-operator": {"type": "CODE_SMELL", "severity": "INFO"},
-    "fuchsia-restrict-system-includes": {"type": "CODE_SMELL", "severity": "INFO"},
-    "fuchsia-trailing-return": {"type": "CODE_SMELL", "severity": "INFO"},
-    "fuchsia-virtual-inheritance": {"type": "CODE_SMELL", "severity": "INFO"},
-    "google-objc-avoid-throwing-exception": {"type": "CODE_SMELL", "severity": "INFO"},
-    "google-objc-global-variable-declaration": {"type": "CODE_SMELL", "severity": "INFO"},
-    "google-readability-braces-around-statements": {"type": "CODE_SMELL", "severity": "INFO"},
-    "google-readability-function-size": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-braces-around-statements": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-deprecated-headers": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-exception-baseclass": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-function-size": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-named-parameter": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-new-delete-operators": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-no-array-decay": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-no-assembler": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-no-malloc": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-signed-bitwise": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-use-auto": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-use-emplace": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-use-equals-default": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-use-equals-delete": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-use-noexcept": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-use-nullptr": {"type": "CODE_SMELL", "severity": "INFO"},
-    "hicpp-use-override": {"type": "CODE_SMELL", "severity": "INFO"},
-    "modernize-replace-random-shuffle": {"type": "CODE_SMELL", "severity": "INFO"},
-    "modernize-return-braced-init-list": {"type": "CODE_SMELL", "severity": "INFO"},
-    "modernize-unary-static-assert": {"type": "CODE_SMELL", "severity": "INFO"},
-    "modernize-use-default-member-init": {"type": "CODE_SMELL", "severity": "INFO"},
-    "modernize-use-equals-default": {"type": "CODE_SMELL", "severity": "INFO"},
-    "modernize-use-equals-delete": {"type": "CODE_SMELL", "severity": "INFO"},
-    "modernize-use-noexcept": {"type": "CODE_SMELL", "severity": "INFO"},
-    "modernize-use-transparent-functors": {"type": "CODE_SMELL", "severity": "INFO"},
-    "modernize-use-uncaught-exceptions": {"type": "CODE_SMELL", "severity": "INFO"},
-    "objc-property-declaration": {"type": "CODE_SMELL", "severity": "INFO"},
-    "portability-simd-intrinsics": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-delete-null-pointer": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-implicit-bool-conversion": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-magic-numbers": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-misleading-indentation": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-misplaced-array-index": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-non-const-parameter": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-redundant-declaration": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-redundant-function-ptr-dereference": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-redundant-member-init": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-simplify-subscript-expr": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-static-accessed-through-instance": {"type": "CODE_SMELL", "severity": "INFO"},
-    "readability-string-compare": {"type": "CODE_SMELL", "severity": "INFO"},
-
-    # CODE_SMELL MINOR
-
+    "abseil-no-namespace": {"type": "CODE_SMELL", "severity": "INFO"},    
     "abseil-redundant-strcat-calls": {"type": "CODE_SMELL", "severity": "MINOR"},
     "abseil-str-cat-append": {"type": "CODE_SMELL", "severity": "MINOR"},
     "abseil-string-find-startswith": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "cert-dcl03-c": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "cert-dcl54-cpp": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "cert-oop11-cpp": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "cppcoreguidelines-c-copy-assignment-signature": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "fuchsia-statically-constructed-objects": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "hicpp-move-const-arg": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "hicpp-static-assert": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "performance-implicit-conversion-in-loop": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "performance-inefficient-algorithm": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "performance-inefficient-string-concatenation": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "performance-inefficient-vector-operation": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "performance-move-const-arg": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "performance-move-constructor-init": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "performance-noexcept-move-constructor": {"type": "CODE_SMELL", "severity": "MINOR"},
-    "performance-type-promotion-in-math-fn": {"type": "CODE_SMELL", "severity": "MINOR"},
-
-    # CODE_SMELL MAJOR
-
-    "bugprone-fold-init-type": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "bugprone-misplaced-widening-cast": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "bugprone-parent-virtual-call": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "bugprone-sizeof-expression": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "bugprone-suspicious-missing-comma": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "bugprone-terminating-continue": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "bugprone-unused-raii": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "bugprone-unused-return-value": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "bugprone-virtual-near-miss": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "cert-dcl21-cpp": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "cert-dcl58-cpp": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "cert-fio38-c": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "cppcoreguidelines-avoid-goto": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "cppcoreguidelines-interfaces-global-init": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "cppcoreguidelines-narrowing-conversions": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "cppcoreguidelines-owning-memory": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "cppcoreguidelines-slicing": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "cppcoreguidelines-special-member-functions": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "hicpp-avoid-goto": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "hicpp-explicit-conversions": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "hicpp-member-init": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "hicpp-multiway-paths-covered": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "hicpp-noexcept-move": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "hicpp-special-member-functions": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "hicpp-vararg": {"type": "CODE_SMELL", "severity": "MAJOR"},
-    "mpi-buffer-deref": {"type": "CODE_SMELL", "severity": "MAJOR"},
-
-    # BUG MINOR
-
-    "bugprone-argument-comment": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-assert-side-effect": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-bool-pointer-implicit-conversion": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-copy-constructor-init": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-exception-escape": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-forward-declaration-namespace": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-forwarding-reference-overload": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-inaccurate-erase": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-integer-division": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-macro-parentheses": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-macro-repeated-side-effects": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-move-forwarding-reference": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-multiple-statement-macro": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-sizeof-container": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-string-constructor": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-string-integer-assignment": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-suspicious-memset-usage": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-suspicious-string-compare": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-swapped-arguments": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-throw-keyword-missing": {"type": "BUG", "severity": "MINOR"},
-    "bugprone-undelegated-constructor": {"type": "BUG", "severity": "MINOR"},
-    "cert-err09-cpp": {"type": "BUG", "severity": "MINOR"},
-    "cert-err61-cpp": {"type": "BUG", "severity": "MINOR"},
-    "hicpp-undelegated-constructor": {"type": "BUG", "severity": "MINOR"},
-    "mpi-type-mismatch": {"type": "BUG", "severity": "MINOR"},
-    "objc-avoid-nserror-init": {"type": "BUG", "severity": "MINOR"},
-    "objc-forbidden-subclassing": {"type": "BUG", "severity": "MINOR"},
-
-    # BUG MAJOR
-
-    "bugprone-incorrect-roundings": {"type": "BUG", "severity": "MAJOR"},
-    "bugprone-lambda-function-name": {"type": "BUG", "severity": "MAJOR"},
-    "bugprone-misplaced-operator-in-strlen-in-alloc": {"type": "BUG", "severity": "MAJOR"},
-    "bugprone-string-literal-with-embedded-nul": {"type": "BUG", "severity": "MAJOR"},
-    "bugprone-suspicious-semicolon": {"type": "BUG", "severity": "MAJOR"},
-    "bugprone-undefined-memory-manipulation": {"type": "BUG", "severity": "MAJOR"},
-    "bugprone-use-after-move": {"type": "BUG", "severity": "MAJOR"},
-    "hicpp-invalid-access-moved": {"type": "BUG", "severity": "MAJOR"},
-    "objc-avoid-spinlock": {"type": "BUG", "severity": "MAJOR"},
-    "zircon-temporary-objects": {"type": "BUG", "severity": "MAJOR"},
-
-    # VULNERABILITY INFO
-
-    "cert-msc32-c": {"type": "VULNERABILITY", "severity": "INFO"},
-    "cert-msc50-cpp": {"type": "VULNERABILITY", "severity": "INFO"},
-    "cert-msc51-cpp": {"type": "VULNERABILITY", "severity": "INFO"},
-
-    # VULNERABILITY MINOR
-
     "android-cloexec-accept4": {"type": "VULNERABILITY", "severity": "MINOR"},
+    "android-cloexec-creat": {"type": "CODE_SMELL", "severity": "INFO"},
     "android-cloexec-dup": {"type": "VULNERABILITY", "severity": "MINOR"},
     "android-cloexec-epoll-create": {"type": "VULNERABILITY", "severity": "MINOR"},
     "android-cloexec-epoll-create1": {"type": "VULNERABILITY", "severity": "MINOR"},
@@ -200,7 +47,241 @@ SEVERITY_MAP = {
     "android-cloexec-inotify-init1": {"type": "VULNERABILITY", "severity": "MINOR"},
     "android-cloexec-memfd-create": {"type": "VULNERABILITY", "severity": "MINOR"},
     "android-cloexec-open": {"type": "VULNERABILITY", "severity": "MINOR"},
-    "android-cloexec-socket": {"type": "VULNERABILITY", "severity": "MINOR"}
+    "android-cloexec-socket": {"type": "VULNERABILITY", "severity": "MINOR"},
+    "bugprone-argument-comment": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-assert-side-effect": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-bad-signal-to-kill-thread": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-bool-pointer-implicit-conversion": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-branch-clone": {"type": "CODE_SMELL", "severity": "INFO"},
+    "bugprone-copy-constructor-init": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-dangling-handle": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-exception-escape": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-fold-init-type": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "bugprone-forward-declaration-namespace": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-forwarding-reference-overload": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-inaccurate-erase": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-incorrect-roundings": {"type": "BUG", "severity": "MAJOR"},
+    "bugprone-infinite-loop": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "bugprone-integer-division": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-lambda-function-name": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-macro-parentheses": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-macro-repeated-side-effects": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-misplaced-operator-in-strlen-in-alloc": {"type": "BUG", "severity": "MAJOR"},
+    "bugprone-misplaced-pointer-arithmetic-in-alloc": {"type": "BUG", "severity": "MAJOR"},
+    "bugprone-misplaced-widening-cast": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "bugprone-move-forwarding-reference": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-multiple-statement-macro": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-not-null-terminated-result": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-parent-virtual-call": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "bugprone-posix-return": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-redundant-branch-condition": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-reserved-identifier": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "bugprone-signal-handler": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-signed-char-misuse": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-sizeof-container": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-sizeof-expression": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "bugprone-spuriously-wake-up-functions": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-string-constructor": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-string-integer-assignment": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-string-literal-with-embedded-nul": {"type": "BUG", "severity": "MAJOR"},
+    "bugprone-suspicious-enum-usage": {"type": "CODE_SMELL", "severity": "INFO"},
+    "bugprone-suspicious-include": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-suspicious-memset-usage": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-suspicious-missing-comma": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "bugprone-suspicious-semicolon": {"type": "BUG", "severity": "MAJOR"},
+    "bugprone-suspicious-string-compare": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-swapped-arguments": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-terminating-continue": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "bugprone-throw-keyword-missing": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-too-small-loop-variable": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-undefined-memory-manipulation": {"type": "BUG", "severity": "MAJOR"},
+    "bugprone-undelegated-constructor": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-unhandled-self-assignment": {"type": "BUG", "severity": "MINOR"},
+    "bugprone-unused-raii": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "bugprone-unused-return-value": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "bugprone-use-after-move": {"type": "BUG", "severity": "MAJOR"},
+    "bugprone-virtual-near-miss": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cert-dcl03-c": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cert-dcl21-cpp": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "cert-dcl50-cpp": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cert-dcl54-cpp": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cert-dcl58-cpp": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "cert-dcl59-cpp": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cert-env33-c": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cert-err09-cpp": {"type": "BUG", "severity": "MINOR"},
+    "cert-err34-c": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cert-err52-cpp": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cert-err60-cpp": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cert-err61-cpp": {"type": "BUG", "severity": "MINOR"},
+    "cert-fio38-c": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "cert-flp30-c": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cert-mem57-cpp": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cert-msc32-c": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cert-msc50-cpp": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cert-msc51-cpp": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cert-oop11-cpp": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cert-oop57-cpp": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cert-oop58-cpp": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cppcoreguidelines-avoid-goto": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "cppcoreguidelines-avoid-magic-numbers": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cppcoreguidelines-c-copy-assignment-signature": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cppcoreguidelines-init-variables": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cppcoreguidelines-interfaces-global-init": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "cppcoreguidelines-narrowing-conversions": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "cppcoreguidelines-no-malloc": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cppcoreguidelines-owning-memory": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "cppcoreguidelines-prefer-member-initializer": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cppcoreguidelines-pro-bounds-pointer-arithmetic": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cppcoreguidelines-pro-type-const-cast": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cppcoreguidelines-pro-type-cstyle-cast": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cppcoreguidelines-pro-type-member-init": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "cppcoreguidelines-pro-type-reinterpret-cast": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cppcoreguidelines-pro-type-static-cast-downcast": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cppcoreguidelines-pro-type-union-access": {"type": "CODE_SMELL", "severity": "INFO"},
+    "cppcoreguidelines-slicing": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "cppcoreguidelines-special-member-functions": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "etas-mcdcore-boost-test-classification": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "fuchsia-default-arguments": {"type": "CODE_SMELL", "severity": "INFO"},
+    "fuchsia-header-anon-namespaces": {"type": "CODE_SMELL", "severity": "INFO"},
+    "fuchsia-multiple-inheritance": {"type": "CODE_SMELL", "severity": "INFO"},
+    "fuchsia-overloaded-operator": {"type": "CODE_SMELL", "severity": "INFO"},
+    "fuchsia-restrict-system-includes": {"type": "CODE_SMELL", "severity": "INFO"},
+    "fuchsia-statically-constructed-objects": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "fuchsia-trailing-return": {"type": "CODE_SMELL", "severity": "INFO"},
+    "fuchsia-virtual-inheritance": {"type": "CODE_SMELL", "severity": "INFO"},
+    "google-objc-avoid-throwing-exception": {"type": "CODE_SMELL", "severity": "INFO"},
+    "google-objc-global-variable-declaration": {"type": "CODE_SMELL", "severity": "INFO"},
+    "google-readability-braces-around-statements": {"type": "CODE_SMELL", "severity": "INFO"},
+    "google-readability-function-size": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-avoid-goto": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "hicpp-braces-around-statements": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-deprecated-headers": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-exception-baseclass": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-explicit-conversions": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "hicpp-function-size": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-invalid-access-moved": {"type": "BUG", "severity": "MAJOR"},
+    "hicpp-member-init": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "hicpp-move-const-arg": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "hicpp-multiway-paths-covered": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-named-parameter": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-new-delete-operators": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-no-array-decay": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-no-assembler": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-no-malloc": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-noexcept-move": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "hicpp-signed-bitwise": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-special-member-functions": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "hicpp-static-assert": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "hicpp-undelegated-constructor": {"type": "BUG", "severity": "MINOR"},
+    "hicpp-use-auto": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-use-emplace": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-use-equals-default": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-use-equals-delete": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-use-noexcept": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-use-nullptr": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-use-override": {"type": "CODE_SMELL", "severity": "INFO"},
+    "hicpp-vararg": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "misc-definitions-in-headers": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "misc-misplaced-const": {"type": "CODE_SMELL", "severity": "INFO"},
+    "misc-new-delete-overloads": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "misc-non-copyable-objects": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "misc-redundant-expression": {"type": "CODE_SMELL", "severity": "INFO"},
+    "misc-static-assert": {"type": "CODE_SMELL", "severity": "INFO"},
+    "misc-throw-by-value-catch-by-reference": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "misc-unconventional-assign-operator": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "misc-uniqueptr-reset-release": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "misc-unused-alias-decls": {"type": "CODE_SMELL", "severity": "INFO"},
+    "misc-unused-parameters": {"type": "CODE_SMELL", "severity": "INFO"},
+    "misc-unused-using-decls": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-avoid-bind": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-avoid-c-arrays": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-concat-nested-namespaces": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-deprecated-headers": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "modernize-deprecated-ios-base-aliases": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-loop-convert": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "modernize-make-shared": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-make-unique": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-pass-by-value": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-raw-string-literal": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-redundant-void-arg": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "modernize-replace-auto-ptr": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-replace-disallow-copy-and-assign-macro": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-replace-random-shuffle": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-return-braced-init-list": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-shrink-to-fit": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-unary-static-assert": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-use-auto": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-use-bool-literals": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "modernize-use-default": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-use-default-member-init": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-use-emplace": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-use-equals-default": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-use-equals-delete": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-use-noexcept": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-use-nullptr": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "modernize-use-transparent-functors": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-use-uncaught-exceptions": {"type": "CODE_SMELL", "severity": "INFO"},
+    "modernize-use-using": {"type": "CODE_SMELL", "severity": "INFO"},
+    "mpi-buffer-deref": {"type": "CODE_SMELL", "severity": "MAJOR"},
+    "mpi-type-mismatch": {"type": "BUG", "severity": "MINOR"},
+    "objc-avoid-nserror-init": {"type": "BUG", "severity": "MINOR"},
+    "objc-avoid-spinlock": {"type": "BUG", "severity": "MAJOR"},
+    "objc-forbidden-subclassing": {"type": "BUG", "severity": "MINOR"},
+    "objc-property-declaration": {"type": "CODE_SMELL", "severity": "INFO"},
+    "performance-faster-string-find": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-for-range-copy": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-implicit-cast-in-loop": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-implicit-conversion-in-loop": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-inefficient-algorithm": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-inefficient-string-concatenation": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-inefficient-vector-operation": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-move-const-arg": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-move-constructor-init": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-no-automatic-move": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-no-int-to-ptr": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-noexcept-move-constructor": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-trivially-destructible": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-type-promotion-in-math-fn": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-unnecessary-copy-initialization": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "performance-unnecessary-value-param": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "portability-restrict-system-includes": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "portability-simd-intrinsics": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-avoid-const-params-in-decls": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "readability-braces-around-statements": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "readability-const-return-type": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "readability-container-size-empty": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "readability-convert-member-functions-to-static": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-delete-null-pointer": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-deleted-default": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-function-cognitive-complexity": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "readability-function-size": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "readability-identifier-naming": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "readability-implicit-bool-cast": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-implicit-bool-conversion": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-inconsistent-declaration-parameter-name": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "readability-isolate-declaration": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-magic-numbers": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-make-member-function-const": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-misleading-indentation": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-misplaced-array-index": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-non-const-parameter": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-redundant-access-specifiers": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-redundant-control-flow": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-redundant-declaration": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-redundant-function-ptr-dereference": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-redundant-member-init": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-redundant-preprocessor": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-redundant-smartptr-get": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "readability-redundant-string-cstr": {"type": "CODE_SMELL", "severity": "MINOR"},
+    "readability-redundant-string-init": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-simplify-subscript-expr": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-static-accessed-through-instance": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-static-definition-in-anonymous-namespace": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-string-compare": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-uniqueptr-delete-release": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-uppercase-literal-suffix": {"type": "CODE_SMELL", "severity": "INFO"},
+    "readability-use-anyofallof": {"type": "CODE_SMELL", "severity": "INFO"},
+    "zircon-temporary-objects": {"type": "BUG", "severity": "MAJOR"},
 
 }
 
@@ -226,6 +307,7 @@ def rstfile_to_description(path, filename, fix_urls):
     if fix_urls:
         html = fix_local_urls(html, filename)
 
+    html = html.decode('utf-8').replace('\r\n', '\n')    
     return html + footer
 
 
@@ -240,7 +322,7 @@ def rstfile_to_rule(path, fix_urls):
     description = rstfile_to_description(path, filename, fix_urls)
 
     default_issue_type = "CODE_SMELL"
-    default_issue_severity = "MAJOR"
+    default_issue_severity = "INFO"
 
     et.SubElement(rule, 'key').text = key
     et.SubElement(rule, 'name').text = name
@@ -249,13 +331,16 @@ def rstfile_to_rule(path, fix_urls):
     et.SubElement(rule, 'description').append(cdata)
 
     custom_severity = SEVERITY_MAP.get(key, None)
-    if custom_severity is None:
-        et.SubElement(rule, 'severity').text = default_issue_severity
-        et.SubElement(rule, 'type').text = default_issue_type
-    else:
-        et.SubElement(rule, 'severity').text = custom_severity["severity"]
-        et.SubElement(rule, 'type').text = custom_severity["type"]
-
+    if custom_severity:
+        default_issue_severity = custom_severity["severity"]
+        default_issue_type = custom_severity["type"]
+        
+    et.SubElement(rule, 'severity').text = default_issue_severity
+    et.SubElement(rule, 'type').text = default_issue_type   
+    if default_issue_severity != 'INFO':
+        et.SubElement(rule, 'remediationFunction').text = 'LINEAR'
+        et.SubElement(rule, 'remediationFunctionGapMultiplier').text = '5min'
+                
     return rule
 
 
@@ -379,16 +464,16 @@ DIAG_CLASS = {"CLASS_EXTENSION": {"weight": 0, "sonarqube_type": "CODE_SMELL", "
               "CLASS_NOTE": {"weight": 0, "sonarqube_type": "CODE_SMELL", "printable": "note"},
               "CLASS_REMARK": {"weight": 0, "sonarqube_type": "CODE_SMELL", "printable": "remark"},
               "CLASS_WARNING": {"weight": 0, "sonarqube_type": "CODE_SMELL", "printable": "warning"},
-              "CLASS_ERROR": {"weight": 1, "sonarqube_type": "BUG", "printable": "error"}
+              "CLASS_ERROR": {"weight": 1, "sonarqube_type": "BUG", "printable": "error"},
               "CLASS_FATAL_ERROR": {"weight": 1, "sonarqube_type": "BUG", "printable": "fatal error"}              
               }
 
 # see Severity in JSON
 # SEV_Ignored means, that the corresponding diagnostics is disabled in clang by default
-# this fact doesn't make any statement about the real severity, so we use MAJOR
+# this fact doesn't make any statement about the real severity, so we use INFO
 SEVERITY = {"SEV_Remark": {"weight": 0, "sonarqube_severity": "INFO"},
-            "SEV_Ignored": {"weight": 1, "sonarqube_severity": "MAJOR"},
-            "SEV_Warning": {"weight": 1, "sonarqube_severity": "MAJOR"},
+            "SEV_Ignored": {"weight": 1, "sonarqube_severity": "INFO"},
+            "SEV_Warning": {"weight": 1, "sonarqube_severity": "INFO"},
             "SEV_Error": {"weight": 2, "sonarqube_severity": "CRITICAL"},
             "SEV_Fatal": {"weight": 3, "sonarqube_severity": "BLOCKER"}
             }
@@ -468,7 +553,11 @@ def diagnostics_to_rules_xml(json_file):
             et.SubElement(rule, 'name').text = rule_name
             et.SubElement(rule, 'description').append(CDATA(rule_description))
             et.SubElement(rule, 'severity').text = rule_severity
-            et.SubElement(rule, 'type').text = rule_type
+            et.SubElement(rule, 'type').text = rule_type                       
+            if rule_severity != 'INFO':
+                et.SubElement(rule, 'remediationFunction').text = 'LINEAR'
+                et.SubElement(rule, 'remediationFunctionGapMultiplier').text = '5min'
+                        
             rules.append(rule)
 
     write_rules_xml(rules, sys.stdout)
@@ -477,39 +566,35 @@ def diagnostics_to_rules_xml(json_file):
 # GENERATION OF RULES FROM CLANG-TIDY DOCUMENTATION (RST FILES)
 #
 # 0. install pandoc
-# see https://pandoc.org/
+#    see https://pandoc.org/
 #
-# 1. download clang-tidy source code:
-# cd /tmp
-# svn co http://llvm.org/svn/llvm-project/clang-tools-extra/trunk
-# cd -
+# 1. Check out LLVM (https://github.com/llvm/llvm-project.git)
 #
 # 2. generate the new version of the rules file
-# python clangtidy_createrules.py rules /tmp/trunk/docs/clang-tidy/checks > clangtidy_new.xml
+#    python clangtidy_createrules.py rules <src_dir>clang-tools-extra/docs/clang-tidy/checks > clangtidy_new.xml
 #
 # 3. compare the new version with the old one, extend the old XML
-# python utils_createrules.py comparerules clangtidy.xml clangtidy_new.xml
-# meld clangtidy.xml clangtidy_new.xml.comparable
+#    python utils_createrules.py comparerules clangtidy.xml clangtidy_new.xml
+#    meld clangtidy.xml clangtidy_new.xml.comparable
 #
 # 4. optional: try to fix local urls in the documentation
-# python clangtidy_createrules.py rules_fixurls /tmp/trunk/docs/clang-tidy/checks > clangtidy_new.xml
-# python utils_createrules.py comparerules clangtidy.xml clangtidy_new.xml
-# meld clangtidy.xml clangtidy_new.xml.comparable
-
+#    python clangtidy_createrules.py rules_fixurls <src_dir>clang-tools-extra/docs/clang-tidy/checks > clangtidy_new.xml
+#    python utils_createrules.py comparerules clangtidy.xml clangtidy_new.xml
+#    meld clangtidy.xml clangtidy_new.xml.comparable
 #
 # GENERATION OF RULES FROM CLANG DIAGNOSTICS
 #
 # 0. check out clang source code
 #    https://clang.llvm.org/get_started.html
 #    perform 1. Get the required tools
-#            2. Check out LLVM
-#            3. Check out Clang
-#            7. Build LLVM and Clang
+#            2. Check out LLVM (https://github.com/llvm/llvm-project.git)
+#               - Clang is included
+#            3. Build LLVM and Clang
 #
-# 1. use the TableGen (https://llvm.org/docs/TableGen/index.html) for generation of the list of diagnostics
+# 1. use the TableGen (https://llvm.org/docs/TableGen/) for generation of the list of diagnostics
 #
-#    cd <src_dir>/tools/clang/include/clang/Basic/
-#    <src_dir>/build/bin/llvm-tblgen -dump-json <src_dir>/tools/clang/include/clang/Basic/Diagnostic.td > output.json
+#    cd <src_dir>/clang/include/clang/Basic/
+#    <src_dir>/build/bin/llvm-tblgen -dump-json <src_dir>/clang/include/clang/Basic/Diagnostic.td > output.json
 #
 # 2. generate the new version of the rules file
 #
@@ -523,10 +608,10 @@ def diagnostics_to_rules_xml(json_file):
 
 def print_usage_and_exit():
     script_name = os.path.basename(sys.argv[0])
-    print """Usage: %s rules <path to clang-tidy source directory with RST files>
+    print("""Usage: %s rules <path to clang-tidy source directory with RST files>
        %s rules_fixurls <path to clang-tidy source directory with RST files>
        %s diagnostics <path to the JSON diagnostics descriptions>
-       see the source code for inline documentation""" % (script_name, script_name, script_name)
+       see the source code for inline documentation""" % (script_name, script_name, script_name))
     sys.exit(1)
 
 
