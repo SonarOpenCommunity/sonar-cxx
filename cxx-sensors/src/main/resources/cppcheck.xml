@@ -5125,7 +5125,7 @@ Dangerous usage of c_str(). The string is destroyed after the c_str() call so th
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in cppcheck 1.69 Dev ########### -->
+  <!-- ########### New in Cppcheck 1.69 Dev ########### -->
   <rule>
     <key>duplicateExpressionTernary</key>
     <name>Same expression in both branches of ternary operator</name>
@@ -5263,7 +5263,7 @@ appropriate C library function.
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in cppcheck 1.70 release ########### -->
+  <!-- ########### New in Cppcheck 1.70 release ########### -->
   <rule>
     <key>negativeArraySize</key>
     <name>Declaration of array with negative size is undefined behaviour</name>
@@ -5283,7 +5283,7 @@ Declaration of array with negative size is undefined behaviour
   </rule>
   <rule>
     <key>badBitmaskCheck</key>
-    <name>Result of operator '|' is always true if one operand is non-zero</name>
+    <name>Result of operator '|' is always true if one operand is non-zero. Did you intend to use '&amp;'?</name>
     <description>
       <![CDATA[
 <p>
@@ -5459,7 +5459,7 @@ example 'return a*b;' => 'return (long)a*b'.
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in cppcheck 1.72 ########### -->
+  <!-- ########### New in Cppcheck 1.72 ########### -->
   <rule>
     <key>assignBoolToFloat</key>
     <name>Boolean value assigned to floating point variable</name>
@@ -5479,15 +5479,16 @@ Boolean value assigned to floating point variable.
   </rule>
   <rule>
     <key>invalidTestForOverflow</key>
-    <name>Invalid test for overflow 'x + u &lt; x'. Condition is always false unless there is overflow, and overflow is undefined behaviour</name>
+    <name>Invalid test for overflow 'x + c &lt; x'; signed integer overflow is undefined behavior. Some mainstream compilers remove such overflow tests when optimising the code and assume it's always false</name>
     <description>
       <![CDATA[
 <p>
-Invalid test for overflow 'x + u < x'. Condition is always false
-unless there is overflow, and overflow is undefined behaviour.
+Invalid test for overflow 'x + c < x'; signed integer overflow is
+undefined behavior. Some mainstream compilers remove such overflow
+tests when optimising the code and assume it's always false.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/391.html" target="_blank">CWE-391: Unchecked Error Condition</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -5513,7 +5514,7 @@ Expression 'x = x++;' depends on order of evaluation of side effects
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in cppcheck 1.73 ########### -->
+  <!-- ########### New in Cppcheck 1.73 ########### -->
   <rule>
     <key>signedCharArrayIndex</key>
     <name>Signed 'char' type used as array index</name>
@@ -5572,7 +5573,7 @@ switch()?
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in cppcheck 1.76 ########### -->
+  <!-- ########### New in Cppcheck 1.76 ########### -->
   <!-- this warnings is not reported by "cppcheck -errorlist" -->
   <rule>
     <key>leakUnsafeArgAlloc</key>
@@ -5667,7 +5668,7 @@ Reading from empty STL container 'var'
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in cppcheck 1.77 ########### -->
+  <!-- ########### New in Cppcheck 1.77 ########### -->
   <rule>
     <key>nullPointerArithmetic</key>
     <name>Pointer arithmetic with NULL pointer</name>
@@ -5756,7 +5757,7 @@ Undefined behaviour: float (1e+100) to integer conversion overflow.
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in cppcheck 1.78 ########### -->
+  <!-- ########### New in Cppcheck 1.78 ########### -->
   <rule>
     <key>funcArgNamesDifferent</key>
     <name>Function 'function' argument 2 names different: declaration 'A' definition 'B'</name>
@@ -5807,7 +5808,7 @@ The class 'class' has 'operator=' but lack of 'copy constructor'.
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in cppcheck 1.82 ########### -->
+  <!-- ########### New in Cppcheck 1.82 ########### -->
   <rule>
     <key>unsafeClassDivZero</key>
     <name>Public interface of Class is not safe</name>
@@ -7635,8 +7636,6 @@ specification for funcname() also.
     ]]>
     </description>
     <severity>INFO</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>internalError</key>
@@ -7649,8 +7648,6 @@ Internal Cppcheck tool error. Create an issue on the Cppcheck issue tracker.
 ]]>
     </description>
     <severity>INFO</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>QString::vsprintfCalled</key>
@@ -8464,7 +8461,7 @@ constructor.
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in cppcheck 1.90 ########### -->
+  <!-- ########### New in Cppcheck 1.90 ########### -->
   <rule>
     <key>constVariable</key>
     <name>Variable 'x' can be declared with const</name>
@@ -8598,7 +8595,7 @@ Unsafe class checking: The const reference member 'UnsafeClass::var' is initiali
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in cppcheck 2.10 ########### -->
+  <!-- ########### New in Cppcheck 2.10 ########### -->
   <rule>
     <key>invalidContainerLoop</key>
     <name>Calling 'erase' while iterating the container is invalid</name>
@@ -8619,16 +8616,11 @@ Calling 'erase' while iterating the container is invalid.
   </rule>
   <rule>
     <key>knownArgument</key>
-    <name>Argument 'x' to function f is always 0</name>
+    <name>Argument 'x-x' to function 'func' is always 0. It does not matter what value 'x' has</name>
     <description>
       <![CDATA[
-      <p>
-Argument 'x' to function f is always 0
-</p>
-<h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
-      ]]>
-      <![CDATA[]]>
+      Argument 'x-x' to function 'func' is always 0. It does not matter what value 'x' has.
+]]>
     </description>
     <tag>cwe</tag>
     <severity>MINOR</severity>
@@ -8680,6 +8672,175 @@ Iterator 'it' from different container 'v1' are used together.
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
+  <!-- ########### New in Cppcheck 2.41 ########### -->
+  <rule>
+    <key>danglingTempReference</key>
+    <name>Using reference to dangling temporary</name>
+    <description>
+      <![CDATA[
+      <p>
+Using reference to dangling temporary.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+      ]]>
+    </description>
+    <tag>cwe</tag>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>globalLockGuard</key>
+    <name>Lock guard is defined globally. Lock guards are intended to be local. A global lock guard could lead to a deadlock since it won't unlock until the end of the program</name>
+    <description>
+      <![CDATA[
+      <p>
+Lock guard is defined globally. Lock guards are intended to be local.
+A global lock guard could lead to a deadlock since it won't unlock
+until the end of the program.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/833.html" target="_blank">CWE-833: Deadlock</a></p>
+      ]]>
+    </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>knownArgumentHiddenVariableExpression</key>
+    <name>Argument 'x*0' to function 'func' is always 0. Constant literal calculation disable/hide variable expression 'x'</name>
+    <description>
+      <![CDATA[
+      Argument 'x*0' to function 'func' is always 0. Constant literal calculation disable/hide variable expression 'x'.
+      ]]>
+    </description>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>knownEmptyContainer</key>
+    <name>Iterating over container 'var' that is always empty</name>
+    <description>
+      <![CDATA[
+      <p>
+Iterating over container 'var' that is always empty.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+    </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>localMutex</key>
+    <name>The lock is ineffective because the mutex is locked at the same scope as the mutex itself</name>
+    <description>
+      <![CDATA[
+      <p>
+The lock is ineffective because the mutex is locked at the same scope
+as the mutex itself.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/667.html" target="_blank">CWE-667: Improper Locking</a></p>
+      ]]>
+    </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>uninitDerivedMemberVar</key>
+    <name>Member variable 'classname::varname' is not initialized in the constructor. Maybe it should be initialized directly in the class classname?</name>
+    <description>
+      <![CDATA[
+      <p>
+Member variable 'classname::varname' is not initialized in the
+constructor. Maybe it should be initialized directly in the class
+classname?
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+    </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>uninitDerivedMemberVarPrivate</key>
+    <name>Member variable 'classname::varnamepriv' is not initialized in the constructor. Maybe it should be initialized directly in the class classname?</name>
+    <description>
+      <![CDATA[
+      <p>
+Member variable 'classname::varnamepriv' is not initialized in the
+constructor. Maybe it should be initialized directly in the class
+classname?
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+    </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>unusedLabelConfiguration</key>
+    <name>Label '' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor</name>
+    <description>
+      <![CDATA[
+      <p>
+Label '' is not used. There is #if in function body so the label might
+be used in code that is removed by the preprocessor.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+    </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>unusedLabelSwitchConfiguration</key>
+    <name>Label '' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. Should this be a 'case' of the enclosing switch()?</name>
+    <description>
+      <![CDATA[
+      <p>
+Label '' is not used. There is #if in function body so the label might
+be used in code that is removed by the preprocessor. Should this be a
+'case' of the enclosing switch()?
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+    </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>  
+  <!-- ########### Misra Rules ########### -->
   <rule>
     <key>misra-c2012-1.1</key>
     <name>misra-c2012-1.1: Violations of the standard C (MISRA C 2012)</name>
