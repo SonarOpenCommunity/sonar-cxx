@@ -1,5 +1,5 @@
 # Sonar C++ Plugin (Community)
-# Copyright (C) 2010-2019 SonarOpenCommunity
+# Copyright (C) 2010-2021 SonarOpenCommunity
 # http://github.com/SonarOpenCommunity/sonar-cxx
 #
 # This program is free software; you can redistribute it and/or
@@ -241,12 +241,15 @@ def compare_rules(old_path, new_path):
     print("")
 
     print("### NEW RULES WHICH MUST BE ADDED\n")
+    for key in sorted(only_in_new):
+        print("*", key)
+    print("")    
     print("```XML")
     for key in sorted(only_in_new):
         rule_tag = new_keys_mapping[key]
         indent(rule_tag)
         make_rules_description_to_cdata(rule_tag)
-        et.ElementTree(rule_tag).write(sys.stdout)
+        et.ElementTree(rule_tag).write(sys.stdout, encoding='unicode')
     print("```\n")
 
     # create a rule xml from the new rules, where rules are stored in the same
