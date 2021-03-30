@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<!DOCTYPE coverage
+  SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
+<coverage branch-rate="1" line-rate="1" timestamp="1422447504" version="gcovr">
+  <sources>
+    <source>.</source>
+  </sources>
+  <packages>
+    <package branch-rate="1" complexity="2.0" line-rate="1" name="src">
+      <classes>
+        <class branch-rate="1" complexity="2.0" filename="src/src2.cpp" line-rate="1" name="src2_cpp">
+          <lines>
+            <!-- src2_f1 -->
+            <line branch="false" hits="2" number="1"/>
+            <line branch="true" condition-coverage="100% (2/2)" hits="2" number="3">
+              <conditions>
+                <condition coverage="100%" number="0" type="jump"/>
+              </conditions>
+            </line>
+            <line branch="false" hits="2" number="4"/>
+            <line branch="false" hits="2" number="7"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

@@ -22,6 +22,22 @@ Feature: Importing coverage data
       | branch_coverage         | 50    |
 
 
+  Scenario: Merging Corbertura coverage reports
+    Given the project "coverage_merge_project"
+    When I run sonar-scanner with "-X"
+    Then the analysis finishes successfully
+    And the analysis in server has completed
+    And the analysis log contains no error/warning messages except those matching:
+      """
+      .*WARN.*Unable to get a valid mac address, will use a dummy address
+      """
+    And the following metrics have following values:
+      | metric                  | value |
+      | coverage                | 94.4  |
+      | line_coverage           | 100.0 |
+      | branch_coverage         | 83.3  |
+
+
   Scenario: Zero coverage measures without coverage reports
     If we don't pass coverage reports all coverage measures, except the branch
     ones, should be 'zero'. The branch coverage measures remain 'None'
