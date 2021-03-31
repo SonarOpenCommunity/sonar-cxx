@@ -279,14 +279,26 @@ public class CxxSquidSensor implements ProjectSensor {
   public void execute(SensorContext context) {
     this.context = context;
 
-    CxxSquidConfiguration squidConfig = createConfiguration();
-    var visitors = new ArrayList<SquidAstVisitor<Grammar>>(checks.all());
-    AstScanner<Grammar> scanner = CxxAstScanner.create(squidConfig, visitors.toArray(
-                                                       new SquidAstVisitor[visitors.size()]));
+    // add visitor only if corresponding rule is active
+    var visitors = new ArrayList<SquidAstVisitor<Grammar>>();
+    for (var check : checks.all()) {
+      RuleKey key = checks.ruleKey(check);
+      if (key != null) {
+        if (context.activeRules().find(key) != null) {
+          visitors.add(check);
+        }
+      }
+    }
+
+    AstScanner<Grammar> scanner = CxxAstScanner.create(
+      createConfiguration(),
+      visitors.toArray(new SquidAstVisitor[visitors.size()])
+    );
 
     Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(
       context.fileSystem().predicates().and(context.fileSystem().predicates().hasLanguage("cxx"),
-                                            context.fileSystem().predicates().hasType(InputFile.Type.MAIN)));
+                                            context.fileSystem().predicates().hasType(InputFile.Type.MAIN))
+    );
 
     var files = new ArrayList<File>();
     for (var file : inputFiles) {
