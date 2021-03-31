@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "grammar_parser", "grammar_parser.pyproj", "{EDE93AB7-022B-4C34-A26A-4F76DF16D4B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDE93AB7-022B-4C34-A26A-4F76DF16D4B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDE93AB7-022B-4C34-A26A-4F76DF16D4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {665C1DFC-5979-489D-9F0A-8959C6E4F8F3}
+	EndGlobalSection
+EndGlobal
