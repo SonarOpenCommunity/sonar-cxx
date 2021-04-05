@@ -36,17 +36,17 @@ install:
 
       if (!(Test-Path -Path "C:\sonar-scanner" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.3.0.2102.zip',
+          'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.5.0.2216.zip',
           'C:\sonar-scanner-dist.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonar-scanner-dist.zip", "C:\sonar-scanner")
       }
       if (!(Test-Path -Path "C:\sonarqube" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.7.zip',
-          'C:\sonarqube-6.7.7.zip'
+          'https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.9.5.zip',
+          'C:\sonarqube-7.9.5.zip'
         )
-        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-6.7.7.zip", "C:\sonarqube")
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-7.9.5.zip", "C:\sonarqube")
       }
   - ps: |
       If ($env:Platform -Match "x86") {
@@ -57,15 +57,15 @@ install:
         $env:LANG_PLATFORM=""
       } Else {
         $env:PCRE_PLATFORM="x64"
-        $env:JAVA_HOME="c:/Program Files/Java/jdk1.8.0"
+        $env:JAVA_HOME="C:\Program Files\Java\jdk11"
         $env:MSBuildDir="C:/Program Files/MSBuild/14.0/Bin/msbuild.exe"
         $env:VCVARS_PLATFORM="amd64"
         $env:LANG_PLATFORM="-x64"
       }
-  - cmd: SET PATH=C:\maven\apache-maven-3.5.4\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-4.3.0.2102\bin;%PATH%
-  - cmd: SET M2_HOME=C:\maven\apache-maven-3.5.4
-  - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.5.4
-  - cmd: SET SONARHOME=C:\sonarqube\sonarqube-6.7.7
+  - cmd: SET PATH=C:\maven\apache-maven-3.6.3\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-4.5.0.2216\bin;%PATH%
+  - cmd: SET M2_HOME=C:\maven\apache-maven-3.6.3
+  - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.6.3
+  - cmd: SET SONARHOME=C:\sonarqube\sonarqube-7.9.5
   - cmd: SET TestDataFolder=C:\projects\sonar-cxx\integration-tests\testdata
   - cmd: SET
 
@@ -86,7 +86,7 @@ build_script:
   - mvn clean install -B -e -V
   - IF "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -B -e -V -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken%)
   - REM IF NOT "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -B -e -X -V -Dsonar.verbose=true -Dsonar.pullrequest.base=master -Dsonar.pullrequest.branch=%APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH% -Dsonar.pullrequest.key=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=%APPVEYOR_PROJECT_SLUG%)
-  - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi67
+  - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi79
   - del /S /Q *-sources.jar
   - del /S /Q original-*.jar
 
@@ -95,9 +95,8 @@ build_script:
 #---------------------------------#
 artifacts:
   - path: 'sonar-cxx-plugin\target\*.jar'
-  - path: 'sonar-c-plugin\target\*.jar'
   - path: 'sslr-cxx-toolkit\target\*.jar'
-
+      
 #---------------------------------#
 #        global handlers          #
 #---------------------------------#
@@ -108,4 +107,4 @@ on_failure:
   - ps: Get-ChildItem cxx-checks\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem sonar-cxx-plugin\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem *.log | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  - ps: Get-ChildItem C:\sonarqube\sonarqube-6.7.7\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem C:\sonarqube\sonarqube-7.9.5\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
