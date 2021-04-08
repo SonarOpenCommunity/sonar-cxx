@@ -38,8 +38,8 @@ Feature: Indexing files
     And the following metrics have following values:      
       | metric                   | value |
       | ncloc                    | 9     |
-      | lines                    | 31    |
-      | statements               | 7     |
+      | lines                    | 40    |
+      | statements               | 4     |
       | classes                  | 0     |
       | files                    | 3     |
       | functions                | 2     |

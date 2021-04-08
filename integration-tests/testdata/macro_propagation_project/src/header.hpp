@@ -5,6 +5,12 @@
 template<typename T>
 void f() {
   // do something...
+  int i = 0;
+}
+
+void g() {
+  // do something...
+  int i = 0;
 }
 
 #endif
