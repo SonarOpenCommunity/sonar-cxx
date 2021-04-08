@@ -21,3 +21,25 @@ Feature: Indexing files
     And the following metrics have following values:
       | metric                   | value |
       | files                    | None  |
+
+
+  Scenario: Verify macro propagation
+    Read cacsaced include files. This works only if macros are
+    correct propagated from one include level to the next.
+
+    Given the project "macro_propagation_project"
+    When I run sonar-scanner with "-X"
+    Then the analysis finishes successfully
+    And the analysis in server has completed
+    And the analysis log contains no error/warning messages except those matching:
+      """
+      .*WARN.*Unable to get a valid mac address, will use a dummy address
+      """
+    And the following metrics have following values:      
+      | metric                   | value |
+      | ncloc                    | 9     |
+      | lines                    | 31    |
+      | statements               | 7     |
+      | classes                  | 0     |
+      | files                    | 3     |
+      | functions                | 2     |
