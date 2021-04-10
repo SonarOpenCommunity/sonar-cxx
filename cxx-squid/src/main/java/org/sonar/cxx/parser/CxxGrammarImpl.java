@@ -1437,6 +1437,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(parameterDeclaration).is(
       b.firstOf(
+        // solve issue in templateParameter, conflict in initializerClause, relationalExpression (>),
+        // sample: template<bool x=false> string f();
+        b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, declarator,
+                   "=", LITERAL), // syntax sugar
         b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), parameterDeclSpecifierSeq, declarator,
                    b.optional("=", initializerClause)), // C++
         b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator),

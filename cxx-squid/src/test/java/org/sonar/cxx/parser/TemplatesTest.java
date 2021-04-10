@@ -50,7 +50,8 @@ public class TemplatesTest extends ParserBaseTestHelper {
       .matches("template<class T> auto mul(T a, T b) -> decltype(a*b) {return a*b;}")
       .matches("template <class T, class U> concept Derived = std::is_base_of<U, T>::value;")
       .matches("template<typename T> void f(T&&) requires Eq<T>;")
-      .matches("template<typename T> requires Addable<T> T add(T a, T b) { return a + b; }");
+      .matches("template<typename T> requires Addable<T> T add(T a, T b) { return a + b; }")
+      .matches("template<bool T = false> std::string f();"); // issue #2025
   }
 
   @Test
