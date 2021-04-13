@@ -82,7 +82,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
     descriptor
       .name("CXX VSTest/NUnit Test report import")
       .onlyWhenConfiguration(conf -> new UnitTestConfiguration(conf).hasUnitTestResultsProperty())
-      .onlyOnLanguages("cxx", "cpp", "c");
+      .onlyOnLanguages("cxx", "cpp", "c++", "c");
   }
 
   @Override

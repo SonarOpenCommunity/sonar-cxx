@@ -189,7 +189,7 @@ public class CxxPCLintSensorTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX PC-lint report import");
-    softly.assertThat(descriptor.languages()).containsOnly("cxx", "cpp", "c");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx", "cpp", "c++", "c");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxPCLintRuleRepository.KEY);
     softly.assertAll();
   }

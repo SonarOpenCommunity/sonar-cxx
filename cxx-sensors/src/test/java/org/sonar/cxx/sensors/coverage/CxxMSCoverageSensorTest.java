@@ -153,7 +153,7 @@ public class CxxMSCoverageSensorTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(descriptor.name()).isEqualTo("CXX Visual Studio XML coverage report import");
-    softly.assertThat(descriptor.languages()).containsOnly("cxx", "cpp", "c");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx", "cpp", "c++", "c");
     softly.assertAll();
   }
 
