@@ -81,7 +81,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX Visual C++ compiler report import")
-      .onlyOnLanguages("cxx", "cpp", "c")
+      .onlyOnLanguages("cxx", "cpp", "c++", "c")
       .createIssuesForRuleRepositories(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }

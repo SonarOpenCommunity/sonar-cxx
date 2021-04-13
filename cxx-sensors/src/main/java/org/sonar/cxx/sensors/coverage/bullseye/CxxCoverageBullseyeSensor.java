@@ -56,7 +56,7 @@ public class CxxCoverageBullseyeSensor extends CoverageSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX Bullseye coverage report import")
-      .onlyOnLanguages("cxx", "cpp", "c")
+      .onlyOnLanguages("cxx", "cpp", "c++", "c")
       .onlyWhenConfiguration(conf -> conf.hasKey(REPORT_PATH_KEY));
   }
 

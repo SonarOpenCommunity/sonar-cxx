@@ -119,7 +119,7 @@ public class CxxReportSensorTest {
     public void describe(SensorDescriptor descriptor) {
       descriptor
         .name("CxxReportSensorTest")
-        .onlyOnLanguages("cxx", "cpp", "c");
+        .onlyOnLanguages("cxx", "cpp", "c++", "c");
     }
   }
 
