@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: iso-8859-1 -*-
 
-# Sonar C++ Plugin (Community)
+# C++ Community Plugin (cxx plugin)
 # Copyright (C) Waleri Enns
 # dev@sonar.codehaus.org
 
