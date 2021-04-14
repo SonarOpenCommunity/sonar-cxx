@@ -1,4 +1,4 @@
-# Sonar C++ Plugin (Community)
+# C++ Community Plugin (cxx plugin)
 # Copyright (C) 2010-2019 SonarOpenCommunity
 # http://github.com/SonarOpenCommunity/sonar-cxx
 #
