@@ -1109,6 +1109,7 @@ public class CxxPreprocessor extends Preprocessor {
     } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
       unitCodeProvider.pushFileState(includedFile);
       try {
+        LOG.debug("process include file '{}'", includedFile.getAbsoluteFile());
         IncludeLexer.create(this).lex(getCodeProvider().getSourceCode(includedFile, charset));
       } catch (IOException e) {
         LOG.error("[{}: preprocessor cannot read include file]: {}", includedFile.getAbsoluteFile(), e.getMessage());
