@@ -249,7 +249,7 @@
   </ciManagement>
 
   <properties>
-    <license.title>Sonar C++ Plugin (Community)</license.title>
+    <license.title>C++ Community Plugin (cxx plugin)</license.title>
     <license.owner>SonarOpenCommunity</license.owner>
     <license.mailto>http://github.com/SonarOpenCommunity/sonar-cxx</license.mailto>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
