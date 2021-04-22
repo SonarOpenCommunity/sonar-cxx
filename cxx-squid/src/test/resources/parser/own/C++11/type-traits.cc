@@ -25,3 +25,12 @@ void destroy(T* t)
     std::cout << "destroying non-trivially destructible T\n";
     t->~T();
 }
+
+// issue #2009
+namespace etl {
+   template <typename LE, typename RE, cpp_enable_if(is_etl_expr<LE>::value, is_etl_expr<RE>::value)>
+   auto operator-(LE&& lhs, RE&& rhs) -> detail::left_binary_helper<LE, RE, minus_binary_op> {
+      validate_expression(lhs, rhs);
+      return {lhs, rhs};
+   }
+}

@@ -2176,6 +2176,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(templateParameter).is(
       b.firstOf(
+        // syntax sugar: support macros and function calls as template parameter, e.g. template <typename A, B() >
+        b.sequence(b.optional("::"), b.zeroOrMore(IDENTIFIER, "::"), typeName,
+                   "(", b.optional(parameterDeclarationClause), ")"),
         typeParameter, // C++
         parameterDeclaration // C++
       )
