@@ -13,3 +13,15 @@ void destroy(T* t)
     std::cout << "destroying non-trivially destructible T\n";
     t->~T();
 }
+
+// issue #793
+template<class T,
+         typename std::enable_if<
+             !std::is_trivially_destructible<T>{} &&
+             (std::is_class<T>{} || std::is_union<T>{})
+            >::type* = nullptr>
+void destroy(T* t)
+{
+    std::cout << "destroying non-trivially destructible T\n";
+    t->~T();
+}

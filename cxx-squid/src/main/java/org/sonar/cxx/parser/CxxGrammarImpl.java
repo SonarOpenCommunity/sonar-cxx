@@ -854,7 +854,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     ).skipIfOneChild();
 
     b.rule(relationalExpression).is(
-      compareExpression, b.zeroOrMore(b.firstOf("<", ">", "<=", ">="), compareExpression) // C++
+      compareExpression,
+      b.zeroOrMore(
+        b.firstOf(
+          "<", b.sequence(">", b.nextNot("::", "type")), "<=", ">="),
+        compareExpression
+      ) // C++
     ).skipIfOneChild();
 
     b.rule(equalityExpression).is(
@@ -2204,8 +2209,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(typeTraits).is( // syntax sugar to handle type trais (not part of standard)
-      nestedNameSpecifier, "type", b.optional("*"), b.optional("=", initializerClause)
+    b.rule(typeTraits).is( // syntax sugar to handle type traits ...::type  (not part of C++ grammar)
+      b.zeroOrMore(b.sequence(IDENTIFIER, "::")),
+      simpleTemplateId, "::", "type", b.optional("*"),
+      b.optional("=", initializerClause)
     );
 
     b.rule(innerTypeParameter).is(
