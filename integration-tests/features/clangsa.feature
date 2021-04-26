@@ -12,8 +12,8 @@ Feature: Importing Clang Static Analyzer reports
 
   Scenario Outline: Importing Clang Static Analyzer report(s)
     Given the project "clangsa_project"
-    And rule "clangsa:core.DivideZero" is enabled
-    And rule "clangsa:deadcode.DeadStores" is enabled
+    And rule "clangsa:core.DivideZero" is activated
+    And rule "clangsa:deadcode.DeadStores" is activated
     When I run sonar-scanner with "-X -Dsonar.cxx.clangsa.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed
@@ -27,8 +27,8 @@ Feature: Importing Clang Static Analyzer reports
 
   Scenario Outline: Importing Clang Static Analyzer report(s) generated with scan-build
     Given the project "clangsa_scanbuild_project"
-    And rule "clangsa:core.DivideZero" is enabled
-    And rule "clangsa:deadcode.DeadStores" is enabled
+    And rule "clangsa:core.DivideZero" is activated
+    And rule "clangsa:deadcode.DeadStores" is activated
     When I run sonar-scanner with "-X -Dsonar.cxx.clangsa.reportPaths=<reportpaths>"
     Then the analysis finishes successfully
     And the analysis in server has completed

@@ -63,7 +63,7 @@ try:
     GREEN = colorama.Fore.GREEN
     RESET = colorama.Fore.RESET
     BRIGHT = colorama.Style.BRIGHT
-    RESET_ALL = colorama.Style.RESET_ALL   
+    RESET_ALL = colorama.Style.RESET_ALL
 except ImportError:
     print("Can't init colorama!")
 
@@ -76,16 +76,16 @@ def before_all(context):
 
     sys.stdout.write("\n\n" + BRIGHT + 80 * "-" + "\n")
     sys.stdout.write("starting SonarQube ...\n")
-    sys.stdout.write(80 * "-" + RESET_ALL + "\n")    
-    sys.stdout.flush() 
+    sys.stdout.write(80 * "-" + RESET_ALL + "\n")
+    sys.stdout.flush()
 
-    print(BRIGHT + "\nSonarQube already running? " + RESET_ALL)    
+    print(BRIGHT + "\nSonarQube already running? " + RESET_ALL)
     if is_webui_up():
         print("\n" + INDENT + "using the SonarQube already running on '%s'\n\n" % SONAR_URL)
         return
 
     print(BRIGHT + "\nSetting up the test environment" + RESET_ALL)
-    
+
     sonarhome = os.environ.get("SONARHOME", None)
     if sonarhome is None:
         sys.stderr.write(RED
@@ -113,23 +113,23 @@ def before_all(context):
 
     didstartsonar = True
     check_logs(sonarhome)
-    
+
     sys.stdout.write("\n\n" + BRIGHT + 80 * "-" + "\n")
     sys.stdout.write("starting tests ...\n")
-    sys.stdout.write(80 * "-" + RESET_ALL + "\n")    
-    sys.stdout.flush()    
+    sys.stdout.write(80 * "-" + RESET_ALL + "\n")
+    sys.stdout.flush()
 
 def after_all(context):
     if didstartsonar:
         sys.stdout.write(BRIGHT + 80 * "-" + "\n")
         sys.stdout.write("stopping SonarQube ...\n")
-        sys.stdout.write(80 * "-" + RESET_ALL + "\n")    
-        sys.stdout.flush()    
+        sys.stdout.write(80 * "-" + RESET_ALL + "\n")
+        sys.stdout.flush()
         sonarhome = os.environ.get("SONARHOME", None)
         stop_sonar(sonarhome)
         sys.stdout.write(BRIGHT + 80 * "-" + "\n")
         sys.stdout.write("Summary:\n")
-        sys.stdout.write(80 * "-" + RESET_ALL + "\n")        
+        sys.stdout.write(80 * "-" + RESET_ALL + "\n")
         sys.stdout.flush()
 
 def before_feature(context, feature):
@@ -190,7 +190,7 @@ def jar_cxx_path():
 def start_sonar(sonarhome):
     sys.stdout.write(INDENT + "starting SonarQube ... ")
     sys.stdout.flush()
-    start_script(sonarhome)    
+    start_script(sonarhome)
     now = time.time()
     if not wait_for_sonar(300, is_webui_up):
         sys.stdout.write(RED + "FAILED, duration: %03.1f s\n" % (time.time() - now) + RESET)
@@ -273,7 +273,7 @@ def start_script(sonarhome):
 def stop_script(sonarhome):
     global sq_process
     command = None
-    
+
     if platform.system() == "Linux":
         script = linux_script(sonarhome)
         if script:
@@ -286,10 +286,10 @@ def stop_script(sonarhome):
     if command is None:
         msg = "Dont know how to find the stop script for the platform %s-%s" % (platform.system(), platform.machine())
         raise UnsupportedPlatform(msg)
-    
+
     sys.stdout.write("STOP\n")
     sys.stdout.flush()
-    
+
     return command
 
 
@@ -311,7 +311,7 @@ def wait_for_sonar(timeout, criteria):
     return False
 
 
-def is_webui_up():    
+def is_webui_up():
     try:
         response = requests.get(SONAR_URL + "/api/system/status", auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
         response.raise_for_status()
@@ -356,6 +356,6 @@ def check_logs(sonarhome):
     summary_msg = "%i errors and %i warnings\n" % (errors, warnings)
     print(len(summary_msg) * "-")
     print(summary_msg)
-    
+
     sys.stdout.flush()
     return errors == 0

@@ -141,7 +141,19 @@ def step_impl(context, extensions):
     _rest_api_set(url, payload)
 
 
-@given(u'rule "{rule}" is enabled')
+@given(u'rule "{rule}" with params "{params}" is activated')
+def step_impl(context, rule, params):
+    assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
+    # deactivate first to be able to set params
+    url = (SONAR_URL + "/api/qualityprofiles/deactivate_rule")
+    payload = {'key': context.profile_key, 'rule': rule}
+    _rest_api_set(url, payload)
+    url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
+    payload = {'key': context.profile_key, 'rule': rule, "severity": "MAJOR", "params": params}
+    _rest_api_set(url, payload)
+
+
+@given(u'rule "{rule}" is activated')
 def step_impl(context, rule):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
     url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
@@ -149,7 +161,15 @@ def step_impl(context, rule):
     _rest_api_set(url, payload)
 
 
-@given(u'rule "{rule}" is created based on "{templaterule}" in repository "{repository}"')
+@given(u'rule "{rule}" is deactivated')
+def step_impl(context, rule):
+    assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
+    url = (SONAR_URL + "/api/qualityprofiles/deactivate_rule")
+    payload = {'key': context.profile_key, 'rule': rule}
+    _rest_api_set(url, payload)
+
+
+@given(u'custom rule "{rule}" from rule template "{templaterule}" in repository "{repository}" is activated')
 def step_impl(context, rule, templaterule, repository):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
     url = (SONAR_URL + "/api/rules/create")
@@ -157,6 +177,21 @@ def step_impl(context, rule, templaterule, repository):
     _rest_api_set(url, payload)
     url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
     payload = {'key': context.profile_key, 'rule': repository + ":" + rule, "severity": "MAJOR"}
+    _rest_api_set(url, payload)
+
+
+@given(u'custom rule "{rule}" with params "{params}" is updated')
+def step_impl(context, rule, param):
+    assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
+    url = (SONAR_URL + "/api/rules/update")
+    payload = {'key': rule, "params": params}
+    _rest_api_set(url, payload)
+
+
+@then(u'custom rule "{rule}" is deleted')
+def step_impl(context, rule):
+    url = (SONAR_URL + "/api/rules/delete")
+    payload = {'key': rule}
     _rest_api_set(url, payload)
 
 
@@ -179,13 +214,6 @@ def step_impl(context):
         ("Found following errors and/or warnings lines in the logfile:\n"
          + "".join(badlines)
          + "For details see %s" % context.log)
-
-
-@then(u'delete created rule {rule}')
-def step_impl(context, rule):
-    url = (SONAR_URL + "/api/rules/delete")
-    payload = {'key': rule}
-    _rest_api_set(url, payload)
 
 
 @then(u'the analysis log contains no error/warning messages')
@@ -280,7 +308,7 @@ def _rest_api_set(url, payload):
         response.raise_for_status()
         return response
     except requests.exceptions.RequestException as e:
-        if response and response.text:
+        if response.text:
             assert False, "error _rest_api_set: %s %s -> %s, %s" % (url, str(payload), str(e), response.text)
         else:
             assert False, "error _rest_api_set: %s %s -> %s" % (url, str(payload), str(e))

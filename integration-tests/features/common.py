@@ -47,12 +47,12 @@ try:
     GREEN = colorama.Fore.GREEN
     RESET = colorama.Fore.RESET
     BRIGHT = colorama.Style.BRIGHT
-    RESET_ALL = colorama.Style.RESET_ALL   
+    RESET_ALL = colorama.Style.RESET_ALL
 except ImportError:
     print("Can't init colorama!")
 
 
-INDENT = "    "    
+INDENT = "    "
 SONAR_URL = "http://localhost:9000"
 SONAR_LOGIN = os.getenv('sonar.login', 'admin')
 SONAR_PASSWORD = os.getenv('sonar.password', 'admin')
@@ -64,7 +64,7 @@ def get_sonar_log_file(sonarhome):
     if "sonarqube-7." in sonarhome:
         SONAR_LOG_FILE = "sonar.log"
     else:
-        SONAR_LOG_FILE = "sonar." + time.strftime("%Y%m%d") + ".log"    
+        SONAR_LOG_FILE = "sonar." + time.strftime("%Y%m%d") + ".log"
     return os.path.join(get_sonar_log_folder(sonarhome), SONAR_LOG_FILE)
 
 def sonar_analysis_finished(logpath):

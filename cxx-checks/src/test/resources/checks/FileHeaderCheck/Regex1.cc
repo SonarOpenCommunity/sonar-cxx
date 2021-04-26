@@ -1,5 +1,5 @@
 // bad copyright
 
-public class Regex1 {
+class Regex1 {
 
-}
+};

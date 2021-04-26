@@ -22,14 +22,13 @@ package org.sonar.cxx.checks.file;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.checks.utils.CheckUtils;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
@@ -59,19 +58,16 @@ public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharset
     description = "Create violations per line (default is one per file)",
     defaultValue = "" + DEFAULT_CREATE_LINE_VIOLATION)
   public boolean createLineViolation = DEFAULT_CREATE_LINE_VIOLATION;
-  private Charset charset = StandardCharsets.UTF_8;
+  private Charset defaultCharset = StandardCharsets.UTF_8;
 
   @Override
   public void setCharset(Charset charset) {
-    this.charset = charset;
+    this.defaultCharset = charset;
   }
 
   @Override
   public void visitFile(AstNode astNode) {
-
-    // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-    try ( var br = new BufferedReader(
-      new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
+    try ( var br = new BufferedReader(CheckUtils.getInputSteam(getContext().getFile(), defaultCharset))) {
       String line;
       int nr = 0;
 
