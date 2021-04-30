@@ -5,7 +5,7 @@ Feature: Samples
 
   Scenario: cxx plugin hello world project
     Given the project "hello_world"
-    And rule "cppcheck:unusedVariable" is enabled
+    And rule "cppcheck:unusedVariable" is activated
     When I run sonar-scanner with "-X"
     Then the analysis finishes successfully
     And the analysis in server has completed

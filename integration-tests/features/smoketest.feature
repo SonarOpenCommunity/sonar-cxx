@@ -5,13 +5,13 @@ Feature: Smoketests
 
   Scenario: Smoketest
     Given the project "smoketest_project"
-    And rule "cppcheck:unusedVariable" is enabled
-    And rule "cppcheck:unreadVariable" is enabled
-    And rule "cppcheck:deallocDealloc" is enabled
-    And rule "cppcheck:doubleFree" is enabled
-    And rule "cppcheck:uninitvar" is enabled
-    And rule "cppcheck:unusedFunction" is enabled
-    And rule "cppcheck:missingInclude" is enabled
+    And rule "cppcheck:unusedVariable" is activated
+    And rule "cppcheck:unreadVariable" is activated
+    And rule "cppcheck:deallocDealloc" is activated
+    And rule "cppcheck:doubleFree" is activated
+    And rule "cppcheck:uninitvar" is activated
+    And rule "cppcheck:unusedFunction" is activated
+    And rule "cppcheck:missingInclude" is activated
     When I run sonar-scanner with "-X"
     Then the analysis finishes successfully
     And the analysis in server has completed
@@ -74,18 +74,18 @@ Feature: Smoketests
     Bullseye reports need to be created before running the test.
 
     Given the project "googletest_bullseye_vs_project"
-    And rule "cppcheck:unreadVariable" is enabled
-    And rule "cppcheck:missingInclude" is enabled
-    And rule "rats:getenv" is enabled
-    And rule "vera++:T013" is enabled
-    And rule "vera++:L003" is enabled
-    And rule "vera++:T008" is enabled
-    And rule "cpplint_legal_copyright_0" is created based on "other:CustomRuleTemplate" in repository "other"
-    And rule "cpplint_build_header_guard_0" is created based on "other:CustomRuleTemplate" in repository "other"
-    And rule "cpplint_whitespace_indent_2" is created based on "other:CustomRuleTemplate" in repository "other"
-    And rule "cpplint_whitespace_parens_5" is created based on "other:CustomRuleTemplate" in repository "other"
-    And rule "cpplint_whitespace_line_length_1" is created based on "other:CustomRuleTemplate" in repository "other"
-    And rule "cpplint_tekla_custom_include_files_0" is created based on "other:CustomRuleTemplate" in repository "other"
+    And rule "cppcheck:unreadVariable" is activated
+    And rule "cppcheck:missingInclude" is activated
+    And rule "rats:getenv" is activated
+    And rule "vera++:T013" is activated
+    And rule "vera++:L003" is activated
+    And rule "vera++:T008" is activated
+    And custom rule "cpplint_legal_copyright_0" from rule template "other:CustomRuleTemplate" in repository "other" is activated
+    And custom rule "cpplint_build_header_guard_0" from rule template "other:CustomRuleTemplate" in repository "other" is activated
+    And custom rule "cpplint_whitespace_indent_2" from rule template "other:CustomRuleTemplate" in repository "other" is activated
+    And custom rule "cpplint_whitespace_parens_5" from rule template "other:CustomRuleTemplate" in repository "other" is activated
+    And custom rule "cpplint_whitespace_line_length_1" from rule template "other:CustomRuleTemplate" in repository "other" is activated
+    And custom rule "cpplint_tekla_custom_include_files_0" from rule template "other:CustomRuleTemplate" in repository "other" is activated
     When I run sonar-scanner with "-X"
     Then the analysis finishes successfully
     And the analysis in server has completed
@@ -119,9 +119,9 @@ Feature: Smoketests
       | test_failures            | 1     |
       | test_errors              | 0     |
       | tests                    | 2     |
-    And delete created rule other:cpplint_build_header_guard_0
-    And delete created rule other:cpplint_legal_copyright_0
-    And delete created rule other:cpplint_whitespace_indent_2
-    And delete created rule other:cpplint_whitespace_parens_5
-    And delete created rule other:cpplint_whitespace_line_length_1
-    And delete created rule other:cpplint_tekla_custom_include_files_0
+    And custom rule "other:cpplint_build_header_guard_0" is deleted
+    And custom rule "other:cpplint_legal_copyright_0" is deleted
+    And custom rule "other:cpplint_whitespace_indent_2" is deleted
+    And custom rule "other:cpplint_whitespace_parens_5" is deleted
+    And custom rule "other:cpplint_whitespace_line_length_1" is deleted
+    And custom rule "other:cpplint_tekla_custom_include_files_0" is deleted

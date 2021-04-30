@@ -41,9 +41,7 @@ public class FileHeaderCheckTest {
     CxxFileTester tester = CxxFileTesterHelper
       .CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Class1.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
-
-    CheckMessagesVerifier.verify(file.getCheckMessages())
-      .noMore();
+    assertThat(file.getCheckMessages()).isNullOrEmpty();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 20\\d\\d";
@@ -63,29 +61,25 @@ public class FileHeaderCheckTest {
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2012";
     file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages())
-      .noMore();
+    assertThat(file.getCheckMessages()).isNullOrEmpty();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2012\n// foo";
 
     file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages())
-      .noMore();
+    assertThat(file.getCheckMessages()).isNullOrEmpty();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2012\r\n// foo";
 
     file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages())
-      .noMore();
+    assertThat(file.getCheckMessages()).isNullOrEmpty();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2012\r// foo";
 
     file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages())
-      .noMore();
+    assertThat(file.getCheckMessages()).isNullOrEmpty();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2012\r\r// foo";
@@ -106,8 +100,7 @@ public class FileHeaderCheckTest {
 
     tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Class3.cc", ".");
     file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages())
-      .noMore();
+    assertThat(file.getCheckMessages()).isNullOrEmpty();
   }
 
   @Test
@@ -144,7 +137,7 @@ public class FileHeaderCheckTest {
 
     tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Regex3.cc", ".");
     file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages()).noMore();
+    assertThat(file.getCheckMessages()).isNullOrEmpty();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright \\d{4}\\n// mycompany";
@@ -161,7 +154,7 @@ public class FileHeaderCheckTest {
 
     tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Regex5.cc", ".");
     file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages()).noMore();
+    assertThat(file.getCheckMessages()).isNullOrEmpty();
 
     check = new FileHeaderCheck();
 
@@ -169,17 +162,27 @@ public class FileHeaderCheckTest {
     file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage(
       "Add or update the header of this file.");
+
+    check = new FileHeaderCheck();
+    check.headerFormat = "//\\s*<copyright>\\s*"
+                           + "//\\s*Copyright \\(c\\) (AAA BBB|CCC DDD) GmbH. All rights reserved.\\s*"
+                           + "//\\s*</copyright>\\s*";
+    check.isRegularExpression = true;
+
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Regex7.cc", ".");
+    file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
+    assertThat(file.getCheckMessages()).isNullOrEmpty();
   }
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void should_fail_with_bad_regular_expression() {
     var check = new FileHeaderCheck();
-    check.headerFormat = "*";
+    check.headerFormat = "[";
     check.isRegularExpression = true;
 
     IllegalStateException e = assertThrows(IllegalStateException.class, check::init);
-    assertThat(e).hasMessage("Unable to compile the regular expression: \"*\"");
+    assertThat(e).hasMessage("Unable to compile the regular expression: \"^[\"");
   }
 
 }

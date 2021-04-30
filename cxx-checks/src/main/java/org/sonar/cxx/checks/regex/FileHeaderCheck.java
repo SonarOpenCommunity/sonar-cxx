@@ -22,14 +22,11 @@ package org.sonar.cxx.checks.regex;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -74,7 +71,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
     defaultValue = "false")
   public boolean isRegularExpression = false;
 
-  private Charset charset = StandardCharsets.UTF_8;
+  private Charset defaultCharset = StandardCharsets.UTF_8;
   private String[] expectedLines = null;
   private Pattern searchPattern = null;
 
@@ -90,13 +87,15 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
 
   @Override
   public void setCharset(Charset charset) {
-    this.charset = charset;
+    this.defaultCharset = charset;
   }
 
   @Override
   public void init() {
     if (isRegularExpression) {
-      searchPattern = CheckUtils.compileUserRegexp(headerFormat, Pattern.DOTALL);
+      if (searchPattern == null) {
+        searchPattern = CheckUtils.compileUserRegexp(getHeaderFormat(), Pattern.DOTALL);
+      }
     } else {
       expectedLines = headerFormat.split("\\R");
     }
@@ -104,21 +103,28 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
 
   @Override
   public void visitFile(AstNode astNode) {
-
-    // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-    try (var br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
-
+    try {
       if (isRegularExpression) {
-        String fileContent = br.lines().collect(Collectors.joining(System.lineSeparator()));
+        String fileContent = CheckUtils.getFileContent(getContext().getFile(), defaultCharset);
         checkRegularExpression(fileContent);
       } else {
-        if (!matches(expectedLines, br)) {
-          getContext().createFileViolation(this, MESSAGE);
+        try ( var br = new BufferedReader(CheckUtils.getInputSteam(getContext().getFile(), defaultCharset))) {
+          if (!matches(expectedLines, br)) {
+            getContext().createFileViolation(this, MESSAGE);
+          }
         }
       }
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
+  }
+
+  private String getHeaderFormat() {
+    String format = headerFormat;
+    if (format.charAt(0) != '^') {
+      format = "^" + format;
+    }
+    return format;
   }
 
   private void checkRegularExpression(String fileContent) {

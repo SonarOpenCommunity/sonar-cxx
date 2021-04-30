@@ -1,6 +1,6 @@
 // copyright 2005
 // mycompany
 
-public class Regex3 {
+class Regex3 {
 
-}
+};

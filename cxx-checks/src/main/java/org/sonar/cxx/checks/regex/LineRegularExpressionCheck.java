@@ -22,9 +22,7 @@ package org.sonar.cxx.checks.regex;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
@@ -102,7 +100,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
     description = "The violation message",
     defaultValue = DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
-  private Charset charset = StandardCharsets.UTF_8;
+  private Charset defaultCharset = StandardCharsets.UTF_8;
   private Pattern pattern = null;
 
   private static boolean compare(boolean invert, boolean condition) {
@@ -116,14 +114,15 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @Override
   public void setCharset(Charset charset) {
-    this.charset = charset;
+    this.defaultCharset = charset;
   }
 
   @Override
   public void visitFile(AstNode fileNode) {
     if (compare(invertFilePattern, matchFile())) {
+
       // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-      try ( var br = new BufferedReader(new InputStreamReader(new FileInputStream(getContext().getFile()), charset))) {
+      try ( var br = new BufferedReader(CheckUtils.getInputSteam(getContext().getFile(), defaultCharset))) {
         String line;
         int nr = 0;
 
