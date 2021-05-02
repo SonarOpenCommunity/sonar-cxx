@@ -37,6 +37,7 @@ import java.nio.charset.Charset;
 import org.sonar.cxx.channels.BackslashChannel;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.channels.PreprocessorChannel;
+import org.sonar.cxx.channels.RightAngleBracketsChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
 import org.sonar.cxx.preprocessor.CppSpecialIdentifier;
 
@@ -106,6 +107,7 @@ public final class CxxLexer {
       // C++ Standard, Section 2.11 "Identifiers"
       .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true, CxxKeyword.values()))
       // C++ Standard, Section 2.13 "Operators and punctuators"
+      .withChannel(new RightAngleBracketsChannel())
       .withChannel(new PunctuatorChannel(CxxPunctuator.values()))
       .withChannel(new UnknownCharacterChannel());
 
