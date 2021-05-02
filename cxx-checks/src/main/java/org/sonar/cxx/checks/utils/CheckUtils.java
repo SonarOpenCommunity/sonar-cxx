@@ -124,7 +124,9 @@ public class CheckUtils {
       Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
       return new InputStreamReader(bomInputStream, charset);
     } catch (IOException e) {
-      bomInputStream.close();
+      if (bomInputStream != null) {
+        bomInputStream.close();
+      }
       throw e;
     }
   }
