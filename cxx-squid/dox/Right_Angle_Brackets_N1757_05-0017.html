@@ -1,0 +1,221 @@
+<html>
+<head>
+<title>Right Angle Brackets (N1757/05-0017)</title>
+</head>
+<body bgcolor=white fgcolor=black>
+
+<p align=right>
+<table>
+<tr><td>Document number:</td><td>N1757</td></tr>
+<tr><td></td><td>05-0017</td></tr>
+<tr><td>Author:</td><td>Daveed Vandevoorde</td></tr>
+<tr><td></td><td>Edison Design Group</td></tr>
+<tr><td>Date:</td><td>2005-01-14</td></tr>
+</table>
+
+<center><h1>Right Angle Brackets</h1></center>
+<center>(Revision 2)</center>
+
+<h2>Introduction</h2>
+<p>
+Ever since the introduction of angle brackets, C++ programmers have been
+surprised by the fact that two consecutive right angle brackets must be
+separated by whitespace:
+<blockquote><tt><pre>#include &lt;vector&gt;
+typedef std::vector&lt;std::vector&lt;int&gt; &gt; Table;  // OK
+typedef std::vector&lt;std::vector&lt;bool&gt;&gt; Flags;  // Error
+</pre></tt></blockquote>
+The problem is an immediate consequence of the the &ldquo;maximum munch&rdquo; principle and the fact that <tt>&gt;&gt;</tt> is a valid token (right shift) in C++.
+<p>
+This issue is a minor, but persisting, annoying, and somewhat
+embarrassing problem.  If the cost is reasonable, it seems therefore
+worthwhile to eliminate the surprise.
+<p>
+The purpose of this document is to explain ways to allow <tt>&gt;&gt;</tt> to be treated as two closing angle brackets, as well as to discuss the resulting issues. A specific option is proposed along with wording that would implement the proposal in the current working paper.
+
+<h2>Constructs with Right Angle Brackets</h2>
+<p>
+The example above shows the most common context of double right angle brackets: Nested template-ids.  However, the &ldquo;new-style&rdquo; cast syntax may also participate in such constructs.  For example:
+<blockquote><tt><pre>
+static_cast&lt;List&lt;B&gt;&gt;(ld)
+</pre></tt></blockquote>
+This situation currently occurs fairly rarely because the template-ids involved always represent class types, whereas these casts usually involve pointer, pointer-to-member, or reference types.
+<p>
+However, if template aliases make it into the language (and it seems likely
+they will), then template-ids will be able to represent nonclass types.
+It seems therefore desirable to address the issue for all constructs with
+right angle brackets, not just for templates.
+<p>
+It is also worth noting that the problem can also occur with the <tt>&gt;&gt;=</tt> and <tt>&gt;=</tt> tokens.  For example
+<blockquote><tt><pre>
+void func(List&lt;B&gt;= default_val1);
+void func(List&lt;List&lt;B&gt;&gt;= default_val2);
+</pre></tt></blockquote>
+Both of these forms are currently ill-formed.  It may be desirable to
+also address this issue, but this paper does not propose to do so.
+
+<h2>Possible Solutions</h2>
+<p>
+Solving our problem amounts to decreeing that under some circumstances
+a <tt>&gt;&gt;</tt> token is treated as two right angle brackets
+instead of a right shift operator.  As it turns out, there are several
+general approaches to defining those
+&ldquo;circumstances.&rdquo;
+<p>
+<b>Approach 1.</b>
+The first approach is the simplest: Decree that if a left angle bracket is
+active (i.e. not yet matched by a right angle bracket) the <tt>&gt;&gt;</tt> token
+is treated as two right angle brackets instead of a shift operator, 
+except within parentheses or brackets that are themselves within the angle brackets.
+A slight 
+variation on that theme (call it &ldquo;Approach 1b&rdquo;) is to
+require at least two left angle brackets to
+be active since otherwise the construct would be an error (because there would be an excess of right angle brackets).
+<p>
+This strategy is similar to the treatment of the <tt>&gt;</tt> token:
+If a left angle bracket is active, the token is treated as a right angle
+bracket, except within parentheses.  For example:
+<blockquote><tt><pre>
+A&lt;(X&gt;Y)&gt; a;  // The first &gt; token appears within parentheses and
+             // therefore is not a right angle bracket.  The second one
+             // <i>is</i> a right angle bracket because a left angle bracket
+             // is active and no parentheses are more recently active.
+</pre></tt></blockquote>
+<p>
+Unfortunately, some programs may be broken by this approach.
+Consider the following example:
+<blockquote><tt><pre>#include &lt;iostream&gt;
+template&lt;int I&gt; struct X {
+  static int const c = 2;
+};
+template&lt;&gt; struct X&lt;0&gt; {
+  typedef int c;
+};
+template&lt;typename T&gt; struct Y {
+  static int const c = 3;
+};
+static int const c = 4;
+int main() {
+  std::cout &lt;&lt; (Y&lt;X&lt;1&gt; &gt;::c &gt;::c&gt;::c) &lt;&lt; '\n';
+  std::cout &lt;&lt; (Y&lt;X&lt; 1&gt;&gt;::c &gt;::c&gt;::c) &lt;&lt; '\n';
+}
+</pre></tt></blockquote>
+This program is valid today; it produces the following output:
+<blockquote><tt><pre>0
+3
+</pre></tt></blockquote>
+With the right angle bracket rule proposed above, the <tt>&gt;&gt;</tt> token
+in the second statement would change its meaning (from right shift to double right
+angle bracket) and the output would therefore
+become:
+<blockquote><tt><pre>0
+0
+</pre></tt></blockquote>
+<p>
+<b>Approach 2.</b>
+To avoid the backward incompatibility, an alternative solution it to modify
+the rule proposed above to only treat the <tt>&gt;&gt;</tt> token as two right
+angle brackets when parsing template type arguments or template template
+arguments, but not when parsing template nontype arguments.  This approach would make <tt>A&lt;B&lt;int&gt;&gt;</tt> valid, but would leave <tt>C&lt;D&lt;12&gt;&gt;</tt> ill-formed.
+<p>
+Another way to view this alternative approach is that a template argument
+is always parsed as far as possible (which may include right shift operators).
+When an argument is parsed, the next token must be a comma, a <tt>&gt;</tt> 
+treated as a single closing angle bracket, or (with this proposal) a 
+<tt>&gt;&gt;</tt> token treated as a double angle bracket.
+<p>
+<b>Approach 3.</b>
+Finally, a third way to tackle the problem is to eliminate the right shift
+token altogether and to modify the grammar so that two consecutive 
+<tt>&gt;</tt> tokens are treated as a right shift operation in the appropriate circumstances.  This would for example allow the following form:
+<blockquote><tt><pre>
+int i = 10000 >  > x;
+</pre></tt></blockquote>
+If limited to the right shift token, this approach introduces no known
+new ambiguities, but it does introduce at least one backward compatibility
+issue: The <tt>##</tt> preprocessing token can no longer be applied to two
+<tt>&gt;</tt> tokens.  However, it would be surprising to eliminate the
+right shift token and not the left shift token.  Eliminating the left 
+shift token does introduce new parsing ambiguities
+(e.g., <tt>&X::operator<tt>&lt;</tt> <tt>&lt;</tt>Y<tt>&gt;</tt></tt>).
+The shift-assign operators (<tt>&lt;&lt;=</tt> and <tt>&gt;&gt;=</tt>)
+lead to similar considerations.  It may also come as a surprise that
+shift operations are realized through a two-token construct, whereas
+other operations (e.g., prefix and postfix <tt>--</tt>, or <tt>&&</tt>)
+use a single two-character token.
+
+<h2>Implementation Experience</h2>
+<p>
+<b>Approach 1.</b>
+As mentioned, the first proposal is analogous to the existing language
+rule for the <tt>&gt;</tt> token.  We therefore do not expect implementation difficulty for the approach.
+<p>
+<b>Approach 2.</b>
+The GNU and EDG C++ compilers currently implement the second proposed
+alternative for error recovery purposes.  It would be trivial to promote
+the error recovery procedure to a correct parse procedure.  (Other compilers
+appear to have a facility for the same purpose, but I do not know their exact 
+strategy.)
+<p>
+<b>Approach 3.</b>
+I'm unaware of implementation experience with eliminating shift tokens
+and replacing them with grammar that allows two-token shift expressions.
+
+<h2>Recommendation</h2>
+<p>
+I suggest we pursue &ldquo;Approach 1&rdquo; (which breaks some valid programs).
+Specifically, I propose that if even a single left angle bracket is active,
+a <tt>&gt;&gt;</tt> token not enclosed in parentheses is treated as two
+right angle brackets and not as a right shift operator.  I do <i>not</i>
+recommend the variation described as &ldquo;Approach 1b.&rdquo;
+<p>
+My arguments for doing so are the following:
+<ul>
+<li>It leaves no remaining cases that require whitespace between 
+two right angle brackets, which makes teaching easier.</li>
+<li>It treats the <tt>&gt;&gt;</tt> token in the same way as the <tt>&gt;</tt>
+token, making both specification and teaching simpler.</li>
+<li>Programs that would change meaning are probably as contrived as the
+example shown above, and therefore unlikely to be found in nature.  Programs that would become ill-formed (i.e., containing a nonparenthesized right-shift operator in a trailing nontype template argument) are probably slightly more common but still rare.</li>
+</ul>
+<p>
+(While the approach of eliminating the shift tokens (approach 3) was presented for the
+sake of completeness, I find that it has enough small technical and
+aesthetic problems to make the other approaches far preferable.)
+
+<h2>Wording changes</h2>
+<p>
+Insert after the last normative sentence of 14.2/3, but before the example:
+<blockquote>Similarly, the first non-nested <tt>&gt;&gt;</tt> is treated as two consecutive but distinct <tt>&gt;</tt> tokens, the first of which is taken as the end of the <i>template-argument-list</i> and completes the <i>template-id</i>. [ <i>Note:</i> The second <tt>&gt;</tt> token produced by this replacement rule may terminate an enclosing <i>template-id</i> construct or it may be part of a different construct (e.g., a cast). <i>--end note</i> ]</blockquote>
+<p>
+Replace the example of 14.2/3 by the following:
+<blockquote>[ <i>Example:</i><pre>
+template&lt;int i&gt; class X { /* ... */ };
+X&lt; 1&gt;2 &gt; x1;    // Syntax error.
+X&lt;(1&gt;2)&gt; x2;    // Okay.
+
+template&lt;class T&gt; class Y { /* ... */ };
+Y&lt;X&lt;1&gt;&gt; x3;     // Okay, same as "Y&lt;X&lt;1&gt; &gt; x3;".
+Y&lt;X&lt;6&gt;&gt;1&gt;&gt; x4;  // Syntax error. Instead, write "Y&lt;X&lt;(6&gt;&gt;1)&gt;&gt; x4;".
+</pre>
+</blockquote>
+<p>
+Insert just before the first "<i>Note:</i>" of translation phase "7." in 2.1/1:
+<blockquote>[ <i>Note:</i> The process of analyzing and translating the tokens may occasionally result in one token being replaced by a sequence of other tokens (14.2 temp.names). <i>--end note</i> ]</blockquote>
+<p>
+Insert a new paragraph 5.2/2 that reads:
+<blockquote>[ <i>Note:</i> The <tt>&gt;</tt> token following the <i>type-id</i> in a <tt>dynamic_cast</tt>, <tt>static_cast</tt>, <tt>reinterpret_cast</tt>, or <tt>const_cast</tt>, may be the product of replacing a <tt>&gt;&gt;</tt> token by two consecutive <tt>&gt;</tt> tokens  (14.2 temp.names). <i>--end note</i> ]</blockquote>
+<p>
+Insert in 14/1 just after the grammar rules:
+<blockquote>[ <i>Note:</i> The <tt>&gt;</tt> token following the <i>template-parameter-list</i> of a <i>template-declaration</i> may be the product of replacing a <tt>&gt;&gt;</tt> token by two consecutive <tt>&gt;</tt> tokens  (14.2 temp.names). <i>--end note</i> ]</blockquote>
+<p>
+Append to 14.1/1 (following the grammar rules):
+<blockquote>[ <i>Note:</i> The <tt>&gt;</tt> token following the <i>template-parameter-list</i> of a <i>type-parameter</i> may be the product of replacing a <tt>&gt;&gt;</tt> token by two consecutive <tt>&gt;</tt> tokens  (14.2 temp.names). <i>--end note</i> ]</blockquote>
+
+<h2>See Also...</h2>
+<p>
+Reflector messages: c++std-ext-6767,6771,6773,6775,6779,6786,6788,6789,6792,6793,6794,6799,6801,6809.
+<p>
+Previous revision: N1649/04-0089, N1699/0139.
+</body>
+</html>

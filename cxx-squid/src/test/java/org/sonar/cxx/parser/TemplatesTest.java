@@ -61,13 +61,10 @@ public class TemplatesTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.templateParameterList);
     mockRule(CxxGrammarImpl.requiresClause);
     mockRule(CxxGrammarImpl.templateParameter);
-    mockRule(CxxGrammarImpl.innerTypeParameter);
 
     assertThatParser()
       .matches("template < templateParameterList >")
-      .matches("template < templateParameterList > requiresClause")
-      .matches("template < templateParameter , innerTypeParameter >>")
-      .matches("template < templateParameter , templateParameter , innerTypeParameter >>");
+      .matches("template < templateParameterList > requiresClause");
   }
 
   @Test
@@ -198,12 +195,11 @@ public class TemplatesTest extends ParserBaseTestHelper {
 
     assertThatParser()
       .matches("sometype<int>")
-      .matches("vector<Person*>");
-    // assertThatParser().matches("sometype<N/2>");
-    // try{
-    // p.parse("vector<Person*>");
-    // } catch(Exception e){}
-    // ExtendedStackTraceStream.print(stackTrace, System.out);
+      .matches("vector<Person*>")
+      .matches("A<(X>Y)>")
+      .matches("A<(X<Y)>")
+      .matches("vector<std::vector<bool>>")
+      .matches("Y<X<(6>>1)>>");
   }
 
   @Test
