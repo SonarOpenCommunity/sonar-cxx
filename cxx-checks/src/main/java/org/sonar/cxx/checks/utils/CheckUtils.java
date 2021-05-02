@@ -112,17 +112,21 @@ public class CheckUtils {
   }
 
   public static InputStreamReader getInputSteam(File source, Charset defaultCharset) throws IOException {
-    BOMInputStream bomInputStream = new BOMInputStream(new FileInputStream(source),
-                                                       ByteOrderMark.UTF_8,
-                                                       ByteOrderMark.UTF_16LE,
-                                                       ByteOrderMark.UTF_16BE,
-                                                       ByteOrderMark.UTF_32LE,
-                                                       ByteOrderMark.UTF_32BE);
-
-    ByteOrderMark bom = bomInputStream.getBOM();
-    Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
-
-    return new InputStreamReader(bomInputStream, charset);
+    BOMInputStream bomInputStream = null;
+    try {
+      bomInputStream = new BOMInputStream(new FileInputStream(source),
+                                          ByteOrderMark.UTF_8,
+                                          ByteOrderMark.UTF_16LE,
+                                          ByteOrderMark.UTF_16BE,
+                                          ByteOrderMark.UTF_32LE,
+                                          ByteOrderMark.UTF_32BE);
+      ByteOrderMark bom = bomInputStream.getBOM();
+      Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
+      return new InputStreamReader(bomInputStream, charset);
+    } catch (IOException e) {
+      bomInputStream.close();
+      throw e;
+    }
   }
 
 }
