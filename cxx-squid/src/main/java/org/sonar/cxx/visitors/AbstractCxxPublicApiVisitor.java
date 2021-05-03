@@ -21,6 +21,7 @@ package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
+import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
@@ -31,6 +32,7 @@ import javax.annotation.CheckForNull;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import static org.sonar.cxx.parser.CxxGrammarImpl.qualifiedId;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.squidbridge.checks.SquidCheck;
@@ -648,11 +650,17 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       return;
     }
 
-    AstNode className = templateDeclaration.getFirstDescendant(CxxGrammarImpl.className);
-    if (className == null) {
+    AstNode declId = templateDeclaration.getFirstDescendant(CxxGrammarImpl.declaratorId);
+    if (declId == null) {
       return;
     }
-    String id = className.getTokenValue();
+    AstNode idNode = declId.getLastChild(qualifiedId);
+    if (idNode != null) {
+      idNode = idNode.getLastChild(IDENTIFIER);
+    } else {
+      idNode = declId.getLastChild(IDENTIFIER);
+    }
+    String id = idNode.getTokenValue();
 
     // handle cascaded template declarations
     AstNode node = templateDeclaration;

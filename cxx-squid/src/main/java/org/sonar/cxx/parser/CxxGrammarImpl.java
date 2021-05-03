@@ -843,12 +843,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     ).skipIfOneChild();
 
     b.rule(relationalExpression).is(
-      compareExpression,
+      compareExpression, // C++
       b.zeroOrMore(
         b.firstOf(
-          "<", b.sequence(">", b.nextNot("::", "type")), "<=", ">="),
-        compareExpression
-      ) // C++
+          "<", b.sequence(">", b.nextNot("::", "type")), "<=", ">="), // C++
+        compareExpression // C++
+      )
     ).skipIfOneChild();
 
     b.rule(equalityExpression).is(
@@ -890,10 +890,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(assignmentExpression).is(
       b.firstOf(
-        b.sequence(logicalOrExpression, assignmentOperator, initializerClause), // C++ (PEG: different order)
-        conditionalExpression, // C++ (PEG: different order)
+        b.sequence(conditionalExpression, b.nextNot(assignmentOperator)), // C++
         yieldExpression, // C++
-        throwExpression // C++
+        throwExpression, // C++
+        b.sequence(logicalOrExpression, assignmentOperator, initializerClause) // C++
       )
     ).skipIfOneChild();
 
@@ -1274,16 +1274,16 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(initDeclarator).is(
-      declarator,
+      declarator, // C++
       b.firstOf(
-        requiresClause,
+        requiresClause, // C++
         b.sequence(b.optional(asmLabel), b.optional(initializer)) // C++ (asmLabel: GCC ASM label)
       )
     );
 
     b.rule(declarator).is(
       b.firstOf(
-        ptrDeclarator, // C++
+        b.sequence(ptrDeclarator, b.nextNot(parametersAndQualifiers)), // C++
         b.sequence(noptrDeclarator, parametersAndQualifiers, trailingReturnType) // C++
       )
     );
@@ -1302,7 +1302,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       ),
       b.zeroOrMore(
         b.firstOf(
-          parametersAndQualifiers,
+          b.sequence(parametersAndQualifiers, b.nextNot(trailingReturnType)),
           b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
         )
       )
@@ -1310,12 +1310,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(parametersAndQualifiers).is(
       "(", parameterDeclarationClause, ")", // C++
-      b.optional(attributeSpecifierSeq), // C++ todo wrong position
       b.optional(cvQualifierSeq), // C++
       b.optional(cliFunctionModifiers), // C++/CLI
       b.optional(refQualifier), // C++
       b.optional(noexceptSpecifier), // C++
-      b.optional(trailingReturnType) // todo wrong?
+      b.optional(attributeSpecifierSeq) // C++
     );
 
     b.rule(trailingReturnType).is(
@@ -1355,10 +1354,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(declaratorId).is(
-      b.firstOf(
-        b.sequence(b.optional(nestedNameSpecifier), className), // todo wrong?
-        b.sequence(b.optional("..."), idExpression) // C++
-      )
+      b.sequence(b.optional("..."), idExpression) // C++
     );
 
     b.rule(typeId).is(
@@ -1919,7 +1915,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(declarator, requiresClause), // C++
         b.sequence(declarator, braceOrEqualInitializer), // C++
         b.sequence(b.optional(IDENTIFIER), b.optional(attributeSpecifierSeq), ":", constantExpression,
-                   b.optional(braceOrEqualInitializer)), // C++
+                   b.optional(braceOrEqualInitializer)), // C++ (PEG)
         b.sequence(declarator, b.optional(virtSpecifierSeq), b.optional(cliFunctionModifiers),
                    b.optional(pureSpecifier)) // C++
       )
@@ -2168,7 +2164,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(typeParameter).is(
+    b.rule(typeParameter).is( // todo
       b.firstOf(
         b.sequence(
           typeParameterKey,
@@ -2186,7 +2182,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             b.sequence(b.optional("..."), b.optional(IDENTIFIER)) // C++ (PEG: different order)
           )
         ),
-        b.sequence( // C++ (PEG: different order)
+        b.sequence( // C++ (PEG: different order) todo one up
           typeConstraint,
           b.firstOf(
             b.sequence(b.optional(IDENTIFIER), "=", typeId), // C++
@@ -2281,7 +2277,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             IDENTIFIER // C++ syntax sugar to avoid syntax errors in case of types without a declaration
           )
         ),
-        IDENTIFIER // special cases  ... ::typeid (C++/CLI)
+        b.sequence(IDENTIFIER, b.next("::", "typeid")) // special cases  ... ::typeid (C++/CLI)
       )
     );
 

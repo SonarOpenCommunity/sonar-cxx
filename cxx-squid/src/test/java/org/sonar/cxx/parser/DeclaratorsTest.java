@@ -141,9 +141,9 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     assertThatParser()
       .matches("( parameterDeclarationClause )")
       .matches("( parameterDeclarationClause ) attributeSpecifierSeq")
-      .matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq")
-      .matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier")
-      .matches("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier noexceptSpecifier");
+      .matches("( parameterDeclarationClause ) cvQualifierSeq attributeSpecifierSeq")
+      .matches("( parameterDeclarationClause ) cvQualifierSeq refQualifier attributeSpecifierSeq")
+      .matches("( parameterDeclarationClause ) cvQualifierSeq refQualifier noexceptSpecifier attributeSpecifierSeq");
   }
 
   @Test
@@ -174,7 +174,8 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     setRootRule(CxxGrammarImpl.ptrDeclarator);
 
     assertThatParser()
-      .matches("A::*foo");
+      .matches("* px") // int* px = &c.x; // value of px is "pointer to c.x"
+      .matches("C::* p"); // void (C::* p)(int) = &C::f; // pointer to member function f of class C
   }
 
   @Test
@@ -222,14 +223,10 @@ public class DeclaratorsTest extends ParserBaseTestHelper {
     setRootRule(CxxGrammarImpl.declaratorId);
 
     mockRule(CxxGrammarImpl.idExpression);
-    mockRule(CxxGrammarImpl.nestedNameSpecifier);
-    mockRule(CxxGrammarImpl.className);
 
     assertThatParser()
       .matches("idExpression")
-      .matches("... idExpression")
-      .matches("className")
-      .matches("nestedNameSpecifier className");
+      .matches("... idExpression");
   }
 
   @Test

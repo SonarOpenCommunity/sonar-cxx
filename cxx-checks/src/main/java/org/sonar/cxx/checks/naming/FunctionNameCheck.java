@@ -20,6 +20,7 @@
 package org.sonar.cxx.checks.naming;
 
 import com.sonar.sslr.api.AstNode;
+import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import com.sonar.sslr.api.Grammar;
 import java.util.regex.Pattern;
 import org.sonar.check.Priority;
@@ -78,7 +79,7 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
   public void visitNode(AstNode astNode) {
     AstNode declId = astNode.getFirstDescendant(CxxGrammarImpl.declaratorId);
     if (isGlobalFunctionDefinition(declId)) {
-      AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
+      AstNode idNode = declId.getLastChild(IDENTIFIER);
       if (idNode != null) {
         String identifier = idNode.getTokenValue();
         if (!pattern.matcher(identifier).matches()) {

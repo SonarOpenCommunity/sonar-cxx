@@ -21,6 +21,7 @@ package org.sonar.cxx.checks.naming;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
+import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import com.sonar.sslr.api.Grammar;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -80,7 +81,7 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
   private static AstNode getInsideMemberDeclaration(AstNode declId) {
     AstNode result = null;
     if (declId.hasAncestor(CxxGrammarImpl.memberDeclaration)) {
-      AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
+      AstNode idNode = declId.getLastChild(IDENTIFIER);
       if (idNode != null) {
         AstNode classSpecifier = declId.getFirstAncestor(CxxGrammarImpl.classSpecifier);
         if (classSpecifier != null) {
@@ -115,15 +116,18 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
 
   @CheckForNull
   private static AstNode getOutsideMemberDeclaration(AstNode declId) {
-    AstNode nestedNameSpecifier = declId.getFirstDescendant(CxxGrammarImpl.nestedNameSpecifier);
+    AstNode qualifiedId = declId.getFirstDescendant(CxxGrammarImpl.qualifiedId);
     AstNode result = null;
-    if (nestedNameSpecifier != null) {
-      AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
-      if (idNode != null) {
-        Optional<AstNode> typeName = getMostNestedTypeName(nestedNameSpecifier);
-        // if class name is equal to method name then it is a ctor or dtor
-        if (typeName.isPresent() && !typeName.get().getTokenValue().equals(idNode.getTokenValue())) {
-          result = idNode;
+    if (qualifiedId != null) {
+      AstNode nestedNameSpecifier = qualifiedId.getFirstDescendant(CxxGrammarImpl.nestedNameSpecifier);
+      if (nestedNameSpecifier != null) {
+        AstNode idNode = qualifiedId.getLastChild(IDENTIFIER);
+        if (idNode != null) {
+          Optional<AstNode> typeName = getMostNestedTypeName(nestedNameSpecifier);
+          // if class name is equal to method name then it is a ctor or dtor
+          if (typeName.isPresent() && !typeName.get().getTokenValue().equals(idNode.getTokenValue())) {
+            result = idNode;
+          }
         }
       }
     }

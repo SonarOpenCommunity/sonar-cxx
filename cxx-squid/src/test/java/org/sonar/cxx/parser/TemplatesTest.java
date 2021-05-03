@@ -279,8 +279,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
       .matches("typename nestedNameSpecifier IDENTIFIER")
       .matches("typename nestedNameSpecifier simpleTemplateId")
       .matches("typename nestedNameSpecifier template simpleTemplateId")
-      .matches("typename IDENTIFIER")
-      .matches("IDENTIFIER");
+      .matches("typename IDENTIFIER");
   }
 
   @Test

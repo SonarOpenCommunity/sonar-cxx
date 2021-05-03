@@ -49,7 +49,7 @@ class My_Class {
 
     class Third_Level_Nested_Class {
       Third_Level_Nested_Class();
-      ~Third_Level_Nested_Class()
+      ~Third_Level_Nested_Class();
 
       void Third_Level_Nested_Class_getX();
     };

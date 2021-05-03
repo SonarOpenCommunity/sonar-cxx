@@ -414,7 +414,7 @@ simple-capture:
 
 init-capture:
    ...opt identifier initializer
-   &...opt identifier initializer
+   & ...opt identifier initializer
 
 fold-expression:
    ( cast-expression fold-operator ... )
@@ -489,9 +489,9 @@ unary-expression:
    -- cast-expression
    await-expression
    sizeof unary-expression
-   sizeof( type-id )
-   sizeof...( identifier )
-   alignof( type-id )
+   sizeof ( type-id )
+   sizeof ... ( identifier )
+   alignof ( type-id )
    noexcept-expression
    new-expression
    delete-expression
