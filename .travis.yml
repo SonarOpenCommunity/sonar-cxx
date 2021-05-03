@@ -7,7 +7,7 @@ jdk:
   - openjdk11
 env:
   - SONARLABEL=sonarqube-7.9.6 SONARAPI=SqApi79
-  - SONARLABEL=sonarqube-8.8.0.42792 SONARAPI=SqApi79
+  - SONARLABEL=sonarqube-8.9.0.43852 SONARAPI=SqApi79
 
 addons:
   # shorten the VM hostname with the new workaround
@@ -38,8 +38,8 @@ install:
   - pushd /tmp
   - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonarqube/$SONARLABEL.zip
   - unzip -qq $SONARLABEL.zip
-  - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311.zip
-  - unzip -qq sonar-scanner-cli-4.6.0.2311.zip
+  - wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.1.2450.zip
+  - unzip -qq sonar-scanner-cli-4.6.1.2450.zip
   - wget -nv --timeout=10 https://github.com/htacg/tidy-html5/archive/5.6.0.zip --output-document=tidy-html5.zip
   - unzip -qq tidy-html5.zip
   - pushd tidy-html5-5.6.0/build/cmake/
@@ -57,7 +57,7 @@ script:
   - mvn install -B -e -V -DskipTests=true
   - mvn test -B -e -V
   - bash cxx-sensors/src/tools/check_rules.sh
-  - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-4.6.0.2311/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture --tags=$SONARAPI
+  - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-4.6.1.2450/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture --tags=$SONARAPI
 
 after_success:
   - find . -name "*.log" | xargs cat
