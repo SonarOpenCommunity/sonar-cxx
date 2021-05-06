@@ -501,10 +501,9 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       AstNode linkageSpecification = declaration
         .getFirstAncestor(CxxGrammarImpl.linkageSpecification);
       if (linkageSpecification != null) {
-        if( linkageSpecification.hasDirectChildren(CxxPunctuator.CURLBR_LEFT)) {
+        if (linkageSpecification.hasDirectChildren(CxxPunctuator.CURLBR_LEFT)) {
           docNode = declaration; // extern "C" { ... }
-        }
-        else {
+        } else {
           docNode = linkageSpecification; // extern "C" ...
         }
       } else {
@@ -658,7 +657,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     if (idNode != null) {
       idNode = idNode.getLastChild(IDENTIFIER);
     } else {
-      idNode = declId.getLastChild(IDENTIFIER);
+      idNode = declId;
     }
     String id = idNode.getTokenValue();
 

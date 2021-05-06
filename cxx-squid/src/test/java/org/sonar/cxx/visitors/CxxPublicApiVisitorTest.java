@@ -84,7 +84,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void template() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/template.h")).isEqualTo(tuple(13, 4));
+    assertThat(testFile("src/test/resources/metrics/template.h")).isEqualTo(tuple(14, 4));
   }
 
   @Test
