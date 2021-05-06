@@ -82,7 +82,7 @@ build_script:
   - C:\Python27\Scripts\pip.exe install requests
   - C:\Python27\Scripts\pip.exe install behave
   - C:\Python27\Scripts\pip.exe install colorama
-  - mvn versions:set -DnewVersion=2.0.0.%APPVEYOR_BUILD_NUMBER%
+  - mvn versions:set -DnewVersion=2.0.1.%APPVEYOR_BUILD_NUMBER%
   - mvn clean install -B -e -V
   - IF "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -B -e -V -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%sonarcloudtoken%)
   - REM IF NOT "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (mvn sonar:sonar -B -e -X -V -Dsonar.verbose=true -Dsonar.pullrequest.base=master -Dsonar.pullrequest.branch=%APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH% -Dsonar.pullrequest.key=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=%APPVEYOR_PROJECT_SLUG%)
