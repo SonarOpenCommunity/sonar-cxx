@@ -32,7 +32,7 @@ Feature: Regex
       """
     And the following metrics have following values:
       | metric     | value |
-      | ncloc      | 6     |
+      | ncloc      | 3     |
       | lines      | 18    |
       | files      | 3     |
       | violations | 0     |
@@ -49,7 +49,7 @@ Feature: Regex
       """
     And the following metrics have following values:
       | metric     | value |
-      | ncloc      | 23    |
+      | ncloc      | 3     |
       | lines      | 18    |
       | files      | 3     |
       | violations | 0     |

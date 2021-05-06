@@ -67,7 +67,7 @@ import static org.sonar.cxx.preprocessor.CppPunctuator.COMMA;
 import static org.sonar.cxx.preprocessor.CppPunctuator.HASH;
 import static org.sonar.cxx.preprocessor.CppPunctuator.HASHHASH;
 import static org.sonar.cxx.preprocessor.CppPunctuator.LT;
-import org.sonar.squidbridge.SquidAstVisitorContext;
+import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
 /**
  * Implements a C++ preprocessor according to '**A.12 Preprocessing directives [gram.cpp]**'.

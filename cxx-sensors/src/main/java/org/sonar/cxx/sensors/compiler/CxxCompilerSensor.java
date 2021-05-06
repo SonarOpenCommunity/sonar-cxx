@@ -60,7 +60,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
     try ( var scanner = new TextScanner(report, reportEncoding)) {
       Pattern pattern = Pattern.compile(reportRegEx);
       LOG.debug("Processing '{}' report '{}', Encoding='{}', Pattern='{}'",
-                getCompilerKey(), report, reportEncoding, pattern);
+                getCompilerKey(), report, scanner.encoding(), pattern);
 
       while (scanner.hasNextLine()) {
         Matcher matcher = pattern.matcher(scanner.nextLine());

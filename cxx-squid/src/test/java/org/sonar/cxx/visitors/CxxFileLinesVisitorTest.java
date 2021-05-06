@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.visitors;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
@@ -32,21 +31,18 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
-import org.sonar.cxx.utils.TestUtils;
-import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.cxx.squidbridge.api.SourceFile;
 
 public class CxxFileLinesVisitorTest {
 
   private SourceFile sourceFile;
 
   @Before
-  public void setUp() {
-
-    File baseDir = TestUtils.loadResource("/visitors");
-    var file = new File(baseDir, "ncloc.cc");
-    var fileLinesVisitor = new CxxFileLinesVisitor();
-    sourceFile = CxxAstScanner.scanSingleFile(file, fileLinesVisitor);
+  public void setUp() throws IOException {
+    var tester = CxxFileTesterHelper.create("src/test/resources/visitors/ncloc.cc", ".", "");
+    sourceFile = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new CxxFileLinesVisitor());
   }
 
   @Test

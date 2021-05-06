@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxTokenType;
-import org.sonar.squidbridge.SquidAstVisitor;
+import org.sonar.cxx.squidbridge.SquidAstVisitor;
 
 public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 

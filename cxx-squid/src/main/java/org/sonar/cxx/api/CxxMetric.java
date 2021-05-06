@@ -20,8 +20,8 @@
 package org.sonar.cxx.api;
 
 import javax.annotation.CheckForNull;
-import org.sonar.squidbridge.measures.CalculatedMetricFormula;
-import org.sonar.squidbridge.measures.MetricDef;
+import org.sonar.cxx.squidbridge.measures.CalculatedMetricFormula;
+import org.sonar.cxx.squidbridge.measures.MetricDef;
 
 public enum CxxMetric implements MetricDef {
 

@@ -35,8 +35,8 @@ public class FunctionComplexityCheckTest {
   public void check() throws UnsupportedEncodingException, IOException {
     var check = new FunctionComplexityCheck();
     check.setMaxComplexity(5);
-    var tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionComplexity.cc", ".");
-    var file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
+    var tester = CxxFileTesterHelper.create("src/test/resources/checks/FunctionComplexity.cc", ".");
+    var file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
     var issues = MultiLocatitionSquidCheck.getMultiLocationCheckMessages(file);
     assertThat(issues).isNotNull();
     var softly = new SoftAssertions();

@@ -21,10 +21,6 @@ package org.sonar.cxx.checks.regex;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.utils.PathUtils;
@@ -33,10 +29,9 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.checks.utils.CheckUtils;
-import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
-import org.sonar.squidbridge.annotations.NoSqale;
-import org.sonar.squidbridge.annotations.RuleTemplate;
-import org.sonar.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.squidbridge.annotations.NoSqale;
+import org.sonar.cxx.squidbridge.annotations.RuleTemplate;
+import org.sonar.cxx.squidbridge.checks.SquidCheck;
 
 /**
  * LineRegularExpressionCheck
@@ -48,7 +43,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale
-public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
+public class LineRegularExpressionCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
   private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;
@@ -100,7 +95,6 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
     description = "The violation message",
     defaultValue = DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
-  private Charset defaultCharset = StandardCharsets.UTF_8;
   private Pattern pattern = null;
 
   private static boolean compare(boolean invert, boolean condition) {
@@ -113,28 +107,15 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
   }
 
   @Override
-  public void setCharset(Charset charset) {
-    this.defaultCharset = charset;
-  }
-
-  @Override
   public void visitFile(AstNode fileNode) {
     if (compare(invertFilePattern, matchFile())) {
-
-      // use onMalformedInput(CodingErrorAction.REPLACE) / onUnmappableCharacter(CodingErrorAction.REPLACE)
-      try ( var br = new BufferedReader(CheckUtils.getInputSteam(getContext().getFile(), defaultCharset))) {
-        String line;
-        int nr = 0;
-
-        while ((line = br.readLine()) != null) {
-          Matcher matcher = pattern.matcher(line);
-          ++nr;
-          if (compare(invertRegularExpression, matcher.find())) {
-            getContext().createLineViolation(this, message, nr);
-          }
+      int nr = 0;
+      for (String line : getContext().getInputFileLines()) {
+        Matcher matcher = pattern.matcher(line);
+        ++nr;
+        if (compare(invertRegularExpression, matcher.find())) {
+          getContext().createLineViolation(this, message, nr);
         }
-      } catch (IOException e) {
-        throw new IllegalStateException(e);
       }
     }
   }
@@ -142,7 +123,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
   private boolean matchFile() {
     if (!matchFilePattern.isEmpty()) {
       WildcardPattern filePattern = WildcardPattern.create(matchFilePattern);
-      String path = PathUtils.sanitize(getContext().getFile().getPath());
+      String path = PathUtils.sanitize(getContext().getInputFile().file().getPath());
       return path != null ? filePattern.match(path) : false;
     }
     return true;

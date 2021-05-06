@@ -31,7 +31,7 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.squidbridge.SquidAstVisitor;
+import org.sonar.cxx.squidbridge.SquidAstVisitor;
 
 public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 

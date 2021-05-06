@@ -60,15 +60,15 @@ import org.sonar.cxx.checks.CheckList;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.config.MsBuild;
 import org.sonar.cxx.sensors.utils.CxxUtils;
+import org.sonar.cxx.squidbridge.AstScanner;
+import org.sonar.cxx.squidbridge.SquidAstVisitor;
+import org.sonar.cxx.squidbridge.api.SourceCode;
+import org.sonar.cxx.squidbridge.api.SourceFile;
+import org.sonar.cxx.squidbridge.indexer.QueryByType;
 import org.sonar.cxx.visitors.CxxCpdVisitor;
 import org.sonar.cxx.visitors.CxxHighlighterVisitor;
 import org.sonar.cxx.visitors.CxxPublicApiVisitor;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
-import org.sonar.squidbridge.AstScanner;
-import org.sonar.squidbridge.SquidAstVisitor;
-import org.sonar.squidbridge.api.SourceCode;
-import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.indexer.QueryByType;
 
 /**
  * {@inheritDoc}
@@ -299,13 +299,7 @@ public class CxxSquidSensor implements ProjectSensor {
       context.fileSystem().predicates().and(context.fileSystem().predicates().hasLanguage("cxx"),
                                             context.fileSystem().predicates().hasType(InputFile.Type.MAIN))
     );
-
-    var files = new ArrayList<File>();
-    for (var file : inputFiles) {
-      files.add(new File(file.uri().getPath()));
-    }
-
-    scanner.scanFiles(files);
+    scanner.scanInputFiles(inputFiles);
 
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);

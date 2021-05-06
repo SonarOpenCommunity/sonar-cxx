@@ -46,7 +46,7 @@ import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.cxx.preprocessor.SourceCodeProvider;
-import org.sonar.squidbridge.SquidAstVisitorContext;
+import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
 public class CxxLexerWithPreprocessingTest {
 

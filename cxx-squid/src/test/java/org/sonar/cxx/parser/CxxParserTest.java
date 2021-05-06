@@ -36,7 +36,7 @@ import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.squidbridge.SquidAstVisitorContext;
+import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
 public class CxxParserTest {
 

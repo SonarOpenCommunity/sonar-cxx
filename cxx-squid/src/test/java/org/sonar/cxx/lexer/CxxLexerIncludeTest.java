@@ -35,7 +35,7 @@ import org.sonar.cxx.parser.CxxLexer;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.cxx.utils.TestUtils;
-import org.sonar.squidbridge.SquidAstVisitorContext;
+import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
 public class CxxLexerIncludeTest {
 

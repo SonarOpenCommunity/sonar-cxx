@@ -31,7 +31,7 @@ import org.sonar.cxx.visitors.CxxComplexityScope;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 
 /**
- * This is an enhanced version of org.sonar.squidbridge.metrics.ComplexityVisitor, which is used in order to compute the
+ * This is an enhanced version of org.sonar.cxx.squidbridge.metrics.ComplexityVisitor, which is used in order to compute the
  * Cyclomatic Complexity.
  *
  * @param <G>

@@ -23,10 +23,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
-import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
+import org.sonar.cxx.squidbridge.api.SourceFile;
+import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifier;
 
 public class CommentRegularExpressionCheckTest {
 
@@ -37,10 +36,9 @@ public class CommentRegularExpressionCheckTest {
     check.regularExpression = "(?i).*TODO.*";
     check.message = "Avoid TODO";
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
-      "src/test/resources/checks/commentRegularExpression.cc", ".");
+    var tester = CxxFileTesterHelper.create("src/test/resources/checks/commentRegularExpression.cc", ".");
 
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), check);
+    SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Avoid TODO")
       .next().atLine(5)

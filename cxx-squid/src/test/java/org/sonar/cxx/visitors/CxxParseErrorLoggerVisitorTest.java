@@ -19,17 +19,14 @@
  */
 package org.sonar.cxx.visitors;
 
-import java.io.File;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxFileTesterHelper;
 
 public class CxxParseErrorLoggerVisitorTest {
 
@@ -37,14 +34,10 @@ public class CxxParseErrorLoggerVisitorTest {
   public LogTester logTester = new LogTester();
 
   @Before
-  public void scanFile() {
-    String dir = "src/test/resources/visitors";
-    InputFile inputFile = TestInputFileBuilder.create("", dir + "/syntaxerror.cc").build();
-    SensorContextTester context = SensorContextTester.create(new File(dir));
-    context.fileSystem().add(inputFile);
-
+  public void scanFile() throws Exception {
+    var tester = CxxFileTesterHelper.create("src/test/resources/visitors/syntaxerror.cc", ".", "");
     logTester.setLevel(LoggerLevel.DEBUG);
-    CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()));
+    CxxAstScanner.scanSingleInputFile(tester.asInputFile());
   }
 
   @Test

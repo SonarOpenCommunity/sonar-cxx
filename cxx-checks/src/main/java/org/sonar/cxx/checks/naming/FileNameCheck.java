@@ -27,9 +27,9 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.checks.utils.CheckUtils;
+import org.sonar.cxx.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.cxx.squidbridge.checks.SquidCheck;
 import org.sonar.cxx.tag.Tag;
-import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * FileNameCheck
@@ -62,7 +62,7 @@ public class FileNameCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitFile(@Nullable AstNode astNode) {
-    String fileName = getContext().getFile().getName();
+    String fileName = getContext().getInputFile().filename();
     int dotIndex = fileName.lastIndexOf('.');
     if (dotIndex > 0) {
       String moduleName = fileName.substring(0, dotIndex);

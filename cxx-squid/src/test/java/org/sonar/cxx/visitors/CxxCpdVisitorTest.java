@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.visitors;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -27,10 +26,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.cxx.utils.TestUtils;
-import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.cxx.squidbridge.api.SourceFile;
 
 public class CxxCpdVisitorTest {
 
@@ -38,15 +37,14 @@ public class CxxCpdVisitorTest {
 
   @Before
   public void scanFile() throws UnsupportedEncodingException, IOException {
-    File baseDir = TestUtils.loadResource("/visitors");
-    var file = new File(baseDir, "cpd.cc");
+    var tester = CxxFileTesterHelper.create("src/test/resources/visitors/cpd.cc", ".", "");
     var squidConfig = new CxxSquidConfiguration();
-    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.CPD_IGNORE_LITERALS, "true");
+    squidConfig
+      .add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.CPD_IGNORE_LITERALS, "true");
     squidConfig
       .add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.CPD_IGNORE_IDENTIFIERS, "true");
 
-    var cpdVisitor = new CxxCpdVisitor(squidConfig);
-    sourceFile = CxxAstScanner.scanSingleFile(file, cpdVisitor);
+    sourceFile = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new CxxCpdVisitor(squidConfig));
   }
 
   @Test

@@ -26,7 +26,7 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.tag.Tag;
-import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
+import org.sonar.cxx.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
 
 @Rule(
   key = "FileComplexity",

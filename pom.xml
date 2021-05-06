@@ -225,11 +225,12 @@
   </contributors>
 
   <modules>
+    <module>cxx-squid-bridge</module>
     <module>cxx-squid</module>
     <module>cxx-checks</module>
     <module>cxx-sensors</module>
+    <module>cxx-sslr-toolkit</module>
     <module>sonar-cxx-plugin</module>
-    <module>sslr-cxx-toolkit</module>
     <module>integration-tests</module>
   </modules>
 
@@ -262,7 +263,6 @@
     <java.version>11</java.version>
     <maven.compiler.version>3.8.1</maven.compiler.version>
     <sslr.version>1.24.0.633</sslr.version>
-    <sslr-squid-bridge.version>2.6.1</sslr-squid-bridge.version>
     <!-- we depend on API ${sonar.version} but we keep backward compatibility with LTS -->
     <sonarQubeMinVersion>7.9</sonarQubeMinVersion>
   </properties>
@@ -310,37 +310,6 @@
           <exclusion>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.sonarsource.sslr-squid-bridge</groupId>
-        <artifactId>sslr-squid-bridge</artifactId>
-        <version>${sslr-squid-bridge.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.codehaus.sonar.sslr</groupId>
-            <artifactId>sslr-core</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.codehaus.sonar.sslr</groupId>
-            <artifactId>sslr-xpath</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.codehaus.sonar</groupId>
-            <artifactId>sonar-plugin-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.picocontainer</groupId>
-            <artifactId>picocontainer</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
           </exclusion>
         </exclusions>
       </dependency>

@@ -26,9 +26,9 @@ import org.sonar.api.utils.WildcardPattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.squidbridge.annotations.NoSqale;
-import org.sonar.squidbridge.annotations.RuleTemplate;
-import org.sonar.squidbridge.checks.AbstractXPathCheck;
+import org.sonar.cxx.squidbridge.annotations.NoSqale;
+import org.sonar.cxx.squidbridge.annotations.RuleTemplate;
+import org.sonar.cxx.squidbridge.checks.AbstractXPathCheck;
 
 @Rule(
   key = "XPath",
@@ -86,7 +86,7 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
   public void visitFile(AstNode fileNode) {
     if (!matchFilePattern.isEmpty()) {
       WildcardPattern pattern = WildcardPattern.create(matchFilePattern);
-      String path = PathUtils.sanitize(getContext().getFile().getPath());
+      String path = PathUtils.sanitize(getContext().getInputFile().file().getPath());
       if (!compare(invertFilePattern, pattern.match(path))) {
         return;
       }

@@ -27,8 +27,8 @@ import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.visitors.CxxCognitiveComplexityVisitor;
 import org.sonar.cxx.visitors.CxxComplexityScope;
-import org.sonar.squidbridge.annotations.ActivatedByDefault;
-import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
+import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.cxx.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
 
 @Rule(
   key = "FunctionCognitiveComplexity",

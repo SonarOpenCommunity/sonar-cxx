@@ -28,7 +28,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.tag.Tag;
-import org.sonar.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.squidbridge.checks.SquidCheck;
 
 public class CustomCxxRulesDefinitionTest {
 

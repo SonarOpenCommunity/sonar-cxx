@@ -26,17 +26,17 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.utils.AnnotationUtils;
 import org.sonar.cxx.utils.CxxReportIssue;
-import org.sonar.squidbridge.SquidAstVisitorContext;
-import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.checks.SquidCheck;
-import org.sonar.squidbridge.measures.CalculatedMetricFormula;
-import org.sonar.squidbridge.measures.MetricDef;
+import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
+import org.sonar.cxx.squidbridge.api.SourceFile;
+import org.sonar.cxx.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.squidbridge.measures.CalculatedMetricFormula;
+import org.sonar.cxx.squidbridge.measures.MetricDef;
 
 /**
  * Derivation of {@link SquidCheck}, which can create issues with multiple locations (1 primary location, arbitrary
  * number of secondary locations
  *
- * See also org.sonar.squidbridge.SquidAstVisitorContext.createLineViolation
+ * See also org.sonar.cxx.squidbridge.SquidAstVisitorContext.createLineViolation
  *
  * @param <G>
  */
