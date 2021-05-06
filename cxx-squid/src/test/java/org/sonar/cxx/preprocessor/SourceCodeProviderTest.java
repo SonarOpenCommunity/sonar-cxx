@@ -32,6 +32,7 @@ public class SourceCodeProviderTest {
 
   private final File expected1 = new File(new File("src/test/resources/codeprovider/source.hh").getAbsolutePath());
   private final File expected2 = new File(new File("src/test/resources/codeprovider/source").getAbsolutePath());
+  private final File root = new File(new File("src/test/resources/codeprovider").getAbsolutePath());
 
   // ////////////////////////////////////////////////////////////////////////////
   // Behavior in the absolute path case
@@ -203,6 +204,28 @@ public class SourceCodeProviderTest {
   public void getting_source_code2() throws IOException {
     SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
     assertEquals("source code", codeProvider.getSourceCode(expected2, Charset.defaultCharset()));
+  }
+
+  @Test
+  public void getting_source_code_utf_8() throws IOException {
+    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    assertEquals("UTF-8", codeProvider.getSourceCode(new File(root, "./utf-8.hh"),
+                                                     Charset.defaultCharset()));
+  }
+
+  @Test
+  public void getting_source_code_utf_8_bom() throws IOException {
+    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    assertEquals("UTF-8-BOM", codeProvider.getSourceCode(new File(root, "./utf-8-bom.hh"),
+                                                         Charset.defaultCharset()));
+  }
+
+  @Test
+  public void getting_source_code_utf_16_le_bom() throws IOException {
+    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    assertEquals("UTF-16LE-BOM",
+                 codeProvider.getSourceCode(new File(root, "./utf-16le-bom.hh"),
+                                            Charset.defaultCharset()));
   }
 
 }

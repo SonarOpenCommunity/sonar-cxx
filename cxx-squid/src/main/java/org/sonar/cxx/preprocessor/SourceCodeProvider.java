@@ -20,6 +20,7 @@
 package org.sonar.cxx.preprocessor;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -32,6 +33,8 @@ import java.util.List;
 import java.util.Objects;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.input.BOMInputStream;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
@@ -199,9 +202,18 @@ public class SourceCodeProvider {
     return result;
   }
 
-  public String getSourceCode(File file, Charset charset) throws IOException {
-    byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
-    return new String(encoded, charset);
+  public String getSourceCode(File file, Charset defaultCharset) throws IOException {
+    try (BOMInputStream bomInputStream = new BOMInputStream(new FileInputStream(file),
+                                                            ByteOrderMark.UTF_8,
+                                                            ByteOrderMark.UTF_16LE,
+                                                            ByteOrderMark.UTF_16BE,
+                                                            ByteOrderMark.UTF_32LE,
+                                                            ByteOrderMark.UTF_32BE)) {
+      ByteOrderMark bom = bomInputStream.getBOM();
+      Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
+      byte[] bytes = bomInputStream.readAllBytes();
+      return new String(bytes, charset);
+    }
   }
 
   private static class State {
