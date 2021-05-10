@@ -71,7 +71,8 @@ public class CxxLanguage extends AbstractLanguage {
         .name("File suffixes")
         .multiValues(true)
         .description(
-          "Comma-separated list of suffixes for files to analyze (e.g. `.cxx,.cpp,.cc,.c,.hxx,.hpp,.hh,.h`)."
+          "List of suffixes for files to analyze (e.g. `.cxx,.cpp,.cc,.c,.hxx,.hpp,.hh,.h`)."
+            + " In the SonarQube UI, enter the file suffixes into the fields one by one."
             + " To turn off the CXX language, set the first entry to `-`."
         )
         .category("CXX")
