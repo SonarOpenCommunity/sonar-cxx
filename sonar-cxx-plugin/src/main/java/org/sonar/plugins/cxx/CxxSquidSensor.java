@@ -464,13 +464,23 @@ public class CxxSquidSensor implements ProjectSensor {
     // measures for the lines of file
     FileLinesContext fileLinesContext = fileLinesContextFactory.createFor(inputFile);
     List<Integer> linesOfCode = (List<Integer>) sourceFile.getData(CxxMetric.NCLOC_DATA);
-    linesOfCode.stream().sequential().distinct().forEach(
-      line -> fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1)
-    );
+    linesOfCode.stream().sequential().distinct().forEach((line) -> {
+      try {
+        fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1);
+      } catch (IllegalArgumentException | IllegalStateException e) {
+        // ignore errors: parsing errors could lead to wrong location data
+        LOG.debug("NCLOC error in file '{}' at line:{}", inputFile.filename(), line);
+      }
+    });
     List<Integer> executableLines = (List<Integer>) sourceFile.getData(CxxMetric.EXECUTABLE_LINES_DATA);
-    executableLines.stream().sequential().distinct().forEach(
-      line -> fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, line, 1)
-    );
+    executableLines.stream().sequential().distinct().forEach((line) -> {
+      try {
+        fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, line, 1);
+      } catch (IllegalArgumentException | IllegalStateException e) {
+        // ignore errors: parsing errors could lead to wrong location data
+        LOG.debug("EXECUTABLE LINES error in file '{}' at line:{}", inputFile.filename(), line);
+      }
+    });
     fileLinesContext.save();
   }
 
