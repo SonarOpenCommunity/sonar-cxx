@@ -56,7 +56,7 @@ public class CxxCompilerVcSensorTest {
 
   @Test
   public void shouldReportACorrectVcViolations() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCompilerVcSensor.REPORT_PATH_KEY,
                          "compiler-reports/BuildLog.htm");
     settings.setProperty(CxxCompilerVcSensor.REPORT_ENCODING_DEF, StandardCharsets.UTF_16.name());
@@ -73,7 +73,7 @@ public class CxxCompilerVcSensorTest {
 
   @Test
   public void shouldReportBCorrectVcViolations() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCompilerVcSensor.REPORT_PATH_KEY, "compiler-reports/VC-report.vclog");
     settings.setProperty(CxxCompilerVcSensor.REPORT_ENCODING_DEF, StandardCharsets.UTF_8.name());
     settings.setProperty(CxxCompilerVcSensor.REPORT_REGEX_DEF,

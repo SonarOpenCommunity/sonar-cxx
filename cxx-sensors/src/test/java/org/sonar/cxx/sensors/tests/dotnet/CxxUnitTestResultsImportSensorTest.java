@@ -57,7 +57,7 @@ public class CxxUnitTestResultsImportSensorTest {
 
   @Test
   public void analyze() throws Exception {
-    SensorContextTester context = SensorContextTester.create(temp.newFolder());
+    var context = SensorContextTester.create(temp.newFolder());
     UnitTestResults results = mock(UnitTestResults.class);
     when(results.tests()).thenReturn(42);
     when(results.passedPercentage()).thenReturn(84d);
@@ -91,7 +91,7 @@ public class CxxUnitTestResultsImportSensorTest {
 
   @Test
   public void should_not_save_metrics_with_empty_results() throws Exception {
-    SensorContextTester context = SensorContextTester.create(temp.newFolder());
+    var context = SensorContextTester.create(temp.newFolder());
 
     CxxUnitTestResultsAggregator unitTestResultsAggregator = mock(CxxUnitTestResultsAggregator.class);
     UnitTestConfiguration unitTestConf = mock(UnitTestConfiguration.class);

@@ -48,7 +48,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
   }
 
   public static List<PropertyDefinition> properties() {
-    String category = "CXX External Analyzers";
+    var category = "CXX External Analyzers";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)

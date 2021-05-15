@@ -33,7 +33,6 @@ import java.net.URL;
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.server.rule.*;
-import org.sonar.api.server.rule.RulesDefinition.NewParam;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
 import org.sonar.api.server.rule.RulesDefinition.NewRule;
 import org.sonar.api.utils.AnnotationUtils;
@@ -92,8 +91,8 @@ public class AnnotationBasedRulesDefinition {
   public void addRuleClasses(boolean failIfSqaleNotFound, boolean failIfNoExplicitKey, Iterable<Class> ruleClasses) {
     new RulesDefinitionAnnotationLoader().load(repository, Iterables.toArray(ruleClasses, Class.class));
     List<NewRule> newRules = Lists.newArrayList();
-    for (Class<?> ruleClass : ruleClasses) {
-      NewRule rule = newRule(ruleClass, failIfNoExplicitKey);
+    for (var ruleClass : ruleClasses) {
+      var rule = newRule(ruleClass, failIfNoExplicitKey);
       externalDescriptionLoader.addHtmlDescription(rule);
       rule.setTemplate(AnnotationUtils.getAnnotation(ruleClass, RuleTemplate.class) != null);
       if (!isSqaleAnnotated(ruleClass) && failIfSqaleNotFound) {
@@ -142,13 +141,13 @@ public class AnnotationBasedRulesDefinition {
       return;
     }
     ResourceBundle bundle = ResourceBundle.getBundle("org.sonar.l10n." + languageKey, Locale.ENGLISH);
-    for (NewRule rule : rules) {
-      String baseKey = "rule." + repository.key() + "." + rule.key();
-      String nameKey = baseKey + ".name";
+    for (var rule : rules) {
+      var baseKey = "rule." + repository.key() + "." + rule.key();
+      var nameKey = baseKey + ".name";
       if (bundle.containsKey(nameKey)) {
         rule.setName(bundle.getString(nameKey));
       }
-      for (NewParam param : rule.params()) {
+      for (var param : rule.params()) {
         String paramDescriptionKey = baseKey + ".param." + param.key();
         if (bundle.containsKey(paramDescriptionKey)) {
           param.setDescription(bundle.getString(paramDescriptionKey));

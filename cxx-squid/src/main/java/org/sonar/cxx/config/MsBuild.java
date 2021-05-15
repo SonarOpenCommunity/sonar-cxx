@@ -29,7 +29,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -84,7 +83,7 @@ public class MsBuild {
 
   private static List<String> getMatches(Pattern pattern, String text) {
     var matches = new ArrayList<String>();
-    Matcher m = pattern.matcher(text);
+    var m = pattern.matcher(text);
     while (m.find()) {
       matches.add(m.group(1));
     }

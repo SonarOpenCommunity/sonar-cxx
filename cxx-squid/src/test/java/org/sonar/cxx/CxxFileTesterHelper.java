@@ -59,7 +59,7 @@ public class CxxFileTesterHelper {
 
   private static DefaultInputFile createInputFile(String moduleKey, String fileName, String basePath, Charset charset)
     throws IOException {
-    TestInputFileBuilder fb = TestInputFileBuilder.create(moduleKey, fileName);
+    var fb = TestInputFileBuilder.create(moduleKey, fileName);
 
     fb.setCharset(charset);
     fb.setProjectBaseDir(Paths.get(basePath));
@@ -69,12 +69,12 @@ public class CxxFileTesterHelper {
   }
 
   private static String getSourceCode(File filename, Charset defaultCharset) throws IOException {
-    try ( BOMInputStream bomInputStream = new BOMInputStream(new FileInputStream(filename),
-                                                             ByteOrderMark.UTF_8,
-                                                             ByteOrderMark.UTF_16LE,
-                                                             ByteOrderMark.UTF_16BE,
-                                                             ByteOrderMark.UTF_32LE,
-                                                             ByteOrderMark.UTF_32BE)) {
+    try ( var bomInputStream = new BOMInputStream(new FileInputStream(filename),
+                                              ByteOrderMark.UTF_8,
+                                              ByteOrderMark.UTF_16LE,
+                                              ByteOrderMark.UTF_16BE,
+                                              ByteOrderMark.UTF_32LE,
+                                              ByteOrderMark.UTF_32BE)) {
       ByteOrderMark bom = bomInputStream.getBOM();
       Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
       byte[] bytes = bomInputStream.readAllBytes();

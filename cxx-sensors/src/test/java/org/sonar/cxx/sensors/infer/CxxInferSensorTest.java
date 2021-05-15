@@ -44,7 +44,7 @@ public class CxxInferSensorTest {
 
   @Test
   public void shouldReportCorrectViolations() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-sample.json");
     context.setSettings(settings);
 
@@ -81,7 +81,7 @@ public class CxxInferSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/valueflow.cpp")
       .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
-    CxxInferSensor sensor = new CxxInferSensor();
+    var sensor = new CxxInferSensor();
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(34);
@@ -89,7 +89,7 @@ public class CxxInferSensorTest {
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFound() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-sample.json");
     context.setSettings(settings);
 
@@ -101,7 +101,7 @@ public class CxxInferSensorTest {
 
   @Test(expected = IllegalStateException.class)
   public void shouldThrowExceptionWhenRecoveryIsDisabled() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
     settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-empty.json");
     context.setSettings(settings);

@@ -35,8 +35,8 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
   public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
 
   public static List<PropertyDefinition> properties() {
-    String category = "CXX External Analyzers";
-    String subcategory = "Testwell CTC++";
+    var category = "CXX External Analyzers";
+    var subcategory = "Testwell CTC++";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Testwell CTC++ Coverage Report(s)")

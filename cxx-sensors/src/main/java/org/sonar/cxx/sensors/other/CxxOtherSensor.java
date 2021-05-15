@@ -48,7 +48,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxOtherSensor.class);
 
   public static List<PropertyDefinition> properties() {
-    String subcategory = "Other Analyser(s)";
+    var subcategory = "Other Analyser(s)";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Other Report(s)")

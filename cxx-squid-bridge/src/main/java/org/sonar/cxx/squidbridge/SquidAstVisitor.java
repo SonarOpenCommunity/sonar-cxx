@@ -74,7 +74,7 @@ public abstract class SquidAstVisitor<G extends Grammar> implements CodeVisitor,
    * This method must called into the init() method when an AST visitor wants to subscribe to a set of AST node type.
    */
   public void subscribeTo(AstNodeType... astNodeTypes) {
-    for (AstNodeType type : astNodeTypes) {
+    for (var type : astNodeTypes) {
       astNodeTypesToVisit.add(type);
     }
   }

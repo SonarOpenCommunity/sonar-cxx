@@ -27,7 +27,6 @@ import com.sonar.sslr.api.Trivia;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 import org.sonar.cxx.parser.CxxKeyword;
@@ -191,7 +190,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
 
     PreprocessorDirectiveLocation(Token token) {
       super(token);
-      Matcher m = PREPROCESSOR_PATTERN.matcher(token.getValue());
+      var m = PREPROCESSOR_PATTERN.matcher(token.getValue());
       if (m.find()) {
         endLineOffset = startLineOffset + (m.end() - m.start());
       } else {

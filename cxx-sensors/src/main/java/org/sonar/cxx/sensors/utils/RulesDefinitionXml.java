@@ -69,7 +69,7 @@ public class RulesDefinitionXml implements RulesDefinition {
   @Override
   public void define(Context context) {
     Charset encoding = StandardCharsets.UTF_8;
-    NewRepository repository = context.createRepository(repositoryKey, repositoryLanguage)
+    var repository = context.createRepository(repositoryKey, repositoryLanguage)
       .setName(repositoryName);
 
     var xmlLoader = new RulesDefinitionXmlLoader();
@@ -87,7 +87,7 @@ public class RulesDefinitionXml implements RulesDefinition {
 
       // add repository key as tag to make it possible to filter in issues by tool (tag must be a-z,0-9,-,+)
       String tag = repositoryKey.toLowerCase().replaceAll("[^a-z0-9-+]", "-");
-      for (NewRule rule : repository.rules()) {
+      for (var rule : repository.rules()) {
         prepareRule(rule);
         rule.addTags(tag);
       }

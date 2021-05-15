@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
@@ -122,7 +121,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
       CxxReportIssue currentIssue = null;
       while (scanner.hasNextLine()) {
         String nextLine = scanner.nextLine();
-        final Matcher matcher = PATTERN.matcher(nextLine);
+        var matcher = PATTERN.matcher(nextLine);
         if (matcher.matches()) {
           // group: 1      2      3         4        5
           //      <path>:<line>:<column>: <level>: <info>
@@ -134,7 +133,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
           String info = m.group(5); // info [ruleId]
 
           CxxReportIssue newIssue = null;
-          Boolean saveIssue = true;
+          var saveIssue = true;
 
           switch (level) {
             case "note":

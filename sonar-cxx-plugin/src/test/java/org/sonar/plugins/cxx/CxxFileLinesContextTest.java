@@ -56,11 +56,11 @@ public class CxxFileLinesContextTest {
     when(fileLinesContextFactory.createFor(Mockito.any(InputFile.class))).thenReturn(fileLinesContext);
 
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx");
-    SensorContextTester context = SensorContextTester.create(baseDir);
+    var context = SensorContextTester.create(baseDir);
     DefaultInputFile inputFile = TestUtils.buildInputFile(baseDir, "ncloc.cc");
     context.fileSystem().add(inputFile);
 
-    CxxSquidSensor sensor = new CxxSquidSensor(fileLinesContextFactory, checkFactory, new NoSonarFilter(), null);
+    var sensor = new CxxSquidSensor(fileLinesContextFactory, checkFactory, new NoSonarFilter(), null);
     sensor.execute(context);
   }
 

@@ -21,7 +21,6 @@ package org.sonar.cxx.checks.regex;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.WildcardPattern;
@@ -113,7 +112,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> {
     }
 
     String fileContent = getContext().getInputFileContent();
-    Matcher matcher = pattern.matcher(fileContent);
+    var matcher = pattern.matcher(fileContent);
 
     if (compare(invertRegularExpression, matcher.find())) {
       getContext().createFileViolation(this, message);
@@ -122,7 +121,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> {
 
   private boolean matchFile() {
     if (!matchFilePattern.isEmpty()) {
-      WildcardPattern filePattern = WildcardPattern.create(matchFilePattern);
+      var filePattern = WildcardPattern.create(matchFilePattern);
       String path = PathUtils.sanitize(getContext().getInputFile().file().getPath());
       return path != null ? filePattern.match(path) : false;
     }

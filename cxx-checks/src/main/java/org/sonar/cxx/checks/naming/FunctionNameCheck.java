@@ -28,10 +28,10 @@ import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.checks.utils.CheckUtils;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.cxx.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.tag.Tag;
 
 /**
  * FunctionNameCheck
@@ -59,7 +59,7 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
   private Pattern pattern = null;
 
   private static boolean isGlobalFunctionDefinition(AstNode node) {
-    boolean isFunction = false;
+    var isFunction = false;
     // not method inside of class
     // not a nested name - not method outside of class
     if ((node.getFirstAncestor(CxxGrammarImpl.memberDeclaration) == null)
@@ -77,9 +77,9 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode astNode) {
-    AstNode declId = astNode.getFirstDescendant(CxxGrammarImpl.declaratorId);
+    var declId = astNode.getFirstDescendant(CxxGrammarImpl.declaratorId);
     if (isGlobalFunctionDefinition(declId)) {
-      AstNode idNode = declId.getLastChild(IDENTIFIER);
+      var idNode = declId.getLastChild(IDENTIFIER);
       if (idNode != null) {
         String identifier = idNode.getTokenValue();
         if (!pattern.matcher(identifier).matches()) {

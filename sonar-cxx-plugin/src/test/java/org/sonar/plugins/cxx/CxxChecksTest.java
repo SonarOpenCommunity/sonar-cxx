@@ -67,7 +67,7 @@ public class CxxChecksTest {
   @SuppressWarnings("rawtypes")
   @Test
   public void shouldReturnDefaultChecks() {
-    CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
+    var checks = CxxChecks.createCxxCheck(checkFactory);
     checks.addChecks(DEFAULT_REPOSITORY_KEY, new ArrayList<>(Collections.singletonList(MyRule.class)));
 
     SquidAstVisitor<Grammar> defaultCheck = check(checks, DEFAULT_REPOSITORY_KEY, DEFAULT_RULE_KEY);
@@ -80,7 +80,7 @@ public class CxxChecksTest {
 
   @Test
   public void shouldReturnCustomChecks() {
-    CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
+    var checks = CxxChecks.createCxxCheck(checkFactory);
     checks.addCustomChecks(new CustomCxxRulesDefinition[]{customRulesDefinition});
 
     SquidAstVisitor<Grammar> customCheck = check(checks, CUSTOM_REPOSITORY_KEY, CUSTOM_RULE_KEY);
@@ -93,7 +93,7 @@ public class CxxChecksTest {
 
   @Test
   public void shouldWorkWithoutCustomChecks() {
-    CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
+    var checks = CxxChecks.createCxxCheck(checkFactory);
     checks.addCustomChecks(null);
     assertThat(checks.all()).isEmpty();
   }
@@ -101,7 +101,7 @@ public class CxxChecksTest {
   @SuppressWarnings("rawtypes")
   @Test
   public void shouldNotReturnRuleKeyIfCheckDoesNotExists() {
-    CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
+    var checks = CxxChecks.createCxxCheck(checkFactory);
     checks.addChecks(DEFAULT_REPOSITORY_KEY, new ArrayList<>(Collections.singletonList(MyRule.class)));
     assertThat(checks.ruleKey(new MyCustomRule())).isNull();
   }

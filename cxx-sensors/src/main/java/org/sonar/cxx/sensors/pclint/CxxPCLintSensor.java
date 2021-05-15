@@ -23,7 +23,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -169,7 +168,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
         }
 
         if (file != null && file.isEmpty() && msg != null) {
-          Matcher matcher = SUPPLEMENTAL_MSG_PATTERN.matcher(msg);
+          var matcher = SUPPLEMENTAL_MSG_PATTERN.matcher(msg);
 
           if (matcher.matches()) {
             file = matcher.group(1);
@@ -214,7 +213,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
        * Concatenate M with the MISRA rule number to get the new rule id to save the violation to.
        */
       private String mapMisraRulesToUniqueSonarRules(String msg, boolean isMisra2012) {
-        Matcher matcher = MISRA_RULE_PATTERN.matcher(msg);
+        var matcher = MISRA_RULE_PATTERN.matcher(msg);
         if (matcher.find()) {
           String misraRule = matcher.group(1);
           String newKey;

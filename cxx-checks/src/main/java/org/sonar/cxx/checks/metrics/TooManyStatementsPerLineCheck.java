@@ -21,16 +21,15 @@ package org.sonar.cxx.checks.metrics;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.TokenType;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxKeyword;
-import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.cxx.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.squidbridge.checks.AbstractOneStatementPerLineCheck;
+import org.sonar.cxx.tag.Tag;
 
 /**
  * TooManyStatementsPerLineCheck - Statements should be on separate lines
@@ -83,7 +82,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
 
   @Override
   public boolean isExcluded(AstNode astNode) {
-    AstNode statementNode = astNode.getFirstChild();
+    var statementNode = astNode.getFirstChild();
     return statementNode.is(CxxGrammarImpl.compoundStatement)
              || statementNode.is(CxxGrammarImpl.emptyDeclaration)
              || statementNode.is(CxxGrammarImpl.iterationStatement)
@@ -99,7 +98,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
    * Exclude 'break' statement if it is on the same line as the switch label
    */
   private boolean isBreakStatementExcluded(AstNode astNode) {
-    boolean exclude = false;
+    var exclude = false;
     if (excludeCaseBreak && astNode.getToken().getType().equals(CxxKeyword.BREAK)) {
       for (var statement = astNode.getFirstAncestor(CxxGrammarImpl.statement);
            statement != null;
@@ -107,7 +106,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
         if (astNode.getTokenLine() != statement.getTokenLine()) {
           break;
         }
-        TokenType type = statement.getToken().getType();
+        var type = statement.getToken().getType();
         if (type.equals(CxxKeyword.CASE) || type.equals(CxxKeyword.DEFAULT)) {
           exclude = true;
           break;
@@ -122,7 +121,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
    */
   private boolean isEmptyExpressionStatement(AstNode astNode) {
     if (astNode.is(CxxGrammarImpl.expressionStatement) && ";".equals(astNode.getToken().getValue())) {
-      AstNode statement = astNode.getFirstAncestor(CxxGrammarImpl.selectionStatement);
+      var statement = astNode.getFirstAncestor(CxxGrammarImpl.selectionStatement);
       if (statement != null) {
         return astNode.getTokenLine() == statement.getTokenLine();
       }

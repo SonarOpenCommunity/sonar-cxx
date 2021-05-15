@@ -25,7 +25,6 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
@@ -42,11 +41,11 @@ public class CxxDrMemorySensorTest {
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     context.settings().setProperty(CxxDrMemorySensor.REPORT_PATH_KEY,
                                    "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
 
-    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
+    var inputFile = TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .initMetadata("asd\nasdas\nasda\n").setCharset(StandardCharsets.UTF_8).build();
     context.fileSystem().add(inputFile);
 

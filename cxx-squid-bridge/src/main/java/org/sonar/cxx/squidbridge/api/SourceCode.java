@@ -276,7 +276,7 @@ public abstract class SourceCode implements Measurable, Comparable<SourceCode> {
     if (children.contains(squidUnit)) {
       return true;
     }
-    for (SourceCode child : children) {
+    for (var child : children) {
       if (child.hasChild(squidUnit)) {
         return true;
       }

@@ -338,7 +338,7 @@ public class ExpressionEvaluatorTest {
   @Test
   public void defined_true_without_parantheses() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    String macro = "LALA";
+    var macro = "LALA";
     when(pp.valueOf(macro)).thenReturn("1");
     assertTrue(eval("defined " + macro, pp));
   }
@@ -351,7 +351,7 @@ public class ExpressionEvaluatorTest {
   @Test
   public void defined_true_with_parantheses() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    String macro = "LALA";
+    var macro = "LALA";
     when(pp.valueOf(macro)).thenReturn("1");
     assertTrue(eval("defined (" + macro + ")", pp));
     assertTrue(eval("defined(" + macro + ")", pp));

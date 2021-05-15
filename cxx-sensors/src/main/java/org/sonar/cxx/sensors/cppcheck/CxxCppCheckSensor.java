@@ -70,7 +70,7 @@ public class CxxCppCheckSensor extends CxxIssuesReportSensor {
 
   @Override
   protected void processReport(File report) {
-    CppcheckParser parser = new CppcheckParser(this);
+    var parser = new CppcheckParser(this);
     try {
       parser.parse(report);
     } catch (XMLStreamException e) {

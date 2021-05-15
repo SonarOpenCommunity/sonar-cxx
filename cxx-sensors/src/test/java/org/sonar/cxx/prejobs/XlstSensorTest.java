@@ -68,7 +68,7 @@ public class XlstSensorTest {
 
   @Test
   public void shouldReportNothingWhenNoReportFound() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, "notexistingpath");
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "2" + XlstSensor.STYLESHEET_KEY, "notexistingpath");
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.INPUT_KEY, "notexistingpath");
@@ -85,7 +85,7 @@ public class XlstSensorTest {
 
   @Test
   public void shouldNotCreateMessage() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, "something");
     context.setSettings(settings);
 
@@ -98,7 +98,7 @@ public class XlstSensorTest {
 
   @Test
   public void shouldCreateMissingStylesheetMessage() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, "");
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.OUTPUT_KEY, "outputs");
     settings.setProperty("outputs", "outputs");
@@ -114,7 +114,7 @@ public class XlstSensorTest {
 
   @Test
   public void shouldCreateEmptyInputsMessage() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, "something");
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.INPUT_KEY, "");
     settings.setProperty("something", "something");
@@ -130,7 +130,7 @@ public class XlstSensorTest {
 
   @Test
   public void shouldCreateEmptyOutputsMessage() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, "something");
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.INPUT_KEY, "something");
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.OUTPUT_KEY, "");
@@ -148,10 +148,10 @@ public class XlstSensorTest {
   @Test
   public void shouldTransformReportExternalXlst()
     throws java.io.IOException, javax.xml.transform.TransformerException {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    String stylesheetFile = "prejobs" + File.separator + "xslt-stylesheet.xslt";
-    String inputFile = "prejobs" + File.separator + "xslt-input.xml";
-    String outputFile = "xslt-output.xml";
+    var context = SensorContextTester.create(fs.baseDir());
+    var stylesheetFile = "prejobs" + File.separator + "xslt-stylesheet.xslt";
+    var inputFile = "prejobs" + File.separator + "xslt-input.xml";
+    var outputFile = "xslt-output.xml";
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, stylesheetFile);
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.INPUT_KEY, inputFile);
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.OUTPUT_KEY, outputFile);
@@ -170,10 +170,10 @@ public class XlstSensorTest {
   @Test
   public void shouldTransformReportInternalXlst()
     throws java.io.IOException, javax.xml.transform.TransformerException {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    String stylesheetFile = "cppunit-1.x-to-junit-1.0.xsl";
-    String inputFile = "prejobs" + File.separator + "cppunit-report.xml";
-    String outputFile = "_*.after_xslt";
+    var context = SensorContextTester.create(fs.baseDir());
+    var stylesheetFile = "cppunit-1.x-to-junit-1.0.xsl";
+    var inputFile = "prejobs" + File.separator + "cppunit-report.xml";
+    var outputFile = "_*.after_xslt";
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, stylesheetFile);
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.INPUT_KEY, inputFile);
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.OUTPUT_KEY, outputFile);

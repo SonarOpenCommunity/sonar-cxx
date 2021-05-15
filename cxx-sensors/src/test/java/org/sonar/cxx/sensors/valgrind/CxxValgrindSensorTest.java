@@ -47,7 +47,7 @@ public class CxxValgrindSensorTest {
 
   @Test
   public void shouldNotThrowWhenGivenValidData() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     sensor.execute(context);
 
     assertThat(context.allAnalysisErrors()).isEmpty();
@@ -55,7 +55,7 @@ public class CxxValgrindSensorTest {
 
   @Test
   public void shouldSaveViolationIfErrorIsInside() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     context.fileSystem().add(
       TestInputFileBuilder.create("myProjectKey", "dir/file")
         .setLanguage("cxx")
@@ -71,7 +71,7 @@ public class CxxValgrindSensorTest {
 
   @Test
   public void shouldNotSaveViolationIfErrorIsOutside() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     sensor.execute(context); // set context
     var valgrindErrors = new HashSet<ValgrindError>();
     valgrindErrors.add(mockValgrindError(false));

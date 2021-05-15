@@ -52,7 +52,7 @@ public class ProgressAstScannerTest {
 
   @Test
   public void test() throws Exception {
-    SquidAstVisitorContextImpl<Grammar> context = new SquidAstVisitorContextImpl<Grammar>(new SourceProject(""));
+    var context = new SquidAstVisitorContextImpl<Grammar>(new SourceProject(""));
     Parser<Grammar> parser = MiniCParser.create();
     AstScanner<Grammar> scanner = new ProgressAstScanner.Builder<Grammar>(context)
       .setBaseParser(parser)
@@ -77,8 +77,8 @@ public class ProgressAstScannerTest {
 
   @Test(timeout = 5000)
   public void testInterrupt() throws Exception {
-    SquidAstVisitorContextImpl<Grammar> context = new SquidAstVisitorContextImpl<Grammar>(new SourceProject(""));
-    CountDownLatch latch = new CountDownLatch(1);
+    var context = new SquidAstVisitorContextImpl<Grammar>(new SourceProject(""));
+    var latch = new CountDownLatch(1);
     ProgressReport progress = mock(ProgressReport.class);
     Parser<Grammar> parser = new BlockingParser(latch);
 
@@ -89,7 +89,7 @@ public class ProgressAstScannerTest {
       .build();
 
     File[] files = {new File("src/test/resources/metrics/lines.mc"), new File("src/test/resources/metrics/lines2.mc")};
-    ScannerRunner runner = new ScannerRunner(scanner, files);
+    var runner = new ScannerRunner(scanner, files);
     runner.start();
 
     // wait for first parsing to start

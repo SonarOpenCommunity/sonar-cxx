@@ -50,7 +50,7 @@ public class SourceCodeTreeDecoratorTest {
     class1.addChild(method2);
     class1.addChild(method3);
 
-    SourceProject project = new SourceProject("project");
+    var project = new SourceProject("project");
     project.addChild(class1);
     decorate(project);
 
@@ -80,7 +80,7 @@ public class SourceCodeTreeDecoratorTest {
     createTestComplexityMethod(testClass, 4);
     createTestComplexityMethod(testClass, 2);
     createTestComplexityMethod(testClass, 3);
-    SourceProject project = new SourceProject("project");
+    var project = new SourceProject("project");
     project.addChild(testClass);
     decorate(project);
   }
@@ -105,7 +105,7 @@ public class SourceCodeTreeDecoratorTest {
     package3.setMeasure(Metric.COMPLEXITY, 287);
     package3.setMeasure(Metric.LINES, 938);
     package3.setMeasure(Metric.PACKAGES, 1);
-    SourceProject prj1 = new SourceProject("prj1");
+    var prj1 = new SourceProject("prj1");
     prj1.addChild(package1);
     prj1.addChild(package2);
     prj1.addChild(package3);
@@ -117,7 +117,7 @@ public class SourceCodeTreeDecoratorTest {
   }
 
   private void decorate(SourceProject project) {
-    SourceCodeTreeDecorator decorator = new SourceCodeTreeDecorator(project);
+    var decorator = new SourceCodeTreeDecorator(project);
     decorator.decorateWith(Metric.values());
   }
 }

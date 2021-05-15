@@ -42,7 +42,7 @@ public class SourceCodeBuilderVisitor<G extends Grammar> extends SquidAstVisitor
 
   @Override
   public void init() {
-    for (AstNodeType astNodeType : astNodeTypes) {
+    for (var astNodeType : astNodeTypes) {
       subscribeTo(astNodeType);
     }
   }

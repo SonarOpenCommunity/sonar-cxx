@@ -57,7 +57,7 @@ public class CheckMessagesVerifierRule extends Verifier {
 
   @Override
   protected void verify() {
-    for (CheckMessagesVerifier verifier : verifiers) {
+    for (var verifier : verifiers) {
       verifier.noMore();
     }
   }

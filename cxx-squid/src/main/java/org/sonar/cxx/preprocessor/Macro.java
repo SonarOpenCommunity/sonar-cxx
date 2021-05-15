@@ -76,12 +76,12 @@ public final class Macro {
 
   @Override
   public String toString() {
-    String paramsStr = "";
+    var paramsStr = "";
     if (params != null) {
       final String joinedParams = params.stream().map(Token::getValue).collect(Collectors.joining(", "));
       paramsStr = "(" + joinedParams + (isVariadic ? "..." : "") + ")";
     }
-    String bodyStr = "";
+    var bodyStr = "";
     if (body != null) {
       bodyStr = body.stream().map(Token::getValue).collect(Collectors.joining(" "));
     }

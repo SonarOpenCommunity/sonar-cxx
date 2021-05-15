@@ -42,7 +42,7 @@ public class SourceCodeProviderTest {
     // working directory and should work the same in the quoted and
     // unquoted case
 
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("src/test/resources/codeprovider/dummy.cpp"));
+    var codeProvider = new SourceCodeProvider(new File("src/test/resources/codeprovider/dummy.cpp"));
     String path = expected1.getAbsolutePath();
 
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
@@ -61,104 +61,104 @@ public class SourceCodeProviderTest {
   // rel. path | 3        | 4        |
   @Test
   public void getting_file_relpath_case1() {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
 
     String includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
-    String path = "source.hh";
+    var path = "source.hh";
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, false));
   }
 
   @Test
   public void getting_file_relpath_case1_without_extension() {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
 
     String includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
-    String path = "source";
+    var path = "source";
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, true));
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, false));
   }
 
   @Test
   public void getting_file_relpath_case2() {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
 
     String includeRoot = Paths.get("resources/codeprovider").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
-    String path = "source.hh";
+    var path = "source.hh";
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, false));
   }
 
   @Test
   public void getting_file_relpath_case2_without_extension() {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
 
     String includeRoot = Paths.get("resources/codeprovider").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
-    String path = "source";
+    var path = "source";
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, true));
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, false));
   }
 
   @Test
   public void getting_file_relpath_case3() {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
 
     String includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
-    String path = "codeprovider/source.hh";
+    var path = "codeprovider/source.hh";
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, false));
   }
 
   @Test
   public void getting_file_relpath_case3_without_extension() {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
 
     String includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
-    String path = "codeprovider/source";
+    var path = "codeprovider/source";
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, true));
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, false));
   }
 
   @Test
   public void getting_file_relpath_case4() {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
 
     String includeRoot = Paths.get("resources").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
-    String path = "codeprovider/source.hh";
+    var path = "codeprovider/source.hh";
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, false));
   }
 
   @Test
   public void getting_file_relpath_case4_without_extension() {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
 
     String includeRoot = Paths.get("resources").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
-    String path = "codeprovider/source";
+    var path = "codeprovider/source";
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, true));
     assertEquals(expected2, codeProvider.getSourceCodeFile(path, false));
   }
@@ -168,61 +168,61 @@ public class SourceCodeProviderTest {
   // Lookup in the current directory. Has to fail for the angle case
   @Test
   public void getting_file_with_filename_and_cwd() {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("src/test/resources/codeprovider/dummy.cpp"));
+    var codeProvider = new SourceCodeProvider(new File("src/test/resources/codeprovider/dummy.cpp"));
 
-    String path = "source.hh";
+    var path = "source.hh";
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
     assertNull(codeProvider.getSourceCodeFile(path, false));
   }
 
   @Test
   public void getting_file_with_relpath_and_cwd() {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("src/test/resources/dummy.cpp"));
+    var codeProvider = new SourceCodeProvider(new File("src/test/resources/dummy.cpp"));
 
-    String path = "codeprovider/source.hh";
+    var path = "codeprovider/source.hh";
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
     assertNull(codeProvider.getSourceCodeFile(path, false));
   }
 
   @Test
   public void getting_file_with_relpath_containing_backsteps_and_cwd() {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(
+    var codeProvider = new SourceCodeProvider(
       new File("src/test/resources/codeprovider/folder/dummy.cpp"));
 
-    String path = "../source.hh";
+    var path = "../source.hh";
     assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
     assertNull(codeProvider.getSourceCodeFile(path, false));
   }
 
   @Test
   public void getting_source_code1() throws IOException {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
     assertEquals("source code", codeProvider.getSourceCode(expected1, Charset.defaultCharset()));
   }
 
   @Test
   public void getting_source_code2() throws IOException {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
     assertEquals("source code", codeProvider.getSourceCode(expected2, Charset.defaultCharset()));
   }
 
   @Test
   public void getting_source_code_utf_8() throws IOException {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
     assertEquals("UTF-8", codeProvider.getSourceCode(new File(root, "./utf-8.hh"),
                                                      Charset.defaultCharset()));
   }
 
   @Test
   public void getting_source_code_utf_8_bom() throws IOException {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
     assertEquals("UTF-8-BOM", codeProvider.getSourceCode(new File(root, "./utf-8-bom.hh"),
                                                          Charset.defaultCharset()));
   }
 
   @Test
   public void getting_source_code_utf_16_le_bom() throws IOException {
-    SourceCodeProvider codeProvider = new SourceCodeProvider(new File("dummy"));
+    var codeProvider = new SourceCodeProvider(new File("dummy"));
     assertEquals("UTF-16LE-BOM",
                  codeProvider.getSourceCode(new File(root, "./utf-16le-bom.hh"),
                                             Charset.defaultCharset()));

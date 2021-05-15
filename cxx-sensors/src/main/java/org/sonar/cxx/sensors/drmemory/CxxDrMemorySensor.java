@@ -51,8 +51,8 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
 
   public static List<PropertyDefinition> properties() {
-    String category = "CXX External Analyzers";
-    String subcategory = "Dr. Memory";
+    var category = "CXX External Analyzers";
+    var subcategory = "Dr. Memory";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Dr. Memory Report(s)")
@@ -127,7 +127,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
                                        error.getMessage());
 
         // add all frames as secondary locations
-        int frameNr = 0;
+        var frameNr = 0;
         for (var frame : error.getStackTrace()) {
           boolean frameIsInProject = frameIsInProject(frame);
           String mappedPath = (frameIsInProject) ? frame.getFile() : lastOwnFrame.getFile();

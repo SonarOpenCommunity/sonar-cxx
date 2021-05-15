@@ -102,7 +102,7 @@ public class SquidAstVisitorContextImpl<G extends Grammar> extends SquidAstVisit
   public void setFile(File file, MetricDef filesMetric) {
     popTillSourceProject();
     this.file = file;
-    SourceFile sourceFile = new SourceFile(file.getAbsolutePath(), file.getName());
+    var sourceFile = new SourceFile(file.getAbsolutePath(), file.getName());
     addSourceCode(sourceFile);
     peekSourceCode().setMeasure(filesMetric, 1);
   }
@@ -195,7 +195,7 @@ public class SquidAstVisitorContextImpl<G extends Grammar> extends SquidAstVisit
    */
   @Override
   public void createLineViolation(CodeCheck check, String message, int line, Object... messageParameters) {
-    CheckMessage checkMessage = new CheckMessage((Object) check, message, messageParameters);
+    var checkMessage = new CheckMessage((Object) check, message, messageParameters);
     if (line > 0) {
       checkMessage.setLine(line);
     }

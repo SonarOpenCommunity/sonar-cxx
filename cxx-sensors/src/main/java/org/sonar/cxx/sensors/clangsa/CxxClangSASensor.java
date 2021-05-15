@@ -101,7 +101,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(File report)  {
     try {
-      File f = new File(report.getPath());
+      var f = new File(report.getPath());
 
       NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(f);
 

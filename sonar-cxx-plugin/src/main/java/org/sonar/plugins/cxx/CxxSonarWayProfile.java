@@ -50,7 +50,7 @@ public class CxxSonarWayProfile implements BuiltInQualityProfilesDefinition {
 
   @Override
   public void define(Context context) {
-    NewBuiltInQualityProfile sonarWay = context.createBuiltInQualityProfile("Sonar way", CxxLanguage.KEY);
+    var sonarWay = context.createBuiltInQualityProfile("Sonar way", CxxLanguage.KEY);
     Profile jsonProfile = readProfile();
     jsonProfile.ruleKeys.forEach((key) -> {
       sonarWay.activateRule(CheckList.REPOSITORY_KEY, key);

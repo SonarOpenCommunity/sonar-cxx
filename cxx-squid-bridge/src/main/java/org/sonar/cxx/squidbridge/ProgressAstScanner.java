@@ -42,7 +42,7 @@ public class ProgressAstScanner<G extends Grammar> extends AstScanner<G> {
   @Override
   public void scanFiles(Collection<File> files) {
     progressReport.start(files);
-    boolean success = false;
+    var success = false;
     try {
       super.scanFiles(files);
       success = true;

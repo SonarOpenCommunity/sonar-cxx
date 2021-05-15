@@ -57,7 +57,7 @@ public class CxxCompilerGccSensorTest {
 
   @Test
   public void shouldReportCorrectGccViolations() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCompilerGccSensor.REPORT_PATH_KEY, "compiler-reports/build.gcclog");
     context.setSettings(settings);
 
@@ -72,7 +72,7 @@ public class CxxCompilerGccSensorTest {
 
   @Test
   public void shouldReportCorrectGccViolationsWithOrWithoutIds() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCompilerGccSensor.REPORT_PATH_KEY, "compiler-reports/build-warning-without-id.gcclog");
     context.setSettings(settings);
 

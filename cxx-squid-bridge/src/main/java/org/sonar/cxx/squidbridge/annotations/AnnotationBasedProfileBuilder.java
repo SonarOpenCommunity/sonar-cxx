@@ -47,8 +47,8 @@ public class AnnotationBasedProfileBuilder {
 
   public RulesProfile build(String repositoryKey, String profileName, String language, Iterable<Class> annotatedClasses,
                             ValidationMessages messages) {
-    RulesProfile profile = RulesProfile.create(profileName, language);
-    for (Class<?> ruleClass : annotatedClasses) {
+    var profile = RulesProfile.create(profileName, language);
+    for (var ruleClass : annotatedClasses) {
       addRule(ruleClass, profile, repositoryKey, messages);
     }
     return profile;

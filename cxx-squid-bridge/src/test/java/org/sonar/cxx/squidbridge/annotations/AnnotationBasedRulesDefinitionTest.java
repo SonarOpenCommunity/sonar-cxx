@@ -257,8 +257,8 @@ public class AnnotationBasedRulesDefinitionTest {
     @Rule
     class RuleClass {
     }
-    NewRepository newRepository = context.createRepository(REPO_KEY, "language1");
-    AnnotationBasedRulesDefinition rulesDef = new AnnotationBasedRulesDefinition(newRepository, "language1");
+    var newRepository = context.createRepository(REPO_KEY, "language1");
+    var rulesDef = new AnnotationBasedRulesDefinition(newRepository, "language1");
     thrown.expect(IllegalStateException.class);
     rulesDef.newRule(RuleClass.class, false);
   }

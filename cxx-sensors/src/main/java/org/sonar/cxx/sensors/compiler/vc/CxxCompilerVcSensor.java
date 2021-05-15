@@ -40,8 +40,8 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
                                    + "(?<id>C\\d+):(?<message>.*)";
 
   public static List<PropertyDefinition> properties() {
-    String category = "CXX External Analyzers";
-    String subcategory = "Visual C++";
+    var category = "CXX External Analyzers";
+    var subcategory = "Visual C++";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Visual C++ Compiler Report(s)")

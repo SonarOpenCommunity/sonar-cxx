@@ -47,7 +47,7 @@ public class JoinStringsPreprocessor extends Preprocessor {
   @Override
   public PreprocessorAction process(List<Token> tokens) {
 
-    int nrOfAdjacentStringLiterals = 0;
+    var nrOfAdjacentStringLiterals = 0;
     boolean isGenerated = false;
     for (var t : tokens) {
       if (!CxxTokenType.STRING.equals(t.getType())) {

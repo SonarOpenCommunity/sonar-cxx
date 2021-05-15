@@ -64,7 +64,7 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
       Double executionTime = null;
 
       String tag;
-      int level = 0;
+      var level = 0;
       while ((tag = xmlParserHelper.nextStartOrEndTag()) != null) {
         if ("<test-suite>".equals(tag)) {
           level++;
@@ -85,7 +85,7 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
     }
 
     public void parse() {
-      try (var xmlParserHelper = new XmlParserHelper(file)) {
+      try ( var xmlParserHelper = new XmlParserHelper(file)) {
         if (checkRootTag(xmlParserHelper)) {
           handleTestResultsTag(xmlParserHelper);
         }

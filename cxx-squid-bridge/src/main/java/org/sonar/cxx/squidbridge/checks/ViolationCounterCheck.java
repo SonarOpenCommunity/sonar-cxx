@@ -155,17 +155,17 @@ public class ViolationCounterCheck<G extends Grammar> extends SquidAstVisitor<G>
 
       Set<Map.Entry<String, String>> handledFilesRules = Sets.newHashSet();
 
-      for (String file : expected.violationsByFileAndRule.keySet()) {
-        boolean shouldPrintHeader = true;
-        for (String rule : expected.violationsByFileAndRule.get(file).keySet()) {
+      for (var file : expected.violationsByFileAndRule.keySet()) {
+        var shouldPrintHeader = true;
+        for (var rule : expected.violationsByFileAndRule.get(file).keySet()) {
           handledFilesRules.add(Maps.immutableEntry(file, rule));
           shouldPrintHeader = printDifferencesByFileAndRule(shouldPrintHeader, file, rule);
         }
       }
 
-      for (String file : actual.violationsByFileAndRule.keySet()) {
-        boolean shouldPrintHeader = true;
-        for (String rule : actual.violationsByFileAndRule.get(file).keySet()) {
+      for (var file : actual.violationsByFileAndRule.keySet()) {
+        var shouldPrintHeader = true;
+        for (var rule : actual.violationsByFileAndRule.get(file).keySet()) {
           if (handledFilesRules.contains(Maps.immutableEntry(file, rule))) {
             continue;
           }
@@ -221,7 +221,7 @@ public class ViolationCounterCheck<G extends Grammar> extends SquidAstVisitor<G>
     private void printDifferencesByRule() {
       println("Differences by rule:");
 
-      for (String rule : getRules()) {
+      for (var rule : getRules()) {
         int expectedViolations = getViolationsByRule(expected, rule);
         int actualViolations = getViolationsByRule(actual, rule);
 
@@ -235,11 +235,11 @@ public class ViolationCounterCheck<G extends Grammar> extends SquidAstVisitor<G>
     private Set<String> getRules() {
       Set<String> rules = new HashSet<String>();
 
-      for (String file : expected.violationsByFileAndRule.keySet()) {
+      for (var file : expected.violationsByFileAndRule.keySet()) {
         rules.addAll(expected.violationsByFileAndRule.get(file).keySet());
       }
 
-      for (String file : actual.violationsByFileAndRule.keySet()) {
+      for (var file : actual.violationsByFileAndRule.keySet()) {
         rules.addAll(actual.violationsByFileAndRule.get(file).keySet());
       }
 
@@ -247,9 +247,9 @@ public class ViolationCounterCheck<G extends Grammar> extends SquidAstVisitor<G>
     }
 
     private static int getViolationsByRule(ViolationCounter counter, String rule) {
-      int violations = 0;
+      var violations = 0;
 
-      for (String file : counter.violationsByFileAndRule.keySet()) {
+      for (var file : counter.violationsByFileAndRule.keySet()) {
         if (counter.violationsByFileAndRule.get(file).containsKey(rule)) {
           violations += counter.violationsByFileAndRule.get(file).get(rule).size();
         }
@@ -278,7 +278,7 @@ public class ViolationCounterCheck<G extends Grammar> extends SquidAstVisitor<G>
   public void leaveFile(AstNode node) {
     Set<CheckMessage> violationsOnCurrentFile = new HashSet<CheckMessage>(getContext().peekSourceCode()
       .getCheckMessages());
-    for (CheckMessage violation : violationsOnCurrentFile) {
+    for (var violation : violationsOnCurrentFile) {
       violationCounter.increment(getRelativePath(getContext().getFile()), violation.getChecker().getClass()
                                  .getSimpleName(),
                                  violation.getLine() == null ? -1

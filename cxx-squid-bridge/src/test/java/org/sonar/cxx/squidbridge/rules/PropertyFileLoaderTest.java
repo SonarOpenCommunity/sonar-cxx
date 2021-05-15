@@ -31,9 +31,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinition.NewParam;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
-import org.sonar.api.server.rule.RulesDefinition.NewRule;
 import org.sonar.api.server.rule.RulesDefinition.Repository;
 import org.sonar.api.server.rule.RulesDefinition.Rule;
 
@@ -47,7 +45,7 @@ public class PropertyFileLoaderTest {
 
   @Test
   public void rule_and_parameter_defined_in_property_file() throws Exception {
-    NewRule newRule = repository.createRule(RULE_KEY);
+    var newRule = repository.createRule(RULE_KEY);
     newRule.setHtmlDescription("desc");
     newRule.createParam(PARAM_KEY);
     PropertyFileLoader.loadNames(repository, "/rules/names.properties");
@@ -58,10 +56,10 @@ public class PropertyFileLoaderTest {
 
   @Test
   public void rule_and_parameter_not_defined_in_property_file() throws Exception {
-    NewRule newRule = repository.createRule(RULE_KEY);
+    var newRule = repository.createRule(RULE_KEY);
     newRule.setName("ruleName1");
     newRule.setHtmlDescription("desc");
-    NewParam newParam = newRule.createParam(PARAM_KEY);
+    var newParam = newRule.createParam(PARAM_KEY);
     newParam.setDescription("paramName1");
     PropertyFileLoader.loadNames(repository, "/rules/empty.properties");
     Rule rule = buildRepository().rule(RULE_KEY);

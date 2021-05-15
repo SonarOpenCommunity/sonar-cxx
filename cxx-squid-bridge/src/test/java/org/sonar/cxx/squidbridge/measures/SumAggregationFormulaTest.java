@@ -36,10 +36,10 @@ public class SumAggregationFormulaTest {
   @Test
   public void testAggregate() {
     List<Measurable> measurables = new ArrayList<Measurable>();
-    SourceClass class1 = new SourceClass("com.My");
+    var class1 = new SourceClass("com.My");
     class1.setMeasure(Metric.COMPLEXITY, 2);
     measurables.add(class1);
-    SourceClass class2 = new SourceClass("com.My");
+    var class2 = new SourceClass("com.My");
     class2.setMeasure(Metric.COMPLEXITY, 3);
     measurables.add(class2);
 

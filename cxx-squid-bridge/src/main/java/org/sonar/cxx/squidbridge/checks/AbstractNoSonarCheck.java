@@ -26,23 +26,22 @@ package org.sonar.cxx.squidbridge.checks;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.Trivia;
 import org.sonar.cxx.squidbridge.api.CheckMessage;
 
 public abstract class AbstractNoSonarCheck<G extends Grammar> extends SquidCheck<G> implements AstAndTokenVisitor {
 
   @Override
   public void visitToken(Token token) {
-    for (Trivia trivia : token.getTrivia()) {
+    for (var trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         String[] commentLines = getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue())
           .split("(\r)?\n|\r", -1);
         int line = trivia.getToken().getLine();
 
-        for (String commentLine : commentLines) {
+        for (var commentLine : commentLines) {
           if (commentLine.contains("NOSONAR")) {
-            CheckMessage violation = new CheckMessage((Object) this,
-                                                      "Is NOSONAR usage acceptable or does it hide a real quality flaw?");
+            var violation = new CheckMessage((Object) this,
+                                         "Is NOSONAR usage acceptable or does it hide a real quality flaw?");
             violation.setLine(line);
             violation.setBypassExclusion(true);
             getContext().log(violation);
