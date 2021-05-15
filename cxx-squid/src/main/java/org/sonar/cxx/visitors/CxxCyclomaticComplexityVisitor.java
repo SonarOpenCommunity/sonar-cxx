@@ -25,15 +25,15 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import java.util.List;
 import javax.annotation.Nullable;
-import org.sonar.squidbridge.SquidAstVisitor;
-import org.sonar.squidbridge.SquidAstVisitorContext;
-import org.sonar.squidbridge.metrics.ComplexityVisitor;
+import org.sonar.cxx.squidbridge.SquidAstVisitor;
+import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
+import org.sonar.cxx.squidbridge.metrics.ComplexityVisitor;
 
 /**
- * Decorator for {@link org.sonar.squidbridge.metrics.ComplexityVisitor} in order to prevent visiting of generated
+ * Decorator for {@link org.sonar.cxx.squidbridge.metrics.ComplexityVisitor} in order to prevent visiting of generated
  * {@link com.sonar.sslr.api.AstNode}s
  *
- * Inheritance is not possible, since the class {@link org.sonar.squidbridge.metrics.ComplexityVisitor} is marked as
+ * Inheritance is not possible, since the class {@link org.sonar.cxx.squidbridge.metrics.ComplexityVisitor} is marked as
  * final
  *
  * @param <G>

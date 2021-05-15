@@ -26,8 +26,8 @@ import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
-import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
+import org.sonar.cxx.squidbridge.api.SourceFile;
+import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class TodoTagPresenceCheckTest {
 
@@ -37,9 +37,9 @@ public class TodoTagPresenceCheckTest {
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void detected() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TodoTagPresenceCheck.cc",
-                                                                   ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), new TodoTagPresenceCheck());
+    var tester = CxxFileTesterHelper.create("src/test/resources/checks/TodoTagPresenceCheck.cc",
+                                                      ".");
+    SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new TodoTagPresenceCheck());
 
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Complete the task associated to this TODO comment.")

@@ -26,9 +26,9 @@ import java.lang.ref.WeakReference;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
-import org.sonar.squidbridge.SquidAstVisitorContext;
-import org.sonar.squidbridge.SquidAstVisitorContextImpl;
-import org.sonar.squidbridge.api.SourceProject;
+import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
+import org.sonar.cxx.squidbridge.SquidAstVisitorContextImpl;
+import org.sonar.cxx.squidbridge.api.SourceProject;
 
 public final class CxxParser {
 

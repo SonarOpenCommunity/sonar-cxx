@@ -21,7 +21,7 @@ package org.sonar.plugins.cxx;
 
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.checks.CheckList;
-import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
+import org.sonar.cxx.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 public class CxxRuleRepository implements RulesDefinition {
 

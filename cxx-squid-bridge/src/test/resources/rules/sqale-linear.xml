@@ -1,0 +1,23 @@
+<sqale>
+  <chc>
+    <key>REUSABILITY</key>
+    <name>Reusability</name>
+    <chc>
+      <key>MODULARITY</key>
+      <name>Modularity</name>
+      <chc>
+        <rule-repo>repoKey</rule-repo>
+        <rule-key>myRuleKey</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>LINEAR</txt>
+        </prop>
+        <prop>
+          <key>remediationFactor</key>
+          <val>5</val>
+          <txt>mn</txt>
+        </prop>
+      </chc>
+    </chc>
+  </chc>
+</sqale>

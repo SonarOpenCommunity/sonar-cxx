@@ -23,7 +23,7 @@ import java.util.Arrays;
 import org.sonar.api.resources.Language;
 import org.sonar.api.scanner.ScannerSide;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
+import org.sonar.cxx.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 /**
  *

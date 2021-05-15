@@ -26,7 +26,7 @@ import java.util.List;
 import org.sonar.cxx.preprocessor.CppPunctuator;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.squidbridge.SquidAstVisitor;
+import org.sonar.cxx.squidbridge.SquidAstVisitor;
 
 /**
  * Visitor that computes the NCLOCs in function body, leading and trailing {} do not count

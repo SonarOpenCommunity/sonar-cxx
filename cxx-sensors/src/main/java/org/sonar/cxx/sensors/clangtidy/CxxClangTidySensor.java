@@ -113,9 +113,10 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(File report)  {
     String reportEncoding = context.config().get(REPORT_ENCODING_DEF).orElse(DEFAULT_ENCODING_DEF);
-    LOG.debug("Encoding='{}'", reportEncoding);
 
     try ( var scanner = new TextScanner(report, reportEncoding)) {
+      LOG.debug("Encoding='{}'", scanner.encoding());
+
       // sample:
       // c:\a\file.cc:5:20: warning: ... conversion from string literal to 'char *' [clang-diagnostic-writable-strings]
       CxxReportIssue currentIssue = null;

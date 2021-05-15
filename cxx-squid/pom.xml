@@ -27,8 +27,9 @@
       <artifactId>sslr-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.sonarsource.sslr-squid-bridge</groupId>
-      <artifactId>sslr-squid-bridge</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-squid-bridge</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jdom</groupId>

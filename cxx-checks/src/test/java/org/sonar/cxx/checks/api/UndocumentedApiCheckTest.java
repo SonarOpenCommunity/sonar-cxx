@@ -25,10 +25,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
-import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
+import org.sonar.cxx.squidbridge.api.SourceFile;
+import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class UndocumentedApiCheckTest {
 
@@ -38,9 +37,8 @@ public class UndocumentedApiCheckTest {
   @SuppressWarnings("squid:S2699")
   @Test
   public void detected() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
-      "src/test/resources/checks/UndocumentedApiCheck/no_doc.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), new UndocumentedApiCheck());
+    var tester = CxxFileTesterHelper.create("src/test/resources/checks/UndocumentedApiCheck/no_doc.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new UndocumentedApiCheck());
 
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(6) // class
@@ -99,9 +97,8 @@ public class UndocumentedApiCheckTest {
 
   @Test
   public void docStyle1() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
-      "src/test/resources/checks/UndocumentedApiCheck/doc_style1.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), new UndocumentedApiCheck());
+    var tester = CxxFileTesterHelper.create("src/test/resources/checks/UndocumentedApiCheck/doc_style1.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new UndocumentedApiCheck());
 
     var errors = new StringBuilder(1024);
     for (var msg : file.getCheckMessages()) {
@@ -116,9 +113,8 @@ public class UndocumentedApiCheckTest {
 
   @Test
   public void docStyle2() throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(
-      "src/test/resources/checks/UndocumentedApiCheck/doc_style2.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), new UndocumentedApiCheck());
+    var tester = CxxFileTesterHelper.create("src/test/resources/checks/UndocumentedApiCheck/doc_style2.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new UndocumentedApiCheck());
 
     var errors = new StringBuilder(1024);
     for (var msg : file.getCheckMessages()) {

@@ -35,7 +35,7 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import static org.sonar.cxx.parser.CxxGrammarImpl.qualifiedId;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxPunctuator;
-import org.sonar.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.squidbridge.checks.SquidCheck;
 
 /**
  * Abstract visitor that visits public API items.<br>

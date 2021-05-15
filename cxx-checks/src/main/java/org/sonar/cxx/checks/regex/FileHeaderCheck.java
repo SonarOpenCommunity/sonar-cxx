@@ -21,20 +21,17 @@ package org.sonar.cxx.checks.regex;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.checks.utils.CheckUtils;
-import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
-import org.sonar.squidbridge.annotations.ActivatedByDefault;
-import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.cxx.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.cxx.squidbridge.checks.SquidCheck;
 
 /**
  * FileHeaderCheck - similar Vera++ rule T013 "No copyright notice found"
@@ -47,7 +44,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
   tags = {})
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
+public class FileHeaderCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT_HEADER_FORMAT = "";
   private static final String MESSAGE = "Add or update the header of this file.";
@@ -71,24 +68,8 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
     defaultValue = "false")
   public boolean isRegularExpression = false;
 
-  private Charset defaultCharset = StandardCharsets.UTF_8;
   private String[] expectedLines = null;
   private Pattern searchPattern = null;
-
-  private static boolean matches(String[] expectedLines, BufferedReader br) throws IOException {
-    for (var expectedLine : expectedLines) {
-      var line = br.readLine();
-      if (!expectedLine.equals(line)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  @Override
-  public void setCharset(Charset charset) {
-    this.defaultCharset = charset;
-  }
 
   @Override
   public void init() {
@@ -97,25 +78,19 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
         searchPattern = CheckUtils.compileUserRegexp(getHeaderFormat(), Pattern.DOTALL);
       }
     } else {
-      expectedLines = headerFormat.split("\\R");
+      expectedLines = headerFormat.split("(?:\r)?\n|\r");
     }
   }
 
   @Override
   public void visitFile(AstNode astNode) {
-    try {
-      if (isRegularExpression) {
-        String fileContent = CheckUtils.getFileContent(getContext().getFile(), defaultCharset);
-        checkRegularExpression(fileContent);
-      } else {
-        try ( var br = new BufferedReader(CheckUtils.getInputSteam(getContext().getFile(), defaultCharset))) {
-          if (!matches(expectedLines, br)) {
-            getContext().createFileViolation(this, MESSAGE);
-          }
-        }
+    if (isRegularExpression) {
+      String fileContent = getContext().getInputFileContent();
+      checkRegularExpression(fileContent);
+    } else {
+      if (!matches(expectedLines, getContext().getInputFileLines())) {
+        getContext().createFileViolation(this, MESSAGE);
       }
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
     }
   }
 
@@ -132,6 +107,25 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
     if (!matcher.find() || matcher.start() != 0) {
       getContext().createFileViolation(this, MESSAGE);
     }
+  }
+
+  private static boolean matches(String[] expectedLines, List<String> lines) {
+    boolean result = false;
+
+    if (expectedLines.length <= lines.size()) {
+      result = true;
+
+      Iterator<String> it = lines.iterator();
+      for (int i = 0; i < expectedLines.length; i++) {
+        String line = it.next();
+        if (!line.equals(expectedLines[i])) {
+          result = false;
+          break;
+        }
+      }
+    }
+
+    return result;
   }
 
 }

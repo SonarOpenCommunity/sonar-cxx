@@ -95,7 +95,7 @@ build_script:
 #---------------------------------#
 artifacts:
   - path: 'sonar-cxx-plugin\target\*.jar'
-  - path: 'sslr-cxx-toolkit\target\*.jar'
+  - path: 'cxx-sslr-toolkit\target\*.jar'
       
 #---------------------------------#
 #        global handlers          #

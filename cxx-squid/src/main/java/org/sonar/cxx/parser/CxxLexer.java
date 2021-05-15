@@ -22,6 +22,7 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.channel.BlackHoleChannel;
+import com.sonar.sslr.impl.channel.BomCharacterChannel;
 import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
 import com.sonar.sslr.impl.channel.PunctuatorChannel;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
@@ -109,6 +110,7 @@ public final class CxxLexer {
       // C++ Standard, Section 2.13 "Operators and punctuators"
       .withChannel(new RightAngleBracketsChannel())
       .withChannel(new PunctuatorChannel(CxxPunctuator.values()))
+      .withChannel(new BomCharacterChannel())
       .withChannel(new UnknownCharacterChannel());
 
     for (var preprocessor : preprocessors) {

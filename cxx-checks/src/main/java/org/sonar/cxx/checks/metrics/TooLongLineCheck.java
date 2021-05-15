@@ -21,19 +21,13 @@ package org.sonar.cxx.checks.metrics;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.cxx.checks.utils.CheckUtils;
+import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.cxx.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.cxx.squidbridge.checks.SquidCheck;
 import org.sonar.cxx.tag.Tag;
-import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
-import org.sonar.squidbridge.annotations.ActivatedByDefault;
-import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * TooLongLineCheck - similar Vera++ rule L004 "Line too long"
@@ -46,7 +40,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
   priority = Priority.MINOR)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
+public class TooLongLineCheck extends SquidCheck<Grammar> {
 
   private static final int DEFAULT_MAXIMUM_LINE_LENHGTH = 160;
   private static final int DEFAULT_TAB_WIDTH = 8;
@@ -69,32 +63,19 @@ public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetA
     defaultValue = "" + DEFAULT_TAB_WIDTH)
   public int tabWidth = DEFAULT_TAB_WIDTH;
 
-  private Charset defaultCharset = StandardCharsets.UTF_8;
-
-  @Override
-  public void setCharset(Charset charset) {
-    this.defaultCharset = charset;
-  }
-
   @Override
   public void visitFile(AstNode astNode) {
-    try ( var br = new BufferedReader(CheckUtils.getInputSteam(getContext().getFile(), defaultCharset))) {
-      String line;
-      int nr = 0;
-
-      while ((line = br.readLine()) != null) {
-        ++nr;
-        long length = line.chars().filter(c -> c == '\t').count();
-        length = line.length() + length * (tabWidth - 1);
-        if (length > maximumLineLength) {
-          getContext().createLineViolation(
-            this,
-            "Split this {0} characters long line (which is greater than {1} authorized).",
-            nr, length, maximumLineLength);
-        }
+    int nr = 0;
+    for (String line : getContext().getInputFileLines()) {
+      ++nr;
+      long length = line.chars().filter(c -> c == '\t').count();
+      length = line.length() + length * (tabWidth - 1);
+      if (length > maximumLineLength) {
+        getContext().createLineViolation(
+          this,
+          "Split this {0} characters long line (which is greater than {1} authorized).",
+          nr, length, maximumLineLength);
       }
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
     }
   }
 

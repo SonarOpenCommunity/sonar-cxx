@@ -43,7 +43,7 @@ import org.jdom2.xpath.XPathFactory;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.squidbridge.api.SquidConfiguration;
+import org.sonar.cxx.squidbridge.api.SquidConfiguration;
 
 /**
  * Database for compile options.

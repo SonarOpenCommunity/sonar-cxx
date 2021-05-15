@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.squidbridge.SquidAstVisitorContextImpl;
+import org.sonar.cxx.squidbridge.SquidAstVisitorContextImpl;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 import org.sonar.sslr.tests.ParserAssert;
 

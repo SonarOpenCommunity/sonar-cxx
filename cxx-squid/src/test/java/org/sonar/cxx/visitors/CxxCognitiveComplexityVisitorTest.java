@@ -27,7 +27,7 @@ import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
-import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.cxx.squidbridge.api.SourceFile;
 
 public class CxxCognitiveComplexityVisitorTest {
 
@@ -152,8 +152,8 @@ public class CxxCognitiveComplexityVisitorTest {
   }
 
   private int testFile(String fileName) throws UnsupportedEncodingException, IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
-    SourceFile sourceFile = CxxAstScanner.scanSingleFile(tester.asFile());
+    var tester = CxxFileTesterHelper.create(fileName, ".", "");
+    SourceFile sourceFile = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
 
     return (sourceFile.getInt(CxxMetric.COGNITIVE_COMPLEXITY));
   }

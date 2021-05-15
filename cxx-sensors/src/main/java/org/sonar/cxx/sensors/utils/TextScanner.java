@@ -32,7 +32,8 @@ import org.apache.commons.io.input.BOMInputStream;
 
 public class TextScanner implements Closeable {
 
-  private Scanner scanner;
+  private final Scanner scanner;
+  private final String encoding;
 
   /**
    * Constructs a new {@code Scanner} that produces values scanned from the specified file.
@@ -47,19 +48,23 @@ public class TextScanner implements Closeable {
    * @throws IllegalArgumentException if the specified encoding is not found
    */
   public TextScanner(File source, String defaultEncoding) throws IOException {
-    String encodingName;
-
-    try ( BOMInputStream bomInputStream = new BOMInputStream(new FileInputStream(source),
-                                                             ByteOrderMark.UTF_8,
-                                                             ByteOrderMark.UTF_16LE,
-                                                             ByteOrderMark.UTF_16BE,
-                                                             ByteOrderMark.UTF_32LE,
-                                                             ByteOrderMark.UTF_32BE)) {
+    BOMInputStream bomInputStream = null;
+    try {
+      bomInputStream = new BOMInputStream(new FileInputStream(source),
+                                          ByteOrderMark.UTF_8,
+                                          ByteOrderMark.UTF_16LE,
+                                          ByteOrderMark.UTF_16BE,
+                                          ByteOrderMark.UTF_32LE,
+                                          ByteOrderMark.UTF_32BE);
       ByteOrderMark bom = bomInputStream.getBOM();
-      encodingName = bom == null ? defaultEncoding : bom.getCharsetName();
+      encoding = (bom != null) ? bom.getCharsetName() : defaultEncoding;
+      scanner = new Scanner(bomInputStream, encoding);
+    } catch (IOException e) {
+      if (bomInputStream != null) {
+        bomInputStream.close();
+      }
+      throw e;
     }
-
-    scanner = new Scanner(source, encodingName);
   }
 
   /**
@@ -75,6 +80,7 @@ public class TextScanner implements Closeable {
    * in an {@link IllegalStateException}.
    *
    */
+  @Override
   public void close() {
     scanner.close();
   }
@@ -133,6 +139,13 @@ public class TextScanner implements Closeable {
    */
   public String nextLine() {
     return scanner.nextLine();
+  }
+
+  /**
+   * @return encoding used by the scanner
+   */
+  public String encoding() {
+    return encoding;
   }
 
 }

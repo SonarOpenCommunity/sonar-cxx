@@ -38,7 +38,7 @@ import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.cxx.squidbridge.api.SourceFile;
 
 public class CxxPublicApiVisitorTest {
 
@@ -54,13 +54,13 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void test_no_matching_suffix() throws IOException {
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".",
+    var tester = CxxFileTesterHelper.create("src/test/resources/metrics/doxygen_example.h", ".",
                                                                    "");
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.API_FILE_SUFFIXES,
                     new String[]{".hpp"});
 
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig);
+    SourceFile file = CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), squidConfig);
 
     assertThat(file.getInt(CxxMetric.PUBLIC_API)).isZero();
     assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isZero();
@@ -107,8 +107,8 @@ public class CxxPublicApiVisitorTest {
     String fileNme = "src/test/resources/metrics/public_api.h";
     TestPublicApiVisitor visitor = new TestPublicApiVisitor(fileNme, true);
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileNme, ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.asFile(), visitor);
+    var tester = CxxFileTesterHelper.create(fileNme, ".", "");
+    SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), visitor);
 
     var expectedIdCommentMap = new HashMap<String, String>();
 
@@ -213,8 +213,8 @@ public class CxxPublicApiVisitorTest {
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.API_FILE_SUFFIXES,
                     new String[]{getFileExtension(fileName)});
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".", "");
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.asFile(), squidConfig);
+    var tester = CxxFileTesterHelper.create(fileName, ".", "");
+    SourceFile file = CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), squidConfig);
 
     LOG.debug("#API: {} UNDOC: {}",
               file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));

@@ -20,6 +20,7 @@
 package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.impl.Lexer;
+import com.sonar.sslr.impl.channel.BomCharacterChannel;
 import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
 import com.sonar.sslr.impl.channel.PunctuatorChannel;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
@@ -32,10 +33,10 @@ import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.or;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
 import java.nio.charset.Charset;
-import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.channels.KeywordChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
+import org.sonar.cxx.parser.CxxTokenType;
 
 public final class CppLexer {
 
@@ -92,6 +93,7 @@ public final class CppLexer {
       //###.withChannel(new SpecialIdentifiers("import"))
       .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true))
       .withChannel(new PunctuatorChannel(CppPunctuator.values()))
+      .withChannel(new BomCharacterChannel())
       .withChannel(new UnknownCharacterChannel());
 
     return builder.build();

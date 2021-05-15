@@ -21,20 +21,9 @@ package org.sonar.cxx.checks.utils;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import java.util.stream.Collectors;
-import org.apache.commons.io.ByteOrderMark;
-import org.apache.commons.io.input.BOMInputStream;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxPunctuator;
@@ -95,40 +84,6 @@ public class CheckUtils {
       }
     }
     return false;
-  }
-
-  public static List<String> getFileLines(File source, Charset defaultCharset) throws IOException {
-    List<String> lines = new ArrayList<>();
-    try ( Scanner scanner = new Scanner(getInputSteam(source, defaultCharset))) {
-      while (scanner.hasNextLine()) {
-        lines.add(scanner.nextLine());
-      }
-    }
-    return lines;
-  }
-
-  public static String getFileContent(File source, Charset defaultCharset) throws IOException {
-    return getFileLines(source, defaultCharset).stream().collect(Collectors.joining(System.lineSeparator()));
-  }
-
-  public static InputStreamReader getInputSteam(File source, Charset defaultCharset) throws IOException {
-    BOMInputStream bomInputStream = null;
-    try {
-      bomInputStream = new BOMInputStream(new FileInputStream(source),
-                                          ByteOrderMark.UTF_8,
-                                          ByteOrderMark.UTF_16LE,
-                                          ByteOrderMark.UTF_16BE,
-                                          ByteOrderMark.UTF_32LE,
-                                          ByteOrderMark.UTF_32BE);
-      ByteOrderMark bom = bomInputStream.getBOM();
-      Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
-      return new InputStreamReader(bomInputStream, charset);
-    } catch (IOException e) {
-      if (bomInputStream != null) {
-        bomInputStream.close();
-      }
-      throw e;
-    }
   }
 
 }

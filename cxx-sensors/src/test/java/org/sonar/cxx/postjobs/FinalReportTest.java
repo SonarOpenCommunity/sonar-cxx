@@ -20,11 +20,18 @@
 package org.sonar.cxx.postjobs;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Paths;
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.input.BOMInputStream;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.postjob.PostJobContext;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
@@ -46,15 +53,15 @@ public class FinalReportTest {
   }
 
   @Test
-  public void finalReportTest() {
+  public void finalReportTest() throws IOException {
     var dir = "src/test/resources/org/sonar/cxx/postjobs";
     var context = SensorContextTester.create(new File(dir));
-    InputFile inputFile = TestInputFileBuilder.create("", dir + "/syntaxerror.cc").build();
+    InputFile inputFile = createInputFile(dir + "/syntaxerror.cc", ".", Charset.defaultCharset());
     context.fileSystem().add(inputFile);
 
     CxxParseErrorLoggerVisitor.resetReport();
     CxxPreprocessor.resetReport();
-    CxxAstScanner.scanSingleFile(new File(inputFile.uri().getPath()));
+    CxxAstScanner.scanSingleInputFile(inputFile);
 
     var postjob = new FinalReport();
     postjob.execute(postJobContext);
@@ -63,6 +70,31 @@ public class FinalReportTest {
     assertThat(log).hasSize(2);
     assertThat(log.get(0)).contains("include directive error(s)");
     assertThat(log.get(1)).contains("syntax error(s) detected");
+  }
+
+  private static DefaultInputFile createInputFile(String fileName, String basePath, Charset charset)
+    throws IOException {
+    TestInputFileBuilder fb = TestInputFileBuilder.create("", fileName);
+
+    fb.setCharset(charset);
+    fb.setProjectBaseDir(Paths.get(basePath));
+    fb.setContents(getSourceCode(Paths.get(basePath, fileName).toFile(), charset));
+
+    return fb.build();
+  }
+
+  private static String getSourceCode(File filename, Charset defaultCharset) throws IOException {
+    try ( BOMInputStream bomInputStream = new BOMInputStream(new FileInputStream(filename),
+                                                             ByteOrderMark.UTF_8,
+                                                             ByteOrderMark.UTF_16LE,
+                                                             ByteOrderMark.UTF_16BE,
+                                                             ByteOrderMark.UTF_32LE,
+                                                             ByteOrderMark.UTF_32BE)) {
+      ByteOrderMark bom = bomInputStream.getBOM();
+      Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
+      byte[] bytes = bomInputStream.readAllBytes();
+      return new String(bytes, charset);
+    }
   }
 
 }

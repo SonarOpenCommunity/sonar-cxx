@@ -1,0 +1,23 @@
+<sqale>
+  <chc>
+    <key>REUSABILITY</key>
+    <name>Reusability</name>
+    <chc>
+      <key>MODULARITY</key>
+      <name>Modularity</name>
+      <chc>
+        <rule-repo>myRepoKey</rule-repo>
+        <rule-key>myRuleKey</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>CONSTANT_ISSUE</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>10</val>
+          <txt>min</txt>
+        </prop>
+      </chc>
+    </chc>
+  </chc>
+</sqale>
