@@ -1,0 +1,30 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: org.sonarsource.parent:parent
+    versions:
+    - 57.0.19
+    - 58.0.22
+  - dependency-name: io.cucumber:gherkin
+    versions:
+    - 17.0.0
+    - 17.0.1
+    - 18.1.0
+  - dependency-name: com.mycila:license-maven-plugin
+    versions:
+    - "4.0"
+  - dependency-name: org.sonarsource.sonarqube:sonar-testing-harness
+    versions:
+    - 8.6.1.40680
+    - 8.7.0.41497
+    - 8.7.1.42226
+  - dependency-name: org.sonarsource.sonarqube:sonar-plugin-api
+    versions:
+    - 8.6.1.40680
+    - 8.7.0.41497
+    - 8.7.1.42226
