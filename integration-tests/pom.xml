@@ -13,6 +13,7 @@
     <cucumber.version>2.0.1</cucumber.version>
     <sonar.sources>features</sonar.sources>
     <sonar.inclusions>features/**</sonar.inclusions>
+    <!-- in addition, a dependency must be set in 'integration-tests/pom.xml' to aggregate the results -->
     <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
@@ -22,17 +23,22 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-squid-bridge</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-squid</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>cxx-checks</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-sensors</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>cxx-squid</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
