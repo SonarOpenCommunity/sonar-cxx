@@ -20,6 +20,7 @@
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.pluginName>C++ (Community)</sonar.pluginName>
+    <!-- in addition, a dependency must be set in 'integration-tests/pom.xml' to aggregate the results -->
     <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 

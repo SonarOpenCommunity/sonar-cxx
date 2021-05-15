@@ -14,6 +14,7 @@
 
   <properties>
     <license.years>2021</license.years>
+    <!-- in addition, a dependency must be set in 'integration-tests/pom.xml' to aggregate the results -->
     <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
