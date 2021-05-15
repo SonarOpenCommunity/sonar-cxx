@@ -24,7 +24,6 @@ import java.io.UnsupportedEncodingException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifierRule;
@@ -41,8 +40,8 @@ public class FileNameCheckTest {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/badFile_name.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
 
-    String format = "(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$";
-    String message = "Rename this file to match this regular expression: \"%s\".";
+    var format = "(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$";
+    var message = "Rename this file to match this regular expression: \"%s\".";
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(String.format(message, format));
   }

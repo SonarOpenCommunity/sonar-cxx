@@ -44,7 +44,7 @@ public class CxxXunitSensorTest {
 
   @Test
   public void shouldReportNothingWhenNoReportFound() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
     context.setSettings(settings);
 
@@ -56,7 +56,7 @@ public class CxxXunitSensorTest {
 
   @Test
   public void shouldReadXunitReport() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/xunit-result-SAMPLE_with_fileName.xml");
     context.setSettings(settings);
 
@@ -76,7 +76,7 @@ public class CxxXunitSensorTest {
 
   @Test(expected = IllegalStateException.class)
   public void shouldThrowWhenGivenInvalidTime() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
     context.setSettings(settings);
 

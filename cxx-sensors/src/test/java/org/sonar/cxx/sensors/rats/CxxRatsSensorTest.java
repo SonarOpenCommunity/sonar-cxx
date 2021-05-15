@@ -44,7 +44,7 @@ public class CxxRatsSensorTest {
 
   @Test
   public void shouldReportCorrectViolations() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
     settings.setProperty(CxxRatsSensor.REPORT_PATH_KEY, "rats-reports/rats-result-*.xml");
     context.setSettings(settings);

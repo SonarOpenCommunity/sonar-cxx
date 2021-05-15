@@ -36,7 +36,7 @@ public class JsonCompilationDatabaseTest {
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
 
-    JsonCompilationDatabase jsonDb = new JsonCompilationDatabase(squidConfig);
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
     List<String> defines = squidConfig.getValues(CxxSquidConfiguration.GLOBAL,
@@ -56,7 +56,7 @@ public class JsonCompilationDatabaseTest {
   public void testExtensionSettings() throws Exception {
     var squidConfig = new CxxSquidConfiguration();
     var file = new File("src/test/resources/jsondb/compile_commands.json");
-    JsonCompilationDatabase jsonDb = new JsonCompilationDatabase(squidConfig);
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
     Path cwd = Paths.get(".");
@@ -82,7 +82,7 @@ public class JsonCompilationDatabaseTest {
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
 
-    JsonCompilationDatabase jsonDb = new JsonCompilationDatabase(squidConfig);
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
     Path cwd = Paths.get(".");
@@ -111,7 +111,7 @@ public class JsonCompilationDatabaseTest {
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
 
-    JsonCompilationDatabase jsonDb = new JsonCompilationDatabase(squidConfig);
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
     Path cwd = Paths.get(".");
@@ -148,7 +148,7 @@ public class JsonCompilationDatabaseTest {
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
 
-    JsonCompilationDatabase jsonDb = new JsonCompilationDatabase(squidConfig);
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
     Path cwd = Paths.get(".");
@@ -177,7 +177,7 @@ public class JsonCompilationDatabaseTest {
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
 
-    JsonCompilationDatabase jsonDb = new JsonCompilationDatabase(squidConfig);
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
     Path cwd = Paths.get("src");
@@ -200,7 +200,7 @@ public class JsonCompilationDatabaseTest {
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
 
-    JsonCompilationDatabase jsonDb = new JsonCompilationDatabase(squidConfig);
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
     Path cwd = Paths.get(".");
@@ -229,7 +229,7 @@ public class JsonCompilationDatabaseTest {
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
 
-    JsonCompilationDatabase jsonDb = new JsonCompilationDatabase(squidConfig);
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
     Path cwd = Paths.get(".");
@@ -253,7 +253,7 @@ public class JsonCompilationDatabaseTest {
 
     var file = new File("src/test/resources/jsondb/invalid.json");
 
-    JsonCompilationDatabase jsonDb = new JsonCompilationDatabase(squidConfig);
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
   }
 
@@ -263,7 +263,7 @@ public class JsonCompilationDatabaseTest {
 
     var file = new File("src/test/resources/jsondb/not-found.json");
 
-    JsonCompilationDatabase jsonDb = new JsonCompilationDatabase(squidConfig);
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
   }
 

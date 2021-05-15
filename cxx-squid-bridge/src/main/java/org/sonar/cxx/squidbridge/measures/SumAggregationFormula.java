@@ -30,7 +30,7 @@ public class SumAggregationFormula implements AggregationFormula {
   @Override
   public double aggregate(MetricDef metric, Collection<Measurable> measurables) {
     double aggregation = 0;
-    for (Measurable measurable : measurables) {
+    for (var measurable : measurables) {
       aggregation += measurable.getDouble(metric);
     }
     return aggregation;

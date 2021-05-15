@@ -46,8 +46,8 @@ public class CxxBullseyeCoverageSensorTest {
 
   @Test
   public void shouldReportCorrectCoverage() {
-    String coverageReport = "coverage-reports/bullseye/coverage-result-bullseye.xml";
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var coverageReport = "coverage-reports/bullseye/coverage-result-bullseye.xml";
+    var context = SensorContextTester.create(fs.baseDir());
 
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageBullseyeSensor.REPORT_PATH_KEY, coverageReport);
@@ -128,8 +128,8 @@ public class CxxBullseyeCoverageSensorTest {
   @Test
   public void shouldParseTopLevelFiles() {
     // read top level folder name from report file
-    String coverageReport = "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-win.xml";
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var coverageReport = "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-win.xml";
+    var context = SensorContextTester.create(fs.baseDir());
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageBullseyeSensor.REPORT_PATH_KEY, coverageReport);
       context.setSettings(settings);
@@ -162,8 +162,8 @@ public class CxxBullseyeCoverageSensorTest {
   @Test
   public void shouldReportAllProbes() {
 
-    String coverageReport = "coverage-reports/bullseye/bullseye-coverage-Linux-V8.9.60.xml";
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var coverageReport = "coverage-reports/bullseye/bullseye-coverage-Linux-V8.9.60.xml";
+    var context = SensorContextTester.create(fs.baseDir());
 
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageBullseyeSensor.REPORT_PATH_KEY, coverageReport);
@@ -237,8 +237,8 @@ public class CxxBullseyeCoverageSensorTest {
   public void shouldIgnoreBlocks() {
 
     // report contains a block tag => ignore
-    String coverageReport = "coverage-reports/bullseye/bullseye-coverage-Windows-V8.20.2.xml";
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var coverageReport = "coverage-reports/bullseye/bullseye-coverage-Windows-V8.20.2.xml";
+    var context = SensorContextTester.create(fs.baseDir());
 
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageBullseyeSensor.REPORT_PATH_KEY, coverageReport);

@@ -45,7 +45,6 @@ import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Qualifiers;
@@ -60,7 +59,6 @@ import org.sonar.cxx.checks.CheckList;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.config.MsBuild;
 import org.sonar.cxx.sensors.utils.CxxUtils;
-import org.sonar.cxx.squidbridge.AstScanner;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.squidbridge.api.SourceCode;
 import org.sonar.cxx.squidbridge.api.SourceFile;
@@ -290,7 +288,7 @@ public class CxxSquidSensor implements ProjectSensor {
       }
     }
 
-    AstScanner<Grammar> scanner = CxxAstScanner.create(
+    var scanner = CxxAstScanner.create(
       createConfiguration(),
       visitors.toArray(new SquidAstVisitor[visitors.size()])
     );
@@ -413,7 +411,7 @@ public class CxxSquidSensor implements ProjectSensor {
   private void saveViolations(InputFile inputFile, SourceFile sourceFile) {
     if (sourceFile.hasCheckMessages()) {
       for (var message : sourceFile.getCheckMessages()) {
-        int line = 1;
+        var line = 1;
         if (message.getLine() != null && message.getLine() > 0) {
           line = message.getLine();
         }
@@ -436,7 +434,7 @@ public class CxxSquidSensor implements ProjectSensor {
       for (var issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(sourceFile)) {
         final NewIssue newIssue = context.newIssue()
           .forRule(RuleKey.of(CheckList.REPOSITORY_KEY, issue.getRuleId()));
-        int locationNr = 0;
+        var locationNr = 0;
         for (var location : issue.getLocations()) {
           final Integer line = Integer.valueOf(location.getLine());
           final NewIssueLocation newIssueLocation = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
@@ -456,7 +454,7 @@ public class CxxSquidSensor implements ProjectSensor {
 
   private void saveFileLinesContext(InputFile inputFile, SourceFile sourceFile) {
     // measures for the lines of file
-    FileLinesContext fileLinesContext = fileLinesContextFactory.createFor(inputFile);
+    var fileLinesContext = fileLinesContextFactory.createFor(inputFile);
     List<Integer> linesOfCode = (List<Integer>) sourceFile.getData(CxxMetric.NCLOC_DATA);
     linesOfCode.stream().sequential().distinct().forEach((line) -> {
       try {

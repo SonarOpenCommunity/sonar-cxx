@@ -34,7 +34,7 @@ public abstract class CustomCxxRulesDefinition implements RulesDefinition {
 
   @Override
   public void define(RulesDefinition.Context context) {
-    RulesDefinition.NewRepository repo = context.createRepository(repositoryKey(), getLanguage().getKey())
+    var repo = context.createRepository(repositoryKey(), getLanguage().getKey())
       .setName(repositoryName());
 
     // Load metadata from check classes' annotations

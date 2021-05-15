@@ -63,7 +63,7 @@ public class CppcheckParser {
        */
       @Override
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        boolean parsed = false;
+        var parsed = false;
 
         try {
           rootCursor.advance();

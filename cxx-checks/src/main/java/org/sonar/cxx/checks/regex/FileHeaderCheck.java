@@ -23,7 +23,6 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
@@ -103,14 +102,14 @@ public class FileHeaderCheck extends SquidCheck<Grammar> {
   }
 
   private void checkRegularExpression(String fileContent) {
-    Matcher matcher = searchPattern.matcher(fileContent);
+    var matcher = searchPattern.matcher(fileContent);
     if (!matcher.find() || matcher.start() != 0) {
       getContext().createFileViolation(this, MESSAGE);
     }
   }
 
   private static boolean matches(String[] expectedLines, List<String> lines) {
-    boolean result = false;
+    var result = false;
 
     if (expectedLines.length <= lines.size()) {
       result = true;

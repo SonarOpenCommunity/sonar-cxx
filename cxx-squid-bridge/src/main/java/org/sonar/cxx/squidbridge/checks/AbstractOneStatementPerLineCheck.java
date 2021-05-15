@@ -62,7 +62,7 @@ public abstract class AbstractOneStatementPerLineCheck<G extends Grammar> extend
 
   @Override
   public void leaveFile(AstNode astNode) {
-    for (Map.Entry<Integer, Integer> statementsAtLine : statementsPerLine.entrySet()) {
+    for (var statementsAtLine : statementsPerLine.entrySet()) {
       if (statementsAtLine.getValue() > 1) {
         getContext().createLineViolation(this,
                                          "At most one statement is allowed per line, but {0} statements were found on this line.",

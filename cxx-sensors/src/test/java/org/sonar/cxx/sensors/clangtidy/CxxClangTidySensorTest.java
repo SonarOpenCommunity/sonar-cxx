@@ -48,7 +48,7 @@ public class CxxClangTidySensorTest {
 
   @Test
   public void shouldIgnoreIssuesIfResourceNotFound() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
       "clang-tidy-reports/cpd.error.txt"
@@ -63,7 +63,7 @@ public class CxxClangTidySensorTest {
 
   @Test
   public void shouldReportDefaultRuleId() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
       "clang-tidy-reports/cpd.report-default-rule-id.txt"
@@ -90,7 +90,7 @@ public class CxxClangTidySensorTest {
 
   @Test
   public void shouldReportErrors() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
       "clang-tidy-reports/cpd.report-error.txt"
@@ -112,7 +112,7 @@ public class CxxClangTidySensorTest {
 
   @Test
   public void shouldReportFatalErrors() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
       "clang-tidy-reports/cpd.report-fatal-error.txt"
@@ -134,7 +134,7 @@ public class CxxClangTidySensorTest {
 
   @Test
   public void shouldReportWarnings() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
       "clang-tidy-reports/cpd.report-warning.txt"
@@ -156,7 +156,7 @@ public class CxxClangTidySensorTest {
 
   @Test
   public void shouldReportNodiscard() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
       "clang-tidy-reports/cpd.report-nodiscard.txt"
@@ -178,7 +178,7 @@ public class CxxClangTidySensorTest {
 
   @Test
   public void shouldReportFlow() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
       "clang-tidy-reports/cpd.report-note.txt"
@@ -204,7 +204,7 @@ public class CxxClangTidySensorTest {
 
   @Test
   public void invalidReportReportsNoIssues() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
       "clang-tidy-reports/cpd.report-empty.txt"

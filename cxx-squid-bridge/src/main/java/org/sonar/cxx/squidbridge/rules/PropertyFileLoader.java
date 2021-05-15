@@ -27,9 +27,7 @@ import com.google.common.annotations.Beta;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import org.sonar.api.server.rule.RulesDefinition.NewParam;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
-import org.sonar.api.server.rule.RulesDefinition.NewRule;
 
 @Beta
 public class PropertyFileLoader {
@@ -53,14 +51,14 @@ public class PropertyFileLoader {
     } catch (IOException e) {
       throw new IllegalArgumentException("Could not read names from properties", e);
     }
-    for (NewRule rule : repository.rules()) {
-      String baseKey = "rule." + repository.key() + "." + rule.key();
-      String nameKey = baseKey + ".name";
-      String ruleName = properties.getProperty(nameKey);
+    for (var rule : repository.rules()) {
+      var baseKey = "rule." + repository.key() + "." + rule.key();
+      var nameKey = baseKey + ".name";
+      var ruleName = properties.getProperty(nameKey);
       if (ruleName != null) {
         rule.setName(ruleName);
       }
-      for (NewParam param : rule.params()) {
+      for (var param : rule.params()) {
         String paramDescriptionKey = baseKey + ".param." + param.key();
         String paramDescription = properties.getProperty(paramDescriptionKey);
         if (paramDescription != null) {

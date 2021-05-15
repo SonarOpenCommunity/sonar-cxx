@@ -70,7 +70,7 @@ public class TestUtils {
   public static DefaultInputFile buildInputFile(File baseDir, String fileName) throws IOException {
     var target = new File(baseDir, fileName);
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
-    DefaultInputFile inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target)
+    var inputFile = TestInputFileBuilder.create("ProjectKey", baseDir, target)
       .setContents(content)
       .setCharset(StandardCharsets.UTF_8)
       .setLanguage("cxx")

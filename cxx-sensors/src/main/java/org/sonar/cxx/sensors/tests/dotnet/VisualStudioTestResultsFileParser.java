@@ -29,7 +29,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -63,7 +62,7 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
     }
 
     public void parse() {
-      try (var xmlParserHelper = new XmlParserHelper(file)) {
+      try ( var xmlParserHelper = new XmlParserHelper(file)) {
         checkRootTag(xmlParserHelper);
         dispatchTags(xmlParserHelper);
         if (!foundCounters) {
@@ -125,7 +124,7 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
     private String keepOnlyMilliseconds(String value) {
       var sb = new StringBuffer(256);
 
-      Matcher matcher = millisecondsPattern.matcher(value);
+      var matcher = millisecondsPattern.matcher(value);
       var trailingZeros = new StringBuilder(128);
       while (matcher.find()) {
         String milliseconds = matcher.group(2);

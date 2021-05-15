@@ -46,8 +46,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
                                    + "(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
 
   public static List<PropertyDefinition> properties() {
-    String subcateg = "GCC";
-    String category = "CXX External Analyzers";
+    var subcateg = "GCC";
+    var category = "CXX External Analyzers";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("GCC Compiler Report(s)")

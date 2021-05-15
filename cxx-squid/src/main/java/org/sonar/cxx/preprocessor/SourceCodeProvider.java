@@ -203,12 +203,12 @@ public class SourceCodeProvider {
   }
 
   public String getSourceCode(File file, Charset defaultCharset) throws IOException {
-    try (BOMInputStream bomInputStream = new BOMInputStream(new FileInputStream(file),
-                                                            ByteOrderMark.UTF_8,
-                                                            ByteOrderMark.UTF_16LE,
-                                                            ByteOrderMark.UTF_16BE,
-                                                            ByteOrderMark.UTF_32LE,
-                                                            ByteOrderMark.UTF_32BE)) {
+    try ( var bomInputStream = new BOMInputStream(new FileInputStream(file),
+                                              ByteOrderMark.UTF_8,
+                                              ByteOrderMark.UTF_16LE,
+                                              ByteOrderMark.UTF_16BE,
+                                              ByteOrderMark.UTF_32LE,
+                                              ByteOrderMark.UTF_32BE)) {
       ByteOrderMark bom = bomInputStream.getBOM();
       Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
       byte[] bytes = bomInputStream.readAllBytes();

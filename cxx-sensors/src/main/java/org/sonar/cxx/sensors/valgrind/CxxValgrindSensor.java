@@ -126,7 +126,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
 
   void saveErrors(Set<ValgrindError> valgrindErrors) {
     for (var error : valgrindErrors) {
-      int stackNr = 0;
+      var stackNr = 0;
       for (var stack : error.getStacks()) {
         CxxReportIssue issue = createIssue(error, stack, stackNr);
         if (issue != null) {

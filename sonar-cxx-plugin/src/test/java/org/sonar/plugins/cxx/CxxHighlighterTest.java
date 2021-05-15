@@ -218,7 +218,7 @@ public class CxxHighlighterTest {
       "ProjectKey:" + inputFile.file().getName(), line, column);
 
     int expectedNumberOfTypeOfText = expectedTypeOfText == null ? 0 : 1;
-    String message = "number of TypeOfTexts at line " + line + " and column " + column + messageComplement;
+    var message = "number of TypeOfTexts at line " + line + " and column " + column + messageComplement;
     assertThat(foundTypeOfTexts).as(message).hasSize(expectedNumberOfTypeOfText);
     if (expectedNumberOfTypeOfText > 0) {
       message = "found TypeOfTexts at line " + line + " and column " + column + messageComplement;

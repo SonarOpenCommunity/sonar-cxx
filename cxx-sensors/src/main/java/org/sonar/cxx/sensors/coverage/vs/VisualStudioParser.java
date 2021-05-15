@@ -86,7 +86,7 @@ public class VisualStudioParser implements CoverageParser {
     throws XMLStreamException {
     SMInputCursor range = function.childElementCursor("ranges").advance().childElementCursor("range");
     CoverageMeasures builder = null;
-    String lastSourceId = "";
+    var lastSourceId = "";
 
     while (range.getNext() != null) {
       String sourceId = range.getAttrValue("source_id");

@@ -25,10 +25,10 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.cxx.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "TooManyParameters",
@@ -52,8 +52,8 @@ public class TooManyParametersCheck extends SquidCheck<Grammar> {
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.parameterDeclarationClause,
-      CxxGrammarImpl.lambdaDeclarator,
-      CxxGrammarImpl.cliParameterArray);
+                CxxGrammarImpl.lambdaDeclarator,
+                CxxGrammarImpl.cliParameterArray);
   }
 
   @Override
@@ -62,7 +62,7 @@ public class TooManyParametersCheck extends SquidCheck<Grammar> {
     if (parameterList != null) {
       int nbParameters = parameterList.getChildren(CxxGrammarImpl.parameterDeclaration).size();
       if (nbParameters > max) {
-        String message = "parameter list has {0} parameters, which is greater than the {1} authorized.";
+        var message = "parameter list has {0} parameters, which is greater than the {1} authorized.";
         getContext().createLineViolation(this, message, node, nbParameters, max);
       }
     }

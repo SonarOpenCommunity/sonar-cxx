@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx;
 
-import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -30,7 +29,6 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.cxx.squidbridge.AstScanner;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.api.SourceProject;
 import org.sonar.cxx.squidbridge.indexer.QueryByType;
@@ -43,7 +41,7 @@ public class CxxAstScannerTest {
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/trivial.cc", ".", "");
     CxxFileTesterHelper.add(tester, "src/test/resources/metrics/trivial.cc", "");
 
-    AstScanner<Grammar> scanner = CxxAstScanner.create(new CxxSquidConfiguration());
+    var scanner = CxxAstScanner.create(new CxxSquidConfiguration());
     scanner.scanFiles(new ArrayList<>(Arrays.asList(
       new File("src/test/resources/metrics/trivial.cc"),
       new File("src/test/resources/metrics/classes.cc")))

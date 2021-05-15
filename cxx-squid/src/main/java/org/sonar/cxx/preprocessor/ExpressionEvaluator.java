@@ -62,8 +62,8 @@ public final class ExpressionEvaluator {
 
     // This function is only responsible for providing a string and a radix to BigInteger.
     // The lexer ensures that the number has a valid format.
-    int radix = 10;
-    int begin = 0;
+    var radix = 10;
+    var begin = 0;
     if (number.length() > 2) {
       if (number.charAt(0) == '0') {
         switch (number.charAt(1)) {
@@ -298,7 +298,7 @@ public final class ExpressionEvaluator {
   }
 
   private BigInteger evalLogicalAndExpression(AstNode exprAst) {
-    AstNode operand = exprAst.getFirstChild();
+    var operand = exprAst.getFirstChild();
     boolean result = evalToBoolean(operand);
 
     while (result && ((operand = getNextOperand(operand)) != null)) {
@@ -309,9 +309,9 @@ public final class ExpressionEvaluator {
   }
 
   private BigInteger evalEqualityExpression(AstNode exprAst) {
-    AstNode lhs = exprAst.getFirstChild();
-    AstNode operator = lhs.getNextSibling();
-    AstNode rhs = operator.getNextSibling();
+    var lhs = exprAst.getFirstChild();
+    var operator = lhs.getNextSibling();
+    var rhs = operator.getNextSibling();
     AstNodeType operatorType = operator.getType();
 
     boolean result;
@@ -339,9 +339,9 @@ public final class ExpressionEvaluator {
   }
 
   private BigInteger evalRelationalExpression(AstNode exprAst) {
-    AstNode lhs = exprAst.getFirstChild();
-    AstNode operator = lhs.getNextSibling();
-    AstNode rhs = operator.getNextSibling();
+    var lhs = exprAst.getFirstChild();
+    var operator = lhs.getNextSibling();
+    var rhs = operator.getNextSibling();
     AstNodeType operatorType = operator.getType();
 
     boolean result;
@@ -381,7 +381,7 @@ public final class ExpressionEvaluator {
 
   // ///////////////// bitwise expressions ///////////////////////
   private BigInteger evalAndExpression(AstNode exprAst) {
-    AstNode operand = exprAst.getFirstChild();
+    var operand = exprAst.getFirstChild();
     BigInteger result = evalToInt(operand);
 
     while ((operand = getNextOperand(operand)) != null) {
@@ -392,7 +392,7 @@ public final class ExpressionEvaluator {
   }
 
   private BigInteger evalInclusiveOrExpression(AstNode exprAst) {
-    AstNode operand = exprAst.getFirstChild();
+    var operand = exprAst.getFirstChild();
     BigInteger result = evalToInt(operand);
 
     while ((operand = getNextOperand(operand)) != null) {
@@ -403,7 +403,7 @@ public final class ExpressionEvaluator {
   }
 
   private BigInteger evalExclusiveOrExpression(AstNode exprAst) {
-    AstNode operand = exprAst.getFirstChild();
+    var operand = exprAst.getFirstChild();
     BigInteger result = evalToInt(operand);
 
     while ((operand = getNextOperand(operand)) != null) {
@@ -417,8 +417,8 @@ public final class ExpressionEvaluator {
   private BigInteger evalUnaryExpression(AstNode exprAst) {
     // only 'unary-operator cast-expression' production is allowed in #if-context
 
-    AstNode operator = exprAst.getFirstChild();
-    AstNode operand = operator.getNextSibling();
+    var operator = exprAst.getFirstChild();
+    var operand = operator.getNextSibling();
     AstNodeType operatorType = operator.getFirstChild().getType();
 
     if (operatorType.equals(CppPunctuator.PLUS)) {
@@ -437,7 +437,7 @@ public final class ExpressionEvaluator {
   }
 
   private BigInteger evalShiftExpression(AstNode exprAst) {
-    AstNode rhs = exprAst.getFirstChild();
+    var rhs = exprAst.getFirstChild();
     AstNode operator;
     BigInteger result = evalToInt(rhs);
 
@@ -458,7 +458,7 @@ public final class ExpressionEvaluator {
   }
 
   private BigInteger evalAdditiveExpression(AstNode exprAst) {
-    AstNode rhs = exprAst.getFirstChild();
+    var rhs = exprAst.getFirstChild();
     AstNode operator;
     BigInteger result = evalToInt(rhs);
 
@@ -479,7 +479,7 @@ public final class ExpressionEvaluator {
   }
 
   private BigInteger evalMultiplicativeExpression(AstNode exprAst) {
-    AstNode rhs = exprAst.getFirstChild();
+    var rhs = exprAst.getFirstChild();
     AstNode operator;
     BigInteger result = evalToInt(rhs);
 
@@ -503,17 +503,17 @@ public final class ExpressionEvaluator {
 
   private BigInteger evalConditionalExpression(AstNode exprAst) {
     if (exprAst.getNumberOfChildren() == 5) {
-      AstNode decisionOperand = exprAst.getFirstChild();
-      AstNode operator = decisionOperand.getNextSibling();
-      AstNode trueCaseOperand = operator.getNextSibling();
+      var decisionOperand = exprAst.getFirstChild();
+      var operator = decisionOperand.getNextSibling();
+      var trueCaseOperand = operator.getNextSibling();
       operator = trueCaseOperand.getNextSibling();
-      AstNode falseCaseOperand = operator.getNextSibling();
+      var falseCaseOperand = operator.getNextSibling();
       return evalToBoolean(decisionOperand) ? evalToInt(trueCaseOperand) : evalToInt(falseCaseOperand);
     } else {
-      AstNode decisionOperand = exprAst.getFirstChild();
-      AstNode operator = decisionOperand.getNextSibling();
+      var decisionOperand = exprAst.getFirstChild();
+      var operator = decisionOperand.getNextSibling();
       operator = operator.getNextSibling();
-      AstNode falseCaseOperand = operator.getNextSibling();
+      var falseCaseOperand = operator.getNextSibling();
       BigInteger decision = evalToInt(decisionOperand);
       return decision.compareTo(BigInteger.ZERO) != 0 ? decision : evalToInt(falseCaseOperand);
     }
@@ -521,12 +521,12 @@ public final class ExpressionEvaluator {
 
   private BigInteger evalPrimaryExpression(AstNode exprAst) {
     // case "( expression )"
-    AstNode caseNode = exprAst.getFirstChild();
+    var caseNode = exprAst.getFirstChild();
     return evalToInt(caseNode.getNextSibling());
   }
 
   private BigInteger evalDefinedExpression(AstNode exprAst) {
-    AstNode child = exprAst.getFirstChild();
+    var child = exprAst.getFirstChild();
 
     if (exprAst.getNumberOfChildren() != 2) {
       child = child.getNextSibling();

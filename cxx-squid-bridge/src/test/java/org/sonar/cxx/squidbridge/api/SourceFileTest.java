@@ -34,7 +34,7 @@ public class SourceFileTest {
 
   @Test
   public void testGetStartAtLine() {
-    SourceFile file = new SourceFile("com/sonarsource/Toto.java");
+    var file = new SourceFile("com/sonarsource/Toto.java");
     assertEquals(1, file.getStartAtLine());
     file = new SourceFile("com/sonarsource/Toto.java", "Toto.java");
     assertEquals(1, file.getStartAtLine());
@@ -42,7 +42,7 @@ public class SourceFileTest {
 
   @Test
   public void testHasNoSon() {
-    SourceFile file = new SourceFile("com/sonarsource/Toto.java");
+    var file = new SourceFile("com/sonarsource/Toto.java");
     Set<Integer> noSonarTagLines = new HashSet<Integer>();
     noSonarTagLines.add(23);
     noSonarTagLines.add(10);

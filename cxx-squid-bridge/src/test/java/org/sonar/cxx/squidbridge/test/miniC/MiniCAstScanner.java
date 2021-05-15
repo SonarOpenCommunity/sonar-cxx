@@ -116,7 +116,7 @@ public final class MiniCAstScanner {
 
       @Override
       public boolean isBlank(String commentLine) {
-        for (int i = 0; i < commentLine.length(); i++) {
+        for (var i = 0; i < commentLine.length(); i++) {
           if (Character.isLetterOrDigit(commentLine.charAt(i))) {
             return false;
           }
@@ -143,7 +143,7 @@ public final class MiniCAstScanner {
       public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
         String functionName = astNode.findFirstChild(MiniCGrammar.BIN_FUNCTION_DEFINITION).getTokenValue();
 
-        SourceFunction function = new SourceFunction(astNode.getFromIndex() + "@" + functionName);
+        var function = new SourceFunction(astNode.getFromIndex() + "@" + functionName);
         function.setStartAtLine(astNode.getTokenLine());
 
         return function;
@@ -175,7 +175,7 @@ public final class MiniCAstScanner {
       .subscribeTo(complexityAstNodeType).addExclusions(MiniCGrammar.NO_COMPLEXITY_STATEMENT).build());
 
     /* External visitors (typically Check ones) */
-    for (SquidAstVisitor<Grammar> visitor : visitors) {
+    for (var visitor : visitors) {
       builder.withSquidAstVisitor(visitor);
     }
 

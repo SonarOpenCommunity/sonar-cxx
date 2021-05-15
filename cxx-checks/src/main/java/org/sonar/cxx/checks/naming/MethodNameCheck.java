@@ -32,10 +32,10 @@ import org.sonar.check.RuleProperty;
 import org.sonar.cxx.checks.utils.CheckUtils;
 import static org.sonar.cxx.checks.utils.CheckUtils.isFunctionDefinition;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.cxx.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.tag.Tag;
 
 /**
  * MethodNameCheck
@@ -64,7 +64,7 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
   private static AstNode getMethodName(AstNode node) {
     AstNode result = null;
     if (isFunctionDefinition(node)) {
-      AstNode declId = node.getFirstDescendant(CxxGrammarImpl.declaratorId);
+      var declId = node.getFirstDescendant(CxxGrammarImpl.declaratorId);
       if (declId != null) {
         // method inside of class
         result = getInsideMemberDeclaration(declId);
@@ -81,13 +81,13 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
   private static AstNode getInsideMemberDeclaration(AstNode declId) {
     AstNode result = null;
     if (declId.hasAncestor(CxxGrammarImpl.memberDeclaration)) {
-      AstNode idNode = declId.getLastChild(IDENTIFIER);
+      var idNode = declId.getLastChild(IDENTIFIER);
       if (idNode != null) {
-        AstNode classSpecifier = declId.getFirstAncestor(CxxGrammarImpl.classSpecifier);
+        var classSpecifier = declId.getFirstAncestor(CxxGrammarImpl.classSpecifier);
         if (classSpecifier != null) {
-          AstNode classHeadName = classSpecifier.getFirstDescendant(CxxGrammarImpl.classHeadName);
+          var classHeadName = classSpecifier.getFirstDescendant(CxxGrammarImpl.classHeadName);
           if (classHeadName != null) {
-            AstNode className = classHeadName.getLastChild(CxxGrammarImpl.className);
+            var className = classHeadName.getLastChild(CxxGrammarImpl.className);
             // if class name is equal to method name then it is a ctor or dtor
             if ((className != null) && !className.getTokenValue().equals(idNode.getTokenValue())) {
               result = idNode;
@@ -116,12 +116,12 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
 
   @CheckForNull
   private static AstNode getOutsideMemberDeclaration(AstNode declId) {
-    AstNode qualifiedId = declId.getFirstDescendant(CxxGrammarImpl.qualifiedId);
+    var qualifiedId = declId.getFirstDescendant(CxxGrammarImpl.qualifiedId);
     AstNode result = null;
     if (qualifiedId != null) {
-      AstNode nestedNameSpecifier = qualifiedId.getFirstDescendant(CxxGrammarImpl.nestedNameSpecifier);
+      var nestedNameSpecifier = qualifiedId.getFirstDescendant(CxxGrammarImpl.nestedNameSpecifier);
       if (nestedNameSpecifier != null) {
-        AstNode idNode = qualifiedId.getLastChild(IDENTIFIER);
+        var idNode = qualifiedId.getLastChild(IDENTIFIER);
         if (idNode != null) {
           Optional<AstNode> typeName = getMostNestedTypeName(nestedNameSpecifier);
           // if class name is equal to method name then it is a ctor or dtor

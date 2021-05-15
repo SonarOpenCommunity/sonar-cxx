@@ -28,10 +28,10 @@ import com.sonar.sslr.api.TokenType;
 import java.util.ArrayList;
 import java.util.List;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
-import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.parser.CxxKeyword;
+import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 
 /**
@@ -45,7 +45,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   private int isWithinFunctionDefinition;
 
   private static boolean isDefaultOrDeleteFunctionBody(AstNode astNode) {
-    AstNode node = astNode.getFirstChild(CxxGrammarImpl.functionBody);
+    var node = astNode.getFirstChild(CxxGrammarImpl.functionBody);
     if ((node != null)) {
       List<AstNode> functionBody = node.getChildren();
 

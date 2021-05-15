@@ -26,7 +26,6 @@ package org.sonar.cxx.squidbridge.checks;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.Trivia;
 import java.util.Set;
 
 public abstract class AbstractNestedCommentsCheck<G extends Grammar> extends SquidCheck<G> implements AstAndTokenVisitor {
@@ -35,11 +34,11 @@ public abstract class AbstractNestedCommentsCheck<G extends Grammar> extends Squ
 
   @Override
   public void visitToken(Token token) {
-    for (Trivia trivia : token.getTrivia()) {
+    for (var trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         String contents = getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue());
 
-        for (String commentStartTag : getCommentStartTags()) {
+        for (var commentStartTag : getCommentStartTags()) {
           if (contents.contains(commentStartTag)) {
             getContext().createLineViolation(this, "This comments contains the nested comment start tag \"{0}\"", trivia
                                              .getToken(), commentStartTag);

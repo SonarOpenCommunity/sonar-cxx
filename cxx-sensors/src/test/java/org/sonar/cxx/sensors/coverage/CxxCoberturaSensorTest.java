@@ -147,7 +147,7 @@ public class CxxCoberturaSensorTest {
 
   @Test
   public void shouldReportCorrectCoverageForAllTypesOfCoverage() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/coverage-result-cobertura.xml");
     context.setSettings(settings);
@@ -178,7 +178,7 @@ public class CxxCoberturaSensorTest {
 
   @Test
   public void shouldReportCorrectCoverageSQ62() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/coverage-result-cobertura.xml");
     context.setSettings(settings);
@@ -201,7 +201,7 @@ public class CxxCoberturaSensorTest {
 
   @Test
   public void shouldReportNoCoverageSaved() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     final String reportPathsValue = "coverage-reports/cobertura/specific-cases/does-not-exist.xml";
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY, reportPathsValue);
     context.setSettings(settings);
@@ -217,7 +217,7 @@ public class CxxCoberturaSensorTest {
 
   @Test
   public void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
     context.setSettings(settings);
@@ -230,7 +230,7 @@ public class CxxCoberturaSensorTest {
 
   @Test
   public void shouldReportNoCoverageWhenReportEmpty() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml");
     context.setSettings(settings);
@@ -252,7 +252,7 @@ public class CxxCoberturaSensorTest {
 
   @Test
   public void shouldReportNoCoverageWhenReportInvalid() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");

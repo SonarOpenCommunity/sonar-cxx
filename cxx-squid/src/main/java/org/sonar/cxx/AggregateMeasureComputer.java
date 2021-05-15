@@ -82,7 +82,7 @@ public class AggregateMeasureComputer implements MeasureComputer {
       // So don't complain about the missing data, but just ignore such components.
       return;
     }
-    int aggregation = 0;
+    var aggregation = 0;
     for (var childMeasure : childrenMeasures) {
       if (childMeasure != null) {
         aggregation += childMeasure.getIntValue();

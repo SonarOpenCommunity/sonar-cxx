@@ -62,7 +62,7 @@ public class TestwellCtcTxtParser implements CoverageParser {
     var coverageData = new HashMap<String, CoverageMeasures>();
     try ( var scanner = new TextScanner(report, StandardCharsets.UTF_8.name())) {
       scanner.useDelimiter(SECTION_SEP);
-      Matcher headerMatcher = FILE_HEADER.matcher(scanner.next());
+      var headerMatcher = FILE_HEADER.matcher(scanner.next());
       while (parseUnit(scanner, coverageData, headerMatcher)) {
         headerMatcher.reset(scanner.next());
       }
@@ -96,7 +96,7 @@ public class TestwellCtcTxtParser implements CoverageParser {
   }
 
   private void addLines(TextScanner scanner, File file, final Map<String, CoverageMeasures> coverageData) {
-    CoverageMeasures coverageMeasures = CoverageMeasures.create();
+    var coverageMeasures = CoverageMeasures.create();
     for (var nextLine = scanner.next(); !FILE_RESULT.matcher(nextLine).find(); nextLine = scanner.next()) {
       parseLineSection(coverageMeasures, nextLine);
     }
@@ -104,7 +104,7 @@ public class TestwellCtcTxtParser implements CoverageParser {
   }
 
   private void parseLineSection(CoverageMeasures coverageMeasures, String nextLine) {
-    Matcher lineMatcher = LINE_RESULT.matcher(nextLine);
+    var lineMatcher = LINE_RESULT.matcher(nextLine);
     if (lineMatcher.find(FROM_START)) {
       addEachLine(coverageMeasures, lineMatcher);
     } else {
@@ -114,11 +114,11 @@ public class TestwellCtcTxtParser implements CoverageParser {
 
   private void addEachLine(CoverageMeasures coverageMeasures, Matcher lineMatcher) {
 
-    int lineHits = 0;
-    int lineIdPrev = 0;
-    int lineIdCond = 0;
-    int conditions = 0;
-    int coveredConditions = 0;
+    var lineHits = 0;
+    var lineIdPrev = 0;
+    var lineIdCond = 0;
+    var conditions = 0;
+    var coveredConditions = 0;
     boolean conditionIsDetected = false;
 
     do {

@@ -29,7 +29,7 @@ public class CxxRuleRepository implements RulesDefinition {
 
   @Override
   public void define(Context context) {
-    NewRepository repository = context.createRepository("cxx", CxxLanguage.KEY).
+    var repository = context.createRepository("cxx", CxxLanguage.KEY).
       setName(REPOSITORY_NAME);
     new AnnotationBasedRulesDefinition(repository, CxxLanguage.KEY).addRuleClasses(false, CheckList.getChecks());
     repository.done();

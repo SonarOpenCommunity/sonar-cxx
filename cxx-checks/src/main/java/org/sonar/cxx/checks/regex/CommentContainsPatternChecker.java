@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.regex;
 
 import com.sonar.sslr.api.Token;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
 
@@ -73,7 +72,7 @@ class CommentContainsPatternChecker {
   }
 
   private int indexOfIgnoreCase(String str) {
-    Matcher m = p.matcher(str);
+    var m = p.matcher(str);
     return m.find() ? m.start() : -1;
   }
 

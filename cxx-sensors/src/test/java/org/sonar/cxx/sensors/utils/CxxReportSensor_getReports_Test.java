@@ -82,7 +82,7 @@ public class CxxReportSensor_getReports_Test {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
 
-    String relativeReport = "path/to/report.xml";
+    var relativeReport = "path/to/report.xml";
     FileUtils.touch(new File(base.getRoot(), relativeReport));
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + "," + relativeReport);

@@ -26,7 +26,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -57,7 +56,7 @@ public final class DrMemoryParser {
     List<String> elements = getElements(file, encoding);
 
     for (var element : elements) {
-      Matcher m = RX_MESSAGE_FINDER.matcher(element);
+      var m = RX_MESSAGE_FINDER.matcher(element);
 
       if (m.find()) {
         var error = new DrMemoryError();
@@ -65,7 +64,7 @@ public final class DrMemoryParser {
         String[] elementSplitted = CxxUtils.EOL_PATTERN.split(element);
         error.message = elementSplitted[0];
         for (var elementPart : elementSplitted) {
-          Matcher locationMatcher = RX_FILE_FINDER.matcher(elementPart);
+          var locationMatcher = RX_FILE_FINDER.matcher(elementPart);
           if (locationMatcher.find()) {
             var location = new Location();
             location.file = locationMatcher.group(1);
@@ -95,7 +94,7 @@ public final class DrMemoryParser {
       new InputStreamReader(java.nio.file.Files.newInputStream(file.toPath()), encoding))) {
       var sb = new StringBuilder(4096);
       String line;
-      int cnt = 0;
+      var cnt = 0;
       final Pattern whitespacesOnly = Pattern.compile("^\\s*$");
 
       while ((line = br.readLine()) != null) {

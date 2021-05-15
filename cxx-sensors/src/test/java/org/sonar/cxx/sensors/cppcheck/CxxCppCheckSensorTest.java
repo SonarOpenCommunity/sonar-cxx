@@ -44,7 +44,7 @@ public class CxxCppCheckSensorTest {
 
   @Test
   public void shouldReportCorrectViolations() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-*.xml");
     context.setSettings(settings);
 
@@ -61,7 +61,7 @@ public class CxxCppCheckSensorTest {
 
   @Test
   public void shouldReportProjectLevelViolationsV2() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
                          "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
     context.setSettings(settings);
@@ -82,7 +82,7 @@ public class CxxCppCheckSensorTest {
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
     context.setSettings(settings);
 
@@ -94,7 +94,7 @@ public class CxxCppCheckSensorTest {
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV2() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
     context.setSettings(settings);
 
@@ -106,7 +106,7 @@ public class CxxCppCheckSensorTest {
 
   @Test(expected = IllegalStateException.class)
   public void shouldThrowExceptionWhenRecoveryIsDisabled() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-empty.xml");
     context.setSettings(settings);

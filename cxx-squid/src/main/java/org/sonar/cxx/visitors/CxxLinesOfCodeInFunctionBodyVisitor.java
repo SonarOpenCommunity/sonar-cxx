@@ -23,9 +23,9 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstVisitor;
 import com.sonar.sslr.api.Grammar;
 import java.util.List;
-import org.sonar.cxx.preprocessor.CppPunctuator;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.preprocessor.CppPunctuator;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 
 /**
@@ -45,7 +45,7 @@ public class CxxLinesOfCodeInFunctionBodyVisitor<GRAMMAR extends Grammar> extend
   public void visitNode(AstNode node) {
     List<AstNode> allChilds = node.getDescendants(CxxGrammarImpl.statement, CppPunctuator.CURLBR_LEFT,
                                                   CppPunctuator.CURLBR_RIGHT);
-    int lines = 1;
+    var lines = 1;
     int firstLine = node.getTokenLine();
     if (allChilds != null && !allChilds.isEmpty()) {
       int previousLine = firstLine;

@@ -39,16 +39,16 @@ public class SourceCodeTreeDecorator {
 
   private void decorateWith(SourceCode sourceCode, MetricDef... metrics) {
     if (sourceCode.hasChildren()) {
-      for (SourceCode child : sourceCode.getChildren()) {
+      for (var child : sourceCode.getChildren()) {
         decorateWith(child, metrics);
       }
     }
-    for (MetricDef metric : metrics) {
+    for (var metric : metrics) {
       if (!metric.aggregateIfThereIsAlreadyAValue() && Double.doubleToRawLongBits(sourceCode.getDouble(metric)) != 0) {
         continue;
       }
       if (sourceCode.hasChildren()) {
-        for (SourceCode child : sourceCode.getChildren()) {
+        for (var child : sourceCode.getChildren()) {
           if (!metric.isCalculatedMetric() && metric.isThereAggregationFormula()) {
             sourceCode.add(metric, child);
           }

@@ -123,7 +123,7 @@ public class BullseyeParser implements CoverageParser {
     throws XMLStreamException {
     SMInputCursor child = folder.childElementCursor();
     while (child.getNext() != null) {
-      CoverageMeasures fileMeasuresBuilderIn = CoverageMeasures.create();
+      var fileMeasuresBuilderIn = CoverageMeasures.create();
 
       funcWalk(child, fileMeasuresBuilderIn);
       coverageData.put(fileName.getPath(), fileMeasuresBuilderIn);
@@ -184,7 +184,7 @@ public class BullseyeParser implements CoverageParser {
       path.add(name);
       if ("src".equalsIgnoreCase(folderChildName)) {
         String filePath = buildPath(path, correctPath);
-        CoverageMeasures fileMeasuresBuilderIn = CoverageMeasures.create();
+        var fileMeasuresBuilderIn = CoverageMeasures.create();
         fileWalk(child, fileMeasuresBuilderIn);
         coverageData.put(filePath, fileMeasuresBuilderIn);
       } else {
@@ -225,7 +225,7 @@ public class BullseyeParser implements CoverageParser {
         }
         break;
       case "function":
-        int lineHits = 0;
+        var lineHits = 0;
         if ("full".equalsIgnoreCase(event)) {
           lineHits = 1;
         }

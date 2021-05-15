@@ -24,7 +24,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -101,7 +100,7 @@ public class CoberturaParser implements CoverageParser {
       String isBranch = line.getAttrValue("branch");
       String text = line.getAttrValue("condition-coverage");
       if (text != null && "true".equals(isBranch) && !text.trim().isEmpty()) {
-        Matcher m = CONDITION_PATTERN.matcher(text);
+        var m = CONDITION_PATTERN.matcher(text);
         if (m.find()) {
           String[] conditions = m.group(1).split("/");
           builder.setConditions(lineId, Integer.parseInt(conditions[1]), Integer.parseInt(conditions[0]));

@@ -126,7 +126,7 @@ public class WildcardPatternFileProvider {
     }
     checkNoCurrentOrParentFolderAccess(wildcardElements);
 
-    WildcardPattern wildcardPattern = WildcardPattern.create(toPath(wildcardElements), directorySeparator);
+    var wildcardPattern = WildcardPattern.create(toPath(wildcardElements), directorySeparator);
 
     var result = new HashSet<File>();
     for (var file : listFiles(absoluteFileTillFirstWildcardElement)) {

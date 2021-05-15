@@ -87,9 +87,9 @@ public class XunitReportParser implements XmlStreamHandler {
     String tcFilename = testCaseCursor.getAttrValue("filename");
     String name = parseTestCaseName(testCaseCursor);
     Double time = parseTime(testCaseCursor);
-    String status = "ok";
-    String stack = "";
-    String msg = "";
+    var status = "ok";
+    var stack = "";
+    var msg = "";
     final String SKIPPED_STATUS = "skipped";
 
     // Googletest-reports mark the skipped tests with status="notrun"

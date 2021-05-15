@@ -115,10 +115,10 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   private void save(Collection<TestFile> testfiles) {
 
-    int testsCount = 0;
-    int testsSkipped = 0;
-    int testsErrors = 0;
-    int testsFailures = 0;
+    var testsCount = 0;
+    var testsSkipped = 0;
+    var testsErrors = 0;
+    var testsFailures = 0;
     long testsTime = 0;
     for (var tf : testfiles) {
       if (!tf.getFilename().isEmpty()) {

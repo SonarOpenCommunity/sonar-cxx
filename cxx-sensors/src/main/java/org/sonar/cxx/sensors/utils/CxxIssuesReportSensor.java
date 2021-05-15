@@ -104,7 +104,8 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   private TextRange getRange(CxxReportLocation location, InputFile inputFile) {
-    int line = 1, column = -1;
+    var line = 1;
+    var column = -1;
     try {
       if (location.getLine() != null) {
         // https://jira.sonarsource.com/browse/SONAR-6792
@@ -139,7 +140,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   private boolean addLocations(NewIssue newIssue, CxxReportIssue issue) {
-    boolean first = true;
+    var first = true;
     for (var location : issue.getLocations()) {
       NewIssueLocation newLocation = null;
       if (location.getFile() != null && !location.getFile().isEmpty()) {

@@ -46,7 +46,7 @@ public class ProgressReportTest {
   public void test() throws Exception {
     Logger logger = mock(Logger.class);
 
-    ProgressReport report = new ProgressReport(ProgressReport.class.getName(), 100, logger, "analyzed");
+    var report = new ProgressReport(ProgressReport.class.getName(), 100, logger, "analyzed");
 
     File file = mock(File.class);
     when(file.getAbsolutePath()).thenReturn("foo");
@@ -70,7 +70,7 @@ public class ProgressReportTest {
     List<String> messages = captor.getAllValues();
     assertThat(messages.size()).isGreaterThanOrEqualTo(3);
     assertThat(messages.get(0)).isEqualTo("2 source files to be analyzed");
-    for (int i = 1; i < messages.size() - 1; i++) {
+    for (var i = 1; i < messages.size() - 1; i++) {
       assertThat(messages.get(i)).isEqualTo("0/2 files analyzed, current file: foo");
     }
     assertThat(messages.get(messages.size() - 1)).isEqualTo("2/2" + " source files have been analyzed");
@@ -80,7 +80,7 @@ public class ProgressReportTest {
   public void testCancel() throws InterruptedException {
     Logger logger = mock(Logger.class);
 
-    ProgressReport report = new ProgressReport(ProgressReport.class.getName(), 100, logger, "analyzed");
+    var report = new ProgressReport(ProgressReport.class.getName(), 100, logger, "analyzed");
     File file = mock(File.class);
     when(file.getAbsolutePath()).thenReturn("foo");
     report.start(ImmutableList.of(file, file));

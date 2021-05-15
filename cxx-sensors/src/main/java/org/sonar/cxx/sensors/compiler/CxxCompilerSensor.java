@@ -63,7 +63,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
                 getCompilerKey(), report, scanner.encoding(), pattern);
 
       while (scanner.hasNextLine()) {
-        Matcher matcher = pattern.matcher(scanner.nextLine());
+        var matcher = pattern.matcher(scanner.nextLine());
         if (matcher.find()) {
           String filename = alignFilename(getSubSequence(matcher, "file"));
           String line = alignLine(getSubSequence(matcher, "line"));

@@ -50,7 +50,7 @@ public class InferParser {
     InferIssue[] inferIssues;
 
     try {
-      try ( JsonReader reader = new JsonReader(new FileReader(report))) {
+      try ( var reader = new JsonReader(new FileReader(report))) {
         inferIssues = new Gson().fromJson(reader, InferIssue[].class);
         if (inferIssues == null) {
           throw new EmptyReportException("The 'Infer JSON' report is empty");
@@ -60,9 +60,9 @@ public class InferParser {
       throw new InvalidReportException("The 'Infer JSON' report is invalid", e);
     }
 
-    for (InferIssue issue : inferIssues) {
+    for (var issue : inferIssues) {
       if (issue.getFile() != null) {
-        CxxReportIssue cxxReportIssue = new CxxReportIssue(
+        var cxxReportIssue = new CxxReportIssue(
           issue.getBugType(), issue.getFile(), String.valueOf(issue.getLine()), null, issue.getQualifier());
         sensor.saveUniqueViolation(cxxReportIssue);
       } else {

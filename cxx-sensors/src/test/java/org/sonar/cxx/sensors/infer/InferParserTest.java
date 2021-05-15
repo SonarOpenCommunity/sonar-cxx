@@ -20,23 +20,22 @@
 package org.sonar.cxx.sensors.infer;
 
 import com.google.gson.Gson;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class InferParserTest {
 
   @Test
   public void shouldParseImportantInformation() {
-    InferParser.InferIssue expected = new InferParser.InferIssue();
+    var expected = new InferParser.InferIssue();
     expected.setBugType("TotoType");
     expected.setFile("path/to/toto.c");
     expected.setLine(11);
     expected.setQualifier("Toto should not be toto.");
 
-    String json = "{'bug_type':'TotoType','qualifier':'Toto should not be toto.',"
-            + "'line':11,'file':'path/to/toto.c'}";
-    Gson gson = new Gson();
+    var json = "{'bug_type':'TotoType','qualifier':'Toto should not be toto.',"
+             + "'line':11,'file':'path/to/toto.c'}";
+    var gson = new Gson();
     InferParser.InferIssue value = gson.fromJson(json, InferParser.InferIssue.class);
 
     assertEquals(expected.toString(), value.toString());

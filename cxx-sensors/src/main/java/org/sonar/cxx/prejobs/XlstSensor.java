@@ -73,8 +73,8 @@ public class XlstSensor implements ProjectSensor {
   @Override
   public void execute(SensorContext context) {
     this.context = context;
-    for (int i = 1; i <= MAX_STYLESHEETS; i++) {
-      boolean paramError = false;
+    for (var i = 1; i <= MAX_STYLESHEETS; i++) {
+      var paramError = false;
 
       final String stylesheetKey = OTHER_XSLT_KEY + i + STYLESHEET_KEY;
       final String inputKey = OTHER_XSLT_KEY + i + INPUT_KEY;
@@ -114,7 +114,7 @@ public class XlstSensor implements ProjectSensor {
   }
 
   private void transformFileList(String baseDir, String stylesheet, List<File> inputs, String outputs) {
-    for (int j = 0; j < inputs.size(); j++) {
+    for (var j = 0; j < inputs.size(); j++) {
       try {
         InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + stylesheet);
         Source stylesheetFile;

@@ -39,7 +39,7 @@ class ValgrindReportParser {
    * @exception XMLStreamException javax.xml.stream.XMLStreamException
    */
   public Set<ValgrindError> parse(File report) throws XMLStreamException {
-    ValgrindReportStreamHandler streamHandler = new ValgrindReportStreamHandler();
+    var streamHandler = new ValgrindReportStreamHandler();
     new StaxParser(streamHandler).parse(report);
     return streamHandler.valgrindErrors;
   }
@@ -108,7 +108,7 @@ class ValgrindReportParser {
       }
 
       if (text == null || kind == null || stacks.isEmpty()) {
-        String msg = "Valgrind error is incomplete: we require all of 'kind', '*what.text' and 'stack'";
+        var msg = "Valgrind error is incomplete: we require all of 'kind', '*what.text' and 'stack'";
         child.throwStreamException(msg);
       }
 

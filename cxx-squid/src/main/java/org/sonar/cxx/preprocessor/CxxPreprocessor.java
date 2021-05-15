@@ -354,9 +354,9 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private static List<Token> matchArgument(List<Token> tokens, List<Token> arguments) throws MismatchException {
-    int nestingLevel = 0;
-    int tokensConsumed = 0;
-    int noTokens = tokens.size();
+    var nestingLevel = 0;
+    var tokensConsumed = 0;
+    var noTokens = tokens.size();
     Token firstToken = tokens.get(0);
     Token currToken = firstToken;
     String curr = currToken.getValue();
@@ -528,18 +528,18 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private static Macro parseMacroDefinition(AstNode defineLineAst) {
-    AstNode ast = defineLineAst.getFirstChild();
-    AstNode nameNode = ast.getFirstDescendant(CppGrammarImpl.ppToken);
+    var ast = defineLineAst.getFirstChild();
+    var nameNode = ast.getFirstDescendant(CppGrammarImpl.ppToken);
     String macroName = nameNode.getTokenValue();
 
-    AstNode paramList = ast.getFirstDescendant(CppGrammarImpl.parameterList);
+    var paramList = ast.getFirstDescendant(CppGrammarImpl.parameterList);
     List<Token> macroParams = paramList == null
                                 ? "objectlikeMacroDefinition".equals(ast.getName()) ? null : new LinkedList<>()
                                 : getParams(paramList);
 
-    AstNode vaargs = ast.getFirstDescendant(CppGrammarImpl.variadicparameter);
+    var vaargs = ast.getFirstDescendant(CppGrammarImpl.variadicparameter);
     if ((vaargs != null) && (macroParams != null)) {
-      AstNode identifier = vaargs.getFirstChild(IDENTIFIER);
+      var identifier = vaargs.getFirstChild(IDENTIFIER);
       macroParams.add(identifier == null
                         ? Token.builder()
                           .setLine(vaargs.getToken().getLine())
@@ -552,7 +552,7 @@ public class CxxPreprocessor extends Preprocessor {
                         : identifier.getToken());
     }
 
-    AstNode replList = ast.getFirstDescendant(CppGrammarImpl.replacementList);
+    var replList = ast.getFirstDescendant(CppGrammarImpl.replacementList);
     List<Token> macroBody = replList == null
                               ? new LinkedList<>()
                               : replList.getTokens().subList(0, replList.getTokens().size() - 1);
@@ -772,8 +772,9 @@ public class CxxPreprocessor extends Preprocessor {
     // va-opt-replacement:
     //    __VA_OPT__ ( pp-tokensopt )
     //
-    int firstIndex = -1, lastIndex = -1;
-    int brackets = 0;
+    var firstIndex = -1;
+    var lastIndex = -1;
+    var brackets = 0;
 
     for (int i = 0; i < tokens.size(); i++) {
       switch (tokens.get(i).getValue()) {
@@ -819,7 +820,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       // container to search parameter by name
       var paramterIndex = new HashMap<String, Integer>();
-      for(int index=0; index<parameters.size(); index++) {
+      for(var index=0; index<parameters.size(); index++) {
         paramterIndex.put(parameters.get(index).getValue(),index);
       }
 
@@ -955,7 +956,7 @@ public class CxxPreprocessor extends Preprocessor {
         continue;
       }
 
-      String defineString = "#define " + define;
+      var defineString = "#define " + define;
       Macro macro = parseMacroDefinition(defineString);
 
       if (macro != null) {
@@ -970,7 +971,7 @@ public class CxxPreprocessor extends Preprocessor {
     String includedFileName = null;
     boolean quoted = false;
 
-    AstNode node = ast.getFirstDescendant(CppGrammarImpl.includeBodyQuoted);
+    var node = ast.getFirstDescendant(CppGrammarImpl.includeBodyQuoted);
     if (node != null) {
       includedFileName = stripQuotes(node.getFirstChild().getTokenValue());
       quoted = true;
@@ -1196,7 +1197,7 @@ public class CxxPreprocessor extends Preprocessor {
     Macro macro = getMacro(curr.getValue());
     if (macro != null) {
       List<Token> replTokens = new LinkedList<>();
-      int tokensConsumed = 0;
+      var tokensConsumed = 0;
 
       if (macro.params == null) {
         tokensConsumed = 1;

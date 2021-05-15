@@ -44,10 +44,10 @@ public class ViolationCounterCheckTest {
 
     File output = temporaryFolder.newFile();
 
-    ViolationCounterCheck.ViolationCounter counter = new ViolationCounterCheck.ViolationCounter();
-    ViolationCounterCheck<Grammar> violationCounterCheck = new ViolationCounterCheck<Grammar>(projectsDir, counter);
+    var counter = new ViolationCounterCheck.ViolationCounter();
+    var violationCounterCheck = new ViolationCounterCheck<Grammar>(projectsDir, counter);
 
-    AbstractParseErrorCheck<Grammar> parseErrorCheck = new AbstractParseErrorCheck<Grammar>() {
+    var parseErrorCheck = new AbstractParseErrorCheck<Grammar>() {
     };
 
     scanFile("/checks/parse_error.mc", parseErrorCheck, violationCounterCheck);
@@ -55,9 +55,10 @@ public class ViolationCounterCheckTest {
     counter.saveToFile(output.getAbsolutePath());
     assertThat(output).isFile();
 
-    ViolationCounterCheck.ViolationDifferenceAnalyzer analyzer = new ViolationCounterCheck.ViolationDifferenceAnalyzer(
+    var analyzer = new ViolationCounterCheck.ViolationDifferenceAnalyzer(
       new ViolationCounterCheck.ViolationCounter(),
-      ViolationCounterCheck.ViolationCounter.loadFromFile(output));
+      ViolationCounterCheck.ViolationCounter
+        .loadFromFile(output));
     analyzer.printReport();
     assertThat(analyzer.hasDifferences()).isTrue();
 

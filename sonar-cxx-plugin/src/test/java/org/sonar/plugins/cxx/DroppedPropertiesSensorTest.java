@@ -40,11 +40,11 @@ public class DroppedPropertiesSensorTest {
 
   @Test
   public void testNoMsg() throws Exception {
-    SensorContextTester contextTester = SensorContextTester.create(tmp.newFolder());
-    MapSettings mapSettings = new MapSettings().setProperty("sonar.cxx.xxx", "value");
+    var contextTester = SensorContextTester.create(tmp.newFolder());
+    var mapSettings = new MapSettings().setProperty("sonar.cxx.xxx", "value");
     contextTester.setSettings(mapSettings);
     List<String> analysisWarnings = new ArrayList<>();
-    DroppedPropertiesSensor sensor = new DroppedPropertiesSensor(analysisWarnings::add);
+    var sensor = new DroppedPropertiesSensor(analysisWarnings::add);
     sensor.execute(contextTester);
 
     assertThat(logTester.logs(LoggerLevel.WARN)).isEmpty();
@@ -53,29 +53,29 @@ public class DroppedPropertiesSensorTest {
 
   @Test
   public void testNoLongerSupported() throws Exception {
-    SensorContextTester contextTester = SensorContextTester.create(tmp.newFolder());
-    MapSettings mapSettings = new MapSettings().setProperty("sonar.cxx.cppncss.reportPaths", "value");
+    var contextTester = SensorContextTester.create(tmp.newFolder());
+    var mapSettings = new MapSettings().setProperty("sonar.cxx.cppncss.reportPaths", "value");
     contextTester.setSettings(mapSettings);
     List<String> analysisWarnings = new ArrayList<>();
-    DroppedPropertiesSensor sensor = new DroppedPropertiesSensor(analysisWarnings::add);
+    var sensor = new DroppedPropertiesSensor(analysisWarnings::add);
     sensor.execute(contextTester);
 
-    String msg = "CXX property 'sonar.cxx.cppncss.reportPaths' is no longer supported.";
+    var msg = "CXX property 'sonar.cxx.cppncss.reportPaths' is no longer supported.";
     assertThat(logTester.logs(LoggerLevel.WARN)).contains(msg);
     assertThat(analysisWarnings).containsExactly(msg);
   }
 
   @Test
   public void testNoLongerSupportedWithInfo() throws Exception {
-    SensorContextTester contextTester = SensorContextTester.create(tmp.newFolder());
-    MapSettings mapSettings = new MapSettings().setProperty("sonar.cxx.suffixes.sources", "value");
+    var contextTester = SensorContextTester.create(tmp.newFolder());
+    var mapSettings = new MapSettings().setProperty("sonar.cxx.suffixes.sources", "value");
     contextTester.setSettings(mapSettings);
     List<String> analysisWarnings = new ArrayList<>();
-    DroppedPropertiesSensor sensor = new DroppedPropertiesSensor(analysisWarnings::add);
+    var sensor = new DroppedPropertiesSensor(analysisWarnings::add);
     sensor.execute(contextTester);
 
-    String msg = "CXX property 'sonar.cxx.suffixes.sources' is no longer supported."
-                   + " Use key 'sonar.cxx.file.suffixes' instead.";
+    var msg = "CXX property 'sonar.cxx.suffixes.sources' is no longer supported."
+            + " Use key 'sonar.cxx.file.suffixes' instead.";
     assertThat(logTester.logs(LoggerLevel.WARN)).contains(msg);
     assertThat(analysisWarnings).containsExactly(msg);
   }
