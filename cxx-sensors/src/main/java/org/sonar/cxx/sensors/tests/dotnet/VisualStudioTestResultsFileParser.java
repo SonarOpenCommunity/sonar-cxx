@@ -87,24 +87,24 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
     private void handleCountersTag(XmlParserHelper xmlParserHelper) {
       foundCounters = true;
 
-      int passed = xmlParserHelper.getIntAttributeOrZero("passed");
-      int failed = xmlParserHelper.getIntAttributeOrZero("failed");
-      int errors = xmlParserHelper.getIntAttributeOrZero("error");
-      int timeout = xmlParserHelper.getIntAttributeOrZero("timeout");
-      int aborted = xmlParserHelper.getIntAttributeOrZero("aborted");
+      var passed = xmlParserHelper.getIntAttributeOrZero("passed");
+      var failed = xmlParserHelper.getIntAttributeOrZero("failed");
+      var errors = xmlParserHelper.getIntAttributeOrZero("error");
+      var timeout = xmlParserHelper.getIntAttributeOrZero("timeout");
+      var aborted = xmlParserHelper.getIntAttributeOrZero("aborted");
 
-      int inconclusive = xmlParserHelper.getIntAttributeOrZero("inconclusive");
+      var inconclusive = xmlParserHelper.getIntAttributeOrZero("inconclusive");
 
-      int tests = passed + failed + errors + timeout + aborted;
-      int skipped = inconclusive;
-      int failures = timeout + failed + aborted;
+      var tests = passed + failed + errors + timeout + aborted;
+      var skipped = inconclusive;
+      var failures = timeout + failed + aborted;
 
       unitTestResults.add(tests, passed, skipped, failures, errors, null);
     }
 
     private void handleTimesTag(XmlParserHelper xmlParserHelper) {
-      Date start = getRequiredDateAttribute(xmlParserHelper, "start");
-      Date finish = getRequiredDateAttribute(xmlParserHelper, "finish");
+      var start = getRequiredDateAttribute(xmlParserHelper, "start");
+      var finish = getRequiredDateAttribute(xmlParserHelper, "finish");
       long duration = finish.getTime() - start.getTime();
 
       unitTestResults.add(0, 0, 0, 0, 0, duration);

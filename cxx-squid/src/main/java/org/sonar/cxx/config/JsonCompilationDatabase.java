@@ -61,7 +61,7 @@ public class JsonCompilationDatabase {
 
   private static String[] tokenizeCommandLine(String cmdLine) {
     var args = new ArrayList<String>();
-    boolean escape = false;
+    var escape = false;
     char stringOpen = 0;
     var sb = new StringBuilder(512);
 

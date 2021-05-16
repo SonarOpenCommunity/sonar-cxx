@@ -95,7 +95,7 @@ public final class DrMemoryParser {
       var sb = new StringBuilder(4096);
       String line;
       var cnt = 0;
-      final Pattern whitespacesOnly = Pattern.compile("^\\s*$");
+      var whitespacesOnly = Pattern.compile("^\\s*$");
 
       while ((line = br.readLine()) != null) {
         if (cnt > (TOP_COUNT)) {

@@ -23,7 +23,6 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.coverage.NewCoverage;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
@@ -86,10 +85,10 @@ public abstract class CoverageSensor extends CxxReportSensor {
     for (var entry : coverageMeasures.entrySet()) {
       final String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath != null) {
-        InputFile cxxFile = getInputFileIfInProject(filePath);
+        var cxxFile = getInputFileIfInProject(filePath);
 
         if (cxxFile != null) {
-          NewCoverage newCoverage = context.newCoverage().onFile(cxxFile);
+          var newCoverage = context.newCoverage().onFile(cxxFile);
           Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
           measures.forEach((CoverageMeasure measure) -> checkCoverage(newCoverage, measure));
 

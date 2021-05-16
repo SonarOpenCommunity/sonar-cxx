@@ -29,7 +29,7 @@ import java.util.List;
 
 public abstract class CodeScanner<V extends CodeVisitor> {
 
-  private final List<CodeVisitor> visitors = new ArrayList<CodeVisitor>();
+  private final List<CodeVisitor> visitors = new ArrayList<>();
 
   public abstract Collection<Class<? extends V>> getVisitorClasses();
 

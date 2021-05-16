@@ -128,7 +128,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
   @CheckForNull
   private NewIssueLocation createNewIssueLocation(NewIssue newIssue, CxxReportLocation location) {
-    InputFile inputFile = getInputFileIfInProject(location.getFile());
+    var inputFile = getInputFileIfInProject(location.getFile());
     if (inputFile != null) {
       TextRange range = getRange(location, inputFile);
       return newIssue.newLocation()

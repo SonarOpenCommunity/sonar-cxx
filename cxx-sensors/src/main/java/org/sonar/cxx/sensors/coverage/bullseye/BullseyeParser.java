@@ -65,7 +65,7 @@ public class BullseyeParser implements CoverageParser {
    * @return
    */
   private static String buildPath(List<String> path, String correctPath) {
-    String fileName = String.join(File.separator, path);
+    var fileName = String.join(File.separator, path);
     if (!(new File(fileName)).isAbsolute()) {
       fileName = correctPath + fileName;
     }

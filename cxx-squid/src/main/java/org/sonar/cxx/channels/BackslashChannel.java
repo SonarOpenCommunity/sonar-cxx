@@ -31,7 +31,7 @@ public class BackslashChannel extends Channel<Lexer> {
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {
-    char ch = (char) code.peek();
+    var ch = (char) code.peek();
 
     if ((ch == '\\') && isNewLine(code.charAt(1))) {
       // just throw away the backslash

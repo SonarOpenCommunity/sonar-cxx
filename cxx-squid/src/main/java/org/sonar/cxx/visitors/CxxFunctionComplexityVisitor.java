@@ -71,10 +71,10 @@ public class CxxFunctionComplexityVisitor<G extends Grammar> extends SquidAstVis
 
   @Override
   public void leaveNode(AstNode node) {
-    SourceFunction sourceFunction = (SourceFunction) getContext().peekSourceCode();
+    var sourceFunction = (SourceFunction) getContext().peekSourceCode();
 
-    final int complexity = ChecksHelper.getRecursiveMeasureInt(sourceFunction, CxxMetric.COMPLEXITY);
-    final int lineCount = sourceFunction.getInt(CxxMetric.LINES_OF_CODE_IN_FUNCTION_BODY);
+    var complexity = ChecksHelper.getRecursiveMeasureInt(sourceFunction, CxxMetric.COMPLEXITY);
+    var lineCount = sourceFunction.getInt(CxxMetric.LINES_OF_CODE_IN_FUNCTION_BODY);
 
     if (complexity > this.cyclomaticComplexityThreshold) {
       complexFunctions++;

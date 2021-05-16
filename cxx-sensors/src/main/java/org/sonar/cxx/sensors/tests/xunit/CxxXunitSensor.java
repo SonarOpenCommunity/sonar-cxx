@@ -122,7 +122,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     long testsTime = 0;
     for (var tf : testfiles) {
       if (!tf.getFilename().isEmpty()) {
-        InputFile inputFile = getInputFileIfInProject(tf.getFilename());
+        var inputFile = getInputFileIfInProject(tf.getFilename());
         if (inputFile != null) {
           if (inputFile.language() != null && inputFile.type() == Type.TEST) {
             LOG.debug("Saving xUnit data for '{}': tests={} | errors:{} | failure:{} | skipped:{} | time:{}",

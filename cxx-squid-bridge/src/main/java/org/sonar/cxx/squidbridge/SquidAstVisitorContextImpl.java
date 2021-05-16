@@ -32,6 +32,7 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
+import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.cxx.squidbridge.api.CheckMessage;
 import org.sonar.cxx.squidbridge.api.CodeCheck;
@@ -42,14 +43,14 @@ import org.sonar.cxx.squidbridge.measures.MetricDef;
 
 public class SquidAstVisitorContextImpl<G extends Grammar> extends SquidAstVisitorContext<G> {
 
-  private final Deque<SourceCode> sourceCodeStack = new ArrayDeque<SourceCode>();
+  private final Deque<SourceCode> sourceCodeStack = new ArrayDeque<>();
   private G grammar;
   private File file;
   private InputFile inputFile;
   private final SourceProject project;
   private CommentAnalyser commentAnalyser;
 
-  public SquidAstVisitorContextImpl(SourceProject project) {
+  public SquidAstVisitorContextImpl(@Nullable SourceProject project) {
     if (project == null) {
       throw new IllegalArgumentException("project cannot be null.");
     }

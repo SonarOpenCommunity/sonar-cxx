@@ -90,8 +90,8 @@ public class VisualStudioParser implements CoverageParser {
 
     while (range.getNext() != null) {
       String sourceId = range.getAttrValue("source_id");
-      int startLine = Integer.parseInt(range.getAttrValue("start_line"));
-      int endLine = Integer.parseInt(range.getAttrValue("end_line"));
+      var startLine = Integer.parseInt(range.getAttrValue("start_line"));
+      var endLine = Integer.parseInt(range.getAttrValue("end_line"));
       // value: yes/no/partial
       int covered = !"no".equalsIgnoreCase(range.getAttrValue("covered")) ? 1 : 0;
 

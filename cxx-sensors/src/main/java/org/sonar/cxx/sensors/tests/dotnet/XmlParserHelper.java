@@ -43,7 +43,7 @@ public class XmlParserHelper implements AutoCloseable {
     try {
       this.file = file;
       this.reader = new InputStreamReader(java.nio.file.Files.newInputStream(file.toPath()), StandardCharsets.UTF_8);
-      XMLInputFactory xmlFactory = XMLInputFactory.newInstance();
+      var xmlFactory = XMLInputFactory.newInstance();
       xmlFactory.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
       this.stream = xmlFactory.createXMLStreamReader(reader);
 
@@ -115,7 +115,7 @@ public class XmlParserHelper implements AutoCloseable {
   }
 
   void checkRequiredAttribute(String name, int expectedValue) {
-    int actualValue = getRequiredIntAttribute(name);
+    var actualValue = getRequiredIntAttribute(name);
     if (expectedValue != actualValue) {
       throw parseError("Expected \"" + expectedValue + "\" instead of \"" + actualValue + "\" for the \""
                          + name + "\" attribute");

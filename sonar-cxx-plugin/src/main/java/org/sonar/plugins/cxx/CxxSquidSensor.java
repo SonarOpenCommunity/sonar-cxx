@@ -311,7 +311,7 @@ public class CxxSquidSensor implements ProjectSensor {
   private String[] stripValue(String key, String regex) {
     Optional<String> value = context.config().get(key);
     if (value.isPresent()) {
-      final Pattern PATTERN = Pattern.compile(regex);
+      var PATTERN = Pattern.compile(regex);
       return PATTERN.split(value.get(), -1);
     }
     return new String[0];

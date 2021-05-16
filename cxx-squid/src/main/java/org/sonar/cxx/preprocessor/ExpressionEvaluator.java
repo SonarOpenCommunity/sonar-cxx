@@ -20,7 +20,6 @@
 package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
@@ -85,9 +84,9 @@ public final class ExpressionEvaluator {
     }
 
     var sb = new StringBuilder(number.length());
-    boolean suffix = false;
+    var suffix = false;
     for (var index = begin; index < number.length() && !suffix; index++) {
-      char c = number.charAt(index);
+      var c = number.charAt(index);
       switch (c) {
         case '0':
         case '1':
@@ -201,7 +200,7 @@ public final class ExpressionEvaluator {
   private BigInteger evalLeaf(AstNode exprAst) {
     // Evaluation of leafs
     //
-    AstNodeType nodeType = exprAst.getType();
+    var nodeType = exprAst.getType();
 
     if (nodeType.equals(CxxTokenType.NUMBER)) {
       return evalNumber(exprAst.getTokenValue());
@@ -234,7 +233,7 @@ public final class ExpressionEvaluator {
   private BigInteger evalOneChildAst(AstNode exprAst) {
     // Evaluation of booleans and 'pass-through's
     //
-    AstNodeType nodeType = exprAst.getType();
+    var nodeType = exprAst.getType();
     if (nodeType.equals(CppGrammarImpl.bool)) {
       return evalBool(exprAst.getTokenValue());
     }
@@ -245,7 +244,7 @@ public final class ExpressionEvaluator {
 
     // More complex expressions with more than one child
     //
-    AstNodeType nodeType = exprAst.getType();
+    var nodeType = exprAst.getType();
     if (nodeType.equals(CppGrammarImpl.unaryExpression)) {
       return evalUnaryExpression(exprAst);
     } else if (nodeType.equals(CppGrammarImpl.conditionalExpression)) {
@@ -287,7 +286,7 @@ public final class ExpressionEvaluator {
 
   // ////////////// logical expressions ///////////////////////////
   private BigInteger evalLogicalOrExpression(AstNode exprAst) {
-    AstNode operand = exprAst.getFirstChild();
+    var operand = exprAst.getFirstChild();
     boolean result = evalToBoolean(operand);
 
     while (!result && ((operand = getNextOperand(operand)) != null)) {
@@ -312,7 +311,7 @@ public final class ExpressionEvaluator {
     var lhs = exprAst.getFirstChild();
     var operator = lhs.getNextSibling();
     var rhs = operator.getNextSibling();
-    AstNodeType operatorType = operator.getType();
+    var operatorType = operator.getType();
 
     boolean result;
     if (operatorType.equals(CppPunctuator.EQ)) {
@@ -342,7 +341,7 @@ public final class ExpressionEvaluator {
     var lhs = exprAst.getFirstChild();
     var operator = lhs.getNextSibling();
     var rhs = operator.getNextSibling();
-    AstNodeType operatorType = operator.getType();
+    var operatorType = operator.getType();
 
     boolean result;
     if (operatorType.equals(CppPunctuator.LT)) {
@@ -419,7 +418,7 @@ public final class ExpressionEvaluator {
 
     var operator = exprAst.getFirstChild();
     var operand = operator.getNextSibling();
-    AstNodeType operatorType = operator.getFirstChild().getType();
+    var operatorType = operator.getFirstChild().getType();
 
     if (operatorType.equals(CppPunctuator.PLUS)) {
       return evalToInt(operand);
@@ -442,7 +441,7 @@ public final class ExpressionEvaluator {
     BigInteger result = evalToInt(rhs);
 
     while ((operator = rhs.getNextSibling()) != null) {
-      AstNodeType operatorType = operator.getType();
+      var operatorType = operator.getType();
       rhs = operator.getNextSibling();
 
       if (operatorType.equals(CppPunctuator.BW_LSHIFT)) {
@@ -463,7 +462,7 @@ public final class ExpressionEvaluator {
     BigInteger result = evalToInt(rhs);
 
     while ((operator = rhs.getNextSibling()) != null) {
-      AstNodeType operatorType = operator.getType();
+      var operatorType = operator.getType();
       rhs = operator.getNextSibling();
 
       if (operatorType.equals(CppPunctuator.PLUS)) {
@@ -484,7 +483,7 @@ public final class ExpressionEvaluator {
     BigInteger result = evalToInt(rhs);
 
     while ((operator = rhs.getNextSibling()) != null) {
-      AstNodeType operatorType = operator.getType();
+      var operatorType = operator.getType();
       rhs = operator.getNextSibling();
 
       if (operatorType.equals(CppPunctuator.MUL)) {

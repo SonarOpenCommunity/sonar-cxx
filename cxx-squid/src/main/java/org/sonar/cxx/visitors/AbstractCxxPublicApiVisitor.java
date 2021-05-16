@@ -24,7 +24,6 @@ import com.sonar.sslr.api.GenericTokenType;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +90,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       if (firstDeclSpecifier != null && firstDeclSpecifier.getToken().getType().equals(CxxKeyword.TYPEDEF)) {
         var classSpefifier = firstDeclSpecifier.getNextSibling();
         if (classSpefifier != null) {
-          TokenType type = classSpefifier.getToken().getType();
+          var type = classSpefifier.getToken().getType();
           if (type.equals(CxxKeyword.STRUCT)
                 || type.equals(CxxKeyword.CLASS)
                 || type.equals(CxxKeyword.UNION)
@@ -175,7 +174,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   }
 
   private static boolean isDefaultOrDeleteFunctionBody(AstNode functionBodyNode) {
-    boolean defaultOrDelete = false;
+    var defaultOrDelete = false;
     List<AstNode> functionBody = functionBodyNode.getChildren();
 
     // look for exact sub AST
@@ -275,7 +274,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
                               CxxKeyword.ENUM, CxxKeyword.UNION);
 
         if (enclosingSpecifierNode != null) {
-          TokenType type = enclosingSpecifierNode.getToken().getType();
+          var type = enclosingSpecifierNode.getToken().getType();
           if (type.equals(CxxKeyword.STRUCT) || type.equals(CxxKeyword.UNION)) {
             // struct and union members have public access, thus access level
             // is the access level of the enclosing classSpecifier
@@ -321,7 +320,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
     for (var trivia : token.getTrivia()) {
       if (trivia.isComment()) {
-        Token triviaToken = trivia.getToken();
+        var triviaToken = trivia.getToken();
         if ((triviaToken != null)
               && (triviaToken.getLine() == line)
               && (isDoxygenInlineComment(triviaToken.getValue()))) {
@@ -335,10 +334,10 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   private static List<Token> getBlockDocumentation(AstNode node) {
     var commentTokens = new ArrayList<Token>();
 
-    Token token = node.getToken();
+    var token = node.getToken();
     for (var trivia : token.getTrivia()) {
       if (trivia.isComment()) {
-        Token triviaToken = trivia.getToken();
+        var triviaToken = trivia.getToken();
         if (triviaToken != null) {
           String comment = triviaToken.getValue();
           if (isDoxygenCommentBlock(comment)
@@ -574,7 +573,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     }
 
     // look for the specifier id
-    AstNode id = classHead.getFirstDescendant(CxxGrammarImpl.className);
+    var id = classHead.getFirstDescendant(CxxGrammarImpl.className);
 
     AstNode idNode;
     String idName;

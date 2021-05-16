@@ -22,12 +22,11 @@ package org.sonar.cxx.visitors;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.TokenType;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 
 public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> {
@@ -68,7 +67,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAs
 
     for (var child : children) {
       sb.append(child.getTokenValue());
-      TokenType type = child.getToken().getType();
+      var type = child.getToken().getType();
 
       if (type.equals(GenericTokenType.IDENTIFIER)) {
         // save position of last identifier for message

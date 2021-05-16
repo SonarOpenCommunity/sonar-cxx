@@ -61,7 +61,7 @@ public class JsonCompilationDatabaseTest {
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-extension.cpp");
-    String filename = absPath.toAbsolutePath().normalize().toString();
+    var filename = absPath.toAbsolutePath().normalize().toString();
 
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
@@ -87,7 +87,7 @@ public class JsonCompilationDatabaseTest {
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-with-command.cpp");
-    String filename = absPath.toAbsolutePath().normalize().toString();
+    var filename = absPath.toAbsolutePath().normalize().toString();
 
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
@@ -116,7 +116,7 @@ public class JsonCompilationDatabaseTest {
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-argument-parser.cpp");
-    String filename = absPath.toAbsolutePath().normalize().toString();
+    var filename = absPath.toAbsolutePath().normalize().toString();
 
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
@@ -153,7 +153,7 @@ public class JsonCompilationDatabaseTest {
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-with-arguments.cpp");
-    String filename = absPath.toAbsolutePath().normalize().toString();
+    var filename = absPath.toAbsolutePath().normalize().toString();
 
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
@@ -182,7 +182,7 @@ public class JsonCompilationDatabaseTest {
 
     Path cwd = Paths.get("src");
     Path absPath = cwd.resolve("test-with-relative-directory.cpp");
-    String filename = absPath.toAbsolutePath().normalize().toString();
+    var filename = absPath.toAbsolutePath().normalize().toString();
 
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
 
@@ -205,7 +205,7 @@ public class JsonCompilationDatabaseTest {
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("test-with-arguments-as-list.cpp");
-    String filename = absPath.toAbsolutePath().normalize().toString();
+    var filename = absPath.toAbsolutePath().normalize().toString();
 
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
@@ -234,7 +234,7 @@ public class JsonCompilationDatabaseTest {
 
     Path cwd = Paths.get(".");
     Path absPath = cwd.resolve("unknown.cpp");
-    String filename = absPath.toAbsolutePath().normalize().toString();
+    var filename = absPath.toAbsolutePath().normalize().toString();
 
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
@@ -268,8 +268,7 @@ public class JsonCompilationDatabaseTest {
   }
 
   static private String unifyPath(String path) {
-    String x = Paths.get(path).toString();
-    return x;
+    return Paths.get(path).toString();
   }
 
 }

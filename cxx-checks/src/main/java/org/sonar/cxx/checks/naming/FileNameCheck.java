@@ -65,7 +65,7 @@ public class FileNameCheck extends SquidCheck<Grammar> {
     String fileName = getContext().getInputFile().filename();
     int dotIndex = fileName.lastIndexOf('.');
     if (dotIndex > 0) {
-      String moduleName = fileName.substring(0, dotIndex);
+      var moduleName = fileName.substring(0, dotIndex);
       if (!pattern.matcher(moduleName).matches()) {
         getContext().createFileViolation(this, String.format(MESSAGE, format));
       }

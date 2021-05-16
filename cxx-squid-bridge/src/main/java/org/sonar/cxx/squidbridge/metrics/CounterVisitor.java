@@ -65,7 +65,7 @@ public final class CounterVisitor<G extends Grammar> extends SquidAstVisitor<G> 
     }
 
     public CounterVisitor<G> build() {
-      return new CounterVisitor<G>(this);
+      return new CounterVisitor<>(this);
     }
 
   }
@@ -76,7 +76,7 @@ public final class CounterVisitor<G extends Grammar> extends SquidAstVisitor<G> 
   }
 
   public static <G extends Grammar> Builder<G> builder() {
-    return new Builder<G>();
+    return new Builder<>();
   }
 
   @Override

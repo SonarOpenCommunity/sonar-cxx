@@ -65,8 +65,8 @@ public final class CommentsVisitor<G extends Grammar> extends SquidAstVisitor<G>
 
   @Override
   public void visitFile(AstNode astNode) {
-    noSonar = new HashSet<Integer>();
-    comments = new HashSet<Integer>();
+    noSonar = new HashSet<>();
+    comments = new HashSet<>();
     seenFirstToken = false;
   }
 
@@ -106,7 +106,7 @@ public final class CommentsVisitor<G extends Grammar> extends SquidAstVisitor<G>
   }
 
   public static <G extends Grammar> CommentsVisitorBuilder<G> builder() {
-    return new CommentsVisitorBuilder<G>();
+    return new CommentsVisitorBuilder<>();
   }
 
   public static final class CommentsVisitorBuilder<G extends Grammar> {
@@ -119,7 +119,7 @@ public final class CommentsVisitor<G extends Grammar> extends SquidAstVisitor<G>
     }
 
     public CommentsVisitor<G> build() {
-      return new CommentsVisitor<G>(this);
+      return new CommentsVisitor<>(this);
     }
 
     public CommentsVisitorBuilder<G> withNoSonar(boolean enableNoSonar) {

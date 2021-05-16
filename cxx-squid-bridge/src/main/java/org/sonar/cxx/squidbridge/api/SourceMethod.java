@@ -23,8 +23,6 @@
  */
 package org.sonar.cxx.squidbridge.api;
 
-import org.sonar.cxx.squidbridge.measures.Metric;
-
 public class SourceMethod extends SourceCode {
 
   /**
@@ -40,10 +38,6 @@ public class SourceMethod extends SourceCode {
   public SourceMethod(SourceClass peekParentClass, String methodSignature, int startAtLine) {
     super(peekParentClass.getKey() + "#" + methodSignature, methodSignature);
     setStartAtLine(startAtLine);
-  }
-
-  public boolean isAccessor() {
-    return getInt(Metric.ACCESSORS) != 0;
   }
 
   public void setSuppressWarnings(boolean suppressWarnings) {

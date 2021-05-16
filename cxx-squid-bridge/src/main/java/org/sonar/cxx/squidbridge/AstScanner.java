@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.InterruptedIOException;
 import java.util.Collection;
 import java.util.List;
+import javax.annotation.Nullable;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -150,7 +151,7 @@ public class AstScanner<G extends Grammar> {
     return e;
   }
 
-  private void walkAndVisit(AstWalker astWalker, AstNode ast, Exception parseException) throws Throwable {
+  private void walkAndVisit(AstWalker astWalker, AstNode ast, @Nullable Exception parseException) throws Throwable {
     if (parseException == null) {
       astWalker.walkAndVisit(ast);
     } else {
@@ -213,7 +214,7 @@ public class AstScanner<G extends Grammar> {
   }
 
   public static <G extends Grammar> Builder<G> builder(SquidAstVisitorContextImpl<G> context) {
-    return new Builder<G>(context);
+    return new Builder<>(context);
   }
 
   public static class Builder<G extends Grammar> {
@@ -267,7 +268,7 @@ public class AstScanner<G extends Grammar> {
       checkState(baseParser != null, "baseParser must be set");
       checkState(commentAnalyser != null, "commentAnalyser must be set");
       checkState(filesMetric != null, "filesMetric must be set");
-      return new AstScanner<G>(this);
+      return new AstScanner<>(this);
     }
   }
 

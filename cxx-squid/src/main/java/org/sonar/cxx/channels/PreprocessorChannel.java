@@ -77,7 +77,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
   private void read(CodeReader code) {
     while (true) {
-      char ch = code.charAt(0);
+      var ch = code.charAt(0);
       if (isNewline(ch) || ch == EOF) {
         code.pop();
         break;
@@ -114,7 +114,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
   private static void consumeSingleLineComment(CodeReader code) {
     code.pop(); // initial '/'
     while (true) {
-      char charAt = code.charAt(0);
+      var charAt = code.charAt(0);
       if (isNewline(charAt) || charAt == EOF) {
         break;
       }
@@ -125,7 +125,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
   private static void consumeMultiLineComment(CodeReader code) {
     code.pop(); // initial '*'
     while (true) {
-      char ch = (char) code.pop();
+      var ch = (char) code.pop();
       if (ch == EOF) {
         break;
       }

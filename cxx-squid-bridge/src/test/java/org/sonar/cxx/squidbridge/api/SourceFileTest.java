@@ -43,7 +43,7 @@ public class SourceFileTest {
   @Test
   public void testHasNoSon() {
     var file = new SourceFile("com/sonarsource/Toto.java");
-    Set<Integer> noSonarTagLines = new HashSet<Integer>();
+    Set<Integer> noSonarTagLines = new HashSet<>();
     noSonarTagLines.add(23);
     noSonarTagLines.add(10);
     file.addNoSonarTagLines(noSonarTagLines);

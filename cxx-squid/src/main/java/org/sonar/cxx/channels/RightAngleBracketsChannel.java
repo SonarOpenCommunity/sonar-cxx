@@ -48,12 +48,12 @@ public class RightAngleBracketsChannel extends Channel<Lexer> {
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {
-    char ch = (char) code.peek();
-    boolean consumed = false;
+    var ch = (char) code.peek();
+    var consumed = false;
 
     if (ch == '<') {
       if (parentheseLevel == 0) {
-        char next = code.charAt(1);
+        var next = code.charAt(1);
         if ((next != '<') && (next != '=')) { // not <<, <=, <<=, <=>,
           angleBracketLevel++;
         }

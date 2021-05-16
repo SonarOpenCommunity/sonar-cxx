@@ -23,6 +23,7 @@
  */
 package org.sonar.cxx.squidbridge.indexer;
 
+import javax.annotation.Nullable;
 import org.sonar.cxx.squidbridge.api.Query;
 import org.sonar.cxx.squidbridge.api.SourceCode;
 
@@ -30,7 +31,7 @@ public class QueryByType implements Query {
 
   private final Class<? extends SourceCode> resourceType;
 
-  public QueryByType(Class<? extends SourceCode> resourceType) {
+  public QueryByType(@Nullable Class<? extends SourceCode> resourceType) {
     if (resourceType == null) {
       throw new IllegalStateException("The type of resource can't be null !");
     }

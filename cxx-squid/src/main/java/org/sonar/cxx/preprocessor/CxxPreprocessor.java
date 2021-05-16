@@ -26,7 +26,6 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.api.PreprocessorAction;
 import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.Parser;
 import java.io.File;
@@ -218,7 +217,7 @@ public class CxxPreprocessor extends Preprocessor {
   @Override
   public PreprocessorAction process(List<Token> tokens) { //TODO: deprecated PreprocessorAction
     Token token = tokens.get(0);
-    TokenType type = token.getType();
+    var type = token.getType();
 
     if (type.equals(PREPROCESSOR)) {
       String rootFilePath = unitCodeProvider.getFileUnderAnalysisPath();
@@ -463,10 +462,10 @@ public class CxxPreprocessor extends Preprocessor {
 
   private static String quote(String str) {
     var result = new StringBuilder(2 * str.length());
-    boolean addBlank = false;
-    boolean ignoreNextBlank = false;
+    var addBlank = false;
+    var ignoreNextBlank = false;
     for (var i = 0; i < str.length(); i++) {
-      char c = str.charAt(i);
+      var c = str.charAt(i);
       if (Character.isLowerCase(c) || Character.isUpperCase(c) || Character.isDigit(c) || c == '_') { // token
         if (addBlank) {
           result.append(' ');
@@ -699,7 +698,7 @@ public class CxxPreprocessor extends Preprocessor {
   private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) {
     if (unitCodeProvider.doNotSkipBlock()) {
       Macro macro = getMacro(getMacroName(ast));
-      TokenType tokType = ast.getToken().getType();
+      var tokType = ast.getToken().getType();
       if ((tokType.equals(IFDEF) && macro == null) || (tokType.equals(IFNDEF) && macro != null)) {
         // evaluated to false
         unitCodeProvider.skipBlock(true);
@@ -776,7 +775,7 @@ public class CxxPreprocessor extends Preprocessor {
     var lastIndex = -1;
     var brackets = 0;
 
-    for (int i = 0; i < tokens.size(); i++) {
+    for (var i = 0; i < tokens.size(); i++) {
       switch (tokens.get(i).getValue()) {
         case "(":
           brackets++;
@@ -815,8 +814,8 @@ public class CxxPreprocessor extends Preprocessor {
 
     var newTokens = new ArrayList<Token>();
     if (!body.isEmpty()) {
-      boolean tokenPastingLeftOp = false;
-      boolean tokenPastingRightOp = false;
+      var tokenPastingLeftOp = false;
+      var tokenPastingRightOp = false;
 
       // container to search parameter by name
       var paramterIndex = new HashMap<String, Integer>();
@@ -969,7 +968,7 @@ public class CxxPreprocessor extends Preprocessor {
   @CheckForNull
   private File findIncludedFile(AstNode ast, Token token, String currFileName) {
     String includedFileName = null;
-    boolean quoted = false;
+    var quoted = false;
 
     var node = ast.getFirstDescendant(CppGrammarImpl.includeBodyQuoted);
     if (node != null) {
@@ -992,7 +991,7 @@ public class CxxPreprocessor extends Preprocessor {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
       String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
-      boolean parseError = false;
+      var parseError = false;
       AstNode includeBodyAst = null;
       try {
         includeBodyAst = pplineParser.parse("#include " + expandedIncludeBody);
@@ -1141,9 +1140,9 @@ public class CxxPreprocessor extends Preprocessor {
     List<Token> replTokens = new ArrayList<>();
     for (Token ppToken : stripEOF(serialize(ast))) {
       String value = ppToken.getValue();
-      TokenType type = ppToken.getType();
+      var type = ppToken.getType();
       Token newToken = ppToken;
-      boolean convert = true;
+      var convert = true;
 
       // identifier with special meaning?
 //      if (type.equals(IDENTIFIER)) {

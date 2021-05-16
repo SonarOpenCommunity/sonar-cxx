@@ -58,7 +58,7 @@ public class TooManyParametersCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    AstNode parameterList = node.getFirstChild(CxxGrammarImpl.parameterDeclarationList);
+    var parameterList = node.getFirstChild(CxxGrammarImpl.parameterDeclarationList);
     if (parameterList != null) {
       int nbParameters = parameterList.getChildren(CxxGrammarImpl.parameterDeclaration).size();
       if (nbParameters > max) {

@@ -28,7 +28,7 @@ import java.util.Set;
 
 public class SourceFile extends SourceCode {
 
-  private final Set<Integer> noSonarTagLines = new HashSet<Integer>();
+  private final Set<Integer> noSonarTagLines = new HashSet<>();
 
   public SourceFile(String key) {
     super(key);

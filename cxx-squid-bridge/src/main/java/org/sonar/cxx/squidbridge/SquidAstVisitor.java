@@ -40,7 +40,7 @@ import org.sonar.cxx.squidbridge.api.CodeVisitor;
  */
 public abstract class SquidAstVisitor<G extends Grammar> implements CodeVisitor, AstVisitor {
 
-  private final List<AstNodeType> astNodeTypesToVisit = new ArrayList<AstNodeType>();
+  private final List<AstNodeType> astNodeTypesToVisit = new ArrayList<>();
   private SquidAstVisitorContext<G> context = null;
 
   /**

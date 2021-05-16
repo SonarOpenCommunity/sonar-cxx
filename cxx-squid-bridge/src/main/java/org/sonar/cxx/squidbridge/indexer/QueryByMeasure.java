@@ -26,7 +26,6 @@ package org.sonar.cxx.squidbridge.indexer;
 import org.apache.commons.lang.math.NumberUtils;
 import org.sonar.cxx.squidbridge.api.Query;
 import org.sonar.cxx.squidbridge.api.SourceCode;
-import org.sonar.cxx.squidbridge.measures.Metric;
 import org.sonar.cxx.squidbridge.measures.MetricDef;
 
 public class QueryByMeasure implements Query {
@@ -37,14 +36,6 @@ public class QueryByMeasure implements Query {
 
   public enum Operator {
     GREATER_THAN, EQUALS, GREATER_THAN_EQUALS, LESS_THAN, LESS_THAN_EQUALS
-  }
-
-  /**
-   * @deprecated use {@link #QueryByMeasure(MetricDef, Operator, double)} instead
-   */
-  @Deprecated
-  public QueryByMeasure(Metric metric, Operator operator, double value) {
-    this((MetricDef) metric, operator, value);
   }
 
   public QueryByMeasure(MetricDef metric, Operator operator, double value) {

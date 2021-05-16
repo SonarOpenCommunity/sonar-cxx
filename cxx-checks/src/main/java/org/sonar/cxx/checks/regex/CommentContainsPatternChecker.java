@@ -55,7 +55,7 @@ class CommentContainsPatternChecker {
       if (!trivia.isComment()) {
         continue;
       }
-      Token triviaToken = trivia.getToken();
+      var triviaToken = trivia.getToken();
       String comment = triviaToken.getOriginalValue();
       int line = triviaToken.getLine();
       if (indexOfIgnoreCase(comment) != -1) {
@@ -79,8 +79,8 @@ class CommentContainsPatternChecker {
   private boolean isLetterAround(String line, int start) {
     int end = start + pattern.length();
 
-    boolean pre = start > 0 ? Character.isLetter(line.charAt(start - 1)) : false;
-    boolean post = end < line.length() - 1 ? Character.isLetter(line.charAt(end)) : false;
+    var pre = start > 0 ? Character.isLetter(line.charAt(start - 1)) : false;
+    var post = end < line.length() - 1 ? Character.isLetter(line.charAt(end)) : false;
 
     return pre || post;
   }

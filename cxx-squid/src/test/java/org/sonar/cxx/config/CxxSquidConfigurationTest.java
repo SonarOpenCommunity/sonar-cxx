@@ -360,7 +360,7 @@ public class CxxSquidConfigurationTest {
     db.add("a/b/c", "key2", "value1");
     db.add("a/b/c", "key2", "value2");
     db.add("d/e/f", "key1", "value1");
-    String xml = db.toString();
+    var xml = db.toString();
 
     var softly = new SoftAssertions();
     softly.assertThat(xml).isNotEmpty();

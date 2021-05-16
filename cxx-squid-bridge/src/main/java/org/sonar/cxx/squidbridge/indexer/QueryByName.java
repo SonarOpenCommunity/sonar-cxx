@@ -23,6 +23,7 @@
  */
 package org.sonar.cxx.squidbridge.indexer;
 
+import javax.annotation.Nullable;
 import org.sonar.cxx.squidbridge.api.Query;
 import org.sonar.cxx.squidbridge.api.SourceCode;
 
@@ -30,7 +31,7 @@ public class QueryByName implements Query {
 
   private final String resourceName;
 
-  public QueryByName(String resourceName) {
+  public QueryByName(@Nullable String resourceName) {
     if (resourceName == null) {
       throw new IllegalStateException("The name can't be null !");
     }

@@ -63,7 +63,7 @@ public class StaxParser {
    */
   public StaxParser(XmlStreamHandler streamHandler, boolean isoControlCharsAwareParser) {
     this.streamHandler = streamHandler;
-    XMLInputFactory xmlFactory = XMLInputFactory.newInstance();
+    var xmlFactory = XMLInputFactory.newInstance();
     if (xmlFactory instanceof WstxInputFactory) {
       WstxInputFactory wstxInputfactory = (WstxInputFactory) xmlFactory;
       wstxInputfactory.configureForLowMemUsage();
@@ -147,7 +147,7 @@ public class StaxParser {
       // return the entity under its raw form if not an unicode expression
       String undeclared = undeclaredEntity;
       if (StringUtils.startsWithIgnoreCase(undeclared, "u") && undeclared.length() == 5) {
-        int unicodeCharHexValue = Integer.parseInt(undeclared.substring(1), 16);
+        var unicodeCharHexValue = Integer.parseInt(undeclared.substring(1), 16);
         if (Character.isDefined(unicodeCharHexValue)) {
           undeclared = new String(new char[]{(char) unicodeCharHexValue});
         }
@@ -167,7 +167,7 @@ public class StaxParser {
 
     private static void checkBufferForISOControlChars(byte[] buffer, int off, int len) {
       for (var i = off; i < len; i++) {
-        char streamChar = (char) buffer[i];
+        var streamChar = (char) buffer[i];
         if (Character.isISOControl(streamChar) && streamChar != '\n') {
           // replace control chars by a simple space
           buffer[i] = ' ';
