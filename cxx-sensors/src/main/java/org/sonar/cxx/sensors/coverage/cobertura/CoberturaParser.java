@@ -88,7 +88,7 @@ public class CoberturaParser implements CoverageParser {
     SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
 
     while (line.getNext() != null) {
-      int lineId = Integer.parseInt(line.getAttrValue("number"));
+      var lineId = Integer.parseInt(line.getAttrValue("number"));
       long noHits = Long.parseLong(line.getAttrValue("hits"));
       if (noHits > Integer.MAX_VALUE) {
         LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by SonarQube ({})",

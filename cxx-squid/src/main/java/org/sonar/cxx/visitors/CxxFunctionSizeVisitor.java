@@ -54,9 +54,8 @@ public class CxxFunctionSizeVisitor<G extends Grammar> extends SquidAstVisitor<G
 
   @Override
   public void leaveNode(AstNode node) {
-    SourceFunction sourceFunction = (SourceFunction) getContext().peekSourceCode();
-
-    final int lineCount = sourceFunction.getInt(CxxMetric.LINES_OF_CODE_IN_FUNCTION_BODY);
+    var sourceFunction = (SourceFunction) getContext().peekSourceCode();
+    var lineCount = sourceFunction.getInt(CxxMetric.LINES_OF_CODE_IN_FUNCTION_BODY);
 
     if (lineCount > this.sizeThreshold) {
       bigFunctions++;

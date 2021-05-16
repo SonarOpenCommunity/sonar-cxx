@@ -74,7 +74,7 @@ public class RulesDefinitionXml implements RulesDefinition {
 
     var xmlLoader = new RulesDefinitionXmlLoader();
     if (!"".equals(repositoryFile)) {
-      InputStream xmlStream = getClass().getResourceAsStream(repositoryFile);
+      var xmlStream = getClass().getResourceAsStream(repositoryFile);
       xmlLoader.load(repository, xmlStream, encoding);
 
       for (var userExtensionXml : getExtensions(repositoryKey, "xml")) {

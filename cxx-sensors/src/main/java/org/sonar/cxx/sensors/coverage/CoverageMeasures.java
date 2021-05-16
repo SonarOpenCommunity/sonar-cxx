@@ -44,13 +44,13 @@ public final class CoverageMeasures {
 
   public void setHits(int lineId, int hits) {
     lineMeasures.computeIfAbsent(lineId, v -> new CoverageMeasure(lineId));
-    CoverageMeasure coverageMeasure = lineMeasures.get(lineId);
+    var coverageMeasure = lineMeasures.get(lineId);
     coverageMeasure.setHits(hits);
   }
 
   public void setConditions(int lineId, int totalConditions, int coveredConditions) {
     lineMeasures.computeIfAbsent(lineId, v -> new CoverageMeasure(lineId));
-    CoverageMeasure coverageMeasure = lineMeasures.get(lineId);
+    var coverageMeasure = lineMeasures.get(lineId);
     coverageMeasure.setConditions(totalConditions, coveredConditions);
   }
 

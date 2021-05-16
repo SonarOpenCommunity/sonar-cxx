@@ -31,8 +31,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.cxx.squidbridge.measures.Measurable;
-import org.sonar.cxx.squidbridge.measures.Metric;
 
 public class SourceCodeTest {
 
@@ -120,30 +118,6 @@ public class SourceCodeTest {
     assertTrue(cla.hasAmongParents(prj));
     assertTrue(cla.hasAmongParents(pac));
     assertFalse(prj.hasAmongParents(cla));
-  }
-
-  @Test(expected = IllegalStateException.class)
-  public void setMeasureOnCalculatedMetric() {
-    Measurable measurable = new SourceFile("org.Toto.java");
-    measurable.setMeasure(Metric.INSTABILITY, 0);
-  }
-
-  @Test
-  public void testConmputeMeasures() {
-    cla2.setMeasure(Metric.COMPLEXITY, 4);
-    cla.setMeasure(Metric.COMPLEXITY, 2);
-    cla.setMeasure(Metric.CA, 2);
-    var decorator = new SourceCodeTreeDecorator(prj);
-    decorator.decorateWith(Metric.values());
-    assertEquals(6, prj.getInt(Metric.COMPLEXITY));
-    assertEquals(0, prj.getInt(Metric.CA));
-  }
-
-  @Test
-  public void testAddData() {
-    SourceCode myFile = new SourceFile("org.sonar2.Tata.java");
-    myFile.addData(Metric.LCOM4_BLOCKS, "blocks detail");
-    assertEquals("blocks detail", myFile.getData(Metric.LCOM4_BLOCKS));
   }
 
   @Test

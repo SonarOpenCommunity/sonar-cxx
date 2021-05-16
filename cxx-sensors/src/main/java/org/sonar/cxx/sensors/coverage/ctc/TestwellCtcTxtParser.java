@@ -119,18 +119,18 @@ public class TestwellCtcTxtParser implements CoverageParser {
     var lineIdCond = 0;
     var conditions = 0;
     var coveredConditions = 0;
-    boolean conditionIsDetected = false;
+    var conditionIsDetected = false;
 
     do {
-      int lineIdCur = Integer.parseInt(lineMatcher.group(LINE_NR_GROUP));
+      var lineIdCur = Integer.parseInt(lineMatcher.group(LINE_NR_GROUP));
 
       String condsTrue = lineMatcher.group(CONDS_TRUE);
       String condsFalse = lineMatcher.group(CONDS_FALSE);
 
       if ((condsTrue != null) || (condsFalse != null)) {
 
-        int lineHitsTrue = (condsTrue != null ? new BigDecimal(condsTrue).intValue() : 0);
-        int lineHitsFalse = (condsFalse != null ? new BigDecimal(condsFalse).intValue() : 0);
+        var lineHitsTrue = (condsTrue != null ? new BigDecimal(condsTrue).intValue() : 0);
+        var lineHitsFalse = (condsFalse != null ? new BigDecimal(condsFalse).intValue() : 0);
         lineHits = lineHitsTrue + lineHitsFalse;
 
         if (lineIdPrev != lineIdCur) {

@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class Measures {
 
-  private final Map<MetricDef, Measure> measures = new IdentityHashMap<MetricDef, Measure>();
+  private final Map<MetricDef, Measure> measures = new IdentityHashMap<>();
 
   public double getValue(MetricDef metric) {
     Measure measure = measures.get(metric);

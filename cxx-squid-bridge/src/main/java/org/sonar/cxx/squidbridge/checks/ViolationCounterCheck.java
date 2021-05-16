@@ -54,7 +54,7 @@ public class ViolationCounterCheck<G extends Grammar> extends SquidAstVisitor<G>
     private final Map<String, Map<String, TreeMultiset<Integer>>> violationsByFileAndRule;
 
     public ViolationCounter() {
-      this.violationsByFileAndRule = new HashMap<String, Map<String, TreeMultiset<Integer>>>();
+      this.violationsByFileAndRule = new HashMap<>();
     }
 
     private ViolationCounter(Map<String, Map<String, TreeMultiset<Integer>>> violationsByFileAndRule) {
@@ -63,7 +63,7 @@ public class ViolationCounterCheck<G extends Grammar> extends SquidAstVisitor<G>
 
     public void increment(String fileRelativePath, String rule, int line) {
       if (!violationsByFileAndRule.containsKey(fileRelativePath)) {
-        violationsByFileAndRule.put(fileRelativePath, new HashMap<String, TreeMultiset<Integer>>());
+        violationsByFileAndRule.put(fileRelativePath, new HashMap<>());
       }
       Map<String, TreeMultiset<Integer>> violationsByRule = violationsByFileAndRule.get(fileRelativePath);
 
@@ -233,7 +233,7 @@ public class ViolationCounterCheck<G extends Grammar> extends SquidAstVisitor<G>
     }
 
     private Set<String> getRules() {
-      Set<String> rules = new HashSet<String>();
+      Set<String> rules = new HashSet<>();
 
       for (var file : expected.violationsByFileAndRule.keySet()) {
         rules.addAll(expected.violationsByFileAndRule.get(file).keySet());
@@ -276,7 +276,7 @@ public class ViolationCounterCheck<G extends Grammar> extends SquidAstVisitor<G>
 
   @Override
   public void leaveFile(AstNode node) {
-    Set<CheckMessage> violationsOnCurrentFile = new HashSet<CheckMessage>(getContext().peekSourceCode()
+    Set<CheckMessage> violationsOnCurrentFile = new HashSet<>(getContext().peekSourceCode()
       .getCheckMessages());
     for (var violation : violationsOnCurrentFile) {
       violationCounter.increment(getRelativePath(getContext().getFile()), violation.getChecker().getClass()

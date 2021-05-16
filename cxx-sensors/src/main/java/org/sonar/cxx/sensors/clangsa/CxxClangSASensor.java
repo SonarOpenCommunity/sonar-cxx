@@ -119,11 +119,11 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
                                                  "Missing mandatory entry 'diagnostics/check_name'")).getContent();
         NSDictionary location = (NSDictionary) require(diag.get("location"),
                                                        "Missing mandatory entry 'diagnostics/location'");
-        int line = ((NSNumber) require(location.get("line"),
+        var line = ((NSNumber) require(location.get("line"),
                                        "Missing mandatory entry 'diagnostics/location/line'")).intValue();
-        int column = ((NSNumber) require(location.get("col"),
+        var column = ((NSNumber) require(location.get("col"),
                                        "Missing mandatory entry 'diagnostics/location/col'")).intValue();
-        int fileIndex = ((NSNumber) require(location.get("file"),
+        var fileIndex = ((NSNumber) require(location.get("file"),
                                             "Missing mandatory entry 'diagnostics/location/file'")).intValue();
 
         if (fileIndex < 0 || fileIndex >= sourceFiles.length) {
@@ -200,17 +200,17 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
     }
 
     public String getLineNumber() {
-      int lineNumber = ((NSNumber) require(getLocation().get("line"), "Missing mandatory entry 'line'")).intValue();
+      var lineNumber = ((NSNumber) require(getLocation().get("line"), "Missing mandatory entry 'line'")).intValue();
       return Integer.toString(lineNumber);
     }
 
     public String getColumnNumber() {
-      int columnNumber = ((NSNumber) require(getLocation().get("col"), "Missing mandatory entry 'col'")).intValue();
+      var columnNumber = ((NSNumber) require(getLocation().get("col"), "Missing mandatory entry 'col'")).intValue();
       return Integer.toString(columnNumber);
     }
 
     public String getFilePath() {
-      int fileIndex = ((NSNumber) require(getLocation().get("file"), "Missing mandatory entry 'file'")).intValue();
+      var fileIndex = ((NSNumber) require(getLocation().get("file"), "Missing mandatory entry 'file'")).intValue();
       if (fileIndex < 0 || fileIndex >= sourceFiles.length) {
         throw new IllegalArgumentException("Invalid file index");
       }

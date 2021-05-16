@@ -34,8 +34,6 @@ import org.sonar.cxx.squidbridge.api.SourceCode;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.api.SourcePackage;
 import org.sonar.cxx.squidbridge.api.SourceProject;
-import org.sonar.cxx.squidbridge.indexer.QueryByMeasure.Operator;
-import org.sonar.cxx.squidbridge.measures.Metric;
 
 public class SquidIndexTest {
 
@@ -98,16 +96,4 @@ public class SquidIndexTest {
     assertTrue(resources.contains(classSquid));
   }
 
-  @Test
-  public void searchByMeasure() {
-    fileSquid.add(Metric.COMPLEXITY, 2);
-    assertEquals(1, indexer.search(new QueryByMeasure(Metric.COMPLEXITY, Operator.GREATER_THAN, 1)).size());
-    assertEquals(1, indexer.search(new QueryByMeasure(Metric.COMPLEXITY, Operator.GREATER_THAN_EQUALS, 2)).size());
-    assertEquals(0, indexer.search(new QueryByMeasure(Metric.COMPLEXITY, Operator.GREATER_THAN, 3)).size());
-    assertEquals(4, indexer.search(new QueryByMeasure(Metric.COMPLEXITY, Operator.LESS_THAN, 1)).size());
-    assertEquals(5, indexer.search(new QueryByMeasure(Metric.COMPLEXITY, Operator.LESS_THAN, 3)).size());
-    assertEquals(5, indexer.search(new QueryByMeasure(Metric.COMPLEXITY, Operator.LESS_THAN_EQUALS, 2)).size());
-    assertEquals(0, indexer.search(new QueryByMeasure(Metric.COMPLEXITY, Operator.EQUALS, 6)).size());
-    assertEquals(1, indexer.search(new QueryByMeasure(Metric.COMPLEXITY, Operator.EQUALS, 2)).size());
-  }
 }

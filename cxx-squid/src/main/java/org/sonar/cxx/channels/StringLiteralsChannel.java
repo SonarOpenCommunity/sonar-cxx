@@ -156,7 +156,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
 
   private void readUdSuffix(CodeReader code) {
     for (int start_index = index, len = 0;; index++) {
-      char charAt = code.charAt(index);
+      var charAt = code.charAt(index);
       if (charAt == EOF) {
         return;
       }

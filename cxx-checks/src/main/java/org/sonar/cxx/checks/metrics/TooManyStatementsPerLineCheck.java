@@ -57,7 +57,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
    * Exclude subsequent generated nodes, if they are consecutive and on the same line.
    */
   private static boolean isGeneratedNodeExcluded(AstNode astNode) {
-    AstNode prev = astNode.getPreviousAstNode();
+    var prev = astNode.getPreviousAstNode();
     return prev != null
              && prev.getTokenLine() == astNode.getTokenLine()
              && prev.isCopyBookOrGeneratedNode();

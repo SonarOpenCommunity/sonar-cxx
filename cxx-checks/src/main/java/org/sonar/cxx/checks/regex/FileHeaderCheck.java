@@ -115,7 +115,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> {
       result = true;
 
       Iterator<String> it = lines.iterator();
-      for (int i = 0; i < expectedLines.length; i++) {
+      for (var i = 0; i < expectedLines.length; i++) {
         String line = it.next();
         if (!line.equals(expectedLines[i])) {
           result = false;

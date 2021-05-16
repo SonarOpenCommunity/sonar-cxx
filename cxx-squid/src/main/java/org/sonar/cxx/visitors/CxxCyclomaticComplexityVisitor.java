@@ -22,7 +22,6 @@ package org.sonar.cxx.visitors;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
@@ -48,7 +47,7 @@ public class CxxCyclomaticComplexityVisitor<G extends Grammar> extends SquidAstV
 
   @Override
   public void visitNode(AstNode astNode) {
-    final Token token = astNode.getToken();
+    var token = astNode.getToken();
     if (token != null && token.isGeneratedCode()) {
       return;
     }
@@ -57,7 +56,7 @@ public class CxxCyclomaticComplexityVisitor<G extends Grammar> extends SquidAstV
 
   @Override
   public void leaveNode(AstNode astNode) {
-    final Token token = astNode.getToken();
+    var token = astNode.getToken();
     if (token != null && token.isGeneratedCode()) {
       return;
     }

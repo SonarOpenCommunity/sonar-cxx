@@ -63,7 +63,7 @@ public class SourceCodeProviderTest {
   public void getting_file_relpath_case1() {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
 
-    String includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
+    var includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
@@ -76,7 +76,7 @@ public class SourceCodeProviderTest {
   public void getting_file_relpath_case1_without_extension() {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
 
-    String includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
+    var includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
@@ -89,7 +89,7 @@ public class SourceCodeProviderTest {
   public void getting_file_relpath_case2() {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
 
-    String includeRoot = Paths.get("resources/codeprovider").toString();
+    var includeRoot = Paths.get("resources/codeprovider").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
@@ -102,7 +102,7 @@ public class SourceCodeProviderTest {
   public void getting_file_relpath_case2_without_extension() {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
 
-    String includeRoot = Paths.get("resources/codeprovider").toString();
+    var includeRoot = Paths.get("resources/codeprovider").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
@@ -115,7 +115,7 @@ public class SourceCodeProviderTest {
   public void getting_file_relpath_case3() {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
 
-    String includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
+    var includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
@@ -128,7 +128,7 @@ public class SourceCodeProviderTest {
   public void getting_file_relpath_case3_without_extension() {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
 
-    String includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
+    var includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
@@ -141,7 +141,7 @@ public class SourceCodeProviderTest {
   public void getting_file_relpath_case4() {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
 
-    String includeRoot = Paths.get("resources").toString();
+    var includeRoot = Paths.get("resources").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
@@ -154,7 +154,7 @@ public class SourceCodeProviderTest {
   public void getting_file_relpath_case4_without_extension() {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
 
-    String includeRoot = Paths.get("resources").toString();
+    var includeRoot = Paths.get("resources").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 

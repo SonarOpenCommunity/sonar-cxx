@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
@@ -87,7 +86,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
 
     if (info.endsWith("]")) { // [ruleId]
       for (var i = info.length() - 2; i >= 0; i--) {
-        char c = info.charAt(i);
+        var c = info.charAt(i);
         if (!(Character.isLetterOrDigit(c) || c == '-' || c == '.' || c == '_')) {
           if (c == '[') {
             ruleId = info.substring(i + 1, info.length() - 1);
@@ -125,7 +124,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         if (matcher.matches()) {
           // group: 1      2      3         4        5
           //      <path>:<line>:<column>: <level>: <info>
-          MatchResult m = matcher.toMatchResult();
+          var m = matcher.toMatchResult();
           String path = m.group(1); // relative paths
           String line = m.group(2);
           String column = m.group(3);

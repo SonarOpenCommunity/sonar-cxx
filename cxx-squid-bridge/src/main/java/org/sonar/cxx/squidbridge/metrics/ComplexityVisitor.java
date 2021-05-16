@@ -78,7 +78,7 @@ public final class ComplexityVisitor<G extends Grammar> extends SquidAstVisitor<
     }
 
     public ComplexityVisitor<G> build() {
-      return new ComplexityVisitor<G>(this);
+      return new ComplexityVisitor<>(this);
     }
 
   }
@@ -90,7 +90,7 @@ public final class ComplexityVisitor<G extends Grammar> extends SquidAstVisitor<
   }
 
   public static <G extends Grammar> Builder<G> builder() {
-    return new Builder<G>();
+    return new Builder<>();
   }
 
   @Override

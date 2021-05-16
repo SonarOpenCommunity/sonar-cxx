@@ -37,7 +37,7 @@ public class PropertyFileLoader {
   }
 
   public static void loadNames(NewRepository repository, String resourceAbsolutePath) {
-    InputStream stream = PropertyFileLoader.class.getResourceAsStream(resourceAbsolutePath);
+    var stream = PropertyFileLoader.class.getResourceAsStream(resourceAbsolutePath);
     if (stream == null) {
       throw new IllegalArgumentException("Cound not find resource: " + resourceAbsolutePath);
     }

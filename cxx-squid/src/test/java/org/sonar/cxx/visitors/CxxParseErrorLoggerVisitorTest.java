@@ -42,7 +42,7 @@ public class CxxParseErrorLoggerVisitorTest {
 
   @Test
   public void handleParseErrorTest() throws Exception {
-    String log = String.join("\n", logTester.logs(LoggerLevel.DEBUG));
+    var log = String.join("\n", logTester.logs(LoggerLevel.DEBUG));
 
     assertThat(log)
       .isNotEmpty()

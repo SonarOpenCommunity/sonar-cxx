@@ -24,7 +24,6 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.TokenType;
 import java.util.ArrayList;
 import java.util.List;
 import org.sonar.api.measures.CoreMetrics;
@@ -63,7 +62,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   }
 
   static boolean isCodeToken(Token token) {
-    final TokenType type = token.getType();
+    var type = token.getType();
     if (!(type instanceof CxxPunctuator)) {
       return true;
     }
@@ -84,7 +83,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   }
 
   static boolean isExecutableToken(Token token) {
-    final TokenType type = token.getType();
+    var type = token.getType();
     return !CxxPunctuator.CURLBR_LEFT.equals(type) && !CxxKeyword.DEFAULT.equals(type) && !CxxKeyword.CASE.equals(type);
   }
 

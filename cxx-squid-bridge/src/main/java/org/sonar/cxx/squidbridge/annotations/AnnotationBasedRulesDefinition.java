@@ -80,7 +80,7 @@ public class AnnotationBasedRulesDefinition {
   public AnnotationBasedRulesDefinition(NewRepository repository, String languageKey) {
     this.repository = repository;
     this.languageKey = languageKey;
-    String externalDescriptionBasePath = String.format("/org/sonar/l10n/%s/rules/%s", languageKey, repository.key());
+    var externalDescriptionBasePath = String.format("/org/sonar/l10n/%s/rules/%s", languageKey, repository.key());
     this.externalDescriptionLoader = new ExternalDescriptionLoader(repository, externalDescriptionBasePath);
   }
 
