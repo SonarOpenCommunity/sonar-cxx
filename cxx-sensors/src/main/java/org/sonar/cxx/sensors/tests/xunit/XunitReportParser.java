@@ -90,20 +90,19 @@ public class XunitReportParser implements XmlStreamHandler {
     var status = "ok";
     var stack = "";
     var msg = "";
-    final String SKIPPED_STATUS = "skipped";
 
     // Googletest-reports mark the skipped tests with status="notrun"
     String statusattr = testCaseCursor.getAttrValue("status");
     if ("notrun".equals(statusattr)) {
-      status = SKIPPED_STATUS;
+      status = "skipped";
     } else {
       SMInputCursor childCursor = testCaseCursor.childElementCursor();
       if (childCursor.getNext() != null) {
         String elementName = childCursor.getLocalName();
         if (null != elementName) {
           switch (elementName) {
-            case SKIPPED_STATUS:
-              status = SKIPPED_STATUS;
+            case "skipped":
+              status = "skipped";
               break;
             case "failure":
               status = "failure";
@@ -123,7 +122,7 @@ public class XunitReportParser implements XmlStreamHandler {
     }
 
     String filename = tcFilename != null ? tcFilename : tsFilename;
-    TestFile file = getTestFile(filename);
+    var file = getTestFile(filename);
     file.add(new TestCase(name, time.intValue(), status, stack, msg, classname, filename, tsName));
   }
 
@@ -132,7 +131,7 @@ public class XunitReportParser implements XmlStreamHandler {
     if (absolute != null) {
       absolute = absolute.toLowerCase();
     }
-    TestFile file = testFiles.get(absolute);
+    var file = testFiles.get(absolute);
     if (file == null) {
       file = new TestFile(absolute);
       testFiles.put(absolute, file);
@@ -151,7 +150,7 @@ public class XunitReportParser implements XmlStreamHandler {
 
   private double parseTime(SMInputCursor testCaseCursor)
     throws XMLStreamException {
-    double time = 0.0;
+    var time = 0.0;
     try {
       String sTime = testCaseCursor.getAttrValue("time");
       if (sTime != null && !sTime.isEmpty()) {

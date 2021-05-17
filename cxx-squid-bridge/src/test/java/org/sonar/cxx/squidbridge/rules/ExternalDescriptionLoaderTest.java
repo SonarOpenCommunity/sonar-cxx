@@ -29,7 +29,6 @@ import org.junit.Test;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
 import org.sonar.api.server.rule.RulesDefinition.Repository;
-import org.sonar.api.server.rule.RulesDefinition.Rule;
 
 public class ExternalDescriptionLoaderTest {
 
@@ -42,14 +41,14 @@ public class ExternalDescriptionLoaderTest {
   @Test
   public void existing_rule_description() throws Exception {
     repository.createRule("ruleWithExternalInfo").setName("name1");
-    Rule rule = buildRepository().rule("ruleWithExternalInfo");
+    var rule = buildRepository().rule("ruleWithExternalInfo");
     assertThat(rule.htmlDescription()).isEqualTo("description for ruleWithExternalInfo");
   }
 
   @Test
   public void rule_with_non_external_description() throws Exception {
     repository.createRule("ruleWithoutExternalInfo").setName("name1").setHtmlDescription("my description");
-    Rule rule = buildRepository().rule("ruleWithoutExternalInfo");
+    var rule = buildRepository().rule("ruleWithoutExternalInfo");
     assertThat(rule.htmlDescription()).isEqualTo("my description");
   }
 

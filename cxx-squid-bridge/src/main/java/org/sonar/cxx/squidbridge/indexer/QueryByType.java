@@ -44,17 +44,20 @@ public class QueryByType implements Query {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
+  public boolean equals(Object obj) {
+    if (this == obj) {
       return true;
     }
-    if (!(o instanceof QueryByType)) {
+    if (obj == null) {
+      return false;
+    }
+    if (obj.getClass() != getClass()) {
       return false;
     }
 
-    QueryByType that = (QueryByType) o;
+    var other = (QueryByType) obj;
 
-    if (resourceType != null ? !resourceType.equals(that.resourceType) : that.resourceType != null) {
+    if (resourceType != null ? !resourceType.equals(other.resourceType) : other.resourceType != null) {
       return false;
     }
 

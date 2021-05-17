@@ -84,7 +84,7 @@ public class CxxReportLocation {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    CxxReportLocation other = (CxxReportLocation) obj;
+    var other = (CxxReportLocation) obj;
     return Objects.equals(line, other.line)
              && Objects.equals(column, other.column)
              && Objects.equals(file, other.file)

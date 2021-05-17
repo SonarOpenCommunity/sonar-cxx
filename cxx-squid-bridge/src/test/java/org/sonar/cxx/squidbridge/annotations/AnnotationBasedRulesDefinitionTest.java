@@ -96,7 +96,7 @@ public class AnnotationBasedRulesDefinitionTest {
   public void rule_without_explicit_key_can_be_acceptable() throws Exception {
     Repository repository = buildRepository(LANGUAGE_KEY_WITH_RESOURCE_BUNDLE, false, false,
                                             RuleClassWithoutAnnotationDefinedKey.class);
-    RulesDefinition.Rule rule = repository.rules().get(0);
+    var rule = repository.rules().get(0);
     assertThat(rule.key()).isEqualTo(RuleClassWithoutAnnotationDefinedKey.class.getCanonicalName());
     assertThat(rule.name()).isEqualTo("name1");
   }

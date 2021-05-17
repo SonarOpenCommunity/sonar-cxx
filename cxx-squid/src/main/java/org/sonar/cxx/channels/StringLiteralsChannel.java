@@ -108,7 +108,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       sb.append(charAt);
       index++;
     }
-    String delimiter = sb.toString();
+    var delimiter = sb.toString();
     sb.delete(0, sb.length());
     do {
       index -= sb.length();

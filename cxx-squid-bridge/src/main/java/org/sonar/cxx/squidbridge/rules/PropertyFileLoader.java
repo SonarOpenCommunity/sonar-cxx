@@ -45,7 +45,7 @@ public class PropertyFileLoader {
   }
 
   public static void loadNames(NewRepository repository, InputStream stream) {
-    Properties properties = new Properties();
+    var properties = new Properties();
     try {
       properties.load(stream);
     } catch (IOException e) {

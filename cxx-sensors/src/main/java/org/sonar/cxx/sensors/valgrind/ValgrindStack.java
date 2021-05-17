@@ -75,7 +75,7 @@ class ValgrindStack {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    ValgrindStack other = (ValgrindStack) obj;
+    var other = (ValgrindStack) obj;
     return new EqualsBuilder()
       .append(frames, other.frames)
       .isEquals();

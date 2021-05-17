@@ -30,7 +30,6 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.cpd.internal.TokensLine;
@@ -61,7 +60,7 @@ public class CxxSquidSensorTest {
   @Test
   public void testCollectingSquidMetrics() throws IOException {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/codechunks-project");
-    DefaultInputFile inputFile0 = TestUtils.buildInputFile(baseDir, "code_chunks.cc");
+    var inputFile0 = TestUtils.buildInputFile(baseDir, "code_chunks.cc");
 
     var context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile0);
@@ -86,7 +85,7 @@ public class CxxSquidSensorTest {
     settings.setProperty(CxxSquidSensor.CPD_IGNORE_LITERALS_KEY, true);
     context.setSettings(settings);
 
-    DefaultInputFile inputFile = TestUtils.buildInputFile(baseDir, "cpd.cc");
+    var inputFile = TestUtils.buildInputFile(baseDir, "cpd.cc");
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
@@ -94,7 +93,7 @@ public class CxxSquidSensorTest {
     assertThat(cpdTokenLines).hasSize(75);
 
     // ld &= 0xFF;
-    TokensLine firstTokensLine = cpdTokenLines.get(2);
+    var firstTokensLine = cpdTokenLines.get(2);
     assertThat(firstTokensLine.getValue()).isEqualTo("_I&=_N;");
     assertThat(firstTokensLine.getStartLine()).isEqualTo(4);
     assertThat(firstTokensLine.getStartUnit()).isEqualTo(10);
@@ -102,7 +101,7 @@ public class CxxSquidSensorTest {
     assertThat(firstTokensLine.getEndUnit()).isEqualTo(13);
 
     // if (xosfile_read_stamped_no_path(fn, &ob, 1, 1, 1, 1, 1)) return 1;
-    TokensLine secondTokensLine = cpdTokenLines.get(48);
+    var secondTokensLine = cpdTokenLines.get(48);
     assertThat(secondTokensLine.getValue()).isEqualTo("if(_I(_I,&_I,_N,_N,_N,_N,_N))return_N;");
     assertThat(secondTokensLine.getStartLine()).isEqualTo(60);
     assertThat(secondTokensLine.getStartUnit()).isEqualTo(283);
@@ -110,7 +109,7 @@ public class CxxSquidSensorTest {
     assertThat(secondTokensLine.getEndUnit()).isEqualTo(305);
 
     // case 3: return "three";
-    TokensLine thirdTokensLine = cpdTokenLines.get(71);
+    var thirdTokensLine = cpdTokenLines.get(71);
     assertThat(thirdTokensLine.getValue()).isEqualTo("case_N:return_S;");
     assertThat(thirdTokensLine.getStartLine()).isEqualTo(86);
     assertThat(thirdTokensLine.getStartUnit()).isEqualTo(381);
@@ -126,7 +125,7 @@ public class CxxSquidSensorTest {
     settings.setProperty(CxxSquidSensor.FUNCTION_SIZE_THRESHOLD_KEY, 3);
     context.setSettings(settings);
 
-    DefaultInputFile inputFile = TestUtils.buildInputFile(baseDir, "complexity.cc");
+    var inputFile = TestUtils.buildInputFile(baseDir, "complexity.cc");
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
@@ -153,7 +152,7 @@ public class CxxSquidSensorTest {
   @Test
   public void testDocumentationSquidMetrics() throws IOException {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/documentation-project");
-    DefaultInputFile inputFile = TestUtils.buildInputFile(baseDir, "documentation0.hh");
+    var inputFile = TestUtils.buildInputFile(baseDir, "documentation0.hh");
 
     var context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
@@ -178,7 +177,7 @@ public class CxxSquidSensorTest {
     settings.setProperty(CxxSquidSensor.DEFINES_KEY, "MACRO class A{};");
     context.setSettings(settings);
 
-    DefaultInputFile inputFile = TestUtils.buildInputFile(baseDir, "test.cc");
+    var inputFile = TestUtils.buildInputFile(baseDir, "test.cc");
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
@@ -197,7 +196,7 @@ public class CxxSquidSensorTest {
     settings.setProperty(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY, "include");
     context.setSettings(settings);
 
-    DefaultInputFile inputFile = TestUtils.buildInputFile(baseDir, "src/main.cc");
+    var inputFile = TestUtils.buildInputFile(baseDir, "src/main.cc");
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
@@ -218,7 +217,7 @@ public class CxxSquidSensorTest {
     settings.setProperty(CxxSquidSensor.FORCE_INCLUDES_KEY, "force1.hh,subfolder/force2.hh");
     context.setSettings(settings);
 
-    DefaultInputFile inputFile = TestUtils.buildInputFile(baseDir, "src/src1.cc");
+    var inputFile = TestUtils.buildInputFile(baseDir, "src/src1.cc");
     context.fileSystem().add(inputFile);
     sensor.execute(context);
 
@@ -237,7 +236,7 @@ public class CxxSquidSensorTest {
     // files to analyse, include each other, the preprocessor guards have to be disabled
     // and both have to be counted in terms of metrics
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-includes-project");
-    DefaultInputFile inputFile = TestUtils.buildInputFile(baseDir, "test1.hh");
+    var inputFile = TestUtils.buildInputFile(baseDir, "test1.hh");
 
     var context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);

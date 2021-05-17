@@ -216,7 +216,7 @@ public class CxxPreprocessor extends Preprocessor {
    */
   @Override
   public PreprocessorAction process(List<Token> tokens) { //TODO: deprecated PreprocessorAction
-    Token token = tokens.get(0);
+    var token = tokens.get(0);
     var type = token.getType();
 
     if (type.equals(PREPROCESSOR)) {
@@ -248,7 +248,7 @@ public class CxxPreprocessor extends Preprocessor {
       return oneConsumedToken(token);
     }
 
-    CppGrammarImpl type = (CppGrammarImpl) lineAst.getType();
+    var type = (CppGrammarImpl) lineAst.getType();
     switch (type) {
       case ifLine:
         return handleIfLine(lineAst, token, rootFilePath);
@@ -356,8 +356,8 @@ public class CxxPreprocessor extends Preprocessor {
     var nestingLevel = 0;
     var tokensConsumed = 0;
     var noTokens = tokens.size();
-    Token firstToken = tokens.get(0);
-    Token currToken = firstToken;
+    var firstToken = tokens.get(0);
+    var currToken = firstToken;
     String curr = currToken.getValue();
     var matchedTokens = new LinkedList<Token>();
 
@@ -397,10 +397,10 @@ public class CxxPreprocessor extends Preprocessor {
 
     Iterator<Token> it = tokens.iterator();
     while (it.hasNext()) {
-      Token curr = it.next();
+      var curr = it.next();
       if ("##".equals(curr.getValue())) {
-        Token pred = predConcatToken(newTokens);
-        Token succ = succConcatToken(it);
+        var pred = predConcatToken(newTokens);
+        var succ = succConcatToken(it);
         if (pred != null && succ != null) {
           newTokens.add(Token.builder()
             .setLine(pred.getLine())
@@ -424,10 +424,10 @@ public class CxxPreprocessor extends Preprocessor {
   @CheckForNull
   private static Token predConcatToken(List<Token> tokens) {
     while (!tokens.isEmpty()) {
-      Token last = tokens.remove(tokens.size() - 1);
+      var last = tokens.remove(tokens.size() - 1);
       if (!last.getType().equals(WS)) {
         if (!tokens.isEmpty()) {
-          Token pred = tokens.get(tokens.size() - 1);
+          var pred = tokens.get(tokens.size() - 1);
           if (!pred.getType().equals(WS) && !pred.hasTrivia()) {
             // Needed to paste tokens 0 and x back together after #define N(hex) 0x ## hex
             tokens.remove(tokens.size() - 1);
@@ -728,7 +728,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (arguments.size() > macro.params.size()) {
         // group all arguments into the last one (__VA_ARGS__)
         List<Token> vaargs = arguments.subList(macro.params.size() - 1, arguments.size());
-        Token firstToken = vaargs.get(0);
+        var firstToken = vaargs.get(0);
         arguments = arguments.subList(0, macro.params.size() - 1);
         arguments.add(Token.builder()
           .setLine(firstToken.getLine())
@@ -824,7 +824,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       for (var i = 0; i < body.size(); ++i) {
-        Token curr = body.get(i);
+        var curr = body.get(i);
         int index = -1;
         if (curr.getType().equals(IDENTIFIER)) {
           index = paramterIndex.getOrDefault(curr.getValue(), -1);
@@ -869,7 +869,7 @@ public class CxxPreprocessor extends Preprocessor {
             tokenPastingLeftOp = true;
           }
           // in case of token pasting operator do not fully expand
-          Token replacement = arguments.get(index);
+          var replacement = arguments.get(index);
           String newValue;
           if (tokenPastingLeftOp) {
             newValue = replacement.getValue();
@@ -1141,7 +1141,7 @@ public class CxxPreprocessor extends Preprocessor {
     for (Token ppToken : stripEOF(serialize(ast))) {
       String value = ppToken.getValue();
       var type = ppToken.getType();
-      Token newToken = ppToken;
+      var newToken = ppToken;
       var convert = true;
 
       // identifier with special meaning?
@@ -1216,7 +1216,7 @@ public class CxxPreprocessor extends Preprocessor {
         List<Token> outTokens = new LinkedList<>();
         unitMacros.disable(macro.name);
         while (!replTokens.isEmpty()) {
-          Token c = replTokens.get(0);
+          var c = replTokens.get(0);
           PreprocessorAction action = PreprocessorAction.NO_OPERATION;
           if (c.getType().equals(IDENTIFIER)) {
             List<Token> rest = new ArrayList<>(replTokens);

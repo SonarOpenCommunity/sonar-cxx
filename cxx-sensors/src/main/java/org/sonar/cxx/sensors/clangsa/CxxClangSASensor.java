@@ -103,7 +103,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
     try {
       var f = new File(report.getPath());
 
-      NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(f);
+      var rootDict = (NSDictionary) PropertyListParser.parse(f);
 
       NSObject[] diagnostics = ((NSArray) require(rootDict.objectForKey("diagnostics"),
                                                   "Missing mandatory entry 'diagnostics'")).getArray();
@@ -111,13 +111,13 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
                                                   "Missing mandatory entry 'files'")).getArray();
 
       for (var diagnostic : diagnostics) {
-        NSDictionary diag = (NSDictionary) diagnostic;
+        var diag = (NSDictionary) diagnostic;
 
         String description = ((NSString) require(diag.get("description"),
                                                  "Missing mandatory entry 'diagnostics/description'")).getContent();
         String checkerName = ((NSString) require(diag.get("check_name"),
                                                  "Missing mandatory entry 'diagnostics/check_name'")).getContent();
-        NSDictionary location = (NSDictionary) require(diag.get("location"),
+        var location = (NSDictionary) require(diag.get("location"),
                                                        "Missing mandatory entry 'diagnostics/location'");
         var line = ((NSNumber) require(location.get("line"),
                                        "Missing mandatory entry 'diagnostics/location/line'")).intValue();

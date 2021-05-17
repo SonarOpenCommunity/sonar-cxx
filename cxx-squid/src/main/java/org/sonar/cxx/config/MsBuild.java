@@ -122,7 +122,7 @@ public class MsBuild {
   public void parse(File buildLog, String baseDir, String encodingName) {
      LOG.info("Processing MsBuild log '{}', Encoding= '{}'", buildLog.getName(), encodingName);
 
-    boolean detectedPlatform = false;
+    var detectedPlatform = false;
     try (var br = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(buildLog.toPath()),
                                                        encodingName))) {
       String line;

@@ -25,7 +25,6 @@ package org.sonar.cxx.squidbridge.annotations;
 
 import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.AnnotationUtils;
 import org.sonar.api.utils.ValidationMessages;
@@ -56,13 +55,13 @@ public class AnnotationBasedProfileBuilder {
 
   private void addRule(Class<?> ruleClass, RulesProfile profile, String repositoryKey, ValidationMessages messages) {
     if (AnnotationUtils.getAnnotation(ruleClass, ActivatedByDefault.class) != null) {
-      org.sonar.check.Rule ruleAnnotation = AnnotationUtils.getAnnotation(ruleClass, org.sonar.check.Rule.class);
+      var ruleAnnotation = AnnotationUtils.getAnnotation(ruleClass, org.sonar.check.Rule.class);
       if (ruleAnnotation == null) {
         messages.addWarningText("Class " + ruleClass + " has no Rule annotation");
         return;
       }
       String ruleKey = ruleAnnotation.key();
-      Rule rule = ruleFinder.findByKey(repositoryKey, ruleKey);
+      var rule = ruleFinder.findByKey(repositoryKey, ruleKey);
       if (rule == null) {
         messages.addWarningText("Rule not found: [repository=" + repositoryKey + ", key=" + ruleKey + "]");
       } else {

@@ -41,7 +41,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
   public PreprocessorChannel(TokenType[]
     ... keywordSets) {
-    StringBuilder regexp = new StringBuilder(256);
+    var regexp = new StringBuilder(256);
     regexp.append("#");
     for (var keywords : keywordSets) {
       for (var keyword : keywords) {

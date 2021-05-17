@@ -27,7 +27,6 @@ import com.sonar.sslr.api.Grammar;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.sonar.api.utils.SonarException;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
 public class AbstractXPathCheckTest {
@@ -103,7 +102,7 @@ public class AbstractXPathCheckTest {
   public void wrong_xpath() {
     check.xpath = "//";
 
-    thrown.expect(SonarException.class);
+    thrown.expect(IllegalStateException.class);
     thrown.expectMessage("Unable to initialize the XPath engine, perhaps because of an invalid query: //");
     scanFile("/checks/xpath.mc", check);
   }

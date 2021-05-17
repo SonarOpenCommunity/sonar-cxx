@@ -19,8 +19,6 @@
  */
 package org.sonar.cxx;
 
-import org.sonar.api.ce.measure.Component;
-import org.sonar.api.ce.measure.Measure;
 import org.sonar.api.ce.measure.MeasureComputer;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.utils.log.Logger;
@@ -69,17 +67,17 @@ public class DensityMeasureComputer implements MeasureComputer {
 
   private static void compute(MeasureComputerContext context, String valueKey, String totalKey, String densityKey,
                               boolean calculateReminingPercent) {
-    final Component component = context.getComponent();
+    var component = context.getComponent();
 
-    final Measure valueMeasure = context.getMeasure(valueKey);
-    final Measure totalMeasure = context.getMeasure(totalKey);
+    var valueMeasure = context.getMeasure(valueKey);
+    var totalMeasure = context.getMeasure(totalKey);
     if (valueMeasure == null || totalMeasure == null) {
       // There is always a chance, that required metrics were not calculated for this particular component
       // (e.g. one of modules in a multi-module project doesn't contain any C/C++ data at all).
       // So don't complain about the missing data, but just ignore such components.
       return;
     }
-    final Measure existingMeasure = context.getMeasure(densityKey);
+    var existingMeasure = context.getMeasure(densityKey);
     if (existingMeasure != null) {
       // Measurement <densityKey> should not be calculated manually (e.g. in the sensors).
       // Otherwise there is a chance, that your custom calculation won't work properly for
@@ -89,13 +87,13 @@ public class DensityMeasureComputer implements MeasureComputer {
       return;
     }
 
-    int value = valueMeasure.getIntValue();
-    final int total = totalMeasure.getIntValue();
+    var value = valueMeasure.getIntValue();
+    var total = totalMeasure.getIntValue();
     if (calculateReminingPercent) {
       value = Integer.max(total - value, 0);
     }
 
-    double density = 0.0;
+    var density = 0.0;
     if (total >= value && total != 0) {
       density = (double) value / (double) total * 100.0;
     }

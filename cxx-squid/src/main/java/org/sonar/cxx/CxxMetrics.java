@@ -174,7 +174,7 @@ public final class CxxMetrics {
     for (var field : CxxMetrics.class.getFields()) {
       if (!Modifier.isTransient(field.getModifiers()) && Metric.class.isAssignableFrom(field.getType())) {
         try {
-          Metric metric = (Metric) field.get(null);
+          var metric = (Metric) field.get(null);
           METRICS.add(metric);
         } catch (IllegalAccessException e) {
           throw new IllegalStateException("can not introspect " + CxxMetrics.class + " to get metrics", e);

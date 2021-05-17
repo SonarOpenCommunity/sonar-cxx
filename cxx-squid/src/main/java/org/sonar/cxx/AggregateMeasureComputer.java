@@ -60,12 +60,12 @@ public class AggregateMeasureComputer implements MeasureComputer {
   }
 
   private static void compute(MeasureComputerContext context, String metricKey) {
-    final Component component = context.getComponent();
+    var component = context.getComponent();
     if (component.getType() == Component.Type.FILE) {
       // FILE doesn't required any aggregation. Relevant metrics should be provided by the sensor.
       return;
     }
-    final Measure existingMeasure = context.getMeasure(metricKey);
+    var existingMeasure = context.getMeasure(metricKey);
     if (existingMeasure != null) {
       // For all other component types (e.g. PROJECT, MODULE, DIRECTORY) the
       // measurement <metricKey> should not be calculated manually (e.g. in the sensors).

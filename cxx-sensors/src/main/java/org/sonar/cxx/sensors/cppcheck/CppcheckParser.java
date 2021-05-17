@@ -30,7 +30,6 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.utils.CxxReportIssue;
-import org.sonar.cxx.utils.CxxReportLocation;
 
 public class CppcheckParser {
 
@@ -145,7 +144,7 @@ public class CppcheckParser {
             if (isLocationInProject) {
               issue.addLocation(file, line, null, info);
             } else {
-              CxxReportLocation primaryLocation = issue.getLocations().get(0);
+              var primaryLocation = issue.getLocations().get(0);
               String primaryFile = primaryLocation.getFile();
               String primaryLine = primaryLocation.getLine();
 

@@ -37,7 +37,7 @@ public final class IncludeLexer {
   }
 
   public static Lexer create(CxxSquidConfiguration squidConfig, Preprocessor... preprocessors) {
-    Lexer.Builder builder = Lexer.builder()
+    var builder = Lexer.builder()
       .withCharset(squidConfig.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)
       .withChannel(new BlackHoleChannel("\\s"))

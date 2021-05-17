@@ -35,7 +35,7 @@ public final class CppParser {
   }
 
   public static Parser<Grammar> createConstantExpressionParser(Charset charset) {
-    Grammar grammar = CppGrammarImpl.create();
+    var grammar = CppGrammarImpl.create();
     Parser<Grammar> parser = Parser.builder(grammar)
       .withLexer(CppLexer.create(charset))
       .build();

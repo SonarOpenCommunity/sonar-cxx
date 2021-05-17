@@ -37,7 +37,7 @@ public class SourceCodeBuilderVisitor<G extends Grammar> extends SquidAstVisitor
 
   public SourceCodeBuilderVisitor(SourceCodeBuilderCallback callback, AstNodeType... astNodeTypes) {
     this.callback = callback;
-    this.astNodeTypes = astNodeTypes;
+    this.astNodeTypes = astNodeTypes.clone();
   }
 
   @Override

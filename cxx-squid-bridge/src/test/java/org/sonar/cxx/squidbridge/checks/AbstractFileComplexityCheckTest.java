@@ -27,7 +27,6 @@ import com.sonar.sslr.api.Grammar;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.sonar.api.utils.SonarException;
 import org.sonar.cxx.squidbridge.measures.MetricDef;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 import org.sonar.cxx.squidbridge.test.miniC.MiniCAstScanner.MiniCMetrics;
@@ -77,7 +76,7 @@ public class AbstractFileComplexityCheckTest {
   public void wrong_parameter() {
     check.maximumFileComplexity = 0;
 
-    thrown.expect(SonarException.class);
+    thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("The complexity threshold must be set to a value greater than 0, but given: 0");
     scanFile("/checks/complexity5.mc", check);
   }
