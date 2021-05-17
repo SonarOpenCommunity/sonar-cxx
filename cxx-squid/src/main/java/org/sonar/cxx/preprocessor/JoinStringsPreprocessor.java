@@ -66,9 +66,13 @@ public class JoinStringsPreprocessor extends Preprocessor {
     var concatenatedTokens = new ArrayList<Token>(tokens.subList(0, nrOfAdjacentStringLiterals));
     String concatenatedLiteral = concatenateStringLiterals(concatenatedTokens);
     Trivia trivia = Trivia.createSkippedText(concatenatedTokens);
-    Token firstToken = tokens.get(0);
-    Token tokenToInject = Token.builder().setLine(firstToken.getLine()).setColumn(firstToken.getColumn())
-      .setURI(firstToken.getURI()).setType(CxxTokenType.STRING).setValueAndOriginalValue(concatenatedLiteral)
+    var firstToken = tokens.get(0);
+    var tokenToInject = Token.builder()
+      .setLine(firstToken.getLine())
+      .setColumn(firstToken.getColumn())
+      .setURI(firstToken.getURI())
+      .setType(CxxTokenType.STRING)
+      .setValueAndOriginalValue(concatenatedLiteral)
       .setGeneratedCode(isGenerated).build();
 
     return new PreprocessorAction(nrOfAdjacentStringLiterals, Collections.singletonList(trivia),

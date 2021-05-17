@@ -40,7 +40,6 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.cpd.NewCpdTokens;
 import org.sonar.api.batch.sensor.highlighting.NewHighlighting;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
-import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.issue.NoSonarFilter;
@@ -363,7 +362,7 @@ public class CxxSquidSensor implements ProjectSensor {
     }
 
     for (var sourceCodeFile : sourceCodeFiles) {
-      SourceFile sourceFile = (SourceFile) sourceCodeFile;
+      var sourceFile = (SourceFile) sourceCodeFile;
       var ioFile = new File(sourceFile.getKey());
       InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(ioFile));
 
@@ -418,8 +417,10 @@ public class CxxSquidSensor implements ProjectSensor {
 
         RuleKey ruleKey = checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck());
         if (ruleKey != null) {
-          NewIssue newIssue = context.newIssue().forRule(RuleKey.of(CheckList.REPOSITORY_KEY, ruleKey.rule()));
-          NewIssueLocation location = newIssue.newLocation().on(inputFile).at(inputFile.selectLine(line))
+          var newIssue = context.newIssue().forRule(RuleKey.of(CheckList.REPOSITORY_KEY, ruleKey.rule()));
+          var location = newIssue.newLocation()
+            .on(inputFile)
+            .at(inputFile.selectLine(line))
             .message(message.getText(Locale.ENGLISH));
 
           newIssue.at(location);
@@ -432,8 +433,7 @@ public class CxxSquidSensor implements ProjectSensor {
 
     if (MultiLocatitionSquidCheck.hasMultiLocationCheckMessages(sourceFile)) {
       for (var issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(sourceFile)) {
-        final NewIssue newIssue = context.newIssue()
-          .forRule(RuleKey.of(CheckList.REPOSITORY_KEY, issue.getRuleId()));
+        var newIssue = context.newIssue().forRule(RuleKey.of(CheckList.REPOSITORY_KEY, issue.getRuleId()));
         var locationNr = 0;
         for (var location : issue.getLocations()) {
           final Integer line = Integer.valueOf(location.getLine());

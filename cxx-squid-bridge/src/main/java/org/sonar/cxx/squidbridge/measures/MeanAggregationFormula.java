@@ -32,7 +32,7 @@ public class MeanAggregationFormula implements AggregationFormula {
     if (measurables.isEmpty()) {
       return 0;
     }
-    SumAggregationFormula sumFormula = new SumAggregationFormula();
+    var sumFormula = new SumAggregationFormula();
     return sumFormula.aggregate(metric, measurables) / measurables.size();
   }
 

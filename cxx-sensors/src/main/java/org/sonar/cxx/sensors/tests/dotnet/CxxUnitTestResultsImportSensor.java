@@ -92,8 +92,8 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
   }
 
   public void analyze(UnitTestResults unitTestResults, UnitTestConfiguration unitTestConf) {
-    UnitTestResults aggregatedResults = unitTestResultsAggregator.aggregate(wildcardPatternFileProvider,
-                                                                            unitTestResults, unitTestConf);
+    var aggregatedResults = unitTestResultsAggregator.aggregate(wildcardPatternFileProvider,
+                                                            unitTestResults, unitTestConf);
     if (aggregatedResults != null) {
       saveMetric(CoreMetrics.TESTS, aggregatedResults.tests());
       saveMetric(CoreMetrics.TEST_ERRORS, aggregatedResults.errors());

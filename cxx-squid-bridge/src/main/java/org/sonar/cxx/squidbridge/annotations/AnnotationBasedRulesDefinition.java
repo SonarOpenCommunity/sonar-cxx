@@ -114,7 +114,7 @@ public class AnnotationBasedRulesDefinition {
 
   @VisibleForTesting
   NewRule newRule(Class<?> ruleClass, boolean failIfNoExplicitKey) {
-    org.sonar.check.Rule ruleAnnotation = AnnotationUtils.getAnnotation(ruleClass, org.sonar.check.Rule.class);
+    var ruleAnnotation = AnnotationUtils.getAnnotation(ruleClass, org.sonar.check.Rule.class);
     if (ruleAnnotation == null) {
       throw new IllegalArgumentException("No Rule annotation was found on " + ruleClass);
     }
@@ -140,7 +140,7 @@ public class AnnotationBasedRulesDefinition {
     if (resource == null) {
       return;
     }
-    ResourceBundle bundle = ResourceBundle.getBundle("org.sonar.l10n." + languageKey, Locale.ENGLISH);
+    var bundle = ResourceBundle.getBundle("org.sonar.l10n." + languageKey, Locale.ENGLISH);
     for (var rule : rules) {
       var baseKey = "rule." + repository.key() + "." + rule.key();
       var nameKey = baseKey + ".name";
@@ -162,10 +162,9 @@ public class AnnotationBasedRulesDefinition {
       rule.setDebtSubCharacteristic(subChar.value());
     }
 
-    SqaleConstantRemediation constant = AnnotationUtils.getAnnotation(ruleClass, SqaleConstantRemediation.class);
-    SqaleLinearRemediation linear = AnnotationUtils.getAnnotation(ruleClass, SqaleLinearRemediation.class);
-    SqaleLinearWithOffsetRemediation linearWithOffset = AnnotationUtils.getAnnotation(ruleClass,
-                                                                                      SqaleLinearWithOffsetRemediation.class);
+    var constant = AnnotationUtils.getAnnotation(ruleClass, SqaleConstantRemediation.class);
+    var linear = AnnotationUtils.getAnnotation(ruleClass, SqaleLinearRemediation.class);
+    var linearWithOffset = AnnotationUtils.getAnnotation(ruleClass, SqaleLinearWithOffsetRemediation.class);
 
     Set<Annotation> remediations = Sets.newHashSet(constant, linear, linearWithOffset);
     if (Iterables.size(Iterables.filter(remediations, Predicates.notNull())) > 1) {

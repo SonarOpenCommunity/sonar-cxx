@@ -29,7 +29,6 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
 import java.util.regex.Pattern;
-import org.sonar.api.utils.SonarException;
 
 public abstract class AbstractNamingCheck<G extends Grammar> extends SquidCheck<G> {
 
@@ -59,7 +58,7 @@ public abstract class AbstractNamingCheck<G extends Grammar> extends SquidCheck<
     try {
       this.pattern = Pattern.compile(regexp);
     } catch (Exception e) {
-      throw new SonarException("Unable to compile regular expression: " + regexp, e);
+      throw new IllegalStateException("Unable to compile regular expression: " + regexp, e);
     }
   }
 

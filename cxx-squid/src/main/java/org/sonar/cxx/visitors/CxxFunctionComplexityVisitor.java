@@ -64,7 +64,7 @@ public class CxxFunctionComplexityVisitor<G extends Grammar> extends SquidAstVis
   public void leaveFile(AstNode astNode) {
     super.leaveFile(astNode);
 
-    SourceFile sourceFile = (SourceFile) getContext().peekSourceCode();
+    var sourceFile = (SourceFile) getContext().peekSourceCode();
     sourceFile.setMeasure(CxxMetric.COMPLEX_FUNCTIONS, complexFunctions);
     sourceFile.setMeasure(CxxMetric.COMPLEX_FUNCTIONS_LOC, complexFunctionsLoc);
   }

@@ -88,7 +88,7 @@ public class CxxParserTest {
       verify(root, file, map);
     }
     long finish = System.currentTimeMillis();
-    double duration = (finish - start) / 1000.;
+    var duration = (finish - start) / 1000.;
   }
 
   //@Test todo
@@ -104,7 +104,7 @@ public class CxxParserTest {
       verify(root, file, map);
     }
     long finish = System.currentTimeMillis();
-    double duration = (finish - start) / 1000.;
+    var duration = (finish - start) / 1000.;
   }
 
   @SuppressWarnings("unchecked")
@@ -143,7 +143,7 @@ public class CxxParserTest {
       verify(root, file, map);
     }
     long finish = System.currentTimeMillis();
-    double duration = (finish - start) / 1000.;
+    var duration = (finish - start) / 1000.;
   }
 
   @Test

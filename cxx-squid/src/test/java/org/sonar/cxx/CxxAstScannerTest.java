@@ -46,8 +46,7 @@ public class CxxAstScannerTest {
       new File("src/test/resources/metrics/trivial.cc"),
       new File("src/test/resources/metrics/classes.cc")))
     );
-    SourceProject project = (SourceProject) scanner.getIndex().search(new QueryByType(SourceProject.class)).iterator()
-      .next();
+    var project = (SourceProject) scanner.getIndex().search(new QueryByType(SourceProject.class)).iterator().next();
     assertThat(project.getInt(CxxMetric.FILES)).isEqualTo(2);
   }
 

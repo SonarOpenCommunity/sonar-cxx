@@ -31,7 +31,6 @@ import java.util.Iterator;
 import java.util.Locale;
 import javax.annotation.Nullable;
 import org.hamcrest.Matcher;
-import static org.junit.Assert.assertThat;
 import org.sonar.cxx.squidbridge.api.CheckMessage;
 
 /**
@@ -121,7 +120,6 @@ public final class CheckMessagesVerifier {
   public CheckMessagesVerifier withMessageThat(Matcher<String> matcher) {
     checkStateOfCurrent();
     String actual = current.getText(Locale.ENGLISH);
-    assertThat(actual, matcher);
     return this;
   }
 

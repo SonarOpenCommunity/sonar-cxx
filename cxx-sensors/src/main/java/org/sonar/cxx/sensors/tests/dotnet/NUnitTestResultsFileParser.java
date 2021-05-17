@@ -68,7 +68,7 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
       while ((tag = xmlParserHelper.nextStartOrEndTag()) != null) {
         if ("<test-suite>".equals(tag)) {
           level++;
-          Double time = xmlParserHelper.getDoubleAttribute("time");
+          var time = xmlParserHelper.getDoubleAttribute("time");
 
           if (level == 1 && time != null) {
             if (executionTime == null) {

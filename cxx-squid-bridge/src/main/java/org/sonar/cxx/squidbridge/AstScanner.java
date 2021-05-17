@@ -26,7 +26,6 @@ package org.sonar.cxx.squidbridge;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
@@ -78,11 +77,11 @@ public class AstScanner<G extends Grammar> {
   }
 
   public void scanFile(File file) {
-    scanFiles(ImmutableList.of(file));
+    scanFiles(java.util.List.of(file));
   }
 
   public void scanInputFile(InputFile inputFile) {
-    scanInputFiles(ImmutableList.of(inputFile));
+    scanInputFiles(java.util.List.of(inputFile));
   }
 
   public void scanFiles(Collection<File> files) {
@@ -140,7 +139,7 @@ public class AstScanner<G extends Grammar> {
     decorateSquidTree();
   }
 
-  private Exception handleParseException(File file, Exception e) {
+  private static Exception handleParseException(File file, Exception e) {
     checkInterrupted(e);
     if (e instanceof RecognitionException) {
       LOG.error("Unable to parse file: " + file.getAbsolutePath());
@@ -254,7 +253,7 @@ public class AstScanner<G extends Grammar> {
       for (var metric : metrics) {
         checkNotNull(metric, "metrics cannot be null");
       }
-      this.metrics = metrics;
+      this.metrics = metrics.clone();
       return this;
     }
 

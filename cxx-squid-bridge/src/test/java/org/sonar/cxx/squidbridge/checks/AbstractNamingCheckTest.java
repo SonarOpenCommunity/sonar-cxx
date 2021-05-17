@@ -30,7 +30,6 @@ import com.sonar.sslr.test.minic.MiniCGrammar;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.sonar.api.utils.SonarException;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
 public class AbstractNamingCheckTest {
@@ -89,7 +88,7 @@ public class AbstractNamingCheckTest {
   public void wrong_regular_expression() {
     check.regularExpression = "*";
 
-    thrown.expect(SonarException.class);
+    thrown.expect(IllegalStateException.class);
     thrown.expectMessage("Unable to compile regular expression: *");
     scanFile("/checks/naming.mc", check);
   }

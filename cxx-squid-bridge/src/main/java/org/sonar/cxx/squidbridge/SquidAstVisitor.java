@@ -28,6 +28,7 @@ import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.AstVisitor;
 import com.sonar.sslr.api.Grammar;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.sonar.cxx.squidbridge.api.CodeVisitor;
@@ -67,16 +68,14 @@ public abstract class SquidAstVisitor<G extends Grammar> implements CodeVisitor,
    */
   @Override
   public List<AstNodeType> getAstNodeTypesToVisit() {
-    return astNodeTypesToVisit;
+    return new ArrayList(astNodeTypesToVisit);
   }
 
   /**
    * This method must called into the init() method when an AST visitor wants to subscribe to a set of AST node type.
    */
   public void subscribeTo(AstNodeType... astNodeTypes) {
-    for (var type : astNodeTypes) {
-      astNodeTypesToVisit.add(type);
-    }
+    astNodeTypesToVisit.addAll(Arrays.asList(astNodeTypes));
   }
 
   /**

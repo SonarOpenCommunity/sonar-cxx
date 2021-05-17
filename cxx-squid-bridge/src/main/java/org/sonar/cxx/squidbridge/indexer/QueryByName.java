@@ -47,17 +47,20 @@ public class QueryByName implements Query {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
+  public boolean equals(Object obj) {
+    if (this == obj) {
       return true;
     }
-    if (!(o instanceof QueryByName)) {
+    if (obj == null) {
+      return false;
+    }
+    if (obj.getClass() != getClass()) {
       return false;
     }
 
-    QueryByName that = (QueryByName) o;
+    var other = (QueryByName) obj;
 
-    if (resourceName != null ? !resourceName.equals(that.resourceName) : that.resourceName != null) {
+    if (resourceName != null ? !resourceName.equals(other.resourceName) : other.resourceName != null) {
       return false;
     }
 

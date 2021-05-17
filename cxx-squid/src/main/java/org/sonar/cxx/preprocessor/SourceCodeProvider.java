@@ -182,7 +182,7 @@ public class SourceCodeProvider {
       // The quoted case falls back to this, if its special handling wasn't successful.
       if (result == null) {
         for (var path : includeRoots) {
-          Path abspath = path.resolve(filename);
+          var abspath = path.resolve(filename);
           if (Files.isRegularFile(abspath)) {
             result = abspath.toFile();
             break;

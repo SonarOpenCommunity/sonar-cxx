@@ -104,7 +104,7 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
     super.leaveFile(astNode);
 
     if (!skipFile) {
-      SourceFile sourceFile = (SourceFile) getContext().peekSourceCode();
+      var sourceFile = (SourceFile) getContext().peekSourceCode();
       sourceFile.setMeasure(CxxMetric.PUBLIC_API, publicApiCounter);
       sourceFile.setMeasure(CxxMetric.PUBLIC_UNDOCUMENTED_API, undocumentedApiCounter);
       LOG.debug("'Public API' metric for '{}': total={}, undocumented={}",

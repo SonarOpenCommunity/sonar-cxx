@@ -40,7 +40,6 @@ import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.utils.CxxReportIssue;
-import org.sonar.cxx.utils.CxxReportLocation;
 
 /**
  * PC-lint is an equivalent to pmd but for C++ The first version of the tool was release 1985 and the tool analyzes
@@ -182,7 +181,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
 
         // Due to SONAR-9929, even the API supports the extra/flow in different file,
         // the UI is not ready. For this case, use the parent issue's file and line for now.
-        CxxReportLocation primaryLocation = currentIssue.getLocations().get(0);
+        var primaryLocation = currentIssue.getLocations().get(0);
         if (!primaryLocation.getFile().equals(file)) {
           if (msg != null && !msg.startsWith(PREFIX_DURING_SPECIFIC_WALK_MSG)) {
             msg = String.format("%s %s:%s %s", PREFIX_DURING_SPECIFIC_WALK_MSG, file, line, msg);

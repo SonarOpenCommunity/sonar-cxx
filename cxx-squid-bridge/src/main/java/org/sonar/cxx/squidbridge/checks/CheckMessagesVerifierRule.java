@@ -50,7 +50,7 @@ public class CheckMessagesVerifierRule extends Verifier {
   private final List<CheckMessagesVerifier> verifiers = Lists.newArrayList();
 
   public CheckMessagesVerifier verify(Collection<CheckMessage> messages) {
-    CheckMessagesVerifier verifier = CheckMessagesVerifier.verify(messages);
+    var verifier = CheckMessagesVerifier.verify(messages);
     verifiers.add(verifier);
     return verifier;
   }

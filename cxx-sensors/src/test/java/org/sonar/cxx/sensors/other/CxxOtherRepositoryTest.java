@@ -23,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinition.Rule;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
 public class CxxOtherRepositoryTest {
@@ -100,7 +99,7 @@ public class CxxOtherRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
-    Rule rule = repo.rule("key");
+    var rule = repo.rule("key");
     assertThat(rule).isNotNull();
 
     // from rule.xml

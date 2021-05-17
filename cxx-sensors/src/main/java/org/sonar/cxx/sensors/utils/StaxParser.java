@@ -65,7 +65,7 @@ public class StaxParser {
     this.streamHandler = streamHandler;
     var xmlFactory = XMLInputFactory.newInstance();
     if (xmlFactory instanceof WstxInputFactory) {
-      WstxInputFactory wstxInputfactory = (WstxInputFactory) xmlFactory;
+      var wstxInputfactory = (WstxInputFactory) xmlFactory;
       wstxInputfactory.configureForLowMemUsage();
       wstxInputfactory.getConfig().setUndeclaredEntityResolver(new UndeclaredEntitiesXMLResolver());
     }
@@ -83,7 +83,7 @@ public class StaxParser {
    * @exception XMLStreamException javax.xml.stream.XMLStreamException
    */
   public void parse(File xmlFile) throws XMLStreamException {
-    try ( InputStream input = java.nio.file.Files.newInputStream(xmlFile.toPath())) {
+    try ( var input = java.nio.file.Files.newInputStream(xmlFile.toPath())) {
       parse(input);
     } catch (IOException e) {
       LOG.error("Cannot access file: " + e.getMessage());

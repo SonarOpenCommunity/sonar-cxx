@@ -75,7 +75,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   public void saveUniqueViolation(CxxReportIssue issue) {
     if (uniqueIssues.add(issue)) {
       try {
-        NewIssue newIssue = context.newIssue();
+        var newIssue = context.newIssue();
         if (addLocations(newIssue, issue)) {
           addFlow(newIssue, issue);
           newIssue.save();
@@ -169,7 +169,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   private void addFlow(NewIssue newIssue, CxxReportIssue issue) {
     var newIssueFlow = new ArrayList<NewIssueLocation>();
     for (var location : issue.getFlow()) {
-      NewIssueLocation newIssueLocation = createNewIssueLocation(newIssue, location);
+      var newIssueLocation = createNewIssueLocation(newIssue, location);
       if (newIssueLocation != null) {
         newIssueFlow.add(newIssueLocation);
       } else {

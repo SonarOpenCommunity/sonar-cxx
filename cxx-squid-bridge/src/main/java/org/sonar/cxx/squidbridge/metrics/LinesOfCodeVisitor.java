@@ -60,7 +60,7 @@ public class LinesOfCodeVisitor<G extends Grammar> extends SquidAstVisitor<G> im
       /* Handle all the lines of the token */
       String[] tokenLines = token.getValue().split("\n", -1);
 
-      double firstLineAlreadyCounted = lastTokenLine == token.getLine() ? 1 : 0;
+      var firstLineAlreadyCounted = lastTokenLine == token.getLine() ? 1.0 : 0.0;
       getContext().peekSourceCode().add(metric, tokenLines.length - firstLineAlreadyCounted);
 
       lastTokenLine = token.getLine() + tokenLines.length - 1;

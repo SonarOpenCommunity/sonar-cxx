@@ -28,7 +28,6 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.xpath.api.AstNodeXPathQuery;
 import java.util.List;
-import org.sonar.api.utils.SonarException;
 
 public abstract class AbstractXPathCheck<G extends Grammar> extends SquidCheck<G> {
 
@@ -47,8 +46,9 @@ public abstract class AbstractXPathCheck<G extends Grammar> extends SquidCheck<G
       try {
         query = AstNodeXPathQuery.create(getXPathQuery());
       } catch (RuntimeException e) {
-        throw new SonarException("Unable to initialize the XPath engine, perhaps because of an invalid query: " + xpath,
-                                 e);
+        throw new IllegalStateException("Unable to initialize the XPath engine, perhaps because of an invalid query: "
+                                        + xpath,
+                                        e);
       }
     }
   }

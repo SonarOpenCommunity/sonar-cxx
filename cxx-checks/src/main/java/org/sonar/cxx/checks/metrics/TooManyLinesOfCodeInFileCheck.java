@@ -25,11 +25,11 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxMetric;
-import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.cxx.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.squidbridge.checks.ChecksHelper;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "TooManyLinesOfCodeInFile",
@@ -55,10 +55,10 @@ public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar> {
 
   @Override
   public void leaveFile(AstNode astNode) {
-    int linesOfCode = ChecksHelper.getRecursiveMeasureInt(getContext().peekSourceCode(), CxxMetric.LINES_OF_CODE);
+    var linesOfCode = ChecksHelper.getRecursiveMeasureInt(getContext().peekSourceCode(), CxxMetric.LINES_OF_CODE);
     if (linesOfCode > max) {
       getContext().createFileViolation(this, "This file has {0} lines of code, which is greater than {1} authorized. "
-        + "Split it into smaller files.", linesOfCode, max);
+                                               + "Split it into smaller files.", linesOfCode, max);
     }
   }
 

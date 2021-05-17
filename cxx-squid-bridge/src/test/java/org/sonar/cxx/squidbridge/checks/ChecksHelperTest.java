@@ -23,7 +23,6 @@
  */
 package org.sonar.cxx.squidbridge.checks;
 
-import java.lang.reflect.Constructor;
 import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 
@@ -31,7 +30,7 @@ public class ChecksHelperTest {
 
   @Test
   public void private_constructor() throws Exception {
-    Constructor constructor = ChecksHelper.class.getDeclaredConstructor();
+    var constructor = ChecksHelper.class.getDeclaredConstructor();
     assertThat(constructor.isAccessible()).isFalse();
     constructor.setAccessible(true);
     constructor.newInstance();

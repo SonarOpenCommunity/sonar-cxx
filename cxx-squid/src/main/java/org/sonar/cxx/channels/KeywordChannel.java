@@ -60,7 +60,7 @@ public class KeywordChannel extends Channel<Lexer> {
 
       TokenType keywordType = keywordsMap.get(potentialKeyword);
       if (keywordType != null) {
-        Token token = tokenBuilder
+        var token = tokenBuilder
           .setType(keywordType)
           .setValueAndOriginalValue(potentialKeyword)
           .setURI(lexer.getURI())

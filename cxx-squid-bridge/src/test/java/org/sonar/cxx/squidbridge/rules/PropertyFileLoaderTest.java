@@ -33,7 +33,6 @@ import static org.mockito.Mockito.mock;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
 import org.sonar.api.server.rule.RulesDefinition.Repository;
-import org.sonar.api.server.rule.RulesDefinition.Rule;
 
 public class PropertyFileLoaderTest {
 
@@ -49,7 +48,7 @@ public class PropertyFileLoaderTest {
     newRule.setHtmlDescription("desc");
     newRule.createParam(PARAM_KEY);
     PropertyFileLoader.loadNames(repository, "/rules/names.properties");
-    Rule rule = buildRepository().rule(RULE_KEY);
+    var rule = buildRepository().rule(RULE_KEY);
     assertThat(rule.name()).isEqualTo("my rule name1");
     assertThat(rule.param(PARAM_KEY).description()).isEqualTo("my param description1");
   }
@@ -62,7 +61,7 @@ public class PropertyFileLoaderTest {
     var newParam = newRule.createParam(PARAM_KEY);
     newParam.setDescription("paramName1");
     PropertyFileLoader.loadNames(repository, "/rules/empty.properties");
-    Rule rule = buildRepository().rule(RULE_KEY);
+    var rule = buildRepository().rule(RULE_KEY);
     assertThat(rule.name()).isEqualTo("ruleName1");
     assertThat(rule.param(PARAM_KEY).description()).isEqualTo("paramName1");
   }

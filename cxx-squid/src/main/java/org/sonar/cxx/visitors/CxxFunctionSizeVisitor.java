@@ -77,7 +77,7 @@ public class CxxFunctionSizeVisitor<G extends Grammar> extends SquidAstVisitor<G
   public void leaveFile(AstNode astNode) {
     super.leaveFile(astNode);
 
-    SourceFile sourceFile = (SourceFile) getContext().peekSourceCode();
+    var sourceFile = (SourceFile) getContext().peekSourceCode();
     sourceFile.setMeasure(CxxMetric.BIG_FUNCTIONS, bigFunctions);
     sourceFile.setMeasure(CxxMetric.BIG_FUNCTIONS_LOC, bigFunctionsLoc);
     sourceFile.setMeasure(CxxMetric.LOC_IN_FUNCTIONS, totalLoc);

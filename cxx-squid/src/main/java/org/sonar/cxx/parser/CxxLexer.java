@@ -69,7 +69,7 @@ public final class CxxLexer {
     //
     // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
     //
-    Lexer.Builder builder = Lexer.builder()
+    var builder = Lexer.builder()
       .withCharset(charset)
       .withFailIfNoChannelToConsumeOneCharacter(true)
       .withChannel(new BlackHoleChannel("\\s"))

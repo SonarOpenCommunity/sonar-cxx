@@ -76,7 +76,7 @@ public class CoberturaParser implements CoverageParser {
       path2 = Paths.get(".", path2.toString());
     }
 
-    Path result = path1.resolve(path2).normalize();
+    var result = path1.resolve(path2).normalize();
     if (!result.isAbsolute()) {
       result = Paths.get(".", result.toString());
     }
@@ -89,7 +89,7 @@ public class CoberturaParser implements CoverageParser {
 
     while (line.getNext() != null) {
       var lineId = Integer.parseInt(line.getAttrValue("number"));
-      long noHits = Long.parseLong(line.getAttrValue("hits"));
+      var noHits = Long.parseLong(line.getAttrValue("hits"));
       if (noHits > Integer.MAX_VALUE) {
         LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by SonarQube ({})",
                  noHits, Integer.MAX_VALUE);

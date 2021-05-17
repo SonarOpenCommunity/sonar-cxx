@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -78,7 +77,7 @@ public class RulesDefinitionXml implements RulesDefinition {
       xmlLoader.load(repository, xmlStream, encoding);
 
       for (var userExtensionXml : getExtensions(repositoryKey, "xml")) {
-        try ( InputStream input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
+        try ( var input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
           xmlRuleLoader.load(repository, input, encoding);
         } catch (IOException | IllegalStateException e) {
           LOG.error("Cannot load Rules Definions '{}'", e.getMessage());

@@ -78,7 +78,7 @@ class ValgrindError {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    ValgrindError other = (ValgrindError) obj;
+    var other = (ValgrindError) obj;
     return new EqualsBuilder()
       .append(kind, other.kind)
       .append(text, other.text)

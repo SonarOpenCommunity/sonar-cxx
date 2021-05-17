@@ -25,7 +25,6 @@ package org.sonar.cxx.squidbridge.checks;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import org.sonar.api.utils.SonarException;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.measures.MetricDef;
 
@@ -39,15 +38,15 @@ public abstract class AbstractFileComplexityCheck<G extends Grammar> extends Squ
   @Override
   public void init() {
     if (getMaximumFileComplexity() <= 0) {
-      throw new SonarException("The complexity threshold must be set to a value greater than 0, but given: "
-                               + getMaximumFileComplexity());
+      throw new IllegalArgumentException("The complexity threshold must be set to a value greater than 0, but given: "
+                                           + getMaximumFileComplexity());
     }
   }
 
   @Override
   public void leaveFile(AstNode astNode) {
-    SourceFile sourceFile = (SourceFile) getContext().peekSourceCode();
-    int fileComplexity = ChecksHelper.getRecursiveMeasureInt(sourceFile, getComplexityMetric());
+    var sourceFile = (SourceFile) getContext().peekSourceCode();
+    var fileComplexity = ChecksHelper.getRecursiveMeasureInt(sourceFile, getComplexityMetric());
     if (fileComplexity > getMaximumFileComplexity()) {
       getContext().createFileViolation(this, "The file is too complex ({0} while maximum allowed is set to {1}).",
                                        fileComplexity, getMaximumFileComplexity());

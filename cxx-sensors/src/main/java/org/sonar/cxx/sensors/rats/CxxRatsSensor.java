@@ -87,7 +87,7 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
       var builder = new SAXBuilder(XMLReaders.NONVALIDATING);
       builder.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
       builder.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-      Element root = builder.build(report).getRootElement();
+      var root = builder.build(report).getRootElement();
 
       List<Element> vulnerabilities = root.getChildren("vulnerability");
       for (var vulnerability : vulnerabilities) {

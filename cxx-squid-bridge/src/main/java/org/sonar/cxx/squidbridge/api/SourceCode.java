@@ -78,7 +78,18 @@ public abstract class SourceCode implements Measurable, Comparable<SourceCode> {
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof SourceCode && key.equals(((SourceCode) obj).key);
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (obj.getClass() != getClass()) {
+      return false;
+    }
+
+    var other = (SourceCode) obj;
+    return key.equals(other.key);
   }
 
   @Override
@@ -197,9 +208,9 @@ public abstract class SourceCode implements Measurable, Comparable<SourceCode> {
   }
 
   public <S extends SourceCode> S getAncestor(Class<S> withClass) {
-    S ancestor = getParent(withClass);
+    var ancestor = getParent(withClass);
     if (ancestor != null) {
-      S parentAncestor = ancestor.getAncestor(withClass);
+      var parentAncestor = ancestor.getAncestor(withClass);
       if (parentAncestor != null) {
         ancestor = parentAncestor;
       }
