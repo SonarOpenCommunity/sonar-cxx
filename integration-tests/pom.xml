@@ -53,7 +53,7 @@
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>gherkin</artifactId>
-      <version>18.1.1</version>
+      <version>19.0.0</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-core -->
