@@ -67,38 +67,43 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void doxygen_example() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/doxygen_example.h")).isEqualTo(tuple(13, 0));
+    assertThat(verifyPublicApiOfFile("src/test/resources/metrics/doxygen_example.h")).isEqualTo(tuple(13, 0));
   }
 
   @Test
   public void to_delete() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/public_api.h")).isEqualTo(tuple(47, 0));
+    assertThat(verifyPublicApiOfFile("src/test/resources/metrics/public_api.h")).isEqualTo(tuple(47, 0));
 
   }
 
   @Test
   public void no_doc() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/no_doc.h")).isEqualTo(tuple(22, 22));
+    assertThat(verifyPublicApiOfFile("src/test/resources/metrics/no_doc.h")).isEqualTo(tuple(22, 22));
   }
 
   @Test
   public void template() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/template.h")).isEqualTo(tuple(14, 4));
+    assertThat(verifyPublicApiOfFile("src/test/resources/metrics/template.h")).isEqualTo(tuple(14, 4));
   }
 
   @Test
   public void alias_function_template() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/alias_in_template_func.h")).isEqualTo(tuple(4, 3));
+    assertThat(verifyPublicApiOfFile("src/test/resources/metrics/alias_in_template_func.h")).isEqualTo(tuple(4, 3));
   }
 
   @Test
   public void unnamed_class() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/unnamed_class.h")).isEqualTo(tuple(3, 1));
+    assertThat(verifyPublicApiOfFile("src/test/resources/metrics/unnamed_class.h")).isEqualTo(tuple(3, 1));
   }
 
   @Test
   public void unnamed_enum() throws IOException {
-    assertThat(testFile("src/test/resources/metrics/unnamed_enum.h")).isEqualTo(tuple(1, 1));
+    assertThat(verifyPublicApiOfFile("src/test/resources/metrics/unnamed_enum.h")).isEqualTo(tuple(1, 1));
+  }
+
+  @Test
+  public void multiline() throws IOException {
+    assertThat(verifyPublicApiOfFile("src/test/resources/metrics/multiline.h")).isEqualTo(tuple(9, 0));
   }
 
   @Test
@@ -199,13 +204,12 @@ public class CxxPublicApiVisitorTest {
   }
 
   /**
-   * Check that CxxPublicApiVisitor correctly counts API for given file.
+   * Check that CxxPublicApiVisitor correctly counts public API for given file.
    *
-   * @param fileName the file to use for test
-   * @param expectedApi expected number of API
-   * @param expectedUndoc expected number of undocumented API
+   * @param fileName file to verify
+   * @return tuple(found public API, thereof undocumented public API)
    */
-  private Tuple testFile(String fileName)
+  private Tuple verifyPublicApiOfFile(String fileName)
     throws UnsupportedEncodingException, IOException {
 
     var squidConfig = new CxxSquidConfiguration();

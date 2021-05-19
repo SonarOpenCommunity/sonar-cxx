@@ -227,13 +227,11 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   private static List<Token> getDeclaratorInlineComment(AstNode declarator) {
     List<Token> comments;
 
-    // inline comments are attached to the next AST node (not sibling,
-    // because the last attribute inline comment is attached to the next
-    // node of the parent)
+    // inline comments are attached to the next AST node (not sibling, because the last attribute inline comment
+    // is attached to the next node of the parent)
     var next = declarator.getNextAstNode();
 
-    // inline documentation may be on the next definition token
-    // or next curly brace
+    // inline documentation may be on the next definition token or next curly brace
     if (next != null) {
       // discard COMMA and SEMICOLON
       if (next.getToken().getType().equals(CxxPunctuator.COMMA)
@@ -241,8 +239,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
         next = next.getNextAstNode();
       }
 
-      comments = getInlineDocumentation(next.getToken(),
-                                        declarator.getTokenLine());
+      comments = getInlineDocumentation(next.getToken());
     } else {
       // could happen on parse error ?
       comments = new ArrayList<>();
@@ -309,21 +306,18 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   }
 
   /**
-   * Check if inline Doxygen documentation is attached to the given token at specified line
+   * Check if inline Doxygen documentation is attached to the end of the line
    *
    * @param token the token to inspect
-   * @param line line of the inlined documentation
    * @return true if documentation is found for specified line, false otherwise
    */
-  private static List<Token> getInlineDocumentation(Token token, int line) {
+  private static List<Token> getInlineDocumentation(Token token) {
     var comments = new ArrayList<Token>();
 
     for (var trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         var triviaToken = trivia.getToken();
-        if ((triviaToken != null)
-              && (triviaToken.getLine() == line)
-              && (isDoxygenInlineComment(triviaToken.getValue()))) {
+        if ((triviaToken != null) && (isDoxygenInlineComment(triviaToken.getValue()))) {
           comments.add(triviaToken);
         }
       }
@@ -806,11 +800,9 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   }
 
   private void visitEnumSpecifier(AstNode enumSpecifierNode) {
-    var enumIdNode = enumSpecifierNode.getFirstDescendant(
-      GenericTokenType.IDENTIFIER);
+    var enumIdNode = enumSpecifierNode.getFirstDescendant(GenericTokenType.IDENTIFIER);
 
-    String enumId = (enumIdNode == null)
-                      ? UNNAMED_ENUM_ID : enumIdNode.getTokenValue();
+    String enumId = (enumIdNode == null) ? UNNAMED_ENUM_ID : enumIdNode.getTokenValue();
 
     if (!isPublicApiMember(enumSpecifierNode)) {
       // not in public API
@@ -823,17 +815,13 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       docNode = enumSpecifierNode;
     }
 
-    visitPublicApi(
-      enumSpecifierNode, enumId,
-      getBlockDocumentation(docNode));
+    visitPublicApi(enumSpecifierNode, enumId,getBlockDocumentation(docNode));
 
     // deal with enumeration values
-    AstNode enumeratorList = enumSpecifierNode
-      .getFirstDescendant(CxxGrammarImpl.enumeratorList);
+    AstNode enumeratorList = enumSpecifierNode.getFirstDescendant(CxxGrammarImpl.enumeratorList);
 
     if (enumeratorList != null) {
-      for (var definition : enumeratorList
-        .getChildren(CxxGrammarImpl.enumeratorDefinition)) {
+      for (var definition : enumeratorList.getChildren(CxxGrammarImpl.enumeratorDefinition)) {
 
         // look for block documentation
         List<Token> comments = getBlockDocumentation(definition);
@@ -842,24 +830,18 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
         if (comments.isEmpty()) {
           var next = definition.getNextAstNode();
 
-          // inline documentation may be on the next definition token
-          // or next curly brace
+          // inline documentation may be on the next definition token or next curly brace
           if (next != null) {
             // discard COMMA
             if (next.getToken().getType().equals(CxxPunctuator.COMMA)) {
               next = next.getNextAstNode();
             }
 
-            comments = getInlineDocumentation(next.getToken(),
-                                              definition.getTokenLine());
+            comments = getInlineDocumentation(next.getToken());
           }
         }
 
-        visitPublicApi(
-          definition,
-          definition.getFirstDescendant(
-            GenericTokenType.IDENTIFIER).getTokenValue(),
-          comments);
+        visitPublicApi(definition,  definition.getFirstDescendant(  GenericTokenType.IDENTIFIER).getTokenValue(), comments);
       }
     }
   }
