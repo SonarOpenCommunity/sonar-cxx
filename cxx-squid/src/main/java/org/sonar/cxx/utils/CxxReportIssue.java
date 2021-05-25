@@ -32,15 +32,13 @@ import javax.annotation.Nullable;
 public class CxxReportIssue {
 
   private final String ruleId;
-  private final List<CxxReportLocation> locations;
-  private final List<CxxReportLocation> flow;
+  private final List<String> aliasRuleIds = new ArrayList<>();
+  private final List<CxxReportLocation> locations = new ArrayList<>();
+  private final List<CxxReportLocation> flow = new ArrayList<>();
 
   public CxxReportIssue(String ruleId, @Nullable String file, @Nullable String line, @Nullable String column,
                         String info) {
-    super();
     this.ruleId = ruleId;
-    this.locations = new ArrayList<>();
-    this.flow = new ArrayList<>();
     addLocation(file, line, column, info);
   }
 
@@ -52,8 +50,20 @@ public class CxxReportIssue {
     flow.add(0, new CxxReportLocation(file, line, column, info));
   }
 
+  public final void addAliasRuleId(String aliasRuleId) {
+    aliasRuleIds.add(aliasRuleId);
+  }
+
   public String getRuleId() {
     return ruleId;
+  }
+
+  public boolean hasAliasRuleIds() {
+    return !aliasRuleIds.isEmpty();
+  }
+
+  public List<String> getAliasRuleIds() {
+    return Collections.unmodifiableList(aliasRuleIds);
   }
 
   public List<CxxReportLocation> getLocations() {
@@ -66,14 +76,18 @@ public class CxxReportIssue {
 
   @Override
   public String toString() {
+    String aliasIds = aliasRuleIds.stream().map(Object::toString).collect(Collectors.joining(", "));
     String locationsToString = locations.stream().map(Object::toString).collect(Collectors.joining(", "));
     String flowToString = flow.stream().map(Object::toString).collect(Collectors.joining(", "));
-    return "CxxReportIssue [ruleId=" + ruleId + ", locations=" + locationsToString + ", flow=" + flowToString + "]";
+    return "CxxReportIssue [ruleId=" + ruleId
+             + ", aliasIds=" + aliasIds
+             + ", locations=" + locationsToString
+             + ", flow=" + flowToString + "]";
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ruleId, locations, flow);
+    return Objects.hash(ruleId, aliasRuleIds, locations, flow);
   }
 
   @Override
@@ -89,6 +103,7 @@ public class CxxReportIssue {
     }
     var other = (CxxReportIssue) obj;
     return Objects.equals(ruleId, other.ruleId)
+             && Objects.equals(aliasRuleIds, other.aliasRuleIds)
              && Objects.equals(locations, other.locations)
              && Objects.equals(flow, other.flow);
   }

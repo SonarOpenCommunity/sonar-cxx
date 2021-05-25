@@ -1,0 +1,12 @@
+src\module1.cc:9:33: warning: use of a signed integer operand with a binary bitwise operator [hicpp-signed-bitwise]
+    output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
+                                ^
+src\module1.cc:9:34: warning: use of a signed integer operand with a binary bitwise operator [hicpp-signed-bitwise]
+    output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
+                                 ^
+src\module1.cc:9:35: warning: use of a signed integer operand with a binary bitwise operator [hicpp-signed-bitwise]
+    output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
+                                  ^
+src\module1.cc:9:72: warning: use of a signed integer operand with a binary bitwise operator [hicpp-signed-bitwise]
+    output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
+                                                                       ^

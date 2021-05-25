@@ -63,6 +63,15 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     }
   }
 
+  private void saveIssue(String ruleId, CxxReportIssue issue) {
+    var newIssue = context.newIssue();
+    if (addLocations(newIssue, ruleId, issue)) {
+      addFlow(newIssue, issue);
+      newIssue.save();
+      savedNewIssues++;
+    }
+  }
+
   /**
    * Saves code violation only if it wasn't already saved
    *
@@ -75,11 +84,12 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   public void saveUniqueViolation(CxxReportIssue issue) {
     if (uniqueIssues.add(issue)) {
       try {
-        var newIssue = context.newIssue();
-        if (addLocations(newIssue, issue)) {
-          addFlow(newIssue, issue);
-          newIssue.save();
-          savedNewIssues++;
+        saveIssue(issue.getRuleId(), issue);
+        if (issue.hasAliasRuleIds()) {
+          // in case of alias rule ids save the issues also with these ids
+          for (var aliasRuleId : issue.getAliasRuleIds()) {
+            saveIssue(aliasRuleId, issue);
+          }
         }
       } catch (RuntimeException e) {
         var msg = "Cannot save the issue '" + issue + "'";
@@ -139,7 +149,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     return null;
   }
 
-  private boolean addLocations(NewIssue newIssue, CxxReportIssue issue) {
+  private boolean addLocations(NewIssue newIssue, String ruleId, CxxReportIssue issue) {
     var first = true;
     for (var location : issue.getLocations()) {
       NewIssueLocation newLocation = null;
@@ -154,7 +164,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       if (newLocation != null) {
         if (first) {
           newIssue
-            .forRule(RuleKey.of(getRuleRepositoryKey(), issue.getRuleId()))
+            .forRule(RuleKey.of(getRuleRepositoryKey(), ruleId))
             .at(newLocation);
           first = false;
         } else {

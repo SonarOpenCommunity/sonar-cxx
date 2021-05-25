@@ -89,6 +89,69 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
+  public void shouldReportSameIssueInSameLineWithDifferentColumn() {
+    var context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(
+      CxxClangTidySensor.REPORT_PATH_KEY,
+      "clang-tidy-reports/cpd.report-cols.txt"
+    );
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder
+      .create("ProjectKey", "sources/utils/code_chunks.cpp")
+      .setLanguage("cxx")
+      .initMetadata(
+        "asd\n"
+          + "    output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];\n"
+          + "asda\n")
+      .build()
+    );
+
+    var sensor = new CxxClangTidySensor();
+    sensor.execute(context);
+
+    assertThat(context.allIssues()).hasSize(4);
+    var issuesList = new ArrayList<Issue>(context.allIssues());
+    assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("hicpp-signed-bitwise");
+    assertThat(issuesList.get(0).primaryLocation().textRange().start().lineOffset()).isEqualTo(33);
+    assertThat(issuesList.get(1).ruleKey().rule()).isEqualTo("hicpp-signed-bitwise");
+    assertThat(issuesList.get(1).primaryLocation().textRange().start().lineOffset()).isEqualTo(34);
+    assertThat(issuesList.get(2).ruleKey().rule()).isEqualTo("hicpp-signed-bitwise");
+    assertThat(issuesList.get(2).primaryLocation().textRange().start().lineOffset()).isEqualTo(35);
+    assertThat(issuesList.get(3).ruleKey().rule()).isEqualTo("hicpp-signed-bitwise");
+    assertThat(issuesList.get(3).primaryLocation().textRange().start().lineOffset()).isEqualTo(72);
+  }
+
+  @Test
+  public void shouldReportAliasRuleIds() {
+    var context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(
+      CxxClangTidySensor.REPORT_PATH_KEY,
+      "clang-tidy-reports/cpd.report-alias-rule-ids.txt"
+    );
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder
+      .create("ProjectKey", "sources/utils/code_chunks.cpp")
+      .setLanguage("cxx")
+      .initMetadata(
+        "asd\n"
+          + "    output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];\n"
+          + "asda\n")
+      .build()
+    );
+
+    var sensor = new CxxClangTidySensor();
+    sensor.execute(context);
+
+    assertThat(context.allIssues()).hasSize(3);
+    var issuesList = new ArrayList<Issue>(context.allIssues());
+    assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("cppcoreguidelines-avoid-magic-numbers");
+    assertThat(issuesList.get(1).ruleKey().rule()).isEqualTo("readability-magic-numbers");
+    assertThat(issuesList.get(2).ruleKey().rule()).isEqualTo("test");
+  }
+
+  @Test
   public void shouldReportErrors() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
