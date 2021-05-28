@@ -23,7 +23,9 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
@@ -43,11 +45,8 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.clangtidy.reportPaths";
   public static final String REPORT_ENCODING_DEF = "sonar.cxx.clangtidy.encoding";
   public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
-  private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
 
-  private static final String REGEX
-                                = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): (.+)";
-  private static final Pattern PATTERN = Pattern.compile(REGEX);
+  private static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
 
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
@@ -66,7 +65,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         .defaultValue(DEFAULT_ENCODING_DEF)
         .name("Clang-Tidy Report Encoding")
         .description("Defines the encoding to be used to read the files from `sonar.cxx.clangtidy.reportPaths`"
-          + " (default is `UTF-8`).")
+                       + " (default is `UTF-8`).")
         .category("CXX External Analyzers")
         .subCategory("Clang-Tidy")
         .onQualifiers(Qualifiers.PROJECT)
@@ -74,42 +73,17 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
     ));
   }
 
-  /**
-   * Extract the rule id from info
-   *
-   * @param info text (with rule id)
-   * @param defaultRuleId rule id to use if info has no or invalid rule id
-   * @return sting array: ruleId, info
-   */
-  protected static String[] splitRuleId(String info, String defaultRuleId) {
-    String ruleId = defaultRuleId;
-
-    if (info.endsWith("]")) { // [ruleId]
-      for (var i = info.length() - 2; i >= 0; i--) {
-        var c = info.charAt(i);
-        if (!(Character.isLetterOrDigit(c) || c == '-' || c == '.' || c == '_')) {
-          if (c == '[') {
-            ruleId = info.substring(i + 1, info.length() - 1);
-            info = info.substring(0, i - 1);
-          }
-          break;
-        }
-      }
-    }
-    return new String[]{ruleId, info};
-  }
-
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX Clang-Tidy report import")
-      .onlyOnLanguages("cxx","cpp", "c++", "c")
+      .onlyOnLanguages("cxx", "cpp", "c++", "c")
       .createIssuesForRuleRepository(getRuleRepositoryKey())
       .onlyWhenConfiguration(conf -> conf.hasKey(getReportPathsKey()));
   }
 
   @Override
-  protected void processReport(File report)  {
+  protected void processReport(File report) {
     String reportEncoding = context.config().get(REPORT_ENCODING_DEF).orElse(DEFAULT_ENCODING_DEF);
 
     try ( var scanner = new TextScanner(report, reportEncoding)) {
@@ -119,58 +93,25 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
       // c:\a\file.cc:5:20: warning: ... conversion from string literal to 'char *' [clang-diagnostic-writable-strings]
       CxxReportIssue currentIssue = null;
       while (scanner.hasNextLine()) {
-        String nextLine = scanner.nextLine();
-        var matcher = PATTERN.matcher(nextLine);
-        if (matcher.matches()) {
-          // group: 1      2      3         4        5
-          //      <path>:<line>:<column>: <level>: <info>
-          var m = matcher.toMatchResult();
-          String path = m.group(1); // relative paths
-          String line = m.group(2);
-          String column = m.group(3);
-          String level = m.group(4); // error, warning, note, ...
-          String info = m.group(5); // info [ruleId]
-
-          CxxReportIssue newIssue = null;
-          var saveIssue = true;
-
-          switch (level) {
-            case "note":
-              saveIssue = false;
-              if (currentIssue != null) {
-                currentIssue.addFlowElement(path, line, column, info);
-              }
-              break;
-            case "warning": {
-              String [] rule = splitRuleId(info, "clang-diagnostic-warning");
-              newIssue = new CxxReportIssue(rule[0], path, line, column, rule[1]);
+        var issue = Issue.create(scanner.nextLine());
+        if (issue != null) {
+          if ("note".equals(issue.level)) {
+            if (currentIssue != null) {
+              currentIssue.addFlowElement(issue.path, issue.line, issue.column, issue.info);
             }
-              break;
-            case "error":
-            case "fatal error": {
-              String [] rule = splitRuleId(info, "clang-diagnostic-error");
-              newIssue = new CxxReportIssue(rule[0], path, line, column, rule[1]);
-            }
-              break;
-            default: {
-              String [] rule = splitRuleId(info, "clang-diagnostic-unknown");
-              newIssue = new CxxReportIssue(rule[0], path, line, column, rule[1]);
-            }
-              break;
-          }
-          if (saveIssue) {
+          } else {
             if (currentIssue != null) {
               saveUniqueViolation(currentIssue);
-              currentIssue = null;
             }
-            currentIssue = newIssue;
-            newIssue = null;
+            currentIssue = new CxxReportIssue(issue.ruleId, issue.path, issue.line, issue.column, issue.info);
+            for (var aliasRuleId : issue.aliasRuleIds) {
+              currentIssue.addAliasRuleId(aliasRuleId);
+            }
           }
         }
       }
       if (currentIssue != null) {
         saveUniqueViolation(currentIssue);
-        currentIssue = null;
       }
     } catch (final java.io.IOException
                      | java.lang.IllegalArgumentException
@@ -189,4 +130,74 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
   protected String getRuleRepositoryKey() {
     return CxxClangTidyRuleRepository.KEY;
   }
+
+  private static class Issue {
+
+    private static final String REGEX = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): (.+)";
+    private static final Pattern PATTERN = Pattern.compile(REGEX);
+
+    private String path;
+    private String line;
+    private String column;
+    private String level;
+    private String ruleId;
+    private LinkedList<String> aliasRuleIds = new LinkedList<>();
+    private String info;
+
+    static Issue create(String data) {
+      var matcher = PATTERN.matcher(data);
+      if (matcher.matches()) {
+        var issue = new Issue();
+        // group: 1      2      3         4        5
+        //      <path>:<line>:<column>: <level>: <info>
+        var m = matcher.toMatchResult();
+        issue.path = m.group(1); // relative paths
+        issue.line = m.group(2);
+        issue.column = m.group(3);
+        issue.level = m.group(4); // error, warning, note, ...
+        issue.info = m.group(5); // info [ruleIds]
+
+        issue.splitRuleId();
+        return issue;
+      }
+      return null;
+    }
+
+    void splitRuleId() {
+      ruleId = getDefaultRuleId();
+
+      if (info.endsWith("]")) { // [ruleIds]
+        var end = info.length() - 1;
+        for (var start = info.length() - 2; start >= 0; start--) {
+          var c = info.charAt(start);
+          if (!(Character.isLetterOrDigit(c) || c == '-' || c == '.' || c == '_')) {
+            if (c == ',') {
+              var aliasId = info.substring(start + 1, end);
+              if (!"warnings-as-errors".equals(aliasId)) {
+                aliasRuleIds.addFirst(aliasId);
+              }
+              end = start;
+              continue;
+            } else if (c == '[') {
+              ruleId = info.substring(start + 1, end);
+              info = info.substring(0, start - 1);
+            }
+            break;
+          }
+        }
+      }
+    }
+
+    String getDefaultRuleId() {
+      Map<String, String> map = Map.of(
+        "note", "",
+        "warning", "clang-diagnostic-warning",
+        "error", "clang-diagnostic-error",
+        "fatal error", "clang-diagnostic-error"
+      );
+
+      return map.getOrDefault(level, "clang-diagnostic-unknown");
+    }
+  }
+
 }
