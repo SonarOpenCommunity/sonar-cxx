@@ -1,0 +1,12 @@
+sources\utils\code_chunks.cpp:2:32: warning: field '_identityFunction' is uninitialized when used here [clang-diagnostic-uninitialized]
+                               _identityFunction,
+                               ^
+sources\utils\code_chunks.cpp:3:32: warning: field '_identityFunction' is uninitialized when used here [clang-diagnostic-uninitialized]
+                               _identityFunction) {
+                               ^
+sources\utils\code_chunks.cpp:2:32: warning: field '_identityFunction' is uninitialized when used here [clang-diagnostic-uninitialized]
+                               _identityFunction,
+                               ^
+sources\utils\code_chunks.cpp:3:32: warning: field '_identityFunction' is uninitialized when used here [clang-diagnostic-uninitialized]
+                               _identityFunction) {
+                               ^
