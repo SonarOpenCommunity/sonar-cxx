@@ -46,11 +46,33 @@ public class CxxOtherRepositoryTest {
 
   private final String profile2 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
                                     + "<rules>\n"
-                                    + "    <rule key=\"key\">\n"
-                                    + "        <name><![CDATA[name]]></name>\n"
-                                    + "        <configKey><![CDATA[configKey]]></configKey>\n"
-                                    + "        <category name=\"category\" />\n"
-                                    + "        <description><![CDATA[description]]></description>\n"
+                                    + "    <rule key=\"key1\">\n"
+                                    + "        <name><![CDATA[name1]]></name>\n"
+                                    + "        <configKey><![CDATA[configKey1]]></configKey>\n"
+                                    + "        <category name=\"category1\" />\n"
+                                    + "        <description><![CDATA[description1]]></description>\n"
+                                    + "    </rule>\n"
+                                    + "    <rule key=\"key2\">\n"
+                                    + "        <name><![CDATA[name2]]></name>\n"
+                                    + "        <configKey><![CDATA[configKey2]]></configKey>\n"
+                                    + "        <category name=\"category2\" />\n"
+                                    + "        <description><![CDATA[description2]]></description>\n"
+                                    + "    </rule>\n"
+                                    + "</rules>";
+
+  private final String profile3 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
+                                    + "<rules>\n"
+                                    + "    <rule key=\"key1\">\n"
+                                    + "        <name><![CDATA[name1]]></name>\n"
+                                    + "        <configKey><![CDATA[configKey1]]></configKey>\n"
+                                    + "        <category name=\"category1\" />\n"
+                                    + "        <description><![CDATA[description1]]></description>\n"
+                                    + "    </rule>\n"
+                                    + "    <rule key=\"key3\">\n"
+                                    + "        <name><![CDATA[name3]]></name>\n"
+                                    + "        <configKey><![CDATA[configKey3]]></configKey>\n"
+                                    + "        <category name=\"category3\" />\n"
+                                    + "        <description><![CDATA[description3]]></description>\n"
                                     + "    </rule>\n"
                                     + "</rules>";
 
@@ -99,15 +121,41 @@ public class CxxOtherRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
-    var rule = repo.rule("key");
+    var rule = repo.rule("key1");
     assertThat(rule).isNotNull();
 
-    // from rule.xml
-    assertThat(rule.key()).isEqualTo("key");
-    assertThat(rule.name()).isEqualTo("name");
-    assertThat(rule.internalKey()).isEqualTo("configKey");
-    assertThat(rule.htmlDescription()).isEqualTo("description");
+    assertThat(rule.key()).isEqualTo("key1");
+    assertThat(rule.name()).isEqualTo("name1");
+    assertThat(rule.internalKey()).isEqualTo("configKey1");
+    assertThat(rule.htmlDescription()).isEqualTo("description1");
+  }
 
+  @Test
+  public void verifyRulesWithSameKey() {
+    settings.setProperty(CxxOtherSensor.RULES_KEY, profile2 + "," + profile3);
+    var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
+
+    var context = new RulesDefinition.Context();
+    def.define(context);
+
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
+    assertThat(repo.rules()).hasSize(3);
+
+    var rule = repo.rule("key1");
+    assertThat(rule).isNotNull();
+
+    assertThat(rule.key()).isEqualTo("key1");
+    assertThat(rule.name()).isEqualTo("name1");
+    assertThat(rule.internalKey()).isEqualTo("configKey1");
+    assertThat(rule.htmlDescription()).isEqualTo("description1");
+
+    rule = repo.rule("key2");
+    assertThat(rule).isNotNull();
+
+    assertThat(rule.key()).isEqualTo("key2");
+    assertThat(rule.name()).isEqualTo("name2");
+    assertThat(rule.internalKey()).isEqualTo("configKey2");
+    assertThat(rule.htmlDescription()).isEqualTo("description2");
   }
 
 }

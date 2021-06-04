@@ -54,14 +54,23 @@ public class CxxOtherRepository implements RulesDefinition {
   public void define(Context context) {
     var repository = context.createRepository(KEY, "cxx")
       .setName(NAME);
+    var validate = context.createRepository("Validate", "cxx")
+      .setName("validate");
 
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), StandardCharsets.UTF_8.name());
     for (var ruleDefs : this.config.getStringArray(CxxOtherSensor.RULES_KEY)) {
       if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
         try {
+          // read rules first into dummy repository to check if there are errors
+          xmlRuleLoader.load(validate, new StringReader(ruleDefs));
+          // in case of no errors read again into real repository
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));
         } catch (IllegalStateException e) {
-          LOG.error("Cannot load Rules Definions '{}'", e.getMessage());
+          // In case of an error, ignore the whole XML block. The loading happens during the server start,
+          // errors are critical and can cause that the server cannot be started anymore.
+          var xml = ruleDefs.substring(0, Math.min(ruleDefs.length(), 120))
+            .replaceAll("\\R", "").replaceAll(">[ ]+<", "><");
+          LOG.error("Cannot load rule definions for 'sonar.cxx.other.rules', '{}', XML '{}...'", e.getMessage(), xml);
         }
       }
     }
