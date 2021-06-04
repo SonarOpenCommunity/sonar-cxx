@@ -1,0 +1,6 @@
+sources\utils\code_chunks.cpp:1:1: warning: ... [first-column]
+0123456789
+^
+sources\utils\code_chunks.cpp:1:10: warning: ... [last-column]
+0123456789
+         ^

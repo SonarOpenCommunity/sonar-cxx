@@ -131,8 +131,13 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     if (column < 0) {
       return inputFile.selectLine(line);
     } else {
-      // since we do not have more information, we select only one character
-      return inputFile.newRange(line, column, line, column + 1);
+      try {
+        // since we do not have more information, we select only one character
+        return inputFile.newRange(line, column, line, column + 1);
+      } catch (IllegalArgumentException e) {
+        // second try without column number: sometimes locations is behind last valid column
+        return inputFile.selectLine(line);
+      }
     }
   }
 

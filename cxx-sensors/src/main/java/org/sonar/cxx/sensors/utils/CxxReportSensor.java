@@ -81,7 +81,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
         inputFile = getInputFileTryRealPath(path);
 
         if (inputFile == null) {
-          LOG.warn("Cannot find the file '{}' in project '{}' with baseDir '{}', skipping.",
+          LOG.warn("Cannot find the file '{}' in project '{}' with baseDir '{}', skipping",
                    path, context.project().key(), context.fileSystem().baseDir());
           notFoundFiles.add(path);
         }
