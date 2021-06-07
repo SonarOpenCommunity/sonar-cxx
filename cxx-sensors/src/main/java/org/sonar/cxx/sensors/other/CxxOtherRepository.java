@@ -70,7 +70,8 @@ public class CxxOtherRepository implements RulesDefinition {
           // errors are critical and can cause that the server cannot be started anymore.
           var xml = ruleDefs.substring(0, Math.min(ruleDefs.length(), 120))
             .replaceAll("\\R", "").replaceAll(">[ ]+<", "><");
-          LOG.error("Cannot load rule definions for 'sonar.cxx.other.rules', '{}', XML '{}...'", e.getMessage(), xml);
+          LOG.error("Cannot load rule definions for 'sonar.cxx.other.rules', '{}', XML '{}...', skipping",
+                    e.getMessage(), xml);
         }
       }
     }

@@ -51,6 +51,7 @@ public class CxxValgrindSensor extends CxxIssuesReportSensor {
         .description(
           "Comma-separated paths (absolute or relative to the project base directory) to `*.xml` files with"
             + " `Valgrind` issues. Ant patterns are accepted for relative paths."
+            + " In the SonarQube UI, enter one entry per field."
         )
         .category("CXX External Analyzers")
         .subCategory("Valgrind")
