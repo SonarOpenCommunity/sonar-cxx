@@ -21,17 +21,16 @@ package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
-import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import static org.sonar.cxx.parser.CxxGrammarImpl.qualifiedId;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
@@ -646,13 +645,10 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     if (declId == null) {
       return;
     }
-    var idNode = declId.getLastChild(qualifiedId);
-    if (idNode != null) {
-      idNode = idNode.getLastChild(IDENTIFIER);
-    } else {
-      idNode = declId;
-    }
-    String id = idNode.getTokenValue();
+
+    String id = declId.getTokens().stream()
+      .map(Token::getValue)
+      .collect(Collectors.joining());
 
     // handle cascaded template declarations
     AstNode node = templateDeclaration;
@@ -815,7 +811,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       docNode = enumSpecifierNode;
     }
 
-    visitPublicApi(enumSpecifierNode, enumId,getBlockDocumentation(docNode));
+    visitPublicApi(enumSpecifierNode, enumId, getBlockDocumentation(docNode));
 
     // deal with enumeration values
     AstNode enumeratorList = enumSpecifierNode.getFirstDescendant(CxxGrammarImpl.enumeratorList);
@@ -841,7 +837,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
           }
         }
 
-        visitPublicApi(definition,  definition.getFirstDescendant(  GenericTokenType.IDENTIFIER).getTokenValue(), comments);
+        visitPublicApi(definition, definition.getFirstDescendant(GenericTokenType.IDENTIFIER).getTokenValue(), comments);
       }
     }
   }
