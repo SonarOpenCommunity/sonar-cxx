@@ -57,6 +57,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
           "Paths to VSTest reports. Multiple paths may be comma-delimited, or included via wildcards."
             + " Note that while measures such as the number of tests are displayed at project level, no drilldown"
             + " is available."
+            + " In the SonarQube UI, enter one entry per field."
         )
         .category(category)
         .subCategory("Visual C++")
@@ -69,6 +70,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
           "Paths to NUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards."
             + " Note that while measures such as the number of tests are displayed at project level, no drilldown"
             + " is available."
+            + " In the SonarQube UI, enter one entry per field."
         )
         .category(category)
         .subCategory("NUnit")

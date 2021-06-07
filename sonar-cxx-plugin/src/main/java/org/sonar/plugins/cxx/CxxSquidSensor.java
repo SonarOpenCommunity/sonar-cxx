@@ -123,6 +123,7 @@ public class CxxSquidSensor implements ProjectSensor {
         .description(
           "Comma-separated list of directories where the preprocessor looks for include files."
             + " The path may be either absolute or relative to the project base directory."
+            + " In the SonarQube UI, enter one entry per field."
         )
         .category("CXX")
         .subCategory("(2) Preprocessor")
@@ -139,6 +140,7 @@ public class CxxSquidSensor implements ProjectSensor {
             + " on the first line of every source file. If you add multiple files they are included in the order they"
             + " are listed from left to right. The path may be either absolute or relative to the"
             + " project base directory."
+            + " In the SonarQube UI, enter one entry per field."
         )
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
@@ -171,6 +173,7 @@ public class CxxSquidSensor implements ProjectSensor {
           "Read one ore more MSBuild .LOG files to automatically extract the required macros `sonar.cxx.defines`"
             + " and include directories `sonar.cxx.includeDirectories`. The path may be either absolute or relative"
             + " to the project base directory."
+            + " In the SonarQube UI, enter one entry per field."
         )
         .category("CXX")
         .subCategory("(2) Preprocessor")
@@ -200,10 +203,11 @@ public class CxxSquidSensor implements ProjectSensor {
         .build(),
       PropertyDefinition.builder(CxxPublicApiVisitor.API_FILE_SUFFIXES_KEY)
         .defaultValue(CxxPublicApiVisitor.API_DEFAULT_FILE_SUFFIXES)
-        .name("Pulic API File suffixes")
+        .name("Public API File suffixes")
         .multiValues(true)
         .description(
           "Comma-separated list of suffixes for files to be searched for API comments and to create API metrics."
+            + " In the SonarQube UI, enter one entry per field."
         )
         .category("CXX")
         .subCategory("(3) Metrics")
