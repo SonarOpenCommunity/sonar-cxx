@@ -48,7 +48,7 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
     private final File file;
     private final UnitTestResults unitTestResults;
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-    private final Pattern millisecondsPattern = Pattern.compile("(\\.([0-9]{0,3}))[0-9]*+");
+    private final Pattern millisecondsPattern = Pattern.compile("(\\.(\\d{0,3}))\\d*+");
 
     private boolean foundCounters;
 
@@ -62,7 +62,7 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
     }
 
     public void parse() {
-      try ( var xmlParserHelper = new XmlParserHelper(file)) {
+      try (var xmlParserHelper = new XmlParserHelper(file)) {
         checkRootTag(xmlParserHelper);
         dispatchTags(xmlParserHelper);
         if (!foundCounters) {

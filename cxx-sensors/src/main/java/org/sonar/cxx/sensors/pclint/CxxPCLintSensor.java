@@ -60,8 +60,8 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
 
   private static final String PREFIX_DURING_SPECIFIC_WALK_MSG = "during specific walk";
 
-  private static final Pattern SUPPLEMENTAL_MSG_PATTERN
-                                 = Pattern.compile(PREFIX_DURING_SPECIFIC_WALK_MSG + "\\s+(.+):(\\d+):(\\d+)\\s+.+");
+  private static final Pattern SUPPLEMENTAL_MSG_PATTERN = Pattern.compile(
+    PREFIX_DURING_SPECIFIC_WALK_MSG + "\\s+([^:]++):(\\d{1,5}):(\\d{1,5}).+");
 
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(

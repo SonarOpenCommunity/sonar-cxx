@@ -38,7 +38,7 @@ import org.sonar.api.utils.log.Loggers;
  */
 public class MsBuild {
 
- /**
+  /**
    * the following settings are in use by the feature to read configuration settings from the VC compiler report
    */
   public static final String REPORT_PATH_KEY = "sonar.cxx.msbuild.reportPaths";
@@ -54,18 +54,22 @@ public class MsBuild {
   private static final String CPPVERSION = "__cplusplus=199711L";
 
   private static final Pattern[] INCLUDE_PATTERNS = {Pattern.compile("/I\"(.*?)\""),
-                                                     Pattern.compile("/I([^\\s\"]+) ")};
-  private static final Pattern[] DEFINE_PATTERNS = {Pattern.compile("[/-]D\\s([^\\s]+)"),
-                                                    Pattern.compile("[/-]D([^\\s]+)")};
-  private static final Pattern PATH_TO_CL_PATTERN = Pattern.compile("^.*\\\\bin\\\\.*CL.exe\\x20.*$");
+                                                     Pattern.compile("/I([^\\s\"]++) ")};
+  private static final Pattern[] DEFINE_PATTERNS = {Pattern.compile("[/-]D\\s([^\\s]++)"),
+                                                    Pattern.compile("[/-]D([^\\s]++)")};
+  private static final Pattern PATH_TO_CL_PATTERN = Pattern.compile(
+    "^(?>[^\\\\]{0,260}\\\\)+bin\\\\(?>[^\\\\]{1,260}\\\\)*CL.exe\\x20.*$");
   private static final Pattern PLATFORM_X86_PATTERN = Pattern.compile("Building solution configuration \".*\\|x64\".");
-  private static final Pattern TOOLSET_V141_PATTERN = Pattern
-    .compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
-  private static final Pattern TOOLSET_V142_PATTERN = Pattern
-    .compile("^.*VC\\\\Tools\\\\MSVC\\\\14\\.2\\d\\.\\d+\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
+  private static final Pattern TOOLSET_V141_PATTERN = Pattern.compile(
+    "^(?>[^\\\\]{0,260}\\\\)+VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d{1,6}"
+      + "\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
+  private static final Pattern TOOLSET_V142_PATTERN = Pattern.compile(
+    "^(?>[^\\\\]{0,260}\\\\)+VC\\\\Tools\\\\MSVC\\\\14\\.2\\d\\.\\d{1,6}"
+      + "\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
 
   // It seems that the required line in any language has these elements: "ClCompile" and (*.vcxproj)
-  private static final Pattern PATH_TO_VCXPROJ = Pattern.compile("^(?:\\S+)\\s(?:\"ClCompile\").*\"(.+vcxproj)\".*$");
+  private static final Pattern PATH_TO_VCXPROJ = Pattern.compile(
+    "^\\S+\\s\\\"ClCompile\\\".+\\\"((?>[^\\\\]{1,260}\\\\)*[^\\\\]{1,260}\\.vcxproj)\\\".*$");
 
   private String platformToolset = "V120";
   private String platform = "Win32";
@@ -75,7 +79,7 @@ public class MsBuild {
   /**
    * CxxVCppBuildLogParser (ctor)
    *
-   * @param db
+   * @param squidConfig
    */
   public MsBuild(CxxSquidConfiguration squidConfig) {
     this.squidConfig = squidConfig;
@@ -120,7 +124,7 @@ public class MsBuild {
    * @param encodingName
    */
   public void parse(File buildLog, String baseDir, String encodingName) {
-     LOG.info("Processing MsBuild log '{}', Encoding= '{}'", buildLog.getName(), encodingName);
+    LOG.info("Processing MsBuild log '{}', Encoding= '{}'", buildLog.getName(), encodingName);
 
     var detectedPlatform = false;
     try (var br = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(buildLog.toPath()),
@@ -133,7 +137,7 @@ public class MsBuild {
         if (line.trim().startsWith("INCLUDE=")) { // handle environment includes
           String[] includes = line.split("=")[1].split(";");
           for (var include : includes) {
-            squidConfig.add(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.INCLUDE_DIRECTORIES,include);
+            squidConfig.add(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.INCLUDE_DIRECTORIES, include);
           }
         }
 
@@ -296,7 +300,7 @@ public class MsBuild {
           includeRoot = new File(project, includeRoot.getPath());
         }
       }
-      squidConfig.add(fileElement, CxxSquidConfiguration.INCLUDE_DIRECTORIES,includeRoot.getCanonicalPath());
+      squidConfig.add(fileElement, CxxSquidConfiguration.INCLUDE_DIRECTORIES, includeRoot.getCanonicalPath());
     } catch (IOException e) {
       LOG.error("Cannot parse include path using element '{}' : '{}'", element, e.getMessage());
     }

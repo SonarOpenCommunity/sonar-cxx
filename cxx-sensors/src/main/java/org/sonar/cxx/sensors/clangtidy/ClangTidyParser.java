@@ -33,7 +33,7 @@ public class ClangTidyParser {
 
   private static final Logger LOG = Loggers.get(ClangTidyParser.class);
 
-  private static final String REGEX = "(.+|[a-zA-Z]:\\\\.+):([0-9]+):([0-9]+): ([^:]+): (.+)";
+  private static final String REGEX = "((?>[a-zA-Z]:\\\\)??[^:]++):(\\d{1,5}):(\\d{1,5}): ([^:]++): (.+)";
   private static final Pattern PATTERN = Pattern.compile(REGEX);
 
   private final CxxClangTidySensor sensor;
@@ -44,7 +44,7 @@ public class ClangTidyParser {
   }
 
   public void parse(File report, String defaultEncoding) throws IOException {
-    try ( var scanner = new TextScanner(report, defaultEncoding)) {
+    try (var scanner = new TextScanner(report, defaultEncoding)) {
       LOG.debug("Encoding='{}'", scanner.encoding());
 
       CxxReportIssue currentIssue = null;
