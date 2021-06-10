@@ -35,8 +35,9 @@ import org.sonar.cxx.sensors.utils.CxxUtils;
 public final class DrMemoryParser {
 
   private static final Logger LOG = Loggers.get(DrMemoryParser.class);
-  private static final Pattern RX_MESSAGE_FINDER = Pattern.compile("^Error #\\d+:(.*)");
-  private static final Pattern RX_FILE_FINDER = Pattern.compile("^.*\\[(.*):(\\d+)\\]$");
+  private static final Pattern RX_MESSAGE_FINDER = Pattern.compile("^Error #\\d{1,6}:(.*)");
+  private static final Pattern RX_FILE_FINDER = Pattern.compile(
+    "\\s*+#[^\\[]++\\[((?>[a-zA-Z]:\\\\)??[^:]++):(\\d{1,5})\\]");
   private static final int TOP_COUNT = 4;
 
   private DrMemoryParser() {
@@ -90,7 +91,7 @@ public final class DrMemoryParser {
   public static List<String> getElements(File file, String encoding) {
 
     var list = new ArrayList<String>();
-    try ( var br = new BufferedReader(
+    try (var br = new BufferedReader(
       new InputStreamReader(java.nio.file.Files.newInputStream(file.toPath()), encoding))) {
       var sb = new StringBuilder(4096);
       String line;

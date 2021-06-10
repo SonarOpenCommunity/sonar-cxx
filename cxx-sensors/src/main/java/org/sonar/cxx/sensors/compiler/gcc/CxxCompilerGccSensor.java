@@ -42,7 +42,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
    */
   public static final String DEFAULT_ID = "default";
   public static final String DEFAULT_REGEX_DEF
-                               = "(?<file>.*):(?<line>[0-9]+):[0-9]+:\\x20warning:\\x20"
+                               = "(?<file>[^:]*+):(?<line>\\d{1,5}):\\d{1,5}:\\x20warning:\\x20"
                                    + "(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
 
   public static List<PropertyDefinition> properties() {

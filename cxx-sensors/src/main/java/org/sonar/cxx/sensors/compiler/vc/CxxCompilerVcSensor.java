@@ -36,8 +36,9 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   public static final String REPORT_ENCODING_DEF = "sonar.cxx.vc.encoding";
   public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
   public static final String DEFAULT_REGEX_DEF
-                               = "(.*>)?(?<file>.*)\\((?<line>\\d+)\\)\\x20:\\x20warning\\x20"
-                                   + "(?<id>C\\d+):(?<message>.*)";
+                               = "(?>[^>]*+>)?(?<file>(?>[^\\\\]{1,260}\\\\)*[^\\\\]{1,260})"
+                                   + "\\((?<line>\\d{1,5})\\)\\x20?:\\x20warning\\x20(?<id>C\\d{4,5}):"
+                                   + "\\x20?(?<message>.*)";
 
   public static List<PropertyDefinition> properties() {
     var category = "CXX External Analyzers";
