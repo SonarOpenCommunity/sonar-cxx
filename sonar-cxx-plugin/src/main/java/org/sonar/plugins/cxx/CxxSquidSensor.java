@@ -358,23 +358,21 @@ public class CxxSquidSensor implements ProjectSensor {
   }
 
   private void save(Collection<SourceCode> sourceCodeFiles) {
-    // don't publish metrics on modules, which were not analyzed
-    // otherwise hierarchical multi-module projects will contain wrong metrics ( == 0)
-    // see also AggregateMeasureComputer
-    if (sourceCodeFiles.isEmpty()) {
-      return;
-    }
-
     for (var sourceCodeFile : sourceCodeFiles) {
-      var sourceFile = (SourceFile) sourceCodeFile;
-      var ioFile = new File(sourceFile.getKey());
-      InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(ioFile));
+      try {
+        var sourceFile = (SourceFile) sourceCodeFile;
+        var ioFile = new File(sourceFile.getKey());
+        InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(ioFile));
 
-      saveMeasures(inputFile, sourceFile);
-      saveViolations(inputFile, sourceFile);
-      saveFileLinesContext(inputFile, sourceFile);
-      saveCpdTokens(inputFile, sourceFile);
-      saveHighlighting(inputFile, sourceFile);
+        saveMeasures(inputFile, sourceFile);
+        saveViolations(inputFile, sourceFile);
+        saveFileLinesContext(inputFile, sourceFile);
+        saveCpdTokens(inputFile, sourceFile);
+        saveHighlighting(inputFile, sourceFile);
+      } catch (IllegalStateException e) {
+        var msg = "Cannot save all measures for file '" + sourceCodeFile.getKey() + "'";
+        CxxUtils.validateRecovery(msg, e, context.config());
+      }
     }
   }
 
