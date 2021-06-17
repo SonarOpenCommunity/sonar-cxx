@@ -36,6 +36,7 @@ import java.nio.charset.Charset;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.channels.KeywordChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
+import org.sonar.cxx.channels.WhitespaceChannel;
 import org.sonar.cxx.parser.CxxTokenType;
 
 public final class CppLexer {
@@ -68,7 +69,7 @@ public final class CppLexer {
     var builder = Lexer.builder()
       .withCharset(charset)
       .withFailIfNoChannelToConsumeOneCharacter(true)
-      .withChannel(regexp(CxxTokenType.WS, "\\s+"))
+      .withChannel(new WhitespaceChannel())
       .withChannel(commentRegexp("//[^\\n\\r]*+"))
       .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
       .withChannel(new CharacterLiteralsChannel())
