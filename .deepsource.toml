@@ -10,3 +10,10 @@ enabled = true
 [[analyzers]]
 name = "shell"
 enabled = true
+
+[[analyzers]]
+name = "java"
+enabled = true
+
+  [analyzers.meta]
+  runtime_version = "11"
