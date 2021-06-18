@@ -75,7 +75,7 @@ import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
  * **A.12 Preprocessing directives [gram.cpp]**
  *
  * preprocessing-file:
- *    groupopt
+ *   groupopt
  *   module-file
  *
  * module-file:
@@ -187,7 +187,7 @@ public class CxxPreprocessor extends Preprocessor {
         globalMacros = new MapChain<>();
         globalMacros.putAll(unitMacros);
 
-        if(LOG.isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
           LOG.debug("global include directories: {}", unitCodeProvider.getIncludeRoots());
           LOG.debug("global macros: {}", globalMacros);
         }
@@ -197,7 +197,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       // add unit specific stuff
       boolean changes = addUnitIncludeDirectories(path);
-      if (changes && LOG.isDebugEnabled() ) {
+      if (changes && LOG.isDebugEnabled()) {
         LOG.debug("unit include directories: {}", unitCodeProvider.getIncludeRoots());
       }
       changes = addUnitMacros(path);
@@ -282,7 +282,7 @@ public class CxxPreprocessor extends Preprocessor {
         // ignore all other preprocessor directives (which are not handled explicitly) and strip them from the stream
         return oneConsumedToken(token);
     }
- }
+  }
 
   public static void finalReport() {
     if (missingIncludeFilesCounter != 0) {
@@ -541,13 +541,13 @@ public class CxxPreprocessor extends Preprocessor {
       var identifier = vaargs.getFirstChild(IDENTIFIER);
       macroParams.add(identifier == null
                         ? Token.builder()
-                          .setLine(vaargs.getToken().getLine())
-                          .setColumn(vaargs.getToken().getColumn())
-                          .setURI(vaargs.getToken().getURI())
-                          .setValueAndOriginalValue("__VA_ARGS__")
-                          .setType(IDENTIFIER)
-                          .setGeneratedCode(true)
-                          .build()
+          .setLine(vaargs.getToken().getLine())
+          .setColumn(vaargs.getToken().getColumn())
+          .setURI(vaargs.getToken().getURI())
+          .setValueAndOriginalValue("__VA_ARGS__")
+          .setType(IDENTIFIER)
+          .setGeneratedCode(true)
+          .build()
                         : identifier.getToken());
     }
 
@@ -658,15 +658,16 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private void addGlobalIncludeDirectories() {
-    globalIncludeDirectories = squidConfig.getValues(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
-    unitCodeProvider.setIncludeRoots(globalIncludeDirectories,squidConfig.getBaseDir());
+    globalIncludeDirectories = squidConfig.getValues(CxxSquidConfiguration.GLOBAL,
+                                                     CxxSquidConfiguration.INCLUDE_DIRECTORIES);
+    unitCodeProvider.setIncludeRoots(globalIncludeDirectories, squidConfig.getBaseDir());
   }
 
   private boolean addUnitIncludeDirectories(String level) {
     List<String> unitIncludeDirectories = squidConfig.getLevelValues(level, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
     boolean hasUnitIncludes = !unitIncludeDirectories.isEmpty();
     unitIncludeDirectories.addAll(globalIncludeDirectories);
-    unitCodeProvider.setIncludeRoots(unitIncludeDirectories,squidConfig.getBaseDir());
+    unitCodeProvider.setIncludeRoots(unitIncludeDirectories, squidConfig.getBaseDir());
     return hasUnitIncludes;
   }
 
@@ -799,7 +800,7 @@ public class CxxPreprocessor extends Preprocessor {
     if (firstIndex > 0 && lastIndex < tokens.size()) {
       if (keep) {
         // keep pp-tokensopt, remove ) and __VA_OPT__ (
-        tokens.subList(lastIndex, lastIndex+1).clear();
+        tokens.subList(lastIndex, lastIndex + 1).clear();
         tokens.subList(0, firstIndex).clear();
       } else {
         // remove from body:  __VA_OPT__ ( pp-tokensopt )
@@ -819,8 +820,8 @@ public class CxxPreprocessor extends Preprocessor {
 
       // container to search parameter by name
       var paramterIndex = new HashMap<String, Integer>();
-      for(var index=0; index<parameters.size(); index++) {
-        paramterIndex.put(parameters.get(index).getValue(),index);
+      for (var index = 0; index < parameters.size(); index++) {
+        paramterIndex.put(parameters.get(index).getValue(), index);
       }
 
       for (var i = 0; i < body.size(); ++i) {
@@ -1017,18 +1018,18 @@ public class CxxPreprocessor extends Preprocessor {
     return null;
   }
 
-  void handleConstantExpression(AstNode ast,Token token, String filename){
+  void handleConstantExpression(AstNode ast, Token token, String filename) {
     try {
       unitCodeProvider.skipBlock(false);
       boolean result = ExpressionEvaluator.eval(this, ast.getFirstDescendant(CppGrammarImpl.constantExpression));
       unitCodeProvider.expressionWas(result);
       unitCodeProvider.skipBlock(!result);
-      } catch (EvaluationException e) {
-        LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
-                  filename, token.getLine(), token.getValue());
-        unitCodeProvider.expressionWas(true);
-        unitCodeProvider.skipBlock(false);
-      }
+    } catch (EvaluationException e) {
+      LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
+                filename, token.getLine(), token.getValue());
+      unitCodeProvider.expressionWas(true);
+      unitCodeProvider.skipBlock(false);
+    }
   }
 
   PreprocessorAction handleIfLine(AstNode ast, Token token, String filename) {
@@ -1105,7 +1106,8 @@ public class CxxPreprocessor extends Preprocessor {
     File includedFile = findIncludedFile(ast, token, filename);
     if (includedFile == null) {
       missingIncludeFilesCounter++;
-      LOG.debug("[" + filename + ":" + token.getLine() + "]: preprocessor cannot find include file '" + token.getValue() + "'");
+      LOG.debug("[" + filename + ":" + token.getLine() 
+                  + "]: preprocessor cannot find include file '" + token.getValue() + "'");
     } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
       unitCodeProvider.pushFileState(includedFile);
       try {
@@ -1122,63 +1124,45 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   PreprocessorAction handleImportLine(AstNode ast, Token token, String filename, Charset charset) {
-    if (ast.getFirstDescendant(CppGrammarImpl.expandedIncludeBody) != null)  {
+    if (ast.getFirstDescendant(CppGrammarImpl.expandedIncludeBody) != null) {
       // import <file>
       return handleIncludeLine(ast, token, filename, charset);
     }
 
     // forward to parser: ...  import ...
-    return mapModuleTokens(ast, token);
+    return mapFromCppToCxx(ast, token);
   }
 
   PreprocessorAction handleModuleLine(AstNode ast, Token token) {
     // forward to parser: ...  module ...
-    return mapModuleTokens(ast, token);
+    return mapFromCppToCxx(ast, token);
   }
 
-  PreprocessorAction mapModuleTokens(AstNode ast, Token token) {
+  PreprocessorAction mapFromCppToCxx(AstNode ast, Token token) {
     List<Token> replTokens = new ArrayList<>();
     for (Token ppToken : stripEOF(serialize(ast))) {
       String value = ppToken.getValue();
-      var type = ppToken.getType();
-      var newToken = ppToken;
-      var convert = true;
-
-      // identifier with special meaning?
-//      if (type.equals(IDENTIFIER)) {
-//        if (value.equals(CppSpecialIdentifier.MODULE.getValue())) {
-//          type = CppSpecialIdentifier.MODULE;
-//          convert = false;
-//        } else if (value.equals(CppSpecialIdentifier.IMPORT.getValue())) {
-//          type = CppSpecialIdentifier.IMPORT;
-//          convert = false;
-//        } else if (value.equals(CppSpecialIdentifier.EXPORT.getValue())) {
-//          type = CppSpecialIdentifier.EXPORT;
-//          convert = false;
-//        }
-//      }
-
-      // convert pp token to cxx token
-      if (convert) {
+      if (!value.isBlank()) {
+        // call CXX lexer to create a CXX token
         List<Token> cxxTokens = CxxLexer.create().lex(value);
-        newToken = cxxTokens.get(0);
-        type = newToken.getType();
-      }
+        var cxxToken = cxxTokens.get(0);
+        var cxxType = cxxToken.getType();
 
-      if (!type.equals(EOF)) {
-        newToken = Token.builder()
-          .setLine(token.getLine())
-          .setColumn(ppToken.getColumn())
-          .setURI(ppToken.getURI())
-          .setValueAndOriginalValue(ppToken.getValue())
-          .setType(type)
-          .build();
+        if (!cxxType.equals(EOF)) {
+          cxxToken = Token.builder()
+            .setLine(token.getLine() + ppToken.getLine() - 1)
+            .setColumn(token.getColumn() + ppToken.getColumn())
+            .setURI(ppToken.getURI())
+            .setValueAndOriginalValue(ppToken.getValue())
+            .setType(cxxType)
+            .build();
 
-        replTokens.add(newToken);
+          replTokens.add(cxxToken);
+        }
       }
     }
 
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)),replTokens);
+    return new PreprocessorAction(1, Collections.singletonList(Trivia.createPreprocessingToken(token)), replTokens);
   }
 
   PreprocessorAction handleUndefLine(AstNode ast, Token token) {

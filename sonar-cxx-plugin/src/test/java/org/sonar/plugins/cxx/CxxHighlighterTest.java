@@ -187,6 +187,16 @@ public class CxxHighlighterTest {
     checkOnRange(20, 0, 7, TypeOfText.PREPROCESS_DIRECTIVE); // #define
   }
 
+  @Test
+  @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
+  public void identifiersWithSpecialMeaning() {
+    // identifier with special meaning => no highlighting
+    checkOnRange(112, 11, 6, null); // import
+    checkOnRange(119, 10, 6, null); // module
+    checkOnRange(120, 12, 6, null); // module
+    checkOnRange(122, 13, 6, null); // module
+  }
+
   /**
    * Checks the highlighting of a range of columns. The first column of a line has index 0. The range is the columns of
    * the token.
