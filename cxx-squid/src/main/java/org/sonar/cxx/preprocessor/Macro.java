@@ -76,16 +76,23 @@ public final class Macro {
 
   @Override
   public String toString() {
-    var paramsStr = "";
+    StringBuilder ab = new StringBuilder(64);
+    ab.append("{");
+    ab.append(name);
     if (params != null) {
-      final String joinedParams = params.stream().map(Token::getValue).collect(Collectors.joining(", "));
-      paramsStr = "(" + joinedParams + (isVariadic ? "..." : "") + ")";
+      ab.append("(");
+      ab.append(params.stream().map(Token::getValue).collect(Collectors.joining(", ")));
+      if (isVariadic) {
+        ab.append("...");
+      }
+      ab.append(")");
     }
-    var bodyStr = "";
     if (body != null) {
-      bodyStr = body.stream().map(Token::getValue).collect(Collectors.joining(" "));
+      ab.append(":");
+      ab.append(body.stream().map(Token::getValue).collect(Collectors.joining()));
     }
-    return "{" + name + paramsStr + ":" + bodyStr + "}";
+    ab.append("}");
+    return ab.toString();
   }
 
   public boolean checkArgumentsCount(int count) {
