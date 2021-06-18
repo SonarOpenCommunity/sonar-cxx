@@ -42,7 +42,14 @@ public class ParsingErrorRecoveryCheckTest {
                                                               new ParsingErrorRecoveryCheck());
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(2).withMessage("C++ Parser can't read code. Declaration is skipped.")
+      .next().atLine(6)
+      .withMessage("C++ Parser can't read code. Declaration is skipped (last token='}', line=9, column=0).")
+      .next().atLine(16)
+      .withMessage("C++ Parser can't read code. Declaration is skipped (last token='{', line=17, column=0).")
+      .next().atLine(19)
+      .withMessage("C++ Parser can't read code. Declaration is skipped (last token='++', line=20, column=6).")
+      .next().atLine(21)
+      .withMessage("C++ Parser can't read code. Declaration is skipped (last token='}', line=21, column=0).")
       .noMore();
   }
 

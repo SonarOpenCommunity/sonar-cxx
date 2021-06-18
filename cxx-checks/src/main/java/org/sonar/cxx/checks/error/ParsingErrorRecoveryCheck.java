@@ -24,10 +24,10 @@ import com.sonar.sslr.api.Grammar;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.cxx.squidbridge.annotations.NoSqale;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "ParsingErrorRecovery",
@@ -45,8 +45,16 @@ public class ParsingErrorRecoveryCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    getContext().createLineViolation(this, "C++ Parser can't read code. Declaration is skipped.",
-      node.getToken().getLine());
+    var msg = "C++ Parser can't read code. Declaration is skipped";
+    var lastToken = node.getLastToken();
+    if (lastToken != null) {
+      msg += String.format(" (last token='%s', line=%d, column=%d)",
+                           lastToken.getValue(),
+                           lastToken.getLine(),
+                           lastToken.getColumn());
+    }
+    msg += ".";
+    getContext().createLineViolation(this, msg, node.getToken().getLine());
   }
 
 }
