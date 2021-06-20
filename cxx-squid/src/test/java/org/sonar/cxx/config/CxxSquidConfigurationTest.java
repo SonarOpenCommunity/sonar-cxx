@@ -503,7 +503,7 @@ public class CxxSquidConfigurationTest {
     softly.assertThat(defines).contains("_WIN32");
     softly.assertThat(defines).contains("_M_IX86_FP 2");
     softly.assertThat(defines).contains("_MSC_VER 1700");
-    softly.assertThat(defines).contains("_MSC_FULL_VER 1700610301");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 170061030");
     softly.assertThat(defines).contains("_ATL_VER 0x0B00");
     softly.assertAll();
   }
@@ -529,7 +529,7 @@ public class CxxSquidConfigurationTest {
     softly.assertThat(defines).contains("_M_IX86 600");
     softly.assertThat(defines).contains("_M_IX86_FP 2");
     softly.assertThat(defines).contains("_MSC_VER 1800");
-    softly.assertThat(defines).contains("_MSC_FULL_VER 180031101");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 180040629");
     softly.assertThat(defines).contains("_ATL_VER 0x0C00");
     softly.assertAll();
   }
@@ -554,7 +554,7 @@ public class CxxSquidConfigurationTest {
     softly.assertThat(defines).contains("_M_IX86 600");
     softly.assertThat(defines).contains("_M_IX86_FP 2");
     softly.assertThat(defines).contains("_MSC_VER 1900");
-    softly.assertThat(defines).contains("_MSC_FULL_VER 190024215");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 190024210");
     softly.assertThat(defines).contains("_ATL_VER 0x0E00");
     softly.assertAll();
   }
@@ -575,7 +575,7 @@ public class CxxSquidConfigurationTest {
     softly.assertThat(defines).contains("_M_IX86 600");
     softly.assertThat(defines).contains("_M_IX86_FP 2");
     softly.assertThat(defines).contains("_MSC_VER 1910");
-    softly.assertThat(defines).contains("_MSC_FULL_VER 191024629");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 191627030");
     softly.assertThat(defines).contains("_ATL_VER 0x0E00");
     softly.assertAll();
   }
@@ -596,7 +596,7 @@ public class CxxSquidConfigurationTest {
     softly.assertThat(defines).contains("_M_IX86 600");
     softly.assertThat(defines).contains("_M_IX86_FP 2");
     softly.assertThat(defines).contains("_MSC_VER 1910");
-    softly.assertThat(defines).contains("_MSC_FULL_VER 191024629");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 191627030");
     softly.assertThat(defines).contains("_ATL_VER 0x0E00");
     softly.assertAll();
   }
@@ -616,7 +616,7 @@ public class CxxSquidConfigurationTest {
     softly.assertThat(defines).contains("_M_IX86 600");
     softly.assertThat(defines).contains("__cplusplus 199711L");
     softly.assertThat(defines).contains("_MSC_VER 1910");
-    softly.assertThat(defines).contains("_MSC_FULL_VER 191024629");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 191627030");
     // check atldef.h for _ATL_VER
     softly.assertThat(defines).contains("_ATL_VER 0x0E00");
     softly.assertAll();
@@ -637,7 +637,7 @@ public class CxxSquidConfigurationTest {
     softly.assertThat(defines.contains("_M_IX86 600")).isFalse();
     softly.assertThat(defines).contains("__cplusplus 199711L");
     softly.assertThat(defines).contains("_MSC_VER 1910");
-    softly.assertThat(defines).contains("_MSC_FULL_VER 191024629");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 191627030");
     // check atldef.h for _ATL_VER
     softly.assertThat(defines).contains("_ATL_VER 0x0E00");
     softly.assertAll();

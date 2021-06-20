@@ -50,9 +50,6 @@ public class MsBuild {
   private static final String MSC_IX86_600 = "_M_IX86 600";
   private static final String MSC_X64_100 = "_M_X64 100";
 
-  private static final String CPPWINRTVERSION = "__cplusplus_winrt=201009";
-  private static final String CPPVERSION = "__cplusplus=199711L";
-
   private static final Pattern[] INCLUDE_PATTERNS = {Pattern.compile("/I\"(.*?)\""),
                                                      Pattern.compile("/I([^\\s\"]++) ")};
   private static final Pattern[] DEFINE_PATTERNS = {Pattern.compile("[/-]D\\s([^\\s]++)"),
@@ -71,7 +68,7 @@ public class MsBuild {
   private static final Pattern PATH_TO_VCXPROJ = Pattern.compile(
     "^\\S+\\s\\\"ClCompile\\\".+\\\"((?>[^\\\\]{1,260}\\\\)*[^\\\\]{1,260}\\.vcxproj)\\\".*$");
 
-  private String platformToolset = "V120";
+  private String platformToolset = "V142";
   private String platform = "Win32";
 
   private final CxxSquidConfiguration squidConfig;
@@ -543,95 +540,82 @@ public class MsBuild {
   }
 
   private void parseV100CompilerOptions(String line, String fileElement) {
-    // VC++ V16.0 - VS2010 (V10.0)
-    addMacro(CPPVERSION, fileElement);
+    // Visual Studio 2010 SP1 [10.0]
+    addMacro("__cplusplus=199711L", fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
     if (line.contains("/ZW ")) {
-      addMacro(CPPWINRTVERSION, fileElement);
+      addMacro("__cplusplus_winrt=201009", fileElement);
     }
     addMacro("_MSC_VER=1600", fileElement);
-    // VS2010 SP1
-    addMacro("_MSC_FULL_VER=16004021901", fileElement);
-    //_MFC_VER Defines the MFC version. For example, in Visual Studio 2010, _MFC_VER is defined as 0x0C00.
+    addMacro("_MSC_FULL_VER=160040219", fileElement);
     addMacro("_MFC_VER=0x0A00", fileElement);
     addMacro("_ATL_VER=0x0A00", fileElement);
-    // VC++ 16.0
     if (line.contains("/GX ")) {
       addMacro("_CPPUNWIND", fileElement);
     }
   }
 
   private void parseV110CompilerOptions(String line, String fileElement) {
-    // VC++ V17.0 - VS2012 (V11.0)
-    addMacro(CPPVERSION, fileElement);
+    // Visual Studio 2012 Update 4 [11.0]
+    addMacro("__cplusplus=199711L", fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
     if (line.contains("/ZW ")) {
-      addMacro(CPPWINRTVERSION, fileElement);
+      addMacro("__cplusplus_winrt=201009", fileElement);
     }
     addMacro("_MSC_VER=1700", fileElement);
-    // VS2012 Update 4
-    addMacro("_MSC_FULL_VER=1700610301", fileElement);
-    //_MFC_VER Defines the MFC version (see afxver_.h)
+    addMacro("_MSC_FULL_VER=170061030", fileElement);
     addMacro("_MFC_VER=0x0B00", fileElement);
     addMacro("_ATL_VER=0x0B00", fileElement);
   }
 
   private void parseV120CompilerOptions(String line, String fileElement) {
-    // VC++ V18.0 - VS2013 (V12.0)
-    addMacro(CPPVERSION, fileElement);
+    // Visual Studio 2013 Update 5 [12.0]
+    addMacro("__cplusplus=199711L", fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
     if (line.contains("/ZW ")) {
-      addMacro(CPPWINRTVERSION, fileElement);
+      addMacro("__cplusplus_winrt=201009", fileElement);
     }
     addMacro("_MSC_VER=1800", fileElement);
-    // VS2013 Update 4
-    addMacro("_MSC_FULL_VER=180031101", fileElement);
-    //_MFC_VER Defines the MFC version (see afxver_.h)
+    addMacro("_MSC_FULL_VER=180040629", fileElement);
     addMacro("_MFC_VER=0x0C00", fileElement);
     addMacro("_ATL_VER=0x0C00", fileElement);
   }
 
   private void parseV140CompilerOptions(String line, String fileElement) {
-    // VC++ V19.0 - VS2015 (V14.0)
-    addMacro(CPPVERSION, fileElement);
+    // Visual Studio 2015 Update 3 [14.0]
+    addMacro("__cplusplus=199711L", fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
     if (line.contains("/ZW ")) {
-      addMacro(CPPWINRTVERSION, fileElement);
+      addMacro("__cplusplus_winrt=201009", fileElement);
     }
     addMacro("_MSC_VER=1900", fileElement);
-    // VS2015 Update 3 V19.00.24215.1
-    addMacro("_MSC_FULL_VER=190024215", fileElement);
-    //_MFC_VER Defines the MFC version (see afxver_.h)
+    addMacro("_MSC_FULL_VER=190024210", fileElement);
     addMacro("_MFC_VER=0x0E00", fileElement);
     addMacro("_ATL_VER=0x0E00", fileElement);
   }
 
   private void parseV141CompilerOptions(String line, String fileElement) {
-    // VC++ V19.1 - VS2017 (V15.0)
-    addMacro(CPPVERSION, fileElement);
+    // Visual Studio 2017 version 15.9.11
+    addMacro("__cplusplus=199711L", fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
     if (line.contains("/ZW ")) {
-      addMacro(CPPWINRTVERSION, fileElement);
+      addMacro("__cplusplus_winrt=201009", fileElement);
     }
     addMacro("_MSC_VER=1910", fileElement);
-    // VS2017 RC
-    addMacro("_MSC_FULL_VER=191024629", fileElement);
-    //_MFC_VER Defines the MFC version (see afxver_.h)
+    addMacro("_MSC_FULL_VER=191627030", fileElement);
     addMacro("_MFC_VER=0x0E00", fileElement);
     addMacro("_ATL_VER=0x0E00", fileElement);
   }
 
   private void parseV142CompilerOptions(String line, String fileElement) {
-    // VC++ V19.2 - VS2019 (V16.0)
-    addMacro(CPPVERSION, fileElement);
+    // Visual Studio 2019 version 16.9.2
+    addMacro("__cplusplus=201402L", fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
     if (line.contains("/ZW ")) {
-      addMacro(CPPWINRTVERSION, fileElement);
+      addMacro("__cplusplus_winrt=201009", fileElement);
     }
-    addMacro("_MSC_VER=1921", fileElement);
-    // VS2017 RC
-    addMacro("_MSC_FULL_VER=192127702", fileElement);
-    //_MFC_VER Defines the MFC version (see afxver_.h)
+    addMacro("_MSC_VER=1920", fileElement);
+    addMacro("_MSC_FULL_VER=192829913", fileElement);
     addMacro("_MFC_VER=0x0E00", fileElement);
     addMacro("_ATL_VER=0x0E00", fileElement);
   }
