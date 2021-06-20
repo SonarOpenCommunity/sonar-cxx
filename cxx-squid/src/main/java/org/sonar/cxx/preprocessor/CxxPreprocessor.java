@@ -116,11 +116,10 @@ public class CxxPreprocessor extends Preprocessor {
   private final Set<File> analysedFiles = new HashSet<>();
   private final Parser<Grammar> pplineParser;
 
-  private static final String MISSING_INCLUDE_MSG =
-     "Preprocessor: {} include directive error(s). "
-     + "This is only relevant if parser creates syntax errors."
-     + " The preprocessor searches for include files in the with "
-     + "'sonar.cxx.includeDirectories' defined directories and order.";
+  private static final String MISSING_INCLUDE_MSG = "Preprocessor: {} include directive error(s). "
+                                                      + "This is only relevant if parser creates syntax errors."
+                                                      + " The preprocessor searches for include files in the with "
+                                                      + "'sonar.cxx.includeDirectories' defined directories and order.";
   private static int missingIncludeFilesCounter = 0;
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context) {
@@ -623,7 +622,8 @@ public class CxxPreprocessor extends Preprocessor {
       "__TIME__ \"??:??:??\"",
       "__STDC__ 1",
       "__STDC_HOSTED__ 1",
-      "__cplusplus 201103L",
+      // set C++14 as default
+      "__cplusplus 201402L",
       // __has_include support (C++17)
       "__has_include 1"
     };
@@ -1106,7 +1106,7 @@ public class CxxPreprocessor extends Preprocessor {
     File includedFile = findIncludedFile(ast, token, filename);
     if (includedFile == null) {
       missingIncludeFilesCounter++;
-      LOG.debug("[" + filename + ":" + token.getLine() 
+      LOG.debug("[" + filename + ":" + token.getLine()
                   + "]: preprocessor cannot find include file '" + token.getValue() + "'");
     } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
       unitCodeProvider.pushFileState(includedFile);
