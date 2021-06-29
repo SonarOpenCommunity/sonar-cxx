@@ -22415,4 +22415,1031 @@ that was selected.]]>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
     </rule>
+  <!-- Begin: Copyright 2021 Siemens Mobility GmbH -->
+  <rule>
+    <key>180</key>
+    <name>L0180: cannot generate mangled name for symbol symbol whose type depends on string</name>
+    <description>
+      <![CDATA[
+<p>Name mangling refers to the process of taking the declared name of a symbol and producing a new name
+which additionally incorporates information about the symbol, for example its type, return types, parameter
+types, enclosing classes or namespaces, etc. Typical compilers and linkers use mangled names to implement
+function overloading and to uniformly refer to and disambiguate external entities.</p>
+<p>When certain combinations of compiler extensions are mixed in a manner that does not conform
+to the language standard, situations may arise where it is not possible to systematically construct a mangled
+name to allow an entity to be cross-referenced between translation units. This message is parameterized by
+the category of grammatical entity for which mangling failed.</p>]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>311</key>
+    <name>L0311: indirect file depth limit of 'integer' exceeded</name>
+    <description>
+      <![CDATA[The indirect (.lnt) file nesting depth has reached an internal limit (the current limit is 100). The most likely
+cause of this error is unintended recursion between indirect files.]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>337</key>
+    <name>L0337: unable to read file 'file'</name>
+    <description>
+      <![CDATA[
+<p>This message is given when the internal file information inside the precompiled header does not match its
+contents.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>2min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>398</key>
+    <name>L0398: fatal error (requested by option): 'string'</name>
+    <description>
+      <![CDATA[A suppressible fatal error was requested through the use of the option -fatal_error. See also 399.]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>399</key>
+    <name>L0399: fatal error (requested by option): 'string'</name>
+    <description>
+      <![CDATA[An unsuppressible fatal error was requested through the use of the option +fatal_error. See also 398.]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>823</key>
+    <name>L0823: definition of macro 'name' ends in semi-colon</name>
+    <description>
+      <![CDATA[<p>The last token in the replacement text of the specified macro was a semi-colon. In addition to limiting the
+places where the macro can be used, this can result in unintentional behavior when the macro is used in
+what appears to be a larger expression. For example, in:</p>
+<pre><code>
+    #define SUM(x, y) ((x) + (y));
+    void foo(int a, int b) {
+        int result = SUM(a, b) + 1;
+    }
+</code></pre>
+<p>result will be the sum of a and b without the + 1.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/PRE11-C.+Do+not+conclude+macro+definitions+with+a+semicolon" 
+target="_blank">PRE11-C. Do not conclude macro definitions with a semicolon</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>886</key>
+    <name>L0886: preprocessor directive 'name' encountered in conditionally excluded region is deprecated. string</name>
+    <description>
+      <![CDATA[<p>A deprecated preprocessor directive (see the -deprecate option) was encountered in a conditionally excluded
+region. For example:</p>
+<pre><code>
+    //lint -deprecate(ppw, pragma)
+    #if 0
+    #pragma BLAH
+    #endif
+</code></pre>
+<p>will cause this message to be issued for the #pragma directive.</p>]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1422</key>
+    <name>L1422: default constructor symbol defaulted outside of class</name>
+    <description>
+      <![CDATA[This message is issued when the default constructor for a class is declared within its class definition and then
+defaulted outside of the class definition. C++ performs initialization of classes with user supplied default
+constructors (declared but not defaulted in the class definition) differently than classes without a user provided
+default constructor.]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1423</key>
+    <name>L1423: reinterpret_cast from type to type has undefined behavior</name>
+    <description>
+      <![CDATA[The C++ Standard specifies the conversions that can be performed using reinterpret_cast. A conversion
+was attempted using reintepret_cast that was not included in this list which will result in undefined
+behavior.]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1756</key>
+    <name>L1756: variable symbol has 'static/thread' storage duration and non-POD type type</name>
+    <description>
+      <![CDATA[A variable with either static or thread storage duration (the string parameter indicates which) was declared
+with a non-POD type. C++ doesn’t define the order in which static or thread storage duration variables
+in different modules are initialized which can be a source of subtle errors. This message isn’t issued for
+constexpr variables.]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1779</key>
+    <name>L1779: virtual function symbol introduced in class symbol which is marked as 'final'</name>
+    <description>
+      <![CDATA[A virtual function was declared in a class marked as final but does not override any base class virtual
+function. Since the class is final it cannot be a base class and the virtual function cannot be overridden in a
+derived class. If the intention is for this function to override a virtual function in a base class, mark the base
+class function as virtual. Otherwise either remove the final specifier on the class or the virtual specifier
+on the function.]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>1946</key>
+    <name>L1946: use of functional-style cast to convert from type type to type type</name>
+    <description>
+      <![CDATA[This message is issued for all functional-style casts except those that apply a converting constructor /
+conversion operator that has been marked as explicit.]]>
+    </description>
+    <tag>misra</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2414</key>
+    <name>L2414: non-standard literal suffix 'string'</name>
+    <description>
+      <![CDATA[This message is issued when a non-standard, non-user-defined, numeric literal suffix that is recognized by
+PC-lint Plus is encountered. The use of non-standard literal suffixes is not portable. The suffixes reported by
+this message include q/Q, I8/I16/I32/I64 (and the lowercase equivalents), NaN and Infinity.]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>2min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2449</key>
+    <name>L2449: string discards qualifiers</name>
+    <description>
+      <![CDATA[
+<p>Message 2450 continues to report the presence of a literal null character in a file. The
+incompatible type warning has been moved to message 2449.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2460</key>
+    <name>L2460: string literal string provided as argument integer to function symbol</name>
+    <description>
+      <![CDATA[
+<p>A string, character, integer, or floating literal was provided as an argument to a function parameter which
+was designated with the noliteral argument semantic indicating that the argument should not be a literal. For
+example, perhaps a database connection function should not receive a string literal in the password argument
+field.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/MSC32-C.+Properly+seed+pseudorandom+number+generators" 
+target="_blank">MSC32-C. Properly seed pseudorandom number generators</a></p>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/MSC41-C.+Never+hard+code+sensitive+information" 
+target="_blank">MSC41-C. Never hard code sensitive information</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2461</key>
+    <name>L2461: 'rand/random' function used without any explicit call to 'srand/srandom'</name>
+    <description>
+      <![CDATA[
+<p>This message is issued at the conclusion of global wrap-up if a call to the standard rand or POSIX random
+function was found in the program but no call to the corresponding seed function srand or srandom was
+found.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/MSC32-C.+Properly+seed+pseudorandom+number+generators" 
+target="_blank">MSC32-C. Properly seed pseudorandom number generators</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2470</key>
+    <name>L2470: multiple consecutive pushbacks onto stream is not portable</name>
+    <description>
+      <![CDATA[
+<p>A file stream was subjected to multiple consecutive pushbacks (such as by the ungetc function). Standard C
+guarantees support for pushing back a single character. While some implementations support pushback of
+multiple characters, this is non-portable.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/FIO13-C.+Never+push+back+anything+other+than+one+read+character" 
+target="_blank">FIO13-C. Never push back anything other than one read character</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2471</key>
+    <name>L2471: operation on stream that has been closed</name>
+    <description>
+      <![CDATA[
+<p>An operation was performed on a file stream that has been closed. The value of a file pointer after calling
+fclose is indeterminate and attempts to perform file operations in such a pointer result in undefined behavior.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/FIO46-C.+Do+not+access+a+closed+file" 
+target="_blank">FIO46-C. Do not access a closed file</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <tag>misra</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2472</key>
+    <name>L2472: non-standard file mode character/component 'string' in mode string 'string'</name>
+    <description>
+      <![CDATA[
+<p>A non-standard character was encountered in the mode argument to fopen or freopen. The allowable
+characters are a, b, r, w, x, and +; other characters appearing in the mode argument results in undefined
+behavior.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=87152174" 
+target="_blank">FIO11-C. Take care when specifying the mode parameter of fopen()</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2473</key>
+    <name>L2473: file mode string 'string' is not a legal file open mode: string</name>
+    <description>
+      <![CDATA[
+<p>The mode argument in a call to fopen or freopen contained valid characters but was not one of the
+specific combinations allowed by Standard C and therefore will result in undefined behavior. The allowed
+combinations are:</p>
+<pre><code>
+"r"      "w"      "wx"      "a"
+"rb"     "wb"     "wbx"     "ab"
+"r+"     "w+"     "w+x"     "a+"
+"r+b"    "w+b"    "w+bx"    "a+b"
+"rb+"    "wb+"    "wb+x"    "ab+"
+</code></pre>
+<p>The second string parameter provides an explanation of why the mode argument is invalid.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=87152174" 
+target="_blank">FIO11-C. Take care when specifying the mode parameter of fopen()</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2474</key>
+    <name>L2474: attempt to flush stream that isn't open for writing</name>
+    <description>
+      <![CDATA[An file stream that was not opened for writing was provided as an argument to a file-flushing function such
+as fflush. Attempting to flush a file stream that wasn’t opened for writing (or update) results in undefined
+behavior.]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2475</key>
+    <name>L2475: attempt to flush stream after an input operation</name>
+    <description>
+      <![CDATA[An attempt was made to flush a file stream immediately following an input operation; this results in undefined
+behavior.]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2476</key>
+    <name>L2476: attempt to perform read operation on stream not opened for reading</name>
+    <description>
+      <![CDATA[An attempt was made to read from a file stream that was not opened for reading. This results in undefined
+behavior.]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2477</key>
+    <name>L2477: attempt to perform write operation on stream not opened for writing</name>
+    <description>
+      <![CDATA[An attempt was made to write to a file stream that was not opened for writing. This results in undefined
+behavior.]]>
+    </description>
+    <tag>misra</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2478</key>
+    <name>L2478: attempt to perform read operation on stream after write without an intervening flush or reposition</name>
+    <description>
+      <![CDATA[
+<p>An attempt was made to read from a file stream following a write operation on the stream. Failure to flush
+or reposition the stream between a write and subsequent read operation results in undefined behavior.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/FIO39-C.+Do+not+alternately+input+and+output+from+a+stream+without+an+intervening+flush+or+positioning+call" 
+target="_blank">FIO39-C. Do not alternately input and output from a stream without an intervening flush or positioning call</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2479</key>
+    <name>L2479: attempt to perform write operation on stream after read without an intervening reposition</name>
+    <description>
+      <![CDATA[
+<p>An attempt was made to write to a file stream following a read operation on the stream. Failure to reposition
+the stream between a read and subsequent write operation results in undefined behavior.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/FIO39-C.+Do+not+alternately+input+and+output+from+a+stream+without+an+intervening+flush+or+positioning+call" 
+target="_blank">FIO39-C. Do not alternately input and output from a stream without an intervening flush or positioning call</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2480</key>
+    <name>L2480: attempt to perform byte-oriented operation on stream following wide-stream operation</name>
+    <description>
+      <![CDATA[
+<p>A byte-oriented file manipulation function was called with a wide-oriented file stream which results in
+undefined behavior.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/STR38-C.+Do+not+confuse+narrow+and+wide+character+strings+and+functions" 
+target="_blank">STR38-C. Do not confuse narrow and wide character strings and functions</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2481</key>
+    <name>L2481: attempt to perform wide-oriented operation on stream following byte-stream operation</name>
+    <description>
+      <![CDATA[
+<p>A wide-oriented file manipulation function was called with a byte-oriented file stream which results in
+undefined behavior.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/STR38-C.+Do+not+confuse+narrow+and+wide+character+strings+and+functions" 
+target="_blank">STR38-C. Do not confuse narrow and wide character strings and functions</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2498</key>
+    <name>L2498: comparison of object representations of floating point values of member symbol of type type may produce unexpected results that differ from a value equality test</name>
+    <description>
+      <![CDATA[
+<p>Bitwise comparison of structures containing floating point values leads to the comparison of the object
+representations of data members of floating point type. See 2499.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/FLP37-C.+Do+not+use+object+representations+to+compare+floating-point+values" 
+target="_blank">FLP37-C. Do not use object representations to compare floating-point values</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <tag>misra</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2499</key>
+    <name>L2499: comparison of object representations of floating point values of type type may produce unexpected results that differ from a value equality test</name>
+    <description>
+      <![CDATA[
+<p>Bitwise comparison of the object representations of floating point values may differ in a number of ways from
+value comparison using comparison operators. Common differences include inequality of representations of
+zero and negative zero and equality of identical NaN representations (but inequality of NaNs with different
+payload bits).
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/FLP37-C.+Do+not+use+object+representations+to+compare+floating-point+values" 
+target="_blank">FLP37-C. Do not use object representations to compare floating-point values</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <tag>misra</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2601</key>
+    <name>L2601: passing address of auto variable symbol to parameter integer of function symbol</name>
+    <description>
+      <![CDATA[<p>A pointer to automatic storage was passed as an argument to a function parameter with the no_ptr_to_auto
+semantic. Note that during a specific walk this message is not limited to local variables in the immediate
+function performing the call, for example:</p>
+<pre><code>
+    1  //lint -sem(save, no_ptr_to_auto(1))
+    2  void save(int* p);
+    3  void g(int* x) {
+    4      save(x);
+    5  }
+    6  void f(void) {
+    7      int a = 5;
+    8      g(&a);
+    9  }
+</code></pre>
+<p>will report:</p>
+<p>    4  warning 2601: passing address of auto variable ’a’ to parameter 1 of
+         function ’save’
+         save(x);
+         ^</p>
+<p>    8  supplemental 894: during specific walk g(&(5))
+          g(&a);
+          ^
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/POS34-C.+Do+not+call+putenv%28%29+with+a+pointer+to+an+automatic+variable+as+the+argument" 
+target="_blank">POS34-C. Do not call putenv() with a pointer to an automatic variable as the argument</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2618</key>
+    <name>L2618: non-type specifier 'string' appears after a type</name>
+    <description>
+      <![CDATA[
+<p>A non-type specifier was provided after a type specifier in a declaration. For example int inline foo(); will
+elicit this message. The non-type specifiers reported by this message are: friend, constexpr, thread_local,
+mutable, inline, virtual, and explicit. See also message 618 which reports storage class specifiers
+appearing after a type and message 963 which reports on const and volatile qualifiers before or after a
+type.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2666</key>
+    <name>L2666: expression with side effects passed to unexpanded parameter integer of macro 'string': detail</name>
+    <description>
+      <![CDATA[<p>This message is issued when a function-like macro is invoked with a parameter that appears as though it
+would have side effects if it were evaluated but since the corresponding parameter is not expanded in the
+macro definition, no side-effect will occur. E.g.:</p>
+<pre><code>
+    #define DEBUG_VAL(x)
+    
+    int process(int i) {
+        DEBUG_VAL(++i); // 2666 - increment doesn’t occur
+        /* ... */
+        return i;
+    }
+</code></pre>
+<p>Since the parameter isn’t expanded, ++i is not evaluated and the increment does not occur which may
+be unexpected. If the intention is that the side-effect occurs regardless of how the macro is defined, the
+expression provoking the side effect should be placed outside the macro invocation. For the purpose of this
+message, any expression appearing to contain a function call is considered to have side-effects.</p>
+<p>Detail is one of “parameter is not referenced in the expansion” or “parameter is only used with
+#/## operators”. The message can be suppressed based on the value of the detail parameter by using
+-estring.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/PRE31-C.+Avoid+side+effects+in+arguments+to+unsafe+macros" 
+target="_blank">PRE31-C. Avoid side effects in arguments to unsafe macros</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2670</key>
+    <name>L2670: call to async-signal-unsafe function symbol within signal-handler-category symbol</name>
+    <description>
+      <![CDATA[
+<p>A signal handler called an async-signal-unsafe function. This is likely to cause undefined behavior.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/SIG30-C.+Call+only+asynchronous-safe+functions+within+signal+handlers" 
+target="_blank">SIG30-C. Call only asynchronous-safe functions within signal handlers</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2671</key>
+    <name>L2671: returning from exception signal handler symbol</name>
+    <description>
+      <![CDATA[
+<p>An exception signal handler contained a return statement. This is likely to cause undefined behavior.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/SIG35-C.+Do+not+return+from+a+computational+exception+signal+handler" 
+target="_blank">SIG35-C. Do not return from a computational exception signal handler</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2760</key>
+    <name>L2760: 'srand/srandom' seeded with 'time'</name>
+    <description>
+      <![CDATA[
+<p>
+This message is issued to report a call to the standard srand or POSIX srandom function if the seed argument
+is the result of a call to the standard time function. While this is not uncommon, it is considered insecure. The
+current time is predictable and the poor granularity measured in seconds on typical implementations makes
+it easy to probe the entire window in which the application may have called the seed function. The current
+time can also be manipulated in a variety of ways, not only through local access but also potentially through
+updates from a malicious time server. The ability for an attacker to predict the sequence of pseudorandom
+numbers that will be generated can render various algorithms insecure.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/MSC32-C.+Properly+seed+pseudorandom+number+generators" 
+target="_blank">MSC32-C. Properly seed pseudorandom number generators</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2761</key>
+    <name>L2761: call to non-async-signal-safe function symbol within signal-handler-category symbol</name>
+    <description>
+     <![CDATA[<p>A signal handler called a function that was not explicitly async-signal-safe. This could potentially lead to
+undefined behavior.</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/SIG30-C.+Call+only+asynchronous-safe+functions+within+signal+handlers" 
+target="_blank">SIG30-C. Call only asynchronous-safe functions within signal handlers</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
+    <severity>INFO</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2762</key>
+    <name>L2762: call to signal registration function symbol within signal-handler-category symbol</name>
+    <description>
+     <![CDATA[<p>A signal handler called a signal registration function. This could lead to undefined behavior if the signal
+number being registered is not the same signal that invoked this signal handler.</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/SIG34-C.+Do+not+call+signal%28%29+from+within+interruptible+signal+handlers" 
+target="_blank">SIG34-C. Do not call signal() from within interruptible signal handlers</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
+    <severity>INFO</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2763</key>
+    <name>L2763: call to signal registration function symbol within signal-handler-category symbol to register itself</name>
+    <description>
+     <![CDATA[<p>A signal handler called a signal registration function to register itself. This could potentially lead to undefined
+behavior if the signal number being registered is not the same signal that invoked this signal handler.</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/SIG34-C.+Do+not+call+signal%28%29+from+within+interruptible+signal+handlers" 
+target="_blank">SIG34-C. Do not call signal() from within interruptible signal handlers</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
+    <severity>INFO</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2764</key>
+    <name>L2764: exception signal handler symbol does not explicitly end the program</name>
+    <description>
+     <![CDATA[<p>An exception signal handler did not appear to unconditionally end the program. (The end of the function
+body was reachable for the purposes of message 527.) This could potentially lead to undefined behavior.</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/SIG35-C.+Do+not+return+from+a+computational+exception+signal+handler" 
+target="_blank">SIG35-C. Do not return from a computational exception signal handler</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
+    <severity>INFO</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2765</key>
+    <name>L2765: reference to variable symbol which is neither atomic nor volatile sig_atomic_t within signalhandler-category symbol</name>
+    <description>
+     <![CDATA[<p>A signal handler referenced a non-local variable that was not _Atomic, std::atomic<T>, nor volatile
+sig_atomic_t. This is likely to cause undefined behavior.</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/SIG31-C.+Do+not+access+shared+objects+in+signal+handlers" 
+target="_blank">SIG31-C. Do not access shared objects in signal handlers</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
+    <severity>INFO</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>2960</key>
+    <name>L2960: integer constant expression with value integer provided as argument integer to function symbol</name>
+    <description>
+      <![CDATA[
+<p>An integer constant expression was provided as an argument to a function parameter which was designated
+with the noliteral argument semantic indicating that the argument should not be a literal. While an integer
+constant expression does not necessarily consist of a single literal, it may be suspicious for many of the same
+reasons as the value is constant. For example, perhaps you do not want srand to be seeded with a constant
+expression to ensure it produces a different sequence on each execution. This message can be enabled or
+suppressed for specific constant values.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>3419</key>
+    <name>L3419: in-class initializer for static data member symbol of type type is a GNU extension</name>
+    <description>
+      <![CDATA[
+<p>An in-class initializer for a static data member of floating point type was encountered. This is a non-portable
+extension.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9010</key>
+    <name>L9010: conversion from integer type type to pointer type type</name>
+    <description>
+      <![CDATA[
+<p>An expression of integral type (other than a null pointer constant) was converted to a pointer type (other
+than void*).</p>
+]]>
+    </description>
+    <tag>misra</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9040</key>
+    <name>L9040: possible struct hack declaration for detail member symbol with integer element(s)</name>
+    <description>
+     <![CDATA[<p>Prior to C99 adding flexible array members, the now obsolete struct hack technique was widely used to create
+structures who’s last member was an array with variable length. In addition, some compilers also allowed this
+technique to create variable length array members within unions. The technique required the variable length
+member array(s) to be declared with a size of either 0 or 1 within the declaration of the structure or union.</p>
+<pre><code>
+    struct S {
+        int a;
+        int b[0];    // warning 9040
+    };
+
+    union U {
+        int a;
+        short b[1];  // warning 9040
+        char c[1];   // warning 9040
+        double d;
+    };
+</code></pre><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/DCL38-C.+Use+the+correct+syntax+when+declaring+a+flexible+array+member" 
+target="_blank">DCL38-C. Use the correct syntax when declaring a flexible array member</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9181</key>
+    <name>L9181: switch contains fewer than two non-default switch cases</name>
+    <description>
+      <![CDATA[
+<p>A switch was seen with fewer than two non-default cases. A switch with fewer than two cases might be
+better expressed as an if statement. See also message 9081.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9215</key>
+    <name>L9215: unnamed parameter for 'virtual/non-virtual' function symbol</name>
+    <description>
+      <![CDATA[
+<p>This message is emitted when an unnamed function parameter is encountered in the definition of a function.</p>
+]]>
+    </description>
+    <tag>misra</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9414</key>
+    <name>L9414: 'typeid' used on expression with side effect</name>
+    <description>
+      <![CDATA[
+<p>If the operand of the typeid operator is an expression, it is not usually evaluated. Using typeid with an
+expression that would have side effects if it were evaluated could result in confusion about whether the
+apparent side-effects will actually take place.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9415</key>
+    <name>L9415: 'auto' variable symbol initialized using 'string' list initialization</name>
+    <description>
+      <![CDATA[<p>Initializing an auto variable using list initialization can result in unexpected and compiler-dependent results.
+Additionally, the rules governing the type deduced when using list initialization with auto variables changed
+in C++17 which can result in code that has different meaning depending on the target language of the
+compiler. For example:</p>
+<pre><code>
+    auto j1{1};         // direct list initialization
+                        // j1 is std::initializer_list<int> in C++11 and int in C++17
+    auto j2 = {1};      // copy list initialization
+                        // j2 is always std::initializer_list<int>
+    auto j3 = 1;        // copy initialization - NOT list initialization
+                        // j3 is always int
+</code></pre>
+<p>This message will be issued for the initialization of j1 and j2. Avoiding list initialization for auto variables
+can prevent unintended results. The string parameter is either ’direct’ or ’copy’ indicating the type of list
+initialization employed (copy list initialization uses an equal sign, direct list initialization does not).</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9418</key>
+    <name>L9418: enum symbol does not have an explicitly specified underlying type</name>
+    <description>
+      <![CDATA[
+<p>Since C++11 it is possible to explicitly specify an underlying type for enums and enum classes. This message
+is issued for enums that do not explicitly specify an underlying type in their definition. This message is not
+issued in C or C++03 modes.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9419</key>
+    <name>L9419: enum symbol is not a scoped enumeration</name>
+    <description>
+      <![CDATA[
+<p>Scoped enumerations (those using enum class or enum struct) were introduced in C++11 and limit the
+scope of the enumeration constants to the enumeration. This message is issued for unscoped enums. This
+message is not issued in C or C++03 modes.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9420</key>
+    <name>L9420: bitfield symbol does not have unsigned integer or explicitly unsigned enumeration type</name>
+    <description>
+      <![CDATA[
+<p>This message is issued when a bitfield is declared with a type that is not an implementation-independent
+unsigned integral type. In particular, the message is issued for bitfields with plain char, plain int, or wchar_t
+types or types that are implicitly or explicitly signed such as short and signed short. For bitfields of
+enumeration type, if the underlying type of the enumeration is explicitly specified as an unsigned type, the
+message is suppressed. As it is only possible to specify an explicit underlying type for enumerations since
+C++11, the message will be issued for all bitfields of enum type in C or C++03 modes.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9421</key>
+    <name>L9421: virtual function symbol overrides function symbol and is not marked with 'override' or 'final'</name>
+    <description>
+      <![CDATA[
+<p>A virtual function that overrides a base class function was not declared with at least one of override or
+final. This message is only emitted for C++11 and higher. See also 1915 which is issued when an overriding
+function is not specified with override, even if final is specified.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9422</key>
+    <name>L9422: virtual function symbol should specify exactly one of 'virtual', 'override', or 'final'</name>
+    <description>
+      <![CDATA[
+<p>A virtual function was declared without specifying exactly one of virtual, override, or final. Some
+authors suggest that virtual should be specified in the base class and that overriding functions should be
+specified with either override or final and without a redundant virtual specifier. This message is only
+issued for C++11 and higher.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9432</key>
+    <name>L9432: class symbol has multiple non-interface bases</name>
+    <description>
+      <![CDATA[
+<p>An interface is a class where 1) all non-static member functions (if any) are public, virtual, and pure, and 2)
+all data members (if any) are public, static (or thread_local), and constexpr (or const in C++ modes prior
+to C++11). This message is issued when a class inherits from more than one non-interface class. The list of
+non-interface bases are provided in a supplemental message.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9433</key>
+    <name>L9433: literal operator function symbol declared</name>
+    <description>
+      <![CDATA[
+<p>This message is issued whenever a literal operator function declaration is encountered. Literal operators
+introduce user-defined literal suffixes that can be applied to certain types of literals. See also message 9434
+which is issued when a literal operator is invoked by a user-defined literal.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9434</key>
+    <name>L9434: user-defined literal with suffix string used</name>
+    <description>
+      <![CDATA[
+<p>This message is issued when a user-defined literal is encountered. This message is parameterized by the suffix
+used and can be suppressed for individual suffixes using -estring. See also message 9433 which is issued for
+the declaration of literal operator functions which introduce user-defined suffixes.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9435</key>
+    <name>L9435: string symbol declared as friend in class symbol</name>
+    <description>
+      <![CDATA[
+<p>This message is issued when a friend declaration is encountered. The string parameter is either symbol or
+type to indicate the kind of entity declared as a friend. The first symbol parameter is the entity declared as
+a friend unless the entity is a type in which case the parameter is actually a type parameter. The last symbol
+is the class in which the friend declaration appeared. Some authors suggest that friend declarations reduce
+encapsulation and should be avoided.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9436</key>
+    <name>L9436: symbol symbol has array type type</name>
+    <description>
+      <![CDATA[
+<p>A symbol was declared with array type or reference to array type in a C++ module. Because arrays are
+implicitly convertible to pointers and don’t maintain size information across such conversions, arrays are the
+subject of various programming errors. Some authors suggest replacing arrays with other container types
+such as std::array or std::vector. This message is not issued for static constexpr class data members
+(or static const data members in C++03 where constexpr is not available).</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9437</key>
+    <name>L9437: non-POD class symbol defined with 'struct' keyword</name>
+    <description>
+      <![CDATA[
+<p>This message is issued when a non-POD class is defined using the struct keyword. Some authors suggest
+that non-POD types should be defined using the class keyword which forces private default access control.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>2min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9501</key>
+    <name>L9501: preprocessing directive in call to function symbol</name>
+    <description>
+      <![CDATA[<p>A preprocessing directive appeared within the call to a function, for example:</p>
+<pre><code>
+    void init_buffer(void *buffer) {
+        memset(buffer, 0,
+    #ifdef LARGE_BUFFER
+        1024
+    #else
+        128
+    #endif
+        );
+    }
+</code></pre>
+<p>The problem is that if memset is implemented as a macro, the presence of the embedded preprocessor
+directives would invoke undefined behavior. PC-lint Plus issues message 436 when a preprocessor directive
+appears inside a macro invocation but message 9501 can be used to warn about directives in function calls
+that may be implemented as macros in other configurations or when compiled on other platforms.
+One alternative is to move the directives outside the call, e.g.:</p>
+<pre><code>
+    void init_buffer(void *buffer) {
+        const unsigned buf_size =
+    #ifdef LARGE_BUFFER
+        1024
+    #else
+        128
+    #endif
+        ;
+        memset(buffer, 0, buf_size);
+    }
+</code></pre>
+<p>This message isn’t issued if the function name is surrounded by parenthesis which suppresses the invocation
+of a potential macro by the same name. This message is parameterized on the function being called and can
+be enabled for specific functions using either +esym or +ecall.
+</p><h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/PRE32-C.+Do+not+use+preprocessor+directives+in+invocations+of+function-like+macros" 
+target="_blank">PRE32-C. Do not use preprocessor directives in invocations of function-like macros</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9502</key>
+    <name>L9502: multi-statement macro 'name' is not enclosed in monocarpic do-while loop</name>
+    <description>
+      <![CDATA[<p>A macro definition appeared to contain multiple statements but was not enclosed in a mono-carpic do/while
+loop. A macro is considered to contain multiple statements if the replacement text contains one or more
+semi-colons. A mono-carpic do/while loop is one that will be executed exactly once. PC-lint Plus is specifically
+expecting a loop of the following form:</p>
+<pre><code>
+    #define M(x) do { ... } while (0)
+</code></pre>
+<p>where 0 may be replaced by any integer literal with a zero value (0u, 0x0, etc.), the false keyword or a
+keyword that has been assigned the same meaning as false with the -rw_asgn option, or an identifier whose
+name is false, ignoring case.</p>
+<p>A macro that expands to multiple statements may result in unintentional interpretation during expansion.
+For example:</p>
+<pre><code>
+    #define ADJUST(a, b) a = (b); a++; b = 0
+</code></pre>
+<p>would not work as intended if used as:</p>
+<pre><code>
+    void foo(int a, int b) {
+        if (a >= b)
+            ADJUST(a, b);
+    }
+</code></pre>
+<p>which would expand to:</p>
+<pre><code>
+    void foo(int a, int b) {
+        if (a >= b)
+            a = (b); a++; b = 0;
+    }
+</code></pre>
+<p>where the last two statements would be unconditionally executed as they are not part of the if statement.
+Simply wrapping the macro definition in braces is not always sufficient:</p>
+<pre><code>
+    #define ADJUST(a, b) { a = (b); a++; b = 0; }
+</code></pre>
+<p>as this will prevent the macro from being usable in certain contexts, e.g.:</p>
+<pre><code>
+    void foo(int a, int b) {
+        if (a >= b)
+            ADJUST(a, b);
+        else
+            ADJUST(b, a);
+    }
+</code></pre>
+<p>will result in a compile error as the else is not attached to the if statement because of the semi-colon.
+Wrapping the replacement text in a do/while (0) loop addresses all of the related issues:</p>
+<pre><code>
+    #define ADJUST(a, b) do { a = (b); a++; b = 0; } while (0)
+</code></pre>
+<h2>References</h2>
+<p><a href="https://wiki.sei.cmu.edu/confluence/display/c/PRE10-C.+Wrap+multistatement+macros+in+a+do-while+loop" 
+target="_blank">PRE10-C. Wrap multistatement macros in a do-while loop</a></p>]]>
+    </description>
+    <tag>cert</tag>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>9906</key>
+    <name>L9906: value tracking debug value: string</name>
+    <description>
+      <![CDATA[
+<p>(Debug) When an explicit cast is seen to a type defined by a typedef named __vt_alert, conventionally
+a typedef for void, this message will be issued during Value Tracking parameterized by the value of the
+subexpression as it would be displayed in a Value Tracking message. This may occur multiple times for the
+same expression during specific walks.</p>
+]]>
+    </description>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <!-- End: Copyright 2021 Siemens Mobility GmbH -->
   </rules>
