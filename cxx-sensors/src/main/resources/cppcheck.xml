@@ -5125,7 +5125,7 @@ Dangerous usage of c_str(). The string is destroyed after the c_str() call so th
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in Cppcheck 1.69 Dev ########### -->
+  <!-- ########### New in Cppcheck 1.69 ########### -->
   <rule>
     <key>duplicateExpressionTernary</key>
     <name>Same expression in both branches of ternary operator</name>
@@ -5263,7 +5263,7 @@ appropriate C library function.
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
-  <!-- ########### New in Cppcheck 1.70 release ########### -->
+  <!-- ########### New in Cppcheck 1.70 ########### -->
   <rule>
     <key>negativeArraySize</key>
     <name>Declaration of array with negative size is undefined behaviour</name>
@@ -8836,6 +8836,42 @@ be used in code that is removed by the preprocessor. Should this be a
     </description>
     <tag>cwe</tag>
     <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <!-- ########### New in Cppcheck 2.50 ########### -->
+  <rule>
+    <key>assignmentInCondition</key>
+    <name>Suspicious assignment in condition. Condition 'x=y' is always true</name>
+    <description><![CDATA[
+      <p>
+Suspicious assignment in condition. Condition 'x=y' is always true.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>rethrowNoCurrentException</key>
+    <name>Rethrowing current exception with 'throw;', it seems there is no current exception to rethrow</name>
+    <description><![CDATA[
+      <p>
+Rethrowing current exception with 'throw;', it seems there is no
+current exception to rethrow. If there is no current exception this
+calls std::terminate(). More:
+https://isocpp.org/wiki/faq/exceptions#throw-without-an-object
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/480.html" target="_blank">CWE-480: Use of Incorrect Operator</a></p>
+      ]]></description>
+    <tag>cwe</tag>
+    <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
