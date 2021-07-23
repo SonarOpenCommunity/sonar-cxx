@@ -22852,7 +22852,7 @@ function performing the call, for example:</p>
     5  }
     6  void f(void) {
     7      int a = 5;
-    8      g(&a);
+    8      g(&amp;a);
     9  }
 </code></pre>
 <p>will report:</p>
@@ -22861,7 +22861,7 @@ function performing the call, for example:</p>
          save(x);
          ^</p>
 <p>    8  supplemental 894: during specific walk g(&(5))
-          g(&a);
+          g(&amp;a);
           ^
 </p><h2>References</h2>
 <p><a href="https://wiki.sei.cmu.edu/confluence/display/c/POS34-C.+Do+not+call+putenv%28%29+with+a+pointer+to+an+automatic+variable+as+the+argument" 
@@ -23030,7 +23030,7 @@ target="_blank">SIG35-C. Do not return from a computational exception signal han
     <key>2765</key>
     <name>L2765: reference to variable symbol which is neither atomic nor volatile sig_atomic_t within signalhandler-category symbol</name>
     <description>
-     <![CDATA[<p>A signal handler referenced a non-local variable that was not _Atomic, std::atomic<T>, nor volatile
+     <![CDATA[<p>A signal handler referenced a non-local variable that was not _Atomic, std::atomic&lt;T&gt;, nor volatile
 sig_atomic_t. This is likely to cause undefined behavior.</p><h2>References</h2>
 <p><a href="https://wiki.sei.cmu.edu/confluence/display/c/SIG31-C.+Do+not+access+shared+objects+in+signal+handlers" 
 target="_blank">SIG31-C. Do not access shared objects in signal handlers</a></p>
@@ -23158,9 +23158,9 @@ in C++17 which can result in code that has different meaning depending on the ta
 compiler. For example:</p>
 <pre><code>
     auto j1{1};         // direct list initialization
-                        // j1 is std::initializer_list<int> in C++11 and int in C++17
+                        // j1 is std::initializer_list&lt;int&gt; in C++11 and int in C++17
     auto j2 = {1};      // copy list initialization
-                        // j2 is always std::initializer_list<int>
+                        // j2 is always std::initializer_list&lt;int&gt;
     auto j3 = 1;        // copy initialization - NOT list initialization
                         // j3 is always int
 </code></pre>
