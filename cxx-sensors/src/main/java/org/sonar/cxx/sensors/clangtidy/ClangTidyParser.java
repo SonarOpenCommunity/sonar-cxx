@@ -33,7 +33,7 @@ public class ClangTidyParser {
 
   private static final Logger LOG = Loggers.get(ClangTidyParser.class);
 
-  private static final String REGEX = "((?>[a-zA-Z]:\\\\)??[^:]++):(\\d{1,5}):(\\d{1,5}): ([^:]++): (.+)";
+  private static final String REGEX = "((?>[a-zA-Z]:[\\\\/])??[^:]++):(\\d{1,5}):(\\d{1,5}): ([^:]++): (.+)";
   private static final Pattern PATTERN = Pattern.compile(REGEX);
 
   private final CxxClangTidySensor sensor;

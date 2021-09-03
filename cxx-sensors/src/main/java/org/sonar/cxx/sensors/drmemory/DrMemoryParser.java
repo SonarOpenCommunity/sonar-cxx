@@ -37,7 +37,7 @@ public final class DrMemoryParser {
   private static final Logger LOG = Loggers.get(DrMemoryParser.class);
   private static final Pattern RX_MESSAGE_FINDER = Pattern.compile("^Error #\\d{1,6}:(.*)");
   private static final Pattern RX_FILE_FINDER = Pattern.compile(
-    "\\s*+#[^\\[]++\\[((?>[a-zA-Z]:\\\\)??[^:]++):(\\d{1,5})\\]");
+    "\\s*+#[^\\[]++\\[((?>[a-zA-Z]:[\\\\/])??[^:]++):(\\d{1,5})\\]");
   private static final int TOP_COUNT = 4;
 
   private DrMemoryParser() {
