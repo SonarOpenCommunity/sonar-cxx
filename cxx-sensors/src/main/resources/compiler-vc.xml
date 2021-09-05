@@ -3200,7 +3200,7 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <name>C4407: cast between different pointer to member representations, compiler may generate incorrect code</name>
     <description>
       <![CDATA[
-<p>An incorrect cast was detected.</p>
+<p>An incorrect cast between pointer-to-member types was detected.</p>
 <h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4407?view=msvc-160" target="_blank">C4407</a></p>]]>
     </description>
@@ -4271,6 +4271,17 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c4596?view=msvc-160" target="_blank">C4596</a></p>]]>
     </description>
     <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>C4597</key>
+    <name>C4597: undefined behavior: offsetof applied to a member of a virtual base</name>
+    <description>
+      <![CDATA[
+<p>Using <code>offsetof(T, m)</code> where <em><code>m</code></em> refers to a static data member or a member function results in C4597.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c4597?view=msvc-160" target="_blank">C4597</a></p>]]>
+      </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>C4600</key>
@@ -5052,6 +5063,17 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-c4694?view=msvc-160" target="_blank">C4694</a></p>]]>
     </description>
     <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>C4698</key>
+    <name>C4698: 'feature' is for evaluation purposes only and is subject to change or removal in future updates</name>
+    <description>
+      <![CDATA[
+<p>WinRT APIs that are released for experimentation and feedback are decorated with the <code>Windows.Foundation.Metadata.ExperimentalAttribute</code> attribute. In Visual Studio 2017 version 15.3, the compiler produces warning C4698 for this attribute. A few APIs in previous versions of the Windows SDK have already been decorated with the attribute, and calls to these APIs now trigger this compiler warning. Newer Windows SDKs have the attribute removed from all shipped types. If you're using an older SDK, you'll need to suppress these warnings for all calls to shipped types.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c4698?view=msvc-160" target="_blank">C4698</a></p>]]>
+      </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>C4700</key>
@@ -5434,6 +5456,17 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4764?view=msvc-160" target="_blank">C4764</a></p>]]>
     </description>
     <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>C4768</key>
+    <name>C4768: __declspec attributes before linkage specification are ignored</name>
+    <description>
+      <![CDATA[
+<p>The compiler warns if <code>__declspec(...)</code> is applied before the <code>extern "C"</code> linkage specification. Previously, the compiler would ignore the attribute, which could have runtime implications.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c4768?view=msvc-160" target="_blank">C4768</a></p>]]>
+      </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>C4772</key>
@@ -5709,6 +5742,17 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4829?view=msvc-160" target="_blank">C4829</a></p>]]>
     </description>
     <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>C4834</key>
+    <name>C4834: discarding return value of function with 'nodiscard' attribute</name>
+    <description>
+      <![CDATA[
+<p>Starting in the C++17 Standard, the <code>[[nodiscard]]</code> attribute specifies that a function's return value isn't intended to be discarded. If a caller discards the return value, the compiler generates warning C4834.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c4834?view=msvc-160" target="_blank">C4834</a></p>]]>
+      </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>C4835</key>
@@ -5752,6 +5796,28 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4840?view=msvc-160" target="_blank">C4840</a></p>]]>
     </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>C4841</key>
+    <name>C4841: non-standard extension used: compound member designator used in offsetof</name>
+    <description>
+      <![CDATA[
+<p>If you use <code>offsetof(T, m)</code>, where <em><code>m</code></em> is a compound member designator, the compiler generates a warning when you compile with the <strong><code>/Wall</code></strong> option.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c4841?view=msvc-160" target="_blank">C4841</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>C4843</key>
+    <name>C4843: 'type1': An exception handler of reference to array or function type is unreachable, use 'type2' instead</name>
+    <description>
+      <![CDATA[
+<p>Handlers of reference to array or function type are never a match for any exception object. Starting in Visual Studio 2017 version 15.5, the compiler honors this rule and raises a level 4 warning. It also no longer matches a handler of <code>char*</code> or <code>wchar_t*</code> to a string literal when <strong><code>/Zc:strictStrings</code></strong> is used.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c4843?view=msvc-160" target="_blank">C4843</a></p>]]>
+      </description>
     <severity>INFO</severity>
   </rule>
   <rule>
@@ -6327,11 +6393,22 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <severity>INFO</severity>
   </rule>
   <rule>
+    <key>C5037</key>
+    <name>C5037: 'member-function': an out-of-line definition of a member of a class template cannot have default arguments</name>
+    <description>
+      <![CDATA[
+<p>Default arguments aren't allowed on out-of-line definitions of member functions in template classes. The compiler issues a level 3 warning under <strong><code>/permissive</code></strong>, and an error under <a data-linktype="relative-path" href="https://docs.microsoft.com/en-us/cpp/build/reference/permissive-standards-conformance?view=msvc-160"><code>/permissive-</code></a>.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5037?view=msvc-160" target="_blank">C5037</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
     <key>C5038</key>
     <name>C5038: data member 'member1' will be initialized after data member 'member2'</name>
     <description>
       <![CDATA[
-<p>Class members are initialized in the order they're declared, not the order they appear in initializer lists. This warning indicates the order of initialization isn't the same as the declaration order of data members or base classes. This order can lead to undefined runtime behavior, if the initialization of one member in the list depends on the initialization of a member that's declared later.</p>
+<p>Class members get initialized in the order they're declared, not the order they appear in initializer lists. The compiler warns when the initialization order isn't the same as the declaration order of data members or base classes. The order can lead to undefined runtime behavior: for example, if the initialization of one member in the list depends on the initialization of a member that's declared later.</p>
 <h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5038?view=msvc-160" target="_blank">C5038</a></p>]]>
     </description>
@@ -6358,6 +6435,17 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5046?view=msvc-160" target="_blank">C5046</a></p>]]>
     </description>
     <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>C5050</key>
+    <name>C5050: Possible incompatible environment while importing module 'module_name'</name>
+    <description>
+      <![CDATA[
+<p>The compiler raises C5050 whenever the command-line options for modules aren't consistent between the module creation and module consumption sides.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5050?view=msvc-160" target="_blank">C5050</a></p>]]>
+      </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>C5105</key>
@@ -6379,6 +6467,39 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5208?view=msvc-160" target="_blank">C5208</a></p>]]>
     </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>C5243</key>
+    <name>C5243: 'type': using incomplete class 'class-name' can cause ODR violation due to ABI limitation</name>
+    <description>
+      <![CDATA[
+<p>The Microsoft C++ ABI in Visual Studio 2019 and earlier versions uses more than one kind of pointer-to-member type. These types have different sizes that depend on the inheritance model used by the class. The C++ standard allows you to declare a pointer-to-member of an incomplete class type. If you declare a variable of pointer-to-member type for an incomplete class, the compiler must use the most general representation. It can lead to a <em>one definition rule</em>, or ODR violation, since the compiler may use a smaller, more specific representation for this pointer-to-member type in other translation units where the complete class type is available.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5243?view=msvc-160" target="_blank">C5243</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>C5247</key>
+    <name>C5247: section 'section-name' is reserved for C++ dynamic initialization</name>
+    <description>
+      <![CDATA[
+<p>The Microsoft C++ compiler uses reserved section names for internal implementation of features such as C++ dynamic initialization. If your code creates a section with the same name as a reserved section, such as <code>.CRT$XCU</code>, it interferes with the compiler. It may prevent other dynamic initialization and cause undefined behavior.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5247?view=msvc-160" target="_blank">C5247</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>C5248</key>
+    <name>C5248: section 'section-name' is reserved for C++ dynamic initialization</name>
+    <description>
+      <![CDATA[
+<p>The Microsoft C++ compiler uses reserved section names for internal implementation of features such as C++ dynamic initialization. If your code inserts a variable in a reserved section, such as <code>.CRT$XCU</code>, it interferes with the compiler. Your variable isn't considered a C++ dynamic initializer. Also, its relative initialization order compared to compiler generated dynamic initializers isn't specified.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c5248?view=msvc-160" target="_blank">C5248</a></p>]]>
+      </description>
     <severity>INFO</severity>
   </rule>
   <rule>
@@ -7858,6 +7979,19 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>C6389</key>
+    <name>C6389: MARK_INTERNAL_OR_MISSING_COMMON_DECL</name>
+    <description>
+      <![CDATA[
+<p>This check is intended to help reduce the visibility of certain symbols and to modularize the code. In multi-file C++ projects, each declaration should be either local to a C++ file (part of the anonymous namespace) or declared in a common header file that's included by multiple C++ files.</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/code-quality/c6389?view=msvc-160" target="_blank">C6389</a></p>]]>
+      </description>
+    <severity>CRITICAL</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
     <key>C6400</key>
     <name>C6400: Using &lt;function name&gt; to perform a case-insensitive compare to constant string &lt;string name&gt;</name>
     <description>
@@ -8696,7 +8830,7 @@ Deleting such a pointer may lead to immediate memory corruption due to double de
     <name>C26409: Avoid calling new and delete explicitly, use std::make_unique&lt;T&gt; instead (r.11)</name>
     <description>
       <![CDATA[
-<p>Even if code is clean of calls to<code>malloc()</code> and <code>free()</code>, we still suggest that you consider better options than explicit use of operators <a data-linktype="relative-path" href="https://docs.microsoft.com/en-us/cpp/cpp/new-and-delete-operators?view=msvc-160"><code>new</code> and <code>delete</code></a>.</p>
+<p>Even if code is clean of calls to <code>malloc</code> and <code>free</code>, we still suggest that you consider better options than explicit use of operators <a data-linktype="relative-path" href="https://docs.microsoft.com/en-us/cpp/cpp/new-and-delete-operators?view=msvc-160"><code>new</code> and <code>delete</code></a>.</p>
 <h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/cpp/code-quality/c26409?view=msvc-160" target="_blank">C26409</a></p>]]>
     </description>
@@ -9153,6 +9287,18 @@ C4293 is a similar check in the Microsoft C++ compiler.</p>
 <h2>Microsoft Documentation</h2>
 <p><a href="https://docs.microsoft.com/en-us/cpp/code-quality/c26456?view=msvc-160" target="_blank">C26456</a></p>]]>
     </description>
+    <tag>core-guideline</tag>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>C26457</key>
+    <name>C26457: Never cast to (void) to ignore a [[nodiscard]] return value</name>
+    <description>
+      <![CDATA[
+<p>Excerpt from the <a data-linktype="external" href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#es48-avoid-casts">C++ Core Guideline for this warning</a>:</p>
+<h2>Microsoft Documentation</h2>
+<p><a href="https://docs.microsoft.com/en-us/cpp/code-quality/c26457?view=msvc-160" target="_blank">C26457</a></p>]]>
+      </description>
     <tag>core-guideline</tag>
     <severity>INFO</severity>
   </rule>
