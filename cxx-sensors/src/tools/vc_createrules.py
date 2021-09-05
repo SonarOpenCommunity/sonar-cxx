@@ -26,6 +26,11 @@ which is why some manual rework is often necessary.
 # pip install beautifulsoup4
 # pip install selenium-requests
 
+# pages contains JavaScript: script is using Firefox to create HTML pages
+# you have to download and install geckodriver
+# from https://github.com/mozilla/geckodriver/releases
+# to C:\Program Files\geckodriver
+
 import re
 import sys
 from bs4 import BeautifulSoup
@@ -355,10 +360,10 @@ def add_template_rules(rules):
     Add template rule(s) to XML.
     """
     rule_key = 'CustomRuleTemplate'
-    rule_name = 'Template for custom Custom rules'
+    rule_name = 'Rule template for Visual Studio custom rules'
     rule_severity = 'MAJOR'
     # pylint: disable=line-too-long
-    rule_description = """<p>Follow these steps to make your custom Custom rules available in SonarQube:</p>
+    rule_description = """<p>Follow these steps to make your custom rules available in SonarQube:</p>
 <ol>
   <ol>
     <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
