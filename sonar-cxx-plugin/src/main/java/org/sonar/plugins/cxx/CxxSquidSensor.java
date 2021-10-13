@@ -147,10 +147,11 @@ public class CxxSquidSensor implements ProjectSensor {
         .build(),
       PropertyDefinition.builder(SQUID_DISABLED_KEY)
         .defaultValue(Boolean.FALSE.toString())
-        .name("Disable code quality and metrics checks")
+        .name("Disable Squid sensor")
         .description(
-          "Disable preprocessor, metrics, duplications detection. It could be time consuming on"
-            + " big projects."
+          "Disable parsing of source code, syntax hightligthing and metric generation."
+            + " The source files are still indexed, reports can be read and their results displayed."
+            + " Turning off will speed up reading of source files."
         )
         .category("CXX")
         .subCategory("(1) General")
