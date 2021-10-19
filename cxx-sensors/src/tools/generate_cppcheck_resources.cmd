@@ -3,7 +3,7 @@ cls
 
 SET SCRIPT_DIR=%~dp0
 SET CPPCHECK_DIR=C:\Program Files\Cppcheck\
-SET PYTHON_DIR=
+SET PYTHON_DIR=C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\
 
 SET CPPCHECK_LIBRARY_ARGS=--library=avr.cfg --library=bento4.cfg --library=boost.cfg --library=bsd.cfg --library=cairo.cfg --library=cppunit.cfg --library=dpdk.cfg --library=embedded_sql.cfg --library=gnu.cfg --library=googletest.cfg --library=gtk.cfg --library=kde.cfg --library=libcerror.cfg --library=libcurl.cfg --library=libsigc++.cfg --library=lua.cfg --library=mfc.cfg--library=microsoft_atl.cfg --library=microsoft_sal.cfg --library=microsoft_unittest.cfg --library=motif.cfg --library=nspr.cfg --library=opencv2.cfg --library=opengl.cfg --library=openmp.cfg --library=openssl.cfg --library=posix.cfg --library=python.cfg --library=qt.cfg --library=ruby.cfg --library=sdl.cfg --library=sfml.cfg --library=sqlite3.cfg --library=std.cfg --library=tinyxml2.cfg --library=vcl.cfg --library=windows.cfg --library=wxwidgets.cfg --library=zlib.cfg
 
