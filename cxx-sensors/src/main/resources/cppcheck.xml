@@ -165,12 +165,18 @@ prevent that the iterator is incremented beyond the end.
   </rule>
   <rule>
     <key>argumentSize</key>
-    <name>The array 'array' is too small, the function 'function' expects a bigger one</name>
+    <name>Buffer 'buffer' is too small, the function 'function' expects a bigger buffer in 2nd argument</name>
     <description>
       <![CDATA[
-The array 'array' is too small, the function 'function' expects a bigger one.
+      <p>
+Buffer 'buffer' is too small, the function 'function' expects a bigger
+buffer in 2nd argument
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
 ]]>
     </description>
+    <tag>cwe</tag>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -8875,7 +8881,106 @@ https://isocpp.org/wiki/faq/exceptions#throw-without-an-object
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>  
+  </rule>
+  <!-- ########### New in Cppcheck 2.60 ########### -->
+  <rule>
+    <key>compareValueOutOfTypeRangeError</key>
+    <name>Comparing expression of type 'unsigned char' against value 256</name>
+    <description>
+      <![CDATA[
+      <p>
+Comparing expression of type 'unsigned char' against value 256.
+Condition is always true.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>incompatibleFileOpen</key>
+    <name>The file 'tmp' is opened for read and write access at the same time on different streams</name>
+    <description>
+      <![CDATA[
+      <p>
+The file 'tmp' is opened for read and write access at the same time on
+different streams
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>missingReturn</key>
+    <name>Found a exit path from function with non-void return type that has missing return statement</name>
+    <description>
+      <![CDATA[
+      <p>
+Found a exit path from function with non-void return type that has
+missing return statement
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <tag>cwe</tag>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>overlappingWriteFunction</key>
+    <name>Overlapping read/write in () is undefined behavior</name>
+    <description>
+      <![CDATA[
+      Overlapping read/write in () is undefined behavior
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>overlappingWriteUnion</key>
+    <name>Overlapping read/write of union is undefined behavior</name>
+    <description>
+      <![CDATA[
+      Overlapping read/write of union is undefined behavior
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <rule>
+    <key>returnStdMoveLocal</key>
+    <name>Using std::move for returning object by-value from function will affect copy elision optimization</name>
+    <description>
+      <![CDATA[
+      Using std::move for returning object by-value from function will affect copy elision optimization. More: https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rf-return-move-local
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
   <!-- ########### Misra Rules ########### -->
   <rule>
     <key>misra-c2012-1.1</key>

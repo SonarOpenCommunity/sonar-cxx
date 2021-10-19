@@ -85,9 +85,11 @@ def error_to_rule(error):
     if cweNr is not None:
         et.SubElement(rule, 'tag').text = "cwe"
 
-    et.SubElement(rule, 'severity').text = sonarQubeIssueSeverity
-    et.SubElement(rule, 'type').text = sonarQubeIssueType
-    if sonarQubeIssueSeverity != 'INFO':
+    if sonarQubeIssueSeverity != 'MAJOR': # MAJOR is the default
+        et.SubElement(rule, 'severity').text = sonarQubeIssueSeverity
+    if sonarQubeIssueType != 'CODE_SMELL': # CODE_SMELL is the default
+        et.SubElement(rule, 'type').text = sonarQubeIssueType
+    if sonarQubeIssueSeverity != 'INFO': # INFO has no effort
         et.SubElement(rule, 'remediationFunction').text = "LINEAR"
         et.SubElement(rule, 'remediationFunctionGapMultiplier').text = "5min"
 
