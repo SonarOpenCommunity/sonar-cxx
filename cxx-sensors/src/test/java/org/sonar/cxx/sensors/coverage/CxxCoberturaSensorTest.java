@@ -75,70 +75,79 @@ public class CxxCoberturaSensorTest {
     if (TestUtils.isWindows()) {
 
       // Windows
-      var abs1 = Paths.get("c:\\test1");
-      var rel1 = Paths.get("\\test1");
-      var abs2 = Paths.get("c:\\test2\\report.txt");
-      var rel2 = Paths.get("\\test2\\report.txt");
+      var p1_abs1 = Paths.get("c:\\test1");
+      var p1_abs2 = Paths.get("c:");
+      var p1_abs3 = Paths.get("c:\\");
+      var p1_rel1 = Paths.get("\\test1");
+      var p2_abs1 = Paths.get("c:\\test2\\report.txt");
+      var p2_rel1 = Paths.get("\\test2\\report.txt");
+      var p2_rel2 = Paths.get("test2\\report.txt");
 
       result = CoberturaParser.join(empty, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(empty, abs2);
+      result = CoberturaParser.join(empty, p2_abs1);
       assertThat(result).isEqualTo("c:\\test2\\report.txt");
 
-      result = CoberturaParser.join(empty, rel2);
+      result = CoberturaParser.join(empty, p2_rel1);
       assertThat(result).isEqualTo(".\\test2\\report.txt");
 
-      result = CoberturaParser.join(abs1, empty);
+      result = CoberturaParser.join(p1_abs1, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(rel1, empty);
+      result = CoberturaParser.join(p1_rel1, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(abs1, abs2);
+      result = CoberturaParser.join(p1_abs1, p2_abs1);
       assertThat(result).isEqualTo("c:\\test2\\report.txt");
 
-      result = CoberturaParser.join(abs1, rel2);
+      result = CoberturaParser.join(p1_abs1, p2_rel1);
       assertThat(result).isEqualTo("c:\\test1\\test2\\report.txt");
 
-      result = CoberturaParser.join(rel1, abs2);
+      result = CoberturaParser.join(p1_rel1, p2_abs1);
       assertThat(result).isEqualTo("c:\\test2\\report.txt");
 
-      result = CoberturaParser.join(rel1, rel2);
+      result = CoberturaParser.join(p1_rel1, p2_rel1);
       assertThat(result).isEqualTo(".\\test1\\test2\\report.txt");
+
+      result = CoberturaParser.join(p1_abs2, p2_rel2);
+      assertThat(result).isEqualTo("c:\\test2\\report.txt");
+
+      result = CoberturaParser.join(p1_abs3, p2_rel2);
+      assertThat(result).isEqualTo("c:\\test2\\report.txt");
     } else {
 
       // Linux
-      var abs1 = Paths.get("/home/test1");
-      var rel1 = Paths.get("test1");
-      var abs2 = Paths.get("/home/test2/report.txt");
-      var rel2 = Paths.get("test2/report.txt");
+      var p1_abs1 = Paths.get("/home/test1");
+      var p1_rel1 = Paths.get("test1");
+      var p2_abs1 = Paths.get("/home/test2/report.txt");
+      var p2_rel1 = Paths.get("test2/report.txt");
 
       result = CoberturaParser.join(empty, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(empty, abs2);
+      result = CoberturaParser.join(empty, p2_abs1);
       assertThat(result).isEqualTo("/home/test2/report.txt");
 
-      result = CoberturaParser.join(empty, rel2);
+      result = CoberturaParser.join(empty, p2_rel1);
       assertThat(result).isEqualTo("./test2/report.txt");
 
-      result = CoberturaParser.join(abs1, empty);
+      result = CoberturaParser.join(p1_abs1, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(rel1, empty);
+      result = CoberturaParser.join(p1_rel1, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(abs1, abs2);
+      result = CoberturaParser.join(p1_abs1, p2_abs1);
       assertThat(result).isEqualTo("/home/test2/report.txt");
 
-      result = CoberturaParser.join(abs1, rel2);
+      result = CoberturaParser.join(p1_abs1, p2_rel1);
       assertThat(result).isEqualTo("/home/test1/test2/report.txt");
 
-      result = CoberturaParser.join(rel1, abs2);
+      result = CoberturaParser.join(p1_rel1, p2_abs1);
       assertThat(result).isEqualTo("/home/test2/report.txt");
 
-      result = CoberturaParser.join(rel1, rel2);
+      result = CoberturaParser.join(p1_rel1, p2_rel1);
       assertThat(result).isEqualTo("./test1/test2/report.txt");
     }
 

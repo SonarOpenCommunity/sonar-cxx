@@ -29,7 +29,7 @@ install:
       }
 
       (new-object System.Net.WebClient).DownloadFile(
-        'https://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip',
+        'https://dlcdn.apache.org/maven/maven-3/3.8.3/binaries/apache-maven-3.8.3-bin.zip',
         'C:\maven-bin.zip'
       )
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
@@ -62,9 +62,9 @@ install:
         $env:VCVARS_PLATFORM="amd64"
         $env:LANG_PLATFORM="-x64"
       }
-  - cmd: SET PATH=C:\maven\apache-maven-3.6.3\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-4.6.2.2472\bin;%PATH%
-  - cmd: SET M2_HOME=C:\maven\apache-maven-3.6.3
-  - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.6.3
+  - cmd: SET PATH=C:\maven\apache-maven-3.8.3\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-4.6.2.2472\bin;%PATH%
+  - cmd: SET M2_HOME=C:\maven\apache-maven-3.8.3
+  - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.8.3
   - cmd: SET SONARHOME=C:\sonarqube\sonarqube-8.9.2.46101
   - cmd: SET TestDataFolder=C:\projects\sonar-cxx\integration-tests\testdata
   - cmd: SET
