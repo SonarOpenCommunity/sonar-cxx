@@ -49,13 +49,13 @@ public class CoberturaParser implements CoverageParser {
   /**
    * Join two paths
    *
-   * path1 | path2 | result
+   * path1    | path2    | result
    * ---------|----------|-------
-   * empty | empty | empty
-   * empty | absolute | absolute path2
-   * empty | relative | relative path2
-   * absolute | empty | empty
-   * relative | empty | empty
+   * empty    | empty    | empty
+   * empty    | absolute | absolute path2
+   * empty    | relative | relative path2
+   * absolute | empty    | empty
+   * relative | empty    | empty
    * absolute | absolute | absolute path2
    * absolute | relative | absolute path1 + relative path2
    * relative | absolute | absolute path2
@@ -70,7 +70,12 @@ public class CoberturaParser implements CoverageParser {
       return "";
     }
     if (!path1.isAbsolute()) {
-      path1 = Paths.get(".", path1.toString());
+      var root = path1.getRoot();
+      if (root != null && !root.toString().endsWith(File.separator)) { // special case drive letter only, e.g. c:
+        path1 = Paths.get(path1.toString(), File.separator);
+      } else {
+        path1 = Paths.get(".", path1.toString());
+      }
     }
     if (!path2.isAbsolute()) {
       path2 = Paths.get(".", path2.toString());
