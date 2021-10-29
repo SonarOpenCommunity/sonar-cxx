@@ -37,7 +37,7 @@ public class CxxClangSARuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxClangSARuleRepository.KEY);
-    assertEquals(91, repo.rules().size());
+    assertEquals(92, repo.rules().size());
   }
 
 }
