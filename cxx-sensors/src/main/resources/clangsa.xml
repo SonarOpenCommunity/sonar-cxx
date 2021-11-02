@@ -292,6 +292,21 @@ Rules list was generated based on clang version 11.0.1 -->
     <tag>cplusplus</tag>
   </rule>
   <rule>
+    <key>cplusplus.StringChecker</key>
+    <name>cplusplus.StringChecker</name>
+    <description>
+<![CDATA[
+<p>Checks C++ std::string bugs
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    <tag>cplusplus</tag>
+  </rule>
+  <rule>
     <key>deadcode.DeadStores</key>
     <name>deadcode.DeadStores</name>
     <description>

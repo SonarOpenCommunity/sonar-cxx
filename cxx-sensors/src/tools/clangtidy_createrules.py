@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-import cgi
+import html
 import json
 import os
 import re
@@ -30,7 +30,7 @@ from utils_createrules import get_cdata_capable_xml_etree
 
 SEVERITY_MAP = {
 
-    # last update: llvmorg-13-init-4898-g270a336ff462
+    # last update: llvmorg-14-init-8123-ga875e6e1225a (git describe)
     # rule keys are in alphabetical order
 
     "abseil-no-namespace": {"type": "CODE_SMELL", "severity": "INFO"},    
@@ -373,7 +373,7 @@ def create_template_rules(rules):
     <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
     <li>Enable the newly created rule in your quality profile</li>
   </ol>
-  <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
+  <li>Relaunch an analysis on your projects, et voila, your custom rules are executed!</li>
 </ol>"""
     
     rule = et.Element('rule')
@@ -504,7 +504,7 @@ def generate_description(diag_group_name, diagnostics):
             diag_class == "CLASS_REMARK")
         diag_text = diagnostic["Text"]
         diag_class_printable = DIAG_CLASS[diag_class]["printable"]
-        diag_text_escaped = cgi.escape(diag_text)
+        diag_text_escaped = html.escape(diag_text, quote=False)
         html_lines.append("<li>%s: %s</li>" %
                           (diag_class_printable, diag_text_escaped))
     html_lines.append("</ul>")
