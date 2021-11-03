@@ -8,6 +8,7 @@ jdk:
 env:
   - SONARLABEL=sonarqube-7.9.6 SONARAPI=SqApi79
   - SONARLABEL=sonarqube-8.9.2.46101 SONARAPI=SqApi79
+  - SONARLABEL=sonarqube-9.1.0.47736 SONARAPI=SqApi79
 
 addons:
   # shorten the VM hostname with the new workaround
