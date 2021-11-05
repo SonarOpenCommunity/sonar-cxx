@@ -24,7 +24,6 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
@@ -72,7 +71,7 @@ public class FileRegularExpressionCheckTest {
     check.message = "Found 'stdafx.h' in file!";
 
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/FileRegEx.cc", ".",
-                                                      StandardCharsets.US_ASCII);
+                                        StandardCharsets.US_ASCII);
 
     SourceFile file = CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), squidConfig, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
