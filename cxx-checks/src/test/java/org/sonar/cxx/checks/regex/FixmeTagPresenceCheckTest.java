@@ -24,7 +24,6 @@ import java.io.UnsupportedEncodingException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.checks.CxxFileTester;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifierRule;
@@ -38,7 +37,7 @@ public class FixmeTagPresenceCheckTest {
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
   public void detected() throws UnsupportedEncodingException, IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/FixmeTagPresenceCheck.cc",
-                                                      ".");
+                                        ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new FixmeTagPresenceCheck());
 
     checkMessagesVerifier.verify(file.getCheckMessages())

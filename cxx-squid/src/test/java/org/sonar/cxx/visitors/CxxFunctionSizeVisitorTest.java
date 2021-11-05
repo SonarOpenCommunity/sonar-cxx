@@ -23,7 +23,6 @@ import java.io.IOException;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.cxx.CxxFileTester;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
@@ -38,7 +37,7 @@ public class CxxFunctionSizeVisitorTest {
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.FUNCTION_SIZE_THRESHOLD,
                     "5");
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/FunctionComplexity.cc",
-                                                                   ".", "");
+                                        ".", "");
     SourceFile file = CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), squidConfig);
 
     var softly = new SoftAssertions();
