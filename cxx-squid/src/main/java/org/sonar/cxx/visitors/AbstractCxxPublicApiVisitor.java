@@ -795,23 +795,50 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
     }
   }
 
+  private static List<Token> getTypedefInlineComment(AstNode typedef) {
+    var commentTokens = new ArrayList<Token>();
+    var node = typedef.getFirstAncestor(CxxGrammarImpl.declaration);
+    node = node.getNextAstNode();
+
+    // search for first child with a comment
+    while (node != null) {
+      for (var trivia : node.getToken().getTrivia()) {
+        if (trivia.isComment()) {
+          commentTokens.add(trivia.getToken());
+          return commentTokens;
+        }
+      }
+      node = node.getFirstChild();
+    }
+
+    return commentTokens;
+  }
+
   private void visitEnumSpecifier(AstNode enumSpecifierNode) {
-    var enumIdNode = enumSpecifierNode.getFirstDescendant(GenericTokenType.IDENTIFIER);
-
-    String enumId = (enumIdNode == null) ? UNNAMED_ENUM_ID : enumIdNode.getTokenValue();
-
     if (!isPublicApiMember(enumSpecifierNode)) {
-      // not in public API
-      return;
+      return; // not in public API
     }
 
-    // deal with typedef enum: documentation is on typedef node
-    AstNode docNode = getTypedefNode(enumSpecifierNode);
+    var docNode = getTypedefNode(enumSpecifierNode);
+    AstNode idNode;
     if (docNode == null) {
-      docNode = enumSpecifierNode;
+      // enum ...
+      idNode = enumSpecifierNode.getFirstDescendant(CxxGrammarImpl.enumHeadName);
+      if (idNode != null) {
+        visitPublicApi(enumSpecifierNode, idNode.getTokenValue(), getBlockDocumentation(enumSpecifierNode));
+      }
+    } else {
+      // typedef enum ...
+      var declaration = enumSpecifierNode.getFirstAncestor(CxxGrammarImpl.declaration);
+      idNode = declaration.getFirstDescendant(CxxGrammarImpl.declaratorId);
+      if (idNode != null) {
+        List<Token> comments = getBlockDocumentation(docNode);
+        if (comments.isEmpty()) { // documentation may be inlined
+          comments = getTypedefInlineComment(docNode);
+        }
+        visitPublicApi(enumSpecifierNode, idNode.getTokenValue(), comments);
+      }
     }
-
-    visitPublicApi(enumSpecifierNode, enumId, getBlockDocumentation(docNode));
 
     // deal with enumeration values
     AstNode enumeratorList = enumSpecifierNode.getFirstDescendant(CxxGrammarImpl.enumeratorList);
