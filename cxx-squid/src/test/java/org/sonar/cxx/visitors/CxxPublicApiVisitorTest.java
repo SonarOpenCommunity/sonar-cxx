@@ -98,7 +98,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void unnamed_enum() throws IOException {
-    assertThat(verifyPublicApiOfFile("src/test/resources/metrics/unnamed_enum.h")).isEqualTo(tuple(1, 1));
+    assertThat(verifyPublicApiOfFile("src/test/resources/metrics/unnamed_enum.h")).isEqualTo(tuple(8, 0));
   }
 
   @Test
