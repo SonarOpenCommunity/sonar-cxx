@@ -43,29 +43,45 @@ import org.sonar.sslr.channel.CodeReader;
  */
 public class RightAngleBracketsChannel extends Channel<Lexer> {
 
-  private int angleBracketLevel = 0;
-  private int parentheseLevel = 0;
+  private int angleBracketLevel = 0; // angle brackets <  >
+  private int parentheseLevel = 0;   // parentheses / round brackets ( )
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {
     var ch = (char) code.peek();
     var consumed = false;
 
-    if (ch == '<') {
-      if (parentheseLevel == 0) {
-        var next = code.charAt(1);
-        if ((next != '<') && (next != '=')) { // not <<, <=, <<=, <=>,
-          angleBracketLevel++;
+    switch (ch) {
+      case '(':
+        parentheseLevel++;
+        break;
+      case ')':
+        if (parentheseLevel > 0) {
+          parentheseLevel--;
         }
-      }
-    } else if (angleBracketLevel > 0) {
-      switch (ch) {
-        case ';': // end of expression => reset
-          angleBracketLevel = 0;
-          parentheseLevel = 0;
-          break;
-        case '>':
-          if (parentheseLevel == 0) {
+        break;
+      case ';': // end of expression => reset
+        angleBracketLevel = 0;
+        parentheseLevel = 0;
+        break;
+
+      case '<':
+        if (parentheseLevel == 0) {
+          var next = code.charAt(1);
+          if ((next != '<') && (next != '=')) { // not <<, <=, <<=, <=>
+            angleBracketLevel++;
+          }
+        }
+        break;
+
+      case '>':
+        if (angleBracketLevel > 0) {
+          var consume = parentheseLevel == 0;
+          var next = code.charAt(1);
+          consume = consume && !(next == '='); // not >=
+          consume = consume && !((next == '>') && (angleBracketLevel == 1)); // not dangling >>
+
+          if (consume) {
             output.addToken(Token.builder()
               .setLine(code.getLinePosition())
               .setColumn(code.getColumnPosition())
@@ -74,20 +90,12 @@ public class RightAngleBracketsChannel extends Channel<Lexer> {
               .setType(CxxPunctuator.GT)
               .build());
             code.pop();
+
+            angleBracketLevel--;
             consumed = true;
           }
-          angleBracketLevel = Math.max(0, angleBracketLevel - 1);
-          if (angleBracketLevel == 0) {
-            parentheseLevel = 0;
-          }
-          break;
-        case '(':
-          parentheseLevel++;
-          break;
-        case ')':
-          parentheseLevel = Math.max(0, parentheseLevel - 1);
-          break;
-      }
+        }
+        break;
     }
 
     return consumed;

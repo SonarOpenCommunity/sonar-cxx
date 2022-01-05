@@ -199,7 +199,13 @@ public class TemplatesTest extends ParserBaseTestHelper {
       .matches("A<(X>Y)>")
       .matches("A<(X<Y)>")
       .matches("vector<std::vector<bool>>")
-      .matches("Y<X<(6>>1)>>");
+      .matches("Y<X<(6>1)>>")
+      .matches("Y<X<(6<1)>>")
+      .matches("Y<X<(6>=1)>>")
+      .matches("Y<X<(6<=1)>>")
+      .matches("Y<X<(6>>1)>>")
+      .matches("Y<X<(6<<1)>>")
+      .matches("Y<X<(6<=>1)>>");
   }
 
   @Test

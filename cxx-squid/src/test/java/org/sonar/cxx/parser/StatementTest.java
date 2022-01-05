@@ -72,6 +72,28 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
+  public void expressionStatement_reallife() {
+    setRootRule(CxxGrammarImpl.expressionStatement);
+
+    assertThatParser()
+      // fix #2286: use expressionStatement with ; at the end to reset RightAngleBracketsChannel after each matches
+      .matches("a() < 0 || c >= 1;")
+      .matches("a() < 0 || c > 1;")
+      .matches("a() < 0 || c >> 1;");
+  }
+
+  @Test
+  public void selectionStatement_reallife() {
+    setRootRule(CxxGrammarImpl.selectionStatement);
+
+    assertThatParser()
+      // fix #2286
+      .matches("if(a() < 0 || c >= 1) {}")
+      .matches("if(a() < 0 || c > 1) {}")
+      .matches("if(a() < 0 || c >> 1) {}");
+  }
+
+  @Test
   public void labeledStatement() {
     setRootRule(CxxGrammarImpl.labeledStatement);
 
