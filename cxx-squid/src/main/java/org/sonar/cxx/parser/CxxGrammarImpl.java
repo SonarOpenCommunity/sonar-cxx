@@ -713,7 +713,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     ).skipIfOneChild();
 
     b.rule(cudaKernel).is(
-      b.sequence("<<", "<", b.optional(expressionList), ">", ">>") // CUDA
+      b.sequence("<<", "<", b.optional(expressionList), ">>", ">") // CUDA
     );
 
     b.rule(typeIdEnclosed).is( // todo
