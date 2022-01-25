@@ -19,9 +19,17 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import java.io.File;
-import java.util.TreeMap;
 import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.assertj.core.util.Strings;
 import org.junit.Test;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.sensors.utils.TestUtils;
@@ -68,4 +76,27 @@ public class XunitReportParserTest {
     parser.parse(report);
   }
 
+  @Test
+  public void testFilePaths() throws javax.xml.stream.XMLStreamException {
+    parserHandler = new XunitReportParser("");
+    parser = new StaxParser(parserHandler, false);
+    File report = TestUtils.loadResource(pathPrefix + "xunit-result-SAMPLE-inconsistent-case.xml");
+    parser.parse(report);
+
+    var actualPaths = parserHandler.getTestFiles()
+        .stream()
+        .map(TestFile::getFilename)
+        .filter(p -> !Strings.isNullOrEmpty(p))
+        .map(s -> Paths.get(s))
+        .collect(Collectors.toList());
+
+    var expectPaths = Stream.of(
+        Paths.get("/test/file.cpp"),
+        Paths.get("/test/File.cpp"),
+        Paths.get("/TEST/file.cpp"))
+        .distinct()
+        .toArray(n -> new Path[n]);
+
+    assertThat(actualPaths).containsExactlyInAnyOrder(expectPaths);
+  }
 }

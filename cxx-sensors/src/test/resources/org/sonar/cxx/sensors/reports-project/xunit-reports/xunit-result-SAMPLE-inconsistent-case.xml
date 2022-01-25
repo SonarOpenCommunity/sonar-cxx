@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" tests="3" name="SAMPLEtest">
+  <properties>
+    <property value="4.6.2" name="QTestVersion"/>
+    <property value="4.6.2" name="QtVersion"/>
+  </properties>
+  <testcase result="pass" name="initTestCase" filename="test/file.cpp" />
+  <testcase result="pass" name="testCase1" filename="test/File.cpp" />
+  <testcase result="pass" name="testCase2" filename="test/File.cpp" />
+  <testcase result="pass" name="cleanupTestCase" filename="TEST/file.cpp" />
+  <system-err/>
+</testsuite>
