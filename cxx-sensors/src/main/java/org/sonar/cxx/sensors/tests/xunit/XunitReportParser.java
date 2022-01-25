@@ -19,12 +19,17 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
+
 import javax.xml.stream.XMLStreamException;
+
 import org.codehaus.staxmate.in.ElementFilter;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -39,7 +44,7 @@ import org.sonar.cxx.sensors.utils.StaxParser.XmlStreamHandler;
 public class XunitReportParser implements XmlStreamHandler {
 
   private final String baseDir;
-  private final Map<String, TestFile> testFiles = new HashMap<>();
+  private final Map<Path, TestFile> testFiles = new HashMap<>();
 
   public XunitReportParser(String baseDir) {
     this.baseDir = baseDir;
@@ -127,15 +132,15 @@ public class XunitReportParser implements XmlStreamHandler {
   }
 
   private TestFile getTestFile(String filename) {
-    String absolute = CxxUtils.resolveAntPath(baseDir, filename);
-    if (absolute != null) {
-      absolute = absolute.toLowerCase();
-    }
-    var file = testFiles.get(absolute);
+    var absolute = Optional.ofNullable(CxxUtils.resolveAntPath(baseDir, filename))
+      .map(p -> Paths.get(p));
+
+    var file = testFiles.get(absolute.orElse(null));
     if (file == null) {
-      file = new TestFile(absolute);
-      testFiles.put(absolute, file);
+      file = new TestFile(absolute.map(Object::toString).orElse(null));
+      testFiles.put(absolute.orElse(null), file);
     }
+    
     return file;
   }
 
