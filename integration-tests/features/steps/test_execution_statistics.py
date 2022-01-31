@@ -21,6 +21,7 @@
 
 import os
 import re
+import io
 import json
 import requests
 import platform
@@ -355,11 +356,12 @@ def _diff_measures(expected, measured):
     return "\n".join(difflist)
 
 def _contains_line_matching(filepath, pattern):
-    pat = re.compile(pattern)
-    with open(filepath) as logfo:
+    pat = re.compile(pattern.strip())
+    with io.open(filepath, mode='rt', encoding='utf-8') as logfo:
         for line in logfo:
-            if pat.match(line):
+            if pat.search(line.rstrip('\r\n')):
                 return True
+
     return False
 
 def _assert_measures(project, measures):

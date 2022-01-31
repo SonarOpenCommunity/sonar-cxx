@@ -1,8 +1,8 @@
 |     |     |     |
 | --- | --- | --- |
 | **SonarCloud** / SonarSource SA<br>(Technical Debt analysis) | [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=org.sonarsource.sonarqube-plugins.cxx%3Acxx&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.sonarsource.sonarqube-plugins.cxx%3Acxx) | ![Coverage](https://sonarcloud.io/api/project_badges/measure?project=org.sonarsource.sonarqube-plugins.cxx%3Acxx&metric=coverage) |
-| **DeepCode** / DeepCode AG<br>(real-time AI powered semantic code analysis) | [![deepcode](https://www.deepcode.ai/api/gh/badge?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwbGF0Zm9ybTEiOiJnaCIsIm93bmVyMSI6IlNvbmFyT3BlbkNvbW11bml0eSIsInJlcG8xIjoic29uYXItY3h4IiwiaW5jbHVkZUxpbnQiOmZhbHNlLCJhdXRob3JJZCI6MTU1ODMsImlhdCI6MTYwMTI4MjcwOH0.Wz0G-HIoHfLfP1SjzxUnbyA598JfjKkQTsBqGG4Kleo)](https://www.deepcode.ai/app/gh/SonarOpenCommunity/sonar-cxx/_/dashboard?utm_content=gh%2FSonarOpenCommunity%2Fsonar-cxx) |
 | **JProfiler** / ej-technologies GmbH<br>(when it comes to profiling: [Java profiler](https://www.ej-technologies.com/products/jprofiler/overview.html) tool) | [![JProfiler](https://www.ej-technologies.com/images/product_banners/jprofiler_small.png)](https://www.ej-technologies.com/products/jprofiler/overview.html)|
+| **GitHub Actions**<br>(Windows & Linux CI/CD) | [![Build Status](https://github.com/SonarOpenCommunity/sonar-cxx/actions/workflows/cxx-ci.yml/badge.svg?branch=master&event=push)](https://github.com/SonarOpenCommunity/sonar-cxx/actions/workflows/cxx-ci.yml) | [You can download latest snapshot from here.](https://github.com/SonarOpenCommunity/sonar-cxx/releases/tag/latest-snapshot) |
 
 # SonarQube C++ Community plugin (_cxx plugin_)
 
@@ -59,7 +59,7 @@ Sensors for **static and dynamic code analysis**:
 * **Boost.Test** file format (https://www.boost.org/doc/libs/release/libs/test/)
   - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
 * **CppTest** file format (https://cpptest.sourceforge.io/)
-  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt) 
+  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
 * **CppUnit** file format (https://sourceforge.net/projects/cppunit/)
   - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
 * **VSTest** file format (https://github.com/microsoft/vstest)
@@ -99,7 +99,7 @@ Simple to **customize**
 
 ## Resources
 - [Latest release](https://github.com/SonarOpenCommunity/sonar-cxx/releases)
-- [Download latest snapshot](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master/artifacts)
+- [Download latest snapshot](https://github.com/SonarOpenCommunity/sonar-cxx/releases/tag/latest-snapshot)
 - [Documentation](https://github.com/SonarOpenCommunity/sonar-cxx/wiki)
 - [Issue Tracker](https://github.com/SonarOpenCommunity/sonar-cxx/issues)
 
@@ -110,7 +110,7 @@ You are welcome to contribute. [Help is needed](https://github.com/SonarOpenComm
 That's not the only choice when you are looking for C++ support in SonarQube there is also
 * the commercial [SonarCFamily plugin from SonarSource](https://www.sonarsource.com/cpp)
 * the commercial [C/C++ plugin from CppDepend](http://www.cppdepend.com/sonarplugin)
-* the [Coverity plugin](https://github.com/coverity/coverity-sonar-plugin)
 * the commercial [PVS-Studio plugin](https://www.viva64.com/en/pvs-studio-download)
+* the [Coverity plugin](https://github.com/coverity/coverity-sonar-plugin)
 
 Choose whatever fits your needs.

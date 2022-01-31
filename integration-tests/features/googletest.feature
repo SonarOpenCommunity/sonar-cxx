@@ -55,7 +55,7 @@ Feature: Providing test execution measures
     Then the analysis breaks
     And the analysis log contains a line matching:
       """
-      .*ERROR: Invalid xUnit report.*stop analysis
+      ERROR: Invalid xUnit report.*stop analysis
       """
 
 
