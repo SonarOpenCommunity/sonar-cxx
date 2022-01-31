@@ -15,8 +15,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install HTML Tidy
+      run: |
+         wget https://github.com/htacg/tidy-html5/releases/download/5.8.0/tidy-5.8.0-Linux-64bit.deb
+         sudo dpkg -i tidy-5.8.0-Linux-64bit.deb
     - name: Verify rule files
-      run: wget https://github.com/htacg/tidy-html5/releases/download/5.8.0/tidy-5.8.0-Linux-64bit.deb
-      run: sudo dpkg -i tidy-5.8.0-Linux-64bit.deb
-      run: bash cxx-sensors/src/tools/check_rules.sh
+      run: bash ./cxx-sensors/src/tools/check_rules.sh
 
