@@ -1,0 +1,22 @@
+# Verify rule files with HTML Tidy
+
+name: Verify rule files
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Verify rule files
+      run: wget https://github.com/htacg/tidy-html5/releases/download/5.8.0/tidy-5.8.0-Linux-64bit.deb
+      run: sudo dpkg -i tidy-5.8.0-Linux-64bit.deb
+      run: bash cxx-sensors/src/tools/check_rules.sh
+
