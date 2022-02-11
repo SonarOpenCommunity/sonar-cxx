@@ -2115,11 +2115,11 @@ Memory allocation size is negative.Negative allocation size has no specified beh
   </rule>
   <rule>
     <key>noConstructor</key>
-    <name>The class 'classname' does not have a constructor although it has private member variables</name>
+    <name>The class 'classname' does not declare a constructor although it has private member variables which likely require initialization</name>
     <description>
       <![CDATA[
       <p>
-The class 'classname' does not have a constructor although it has
+The class 'classname' does not declare a constructor although it has
 private member variables. Member variables of builtin types are left
 uninitialized when the class is instantiated. That may cause bugs or
 undefined behavior.
@@ -8129,12 +8129,12 @@ Same iterator is used with different containers 'container1' and
   </rule>
   <rule>
     <key>iterators3</key>
-    <name>Same iterator is used with containers 'container' that are defined in different scopes</name>
+    <name>Same iterator is used with containers 'container' that are temporaries or defined in different scopes</name>
     <description>
       <![CDATA[
 <p>
-Same iterator is used with containers 'container' that are defined in
-different scopes.
+Same iterator is used with containers 'container' that are temporaries
+or defined in different scopes.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
@@ -8504,11 +8504,11 @@ Parameter 'x' can be declared with const
   </rule>
   <rule>
     <key>danglingTemporaryLifetime</key>
-    <name>Using object to temporary</name>
+    <name>Using object that is a temporary</name>
     <description>
       <![CDATA[
 <p>
-Using object to temporary.
+Using object that is a temporary.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
@@ -8976,6 +8976,24 @@ missing return statement
       ]]>
       <![CDATA[]]>
       </description>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <!-- ########### New in Cppcheck 2.70 ########### -->
+  <rule>
+    <key>missingMemberCopy</key>
+    <name>Member variable 'classname::varnamepriv' is not assigned in the copy constructor</name>
+    <description><![CDATA[
+      <p>
+Member variable 'classname::varnamepriv' is not assigned in the copy
+constructor. Should it be copied?
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+      ]]></description>
+    <tag>cwe</tag>
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>

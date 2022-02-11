@@ -18,5 +18,5 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 wget https://cwe.mitre.org/data/xml/cwec_latest.xml.zip --output-document=cwec_latest.xml.zip && unzip -j -o cwec_latest.xml.zip
 
 cppcheck ${CPPCHECK_LIBRARY_ARGS} --errorlist --xml-version=2 > cppcheck-errorlist.xml
-cppcheck ${CPPCHECK_LIBRARY_ARGS} --errorlist --xml-version=2 | python cppcheck_createrules.py rules cwec_v4.2.xml > cppcheck.xml
+cppcheck ${CPPCHECK_LIBRARY_ARGS} --errorlist --xml-version=2 | python cppcheck_createrules.py rules cwec_v4.6.xml > cppcheck.xml
 python utils_createrules.py comparerules $SCRIPT_DIR/../main/resources/cppcheck.xml cppcheck.xml > cppcheck-comparison.md
