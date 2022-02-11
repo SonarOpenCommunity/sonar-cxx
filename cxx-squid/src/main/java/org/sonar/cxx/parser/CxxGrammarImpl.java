@@ -2185,7 +2185,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence( // C++ (PEG: different order) todo one up
           typeConstraint,
           b.firstOf(
-            b.sequence(b.optional(IDENTIFIER), "=", typeId), // C++
+            b.sequence(
+              b.optional(IDENTIFIER), "=",
+              b.firstOf(
+                typeId, // C++
+                initializerClause // syntax sugar to handle type traits providing type name (e.g. std::enable_if_t<>=0)
+              )
+            ),
             b.sequence(b.optional("..."), b.optional(IDENTIFIER)) // C++ (PEG: different order)
           )
         )
