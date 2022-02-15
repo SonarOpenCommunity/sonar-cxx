@@ -766,16 +766,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
           "gcnew" // C++/CLI
         ),
         b.firstOf(
-          b.sequence("(", typeId, ")"), // syntax sugar (todo)
-          b.sequence(
-            b.optional(newPlacement),
-            b.firstOf(
-              newTypeId, // C++
-              b.sequence("(", typeId, ")") // C++
-            ),
-            b.optional(newInitializer) // C++
-          )
-        )
+          // PEG: different order
+          b.sequence(newPlacement, "(", typeId, ")"), // C++
+          b.sequence(newPlacement, newTypeId), // C++
+          b.sequence("(", typeId, ")"), // C++
+          newTypeId // C++
+        ),
+        b.optional(newInitializer) // C++
       )
     );
 

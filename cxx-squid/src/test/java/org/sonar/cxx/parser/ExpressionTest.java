@@ -404,7 +404,16 @@ public class ExpressionTest extends ParserBaseTestHelper {
     assertThatParser()
       .matches("new Table()")
       .matches("new Table")
-      .matches("new(Table)");
+      .matches("new(Table)")
+      .matches("new double[n][5]")
+      .matches("new (int (*[10])())")
+      .matches("new (std::nothrow) char[8]")
+      .matches("new A{1, 2}")
+      .matches("new auto('a')")
+      .matches("new double[]{1,2,3}")
+      .matches("new std::integral auto(1)")
+      .matches("new(buf) T")
+      .matches("::new(p)A(1,2,3)");
   }
 
   @Test
