@@ -337,6 +337,7 @@ public class ExpressionTest extends ParserBaseTestHelper {
       .matches("::foo()")
       .matches("obj.foo<int>()")
       .matches("typeid(int)")
+      .matches("f(std::shared_ptr<A<int>>(p))") // fix #2286
       // C++/CLI
       .matches("G::typeid")
       .matches("int::typeid")
