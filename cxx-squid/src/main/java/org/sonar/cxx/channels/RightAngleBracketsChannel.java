@@ -53,7 +53,9 @@ public class RightAngleBracketsChannel extends Channel<Lexer> {
 
     switch (ch) {
       case '(':
-        parentheseLevel++;
+        if (angleBracketLevel > 0) {
+          parentheseLevel++;
+        }
         break;
       case ')':
         if (parentheseLevel > 0) {
