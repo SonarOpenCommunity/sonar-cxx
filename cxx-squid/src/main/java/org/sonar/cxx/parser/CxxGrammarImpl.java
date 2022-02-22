@@ -2185,6 +2185,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             b.sequence(b.optional(IDENTIFIER), "=", typeId), // C++
             // syntax sugar to handle type traits providing type name (e.g. std::enable_if_t<>=0, std::enable_if_t<>*=nullptr)
             b.sequence(b.optional("*"), "=", LITERAL),
+            // syntax sugar in case type is an identifier, e.g. 'size_t s = 0' (PEG conflict with parameterDeclaration)
+            b.sequence(IDENTIFIER, "=", initializerClause),
             b.sequence(b.optional("..."), b.optional(IDENTIFIER)) // C++ (PEG: different order)
           )
         )

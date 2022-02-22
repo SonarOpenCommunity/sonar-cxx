@@ -71,7 +71,11 @@ public class TemplatesTest extends ParserBaseTestHelper {
   public void templateHead_reallife() {
     setRootRule(CxxGrammarImpl.templateHead);
 
-    assertThatParser().matches("template<typename T> requires Addable<T>");
+    assertThatParser()
+      .matches("template<typename T> requires Addable<T>")
+      // issue #2317
+      .matches("template <typename T, size_t s = sizeof(T)*2 >")
+      .matches("template <typename T, size_t s = 1>2 >");
   }
 
   @Test
@@ -126,7 +130,12 @@ public class TemplatesTest extends ParserBaseTestHelper {
       .matches("template<typename = float> typename = foo::foo")
       // parameter-declaration
       .matches("auto ... vs")
-      .matches("auto** pp0");
+      .matches("auto** pp0")
+      // issue #2317
+      .matches("size_t s = 15")
+      .matches("size_t s = sizeof(T)*2")
+      .matches("values v = v::ok")
+      .matches("T::type n = 0");
   }
 
   @Test
