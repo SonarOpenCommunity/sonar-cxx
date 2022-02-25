@@ -9,22 +9,22 @@ SET LLVM_DIR=C:\Development\git\llvm-project\
 
 REM verify paths
 IF NOT EXIST "%PANDOC_DIR%" (
-   ECHO Invalid PANDOC_DIR setting
+   ECHO [ERROR] Invalid PANDOC_DIR setting
    GOTO ERROR
 )
 
 IF NOT EXIST "%PYTHON_DIR%" (
-   ECHO Invalid PYTHON_DIR setting
+   ECHO [ERROR] Invalid PYTHON_DIR setting
    GOTO ERROR
 )
 
 IF NOT EXIST "%LLVM_DIR%" (
-   ECHO Invalid LLVM_DIR setting
+   ECHO [ERROR] Invalid LLVM_DIR setting
    GOTO ERROR
 )
 
 IF NOT EXIST "%LLVM_DIR%build\Release\bin" (
-   ECHO You have to build LLVM first
+   ECHO [ERROR] You have to build LLVM first
    GOTO ERROR
 )
 
@@ -40,29 +40,29 @@ POPD
 ECHO.
 
 REM GENERATION OF RULES FROM CLANG-TIDY DOCUMENTATION (RST FILES)
-ECHO generate the new version of the rules file...
+ECHO [INFO] generate the new version of the rules file...
 "%PYTHON_DIR%python.exe" "%SCRIPT_DIR%clangtidy_createrules.py" rules "%LLVM_DIR%clang-tools-extra\docs\clang-tidy\checks" > "%SCRIPT_DIR%clangtidy_new.xml"
-ECHO compare the new version with the old one, extend the old XML...
+ECHO [INFO] compare the new version with the old one, extend the old XML...
 "%PYTHON_DIR%python.exe" "%SCRIPT_DIR%utils_createrules.py" comparerules "%SCRIPT_DIR%\..\main\resources\clangtidy.xml" "%SCRIPT_DIR%clangtidy_new.xml" > "%SCRIPT_DIR%clangtidy-comparison.md"
 
 REM GENERATION OF RULES FROM CLANG DIAGNOSTICS
-ECHO generate the list of diagnostics...
+ECHO [INFO] generate the list of diagnostics...
 PUSHD "%LLVM_DIR%clang\include\clang\Basic"
 "%LLVM_DIR%build\Release\bin\llvm-tblgen.exe" -dump-json "%LLVM_DIR%clang\include\clang\Basic\Diagnostic.td" > "%SCRIPT_DIR%diagnostic.json"
 POPD
-ECHO generate the new version of the diagnostics file...
+ECHO [INFO] generate the new version of the diagnostics file...
 "%PYTHON_DIR%python.exe" "%SCRIPT_DIR%clangtidy_createrules.py" diagnostics "%SCRIPT_DIR%diagnostic.json" > "%SCRIPT_DIR%diagnostic_new.xml"
-ECHO compare the new version with the old one, extend the old XML...
+ECHO [INFO] compare the new version with the old one, extend the old XML...
 "%PYTHON_DIR%python.exe" "%SCRIPT_DIR%utils_createrules.py" comparerules "%SCRIPT_DIR%\..\main\resources\clangtidy.xml" "%SCRIPT_DIR%diagnostic_new.xml" > "%SCRIPT_DIR%diagnostic-comparison.md"
 
 REM exit
 GOTO END
 :ERROR
 ECHO.
-ECHO execution failed
+ECHO [ERROR] execution failed
 EXIT /B 1
 
 :END
 ECHO.
-ECHO finished succesfully
+ECHO [INFO] finished succesfully
 EXIT /B 0
