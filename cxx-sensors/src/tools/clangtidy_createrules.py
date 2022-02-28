@@ -33,7 +33,7 @@ SEVERITY_MAP = {
     # last update: llvmorg-14-init-8123-ga875e6e1225a (git describe)
     # rule keys are in alphabetical order
 
-    "abseil-no-namespace": {"type": "CODE_SMELL", "severity": "INFO"},    
+    "abseil-no-namespace": {"type": "CODE_SMELL", "severity": "INFO"},
     "abseil-redundant-strcat-calls": {"type": "CODE_SMELL", "severity": "MINOR"},
     "abseil-str-cat-append": {"type": "CODE_SMELL", "severity": "MINOR"},
     "abseil-string-find-startswith": {"type": "CODE_SMELL", "severity": "MINOR"},
@@ -307,11 +307,12 @@ def rstfile_to_description(path, filename, fix_urls):
     if fix_urls:
         html = fix_local_urls(html, filename)
 
-    html = html.decode('utf-8').replace('\r\n', '\n')    
+    html = html.decode('utf-8').replace('\r\n', '\n')
     return html + footer
 
 
 def rstfile_to_rule(path, fix_urls):
+    sys.stderr.write("[INFO] convert: '{}'\n".format(path))
     rule = et.Element('rule')
 
     filename_with_extension = os.path.basename(path)
@@ -334,17 +335,18 @@ def rstfile_to_rule(path, fix_urls):
     if custom_severity:
         default_issue_severity = custom_severity["severity"]
         default_issue_type = custom_severity["type"]
-        
+
     et.SubElement(rule, 'severity').text = default_issue_severity
-    et.SubElement(rule, 'type').text = default_issue_type   
+    et.SubElement(rule, 'type').text = default_issue_type
     if default_issue_severity != 'INFO':
         et.SubElement(rule, 'remediationFunction').text = 'LINEAR'
         et.SubElement(rule, 'remediationFunctionGapMultiplier').text = '5min'
-                
+
     return rule
 
 
 def rstfiles_to_rules_xml(directory, fix_urls):
+    sys.stderr.write("[INFO] read .rst files '{}'\n".format(directory))
     rules = et.Element('rules')
     for subdir, _, files in os.walk(directory):
         for f in files:
@@ -352,6 +354,7 @@ def rstfiles_to_rules_xml(directory, fix_urls):
             if ext == ".rst" and f != "list.rst":
                 rst_file_path = os.path.join(subdir, f)
                 rules.append(rstfile_to_rule(rst_file_path, fix_urls))
+    sys.stderr.write("[INFO] write .xml file ...\n")
     write_rules_xml(rules, sys.stdout)
 
 
@@ -366,7 +369,7 @@ def contains_required_fields(entry_value):
 def create_template_rules(rules):
     rule_key = "CustomRuleTemplate"
     rule_name = "Template for custom Custom rules"
-    rule_severity = SEVERITY["SEV_Warning"]["sonarqube_severity"] 
+    rule_severity = SEVERITY["SEV_Warning"]["sonarqube_severity"]
     rule_description = """<p>Follow these steps to make your custom Custom rules available in SonarQube:</p>
 <ol>
   <ol>
@@ -375,7 +378,7 @@ def create_template_rules(rules):
   </ol>
   <li>Relaunch an analysis on your projects, et voila, your custom rules are executed!</li>
 </ol>"""
-    
+
     rule = et.Element('rule')
     et.SubElement(rule, 'key').text = rule_key
     et.SubElement(rule, 'cardinality').text = "MULTIPLE"
@@ -389,7 +392,7 @@ def create_clang_default_rules(rules):
     rule_key = "clang-diagnostic-error"
     rule_name = "clang-diagnostic-error"
     rule_type = DIAG_CLASS["CLASS_ERROR"]["sonarqube_type"]
-    rule_severity = SEVERITY["SEV_Remark"]["sonarqube_severity"] 
+    rule_severity = SEVERITY["SEV_Remark"]["sonarqube_severity"]
     rule_description = "<p>Default compiler diagnostic for errors without an explicit check name. Compiler error, e.g header file not found.</p>"
 
     rule = et.Element('rule')
@@ -399,12 +402,12 @@ def create_clang_default_rules(rules):
     et.SubElement(rule, 'severity').text = rule_severity
     et.SubElement(rule, 'type').text = rule_type
     rules.append(rule)
-  
+
     # defaults clang warning (not associated with any activation switch): warning
     rule_key = "clang-diagnostic-warning"
     rule_name = "clang-diagnostic-warning"
     rule_type = DIAG_CLASS["CLASS_WARNING"]["sonarqube_type"]
-    rule_severity = SEVERITY["SEV_Warning"]["sonarqube_severity"] 
+    rule_severity = SEVERITY["SEV_Warning"]["sonarqube_severity"]
     rule_description = "<p>Default compiler diagnostic for warnings without an explicit check name.</p>"
 
     rule = et.Element('rule')
@@ -419,7 +422,7 @@ def create_clang_default_rules(rules):
     rule_key = "clang-diagnostic-unknown"
     rule_name = "clang-diagnostic-unknown"
     rule_type = DIAG_CLASS["CLASS_REMARK"]["sonarqube_type"]
-    rule_severity = SEVERITY["SEV_Remark"]["sonarqube_severity"] 
+    rule_severity = SEVERITY["SEV_Remark"]["sonarqube_severity"]
     rule_description = "<p>(Unkown) compiler diagnostic without an explicit check name.</p>"
 
     rule = et.Element('rule')
@@ -429,7 +432,7 @@ def create_clang_default_rules(rules):
     et.SubElement(rule, 'severity').text = rule_severity
     et.SubElement(rule, 'type').text = rule_type
     rules.append(rule)
-    
+
 def collect_warnings(data, diag_group_id, warnings_in_group):
     diag_group = data[diag_group_id]
 
@@ -465,7 +468,7 @@ DIAG_CLASS = {"CLASS_EXTENSION": {"weight": 0, "sonarqube_type": "CODE_SMELL", "
               "CLASS_REMARK": {"weight": 0, "sonarqube_type": "CODE_SMELL", "printable": "remark"},
               "CLASS_WARNING": {"weight": 0, "sonarqube_type": "CODE_SMELL", "printable": "warning"},
               "CLASS_ERROR": {"weight": 1, "sonarqube_type": "BUG", "printable": "error"},
-              "CLASS_FATAL_ERROR": {"weight": 1, "sonarqube_type": "BUG", "printable": "fatal error"}              
+              "CLASS_FATAL_ERROR": {"weight": 1, "sonarqube_type": "BUG", "printable": "fatal error"}
               }
 
 # see Severity in JSON
@@ -517,12 +520,12 @@ def generate_description(diag_group_name, diagnostics):
 
 def diagnostics_to_rules_xml(json_file):
     rules = et.Element('rules')
-    
+
     # add a template rule
     create_template_rules(rules)
-    # add clang default warnings 
+    # add clang default warnings
     create_clang_default_rules(rules)
-    
+
     with open(json_file) as f:
         data = json.load(f)
         diag_groups = data["!instanceof"]["DiagGroup"]
@@ -553,11 +556,11 @@ def diagnostics_to_rules_xml(json_file):
             et.SubElement(rule, 'name').text = rule_name
             et.SubElement(rule, 'description').append(CDATA(rule_description))
             et.SubElement(rule, 'severity').text = rule_severity
-            et.SubElement(rule, 'type').text = rule_type                       
+            et.SubElement(rule, 'type').text = rule_type
             if rule_severity != 'INFO':
                 et.SubElement(rule, 'remediationFunction').text = 'LINEAR'
                 et.SubElement(rule, 'remediationFunctionGapMultiplier').text = '5min'
-                        
+
             rules.append(rule)
 
     write_rules_xml(rules, sys.stdout)

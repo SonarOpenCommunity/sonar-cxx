@@ -57,8 +57,10 @@ def _serialize_xml_2(write, elem, encoding, qnames, namespaces):
         tail = "" if elem.tail is None else elem.tail
         try:
             write("<%s%s]]>%s" % (elem.tag, elem.text, tail))
-        except UnicodeEncodeError:
-            write(("<%s%s]]>%s" % (elem.tag, elem.text, tail)).encode('utf-8'))
+        except UnicodeEncodeError as e:
+            sys.stderr.write("[WARNING] {}\n".format(e))
+            sys.stderr.write("{}\n{}\n{}\n".format(elem.tag, elem.text, tail))
+            write(("<%s%s]]>%s" % (elem.tag, elem.text.encode('ascii', 'ignore').decode('utf-8'), tail)))
 
     else:
         et._original_serialize_xml(write, elem, encoding, qnames, namespaces)
@@ -69,8 +71,10 @@ def _serialize_xml_3(write, elem, qnames, namespaces, short_empty_elements):
         tail = "" if elem.tail is None else elem.tail
         try:
             write("<%s%s]]>%s" % (elem.tag, elem.text, tail))
-        except UnicodeEncodeError:
-            write(("<%s%s]]>%s" % (elem.tag, elem.text, tail)).encode('utf-8'))
+        except UnicodeEncodeError as e:
+            sys.stderr.write("[WARNING] {}\n".format(e))
+            sys.stderr.write("{}\n{}\n{}\n".format(elem.tag, elem.text, tail))
+            write(("<%s%s]]>%s" % (elem.tag, elem.text.encode('ascii', 'ignore').decode('utf-8'), tail)))
 
     else:
         et._original_serialize_xml(write, elem, qnames, namespaces, short_empty_elements)
@@ -98,11 +102,16 @@ def write_rules_xml(root, f):
 
 
 def parse_rules_xml(path):
-    tree = et.parse(path)
-    root = tree.getroot()
+    sys.stderr.write("[INFO] parse .xml file {}\n".format(path))
     keys = []
-    keys_to_ruleelement = {}
-
+    keys_to_ruleelement = {}    
+    try :
+        tree = et.parse(path)    
+    except et.ParseError as e:
+        sys.stderr.write("[ERROR] {}: {}\n".format(path, e))
+        return keys, keys_to_ruleelement
+    
+    root = tree.getroot()
     for rules_tag in root.iter('rules'):
         for rule_tag in rules_tag.iter('rule'):
             for key_tag in rule_tag.iter('key'):
