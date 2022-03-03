@@ -150,7 +150,7 @@ def call_tidy(file_path):
     p = subprocess.Popen(command, stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
     out, err = p.communicate()
-    if p.returncode != 0:
+    if p.returncode < 0 or p.returncode > 1: # error: not ok, not warning
         print("### TIDY ", file_path)
         with open(file_path, 'r') as f:
             print(f.read())

@@ -26,11 +26,11 @@ import sys
 import time
 import platform
 import requests
+import subprocess
 
 from glob import glob
 from shutil import copyfile
 from shutil import move
-from subprocess import Popen, PIPE, check_call
 from common import analyse_log, get_sonar_log_file, cleanup_logs, print_logs
 from tempfile import mkstemp
 from requests.auth import HTTPBasicAuth
@@ -163,7 +163,7 @@ def install_plugin(sonarhome):
         os.remove(path)
     jpath = jar_cxx_path()
     if not jpath:
-        sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n" + RESET)
+        sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it '" + jpath + "'.\n" + RESET)
         sys.stderr.flush()
         return False
 
@@ -203,8 +203,12 @@ def start_sonar(sonarhome):
 
 
 def stop_sonar(sonarhome):
-    rc = check_call(stop_script(sonarhome))
-    if rc != 0 or not wait_for_sonar(300, is_webui_down):
+    try:
+        subprocess.check_call(stop_script(sonarhome))
+    except subprocess.CalledProcessError as error:
+        sys.stdout.write(RED + "FAILED, %s\n" % (error) + RESET)       
+     
+    if not wait_for_sonar(300, is_webui_down):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         sys.stdout.flush()
         return False
@@ -244,7 +248,7 @@ def start_script(sonarhome):
         script = linux_script(sonarhome)
         if script:
             command = [script, "start"]
-        Popen(command, stdout=PIPE, shell=os.name == "nt")
+        subprocess.Popen(command, stdout=subprocess.PIPE, shell=os.name == "nt")
 
     elif platform.system() == "Windows":
 
@@ -253,12 +257,12 @@ def start_script(sonarhome):
         replace(os.path.join(sonarhome, "conf", "wrapper.conf"), "wrapper.java.additional.1=-Djava.awt.headless=true", "wrapper.java.additional.1=-Djava.awt.headless=true -Djava.io.tmpdir=" + os.path.join(sonarhome,"temp").replace("\\","/"))
 
         command = ["cmd", "/c", os.path.join(sonarhome, "bin/windows-x86-64/StartSonar.bat")]
-        sq_process = Popen(command, stdout=PIPE, shell=os.name == "nt")
+        sq_process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=os.name == "nt")
 
     elif platform.system() == "Darwin":
 
         command = [os.path.join(sonarhome, "bin/macosx-universal-64/sonar.sh"), "start"]
-        Popen(command, stdout=PIPE, shell=os.name == "nt")
+        subprocess.Popen(command, stdout=subprocess.PIPE, shell=os.name == "nt")
 
     if command is None:
 

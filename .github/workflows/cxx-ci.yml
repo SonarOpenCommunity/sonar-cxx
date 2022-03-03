@@ -1,0 +1,518 @@
+#
+# This workflow contains all necessary steps to build, test and release the cxx plugin
+#
+
+name: cxx plugin CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+defaults:
+  run:
+    # use bash only, makes it easier to write steps for Windows & Linux
+    shell: bash
+
+jobs:
+
+
+  # -----------------------------------------------------------------------------------------------------------
+  # Verify SonarQube rule definition files with HTML Tidy
+  # - Do they contain valid HTML?
+  # -----------------------------------------------------------------------------------------------------------
+  verify-rules:
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+
+    # checkout code
+    #
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # setup Python
+    #
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '2.7'
+
+    # setup Tidy
+    #
+    - name: Install xmllint
+      run: sudo apt-get install libxml2-utils
+
+    - name: Install HTML Tidy
+      run: |
+        wget https://github.com/htacg/tidy-html5/releases/download/5.8.0/tidy-5.8.0-Linux-64bit.deb
+        sudo dpkg -i tidy-5.8.0-Linux-64bit.deb
+
+    # verify SonarQube rule definition files with HTML Tidy
+    #
+    - name: Verify rule files
+      run: bash ./cxx-sensors/src/tools/check_rules.sh
+
+
+  # -----------------------------------------------------------------------------------------------------------
+  # Going through the Maven cycles 'validate', 'compile', 'test', 'package' in all combinations to be supported
+  # The result of 'package' is uploaded as artifact for Ubuntu Linux Java 11 Temurin
+  # -----------------------------------------------------------------------------------------------------------
+  build-linux:
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        java: [ '11' ]
+        distribution: [ 'temurin' ]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+
+    # context information
+    #
+    - name: Dump GitHub context
+      run: echo '${{ toJSON(github) }}'
+    - name: Dump Matrix context
+      run: echo '${{ toJSON(matrix) }}'
+
+    # checkout code
+    #
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # setup Java
+    #
+    - name: Set up JDK Java ${{ matrix.java }} | ${{ matrix.distribution }} | ${{ matrix.os }}
+      uses: actions/setup-java@v2
+      with:
+        java-version: ${{ matrix.java }}
+        distribution: ${{ matrix.distribution }}
+        cache: maven
+
+    - name: Dump environment variables
+      run: env
+
+    # set version number of plugin JAR
+    # - GitHub milestone 'major.minor.patch level' and 'build number from actions run number
+    #
+    - name: Sets the current project's version
+      run: mvn versions:set -DartifactId='cxx' -DnewVersion='${{ github.event.pull_request.milestone.title }}.${{ github.run_number }}'
+
+    # Build and test with with Maven
+    #
+    - name: Build and test with with Maven
+      run: mvn -B package --file pom.xml
+
+    # Update SonarCloud results
+    # - Secrets are not passed to the runner when a workflow is triggered from a forked repository!
+    #
+    - name: Update SonarCloud results
+      if: github.event_name == 'push'
+      run: mvn sonar:sonar -B -e -V -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.login="$SONARCLOUDTOKEN"
+      env:
+        SONARCLOUDTOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    # create artifacts from Linux, Java 11 Temurin
+    #
+    - name: Collect JAR files
+      if: matrix.os == 'ubuntu-latest' && matrix.java == '11' && matrix.distribution == 'temurin'
+      run: |
+        mkdir staging
+        cp sonar-cxx-plugin/target/*.jar staging
+        cp cxx-sslr-toolkit/target/*.jar staging
+        rm -f staging/original-*.jar
+        rm -f staging/*-sources.jar
+
+    # upload JARs as artifact
+    #
+    - name: Packaging workflow data as artifacts
+      if: hashFiles('staging') != ''
+      uses: actions/upload-artifact@v2
+      with:
+        name: JAR_Files
+        path: staging
+
+
+  # -----------------------------------------------------------------------------------------------------------
+  # Going through the Maven cycles 'validate', 'compile', 'test', 'package' in all combinations to be supported
+  # The result of 'package' is uploaded as artifact for Ubuntu Linux Java 11 Temurin
+  # -----------------------------------------------------------------------------------------------------------
+  build-windows:
+
+    strategy:
+      matrix:
+        os: [windows-latest]
+        java: [ '11' ]
+        distribution: [ 'temurin' ]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+
+    # context information
+    #
+    - name: Dump GitHub context
+      run: echo '${{ toJSON(github) }}'
+    - name: Dump Matrix context
+      run: echo '${{ toJSON(matrix) }}'
+
+    # checkout code
+    #
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # setup Java
+    #
+    - name: Set up JDK Java ${{ matrix.java }} | ${{ matrix.distribution }} | ${{ matrix.os }}
+      uses: actions/setup-java@v2
+      with:
+        java-version: ${{ matrix.java }}
+        distribution: ${{ matrix.distribution }}
+        cache: maven
+
+    # for tests on Windows we need a valid TMP folder
+    # - necessary for org.junit.rules.TemporaryFolder
+    #
+    - name: Adapt TMP folder on Windows OS
+      run: |
+        echo "TMP=$USERPROFILE\AppData\Local\Temp" >> $GITHUB_ENV
+        echo "TEMP=$USERPROFILE\AppData\Local\Temp" >> $GITHUB_ENV
+
+    - name: Dump environment variables
+      run: env
+
+    # Build and test with with Maven
+    #
+    - name: Build and test with with Maven
+      run: mvn -B package --file pom.xml
+
+
+  # -----------------------------------------------------------------------------------------------------------
+  # test cxx plugin with SonarQube (Linux)
+  # -----------------------------------------------------------------------------------------------------------
+  integration-linux:
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        java: [ '11' ]
+        distribution: [ 'temurin' ]
+        sonarqube: [ '7.9.6', '8.9.7.52159' ]
+        sonarscanner: [ '4.6.2.2472' ]
+
+    runs-on: ${{ matrix.os }}
+    needs: [build-linux, verify-rules]
+
+    steps:
+
+    # context information
+    #
+    - name: Dump Matrix context
+      run: echo '${{ toJSON(matrix) }}'
+
+    # checkout code
+    #
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # setup Java
+    #
+    - name: Set up JDK Java ${{ matrix.java }} | ${{ matrix.distribution }} | ${{ matrix.os }}
+      uses: actions/setup-java@v2
+      with:
+        java-version: ${{ matrix.java }}
+        distribution: ${{ matrix.distribution }}
+        cache: maven
+
+    # setup Python
+    #
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '2.7'
+        # cache not working with 2.7?
+        #cache: 'pip'
+    - run: pip install -r "$GITHUB_WORKSPACE/integration-tests/requirements.txt"
+
+    # target folder
+    #
+    - name: Create root folder
+      run: mkdir test
+
+    # Download & install SonarQube
+    #
+    #- name: Set up SonarQube (Cache)
+    #  id: sonar-qube
+    #  uses: actions/cache@v2
+    #  with:
+    #    path: test/sonarqube-${{ matrix.sonarqube }}
+    #    key: install-sonarqube-${{ matrix.sonarqube }}-${{ runner.os }}
+
+    - name: Set up SonarQube (Download)
+      #if: steps.sonar-qube.outputs.cache-hit != 'true'
+      run: |
+        pushd test
+        wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-${{ matrix.sonarqube }}.zip
+        unzip -qq sonarqube-${{ matrix.sonarqube }}.zip
+        popd
+
+    # Download & install SonarScanner
+    #
+    #- name: Set up SonarScanner (Cache)
+    #  id: sonar-scanner
+    #  uses: actions/cache@v2
+    #  with:
+    #    path: test/sonar-scanner-${{ matrix.sonarscanner }}
+    #    key: install-sonar-scanner-cli-${{ matrix.sonarscanner }}-${{ runner.os }}
+
+    - name: Set up SonarScanner (Download)
+      #if: steps.sonar-scanner.outputs.cache-hit != 'true'
+      run: |
+        pushd test
+        wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ matrix.sonarscanner }}.zip
+        unzip -qq sonar-scanner-cli-${{ matrix.sonarscanner }}.zip
+        popd
+
+    # download & install cxx plugin
+    # - copy it to target folder, behave script expect it there
+    #
+    - name: Download cxx plugin
+      uses: actions/download-artifact@v2
+      with:
+        name: JAR_Files
+
+    - name: restore cxx plugin
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/sonar-cxx-plugin/target
+        cp sonar-cxx-plugin*.jar $GITHUB_WORKSPACE/sonar-cxx-plugin/target
+
+    # setup test environment
+    # - for the tests it is important that path seperator are correct for the OS
+    #
+    - name: Set test environment (Linux)
+      run: |
+        echo "SONARHOME=$GITHUB_WORKSPACE/test/sonarqube-${{ matrix.sonarqube }}" >> $GITHUB_ENV
+        echo "SONARLOG=$GITHUB_WORKSPACE/test/sonarqube-${{ matrix.sonarqube }}/logs" >> $GITHUB_ENV
+        echo "$GITHUB_WORKSPACE/test/sonar-scanner-${{ matrix.sonarscanner }}/bin" >> $GITHUB_PATH
+        echo "TestDataFolder=$GITHUB_WORKSPACE/integration-tests/testdata" >> $GITHUB_ENV
+
+    - name: Dump environment variables
+      run: env
+
+    # prepare test data
+    # - tests with absolute paths must be aligend with CI workspace
+    #
+    - name: Prepare test data (Linux)
+      run: |
+        find "$TestDataFolder" -name '*.xml' -exec sed -i "s|/home/travis/build/SonarOpenCommunity/sonar-cxx|$GITHUB_WORKSPACE|g" '{}' \;
+
+    # run integration tests
+    # - use OS specific shell to start behave
+    #
+    - name: Run integration tests (Linux)
+      shell: bash
+      run: behave --no-capture --tags=SqApi79
+
+    # collect and upload LOG files
+    #
+    - name: Collect LOG files
+      if: always()
+      run: cp -v *.log "$SONARLOG"
+
+    - name: Upload LOG files as artifact
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: "LOG_sonarqube_${{ matrix.sonarqube }}_${{ matrix.os }}"
+        path: "${{ env.SONARLOG }}"
+
+
+  # -----------------------------------------------------------------------------------------------------------
+  # test cxx plugin with SonarQube (Windows)
+  # -----------------------------------------------------------------------------------------------------------
+  integration-windows:
+
+    strategy:
+      matrix:
+        os: [windows-latest]
+        java: [ '11' ]
+        distribution: [ 'temurin' ]
+        sonarqube: [ '7.9.6', '8.9.7.52159' ]
+        sonarscanner: [ '4.6.2.2472' ]
+
+    runs-on: ${{ matrix.os }}
+    # needs build-linux because of JAR artifacts
+    needs: [build-linux, build-windows, verify-rules]
+
+    steps:
+
+    # context information
+    #
+    - name: Dump Matrix context
+      run: echo '${{ toJSON(matrix) }}'
+
+    # checkout code
+    #
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # setup Java
+    #
+    - name: Set up JDK Java ${{ matrix.java }} | ${{ matrix.distribution }} | ${{ matrix.os }}
+      uses: actions/setup-java@v2
+      with:
+        java-version: ${{ matrix.java }}
+        distribution: ${{ matrix.distribution }}
+        cache: maven
+
+    # setup Python
+    #
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '2.7'
+        # cache not working with 2.7?
+        #cache: 'pip'
+    - run: pip install -r "$GITHUB_WORKSPACE/integration-tests/requirements.txt"
+
+    # target folder
+    #
+    - name: Create root folder
+      run: mkdir test
+
+    # Download & install SonarQube
+    #
+    #- name: Set up SonarQube (Cache)
+    #  id: sonar-qube
+    #  uses: actions/cache@v2
+    #  with:
+    #    path: test/sonarqube-${{ matrix.sonarqube }}
+    #    key: install-sonarqube-${{ matrix.sonarqube }}-${{ runner.os }}
+
+    - name: Set up SonarQube (Download)
+      #if: steps.sonar-qube.outputs.cache-hit != 'true'
+      shell: cmd
+      run: |
+        pushd test
+        C:\msys64\usr\bin\wget.exe -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-${{ matrix.sonarqube }}.zip
+        unzip -qq sonarqube-${{ matrix.sonarqube }}.zip
+        popd
+
+    # Download & install SonarScanner
+    #
+    #- name: Set up SonarScanner (Cache)
+    #  id: sonar-scanner
+    #  uses: actions/cache@v2
+    #  with:
+    #    path: test/sonar-scanner-${{ matrix.sonarscanner }}
+    #    key: install-sonar-scanner-cli-${{ matrix.sonarscanner }}-${{ runner.os }}
+
+    - name: Set up SonarScanner for Windows (Download)
+      #if: steps.sonar-scanner.outputs.cache-hit != 'true'
+      shell: cmd
+      run: |
+        pushd test
+        C:\msys64\usr\bin\wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ matrix.sonarscanner }}.zip
+        unzip -qq sonar-scanner-cli-${{ matrix.sonarscanner }}.zip
+        popd
+
+    # download & install cxx plugin
+    # - copy it to target folder, behave script expect it there
+    #
+    - name: Download cxx plugin
+      uses: actions/download-artifact@v2
+      with:
+        name: JAR_Files
+
+    - name: restore cxx plugin
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/sonar-cxx-plugin/target
+        cp sonar-cxx-plugin*.jar $GITHUB_WORKSPACE/sonar-cxx-plugin/target
+
+    # setup test environment
+    # - for the tests it is important that path seperator are correct for the OS
+    #
+    - name: Set Up SonarQube environment (Windows)
+      run: |
+        echo "SONARHOME=$GITHUB_WORKSPACE\test\sonarqube-${{ matrix.sonarqube }}" >> $GITHUB_ENV
+        echo "SONARLOG=$GITHUB_WORKSPACE\test\sonarqube-${{ matrix.sonarqube }}\logs" >> $GITHUB_ENV
+        echo "$GITHUB_WORKSPACE\test\sonar-scanner-${{ matrix.sonarscanner }}\bin" >> $GITHUB_PATH
+        echo "TestDataFolder=$GITHUB_WORKSPACE\integration-tests\testdata" >> $GITHUB_ENV
+        echo "TMP=$USERPROFILE\AppData\Local\Temp" >> $GITHUB_ENV
+        echo "TEMP=$USERPROFILE\AppData\Local\Temp" >> $GITHUB_ENV
+
+    - name: Dump environment variables
+      run: env
+
+    # prepare test data
+    # - tests with absolute paths must be aligend with CI workspace
+    #
+    - name: Prepare test data (Windows)
+      shell: pwsh
+      run: |
+        Get-ChildItem "$env:TestDataFolder\*.log" -Recurse | ForEach { (Get-Content $_).Replace('C:\projects\sonar-cxx', "$env:GITHUB_WORKSPACE") | Set-Content $_ }
+
+    # run integration tests
+    # - use OS specific shell to start behave
+    #
+    - name: Run integration tests (Windows)
+      shell: cmd
+      run: behave --no-capture --tags=SqApi79
+
+    # collect and upload LOG files
+    #
+    - name: Collect LOG files
+      if: always()
+      run: cp -v *.log "$SONARLOG"
+
+    - name: Upload LOG files as artifact
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: "LOG_sonarqube_${{ matrix.sonarqube }}_${{ matrix.os }}"
+        path: "${{ env.SONARLOG }}"
+
+
+  # -----------------------------------------------------------------------------------------------------------
+  # success
+  # -----------------------------------------------------------------------------------------------------------
+  successfully-finished:
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+    needs: [integration-windows, integration-linux]
+
+    steps:
+
+    # download JAR files
+    #
+    - name: Download JAR files
+      if: github.event_name == 'push'    
+      uses: actions/download-artifact@v2
+      with:
+        name: JAR_Files
+
+    # create pre-release
+    #
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      if: github.event_name == 'push'
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest-snapshot"
+        prerelease: true
+        title: "Latest Snapshot"
+        files: |
+          ./*.jar
+
+    - run: echo SUCCESS
