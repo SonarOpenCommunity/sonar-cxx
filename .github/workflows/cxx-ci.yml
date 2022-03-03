@@ -107,9 +107,10 @@ jobs:
       run: mvn versions:set -DartifactId='cxx' -DnewVersion='${{ github.event.pull_request.milestone.title }}.${{ github.run_number }}'
 
     # Build and test with with Maven
+    # - use phase 'verify' to aggregate coverage results (part of integration-tests)
     #
-    - name: Build and test with with Maven
-      run: mvn -B package --file pom.xml
+    - name: Build and test with Maven
+      run: mvn -B -e -V verify --file pom.xml
 
     # Update SonarCloud results
     # - Secrets are not passed to the runner when a workflow is triggered from a forked repository!
@@ -191,9 +192,10 @@ jobs:
       run: env
 
     # Build and test with with Maven
+    # - use phase 'verify' to aggregate coverage results (part of integration-tests)
     #
     - name: Build and test with with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B -e -V verify --file pom.xml
 
 
   # -----------------------------------------------------------------------------------------------------------
