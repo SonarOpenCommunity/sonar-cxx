@@ -117,7 +117,7 @@ def usage():
     return 'Usage: %s <cpplint.py> .... txt file can be obtain by running python cpplint.py --filter=' % sys.argv[0]
 
 if len(sys.argv) != 2:
-    print usage()
+    print(usage())
     exit()
 
 # open and parse cpplint parse file

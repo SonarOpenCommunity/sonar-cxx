@@ -54,7 +54,7 @@ def usage():
     return 'Usage: %s <IntelCsvFile> <OutputFile> <RootFolder> <Executable>' % sys.argv[0]
 
 if len(sys.argv) != 5:
-    print usage()
+    print(usage())
     exit()
 
 absfilepath = os.path.abspath(sys.argv[1])

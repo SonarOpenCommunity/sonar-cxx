@@ -141,7 +141,7 @@ class GrammarParser:
         rules = {}
         if search in self.rules:
             rules[search] = self.rules[search]
-        for rulename, sequences in self.rules.items():
+        for rulename, sequences in list(self.rules.items()):
             if self.__rule_use_expression(search, sequences):
                 rules[rulename] = sequences
         self.rules = rules
@@ -165,7 +165,7 @@ class GrammarParser:
         """
         Replace rules with optional tokens with explicit rules.
         """
-        for rulename, sequences in self.rules.items():
+        for rulename, sequences in list(self.rules.items()):
             sequences_without_opts = []
             for i, sequence in enumerate(sequences, 1):
                 sequence.append('[[{}.{}]]'.format(rulename, i)) # add original rulename.sequence
@@ -213,7 +213,7 @@ class GrammarParser:
         """
         Tokens of rules are replaced recursively.
         """
-        for rulename, sequences in self.rules.items():
+        for rulename, sequences in list(self.rules.items()):
             already_replaced = { rulename }
             while True:
                 expanded_sequences = []
@@ -308,7 +308,7 @@ class GrammarParser:
         tokens = input.split()
         tokens.reverse()
         branch = deque()
-        for rulename, sequences in self.rules.items():
+        for rulename, sequences in list(self.rules.items()):
             logging.info("Match: '%s', Root: [[%s]]", input, rulename)
             logging.info("")
             for sequence in sequences:
@@ -334,7 +334,7 @@ class GrammarParser:
         """
         logging.info("*** Grammar ***")
         logging.info("")
-        for rulename, sequences in self.rules.items():
+        for rulename, sequences in list(self.rules.items()):
             logging.info("%s:", rulename)
             for i, sequence in enumerate(sequences, 1):
                 tokens = "  {}".format(i)

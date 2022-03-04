@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- mode: python; coding: iso-8859-1 -*-
+# -*- mode: python; coding: utf-8 -*-
 
 # C++ Community Plugin (cxx plugin)
 # Copyright (C) Waleri Enns
@@ -19,21 +19,20 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 
-from __future__ import print_function
-
 import os
 import sys
 import time
 import platform
-import requests
 import subprocess
 
 from glob import glob
 from shutil import copyfile
 from shutil import move
-from common import analyse_log, get_sonar_log_file, cleanup_logs, print_logs
 from tempfile import mkstemp
+from common import analyse_log, get_sonar_log_file, cleanup_logs, print_logs
 from requests.auth import HTTPBasicAuth
+
+import requests
 
 SONAR_URL = "http://localhost:9000"
 SONAR_LOGIN = os.getenv('sonar.login', 'admin')
@@ -44,10 +43,10 @@ JAR_CXX_PATTERN1 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*[0-9].j
 JAR_CXX_PATTERN2 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHOT.jar")
 JAR_CXX_PATTERN3 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*RC[0-9].jar")
 RELPATH_PLUGINS = "extensions/plugins"
-didstartsonar = False
-featureno = 0
-scenariono = 0
-sq_process = None
+SONAR_STARTED = False
+FEATURE_NO = 0
+SCENARIO_NO = 0
+SONAR_PROCCESS = None
 
 RED = ""
 YELLOW = ""
@@ -72,7 +71,7 @@ except ImportError:
 # HOOKS:
 # -----------------------------------------------------------------------------
 def before_all(context):
-    global didstartsonar
+    global SONAR_STARTED
 
     sys.stdout.write("\n\n" + BRIGHT + 80 * "-" + "\n")
     sys.stdout.write("starting SonarQube ...\n")
@@ -81,23 +80,27 @@ def before_all(context):
 
     print(BRIGHT + "\nSonarQube already running? " + RESET_ALL)
     if is_webui_up():
-        print("\n" + INDENT + "using the SonarQube already running on '%s'\n\n" % SONAR_URL)
+        print(f"\n{INDENT}using the SonarQube already running on '{SONAR_URL}'\n\n")
         return
 
     print(BRIGHT + "\nSetting up the test environment" + RESET_ALL)
 
     sonarhome = os.environ.get("SONARHOME", None)
     if sonarhome is None:
-        sys.stderr.write(RED
-                         + INDENT + "Cannot find a SonarQube instance to integrate against.\n"
-                         + INDENT + "Make sure there is a SonarQube running on '%s'\n" % SONAR_URL
-                         + INDENT + "or pass a path to SonarQube using environment variable 'SONARHOME'\n"
-                         + RESET)
+        msg = (
+            f"{RED}"
+            f"{INDENT}Cannot find a SonarQube instance to integrate against.\n"
+            f"{INDENT}Make sure there is a SonarQube running on '{SONAR_URL}'\n"
+            f"{INDENT}or pass a path to SonarQube using environment variable 'SONARHOME'\n"
+            f"{RESET}"
+            )
+        sys.stderr.write(msg)
         sys.exit(1)
 
     if not os.path.exists(sonarhome):
-        sys.stderr.write(INDENT + RED + "The folder '%s' doesnt exist, exiting"
-                         % sonarhome + RESET)
+        sys.stderr.write(
+            f"{INDENT}{RED}The folder '{sonarhome}' doesnt exist, exiting.{RESET}"
+            )
         sys.exit(1)
 
     cleanup_logs(sonarhome)
@@ -106,12 +109,13 @@ def before_all(context):
 
     started = start_sonar(sonarhome)
     if not started:
-        sys.stderr.write(INDENT + RED + "Cannot start SonarQube from '%s', exiting\n"
-                         % sonarhome + RESET)
+        sys.stderr.write(
+            f"{INDENT}{RED}Cannot start SonarQube from '{sonarhome}', exiting\n{RESET}"
+            )
         print_logs(sonarhome)
         sys.exit(1)
 
-    didstartsonar = True
+    SONAR_STARTED = True
     check_logs(sonarhome)
 
     sys.stdout.write("\n\n" + BRIGHT + 80 * "-" + "\n")
@@ -120,7 +124,7 @@ def before_all(context):
     sys.stdout.flush()
 
 def after_all(context):
-    if didstartsonar:
+    if SONAR_STARTED:
         sys.stdout.write(BRIGHT + 80 * "-" + "\n")
         sys.stdout.write("stopping SonarQube ...\n")
         sys.stdout.write(80 * "-" + RESET_ALL + "\n")
@@ -133,18 +137,18 @@ def after_all(context):
         sys.stdout.flush()
 
 def before_feature(context, feature):
-     global featureno
-     global scenariono
-     context.featurename=feature.name
-     featureno += 1
-     scenariono = 0
-     context.featureno=featureno
+    global FEATURE_NO
+    global SCENARIO_NO
+    context.featurename=feature.name
+    FEATURE_NO += 1
+    SCENARIO_NO = 0
+    context.featureno=FEATURE_NO
 
 def before_scenario(context, scenario):
-     global scenariono
-     context.scenarioname=scenario.name
-     scenariono +=1
-     context.scenariono=scenariono
+    global SCENARIO_NO
+    context.scenarioname=scenario.name
+    SCENARIO_NO +=1
+    context.scenariono=SCENARIO_NO
 
 
 # -----------------------------------------------------------------------------
@@ -163,7 +167,8 @@ def install_plugin(sonarhome):
         os.remove(path)
     jpath = jar_cxx_path()
     if not jpath:
-        sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it '" + jpath + "'.\n" + RESET)
+        sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it '"
+                         + jpath + "'.\n" + RESET)
         sys.stderr.flush()
         return False
 
@@ -206,14 +211,14 @@ def stop_sonar(sonarhome):
     try:
         subprocess.check_call(stop_script(sonarhome))
     except subprocess.CalledProcessError as error:
-        sys.stdout.write(RED + "FAILED, %s\n" % (error) + RESET)       
-     
+        sys.stdout.write(f"{RED}FAILED, {error}\n{RESET}")
+
     if not wait_for_sonar(300, is_webui_down):
-        sys.stdout.write(RED + "FAILED\n" + RESET)
+        sys.stdout.write(f"{RED}FAILED\n{RESET}")
         sys.stdout.flush()
         return False
 
-    sys.stdout.write(GREEN + "OK\n\n" + RESET)
+    sys.stdout.write(f"{GREEN}OK\n\n{RESET}")
     sys.stdout.flush()
     return True
 
@@ -225,12 +230,12 @@ class UnsupportedPlatform(Exception):
 
 def replace(file_path, pattern, subst):
     #Create temp file
-    fh, abs_path = mkstemp()
-    with open(abs_path,'w') as new_file:
-        with open(file_path) as old_file:
+    file_handle, abs_path = mkstemp()
+    with open(abs_path, "w", encoding="utf8") as new_file:
+        with open(file_path, encoding="utf8") as old_file:
             for line in old_file:
                 new_file.write(line.replace(pattern, subst))
-    os.close(fh)
+    os.close(file_handle)
     #Remove original file
     os.remove(file_path)
     #Move new file
@@ -238,10 +243,14 @@ def replace(file_path, pattern, subst):
 
 
 def start_script(sonarhome):
-    global sq_process
+    global SONAR_PROCCESS
     command = None
 
-    replace(os.path.join(sonarhome, "conf", "wrapper.conf"), "wrapper.java.command=java", "wrapper.java.command=" + (os.environ['JAVA_HOME'] + '/bin/java').replace("\\","/"))
+    replace(
+        os.path.join(sonarhome,"conf", "wrapper.conf"),
+        "wrapper.java.command=java",
+        "wrapper.java.command=" + (os.environ['JAVA_HOME'] + '/bin/java').replace("\\","/")
+        )
 
     if platform.system() == "Linux":
 
@@ -252,12 +261,25 @@ def start_script(sonarhome):
 
     elif platform.system() == "Windows":
 
-        replace(os.path.join(sonarhome, "conf", "sonar.properties"), "#sonar.path.data=data", "sonar.path.data=" + os.path.join(sonarhome,"data").replace("\\","/"))
-        replace(os.path.join(sonarhome, "conf", "sonar.properties"), "#sonar.path.temp=temp", "sonar.path.temp=" + os.path.join(sonarhome,"temp").replace("\\","/"))
-        replace(os.path.join(sonarhome, "conf", "wrapper.conf"), "wrapper.java.additional.1=-Djava.awt.headless=true", "wrapper.java.additional.1=-Djava.awt.headless=true -Djava.io.tmpdir=" + os.path.join(sonarhome,"temp").replace("\\","/"))
+        replace(
+            os.path.join(sonarhome, "conf", "sonar.properties"),
+            "#sonar.path.data=data",
+            "sonar.path.data=" + os.path.join(sonarhome,"data").replace("\\","/")
+            )
+        replace(
+            os.path.join(sonarhome, "conf", "sonar.properties"),
+            "#sonar.path.temp=temp",
+            "sonar.path.temp=" + os.path.join(sonarhome,"temp").replace("\\","/")
+            )
+        replace(
+            os.path.join(sonarhome, "conf", "wrapper.conf"),
+            "wrapper.java.additional.1=-Djava.awt.headless=true",
+            "wrapper.java.additional.1=-Djava.awt.headless=true -Djava.io.tmpdir="
+                + os.path.join(sonarhome,"temp").replace("\\","/")
+            )
 
         command = ["cmd", "/c", os.path.join(sonarhome, "bin/windows-x86-64/StartSonar.bat")]
-        sq_process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=os.name == "nt")
+        SONAR_PROCCESS = subprocess.Popen(command, stdout=subprocess.PIPE, shell=os.name == "nt")
 
     elif platform.system() == "Darwin":
 
@@ -265,8 +287,7 @@ def start_script(sonarhome):
         subprocess.Popen(command, stdout=subprocess.PIPE, shell=os.name == "nt")
 
     if command is None:
-
-        msg = "Dont know how to find the start script for the platform %s-%s" % (platform.system(), platform.machine())
+        msg = f"Dont know how to find the start script for the platform {platform.system()}-{platform.machine()}"
         raise UnsupportedPlatform(msg)
 
     sys.stdout.write("START ")
@@ -275,7 +296,7 @@ def start_script(sonarhome):
 
 
 def stop_script(sonarhome):
-    global sq_process
+    global SONAR_PROCCESS
     command = None
 
     if platform.system() == "Linux":
@@ -285,10 +306,10 @@ def stop_script(sonarhome):
     elif platform.system() == "Darwin":
         command = [os.path.join(sonarhome, "bin/macosx-universal-64/sonar.sh"), "stop"]
     elif platform.system() == "Windows":
-        command = ["TASKKILL", "/F", "/PID", "{}".format(sq_process.pid), "/T"]
-        sq_process = None
+        command = ["TASKKILL", "/F", "/PID", f"{SONAR_PROCCESS.pid}", "/T"]
+        SONAR_PROCCESS = None
     if command is None:
-        msg = "Dont know how to find the stop script for the platform %s-%s" % (platform.system(), platform.machine())
+        msg = f"Dont know how to find the stop script for the platform {platform.system()}-{platform.machine()}"
         raise UnsupportedPlatform(msg)
 
     sys.stdout.write("STOP\n")
@@ -300,8 +321,9 @@ def stop_script(sonarhome):
 def linux_script(sonarhome):
     if platform.machine() == "x86_64":
         return os.path.join(sonarhome, "bin/linux-x86-64/sonar.sh")
-    elif platform.machine() == "i686":
+    if platform.machine() == "i686":
         return os.path.join(sonarhome, "bin/linux-x86-32/sonar.sh")
+    return ""
 
 
 def wait_for_sonar(timeout, criteria):
@@ -317,7 +339,10 @@ def wait_for_sonar(timeout, criteria):
 
 def is_webui_up():
     try:
-        response = requests.get(SONAR_URL + "/api/system/status", auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
+        response = requests.get(
+            SONAR_URL + "/api/system/status",
+            auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD)
+            )
         response.raise_for_status()
         status = response.json()['status']
         sys.stdout.write(RESET + status + ' ')
@@ -333,7 +358,10 @@ def is_webui_down():
     sys.stdout.write("DOWN? ")
     sys.stdout.flush()
     try:
-        response = requests.get(SONAR_URL + "/api/system/status", auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
+        response = requests.get(
+            SONAR_URL + "/api/system/status",
+            auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD)
+            )
         response.raise_for_status()
         return False
     except:
@@ -357,7 +385,7 @@ def check_logs(sonarhome):
         for line in badlines:
             sys.stdout.write(line)
 
-    summary_msg = "%i errors and %i warnings\n" % (errors, warnings)
+    summary_msg = f"{errors} errors and {warnings} warnings\n"
     print(len(summary_msg) * "-")
     print(summary_msg)
 
