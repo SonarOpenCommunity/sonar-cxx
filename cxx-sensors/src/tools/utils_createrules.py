@@ -194,7 +194,7 @@ def check_rules(path):
                 has_len_errors = True             
             description_dump_path = "/tmp/" + key + ".ruledump"
             with open(description_dump_path, "w") as f:
-                html = u"""<!DOCTYPE html>
+                html = """<!DOCTYPE html>
 <html>
   <head>
     <meta charset=\"utf-8\">
@@ -203,7 +203,7 @@ def check_rules(path):
   <body>{description}</body>
 </html>
 """.format(name=escape(name_tag.text), description=description_tag.text)
-                f.write(html.encode("UTF-8"))
+                f.write(html)
             is_tidy_error = call_tidy(description_dump_path)
             has_tidy_errors = has_tidy_errors or is_tidy_error
 

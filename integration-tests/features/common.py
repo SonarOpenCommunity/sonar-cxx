@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- mode: python; coding: iso-8859-1 -*-
+# -*- mode: python; coding: utf-8 -*-
 
 # C++ Community Plugin (cxx plugin)
 # Copyright (C) Waleri Enns
@@ -22,9 +22,9 @@
 import re
 import os
 import sys
-import requests
 import json
 import time
+import requests
 
 from requests.auth import HTTPBasicAuth
 
@@ -62,10 +62,10 @@ def get_sonar_log_folder(sonarhome):
 
 def get_sonar_log_file(sonarhome):
     if "sonarqube-7." in sonarhome:
-        SONAR_LOG_FILE = "sonar.log"
+        sonar_log_file = "sonar.log"
     else:
-        SONAR_LOG_FILE = "sonar." + time.strftime("%Y%m%d") + ".log"
-    return os.path.join(get_sonar_log_folder(sonarhome), SONAR_LOG_FILE)
+        sonar_log_file = "sonar." + time.strftime("%Y%m%d") + ".log"
+    return os.path.join(get_sonar_log_folder(sonarhome), sonar_log_file)
 
 def sonar_analysis_finished(logpath):
     url = ""
@@ -73,10 +73,10 @@ def sonar_analysis_finished(logpath):
     print(BRIGHT + "    Read Log : " + logpath + RESET_ALL)
 
     try:
-        with open(logpath, "r") as log:
+        with open(logpath, "r", encoding="utf8") as log:
             lines = log.readlines()
             url = get_url_from_log(lines)
-    except IOError, e:
+    except IOError:
         pass
 
     print(BRIGHT + "     Get Analysis In Background : " + url + RESET_ALL)
@@ -106,14 +106,14 @@ def sonar_analysis_finished(logpath):
             break
 
     serverlogurl = url.replace("task?id", "logs?taskId")
-    r = requests.get(serverlogurl, auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD), timeout=10)
+    request = requests.get(serverlogurl,
+                           auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD),
+                           timeout=10)
 
-    writepath = logpath + ".server"
-    f = open(writepath, 'w')
-    f.write(r.text)
-    f.close()
+    with open(logpath + ".server", "w", encoding="utf8") as serverlog:
+        serverlog.write(request.text)
 
-#    print(BRIGHT + " LOG: " + r.text + RESET_ALL)
+#    print(BRIGHT + " LOG: " + request.text + RESET_ALL)
 
     return status
 
@@ -123,8 +123,8 @@ def cleanup_logs(sonarhome):
     try:
         logpath = get_sonar_log_folder(sonarhome)
         filelist = [ f for f in os.listdir(logpath) if f.endswith(".log") ]
-        for f in filelist:
-            os.remove(os.path.join(logpath, f))
+        for filename in filelist:
+            os.remove(os.path.join(logpath, filename))
     except OSError:
         pass
     sys.stdout.write(GREEN + "OK\n" + RESET)
@@ -135,10 +135,10 @@ def print_logs(sonarhome):
     try:
         logpath = get_sonar_log_folder(sonarhome)
         filelist = [ f for f in os.listdir(logpath) if f.endswith(".log") ]
-        for f in filelist:
-            sys.stdout.write("\n--- " + f + " ---\n")
-            with open(os.path.join(logpath, f), 'r') as file:
-                sys.stdout.write(file.read());
+        for filename in filelist:
+            sys.stdout.write("\n--- " + filename + " ---\n")
+            with open(os.path.join(logpath, filename), "r", encoding="utf8") as file:
+                sys.stdout.write(file.read())
     except OSError:
         pass
     sys.stdout.write("\n")
@@ -148,11 +148,11 @@ def analyse_log(logpath, toignore=None):
     errors = warnings = 0
 
     try:
-        with open(logpath, "r") as log:
+        with open(logpath, "r", encoding="utf8") as log:
             lines = log.readlines()
             badlines, errors, warnings = analyse_log_lines(lines, toignore)
-    except IOError, e:
-        badlines.append(str(e) + "\n")
+    except IOError as error:
+        badlines.append(str(error) + "\n")
 
     return badlines, errors, warnings
 

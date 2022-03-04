@@ -340,7 +340,7 @@ def read_warning_pages(browser, warnings):
     Iterate over all HTML warning pages and parse content.
     """
     # read HTML pages of warnings
-    for _key, data in warnings.items():
+    for _key, data in list(warnings.items()):
         page_source = read_page_source(browser, data['href'])
         data = parse_warning_page(page_source, data)
 
@@ -390,7 +390,7 @@ def create_rules(warnings, rules):
       - 'remediationFunction' to 'LINEAR'
     - - 'remediationFunctionGapMultiplier' to '5min'
     """
-    for _key, data in warnings.items():
+    for _key, data in list(warnings.items()):
         rule = et.Element('rule')
 
         # mandatory
@@ -449,7 +449,7 @@ def assign_warning_properties(warning, defaults, override):
         # set default values only once
         assign = True
     if assign:
-        for key, value in defaults.items():
+        for key, value in list(defaults.items()):
             warning[key] = value
 
 
@@ -465,22 +465,22 @@ def read_warnings():
 
     # read links to warning pages from menu of overview pages
     warnings = {}
-    for url, properties in URLS.items():
+    for url, properties in list(URLS.items()):
         page_source = read_page_source(browser, url)
         parse_warning_hrefs(page_source, warnings)
-        for key, warning in warnings.items():
+        for key, warning in list(warnings.items()):
             assign_warning_properties(warning, properties, False)
 
     # warnings = dict(list(warnings.items())[:1]) # for testing only
 
     # sort warnings ascending by message number
-    warnings = dict(sorted(warnings.items(), key=sorter))
+    warnings = dict(sorted(list(warnings.items()), key=sorter))
 
     # read cotent of warning pages
     read_warning_pages(browser, warnings)
 
     # override defaults
-    for key, defaults in RULE_MAP.items():
+    for key, defaults in list(RULE_MAP.items()):
         if key in warnings:
             warning = warnings[key]
             assign_warning_properties(warning, defaults, True)
