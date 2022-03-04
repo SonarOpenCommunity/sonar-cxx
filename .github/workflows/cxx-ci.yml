@@ -97,14 +97,25 @@ jobs:
         distribution: ${{ matrix.distribution }}
         cache: maven
 
-    - name: Dump environment variables
-      run: env
+    # read version number from POM
+    #
+    - name: get-pom-version
+      id: pom-version
+      uses: andreacomo/maven-gav-extractor@v1
+      
+    # remove -SNAPSHOT from POM version (major.minor.patch-SNAPSHOT)
+    #
+    - run: echo "CXX_POM_VERSION=${{ steps.pom-version.outputs.version }}" >> $GITHUB_ENV
+    - run: echo "CXX_VERSION=${CXX_POM_VERSION%-*}" >> $GITHUB_ENV
 
     # set version number of plugin JAR
-    # - GitHub milestone 'major.minor.patch level' and 'build number from actions run number
+    # - 'major.minor.patch' and 'build' number from actions run number
     #
     - name: Sets the current project's version
-      run: mvn versions:set -DartifactId='cxx' -DnewVersion='${{ github.event.pull_request.milestone.title }}.${{ github.run_number }}'
+      run: mvn versions:set -DartifactId='cxx' -DnewVersion='${{ env.CXX_VERSION }}.${{ github.run_number }}'
+
+    - name: Dump environment variables
+      run: env
 
     # Build and test with with Maven
     # - use phase 'verify' to aggregate coverage results (part of integration-tests)
@@ -501,7 +512,7 @@ jobs:
     # download JAR files
     #
     - name: Download JAR files
-      if: github.event_name == 'push'    
+      if: github.event_name == 'push'
       uses: actions/download-artifact@v2
       with:
         name: JAR_Files
