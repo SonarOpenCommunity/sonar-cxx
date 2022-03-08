@@ -2,7 +2,7 @@
 
 # -*- coding: utf-8 -*-
 # SonarQube C++ Community Plugin (cxx plugin)
-# Copyright (C) 2010-2021 SonarOpenCommunity
+# Copyright (C) 2010-2022 SonarOpenCommunity
 # http://github.com/SonarOpenCommunity/sonar-cxx
 #
 # This program is free software; you can redistribute it and/or
