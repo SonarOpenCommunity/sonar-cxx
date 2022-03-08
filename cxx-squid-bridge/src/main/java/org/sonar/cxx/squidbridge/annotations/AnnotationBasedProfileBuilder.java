@@ -23,7 +23,6 @@
  */
 package org.sonar.cxx.squidbridge.annotations;
 
-import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.AnnotationUtils;
@@ -31,8 +30,7 @@ import org.sonar.api.utils.ValidationMessages;
 
 /**
  * Utility class to build an instance of {@link RulesProfile} based on a list of classes annotated
- * with {@link ActivatedByDefault}. It can be used to implement the <code>createProfile</code>
- * method of {@link ProfileDefinition}.
+ * with {@link ActivatedByDefault}.
  *
  * @since 2.5
  */

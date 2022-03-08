@@ -37,7 +37,7 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.issue.NoSonarFilter;
+import org.sonar.api.batch.sensor.issue.internal.DefaultNoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
@@ -59,7 +59,7 @@ public class CxxFileLinesContextTest {
     var inputFile = TestUtils.buildInputFile(baseDir, "ncloc.cc");
     context.fileSystem().add(inputFile);
 
-    var sensor = new CxxSquidSensor(fileLinesContextFactory, checkFactory, new NoSonarFilter(), null);
+    var sensor = new CxxSquidSensor(fileLinesContextFactory, checkFactory, new DefaultNoSonarFilter(), null);
     sensor.execute(context);
   }
 
