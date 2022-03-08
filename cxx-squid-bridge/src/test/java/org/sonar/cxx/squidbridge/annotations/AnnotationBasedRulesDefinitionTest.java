@@ -33,7 +33,6 @@ import org.sonar.api.server.rule.*;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
 import org.sonar.api.server.rule.RulesDefinition.Param;
 import org.sonar.api.server.rule.RulesDefinition.Repository;
-import org.sonar.api.server.rule.RulesDefinition.SubCharacteristics;
 import org.sonar.check.Cardinality;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -190,7 +189,6 @@ public class AnnotationBasedRulesDefinitionTest {
   public void class_with_sqale_constant_remediation() throws Exception {
 
     @Rule(key = "key1", name = "name1", description = "description1")
-    @SqaleSubCharacteristic(SubCharacteristics.CPU_EFFICIENCY)
     @SqaleConstantRemediation("10min")
     class RuleClass {
     }
@@ -203,7 +201,6 @@ public class AnnotationBasedRulesDefinitionTest {
   public void class_with_sqale_linear_remediation() throws Exception {
 
     @Rule(key = "key1", name = "name1", description = "description1")
-    @SqaleSubCharacteristic(SubCharacteristics.CPU_EFFICIENCY)
     @SqaleLinearRemediation(coeff = "2h", effortToFixDescription = "Effort to test one uncovered condition")
     class RuleClass {
     }
@@ -216,7 +213,6 @@ public class AnnotationBasedRulesDefinitionTest {
   public void class_with_sqale_linear_with_offset_remediation() throws Exception {
 
     @Rule(key = "key1", name = "name1", description = "description1")
-    @SqaleSubCharacteristic(SubCharacteristics.CPU_EFFICIENCY)
     @SqaleLinearWithOffsetRemediation(coeff = "5min", offset = "1h",
                                       effortToFixDescription = "Effort to test one uncovered condition")
     class RuleClass {
@@ -229,7 +225,6 @@ public class AnnotationBasedRulesDefinitionTest {
   @Test
   public void class_with_several_sqale_remediation_annotations() throws Exception {
     @Rule(key = "key1", name = "name1", description = "description1")
-    @SqaleSubCharacteristic(SubCharacteristics.CPU_EFFICIENCY)
     @SqaleConstantRemediation("10min")
     @SqaleLinearRemediation(coeff = "2h", effortToFixDescription = "Effort to test one uncovered condition")
     class RuleClass {
@@ -242,7 +237,6 @@ public class AnnotationBasedRulesDefinitionTest {
   @Test
   public void invalid_sqale_annotation() throws Exception {
     @Rule(key = "key1", name = "name1", description = "description1")
-    @SqaleSubCharacteristic(SubCharacteristics.CPU_EFFICIENCY)
     @SqaleConstantRemediation("xxx")
     class MyInvalidRuleClass {
     }
@@ -275,7 +269,6 @@ public class AnnotationBasedRulesDefinitionTest {
   @Test
   public void load_method_with_class_with_sqale_annotations() throws Exception {
     @Rule(key = "key1", name = "name1", description = "description1")
-    @SqaleSubCharacteristic(SubCharacteristics.CPU_EFFICIENCY)
     @SqaleConstantRemediation("10min")
     class RuleClass {
     }
@@ -286,9 +279,9 @@ public class AnnotationBasedRulesDefinitionTest {
   private void assertRemediation(RulesDefinition.Rule rule, Type type, String coeff, String offset, String effortDesc) {
     DebtRemediationFunction remediationFunction = rule.debtRemediationFunction();
     assertThat(remediationFunction.type()).isEqualTo(type);
-    assertThat(remediationFunction.coefficient()).isEqualTo(coeff);
-    assertThat(remediationFunction.offset()).isEqualTo(offset);
-    assertThat(rule.effortToFixDescription()).isEqualTo(effortDesc);
+    assertThat(remediationFunction.gapMultiplier()).isEqualTo(coeff);
+    assertThat(remediationFunction.baseEffort()).isEqualTo(offset);
+    assertThat(rule.gapDescription()).isEqualTo(effortDesc);
   }
 
   private void assertParam(Param param, String expectedKey, String expectedDescription) {

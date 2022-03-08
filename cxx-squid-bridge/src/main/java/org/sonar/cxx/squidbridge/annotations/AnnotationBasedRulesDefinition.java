@@ -44,15 +44,11 @@ import org.sonar.cxx.squidbridge.rules.ExternalDescriptionLoader;
 /**
  * Utility class which helps setting up an implementation of {@link RulesDefinition} with a list of
  * rule classes annotated with {@link Rule}, {@link RuleProperty} and SQALE annotations:
- * <ul>
- * <li>{@link SqaleSubCharacteristic}</li>
- * <li>Exactly one of:
+ * Exactly one of:
  * <ul>
  * <li>{@link SqaleConstantRemediation}</li>
  * <li>{@link SqaleLinearRemediation}</li>
  * <li>{@link SqaleLinearWithOffsetRemediation}</li>
- * </ul>
- * </li>
  * </ul>
  * Names and descriptions are also retrieved based on the legacy SonarQube conventions:
  * <ul>
@@ -109,7 +105,10 @@ public class AnnotationBasedRulesDefinition {
   }
 
   private boolean isSqaleAnnotated(Class<?> ruleClass) {
-    return getSqaleSubCharAnnotation(ruleClass) != null || getNoSqaleAnnotation(ruleClass) != null;
+    return AnnotationUtils.getAnnotation(ruleClass, SqaleConstantRemediation.class) != null ||
+           AnnotationUtils.getAnnotation(ruleClass, SqaleLinearRemediation.class) != null ||
+           AnnotationUtils.getAnnotation(ruleClass, SqaleLinearWithOffsetRemediation.class) != null ||
+           getNoSqaleAnnotation(ruleClass) != null;
   }
 
   @VisibleForTesting
@@ -157,11 +156,6 @@ public class AnnotationBasedRulesDefinition {
   }
 
   private void setupSqaleModel(NewRule rule, Class<?> ruleClass) {
-    SqaleSubCharacteristic subChar = getSqaleSubCharAnnotation(ruleClass);
-    if (subChar != null) {
-      rule.setDebtSubCharacteristic(subChar.value());
-    }
-
     var constant = AnnotationUtils.getAnnotation(ruleClass, SqaleConstantRemediation.class);
     var linear = AnnotationUtils.getAnnotation(ruleClass, SqaleLinearRemediation.class);
     var linearWithOffset = AnnotationUtils.getAnnotation(ruleClass, SqaleLinearWithOffsetRemediation.class);
@@ -176,17 +170,13 @@ public class AnnotationBasedRulesDefinition {
     }
     if (linear != null) {
       rule.setDebtRemediationFunction(rule.debtRemediationFunctions().linear(linear.coeff()));
-      rule.setEffortToFixDescription(linear.effortToFixDescription());
+      rule.setGapDescription(linear.effortToFixDescription());
     }
     if (linearWithOffset != null) {
       rule.setDebtRemediationFunction(
         rule.debtRemediationFunctions().linearWithOffset(linearWithOffset.coeff(), linearWithOffset.offset()));
-      rule.setEffortToFixDescription(linearWithOffset.effortToFixDescription());
+      rule.setGapDescription(linearWithOffset.effortToFixDescription());
     }
-  }
-
-  private SqaleSubCharacteristic getSqaleSubCharAnnotation(Class<?> ruleClass) {
-    return AnnotationUtils.getAnnotation(ruleClass, SqaleSubCharacteristic.class);
   }
 
   private NoSqale getNoSqaleAnnotation(Class<?> ruleClass) {

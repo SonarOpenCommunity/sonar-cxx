@@ -34,7 +34,7 @@ import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.issue.NoSonarFilter;
+import org.sonar.api.batch.sensor.issue.internal.DefaultNoSonarFilter;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 
@@ -57,7 +57,7 @@ public class CxxHighlighterTest {
     context = SensorContextTester.create(baseDir);
     context.fileSystem().add(inputFile);
 
-    sensor = new CxxSquidSensor(fileLinesContextFactory, checkFactory, new NoSonarFilter(), null);
+    sensor = new CxxSquidSensor(fileLinesContextFactory, checkFactory, new DefaultNoSonarFilter(), null);
     sensor.execute(context);
   }
 
