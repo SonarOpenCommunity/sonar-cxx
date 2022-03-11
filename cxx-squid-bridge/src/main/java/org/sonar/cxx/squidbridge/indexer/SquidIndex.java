@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -35,7 +35,7 @@ import org.sonar.cxx.squidbridge.api.SourceCodeSearchEngine;
 
 public class SquidIndex implements SourceCodeIndexer, SourceCodeSearchEngine {
 
-  private final Map<String, SourceCode> index = new TreeMap<String, SourceCode>();
+  private final Map<String, SourceCode> index = new TreeMap<>();
 
   @Override
   public Collection<SourceCode> search(Query... query) {

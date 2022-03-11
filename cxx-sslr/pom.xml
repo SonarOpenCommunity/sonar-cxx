@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
+    <artifactId>cxx</artifactId>
+    <version>2.1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>cxx-sslr</artifactId>
+  <name>Cxx :: Language Recognizer</name>
+  <packaging>pom</packaging>
+
+  <properties>
+    <license.years>2022</license.years>
+    <!-- in addition, a dependency must be set in 'integration-tests/pom.xml' to aggregate the results -->
+    <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+  </properties>
+
+  <licenses>
+    <license>
+      <name>GNU LGPL 3</name>
+      <url>http://www.gnu.org/licenses/lgpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>dbolkensteyn</id>
+      <name>Dinesh Bolkensteyn</name>
+      <email>dinesh.bolkensteyn@sonarsource.com</email>
+      <organization>SonarSource</organization>
+    </developer>
+    <developer>
+      <id>godin</id>
+      <name>Evgeny Mandrikov</name>
+      <email>evgeny.mandrikov@sonarsource.com</email>
+      <organization>SonarSource</organization>
+    </developer>
+  </developers>
+
+  <modules>
+    <module>sslr-core</module>
+    <module>sslr-toolkit</module>
+    <module>sslr-testing-harness</module>
+    <module>sslr-xpath</module>
+    <module>sslr-tests</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.codehaus.sonar</groupId>
+        <artifactId>sonar-colorizer</artifactId>
+        <version>${sonar-colorizer.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>jsr305</artifactId>
+        <version>${jsr305.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>jaxen</groupId>
+        <artifactId>jaxen</artifactId>
+        <version>${jaxen.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${junit-jupiter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>${junit-jupiter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${mockito-core.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+</project>

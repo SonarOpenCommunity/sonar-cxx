@@ -22,10 +22,10 @@ package org.sonar.plugins.cxx;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -46,7 +46,7 @@ public class CxxSquidSensorTest {
   private CxxSquidSensor sensor;
   private final MapSettings settings = new MapSettings();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     ActiveRules rules = mock(ActiveRules.class);
     var checkFactory = new CheckFactory(rules);
@@ -163,7 +163,7 @@ public class CxxSquidSensorTest {
     softly.assertThat(context.measure(inputFile.key(), CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY).value()).isEqualTo(2);
     softly.assertThat(context.measure(inputFile.key(), CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY)).isNull(); // see DensityMeasureComputer
 
-    final String moduleKey = context.project().key();
+    String moduleKey = context.project().key();
     softly.assertThat(context.measure(moduleKey, CxxMetrics.PUBLIC_API_KEY)).isNull(); // see AggregateMeasureComputer
     softly.assertThat(context.measure(moduleKey, CxxMetrics.PUBLIC_UNDOCUMENTED_API_KEY)).isNull(); // see AggregateMeasureComputer
     softly.assertThat(context.measure(moduleKey, CxxMetrics.PUBLIC_DOCUMENTED_API_DENSITY_KEY)).isNull(); // see AggregateMeasureComputer

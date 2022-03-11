@@ -90,8 +90,8 @@ public class CxxSquidConfiguration extends SquidConfiguration {
 
   private static final Logger LOG = Loggers.get(CxxSquidConfiguration.class);
 
-  private XPathFactory xFactory = XPathFactory.instance();
-  private LinkedList<Element> parentList = new LinkedList<>();
+  private final XPathFactory xFactory = XPathFactory.instance();
+  private final LinkedList<Element> parentList = new LinkedList<>();
   private Document document;
 
   private String baseDir = "";
@@ -406,6 +406,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    *
    * @return object XML encoded
    */
+  @Override
   public String toString() {
     var stream = new ByteArrayOutputStream();
     save(stream);

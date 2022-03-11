@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -23,7 +23,7 @@
  */
 package org.sonar.cxx.squidbridge;
 
-import com.sonar.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.AstNode;
 import org.sonar.cxx.squidbridge.api.SourceCode;
 
 public interface SourceCodeBuilderCallback {

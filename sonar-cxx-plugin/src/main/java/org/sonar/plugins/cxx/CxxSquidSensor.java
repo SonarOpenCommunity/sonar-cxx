@@ -19,7 +19,7 @@
  */
 package org.sonar.plugins.cxx;
 
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Grammar;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;

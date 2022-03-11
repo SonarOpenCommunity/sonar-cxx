@@ -23,10 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 
@@ -34,17 +33,18 @@ public class CxxReportSensor_getReports_Test {
 
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPaths";
 
-  @Rule
-  public TemporaryFolder base = new TemporaryFolder();
+  @TempDir
+  File tempDir;
+
   private final MapSettings settings = new MapSettings();
 
   @Test
   public void testAbsoluteInsideBasedir() throws IOException {
-    var absReportFile = new File(base.getRoot(), "path/to/report.xml").getAbsoluteFile();
+    var absReportFile = new File(tempDir, "path/to/report.xml").getAbsoluteFile();
     FileUtils.touch(absReportFile);
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
-    var context = SensorContextTester.create(base.getRoot());
+    var context = SensorContextTester.create(tempDir);
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
@@ -57,7 +57,7 @@ public class CxxReportSensor_getReports_Test {
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
-    var context = SensorContextTester.create(base.getRoot());
+    var context = SensorContextTester.create(tempDir);
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
@@ -70,7 +70,7 @@ public class CxxReportSensor_getReports_Test {
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
-    var context = SensorContextTester.create(base.getRoot());
+    var context = SensorContextTester.create(tempDir);
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
@@ -83,10 +83,10 @@ public class CxxReportSensor_getReports_Test {
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
 
     var relativeReport = "path/to/report.xml";
-    FileUtils.touch(new File(base.getRoot(), relativeReport));
+    FileUtils.touch(new File(tempDir, relativeReport));
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + "," + relativeReport);
-    var context = SensorContextTester.create(base.getRoot());
+    var context = SensorContextTester.create(tempDir);
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
@@ -98,16 +98,16 @@ public class CxxReportSensor_getReports_Test {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
 
-    FileUtils.touch(new File(base.getRoot(), "report.xml"));
-    FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
-    FileUtils.touch(new File(base.getRoot(), "path/to/a/report.xml"));
-    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/1.xml"));
-    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/2.xml"));
-    FileUtils.touch(new File(base.getRoot(), "some/reports/a"));
-    FileUtils.touch(new File(base.getRoot(), "some/reports/b"));
+    FileUtils.touch(new File(tempDir, "report.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/supercoolreport.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/a/report.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/some/reports/1.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/some/reports/2.xml"));
+    FileUtils.touch(new File(tempDir, "some/reports/a"));
+    FileUtils.touch(new File(tempDir, "some/reports/b"));
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",**/*.xml");
-    var context = SensorContextTester.create(base.getRoot());
+    var context = SensorContextTester.create(tempDir);
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
@@ -119,15 +119,15 @@ public class CxxReportSensor_getReports_Test {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
 
-    FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
-    FileUtils.touch(new File(base.getRoot(), "path/to/a/report.xml"));
-    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/1.xml"));
-    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/2.xml"));
-    FileUtils.touch(new File(base.getRoot(), "some/reports/a.xml"));
-    FileUtils.touch(new File(base.getRoot(), "some/reports/b.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/supercoolreport.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/a/report.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/some/reports/1.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/some/reports/2.xml"));
+    FileUtils.touch(new File(tempDir, "some/reports/a.xml"));
+    FileUtils.touch(new File(tempDir, "some/reports/b.xml"));
 
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",path/**/*.xml");
-    var context = SensorContextTester.create(base.getRoot());
+    var context = SensorContextTester.create(tempDir);
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
@@ -136,13 +136,13 @@ public class CxxReportSensor_getReports_Test {
 
   @Test
   public void testRelativeBackticksOutsideBasedirThenBackInside() throws IOException {
-    FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
-    FileUtils.touch(new File(base.getRoot(), "path/to/a/report.xml"));
-    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/1.xml"));
-    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/2.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/supercoolreport.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/a/report.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/some/reports/1.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/some/reports/2.xml"));
 
-    settings.setProperty(REPORT_PATH_KEY, "../" + base.getRoot().getName() + "/path/**/*.xml");
-    var context = SensorContextTester.create(base.getRoot());
+    settings.setProperty(REPORT_PATH_KEY, "../" + tempDir.getName() + "/path/**/*.xml");
+    var context = SensorContextTester.create(tempDir);
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
@@ -151,14 +151,14 @@ public class CxxReportSensor_getReports_Test {
 
   @Test
   public void testRelativeExcessiveBackticks() throws IOException {
-    FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
+    FileUtils.touch(new File(tempDir, "path/to/supercoolreport.xml"));
 
     // Might be valid if java.io.tmpdir is nested excessively deep -- not likely
     settings.setProperty(REPORT_PATH_KEY, "../../../../../../../../../../../../../../../../../../../../../../../../"
                                             + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../"
                                           + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../"
                                           + "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../*.xml");
-    var context = SensorContextTester.create(base.getRoot());
+    var context = SensorContextTester.create(tempDir);
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);

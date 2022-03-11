@@ -19,7 +19,7 @@
  */
 package org.sonar.cxx.visitors;
 
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Grammar;
 import java.util.HashSet;
 import java.util.Set;
 import javax.annotation.CheckForNull;
@@ -69,7 +69,7 @@ public class MultiLocatitionSquidCheck<G extends Grammar> extends SquidCheck<G> 
   }
 
   private SourceFile getSourceFile() {
-    final SquidAstVisitorContext<G> c = getContext();
+    SquidAstVisitorContext<G> c = getContext();
     if (c.peekSourceCode() instanceof SourceFile) {
       return (SourceFile) c.peekSourceCode();
     } else if (c.peekSourceCode().getParent(SourceFile.class) != null) {

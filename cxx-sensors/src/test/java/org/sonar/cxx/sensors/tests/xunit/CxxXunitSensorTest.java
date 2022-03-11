@@ -19,10 +19,10 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.groups.Tuple.tuple;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
@@ -36,7 +36,7 @@ public class CxxXunitSensorTest {
   private FileSystem fs;
   private final MapSettings settings = new MapSettings();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
@@ -74,14 +74,17 @@ public class CxxXunitSensorTest {
         tuple(CoreMetrics.TEST_EXECUTION_TIME_KEY, 0L));
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void shouldThrowWhenGivenInvalidTime() {
-    var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
-    context.setSettings(settings);
+    IllegalStateException thrown = catchThrowableOfType(() -> {
+      var context = SensorContextTester.create(fs.baseDir());
+      settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
+      context.setSettings(settings);
 
-    var sensor = new CxxXunitSensor();
-    sensor.execute(context);
+      var sensor = new CxxXunitSensor();
+      sensor.execute(context);
+    }, IllegalStateException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 
   @Test

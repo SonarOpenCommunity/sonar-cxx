@@ -19,10 +19,10 @@
  */
 package org.sonar.cxx.sensors.cppcheck;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -36,7 +36,7 @@ public class CxxCppCheckSensorTest {
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
@@ -73,7 +73,7 @@ public class CxxCppCheckSensorTest {
     softly.assertThat(context.allIssues()).hasSize(3);
 
     // assert that all all issues were filed on on the module
-    final String moduleKey = context.project().key();
+    String moduleKey = context.project().key();
     for (var issue : context.allIssues()) {
       softly.assertThat(issue.primaryLocation().inputComponent().key()).isEqualTo(moduleKey);
     }
@@ -104,15 +104,18 @@ public class CxxCppCheckSensorTest {
     assertThat(context.allIssues()).isEmpty();
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void shouldThrowExceptionWhenRecoveryIsDisabled() {
-    var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
-    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-empty.xml");
-    context.setSettings(settings);
+    IllegalStateException thrown = catchThrowableOfType(() -> {
+      var context = SensorContextTester.create(fs.baseDir());
+      settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
+      settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-empty.xml");
+      context.setSettings(settings);
 
-    var sensor = new CxxCppCheckSensor();
-    sensor.execute(context);
+      var sensor = new CxxCppCheckSensor();
+      sensor.execute(context);
+    }, IllegalStateException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 
   @Test

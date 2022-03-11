@@ -19,14 +19,12 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Grammar;
 import java.io.File;
 import java.math.BigInteger;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -45,212 +43,211 @@ public class ExpressionEvaluatorTest {
 
   @Test
   public void bools() {
-    assertTrue(eval("true"));
-
-    assertFalse(eval("false"));
+    assertThat(eval("true")).isTrue();
+    assertThat(eval("false")).isFalse();
   }
 
   @Test
   public void numbers() {
-    assertTrue(eval("1"));
-    assertTrue(eval("0xAA"));
-    assertTrue(eval("0XAA"));
-    assertTrue(eval("1L"));
-    assertTrue(eval("01L"));
-    assertTrue(eval("1u"));
-    assertTrue(eval("1000000000UL"));
-    assertTrue(eval("0xFFFFFFFFFFFFFFFF"));
-    assertTrue(eval("0xFFFFFFFFFFFFFFFFui64"));
-    assertTrue(eval("0xFFFFFFFFFFFFFFFFLL"));
-    assertTrue(eval("0xFFFFFFFFFFFFFFFFuLL"));
-    assertTrue(eval("0xFFFFFFFFFFFFFFFFll"));
-    assertTrue(eval("0xFFFFFFFFFFFFFFFFull"));
-    assertTrue(eval("0xffffffffffffffffui64"));
-    assertTrue(eval("0xffffffffffffffffi64"));
-    assertTrue(eval("0x7FFFFFL"));
+    assertThat(eval("1")).isTrue();
+    assertThat(eval("0xAA")).isTrue();
+    assertThat(eval("0XAA")).isTrue();
+    assertThat(eval("1L")).isTrue();
+    assertThat(eval("01L")).isTrue();
+    assertThat(eval("1u")).isTrue();
+    assertThat(eval("1000000000UL")).isTrue();
+    assertThat(eval("0xFFFFFFFFFFFFFFFF")).isTrue();
+    assertThat(eval("0xFFFFFFFFFFFFFFFFui64")).isTrue();
+    assertThat(eval("0xFFFFFFFFFFFFFFFFLL")).isTrue();
+    assertThat(eval("0xFFFFFFFFFFFFFFFFuLL")).isTrue();
+    assertThat(eval("0xFFFFFFFFFFFFFFFFll")).isTrue();
+    assertThat(eval("0xFFFFFFFFFFFFFFFFull")).isTrue();
+    assertThat(eval("0xffffffffffffffffui64")).isTrue();
+    assertThat(eval("0xffffffffffffffffi64")).isTrue();
+    assertThat(eval("0x7FFFFFL")).isTrue();
 
-    assertFalse(eval("0"));
-    assertFalse(eval("0x0"));
+    assertThat(eval("0")).isFalse();
+    assertThat(eval("0x0")).isFalse();
   }
 
   @Test
   public void characters() {
-    assertTrue(eval("'1'"));
-    assertTrue(eval("'a'"));
+    assertThat(eval("'1'")).isTrue();
+    assertThat(eval("'a'")).isTrue();
 
-    assertFalse(eval("'\0'"));
+    assertThat(eval("'\0'")).isFalse();
   }
 
   @Test
   public void conditional_expression() {
-    assertTrue(eval("1 ? 1 : 0"));
-    assertTrue(eval("0 ? 0 : 1"));
+    assertThat(eval("1 ? 1 : 0")).isTrue();
+    assertThat(eval("0 ? 0 : 1")).isTrue();
 
-    assertFalse(eval("1 ? 0 : 1"));
-    assertFalse(eval("0 ? 1 : 0"));
+    assertThat(eval("1 ? 0 : 1")).isFalse();
+    assertThat(eval("0 ? 1 : 0")).isFalse();
 
-    assertTrue(eval("1 ? : 0"));
-    assertTrue(eval("0 ? : 1"));
+    assertThat(eval("1 ? : 0")).isTrue();
+    assertThat(eval("0 ? : 1")).isTrue();
   }
 
   @Test
   public void logical_or() {
-    assertTrue(eval("1 || 0"));
-    assertTrue(eval("0 || 1"));
-    assertTrue(eval("1 || 1"));
-    assertTrue(eval("0 || 0 || 1"));
+    assertThat(eval("1 || 0")).isTrue();
+    assertThat(eval("0 || 1")).isTrue();
+    assertThat(eval("1 || 1")).isTrue();
+    assertThat(eval("0 || 0 || 1")).isTrue();
 
-    assertFalse(eval("0 || 0"));
-    assertFalse(eval("0 || 0 || 0"));
+    assertThat(eval("0 || 0")).isFalse();
+    assertThat(eval("0 || 0 || 0")).isFalse();
   }
 
   @Test
   public void logical_and() {
-    assertTrue(eval("1 && 1"));
-    assertTrue(eval("1 && 1 && 1"));
+    assertThat(eval("1 && 1")).isTrue();
+    assertThat(eval("1 && 1 && 1")).isTrue();
 
-    assertFalse(eval("1 && 0"));
-    assertFalse(eval("0 && 1"));
-    assertFalse(eval("0 && 0"));
-    assertFalse(eval("1 && 1 && 0"));
+    assertThat(eval("1 && 0")).isFalse();
+    assertThat(eval("0 && 1")).isFalse();
+    assertThat(eval("0 && 0")).isFalse();
+    assertThat(eval("1 && 1 && 0")).isFalse();
   }
 
   @Test
   public void inclusive_or() {
-    assertTrue(eval("1 | 0"));
-    assertTrue(eval("0 | 1"));
-    assertTrue(eval("1 | 1"));
-    assertTrue(eval("0 | 0 | 1"));
+    assertThat(eval("1 | 0")).isTrue();
+    assertThat(eval("0 | 1")).isTrue();
+    assertThat(eval("1 | 1")).isTrue();
+    assertThat(eval("0 | 0 | 1")).isTrue();
 
-    assertFalse(eval("0 | 0 | 0"));
+    assertThat(eval("0 | 0 | 0")).isFalse();
   }
 
   @Test
   public void exclusive_or() {
-    assertTrue(eval("1 ^ 0"));
-    assertTrue(eval("0 ^ 1"));
-    assertTrue(eval("0 ^ 1 ^ 0"));
+    assertThat(eval("1 ^ 0")).isTrue();
+    assertThat(eval("0 ^ 1")).isTrue();
+    assertThat(eval("0 ^ 1 ^ 0")).isTrue();
 
-    assertFalse(eval("0 ^ 0"));
-    assertFalse(eval("0 ^ 1 ^ 1"));
+    assertThat(eval("0 ^ 0")).isFalse();
+    assertThat(eval("0 ^ 1 ^ 1")).isFalse();
   }
 
   @Test
   public void and_expr() {
-    assertTrue(eval("1 & 1"));
-    assertTrue(eval("2 & 2 & 2"));
+    assertThat(eval("1 & 1")).isTrue();
+    assertThat(eval("2 & 2 & 2")).isTrue();
 
-    assertFalse(eval("0 & 1"));
-    assertFalse(eval("1 & 0"));
-    assertFalse(eval("0 & 0"));
-    assertFalse(eval("2 & 4"));
-    assertFalse(eval("1 & 1 & 4"));
+    assertThat(eval("0 & 1")).isFalse();
+    assertThat(eval("1 & 0")).isFalse();
+    assertThat(eval("0 & 0")).isFalse();
+    assertThat(eval("2 & 4")).isFalse();
+    assertThat(eval("1 & 1 & 4")).isFalse();
   }
 
   @Test
   public void equality_expr() {
-    assertTrue(eval("1 == 1"));
-    assertTrue(eval("1 == true"));
-    assertTrue(eval("true == true"));
-    assertTrue(eval("true == 1"));
-    assertTrue(eval("false == 0"));
-    assertTrue(eval("0 == false"));
+    assertThat(eval("1 == 1")).isTrue();
+    assertThat(eval("1 == true")).isTrue();
+    assertThat(eval("true == true")).isTrue();
+    assertThat(eval("true == 1")).isTrue();
+    assertThat(eval("false == 0")).isTrue();
+    assertThat(eval("0 == false")).isTrue();
 
-    assertTrue(eval("true != 2"));
-    assertTrue(eval("false != 1"));
-    assertTrue(eval("1 != 2"));
+    assertThat(eval("true != 2")).isTrue();
+    assertThat(eval("false != 1")).isTrue();
+    assertThat(eval("1 != 2")).isTrue();
 
-    assertFalse(eval("1 == 0"));
-    assertFalse(eval("3 != 3"));
-    assertFalse(eval("2 != 3 != 4"));
-    assertFalse(eval("0 != 1 != true"));
+    assertThat(eval("1 == 0")).isFalse();
+    assertThat(eval("3 != 3")).isFalse();
+    assertThat(eval("2 != 3 != 4")).isFalse();
+    assertThat(eval("0 != 1 != true")).isFalse();
 
-    assertTrue(eval("1 == 1 == true"));
+    assertThat(eval("1 == 1 == true")).isTrue();
   }
 
   @Test
   public void relational_expr() {
-    assertTrue(eval("0 < 1"));
-    assertTrue(eval("0 <= 1"));
-    assertTrue(eval("1 > 0"));
-    assertTrue(eval("1 >= 0"));
-    assertTrue(eval("0 < 0 < 2"));
+    assertThat(eval("0 < 1")).isTrue();
+    assertThat(eval("0 <= 1")).isTrue();
+    assertThat(eval("1 > 0")).isTrue();
+    assertThat(eval("1 >= 0")).isTrue();
+    assertThat(eval("0 < 0 < 2")).isTrue();
 
-    assertFalse(eval("3 < 2"));
-    assertFalse(eval("3 <= 2"));
-    assertFalse(eval("0 > 1"));
-    assertFalse(eval("0 >= 1"));
-    assertFalse(eval("0 < 1 < 1"));
+    assertThat(eval("3 < 2")).isFalse();
+    assertThat(eval("3 <= 2")).isFalse();
+    assertThat(eval("0 > 1")).isFalse();
+    assertThat(eval("0 >= 1")).isFalse();
+    assertThat(eval("0 < 1 < 1")).isFalse();
 
-    assertTrue(eval("2 > 1 > false"));
-    assertTrue(eval("0 >= 0 >= false"));
-    assertTrue(eval("0 <= 0  >= true"));
+    assertThat(eval("2 > 1 > false")).isTrue();
+    assertThat(eval("0 >= 0 >= false")).isTrue();
+    assertThat(eval("0 <= 0  >= true")).isTrue();
 
-    assertFalse(eval("1 < 1 > false"));
-    assertFalse(eval("0 >= 1 >= true"));
-    assertFalse(eval("2 <= 2 <= false"));
+    assertThat(eval("1 < 1 > false")).isFalse();
+    assertThat(eval("0 >= 1 >= true")).isFalse();
+    assertThat(eval("2 <= 2 <= false")).isFalse();
   }
 
   @Test
   public void shift_expr() {
-    assertTrue(eval("1 << 2"));
-    assertTrue(eval("1 >> 0"));
+    assertThat(eval("1 << 2")).isTrue();
+    assertThat(eval("1 >> 0")).isTrue();
 
-    assertFalse(eval("0 << 1"));
-    assertFalse(eval("0 >> 1"));
-    assertFalse(eval("10 >> 1 >> 10"));
+    assertThat(eval("0 << 1")).isFalse();
+    assertThat(eval("0 >> 1")).isFalse();
+    assertThat(eval("10 >> 1 >> 10")).isFalse();
   }
 
   @Test
   public void additive_expr() {
-    assertTrue(eval("1 + 1"));
-    assertTrue(eval("2 - 1"));
-    assertTrue(eval("3 - 3 + 2"));
+    assertThat(eval("1 + 1")).isTrue();
+    assertThat(eval("2 - 1")).isTrue();
+    assertThat(eval("3 - 3 + 2")).isTrue();
 
-    assertFalse(eval("0 + 0"));
-    assertFalse(eval("1 - 1"));
-    assertFalse(eval("3 - 2 - 1"));
+    assertThat(eval("0 + 0")).isFalse();
+    assertThat(eval("1 - 1")).isFalse();
+    assertThat(eval("3 - 2 - 1")).isFalse();
   }
 
   @Test
   public void multiplicative_expr() {
-    assertTrue(eval("1 * 2"));
-    assertTrue(eval("1 / 1"));
-    assertTrue(eval("1 % 2"));
+    assertThat(eval("1 * 2")).isTrue();
+    assertThat(eval("1 / 1")).isTrue();
+    assertThat(eval("1 % 2")).isTrue();
 
-    assertFalse(eval("0 * 1"));
-    assertFalse(eval("0 / 1"));
-    assertFalse(eval("1 % 1"));
-    assertFalse(eval("1 * 1 * 0"));
+    assertThat(eval("0 * 1")).isFalse();
+    assertThat(eval("0 / 1")).isFalse();
+    assertThat(eval("1 % 1")).isFalse();
+    assertThat(eval("1 * 1 * 0")).isFalse();
   }
 
   @Test
   public void primary_expr() {
-    assertTrue(eval("(1)"));
+    assertThat(eval("(1)")).isTrue();
 
-    assertFalse(eval("(0)"));
-    assertFalse(eval("( 0 )"));
-    assertFalse(eval("(1 || 0) && 0"));
+    assertThat(eval("(0)")).isFalse();
+    assertThat(eval("( 0 )")).isFalse();
+    assertThat(eval("(1 || 0) && 0")).isFalse();
   }
 
   @Test
   public void unary_expression() {
-    assertTrue(eval("+1"));
-    assertTrue(eval("-1"));
-    assertTrue(eval("!0"));
-    assertTrue(eval("~0"));
+    assertThat(eval("+1")).isTrue();
+    assertThat(eval("-1")).isTrue();
+    assertThat(eval("!0")).isTrue();
+    assertThat(eval("~0")).isTrue();
 
-    assertFalse(eval("+0"));
-    assertFalse(eval("-0"));
-    assertFalse(eval("!1"));
-    assertFalse(eval("~0xFFFFFFFFFFFFFFFF"));
+    assertThat(eval("+0")).isFalse();
+    assertThat(eval("-0")).isFalse();
+    assertThat(eval("!1")).isFalse();
+    assertThat(eval("~0xFFFFFFFFFFFFFFFF")).isFalse();
   }
 
   @Test
   public void identifier_defined() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn("1");
-    assertTrue(eval("LALA", pp));
+    assertThat(eval("LALA", pp)).isTrue();
   }
 
   @Test
@@ -271,7 +268,7 @@ public class ExpressionEvaluatorTest {
     when(pp.valueOf("A")).thenReturn("B");
     when(pp.valueOf("B")).thenReturn("A");
 
-    assertTrue(eval("A", pp));
+    assertThat(eval("A", pp)).isTrue();
   }
 
   @Test
@@ -281,7 +278,7 @@ public class ExpressionEvaluatorTest {
     when(pp.valueOf("B")).thenReturn("C");
     when(pp.valueOf("A")).thenReturn("B");
 
-    assertTrue(eval("A", pp));
+    assertThat(eval("A", pp)).isTrue();
   }
 
   @Test
@@ -293,7 +290,7 @@ public class ExpressionEvaluatorTest {
     when(pp.valueOf("A0")).thenReturn("0");
     when(pp.valueOf("A")).thenReturn("A0 + A1 + B");
 
-    assertTrue(eval("A", pp));
+    assertThat(eval("A", pp)).isTrue();
   }
 
   @Test
@@ -311,28 +308,28 @@ public class ExpressionEvaluatorTest {
 
   @Test
   public void identifier_undefined() {
-    assertFalse(eval("LALA"));
+    assertThat(eval("LALA")).isFalse();
   }
 
   @Test
   public void functionlike_macro_defined_true() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.expandFunctionLikeMacro(anyString(), anyList())).thenReturn("1");
-    assertTrue(eval("has_feature(URG)", pp));
+    assertThat(eval("has_feature(URG)", pp)).isTrue();
   }
 
   @Test
   public void functionlike_macro_defined_false() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn("0");
-    assertFalse(eval("has_feature(URG)", pp));
+    assertThat(eval("has_feature(URG)", pp)).isFalse();
   }
 
   @Test
   public void functionlike_macro_undefined() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn(null);
-    assertFalse(eval("has_feature(URG)", pp));
+    assertThat(eval("has_feature(URG)", pp)).isFalse();
   }
 
   @Test
@@ -340,12 +337,12 @@ public class ExpressionEvaluatorTest {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     var macro = "LALA";
     when(pp.valueOf(macro)).thenReturn("1");
-    assertTrue(eval("defined " + macro, pp));
+    assertThat(eval("defined " + macro, pp)).isTrue();
   }
 
   @Test
   public void defined_false_without_parantheses() {
-    assertFalse(eval("defined LALA"));
+    assertThat(eval("defined LALA")).isFalse();
   }
 
   @Test
@@ -353,45 +350,48 @@ public class ExpressionEvaluatorTest {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     var macro = "LALA";
     when(pp.valueOf(macro)).thenReturn("1");
-    assertTrue(eval("defined (" + macro + ")", pp));
-    assertTrue(eval("defined(" + macro + ")", pp));
+    assertThat(eval("defined (" + macro + ")", pp)).isTrue();
+    assertThat(eval("defined(" + macro + ")", pp)).isTrue();
   }
 
   @Test
   public void defined_false_with_parantheses() {
-    assertFalse(eval("defined (LALA)"));
-    assertFalse(eval("defined(LALA)"));
+    assertThat(eval("defined (LALA)")).isFalse();
+    assertThat(eval("defined(LALA)")).isFalse();
   }
 
   @Test
   public void decode_numbers() {
-    assertEquals(ExpressionEvaluator.decode("1"), new BigInteger("1", 10));
-    assertEquals(ExpressionEvaluator.decode("067"), new BigInteger("67", 8));
-    assertEquals(ExpressionEvaluator.decode("0b11"), new BigInteger("11", 2));
-    assertEquals(ExpressionEvaluator.decode("0xab"), new BigInteger("ab", 16));
+    assertThat(ExpressionEvaluator.decode("1")).isEqualTo(new BigInteger("1", 10));
+    assertThat(ExpressionEvaluator.decode("067")).isEqualTo(new BigInteger("67", 8));
+    assertThat(ExpressionEvaluator.decode("0b11")).isEqualTo(new BigInteger("11", 2));
+    assertThat(ExpressionEvaluator.decode("0xab")).isEqualTo(new BigInteger("ab", 16));
 
-    assertEquals(ExpressionEvaluator.decode("1L"), new BigInteger("1", 10));
-    assertEquals(ExpressionEvaluator.decode("1l"), new BigInteger("1", 10));
-    assertEquals(ExpressionEvaluator.decode("1U"), new BigInteger("1", 10));
-    assertEquals(ExpressionEvaluator.decode("1u"), new BigInteger("1", 10));
+    assertThat(ExpressionEvaluator.decode("1L")).isEqualTo(new BigInteger("1", 10));
+    assertThat(ExpressionEvaluator.decode("1l")).isEqualTo(new BigInteger("1", 10));
+    assertThat(ExpressionEvaluator.decode("1U")).isEqualTo(new BigInteger("1", 10));
+    assertThat(ExpressionEvaluator.decode("1u")).isEqualTo(new BigInteger("1", 10));
 
-    assertEquals(ExpressionEvaluator.decode("1ul"), new BigInteger("1", 10));
-    assertEquals(ExpressionEvaluator.decode("1ll"), new BigInteger("1", 10));
-    assertEquals(ExpressionEvaluator.decode("1i64"), new BigInteger("1", 10));
-    assertEquals(ExpressionEvaluator.decode("1ui64"), new BigInteger("1", 10));
+    assertThat(ExpressionEvaluator.decode("1ul")).isEqualTo(new BigInteger("1", 10));
+    assertThat(ExpressionEvaluator.decode("1ll")).isEqualTo(new BigInteger("1", 10));
+    assertThat(ExpressionEvaluator.decode("1i64")).isEqualTo(new BigInteger("1", 10));
+    assertThat(ExpressionEvaluator.decode("1ui64")).isEqualTo(new BigInteger("1", 10));
 
-    assertEquals(ExpressionEvaluator.decode("067ll"), new BigInteger("67", 8));
-    assertEquals(ExpressionEvaluator.decode("0b11ul"), new BigInteger("11", 2));
-    assertEquals(ExpressionEvaluator.decode("0xabui64"), new BigInteger("ab", 16));
+    assertThat(ExpressionEvaluator.decode("067ll")).isEqualTo(new BigInteger("67", 8));
+    assertThat(ExpressionEvaluator.decode("0b11ul")).isEqualTo(new BigInteger("11", 2));
+    assertThat(ExpressionEvaluator.decode("0xabui64")).isEqualTo(new BigInteger("ab", 16));
 
-    assertEquals(ExpressionEvaluator.decode("1'234"), new BigInteger("1234", 10));
-    assertEquals(ExpressionEvaluator.decode("0b1111'0000'1111"), new BigInteger("111100001111", 2));
-    assertEquals(ExpressionEvaluator.decode("0xAAAA'bbbb"), new BigInteger("AAAAbbbb", 16));
+    assertThat(ExpressionEvaluator.decode("1'234")).isEqualTo(new BigInteger("1234", 10));
+    assertThat(ExpressionEvaluator.decode("0b1111'0000'1111")).isEqualTo(new BigInteger("111100001111", 2));
+    assertThat(ExpressionEvaluator.decode("0xAAAA'bbbb")).isEqualTo(new BigInteger("AAAAbbbb", 16));
   }
 
-  @Test(expected = EvaluationException.class)
+  @Test
   public void throw_on_invalid_expressions() {
-    eval("\"\"");
+    EvaluationException thrown = catchThrowableOfType(() -> {
+      eval("\"\"");
+    }, EvaluationException.class);
+    assertThat(thrown).isExactlyInstanceOf(EvaluationException.class);
   }
 
   @Test
@@ -403,10 +403,10 @@ public class ExpressionEvaluatorTest {
     var pp = new CxxPreprocessor(context);
     pp.init();
 
-    assertTrue(eval("__LINE__", pp));
-    assertTrue(eval("__STDC__", pp));
-    assertTrue(eval("__STDC_HOSTED__", pp));
-    assertTrue(eval("__cplusplus", pp));
+    assertThat(eval("__LINE__", pp)).isTrue();
+    assertThat(eval("__STDC__", pp)).isTrue();
+    assertThat(eval("__STDC_HOSTED__", pp)).isTrue();
+    assertThat(eval("__cplusplus", pp)).isTrue();
   }
 
 }

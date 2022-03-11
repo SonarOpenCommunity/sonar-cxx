@@ -26,16 +26,17 @@ import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mockito;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.postjob.PostJobContext;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.utils.log.LogTester;
+import org.sonar.api.utils.log.LogTesterJUnit5;
 import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
@@ -43,11 +44,12 @@ import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 
 public class FinalReportTest {
 
-  @org.junit.Rule
-  public LogTester logTester = new LogTester();
+  @RegisterExtension
+  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
+
   private PostJobContext postJobContext;
 
-  @Before
+  @BeforeEach
   public void scanFile() {
     postJobContext = Mockito.mock(PostJobContext.class);
   }
@@ -84,12 +86,12 @@ public class FinalReportTest {
   }
 
   private static String getSourceCode(File filename, Charset defaultCharset) throws IOException {
-    try ( var bomInputStream = new BOMInputStream(new FileInputStream(filename),
-                                              ByteOrderMark.UTF_8,
-                                              ByteOrderMark.UTF_16LE,
-                                              ByteOrderMark.UTF_16BE,
-                                              ByteOrderMark.UTF_32LE,
-                                              ByteOrderMark.UTF_32BE)) {
+    try (var bomInputStream = new BOMInputStream(new FileInputStream(filename),
+                                             ByteOrderMark.UTF_8,
+                                             ByteOrderMark.UTF_16LE,
+                                             ByteOrderMark.UTF_16BE,
+                                             ByteOrderMark.UTF_32LE,
+                                             ByteOrderMark.UTF_32BE)) {
       ByteOrderMark bom = bomInputStream.getBOM();
       Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
       byte[] bytes = bomInputStream.readAllBytes();

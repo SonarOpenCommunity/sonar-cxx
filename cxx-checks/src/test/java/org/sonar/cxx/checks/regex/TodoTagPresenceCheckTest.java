@@ -21,8 +21,7 @@ package org.sonar.cxx.checks.regex;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.squidbridge.api.SourceFile;
@@ -30,7 +29,6 @@ import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class TodoTagPresenceCheckTest {
 
-  @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test

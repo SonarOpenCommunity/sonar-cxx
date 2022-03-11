@@ -22,28 +22,27 @@ package org.sonar.cxx.prejobs;
 import java.io.File;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.utils.log.LogTester;
+import org.sonar.api.utils.log.LogTesterJUnit5;
 import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class XlstSensorTest {
 
-  @Rule
-  public LogTester logTester = new LogTester();
+  @RegisterExtension
+  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   private FileSystem fs;
   private final MapSettings settings = new MapSettings();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     fs = TestUtils.mockFileSystem(TestUtils.loadResource("/org/sonar/cxx"));
 
@@ -61,9 +60,9 @@ public class XlstSensorTest {
     logTester.clear();
     sensor.execute(context);
 
-    Assert.assertTrue(logTester.logs(LoggerLevel.ERROR).isEmpty());
-    Assert.assertTrue(logTester.logs(LoggerLevel.WARN).isEmpty());
-    Assert.assertTrue(logTester.logs(LoggerLevel.INFO).isEmpty());
+    assertThat(logTester.logs(LoggerLevel.ERROR).isEmpty()).isTrue();
+    assertThat(logTester.logs(LoggerLevel.WARN).isEmpty()).isTrue();
+    assertThat(logTester.logs(LoggerLevel.INFO).isEmpty()).isTrue();
   }
 
   @Test
@@ -80,7 +79,8 @@ public class XlstSensorTest {
     sensor.execute(context);
 
     var reportAfter = new File("notexistingpath");
-    Assert.assertFalse("The output file does exist!", reportAfter.exists() && reportAfter.isFile());
+    assertThat(reportAfter.exists() && reportAfter.isFile()).
+      withFailMessage("The output file does exist!").isFalse();
   }
 
   @Test
@@ -163,8 +163,10 @@ public class XlstSensorTest {
 
     var reportBefore = new File(fs.baseDir() + File.separator + inputFile);
     var reportAfter = new File(fs.baseDir() + File.separator + "prejobs" + File.separator + "xslt-output.xml");
-    Assert.assertTrue("The output file does not exist!", reportAfter.exists() && reportAfter.isFile());
-    Assert.assertTrue("The input and output file is equal!", !FileUtils.contentEquals(reportBefore, reportAfter));
+    assertThat(reportAfter.exists() && reportAfter.isFile())
+      .withFailMessage("The output file does not exist!").isTrue();
+    assertThat(!FileUtils.contentEquals(reportBefore, reportAfter))
+      .withFailMessage("The input and output file is equal!").isTrue();
   }
 
   @Test
@@ -185,8 +187,10 @@ public class XlstSensorTest {
 
     var reportBefore = new File(fs.baseDir() + File.separator + inputFile);
     var reportAfter = new File(fs.baseDir() + File.separator + "prejobs" + File.separator + "_cppunit-report.after_xslt");
-    Assert.assertTrue("The output file does not exist!", reportAfter.exists() && reportAfter.isFile());
-    Assert.assertTrue("The input and output file is equal!", !FileUtils.contentEquals(reportBefore, reportAfter));
+    assertThat(reportAfter.exists() && reportAfter.isFile())
+      .withFailMessage("The output file does not exist!").isTrue();
+    assertThat(!FileUtils.contentEquals(reportBefore, reportAfter))
+      .withFailMessage("The input and output file is equal!").isTrue();
   }
 
 }

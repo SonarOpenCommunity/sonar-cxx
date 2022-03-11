@@ -19,10 +19,10 @@
  */
 package org.sonar.cxx.lexer;
 
-import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Lexer;
+import com.sonar.cxx.sslr.api.GenericTokenType;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Token;
+import com.sonar.cxx.sslr.impl.Lexer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -649,8 +649,8 @@ public class CxxLexerWithPreprocessingTest {
     var squidConfig = new CxxSquidConfiguration();
     var cxxpp = new CxxPreprocessor(context, squidConfig);
 
-    final Lexer l = CxxLexer.create(squidConfig.getCharset(), cxxpp);
-    final List<Token> tokens = l.lex("__LINE__");
+    Lexer l = CxxLexer.create(squidConfig.getCharset(), cxxpp);
+    List<Token> tokens = l.lex("__LINE__");
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // __LINE__ + EOF
@@ -673,8 +673,8 @@ public class CxxLexerWithPreprocessingTest {
     squidConfig.add(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.DEFINES, "__LINE__ 123");
     var cxxpp = new CxxPreprocessor(context, squidConfig);
 
-    final Lexer l = CxxLexer.create(squidConfig.getCharset(), cxxpp);
-    final List<Token> tokens = l.lex("__LINE__");
+    Lexer l = CxxLexer.create(squidConfig.getCharset(), cxxpp);
+    List<Token> tokens = l.lex("__LINE__");
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // __LINE__ + EOF
@@ -695,7 +695,7 @@ public class CxxLexerWithPreprocessingTest {
    */
   @Test
   public void forcedIncludesOverrideConfiguredDefines() throws IOException {
-    final String forceIncludePath = "/home/user/force.h";
+    String forceIncludePath = "/home/user/force.h";
     var forceIncludeFile = new File(forceIncludePath);
 
     var squidConfig = new CxxSquidConfiguration();
@@ -706,16 +706,16 @@ public class CxxLexerWithPreprocessingTest {
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
                     "false");
 
-    final SourceCodeProvider provider = mock(SourceCodeProvider.class);
+    SourceCodeProvider provider = mock(SourceCodeProvider.class);
     when(provider.getSourceCodeFile(Mockito.eq(forceIncludePath), Mockito.anyBoolean()))
       .thenReturn(forceIncludeFile);
     when(provider.getSourceCode(Mockito.eq(forceIncludeFile), Mockito.any(Charset.class)))
       .thenReturn("#define __LINE__ 345");
 
     var cxxpp = new CxxPreprocessor(context, squidConfig, provider);
-    final Lexer l = CxxLexer.create(squidConfig.getCharset(), cxxpp);
+    Lexer l = CxxLexer.create(squidConfig.getCharset(), cxxpp);
 
-    final List<Token> tokens = l.lex("__LINE__\n");
+    List<Token> tokens = l.lex("__LINE__\n");
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // __LINE__ + EOF

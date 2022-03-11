@@ -21,8 +21,7 @@ package org.sonar.cxx.checks.error;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import static org.hamcrest.Matchers.containsString;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.config.CxxSquidConfiguration;
@@ -43,7 +42,7 @@ public class ParsingErrorCheckTest {
       .scanSingleInputFileConfig(tester.asInputFile(), squidConfig, new ParsingErrorCheck());
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(4).withMessageThat(containsString("Parse error"))
+      .next().atLine(4).withMessageContaining("Parse error")
       .noMore();
   }
 
@@ -59,7 +58,7 @@ public class ParsingErrorCheckTest {
       .scanSingleInputFileConfig(tester.asInputFile(), squidConfig, new ParsingErrorCheck());
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(2).withMessageThat(containsString("Parse error"))
+      .next().atLine(2).withMessageContaining("Parse error")
       .noMore();
   }
 

@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.impl.Parser;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.impl.Parser;
 import java.nio.charset.Charset;
 
 public final class CppParser {

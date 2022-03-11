@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -25,8 +25,8 @@ package org.sonar.cxx.squidbridge.rules;
 
 import java.io.IOException;
 import java.io.InputStream;
-import static org.fest.assertions.Assertions.assertThat;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -39,8 +39,8 @@ public class PropertyFileLoaderTest {
   private static final String PARAM_KEY = "param1";
   private static final String RULE_KEY = "rule1";
 
-  private RulesDefinition.Context context = new RulesDefinition.Context();
-  private NewRepository repository = context.createRepository("repoKey", "languageKey");
+  private final RulesDefinition.Context context = new RulesDefinition.Context();
+  private final NewRepository repository = context.createRepository("repoKey", "languageKey");
 
   @Test
   public void rule_and_parameter_defined_in_property_file() throws Exception {
@@ -66,16 +66,22 @@ public class PropertyFileLoaderTest {
     assertThat(rule.param(PARAM_KEY).description()).isEqualTo("paramName1");
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void should_fail_if_resource_is_not_found() throws Exception {
-    PropertyFileLoader.loadNames(repository, "/rules/unknown.properties");
+  @Test
+  public void should_fail_if_resource_is_not_found() {
+    IllegalArgumentException thrown = catchThrowableOfType(() -> {
+      PropertyFileLoader.loadNames(repository, "/rules/unknown.properties");
+    }, IllegalArgumentException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void should_fail_if_resource_has_invalid_format() throws Exception {
-    InputStream stream = mock(InputStream.class);
-    doThrow(new IOException()).when(stream).read((byte[]) any());
-    PropertyFileLoader.loadNames(repository, stream);
+  @Test
+  public void should_fail_if_resource_has_invalid_format() {
+    IllegalArgumentException thrown = catchThrowableOfType(() -> {
+      InputStream stream = mock(InputStream.class);
+      doThrow(new IOException()).when(stream).read((byte[]) any());
+      PropertyFileLoader.loadNames(repository, stream);
+    }, IllegalArgumentException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
   private Repository buildRepository() {

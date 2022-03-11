@@ -19,11 +19,11 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Parser;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.GenericTokenType;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Token;
+import com.sonar.cxx.sslr.impl.Parser;
 import java.math.BigInteger;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -138,7 +138,8 @@ public final class ExpressionEvaluator {
     try {
       number = decode(intValue);
     } catch (java.lang.NumberFormatException e) {
-      LOG.warn("preprocessor cannot decode the number '{}' falling back to value '{}' instead", intValue, BigInteger.ONE);
+      LOG
+        .warn("preprocessor cannot decode the number '{}' falling back to value '{}' instead", intValue, BigInteger.ONE);
       number = BigInteger.ONE;
     }
 
@@ -166,9 +167,10 @@ public final class ExpressionEvaluator {
     AstNode constExprAst;
     try {
       constExprAst = parser.parse(constExpr);
-    } catch (com.sonar.sslr.api.RecognitionException e) {
+    } catch (com.sonar.cxx.sslr.api.RecognitionException e) {
       if (exprAst != null) {
-        LOG.warn("preprocessor error evaluating expression '{}' for token '{}', assuming 0", constExpr, exprAst.getToken());
+        LOG.warn("preprocessor error evaluating expression '{}' for token '{}', assuming 0", constExpr, exprAst
+                 .getToken());
       } else {
         LOG.warn("preprocessor error evaluating expression '{}', assuming 0", constExpr);
       }
@@ -208,14 +210,14 @@ public final class ExpressionEvaluator {
       return evalCharacter(exprAst.getTokenValue());
     } else if (nodeType.equals(GenericTokenType.IDENTIFIER)) {
 
-      final String id = exprAst.getTokenValue();
+      String id = exprAst.getTokenValue();
       if (macroEvaluationStack.contains(id)) {
         LOG.debug("preprocessor: self-referential macro '{}' detected;"
                     + " assume true; evaluation stack = ['{} <- {}']",
                   id, id, String.join(" <- ", macroEvaluationStack));
         return BigInteger.ONE;
       }
-      final String value = preprocessor.valueOf(id);
+      String value = preprocessor.valueOf(id);
       if (value == null) {
         return BigInteger.ZERO;
       }

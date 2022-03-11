@@ -19,7 +19,7 @@
  */
 package org.sonar.cxx.toolkit;
 
-import org.sonar.sslr.toolkit.Toolkit;
+import org.sonar.cxx.sslr.toolkit.Toolkit;
 
 public final class CxxToolkit {
 

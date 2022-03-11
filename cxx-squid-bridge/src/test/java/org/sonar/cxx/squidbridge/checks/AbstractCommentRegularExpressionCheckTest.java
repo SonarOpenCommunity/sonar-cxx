@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -23,19 +23,14 @@
  */
 package org.sonar.cxx.squidbridge.checks;
 
-import com.sonar.sslr.api.Grammar;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import com.sonar.cxx.sslr.api.Grammar;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
 public class AbstractCommentRegularExpressionCheckTest {
 
-  @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private static class Check extends AbstractCommentRegularExpressionCheck<Grammar> {
 
@@ -53,7 +48,7 @@ public class AbstractCommentRegularExpressionCheckTest {
     }
   }
 
-  private Check check = new Check();
+  private final Check check = new Check();
 
   @Test
   public void empty() {
@@ -86,10 +81,12 @@ public class AbstractCommentRegularExpressionCheckTest {
   @Test
   public void wrong_regular_expression() {
     check.regularExpression = "*";
-
-    thrown.expect(IllegalStateException.class);
-    thrown.expectMessage("Unable to compile regular expression: *");
-    scanFile("/checks/commentRegularExpression.mc", check);
+    IllegalStateException thrown = catchThrowableOfType(() -> {
+      scanFile("/checks/commentRegularExpression.mc", check);
+    }, IllegalStateException.class);
+    assertThat(thrown)
+      .isExactlyInstanceOf(IllegalStateException.class)
+      .hasMessage("Unable to compile regular expression: *");
   }
 
 }

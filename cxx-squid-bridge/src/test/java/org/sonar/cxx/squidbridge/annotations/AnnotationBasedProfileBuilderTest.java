@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -25,9 +25,9 @@ package org.sonar.cxx.squidbridge.annotations;
 
 import com.google.common.collect.ImmutableList;
 import java.util.Collection;
-import static org.fest.assertions.Assertions.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.api.profiles.RulesProfile;
@@ -44,12 +44,12 @@ public class AnnotationBasedProfileBuilderTest {
   private static final String PROFILE_NAME = "prfile1";
   private static final String LANGUAGE = "language1";
 
-  private RuleFinder ruleFinder = mock(RuleFinder.class);
-  private ValidationMessages messages = ValidationMessages.create();
+  private final RuleFinder ruleFinder = mock(RuleFinder.class);
+  private final ValidationMessages messages = ValidationMessages.create();
   org.sonar.api.rules.Rule rule = mock(org.sonar.api.rules.Rule.class);
-  private AnnotationBasedProfileBuilder builder = new AnnotationBasedProfileBuilder(ruleFinder);
+  private final AnnotationBasedProfileBuilder builder = new AnnotationBasedProfileBuilder(ruleFinder);
 
-  @Before
+  @BeforeEach
   public void setupRuleFinder() {
     when(rule.getSeverity()).thenReturn(RulePriority.MINOR);
     when(rule.isEnabled()).thenReturn(true);

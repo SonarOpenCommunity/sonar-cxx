@@ -24,12 +24,11 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
 import java.io.File;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
-import org.junit.Rule;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import static org.mockito.Mockito.mock;
-import org.sonar.api.utils.log.LogTester;
+import org.sonar.api.utils.log.LogTesterJUnit5;
 import org.sonar.api.utils.log.LoggerLevel;
 
 public class NUnitTestResultsFileParserTest {
@@ -37,29 +36,25 @@ public class NUnitTestResultsFileParserTest {
   private static final String REPORT_PATH
                                 = "src/test/resources/org/sonar/cxx/sensors/reports-project/xunit-reports/nunit/";
 
-  @Rule
-  public LogTester logTester = new LogTester();
+  @RegisterExtension
+  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   @Test
   public void no_counters() {
-    ParseErrorException e = assertThrows(ParseErrorException.class, () -> {
-                                         new NUnitTestResultsFileParser().accept(new File(REPORT_PATH
-                                                                                            + "no_counters.xml"), mock(
-                                                                                 UnitTestResults.class));
-                                       });
-    assertThat(e).hasMessageContaining("Missing attribute \"total\" in element <test-results> in "
-                                         + new File(REPORT_PATH + "no_counters.xml").getAbsolutePath());
+    ParseErrorException thrown = catchThrowableOfType(() -> {
+      new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "no_counters.xml"), mock(UnitTestResults.class));
+    }, ParseErrorException.class);
+    assertThat(thrown).hasMessageContaining("Missing attribute \"total\" in element <test-results> in "
+                                              + new File(REPORT_PATH + "no_counters.xml").getAbsolutePath());
   }
 
   @Test
   public void wrong_passed_number() {
-    ParseErrorException e = assertThrows(ParseErrorException.class, () -> {
-                                         new NUnitTestResultsFileParser().accept(new File(REPORT_PATH
-                                                                                            + "invalid_total.xml"),
-                                                                                 mock(UnitTestResults.class));
-                                       });
-    assertThat(e).hasMessageContaining("Expected an integer instead of \"invalid\" for the attribute \"total\" in "
-                                         + new File(REPORT_PATH + "invalid_total.xml").getAbsolutePath());
+    ParseErrorException thrown = catchThrowableOfType(() -> {
+      new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "invalid_total.xml"), mock(UnitTestResults.class));
+    }, ParseErrorException.class);
+    assertThat(thrown).hasMessageContaining("Expected an integer instead of \"invalid\" for the attribute \"total\" in "
+                                              + new File(REPORT_PATH + "invalid_total.xml").getAbsolutePath());
   }
 
   @Test
@@ -101,8 +96,8 @@ public class NUnitTestResultsFileParserTest {
     var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "empty.xml"), results);
 
-    assertThat(logTester.logs(LoggerLevel.WARN)).contains(
-      "One of the assemblies contains no test result, please make sure this is expected.");
+    assertThat(logTester.logs(LoggerLevel.WARN))
+      .contains("One of the assemblies contains no test result, please make sure this is expected.");
     assertThat(results.tests()).isZero();
     assertThat(results.passedPercentage()).isZero();
     assertThat(results.skipped()).isZero();

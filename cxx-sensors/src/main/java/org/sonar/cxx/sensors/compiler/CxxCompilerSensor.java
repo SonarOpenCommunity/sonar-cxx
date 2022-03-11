@@ -44,8 +44,8 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
   @Override
   protected void processReport(File report) {
 
-    final String reportEncoding = getEncoding();
-    final String reportRegEx = getRegex();
+    String reportEncoding = getEncoding();
+    String reportRegEx = getRegex();
 
     if (reportRegEx.isEmpty()) {
       LOG.error("processReport terminated because of empty custom regular expression");
@@ -57,7 +57,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
       return;
     }
 
-    try ( var scanner = new TextScanner(report, reportEncoding)) {
+    try (var scanner = new TextScanner(report, reportEncoding)) {
       var pattern = Pattern.compile(reportRegEx);
       LOG.debug("Processing '{}' report '{}', Encoding='{}', Pattern='{}'",
                 getCompilerKey(), report, scanner.encoding(), pattern);

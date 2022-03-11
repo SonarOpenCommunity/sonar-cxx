@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -24,8 +24,8 @@
 package org.sonar.cxx.squidbridge.rules;
 
 import java.net.URL;
-import static org.fest.assertions.Assertions.assertThat;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
 import org.sonar.api.server.rule.RulesDefinition.Repository;
@@ -35,8 +35,8 @@ public class ExternalDescriptionLoaderTest {
   private static final String REPO_KEY = "repoKey";
   private static final String LANGUAGE_KEY = "languageKey";
 
-  private RulesDefinition.Context context = new RulesDefinition.Context();
-  private NewRepository repository = context.createRepository(REPO_KEY, LANGUAGE_KEY);
+  private final RulesDefinition.Context context = new RulesDefinition.Context();
+  private final NewRepository repository = context.createRepository(REPO_KEY, LANGUAGE_KEY);
 
   @Test
   public void existing_rule_description() throws Exception {
@@ -52,17 +52,23 @@ public class ExternalDescriptionLoaderTest {
     assertThat(rule.htmlDescription()).isEqualTo("my description");
   }
 
-  @Test(expected = IllegalStateException.class)
-  public void rule_without_description() throws Exception {
-    repository.createRule("ruleWithoutExternalInfo").setName("name1");
-    buildRepository().rule("ruleWithoutExternalInfo");
+  @Test
+  public void rule_without_description() {
+    IllegalStateException thrown = catchThrowableOfType(() -> {
+      repository.createRule("ruleWithoutExternalInfo").setName("name1");
+      buildRepository().rule("ruleWithoutExternalInfo");
+    }, IllegalStateException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 
-  @Test(expected = IllegalStateException.class)
-  public void invalid_url() throws Exception {
-    var loader = new ExternalDescriptionLoader(repository, LANGUAGE_KEY);
-    var rule = repository.createRule("ruleWithoutExternalInfo").setName("name1");
-    loader.addHtmlDescription(rule, new URL("file:///xx/yy"));
+  @Test
+  public void invalid_url() {
+    IllegalStateException thrown = catchThrowableOfType(() -> {
+      var loader = new ExternalDescriptionLoader(repository, LANGUAGE_KEY);
+      var rule = repository.createRule("ruleWithoutExternalInfo").setName("name1");
+      loader.addHtmlDescription(rule, new URL("file:///xx/yy"));
+    }, IllegalStateException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 
   private Repository buildRepository() {

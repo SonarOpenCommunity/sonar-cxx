@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -23,9 +23,8 @@
  */
 package org.sonar.cxx.squidbridge.api;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class CheckMessageTest {
 
@@ -33,13 +32,13 @@ public class CheckMessageTest {
   public void testFormatDefaultMessage() {
     var message = new CheckMessage(null, "Value is {0,number,integer}, expected value is {1,number,integer}.",
                                3, 7);
-    assertThat(message.formatDefaultMessage(), is("Value is 3, expected value is 7."));
+    assertThat(message.formatDefaultMessage()).isEqualTo("Value is 3, expected value is 7.");
   }
 
   @Test
   public void testNotFormatMessageWithoutParameters() {
     var message = new CheckMessage(null, "public void main(){."); // This message can't be used as a pattern by the MessageFormat
     // class
-    assertThat(message.formatDefaultMessage(), is("public void main(){."));
+    assertThat(message.formatDefaultMessage()).isEqualTo("public void main(){.");
   }
 }

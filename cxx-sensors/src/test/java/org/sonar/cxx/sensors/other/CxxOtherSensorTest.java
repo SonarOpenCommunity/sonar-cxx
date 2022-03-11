@@ -19,30 +19,30 @@
  */
 package org.sonar.cxx.sensors.other;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.utils.log.LogTester;
+import org.sonar.api.utils.log.LogTesterJUnit5;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxOtherSensorTest {
 
-  @Rule
-  public LogTester logTester = new LogTester();
+  @RegisterExtension
+  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   private CxxOtherSensor sensor;
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     fs = TestUtils.mockFileSystem();
   }
@@ -93,16 +93,19 @@ public class CxxOtherSensorTest {
     assertThat(context.allIssues()).hasSize(1);
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void shouldThrowExceptionWhenReportEmpty() {
     var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
-    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
-    context.setSettings(settings);
 
-    sensor = new CxxOtherSensor();
-    sensor.execute(context);
+    IllegalStateException thrown = catchThrowableOfType(() -> {
+      settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
+      settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
+      context.setSettings(settings);
 
+      sensor = new CxxOtherSensor();
+      sensor.execute(context);
+    }, IllegalStateException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
     assertThat(context.allIssues()).isEmpty();
   }
 
@@ -118,15 +121,18 @@ public class CxxOtherSensorTest {
     assertThat(context.allIssues()).isEmpty();
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void shouldThrowInCaseOfATrashyReport() {
-    var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
-    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
-    context.setSettings(settings);
+    IllegalStateException thrown = catchThrowableOfType(() -> {
+      var context = SensorContextTester.create(fs.baseDir());
+      settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
+      settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
+      context.setSettings(settings);
 
-    sensor = new CxxOtherSensor();
-    sensor.execute(context);
+      sensor = new CxxOtherSensor();
+      sensor.execute(context);
+    }, IllegalStateException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 
   @Test

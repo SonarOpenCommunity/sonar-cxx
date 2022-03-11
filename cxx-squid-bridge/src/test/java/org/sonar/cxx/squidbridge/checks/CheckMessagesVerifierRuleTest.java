@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -26,16 +26,12 @@ package org.sonar.cxx.squidbridge.checks;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import org.sonar.cxx.squidbridge.api.CheckMessage;
 
 public class CheckMessagesVerifierRuleTest {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void shouldNotFailIfNothingToVerify() {
@@ -53,26 +49,30 @@ public class CheckMessagesVerifierRuleTest {
 
   @Test
   public void shouldFailIfFirstVerificationFailed() {
-    thrown.expect(AssertionError.class);
-    thrown.expectMessage("\nNo more violations expected\ngot:");
-
-    Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
-    var rule = new CheckMessagesVerifierRule();
-    rule.verify(messages);
-    rule.verify(Collections.EMPTY_LIST);
-    rule.verify();
+    AssertionError thrown = catchThrowableOfType(() -> {
+      Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
+      var rule = new CheckMessagesVerifierRule();
+      rule.verify(messages);
+      rule.verify(Collections.EMPTY_LIST);
+      rule.verify();
+    }, AssertionError.class);
+    assertThat(thrown)
+      .isExactlyInstanceOf(AssertionError.class)
+      .hasMessageContaining("\nNo more violations expected\ngot:");
   }
 
   @Test
   public void shouldFailIfSecondVerificationFailed() {
-    thrown.expect(AssertionError.class);
-    thrown.expectMessage("\nNo more violations expected\ngot:");
-
-    Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
-    var rule = new CheckMessagesVerifierRule();
-    rule.verify(Collections.EMPTY_LIST);
-    rule.verify(messages);
-    rule.verify();
+    AssertionError thrown = catchThrowableOfType(() -> {
+      Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
+      var rule = new CheckMessagesVerifierRule();
+      rule.verify(Collections.EMPTY_LIST);
+      rule.verify(messages);
+      rule.verify();
+    }, AssertionError.class);
+    assertThat(thrown)
+      .isExactlyInstanceOf(AssertionError.class)
+      .hasMessageContaining("\nNo more violations expected\ngot:");
   }
 
 }

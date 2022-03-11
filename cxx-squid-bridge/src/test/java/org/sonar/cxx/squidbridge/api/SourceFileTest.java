@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -25,19 +25,17 @@ package org.sonar.cxx.squidbridge.api;
 
 import java.util.HashSet;
 import java.util.Set;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class SourceFileTest {
 
   @Test
   public void testGetStartAtLine() {
     var file = new SourceFile("com/sonarsource/Toto.java");
-    assertEquals(1, file.getStartAtLine());
+    assertThat(file.getStartAtLine()).isEqualTo(1);
     file = new SourceFile("com/sonarsource/Toto.java", "Toto.java");
-    assertEquals(1, file.getStartAtLine());
+    assertThat(file.getStartAtLine()).isEqualTo(1);
   }
 
   @Test
@@ -47,8 +45,8 @@ public class SourceFileTest {
     noSonarTagLines.add(23);
     noSonarTagLines.add(10);
     file.addNoSonarTagLines(noSonarTagLines);
-    assertTrue(file.hasNoSonarTagAtLine(23));
-    assertTrue(file.hasNoSonarTagAtLine(10));
-    assertFalse(file.hasNoSonarTagAtLine(11));
+    assertThat(file.hasNoSonarTagAtLine(23)).isTrue();
+    assertThat(file.hasNoSonarTagAtLine(10)).isTrue();
+    assertThat(file.hasNoSonarTagAtLine(11)).isFalse();
   }
 }

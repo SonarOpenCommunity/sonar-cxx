@@ -118,7 +118,7 @@ public class CppcheckParser {
             info = null;
           }
 
-          final boolean isLocationInProject = isLocationInProject(file);
+          boolean isLocationInProject = isLocationInProject(file);
           if (issue == null) {
             // primary location
             // if primary location cannot be found in the current project (in

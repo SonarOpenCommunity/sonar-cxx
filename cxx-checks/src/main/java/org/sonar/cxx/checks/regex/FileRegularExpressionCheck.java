@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks.regex;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.Grammar;
 import java.util.regex.Pattern;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.WildcardPattern;
@@ -122,7 +122,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> {
   private boolean matchFile() {
     if (!matchFilePattern.isEmpty()) {
       var filePattern = WildcardPattern.create(matchFilePattern);
-      String path = PathUtils.sanitize(getContext().getInputFile().file().getPath());
+      String path = PathUtils.sanitize(getContext().getFile().getPath());
       return path != null ? filePattern.match(path) : false;
     }
     return true;

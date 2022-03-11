@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -23,14 +23,9 @@
  */
 package org.sonar.cxx.squidbridge.api;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class SourceCodeTest {
 
@@ -40,7 +35,7 @@ public class SourceCodeTest {
   private SourceCode cla;
   private SourceCode cla2;
 
-  @Before
+  @BeforeEach
   public void before() {
     prj = new SourceProject("dummy project");
     pac = new SourcePackage("org.sonar");
@@ -57,8 +52,8 @@ public class SourceCodeTest {
   @Test
   public void testAddChild() {
     prj.addChild(pac);
-    assertEquals(pac.getParent(), prj);
-    assertTrue(prj.getChildren().contains(pac));
+    assertThat(pac.getParent()).isEqualTo(prj);
+    assertThat(prj.getChildren()).contains(pac);
   }
 
   @Test
@@ -74,16 +69,16 @@ public class SourceCodeTest {
 
   @Test
   public void testContains() {
-    assertThat(prj.hasChild(pac), is(true));
-    assertThat(prj.hasChild(cla), is(true));
+    assertThat(prj.hasChild(pac)).isTrue();
+    assertThat(prj.hasChild(cla)).isTrue();
   }
 
   @Test
   public void testIsType() {
     var pacFrom = new SourcePackage("org.from");
-    assertFalse(pacFrom.isType(SourceCode.class));
-    assertFalse(pacFrom.isType(SourceClass.class));
-    assertTrue(pacFrom.isType(SourcePackage.class));
+    assertThat(pacFrom).isNotExactlyInstanceOf(SourceCode.class);
+    assertThat(pacFrom).isNotExactlyInstanceOf(SourceClass.class);
+    assertThat(pacFrom).isExactlyInstanceOf(SourcePackage.class);
   }
 
   @Test
@@ -93,7 +88,7 @@ public class SourceCodeTest {
     var classFrom = new SourceClass("org.from.From", "From");
     pacFrom.addChild(fileFrom);
     fileFrom.addChild(classFrom);
-    assertEquals(pacFrom, classFrom.getParent(SourcePackage.class));
+    assertThat(pacFrom).isEqualTo(classFrom.getParent(SourcePackage.class));
   }
 
   @Test
@@ -106,26 +101,26 @@ public class SourceCodeTest {
     class1.addChild(class2);
     class2.addChild(method);
 
-    assertEquals(file, class1.getAncestor(SourceFile.class));
-    assertEquals(class1, class2.getAncestor(SourceClass.class));
-    assertEquals(file, class2.getAncestor(SourceFile.class));
-    assertEquals(class1, method.getAncestor(SourceClass.class));
-    assertEquals(file, method.getAncestor(SourceFile.class));
+    assertThat(file).isEqualTo(class1.getAncestor(SourceFile.class));
+    assertThat(class1).isEqualTo(class2.getAncestor(SourceClass.class));
+    assertThat(file).isEqualTo(class2.getAncestor(SourceFile.class));
+    assertThat(class1).isEqualTo(method.getAncestor(SourceClass.class));
+    assertThat(file).isEqualTo(method.getAncestor(SourceFile.class));
   }
 
   @Test
   public void testHasAmongParents() {
-    assertTrue(cla.hasAmongParents(prj));
-    assertTrue(cla.hasAmongParents(pac));
-    assertFalse(prj.hasAmongParents(cla));
+    assertThat(cla.hasAmongParents(prj)).isTrue();
+    assertThat(cla.hasAmongParents(pac)).isTrue();
+    assertThat(prj.hasAmongParents(cla)).isFalse();
   }
 
   @Test
   public void getCheckMessages() {
     SourceCode foo = new SourceFile("Foo.java");
-    assertThat(foo.getCheckMessages().size(), is(0));
+    assertThat(foo.getCheckMessages()).hasSize(0);
 
     foo.log(new CheckMessage(null, "message"));
-    assertThat(foo.getCheckMessages().size(), is(1));
+    assertThat(foo.getCheckMessages()).hasSize(1);
   }
 }

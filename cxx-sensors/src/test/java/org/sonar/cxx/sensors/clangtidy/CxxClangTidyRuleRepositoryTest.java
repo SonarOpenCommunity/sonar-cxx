@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.sensors.clangtidy;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
@@ -36,7 +36,7 @@ public class CxxClangTidyRuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxClangTidyRuleRepository.KEY);
-    assertEquals(1340, repo.rules().size());
+    assertThat(repo.rules().size()).isEqualTo(1340);
   }
 
 }

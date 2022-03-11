@@ -24,8 +24,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class JsonCompilationDatabaseTest {
 
@@ -246,24 +246,26 @@ public class JsonCompilationDatabaseTest {
       .contains(unifyPath("/usr/include"));
   }
 
-  @Test(expected = JsonMappingException.class)
-  public void testInvalidJson() throws Exception {
-    var squidConfig = new CxxSquidConfiguration();
-
-    var file = new File("src/test/resources/jsondb/invalid.json");
-
-    var jsonDb = new JsonCompilationDatabase(squidConfig);
-    jsonDb.parse(file);
+  @Test
+  public void testInvalidJson() {
+    JsonMappingException thrown = catchThrowableOfType(() -> {
+      var squidConfig = new CxxSquidConfiguration();
+      var file = new File("src/test/resources/jsondb/invalid.json");
+      var jsonDb = new JsonCompilationDatabase(squidConfig);
+      jsonDb.parse(file);
+    }, JsonMappingException.class);
+    assertThat(thrown).isExactlyInstanceOf(JsonMappingException.class);
   }
 
-  @Test(expected = FileNotFoundException.class)
-  public void testFileNotFound() throws Exception {
-    var squidConfig = new CxxSquidConfiguration();
-
-    var file = new File("src/test/resources/jsondb/not-found.json");
-
-    var jsonDb = new JsonCompilationDatabase(squidConfig);
-    jsonDb.parse(file);
+  @Test
+  public void testFileNotFound() {
+    FileNotFoundException thrown = catchThrowableOfType(() -> {
+      var squidConfig = new CxxSquidConfiguration();
+      var file = new File("src/test/resources/jsondb/not-found.json");
+      var jsonDb = new JsonCompilationDatabase(squidConfig);
+      jsonDb.parse(file);
+    }, FileNotFoundException.class);
+    assertThat(thrown).isExactlyInstanceOf(FileNotFoundException.class);
   }
 
   static private String unifyPath(String path) {

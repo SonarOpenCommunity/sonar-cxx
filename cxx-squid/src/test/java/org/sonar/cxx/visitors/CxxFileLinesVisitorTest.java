@@ -26,10 +26,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
@@ -39,7 +39,7 @@ public class CxxFileLinesVisitorTest {
 
   private SourceFile sourceFile;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/visitors/ncloc.cc", ".", "");
     sourceFile = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new CxxFileLinesVisitor());

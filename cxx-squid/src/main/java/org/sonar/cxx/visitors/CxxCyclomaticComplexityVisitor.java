@@ -19,9 +19,9 @@
  */
 package org.sonar.cxx.visitors;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.AstNodeType;
+import com.sonar.cxx.sslr.api.Grammar;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
@@ -30,7 +30,7 @@ import org.sonar.cxx.squidbridge.metrics.ComplexityVisitor;
 
 /**
  * Decorator for {@link org.sonar.cxx.squidbridge.metrics.ComplexityVisitor} in order to prevent visiting of generated
- * {@link com.sonar.sslr.api.AstNode}s
+ * {@link com.sonar.cxx.sslr.api.AstNode}s
  *
  * Inheritance is not possible, since the class {@link org.sonar.cxx.squidbridge.metrics.ComplexityVisitor} is marked as
  * final

@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -23,10 +23,10 @@
  */
 package org.sonar.cxx.squidbridge.metrics;
 
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Grammar;
 import java.io.File;
 import org.apache.commons.io.FileUtils;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import org.sonar.cxx.squidbridge.AstScanner;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.squidbridge.api.SourceFile;
@@ -45,7 +45,7 @@ public class ResourceParser {
 
   private static SourceFile scanFile(String filePath, boolean ignoreHeaderComments, SquidAstVisitor<Grammar>... visitors) {
     AstScanner<Grammar> scanner = ignoreHeaderComments ? MiniCAstScanner.createIgnoreHeaderComments(visitors)
-                                  : MiniCAstScanner
+                                    : MiniCAstScanner
         .create(visitors);
     File file = FileUtils.toFile(ResourceParser.class.getResource(filePath));
     if (file == null || !file.exists()) {

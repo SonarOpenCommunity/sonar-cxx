@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -24,11 +24,9 @@
 package org.sonar.cxx.squidbridge.indexer;
 
 import java.util.Collection;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.sonar.cxx.squidbridge.api.SourceClass;
 import org.sonar.cxx.squidbridge.api.SourceCode;
 import org.sonar.cxx.squidbridge.api.SourceFile;
@@ -44,7 +42,7 @@ public class SquidIndexTest {
   private SourceFile file2Squid;
   private SourceCode classSquid;
 
-  @Before
+  @BeforeEach
   public void setup() {
     indexer = new SquidIndex();
     project = new SourceProject("Squid Project");
@@ -62,38 +60,38 @@ public class SquidIndexTest {
   @Test
   public void searchSingleResource() {
     SourceCode squidClass = indexer.search("org.sonar.squid.Squid");
-    assertEquals(new SourceClass("org.sonar.squid.Squid", "Squid"), squidClass);
+    assertThat(squidClass).isEqualTo(new SourceClass("org.sonar.squid.Squid", "Squid"));
     SourceCode javaNCSSClass = indexer.search("org.sonar.squid.JavaNCSS");
-    assertNull(javaNCSSClass);
+    assertThat(javaNCSSClass).isNull();
   }
 
   @Test
   public void searchByType() {
     Collection<SourceCode> resources = indexer.search(new QueryByType(SourceFile.class));
-    assertEquals(2, resources.size());
+    assertThat(resources.size()).isEqualTo(2);
     resources = indexer.search(new QueryByType(SourceClass.class));
-    assertEquals(1, resources.size());
-    assertTrue(resources.contains(classSquid));
+    assertThat(resources.size()).isEqualTo(1);
+    assertThat(resources.contains(classSquid)).isTrue();
   }
 
   @Test
   public void searchByName() {
     Collection<SourceCode> resources = indexer.search(new QueryByName("Squid.java"));
-    assertEquals(1, resources.size());
-    assertTrue(resources.contains(fileSquid));
+    assertThat(resources.size()).isEqualTo(1);
+    assertThat(resources.contains(fileSquid)).isTrue();
   }
 
   @Test
   public void searchByParent() {
     Collection<SourceCode> resources = indexer.search(new QueryByParent(packSquid));
-    assertEquals(3, resources.size());
+    assertThat(resources.size()).isEqualTo(3);
   }
 
   @Test
   public void searchByParentAndByType() {
     Collection<SourceCode> resources = indexer.search(new QueryByParent(packSquid), new QueryByType(SourceClass.class));
-    assertEquals(1, resources.size());
-    assertTrue(resources.contains(classSquid));
+    assertThat(resources.size()).isEqualTo(1);
+    assertThat(resources.contains(classSquid)).isTrue();
   }
 
 }

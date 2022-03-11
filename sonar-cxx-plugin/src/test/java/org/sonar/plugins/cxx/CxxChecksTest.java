@@ -19,13 +19,13 @@
  */
 package org.sonar.plugins.cxx;
 
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Grammar;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.annotation.CheckForNull;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.internal.ActiveRulesBuilder;
 import org.sonar.api.batch.rule.internal.NewActiveRule;
@@ -47,7 +47,7 @@ public class CxxChecksTest {
   private MyCustomPlSqlRulesDefinition customRulesDefinition;
   private CheckFactory checkFactory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     var activeRules = new ActiveRulesBuilder()
       .addRule(new NewActiveRule.Builder()

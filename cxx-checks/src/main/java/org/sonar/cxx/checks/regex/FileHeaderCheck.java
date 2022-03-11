@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks.regex;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.Grammar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -115,9 +115,9 @@ public class FileHeaderCheck extends SquidCheck<Grammar> {
       result = true;
 
       Iterator<String> it = lines.iterator();
-      for (var i = 0; i < expectedLines.length; i++) {
+      for (var expectedLine : expectedLines) {
         String line = it.next();
-        if (!line.equals(expectedLines[i])) {
+        if (!line.equals(expectedLine)) {
           result = false;
           break;
         }

@@ -19,9 +19,9 @@
  */
 package org.sonar.plugins.cxx;
 
-import com.sonar.sslr.api.Grammar;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Test;
+import com.sonar.cxx.sslr.api.Grammar;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.resources.Language;
 import org.sonar.api.server.rule.RulesDefinition;

@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks.file;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.Grammar;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;

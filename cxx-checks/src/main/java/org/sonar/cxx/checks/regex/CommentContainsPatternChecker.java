@@ -19,7 +19,7 @@
  */
 package org.sonar.cxx.checks.regex;
 
-import com.sonar.sslr.api.Token;
+import com.sonar.cxx.sslr.api.Token;
 import java.util.regex.Pattern;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
 

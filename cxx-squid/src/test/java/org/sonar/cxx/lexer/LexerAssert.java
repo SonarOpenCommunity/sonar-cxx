@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.lexer;
 
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.TokenType;
+import com.sonar.cxx.sslr.api.Token;
+import com.sonar.cxx.sslr.api.TokenType;
 import org.assertj.core.api.AbstractAssert;
 
 public class LexerAssert extends AbstractAssert<LexerAssert, Token> {

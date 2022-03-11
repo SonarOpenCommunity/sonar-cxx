@@ -83,7 +83,7 @@ public abstract class CoverageSensor extends CxxReportSensor {
 
   protected void saveMeasures(Map<String, CoverageMeasures> coverageMeasures) {
     for (var entry : coverageMeasures.entrySet()) {
-      final String filePath = PathUtils.sanitize(entry.getKey());
+      String filePath = PathUtils.sanitize(entry.getKey());
       if (filePath != null) {
         var cxxFile = getInputFileIfInProject(filePath);
 

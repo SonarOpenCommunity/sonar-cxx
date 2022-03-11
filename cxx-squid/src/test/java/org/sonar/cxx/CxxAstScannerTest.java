@@ -24,9 +24,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
@@ -128,7 +128,7 @@ public class CxxAstScannerTest {
   public void nosonar_comments() throws UnsupportedEncodingException, IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/nosonar.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
-    assertThat(file.getNoSonarTagLines()).containsOnlyElementsOf(Arrays.asList(3, 6, 9, 11));
+    assertThat(file.getNoSonarTagLines()).containsOnly(3, 6, 9, 11);
   }
 
 }
