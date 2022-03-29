@@ -47,11 +47,13 @@ jobs:
     # setup Tidy
     #
     - name: Install xmllint
-      run: sudo apt-get install libxml2-utils
+      run: |
+        sudo apt-get install libxml2-utils
+        sudo apt-get update
 
     - name: Install HTML Tidy
       run: |
-        wget https://github.com/htacg/tidy-html5/releases/download/5.8.0/tidy-5.8.0-Linux-64bit.deb
+        wget -nv --timeout=10 https://github.com/htacg/tidy-html5/releases/download/5.8.0/tidy-5.8.0-Linux-64bit.deb
         sudo dpkg -i tidy-5.8.0-Linux-64bit.deb
 
     # verify SonarQube rule definition files with HTML Tidy
