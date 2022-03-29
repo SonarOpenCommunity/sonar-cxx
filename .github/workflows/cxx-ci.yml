@@ -78,8 +78,8 @@ jobs:
 
     # context information
     #
-    - name: Dump GitHub context
-      run: echo '${{ toJSON(github) }}'
+    #- name: Dump GitHub context
+    #  run: echo '${{ toJSON(github) }}'
     - name: Dump Matrix context
       run: echo '${{ toJSON(matrix) }}'
 
@@ -172,8 +172,8 @@ jobs:
 
     # context information
     #
-    - name: Dump GitHub context
-      run: echo '${{ toJSON(github) }}'
+    #- name: Dump GitHub context
+    #  run: echo '${{ toJSON(github) }}'
     - name: Dump Matrix context
       run: echo '${{ toJSON(matrix) }}'
 
