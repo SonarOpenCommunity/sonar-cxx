@@ -259,7 +259,7 @@
     <animal.sniffer.skip>true</animal.sniffer.skip>
     <aggregate.report.dir>integration-tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
     <!-- versions -->
-    <sonar.version>8.9.0.43852</sonar.version>
+    <sonar.version>8.9.7.52159</sonar.version>
     <java.version>11</java.version>
     <maven.compiler.version>3.10.0</maven.compiler.version>
     <sslr.version>1.24.0.633</sslr.version>
