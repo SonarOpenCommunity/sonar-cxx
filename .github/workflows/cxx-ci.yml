@@ -104,7 +104,7 @@ jobs:
     - name: get-pom-version
       id: pom-version
       uses: andreacomo/maven-gav-extractor@v1
-      
+
     # remove -SNAPSHOT from POM version (major.minor.patch-SNAPSHOT)
     #
     - run: echo "CXX_POM_VERSION=${{ steps.pom-version.outputs.version }}" >> $GITHUB_ENV
@@ -221,8 +221,8 @@ jobs:
         os: [ubuntu-latest]
         java: [ '11' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.7.52159', '9.3.0.51899' ]
-        sonarscanner: [ '4.6.2.2472' ]
+        sonarqube: [ '8.9.7.52159', '9.4.0.54424' ]
+        sonarscanner: [ '4.7.0.2747' ]
 
     runs-on: ${{ matrix.os }}
     needs: [build-linux, verify-rules]
@@ -361,8 +361,8 @@ jobs:
         os: [windows-latest]
         java: [ '11' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.7.52159', '9.3.0.51899' ]
-        sonarscanner: [ '4.6.2.2472' ]
+        sonarqube: [ '8.9.7.52159', '9.4.0.54424' ]
+        sonarscanner: [ '4.7.0.2747' ]
 
     runs-on: ${{ matrix.os }}
     # needs build-linux because of JAR artifacts
