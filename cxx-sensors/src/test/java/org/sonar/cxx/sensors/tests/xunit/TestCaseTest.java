@@ -19,26 +19,24 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class TestCaseTest {
 
   @Test
   public void rendersRightDetails() {
     var testCase = new TestCase("testCaseName", 1, "ok", "stack", "msg", "classname", "filename", "testSuiteName");
-    assertEquals("classname", testCase.getClassname());
-    assertEquals("testSuiteName:testCaseName", testCase.getFullname());
-    assertEquals("filename", testCase.getFilename());
-    assertTrue(testCase.isOk());
-    assertFalse(testCase.isError());
-    assertFalse(testCase.isFailure());
-    assertFalse(testCase.isSkipped());
-    assertEquals("msg", testCase.getErrorMessage());
-    assertEquals("stack", testCase.getStackTrace());
-    assertEquals(1, testCase.getExecutionTime());
+    assertThat(testCase.getClassname()).isEqualTo("classname");
+    assertThat(testCase.getFullname()).isEqualTo("testSuiteName:testCaseName");
+    assertThat(testCase.getFilename()).isEqualTo("filename");
+    assertThat(testCase.isOk()).isTrue();
+    assertThat(testCase.isError()).isFalse();
+    assertThat(testCase.isFailure()).isFalse();
+    assertThat(testCase.isSkipped()).isFalse();
+    assertThat(testCase.getErrorMessage()).isEqualTo("msg");
+    assertThat(testCase.getStackTrace()).isEqualTo("stack");
+    assertThat(testCase.getExecutionTime()).isEqualTo(1);
   }
 
 }

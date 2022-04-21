@@ -1,0 +1,84 @@
+/*
+ * C++ Community Plugin (cxx plugin)
+ * Copyright (C) 2022 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+/**
+ * fork of SonarSource Language Recognizer: https://github.com/SonarSource/sslr
+ * Copyright (C) 2010-2021 SonarSource SA / mailto:info AT sonarsource DOT com / license: LGPL v3
+ */
+package org.sonar.cxx.sslr.toolkit;
+
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+public class ConfigurationPropertyTest {
+
+  @Test
+  public void getName() {
+    assertThat(new ConfigurationProperty("foo", "", "").getName()).isEqualTo("foo");
+    assertThat(new ConfigurationProperty("bar", "", "").getName()).isEqualTo("bar");
+  }
+
+  @Test
+  public void getDescription() {
+    assertThat(new ConfigurationProperty("", "foo", "").getDescription()).isEqualTo("foo");
+    assertThat(new ConfigurationProperty("", "bar", "").getDescription()).isEqualTo("bar");
+  }
+
+  @Test
+  public void validate() {
+    assertThat(new ConfigurationProperty("", "", "").validate("")).isEmpty();
+    assertThat(new ConfigurationProperty("", "", "").validate("foo")).isEmpty();
+
+    var property = new ConfigurationProperty("", "", "foo", (String newValueCandidate) -> "foo".equals(newValueCandidate)
+                                                                                        ? ""
+                                                                                        : "Only the value \"foo\" is allowed.");
+    assertThat(property.validate("")).isEqualTo("Only the value \"foo\" is allowed.");
+    assertThat(property.validate("foo")).isEmpty();
+    assertThat(property.validate("bar")).isEqualTo("Only the value \"foo\" is allowed.");
+  }
+
+  @Test
+  public void setValue_should_succeed_if_validation_passes() {
+    new ConfigurationProperty("", "", "").setValue("");
+    new ConfigurationProperty("", "", "").setValue("foo");
+  }
+
+  @Test
+  public void setValue_should_fail_if_validation_fails() {
+    var thrown = catchThrowableOfType(
+      () -> new ConfigurationProperty("", "", "", (String newValueCandidate) -> newValueCandidate.isEmpty() ? ""
+                                                                                : "The value \"" + newValueCandidate
+                                                                                  + "\" did not pass validation: Not valid!")
+        .setValue("foo"),
+      IllegalArgumentException.class);
+    assertThat(thrown).hasMessageContaining("The value \"foo\" did not pass validation: Not valid!");
+  }
+
+  @Test
+  public void getValue() {
+    assertThat(new ConfigurationProperty("", "", "").getValue()).isEqualTo("");
+    assertThat(new ConfigurationProperty("", "", "foo").getValue()).isEqualTo("foo");
+
+    var property = new ConfigurationProperty("", "", "");
+    assertThat(property.getValue()).isEqualTo("");
+    property.setValue("foo");
+    assertThat(property.getValue()).isEqualTo("foo");
+  }
+
+}

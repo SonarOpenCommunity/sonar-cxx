@@ -21,10 +21,10 @@ package org.sonar.cxx.sensors.valgrind;
 
 import java.util.Collections;
 import java.util.HashSet;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,7 +39,7 @@ public class CxxValgrindSensorTest {
   private DefaultFileSystem fs;
   private CxxValgrindSensor sensor;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     sensor = new CxxValgrindSensor();

@@ -20,12 +20,10 @@
 package org.sonar.cxx.sensors.valgrind;
 
 import java.io.File;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ValgrindStackTest {
 
@@ -33,7 +31,7 @@ public class ValgrindStackTest {
   private final ValgrindStack equalStack = new ValgrindStack();
   private final ValgrindStack otherStack = new ValgrindStack();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     var frame = new ValgrindFrame("", "", "lala", "", "lala", "111");
     var equalFrame = new ValgrindFrame("", "", "lala", "", "lala", "111");
@@ -98,7 +96,7 @@ public class ValgrindStackTest {
 
   @Test
   public void getLastOwnFrame_returnsNullOnEmptyStack() {
-    assertNull(new ValgrindStack().getLastOwnFrame("somepath"));
+    assertThat(new ValgrindStack().getLastOwnFrame("somepath")).isNull();
   }
 
   @Test
@@ -107,7 +105,7 @@ public class ValgrindStackTest {
     var stack = new ValgrindStack();
     stack.addFrame(frame);
 
-    assertNull(new ValgrindStack().getLastOwnFrame("somepath"));
+    assertThat(new ValgrindStack().getLastOwnFrame("somepath")).isNull();
   }
 
   @Test
@@ -121,7 +119,7 @@ public class ValgrindStackTest {
     stack.addFrame(otherFrame);
     stack.addFrame(ownFrame);
 
-    assertEquals(stack.getLastOwnFrame(BASE_DIR.getPath()), ownFrame);
+    assertThat(ownFrame).isEqualTo(stack.getLastOwnFrame(BASE_DIR.getPath()));
   }
 
   @Test
@@ -135,7 +133,7 @@ public class ValgrindStackTest {
     stack.addFrame(otherFrame);
     stack.addFrame(ownFrame);
 
-    assertEquals(stack.getLastOwnFrame(BASE_DIR.getPath()), ownFrame);
+    assertThat(ownFrame).isEqualTo(stack.getLastOwnFrame(BASE_DIR.getPath()));
   }
 
 }

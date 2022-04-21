@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks.error;
 
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.RecognitionException;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.RecognitionException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import org.sonar.check.Priority;

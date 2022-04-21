@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -24,9 +24,8 @@
 package org.sonar.cxx.squidbridge.annotations;
 
 import com.google.common.collect.ImmutableList;
-import static org.fest.assertions.Assertions.assertThat;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.server.debt.DebtRemediationFunction;
 import org.sonar.api.server.debt.DebtRemediationFunction.Type;
 import org.sonar.api.server.rule.*;
@@ -42,10 +41,7 @@ public class AnnotationBasedRulesDefinitionTest {
   private static final String REPO_KEY = "repoKey";
   private static final String LANGUAGE_KEY_WITH_RESOURCE_BUNDLE = "languageKey";
 
-  private RulesDefinition.Context context = new RulesDefinition.Context();
-
-  @org.junit.Rule
-  public ExpectedException thrown = ExpectedException.none();
+  private final RulesDefinition.Context context = new RulesDefinition.Context();
 
   @Test
   public void no_class_to_add() throws Exception {
@@ -56,8 +52,10 @@ public class AnnotationBasedRulesDefinitionTest {
   public void class_without_rule_annotation() throws Exception {
     class NotRuleClass {
     }
-    thrown.expect(IllegalArgumentException.class);
-    buildSingleRuleRepository(NotRuleClass.class);
+    IllegalArgumentException thrown = catchThrowableOfType(() -> {
+      buildSingleRuleRepository(NotRuleClass.class);
+    }, IllegalArgumentException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -87,8 +85,10 @@ public class AnnotationBasedRulesDefinitionTest {
 
   @Test
   public void rule_without_explicit_key() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    buildSingleRuleRepository(RuleClassWithoutAnnotationDefinedKey.class);
+    IllegalArgumentException thrown = catchThrowableOfType(() -> {
+      buildSingleRuleRepository(RuleClassWithoutAnnotationDefinedKey.class);
+    }, IllegalArgumentException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -126,9 +126,10 @@ public class AnnotationBasedRulesDefinitionTest {
     @Rule(key = "ruleWithExternalInfo")
     class RuleClass {
     }
-
-    thrown.expect(IllegalStateException.class);
-    buildRepository("languageWithoutBundle", false, false, RuleClass.class);
+    IllegalStateException thrown = catchThrowableOfType(() -> {
+      buildRepository("languageWithoutBundle", false, false, RuleClass.class);
+    }, IllegalStateException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 
   @Test
@@ -158,9 +159,10 @@ public class AnnotationBasedRulesDefinitionTest {
     @Rule(key = "key1", name = "name1", description = "description1", cardinality = Cardinality.MULTIPLE)
     class RuleClass {
     }
-
-    thrown.expect(IllegalArgumentException.class);
-    buildSingleRuleRepository(RuleClass.class);
+    IllegalArgumentException thrown = catchThrowableOfType(() -> {
+      buildSingleRuleRepository(RuleClass.class);
+    }, IllegalArgumentException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -168,9 +170,10 @@ public class AnnotationBasedRulesDefinitionTest {
     @Rule(key = "key1", name = "name1", description = "description1")
     class RuleClass {
     }
-
-    thrown.expect(IllegalArgumentException.class);
-    buildRepository(true, RuleClass.class);
+    IllegalArgumentException thrown = catchThrowableOfType(() -> {
+      buildRepository(true, RuleClass.class);
+    }, IllegalArgumentException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -229,9 +232,10 @@ public class AnnotationBasedRulesDefinitionTest {
     @SqaleLinearRemediation(coeff = "2h", effortToFixDescription = "Effort to test one uncovered condition")
     class RuleClass {
     }
-
-    thrown.expect(IllegalArgumentException.class);
-    buildSingleRuleRepository(RuleClass.class);
+    IllegalArgumentException thrown = catchThrowableOfType(() -> {
+      buildSingleRuleRepository(RuleClass.class);
+    }, IllegalArgumentException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -240,10 +244,12 @@ public class AnnotationBasedRulesDefinitionTest {
     @SqaleConstantRemediation("xxx")
     class MyInvalidRuleClass {
     }
-
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("MyInvalidRuleClass");
-    buildSingleRuleRepository(MyInvalidRuleClass.class);
+    IllegalArgumentException thrown = catchThrowableOfType(() -> {
+      buildSingleRuleRepository(MyInvalidRuleClass.class);
+    }, IllegalArgumentException.class);
+    assertThat(thrown)
+      .isExactlyInstanceOf(IllegalArgumentException.class)
+      .hasMessageContaining("MyInvalidRuleClass");
   }
 
   @Test
@@ -253,8 +259,10 @@ public class AnnotationBasedRulesDefinitionTest {
     }
     var newRepository = context.createRepository(REPO_KEY, "language1");
     var rulesDef = new AnnotationBasedRulesDefinition(newRepository, "language1");
-    thrown.expect(IllegalStateException.class);
-    rulesDef.newRule(RuleClass.class, false);
+    IllegalStateException thrown = catchThrowableOfType(() -> {
+      rulesDef.newRule(RuleClass.class, false);
+    }, IllegalStateException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 
   @Test
@@ -262,8 +270,10 @@ public class AnnotationBasedRulesDefinitionTest {
     @Rule(key = "key1", name = "name1", description = "description1")
     class RuleClass {
     }
-    thrown.expect(IllegalArgumentException.class);
-    load(RuleClass.class);
+    IllegalArgumentException thrown = catchThrowableOfType(() -> {
+      load(RuleClass.class);
+    }, IllegalArgumentException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
   @Test

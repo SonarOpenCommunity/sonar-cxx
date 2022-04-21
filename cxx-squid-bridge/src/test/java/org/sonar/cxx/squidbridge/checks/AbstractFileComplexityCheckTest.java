@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -23,21 +23,16 @@
  */
 package org.sonar.cxx.squidbridge.checks;
 
-import com.sonar.sslr.api.Grammar;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import com.sonar.cxx.sslr.api.Grammar;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import org.sonar.cxx.squidbridge.measures.MetricDef;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 import org.sonar.cxx.squidbridge.test.miniC.MiniCAstScanner.MiniCMetrics;
 
 public class AbstractFileComplexityCheckTest {
 
-  @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private static class Check extends AbstractFileComplexityCheck<Grammar> {
 
@@ -55,7 +50,7 @@ public class AbstractFileComplexityCheckTest {
 
   }
 
-  private Check check = new Check();
+  private final Check check = new Check();
 
   @Test
   public void fileComplexityEqualsMaximum() {
@@ -75,10 +70,12 @@ public class AbstractFileComplexityCheckTest {
   @Test
   public void wrong_parameter() {
     check.maximumFileComplexity = 0;
-
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("The complexity threshold must be set to a value greater than 0, but given: 0");
-    scanFile("/checks/complexity5.mc", check);
+    IllegalArgumentException thrown = catchThrowableOfType(() -> {
+      scanFile("/checks/complexity5.mc", check);
+    }, IllegalArgumentException.class);
+    assertThat(thrown)
+      .isExactlyInstanceOf(IllegalArgumentException.class)
+      .hasMessage("The complexity threshold must be set to a value greater than 0, but given: 0");
   }
 
 }

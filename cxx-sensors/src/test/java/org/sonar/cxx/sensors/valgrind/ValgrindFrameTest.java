@@ -20,10 +20,9 @@
 package org.sonar.cxx.sensors.valgrind;
 
 import java.util.HashMap;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ValgrindFrameTest {
 
@@ -31,7 +30,7 @@ public class ValgrindFrameTest {
   private ValgrindFrame equalFrame;
   private ValgrindFrame otherFrame;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     frame = new ValgrindFrame("", "", "lala", "", "lala", "111");
     equalFrame = new ValgrindFrame("", "", "lala", "", "lala", "111");
@@ -87,7 +86,7 @@ public class ValgrindFrameTest {
               new ValgrindFrame(null, null, null, null, null, ""));
 
     for (var entry : ioMap.entrySet()) {
-      assertEquals(entry.getKey(), entry.getValue().toString());
+      assertThat(entry.getValue().toString()).isEqualTo(entry.getKey());
     }
   }
 

@@ -22,8 +22,9 @@ package org.sonar.cxx.config;
 import java.io.File;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.internal.apachecommons.lang.SystemUtils;
 
 /**
@@ -39,9 +40,9 @@ public class MsBuildTest {
   public static final String UNIQUE_FILE = "C:\\Development\\Source\\Cpp\\Dummy\\src\\main.cpp";
   private static final String VC_CHARSET = "UTF8";
 
-  @BeforeClass
+  @BeforeAll
   public static void init() {
-    org.junit.Assume.assumeTrue(SystemUtils.IS_OS_WINDOWS);
+    Assumptions.assumeTrue(SystemUtils.IS_OS_WINDOWS);
   }
 
   @Test

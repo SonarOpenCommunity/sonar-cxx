@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.parser;
 
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.impl.Parser;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.impl.Parser;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import org.sonar.cxx.config.CxxSquidConfiguration;

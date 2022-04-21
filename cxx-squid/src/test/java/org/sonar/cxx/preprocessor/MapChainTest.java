@@ -19,9 +19,8 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class MapChainTest {
 
@@ -34,33 +33,33 @@ public class MapChainTest {
   @Test
   public void getMapping() {
     mc.put("k", "v");
-    assertEquals("v", mc.get("k"));
+    assertThat(mc.get("k")).isEqualTo("v");
   }
 
   @Test
   public void removeMapping() {
     mc.put("k", "v");
     mc.remove("k");
-    assertNull(mc.get("k"));
+    assertThat(mc.get("k")).isNull();
   }
 
   @Test
   public void noValueMapping() {
-    assertNull(mc.get("k"));
+    assertThat(mc.get("k")).isNull();
   }
 
   @Test
   public void clearMapping() {
     mc.put("k", "v");
     mc.clear();
-    assertNull(mc.get("k"));
+    assertThat(mc.get("k")).isNull();
   }
 
   @Test
   public void disable() {
     mc.put("k", "v");
     mc.disable("k");
-    assertNull(mc.get("k"));
+    assertThat(mc.get("k")).isNull();
   }
 
   @Test
@@ -68,7 +67,7 @@ public class MapChainTest {
     mc.put("k", "v");
     mc.disable("k");
     mc.enable("k");
-    assertEquals("v", mc.get("k"));
+    assertThat(mc.get("k")).isEqualTo("v");
   }
 
 }

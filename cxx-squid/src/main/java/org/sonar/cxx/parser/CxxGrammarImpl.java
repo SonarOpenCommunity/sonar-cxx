@@ -19,15 +19,15 @@
  */
 package org.sonar.cxx.parser;
 
-import static com.sonar.sslr.api.GenericTokenType.EOF;
-import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
-import com.sonar.sslr.api.Grammar;
+import static com.sonar.cxx.sslr.api.GenericTokenType.EOF;
+import static com.sonar.cxx.sslr.api.GenericTokenType.IDENTIFIER;
+import com.sonar.cxx.sslr.api.Grammar;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import static org.sonar.cxx.parser.CxxTokenType.CHARACTER;
 import static org.sonar.cxx.parser.CxxTokenType.NUMBER;
 import static org.sonar.cxx.parser.CxxTokenType.STRING;
-import org.sonar.sslr.grammar.GrammarRuleKey;
-import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
+import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
+import org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder;
 
 /**
  * Parsing expression grammar (PEG)[https://en.wikipedia.org/wiki/Parsing_expression_grammar]

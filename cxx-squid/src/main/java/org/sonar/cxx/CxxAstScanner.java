@@ -19,9 +19,9 @@
  */
 package org.sonar.cxx;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.GenericTokenType;
+import com.sonar.cxx.sslr.api.Grammar;
 import static java.lang.Math.min;
 import java.util.Collection;
 import org.sonar.api.batch.fs.InputFile;

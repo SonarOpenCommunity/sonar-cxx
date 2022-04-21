@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.toolkit;
 
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.impl.Parser;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.impl.Parser;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -41,9 +41,9 @@ import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContextImpl;
 import org.sonar.cxx.squidbridge.api.SourceProject;
-import org.sonar.sslr.toolkit.AbstractConfigurationModel;
-import org.sonar.sslr.toolkit.ConfigurationProperty;
-import org.sonar.sslr.toolkit.Validators;
+import org.sonar.cxx.sslr.toolkit.AbstractConfigurationModel;
+import org.sonar.cxx.sslr.toolkit.ConfigurationProperty;
+import org.sonar.cxx.sslr.toolkit.Validators;
 
 public class CxxConfigurationModel extends AbstractConfigurationModel {
 

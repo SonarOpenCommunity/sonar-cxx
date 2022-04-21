@@ -24,9 +24,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class SourceCodeProviderTest {
 
@@ -45,10 +44,10 @@ public class SourceCodeProviderTest {
     var codeProvider = new SourceCodeProvider(new File("src/test/resources/codeprovider/dummy.cpp"));
     String path = expected1.getAbsolutePath();
 
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, false));
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected1);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isEqualTo(expected1);
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected1);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isEqualTo(expected1);
   }
 
   // ////////////////////////////////////////////////////////////////////////////
@@ -68,8 +67,8 @@ public class SourceCodeProviderTest {
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
     var path = "source.hh";
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected1);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isEqualTo(expected1);
   }
 
   @Test
@@ -81,8 +80,8 @@ public class SourceCodeProviderTest {
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
     var path = "source";
-    assertEquals(expected2, codeProvider.getSourceCodeFile(path, true));
-    assertEquals(expected2, codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected2);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isEqualTo(expected2);
   }
 
   @Test
@@ -94,8 +93,8 @@ public class SourceCodeProviderTest {
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
     var path = "source.hh";
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected1);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isEqualTo(expected1);
   }
 
   @Test
@@ -107,8 +106,8 @@ public class SourceCodeProviderTest {
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
     var path = "source";
-    assertEquals(expected2, codeProvider.getSourceCodeFile(path, true));
-    assertEquals(expected2, codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected2);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isEqualTo(expected2);
   }
 
   @Test
@@ -120,8 +119,8 @@ public class SourceCodeProviderTest {
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
     var path = "codeprovider/source.hh";
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected1);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isEqualTo(expected1);
   }
 
   @Test
@@ -133,8 +132,8 @@ public class SourceCodeProviderTest {
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
     var path = "codeprovider/source";
-    assertEquals(expected2, codeProvider.getSourceCodeFile(path, true));
-    assertEquals(expected2, codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected2);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isEqualTo(expected2);
   }
 
   @Test
@@ -146,8 +145,8 @@ public class SourceCodeProviderTest {
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
     var path = "codeprovider/source.hh";
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected1);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isEqualTo(expected1);
   }
 
   @Test
@@ -159,8 +158,8 @@ public class SourceCodeProviderTest {
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
 
     var path = "codeprovider/source";
-    assertEquals(expected2, codeProvider.getSourceCodeFile(path, true));
-    assertEquals(expected2, codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected2);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isEqualTo(expected2);
   }
 
   // ////////////////////////////////////////////////////////////////////////////
@@ -171,8 +170,8 @@ public class SourceCodeProviderTest {
     var codeProvider = new SourceCodeProvider(new File("src/test/resources/codeprovider/dummy.cpp"));
 
     var path = "source.hh";
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
-    assertNull(codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected1);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isNull();
   }
 
   @Test
@@ -180,8 +179,8 @@ public class SourceCodeProviderTest {
     var codeProvider = new SourceCodeProvider(new File("src/test/resources/dummy.cpp"));
 
     var path = "codeprovider/source.hh";
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
-    assertNull(codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected1);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isNull();
   }
 
   @Test
@@ -190,42 +189,42 @@ public class SourceCodeProviderTest {
       new File("src/test/resources/codeprovider/folder/dummy.cpp"));
 
     var path = "../source.hh";
-    assertEquals(expected1, codeProvider.getSourceCodeFile(path, true));
-    assertNull(codeProvider.getSourceCodeFile(path, false));
+    assertThat(codeProvider.getSourceCodeFile(path, true)).isEqualTo(expected1);
+    assertThat(codeProvider.getSourceCodeFile(path, false)).isNull();
   }
 
   @Test
   public void getting_source_code1() throws IOException {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
-    assertEquals("source code", codeProvider.getSourceCode(expected1, Charset.defaultCharset()));
+    assertThat(codeProvider.getSourceCode(expected1, Charset.defaultCharset())).isEqualTo("source code");
   }
 
   @Test
   public void getting_source_code2() throws IOException {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
-    assertEquals("source code", codeProvider.getSourceCode(expected2, Charset.defaultCharset()));
+    assertThat(codeProvider.getSourceCode(expected2, Charset.defaultCharset())).isEqualTo("source code");
   }
 
   @Test
   public void getting_source_code_utf_8() throws IOException {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
-    assertEquals("UTF-8", codeProvider.getSourceCode(new File(root, "./utf-8.hh"),
-                                                     Charset.defaultCharset()));
+    assertThat(codeProvider.getSourceCode(new File(root, "./utf-8.hh"),
+                                          Charset.defaultCharset())).isEqualTo("UTF-8");
   }
 
   @Test
   public void getting_source_code_utf_8_bom() throws IOException {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
-    assertEquals("UTF-8-BOM", codeProvider.getSourceCode(new File(root, "./utf-8-bom.hh"),
-                                                         Charset.defaultCharset()));
+    assertThat(codeProvider.getSourceCode(new File(root, "./utf-8-bom.hh"),
+                                          Charset.defaultCharset())).isEqualTo("UTF-8-BOM");
   }
 
   @Test
   public void getting_source_code_utf_16_le_bom() throws IOException {
     var codeProvider = new SourceCodeProvider(new File("dummy"));
-    assertEquals("UTF-16LE-BOM",
-                 codeProvider.getSourceCode(new File(root, "./utf-16le-bom.hh"),
-                                            Charset.defaultCharset()));
+    assertThat(
+      codeProvider.getSourceCode(new File(root, "./utf-16le-bom.hh"),
+                                 Charset.defaultCharset())).isEqualTo("UTF-16LE-BOM");
   }
 
 }

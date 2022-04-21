@@ -19,11 +19,11 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.api.Preprocessor;
-import com.sonar.sslr.impl.Lexer;
-import com.sonar.sslr.impl.channel.BlackHoleChannel;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
+import com.sonar.cxx.sslr.api.Preprocessor;
+import com.sonar.cxx.sslr.impl.Lexer;
+import com.sonar.cxx.sslr.impl.channel.BlackHoleChannel;
+import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
+import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
 import org.sonar.cxx.channels.PreprocessorChannel;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 

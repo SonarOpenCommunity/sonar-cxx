@@ -19,7 +19,7 @@
  */
 package org.sonar.cxx.visitors;
 
-import com.sonar.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.AstNode;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;

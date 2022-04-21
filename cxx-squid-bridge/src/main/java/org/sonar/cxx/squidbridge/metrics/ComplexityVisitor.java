@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -21,13 +21,14 @@
  * fork of SSLR Squid Bridge: https://github.com/SonarSource/sslr-squid-bridge/tree/2.6.1
  * Copyright (C) 2010 SonarSource / mailto: sonarqube@googlegroups.com / license: LGPL v3
  */
-package org.sonar.cxx.squidbridge.metrics;
+package org.sonar.cxx.squidbridge.metrics; // cxx: in use
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.AstNodeType;
+import com.sonar.cxx.sslr.api.Grammar;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
@@ -54,9 +55,7 @@ public final class ComplexityVisitor<G extends Grammar> extends SquidAstVisitor<
     }
 
     public Builder<G> subscribeTo(AstNodeType... astNodeTypes) {
-      for (var astNodeType : astNodeTypes) {
-        this.astNodeTypes.add(astNodeType);
-      }
+      this.astNodeTypes.addAll(Arrays.asList(astNodeTypes));
       return this;
     }
 
@@ -71,9 +70,7 @@ public final class ComplexityVisitor<G extends Grammar> extends SquidAstVisitor<
     }
 
     public Builder<G> addExclusions(AstNodeType... exclusionAstNodeTypes) {
-      for (var exclusionAstNodeType : exclusionAstNodeTypes) {
-        this.exclusionAstNodeTypes.add(exclusionAstNodeType);
-      }
+      this.exclusionAstNodeTypes.addAll(Arrays.asList(exclusionAstNodeTypes));
       return this;
     }
 

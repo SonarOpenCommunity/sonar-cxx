@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -23,15 +23,15 @@
  */
 package org.sonar.cxx.squidbridge.api;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class SourceMethodTest {
 
   @Test
   public void testSquidMethodSquidClassString() {
     SourceMethod squidMethod = new SourceMethod(new SourceClass("org.sonar.Squid"), "scan:23", 23);
-    assertEquals("org.sonar.Squid#scan:23", squidMethod.getKey());
-    assertEquals(23, squidMethod.getStartAtLine());
+    assertThat(squidMethod.getKey()).isEqualTo("org.sonar.Squid#scan:23");
+    assertThat(squidMethod.getStartAtLine()).isEqualTo(23);
   }
 }

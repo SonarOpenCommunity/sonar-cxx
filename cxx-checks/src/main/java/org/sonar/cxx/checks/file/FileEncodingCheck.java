@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks.file;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.Grammar;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -53,7 +53,7 @@ public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharset
   @Override
   public void visitFile(AstNode astNode) {
     try {
-      Files.readAllLines(getContext().getInputFile().file().toPath(), charset);
+      Files.readAllLines(getContext().getFile().toPath(), charset);
     } catch (IOException e) {
       getContext().createFileViolation(this,
                                        "Not all characters of the file can be encoded with the predefined charset "

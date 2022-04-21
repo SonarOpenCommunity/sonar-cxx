@@ -19,19 +19,18 @@
  */
 package org.sonar.cxx.visitors;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Token;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.groups.Tuple;
 import static org.assertj.core.groups.Tuple.tuple;
-import org.fest.assertions.Fail;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
@@ -238,7 +237,7 @@ public class CxxPublicApiVisitorTest {
     @Override
     protected void onPublicApi(AstNode node, String id, List<Token> comments) {
       if (checkDoubleIDs && idCommentMap.containsKey(id)) {
-        Fail.fail("DOUBLE ID: " + id);
+        fail("DOUBLE ID: " + id);
       }
       idCommentMap.put(id, comments);
     }

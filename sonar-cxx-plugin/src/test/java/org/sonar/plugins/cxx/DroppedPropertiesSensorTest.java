@@ -19,28 +19,29 @@
  */
 package org.sonar.plugins.cxx;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.io.TempDir;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.utils.log.LogTester;
+import org.sonar.api.utils.log.LogTesterJUnit5;
 import org.sonar.api.utils.log.LoggerLevel;
 
 public class DroppedPropertiesSensorTest {
 
-  @Rule
-  public TemporaryFolder tmp = new TemporaryFolder();
+  @TempDir
+  File tempDir;
 
-  @Rule
-  public LogTester logTester = new LogTester();
+  @RegisterExtension
+  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   @Test
   public void testNoMsg() throws Exception {
-    var contextTester = SensorContextTester.create(tmp.newFolder());
+    var contextTester = SensorContextTester.create(tempDir);
     var mapSettings = new MapSettings().setProperty("sonar.cxx.xxx", "value");
     contextTester.setSettings(mapSettings);
     List<String> analysisWarnings = new ArrayList<>();
@@ -53,7 +54,7 @@ public class DroppedPropertiesSensorTest {
 
   @Test
   public void testNoLongerSupported() throws Exception {
-    var contextTester = SensorContextTester.create(tmp.newFolder());
+    var contextTester = SensorContextTester.create(tempDir);
     var mapSettings = new MapSettings().setProperty("sonar.cxx.cppncss.reportPaths", "value");
     contextTester.setSettings(mapSettings);
     List<String> analysisWarnings = new ArrayList<>();
@@ -67,7 +68,7 @@ public class DroppedPropertiesSensorTest {
 
   @Test
   public void testNoLongerSupportedWithInfo() throws Exception {
-    var contextTester = SensorContextTester.create(tmp.newFolder());
+    var contextTester = SensorContextTester.create(tempDir);
     var mapSettings = new MapSettings().setProperty("sonar.cxx.suffixes.sources", "value");
     contextTester.setSettings(mapSettings);
     List<String> analysisWarnings = new ArrayList<>();

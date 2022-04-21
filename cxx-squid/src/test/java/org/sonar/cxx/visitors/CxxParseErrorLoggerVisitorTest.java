@@ -19,29 +19,25 @@
  */
 package org.sonar.cxx.visitors;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.sonar.api.utils.log.LogTester;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.sonar.api.utils.log.LogTesterJUnit5;
 import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 
 public class CxxParseErrorLoggerVisitorTest {
 
-  @Rule
-  public LogTester logTester = new LogTester();
-
-  @Before
-  public void scanFile() throws Exception {
-    var tester = CxxFileTesterHelper.create("src/test/resources/visitors/syntaxerror.cc", ".", "");
-    logTester.setLevel(LoggerLevel.DEBUG);
-    CxxAstScanner.scanSingleInputFile(tester.asInputFile());
-  }
+  @RegisterExtension
+  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   @Test
   public void handleParseErrorTest() throws Exception {
+    logTester.setLevel(LoggerLevel.DEBUG);
+    var tester = CxxFileTesterHelper.create("src/test/resources/visitors/syntaxerror.cc", ".", "");
+    CxxAstScanner.scanSingleInputFile(tester.asInputFile());
+
     var log = String.join("\n", logTester.logs(LoggerLevel.DEBUG));
 
     assertThat(log)

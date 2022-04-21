@@ -20,10 +20,9 @@
 package org.sonar.cxx.sensors.valgrind;
 
 import java.util.Collections;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ValgrindErrorTest {
 
@@ -31,7 +30,7 @@ public class ValgrindErrorTest {
   private ValgrindError equalError;
   private ValgrindError otherError;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     error = new ValgrindError("kind", "text", Collections.singletonList(new ValgrindStack()));
     equalError = new ValgrindError("kind", "text", Collections.singletonList(new ValgrindStack()));
@@ -70,7 +69,7 @@ public class ValgrindErrorTest {
   @Test
   public void getKindWorks() {
     var KIND = "kind";
-    assertEquals(new ValgrindError(KIND, "", Collections.singletonList(new ValgrindStack())).getKind(), KIND);
+    assertThat(KIND).isEqualTo(new ValgrindError(KIND, "", Collections.singletonList(new ValgrindStack())).getKind());
   }
 
 }

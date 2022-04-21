@@ -19,15 +19,15 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.api.AstNode;
-import static com.sonar.sslr.api.GenericTokenType.EOF;
-import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Preprocessor;
-import com.sonar.sslr.api.PreprocessorAction;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.Trivia;
-import com.sonar.sslr.impl.Parser;
+import com.sonar.cxx.sslr.api.AstNode;
+import static com.sonar.cxx.sslr.api.GenericTokenType.EOF;
+import static com.sonar.cxx.sslr.api.GenericTokenType.IDENTIFIER;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Preprocessor;
+import com.sonar.cxx.sslr.api.PreprocessorAction;
+import com.sonar.cxx.sslr.api.Token;
+import com.sonar.cxx.sslr.api.Trivia;
+import com.sonar.cxx.sslr.impl.Parser;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -241,7 +241,7 @@ public class CxxPreprocessor extends Preprocessor {
     AstNode lineAst;
     try {
       lineAst = pplineParser.parse(token.getValue()).getFirstChild();
-    } catch (com.sonar.sslr.api.RecognitionException e) {
+    } catch (com.sonar.cxx.sslr.api.RecognitionException e) {
       LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
       LOG.debug("Parser exception: '{}'", e.getMessage());
       return oneConsumedToken(token);
@@ -996,7 +996,7 @@ public class CxxPreprocessor extends Preprocessor {
       AstNode includeBodyAst = null;
       try {
         includeBodyAst = pplineParser.parse("#include " + expandedIncludeBody);
-      } catch (com.sonar.sslr.api.RecognitionException e) {
+      } catch (com.sonar.cxx.sslr.api.RecognitionException e) {
         parseError = true;
       }
 

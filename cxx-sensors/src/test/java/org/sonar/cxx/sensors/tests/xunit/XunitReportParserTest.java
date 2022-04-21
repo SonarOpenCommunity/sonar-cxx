@@ -19,18 +19,15 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import static org.junit.Assert.assertEquals;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.util.Strings;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -64,16 +61,19 @@ public class XunitReportParserTest {
       for (var testFile : parserHandler.getTestFiles()) {
         tests += testFile.getTests();
       }
-      assertEquals((long) entry.getValue(), tests);
+      assertThat(tests).isEqualTo((long) entry.getValue());
     }
   }
 
-  @Test(expected = javax.xml.stream.XMLStreamException.class)
-  public void shouldThrowWhenGivenInvalidTime() throws javax.xml.stream.XMLStreamException {
-    parserHandler = new XunitReportParser("");
-    parser = new StaxParser(parserHandler, false);
-    File report = TestUtils.loadResource(pathPrefix + "invalid-time-xunit-report.xml");
-    parser.parse(report);
+  @Test
+  public void shouldThrowWhenGivenInvalidTime() {
+    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
+      parserHandler = new XunitReportParser("");
+      parser = new StaxParser(parserHandler, false);
+      File report = TestUtils.loadResource(pathPrefix + "invalid-time-xunit-report.xml");
+      parser.parse(report);
+    }, javax.xml.stream.XMLStreamException.class);
+    assertThat(thrown).isExactlyInstanceOf(javax.xml.stream.XMLStreamException.class);
   }
 
   @Test
@@ -84,18 +84,18 @@ public class XunitReportParserTest {
     parser.parse(report);
 
     var actualPaths = parserHandler.getTestFiles()
-        .stream()
-        .map(TestFile::getFilename)
-        .filter(p -> !Strings.isNullOrEmpty(p))
-        .map(s -> Paths.get(s))
-        .collect(Collectors.toList());
+      .stream()
+      .map(TestFile::getFilename)
+      .filter(p -> !Strings.isNullOrEmpty(p))
+      .map(s -> Paths.get(s))
+      .collect(Collectors.toList());
 
     var expectPaths = Stream.of(
-        Paths.get("/test/file.cpp"),
-        Paths.get("/test/File.cpp"),
-        Paths.get("/TEST/file.cpp"))
-        .distinct()
-        .toArray(n -> new Path[n]);
+      Paths.get("/test/file.cpp"),
+      Paths.get("/test/File.cpp"),
+      Paths.get("/TEST/file.cpp"))
+      .distinct()
+      .toArray(n -> new Path[n]);
 
     assertThat(actualPaths).containsExactlyInAnyOrder(expectPaths);
   }

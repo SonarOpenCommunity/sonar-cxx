@@ -21,8 +21,8 @@ package org.sonar.cxx.visitors;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;

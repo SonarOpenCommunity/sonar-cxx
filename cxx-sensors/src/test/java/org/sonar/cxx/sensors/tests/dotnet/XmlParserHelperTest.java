@@ -25,9 +25,8 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // mailto:info AT sonarsource DOT com
 import java.io.File;
 import java.io.IOException;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class XmlParserHelperTest {
 
@@ -35,12 +34,11 @@ public class XmlParserHelperTest {
 
   @Test
   public void invalid_prolog() throws IOException {
-    IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
-                                           try ( var helper = new XmlParserHelper(new File(REPORT_PATH
-                                                                                         + "invalid_prolog.txt"))) {
-                                             helper.nextStartTag();
-                                           }
-                                         });
+    IllegalStateException e = catchThrowableOfType(() -> {
+      try (var helper = new XmlParserHelper(new File(REPORT_PATH + "invalid_prolog.txt"))) {
+        helper.nextStartTag();
+      }
+    }, IllegalStateException.class);
     assertThat(e).hasMessageContaining("Error while parsing the XML file: "
                                          + new File(REPORT_PATH + "invalid_prolog.txt").getAbsolutePath());
   }
@@ -69,9 +67,9 @@ public class XmlParserHelperTest {
     assertThat(xml.getDoubleAttribute("myCommaDouble")).isEqualTo(1.234);
     assertThat(xml.getDoubleAttribute("nonExisting")).isNull();
 
-    ParseErrorException e = assertThrows(ParseErrorException.class, () -> {
-                                         xml.getDoubleAttribute("myString");
-                                       });
+    ParseErrorException e = catchThrowableOfType(() -> {
+      xml.getDoubleAttribute("myString");
+    }, ParseErrorException.class);
     assertThat(e).hasMessageContaining("Expected an double instead of \"hello\" for the attribute \"myString\" in "
                                          + new File(REPORT_PATH + "valid.xml").getAbsolutePath());
   }

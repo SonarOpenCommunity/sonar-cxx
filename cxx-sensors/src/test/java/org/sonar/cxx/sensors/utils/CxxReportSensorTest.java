@@ -21,9 +21,9 @@ package org.sonar.cxx.sensors.utils;
 
 import java.io.File;
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
@@ -38,7 +38,7 @@ public class CxxReportSensorTest {
   private File baseDir;
   private final MapSettings settings = new MapSettings();
 
-  @Before
+  @BeforeEach
   public void init() {
     TestUtils.mockFileSystem();
     try {

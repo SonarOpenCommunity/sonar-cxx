@@ -26,10 +26,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -46,7 +45,7 @@ public class CxxFileLinesContextTest {
 
   private FileLinesContextForTesting fileLinesContext;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     ActiveRules rules = mock(ActiveRules.class);
     var checkFactory = new CheckFactory(rules);
@@ -88,7 +87,7 @@ public class CxxFileLinesContextTest {
 
     @Override
     public void setIntValue(String metricKey, int line, int value) {
-      Assert.assertEquals(1, value);
+      assertThat(value).isEqualTo(1);
 
       switch (metricKey) {
         case CoreMetrics.NCLOC_DATA_KEY:
@@ -98,13 +97,13 @@ public class CxxFileLinesContextTest {
           executableLines.add(line);
           break;
         default:
-          Assert.fail("Unsupported metric key " + metricKey);
+          fail("Unsupported metric key " + metricKey);
       }
     }
 
     @Override
     public void setStringValue(String metricKey, int line, String value) {
-      Assert.fail("unexpected method called: setStringValue()");
+      fail("unexpected method called: setStringValue()");
     }
 
     @Override

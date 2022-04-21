@@ -21,9 +21,8 @@ package org.sonar.cxx.checks.regex;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.squidbridge.api.SourceFile;
@@ -180,8 +179,8 @@ public class FileHeaderCheckTest {
     check.headerFormat = "[";
     check.isRegularExpression = true;
 
-    IllegalStateException e = assertThrows(IllegalStateException.class, check::init);
-    assertThat(e).hasMessage("Unable to compile the regular expression: \"^[\"");
+    IllegalStateException thrown = catchThrowableOfType(check::init, IllegalStateException.class);
+    assertThat(thrown).hasMessage("Unable to compile the regular expression: \"^[\"");
   }
 
 }

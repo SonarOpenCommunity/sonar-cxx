@@ -19,9 +19,9 @@
  */
 package org.sonar.cxx.sensors.tests.xunit;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,18 +29,18 @@ public class TestFileTest {
 
   private TestFile testFile;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     testFile = new TestFile("test.cpp");
   }
 
   @Test
   public void newBornTestFileShouldHaveVirginStatistics() {
-    assertEquals(0, testFile.getTests());
-    assertEquals(0, testFile.getErrors());
-    assertEquals(0, testFile.getFailures());
-    assertEquals(0, testFile.getSkipped());
-    assertEquals(0, testFile.getExecutionTime());
+    assertThat(testFile.getTests()).isEqualTo(0);
+    assertThat(testFile.getErrors()).isEqualTo(0);
+    assertThat(testFile.getFailures()).isEqualTo(0);
+    assertThat(testFile.getSkipped()).isEqualTo(0);
+    assertThat(testFile.getExecutionTime()).isEqualTo(0);
   }
 
   @Test
@@ -48,12 +48,12 @@ public class TestFileTest {
     int testBefore = testFile.getTests();
     long timeBefore = testFile.getExecutionTime();
 
-    final int EXEC_TIME = 10;
+    int EXEC_TIME = 10;
     testFile.add(new TestCase("name", EXEC_TIME, "status", "stack", "msg",
                               "classname", "tcfilename", "tsname"));
 
-    assertEquals(testFile.getTests(), testBefore + 1);
-    assertEquals(testFile.getExecutionTime(), timeBefore + EXEC_TIME);
+    assertThat(testBefore + 1).isEqualTo(testFile.getTests());
+    assertThat(timeBefore + EXEC_TIME).isEqualTo(testFile.getExecutionTime());
   }
 
   @Test
@@ -64,7 +64,7 @@ public class TestFileTest {
 
     testFile.add(error);
 
-    assertEquals(testFile.getErrors(), errorsBefore + 1);
+    assertThat(errorsBefore + 1).isEqualTo(testFile.getErrors());
   }
 
   @Test
@@ -75,7 +75,7 @@ public class TestFileTest {
 
     testFile.add(failedTC);
 
-    assertEquals(testFile.getFailures(), failedBefore + 1);
+    assertThat(failedBefore + 1).isEqualTo(testFile.getFailures());
   }
 
   @Test
@@ -86,7 +86,7 @@ public class TestFileTest {
 
     testFile.add(skippedTC);
 
-    assertEquals(testFile.getSkipped(), skippedBefore + 1);
+    assertThat(skippedBefore + 1).isEqualTo(testFile.getSkipped());
   }
 
 }

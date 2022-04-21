@@ -22,9 +22,9 @@ package org.sonar.cxx.visitors;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
@@ -35,7 +35,7 @@ public class CxxCpdVisitorTest {
 
   private SourceFile sourceFile;
 
-  @Before
+  @BeforeEach
   public void scanFile() throws UnsupportedEncodingException, IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/visitors/cpd.cc", ".", "");
     var squidConfig = new CxxSquidConfiguration();

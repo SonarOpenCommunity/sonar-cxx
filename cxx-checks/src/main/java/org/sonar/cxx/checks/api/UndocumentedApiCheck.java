@@ -19,9 +19,9 @@
  */
 package org.sonar.cxx.checks.api;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Token;
 import java.util.Arrays;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;

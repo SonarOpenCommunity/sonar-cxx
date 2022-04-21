@@ -19,13 +19,13 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Lexer;
-import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
+import static com.sonar.cxx.sslr.api.GenericTokenType.IDENTIFIER;
+import com.sonar.cxx.sslr.api.Token;
+import com.sonar.cxx.sslr.impl.Lexer;
+import static com.sonar.cxx.sslr.test.lexer.LexerConditions.*;
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class CppLexerTest {
 

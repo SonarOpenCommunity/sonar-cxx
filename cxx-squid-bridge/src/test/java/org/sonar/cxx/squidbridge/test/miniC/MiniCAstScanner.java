@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -23,15 +23,14 @@
  */
 package org.sonar.cxx.squidbridge.test.miniC;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.impl.Parser;
-import com.sonar.sslr.test.minic.MiniCGrammar;
-import com.sonar.sslr.test.minic.MiniCParser;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.AstNodeType;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.impl.Parser;
+import com.sonar.cxx.sslr.test.minic.MiniCGrammar;
+import com.sonar.cxx.sslr.test.minic.MiniCParser;
 import org.sonar.cxx.squidbridge.AstScanner;
 import org.sonar.cxx.squidbridge.CommentAnalyser;
-import org.sonar.cxx.squidbridge.SourceCodeBuilderCallback;
 import org.sonar.cxx.squidbridge.SourceCodeBuilderVisitor;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContextImpl;
@@ -101,9 +100,9 @@ public final class MiniCAstScanner {
 
   private static AstScanner<Grammar> create(boolean ignoreHeaderComments, SquidAstVisitor<Grammar>... visitors) {
 
-    final SquidAstVisitorContextImpl<Grammar> context = new SquidAstVisitorContextImpl<Grammar>(
+    SquidAstVisitorContextImpl<Grammar> context = new SquidAstVisitorContextImpl<>(
       new SourceProject("MiniC Project"));
-    final Parser<Grammar> parser = MiniCParser.create();
+    Parser<Grammar> parser = MiniCParser.create();
 
     AstScanner.Builder<Grammar> builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
 
@@ -137,25 +136,22 @@ public final class MiniCAstScanner {
     builder.setFilesMetric(MiniCMetrics.FILES);
 
     /* Functions */
-    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<Grammar>(new SourceCodeBuilderCallback() {
+    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>((SourceCode parentSourceCode, AstNode astNode)
+      -> {
+      String functionName = astNode.findFirstChild(MiniCGrammar.BIN_FUNCTION_DEFINITION).getTokenValue();
 
-      @Override
-      public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
-        String functionName = astNode.findFirstChild(MiniCGrammar.BIN_FUNCTION_DEFINITION).getTokenValue();
+      var function = new SourceFunction(astNode.getFromIndex() + "@" + functionName);
+      function.setStartAtLine(astNode.getTokenLine());
 
-        var function = new SourceFunction(astNode.getFromIndex() + "@" + functionName);
-        function.setStartAtLine(astNode.getTokenLine());
-
-        return function;
-      }
+      return function;
     }, MiniCGrammar.FUNCTION_DEFINITION));
 
     builder.withSquidAstVisitor(CounterVisitor.<Grammar>builder().setMetricDef(MiniCMetrics.FUNCTIONS)
       .subscribeTo(MiniCGrammar.FUNCTION_DEFINITION).build());
 
     /* Metrics */
-    builder.withSquidAstVisitor(new LinesVisitor<Grammar>(MiniCMetrics.LINES));
-    builder.withSquidAstVisitor(new LinesOfCodeVisitor<Grammar>(MiniCMetrics.LINES_OF_CODE));
+    builder.withSquidAstVisitor(new LinesVisitor<>(MiniCMetrics.LINES));
+    builder.withSquidAstVisitor(new LinesOfCodeVisitor<>(MiniCMetrics.LINES_OF_CODE));
     builder.withSquidAstVisitor(CommentsVisitor.<Grammar>builder().withCommentMetric(MiniCMetrics.COMMENT_LINES)
       .withNoSonar(true)
       .withIgnoreHeaderComment(ignoreHeaderComments)

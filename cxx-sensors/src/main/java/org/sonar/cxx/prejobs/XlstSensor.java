@@ -74,9 +74,9 @@ public class XlstSensor implements ProjectSensor {
     for (var i = 1; i <= MAX_STYLESHEETS; i++) {
       var paramError = false;
 
-      final String stylesheetKey = OTHER_XSLT_KEY + i + STYLESHEET_KEY;
-      final String inputKey = OTHER_XSLT_KEY + i + INPUT_KEY;
-      final String outputKey = OTHER_XSLT_KEY + i + OUTPUT_KEY;
+      String stylesheetKey = OTHER_XSLT_KEY + i + STYLESHEET_KEY;
+      String inputKey = OTHER_XSLT_KEY + i + INPUT_KEY;
+      String outputKey = OTHER_XSLT_KEY + i + OUTPUT_KEY;
 
       if (!context.config().hasKey(stylesheetKey)
             && !context.config().hasKey(inputKey)
@@ -84,19 +84,19 @@ public class XlstSensor implements ProjectSensor {
         break; // no or last item
       }
 
-      final String stylesheet = context.config().get(stylesheetKey).orElse("");
+      String stylesheet = context.config().get(stylesheetKey).orElse("");
       if (stylesheet.isEmpty()) {
         LOG.error(MISSING_VALUE, stylesheetKey);
         paramError = true;
       }
 
-      final List<File> inputs = CxxUtils.getFiles(context, inputKey);
+      List<File> inputs = CxxUtils.getFiles(context, inputKey);
       if (inputs.isEmpty()) {
         LOG.error(MISSING_VALUE, inputKey);
         paramError = true;
       }
 
-      final String outputs = context.config().get(outputKey).orElse("");
+      String outputs = context.config().get(outputKey).orElse("");
       if (outputs.isEmpty()) {
         LOG.error(MISSING_VALUE, outputKey);
         paramError = true;

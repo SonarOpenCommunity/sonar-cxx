@@ -19,34 +19,34 @@
  */
 package org.sonar.cxx.lexer;
 
-import org.sonar.cxx.parser.CxxLexer;
-import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.impl.Lexer;
+import com.sonar.cxx.sslr.api.GenericTokenType;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.impl.Lexer;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 import org.sonar.cxx.parser.CxxKeyword;
+import org.sonar.cxx.parser.CxxLexer;
 import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.parser.CxxTokenType;
-import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
 public class CxxLexerTest {
 
-  private static Lexer lexer;
+  private Lexer lexer;
 
-  @BeforeClass
-  public static void init() {
+  @BeforeEach
+  public void init() {
     var file = new File("snippet.cpp").getAbsoluteFile();
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(file);

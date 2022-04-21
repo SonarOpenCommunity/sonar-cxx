@@ -20,8 +20,8 @@
 package org.sonar.cxx.sensors.infer;
 
 import com.google.gson.Gson;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class InferParserTest {
 
@@ -38,7 +38,7 @@ public class InferParserTest {
     var gson = new Gson();
     InferParser.InferIssue value = gson.fromJson(json, InferParser.InferIssue.class);
 
-    assertEquals(expected.toString(), value.toString());
+    assertThat(value.toString()).isEqualTo(expected.toString());
   }
 
 }

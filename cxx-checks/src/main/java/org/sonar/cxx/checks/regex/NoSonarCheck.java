@@ -19,9 +19,9 @@
  */
 package org.sonar.cxx.checks.regex;
 
-import com.sonar.sslr.api.AstAndTokenVisitor;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
+import com.sonar.cxx.sslr.api.AstAndTokenVisitor;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Token;
 import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
@@ -30,7 +30,7 @@ import org.sonar.cxx.squidbridge.annotations.NoSqale;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
 
 /**
- * Note that {@link com.sonar.sslr.squid.checks.AbstractNoSonarCheck} can't be used because of bug SSLRSQBR-16.
+ * Note that {@link com.sonar.cxx.sslr.squid.checks.AbstractNoSonarCheck} can't be used because of bug SSLRSQBR-16.
  */
 @Rule(
   key = "NoSonar",

@@ -19,14 +19,14 @@
  */
 package org.sonar.cxx.channels;
 
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.TokenType;
-import com.sonar.sslr.impl.Lexer;
+import com.sonar.cxx.sslr.api.Token;
+import com.sonar.cxx.sslr.api.TokenType;
+import com.sonar.cxx.sslr.impl.Lexer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.cxx.parser.CxxTokenType;
-import org.sonar.sslr.channel.Channel;
-import org.sonar.sslr.channel.CodeReader;
+import org.sonar.cxx.sslr.channel.Channel;
+import org.sonar.cxx.sslr.channel.CodeReader;
 
 // Detects preprocessor directives:
 // This channel detects source code lines which should be handled by the preprocessor.

@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks.metrics;
 
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.AstNodeType;
+import com.sonar.cxx.sslr.api.Grammar;
 import java.util.Optional;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;

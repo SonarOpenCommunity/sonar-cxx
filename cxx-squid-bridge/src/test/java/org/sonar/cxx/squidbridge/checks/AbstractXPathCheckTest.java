@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -23,19 +23,14 @@
  */
 package org.sonar.cxx.squidbridge.checks;
 
-import com.sonar.sslr.api.Grammar;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import com.sonar.cxx.sslr.api.Grammar;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
 public class AbstractXPathCheckTest {
 
-  @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 
   private static class Check extends AbstractXPathCheck<Grammar> {
 
@@ -54,7 +49,7 @@ public class AbstractXPathCheckTest {
 
   }
 
-  private Check check = new Check();
+  private final Check check = new Check();
 
   @Test
   public void emptyXPathCheck() {
@@ -101,10 +96,12 @@ public class AbstractXPathCheckTest {
   @Test
   public void wrong_xpath() {
     check.xpath = "//";
-
-    thrown.expect(IllegalStateException.class);
-    thrown.expectMessage("Unable to initialize the XPath engine, perhaps because of an invalid query: //");
-    scanFile("/checks/xpath.mc", check);
+    IllegalStateException thrown = catchThrowableOfType(() -> {
+      scanFile("/checks/xpath.mc", check);
+    }, IllegalStateException.class);
+    assertThat(thrown)
+      .isExactlyInstanceOf(IllegalStateException.class)
+      .hasMessage("Unable to initialize the XPath engine, perhaps because of an invalid query: //");
   }
 
 }

@@ -19,10 +19,10 @@
  */
 package org.sonar.cxx.sensors.infer;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -36,7 +36,7 @@ public class CxxInferSensorTest {
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
@@ -99,15 +99,18 @@ public class CxxInferSensorTest {
     assertThat(context.allIssues()).isEmpty();
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void shouldThrowExceptionWhenRecoveryIsDisabled() {
-    var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
-    settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-empty.json");
-    context.setSettings(settings);
+    IllegalStateException thrown = catchThrowableOfType(() -> {
+      var context = SensorContextTester.create(fs.baseDir());
+      settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
+      settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-empty.json");
+      context.setSettings(settings);
 
-    var sensor = new CxxInferSensor();
-    sensor.execute(context);
+      var sensor = new CxxInferSensor();
+      sensor.execute(context);
+    }, IllegalStateException.class);
+    assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 
   @Test

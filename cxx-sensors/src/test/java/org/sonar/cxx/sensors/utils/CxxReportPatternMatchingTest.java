@@ -25,23 +25,24 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
 import org.apache.commons.io.FileUtils;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 
 public class CxxReportPatternMatchingTest {
 
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPaths";
-  @Rule
-  public TemporaryFolder base = new TemporaryFolder();
+
+  @TempDir
+  File tempDir;
+
   private final MapSettings settings = new MapSettings();
   private final List<String[]> examples = new LinkedList<>();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     //                        "pattern",      "matches",   "matches not"
     // relative
@@ -72,7 +73,7 @@ public class CxxReportPatternMatchingTest {
       setupExample(allpaths);
 
       settings.setProperty(REPORT_PATH_KEY, pattern);
-      var context = SensorContextTester.create(base.getRoot());
+      var context = SensorContextTester.create(tempDir);
       context.setSettings(settings);
       reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
       String[] parsedPaths = expected.split(",");
@@ -80,14 +81,14 @@ public class CxxReportPatternMatchingTest {
       for (var path : parsedPaths) {
         path = path.trim();
         if (!path.isEmpty()) {
-          expectedFiles.add(new File(base.getRoot(), path));
+          expectedFiles.add(new File(tempDir, path));
         }
       }
 
       var realSet = new TreeSet<File>(reports);
       var expectedSet = new TreeSet<File>(expectedFiles);
       assertThat(realSet).describedAs("Failed for pattern: {}", pattern).isEqualTo(expectedSet);
-      deleteExample(base.getRoot());
+      deleteExample(tempDir);
     }
 
   }
@@ -97,7 +98,7 @@ public class CxxReportPatternMatchingTest {
     for (var path : parsedPaths) {
       path = path.trim();
       if (!path.isEmpty()) {
-        FileUtils.touch(new File(base.getRoot(), path));
+        FileUtils.touch(new File(tempDir, path));
       }
     }
   }

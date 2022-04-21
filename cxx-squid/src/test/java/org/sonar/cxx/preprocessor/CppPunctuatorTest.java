@@ -19,10 +19,10 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.api.AstNode;
-import static org.assertj.core.api.Assertions.assertThat;
+import com.sonar.cxx.sslr.api.AstNode;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 
 public class CppPunctuatorTest {

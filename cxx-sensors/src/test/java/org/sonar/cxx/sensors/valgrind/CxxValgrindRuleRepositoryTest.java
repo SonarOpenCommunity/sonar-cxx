@@ -21,8 +21,8 @@ package org.sonar.cxx.sensors.valgrind;
 
 import java.io.File;
 import java.util.ArrayList;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -39,7 +39,7 @@ public class CxxValgrindRuleRepositoryTest {
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
-    assertEquals(16, repo.rules().size());
+    assertThat(repo.rules().size()).isEqualTo(16);
   }
 
   @Test
@@ -49,13 +49,13 @@ public class CxxValgrindRuleRepositoryTest {
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesOldFormat.xml"));
     var obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
     CxxValgrindRuleRepository def = spy(obj);
-    final String repositoryKey = CxxValgrindRuleRepository.KEY;
+    String repositoryKey = CxxValgrindRuleRepository.KEY;
     doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertEquals(18, repo.rules().size());
+    assertThat(repo.rules().size()).isEqualTo(18);
   }
 
   @Test
@@ -65,13 +65,13 @@ public class CxxValgrindRuleRepositoryTest {
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesNewFormat.xml"));
     var obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
     CxxValgrindRuleRepository def = spy(obj);
-    final String repositoryKey = CxxValgrindRuleRepository.KEY;
+    String repositoryKey = CxxValgrindRuleRepository.KEY;
     doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertEquals(17, repo.rules().size());
+    assertThat(repo.rules().size()).isEqualTo(17);
   }
 
   @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
@@ -81,13 +81,13 @@ public class CxxValgrindRuleRepositoryTest {
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesInvalid.xml"));
     var obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
     CxxValgrindRuleRepository def = spy(obj);
-    final String repositoryKey = CxxValgrindRuleRepository.KEY;
+    String repositoryKey = CxxValgrindRuleRepository.KEY;
     doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertEquals(16, repo.rules().size());
+    assertThat(repo.rules().size()).isEqualTo(16);
   }
 
   @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
@@ -97,13 +97,13 @@ public class CxxValgrindRuleRepositoryTest {
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesEmptyFile.xml"));
     var obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
     CxxValgrindRuleRepository def = spy(obj);
-    final String repositoryKey = CxxValgrindRuleRepository.KEY;
+    String repositoryKey = CxxValgrindRuleRepository.KEY;
     doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
 
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertEquals(16, repo.rules().size());
+    assertThat(repo.rules().size()).isEqualTo(16);
   }
 
 }

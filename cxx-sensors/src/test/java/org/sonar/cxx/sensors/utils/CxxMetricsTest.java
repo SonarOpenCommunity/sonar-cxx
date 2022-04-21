@@ -20,8 +20,8 @@
 package org.sonar.cxx.sensors.utils;
 
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.measures.Metric;
 import org.sonar.cxx.CxxMetrics;
 

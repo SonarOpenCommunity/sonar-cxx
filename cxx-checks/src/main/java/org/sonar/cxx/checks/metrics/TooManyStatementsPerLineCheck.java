@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks.metrics;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.Grammar;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -71,7 +71,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   }
 
   @Override
-  public com.sonar.sslr.api.Rule getStatementRule() {
+  public com.sonar.cxx.sslr.api.Rule getStatementRule() {
     throw new UnsupportedOperationException();
   }
 

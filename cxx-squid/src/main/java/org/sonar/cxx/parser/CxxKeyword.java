@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.parser;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.TokenType;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.TokenType;
 
 /**
  * C++ Standard, Section 2.12 "Keywords"

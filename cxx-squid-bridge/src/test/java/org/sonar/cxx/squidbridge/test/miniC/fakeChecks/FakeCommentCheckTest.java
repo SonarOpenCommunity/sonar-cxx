@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021 SonarOpenCommunity
+ * Copyright (C) 2021-2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -23,22 +23,21 @@
  */
 package org.sonar.cxx.squidbridge.test.miniC.fakeChecks;
 
-import com.sonar.sslr.api.AstAndTokenVisitor;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import org.junit.Rule;
-import org.junit.Test;
+import com.sonar.cxx.sslr.api.AstAndTokenVisitor;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.api.Token;
+import org.junit.jupiter.api.Test;
 import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifierRule;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
 public class FakeCommentCheckTest {
 
-  @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   private class FakeCommentCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 
+    @Override
     public void visitToken(Token token) {
       for (var trivia : token.getTrivia()) {
         if (trivia.isComment() && trivia.getToken().getValue().contains("stupid")) {

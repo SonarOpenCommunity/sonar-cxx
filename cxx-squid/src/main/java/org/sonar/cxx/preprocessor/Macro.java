@@ -19,7 +19,7 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.api.Token;
+import com.sonar.cxx.sslr.api.Token;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;

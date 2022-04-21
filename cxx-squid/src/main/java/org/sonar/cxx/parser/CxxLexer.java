@@ -19,21 +19,21 @@
  */
 package org.sonar.cxx.parser;
 
-import com.sonar.sslr.api.Preprocessor;
-import com.sonar.sslr.impl.Lexer;
-import com.sonar.sslr.impl.channel.BlackHoleChannel;
-import com.sonar.sslr.impl.channel.BomCharacterChannel;
-import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
-import com.sonar.sslr.impl.channel.PunctuatorChannel;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.and;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.g;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.o2n;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.opt;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.or;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
-import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
+import com.sonar.cxx.sslr.api.Preprocessor;
+import com.sonar.cxx.sslr.impl.Lexer;
+import com.sonar.cxx.sslr.impl.channel.BlackHoleChannel;
+import com.sonar.cxx.sslr.impl.channel.BomCharacterChannel;
+import com.sonar.cxx.sslr.impl.channel.IdentifierAndKeywordChannel;
+import com.sonar.cxx.sslr.impl.channel.PunctuatorChannel;
+import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
+import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.and;
+import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
+import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.g;
+import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.o2n;
+import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.opt;
+import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.or;
+import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.regexp;
+import com.sonar.cxx.sslr.impl.channel.UnknownCharacterChannel;
 import java.nio.charset.Charset;
 import org.sonar.cxx.channels.BackslashChannel;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;

@@ -23,12 +23,12 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // SonarQube .NET Tests Library
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
-import static org.assertj.core.api.Assertions.assertThat;
+import java.io.File;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import static org.assertj.core.groups.Tuple.tuple;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import static org.mockito.ArgumentMatchers.same;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
@@ -40,8 +40,8 @@ import org.sonar.api.measures.CoreMetrics;
 
 public class CxxUnitTestResultsImportSensorTest {
 
-  @Rule
-  public TemporaryFolder temp = new TemporaryFolder();
+  @TempDir
+  File tempDir;
 
   @Test
   public void sensorDescriptor() {
@@ -57,7 +57,7 @@ public class CxxUnitTestResultsImportSensorTest {
 
   @Test
   public void analyze() throws Exception {
-    var context = SensorContextTester.create(temp.newFolder());
+    var context = SensorContextTester.create(tempDir);
     UnitTestResults results = mock(UnitTestResults.class);
     when(results.tests()).thenReturn(42);
     when(results.passedPercentage()).thenReturn(84d);
@@ -91,7 +91,7 @@ public class CxxUnitTestResultsImportSensorTest {
 
   @Test
   public void should_not_save_metrics_with_empty_results() throws Exception {
-    var context = SensorContextTester.create(temp.newFolder());
+    var context = SensorContextTester.create(tempDir);
 
     CxxUnitTestResultsAggregator unitTestResultsAggregator = mock(CxxUnitTestResultsAggregator.class);
     UnitTestConfiguration unitTestConf = mock(UnitTestConfiguration.class);
