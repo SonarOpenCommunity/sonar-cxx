@@ -36,10 +36,10 @@ import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
 import org.sonar.cxx.sslr.internal.vm.ParsingExpression;
 
-public class DelayedRuleInvocationExpressionTest {
+class DelayedRuleInvocationExpressionTest {
 
   @Test
-  public void should_compile_rule_keys() {
+  void should_compile_rule_keys() {
     var b = spy(LexerlessGrammarBuilder.create());
     var ruleKey = mock(GrammarRuleKey.class);
 
@@ -57,7 +57,7 @@ public class DelayedRuleInvocationExpressionTest {
   }
 
   @Test
-  public void should_compile_methods() throws Exception {
+  void should_compile_methods() throws Exception {
     var b = spy(LexerlessGrammarBuilder.create());
     var ruleKey = mock(GrammarRuleKey.class);
     var method = DelayedRuleInvocationExpressionTest.class.getDeclaredMethod("FOO");
@@ -79,7 +79,7 @@ public class DelayedRuleInvocationExpressionTest {
   }
 
   @Test
-  public void should_fail_when_method_is_not_mapped() throws Exception {
+  void should_fail_when_method_is_not_mapped() throws Exception {
     var thrown = catchThrowableOfType(() -> {
       var method = DelayedRuleInvocationExpressionTest.class
         .getDeclaredMethod("FOO");
@@ -92,15 +92,15 @@ public class DelayedRuleInvocationExpressionTest {
   }
 
   @Test
-  public void test_toString() throws Exception {
+  void test_toString() throws Exception {
     var ruleKey = mock(GrammarRuleKey.class);
     when(ruleKey.toString()).thenReturn("foo");
-    assertThat(new DelayedRuleInvocationExpression(mock(LexerlessGrammarBuilder.class), ruleKey).toString()).isEqualTo(
+    assertThat(new DelayedRuleInvocationExpression(mock(LexerlessGrammarBuilder.class), ruleKey)).hasToString(
       "foo");
 
     var method = DelayedRuleInvocationExpressionTest.class.getDeclaredMethod("FOO");
     assertThat(new DelayedRuleInvocationExpression(mock(LexerlessGrammarBuilder.class), mock(
-                                                   GrammarBuilderInterceptor.class), method).toString()).isEqualTo(
+                                                   GrammarBuilderInterceptor.class), method)).hasToString(
       "FOO()");
   }
 

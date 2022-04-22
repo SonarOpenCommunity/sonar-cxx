@@ -37,7 +37,7 @@ public class StructTest extends RuleTest {
   }
 
   @Test
-  public void reallife() {
+  void reallife() {
     assertThat(p)
       .matches("struct my { int a; }")
       .matches("struct my { int a; int b; }");

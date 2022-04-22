@@ -33,7 +33,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxPCLintSensorTest {
+class CxxPCLintSensorTest {
 
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
@@ -45,7 +45,7 @@ public class CxxPCLintSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectViolations() {
+  void shouldReportCorrectViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-SAMPLE.xml");
     context.setSettings(settings);
@@ -64,7 +64,7 @@ public class CxxPCLintSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectMisra2004Violations() {
+  void shouldReportCorrectMisra2004Violations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE1.xml");
     context.setSettings(settings);
@@ -79,7 +79,7 @@ public class CxxPCLintSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectMisra2004PcLint9Violations() {
+  void shouldReportCorrectMisra2004PcLint9Violations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE2.xml");
     context.setSettings(settings);
@@ -94,7 +94,7 @@ public class CxxPCLintSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectMisraCppViolations() {
+  void shouldReportCorrectMisraCppViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRACPP.xml");
     context.setSettings(settings);
@@ -112,7 +112,7 @@ public class CxxPCLintSensorTest {
   }
 
   @Test
-  public void shouldNotSaveIssuesWhenMisra2004DescIsWrong() {
+  void shouldNotSaveIssuesWhenMisra2004DescIsWrong() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-desc.xml");
     context.setSettings(settings);
@@ -127,7 +127,7 @@ public class CxxPCLintSensorTest {
   }
 
   @Test
-  public void shouldNotSaveAnythingWhenMisra2004RuleDoNotExist() {
+  void shouldNotSaveAnythingWhenMisra2004RuleDoNotExist() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY,
                          "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
@@ -143,7 +143,7 @@ public class CxxPCLintSensorTest {
   }
 
   @Test
-  public void shouldNotRemapMisra1998Rules() {
+  void shouldNotRemapMisra1998Rules() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA1998-SAMPLE.xml");
     context.setSettings(settings);
@@ -158,7 +158,7 @@ public class CxxPCLintSensorTest {
   }
 
   @Test
-  public void shouldReportProjectLevelViolations() {
+  void shouldReportProjectLevelViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-projectlevelviolation.xml");
     context.setSettings(settings);
@@ -170,7 +170,7 @@ public class CxxPCLintSensorTest {
   }
 
   @Test
-  public void shouldThrowExceptionInvalidChar() {
+  void shouldThrowExceptionInvalidChar() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-invalid-char.xml");
     context.setSettings(settings);
@@ -178,11 +178,11 @@ public class CxxPCLintSensorTest {
     var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues().size()).isZero();
+    assertThat(context.allIssues()).isEmpty();
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxPCLintSensor();
     sensor.describe(descriptor);
@@ -195,7 +195,7 @@ public class CxxPCLintSensorTest {
   }
 
   @Test
-  public void loadSupplementalMsg() {
+  void loadSupplementalMsg() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-with-supplemental.xml");
     context.setSettings(settings);

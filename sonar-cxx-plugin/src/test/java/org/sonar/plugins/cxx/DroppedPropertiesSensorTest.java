@@ -31,7 +31,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.log.LogTesterJUnit5;
 import org.sonar.api.utils.log.LoggerLevel;
 
-public class DroppedPropertiesSensorTest {
+class DroppedPropertiesSensorTest {
 
   @TempDir
   File tempDir;
@@ -40,7 +40,7 @@ public class DroppedPropertiesSensorTest {
   public LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   @Test
-  public void testNoMsg() throws Exception {
+  void testNoMsg() throws Exception {
     var contextTester = SensorContextTester.create(tempDir);
     var mapSettings = new MapSettings().setProperty("sonar.cxx.xxx", "value");
     contextTester.setSettings(mapSettings);
@@ -53,7 +53,7 @@ public class DroppedPropertiesSensorTest {
   }
 
   @Test
-  public void testNoLongerSupported() throws Exception {
+  void testNoLongerSupported() throws Exception {
     var contextTester = SensorContextTester.create(tempDir);
     var mapSettings = new MapSettings().setProperty("sonar.cxx.cppncss.reportPaths", "value");
     contextTester.setSettings(mapSettings);
@@ -67,7 +67,7 @@ public class DroppedPropertiesSensorTest {
   }
 
   @Test
-  public void testNoLongerSupportedWithInfo() throws Exception {
+  void testNoLongerSupportedWithInfo() throws Exception {
     var contextTester = SensorContextTester.create(tempDir);
     var mapSettings = new MapSettings().setProperty("sonar.cxx.suffixes.sources", "value");
     contextTester.setSettings(mapSettings);

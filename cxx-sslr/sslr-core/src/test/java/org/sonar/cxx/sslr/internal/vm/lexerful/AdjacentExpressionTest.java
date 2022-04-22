@@ -33,19 +33,19 @@ import static org.mockito.Mockito.when;
 import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
 import org.sonar.cxx.sslr.internal.vm.Machine;
 
-public class AdjacentExpressionTest {
+class AdjacentExpressionTest {
 
   private final AdjacentExpression expression = AdjacentExpression.INSTANCE;
   private final Machine machine = mock(Machine.class);
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
-    assertThat(expression.toString()).isEqualTo("Adjacent");
+    assertThat(expression).hasToString("Adjacent");
   }
 
   @Test
-  public void should_match() {
+  void should_match() {
     var previousToken = mock(Token.class);
     when(previousToken.getValue()).thenReturn("foo");
     when(previousToken.getLine()).thenReturn(42);
@@ -66,7 +66,7 @@ public class AdjacentExpressionTest {
   }
 
   @Test
-  public void should_backtrack() {
+  void should_backtrack() {
     var previousToken = mock(Token.class);
     when(previousToken.getValue()).thenReturn("foo");
     when(previousToken.getLine()).thenReturn(42);
@@ -87,7 +87,7 @@ public class AdjacentExpressionTest {
   }
 
   @Test
-  public void should_backtrack2() {
+  void should_backtrack2() {
     var previousToken = mock(Token.class);
     when(previousToken.getValue()).thenReturn("foo");
     when(previousToken.getLine()).thenReturn(42);
@@ -108,7 +108,7 @@ public class AdjacentExpressionTest {
   }
 
   @Test
-  public void should_backtrack3() {
+  void should_backtrack3() {
     when(machine.getIndex()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);

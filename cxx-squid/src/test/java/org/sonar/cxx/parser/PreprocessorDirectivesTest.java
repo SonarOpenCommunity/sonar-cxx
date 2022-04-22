@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
 
   @Test
-  public void preprocessorDirectives() {
+  void preprocessorDirectives() {
     assertThat(parse(
       "#define IDX 10\n"
         + "array[IDX];"))
@@ -33,7 +33,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void hashhash_related_parsing_problem1() {
+  void hashhash_related_parsing_problem1() {
     assertThat(parse(
       "#define CASES CASE(00)\n"
         + "#define CASE(n) case 0x##n:\n"
@@ -47,7 +47,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void hashhash_related_parsing_problem2() {
+  void hashhash_related_parsing_problem2() {
     assertThat(parse(
       "#define paster( n ) printf_s( \"token\" #n \" = %d\", token##n )\n"
         + "int token9 = 9;"
@@ -58,7 +58,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void object_like_macros() {
+  void object_like_macros() {
     assertThat(parse(
       "#define BUFFER_SIZE 1024\n"
         + "foo = (char *) malloc (BUFFER_SIZE);"))
@@ -95,7 +95,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void function_like_macros() {
+  void function_like_macros() {
     assertThat(parse(
       "#define lang_init() c_init()\n"
         + "lang_init();"))
@@ -115,7 +115,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void complex_macro_rescanning() {
+  void complex_macro_rescanning() {
     assertThat(parse(
       "#define lang_init std_init\n"
         + "#define std_init() c_init()\n"
@@ -149,7 +149,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void macro_arguments() {
+  void macro_arguments() {
     assertThat(parse(
       "#define min(X, Y)  ((X) < (Y) ? (X) : (Y))\n"
         + "int i = min(a + 28, *p);"))
@@ -162,7 +162,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void variadic_macros() {
+  void variadic_macros() {
     assertThat(parse(
       "#define eprintf(...) fprintf (stderr, __VA_ARGS__)\n"
         + "eprintf(\"%s:%d: \", input_file, lineno);"))
@@ -239,7 +239,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void va_opt_macros() {
+  void va_opt_macros() {
     // C++20 : Replacement-list may contain the token sequence __VA_OPT__ ( content ),
     // which is replaced by content if __VA_ARGS__ is non-empty, and expands to nothing otherwise.
 
@@ -269,7 +269,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void stringification() {
+  void stringification() {
     // default use case
     assertThat(parse(
       "#define make_string(x) #x\n"
@@ -341,7 +341,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void concatenation() {
+  void concatenation() {
     assertThat(parse(
       "#define A t ## 1\n"
         + "int i = A;"))
@@ -365,7 +365,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void undef() {
+  void undef() {
     assertThat(parse(
       "#define FOO 4\n"
         + "#undef FOO\n"
@@ -382,7 +382,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void redefining_macros() {
+  void redefining_macros() {
     assertThat(parse(
       "#define FOO 1\n"
         + "#define FOO 2\n"
@@ -391,7 +391,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void prescan() {
+  void prescan() {
     assertThat(parse(
       "#define AFTERX(x) X_ ## x\n"
         + "#define XAFTERX(x) AFTERX(x)\n"
@@ -412,7 +412,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void self_referential_macros() {
+  void self_referential_macros() {
     assertThat(parse(
       "#define EPERM EPERM\n"
         + "a = EPERM;"))
@@ -431,7 +431,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void has_include() {
+  void has_include() {
     assertThat(parse(
       "#if __has_include\n"
         + "#   define OK 1\n"

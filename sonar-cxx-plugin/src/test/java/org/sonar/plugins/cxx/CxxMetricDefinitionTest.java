@@ -22,10 +22,10 @@ package org.sonar.plugins.cxx;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class CxxMetricDefinitionTest {
+class CxxMetricDefinitionTest {
 
   @Test
-  public void metrics_defined() {
+  void metrics_defined() {
     assertThat(new CxxMetricDefinition().getMetrics()).hasSize(12);
   }
 

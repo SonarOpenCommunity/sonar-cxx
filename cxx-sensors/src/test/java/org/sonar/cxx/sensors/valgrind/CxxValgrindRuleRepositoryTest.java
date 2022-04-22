@@ -31,19 +31,19 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxValgrindRuleRepositoryTest {
+class CxxValgrindRuleRepositoryTest {
 
   @Test
-  public void shouldContainProperNumberOfRules() {
+  void shouldContainProperNumberOfRules() {
     var def = new CxxValgrindRuleRepository(mock(ServerFileSystem.class), new RulesDefinitionXmlLoader());
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
-    assertThat(repo.rules().size()).isEqualTo(16);
+    assertThat(repo.rules()).hasSize(16);
   }
 
   @Test
-  public void containsValidFormatInExtensionRulesOldFormat() {
+  void containsValidFormatInExtensionRulesOldFormat() {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     var extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesOldFormat.xml"));
@@ -55,11 +55,11 @@ public class CxxValgrindRuleRepositoryTest {
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertThat(repo.rules().size()).isEqualTo(18);
+    assertThat(repo.rules()).hasSize(18);
   }
 
   @Test
-  public void containsValidFormatInExtensionRulesNewFormat() {
+  void containsValidFormatInExtensionRulesNewFormat() {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     var extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesNewFormat.xml"));
@@ -71,7 +71,7 @@ public class CxxValgrindRuleRepositoryTest {
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertThat(repo.rules().size()).isEqualTo(17);
+    assertThat(repo.rules()).hasSize(17);
   }
 
   @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
@@ -87,7 +87,7 @@ public class CxxValgrindRuleRepositoryTest {
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertThat(repo.rules().size()).isEqualTo(16);
+    assertThat(repo.rules()).hasSize(16);
   }
 
   @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
@@ -103,7 +103,7 @@ public class CxxValgrindRuleRepositoryTest {
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertThat(repo.rules().size()).isEqualTo(16);
+    assertThat(repo.rules()).hasSize(16);
   }
 
 }

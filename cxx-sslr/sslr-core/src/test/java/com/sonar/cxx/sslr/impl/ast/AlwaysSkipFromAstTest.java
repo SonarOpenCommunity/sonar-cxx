@@ -28,10 +28,10 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 
-public class AlwaysSkipFromAstTest {
+class AlwaysSkipFromAstTest {
 
   @Test
-  public void test() {
+  void test() {
     var astNode = mock(AstNode.class);
     assertThat(AlwaysSkipFromAst.INSTANCE.hasToBeSkippedFromAst(astNode)).isTrue();
   }

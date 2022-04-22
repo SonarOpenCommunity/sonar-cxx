@@ -46,10 +46,10 @@ import static org.mockito.Mockito.when;
 import org.sonar.cxx.sslr.toolkit.ConfigurationModel;
 import org.sonar.cxx.sslr.toolkit.ConfigurationProperty;
 
-public class ToolkitPresenterTest {
+class ToolkitPresenterTest {
 
   @Test
-  public void checkInitializedBad() {
+  void checkInitializedBad() {
     var thrown = catchThrowableOfType(() -> {
       var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
       presenter.checkInitialized();
@@ -60,14 +60,14 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void checkInitializedGood() {
+  void checkInitializedGood() {
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
     presenter.setView(mock(ToolkitView.class));
     presenter.checkInitialized();
   }
 
   @Test
-  public void initUncaughtExceptionsHandler() throws InterruptedException {
+  void initUncaughtExceptionsHandler() throws InterruptedException {
     var view = mock(ToolkitView.class);
 
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
@@ -87,7 +87,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void initConfigurationTab() {
+  void initConfigurationTab() {
     var view = mock(ToolkitView.class);
 
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
@@ -120,7 +120,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void run() {
+  void run() {
     var view = mock(ToolkitView.class);
 
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
@@ -138,7 +138,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void run_should_call_initConfigurationTab() {
+  void run_should_call_initConfigurationTab() {
     var view = mock(ToolkitView.class);
 
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
@@ -155,7 +155,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void runFailsWithoutView() {
+  void runFailsWithoutView() {
     var thrown = catchThrowableOfType(() -> {
       new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class)).run("foo");
     }, IllegalStateException.class);
@@ -163,7 +163,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onSourceCodeOpenButtonClick() {
+  void onSourceCodeOpenButtonClick() {
     var view = mock(ToolkitView.class);
     var file = new File("src/test/resources/parse_error.txt");
     when(view.pickFileToParse()).thenReturn(file);
@@ -192,7 +192,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onSourceCodeOpenButtonClick_with_parse_error_should_clear_console_and_display_code() {
+  void onSourceCodeOpenButtonClick_with_parse_error_should_clear_console_and_display_code() {
     var view = mock(ToolkitView.class);
     var file = new File("src/test/resources/parse_error.txt");
     when(view.pickFileToParse()).thenReturn(file);
@@ -214,7 +214,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onSourceCodeOpenButtonClick_should_no_operation_when_no_file() {
+  void onSourceCodeOpenButtonClick_should_no_operation_when_no_file() {
     var view = mock(ToolkitView.class);
     when(view.pickFileToParse()).thenReturn(null);
 
@@ -237,7 +237,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onSourceCodeParseButtonClick() {
+  void onSourceCodeParseButtonClick() {
     var view = mock(ToolkitView.class);
     when(view.getSourceCode()).thenReturn("my_mocked_source");
     var point = mock(Point.class);
@@ -265,7 +265,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onXPathEvaluateButtonClickAstNodeResults() {
+  void onXPathEvaluateButtonClickAstNodeResults() {
     var view = mock(ToolkitView.class);
     when(view.getXPath()).thenReturn("//foo");
     var model = mock(SourceCodeModel.class);
@@ -287,7 +287,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onXPathEvaluateButtonClickScrollToFirstAstNode() {
+  void onXPathEvaluateButtonClickScrollToFirstAstNode() {
     var view = mock(ToolkitView.class);
     when(view.getXPath()).thenReturn("//foo");
     var model = mock(SourceCodeModel.class);
@@ -309,7 +309,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onXPathEvaluateButtonClickStringResult() throws Exception {
+  void onXPathEvaluateButtonClickStringResult() throws Exception {
     var view = mock(ToolkitView.class);
     when(view.getXPath()).thenReturn("//foo/@tokenValue");
     var model = mock(SourceCodeModel.class);
@@ -342,7 +342,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onSourceCodeKeyTyped() {
+  void onSourceCodeKeyTyped() {
     var view = mock(ToolkitView.class);
 
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
@@ -357,7 +357,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onSourceCodeTextCursorMoved() {
+  void onSourceCodeTextCursorMoved() {
     var view = mock(ToolkitView.class);
     var astNode = mock(AstNode.class);
     when(view.getAstNodeFollowingCurrentSourceCodeTextCursorPosition()).thenReturn(astNode);
@@ -373,7 +373,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onAstSelectionChanged() {
+  void onAstSelectionChanged() {
     var view = mock(ToolkitView.class);
     var firstAstNode = mock(AstNode.class);
     var secondAstNode = mock(AstNode.class);
@@ -395,7 +395,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onConfigurationPropertyFocusLost_when_validation_successes() {
+  void onConfigurationPropertyFocusLost_when_validation_successes() {
     var view = mock(ToolkitView.class);
 
     var property = mock(ConfigurationProperty.class);
@@ -419,7 +419,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onConfigurationPropertyFocusLost_when_validation_fails() {
+  void onConfigurationPropertyFocusLost_when_validation_fails() {
     var view = mock(ToolkitView.class);
 
     var property = mock(ConfigurationProperty.class);
@@ -443,7 +443,7 @@ public class ToolkitPresenterTest {
   }
 
   @Test
-  public void onConfigurationPropertyFocusLost_with_invalid_name() {
+  void onConfigurationPropertyFocusLost_with_invalid_name() {
     var thrown = catchThrowableOfType(() -> {
       var view = mock(ToolkitView.class);
       var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));

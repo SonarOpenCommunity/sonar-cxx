@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class LineOffsetsTest {
+class LineOffsetsTest {
 
   @Test
-  public void getStartOffset() {
+  void getStartOffset() {
     var foo = mock(Token.class);
     when(foo.getType()).thenReturn(GenericTokenType.IDENTIFIER);
     when(foo.getValue()).thenReturn("foo");
@@ -48,12 +48,12 @@ public class LineOffsetsTest {
 
     var lineOffsets = new LineOffsets("foo\n??bar");
 
-    assertThat(lineOffsets.getStartOffset(foo)).isEqualTo(0);
+    assertThat(lineOffsets.getStartOffset(foo)).isZero();
     assertThat(lineOffsets.getStartOffset(bar)).isEqualTo(6);
   }
 
   @Test
-  public void getEndOffsetSingleLine() {
+  void getEndOffsetSingleLine() {
     var foo = mock(Token.class);
     when(foo.getType()).thenReturn(GenericTokenType.IDENTIFIER);
     when(foo.getValue()).thenReturn("foo");
@@ -75,7 +75,7 @@ public class LineOffsetsTest {
   }
 
   @Test
-  public void getEndOffsetMultiLine() {
+  void getEndOffsetMultiLine() {
     var foo = mock(Token.class);
     when(foo.getType()).thenReturn(GenericTokenType.IDENTIFIER);
     when(foo.getValue()).thenReturn("foo");
@@ -97,7 +97,7 @@ public class LineOffsetsTest {
   }
 
   @Test
-  public void getEndOffsetMultiLineRNSingleOffsetIncrement() {
+  void getEndOffsetMultiLineRNSingleOffsetIncrement() {
     var foo = mock(Token.class);
     when(foo.getType()).thenReturn(GenericTokenType.IDENTIFIER);
     when(foo.getValue()).thenReturn("foo");
@@ -119,7 +119,7 @@ public class LineOffsetsTest {
   }
 
   @Test
-  public void getEndOffsetMultiLineRNewLine() {
+  void getEndOffsetMultiLineRNewLine() {
     var foo = mock(Token.class);
     when(foo.getType()).thenReturn(GenericTokenType.IDENTIFIER);
     when(foo.getValue()).thenReturn("foo");
@@ -141,7 +141,7 @@ public class LineOffsetsTest {
   }
 
   @Test
-  public void getOffset() {
+  void getOffset() {
     var lineOffsets = new LineOffsets("int a = 0;\nint b = 0;");
 
     assertThat(lineOffsets.getOffset(2, 4)).isEqualTo(15);
@@ -150,23 +150,23 @@ public class LineOffsetsTest {
   }
 
   @Test
-  public void getOffsetCariageReturnAsNewLine() {
+  void getOffsetCariageReturnAsNewLine() {
     var lineOffsets = new LineOffsets("\rfoo");
 
-    assertThat(lineOffsets.getOffset(1, 0)).isEqualTo(0);
+    assertThat(lineOffsets.getOffset(1, 0)).isZero();
     assertThat(lineOffsets.getOffset(2, 0)).isEqualTo(1);
   }
 
   @Test
-  public void getOffsetCariageReturnAndLineFeedAsSingleOffset() {
+  void getOffsetCariageReturnAndLineFeedAsSingleOffset() {
     var lineOffsets = new LineOffsets("\r\nfoo");
 
-    assertThat(lineOffsets.getOffset(1, 0)).isEqualTo(0);
+    assertThat(lineOffsets.getOffset(1, 0)).isZero();
     assertThat(lineOffsets.getOffset(2, 0)).isEqualTo(1);
   }
 
   @Test
-  public void getOffsetBadLine() {
+  void getOffsetBadLine() {
     var thrown = catchThrowableOfType(() -> {
       var lineOffsets = new LineOffsets("");
       lineOffsets.getOffset(0, 0);
@@ -175,7 +175,7 @@ public class LineOffsetsTest {
   }
 
   @Test
-  public void getOffsetBadColumn() {
+  void getOffsetBadColumn() {
     var thrown = catchThrowableOfType(() -> {
       var lineOffsets = new LineOffsets("");
       lineOffsets.getOffset(1, -1);

@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class LexerfulParseErrorFormatterTest {
+class LexerfulParseErrorFormatterTest {
 
   @Test
-  public void test() {
+  void test() {
     var tokens = Arrays.asList(
       token(2, 1, "foo\nbar\nbaz"),
       token(4, 6, "qux"),

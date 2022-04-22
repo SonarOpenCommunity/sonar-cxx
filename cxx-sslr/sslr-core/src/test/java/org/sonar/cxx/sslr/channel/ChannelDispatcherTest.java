@@ -26,19 +26,19 @@ package org.sonar.cxx.sslr.channel;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class ChannelDispatcherTest {
+class ChannelDispatcherTest {
 
   @Test
-  public void shouldRemoveSpacesFromString() {
+  void shouldRemoveSpacesFromString() {
     var dispatcher = ChannelDispatcher.builder().addChannel(new SpaceDeletionChannel())
       .build();
     var output = new StringBuilder();
     dispatcher.consume(new CodeReader("two words"), output);
-    assertThat(output.toString()).isEqualTo("twowords");
+    assertThat(output).hasToString("twowords");
   }
 
   @Test
-  public void shouldAddChannels() {
+  void shouldAddChannels() {
     var dispatcher = ChannelDispatcher.builder().addChannels(new SpaceDeletionChannel(),
                                                          new FakeChannel()).build();
     assertThat(dispatcher.getChannels().length).isEqualTo(2);
@@ -47,7 +47,7 @@ public class ChannelDispatcherTest {
   }
 
   @Test
-  public void shouldThrowExceptionWhenNoChannelToConsumeNextCharacter() {
+  void shouldThrowExceptionWhenNoChannelToConsumeNextCharacter() {
     var thrown = catchThrowableOfType(() -> {
       var dispatcher = ChannelDispatcher.builder()
         .failIfNoChannelToConsumeOneCharacter()

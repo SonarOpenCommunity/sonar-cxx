@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class StatementTest extends ParserBaseTestHelper {
 
   @Test
-  public void statement() {
+  void statement() {
     setRootRule(CxxGrammarImpl.statement);
 
     mockRule(CxxGrammarImpl.labeledStatement);
@@ -50,7 +50,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void statement_reallife() {
+  void statement_reallife() {
     setRootRule(CxxGrammarImpl.statement);
 
     assertThatParser()
@@ -72,7 +72,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void expressionStatement_reallife() {
+  void expressionStatement_reallife() {
     setRootRule(CxxGrammarImpl.expressionStatement);
 
     assertThatParser()
@@ -83,7 +83,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void selectionStatement_reallife() {
+  void selectionStatement_reallife() {
     setRootRule(CxxGrammarImpl.selectionStatement);
 
     assertThatParser()
@@ -94,7 +94,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void labeledStatement() {
+  void labeledStatement() {
     setRootRule(CxxGrammarImpl.labeledStatement);
 
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
@@ -114,7 +114,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void statementSeq() {
+  void statementSeq() {
     setRootRule(CxxGrammarImpl.statementSeq);
 
     mockRule(CxxGrammarImpl.statement);
@@ -125,7 +125,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void selectionStatement() {
+  void selectionStatement() {
     setRootRule(CxxGrammarImpl.selectionStatement);
 
     mockRule(CxxGrammarImpl.statement);
@@ -146,7 +146,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void switchStatement_reallife() {
+  void switchStatement_reallife() {
     setRootRule(CxxGrammarImpl.selectionStatement);
 
     assertThatParser()
@@ -156,7 +156,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void ifStatement_reallife() {
+  void ifStatement_reallife() {
     setRootRule(CxxGrammarImpl.selectionStatement);
 
     assertThatParser()
@@ -164,7 +164,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void condition() {
+  void condition() {
     setRootRule(CxxGrammarImpl.condition);
 
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
@@ -183,7 +183,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void condition_reallife() {
+  void condition_reallife() {
     setRootRule(CxxGrammarImpl.condition);
 
     assertThatParser()
@@ -193,7 +193,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void iterationStatement() {
+  void iterationStatement() {
     setRootRule(CxxGrammarImpl.iterationStatement);
 
     mockRule(CxxGrammarImpl.condition);
@@ -214,7 +214,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void iterationStatement_reallife() {
+  void iterationStatement_reallife() {
     setRootRule(CxxGrammarImpl.iterationStatement);
 
     assertThatParser()
@@ -247,7 +247,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void forInitStatement_reallife() {
+  void forInitStatement_reallife() {
     setRootRule(CxxGrammarImpl.initStatement);
 
     assertThatParser()
@@ -255,7 +255,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void forRangeDeclaration() {
+  void forRangeDeclaration() {
     setRootRule(CxxGrammarImpl.forRangeDeclaration);
 
     mockRule(CxxGrammarImpl.forRangeDeclSpecifierSeq);
@@ -276,7 +276,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void forRangeInitializer() {
+  void forRangeInitializer() {
     setRootRule(CxxGrammarImpl.forRangeInitializer);
 
     mockRule(CxxGrammarImpl.expression);
@@ -288,7 +288,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void jumpStatement() {
+  void jumpStatement() {
     setRootRule(CxxGrammarImpl.jumpStatement);
 
     mockRule(CxxGrammarImpl.expression);
@@ -305,7 +305,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void jumpStatement_reallife() {
+  void jumpStatement_reallife() {
     setRootRule(CxxGrammarImpl.jumpStatement);
 
     assertThatParser()
@@ -313,7 +313,7 @@ public class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void coroutineReturnStatement() {
+  void coroutineReturnStatement() {
     setRootRule(CxxGrammarImpl.jumpStatement);
     mockRule(CxxGrammarImpl.exprOrBracedInitList);
 

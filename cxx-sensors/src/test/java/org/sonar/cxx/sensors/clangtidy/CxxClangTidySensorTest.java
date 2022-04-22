@@ -34,7 +34,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxClangTidySensorTest {
+class CxxClangTidySensorTest {
 
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
@@ -47,7 +47,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void shouldIgnoreIssuesIfResourceNotFound() {
+  void shouldIgnoreIssuesIfResourceNotFound() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -62,7 +62,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void shouldReportDefaultRuleId() {
+  void shouldReportDefaultRuleId() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -89,7 +89,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void shouldReportSameIssueInSameLineWithDifferentColumn() {
+  void shouldReportSameIssueInSameLineWithDifferentColumn() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -123,7 +123,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void shouldRemoveDuplicateIssues() {
+  void shouldRemoveDuplicateIssues() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -152,7 +152,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void shouldReportLineIfColumnIsInvalid() {
+  void shouldReportLineIfColumnIsInvalid() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -179,7 +179,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void shouldReportIssuesInFirstAndLastColumn() {
+  void shouldReportIssuesInFirstAndLastColumn() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -200,13 +200,13 @@ public class CxxClangTidySensorTest {
     assertThat(context.allIssues()).hasSize(2);
     var issuesList = new ArrayList<Issue>(context.allIssues());
     assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("first-column");
-    assertThat(issuesList.get(0).primaryLocation().textRange().start().lineOffset()).isEqualTo(0);
+    assertThat(issuesList.get(0).primaryLocation().textRange().start().lineOffset()).isZero();
     assertThat(issuesList.get(1).ruleKey().rule()).isEqualTo("last-column");
     assertThat(issuesList.get(1).primaryLocation().textRange().start().lineOffset()).isEqualTo(9);
   }
 
   @Test
-  public void shouldReportAliasRuleIds() {
+  void shouldReportAliasRuleIds() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -235,7 +235,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void shouldReportErrors() {
+  void shouldReportErrors() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -257,7 +257,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void shouldReportFatalErrors() {
+  void shouldReportFatalErrors() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -279,7 +279,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void shouldReportWarnings() {
+  void shouldReportWarnings() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -301,7 +301,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void shouldReportNodiscard() {
+  void shouldReportNodiscard() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -323,7 +323,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void shouldReportFlow() {
+  void shouldReportFlow() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -349,7 +349,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void invalidReportReportsNoIssues() {
+  void invalidReportReportsNoIssues() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
       CxxClangTidySensor.REPORT_PATH_KEY,
@@ -371,7 +371,7 @@ public class CxxClangTidySensorTest {
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxClangTidySensor();
     sensor.describe(descriptor);

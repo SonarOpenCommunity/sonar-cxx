@@ -26,10 +26,10 @@ import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
-public class CxxClangSARuleRepositoryTest {
+class CxxClangSARuleRepositoryTest {
 
   @Test
-  public void createRulesTest() {
+  void createRulesTest() {
     var def = new CxxClangSARuleRepository(
       mock(ServerFileSystem.class), new RulesDefinitionXmlLoader());
 

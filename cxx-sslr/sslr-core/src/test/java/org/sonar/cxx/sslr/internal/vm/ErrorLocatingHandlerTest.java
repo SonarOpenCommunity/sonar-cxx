@@ -28,12 +28,12 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ErrorLocatingHandlerTest {
+class ErrorLocatingHandlerTest {
 
   private final ErrorLocatingHandler errorLocatingHandler = new ErrorLocatingHandler();
 
   @Test
-  public void should_find_location_of_error() {
+  void should_find_location_of_error() {
     var machine = mock(Machine.class);
     when(machine.getIndex()).thenReturn(1);
     errorLocatingHandler.onBacktrack(machine);

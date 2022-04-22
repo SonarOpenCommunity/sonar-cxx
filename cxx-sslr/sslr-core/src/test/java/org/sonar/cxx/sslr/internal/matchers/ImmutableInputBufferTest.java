@@ -27,10 +27,10 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.internal.matchers.InputBuffer.Position;
 
-public class ImmutableInputBufferTest {
+class ImmutableInputBufferTest {
 
   @Test
-  public void test() {
+  void test() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("foo\r\nbar\nbaz\rqux\r".toCharArray());
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(5);
@@ -53,7 +53,7 @@ public class ImmutableInputBufferTest {
   }
 
   @Test
-  public void test_single_line() {
+  void test_single_line() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("foo".toCharArray());
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(1);
@@ -67,7 +67,7 @@ public class ImmutableInputBufferTest {
   }
 
   @Test
-  public void test_empty() {
+  void test_empty() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("".toCharArray());
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(1);
@@ -79,7 +79,7 @@ public class ImmutableInputBufferTest {
   }
 
   @Test
-  public void test_empty_lines_with_LF() {
+  void test_empty_lines_with_LF() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("\n\n".toCharArray());
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(3);
@@ -94,7 +94,7 @@ public class ImmutableInputBufferTest {
   }
 
   @Test
-  public void test_empty_lines_with_CR() {
+  void test_empty_lines_with_CR() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("\r\r".toCharArray());
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(3);
@@ -109,7 +109,7 @@ public class ImmutableInputBufferTest {
   }
 
   @Test
-  public void test_empty_lines_with_CRLF() {
+  void test_empty_lines_with_CRLF() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("\r\n\r\n".toCharArray());
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(3);
@@ -126,11 +126,11 @@ public class ImmutableInputBufferTest {
   }
 
   @Test
-  public void test_equality_and_hash_code_of_positions() {
+  void test_equality_and_hash_code_of_positions() {
     var position = new Position(0, 0);
     assertThat(position).isEqualTo(position);
     assertThat(position).isEqualTo(new Position(0, 0));
-    assertThat(position.hashCode()).isEqualTo(new Position(0, 0).hashCode());
+    assertThat(position).hasSameHashCodeAs(new Position(0, 0));
     assertThat(position).isNotEqualTo(new Position(0, 1));
     assertThat(position).isNotEqualTo(new Position(1, 1));
     assertThat(position).isNotEqualTo(new Object());

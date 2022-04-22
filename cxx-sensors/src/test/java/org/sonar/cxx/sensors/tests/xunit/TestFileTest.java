@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class TestFileTest {
+class TestFileTest {
 
   private TestFile testFile;
 
@@ -35,16 +35,16 @@ public class TestFileTest {
   }
 
   @Test
-  public void newBornTestFileShouldHaveVirginStatistics() {
-    assertThat(testFile.getTests()).isEqualTo(0);
-    assertThat(testFile.getErrors()).isEqualTo(0);
-    assertThat(testFile.getFailures()).isEqualTo(0);
-    assertThat(testFile.getSkipped()).isEqualTo(0);
-    assertThat(testFile.getExecutionTime()).isEqualTo(0);
+  void newBornTestFileShouldHaveVirginStatistics() {
+    assertThat(testFile.getTests()).isZero();
+    assertThat(testFile.getErrors()).isZero();
+    assertThat(testFile.getFailures()).isZero();
+    assertThat(testFile.getSkipped()).isZero();
+    assertThat(testFile.getExecutionTime()).isZero();
   }
 
   @Test
-  public void addingTestCaseShouldIncrementStatistics() {
+  void addingTestCaseShouldIncrementStatistics() {
     int testBefore = testFile.getTests();
     long timeBefore = testFile.getExecutionTime();
 
@@ -57,7 +57,7 @@ public class TestFileTest {
   }
 
   @Test
-  public void addingAnErroneousTestCaseShouldIncrementErrorStatistic() {
+  void addingAnErroneousTestCaseShouldIncrementErrorStatistic() {
     int errorsBefore = testFile.getErrors();
     TestCase error = mock(TestCase.class);
     when(error.isError()).thenReturn(true);
@@ -68,7 +68,7 @@ public class TestFileTest {
   }
 
   @Test
-  public void addingAFailedTestCaseShouldIncrementFailedStatistic() {
+  void addingAFailedTestCaseShouldIncrementFailedStatistic() {
     int failedBefore = testFile.getFailures();
     TestCase failedTC = mock(TestCase.class);
     when(failedTC.isFailure()).thenReturn(true);
@@ -79,7 +79,7 @@ public class TestFileTest {
   }
 
   @Test
-  public void addingASkippedTestCaseShouldIncrementSkippedStatistic() {
+  void addingASkippedTestCaseShouldIncrementSkippedStatistic() {
     int skippedBefore = testFile.getSkipped();
     TestCase skippedTC = mock(TestCase.class);
     when(skippedTC.isSkipped()).thenReturn(true);

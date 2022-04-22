@@ -34,7 +34,7 @@ import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxValgrindSensorTest {
+class CxxValgrindSensorTest {
 
   private DefaultFileSystem fs;
   private CxxValgrindSensor sensor;
@@ -46,7 +46,7 @@ public class CxxValgrindSensorTest {
   }
 
   @Test
-  public void shouldNotThrowWhenGivenValidData() {
+  void shouldNotThrowWhenGivenValidData() {
     var context = SensorContextTester.create(fs.baseDir());
     sensor.execute(context);
 
@@ -54,7 +54,7 @@ public class CxxValgrindSensorTest {
   }
 
   @Test
-  public void shouldSaveViolationIfErrorIsInside() {
+  void shouldSaveViolationIfErrorIsInside() {
     var context = SensorContextTester.create(fs.baseDir());
     context.fileSystem().add(
       TestInputFileBuilder.create("myProjectKey", "dir/file")
@@ -70,7 +70,7 @@ public class CxxValgrindSensorTest {
   }
 
   @Test
-  public void shouldNotSaveViolationIfErrorIsOutside() {
+  void shouldNotSaveViolationIfErrorIsOutside() {
     var context = SensorContextTester.create(fs.baseDir());
     sensor.execute(context); // set context
     var valgrindErrors = new HashSet<ValgrindError>();
@@ -81,7 +81,7 @@ public class CxxValgrindSensorTest {
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     sensor.describe(descriptor);
 

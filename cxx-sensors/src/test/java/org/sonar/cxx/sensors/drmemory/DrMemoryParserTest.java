@@ -27,15 +27,15 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 
-public class DrMemoryParserTest {
+class DrMemoryParserTest {
 
   @Test
-  public void shouldParseTheWholeFile() throws IOException {
+  void shouldParseTheWholeFile() throws IOException {
     ClassLoader classLoader = getClass().getClassLoader();
     var file = new File(classLoader.getResource("org/sonar/cxx/sensors/reports-project/drmemory-reports/results.txt")
       .getFile());
     List<DrMemoryError> drMemoryErrors = DrMemoryParser.parse(file, StandardCharsets.UTF_8.name());
-    assertThat(drMemoryErrors.size()).isEqualTo(733);
+    assertThat(drMemoryErrors).hasSize(733);
   }
 
 }

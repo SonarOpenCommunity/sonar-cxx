@@ -26,10 +26,10 @@ package org.sonar.cxx.squidbridge.checks;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class ChecksHelperTest {
+class ChecksHelperTest {
 
   @Test
-  public void private_constructor() throws Exception {
+  void private_constructor() throws Exception {
     var constructor = ChecksHelper.class.getDeclaredConstructor();
     assertThat(constructor.isAccessible()).isFalse();
     constructor.setAccessible(true);

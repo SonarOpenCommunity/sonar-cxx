@@ -27,10 +27,10 @@ import java.lang.reflect.Constructor;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class TextUtilsTest {
+class TextUtilsTest {
 
   @Test
-  public void should_escape() {
+  void should_escape() {
     assertThat(TextUtils.escape('\r')).isEqualTo("\\r");
     assertThat(TextUtils.escape('\n')).isEqualTo("\\n");
     assertThat(TextUtils.escape('\f')).isEqualTo("\\f");
@@ -40,13 +40,13 @@ public class TextUtilsTest {
   }
 
   @Test
-  public void should_trim_trailing_line_separator() {
+  void should_trim_trailing_line_separator() {
     assertThat(TextUtils.trimTrailingLineSeparatorFrom("\r\n")).isEqualTo("");
     assertThat(TextUtils.trimTrailingLineSeparatorFrom("\r\nfoo\r\n")).isEqualTo("\r\nfoo");
   }
 
   @Test
-  public void private_constructor() throws Exception {
+  void private_constructor() throws Exception {
     Constructor constructor = TextUtils.class.getDeclaredConstructor();
     assertThat(constructor.isAccessible()).isFalse();
     constructor.setAccessible(true);

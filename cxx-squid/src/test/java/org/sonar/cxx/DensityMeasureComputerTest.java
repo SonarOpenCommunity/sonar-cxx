@@ -28,7 +28,7 @@ import org.sonar.api.ce.measure.test.TestMeasureComputerContext;
 import org.sonar.api.ce.measure.test.TestMeasureComputerDefinition.MeasureComputerDefinitionBuilderImpl;
 import org.sonar.api.ce.measure.test.TestSettings;
 
-public class DensityMeasureComputerTest {
+class DensityMeasureComputerTest {
 
   private static TestMeasureComputerContext createContext(DensityMeasureComputer computer) {
     var component = new TestComponent("file", Type.FILE, new FileAttributesImpl("cxx", false));
@@ -38,14 +38,14 @@ public class DensityMeasureComputerTest {
   }
 
   @Test
-  public void metricsNumber() {
+  void metricsNumber() {
     var computer = new DensityMeasureComputer();
     assertThat(computer.getInputMetrics()).hasSize(8);
     assertThat(computer.getOutputMetrics()).hasSize(5);
   }
 
   @Test
-  public void ignoreMissingValue() {
+  void ignoreMissingValue() {
     var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
@@ -56,7 +56,7 @@ public class DensityMeasureComputerTest {
   }
 
   @Test
-  public void ignoreMissingTotal() {
+  void ignoreMissingTotal() {
     var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
@@ -67,7 +67,7 @@ public class DensityMeasureComputerTest {
   }
 
   @Test
-  public void ignoreMissingBoth() {
+  void ignoreMissingBoth() {
     var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
@@ -77,7 +77,7 @@ public class DensityMeasureComputerTest {
   }
 
   @Test
-  public void ignoreAlreadyCalculated() {
+  void ignoreAlreadyCalculated() {
     var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
@@ -91,7 +91,7 @@ public class DensityMeasureComputerTest {
   }
 
   @Test
-  public void calculatePercent() {
+  void calculatePercent() {
     var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 
@@ -104,7 +104,7 @@ public class DensityMeasureComputerTest {
   }
 
   @Test
-  public void calculateRemainingPercent() {
+  void calculateRemainingPercent() {
     var computer = new DensityMeasureComputer();
     TestMeasureComputerContext context = createContext(computer);
 

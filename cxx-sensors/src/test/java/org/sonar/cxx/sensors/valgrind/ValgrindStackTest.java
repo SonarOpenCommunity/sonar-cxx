@@ -25,7 +25,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ValgrindStackTest {
+class ValgrindStackTest {
 
   private final ValgrindStack stack = new ValgrindStack();
   private final ValgrindStack equalStack = new ValgrindStack();
@@ -48,36 +48,36 @@ public class ValgrindStackTest {
   }
 
   @Test
-  public void stackDoesntEqualsNull() {
+  void stackDoesntEqualsNull() {
     assertThat(stack).isNotNull();
   }
 
   @Test
-  public void stackDoesntEqualsMiscObject() {
+  void stackDoesntEqualsMiscObject() {
     assertThat(stack).isNotEqualTo("string");
   }
 
   @Test
-  public void stackEqualityIsReflexive() {
+  void stackEqualityIsReflexive() {
     assertThat(stack).isEqualTo(stack);
     assertThat(otherStack).isEqualTo(otherStack);
     assertThat(equalStack).isEqualTo(equalStack);
   }
 
   @Test
-  public void stackEqualityWorksAsExpected() {
+  void stackEqualityWorksAsExpected() {
     assertThat(stack).isEqualTo(equalStack);
     assertThat(stack).isNotEqualTo(otherStack);
   }
 
   @Test
-  public void stackHashWorksAsExpected() {
+  void stackHashWorksAsExpected() {
     assertThat(stack).hasSameHashCodeAs(equalStack);
     assertThat(stack.hashCode()).isNotEqualTo(otherStack.hashCode());
   }
 
   @Test
-  public void stringRepresentationShouldResembleValgrindsStandard() {
+  void stringRepresentationShouldResembleValgrindsStandard() {
     var frame0 = new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", "1");
     var stack0 = new ValgrindStack();
     stack0.addFrame(frame0);
@@ -89,18 +89,18 @@ public class ValgrindStackTest {
 
     var softly = new SoftAssertions();
     softly.assertThat(new ValgrindStack().toString()).isEmpty();
-    softly.assertThat(stack0.toString()).isEqualTo(frame0.toString());
-    softly.assertThat(stack1.toString()).isEqualTo(frame1.toString() + "\n" + frame0.toString());
+    softly.assertThat(stack0).hasToString(frame0.toString());
+    softly.assertThat(stack1).hasToString(frame1.toString() + "\n" + frame0.toString());
     softly.assertAll();
   }
 
   @Test
-  public void getLastOwnFrame_returnsNullOnEmptyStack() {
+  void getLastOwnFrame_returnsNullOnEmptyStack() {
     assertThat(new ValgrindStack().getLastOwnFrame("somepath")).isNull();
   }
 
   @Test
-  public void getLastOwnFrame_returnsNullIfNoOwnFrameThere() {
+  void getLastOwnFrame_returnsNullIfNoOwnFrameThere() {
     var frame = new ValgrindFrame(null, null, null, null, null, "1");
     var stack = new ValgrindStack();
     stack.addFrame(frame);
@@ -109,7 +109,7 @@ public class ValgrindStackTest {
   }
 
   @Test
-  public void getLastOwnFrame_returnsTheOwnFrame1() {
+  void getLastOwnFrame_returnsTheOwnFrame1() {
     var BASE_DIR = new File("our", "path");
     var OWN_PATH = new File(BASE_DIR, "subdir");
 
@@ -123,7 +123,7 @@ public class ValgrindStackTest {
   }
 
   @Test
-  public void getLastOwnFrame_returnsTheOwnFrame2() {
+  void getLastOwnFrame_returnsTheOwnFrame2() {
     var BASE_DIR = new File("our/path/.");
     var OWN_PATH = new File("our/../our/./path/subdir");
 

@@ -26,10 +26,10 @@ package org.sonar.cxx.squidbridge.api;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class SourceMethodTest {
+class SourceMethodTest {
 
   @Test
-  public void testSquidMethodSquidClassString() {
+  void testSquidMethodSquidClassString() {
     SourceMethod squidMethod = new SourceMethod(new SourceClass("org.sonar.Squid"), "scan:23", 23);
     assertThat(squidMethod.getKey()).isEqualTo("org.sonar.Squid#scan:23");
     assertThat(squidMethod.getStartAtLine()).isEqualTo(23);

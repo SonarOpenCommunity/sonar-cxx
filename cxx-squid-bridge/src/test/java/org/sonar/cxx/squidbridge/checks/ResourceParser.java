@@ -41,7 +41,7 @@ public class ResourceParser {
       throw new IllegalArgumentException("The file located under \"" + filePath + "\" was not found.");
     }
     scanner.scanFile(file);
-    assertThat(scanner.getIndex().search(new QueryByType(SourceFile.class)).size()).isEqualTo(1);
+    assertThat(scanner.getIndex().search(new QueryByType(SourceFile.class))).hasSize(1);
     return (SourceFile) scanner.getIndex().search(new QueryByType(SourceFile.class)).iterator().next();
   }
 

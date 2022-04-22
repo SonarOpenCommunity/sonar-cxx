@@ -28,12 +28,12 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 
-public class VisualStudioTestResultsFileParserTest {
+class VisualStudioTestResultsFileParserTest {
 
   private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/MSTest-reports/";
 
   @Test
-  public void no_counters() {
+  void no_counters() {
     IllegalArgumentException thrown = catchThrowableOfType(() -> {
       new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "no_counters.trx"),
                                                      mock(UnitTestResults.class));
@@ -43,7 +43,7 @@ public class VisualStudioTestResultsFileParserTest {
   }
 
   @Test
-  public void wrong_passed_number() {
+  void wrong_passed_number() {
     ParseErrorException thrown = catchThrowableOfType(() -> {
       new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "wrong_passed_number.trx"),
                                                      mock(UnitTestResults.class));
@@ -53,7 +53,7 @@ public class VisualStudioTestResultsFileParserTest {
   }
 
   @Test
-  public void valid() throws Exception {
+  void valid() throws Exception {
     var results = new UnitTestResults();
     new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "valid.trx"), results);
 
@@ -66,7 +66,7 @@ public class VisualStudioTestResultsFileParserTest {
   }
 
   @Test
-  public void valid_missing_attributes() throws Exception {
+  void valid_missing_attributes() throws Exception {
     var results = new UnitTestResults();
     new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "valid_missing_attributes.trx"), results);
 

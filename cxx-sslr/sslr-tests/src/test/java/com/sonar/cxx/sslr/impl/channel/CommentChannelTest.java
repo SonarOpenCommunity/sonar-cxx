@@ -34,13 +34,13 @@ import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.sslr.test.channel.ChannelMatchers.*;
 
-public class CommentChannelTest {
+class CommentChannelTest {
 
   private CommentRegexpChannel channel;
   private final Lexer lexer = Lexer.builder().build();
 
   @Test
-  public void testCommentRegexp() {
+  void testCommentRegexp() {
     channel = new CommentRegexpChannel("//.*");
     AssertionsForClassTypes.assertThat(channel).isNot(consume("This is not a comment", lexer));
     AssertionsForClassTypes.assertThat(channel).is(consume("//My Comment\n second line", lexer));

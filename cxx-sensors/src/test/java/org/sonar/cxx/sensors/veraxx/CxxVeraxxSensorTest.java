@@ -31,7 +31,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxVeraxxSensorTest {
+class CxxVeraxxSensorTest {
 
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
@@ -43,7 +43,7 @@ public class CxxVeraxxSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectViolations() {
+  void shouldReportCorrectViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxVeraxxSensor.REPORT_PATH_KEY, "vera++-reports/vera++-result-*.xml");
     context.setSettings(settings);
@@ -68,7 +68,7 @@ public class CxxVeraxxSensorTest {
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxVeraxxSensor();
     sensor.describe(descriptor);

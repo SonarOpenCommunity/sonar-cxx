@@ -32,10 +32,10 @@ import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 
-public class ClassComplexityCheckTest {
+class ClassComplexityCheckTest {
 
   @Test
-  public void test() throws UnsupportedEncodingException, IOException {
+  void test() throws UnsupportedEncodingException, IOException {
     var check = new ClassComplexityCheck();
     check.setMaxComplexity(5);
 

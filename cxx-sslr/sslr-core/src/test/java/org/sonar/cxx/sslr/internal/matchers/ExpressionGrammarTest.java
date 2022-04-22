@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.parser.ParseErrorFormatter;
 import org.sonar.cxx.sslr.parser.ParseRunner;
 
-public class ExpressionGrammarTest {
+class ExpressionGrammarTest {
 
   private ExpressionGrammar grammar;
 
@@ -40,7 +40,7 @@ public class ExpressionGrammarTest {
   }
 
   @Test
-  public void match() {
+  void match() {
     var inputString = "20 * ( 2 + 2 ) - var";
     var input = inputString.toCharArray();
     var parseRunner = new ParseRunner(grammar.root);
@@ -52,7 +52,7 @@ public class ExpressionGrammarTest {
   }
 
   @Test
-  public void mismatch() {
+  void mismatch() {
     var inputString = "term +";
     var input = inputString.toCharArray();
     var parseRunner = new ParseRunner(grammar.root);
@@ -64,7 +64,7 @@ public class ExpressionGrammarTest {
   }
 
   @Test
-  public void prefix_match() {
+  void prefix_match() {
     var inputString = "term +";
     var input = inputString.toCharArray();
     var parseRunner = new ParseRunner(grammar.expression);
@@ -73,7 +73,7 @@ public class ExpressionGrammarTest {
   }
 
   @Test
-  public void should_mock() {
+  void should_mock() {
     var inputString = "term plus term";
     var input = inputString.toCharArray();
     grammar.term.mock();
@@ -87,7 +87,7 @@ public class ExpressionGrammarTest {
   }
 
   @Test
-  public void should_create_ast() throws Exception {
+  void should_create_ast() throws Exception {
     var inputString = "20 * 2 + 2 - var";
     var grammar = new ExpressionGrammar();
     var input = inputString.toCharArray();
@@ -102,7 +102,7 @@ public class ExpressionGrammarTest {
 
     var firstToken = astNode.getToken();
     assertThat(firstToken.getLine()).isEqualTo(1);
-    assertThat(firstToken.getColumn()).isEqualTo(0);
+    assertThat(firstToken.getColumn()).isZero();
     assertThat(firstToken.getValue()).isEqualTo("20");
     assertThat(firstToken.getOriginalValue()).isEqualTo("20");
 

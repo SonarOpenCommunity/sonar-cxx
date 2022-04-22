@@ -36,19 +36,19 @@ import static org.mockito.Mockito.when;
 import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
 import org.sonar.cxx.sslr.internal.vm.Machine;
 
-public class TillNewLineExpressionTest {
+class TillNewLineExpressionTest {
 
   private final TillNewLineExpression expression = TillNewLineExpression.INSTANCE;
   private final Machine machine = mock(Machine.class);
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
-    assertThat(expression.toString()).isEqualTo("TillNewLine");
+    assertThat(expression).hasToString("TillNewLine");
   }
 
   @Test
-  public void should_match() {
+  void should_match() {
     var token1 = token(GenericTokenType.IDENTIFIER, 1);
     var token2 = token(GenericTokenType.IDENTIFIER, 1);
     var token3 = token(GenericTokenType.IDENTIFIER, 2);
@@ -68,7 +68,7 @@ public class TillNewLineExpressionTest {
   }
 
   @Test
-  public void should_match2() {
+  void should_match2() {
     var token0 = token(GenericTokenType.IDENTIFIER, 1);
     var token1 = token(GenericTokenType.IDENTIFIER, 1);
     var token2 = token(GenericTokenType.IDENTIFIER, 1);

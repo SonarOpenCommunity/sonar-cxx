@@ -22,10 +22,10 @@ package org.sonar.cxx.parser;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-public class CxxTokenTypeTest {
+class CxxTokenTypeTest {
 
   @Test
-  public void test() {
+  void test() {
     var softly = new SoftAssertions();
     softly.assertThat(CxxTokenType.values()).hasSize(5);
 

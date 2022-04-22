@@ -30,7 +30,7 @@ import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifier;
 
-public class FileEncodingCheckTest {
+class FileEncodingCheckTest {
 
   private final FileEncodingCheck check = new FileEncodingCheck();
 

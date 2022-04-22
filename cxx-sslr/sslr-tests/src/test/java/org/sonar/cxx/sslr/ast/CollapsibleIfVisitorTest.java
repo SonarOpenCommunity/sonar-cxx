@@ -34,13 +34,13 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class CollapsibleIfVisitorTest {
+class CollapsibleIfVisitorTest {
 
   private final Parser<Grammar> p = MiniCParser.create();
   private final Grammar g = p.getGrammar();
 
   @Test
-  public void test() {
+  void test() {
     var fileNode = p.parse(new File("src/test/resources/queries/collapsible_if.mc"));
     var ifStatements = fileNode.getDescendants(MiniCGrammar.IF_STATEMENT);
 

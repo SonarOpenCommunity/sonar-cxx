@@ -35,7 +35,7 @@ import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 
-public class CxxFileLinesVisitorTest {
+class CxxFileLinesVisitorTest {
 
   private SourceFile sourceFile;
 
@@ -46,7 +46,7 @@ public class CxxFileLinesVisitorTest {
   }
 
   @Test
-  public void testLinesOfCode() throws UnsupportedEncodingException, IOException {
+  void testLinesOfCode() throws UnsupportedEncodingException, IOException {
     Set<Integer> testLines = Stream.of(
       8, 10, 14, 16, 17, 21, 22, 23, 26, 31, 34, 35, 42, 44, 45, 49, 51, 53, 55, 56,
       58, 59, 63, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 79, 82, 84, 86, 87, 89,
@@ -59,7 +59,7 @@ public class CxxFileLinesVisitorTest {
   }
 
   @Test
-  public void testExecutableLinesOfCode() throws UnsupportedEncodingException, IOException {
+  void testExecutableLinesOfCode() throws UnsupportedEncodingException, IOException {
     List<Integer> executableLines = (List<Integer>) sourceFile.getData(CxxMetric.EXECUTABLE_LINES_DATA);
     assertThat(executableLines).containsExactlyInAnyOrder(
       10, 26, 34, 35, 56, 59, 69, 70, 72, 73,

@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class BasicQueriesTest {
+class BasicQueriesTest {
 
   private AstNode fileNode;
 
@@ -42,61 +42,61 @@ public class BasicQueriesTest {
   }
 
   @Test
-  public void compilationUnitTest() {
+  void compilationUnitTest() {
     var xpath = AstNodeXPathQuery.create("/COMPILATION_UNIT");
     assertThat(xpath.selectSingleNode(fileNode)).isEqualTo(fileNode);
   }
 
   @Test
-  public void anyCompilationUnitTest() {
+  void anyCompilationUnitTest() {
     var xpath = AstNodeXPathQuery.create("//COMPILATION_UNIT");
     assertThat(xpath.selectSingleNode(fileNode)).isEqualTo(fileNode);
   }
 
   @Test
-  public void compilationUnitWithPredicateWithEOFTest() {
+  void compilationUnitWithPredicateWithEOFTest() {
     var xpath = AstNodeXPathQuery.create("/COMPILATION_UNIT[not(not(EOF))]");
     assertThat(xpath.selectSingleNode(fileNode)).isEqualTo(fileNode);
   }
 
   @Test
-  public void compilationUnitWithPredicateWithoutEOFTest() {
+  void compilationUnitWithPredicateWithoutEOFTest() {
     var xpath = AstNodeXPathQuery.create("/COMPILATION_UNIT[not(EOF)]");
     assertThat(xpath.selectSingleNode(fileNode)).isNull();
   }
 
   @Test
-  public void EOFTest() {
+  void EOFTest() {
     var xpath = AstNodeXPathQuery.create("/COMPILATION_UNIT/EOF");
     assertThat(xpath.selectSingleNode(fileNode)).isEqualTo(fileNode.findFirstChild(EOF));
   }
 
   @Test
-  public void anyEOFTest() {
+  void anyEOFTest() {
     var xpath = AstNodeXPathQuery.create("//EOF");
     assertThat(xpath.selectSingleNode(fileNode)).isEqualTo(fileNode.findFirstChild(EOF));
   }
 
   @Test
-  public void getTokenValueAttributeTest() {
+  void getTokenValueAttributeTest() {
     var xpath = AstNodeXPathQuery.create("string(/COMPILATION_UNIT/@tokenValue)");
     assertThat(xpath.selectSingleNode(fileNode)).isEqualTo("int");
   }
 
   @Test
-  public void getTokenLineAttributeTest() {
+  void getTokenLineAttributeTest() {
     var xpath = AstNodeXPathQuery.create("string(/COMPILATION_UNIT/@tokenLine)");
     assertThat(xpath.selectSingleNode(fileNode)).isEqualTo("2");
   }
 
   @Test
-  public void getTokenColumnAttributeTest() {
+  void getTokenColumnAttributeTest() {
     var xpath = AstNodeXPathQuery.create("string(/COMPILATION_UNIT/@tokenColumn)");
     assertThat(xpath.selectSingleNode(fileNode)).isEqualTo("0");
   }
 
   @Test
-  public void getSecondDeclarationTest() {
+  void getSecondDeclarationTest() {
     var xpath1 = AstNodeXPathQuery.create("/COMPILATION_UNIT/DEFINITION[@tokenLine=4]");
     var xpath2 = AstNodeXPathQuery.create("/COMPILATION_UNIT/DEFINITION[2]");
     var declarationAtLineFour = fileNode.getChildren().get(1);
@@ -107,16 +107,16 @@ public class BasicQueriesTest {
   }
 
   @Test
-  public void identifiersCountTest() {
+  void identifiersCountTest() {
     var xpath = AstNodeXPathQuery.create("/COMPILATION_UNIT[count(//IDENTIFIER) = 2]");
     assertThat(xpath.selectSingleNode(fileNode)).isEqualTo(fileNode);
   }
 
   @Test
-  public void getIdentifiersTest() {
+  void getIdentifiersTest() {
     AstNodeXPathQuery<AstNode> xpath = AstNodeXPathQuery.create("//IDENTIFIER");
     var nodes = xpath.selectNodes(fileNode);
-    assertThat(nodes.size()).isEqualTo(2);
+    assertThat(nodes).hasSize(2);
     assertThat(nodes.get(0).getTokenValue()).isEqualTo("a");
     assertThat(nodes.get(1).getTokenValue()).isEqualTo("b");
   }

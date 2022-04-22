@@ -27,7 +27,7 @@ import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifierRule;
 
-public class TodoTagPresenceCheckTest {
+class TodoTagPresenceCheckTest {
 
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 

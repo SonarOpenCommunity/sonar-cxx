@@ -38,7 +38,7 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 
-public class CxxPublicApiVisitorTest {
+class CxxPublicApiVisitorTest {
 
   private static final org.sonar.api.utils.log.Logger LOG = Loggers.get(CxxPublicApiVisitorTest.class);
 
@@ -51,7 +51,7 @@ public class CxxPublicApiVisitorTest {
   }
 
   @Test
-  public void test_no_matching_suffix() throws IOException {
+  void test_no_matching_suffix() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/doxygen_example.h", ".",
                                         "");
     var squidConfig = new CxxSquidConfiguration();
@@ -65,48 +65,48 @@ public class CxxPublicApiVisitorTest {
   }
 
   @Test
-  public void doxygen_example() throws IOException {
+  void doxygen_example() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/doxygen_example.h")).isEqualTo(tuple(13, 0));
   }
 
   @Test
-  public void to_delete() throws IOException {
+  void to_delete() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/public_api.h")).isEqualTo(tuple(47, 0));
 
   }
 
   @Test
-  public void no_doc() throws IOException {
+  void no_doc() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/no_doc.h")).isEqualTo(tuple(22, 22));
   }
 
   @Test
-  public void template() throws IOException {
+  void template() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/template.h")).isEqualTo(tuple(15, 4));
   }
 
   @Test
-  public void alias_function_template() throws IOException {
+  void alias_function_template() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/alias_in_template_func.h")).isEqualTo(tuple(4, 3));
   }
 
   @Test
-  public void unnamed_class() throws IOException {
+  void unnamed_class() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/unnamed_class.h")).isEqualTo(tuple(3, 1));
   }
 
   @Test
-  public void unnamed_enum() throws IOException {
+  void unnamed_enum() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/unnamed_enum.h")).isEqualTo(tuple(8, 0));
   }
 
   @Test
-  public void multiline() throws IOException {
+  void multiline() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/multiline.h")).isEqualTo(tuple(9, 0));
   }
 
   @Test
-  public void public_api() throws UnsupportedEncodingException, IOException {
+  void public_api() throws UnsupportedEncodingException, IOException {
     var fileNme = "src/test/resources/metrics/public_api.h";
     var visitor = new TestPublicApiVisitor(fileNme, true);
 

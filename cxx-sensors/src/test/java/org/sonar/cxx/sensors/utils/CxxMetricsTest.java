@@ -25,16 +25,16 @@ import org.junit.jupiter.api.Test;
 import org.sonar.api.measures.Metric;
 import org.sonar.cxx.CxxMetrics;
 
-public class CxxMetricsTest {
+class CxxMetricsTest {
 
   @Test
-  public void getMetricsTest() {
+  void getMetricsTest() {
     List<Metric> list = CxxMetrics.getMetrics();
     assertThat(list).hasSize(12);
   }
 
   @Test
-  public void getMetricTest() {
+  void getMetricTest() {
     Metric<Integer> metric0 = CxxMetrics.getMetric(CxxMetrics.PUBLIC_API_KEY);
     assertThat(metric0).isNotNull();
 

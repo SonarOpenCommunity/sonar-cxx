@@ -26,10 +26,10 @@ import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
-public class CxxVeraxxRuleRepositoryTest {
+class CxxVeraxxRuleRepositoryTest {
 
   @Test
-  public void createRulesTest() {
+  void createRulesTest() {
     var def = new CxxVeraxxRuleRepository(mock(ServerFileSystem.class), new RulesDefinitionXmlLoader());
 
     var context = new RulesDefinition.Context();

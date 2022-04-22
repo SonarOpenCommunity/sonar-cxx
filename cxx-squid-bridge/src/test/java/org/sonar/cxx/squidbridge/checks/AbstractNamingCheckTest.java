@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 import static org.assertj.core.api.Assertions.*;
 
-public class AbstractNamingCheckTest {
+class AbstractNamingCheckTest {
 
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
@@ -72,7 +72,7 @@ public class AbstractNamingCheckTest {
   private final Check check = new Check();
 
   @Test
-  public void detected() {
+  void detected() {
     check.regularExpression = "[a-z]+";
     checkMessagesVerifier.verify(scanFile("/checks/naming.mc", check).getCheckMessages())
       .next().atLine(5).withMessage("\"BAD\" is a bad name.")
@@ -80,7 +80,7 @@ public class AbstractNamingCheckTest {
   }
 
   @Test
-  public void wrong_regular_expression() {
+  void wrong_regular_expression() {
     check.regularExpression = "*";
     IllegalStateException thrown = catchThrowableOfType(() -> {
       scanFile("/checks/naming.mc", check);

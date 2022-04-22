@@ -27,12 +27,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class CppLexerTest {
+class CppLexerTest {
 
   private final static Lexer LEXER = CppLexer.create();
 
   @Test
-  public void cpp_keywords() {
+  void cpp_keywords() {
     assertThat(hasToken("#define", CppKeyword.DEFINE)
       .matches(LEXER.lex("#define"))).isTrue();
     assertThat(hasToken("#define", CppKeyword.DEFINE)
@@ -42,7 +42,7 @@ public class CppLexerTest {
   }
 
   @Test
-  public void cpp_keywords_with_whitespaces() {
+  void cpp_keywords_with_whitespaces() {
     assertThat(hasToken("#define", CppKeyword.DEFINE)
       .matches(LEXER.lex("#  define"))).isTrue();
     assertThat(hasToken("#include", CppKeyword.INCLUDE)
@@ -50,7 +50,7 @@ public class CppLexerTest {
   }
 
   @Test
-  public void cpp_keywords_indented() {
+  void cpp_keywords_indented() {
     assertThat(hasToken("#define", CppKeyword.DEFINE)
       .matches(LEXER.lex(" #define"))).isTrue();
     assertThat(hasToken("#define", CppKeyword.DEFINE)
@@ -58,13 +58,13 @@ public class CppLexerTest {
   }
 
   @Test
-  public void cpp_identifiers() {
+  void cpp_identifiers() {
     assertThat(hasToken("lala", IDENTIFIER)
       .matches(LEXER.lex("lala"))).isTrue();
   }
 
   @Test
-  public void cpp_operators() {
+  void cpp_operators() {
     assertThat(hasToken("#", CppPunctuator.HASH)
       .matches(LEXER.lex("#"))).isTrue();
     assertThat(hasToken("##", CppPunctuator.HASHHASH)
@@ -72,7 +72,7 @@ public class CppLexerTest {
   }
 
   @Test
-  public void hashhash_followed_by_word() {
+  void hashhash_followed_by_word() {
     List<Token> tokens = LEXER.lex("##a");
     assertThat(hasToken("##", CppPunctuator.HASHHASH)
       .matches(tokens)).isTrue();
@@ -81,7 +81,7 @@ public class CppLexerTest {
   }
 
   @Test
-  public void hash_followed_by_word() {
+  void hash_followed_by_word() {
     List<Token> tokens = LEXER.lex("#a");
     assertThat(hasToken("#", CppPunctuator.HASH)
       .matches(tokens)).isTrue();

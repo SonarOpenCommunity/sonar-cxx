@@ -28,21 +28,21 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 
-public class RuleRefExpressionTest {
+class RuleRefExpressionTest {
 
   private final GrammarRuleKey ruleKey = mock(GrammarRuleKey.class);
   private final RuleRefExpression expression = new RuleRefExpression(ruleKey);
   private final Machine machine = mock(Machine.class);
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression.getRuleKey()).isSameAs(ruleKey);
-    assertThat(expression.toString()).isEqualTo("Ref " + ruleKey);
+    assertThat(expression).hasToString("Ref " + ruleKey);
   }
 
   @Test
-  public void can_not_be_executed() {
+  void can_not_be_executed() {
     var thrown = catchThrowableOfType(
       () -> expression.execute(machine),
       UnsupportedOperationException.class);

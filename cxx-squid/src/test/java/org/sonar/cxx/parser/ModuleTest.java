@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class ModuleTest extends ParserBaseTestHelper {
 
   @Test
-  public void translationUnit() {
+  void translationUnit() {
     setRootRule(CxxGrammarImpl.translationUnit);
 
     mockRule(CxxGrammarImpl.globalModuleFragment);
@@ -45,7 +45,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void translationUnit_reallife() {
+  void translationUnit_reallife() {
     setRootRule(CxxGrammarImpl.translationUnit);
 
     assertThatParser()
@@ -58,7 +58,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void moduleDeclaration() {
+  void moduleDeclaration() {
     setRootRule(CxxGrammarImpl.moduleDeclaration);
 
     mockRule(CxxGrammarImpl.moduleName);
@@ -73,7 +73,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void moduleDeclaration_reallife() {
+  void moduleDeclaration_reallife() {
     setRootRule(CxxGrammarImpl.moduleDeclaration);
 
     assertThatParser()
@@ -83,7 +83,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void moduleName() {
+  void moduleName() {
     setRootRule(CxxGrammarImpl.moduleName);
 
     mockRule(CxxGrammarImpl.moduleNameQualifier);
@@ -94,7 +94,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void modulePartition() {
+  void modulePartition() {
     setRootRule(CxxGrammarImpl.modulePartition);
 
     mockRule(CxxGrammarImpl.moduleNameQualifier);
@@ -105,7 +105,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void moduleNameQualifier() {
+  void moduleNameQualifier() {
     setRootRule(CxxGrammarImpl.moduleNameQualifier);
 
     assertThatParser()
@@ -114,7 +114,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void exportDeclaration() {
+  void exportDeclaration() {
     setRootRule(CxxGrammarImpl.exportDeclaration);
 
     mockRule(CxxGrammarImpl.declaration);
@@ -129,7 +129,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void exportDeclaration_reallife() {
+  void exportDeclaration_reallife() {
     setRootRule(CxxGrammarImpl.exportDeclaration);
 
     assertThatParser()
@@ -139,7 +139,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void moduleImportDeclaration() {
+  void moduleImportDeclaration() {
     setRootRule(CxxGrammarImpl.moduleImportDeclaration);
 
     mockRule(CxxGrammarImpl.moduleName);
@@ -154,7 +154,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void moduleImportDeclaration_reallife() {
+  void moduleImportDeclaration_reallife() {
     setRootRule(CxxGrammarImpl.moduleImportDeclaration);
 
     assertThatParser()
@@ -163,7 +163,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void globalModuleFragment() {
+  void globalModuleFragment() {
     setRootRule(CxxGrammarImpl.globalModuleFragment);
 
     mockRule(CxxGrammarImpl.declarationSeq);
@@ -174,7 +174,7 @@ public class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void privateModuleFragment() {
+  void privateModuleFragment() {
     setRootRule(CxxGrammarImpl.privateModuleFragment);
 
     mockRule(CxxGrammarImpl.declarationSeq);

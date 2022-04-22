@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import static org.sonar.cxx.sslr.tests.Assertions.assertThat;
 
-public class CppGrammarImplTest {
+class CppGrammarImplTest {
 
   private final Parser<Grammar> p = Parser.builder(CppGrammarImpl.create())
     .withLexer(CppLexer.create())
@@ -34,7 +34,7 @@ public class CppGrammarImplTest {
   private final Grammar g = p.getGrammar();
 
   @Test
-  public void preprocessorLine() {
+  void preprocessorLine() {
     mockRule(CppGrammarImpl.defineLine);
     mockRule(CppGrammarImpl.includeLine);
     mockRule(CppGrammarImpl.ifdefLine);
@@ -63,7 +63,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void preprocessorLine_reallife() {
+  void preprocessorLine_reallife() {
     assertThat(p).matches("#include      <ace/config-all.h>");
     assertThat(p).matches("#endif  // LLVM_DEBUGINFO_DWARFDEBUGRANGELIST_H");
     assertThat(p).matches(
@@ -74,7 +74,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void defineLine_reallife() {
+  void defineLine_reallife() {
     p.setRootRule(g.rule(CppGrammarImpl.defineLine));
 
     assertThat(p).matches("#define ALGOSTUFF_HPPEOF");
@@ -87,13 +87,13 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void define_containing_argumentList() {
+  void define_containing_argumentList() {
     AstNode define = p.parse("#define lala(a, b) a b");
     org.assertj.core.api.Assertions.assertThat(define.getDescendants(CppGrammarImpl.parameterList)).isNotNull();
   }
 
   @Test
-  public void functionlikeMacroDefinition() {
+  void functionlikeMacroDefinition() {
     p.setRootRule(g.rule(CppGrammarImpl.functionlikeMacroDefinition));
 
     mockRule(CppGrammarImpl.replacementList);
@@ -109,7 +109,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void functionlikeMacroDefinition_reallife() {
+  void functionlikeMacroDefinition_reallife() {
     p.setRootRule(g.rule(CppGrammarImpl.functionlikeMacroDefinition));
 
     assertThat(p).matches("#define foo() bar");
@@ -119,7 +119,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void objectlikeMacroDefinition() {
+  void objectlikeMacroDefinition() {
     p.setRootRule(g.rule(CppGrammarImpl.objectlikeMacroDefinition));
 
     mockRule(CppGrammarImpl.replacementList);
@@ -129,7 +129,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void objectlikeMacroDefinition_reallife() {
+  void objectlikeMacroDefinition_reallife() {
     p.setRootRule(g.rule(CppGrammarImpl.objectlikeMacroDefinition));
 
     assertThat(p).matches("#define foo");
@@ -139,7 +139,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void replacementList() {
+  void replacementList() {
     p.setRootRule(g.rule(CppGrammarImpl.replacementList));
 
     assertThat(p).matches("");
@@ -153,7 +153,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void argumentList() {
+  void argumentList() {
     p.setRootRule(g.rule(CppGrammarImpl.argumentList));
 
     assertThat(p).matches("foo");
@@ -164,7 +164,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void argument() {
+  void argument() {
     p.setRootRule(g.rule(CppGrammarImpl.argument));
 
     assertThat(p).matches("a");
@@ -173,7 +173,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void somethingContainingParantheses() {
+  void somethingContainingParantheses() {
     p.setRootRule(g.rule(CppGrammarImpl.somethingContainingParantheses));
 
     assertThat(p).matches("call()");
@@ -181,14 +181,14 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void somethingWithoutParantheses() {
+  void somethingWithoutParantheses() {
     p.setRootRule(g.rule(CppGrammarImpl.somethingWithoutParantheses));
 
     assertThat(p).matches("abc");
   }
 
   @Test
-  public void ppToken() {
+  void ppToken() {
     p.setRootRule(g.rule(CppGrammarImpl.ppToken));
 
     assertThat(p).matches("foo");
@@ -198,7 +198,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void includeLine() {
+  void includeLine() {
     p.setRootRule(g.rule(CppGrammarImpl.includeLine));
 
     mockRule(CppGrammarImpl.ppToken);
@@ -210,7 +210,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void importLine_reallife() {
+  void importLine_reallife() {
     p.setRootRule(g.rule(CppGrammarImpl.ppImport));
 
     assertThat(p).matches("import foo;");
@@ -223,7 +223,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void moduleLine_reallife() {
+  void moduleLine_reallife() {
     p.setRootRule(g.rule(CppGrammarImpl.ppModule));
 
     assertThat(p).matches("module;");
@@ -233,7 +233,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void expandedIncludeBody() {
+  void expandedIncludeBody() {
     p.setRootRule(g.rule(CppGrammarImpl.expandedIncludeBody));
 
     mockRule(CppGrammarImpl.ppToken);
@@ -243,7 +243,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void includeLine_reallife() {
+  void includeLine_reallife() {
     p.setRootRule(g.rule(CppGrammarImpl.includeLine));
 
     assertThat(p).matches("#include <file>");
@@ -263,7 +263,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void ifdefLine() {
+  void ifdefLine() {
     p.setRootRule(g.rule(CppGrammarImpl.ifdefLine));
 
     assertThat(p).matches("#ifdef foo");
@@ -273,7 +273,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void elseLine() {
+  void elseLine() {
     p.setRootRule(g.rule(CppGrammarImpl.elseLine));
 
     assertThat(p).matches("#else");
@@ -281,7 +281,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void endifLine() {
+  void endifLine() {
     p.setRootRule(g.rule(CppGrammarImpl.endifLine));
 
     assertThat(p).matches("#endif");
@@ -289,21 +289,21 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void undefLine() {
+  void undefLine() {
     p.setRootRule(g.rule(CppGrammarImpl.undefLine));
 
     assertThat(p).matches("#undef foo");
   }
 
   @Test
-  public void lineLine() {
+  void lineLine() {
     p.setRootRule(g.rule(CppGrammarImpl.lineLine));
 
     assertThat(p).matches("#line foo bar");
   }
 
   @Test
-  public void errorLine() {
+  void errorLine() {
     p.setRootRule(g.rule(CppGrammarImpl.errorLine));
 
     assertThat(p).matches("#error foo");
@@ -311,21 +311,21 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void pragmaLine() {
+  void pragmaLine() {
     p.setRootRule(g.rule(CppGrammarImpl.pragmaLine));
 
     assertThat(p).matches("#pragma foo");
   }
 
   @Test
-  public void warningLine() {
+  void warningLine() {
     p.setRootRule(g.rule(CppGrammarImpl.warningLine));
 
     assertThat(p).matches("#warning foo");
   }
 
   @Test
-  public void miscLine() {
+  void miscLine() {
     p.setRootRule(g.rule(CppGrammarImpl.miscLine));
 
     assertThat(p).matches("#");
@@ -334,7 +334,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void ifLine() {
+  void ifLine() {
     p.setRootRule(g.rule(CppGrammarImpl.ifLine));
 
     mockRule(CppGrammarImpl.constantExpression);
@@ -343,7 +343,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void elifLine() {
+  void elifLine() {
     p.setRootRule(g.rule(CppGrammarImpl.elifLine));
 
     mockRule(CppGrammarImpl.constantExpression);
@@ -352,7 +352,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void ifLine_reallive() {
+  void ifLine_reallive() {
     p.setRootRule(g.rule(CppGrammarImpl.ifLine));
 
     assertThat(p).matches(
@@ -370,7 +370,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void constantExpression() {
+  void constantExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.constantExpression));
 
     mockRule(CppGrammarImpl.conditionalExpression);
@@ -379,7 +379,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void constantExpression_reallive() {
+  void constantExpression_reallive() {
     p.setRootRule(g.rule(CppGrammarImpl.constantExpression));
 
     assertThat(p).matches("(1 || 0) && (0 && 1)");
@@ -391,7 +391,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void conditionalExpression() {
+  void conditionalExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.conditionalExpression));
 
     mockRule(CppGrammarImpl.logicalOrExpression);
@@ -403,7 +403,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void logicalOrExpression() {
+  void logicalOrExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.logicalOrExpression));
 
     mockRule(CppGrammarImpl.logicalAndExpression);
@@ -413,7 +413,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void logicalAndExpression() {
+  void logicalAndExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.logicalAndExpression));
 
     mockRule(CppGrammarImpl.inclusiveOrExpression);
@@ -423,14 +423,14 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void logicalAndExpression_reallive() {
+  void logicalAndExpression_reallive() {
     p.setRootRule(g.rule(CppGrammarImpl.logicalAndExpression));
 
     assertThat(p).matches("A() && B()");
   }
 
   @Test
-  public void inclusiveOrExpression() {
+  void inclusiveOrExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.inclusiveOrExpression));
 
     mockRule(CppGrammarImpl.exclusiveOrExpression);
@@ -440,7 +440,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void exclusiveOrExpression() {
+  void exclusiveOrExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.exclusiveOrExpression));
 
     mockRule(CppGrammarImpl.andExpression);
@@ -450,7 +450,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void andExpression() {
+  void andExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.andExpression));
 
     mockRule(CppGrammarImpl.equalityExpression);
@@ -460,7 +460,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void equalityExpression() {
+  void equalityExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.equalityExpression));
 
     mockRule(CppGrammarImpl.relationalExpression);
@@ -471,7 +471,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void relationalExpression() {
+  void relationalExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.relationalExpression));
 
     mockRule(CppGrammarImpl.shiftExpression);
@@ -484,7 +484,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void shiftExpression() {
+  void shiftExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.shiftExpression));
 
     mockRule(CppGrammarImpl.additiveExpression);
@@ -495,7 +495,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void additiveExpression() {
+  void additiveExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.additiveExpression));
 
     mockRule(CppGrammarImpl.multiplicativeExpression);
@@ -506,7 +506,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void multiplicativeExpression() {
+  void multiplicativeExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.multiplicativeExpression));
 
     mockRule(CppGrammarImpl.unaryExpression);
@@ -518,7 +518,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void unaryExpression() {
+  void unaryExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.unaryExpression));
 
     mockRule(CppGrammarImpl.multiplicativeExpression);
@@ -530,7 +530,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void primaryExpression() {
+  void primaryExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.primaryExpression));
 
     mockRule(CppGrammarImpl.literal);
@@ -546,14 +546,14 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void primaryExpression_reallive() {
+  void primaryExpression_reallive() {
     p.setRootRule(g.rule(CppGrammarImpl.primaryExpression));
 
     assertThat(p).matches("(C(A() && B()))");
   }
 
   @Test
-  public void expression() {
+  void expression() {
     p.setRootRule(g.rule(CppGrammarImpl.expression));
 
     mockRule(CppGrammarImpl.conditionalExpression);
@@ -563,14 +563,14 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void expression_reallive() {
+  void expression_reallive() {
     p.setRootRule(g.rule(CppGrammarImpl.expression));
 
     assertThat(p).matches("C(A() && B())");
   }
 
   @Test
-  public void definedExpression() {
+  void definedExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.definedExpression));
 
     assertThat(p).matches("defined LALA");
@@ -582,7 +582,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void functionlikeMacro() {
+  void functionlikeMacro() {
     p.setRootRule(g.rule(CppGrammarImpl.functionlikeMacro));
 
     mockRule(CppGrammarImpl.argumentList);
@@ -591,7 +591,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void hasIncludeExpression() {
+  void hasIncludeExpression() {
     p.setRootRule(g.rule(CppGrammarImpl.hasIncludeExpression));
 
     mockRule(CppGrammarImpl.includeBodyBracketed);
@@ -602,7 +602,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void hasIncludeExpression_reallife() {
+  void hasIncludeExpression_reallife() {
     p.setRootRule(g.rule(CppGrammarImpl.hasIncludeExpression));
 
     assertThat(p).matches("__has_include( <optional> )");
@@ -610,7 +610,7 @@ public class CppGrammarImplTest {
   }
 
   @Test
-  public void functionlikeMacro_reallife() {
+  void functionlikeMacro_reallife() {
     p.setRootRule(g.rule(CppGrammarImpl.functionlikeMacro));
 
     assertThat(p).matches("__has_feature(cxx_rvalue)");

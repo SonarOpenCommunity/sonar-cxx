@@ -22,10 +22,10 @@ package org.sonar.cxx.sensors.tests.xunit;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class TestCaseTest {
+class TestCaseTest {
 
   @Test
-  public void rendersRightDetails() {
+  void rendersRightDetails() {
     var testCase = new TestCase("testCaseName", 1, "ok", "stack", "msg", "classname", "filename", "testSuiteName");
     assertThat(testCase.getClassname()).isEqualTo("classname");
     assertThat(testCase.getFullname()).isEqualTo("testSuiteName:testCaseName");

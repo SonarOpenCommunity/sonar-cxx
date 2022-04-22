@@ -26,10 +26,10 @@ package org.sonar.cxx.sslr.internal.vm;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class ZeroOrMoreExpressionTest {
+class ZeroOrMoreExpressionTest {
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     var expression = new ZeroOrMoreExpression(new SubExpression(1, 2));
     var instructions = expression.compile(new CompilationHandler());
     assertThat(instructions).isEqualTo(new Instruction[]{

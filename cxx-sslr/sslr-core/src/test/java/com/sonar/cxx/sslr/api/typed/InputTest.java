@@ -27,22 +27,22 @@ import java.io.File;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class InputTest {
+class InputTest {
 
   @Test
-  public void input() {
+  void input() {
     var input = new char[0];
     assertThat(new Input(input).input()).isSameAs(input);
   }
 
   @Test
-  public void uri() {
+  void uri() {
     var uri = new File("tests://something").toURI();
     assertThat(new Input("".toCharArray(), uri).uri()).isSameAs(uri);
   }
 
   @Test
-  public void substring() {
+  void substring() {
     var input = new Input("abc".toCharArray());
     assertThat(input.substring(0, 3)).isEqualTo("abc");
     assertThat(input.substring(0, 2)).isEqualTo("ab");
@@ -54,7 +54,7 @@ public class InputTest {
   }
 
   @Test
-  public void lineAndColumnAt() {
+  void lineAndColumnAt() {
     assertLineAndColumn(
       "", 0,
       1, 1);

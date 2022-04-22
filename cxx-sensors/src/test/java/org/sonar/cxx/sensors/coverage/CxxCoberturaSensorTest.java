@@ -41,7 +41,7 @@ import org.sonar.cxx.sensors.coverage.cobertura.CxxCoverageCoberturaSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxCoberturaSensorTest {
+class CxxCoberturaSensorTest {
 
   @RegisterExtension
   public LogTesterJUnit5 logTester = new LogTesterJUnit5();
@@ -56,7 +56,7 @@ public class CxxCoberturaSensorTest {
   }
 
   @Test
-  public void testPathJoin() {
+  void testPathJoin() {
     var empty = Paths.get("");
     String result;
     /*
@@ -155,7 +155,7 @@ public class CxxCoberturaSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectCoverageForAllTypesOfCoverage() {
+  void shouldReportCorrectCoverageForAllTypesOfCoverage() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/coverage-result-cobertura.xml");
@@ -186,7 +186,7 @@ public class CxxCoberturaSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectCoverageSQ62() {
+  void shouldReportCorrectCoverageSQ62() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/coverage-result-cobertura.xml");
@@ -209,7 +209,7 @@ public class CxxCoberturaSensorTest {
   }
 
   @Test
-  public void shouldReportNoCoverageSaved() {
+  void shouldReportNoCoverageSaved() {
     var context = SensorContextTester.create(fs.baseDir());
     final String reportPathsValue = "coverage-reports/cobertura/specific-cases/does-not-exist.xml";
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY, reportPathsValue);
@@ -225,7 +225,7 @@ public class CxxCoberturaSensorTest {
   }
 
   @Test
-  public void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
+  void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
@@ -238,7 +238,7 @@ public class CxxCoberturaSensorTest {
   }
 
   @Test
-  public void shouldReportNoCoverageWhenReportEmpty() {
+  void shouldReportNoCoverageWhenReportEmpty() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
                          "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml");
@@ -260,7 +260,7 @@ public class CxxCoberturaSensorTest {
   }
 
   @Test
-  public void shouldReportNoCoverageWhenReportInvalid() {
+  void shouldReportNoCoverageWhenReportInvalid() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,

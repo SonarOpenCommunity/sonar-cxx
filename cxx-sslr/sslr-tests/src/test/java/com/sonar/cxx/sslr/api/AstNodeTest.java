@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AstNodeTest {
+class AstNodeTest {
 
   @Test
-  public void testAddChild() {
+  void testAddChild() {
     var expr = new AstNode(new NodeType(), "expr", null);
     var stat = new AstNode(new NodeType(), "stat", null);
     var assign = new AstNode(new NodeType(), "assign", null);
@@ -44,7 +44,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testAddNullChild() {
+  void testAddNullChild() {
     var expr = new AstNode(new NodeType(), "expr", null);
     expr.addChild(null);
 
@@ -52,7 +52,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testAddChildWhichMustBeSkippedFromAst() {
+  void testAddChildWhichMustBeSkippedFromAst() {
     var expr = new AstNode(new NodeType(), "expr", null);
     var all = new AstNode(new NodeType(true), "all", null);
     var stat = new AstNode(new NodeType(), "stat", null);
@@ -68,22 +68,22 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testAddMatcherChildWithoutChildren() {
+  void testAddMatcherChildWithoutChildren() {
     var expr = new AstNode(new NodeType(), "expr", null);
     var all = new AstNode(new NodeType(true), "all", null);
     expr.addChild(all);
 
-    assertThat(expr.getChildren().size()).isEqualTo(0);
+    assertThat(expr.getChildren()).isEmpty();
   }
 
   @Test
-  public void testHasChildren() {
+  void testHasChildren() {
     var expr = new AstNode(new NodeType(), "expr", null);
     assertThat(expr.hasChildren()).isFalse();
   }
 
   @Test
-  public void testGetChild() {
+  void testGetChild() {
     var parent = new AstNode(new NodeType(), "parent", null);
     var child1 = new AstNode(new NodeType(), "child1", null);
     var child2 = new AstNode(new NodeType(), "child2", null);
@@ -95,7 +95,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testGetLastToken() {
+  void testGetLastToken() {
     var lastToken = mock(Token.class);
     when(lastToken.getType()).thenReturn(GenericTokenType.IDENTIFIER);
     when(lastToken.getValue()).thenReturn("LAST_TOKEN");
@@ -110,7 +110,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testGetTokens() {
+  void testGetTokens() {
     var child1Token = mock(Token.class);
     when(child1Token.getType()).thenReturn(GenericTokenType.IDENTIFIER);
     when(child1Token.getValue()).thenReturn("CHILD 1");
@@ -123,13 +123,13 @@ public class AstNodeTest {
     parent.addChild(child1);
     parent.addChild(child2);
 
-    assertThat(parent.getTokens().size()).isEqualTo(2);
+    assertThat(parent.getTokens()).hasSize(2);
     assertThat(parent.getTokens().get(0)).isSameAs(child1Token);
     assertThat(parent.getTokens().get(1)).isSameAs(child2Token);
   }
 
   @Test
-  public void testGetChildWithBadIndex() {
+  void testGetChildWithBadIndex() {
     var thrown = catchThrowableOfType(() -> {
       var token = mock(Token.class);
       when(token.getType()).thenReturn(GenericTokenType.IDENTIFIER);
@@ -143,7 +143,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testNextSibling() {
+  void testNextSibling() {
     var expr1 = new AstNode(new NodeType(), "expr1", null);
     var expr2 = new AstNode(new NodeType(), "expr2", null);
     var statement = new AstNode(new NodeType(), "statement", null);
@@ -156,7 +156,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testPreviousSibling() {
+  void testPreviousSibling() {
     var expr1 = new AstNode(new NodeType(), "expr1", null);
     var expr2 = new AstNode(new NodeType(), "expr2", null);
     var statement = new AstNode(new NodeType(), "statement", null);
@@ -169,7 +169,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testFindFirstDirectChild() {
+  void testFindFirstDirectChild() {
     var expr = new AstNode(new NodeType(), "expr", null);
     var statRule = new NodeType();
     var stat = new AstNode(statRule, "stat", null);
@@ -183,7 +183,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testIs() {
+  void testIs() {
     var declarationNode = parseString("int a = 0;").getFirstChild();
 
     assertThat(declarationNode.is(MiniCGrammar.DEFINITION)).isTrue();
@@ -193,7 +193,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testIsNot() {
+  void testIsNot() {
     var declarationNode = parseString("int a = 0;").getFirstChild();
 
     assertThat(declarationNode.isNot(MiniCGrammar.DEFINITION)).isFalse();
@@ -203,42 +203,42 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testFindChildren() {
+  void testFindChildren() {
     var fileNode = parseString("int a = 0; int myFunction() { int b = 0; { int c = 0; } }");
 
     var binVariableDeclarationNodes = fileNode.findChildren(MiniCGrammar.BIN_VARIABLE_DEFINITION);
-    assertThat(binVariableDeclarationNodes.size()).isEqualTo(3);
+    assertThat(binVariableDeclarationNodes).hasSize(3);
     assertThat(binVariableDeclarationNodes.get(0).getTokenValue()).isEqualTo("a");
     assertThat(binVariableDeclarationNodes.get(1).getTokenValue()).isEqualTo("b");
     assertThat(binVariableDeclarationNodes.get(2).getTokenValue()).isEqualTo("c");
 
     var binVDeclarationNodes = fileNode.findChildren(MiniCGrammar.BIN_VARIABLE_DEFINITION,
                                                  MiniCGrammar.BIN_FUNCTION_DEFINITION);
-    assertThat(binVDeclarationNodes.size()).isEqualTo(4);
+    assertThat(binVDeclarationNodes).hasSize(4);
     assertThat(binVDeclarationNodes.get(0).getTokenValue()).isEqualTo("a");
     assertThat(binVDeclarationNodes.get(1).getTokenValue()).isEqualTo("myFunction");
     assertThat(binVDeclarationNodes.get(2).getTokenValue()).isEqualTo("b");
     assertThat(binVDeclarationNodes.get(3).getTokenValue()).isEqualTo("c");
 
-    assertThat(fileNode.findChildren(MiniCGrammar.MULTIPLICATIVE_EXPRESSION).size()).isEqualTo(0);
+    assertThat(fileNode.findChildren(MiniCGrammar.MULTIPLICATIVE_EXPRESSION)).isEmpty();
   }
 
   @Test
-  public void testFindDirectChildren() {
+  void testFindDirectChildren() {
     var fileNode = parseString("int a = 0; void myFunction() { int b = 0*3; { int c = 0; } }");
 
     var declarationNodes = fileNode.findDirectChildren(MiniCGrammar.DEFINITION);
-    assertThat(declarationNodes.size()).isEqualTo(2);
+    assertThat(declarationNodes).hasSize(2);
     assertThat(declarationNodes.get(0).getTokenValue()).isEqualTo("int");
     assertThat(declarationNodes.get(1).getTokenValue()).isEqualTo("void");
 
     var binVDeclarationNodes = fileNode.findDirectChildren(MiniCGrammar.BIN_VARIABLE_DEFINITION,
                                                        MiniCGrammar.BIN_FUNCTION_DEFINITION);
-    assertThat(binVDeclarationNodes.size()).isEqualTo(0);
+    assertThat(binVDeclarationNodes).isEmpty();
   }
 
   @Test
-  public void testFindFirstChildAndHasChildren() {
+  void testFindFirstChildAndHasChildren() {
     var expr = new AstNode(new NodeType(), "expr", null);
     var stat = new AstNode(new NodeType(), "stat", null);
     var indentifierRule = new NodeType();
@@ -254,7 +254,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testHasParents() {
+  void testHasParents() {
     var exprRule = new NodeType();
     var expr = new AstNode(exprRule, "expr", null);
     var stat = new AstNode(new NodeType(), "stat", null);
@@ -267,7 +267,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void testGetLastChild() {
+  void testGetLastChild() {
     var expr1 = new AstNode(new NodeType(), "expr1", null);
     var expr2 = new AstNode(new NodeType(), "expr2", null);
     var statement = new AstNode(new NodeType(), "statement", null);
@@ -288,7 +288,7 @@ public class AstNodeTest {
    * </pre>
    */
   @Test
-  public void test_getDescendants() {
+  void test_getDescendants() {
     var a = new NodeType();
     var b = new NodeType();
     var c = new NodeType();

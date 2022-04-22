@@ -31,7 +31,7 @@ import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxCompilerVcSensorTest {
+class CxxCompilerVcSensorTest {
 
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
@@ -42,7 +42,7 @@ public class CxxCompilerVcSensorTest {
   }
 
   @Test
-  public void sensorDescriptorVc() {
+  void sensorDescriptorVc() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxCompilerVcSensor();
     sensor.describe(descriptor);
@@ -55,7 +55,7 @@ public class CxxCompilerVcSensorTest {
   }
 
   @Test
-  public void shouldReportACorrectVcViolations() {
+  void shouldReportACorrectVcViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCompilerVcSensor.REPORT_PATH_KEY,
                          "compiler-reports/BuildLog.htm");
@@ -72,7 +72,7 @@ public class CxxCompilerVcSensorTest {
   }
 
   @Test
-  public void shouldReportBCorrectVcViolations() {
+  void shouldReportBCorrectVcViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCompilerVcSensor.REPORT_PATH_KEY, "compiler-reports/VC-report.vclog");
     settings.setProperty(CxxCompilerVcSensor.REPORT_ENCODING_DEF, StandardCharsets.UTF_8.name());

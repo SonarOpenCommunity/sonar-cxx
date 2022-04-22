@@ -44,10 +44,10 @@ import org.sonar.cxx.sslr.internal.vm.lexerful.TokenTypesExpression;
 import org.sonar.cxx.sslr.internal.vm.lexerful.TokenValueExpression;
 import org.sonar.cxx.sslr.internal.vm.lexerful.TokensBridgeExpression;
 
-public class GrammarFunctionsTest {
+class GrammarFunctionsTest {
 
   @Test
-  public void test() {
+  void test() {
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
 
@@ -87,43 +87,43 @@ public class GrammarFunctionsTest {
     assertThat(GrammarFunctions.Advanced.isOneOfThem(mock(TokenType.class), mock(TokenType.class))).isInstanceOf(
       TokenTypesExpression.class);
 
-    assertThat(GrammarFunctions.Advanced.adjacent(e1).toString()).isEqualTo("Sequence[Adjacent, " + e1 + "]");
+    assertThat(GrammarFunctions.Advanced.adjacent(e1)).hasToString("Sequence[Adjacent, " + e1 + "]");
 
-    assertThat(GrammarFunctions.Advanced.anyTokenButNot(e1).toString()).isEqualTo("Sequence[NextNot[" + e1
+    assertThat(GrammarFunctions.Advanced.anyTokenButNot(e1)).hasToString("Sequence[NextNot[" + e1
                                                                                     + "], AnyToken]");
 
-    assertThat(GrammarFunctions.Advanced.till(e1).toString()).isEqualTo("Sequence[ZeroOrMore[Sequence[NextNot[" + e1
+    assertThat(GrammarFunctions.Advanced.till(e1)).hasToString("Sequence[ZeroOrMore[Sequence[NextNot[" + e1
                                                                           + "], AnyToken]], " + e1 + "]");
 
-    assertThat(GrammarFunctions.Advanced.exclusiveTill(e1).toString()).isEqualTo("ZeroOrMore[Sequence[NextNot[" + e1
+    assertThat(GrammarFunctions.Advanced.exclusiveTill(e1)).hasToString("ZeroOrMore[Sequence[NextNot[" + e1
                                                                                    + "], AnyToken]]");
-    assertThat(GrammarFunctions.Advanced.exclusiveTill(e1, e2).toString()).isEqualTo(
+    assertThat(GrammarFunctions.Advanced.exclusiveTill(e1, e2)).hasToString(
       "ZeroOrMore[Sequence[NextNot[FirstOf[" + e1 + ", " + e2 + "]], AnyToken]]");
   }
 
   @Test
-  public void firstOf_requires_at_least_one_argument() {
+  void firstOf_requires_at_least_one_argument() {
     var thrown = catchThrowableOfType(GrammarFunctions.Standard::firstOf,
                                   IllegalArgumentException.class);
     assertThat(thrown).hasMessage("You must define at least one matcher.");
   }
 
   @Test
-  public void and_requires_at_least_one_argument() {
+  void and_requires_at_least_one_argument() {
     var thrown = catchThrowableOfType(GrammarFunctions.Standard::and,
                                   IllegalArgumentException.class);
     assertThat(thrown).hasMessage("You must define at least one matcher.");
   }
 
   @Test
-  public void isOneOfThem_requires_at_least_one_argument() {
+  void isOneOfThem_requires_at_least_one_argument() {
     var thrown = catchThrowableOfType(GrammarFunctions.Advanced::isOneOfThem,
                                   IllegalArgumentException.class);
     assertThat(thrown).hasMessage("You must define at least one matcher.");
   }
 
   @Test
-  public void test_incorrect_type_of_parsing_expression() {
+  void test_incorrect_type_of_parsing_expression() {
     var thrown = catchThrowableOfType(() -> GrammarFunctions.Standard.and(new Object()),
                                   IllegalArgumentException.class);
     assertThat(thrown).hasMessageStartingWith(
@@ -131,7 +131,7 @@ public class GrammarFunctionsTest {
   }
 
   @Test
-  public void private_constructors() throws Exception {
+  void private_constructors() throws Exception {
     assertThat(hasPrivateConstructor(GrammarFunctions.class)).isTrue();
     assertThat(hasPrivateConstructor(GrammarFunctions.Standard.class)).isTrue();
     assertThat(hasPrivateConstructor(GrammarFunctions.Predicate.class)).isTrue();

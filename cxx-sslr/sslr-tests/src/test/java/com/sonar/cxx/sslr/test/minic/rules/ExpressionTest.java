@@ -37,7 +37,7 @@ public class ExpressionTest extends RuleTest {
   }
 
   @Test
-  public void reallife() {
+  void reallife() {
     assertThat(p)
       .matches("1")
       .matches("1 + 1")

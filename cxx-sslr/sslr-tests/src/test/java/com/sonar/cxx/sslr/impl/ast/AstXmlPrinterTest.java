@@ -32,10 +32,10 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AstXmlPrinterTest {
+class AstXmlPrinterTest {
 
   @Test
-  public void testPrintRuleAstNode() {
+  void testPrintRuleAstNode() {
     var token = mock(Token.class);
     when(token.getType()).thenReturn(new WordTokenType());
     when(token.getValue()).thenReturn("word");
@@ -49,7 +49,7 @@ public class AstXmlPrinterTest {
   }
 
   @Test
-  public void testPrintWordAstNode() {
+  void testPrintWordAstNode() {
     var token = mock(Token.class);
     when(token.getType()).thenReturn(new WordTokenType());
     when(token.getValue()).thenReturn("myword");
@@ -60,7 +60,7 @@ public class AstXmlPrinterTest {
   }
 
   @Test
-  public void testPrintFullAstNode() {
+  void testPrintFullAstNode() {
     var astNode = new AstNode(new RuleDefinition("expr"), "expr", null);
 
     var tokenX = mock(Token.class);

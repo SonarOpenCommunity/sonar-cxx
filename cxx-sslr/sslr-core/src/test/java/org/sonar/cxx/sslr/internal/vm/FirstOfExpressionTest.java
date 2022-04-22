@@ -26,15 +26,15 @@ package org.sonar.cxx.sslr.internal.vm;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class FirstOfExpressionTest {
+class FirstOfExpressionTest {
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     var expression = new FirstOfExpression(
       new SubExpression(1, 2, 3),
       new SubExpression(4, 5),
       new SubExpression(6));
-    assertThat(expression.toString()).isEqualTo("FirstOf[SubExpression, SubExpression, SubExpression]");
+    assertThat(expression).hasToString("FirstOf[SubExpression, SubExpression, SubExpression]");
     var instructions = expression.compile(new CompilationHandler());
     assertThat(instructions).isEqualTo(new Instruction[]{
       Instruction.choice(5),

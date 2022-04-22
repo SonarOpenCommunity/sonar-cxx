@@ -28,12 +28,12 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class XmlParserHelperTest {
+class XmlParserHelperTest {
 
   private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/MSTest-reports/";
 
   @Test
-  public void invalid_prolog() throws IOException {
+  void invalid_prolog() throws IOException {
     IllegalStateException e = catchThrowableOfType(() -> {
       try (var helper = new XmlParserHelper(new File(REPORT_PATH + "invalid_prolog.txt"))) {
         helper.nextStartTag();
@@ -44,7 +44,7 @@ public class XmlParserHelperTest {
   }
 
   @Test
-  public void nextStartOrEndTag() {
+  void nextStartOrEndTag() {
     var xml = new XmlParserHelper(new File(REPORT_PATH + "valid.xml"));
     assertThat(xml.nextStartOrEndTag()).isEqualTo("<foo>");
     assertThat(xml.nextStartOrEndTag()).isEqualTo("<bar>");
@@ -60,7 +60,7 @@ public class XmlParserHelperTest {
   }
 
   @Test
-  public void getDoubleAttribute() {
+  void getDoubleAttribute() {
     var xml = new XmlParserHelper(new File(REPORT_PATH + "valid.xml"));
     xml.nextStartTag();
     assertThat(xml.getDoubleAttribute("myDouble")).isEqualTo(0.123);

@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class SkipFromAstIfOnlyOneChildTest {
+class SkipFromAstIfOnlyOneChildTest {
 
   @Test
-  public void testHasToBeSkippedFromAst() {
+  void testHasToBeSkippedFromAst() {
     var astNode = mock(AstNode.class);
 
     when(astNode.getNumberOfChildren()).thenReturn(1);

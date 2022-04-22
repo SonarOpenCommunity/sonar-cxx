@@ -32,10 +32,10 @@ import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 
-public class FunctionCognitiveComplexityCheckTest {
+class FunctionCognitiveComplexityCheckTest {
 
   @Test
-  public void check() throws UnsupportedEncodingException, IOException {
+  void check() throws UnsupportedEncodingException, IOException {
     var check = new FunctionCognitiveComplexityCheck();
     check.setMaxComplexity(5);
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/FunctionCognitiveComplexity.cc", ".");

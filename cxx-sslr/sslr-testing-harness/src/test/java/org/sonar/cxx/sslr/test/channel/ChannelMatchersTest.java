@@ -31,10 +31,10 @@ import org.sonar.cxx.sslr.channel.CodeReader;
 import static org.sonar.cxx.sslr.test.channel.ChannelMatchers.consume;
 import static org.sonar.cxx.sslr.test.channel.ChannelMatchers.hasNextChar;
 
-public class ChannelMatchersTest {
+class ChannelMatchersTest {
 
   @Test
-  public void testConsumeMatcher() {
+  void testConsumeMatcher() {
     Channel<StringBuilder> numberChannel = new Channel<StringBuilder>() {
 
       @Override
@@ -48,17 +48,17 @@ public class ChannelMatchersTest {
     };
     var output = new StringBuilder();
     AssertionsForClassTypes.assertThat(numberChannel).has(consume("3", output));
-    assertThat(output.toString()).isEqualTo("3");
+    assertThat(output).hasToString("3");
     AssertionsForClassTypes.assertThat(numberChannel).has(consume(new CodeReader("333333"), output));
 
     output = new StringBuilder();
     AssertionsForClassTypes.assertThat(numberChannel).isNot(consume("n", output));
-    assertThat(output.toString()).isEqualTo("");
+    assertThat(output).hasToString("");
     AssertionsForClassTypes.assertThat(numberChannel).isNot(consume(new CodeReader("n"), output));
   }
 
   @Test
-  public void testHasNextChar() {
+  void testHasNextChar() {
     AssertionsForClassTypes.assertThat(new CodeReader("123")).is(hasNextChar('1'));
     AssertionsForClassTypes.assertThat(new CodeReader("123")).isNot(hasNextChar('n'));
   }

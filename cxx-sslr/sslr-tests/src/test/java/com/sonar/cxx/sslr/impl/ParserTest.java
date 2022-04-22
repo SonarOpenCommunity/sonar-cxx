@@ -30,10 +30,10 @@ import static com.sonar.cxx.sslr.test.minic.MiniCParser.parseString;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class ParserTest {
+class ParserTest {
 
   @Test
-  public void lexerErrorStringWrappedInRecognitionException() {
+  void lexerErrorStringWrappedInRecognitionException() {
     var thrown = catchThrowableOfType(() -> {
       parseString(".");
     }, RecognitionException.class);
@@ -41,7 +41,7 @@ public class ParserTest {
   }
 
   @Test
-  public void lexerErrorFileWrappedInRecognitionException() {
+  void lexerErrorFileWrappedInRecognitionException() {
     var thrown = catchThrowableOfType(() -> {
       parseFile("/OwnExamples/lexererror.mc");
     }, RecognitionException.class);
@@ -49,7 +49,7 @@ public class ParserTest {
   }
 
   @Test
-  public void parse() {
+  void parse() {
     var compilationUnit = parseString("");
     assertThat(compilationUnit.getNumberOfChildren()).isEqualTo(1);
     assertThat(compilationUnit.getFirstChild().is(EOF)).isTrue();

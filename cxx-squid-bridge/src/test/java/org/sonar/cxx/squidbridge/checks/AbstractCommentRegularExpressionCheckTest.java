@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
-public class AbstractCommentRegularExpressionCheckTest {
+class AbstractCommentRegularExpressionCheckTest {
 
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
@@ -51,7 +51,7 @@ public class AbstractCommentRegularExpressionCheckTest {
   private final Check check = new Check();
 
   @Test
-  public void empty() {
+  void empty() {
     check.regularExpression = "";
     check.message = "Empty regular expression.";
 
@@ -59,7 +59,7 @@ public class AbstractCommentRegularExpressionCheckTest {
   }
 
   @Test
-  public void case_insensitive() {
+  void case_insensitive() {
     check.regularExpression = "(?i).*TODO.*";
     check.message = "Avoid TODO.";
 
@@ -70,7 +70,7 @@ public class AbstractCommentRegularExpressionCheckTest {
   }
 
   @Test
-  public void case_sensitive() {
+  void case_sensitive() {
     check.regularExpression = ".*TODO.*";
     check.message = "Avoid TODO.";
 
@@ -79,7 +79,7 @@ public class AbstractCommentRegularExpressionCheckTest {
   }
 
   @Test
-  public void wrong_regular_expression() {
+  void wrong_regular_expression() {
     check.regularExpression = "*";
     IllegalStateException thrown = catchThrowableOfType(() -> {
       scanFile("/checks/commentRegularExpression.mc", check);

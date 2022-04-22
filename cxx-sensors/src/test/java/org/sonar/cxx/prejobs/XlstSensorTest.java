@@ -34,7 +34,7 @@ import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class XlstSensorTest {
+class XlstSensorTest {
 
   @RegisterExtension
   public LogTesterJUnit5 logTester = new LogTesterJUnit5();
@@ -53,20 +53,20 @@ public class XlstSensorTest {
   }
 
   @Test
-  public void noLoggingIfNotUsed() {
+  void noLoggingIfNotUsed() {
     var context = SensorContextTester.create(fs.baseDir());
 
     var sensor = new XlstSensor();
     logTester.clear();
     sensor.execute(context);
 
-    assertThat(logTester.logs(LoggerLevel.ERROR).isEmpty()).isTrue();
-    assertThat(logTester.logs(LoggerLevel.WARN).isEmpty()).isTrue();
-    assertThat(logTester.logs(LoggerLevel.INFO).isEmpty()).isTrue();
+    assertThat(logTester.logs(LoggerLevel.ERROR)).isEmpty();
+    assertThat(logTester.logs(LoggerLevel.WARN)).isEmpty();
+    assertThat(logTester.logs(LoggerLevel.INFO)).isEmpty();
   }
 
   @Test
-  public void shouldReportNothingWhenNoReportFound() {
+  void shouldReportNothingWhenNoReportFound() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, "notexistingpath");
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "2" + XlstSensor.STYLESHEET_KEY, "notexistingpath");
@@ -84,7 +84,7 @@ public class XlstSensorTest {
   }
 
   @Test
-  public void shouldNotCreateMessage() {
+  void shouldNotCreateMessage() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, "something");
     context.setSettings(settings);
@@ -97,7 +97,7 @@ public class XlstSensorTest {
   }
 
   @Test
-  public void shouldCreateMissingStylesheetMessage() {
+  void shouldCreateMissingStylesheetMessage() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, "");
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.OUTPUT_KEY, "outputs");
@@ -113,7 +113,7 @@ public class XlstSensorTest {
   }
 
   @Test
-  public void shouldCreateEmptyInputsMessage() {
+  void shouldCreateEmptyInputsMessage() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, "something");
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.INPUT_KEY, "");
@@ -129,7 +129,7 @@ public class XlstSensorTest {
   }
 
   @Test
-  public void shouldCreateEmptyOutputsMessage() {
+  void shouldCreateEmptyOutputsMessage() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.STYLESHEET_KEY, "something");
     settings.setProperty(XlstSensor.OTHER_XSLT_KEY + "1" + XlstSensor.INPUT_KEY, "something");
@@ -146,7 +146,7 @@ public class XlstSensorTest {
   }
 
   @Test
-  public void shouldTransformReportExternalXlst()
+  void shouldTransformReportExternalXlst()
     throws java.io.IOException, javax.xml.transform.TransformerException {
     var context = SensorContextTester.create(fs.baseDir());
     var stylesheetFile = "prejobs" + File.separator + "xslt-stylesheet.xslt";
@@ -170,7 +170,7 @@ public class XlstSensorTest {
   }
 
   @Test
-  public void shouldTransformReportInternalXlst()
+  void shouldTransformReportInternalXlst()
     throws java.io.IOException, javax.xml.transform.TransformerException {
     var context = SensorContextTester.create(fs.baseDir());
     var stylesheetFile = "cppunit-1.x-to-junit-1.0.xsl";

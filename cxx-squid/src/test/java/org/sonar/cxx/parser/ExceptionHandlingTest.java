@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class ExceptionHandlingTest extends ParserBaseTestHelper {
 
   @Test
-  public void exceptionDeclaration() {
+  void exceptionDeclaration() {
     setRootRule(CxxGrammarImpl.exceptionDeclaration);
 
     mockRule(CxxGrammarImpl.typeSpecifierSeq);
@@ -41,7 +41,7 @@ public class ExceptionHandlingTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void exceptionSpecification_reallife() {
+  void exceptionSpecification_reallife() {
     setRootRule(CxxGrammarImpl.noexceptSpecifier);
 
     assertThatParser()
@@ -50,7 +50,7 @@ public class ExceptionHandlingTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void typeIdList() {
+  void typeIdList() {
     setRootRule(CxxGrammarImpl.typeIdList);
 
     mockRule(CxxGrammarImpl.typeId);
@@ -64,7 +64,7 @@ public class ExceptionHandlingTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void noexceptSpecification() {
+  void noexceptSpecification() {
     setRootRule(CxxGrammarImpl.noexceptSpecifier);
 
     mockRule(CxxGrammarImpl.constantExpression);

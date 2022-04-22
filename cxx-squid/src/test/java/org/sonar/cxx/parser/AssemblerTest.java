@@ -24,14 +24,14 @@ import org.junit.jupiter.api.Test;
 public class AssemblerTest extends ParserBaseTestHelper {
 
   @Test
-  public void asmIsoStandard() {
+  void asmIsoStandard() {
     setRootRule(CxxGrammarImpl.asmDeclaration);
     assertThatParser()
       .matches("asm(\"mov eax, num\");");
   }
 
   @Test
-  public void asmGcc() {
+  void asmGcc() {
     setRootRule(CxxGrammarImpl.asmDeclaration);
     assertThatParser()
       .matches("asm(\"mov eax, num\");")
@@ -42,7 +42,7 @@ public class AssemblerTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void asmVcAssemblyInstruction1() {
+  void asmVcAssemblyInstruction1() {
     setRootRule(CxxGrammarImpl.asmDeclaration);
     assertThatParser()
       .matches("__asm mov eax, num ;")
@@ -50,7 +50,7 @@ public class AssemblerTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void asmVcAssemblyInstructionList1() {
+  void asmVcAssemblyInstructionList1() {
     setRootRule(CxxGrammarImpl.asmDeclaration);
     assertThatParser()
       .matches("__asm { mov eax, num }")
@@ -58,7 +58,7 @@ public class AssemblerTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void asmVcAssemblyInstructionList2() {
+  void asmVcAssemblyInstructionList2() {
     setRootRule(CxxGrammarImpl.asmDeclaration);
     assertThatParser()
       .matches("__asm { mov eax, num };")
@@ -66,7 +66,7 @@ public class AssemblerTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void asmVcAssemblyInstructionList3() {
+  void asmVcAssemblyInstructionList3() {
     setRootRule(CxxGrammarImpl.asmDeclaration);
     assertThatParser()
       .matches(
@@ -86,7 +86,7 @@ public class AssemblerTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void asmGccLabel() {
+  void asmGccLabel() {
     setRootRule(CxxGrammarImpl.asmLabel);
     assertThatParser()
       .matches("asm (\"myfoo\")")
@@ -94,7 +94,7 @@ public class AssemblerTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void asmGccLabel_reallife() {
+  void asmGccLabel_reallife() {
     setRootRule(CxxGrammarImpl.simpleDeclaration);
 
     assertThatParser()

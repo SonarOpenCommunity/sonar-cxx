@@ -29,7 +29,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 
-public class RuleAssertTest {
+class RuleAssertTest {
 
   private Rule rule;
 
@@ -39,14 +39,14 @@ public class RuleAssertTest {
   }
 
   @Test
-  public void ok() {
+  void ok() {
     new RuleAssert(rule)
       .matches("foo")
       .notMatches("bar");
   }
 
   @Test
-  public void test_matches_failure() {
+  void test_matches_failure() {
     var thrown = catchThrowableOfType(
       () -> new RuleAssert(rule).matches("bar"),
       ParsingResultComparisonFailure.class);
@@ -54,7 +54,7 @@ public class RuleAssertTest {
   }
 
   @Test
-  public void test_notMatches_failure() {
+  void test_notMatches_failure() {
     var thrown = catchThrowableOfType(
       () -> new RuleAssert(rule).notMatches("foo"),
       AssertionError.class);
@@ -62,7 +62,7 @@ public class RuleAssertTest {
   }
 
   @Test
-  public void should_not_accept_null() {
+  void should_not_accept_null() {
     var thrown = catchThrowableOfType(
       () -> new RuleAssert((Rule) null).matches(""),
       AssertionError.class);
@@ -70,19 +70,19 @@ public class RuleAssertTest {
   }
 
   @Test
-  public void notMatches_should_not_accept_prefix_match() {
+  void notMatches_should_not_accept_prefix_match() {
     new RuleAssert(rule)
       .notMatches("foo bar");
   }
 
   @Test
-  public void matchesPrefix_ok() {
+  void matchesPrefix_ok() {
     new RuleAssert(rule)
       .matchesPrefix("foo", " bar");
   }
 
   @Test
-  public void matchesPrefix_full_mistmatch() {
+  void matchesPrefix_full_mistmatch() {
     var thrown = catchThrowableOfType(
       () -> new RuleAssert(rule).matchesPrefix("bar", " baz"),
       ParsingResultComparisonFailure.class
@@ -91,7 +91,7 @@ public class RuleAssertTest {
   }
 
   @Test
-  public void matchesPrefix_wrong_prefix() {
+  void matchesPrefix_wrong_prefix() {
     var thrown = catchThrowableOfType(
       () -> new RuleAssert(rule).matchesPrefix("foo bar", " baz"),
       ParsingResultComparisonFailure.class

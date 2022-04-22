@@ -26,10 +26,10 @@ package org.sonar.cxx.sslr.tests;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class ParsingResultComparisonFailureTest {
+class ParsingResultComparisonFailureTest {
 
   @Test
-  public void test_implicit_message() {
+  void test_implicit_message() {
     var failure = new ParsingResultComparisonFailure("expected", "actual");
     assertThat(failure)
       .isInstanceOf(AssertionError.class)
@@ -38,7 +38,7 @@ public class ParsingResultComparisonFailureTest {
   }
 
   @Test
-  public void test_explicit_message() {
+  void test_explicit_message() {
     var failure = new ParsingResultComparisonFailure("foo", "expected", "actual");
     assertThat(failure)
       .isInstanceOf(AssertionError.class)

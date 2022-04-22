@@ -36,7 +36,7 @@ import org.sonar.check.Cardinality;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 
-public class AnnotationBasedRulesDefinitionTest {
+class AnnotationBasedRulesDefinitionTest {
 
   private static final String REPO_KEY = "repoKey";
   private static final String LANGUAGE_KEY_WITH_RESOURCE_BUNDLE = "languageKey";
@@ -44,12 +44,12 @@ public class AnnotationBasedRulesDefinitionTest {
   private final RulesDefinition.Context context = new RulesDefinition.Context();
 
   @Test
-  public void no_class_to_add() throws Exception {
+  void no_class_to_add() throws Exception {
     assertThat(buildRepository(false).rules()).isEmpty();
   }
 
   @Test
-  public void class_without_rule_annotation() throws Exception {
+  void class_without_rule_annotation() throws Exception {
     class NotRuleClass {
     }
     IllegalArgumentException thrown = catchThrowableOfType(() -> {
@@ -59,7 +59,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void rule_annotation_data() throws Exception {
+  void rule_annotation_data() throws Exception {
 
     @Rule(key = "key1", name = "name1", description = "description1", tags = "mytag")
     class RuleClass {
@@ -84,7 +84,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void rule_without_explicit_key() throws Exception {
+  void rule_without_explicit_key() throws Exception {
     IllegalArgumentException thrown = catchThrowableOfType(() -> {
       buildSingleRuleRepository(RuleClassWithoutAnnotationDefinedKey.class);
     }, IllegalArgumentException.class);
@@ -92,7 +92,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void rule_without_explicit_key_can_be_acceptable() throws Exception {
+  void rule_without_explicit_key_can_be_acceptable() throws Exception {
     Repository repository = buildRepository(LANGUAGE_KEY_WITH_RESOURCE_BUNDLE, false, false,
                                             RuleClassWithoutAnnotationDefinedKey.class);
     var rule = repository.rules().get(0);
@@ -101,7 +101,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void external_names_and_descriptions() throws Exception {
+  void external_names_and_descriptions() throws Exception {
 
     @Rule(key = "ruleWithExternalInfo")
     class RuleClass {
@@ -122,7 +122,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void no_name_and_no_resource_bundle() throws Exception {
+  void no_name_and_no_resource_bundle() throws Exception {
     @Rule(key = "ruleWithExternalInfo")
     class RuleClass {
     }
@@ -133,7 +133,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void rule_template() throws Exception {
+  void rule_template() throws Exception {
     @Rule(key = "key1", name = "name1", description = "description1")
     @NoSqale
     @RuleTemplate
@@ -145,7 +145,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void cardinality_single() throws Exception {
+  void cardinality_single() throws Exception {
     @Rule(key = "key1", name = "name1", description = "description1", cardinality = Cardinality.SINGLE)
     class RuleClass {
     }
@@ -155,7 +155,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void cardinality_multiple() throws Exception {
+  void cardinality_multiple() throws Exception {
     @Rule(key = "key1", name = "name1", description = "description1", cardinality = Cardinality.MULTIPLE)
     class RuleClass {
     }
@@ -166,7 +166,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void class_without_sqale_annotation() throws Exception {
+  void class_without_sqale_annotation() throws Exception {
     @Rule(key = "key1", name = "name1", description = "description1")
     class RuleClass {
     }
@@ -177,7 +177,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void class_with_nosqale_annotation() throws Exception {
+  void class_with_nosqale_annotation() throws Exception {
 
     @Rule(key = "key1", name = "name1", description = "description1")
     @NoSqale
@@ -189,7 +189,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void class_with_sqale_constant_remediation() throws Exception {
+  void class_with_sqale_constant_remediation() throws Exception {
 
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleConstantRemediation("10min")
@@ -201,7 +201,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void class_with_sqale_linear_remediation() throws Exception {
+  void class_with_sqale_linear_remediation() throws Exception {
 
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleLinearRemediation(coeff = "2h", effortToFixDescription = "Effort to test one uncovered condition")
@@ -213,7 +213,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void class_with_sqale_linear_with_offset_remediation() throws Exception {
+  void class_with_sqale_linear_with_offset_remediation() throws Exception {
 
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleLinearWithOffsetRemediation(coeff = "5min", offset = "1h",
@@ -226,7 +226,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void class_with_several_sqale_remediation_annotations() throws Exception {
+  void class_with_several_sqale_remediation_annotations() throws Exception {
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleConstantRemediation("10min")
     @SqaleLinearRemediation(coeff = "2h", effortToFixDescription = "Effort to test one uncovered condition")
@@ -239,7 +239,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void invalid_sqale_annotation() throws Exception {
+  void invalid_sqale_annotation() throws Exception {
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleConstantRemediation("xxx")
     class MyInvalidRuleClass {
@@ -253,7 +253,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void rule_not_created_by_RulesDefinitionAnnotationLoader() throws Exception {
+  void rule_not_created_by_RulesDefinitionAnnotationLoader() throws Exception {
     @Rule
     class RuleClass {
     }
@@ -266,7 +266,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void load_method_with_class_without_sqale_annotation() throws Exception {
+  void load_method_with_class_without_sqale_annotation() throws Exception {
     @Rule(key = "key1", name = "name1", description = "description1")
     class RuleClass {
     }
@@ -277,7 +277,7 @@ public class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  public void load_method_with_class_with_sqale_annotations() throws Exception {
+  void load_method_with_class_with_sqale_annotations() throws Exception {
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleConstantRemediation("10min")
     class RuleClass {

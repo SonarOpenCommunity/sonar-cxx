@@ -28,12 +28,12 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 
-public class TriviaExpressionTest {
+class TriviaExpressionTest {
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     var expression = new TriviaExpression(TriviaKind.COMMENT, new SubExpression(1, 2));
-    assertThat(expression.toString()).isEqualTo("Trivia COMMENT[SubExpression]");
+    assertThat(expression).hasToString("Trivia COMMENT[SubExpression]");
     var instructions = expression.compile(new CompilationHandler());
     assertThat(instructions).isEqualTo(new Instruction[]{
       Instruction.call(2, expression),
@@ -46,7 +46,7 @@ public class TriviaExpressionTest {
   }
 
   @Test
-  public void should_implement_Matcher() {
+  void should_implement_Matcher() {
     var expression = new TriviaExpression(TriviaKind.COMMENT, mock(ParsingExpression.class));
     // Important for AstCreator
     assertThat(expression.getTriviaKind()).isSameAs(TriviaKind.COMMENT);

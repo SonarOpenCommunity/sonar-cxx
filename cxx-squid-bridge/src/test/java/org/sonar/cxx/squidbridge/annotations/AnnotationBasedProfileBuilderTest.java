@@ -37,7 +37,7 @@ import org.sonar.api.rules.RulePriority;
 import org.sonar.api.utils.ValidationMessages;
 import org.sonar.check.Rule;
 
-public class AnnotationBasedProfileBuilderTest {
+class AnnotationBasedProfileBuilderTest {
 
   private static final String KEY1 = "key1";
   private static final String REPO_KEY = "repo1";
@@ -57,7 +57,7 @@ public class AnnotationBasedProfileBuilderTest {
   }
 
   @Test
-  public void should_add_a_rule_with_the_annotation() throws Exception {
+  void should_add_a_rule_with_the_annotation() throws Exception {
     @ActivatedByDefault
     @Rule(key = KEY1)
     class RuleActivatedByDefault {
@@ -67,12 +67,12 @@ public class AnnotationBasedProfileBuilderTest {
     assertThat(profile.getActiveRules()).hasSize(1);
     var activeRule = profile.getActiveRules().get(0);
     assertThat(activeRule.getRule()).isEqualTo(rule);
-    assertThat(activeRule.getSeverity().toString()).isEqualTo(Severity.MINOR);
+    assertThat(activeRule.getSeverity()).hasToString(Severity.MINOR);
     assertThat(messages.getWarnings()).isEmpty();
   }
 
   @Test
-  public void should_not_add_a_rule_without_the_annotation() throws Exception {
+  void should_not_add_a_rule_without_the_annotation() throws Exception {
     @Rule(key = KEY1)
     class RuleNotActivatedByDefault {
     }
@@ -83,7 +83,7 @@ public class AnnotationBasedProfileBuilderTest {
   }
 
   @Test
-  public void unknown_rule_key() throws Exception {
+  void unknown_rule_key() throws Exception {
     @ActivatedByDefault
     @Rule(key = "unknownKey")
     class RuleActivatedByDefaultWithUnknownKey {
@@ -96,7 +96,7 @@ public class AnnotationBasedProfileBuilderTest {
   }
 
   @Test
-  public void should_ignore_class_without_rule_annotation() throws Exception {
+  void should_ignore_class_without_rule_annotation() throws Exception {
     @ActivatedByDefault
     class ClassWithoutRuleAnnotation {
     }

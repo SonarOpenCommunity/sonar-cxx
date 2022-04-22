@@ -23,18 +23,18 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.config.internal.MapSettings;
 
-public class CxxLanguageTest {
+class CxxLanguageTest {
 
   private final MapSettings settings = new MapSettings();
 
   @Test
-  public void testCxxLanguageStringConfiguration() throws Exception {
+  void testCxxLanguageStringConfiguration() throws Exception {
     var language = new CxxLanguage(settings.asConfig());
     assertThat(language.getKey()).isEqualTo("cxx");
   }
 
   @Test
-  public void shouldReturnConfiguredFileSuffixes() {
+  void shouldReturnConfiguredFileSuffixes() {
     settings.setProperty(CxxLanguage.FILE_SUFFIXES_KEY, ".C,.c,.H,.h");
     var cxx = new CxxLanguage(settings.asConfig());
     String[] expected = {".C", ".c", ".H", ".h"};
@@ -42,14 +42,14 @@ public class CxxLanguageTest {
   }
 
   @Test
-  public void shouldReturnDefaultFileSuffixes1() {
+  void shouldReturnDefaultFileSuffixes1() {
     var cxx = new CxxLanguage(settings.asConfig());
     String[] expected = {"disabled"};
     assertThat(cxx.getFileSuffixes()).contains(expected);
   }
 
   @Test
-  public void shouldReturnDefaultFileSuffixes2() {
+  void shouldReturnDefaultFileSuffixes2() {
     settings.setProperty(CxxLanguage.FILE_SUFFIXES_KEY, "");
     var cxx = new CxxLanguage(settings.asConfig());
     String[] expected = {"disabled"};
@@ -57,7 +57,7 @@ public class CxxLanguageTest {
   }
 
   @Test
-  public void shouldBeDisabled() {
+  void shouldBeDisabled() {
     settings.setProperty(CxxLanguage.FILE_SUFFIXES_KEY, "-");
     var cxx = new CxxLanguage(settings.asConfig());
     String[] expected = {"disabled"};

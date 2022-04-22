@@ -25,7 +25,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
-public class CxxOtherRepositoryTest {
+class CxxOtherRepositoryTest {
 
   private final MapSettings settings = new MapSettings();
 
@@ -77,7 +77,7 @@ public class CxxOtherRepositoryTest {
                                     + "</rules>";
 
   @Test
-  public void verifyTemplateRuleIsFound() {
+  void verifyTemplateRuleIsFound() {
     settings.setProperty(CxxOtherSensor.RULES_KEY, "");
     var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
 
@@ -89,7 +89,7 @@ public class CxxOtherRepositoryTest {
   }
 
   @Test
-  public void createNonEmptyRulesTest() {
+  void createNonEmptyRulesTest() {
     settings.setProperty(CxxOtherSensor.RULES_KEY, profile1);
     var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
 
@@ -101,7 +101,7 @@ public class CxxOtherRepositoryTest {
   }
 
   @Test
-  public void createNullRulesTest() {
+  void createNullRulesTest() {
     settings.setProperty(CxxOtherSensor.RULES_KEY, "");
     var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
 
@@ -113,7 +113,7 @@ public class CxxOtherRepositoryTest {
   }
 
   @Test
-  public void verifyRuleValuesTest() {
+  void verifyRuleValuesTest() {
     settings.setProperty(CxxOtherSensor.RULES_KEY, profile2);
     var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
 
@@ -131,7 +131,7 @@ public class CxxOtherRepositoryTest {
   }
 
   @Test
-  public void verifyRulesWithSameKey() {
+  void verifyRulesWithSameKey() {
     settings.setProperty(CxxOtherSensor.RULES_KEY, profile2 + "," + profile3);
     var def = new CxxOtherRepository(settings.asConfig(), new RulesDefinitionXmlLoader());
 

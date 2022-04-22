@@ -27,7 +27,7 @@ import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifierRule;
 
-public class FileNameCheckTest {
+class FileNameCheckTest {
 
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
   private final FileNameCheck check = new FileNameCheck();

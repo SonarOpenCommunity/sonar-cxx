@@ -34,14 +34,14 @@ import org.sonar.cxx.sslr.internal.vm.CompilableGrammarRule;
 import org.sonar.cxx.sslr.internal.vm.ParsingExpression;
 import org.sonar.cxx.sslr.internal.vm.SequenceExpression;
 
-public class RuleBuilderTest {
+class RuleBuilderTest {
 
   private final GrammarBuilder b = mock(GrammarBuilder.class);
   private final CompilableGrammarRule delegate = mock(CompilableGrammarRule.class);
   private final RuleBuilder ruleBuilder = new RuleBuilder(b, delegate);
 
   @Test
-  public void test_is() {
+  void test_is() {
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
     when(b.convertToExpression(e1)).thenReturn(e2);
@@ -50,7 +50,7 @@ public class RuleBuilderTest {
   }
 
   @Test
-  public void test_is2() {
+  void test_is2() {
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
     var e3 = mock(ParsingExpression.class);
@@ -60,7 +60,7 @@ public class RuleBuilderTest {
   }
 
   @Test
-  public void should_fail_to_redefine() {
+  void should_fail_to_redefine() {
     var e = mock(ParsingExpression.class);
     when(delegate.getExpression()).thenReturn(e);
     var ruleKey = mock(GrammarRuleKey.class);
@@ -72,7 +72,7 @@ public class RuleBuilderTest {
   }
 
   @Test
-  public void test_override() {
+  void test_override() {
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
     var e3 = mock(ParsingExpression.class);
@@ -86,7 +86,7 @@ public class RuleBuilderTest {
   }
 
   @Test
-  public void test_override2() {
+  void test_override2() {
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
     var e3 = mock(ParsingExpression.class);
@@ -99,13 +99,13 @@ public class RuleBuilderTest {
   }
 
   @Test
-  public void test_skip() {
+  void test_skip() {
     ruleBuilder.skip();
     verify(delegate).skip();
   }
 
   @Test
-  public void test_skipIfOneChild() {
+  void test_skipIfOneChild() {
     ruleBuilder.skipIfOneChild();
     verify(delegate).skipIfOneChild();
   }

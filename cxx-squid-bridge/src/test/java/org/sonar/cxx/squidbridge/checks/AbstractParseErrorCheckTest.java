@@ -27,7 +27,7 @@ import com.sonar.cxx.sslr.api.Grammar;
 import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
-public class AbstractParseErrorCheckTest {
+class AbstractParseErrorCheckTest {
 
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
@@ -37,7 +37,7 @@ public class AbstractParseErrorCheckTest {
   private final Check check = new Check();
 
   @Test
-  public void parseError() {
+  void parseError() {
     checkMessagesVerifier.verify(scanFile("/checks/parse_error.mc", check).getCheckMessages())
       .next().atLine(3);
   }

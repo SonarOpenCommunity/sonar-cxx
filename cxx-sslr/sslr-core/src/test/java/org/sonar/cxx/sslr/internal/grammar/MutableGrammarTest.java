@@ -30,10 +30,10 @@ import static org.mockito.Mockito.mock;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import org.sonar.cxx.sslr.internal.vm.CompilableGrammarRule;
 
-public class MutableGrammarTest {
+class MutableGrammarTest {
 
   @Test
-  public void test() {
+  void test() {
     var ruleKey = mock(GrammarRuleKey.class);
     var rule = mock(CompilableGrammarRule.class);
     var rootRuleKey = mock(GrammarRuleKey.class);

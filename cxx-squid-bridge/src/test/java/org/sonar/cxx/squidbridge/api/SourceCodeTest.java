@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SourceCodeTest {
+class SourceCodeTest {
 
   private SourceProject prj;
   private SourcePackage pac;
@@ -50,31 +50,31 @@ public class SourceCodeTest {
   }
 
   @Test
-  public void testAddChild() {
+  void testAddChild() {
     prj.addChild(pac);
     assertThat(pac.getParent()).isEqualTo(prj);
     assertThat(prj.getChildren()).contains(pac);
   }
 
   @Test
-  public void testEqualsAndHashCode() {
+  void testEqualsAndHashCode() {
     assertThat(prj).isNotEqualTo(pac);
     assertThat(prj.hashCode()).isNotEqualTo(pac.hashCode());
     assertThat(prj).isNotEqualTo(new Object());
 
     SourceCode samePac = new SourcePackage("org.sonar");
     assertThat(pac).isEqualTo(samePac);
-    assertThat(pac.hashCode()).isEqualTo(samePac.hashCode());
+    assertThat(pac).hasSameHashCodeAs(samePac);
   }
 
   @Test
-  public void testContains() {
+  void testContains() {
     assertThat(prj.hasChild(pac)).isTrue();
     assertThat(prj.hasChild(cla)).isTrue();
   }
 
   @Test
-  public void testIsType() {
+  void testIsType() {
     var pacFrom = new SourcePackage("org.from");
     assertThat(pacFrom).isNotExactlyInstanceOf(SourceCode.class);
     assertThat(pacFrom).isNotExactlyInstanceOf(SourceClass.class);
@@ -82,7 +82,7 @@ public class SourceCodeTest {
   }
 
   @Test
-  public void testGetParentByType() {
+  void testGetParentByType() {
     var pacFrom = new SourcePackage("org.from");
     var fileFrom = new SourceFile("org.from.From.java", "From.java");
     var classFrom = new SourceClass("org.from.From", "From");
@@ -92,7 +92,7 @@ public class SourceCodeTest {
   }
 
   @Test
-  public void testGetAncestorByType() {
+  void testGetAncestorByType() {
     var file = new SourceFile("org.from.From.java", "From.java");
     var class1 = new SourceClass("org.from.From", "From");
     var class2 = new SourceClass("org.from.From$Foo", "From$Foo");
@@ -109,14 +109,14 @@ public class SourceCodeTest {
   }
 
   @Test
-  public void testHasAmongParents() {
+  void testHasAmongParents() {
     assertThat(cla.hasAmongParents(prj)).isTrue();
     assertThat(cla.hasAmongParents(pac)).isTrue();
     assertThat(prj.hasAmongParents(cla)).isFalse();
   }
 
   @Test
-  public void getCheckMessages() {
+  void getCheckMessages() {
     SourceCode foo = new SourceFile("Foo.java");
     assertThat(foo.getCheckMessages()).hasSize(0);
 

@@ -23,14 +23,14 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class CxxReportIssueTest {
+class CxxReportIssueTest {
 
   @Test
-  public void reportLocationEquality() {
+  void reportLocationEquality() {
     var location0 = new CxxReportLocation("path0.cpp", "1", null, "Boolean value assigned to pointer.");
     var location1 = new CxxReportLocation("path0.cpp", "1", null, "Boolean value assigned to pointer.");
     assertThat(location1).isEqualTo(location0);
-    assertThat(location1.hashCode()).isEqualTo(location0.hashCode());
+    assertThat(location1).hasSameHashCodeAs(location0);
 
     var location2 = new CxxReportLocation("path2.cpp", "1", null, "Exception thrown in destructor.");
     assertThat(location0).isNotEqualTo(location2);
@@ -41,7 +41,7 @@ public class CxxReportIssueTest {
   }
 
   @Test
-  public void reportIssueEquality() {
+  void reportIssueEquality() {
     var issue0 = new CxxReportIssue("nullPointer", "path0.cpp", "1", null, "Null pointer dereference: ptr");
     issue0.addLocation("path0.cpp", "1", null, "Assignment &apos;ptr=nullptr&apos;, assigned value is 0");
 
@@ -49,7 +49,7 @@ public class CxxReportIssueTest {
     var issue2 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
 
     assertThat(issue2).isEqualTo(issue1);
-    assertThat(issue2.hashCode()).isEqualTo(issue1.hashCode());
+    assertThat(issue2).hasSameHashCodeAs(issue1);
 
     assertThat(issue1).isNotEqualTo(issue0);
     assertThat(issue1.hashCode()).isNotEqualTo(issue0.hashCode());
@@ -59,7 +59,7 @@ public class CxxReportIssueTest {
   }
 
   @Test
-  public void reportIssueEqualityConsideringFlow() {
+  void reportIssueEqualityConsideringFlow() {
     var issue0 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
     issue0.addFlowElement("path0.cpp", "1", null, "a");
     issue0.addFlowElement("path1.cpp", "1", null, "b");
@@ -77,7 +77,7 @@ public class CxxReportIssueTest {
     var issue3 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
 
     assertThat(issue1).isEqualTo(issue0);
-    assertThat(issue1.hashCode()).isEqualTo(issue0.hashCode());
+    assertThat(issue1).hasSameHashCodeAs(issue0);
 
     assertThat(issue2).isNotEqualTo(issue0);
     assertThat(issue2.hashCode()).isNotEqualTo(issue0.hashCode());
@@ -90,7 +90,7 @@ public class CxxReportIssueTest {
   }
 
   @Test
-  public void reportIssueFlowOrder() {
+  void reportIssueFlowOrder() {
     var issue0 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
     issue0.addFlowElement("path0.cpp", "1", null, "a");
     issue0.addFlowElement("path1.cpp", "2", null, "b");

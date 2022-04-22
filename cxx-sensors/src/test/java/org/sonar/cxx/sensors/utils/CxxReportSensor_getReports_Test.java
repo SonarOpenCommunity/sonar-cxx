@@ -29,7 +29,7 @@ import org.junit.jupiter.api.io.TempDir;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 
-public class CxxReportSensor_getReports_Test {
+class CxxReportSensor_getReports_Test {
 
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPaths";
 
@@ -39,7 +39,7 @@ public class CxxReportSensor_getReports_Test {
   private final MapSettings settings = new MapSettings();
 
   @Test
-  public void testAbsoluteInsideBasedir() throws IOException {
+  void testAbsoluteInsideBasedir() throws IOException {
     var absReportFile = new File(tempDir, "path/to/report.xml").getAbsoluteFile();
     FileUtils.touch(absReportFile);
 
@@ -52,7 +52,7 @@ public class CxxReportSensor_getReports_Test {
   }
 
   @Test
-  public void testAbsoluteOutsideBasedir() {
+  void testAbsoluteOutsideBasedir() {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
 
@@ -65,7 +65,7 @@ public class CxxReportSensor_getReports_Test {
   }
 
   @Test
-  public void testAbsoluteOutsideBasedirWithGlobbing() {
+  void testAbsoluteOutsideBasedirWithGlobbing() {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
 
@@ -78,7 +78,7 @@ public class CxxReportSensor_getReports_Test {
   }
 
   @Test
-  public void testAbsoluteOutsideBasedirAndRelative() throws IOException {
+  void testAbsoluteOutsideBasedirAndRelative() throws IOException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
 
@@ -94,7 +94,7 @@ public class CxxReportSensor_getReports_Test {
   }
 
   @Test
-  public void testAbsoluteOutsideBasedirWithGlobbingAndRelativeWithGlobbing() throws IOException {
+  void testAbsoluteOutsideBasedirWithGlobbingAndRelativeWithGlobbing() throws IOException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
 
@@ -115,7 +115,7 @@ public class CxxReportSensor_getReports_Test {
   }
 
   @Test
-  public void testAbsoluteOutsideBasedirWithGlobbingAndNestedRelativeWithGlobbing() throws IOException {
+  void testAbsoluteOutsideBasedirWithGlobbingAndNestedRelativeWithGlobbing() throws IOException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
 
@@ -135,7 +135,7 @@ public class CxxReportSensor_getReports_Test {
   }
 
   @Test
-  public void testRelativeBackticksOutsideBasedirThenBackInside() throws IOException {
+  void testRelativeBackticksOutsideBasedirThenBackInside() throws IOException {
     FileUtils.touch(new File(tempDir, "path/to/supercoolreport.xml"));
     FileUtils.touch(new File(tempDir, "path/to/a/report.xml"));
     FileUtils.touch(new File(tempDir, "path/to/some/reports/1.xml"));
@@ -150,7 +150,7 @@ public class CxxReportSensor_getReports_Test {
   }
 
   @Test
-  public void testRelativeExcessiveBackticks() throws IOException {
+  void testRelativeExcessiveBackticks() throws IOException {
     FileUtils.touch(new File(tempDir, "path/to/supercoolreport.xml"));
 
     // Might be valid if java.io.tmpdir is nested excessively deep -- not likely
@@ -162,7 +162,7 @@ public class CxxReportSensor_getReports_Test {
     context.setSettings(settings);
 
     List<File> reports = CxxUtils.getFiles(context, REPORT_PATH_KEY);
-    assertThat(reports.size()).isZero();
+    assertThat(reports).isEmpty();
   }
 
 }

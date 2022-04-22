@@ -38,7 +38,7 @@ import static org.mockito.Mockito.when;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
-public class CxxParserTest {
+class CxxParserTest {
 
   private final String errSources = "/parser/bad/error_recovery_declaration.cc";
   private final String[] goodFiles = {"own", "VC", "GCC", "cli", "cuda", "examples"};
@@ -56,7 +56,7 @@ public class CxxParserTest {
   }
 
   @Test
-  public void testParsingCppSourceFiles() {
+  void testParsingCppSourceFiles() {
     var map = new HashMap<String, Integer>() {
       private static final long serialVersionUID = 6029310517902718597L;
 
@@ -109,7 +109,7 @@ public class CxxParserTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void testPreproccessorParsingSourceFiles() {
+  void testPreproccessorParsingSourceFiles() {
     var includes = Arrays.asList(
       "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\INCLUDE",
       "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\ATLMFC\\INCLUDE",
@@ -147,7 +147,7 @@ public class CxxParserTest {
   }
 
   @Test
-  public void testParseErrorRecoveryDisabled() {
+  void testParseErrorRecoveryDisabled() {
     Parser<Grammar> p = createParser(null, false, null);
 
     // The error recovery works, if:
@@ -159,7 +159,7 @@ public class CxxParserTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void testParseErrorRecoveryEnabled() {
+  void testParseErrorRecoveryEnabled() {
     var map = new HashMap<String, Integer>() {
       private static final long serialVersionUID = 3433381506274827684L;
 

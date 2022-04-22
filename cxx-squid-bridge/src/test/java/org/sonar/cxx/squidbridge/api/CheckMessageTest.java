@@ -26,17 +26,17 @@ package org.sonar.cxx.squidbridge.api;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class CheckMessageTest {
+class CheckMessageTest {
 
   @Test
-  public void testFormatDefaultMessage() {
+  void testFormatDefaultMessage() {
     var message = new CheckMessage(null, "Value is {0,number,integer}, expected value is {1,number,integer}.",
                                3, 7);
     assertThat(message.formatDefaultMessage()).isEqualTo("Value is 3, expected value is 7.");
   }
 
   @Test
-  public void testNotFormatMessageWithoutParameters() {
+  void testNotFormatMessageWithoutParameters() {
     var message = new CheckMessage(null, "public void main(){."); // This message can't be used as a pattern by the MessageFormat
     // class
     assertThat(message.formatDefaultMessage()).isEqualTo("public void main(){.");

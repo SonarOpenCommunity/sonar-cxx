@@ -22,10 +22,10 @@ package org.sonar.cxx.api;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-public class CxxMetricTest {
+class CxxMetricTest {
 
   @Test
-  public void test() {
+  void test() {
     var softly = new SoftAssertions();
     softly.assertThat(CxxMetric.values()).hasSize(21);
 

@@ -30,17 +30,17 @@ import static org.mockito.Mockito.mock;
 import org.sonar.cxx.sslr.grammar.GrammarException;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 
-public class LexerlessGrammarTest {
+class LexerlessGrammarTest {
 
   @Test
-  public void should_instanciate_rule_fields() {
+  void should_instanciate_rule_fields() {
     var grammar = new TestGrammar();
     assertThat(grammar.getRootRule()).isInstanceOf(MutableParsingRule.class);
     assertThat(((MutableParsingRule) grammar.getRootRule()).getName()).isEqualTo("rootRule");
   }
 
   @Test
-  public void should_throw_exception() {
+  void should_throw_exception() {
     var thrown = catchThrowableOfType(IllegalGrammar::new, GrammarException.class);
     assertThat(thrown).hasMessageStartingWith("Unable to instanciate the rule 'rootRule': ");
   }

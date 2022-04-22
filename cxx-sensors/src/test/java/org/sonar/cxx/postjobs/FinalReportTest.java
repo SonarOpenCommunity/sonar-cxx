@@ -42,7 +42,7 @@ import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 
-public class FinalReportTest {
+class FinalReportTest {
 
   @RegisterExtension
   public LogTesterJUnit5 logTester = new LogTesterJUnit5();
@@ -55,7 +55,7 @@ public class FinalReportTest {
   }
 
   @Test
-  public void finalReportTest() throws IOException {
+  void finalReportTest() throws IOException {
     var dir = "src/test/resources/org/sonar/cxx/postjobs";
     var context = SensorContextTester.create(new File(dir));
     InputFile inputFile = createInputFile(dir + "/syntaxerror.cc", ".", Charset.defaultCharset());

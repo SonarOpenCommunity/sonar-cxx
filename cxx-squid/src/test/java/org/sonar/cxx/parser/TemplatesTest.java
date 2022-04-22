@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class TemplatesTest extends ParserBaseTestHelper {
 
   @Test
-  public void templateDeclaration() {
+  void templateDeclaration() {
     setRootRule(CxxGrammarImpl.templateDeclaration);
 
     mockRule(CxxGrammarImpl.templateHead);
@@ -37,7 +37,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void templateDeclaration_reallife() {
+  void templateDeclaration_reallife() {
     setRootRule(CxxGrammarImpl.templateDeclaration);
 
     assertThatParser()
@@ -55,7 +55,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void templateHead() {
+  void templateHead() {
     setRootRule(CxxGrammarImpl.templateHead);
 
     mockRule(CxxGrammarImpl.templateParameterList);
@@ -68,7 +68,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void templateHead_reallife() {
+  void templateHead_reallife() {
     setRootRule(CxxGrammarImpl.templateHead);
 
     assertThatParser()
@@ -79,7 +79,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void templateParameterList() {
+  void templateParameterList() {
     setRootRule(CxxGrammarImpl.templateParameterList);
 
     mockRule(CxxGrammarImpl.templateParameter);
@@ -90,7 +90,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void templateParameter() {
+  void templateParameter() {
     setRootRule(CxxGrammarImpl.templateParameter);
 
     mockRule(CxxGrammarImpl.typeParameter);
@@ -102,7 +102,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void templateParameter_reallife() {
+  void templateParameter_reallife() {
     setRootRule(CxxGrammarImpl.templateParameter);
 
     // type-parameter: type-parameter-key ...opt identifieropt
@@ -139,7 +139,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void requiresClause() {
+  void requiresClause() {
     setRootRule(CxxGrammarImpl.requiresClause);
 
     mockRule(CxxGrammarImpl.constraintLogicalOrExpression);
@@ -148,7 +148,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void constraintLogicalOrExpression() {
+  void constraintLogicalOrExpression() {
     setRootRule(CxxGrammarImpl.constraintLogicalOrExpression);
 
     mockRule(CxxGrammarImpl.constraintLogicalAndExpression);
@@ -159,7 +159,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void constraintLogicalAndExpression() {
+  void constraintLogicalAndExpression() {
     setRootRule(CxxGrammarImpl.constraintLogicalAndExpression);
 
     mockRule(CxxGrammarImpl.primaryExpression);
@@ -170,7 +170,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void typeParameter() {
+  void typeParameter() {
     setRootRule(CxxGrammarImpl.typeParameter);
 
     mockRule(CxxGrammarImpl.typeParameterKey);
@@ -199,7 +199,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void simpleTemplateId_reallife() {
+  void simpleTemplateId_reallife() {
     setRootRule(CxxGrammarImpl.simpleTemplateId);
 
     assertThatParser()
@@ -218,7 +218,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void typeConstraint() {
+  void typeConstraint() {
     setRootRule(CxxGrammarImpl.typeConstraint);
 
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
@@ -235,7 +235,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void templateId() {
+  void templateId() {
     setRootRule(CxxGrammarImpl.templateId);
 
     mockRule(CxxGrammarImpl.simpleTemplateId);
@@ -252,7 +252,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void templateId_reallife() {
+  void templateId_reallife() {
     setRootRule(CxxGrammarImpl.templateId);
 
     assertThatParser()
@@ -261,7 +261,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void templateArgumentList() {
+  void templateArgumentList() {
     setRootRule(CxxGrammarImpl.templateArgumentList);
 
     mockRule(CxxGrammarImpl.templateArgument);
@@ -274,7 +274,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void conceptDefinition() {
+  void conceptDefinition() {
     setRootRule(CxxGrammarImpl.conceptDefinition);
 
     mockRule(CxxGrammarImpl.conceptName);
@@ -284,7 +284,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void typenameSpecifier() {
+  void typenameSpecifier() {
     setRootRule(CxxGrammarImpl.typenameSpecifier);
 
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
@@ -298,7 +298,7 @@ public class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void deductionGuide() {
+  void deductionGuide() {
     setRootRule(CxxGrammarImpl.deductionGuide);
 
     mockRule(CxxGrammarImpl.explicitSpecifier);

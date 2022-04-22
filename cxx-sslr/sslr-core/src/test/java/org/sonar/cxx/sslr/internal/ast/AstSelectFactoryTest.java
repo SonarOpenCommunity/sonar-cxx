@@ -34,16 +34,16 @@ import org.sonar.cxx.sslr.internal.ast.select.EmptyAstSelect;
 import org.sonar.cxx.sslr.internal.ast.select.ListAstSelect;
 import org.sonar.cxx.sslr.internal.ast.select.SingleAstSelect;
 
-public class AstSelectFactoryTest {
+class AstSelectFactoryTest {
 
   @Test
-  public void test_select() {
+  void test_select() {
     assertThat((Object) AstSelectFactory.select(null)).isInstanceOf(EmptyAstSelect.class);
     assertThat((Object) AstSelectFactory.select(mock(AstNode.class))).isInstanceOf(SingleAstSelect.class);
   }
 
   @Test
-  public void test_create() {
+  void test_create() {
     var node1 = mock(AstNode.class);
     var node2 = mock(AstNode.class);
     assertThat((Object) AstSelectFactory.create(Collections.emptyList())).isSameAs(AstSelectFactory.empty());
@@ -52,7 +52,7 @@ public class AstSelectFactoryTest {
   }
 
   @Test
-  public void test_empty() {
+  void test_empty() {
     assertThat((Object) AstSelectFactory.empty()).isInstanceOf(EmptyAstSelect.class);
     assertThat((Object) AstSelectFactory.empty()).isSameAs(AstSelectFactory.empty());
   }

@@ -26,12 +26,12 @@ package org.sonar.cxx.sslr.internal.vm;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class NextExpressionTest {
+class NextExpressionTest {
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     var expression = new NextExpression(new SubExpression(1, 2));
-    assertThat(expression.toString()).isEqualTo("Next[SubExpression]");
+    assertThat(expression).hasToString("Next[SubExpression]");
     var instructions = expression.compile(new CompilationHandler());
     assertThat(instructions).isEqualTo(new Instruction[]{
       Instruction.choice(4),

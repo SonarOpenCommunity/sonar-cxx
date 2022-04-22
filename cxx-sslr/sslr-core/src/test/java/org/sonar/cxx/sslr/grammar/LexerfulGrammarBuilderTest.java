@@ -47,10 +47,10 @@ import org.sonar.cxx.sslr.internal.vm.lexerful.TokenTypesExpression;
 import org.sonar.cxx.sslr.internal.vm.lexerful.TokenValueExpression;
 import org.sonar.cxx.sslr.internal.vm.lexerful.TokensBridgeExpression;
 
-public class LexerfulGrammarBuilderTest {
+class LexerfulGrammarBuilderTest {
 
   @Test
-  public void should_create_expressions() {
+  void should_create_expressions() {
     var b = LexerfulGrammarBuilder.create();
 
     var e1 = mock(ParsingExpression.class);
@@ -88,15 +88,15 @@ public class LexerfulGrammarBuilderTest {
     assertThat(b.isOneOfThem(mock(TokenType.class), mock(TokenType.class))).isInstanceOf(TokenTypesExpression.class);
     assertThat(b.bridge(mock(TokenType.class), mock(TokenType.class))).isInstanceOf(TokensBridgeExpression.class);
 
-    assertThat(b.adjacent(e1).toString()).isEqualTo("Sequence[Adjacent, " + e1 + "]");
+    assertThat(b.adjacent(e1)).hasToString("Sequence[Adjacent, " + e1 + "]");
 
-    assertThat(b.anyTokenButNot(e1).toString()).isEqualTo("Sequence[NextNot[" + e1 + "], AnyToken]");
+    assertThat(b.anyTokenButNot(e1)).hasToString("Sequence[NextNot[" + e1 + "], AnyToken]");
 
-    assertThat(b.till(e1).toString()).isEqualTo("Sequence[ZeroOrMore[Sequence[NextNot[" + e1 + "], AnyToken]], " + e1
+    assertThat(b.till(e1)).hasToString("Sequence[ZeroOrMore[Sequence[NextNot[" + e1 + "], AnyToken]], " + e1
                                                   + "]");
 
-    assertThat(b.exclusiveTill(e1).toString()).isEqualTo("ZeroOrMore[Sequence[NextNot[" + e1 + "], AnyToken]]");
-    assertThat(b.exclusiveTill(e1, e2).toString()).isEqualTo("ZeroOrMore[Sequence[NextNot[FirstOf[" + e1 + ", " + e2
+    assertThat(b.exclusiveTill(e1)).hasToString("ZeroOrMore[Sequence[NextNot[" + e1 + "], AnyToken]]");
+    assertThat(b.exclusiveTill(e1, e2)).hasToString("ZeroOrMore[Sequence[NextNot[FirstOf[" + e1 + ", " + e2
                                                                + "]], AnyToken]]");
 
     assertThat(b.everything()).as("singleton").isSameAs(AnyTokenExpression.INSTANCE);
@@ -105,7 +105,7 @@ public class LexerfulGrammarBuilderTest {
   }
 
   @Test
-  public void should_set_root_rule() {
+  void should_set_root_rule() {
     var b = LexerfulGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is(b.nothing());
@@ -115,7 +115,7 @@ public class LexerfulGrammarBuilderTest {
   }
 
   @Test
-  public void should_build_with_memoization() {
+  void should_build_with_memoization() {
     var b = LexerfulGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is("foo");
@@ -124,7 +124,7 @@ public class LexerfulGrammarBuilderTest {
   }
 
   @Test
-  public void test_undefined_root_rule() {
+  void test_undefined_root_rule() {
     var b = LexerfulGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.setRootRule(ruleKey);
@@ -133,7 +133,7 @@ public class LexerfulGrammarBuilderTest {
   }
 
   @Test
-  public void test_undefined_rule() {
+  void test_undefined_rule() {
     var b = LexerfulGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey);
@@ -142,7 +142,7 @@ public class LexerfulGrammarBuilderTest {
   }
 
   @Test
-  public void test_used_undefined_rule() {
+  void test_used_undefined_rule() {
     var b = LexerfulGrammarBuilder.create();
     var ruleKey1 = mock(GrammarRuleKey.class);
     var ruleKey2 = mock(GrammarRuleKey.class);
@@ -152,7 +152,7 @@ public class LexerfulGrammarBuilderTest {
   }
 
   @Test
-  public void test_incorrect_type_of_parsing_expression() {
+  void test_incorrect_type_of_parsing_expression() {
     var thrown = catchThrowableOfType(
       () -> LexerfulGrammarBuilder.create().convertToExpression(new Object()),
       IllegalArgumentException.class);
@@ -160,7 +160,7 @@ public class LexerfulGrammarBuilderTest {
   }
 
   @Test
-  public void test_null_parsing_expression() {
+  void test_null_parsing_expression() {
     var thrown = catchThrowableOfType(
       () -> LexerfulGrammarBuilder.create().convertToExpression(null),
       NullPointerException.class);
@@ -168,7 +168,7 @@ public class LexerfulGrammarBuilderTest {
   }
 
   @Test
-  public void should_fail_to_redefine() {
+  void should_fail_to_redefine() {
     var b = LexerfulGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is("foo");
@@ -179,7 +179,7 @@ public class LexerfulGrammarBuilderTest {
   }
 
   @Test
-  public void should_fail_to_redefine2() {
+  void should_fail_to_redefine2() {
     var b = LexerfulGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is("foo", "bar");

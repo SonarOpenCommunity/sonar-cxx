@@ -34,7 +34,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
 import org.sonar.api.server.rule.RulesDefinition.Repository;
 
-public class PropertyFileLoaderTest {
+class PropertyFileLoaderTest {
 
   private static final String PARAM_KEY = "param1";
   private static final String RULE_KEY = "rule1";
@@ -43,7 +43,7 @@ public class PropertyFileLoaderTest {
   private final NewRepository repository = context.createRepository("repoKey", "languageKey");
 
   @Test
-  public void rule_and_parameter_defined_in_property_file() throws Exception {
+  void rule_and_parameter_defined_in_property_file() throws Exception {
     var newRule = repository.createRule(RULE_KEY);
     newRule.setHtmlDescription("desc");
     newRule.createParam(PARAM_KEY);
@@ -54,7 +54,7 @@ public class PropertyFileLoaderTest {
   }
 
   @Test
-  public void rule_and_parameter_not_defined_in_property_file() throws Exception {
+  void rule_and_parameter_not_defined_in_property_file() throws Exception {
     var newRule = repository.createRule(RULE_KEY);
     newRule.setName("ruleName1");
     newRule.setHtmlDescription("desc");
@@ -67,7 +67,7 @@ public class PropertyFileLoaderTest {
   }
 
   @Test
-  public void should_fail_if_resource_is_not_found() {
+  void should_fail_if_resource_is_not_found() {
     IllegalArgumentException thrown = catchThrowableOfType(() -> {
       PropertyFileLoader.loadNames(repository, "/rules/unknown.properties");
     }, IllegalArgumentException.class);
@@ -75,7 +75,7 @@ public class PropertyFileLoaderTest {
   }
 
   @Test
-  public void should_fail_if_resource_has_invalid_format() {
+  void should_fail_if_resource_has_invalid_format() {
     IllegalArgumentException thrown = catchThrowableOfType(() -> {
       InputStream stream = mock(InputStream.class);
       doThrow(new IOException()).when(stream).read((byte[]) any());

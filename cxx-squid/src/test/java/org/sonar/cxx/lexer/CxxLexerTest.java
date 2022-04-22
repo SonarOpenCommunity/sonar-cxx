@@ -41,7 +41,7 @@ import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
-public class CxxLexerTest {
+class CxxLexerTest {
 
   private Lexer lexer;
 
@@ -61,7 +61,7 @@ public class CxxLexerTest {
    * @throws URISyntaxException
    */
   @Test
-  public void comments_cxx() {
+  void comments_cxx() {
     var softly = new SoftAssertions();
     softly.assertThat(lexer.lex("//\n new line")).as("comment c++: empty").anySatisfy(token
       -> assertThat(token).isValue("new").hasTrivia().isTrivia("//").isComment().isTriviaLine(1));
@@ -78,7 +78,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.8 "Comments"
    */
   @Test
-  public void comments_c() {
+  void comments_c() {
     var softly = new SoftAssertions();
     softly.assertThat(lexer.lex("/**/")).as("comment c: empty").anySatisfy(token
       -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("/**/").isComment().isTriviaLine(1));
@@ -97,7 +97,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.14.2 "Integer literals"
    */
   @Test
-  public void decimal_integer_literals() {
+  void decimal_integer_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("0").tokenValue("0").tokenType(CxxTokenType.NUMBER).build(),
       LiteralValuesBuilder.builder("7").tokenValue("7").tokenType(CxxTokenType.NUMBER).build(),
@@ -144,7 +144,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.14.2 "Integer literals"
    */
   @Test
-  public void octal_integer_literals() {
+  void octal_integer_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       // Octal integer
       LiteralValuesBuilder.builder("07").tokenValue("07").tokenType(CxxTokenType.NUMBER).build(),
@@ -191,7 +191,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.14.2 "Integer literals"
    */
   @Test
-  public void hex_integer_literals() {
+  void hex_integer_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       // Hex integer
       LiteralValuesBuilder.builder("0x7").tokenValue("0x7").tokenType(CxxTokenType.NUMBER).build(),
@@ -238,7 +238,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.14.2 "Integer literals"
    */
   @Test
-  public void bin_integer_literals() {
+  void bin_integer_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       // bin integer
       LiteralValuesBuilder.builder("0b0").tokenValue("0b0").tokenType(CxxTokenType.NUMBER).build(),
@@ -255,7 +255,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.14.2 "Integer literals"
    */
   @Test
-  public void hex_integer_literals_bigX() {
+  void hex_integer_literals_bigX() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       // Hex integer (big X)
       LiteralValuesBuilder.builder("0X7").tokenValue("0X7").tokenType(CxxTokenType.NUMBER).build(),
@@ -302,7 +302,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.14.2 "Integer literals"
    */
   @Test
-  public void bin_integer_literals_bigB() {
+  void bin_integer_literals_bigB() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       // Binary literal (big B)
       LiteralValuesBuilder.builder("0B1").tokenValue("0B1").tokenType(CxxTokenType.NUMBER).build(),
@@ -349,7 +349,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.14.4 "Floating literals"
    */
   @Test
-  public void floating_point_literals() {
+  void floating_point_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("3.14").tokenValue("3.14").tokenType(CxxTokenType.NUMBER).build(),
       LiteralValuesBuilder.builder("10.").tokenValue("10.").tokenType(CxxTokenType.NUMBER).build(),
@@ -404,7 +404,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.13.8 "User-defined literals"
    */
   @Test
-  public void user_defined_literals() {
+  void user_defined_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("12_w").tokenValue("12_w").tokenType(CxxTokenType.NUMBER).build(),
       LiteralValuesBuilder.builder("1.2_w").tokenValue("1.2_w").tokenType(CxxTokenType.NUMBER).build(),
@@ -425,7 +425,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.13 ff "digit separators"
    */
   @Test
-  public void digit_separators() {
+  void digit_separators() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("1'000'000").tokenValue("1'000'000").tokenType(CxxTokenType.NUMBER).build(),
       LiteralValuesBuilder.builder("0b0100'1100'0110").tokenValue("0b0100'1100'0110").tokenType(CxxTokenType.NUMBER)
@@ -450,7 +450,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.14.6 "Boolean literals"
    */
   @Test
-  public void boolean_literals() {
+  void boolean_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("true").tokenValue("true").tokenType(CxxKeyword.TRUE).build(),
       LiteralValuesBuilder.builder("false").tokenValue("false").tokenType(CxxKeyword.FALSE).build()
@@ -465,7 +465,7 @@ public class CxxLexerTest {
    * C++ Standard, Section 2.14.7 "Pointer literals"
    */
   @Test
-  public void pointer_literals() {
+  void pointer_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("nullptr").tokenValue("nullptr").tokenType(CxxTokenType.NUMBER).build()
     ));
@@ -479,7 +479,7 @@ public class CxxLexerTest {
    * C++ Standard, Character literals
    */
   @Test
-  public void character_literals() {
+  void character_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("''").tokenValue("''").tokenType(CxxTokenType.CHARACTER).build(), // char: empty
       LiteralValuesBuilder.builder("u8''").tokenValue("u8''").tokenType(CxxTokenType.CHARACTER).build(), // char: prefix u8
@@ -506,7 +506,7 @@ public class CxxLexerTest {
    * C++ Standard, String literals
    */
   @Test
-  public void string_literals() {
+  void string_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("\"\"").tokenValue("\"\"").tokenType(CxxTokenType.STRING).build(), // string: empty
       LiteralValuesBuilder.builder("u8\"\"").tokenValue("u8\"\"").tokenType(CxxTokenType.STRING).build(), // string: prefix u8
@@ -529,7 +529,7 @@ public class CxxLexerTest {
   }
 
   @Test
-  public void rawstring_literals() {
+  void rawstring_literals() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("R\"(...)\"").tokenValue("R\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: empty
       LiteralValuesBuilder.builder("uR\"(...)\"").tokenValue("uR\"(...)\"").tokenType(CxxTokenType.STRING).build(), // raw string: prefix u
@@ -575,7 +575,7 @@ public class CxxLexerTest {
   }
 
   @Test
-  public void operators_and_delimiters() {
+  void operators_and_delimiters() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder(":").tokenValue(":").tokenType(CxxPunctuator.COLON).build(),
       LiteralValuesBuilder.builder("=").tokenValue("=").tokenType(CxxPunctuator.ASSIGN).build(),
@@ -588,7 +588,7 @@ public class CxxLexerTest {
   }
 
   @Test
-  public void keywords_and_identifiers() {
+  void keywords_and_identifiers() {
     var values = new ArrayList<LiteralValuesBuilder>(Arrays.asList(
       LiteralValuesBuilder.builder("return").tokenValue("return").tokenType(CxxKeyword.RETURN).build(),
       LiteralValuesBuilder.builder("identifier").tokenValue("identifier").tokenType(GenericTokenType.IDENTIFIER)
@@ -605,7 +605,7 @@ public class CxxLexerTest {
   }
 
   @Test
-  public void blank_lines() {
+  void blank_lines() {
     var softly = new SoftAssertions();
     softly.assertThat(lexer.lex("    // comment\\n")).hasSize(1);
     softly.assertThat(lexer.lex("    \n")).hasSize(1);

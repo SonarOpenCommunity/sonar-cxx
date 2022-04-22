@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AstNodeTest {
+class AstNodeTest {
 
   /**
    * <pre>
@@ -42,7 +42,7 @@ public class AstNodeTest {
    * </pre>
    */
   @Test
-  public void test() {
+  void test() {
     var a = mock(AstNodeType.class);
     var b = mock(AstNodeType.class);
     var c = mock(AstNodeType.class);
@@ -140,7 +140,7 @@ public class AstNodeTest {
    * </pre>
    */
   @Test
-  public void test_getLastToken() {
+  void test_getLastToken() {
     var token = mock(Token.class);
     var a = mock(AstNodeType.class);
     var rootNode = new AstNode(a, "root", token);
@@ -160,7 +160,7 @@ public class AstNodeTest {
   }
 
   @Test
-  public void test_getTokens() {
+  void test_getTokens() {
     var token = mock(Token.class);
     var a = mock(AstNodeType.class);
     var rootNode = new AstNode(a, "root", token);
@@ -178,16 +178,16 @@ public class AstNodeTest {
   }
 
   @Test
-  public void test_toString() {
+  void test_toString() {
     var token = mock(Token.class);
     when(token.getValue()).thenReturn("foo");
     when(token.getLine()).thenReturn(42);
     when(token.getColumn()).thenReturn(24);
     var node = new AstNode(mock(AstNodeType.class), "node_name", token);
-    assertThat(node.toString()).isEqualTo("node_name tokenValue='foo' tokenLine=42 tokenColumn=24");
+    assertThat(node).hasToString("node_name tokenValue='foo' tokenLine=42 tokenColumn=24");
 
     node = new AstNode(mock(AstNodeType.class), "node_name", null);
-    assertThat(node.toString()).isEqualTo("node_name");
+    assertThat(node).hasToString("node_name");
   }
 
 }

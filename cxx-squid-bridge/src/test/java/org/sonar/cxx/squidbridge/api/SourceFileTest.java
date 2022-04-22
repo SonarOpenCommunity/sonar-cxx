@@ -28,10 +28,10 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class SourceFileTest {
+class SourceFileTest {
 
   @Test
-  public void testGetStartAtLine() {
+  void testGetStartAtLine() {
     var file = new SourceFile("com/sonarsource/Toto.java");
     assertThat(file.getStartAtLine()).isEqualTo(1);
     file = new SourceFile("com/sonarsource/Toto.java", "Toto.java");
@@ -39,7 +39,7 @@ public class SourceFileTest {
   }
 
   @Test
-  public void testHasNoSon() {
+  void testHasNoSon() {
     var file = new SourceFile("com/sonarsource/Toto.java");
     Set<Integer> noSonarTagLines = new HashSet<>();
     noSonarTagLines.add(23);

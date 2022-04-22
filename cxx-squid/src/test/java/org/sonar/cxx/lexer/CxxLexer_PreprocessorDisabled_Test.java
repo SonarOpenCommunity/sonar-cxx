@@ -28,7 +28,7 @@ import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 import org.sonar.cxx.parser.CxxLexer;
 import org.sonar.cxx.parser.CxxTokenType;
 
-public class CxxLexer_PreprocessorDisabled_Test {
+class CxxLexer_PreprocessorDisabled_Test {
 
   private Lexer lexer;
 
@@ -38,7 +38,7 @@ public class CxxLexer_PreprocessorDisabled_Test {
   }
 
   @Test
-  public void preprocessor_directives() {
+  void preprocessor_directives() {
     var softly = new SoftAssertions();
     softly.assertThat(lexer.lex("#include <iostream>")).anySatisfy(token -> assertThat(token).isValue(
       "#include <iostream>").hasType(CxxTokenType.PREPROCESSOR));
@@ -61,14 +61,14 @@ public class CxxLexer_PreprocessorDisabled_Test {
   }
 
   @Test
-  public void preprocessor_continued_define() {
+  void preprocessor_continued_define() {
     assertThat(lexer.lex("#define M\\\n"
                            + "0")).anySatisfy(token -> assertThat(token).isValue("#define M 0").hasType(
       CxxTokenType.PREPROCESSOR));
   }
 
   @Test
-  public void preprocessor_directive_with_comment() {
+  void preprocessor_directive_with_comment() {
     var softly = new SoftAssertions();
     softly.assertThat(lexer.lex("#define A B*/\n")).anySatisfy(token -> assertThat(token)
       .isValue("#define A B*/")

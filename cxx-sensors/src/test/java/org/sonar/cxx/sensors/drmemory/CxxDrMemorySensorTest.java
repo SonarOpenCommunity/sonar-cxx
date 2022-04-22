@@ -30,7 +30,7 @@ import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxDrMemorySensorTest {
+class CxxDrMemorySensorTest {
 
   private DefaultFileSystem fs;
 
@@ -40,7 +40,7 @@ public class CxxDrMemorySensorTest {
   }
 
   @Test
-  public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
+  void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
     var context = SensorContextTester.create(fs.baseDir());
     context.settings().setProperty(CxxDrMemorySensor.REPORT_PATH_KEY,
                                    "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
@@ -56,7 +56,7 @@ public class CxxDrMemorySensorTest {
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxDrMemorySensor();
     sensor.describe(descriptor);

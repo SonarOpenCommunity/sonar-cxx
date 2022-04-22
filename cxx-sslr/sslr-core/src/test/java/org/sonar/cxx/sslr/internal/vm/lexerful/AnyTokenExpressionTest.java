@@ -33,19 +33,19 @@ import static org.mockito.Mockito.when;
 import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
 import org.sonar.cxx.sslr.internal.vm.Machine;
 
-public class AnyTokenExpressionTest {
+class AnyTokenExpressionTest {
 
   private final AnyTokenExpression expression = AnyTokenExpression.INSTANCE;
   private final Machine machine = mock(Machine.class);
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
-    assertThat(expression.toString()).isEqualTo("AnyToken");
+    assertThat(expression).hasToString("AnyToken");
   }
 
   @Test
-  public void should_match() {
+  void should_match() {
     var token = mock(Token.class);
     when(machine.length()).thenReturn(1);
     when(machine.tokenAt(0)).thenReturn(token);
@@ -58,7 +58,7 @@ public class AnyTokenExpressionTest {
   }
 
   @Test
-  public void should_backtrack() {
+  void should_backtrack() {
     when(machine.length()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);

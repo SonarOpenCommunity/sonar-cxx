@@ -26,10 +26,10 @@ package org.sonar.cxx.sslr.toolkit;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class ValidatorsTest {
+class ValidatorsTest {
 
   @Test
-  public void charsetValidator() {
+  void charsetValidator() {
     var validator = Validators.charsetValidator();
     assertThat(validator.validate("UTF-8")).isEmpty();
     assertThat(validator.validate("ISO-8859-15")).isEmpty();
@@ -38,12 +38,12 @@ public class ValidatorsTest {
   }
 
   @Test
-  public void charsetValidator_single_instance() {
+  void charsetValidator_single_instance() {
     assertThat(Validators.charsetValidator()).isSameAs(Validators.charsetValidator());
   }
 
   @Test
-  public void integerRangeValidator() {
+  void integerRangeValidator() {
     var validator = Validators.integerRangeValidator(0, 42);
     assertThat(validator.validate("24")).isEmpty();
     assertThat(validator.validate("-100")).isEqualTo("Must be between 0 and 42: -100");
@@ -66,7 +66,7 @@ public class ValidatorsTest {
   }
 
   @Test
-  public void integerRangeValidator_should_fail_with_upper_smaller_than_lower_bound() {
+  void integerRangeValidator_should_fail_with_upper_smaller_than_lower_bound() {
     var thrown = catchThrowableOfType(
       () -> Validators.integerRangeValidator(42, 0),
       IllegalArgumentException.class);
@@ -74,7 +74,7 @@ public class ValidatorsTest {
   }
 
   @Test
-  public void booleanValidator() {
+  void booleanValidator() {
     var validator = Validators.booleanValidator();
     assertThat(validator.validate("true")).isEmpty();
     assertThat(validator.validate("false")).isEmpty();
@@ -82,7 +82,7 @@ public class ValidatorsTest {
   }
 
   @Test
-  public void booleanValidator_single_instance() {
+  void booleanValidator_single_instance() {
     assertThat(Validators.booleanValidator()).isSameAs(Validators.booleanValidator());
   }
 

@@ -32,7 +32,7 @@ import org.sonar.cxx.sensors.coverage.bullseye.CxxCoverageBullseyeSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxBullseyeCoverageSensorTest {
+class CxxBullseyeCoverageSensorTest {
 
   private static final Logger LOG = Loggers.get(CxxBullseyeCoverageSensorTest.class);
   private DefaultFileSystem fs;
@@ -45,7 +45,7 @@ public class CxxBullseyeCoverageSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectCoverage() {
+  void shouldReportCorrectCoverage() {
     var coverageReport = "coverage-reports/bullseye/coverage-result-bullseye.xml";
     var context = SensorContextTester.create(fs.baseDir());
 
@@ -126,7 +126,7 @@ public class CxxBullseyeCoverageSensorTest {
   }
 
   @Test
-  public void shouldParseTopLevelFiles() {
+  void shouldParseTopLevelFiles() {
     // read top level folder name from report file
     var coverageReport = "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-win.xml";
     var context = SensorContextTester.create(fs.baseDir());
@@ -160,7 +160,7 @@ public class CxxBullseyeCoverageSensorTest {
   }
 
   @Test
-  public void shouldReportAllProbes() {
+  void shouldReportAllProbes() {
 
     var coverageReport = "coverage-reports/bullseye/bullseye-coverage-Linux-V8.9.60.xml";
     var context = SensorContextTester.create(fs.baseDir());
@@ -234,7 +234,7 @@ public class CxxBullseyeCoverageSensorTest {
   }
 
   @Test
-  public void shouldIgnoreBlocks() {
+  void shouldIgnoreBlocks() {
 
     // report contains a block tag => ignore
     var coverageReport = "coverage-reports/bullseye/bullseye-coverage-Windows-V8.20.2.xml";

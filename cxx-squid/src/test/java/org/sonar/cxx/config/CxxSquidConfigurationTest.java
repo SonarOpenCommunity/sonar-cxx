@@ -31,12 +31,12 @@ import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-public class CxxSquidConfigurationTest {
+class CxxSquidConfigurationTest {
 
   private static final String VC_CHARSET = "UTF8";
 
   @Test
-  public void testEmptyDb() {
+  void testEmptyDb() {
     var db = new CxxSquidConfiguration();
     Optional<String> value = db.get("level", "key");
 
@@ -46,7 +46,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void emptySingleValue() {
+  void emptySingleValue() {
     var db = new CxxSquidConfiguration();
     db.add("a", "b", "c");
     Optional<String> value = db.get("d", "e");
@@ -57,7 +57,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void identifierSingleValue() {
+  void identifierSingleValue() {
     var db = new CxxSquidConfiguration();
     db.add(CxxSquidConfiguration.GLOBAL, "key", "value");
     Optional<String> value = db.get(CxxSquidConfiguration.GLOBAL, "key");
@@ -69,7 +69,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void identifierMultiValue() {
+  void identifierMultiValue() {
     var db = new CxxSquidConfiguration();
     db.add(CxxSquidConfiguration.GLOBAL, "key", "value1");
     db.add(CxxSquidConfiguration.GLOBAL, "key", "value2");
@@ -85,7 +85,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void identifierParentSingleValue() {
+  void identifierParentSingleValue() {
     var db = new CxxSquidConfiguration();
     db.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value1");
     db.add("a/b/c", "key", "value2");
@@ -98,7 +98,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void fileSingleValue() {
+  void fileSingleValue() {
     var db = new CxxSquidConfiguration();
     db.add("a/b/c", "key", "value");
     Optional<String> value = db.get("a/b/c", "key");
@@ -110,7 +110,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void fileMultiValue1() {
+  void fileMultiValue1() {
     var db = new CxxSquidConfiguration();
     db.add("a/b/c", "key", "value1");
     db.add("a/b/c", "key", "value2");
@@ -126,7 +126,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void fileMultiValue2() {
+  void fileMultiValue2() {
     var db = new CxxSquidConfiguration();
     db.add("a/b/c", "key", new String[]{"value1", "value2", "value3"});
     List<String> values = db.getValues("a/b/c", "key");
@@ -140,7 +140,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void fileMultiValue3() {
+  void fileMultiValue3() {
     var db = new CxxSquidConfiguration();
     db.add("a/b/c", "key", Arrays.asList("value1", "value2", "value3"));
     List<String> values = db.getValues("a/b/c", "key");
@@ -154,7 +154,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void fileParentSingleValue() {
+  void fileParentSingleValue() {
     var db = new CxxSquidConfiguration();
     db.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value1");
     db.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value2");
@@ -168,7 +168,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void fileParentMultiValue() {
+  void fileParentMultiValue() {
     var db = new CxxSquidConfiguration();
     db.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value1");
     db.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value2");
@@ -193,7 +193,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void testSpecialCharInValue() {
+  void testSpecialCharInValue() {
     var db = new CxxSquidConfiguration();
     db.add("a/b/c", "key", "<>&'\"");
     Optional<String> value = db.get("a/b/c", "key");
@@ -205,7 +205,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void testKeys() {
+  void testKeys() {
     var db = new CxxSquidConfiguration();
     db.add("a/b/c", "key1", "value1");
     db.add("a/b/c", "key2", "value2");
@@ -225,7 +225,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void testChildrenValues() {
+  void testChildrenValues() {
     var db = new CxxSquidConfiguration();
     db.add("a/b/c", "key", "value1");
     db.add("c/d/e", "key", "value2");
@@ -247,7 +247,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void testLevelValues() {
+  void testLevelValues() {
     var db = new CxxSquidConfiguration();
     db.add(CxxSquidConfiguration.GLOBAL, "key", "value1");
     db.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value2");
@@ -260,7 +260,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void testPathNames() {
+  void testPathNames() {
     var db = new CxxSquidConfiguration();
     db.add("/a/b/c.cpp", "key1", "value1");
     db.add("c:\\a\\b\\c.cpp", "key2", "value2");
@@ -284,7 +284,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void testBoolean() {
+  void testBoolean() {
     var db = new CxxSquidConfiguration();
     db.add("level", "key1", "True");
     db.add("level", "key2", "False");
@@ -302,7 +302,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void testInt() {
+  void testInt() {
     var db = new CxxSquidConfiguration();
     db.add("level", "key", "1");
     Optional<Integer> value = db.getInt("level", "key");
@@ -314,7 +314,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void testLong() {
+  void testLong() {
     var db = new CxxSquidConfiguration();
     db.add("level", "key", String.valueOf(Long.MAX_VALUE));
     Optional<Long> value = db.getLong("level", "key");
@@ -326,7 +326,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void testFloat() {
+  void testFloat() {
     var db = new CxxSquidConfiguration();
     db.add("level", "key", String.valueOf(Float.MAX_VALUE));
     Optional<Float> value = db.getFloat("level", "key");
@@ -338,7 +338,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void testDouble() {
+  void testDouble() {
     var db = new CxxSquidConfiguration();
     db.add("level", "key", String.valueOf(Double.MAX_VALUE));
     Optional<Double> value = db.getDouble("level", "key");
@@ -350,7 +350,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     var db = new CxxSquidConfiguration();
     db.add("global1", "key1", "value1");
     db.add("global1", "key1", "value2");
@@ -372,17 +372,17 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void emptyValueShouldReturnNoDirsOrDefines() {
+  void emptyValueShouldReturnNoDirsOrDefines() {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.readMsBuildFiles(new ArrayList<>(), VC_CHARSET);
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
-    softly.assertThat(getDefines(squidConfig).size()).isZero();
+    softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
+    softly.assertThat(getDefines(squidConfig)).isEmpty();
     softly.assertAll();
   }
 
   @Test
-  public void emptyValueShouldUseIncludeDirsIfSet() {
+  void emptyValueShouldUseIncludeDirsIfSet() {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.INCLUDE_DIRECTORIES,
                     new String[]{"dir1", "dir2"});
@@ -391,7 +391,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void correctlyCreatesConfiguration1() {
+  void correctlyCreatesConfiguration1() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/vc++13.txt"));
@@ -404,14 +404,14 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void shouldHandleSpecificCommonOptionsCorrectly() {
+  void shouldHandleSpecificCommonOptionsCorrectly() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/platformCommon.txt"));
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
+    softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
     List<String> defines = getDefines(squidConfig);
     softly.assertThat(defines).hasSize(20 + 5);
     ValidateDefaultAsserts(softly, defines);
@@ -436,7 +436,7 @@ public class CxxSquidConfigurationTest {
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
+    softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
     List<String> defines = getDefines(squidConfig);
     softly.assertThat(defines).hasSize(3);
     ValidateDefaultAsserts(softly, defines);
@@ -445,13 +445,13 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void shouldHandleSpecificCommonx64OptionsCorrectly() {
+  void shouldHandleSpecificCommonx64OptionsCorrectly() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/platformCommonX64.txt"));
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
-    assertThat(getIncludeDirectories(squidConfig).size()).isZero();
+    assertThat(getIncludeDirectories(squidConfig)).isEmpty();
     List<String> defines = getDefines(squidConfig);
 
     var softly = new SoftAssertions();
@@ -467,14 +467,14 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void shouldHandleSpecificV100OptionsCorrectly() {
+  void shouldHandleSpecificV100OptionsCorrectly() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/platformToolsetv100.txt"));
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
+    softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
     List<String> defines = getDefines(squidConfig);
     softly.assertThat(defines).hasSize(12 + 6);
     ValidateDefaultAsserts(softly, defines);
@@ -486,14 +486,14 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void shouldHandleSpecificV110OptionsCorrectly() {
+  void shouldHandleSpecificV110OptionsCorrectly() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/platformToolsetv110.txt"));
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
+    softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
     List<String> defines = getDefines(squidConfig);
     softly.assertThat(defines).hasSize(13 + 5);
     ValidateDefaultAsserts(softly, defines);
@@ -509,14 +509,14 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void shouldHandleSpecificV120OptionsCorrectly() {
+  void shouldHandleSpecificV120OptionsCorrectly() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/platformToolsetv120.txt"));
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
+    softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
     List<String> defines = getDefines(squidConfig);
     softly.assertThat(defines).hasSize(15 + 6);
     ValidateDefaultAsserts(softly, defines);
@@ -535,14 +535,14 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void shouldHandleSpecificV140OptionsCorrectly() {
+  void shouldHandleSpecificV140OptionsCorrectly() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/platformToolsetv140.txt"));
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
+    softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
     List<String> defines = getDefines(squidConfig);
     assertThat(defines).hasSize(15 + 6);
     ValidateDefaultAsserts(softly, defines);
@@ -560,7 +560,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void shouldHandleTFSAgentV141OptionsCorrectly() {
+  void shouldHandleTFSAgentV141OptionsCorrectly() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/TFS-agent-msvc14.txt"));
@@ -581,7 +581,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void shouldHandleTFSAgentV141mpOptionsCorrectly() {
+  void shouldHandleTFSAgentV141mpOptionsCorrectly() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/TFS-agent-msvc14-mp.txt"));
@@ -602,14 +602,14 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void shouldHandleSpecificV141x86OptionsCorrectly() {
+  void shouldHandleSpecificV141x86OptionsCorrectly() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/platformToolsetv141x86.txt"));
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
+    softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
     List<String> defines = getDefines(squidConfig);
     assertThat(defines).hasSize(15 + 12);
     ValidateDefaultAsserts(softly, defines);
@@ -623,14 +623,14 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void shouldHandleSpecificV141x64OptionsCorrectly() {
+  void shouldHandleSpecificV141x64OptionsCorrectly() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/platformToolsetv141x64.txt"));
     squidConfig.readMsBuildFiles(files, VC_CHARSET);
 
     var softly = new SoftAssertions();
-    softly.assertThat(getIncludeDirectories(squidConfig).size()).isZero();
+    softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
     List<String> defines = getDefines(squidConfig);
     assertThat(defines).hasSize(15 + 14);
     ValidateDefaultAsserts(softly, defines);
@@ -644,7 +644,7 @@ public class CxxSquidConfigurationTest {
   }
 
   @Test
-  public void shouldHandleBuildLog() {
+  void shouldHandleBuildLog() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/ParallelBuildLog.txt"));

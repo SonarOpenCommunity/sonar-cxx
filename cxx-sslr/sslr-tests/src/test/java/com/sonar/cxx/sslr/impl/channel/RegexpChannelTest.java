@@ -32,13 +32,13 @@ import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.channel.CodeReader;
 import static org.sonar.cxx.sslr.test.channel.ChannelMatchers.*;
 
-public class RegexpChannelTest {
+class RegexpChannelTest {
 
   private RegexpChannel channel;
   private final Lexer lexer = Lexer.builder().build();
 
   @Test
-  public void testRegexpToHandleNumber() {
+  void testRegexpToHandleNumber() {
     channel = new RegexpChannel(GenericTokenType.CONSTANT, "[0-9]*");
     AssertionsForClassTypes.assertThat(channel).isNot(consume("Not a number", lexer));
     AssertionsForClassTypes.assertThat(channel).has(consume(new CodeReader("56;"), lexer));
@@ -46,9 +46,9 @@ public class RegexpChannelTest {
   }
 
   @Test
-  public void testColumnNumber() {
+  void testColumnNumber() {
     channel = new RegexpChannel(GenericTokenType.CONSTANT, "[0-9]*");
     AssertionsForClassTypes.assertThat(channel).has(consume("56;", lexer));
-    assertThat(lexer.getTokens().get(0).getColumn()).isEqualTo(0);
+    assertThat(lexer.getTokens().get(0).getColumn()).isZero();
   }
 }

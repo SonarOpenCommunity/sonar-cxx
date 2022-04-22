@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 
-public class InterceptorTest {
+class InterceptorTest {
 
   public static class Target extends BaseTarget {
 
@@ -94,39 +94,39 @@ public class InterceptorTest {
   );
 
   @Test
-  public void should_invoke_constructor() {
+  void should_invoke_constructor() {
     assertThat(interceptedTarget.p).isEqualTo("arg");
   }
 
   @Test
-  public void should_intercept() {
+  void should_intercept() {
     assertThat(interceptedTarget.m()).isEqualTo("m()");
-    assertThat(interceptedMethods.size()).isEqualTo(1);
+    assertThat(interceptedMethods).hasSize(1);
 
     intercept = true;
     assertThat(interceptedTarget.m()).isNull();
-    assertThat(interceptedMethods.size()).isEqualTo(2);
+    assertThat(interceptedMethods).hasSize(2);
   }
 
   @Test
-  public void should_intercept_overloaded_methods() {
+  void should_intercept_overloaded_methods() {
     assertThat(interceptedTarget.overloaded()).isEqualTo("overloaded()");
-    assertThat(interceptedMethods.size()).isEqualTo(1);
+    assertThat(interceptedMethods).hasSize(1);
 
     assertThat(interceptedTarget.overloaded("arg")).isEqualTo("overloaded(arg)");
-    assertThat(interceptedMethods.size()).isEqualTo(2);
+    assertThat(interceptedMethods).hasSize(2);
   }
 
   @Test
-  public void should_intercept_overridden_methods() {
+  void should_intercept_overridden_methods() {
     assertThat(interceptedTarget.overridden()).isEqualTo("Target.overridden()");
-    assertThat(interceptedMethods.size()).isEqualTo(1);
+    assertThat(interceptedMethods).hasSize(1);
   }
 
   @Test
-  public void should_intercept_base_methods() {
+  void should_intercept_base_methods() {
     assertThat(interceptedTarget.base()).isEqualTo("base()");
-    assertThat(interceptedMethods.size()).isEqualTo(1);
+    assertThat(interceptedMethods).hasSize(1);
   }
 
   /**
@@ -135,7 +135,7 @@ public class InterceptorTest {
    * because SonarTSQL uses private helper methods.
    */
   @Test
-  public void can_not_intercept_non_public_methods() {
+  void can_not_intercept_non_public_methods() {
     assertThat(interceptedTarget.privateMethod()).isEqualTo("privateMethod()");
     assertThat(interceptedTarget.packageLocalMethod()).isEqualTo("packageLocalMethod()");
     assertThat(interceptedMethods).isEmpty();
@@ -148,7 +148,7 @@ public class InterceptorTest {
   }
 
   @Test
-  public void requires_class_to_be_public() {
+  void requires_class_to_be_public() {
     var thrown = catchThrowableOfType(() -> Interceptor.create(NonPublicClass.class, new Class<?>[]{},
                                                            new Object[]{}, methodInterceptor),
                                   IllegalAccessError.class);
@@ -165,7 +165,7 @@ public class InterceptorTest {
    * @see #can_not_intercept_non_public_methods()
    */
   @Test
-  public void requires_final_methods_to_be_non_public() {
+  void requires_final_methods_to_be_non_public() {
     var thrown = catchThrowableOfType(() -> Interceptor.create(PublicFinalMethod.class, new Class[]{},
                                                            new Object[]{},
                                                            methodInterceptor),
@@ -184,7 +184,7 @@ public class InterceptorTest {
   }
 
   @Test
-  public void requires_non_primitive_return_types() {
+  void requires_non_primitive_return_types() {
     var thrown = catchThrowableOfType(() -> Interceptor.create(PrimitiveReturnType.class,
                                                            new Class[]{}, new Object[]{},
                                                            methodInterceptor),
@@ -200,7 +200,7 @@ public class InterceptorTest {
   }
 
   @Test
-  public void should_use_ClassLoader_of_intercepted_class() throws Exception {
+  void should_use_ClassLoader_of_intercepted_class() throws Exception {
     var cv = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
     cv.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, "Target", null, "java/lang/Object", null);
     var mv = cv.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "()V", null, null);
@@ -225,7 +225,7 @@ public class InterceptorTest {
 
     var interceptedTarget = Interceptor.create(cls, new Class[]{}, new Object[]{}, methodInterceptor);
     assertThat(interceptedTarget.getClass().getMethod("m").invoke(interceptedTarget)).isEqualTo("m()");
-    assertThat(interceptedMethods.size()).isEqualTo(1);
+    assertThat(interceptedMethods).hasSize(1);
   }
 
 }

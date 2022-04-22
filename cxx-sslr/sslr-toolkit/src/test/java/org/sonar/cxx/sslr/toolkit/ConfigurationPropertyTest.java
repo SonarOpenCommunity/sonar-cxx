@@ -26,22 +26,22 @@ package org.sonar.cxx.sslr.toolkit;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class ConfigurationPropertyTest {
+class ConfigurationPropertyTest {
 
   @Test
-  public void getName() {
+  void getName() {
     assertThat(new ConfigurationProperty("foo", "", "").getName()).isEqualTo("foo");
     assertThat(new ConfigurationProperty("bar", "", "").getName()).isEqualTo("bar");
   }
 
   @Test
-  public void getDescription() {
+  void getDescription() {
     assertThat(new ConfigurationProperty("", "foo", "").getDescription()).isEqualTo("foo");
     assertThat(new ConfigurationProperty("", "bar", "").getDescription()).isEqualTo("bar");
   }
 
   @Test
-  public void validate() {
+  void validate() {
     assertThat(new ConfigurationProperty("", "", "").validate("")).isEmpty();
     assertThat(new ConfigurationProperty("", "", "").validate("foo")).isEmpty();
 
@@ -54,13 +54,13 @@ public class ConfigurationPropertyTest {
   }
 
   @Test
-  public void setValue_should_succeed_if_validation_passes() {
+  void setValue_should_succeed_if_validation_passes() {
     new ConfigurationProperty("", "", "").setValue("");
     new ConfigurationProperty("", "", "").setValue("foo");
   }
 
   @Test
-  public void setValue_should_fail_if_validation_fails() {
+  void setValue_should_fail_if_validation_fails() {
     var thrown = catchThrowableOfType(
       () -> new ConfigurationProperty("", "", "", (String newValueCandidate) -> newValueCandidate.isEmpty() ? ""
                                                                                 : "The value \"" + newValueCandidate
@@ -71,7 +71,7 @@ public class ConfigurationPropertyTest {
   }
 
   @Test
-  public void getValue() {
+  void getValue() {
     assertThat(new ConfigurationProperty("", "", "").getValue()).isEqualTo("");
     assertThat(new ConfigurationProperty("", "", "foo").getValue()).isEqualTo("foo");
 

@@ -22,10 +22,10 @@ package org.sonar.cxx.preprocessor;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-public class CppKeywordTest {
+class CppKeywordTest {
 
   @Test
-  public void test() {
+  void test() {
     var softly = new SoftAssertions();
     softly.assertThat(CppKeyword.values()).hasSize(14);
     softly.assertThat(CppKeyword.keywordValues()).hasSize(CppKeyword.values().length);

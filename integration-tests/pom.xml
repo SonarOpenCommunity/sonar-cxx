@@ -20,8 +20,35 @@
 
   <dependencies>
 
-    <!-- set dependencies to aggregate coverage results -->
+    <!-- Set dependencies to aggregate coverage results:
+    Explicitly include modules for JaCoCo's report-aggregate goal,
+    although it's already transitively included -->
 
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sslr-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sslr-testing-harness</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sslr-tests</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sslr-toolkit</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sslr-xpath</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-squid-bridge</artifactId>

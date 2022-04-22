@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ValgrindFrameTest {
+class ValgrindFrameTest {
 
   private ValgrindFrame frame;
   private ValgrindFrame equalFrame;
@@ -38,36 +38,36 @@ public class ValgrindFrameTest {
   }
 
   @Test
-  public void frameDoesntEqualsNull() {
+  void frameDoesntEqualsNull() {
     assertThat(frame).isNotNull();
   }
 
   @Test
-  public void frameDoesntEqualsMiscObject() {
+  void frameDoesntEqualsMiscObject() {
     assertThat(frame).isNotEqualTo("string");
   }
 
   @Test
-  public void frameEqualityIsReflexive() {
+  void frameEqualityIsReflexive() {
     assertThat(frame).isEqualTo(frame);
     assertThat(otherFrame).isEqualTo(otherFrame);
     assertThat(equalFrame).isEqualTo(equalFrame);
   }
 
   @Test
-  public void frameEqualityWorksAsExpected() {
+  void frameEqualityWorksAsExpected() {
     assertThat(frame).isEqualTo(equalFrame);
     assertThat(frame).isNotEqualTo(otherFrame);
   }
 
   @Test
-  public void frameHashWorksAsExpected() {
+  void frameHashWorksAsExpected() {
     assertThat(frame).hasSameHashCodeAs(equalFrame);
     assertThat(frame.hashCode()).isNotEqualTo(otherFrame.hashCode());
   }
 
   @Test
-  public void stringRepresentationShouldResembleValgrindsStandard() {
+  void stringRepresentationShouldResembleValgrindsStandard() {
     var ioMap = new HashMap<String, ValgrindFrame>();
 
     ioMap.put("0xDEADBEAF: main() (main.cc:1)",
@@ -86,7 +86,7 @@ public class ValgrindFrameTest {
               new ValgrindFrame(null, null, null, null, null, ""));
 
     for (var entry : ioMap.entrySet()) {
-      assertThat(entry.getValue().toString()).isEqualTo(entry.getKey());
+      assertThat(entry.getValue()).hasToString(entry.getKey());
     }
   }
 

@@ -32,12 +32,12 @@ import static com.sonar.cxx.sslr.test.minic.MiniCLexer.Punctuators.*;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 
-public class MiniCLexerTest {
+class MiniCLexerTest {
 
   Lexer lexer = MiniCLexer.create();
 
   @Test
-  public void lexIdentifiers() {
+  void lexIdentifiers() {
     AssertionsForClassTypes.assertThat(lexer.lex("abc")).has(hasToken("abc", IDENTIFIER));
     AssertionsForClassTypes.assertThat(lexer.lex("abc0")).has(hasToken("abc0", IDENTIFIER));
     AssertionsForClassTypes.assertThat(lexer.lex("abc_0")).has(hasToken("abc_0", IDENTIFIER));
@@ -45,14 +45,14 @@ public class MiniCLexerTest {
   }
 
   @Test
-  public void lexIntegers() {
+  void lexIntegers() {
     AssertionsForClassTypes.assertThat(lexer.lex("0")).has(hasToken("0", INTEGER));
     AssertionsForClassTypes.assertThat(lexer.lex("000")).has(hasToken("000", INTEGER));
     AssertionsForClassTypes.assertThat(lexer.lex("1234")).has(hasToken("1234", INTEGER));
   }
 
   @Test
-  public void lexKeywords() {
+  void lexKeywords() {
     AssertionsForClassTypes.assertThat(lexer.lex("int")).has(hasToken(INT));
     AssertionsForClassTypes.assertThat(lexer.lex("void")).has(hasToken(VOID));
     AssertionsForClassTypes.assertThat(lexer.lex("return")).has(hasToken(RETURN));
@@ -65,7 +65,7 @@ public class MiniCLexerTest {
   }
 
   @Test
-  public void lexComments() {
+  void lexComments() {
     AssertionsForClassTypes.assertThat(lexer.lex("/*test*/")).has(hasComment("/*test*/"));
     AssertionsForClassTypes.assertThat(lexer.lex("/*test*/*/")).has(hasComment("/*test*/"));
     AssertionsForClassTypes.assertThat(lexer.lex("/*test/* /**/")).has(hasComment("/*test/* /**/"));
@@ -73,7 +73,7 @@ public class MiniCLexerTest {
   }
 
   @Test
-  public void lexPunctuators() {
+  void lexPunctuators() {
     AssertionsForClassTypes.assertThat(lexer.lex("(")).has(hasToken(PAREN_L));
     AssertionsForClassTypes.assertThat(lexer.lex(")")).has(hasToken(PAREN_R));
     AssertionsForClassTypes.assertThat(lexer.lex("{")).has(hasToken(BRACE_L));

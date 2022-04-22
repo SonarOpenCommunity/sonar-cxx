@@ -31,7 +31,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxRatsSensorTest {
+class CxxRatsSensorTest {
 
   private CxxRatsSensor sensor;
   private DefaultFileSystem fs;
@@ -43,7 +43,7 @@ public class CxxRatsSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectViolations() {
+  void shouldReportCorrectViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
     settings.setProperty(CxxRatsSensor.REPORT_PATH_KEY, "rats-reports/rats-result-*.xml");
@@ -61,7 +61,7 @@ public class CxxRatsSensorTest {
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     sensor = new CxxRatsSensor();
     sensor.describe(descriptor);

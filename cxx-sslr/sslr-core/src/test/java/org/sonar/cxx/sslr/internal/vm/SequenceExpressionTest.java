@@ -26,14 +26,14 @@ package org.sonar.cxx.sslr.internal.vm;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class SequenceExpressionTest {
+class SequenceExpressionTest {
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     var expression = new SequenceExpression(
       new SubExpression(1, 2),
       new SubExpression(3));
-    assertThat(expression.toString()).isEqualTo("Sequence[SubExpression, SubExpression]");
+    assertThat(expression).hasToString("Sequence[SubExpression, SubExpression]");
     var instructions = expression.compile(new CompilationHandler());
     assertThat(instructions).isEqualTo(new Instruction[]{
       SubExpression.mockInstruction(1),

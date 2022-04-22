@@ -31,7 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
-public class AstWalkerTest {
+class AstWalkerTest {
 
   private final AstWalker walker = new AstWalker();
   private AstNode ast1;
@@ -79,7 +79,7 @@ public class AstWalkerTest {
   }
 
   @Test
-  public void testVisitFileAndLeaveFileCalls() {
+  void testVisitFileAndLeaveFileCalls() {
     when(astVisitor.getAstNodeTypesToVisit()).thenReturn(new ArrayList<>());
     walker.addVisitor(astVisitor);
     walker.walkAndVisit(ast1);
@@ -89,7 +89,7 @@ public class AstWalkerTest {
   }
 
   @Test
-  public void testVisitToken() {
+  void testVisitToken() {
     when(astAndTokenVisitor.getAstNodeTypesToVisit()).thenReturn(new ArrayList<>());
     walker.addVisitor(astAndTokenVisitor);
     walker.walkAndVisit(astNodeWithToken);
@@ -99,7 +99,7 @@ public class AstWalkerTest {
   }
 
   @Test
-  public void testVisitNodeAndLeaveNodeCalls() {
+  void testVisitNodeAndLeaveNodeCalls() {
     when(astVisitor.getAstNodeTypesToVisit()).thenReturn(Arrays.asList(tiger));
     walker.addVisitor(astVisitor);
     walker.walkAndVisit(ast1);
@@ -110,7 +110,7 @@ public class AstWalkerTest {
   }
 
   @Test
-  public void testAddVisitor() {
+  void testAddVisitor() {
     var walker = new AstWalker();
 
     var astNodeType = mock(AstNodeType.class);

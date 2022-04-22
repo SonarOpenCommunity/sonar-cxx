@@ -29,10 +29,10 @@ import org.sonar.cxx.squidbridge.api.SourceFile;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 import org.sonar.cxx.squidbridge.test.miniC.MiniCAstScanner.MiniCMetrics;
 
-public class LinesOfCodeVisitorTest {
+class LinesOfCodeVisitorTest {
 
   @Test
-  public void linesOfCode() {
+  void linesOfCode() {
     SourceFile sourceFile = scanFile("/metrics/lines_of_code.mc");
 
     assertThat(sourceFile.getInt(MiniCMetrics.LINES_OF_CODE)).isEqualTo(3);

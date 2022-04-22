@@ -30,19 +30,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-public class StringExpressionTest {
+class StringExpressionTest {
 
   private final StringExpression expression = new StringExpression("foo");
   private final Machine machine = mock(Machine.class);
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
-    assertThat(expression.toString()).isEqualTo("String foo");
+    assertThat(expression).hasToString("String foo");
   }
 
   @Test
-  public void should_match() {
+  void should_match() {
     when(machine.length()).thenReturn(3);
     when(machine.charAt(0)).thenReturn('f');
     when(machine.charAt(1)).thenReturn('o');
@@ -59,7 +59,7 @@ public class StringExpressionTest {
   }
 
   @Test
-  public void should_backtrack() {
+  void should_backtrack() {
     when(machine.length()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);
@@ -69,7 +69,7 @@ public class StringExpressionTest {
   }
 
   @Test
-  public void should_backtrack2() {
+  void should_backtrack2() {
     when(machine.length()).thenReturn(3);
     when(machine.charAt(0)).thenReturn('b');
     expression.execute(machine);
