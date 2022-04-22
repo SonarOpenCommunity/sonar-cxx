@@ -29,7 +29,7 @@ class ClassNameCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void test() throws Exception {
+  void test() throws Exception {
     var check = new ClassNameCheck();
 
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/ClassName.cc", ".");

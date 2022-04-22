@@ -114,7 +114,7 @@ public abstract class Instruction {
 
     @Override
     public boolean equals(Object obj) {
-      return (obj instanceof JumpInstruction) && (this.offset == ((JumpInstruction) obj).offset);
+      return (getClass() == obj.getClass()) && (this.offset == ((JumpInstruction) obj).offset);
     }
 
     @Override
@@ -145,7 +145,7 @@ public abstract class Instruction {
 
     @Override
     public boolean equals(Object obj) {
-      if (obj instanceof CallInstruction) {
+      if (getClass() == obj.getClass()) {
         var other = (CallInstruction) obj;
         return this.offset == other.offset
                  && Objects.equals(this.matcher, other.matcher);
@@ -180,7 +180,7 @@ public abstract class Instruction {
 
     @Override
     public boolean equals(Object obj) {
-      return (obj instanceof ChoiceInstruction) && (this.offset == ((ChoiceInstruction) obj).offset);
+      return (getClass() == obj.getClass()) && (this.offset == ((ChoiceInstruction) obj).offset);
     }
 
     @Override
@@ -229,7 +229,7 @@ public abstract class Instruction {
 
     @Override
     public boolean equals(Object obj) {
-      return (obj instanceof PredicateChoiceInstruction) && (this.offset == ((PredicateChoiceInstruction) obj).offset);
+      return (getClass() == obj.getClass()) && (this.offset == ((PredicateChoiceInstruction) obj).offset);
     }
 
     @Override
@@ -262,7 +262,7 @@ public abstract class Instruction {
 
     @Override
     public boolean equals(Object obj) {
-      return (obj instanceof CommitInstruction) && (this.offset == ((CommitInstruction) obj).offset);
+      return (getClass() == obj.getClass()) && (this.offset == ((CommitInstruction) obj).offset);
     }
 
     @Override
@@ -299,7 +299,7 @@ public abstract class Instruction {
 
     @Override
     public boolean equals(Object obj) {
-      return (obj instanceof CommitVerifyInstruction) && (this.offset == ((CommitVerifyInstruction) obj).offset);
+      return (getClass() == obj.getClass()) && (this.offset == ((CommitVerifyInstruction) obj).offset);
     }
 
     @Override
@@ -394,7 +394,7 @@ public abstract class Instruction {
 
     @Override
     public boolean equals(Object obj) {
-      return (obj instanceof BackCommitInstruction) && (this.offset == ((BackCommitInstruction) obj).offset);
+      return (getClass() == obj.getClass()) && (this.offset == ((BackCommitInstruction) obj).offset);
     }
 
     @Override

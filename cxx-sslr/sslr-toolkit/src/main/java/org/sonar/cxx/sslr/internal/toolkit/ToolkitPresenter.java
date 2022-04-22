@@ -25,9 +25,6 @@ package org.sonar.cxx.sslr.internal.toolkit;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.xpath.api.AstNodeXPathQuery;
-import org.sonar.cxx.sslr.toolkit.ConfigurationModel;
-import org.sonar.cxx.sslr.toolkit.ConfigurationProperty;
-
 import java.awt.Point;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,6 +33,9 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
+import javax.annotation.CheckForNull;
+import org.sonar.cxx.sslr.toolkit.ConfigurationModel;
+import org.sonar.cxx.sslr.toolkit.ConfigurationProperty;
 
 public class ToolkitPresenter {
 
@@ -207,6 +207,7 @@ public class ToolkitPresenter {
     }
   }
 
+  @CheckForNull
   private ConfigurationProperty getConfigurationPropertyByName(String name) {
     for (var configurationProperty : configurationModel.getProperties()) {
       if (name.equals(configurationProperty.getName())) {

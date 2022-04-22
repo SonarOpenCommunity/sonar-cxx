@@ -48,7 +48,7 @@ public class Toolkit {
    *
    * @deprecated in 1.17, use {@link #Toolkit(String, ConfigurationModel)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public Toolkit(final Parser parser, final List<Tokenizer> tokenizers, String title) {
     this(title, new AbstractConfigurationModel() {
 

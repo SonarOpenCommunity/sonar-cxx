@@ -184,7 +184,7 @@ class CodeBufferTest {
   @Test
   void theLengthShouldBeTheSameThanTheStringLength() {
     var myCode = "myCode";
-    assertThat(new CodeBuffer(myCode, new CodeReaderConfiguration()).length()).isEqualTo(6);
+    assertThat(new CodeBuffer(myCode, new CodeReaderConfiguration())).hasSize(6);
   }
 
   @Test
@@ -193,7 +193,7 @@ class CodeBufferTest {
     var codeBuffer = new CodeBuffer(myCode, new CodeReaderConfiguration());
     codeBuffer.pop();
     codeBuffer.pop();
-    assertThat(codeBuffer.length()).isEqualTo(4);
+    assertThat(codeBuffer).hasSize(4);
   }
 
   @Test
@@ -227,7 +227,7 @@ class CodeBufferTest {
 
   @Test
   @SuppressWarnings({"unchecked", "rawtypes"})
-  public void testChannelCodeReaderFilter() throws Exception {
+  void testChannelCodeReaderFilter() throws Exception {
     // create a windowing channel that drops the 2 first characters, keeps 6 characters and drops the rest of the line
     var configuration = new CodeReaderConfiguration();
     configuration.setCodeReaderFilters(new ChannelCodeReaderFilter(new Object(), new WindowingChannel()));

@@ -127,7 +127,7 @@ class AstNodeNavigatorTest {
   /* Elements */
   @Test
   void getAttributeNamespaceUri() {
-    assertThat(navigator.getAttributeNamespaceUri(null)).isEqualTo("");
+    assertThat(navigator.getAttributeNamespaceUri(null)).isEmpty();
   }
 
   @Test
@@ -146,7 +146,7 @@ class AstNodeNavigatorTest {
 
   @Test
   void getElementNamespaceUri() {
-    assertThat(navigator.getElementNamespaceUri(null)).isEqualTo("");
+    assertThat(navigator.getElementNamespaceUri(null)).isEmpty();
   }
 
   /* Types */

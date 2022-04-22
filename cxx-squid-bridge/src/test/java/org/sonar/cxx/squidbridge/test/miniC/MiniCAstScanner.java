@@ -29,6 +29,7 @@ import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.impl.Parser;
 import com.sonar.cxx.sslr.test.minic.MiniCGrammar;
 import com.sonar.cxx.sslr.test.minic.MiniCParser;
+import javax.annotation.CheckForNull;
 import org.sonar.cxx.squidbridge.AstScanner;
 import org.sonar.cxx.squidbridge.CommentAnalyser;
 import org.sonar.cxx.squidbridge.SourceCodeBuilderVisitor;
@@ -77,6 +78,7 @@ public final class MiniCAstScanner {
     }
 
     @Override
+    @CheckForNull
     public CalculatedMetricFormula getCalculatedMetricFormula() {
       return null;
     }

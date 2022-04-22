@@ -29,7 +29,7 @@ class FunctionNameCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void test() throws Exception {
+  void test() throws Exception {
     var check = new FunctionNameCheck();
 
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/FunctionName.cc", ".");

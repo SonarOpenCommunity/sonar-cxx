@@ -67,7 +67,7 @@ public class SubExpression implements ParsingExpression {
 
     @Override
     public boolean equals(Object obj) {
-      return (obj instanceof MockInstruction) && (this.id == ((MockInstruction) obj).id);
+      return (getClass() == obj.getClass()) && (this.id == ((MockInstruction) obj).id);
     }
 
     @Override

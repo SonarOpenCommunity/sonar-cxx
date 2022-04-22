@@ -28,10 +28,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Nullable;
 
 /**
- * Tokens are string of character like an identifier, a literal, an integer, ... which are produced by the lexer to feed the parser.
- * By definition, comments and preprocessing directives should not be seen by the parser that's why such Trivia, when they exist, are
+ * Tokens are string of character like an identifier, a literal, an integer, ... which are produced by the lexer to feed
+ * the parser.
+ * By definition, comments and preprocessing directives should not be seen by the parser that's why such Trivia, when
+ * they exist, are
  * attached to the next token.
  */
 public class Token {
@@ -71,8 +74,9 @@ public class Token {
   }
 
   /**
-   * @return the original value of the token. This method is useful when a language is case-insensitive as in that case all token values are
-   *         capitalized.
+   * @return the original value of the token. This method is useful when a language is case-insensitive as in that case
+   * all token values are
+   * capitalized.
    */
   public String getOriginalValue() {
     return originalValue;
@@ -108,7 +112,8 @@ public class Token {
   }
 
   /**
-   * @return true if there is some trivia like some comments or preprocessing directive between this token and the previous one.
+   * @return true if there is some trivia like some comments or preprocessing directive between this token and the
+   * previous one.
    */
   public boolean hasTrivia() {
     return !trivia.isEmpty();
@@ -129,7 +134,7 @@ public class Token {
     return copyBookOriginalFileName;
   }
 
-  public boolean isOnSameLineThan(Token other) {
+  public boolean isOnSameLineThan(@Nullable Token other) {
     return other == null ? false : (getLine() == other.getLine());
   }
 

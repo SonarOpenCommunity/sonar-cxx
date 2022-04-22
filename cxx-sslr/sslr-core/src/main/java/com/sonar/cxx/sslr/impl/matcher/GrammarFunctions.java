@@ -46,7 +46,7 @@ import org.sonar.cxx.sslr.internal.vm.lexerful.TokensBridgeExpression;
 /**
  * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder} instead.
  */
-@Deprecated
+@Deprecated(since = "1.19")
 public final class GrammarFunctions {
 
   private GrammarFunctions() {
@@ -60,7 +60,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#zeroOrMore(Object)} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher o2n(Object... e) {
       return new ZeroOrMoreExpression(convertToSingleExpression(e));
     }
@@ -68,7 +68,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#oneOrMore(Object)} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher one2n(Object... e) {
       return new OneOrMoreExpression(convertToSingleExpression(e));
     }
@@ -76,7 +76,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#optional(Object)} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher opt(Object... e) {
       return new OptionalExpression(convertToSingleExpression(e));
     }
@@ -84,7 +84,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.16, use {@link GrammarFunctions.Standard#firstOf(Object...)} instead
      */
-    @Deprecated
+    @Deprecated(since = "1.16")
     public static Matcher or(Object... e) {
       return firstOf(e);
     }
@@ -93,7 +93,7 @@ public final class GrammarFunctions {
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#firstOf(Object, Object)}
      * instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher firstOf(Object... e) {
       checkSize(e);
       if (e.length == 1) {
@@ -107,7 +107,7 @@ public final class GrammarFunctions {
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#sequence(Object, Object)}
      * instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher and(Object... e) {
       return convertToSingleExpression(e);
     }
@@ -122,7 +122,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#nextNot(Object)} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher not(Object e) {
       return new NextNotExpression(convertToExpression(e));
     }
@@ -130,7 +130,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#next(Object)} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher next(Object... e) {
       return new NextExpression(convertToSingleExpression(e));
     }
@@ -145,7 +145,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#adjacent(Object)} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher adjacent(Object e) {
       return new SequenceExpression(AdjacentExpression.INSTANCE, convertToExpression(e));
     }
@@ -154,7 +154,7 @@ public final class GrammarFunctions {
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#anyTokenButNot(Object)}
      * instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher anyTokenButNot(Object e) {
       return new SequenceExpression(new NextNotExpression(convertToExpression(e)), AnyTokenExpression.INSTANCE);
     }
@@ -163,7 +163,7 @@ public final class GrammarFunctions {
      * @deprecated in 1.19, use
      * {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#isOneOfThem(TokenType, TokenType...)} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher isOneOfThem(TokenType... types) {
       checkSize(types);
       return new TokenTypesExpression(types);
@@ -173,7 +173,7 @@ public final class GrammarFunctions {
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#bridge(TokenType, TokenType)}
      * instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher bridge(TokenType from, TokenType to) {
       return new TokensBridgeExpression(from, to);
     }
@@ -181,7 +181,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#anyToken()} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher isTrue() {
       return AnyTokenExpression.INSTANCE;
     }
@@ -189,7 +189,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#nothing()} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher isFalse() {
       return NothingExpression.INSTANCE;
     }
@@ -197,7 +197,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#anyToken()} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher anyToken() {
       return AnyTokenExpression.INSTANCE;
     }
@@ -205,7 +205,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#tillNewLine()} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher tillNewLine() {
       return TillNewLineExpression.INSTANCE;
     }
@@ -213,7 +213,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#till(Object)} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher till(Object e) {
       var expression = convertToExpression(e);
       return new SequenceExpression(
@@ -227,7 +227,7 @@ public final class GrammarFunctions {
     /**
      * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#exclusiveTill(Object)} instead.
      */
-    @Deprecated
+    @Deprecated(since = "1.19")
     public static Matcher exclusiveTill(Object... e) {
       var expressions = convertToExpressions(e);
       var subExpression = expressions.length == 1 ? expressions[0] : new FirstOfExpression(expressions);
@@ -245,7 +245,7 @@ public final class GrammarFunctions {
    * @deprecated in 1.19, use
    * {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#buildWithMemoizationOfMatchesForAllRules()} instead.
    */
-  @Deprecated
+  @Deprecated(since = "1.19")
   public static void enableMemoizationOfMatchesForAllRules(Grammar grammar) {
     for (var ruleField : Grammar.getAllRuleFields(grammar.getClass())) {
       var ruleName = ruleField.getName();

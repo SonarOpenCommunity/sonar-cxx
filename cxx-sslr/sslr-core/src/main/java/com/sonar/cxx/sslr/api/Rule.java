@@ -24,14 +24,16 @@
 package com.sonar.cxx.sslr.api;
 
 /**
- * <p>This interface is not intended to be implemented by clients.</p>
+ * <p>
+ * This interface is not intended to be implemented by clients.</p>
  */
 public interface Rule extends AstNodeType {
 
   /**
    * Allows to provide definition of a grammar rule.
    * <p>
-   * <b>Note:</b> this method can be called only once for a rule. If it is called more than once, an IllegalStateException will be thrown.
+   * <b>Note:</b> this method can be called only once for a rule. If it is called more than once, an
+   * IllegalStateException will be thrown.
    *
    * @param e expression of grammar that defines this rule
    * @return this (for method chaining)
@@ -39,28 +41,30 @@ public interface Rule extends AstNodeType {
    * @throws IllegalArgumentException if any of given arguments is not a parsing expression
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#is(Object)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "1.19")
   Rule is(Object... e);
 
   /**
    * Allows to override definition of a grammar rule.
    * <p>
-   * This method has the same effect as {@link #is(Object)}, except that it can be called more than once to redefine a rule from scratch.
+   * This method has the same effect as {@link #is(Object)}, except that it can be called more than once to redefine a
+   * rule from scratch.
    *
    * @param e expression of grammar that defines this rule
    * @return this (for method chaining)
    * @throws IllegalArgumentException if any of given arguments is not a parsing expression
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#override(Object)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "1.19")
   Rule override(Object... e);
 
   /**
-   * Indicates that grammar rule should not lead to creation of AST node - its children should be attached directly to its parent.
+   * Indicates that grammar rule should not lead to creation of AST node - its children should be attached directly to
+   * its parent.
    *
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#skip()} instead.
    */
-  @Deprecated
+  @Deprecated(since = "1.19")
   void skip();
 
   /**
@@ -68,16 +72,17 @@ public interface Rule extends AstNodeType {
    *
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#skipIfOneChild()} instead.
    */
-  @Deprecated
+  @Deprecated(since = "1.19")
   void skipIfOneChild();
 
   /**
-   * Utility method used for unit testing in order to dynamically replace the definition of the rule to match as soon as a token whose value
+   * Utility method used for unit testing in order to dynamically replace the definition of the rule to match as soon as
+   * a token whose value
    * equals the name of the rule is encountered.
    *
    * @deprecated in 1.18, use {@link #override(Object...)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "1.18")
   void mock();
 
 }

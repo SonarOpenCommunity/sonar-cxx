@@ -53,8 +53,9 @@ class AstSelectFactoryTest {
 
   @Test
   void test_empty() {
-    assertThat((Object) AstSelectFactory.empty()).isInstanceOf(EmptyAstSelect.class);
-    assertThat((Object) AstSelectFactory.empty()).isSameAs(AstSelectFactory.empty());
+    assertThat((Object) AstSelectFactory.empty())
+      .isInstanceOf(EmptyAstSelect.class)
+      .isSameAs(AstSelectFactory.empty());
   }
 
 }

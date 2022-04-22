@@ -96,13 +96,12 @@ class CxxOtherSensorTest {
   @Test
   void shouldThrowExceptionWhenReportEmpty() {
     var context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
+    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
+    context.setSettings(settings);
+    sensor = new CxxOtherSensor();
 
     IllegalStateException thrown = catchThrowableOfType(() -> {
-      settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
-      settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
-      context.setSettings(settings);
-
-      sensor = new CxxOtherSensor();
       sensor.execute(context);
     }, IllegalStateException.class);
     assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
@@ -123,13 +122,13 @@ class CxxOtherSensorTest {
 
   @Test
   void shouldThrowInCaseOfATrashyReport() {
-    IllegalStateException thrown = catchThrowableOfType(() -> {
-      var context = SensorContextTester.create(fs.baseDir());
-      settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
-      settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
-      context.setSettings(settings);
+    var context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
+    settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
+    context.setSettings(settings);
+    sensor = new CxxOtherSensor();
 
-      sensor = new CxxOtherSensor();
+    IllegalStateException thrown = catchThrowableOfType(() -> {
       sensor.execute(context);
     }, IllegalStateException.class);
     assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);

@@ -78,7 +78,7 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
   @Override
   public void visitNode(AstNode astNode) {
     var declId = astNode.getFirstDescendant(CxxGrammarImpl.declaratorId);
-    if (isGlobalFunctionDefinition(declId)) {
+    if (declId != null && isGlobalFunctionDefinition(declId)) {
       var idNode = declId.getLastChild(IDENTIFIER);
       if (idNode != null) {
         String identifier = idNode.getTokenValue();

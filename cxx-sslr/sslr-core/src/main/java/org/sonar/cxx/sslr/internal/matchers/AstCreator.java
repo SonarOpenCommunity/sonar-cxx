@@ -33,6 +33,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 import org.sonar.cxx.sslr.internal.vm.TokenExpression;
 import org.sonar.cxx.sslr.internal.vm.TriviaExpression;
@@ -74,6 +75,7 @@ public final class AstCreator {
     }
   }
 
+  @CheckForNull
   private AstNode visitTerminal(ParseNode node) {
     if (node.getMatcher() instanceof TriviaExpression) {
       var ruleMatcher = (TriviaExpression) node.getMatcher();

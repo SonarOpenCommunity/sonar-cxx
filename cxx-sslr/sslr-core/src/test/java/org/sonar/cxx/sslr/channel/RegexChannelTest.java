@@ -47,7 +47,7 @@ class RegexChannelTest {
     int literalLength = 100000;
     var veryLongLiteral = String.format(String.format("%%0%dd", literalLength), 0).replace("0", "a");
 
-    assertThat(veryLongLiteral.length()).isEqualTo(100000);
+    assertThat(veryLongLiteral).hasSize(100000);
     dispatcher.consume(new CodeReader("\">" + veryLongLiteral + "<\"", codeReaderConfiguration), output);
     assertThat(output).hasToString("<literal>\">" + veryLongLiteral + "<\"</literal>");
   }

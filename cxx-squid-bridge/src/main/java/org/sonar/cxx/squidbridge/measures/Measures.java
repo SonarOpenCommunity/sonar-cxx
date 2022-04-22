@@ -25,6 +25,7 @@ package org.sonar.cxx.squidbridge.measures;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
+import javax.annotation.CheckForNull;
 
 public class Measures {
 
@@ -38,6 +39,7 @@ public class Measures {
     return measure.getValue();
   }
 
+  @CheckForNull
   public Object getData(MetricDef metric) {
     var measure = measures.get(metric);
     if (measure == null) {

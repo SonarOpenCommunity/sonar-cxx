@@ -71,7 +71,7 @@ class TextLocation {
     if (obj == this) {
       return true;
     }
-    if (obj instanceof TextLocation) {
+    if (getClass() == obj.getClass()) {
       var other = (TextLocation) obj;
       return Objects.equals(this.file, other.file)
                && this.line == other.line

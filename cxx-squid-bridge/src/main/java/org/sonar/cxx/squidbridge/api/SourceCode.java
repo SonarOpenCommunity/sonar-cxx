@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.cxx.squidbridge.measures.Measurable;
 import org.sonar.cxx.squidbridge.measures.Measures;
@@ -197,6 +198,7 @@ public abstract class SourceCode implements Measurable, Comparable<SourceCode> {
     return this;
   }
 
+  @CheckForNull
   public <S extends SourceCode> S getParent(Class<S> sourceCode) {
     if (parent == null) {
       return null;

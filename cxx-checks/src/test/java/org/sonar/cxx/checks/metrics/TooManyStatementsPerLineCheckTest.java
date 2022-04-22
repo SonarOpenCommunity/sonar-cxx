@@ -32,7 +32,7 @@ class TooManyStatementsPerLineCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void test() throws UnsupportedEncodingException, IOException {
+  void test() throws UnsupportedEncodingException, IOException {
     var check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = false;
 
@@ -58,7 +58,7 @@ class TooManyStatementsPerLineCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void testExcludeCaseBreak() throws UnsupportedEncodingException, IOException {
+  void testExcludeCaseBreak() throws UnsupportedEncodingException, IOException {
     var check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = true;
 

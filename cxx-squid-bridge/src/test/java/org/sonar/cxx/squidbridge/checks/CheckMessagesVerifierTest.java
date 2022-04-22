@@ -49,8 +49,9 @@ class CheckMessagesVerifierTest {
 
   @Test
   void noMore() {
+    Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
+
     AssertionError thrown = catchThrowableOfType(() -> {
-      Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
         .noMore();
     }, AssertionError.class);
@@ -61,8 +62,9 @@ class CheckMessagesVerifierTest {
 
   @Test
   void line() {
+    Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
+
     AssertionError thrown = catchThrowableOfType(() -> {
-      Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
         .next().atLine(2);
     }, AssertionError.class);
@@ -73,8 +75,9 @@ class CheckMessagesVerifierTest {
 
   @Test
   void line_withoutHasNext() {
+    Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
+
     IllegalStateException thrown = catchThrowableOfType(() -> {
-      Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
         .atLine(2);
     }, IllegalStateException.class);
@@ -85,8 +88,9 @@ class CheckMessagesVerifierTest {
 
   @Test
   void withMessage() {
+    Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
+
     AssertionError thrown = catchThrowableOfType(() -> {
-      Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
         .next().atLine(1).withMessage("bar");
     }, AssertionError.class);
@@ -97,8 +101,9 @@ class CheckMessagesVerifierTest {
 
   @Test
   void withMessage_withoutHasNext() {
+    Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
+
     IllegalStateException thrown = catchThrowableOfType(() -> {
-      Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
         .withMessage("foo");
     }, IllegalStateException.class);
@@ -109,8 +114,9 @@ class CheckMessagesVerifierTest {
 
   @Test
   void withMessageContaining() {
+    Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
+
     AssertionError thrown = catchThrowableOfType(() -> {
-      Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
         .next().atLine(1).withMessageContaining("bar");
     }, AssertionError.class);
@@ -121,8 +127,9 @@ class CheckMessagesVerifierTest {
 
   @Test
   void withCost() {
+    Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo", 0d));
+
     AssertionError thrown = catchThrowableOfType(() -> {
-      Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo", 0d));
       CheckMessagesVerifier.verify(messages)
         .next().withCost(1d);
     }, AssertionError.class);

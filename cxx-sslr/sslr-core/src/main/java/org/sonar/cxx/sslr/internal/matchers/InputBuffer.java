@@ -73,7 +73,8 @@ public interface InputBuffer {
       if (this == obj) {
         return true;
       }
-      if (!(obj instanceof Position)) {
+
+      if (getClass() != obj.getClass()) {
         return false;
       }
       var other = (Position) obj;

@@ -72,11 +72,11 @@ class ConfigurationPropertyTest {
 
   @Test
   void getValue() {
-    assertThat(new ConfigurationProperty("", "", "").getValue()).isEqualTo("");
+    assertThat(new ConfigurationProperty("", "", "").getValue()).isEmpty();
     assertThat(new ConfigurationProperty("", "", "foo").getValue()).isEqualTo("foo");
 
     var property = new ConfigurationProperty("", "", "");
-    assertThat(property.getValue()).isEqualTo("");
+    assertThat(property.getValue()).isEmpty();
     property.setValue("foo");
     assertThat(property.getValue()).isEqualTo("foo");
   }

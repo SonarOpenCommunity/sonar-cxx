@@ -101,13 +101,13 @@ class CxxInferSensorTest {
 
   @Test
   void shouldThrowExceptionWhenRecoveryIsDisabled() {
-    IllegalStateException thrown = catchThrowableOfType(() -> {
-      var context = SensorContextTester.create(fs.baseDir());
-      settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
-      settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-empty.json");
-      context.setSettings(settings);
+    var context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
+    settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-empty.json");
+    context.setSettings(settings);
+    var sensor = new CxxInferSensor();
 
-      var sensor = new CxxInferSensor();
+    IllegalStateException thrown = catchThrowableOfType(() -> {
       sensor.execute(context);
     }, IllegalStateException.class);
     assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);

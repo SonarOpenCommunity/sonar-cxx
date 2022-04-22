@@ -80,9 +80,9 @@ class DelayedRuleInvocationExpressionTest {
 
   @Test
   void should_fail_when_method_is_not_mapped() throws Exception {
+    var method = DelayedRuleInvocationExpressionTest.class.getDeclaredMethod("FOO");
+
     var thrown = catchThrowableOfType(() -> {
-      var method = DelayedRuleInvocationExpressionTest.class
-        .getDeclaredMethod("FOO");
       new DelayedRuleInvocationExpression(LexerlessGrammarBuilder.create(),
                                           mock(GrammarBuilderInterceptor.class),
                                           method).compile(mock(

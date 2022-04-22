@@ -24,7 +24,23 @@
 package org.sonar.cxx.sslr.internal.toolkit;
 
 import com.sonar.cxx.sslr.api.AstNode;
-
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -53,23 +69,6 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class ToolkitViewImpl extends JFrame implements ToolkitView {
 
@@ -226,6 +225,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
   }
 
   @Override
+  @CheckForNull
   public File pickFileToParse() {
     if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
       return fileChooser.getSelectedFile();
@@ -355,6 +355,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
     }
   }
 
+  @CheckForNull
   private DefaultMutableTreeNode getAstTreeNodeWithGivenUserObject(DefaultMutableTreeNode treeNode, Object userObject) {
     if (treeNode.getUserObject().equals(userObject)) {
       return treeNode;

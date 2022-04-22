@@ -33,7 +33,7 @@ class FileRegularExpressionCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void fileRegExWithoutFilePattern() throws UnsupportedEncodingException, IOException {
+  void fileRegExWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     var check = new FileRegularExpressionCheck();
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
@@ -47,7 +47,7 @@ class FileRegularExpressionCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void fileRegExInvertWithoutFilePattern() throws UnsupportedEncodingException, IOException {
+  void fileRegExInvertWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     var check = new FileRegularExpressionCheck();
     var squidConfig = new CxxSquidConfiguration("", StandardCharsets.UTF_8);
     check.regularExpression = "stdafx\\.h";
@@ -64,7 +64,7 @@ class FileRegularExpressionCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void fileRegExCodingErrorActionReplace() throws UnsupportedEncodingException, IOException {
+  void fileRegExCodingErrorActionReplace() throws UnsupportedEncodingException, IOException {
     var check = new FileRegularExpressionCheck();
     var squidConfig = new CxxSquidConfiguration("", StandardCharsets.US_ASCII);
     check.regularExpression = "stdafx\\.h";
@@ -81,7 +81,7 @@ class FileRegularExpressionCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void fileRegExWithFilePattern() throws UnsupportedEncodingException, IOException {
+  void fileRegExWithFilePattern() throws UnsupportedEncodingException, IOException {
     var check = new FileRegularExpressionCheck();
     var squidConfig = new CxxSquidConfiguration("", StandardCharsets.UTF_8);
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
@@ -98,7 +98,7 @@ class FileRegularExpressionCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void fileRegExInvertWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
+  void fileRegExInvertWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
     var check = new FileRegularExpressionCheck();
     var squidConfig = new CxxSquidConfiguration("", StandardCharsets.UTF_8);
     check.matchFilePattern = "/**/*.h"; // all files with not .h file extension

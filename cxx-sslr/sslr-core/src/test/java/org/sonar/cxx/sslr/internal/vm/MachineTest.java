@@ -63,17 +63,17 @@ class MachineTest {
   void should_advanceIndex() {
     var machine = new Machine("foo bar", new Instruction[2]);
     assertThat(machine.getIndex()).isZero();
-    assertThat(machine.length()).isEqualTo(7);
+    assertThat(machine).hasSize(7);
     assertThat(machine.charAt(0)).isEqualTo('f');
     assertThat(machine.charAt(1)).isEqualTo('o');
     machine.advanceIndex(3);
     assertThat(machine.getIndex()).isEqualTo(3);
-    assertThat(machine.length()).isEqualTo(4);
+    assertThat(machine).hasSize(4);
     assertThat(machine.charAt(0)).isEqualTo(' ');
     assertThat(machine.charAt(1)).isEqualTo('b');
     machine.advanceIndex(1);
     assertThat(machine.getIndex()).isEqualTo(4);
-    assertThat(machine.length()).isEqualTo(3);
+    assertThat(machine).hasSize(3);
     assertThat(machine.charAt(0)).isEqualTo('b');
     assertThat(machine.charAt(1)).isEqualTo('a');
   }

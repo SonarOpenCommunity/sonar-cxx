@@ -29,8 +29,9 @@ class CxxReportIssueTest {
   void reportLocationEquality() {
     var location0 = new CxxReportLocation("path0.cpp", "1", null, "Boolean value assigned to pointer.");
     var location1 = new CxxReportLocation("path0.cpp", "1", null, "Boolean value assigned to pointer.");
-    assertThat(location1).isEqualTo(location0);
-    assertThat(location1).hasSameHashCodeAs(location0);
+    assertThat(location1)
+      .isEqualTo(location0)
+      .hasSameHashCodeAs(location0);
 
     var location2 = new CxxReportLocation("path2.cpp", "1", null, "Exception thrown in destructor.");
     assertThat(location0).isNotEqualTo(location2);
@@ -48,8 +49,9 @@ class CxxReportIssueTest {
     var issue1 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
     var issue2 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
 
-    assertThat(issue2).isEqualTo(issue1);
-    assertThat(issue2).hasSameHashCodeAs(issue1);
+    assertThat(issue2)
+      .isEqualTo(issue1)
+      .hasSameHashCodeAs(issue1);
 
     assertThat(issue1).isNotEqualTo(issue0);
     assertThat(issue1.hashCode()).isNotEqualTo(issue0.hashCode());
@@ -76,8 +78,9 @@ class CxxReportIssueTest {
 
     var issue3 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
 
-    assertThat(issue1).isEqualTo(issue0);
-    assertThat(issue1).hasSameHashCodeAs(issue0);
+    assertThat(issue1)
+      .isEqualTo(issue0)
+      .hasSameHashCodeAs(issue0);
 
     assertThat(issue2).isNotEqualTo(issue0);
     assertThat(issue2.hashCode()).isNotEqualTo(issue0.hashCode());

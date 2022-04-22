@@ -25,7 +25,6 @@ package org.sonar.cxx.sslr.ast; // cxx: in use
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.AstNodeType;
-
 import java.util.Iterator;
 import java.util.function.Predicate;
 
@@ -33,12 +32,13 @@ import java.util.function.Predicate;
  * An immutable ordered collection of AST nodes with operations for selection.
  * Use <code>{@link AstNode#select()}</code> to obtain an instance of this interface.
  *
- * <p>This interface is not intended to be implemented by clients.</p>
+ * <p>
+ * This interface is not intended to be implemented by clients.</p>
  *
  * @since 1.18
  * @deprecated in 1.22
  */
-@Deprecated
+@Deprecated(since = "1.22")
 public interface AstSelect extends Iterable<AstNode> {
 
   /**
@@ -120,7 +120,8 @@ public interface AstSelect extends Iterable<AstNode> {
 
   /**
    * Returns new selection, which contains descendants of a given type of this selection.
-   * Be careful, this method searches among all descendants whatever is their depth, so favor {@link #children(AstNodeType)} when possible.
+   * Be careful, this method searches among all descendants whatever is their depth, so favor
+   * {@link #children(AstNodeType)} when possible.
    * <p>
    * In the following case, {@code getDescendants("B")} would return "B1", "B2" and "B3":
    * <pre>
@@ -180,10 +181,10 @@ public interface AstSelect extends Iterable<AstNode> {
   /**
    * Returns the element at the specified position in this selection.
    *
-   * @param  index index of the element to return
+   * @param index index of the element to return
    * @return the element at the specified position in this selection
    * @throws IndexOutOfBoundsException if the index is out of range
-   *         (<tt>index &lt; 0 || index &gt;= size()</tt>)
+   * (<tt>index &lt; 0 || index &gt;= size()</tt>)
    */
   AstNode get(int index);
 

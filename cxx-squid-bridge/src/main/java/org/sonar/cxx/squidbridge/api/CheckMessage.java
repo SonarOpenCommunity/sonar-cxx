@@ -47,7 +47,7 @@ public class CheckMessage implements Message {
   /**
    * @deprecated replaced by the other constructor since 2.12. See SONAR-2875.
    */
-  @Deprecated
+  @Deprecated(since = "2.12")
   public CheckMessage(CodeCheck check, String message, Object... messageArguments) {
     this((Object) check, message, messageArguments);
   }
@@ -89,7 +89,7 @@ public class CheckMessage implements Message {
    * @deprecated replaced by getCheck() since SQ version 2.12. Warning, to be called only if check is CodeCheck.
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "2.12")
   public CodeCheck getChecker() {
     return (CodeCheck) check;
   }

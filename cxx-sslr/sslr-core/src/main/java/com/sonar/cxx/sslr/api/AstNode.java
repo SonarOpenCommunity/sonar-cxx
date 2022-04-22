@@ -27,6 +27,7 @@ import com.sonar.cxx.sslr.impl.matcher.RuleDefinition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.ast.AstSelect;
 import org.sonar.cxx.sslr.internal.ast.select.AstSelectFactory;
@@ -115,7 +116,7 @@ public class AstNode {
   /**
    * @deprecated in 1.19.2, use {@link #getFirstChild(AstNodeType...)} instead
    */
-  @Deprecated
+  @Deprecated(since = "1.19.2")
   public AstNode getChild(int index) {
     if (index >= getNumberOfChildren()) {
       throw new IllegalStateException("The AstNode '" + this + "' has only " + getNumberOfChildren()
@@ -127,7 +128,7 @@ public class AstNode {
   /**
    * @deprecated in 1.17, use {@link #getNextAstNode()} instead
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public AstNode nextAstNode() {
     return getNextAstNode();
   }
@@ -137,6 +138,7 @@ public class AstNode {
    *
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getNextAstNode() {
     var nextSibling = getNextSibling();
     if (nextSibling != null) {
@@ -151,7 +153,7 @@ public class AstNode {
   /**
    * @deprecated in 1.17, use {@link #getPreviousAstNode()} instead
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public AstNode previousAstNode() {
     return getPreviousAstNode();
   }
@@ -162,6 +164,7 @@ public class AstNode {
    *
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getPreviousAstNode() {
     var previousSibling = getPreviousSibling();
     if (previousSibling != null) {
@@ -176,7 +179,7 @@ public class AstNode {
   /**
    * @deprecated in 1.17, use {@link #getNextSibling()} instead
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public AstNode nextSibling() {
     return getNextSibling();
   }
@@ -187,6 +190,7 @@ public class AstNode {
    * @return next sibling, or null if not exists
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getNextSibling() {
     if (parent == null) {
       return null;
@@ -200,7 +204,7 @@ public class AstNode {
   /**
    * @deprecated in 1.17, use {@link #getPreviousSibling()}
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public AstNode previousSibling() {
     return getPreviousSibling();
   }
@@ -211,6 +215,7 @@ public class AstNode {
    * @return previous sibling, or null if not exists
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getPreviousSibling() {
     if (parent == null) {
       return null;
@@ -226,6 +231,7 @@ public class AstNode {
    *
    * @return token's value
    */
+  @CheckForNull
   public String getTokenValue() {
     if (token == null) {
       return null;
@@ -238,6 +244,7 @@ public class AstNode {
    *
    * @return token's original value
    */
+  @CheckForNull
   public String getTokenOriginalValue() {
     if (token == null) {
       return null;
@@ -324,7 +331,7 @@ public class AstNode {
   /**
    * @deprecated in 1.17, use {@link #getFirstChild(AstNodeType...)} instead
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public AstNode findFirstDirectChild(AstNodeType... nodeTypes) {
     return getFirstChild(nodeTypes);
   }
@@ -344,6 +351,7 @@ public class AstNode {
    * @return first child of one of specified types, or null if not found
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getFirstChild(AstNodeType... nodeTypes) {
     for (var child : children) {
       for (var nodeType : nodeTypes) {
@@ -358,7 +366,7 @@ public class AstNode {
   /**
    * @deprecated in 1.17, use {@link #getFirstDescendant(AstNodeType...)} instead
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public AstNode findFirstChild(AstNodeType... nodeTypes) {
     return getFirstDescendant(nodeTypes);
   }
@@ -378,6 +386,7 @@ public class AstNode {
    * @return first descendant of one of specified types, or null if not found
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getFirstDescendant(AstNodeType... nodeTypes) {
     for (var child : children) {
       if (child.is(nodeTypes)) {
@@ -403,7 +412,7 @@ public class AstNode {
   /**
    * @deprecated in 1.17, use {@link #getChildren(AstNodeType...)} instead
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public List<AstNode> findDirectChildren(AstNodeType... nodeTypes) {
     return getChildren(nodeTypes);
   }
@@ -440,7 +449,7 @@ public class AstNode {
    * @deprecated in 1.17, use {@link #getDescendants(AstNodeType...)} instead, but don't forget that those methods
    * behave differently due to bug SSLR-249
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public List<AstNode> findChildren(AstNodeType... nodeTypes) {
     List<AstNode> result = new ArrayList<>();
     getDescendants(result, nodeTypes);
@@ -513,7 +522,7 @@ public class AstNode {
    * @return last child of one of specified types, or null if not found
    * @since 1.20
    */
-  @Nullable
+  @CheckForNull
   public AstNode getLastChild(AstNodeType... nodeTypes) {
     for (int i = children.size() - 1; i >= 0; i--) {
       var child = children.get(i);
@@ -538,7 +547,7 @@ public class AstNode {
    * Be careful the name of this method is misleading as the check is done on descendant nodes
    * and not only on child nodes.
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public boolean hasChildren(AstNodeType... nodeTypes) {
     return hasDescendant(nodeTypes);
   }
@@ -554,7 +563,7 @@ public class AstNode {
   /**
    * @deprecated in 1.17, use {@link #hasAncestor(AstNodeType)} instead
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public boolean hasParents(AstNodeType nodeType) {
     return hasAncestor(nodeType);
   }
@@ -585,7 +594,7 @@ public class AstNode {
   /**
    * @deprecated in 1.17, use {@link #getFirstAncestor(AstNodeType)} instead
    */
-  @Deprecated
+  @Deprecated(since = "1.17")
   public AstNode findFirstParent(AstNodeType nodeType) {
     return getFirstAncestor(nodeType);
   }
@@ -594,6 +603,7 @@ public class AstNode {
    * @return first ancestor of the specified type, or null if not found
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getFirstAncestor(AstNodeType nodeType) {
     if (parent == null) {
       return null;
@@ -608,6 +618,7 @@ public class AstNode {
    * @return first ancestor of one of specified types, or null if not found
    * @since 1.19.2
    */
+  @CheckForNull
   public AstNode getFirstAncestor(AstNodeType... nodeTypes) {
     var result = parent;
     while (result != null) {
@@ -660,6 +671,7 @@ public class AstNode {
     return result.toString();
   }
 
+  @CheckForNull
   public Token getLastToken() {
     if (!this.hasToken()) {
       return null;
@@ -681,7 +693,7 @@ public class AstNode {
    * @since 1.18
    * @deprecated in 1.22
    */
-  @Deprecated
+  @Deprecated(since = "1.22")
   public AstSelect select() {
     return AstSelectFactory.select(this);
   }

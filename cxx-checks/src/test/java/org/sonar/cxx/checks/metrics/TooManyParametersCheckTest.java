@@ -31,7 +31,7 @@ class TooManyParametersCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void test() throws UnsupportedEncodingException, IOException {
+  void test() throws UnsupportedEncodingException, IOException {
     var check = new TooManyParametersCheck();
     check.setMax(3);
 

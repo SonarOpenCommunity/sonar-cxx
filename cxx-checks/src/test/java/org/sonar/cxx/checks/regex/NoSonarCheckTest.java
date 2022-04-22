@@ -33,7 +33,7 @@ class NoSonarCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void test() throws UnsupportedEncodingException, IOException {
+  void test() throws UnsupportedEncodingException, IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/NoSonarTagPresenceCheck.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
 

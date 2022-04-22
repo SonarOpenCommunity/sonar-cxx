@@ -26,7 +26,7 @@ package org.sonar.cxx.squidbridge.api;
 /**
  * @deprecated since SQ version 2.12. See https://jira.codehaus.org/browse/SONAR-2875
  */
-@Deprecated
+@Deprecated(since = "2.12")
 public interface CodeCheck extends CodeVisitor {
 
   String getKey();

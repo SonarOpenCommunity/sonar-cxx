@@ -26,6 +26,7 @@ package org.sonar.cxx.sslr.toolkit;
 import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.impl.Parser;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
@@ -105,6 +106,7 @@ class AbstractConfigurationModelTest {
     private List<Tokenizer> tokenizers;
 
     @Override
+    @CheckForNull
     public List<ConfigurationProperty> getProperties() {
       return null;
     }

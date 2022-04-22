@@ -27,6 +27,7 @@ import com.sonar.cxx.sslr.api.RecognitionException;
 import com.sonar.cxx.sslr.api.Token;
 import java.util.Arrays;
 import java.util.List;
+import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.grammar.GrammarException;
 import org.sonar.cxx.sslr.internal.matchers.ImmutableInputBuffer;
 import org.sonar.cxx.sslr.internal.matchers.InputBuffer;
@@ -132,7 +133,7 @@ public class Machine implements CharSequence {
     this(input.toCharArray(), null, instructions, handler);
   }
 
-  private Machine(char[] input, Token[] tokens, Instruction[] instructions, MachineHandler handler) {
+  private Machine(@Nullable char[] input, Token[] tokens, Instruction[] instructions, MachineHandler handler) {
     this.input = input;
     this.tokens = tokens;
     if (input != null) {
