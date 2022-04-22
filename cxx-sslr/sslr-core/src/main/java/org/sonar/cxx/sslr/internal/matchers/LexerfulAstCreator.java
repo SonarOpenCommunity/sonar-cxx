@@ -28,6 +28,7 @@ import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.impl.matcher.RuleDefinition;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import org.sonar.cxx.sslr.internal.vm.lexerful.TokenTypeExpression;
 
 public class LexerfulAstCreator {
@@ -79,6 +80,7 @@ public class LexerfulAstCreator {
     return astNode;
   }
 
+  @CheckForNull
   private AstNode visitTerminal(ParseNode node) {
     var token = tokens.get(node.getStartIndex());
     // For compatibility with SSLR < 1.19, TokenType should be checked only for TokenTypeExpression:

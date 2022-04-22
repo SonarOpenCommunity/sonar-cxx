@@ -39,7 +39,7 @@ class ImmutableInputBufferTest {
     assertThat(inputBuffer.extractLine(2)).isEqualTo("bar\n");
     assertThat(inputBuffer.extractLine(3)).isEqualTo("baz\r");
     assertThat(inputBuffer.extractLine(4)).isEqualTo("qux\r");
-    assertThat(inputBuffer.extractLine(5)).isEqualTo("");
+    assertThat(inputBuffer.extractLine(5)).isEmpty();
 
     assertThat(inputBuffer.getPosition(0)).isEqualTo(new Position(1, 1));
     assertThat(inputBuffer.getPosition(4)).isEqualTo(new Position(1, 5));
@@ -72,7 +72,7 @@ class ImmutableInputBufferTest {
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(1);
 
-    assertThat(inputBuffer.extractLine(1)).isEqualTo("");
+    assertThat(inputBuffer.extractLine(1)).isEmpty();
 
     assertThat(inputBuffer.getPosition(0)).isEqualTo(new Position(1, 1));
     assertThat(inputBuffer.getPosition(1)).isEqualTo(new Position(1, 2));
@@ -86,7 +86,7 @@ class ImmutableInputBufferTest {
 
     assertThat(inputBuffer.extractLine(1)).isEqualTo("\n");
     assertThat(inputBuffer.extractLine(2)).isEqualTo("\n");
-    assertThat(inputBuffer.extractLine(3)).isEqualTo("");
+    assertThat(inputBuffer.extractLine(3)).isEmpty();
 
     assertThat(inputBuffer.getPosition(0)).isEqualTo(new Position(1, 1));
     assertThat(inputBuffer.getPosition(1)).isEqualTo(new Position(2, 1));
@@ -101,7 +101,7 @@ class ImmutableInputBufferTest {
 
     assertThat(inputBuffer.extractLine(1)).isEqualTo("\r");
     assertThat(inputBuffer.extractLine(2)).isEqualTo("\r");
-    assertThat(inputBuffer.extractLine(3)).isEqualTo("");
+    assertThat(inputBuffer.extractLine(3)).isEmpty();
 
     assertThat(inputBuffer.getPosition(0)).isEqualTo(new Position(1, 1));
     assertThat(inputBuffer.getPosition(1)).isEqualTo(new Position(2, 1));
@@ -116,7 +116,7 @@ class ImmutableInputBufferTest {
 
     assertThat(inputBuffer.extractLine(1)).isEqualTo("\r\n");
     assertThat(inputBuffer.extractLine(2)).isEqualTo("\r\n");
-    assertThat(inputBuffer.extractLine(3)).isEqualTo("");
+    assertThat(inputBuffer.extractLine(3)).isEmpty();
 
     assertThat(inputBuffer.getPosition(0)).isEqualTo(new Position(1, 1));
     assertThat(inputBuffer.getPosition(1)).isEqualTo(new Position(1, 2));
@@ -128,12 +128,13 @@ class ImmutableInputBufferTest {
   @Test
   void test_equality_and_hash_code_of_positions() {
     var position = new Position(0, 0);
-    assertThat(position).isEqualTo(position);
-    assertThat(position).isEqualTo(new Position(0, 0));
-    assertThat(position).hasSameHashCodeAs(new Position(0, 0));
-    assertThat(position).isNotEqualTo(new Position(0, 1));
-    assertThat(position).isNotEqualTo(new Position(1, 1));
-    assertThat(position).isNotEqualTo(new Object());
+    assertThat(position)
+      .isEqualTo(position)
+      .isEqualTo(new Position(0, 0))
+      .hasSameHashCodeAs(new Position(0, 0))
+      .isNotEqualTo(new Position(0, 1))
+      .isNotEqualTo(new Position(1, 1))
+      .isNotEqualTo(new Object());
   }
 
 }

@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
+import javax.annotation.CheckForNull;
 import org.jaxen.DefaultNavigator;
 import org.jaxen.XPath;
 import org.jaxen.util.SingleObjectIterator;
@@ -250,6 +251,7 @@ public class AstNodeNavigator extends DefaultNavigator {
 
   /* Unknown */
   @Override
+  @CheckForNull
   public XPath parseXPath(String arg0) {
     return null;
   }

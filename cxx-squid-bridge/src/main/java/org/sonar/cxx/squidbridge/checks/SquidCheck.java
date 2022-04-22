@@ -24,12 +24,14 @@
 package org.sonar.cxx.squidbridge.checks; // cxx: in use
 
 import com.sonar.cxx.sslr.api.Grammar;
+import javax.annotation.CheckForNull;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.squidbridge.api.CodeCheck;
 
 public abstract class SquidCheck<G extends Grammar> extends SquidAstVisitor<G> implements CodeCheck {
 
   @Override
+  @CheckForNull
   public String getKey() {
     return null;
   }

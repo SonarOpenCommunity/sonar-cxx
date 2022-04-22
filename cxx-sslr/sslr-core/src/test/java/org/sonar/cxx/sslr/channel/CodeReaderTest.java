@@ -46,7 +46,7 @@ class CodeReaderTest {
   void testPeekACharArray() {
     var reader = new CodeReader(new StringReader("bar"));
     var chars = reader.peek(2);
-    assertThat(chars.length).isEqualTo(2);
+    assertThat(chars).hasSize(2);
     assertThat(chars[0]).isEqualTo('b');
     assertThat(chars[1]).isEqualTo('a');
   }

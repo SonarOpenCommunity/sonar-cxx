@@ -83,9 +83,9 @@ public abstract class Optional<T> {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
-      if (object instanceof Present) {
-        var other = (Present) object;
+    public boolean equals(@Nullable Object obj) {
+      if (obj != null && getClass() == obj.getClass()) {
+        var other = (Present) obj;
         return reference.equals(other.reference);
       }
       return false;

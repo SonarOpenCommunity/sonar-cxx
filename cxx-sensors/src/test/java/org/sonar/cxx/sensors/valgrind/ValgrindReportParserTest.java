@@ -79,10 +79,10 @@ class ValgrindReportParserTest {
 
   @Test
   void shouldThrowWhenGivenAnIncompleteReport_1() {
-    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
-      File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-      var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_1.xml");
+    File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
+    var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_1.xml");
 
+    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
       // error contains no kind-tag
       parser.parse(absReportFile);
     }, javax.xml.stream.XMLStreamException.class);
@@ -91,10 +91,10 @@ class ValgrindReportParserTest {
 
   @Test
   void shouldThrowWhenGivenAnIncompleteReport_2() {
-    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
-      File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-      var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_2.xml");
+    File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
+    var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_2.xml");
 
+    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
       // error contains no what- or xwhat-tag
       parser.parse(absReportFile);
     }, javax.xml.stream.XMLStreamException.class);
@@ -103,9 +103,10 @@ class ValgrindReportParserTest {
 
   @Test
   void shouldThrowWhenGivenAnIncompleteReport_3() {
+    File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
+    var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_3.xml");
+
     javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
-      File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-      var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_3.xml");
       // error contains no stack-tag
       parser.parse(absReportFile);
     }, javax.xml.stream.XMLStreamException.class);

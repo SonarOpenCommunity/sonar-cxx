@@ -32,7 +32,7 @@ class ParsingErrorRecoveryCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void test_syntax_error_recovery() throws UnsupportedEncodingException, IOException {
+  void test_syntax_error_recovery() throws UnsupportedEncodingException, IOException {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
                     "true");

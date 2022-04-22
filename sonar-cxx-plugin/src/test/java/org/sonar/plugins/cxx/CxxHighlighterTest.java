@@ -63,7 +63,7 @@ class CxxHighlighterTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
-  public void keyword() {
+  void keyword() {
 
     checkOnRange(55, 0, 4, TypeOfText.KEYWORD);  // void
     checkOnRange(57, 3, 4, TypeOfText.KEYWORD);  // auto
@@ -76,7 +76,7 @@ class CxxHighlighterTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
-  public void stringLiteral() {
+  void stringLiteral() {
 
     checkOnRange(49, 19, 7, TypeOfText.STRING);  // "hello"
     checkOnRange(50, 19, 18, TypeOfText.STRING); // "hello\tworld\r\n"
@@ -125,7 +125,7 @@ class CxxHighlighterTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
-  public void character() {
+  void character() {
 
     checkOnRange(46, 10, 3, TypeOfText.STRING); // 'x'
     checkOnRange(47, 10, 4, TypeOfText.STRING); // '\t'
@@ -133,7 +133,7 @@ class CxxHighlighterTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
-  public void comment() {
+  void comment() {
 
     check(1, 0, TypeOfText.COMMENT);
     /*\r\n comment\r\n*/
@@ -153,7 +153,7 @@ class CxxHighlighterTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
-  public void number() {
+  void number() {
 
     checkOnRange(27, 10, 1, TypeOfText.CONSTANT); //  0
     checkOnRange(28, 10, 1, TypeOfText.CONSTANT); // -1 (without minus)
@@ -174,7 +174,7 @@ class CxxHighlighterTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
-  public void preprocessDirective() {
+  void preprocessDirective() {
 
     checkOnRange(12, 0, 8, TypeOfText.PREPROCESS_DIRECTIVE); // #include
 
@@ -189,7 +189,7 @@ class CxxHighlighterTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... checkOnRange contains the assertion
-  public void identifiersWithSpecialMeaning() {
+  void identifiersWithSpecialMeaning() {
     // identifier with special meaning => no highlighting
     checkOnRange(112, 11, 6, null); // import
     checkOnRange(119, 10, 6, null); // module

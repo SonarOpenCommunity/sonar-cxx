@@ -248,10 +248,11 @@ class JsonCompilationDatabaseTest {
 
   @Test
   void testInvalidJson() {
+    var squidConfig = new CxxSquidConfiguration();
+    var file = new File("src/test/resources/jsondb/invalid.json");
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
+
     JsonMappingException thrown = catchThrowableOfType(() -> {
-      var squidConfig = new CxxSquidConfiguration();
-      var file = new File("src/test/resources/jsondb/invalid.json");
-      var jsonDb = new JsonCompilationDatabase(squidConfig);
       jsonDb.parse(file);
     }, JsonMappingException.class);
     assertThat(thrown).isExactlyInstanceOf(JsonMappingException.class);
@@ -259,10 +260,11 @@ class JsonCompilationDatabaseTest {
 
   @Test
   void testFileNotFound() {
+    var squidConfig = new CxxSquidConfiguration();
+    var file = new File("src/test/resources/jsondb/not-found.json");
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
+
     FileNotFoundException thrown = catchThrowableOfType(() -> {
-      var squidConfig = new CxxSquidConfiguration();
-      var file = new File("src/test/resources/jsondb/not-found.json");
-      var jsonDb = new JsonCompilationDatabase(squidConfig);
       jsonDb.parse(file);
     }, FileNotFoundException.class);
     assertThat(thrown).isExactlyInstanceOf(FileNotFoundException.class);

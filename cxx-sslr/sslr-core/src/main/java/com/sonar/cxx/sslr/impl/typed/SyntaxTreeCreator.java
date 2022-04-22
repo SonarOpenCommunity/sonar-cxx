@@ -33,6 +33,7 @@ import com.sonar.cxx.sslr.api.typed.Optional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 import org.sonar.cxx.sslr.internal.matchers.ParseNode;
 import org.sonar.cxx.sslr.internal.vm.TokenExpression;
@@ -114,6 +115,7 @@ public class SyntaxTreeCreator<T> {
     return result;
   }
 
+  @CheckForNull
   private Object visitTerminal(ParseNode node) {
     TokenType type = null;
     if (node.getMatcher() instanceof TriviaExpression) {

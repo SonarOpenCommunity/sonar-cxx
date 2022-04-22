@@ -106,13 +106,13 @@ class CxxCppCheckSensorTest {
 
   @Test
   void shouldThrowExceptionWhenRecoveryIsDisabled() {
-    IllegalStateException thrown = catchThrowableOfType(() -> {
-      var context = SensorContextTester.create(fs.baseDir());
-      settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
-      settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-empty.xml");
-      context.setSettings(settings);
+    var context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-empty.xml");
+    context.setSettings(settings);
 
-      var sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor();
+    IllegalStateException thrown = catchThrowableOfType(() -> {
       sensor.execute(context);
     }, IllegalStateException.class);
     assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);

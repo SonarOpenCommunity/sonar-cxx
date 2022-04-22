@@ -33,7 +33,7 @@ class TodoTagPresenceCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void detected() throws UnsupportedEncodingException, IOException {
+  void detected() throws UnsupportedEncodingException, IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/TodoTagPresenceCheck.cc",
                                         ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new TodoTagPresenceCheck());

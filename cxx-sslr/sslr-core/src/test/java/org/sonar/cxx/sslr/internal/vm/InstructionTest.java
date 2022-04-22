@@ -53,11 +53,12 @@ class InstructionTest {
   @Test
   void jump() {
     var instruction = Instruction.jump(42);
-    assertThat(instruction).isInstanceOf(JumpInstruction.class);
-    assertThat(instruction).hasToString("Jump 42");
-    assertThat(instruction.equals(Instruction.jump(42))).isTrue();
-    assertThat(instruction.equals(Instruction.jump(13))).isFalse();
-    assertThat(instruction.equals(new Object())).isFalse();
+    assertThat(instruction)
+      .isInstanceOf(JumpInstruction.class)
+      .hasToString("Jump 42")
+      .isEqualTo(Instruction.jump(42))
+      .isNotEqualTo(Instruction.jump(13))
+      .isNotEqualTo(new Object());
     assertThat(instruction.hashCode()).isEqualTo(42);
 
     instruction.execute(machine);
@@ -70,12 +71,13 @@ class InstructionTest {
   void call() {
     var matcher = mock(Matcher.class);
     var instruction = Instruction.call(42, matcher);
-    assertThat(instruction).isInstanceOf(CallInstruction.class);
-    assertThat(instruction).hasToString("Call 42");
-    assertThat(instruction.equals(Instruction.call(42, matcher))).isTrue();
-    assertThat(instruction.equals(Instruction.call(42, mock(Matcher.class)))).isFalse();
-    assertThat(instruction.equals(Instruction.call(13, matcher))).isFalse();
-    assertThat(instruction.equals(new Object())).isFalse();
+    assertThat(instruction)
+      .isInstanceOf(CallInstruction.class)
+      .hasToString("Call 42")
+      .isEqualTo(Instruction.call(42, matcher))
+      .isNotEqualTo(Instruction.call(42, mock(Matcher.class)))
+      .isNotEqualTo(Instruction.call(13, matcher))
+      .isNotEqualTo(new Object());
     assertThat(instruction.hashCode()).isEqualTo(42);
 
     instruction.execute(machine);
@@ -87,11 +89,12 @@ class InstructionTest {
   @Test
   void choice() {
     var instruction = Instruction.choice(42);
-    assertThat(instruction).isInstanceOf(ChoiceInstruction.class);
-    assertThat(instruction).hasToString("Choice 42");
-    assertThat(instruction.equals(Instruction.choice(42))).isTrue();
-    assertThat(instruction.equals(Instruction.choice(13))).isFalse();
-    assertThat(instruction.equals(new Object())).isFalse();
+    assertThat(instruction)
+      .isInstanceOf(ChoiceInstruction.class)
+      .hasToString("Choice 42")
+      .isEqualTo(Instruction.choice(42))
+      .isNotEqualTo(Instruction.choice(13))
+      .isNotEqualTo(new Object());
     assertThat(instruction.hashCode()).isEqualTo(42);
 
     instruction.execute(machine);
@@ -104,11 +107,12 @@ class InstructionTest {
   @Test
   void predicateChoice() {
     var instruction = Instruction.predicateChoice(42);
-    assertThat(instruction).isInstanceOf(PredicateChoiceInstruction.class);
-    assertThat(instruction).hasToString("PredicateChoice 42");
-    assertThat(instruction.equals(Instruction.predicateChoice(42))).isTrue();
-    assertThat(instruction.equals(Instruction.predicateChoice(13))).isFalse();
-    assertThat(instruction.equals(new Object())).isFalse();
+    assertThat(instruction)
+      .isInstanceOf(PredicateChoiceInstruction.class)
+      .hasToString("PredicateChoice 42")
+      .isEqualTo(Instruction.predicateChoice(42))
+      .isNotEqualTo(Instruction.predicateChoice(13))
+      .isNotEqualTo(new Object());
     assertThat(instruction.hashCode()).isEqualTo(42);
 
     instruction.execute(machine);
@@ -122,11 +126,12 @@ class InstructionTest {
   @Test
   void commit() {
     var instruction = Instruction.commit(42);
-    assertThat(instruction).isInstanceOf(CommitInstruction.class);
-    assertThat(instruction).hasToString("Commit " + 42);
-    assertThat(instruction.equals(Instruction.commit(42))).isTrue();
-    assertThat(instruction.equals(Instruction.commit(13))).isFalse();
-    assertThat(instruction.equals(new Object())).isFalse();
+    assertThat(instruction)
+      .isInstanceOf(CommitInstruction.class)
+      .hasToString("Commit " + 42)
+      .isEqualTo(Instruction.commit(42))
+      .isNotEqualTo(Instruction.commit(13))
+      .isNotEqualTo(new Object());
     assertThat(instruction.hashCode()).isEqualTo(42);
 
     var stack = new MachineStack().getOrCreateChild();
@@ -142,11 +147,12 @@ class InstructionTest {
   @Test
   void commitVerify() {
     var instruction = Instruction.commitVerify(42);
-    assertThat(instruction).isInstanceOf(CommitVerifyInstruction.class);
-    assertThat(instruction).hasToString("CommitVerify " + 42);
-    assertThat(instruction.equals(Instruction.commitVerify(42))).isTrue();
-    assertThat(instruction.equals(Instruction.commitVerify(13))).isFalse();
-    assertThat(instruction.equals(new Object())).isFalse();
+    assertThat(instruction)
+      .isInstanceOf(CommitVerifyInstruction.class)
+      .hasToString("CommitVerify " + 42)
+      .isEqualTo(Instruction.commitVerify(42))
+      .isNotEqualTo(Instruction.commitVerify(13))
+      .isNotEqualTo(new Object());
     assertThat(instruction.hashCode()).isEqualTo(42);
 
     var stack = new MachineStack().getOrCreateChild();
@@ -177,9 +183,10 @@ class InstructionTest {
   @Test
   void ret() {
     var instruction = Instruction.ret();
-    assertThat(instruction).isInstanceOf(RetInstruction.class);
-    assertThat(instruction).hasToString("Ret");
-    assertThat(instruction).as("singleton").isSameAs(Instruction.ret());
+    assertThat(instruction)
+      .isInstanceOf(RetInstruction.class)
+      .hasToString("Ret")
+      .as("singleton").isSameAs(Instruction.ret());
 
     var stack = mock(MachineStack.class);
     when(stack.address()).thenReturn(42);
@@ -198,9 +205,10 @@ class InstructionTest {
   @Test
   void backtrack() {
     var instruction = Instruction.backtrack();
-    assertThat(instruction).isInstanceOf(BacktrackInstruction.class);
-    assertThat(instruction).hasToString("Backtrack");
-    assertThat(instruction).as("singleton").isSameAs(Instruction.backtrack());
+    assertThat(instruction)
+      .isInstanceOf(BacktrackInstruction.class)
+      .hasToString("Backtrack")
+      .as("singleton").isSameAs(Instruction.backtrack());
 
     instruction.execute(machine);
     var inOrder = Mockito.inOrder(machine);
@@ -211,9 +219,10 @@ class InstructionTest {
   @Test
   void end() {
     var instruction = Instruction.end();
-    assertThat(instruction).isInstanceOf(EndInstruction.class);
-    assertThat(instruction).hasToString("End");
-    assertThat(instruction).as("singleton").isSameAs(Instruction.end());
+    assertThat(instruction)
+      .isInstanceOf(EndInstruction.class)
+      .hasToString("End")
+      .as("singleton").isSameAs(Instruction.end());
 
     instruction.execute(machine);
     var inOrder = Mockito.inOrder(machine);
@@ -224,9 +233,10 @@ class InstructionTest {
   @Test
   void failTwice() {
     var instruction = Instruction.failTwice();
-    assertThat(instruction).isInstanceOf(FailTwiceInstruction.class);
-    assertThat(instruction).hasToString("FailTwice");
-    assertThat(instruction).as("singleton").isSameAs(Instruction.failTwice());
+    assertThat(instruction)
+      .isInstanceOf(FailTwiceInstruction.class)
+      .hasToString("FailTwice")
+      .as("singleton").isSameAs(Instruction.failTwice());
 
     var stack = mock(MachineStack.class);
     when(stack.index()).thenReturn(13);
@@ -243,11 +253,12 @@ class InstructionTest {
   @Test
   void backCommit() {
     var instruction = Instruction.backCommit(42);
-    assertThat(instruction).isInstanceOf(BackCommitInstruction.class);
-    assertThat(instruction).hasToString("BackCommit 42");
-    assertThat(instruction.equals(Instruction.backCommit(42))).isTrue();
-    assertThat(instruction.equals(Instruction.backCommit(13))).isFalse();
-    assertThat(instruction.equals(new Object())).isFalse();
+    assertThat(instruction)
+      .isInstanceOf(BackCommitInstruction.class)
+      .hasToString("BackCommit 42")
+      .isEqualTo(Instruction.backCommit(42))
+      .isNotEqualTo(Instruction.backCommit(13))
+      .isNotEqualTo(new Object());
     assertThat(instruction.hashCode()).isEqualTo(42);
 
     var stack = mock(MachineStack.class);
@@ -267,9 +278,10 @@ class InstructionTest {
   @Test
   void ignoreErrors() {
     var instruction = Instruction.ignoreErrors();
-    assertThat(instruction).isInstanceOf(IgnoreErrorsInstruction.class);
-    assertThat(instruction).hasToString("IgnoreErrors");
-    assertThat(instruction).as("singleton").isSameAs(Instruction.ignoreErrors());
+    assertThat(instruction)
+      .isInstanceOf(IgnoreErrorsInstruction.class)
+      .hasToString("IgnoreErrors")
+      .as("singleton").isSameAs(Instruction.ignoreErrors());
 
     instruction.execute(machine);
     verify(machine).setIgnoreErrors(true);

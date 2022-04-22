@@ -49,6 +49,7 @@ class PropertyFileLoaderTest {
     newRule.createParam(PARAM_KEY);
     PropertyFileLoader.loadNames(repository, "/rules/names.properties");
     var rule = buildRepository().rule(RULE_KEY);
+    assertThat(rule).isNotNull();
     assertThat(rule.name()).isEqualTo("my rule name1");
     assertThat(rule.param(PARAM_KEY).description()).isEqualTo("my param description1");
   }
@@ -62,6 +63,7 @@ class PropertyFileLoaderTest {
     newParam.setDescription("paramName1");
     PropertyFileLoader.loadNames(repository, "/rules/empty.properties");
     var rule = buildRepository().rule(RULE_KEY);
+    assertThat(rule).isNotNull();
     assertThat(rule.name()).isEqualTo("ruleName1");
     assertThat(rule.param(PARAM_KEY).description()).isEqualTo("paramName1");
   }
@@ -76,8 +78,9 @@ class PropertyFileLoaderTest {
 
   @Test
   void should_fail_if_resource_has_invalid_format() {
+    InputStream stream = mock(InputStream.class);
+
     IllegalArgumentException thrown = catchThrowableOfType(() -> {
-      InputStream stream = mock(InputStream.class);
       doThrow(new IOException()).when(stream).read((byte[]) any());
       PropertyFileLoader.loadNames(repository, stream);
     }, IllegalArgumentException.class);

@@ -49,9 +49,10 @@ class CheckMessagesVerifierRuleTest {
 
   @Test
   void shouldFailIfFirstVerificationFailed() {
+    Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
+    var rule = new CheckMessagesVerifierRule();
+
     AssertionError thrown = catchThrowableOfType(() -> {
-      Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
-      var rule = new CheckMessagesVerifierRule();
       rule.verify(messages);
       rule.verify(Collections.EMPTY_LIST);
       rule.verify();
@@ -63,9 +64,10 @@ class CheckMessagesVerifierRuleTest {
 
   @Test
   void shouldFailIfSecondVerificationFailed() {
+    Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
+    var rule = new CheckMessagesVerifierRule();
+
     AssertionError thrown = catchThrowableOfType(() -> {
-      Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
-      var rule = new CheckMessagesVerifierRule();
       rule.verify(Collections.EMPTY_LIST);
       rule.verify(messages);
       rule.verify();

@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder;
@@ -86,6 +87,7 @@ public class GrammarBuilderInterceptor<T> implements MethodInterceptor, GrammarB
   }
 
   @Override
+  @CheckForNull
   public Object is(Object method) {
     if (expressionStack.size() != 1) {
       throw new IllegalStateException("Unexpected stack size: " + expressionStack.size());
@@ -101,6 +103,7 @@ public class GrammarBuilderInterceptor<T> implements MethodInterceptor, GrammarB
   }
 
   @Override
+  @CheckForNull
   public <U> U firstOf(U... methods) {
     ParsingExpression expression = new FirstOfExpression(pop(methods.length));
     expressionStack.push(expression);
@@ -108,6 +111,7 @@ public class GrammarBuilderInterceptor<T> implements MethodInterceptor, GrammarB
   }
 
   @Override
+  @CheckForNull
   public <U> Optional<U> optional(U method) {
     var expression = pop();
     GrammarRuleKey grammarRuleKey = new DummyGrammarRuleKey("optional", expression);
@@ -118,6 +122,7 @@ public class GrammarBuilderInterceptor<T> implements MethodInterceptor, GrammarB
   }
 
   @Override
+  @CheckForNull
   public <U> List<U> oneOrMore(U method) {
     var expression = pop();
     GrammarRuleKey grammarRuleKey = new DummyGrammarRuleKey("oneOrMore", expression);
@@ -128,6 +133,7 @@ public class GrammarBuilderInterceptor<T> implements MethodInterceptor, GrammarB
   }
 
   @Override
+  @CheckForNull
   public <U> Optional<List<U>> zeroOrMore(U method) {
     var expression = pop();
     GrammarRuleKey grammarRuleKey = new DummyGrammarRuleKey("zeroOrMore", expression);
@@ -138,12 +144,14 @@ public class GrammarBuilderInterceptor<T> implements MethodInterceptor, GrammarB
   }
 
   @Override
+  @CheckForNull
   public AstNode invokeRule(GrammarRuleKey grammarRuleKey) {
     pushDelayed(grammarRuleKey);
     return null;
   }
 
   @Override
+  @CheckForNull
   public T token(GrammarRuleKey grammarRuleKey) {
     pushDelayed(grammarRuleKey);
     return null;

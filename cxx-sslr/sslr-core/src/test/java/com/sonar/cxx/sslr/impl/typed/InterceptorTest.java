@@ -27,6 +27,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import javax.annotation.CheckForNull;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.objectweb.asm.ClassWriter;
@@ -178,6 +179,7 @@ class InterceptorTest {
   public static class PublicFinalMethod {
 
     @SuppressWarnings("unused")
+    @CheckForNull
     public final Object m() {
       return null;
     }

@@ -47,10 +47,10 @@ class InputTest {
     assertThat(input.substring(0, 3)).isEqualTo("abc");
     assertThat(input.substring(0, 2)).isEqualTo("ab");
     assertThat(input.substring(0, 1)).isEqualTo("a");
-    assertThat(input.substring(0, 0)).isEqualTo("");
+    assertThat(input.substring(0, 0)).isEmpty();
     assertThat(input.substring(1, 3)).isEqualTo("bc");
     assertThat(input.substring(2, 3)).isEqualTo("c");
-    assertThat(input.substring(3, 3)).isEqualTo("");
+    assertThat(input.substring(3, 3)).isEmpty();
   }
 
   @Test

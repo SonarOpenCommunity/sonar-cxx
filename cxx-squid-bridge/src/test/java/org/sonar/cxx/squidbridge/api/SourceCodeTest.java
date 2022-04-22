@@ -63,8 +63,9 @@ class SourceCodeTest {
     assertThat(prj).isNotEqualTo(new Object());
 
     SourceCode samePac = new SourcePackage("org.sonar");
-    assertThat(pac).isEqualTo(samePac);
-    assertThat(pac).hasSameHashCodeAs(samePac);
+    assertThat(pac)
+      .isEqualTo(samePac)
+      .hasSameHashCodeAs(samePac);
   }
 
   @Test
@@ -76,9 +77,10 @@ class SourceCodeTest {
   @Test
   void testIsType() {
     var pacFrom = new SourcePackage("org.from");
-    assertThat(pacFrom).isNotExactlyInstanceOf(SourceCode.class);
-    assertThat(pacFrom).isNotExactlyInstanceOf(SourceClass.class);
-    assertThat(pacFrom).isExactlyInstanceOf(SourcePackage.class);
+    assertThat(pacFrom)
+      .isNotExactlyInstanceOf(SourceCode.class)
+      .isNotExactlyInstanceOf(SourceClass.class)
+      .isExactlyInstanceOf(SourcePackage.class);
   }
 
   @Test
@@ -118,7 +120,7 @@ class SourceCodeTest {
   @Test
   void getCheckMessages() {
     SourceCode foo = new SourceFile("Foo.java");
-    assertThat(foo.getCheckMessages()).hasSize(0);
+    assertThat(foo.getCheckMessages()).isEmpty();
 
     foo.log(new CheckMessage(null, "message"));
     assertThat(foo.getCheckMessages()).hasSize(1);

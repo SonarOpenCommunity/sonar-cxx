@@ -76,12 +76,12 @@ class CxxXunitSensorTest {
 
   @Test
   void shouldThrowWhenGivenInvalidTime() {
-    IllegalStateException thrown = catchThrowableOfType(() -> {
-      var context = SensorContextTester.create(fs.baseDir());
-      settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
-      context.setSettings(settings);
+    var context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
+    context.setSettings(settings);
+    var sensor = new CxxXunitSensor();
 
-      var sensor = new CxxXunitSensor();
+    IllegalStateException thrown = catchThrowableOfType(() -> {
       sensor.execute(context);
     }, IllegalStateException.class);
     assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);

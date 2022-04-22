@@ -29,6 +29,7 @@ import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.api.TokenType;
 import com.sonar.cxx.sslr.api.Trivia;
 import java.util.List;
+import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 
 /**
@@ -61,7 +62,8 @@ public class AstNodeBuilder implements NodeBuilder {
   }
 
   @Override
-  public AstNode createTerminal(Input input, int startIndex, int endIndex, List<Trivia> trivias, TokenType type) {
+  public AstNode createTerminal(Input input, int startIndex, int endIndex, List<Trivia> trivias,
+                                @Nullable TokenType type) {
     var lineAndColumn = input.lineAndColumnAt(startIndex);
     var token = Token.builder()
       .setType(type == null ? UNDEFINED_TOKEN_TYPE : type)

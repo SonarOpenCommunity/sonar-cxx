@@ -186,7 +186,7 @@ public class LexerfulGrammarBuilder extends GrammarBuilder {
   /**
    * @deprecated in 1.19, use {@link #anyToken()} instead.
    */
-  @Deprecated
+  @Deprecated(since = "1.19")
   public Object everything() {
     return AnyTokenExpression.INSTANCE;
   }

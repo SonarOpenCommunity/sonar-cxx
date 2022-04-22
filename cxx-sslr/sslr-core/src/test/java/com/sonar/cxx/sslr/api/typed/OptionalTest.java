@@ -43,10 +43,10 @@ class OptionalTest {
 
     assertThat(present).hasToString("Optional.of(foo)");
 
-    assertThat(present.equals(present)).isTrue();
-    assertThat(present.equals(Optional.of("foo"))).isTrue();
-    assertThat(present.equals(Optional.of("bar"))).isFalse();
-    assertThat(present.equals(absent)).isFalse();
+    assertThat(present).isEqualTo(present);
+    assertThat(present).isEqualTo(Optional.of("foo"));
+    assertThat(present).isNotEqualTo(Optional.of("bar"));
+    assertThat(present).isNotEqualTo(absent);
 
     assertThat(present.hashCode()).isEqualTo(0x598df91c + "foo".hashCode());
   }
@@ -61,8 +61,8 @@ class OptionalTest {
 
     assertThat(absent).hasToString("Optional.absent()");
 
-    assertThat(absent.equals(present)).isFalse();
-    assertThat(absent.equals(absent)).isTrue();
+    assertThat(absent).isNotEqualTo(present);
+    assertThat(absent).isEqualTo(absent);
 
     assertThat(absent.hashCode()).isEqualTo(0x598df91c);
 

@@ -50,8 +50,9 @@ class ToolkitPresenterTest {
 
   @Test
   void checkInitializedBad() {
+    var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
+
     var thrown = catchThrowableOfType(() -> {
-      var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
       presenter.checkInitialized();
     }, IllegalStateException.class);
     assertThat(thrown)
@@ -444,9 +445,10 @@ class ToolkitPresenterTest {
 
   @Test
   void onConfigurationPropertyFocusLost_with_invalid_name() {
+    var view = mock(ToolkitView.class);
+    var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
+
     var thrown = catchThrowableOfType(() -> {
-      var view = mock(ToolkitView.class);
-      var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
       presenter.setView(view);
       presenter.onConfigurationPropertyFocusLost("name");
     }, IllegalArgumentException.class);

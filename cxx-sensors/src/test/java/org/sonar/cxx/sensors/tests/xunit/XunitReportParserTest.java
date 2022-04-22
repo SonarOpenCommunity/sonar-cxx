@@ -67,10 +67,11 @@ class XunitReportParserTest {
 
   @Test
   void shouldThrowWhenGivenInvalidTime() {
+    parserHandler = new XunitReportParser("");
+    parser = new StaxParser(parserHandler, false);
+    File report = TestUtils.loadResource(pathPrefix + "invalid-time-xunit-report.xml");
+
     javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
-      parserHandler = new XunitReportParser("");
-      parser = new StaxParser(parserHandler, false);
-      File report = TestUtils.loadResource(pathPrefix + "invalid-time-xunit-report.xml");
       parser.parse(report);
     }, javax.xml.stream.XMLStreamException.class);
     assertThat(thrown).isExactlyInstanceOf(javax.xml.stream.XMLStreamException.class);

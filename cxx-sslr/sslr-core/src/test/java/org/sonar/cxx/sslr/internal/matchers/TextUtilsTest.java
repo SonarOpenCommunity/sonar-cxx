@@ -41,7 +41,7 @@ class TextUtilsTest {
 
   @Test
   void should_trim_trailing_line_separator() {
-    assertThat(TextUtils.trimTrailingLineSeparatorFrom("\r\n")).isEqualTo("");
+    assertThat(TextUtils.trimTrailingLineSeparatorFrom("\r\n")).isEmpty();
     assertThat(TextUtils.trimTrailingLineSeparatorFrom("\r\nfoo\r\n")).isEqualTo("\r\nfoo");
   }
 

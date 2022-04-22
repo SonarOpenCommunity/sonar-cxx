@@ -130,12 +130,13 @@ class AstNodeTest {
 
   @Test
   void testGetChildWithBadIndex() {
+    var token = mock(Token.class);
+    when(token.getType()).thenReturn(GenericTokenType.IDENTIFIER);
+    when(token.getValue()).thenReturn("PI");
+    var parent = new AstNode(new NodeType(), "parent", token);
+    var child1 = new AstNode(new NodeType(), "child1", null);
+
     var thrown = catchThrowableOfType(() -> {
-      var token = mock(Token.class);
-      when(token.getType()).thenReturn(GenericTokenType.IDENTIFIER);
-      when(token.getValue()).thenReturn("PI");
-      var parent = new AstNode(new NodeType(), "parent", token);
-      var child1 = new AstNode(new NodeType(), "child1", null);
       parent.addChild(child1);
       parent.getChild(1);
     }, IllegalStateException.class);

@@ -32,7 +32,7 @@ class ParsingErrorCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void test_syntax_error_recognition() throws UnsupportedEncodingException, IOException {
+  void test_syntax_error_recognition() throws UnsupportedEncodingException, IOException {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
                     "false");
@@ -48,7 +48,7 @@ class ParsingErrorCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  public void test_syntax_error_pperror() throws UnsupportedEncodingException, IOException {
+  void test_syntax_error_pperror() throws UnsupportedEncodingException, IOException {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
                     "false");
