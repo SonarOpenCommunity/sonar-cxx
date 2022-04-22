@@ -58,12 +58,13 @@ public final class AstCreator {
 
   public static AstNode create(ParsingResult parsingResult, LocatedText input) {
     var astNode = new AstCreator(input).visit(parsingResult.getParseTreeRoot());
-    try {
-      // Unwrap AstNodeType for root node:
-      astNode.hasToBeSkippedFromAst();
-    } catch (NullPointerException e) {
-      throw new IllegalStateException(e);
+    if (astNode == null) {
+      throw new IllegalStateException("create ParsingResult: "
+                                        + parsingResult.toString()
+                                        + " LocatedText: " + input.toString());
     }
+    // Unwrap AstNodeType for root node:
+    astNode.hasToBeSkippedFromAst();
     return astNode;
   }
 

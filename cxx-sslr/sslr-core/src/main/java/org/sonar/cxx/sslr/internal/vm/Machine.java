@@ -133,7 +133,7 @@ public class Machine implements CharSequence {
     this(input.toCharArray(), null, instructions, handler);
   }
 
-  private Machine(@Nullable char[] input, Token[] tokens, Instruction[] instructions, MachineHandler handler) {
+  private Machine(@Nullable char[] input, @Nullable Token[] tokens, Instruction[] instructions, MachineHandler handler) {
     this.input = input;
     this.tokens = tokens;
     if (input != null) {

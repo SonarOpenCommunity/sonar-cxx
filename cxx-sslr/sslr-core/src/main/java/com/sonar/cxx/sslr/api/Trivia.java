@@ -26,6 +26,7 @@ package com.sonar.cxx.sslr.api; // cxx: in use
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Nullable;
 
 public class Trivia {
 
@@ -43,7 +44,7 @@ public class Trivia {
     this(kind, null, tokens);
   }
 
-  private Trivia(TriviaKind kind, PreprocessingDirective preprocessingDirective, Token... tokens) {
+  private Trivia(TriviaKind kind, @Nullable PreprocessingDirective preprocessingDirective, Token... tokens) {
     this.kind = kind;
     this.preprocessingDirective = preprocessingDirective;
     this.tokens = Arrays.asList(tokens);

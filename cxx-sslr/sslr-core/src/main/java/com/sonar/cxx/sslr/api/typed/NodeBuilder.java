@@ -26,9 +26,9 @@ package com.sonar.cxx.sslr.api.typed;
 import com.sonar.cxx.sslr.api.Rule;
 import com.sonar.cxx.sslr.api.TokenType;
 import com.sonar.cxx.sslr.api.Trivia;
-import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
-
 import java.util.List;
+import javax.annotation.Nullable;
+import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 
 /**
  * @since 1.21
@@ -37,6 +37,6 @@ public interface NodeBuilder {
 
   Object createNonTerminal(GrammarRuleKey ruleKey, Rule rule, List<Object> children, int startIndex, int endIndex);
 
-  Object createTerminal(Input input, int startIndex, int endIndex, List<Trivia> trivias, TokenType type);
+  Object createTerminal(Input input, int startIndex, int endIndex, List<Trivia> trivias, @Nullable TokenType type);
 
 }

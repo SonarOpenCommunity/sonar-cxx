@@ -23,12 +23,14 @@
  */
 package com.sonar.cxx.sslr.api; // cxx: in use
 
+import javax.annotation.Nullable;
+
 public interface TokenType extends AstNodeType {
 
   String getName();
 
   String getValue();
 
-  boolean hasToBeSkippedFromAst(AstNode node);
+  boolean hasToBeSkippedFromAst(@Nullable AstNode node);
 
 }

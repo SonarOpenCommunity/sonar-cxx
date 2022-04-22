@@ -348,7 +348,9 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
       try {
         astSelectionEventDisabled = true;
         var treeNode = getAstTreeNodeWithGivenUserObject((DefaultMutableTreeNode) astTree.getModel().getRoot(), astNode);
-        astTree.getSelectionModel().addSelectionPath(new TreePath(treeNode.getPath()));
+        if (treeNode != null) {
+          astTree.getSelectionModel().addSelectionPath(new TreePath(treeNode.getPath()));
+        }
       } finally {
         astSelectionEventDisabled = false;
       }
@@ -415,7 +417,9 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
   public void scrollAstTo(@Nullable AstNode astNode) {
     if (astNode != null) {
       var treeNode = getAstTreeNodeWithGivenUserObject((DefaultMutableTreeNode) astTree.getModel().getRoot(), astNode);
-      astTree.scrollPathToVisible(new TreePath(treeNode.getPath()));
+      if (treeNode != null) {
+        astTree.scrollPathToVisible(new TreePath(treeNode.getPath()));
+      }
     }
   }
 
