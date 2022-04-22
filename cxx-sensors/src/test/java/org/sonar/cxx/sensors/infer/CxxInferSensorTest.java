@@ -31,7 +31,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxInferSensorTest {
+class CxxInferSensorTest {
 
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
@@ -43,7 +43,7 @@ public class CxxInferSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectViolations() {
+  void shouldReportCorrectViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-sample.json");
     context.setSettings(settings);
@@ -88,7 +88,7 @@ public class CxxInferSensorTest {
   }
 
   @Test
-  public void shouldIgnoreAViolationWhenTheResourceCouldntBeFound() {
+  void shouldIgnoreAViolationWhenTheResourceCouldntBeFound() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-sample.json");
     context.setSettings(settings);
@@ -100,7 +100,7 @@ public class CxxInferSensorTest {
   }
 
   @Test
-  public void shouldThrowExceptionWhenRecoveryIsDisabled() {
+  void shouldThrowExceptionWhenRecoveryIsDisabled() {
     IllegalStateException thrown = catchThrowableOfType(() -> {
       var context = SensorContextTester.create(fs.baseDir());
       settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
@@ -114,7 +114,7 @@ public class CxxInferSensorTest {
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxInferSensor();
     sensor.describe(descriptor);

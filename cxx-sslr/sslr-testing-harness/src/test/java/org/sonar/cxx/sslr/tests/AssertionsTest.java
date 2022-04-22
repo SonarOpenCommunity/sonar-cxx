@@ -29,16 +29,16 @@ import java.lang.reflect.Constructor;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class AssertionsTest {
+class AssertionsTest {
 
   @Test
-  public void test() {
+  void test() {
     assertThat(Assertions.assertThat((Parser) null)).isInstanceOf(ParserAssert.class);
     assertThat(Assertions.assertThat((Rule) null)).isInstanceOf(RuleAssert.class);
   }
 
   @Test
-  public void private_constructor() throws Exception {
+  void private_constructor() throws Exception {
     Constructor constructor = Assertions.class.getDeclaredConstructor();
     assertThat(constructor.isAccessible()).isFalse();
     constructor.setAccessible(true);

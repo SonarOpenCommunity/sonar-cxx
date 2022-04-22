@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IdentifiersTooLongTest {
+class IdentifiersTooLongTest {
 
   private AstNode fileNode;
 
@@ -40,12 +40,12 @@ public class IdentifiersTooLongTest {
   }
 
   @Test
-  public void valuesTest() {
+  void valuesTest() {
     AstNodeXPathQuery<AstNode> xpath = AstNodeXPathQuery.create("//IDENTIFIER[string-length(@tokenValue) > 10]");
 
     var nodes = xpath.selectNodes(fileNode);
 
-    assertThat(nodes.size()).isEqualTo(3);
+    assertThat(nodes).hasSize(3);
     assertThat(nodes.get(0).getTokenValue()).isEqualTo("aaaaaaaaa11");
     assertThat(nodes.get(0).getTokenLine()).isEqualTo(3);
     assertThat(nodes.get(1).getTokenValue()).isEqualTo("bbbbbbbbbbbbb15");
@@ -55,12 +55,12 @@ public class IdentifiersTooLongTest {
   }
 
   @Test
-  public void noResultValuesTest() {
+  void noResultValuesTest() {
     AstNodeXPathQuery<AstNode> xpath = AstNodeXPathQuery.create("//IDENTIFIER[string-length(@tokenValue) > 50]");
 
     var nodes = xpath.selectNodes(fileNode);
 
-    assertThat(nodes.size()).isEqualTo(0);
+    assertThat(nodes).isEmpty();
   }
 
 }

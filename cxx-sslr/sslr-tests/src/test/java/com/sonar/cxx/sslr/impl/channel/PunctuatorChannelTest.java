@@ -33,13 +33,13 @@ import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.channel.CodeReader;
 import static org.sonar.cxx.sslr.test.channel.ChannelMatchers.consume;
 
-public class PunctuatorChannelTest {
+class PunctuatorChannelTest {
 
   private final PunctuatorChannel channel = new PunctuatorChannel(MyPunctuatorAndOperator.values());
   private final Lexer lexer = Lexer.builder().build();
 
   @Test
-  public void testConsumeSpecialCharacters() {
+  void testConsumeSpecialCharacters() {
     AssertionsForClassTypes.assertThat(channel).has(consume("**=", lexer));
     AssertionsForClassTypes.assertThat(lexer.getTokens()).has(hasToken("*", MyPunctuatorAndOperator.STAR));
 
@@ -59,7 +59,7 @@ public class PunctuatorChannelTest {
   }
 
   @Test
-  public void testNotConsumeWord() {
+  void testNotConsumeWord() {
     assertThat(channel.consume(new CodeReader("word"), lexer)).isFalse();
   }
 

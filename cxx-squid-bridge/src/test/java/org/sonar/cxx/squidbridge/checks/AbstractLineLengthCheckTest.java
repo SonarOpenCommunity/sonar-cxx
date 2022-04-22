@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
-public class AbstractLineLengthCheckTest {
+class AbstractLineLengthCheckTest {
 
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
@@ -46,13 +46,13 @@ public class AbstractLineLengthCheckTest {
   private final Check check = new Check();
 
   @Test
-  public void lineLengthWithDefaultLength() {
+  void lineLengthWithDefaultLength() {
     checkMessagesVerifier.verify(scanFile("/checks/line_length.mc", check).getCheckMessages())
       .next().atLine(3).withMessage("The line length is greater than 80 authorized.");
   }
 
   @Test
-  public void lineLengthWithSpecificLength() {
+  void lineLengthWithSpecificLength() {
     check.maximumLineLength = 7;
 
     checkMessagesVerifier.verify(scanFile("/checks/line_length.mc", check).getCheckMessages())
@@ -61,7 +61,7 @@ public class AbstractLineLengthCheckTest {
   }
 
   @Test
-  public void wrong_parameter() {
+  void wrong_parameter() {
     check.maximumLineLength = 0;
     IllegalArgumentException thrown = catchThrowableOfType(() -> {
       scanFile("/checks/line_length.mc", check);

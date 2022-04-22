@@ -31,12 +31,12 @@ import org.apache.commons.io.FileUtils;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class MiniCOwnExamplesTest {
+class MiniCOwnExamplesTest {
 
   private static final Parser<Grammar> parser = MiniCParser.create();
 
   @Test
-  public void test() throws Exception {
+  void test() throws Exception {
     var files = FileUtils.listFiles(new File("src/test/resources/MiniCIntegration"), null, true);
     assertThat(files).isNotEmpty();
     for (var file : files) {

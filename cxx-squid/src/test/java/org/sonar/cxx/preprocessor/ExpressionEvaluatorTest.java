@@ -31,7 +31,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
-public class ExpressionEvaluatorTest {
+class ExpressionEvaluatorTest {
 
   static boolean eval(String constExpr, CxxPreprocessor pp) {
     return ExpressionEvaluator.eval(pp, constExpr);
@@ -42,13 +42,13 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void bools() {
+  void bools() {
     assertThat(eval("true")).isTrue();
     assertThat(eval("false")).isFalse();
   }
 
   @Test
-  public void numbers() {
+  void numbers() {
     assertThat(eval("1")).isTrue();
     assertThat(eval("0xAA")).isTrue();
     assertThat(eval("0XAA")).isTrue();
@@ -71,7 +71,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void characters() {
+  void characters() {
     assertThat(eval("'1'")).isTrue();
     assertThat(eval("'a'")).isTrue();
 
@@ -79,7 +79,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void conditional_expression() {
+  void conditional_expression() {
     assertThat(eval("1 ? 1 : 0")).isTrue();
     assertThat(eval("0 ? 0 : 1")).isTrue();
 
@@ -91,7 +91,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void logical_or() {
+  void logical_or() {
     assertThat(eval("1 || 0")).isTrue();
     assertThat(eval("0 || 1")).isTrue();
     assertThat(eval("1 || 1")).isTrue();
@@ -102,7 +102,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void logical_and() {
+  void logical_and() {
     assertThat(eval("1 && 1")).isTrue();
     assertThat(eval("1 && 1 && 1")).isTrue();
 
@@ -113,7 +113,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void inclusive_or() {
+  void inclusive_or() {
     assertThat(eval("1 | 0")).isTrue();
     assertThat(eval("0 | 1")).isTrue();
     assertThat(eval("1 | 1")).isTrue();
@@ -123,7 +123,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void exclusive_or() {
+  void exclusive_or() {
     assertThat(eval("1 ^ 0")).isTrue();
     assertThat(eval("0 ^ 1")).isTrue();
     assertThat(eval("0 ^ 1 ^ 0")).isTrue();
@@ -133,7 +133,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void and_expr() {
+  void and_expr() {
     assertThat(eval("1 & 1")).isTrue();
     assertThat(eval("2 & 2 & 2")).isTrue();
 
@@ -145,7 +145,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void equality_expr() {
+  void equality_expr() {
     assertThat(eval("1 == 1")).isTrue();
     assertThat(eval("1 == true")).isTrue();
     assertThat(eval("true == true")).isTrue();
@@ -166,7 +166,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void relational_expr() {
+  void relational_expr() {
     assertThat(eval("0 < 1")).isTrue();
     assertThat(eval("0 <= 1")).isTrue();
     assertThat(eval("1 > 0")).isTrue();
@@ -189,7 +189,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void shift_expr() {
+  void shift_expr() {
     assertThat(eval("1 << 2")).isTrue();
     assertThat(eval("1 >> 0")).isTrue();
 
@@ -199,7 +199,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void additive_expr() {
+  void additive_expr() {
     assertThat(eval("1 + 1")).isTrue();
     assertThat(eval("2 - 1")).isTrue();
     assertThat(eval("3 - 3 + 2")).isTrue();
@@ -210,7 +210,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void multiplicative_expr() {
+  void multiplicative_expr() {
     assertThat(eval("1 * 2")).isTrue();
     assertThat(eval("1 / 1")).isTrue();
     assertThat(eval("1 % 2")).isTrue();
@@ -222,7 +222,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void primary_expr() {
+  void primary_expr() {
     assertThat(eval("(1)")).isTrue();
 
     assertThat(eval("(0)")).isFalse();
@@ -231,7 +231,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void unary_expression() {
+  void unary_expression() {
     assertThat(eval("+1")).isTrue();
     assertThat(eval("-1")).isTrue();
     assertThat(eval("!0")).isTrue();
@@ -244,14 +244,14 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void identifier_defined() {
+  void identifier_defined() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn("1");
     assertThat(eval("LALA", pp)).isTrue();
   }
 
   @Test
-  public void self_referential_identifier0() {
+  void self_referential_identifier0() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf("A")).thenReturn("A");
 
@@ -263,7 +263,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void self_referential_identifier1() {
+  void self_referential_identifier1() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf("A")).thenReturn("B");
     when(pp.valueOf("B")).thenReturn("A");
@@ -272,7 +272,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void self_referential_identifier2() {
+  void self_referential_identifier2() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf("C")).thenReturn("B");
     when(pp.valueOf("B")).thenReturn("C");
@@ -282,7 +282,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void self_referential_identifier3() {
+  void self_referential_identifier3() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf("C")).thenReturn("B");
     when(pp.valueOf("B")).thenReturn("C");
@@ -294,7 +294,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void self_referential_identifier4() {
+  void self_referential_identifier4() {
     // https://gcc.gnu.org/onlinedocs/gcc-3.0.1/cpp_3.html#SEC31
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf("x")).thenReturn("(4 + y)");
@@ -307,33 +307,33 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void identifier_undefined() {
+  void identifier_undefined() {
     assertThat(eval("LALA")).isFalse();
   }
 
   @Test
-  public void functionlike_macro_defined_true() {
+  void functionlike_macro_defined_true() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.expandFunctionLikeMacro(anyString(), anyList())).thenReturn("1");
     assertThat(eval("has_feature(URG)", pp)).isTrue();
   }
 
   @Test
-  public void functionlike_macro_defined_false() {
+  void functionlike_macro_defined_false() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn("0");
     assertThat(eval("has_feature(URG)", pp)).isFalse();
   }
 
   @Test
-  public void functionlike_macro_undefined() {
+  void functionlike_macro_undefined() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn(null);
     assertThat(eval("has_feature(URG)", pp)).isFalse();
   }
 
   @Test
-  public void defined_true_without_parantheses() {
+  void defined_true_without_parantheses() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     var macro = "LALA";
     when(pp.valueOf(macro)).thenReturn("1");
@@ -341,12 +341,12 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void defined_false_without_parantheses() {
+  void defined_false_without_parantheses() {
     assertThat(eval("defined LALA")).isFalse();
   }
 
   @Test
-  public void defined_true_with_parantheses() {
+  void defined_true_with_parantheses() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     var macro = "LALA";
     when(pp.valueOf(macro)).thenReturn("1");
@@ -355,13 +355,13 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void defined_false_with_parantheses() {
+  void defined_false_with_parantheses() {
     assertThat(eval("defined (LALA)")).isFalse();
     assertThat(eval("defined(LALA)")).isFalse();
   }
 
   @Test
-  public void decode_numbers() {
+  void decode_numbers() {
     assertThat(ExpressionEvaluator.decode("1")).isEqualTo(new BigInteger("1", 10));
     assertThat(ExpressionEvaluator.decode("067")).isEqualTo(new BigInteger("67", 8));
     assertThat(ExpressionEvaluator.decode("0b11")).isEqualTo(new BigInteger("11", 2));
@@ -387,7 +387,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void throw_on_invalid_expressions() {
+  void throw_on_invalid_expressions() {
     EvaluationException thrown = catchThrowableOfType(() -> {
       eval("\"\"");
     }, EvaluationException.class);
@@ -395,7 +395,7 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void std_macro_evaluated_as_expected() {
+  void std_macro_evaluated_as_expected() {
     var file = new File("dummy.cpp");
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(file);

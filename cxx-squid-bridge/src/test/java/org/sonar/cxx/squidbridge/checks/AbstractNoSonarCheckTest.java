@@ -27,7 +27,7 @@ import com.sonar.cxx.sslr.api.Grammar;
 import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
-public class AbstractNoSonarCheckTest {
+class AbstractNoSonarCheckTest {
 
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
@@ -35,7 +35,7 @@ public class AbstractNoSonarCheckTest {
   }
 
   @Test
-  public void singleLineCommentsSyntax() {
+  void singleLineCommentsSyntax() {
     checkMessagesVerifier.verify(scanFile("/checks/no_sonar.mc", new Check()).getCheckMessages())
       .next().atLine(5).withMessage("Is NOSONAR usage acceptable or does it hide a real quality flaw?")
       .next().atLine(6)

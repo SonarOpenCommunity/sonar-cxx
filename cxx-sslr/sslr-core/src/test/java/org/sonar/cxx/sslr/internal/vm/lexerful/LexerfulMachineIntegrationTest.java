@@ -34,19 +34,19 @@ import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
 import org.sonar.cxx.sslr.internal.vm.Machine;
 import org.sonar.cxx.sslr.internal.vm.SequenceExpression;
 
-public class LexerfulMachineIntegrationTest {
+class LexerfulMachineIntegrationTest {
 
   private Token[] tokens;
 
   @Test
-  public void tokenType() {
+  void tokenType() {
     var instructions = new TokenTypeExpression(GenericTokenType.IDENTIFIER).compile(new CompilationHandler());
     assertThat(Machine.execute(instructions, token(GenericTokenType.IDENTIFIER))).isTrue();
     assertThat(Machine.execute(instructions, token(GenericTokenType.LITERAL))).isFalse();
   }
 
   @Test
-  public void tokenTypes() {
+  void tokenTypes() {
     var instructions = new TokenTypesExpression(GenericTokenType.IDENTIFIER, GenericTokenType.LITERAL)
       .compile(new CompilationHandler());
     tokens = new Token[]{token(GenericTokenType.IDENTIFIER)};
@@ -58,20 +58,20 @@ public class LexerfulMachineIntegrationTest {
   }
 
   @Test
-  public void tokenValue() {
+  void tokenValue() {
     var instructions = new TokenValueExpression("foo").compile(new CompilationHandler());
     assertThat(Machine.execute(instructions, token("foo"))).isTrue();
     assertThat(Machine.execute(instructions, token("bar"))).isFalse();
   }
 
   @Test
-  public void anyToken() {
+  void anyToken() {
     var instructions = AnyTokenExpression.INSTANCE.compile(new CompilationHandler());
     assertThat(Machine.execute(instructions, token("foo"))).isTrue();
   }
 
   @Test
-  public void tokensBridge() {
+  void tokensBridge() {
     var instructions = new TokensBridgeExpression(GenericTokenType.IDENTIFIER, GenericTokenType.LITERAL)
       .compile(new CompilationHandler());
     tokens = new Token[]{token(GenericTokenType.IDENTIFIER), token(GenericTokenType.LITERAL)};
@@ -88,14 +88,14 @@ public class LexerfulMachineIntegrationTest {
   }
 
   @Test
-  public void tokenTypeClass() {
+  void tokenTypeClass() {
     var instructions = new TokenTypeClassExpression(GenericTokenType.class).compile(new CompilationHandler());
     tokens = new Token[]{token(GenericTokenType.IDENTIFIER)};
     assertThat(Machine.execute(instructions, tokens)).isTrue();
   }
 
   @Test
-  public void adjacent() {
+  void adjacent() {
     var instructions = new SequenceExpression(
       new TokenValueExpression("foo"),
       AdjacentExpression.INSTANCE,

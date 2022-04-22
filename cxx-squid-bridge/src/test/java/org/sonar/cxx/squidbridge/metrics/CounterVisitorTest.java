@@ -29,10 +29,10 @@ import org.sonar.cxx.squidbridge.api.SourceFile;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 import org.sonar.cxx.squidbridge.test.miniC.MiniCAstScanner.MiniCMetrics;
 
-public class CounterVisitorTest {
+class CounterVisitorTest {
 
   @Test
-  public void counter() {
+  void counter() {
     SourceFile sourceFile = scanFile("/metrics/counter.mc");
 
     assertThat(sourceFile.getInt(MiniCMetrics.COMPLEXITY)).isEqualTo(4);

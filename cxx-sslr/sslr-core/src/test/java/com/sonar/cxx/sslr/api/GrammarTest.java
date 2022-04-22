@@ -32,22 +32,22 @@ import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 import org.sonar.cxx.sslr.parser.LexerlessGrammar;
 
-public class GrammarTest {
+class GrammarTest {
 
   @Test
-  public void testGetRuleFields() {
+  void testGetRuleFields() {
     var ruleFields = Grammar.getRuleFields(MyGrammar.class);
-    assertThat(ruleFields.size()).isEqualTo(1);
+    assertThat(ruleFields).hasSize(1);
   }
 
   @Test
-  public void testGetAllRuleFields() {
+  void testGetAllRuleFields() {
     var ruleFields = Grammar.getAllRuleFields(MyGrammar.class);
-    assertThat(ruleFields.size()).isEqualTo(5);
+    assertThat(ruleFields).hasSize(5);
   }
 
   @Test
-  public void method_rule_should_throw_exception_by_default() {
+  void method_rule_should_throw_exception_by_default() {
     var thrown = catchThrowableOfType(
       () -> new MyGrammar().rule(mock(GrammarRuleKey.class)),
       UnsupportedOperationException.class);
@@ -55,7 +55,7 @@ public class GrammarTest {
   }
 
   @Test
-  public void should_automatically_instanciate_lexerful_rules() throws IllegalAccessException {
+  void should_automatically_instanciate_lexerful_rules() throws IllegalAccessException {
     var ruleFields = Grammar.getAllRuleFields(MyGrammar.class);
     Grammar grammar = new MyGrammar();
     for (var ruleField : ruleFields) {
@@ -66,7 +66,7 @@ public class GrammarTest {
   }
 
   @Test
-  public void should_automatically_instanciate_lexerless_rules() throws IllegalAccessException {
+  void should_automatically_instanciate_lexerless_rules() throws IllegalAccessException {
     var ruleFields = Grammar.getAllRuleFields(MyLexerlessGrammar.class);
     LexerlessGrammar grammar = new MyLexerlessGrammar();
     for (var ruleField : ruleFields) {
@@ -77,7 +77,7 @@ public class GrammarTest {
   }
 
   @Test
-  public void should_throw_exception() {
+  void should_throw_exception() {
     var thrown = catchThrowableOfType(IllegalGrammar::new, GrammarException.class);
     assertThat(thrown).hasMessageStartingWith("Unable to instanciate the rule 'rootRule': ");
   }

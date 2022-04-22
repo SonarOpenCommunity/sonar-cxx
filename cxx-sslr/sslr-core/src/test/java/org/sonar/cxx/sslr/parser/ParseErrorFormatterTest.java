@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.internal.matchers.ImmutableInputBuffer;
 import org.sonar.cxx.sslr.internal.matchers.InputBuffer;
 
-public class ParseErrorFormatterTest {
+class ParseErrorFormatterTest {
 
   private ParseErrorFormatter formatter;
 
@@ -39,7 +39,7 @@ public class ParseErrorFormatterTest {
   }
 
   @Test
-  public void test() {
+  void test() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("\t2+4*10-0*\n".toCharArray());
     var result = formatter.format(new ParseError(inputBuffer, 10));
     System.out.print(result);

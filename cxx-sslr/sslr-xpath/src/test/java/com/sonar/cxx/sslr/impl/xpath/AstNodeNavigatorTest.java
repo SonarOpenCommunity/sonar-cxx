@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AstNodeNavigatorTest {
+class AstNodeNavigatorTest {
 
   private AstNodeNavigator navigator;
 
@@ -44,7 +44,7 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void getTextStringValue() {
+  void getTextStringValue() {
     var thrown = catchThrowableOfType(
       () -> navigator.getTextStringValue(null),
       UnsupportedOperationException.class);
@@ -52,7 +52,7 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void getCommentStringValue() {
+  void getCommentStringValue() {
     var thrown = catchThrowableOfType(
       () -> navigator.getCommentStringValue(null),
       UnsupportedOperationException.class);
@@ -60,7 +60,7 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void getAttributeStringValue() throws Exception {
+  void getAttributeStringValue() throws Exception {
     var astNode = new AstNode(Token.builder()
       .setURI(new URI("tests://unittest"))
       .setType(GenericTokenType.IDENTIFIER)
@@ -74,7 +74,7 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void getAttributeStringValue2() {
+  void getAttributeStringValue2() {
     var attribute = mock(Attribute.class);
     when(attribute.getName()).thenReturn("foo");
     var thrown = catchThrowableOfType(
@@ -84,7 +84,7 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void getElementStringValue() {
+  void getElementStringValue() {
     var thrown = catchThrowableOfType(
       () -> navigator.getElementStringValue(null),
       UnsupportedOperationException.class);
@@ -94,7 +94,7 @@ public class AstNodeNavigatorTest {
 
   /* Namespaces */
   @Test
-  public void getNamespacePrefix() {
+  void getNamespacePrefix() {
     var thrown = catchThrowableOfType(
       () -> navigator.getNamespacePrefix(null),
       UnsupportedOperationException.class);
@@ -102,7 +102,7 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void getNamespaceStringValue() {
+  void getNamespaceStringValue() {
     var thrown = catchThrowableOfType(
       () -> navigator.getNamespaceStringValue(null),
       UnsupportedOperationException.class);
@@ -111,14 +111,14 @@ public class AstNodeNavigatorTest {
 
   /* Attributes */
   @Test
-  public void getAttributeName() {
+  void getAttributeName() {
     var attribute = mock(Attribute.class);
     when(attribute.getName()).thenReturn("foo");
     assertThat(navigator.getAttributeName(attribute)).isEqualTo("foo");
   }
 
   @Test
-  public void getAttributeQName() {
+  void getAttributeQName() {
     var attribute = mock(Attribute.class);
     when(attribute.getName()).thenReturn("foo");
     assertThat(navigator.getAttributeQName(attribute)).isEqualTo("foo");
@@ -126,43 +126,43 @@ public class AstNodeNavigatorTest {
 
   /* Elements */
   @Test
-  public void getAttributeNamespaceUri() {
+  void getAttributeNamespaceUri() {
     assertThat(navigator.getAttributeNamespaceUri(null)).isEqualTo("");
   }
 
   @Test
-  public void getElementName() {
+  void getElementName() {
     var astNode = mock(AstNode.class);
     when(astNode.getName()).thenReturn("foo");
     assertThat(navigator.getElementName(astNode)).isEqualTo("foo");
   }
 
   @Test
-  public void getElementQName() {
+  void getElementQName() {
     var astNode = mock(AstNode.class);
     when(astNode.getName()).thenReturn("foo");
     assertThat(navigator.getElementQName(astNode)).isEqualTo("foo");
   }
 
   @Test
-  public void getElementNamespaceUri() {
+  void getElementNamespaceUri() {
     assertThat(navigator.getElementNamespaceUri(null)).isEqualTo("");
   }
 
   /* Types */
   @Test
-  public void isAttribute() {
+  void isAttribute() {
     assertThat(navigator.isAttribute(mock(AstNodeNavigator.Attribute.class))).isTrue();
     assertThat(navigator.isAttribute(null)).isFalse();
   }
 
   @Test
-  public void isComment() {
+  void isComment() {
     assertThat(navigator.isComment(null)).isFalse();
   }
 
   @Test
-  public void isDocument() {
+  void isDocument() {
     var astNode = mock(AstNode.class);
     var attribute = mock(Attribute.class);
     when(attribute.getAstNode()).thenReturn(astNode);
@@ -172,34 +172,34 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void isDocument2() {
+  void isDocument2() {
     assertThat(navigator.isDocument(null)).isFalse();
   }
 
   @Test
-  public void isElement() {
+  void isElement() {
     assertThat(navigator.isElement(mock(AstNode.class))).isTrue();
     assertThat(navigator.isElement(null)).isFalse();
   }
 
   @Test
-  public void isNamespace() {
+  void isNamespace() {
     assertThat(navigator.isNamespace(null)).isFalse();
   }
 
   @Test
-  public void isProcessingInstruction() {
+  void isProcessingInstruction() {
     assertThat(navigator.isProcessingInstruction(null)).isFalse();
   }
 
   @Test
-  public void isText() {
+  void isText() {
     assertThat(navigator.isText(null)).isFalse();
   }
 
   /* Navigation */
   @Test
-  public void getDocumentNode() {
+  void getDocumentNode() {
     var rootAstNode = mock(AstNode.class);
     var astNode = mock(AstNode.class);
     when(astNode.getParent()).thenReturn(rootAstNode);
@@ -210,13 +210,13 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void getChildAxisIterator() {
+  void getChildAxisIterator() {
     var attribute = mock(Attribute.class);
     assertThat(navigator.getChildAxisIterator(attribute).hasNext()).isFalse();
   }
 
   @Test
-  public void getChildAxisIterator2() {
+  void getChildAxisIterator2() {
     var thrown = catchThrowableOfType(
       () -> navigator.getChildAxisIterator(new Object()),
       UnsupportedOperationException.class);
@@ -224,7 +224,7 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void getParentNode() {
+  void getParentNode() {
     var rootAstNode = mock(AstNode.class);
     var astNode = mock(AstNode.class);
     when(astNode.getParent()).thenReturn(rootAstNode);
@@ -235,7 +235,7 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void getParentNode2() {
+  void getParentNode2() {
     var thrown = catchThrowableOfType(
       () -> navigator.getParentNode(new Object()),
       UnsupportedOperationException.class);
@@ -243,7 +243,7 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void getParentAxisIterator() {
+  void getParentAxisIterator() {
     var thrown = catchThrowableOfType(
       () -> navigator.getParentAxisIterator(new Object()),
       UnsupportedOperationException.class);
@@ -251,7 +251,7 @@ public class AstNodeNavigatorTest {
   }
 
   @Test
-  public void getAttributeAxisIterator() {
+  void getAttributeAxisIterator() {
     var thrown = catchThrowableOfType(
       () -> navigator.getAttributeAxisIterator(new Object()),
       UnsupportedOperationException.class);
@@ -260,7 +260,7 @@ public class AstNodeNavigatorTest {
 
   /* Unknown */
   @Test
-  public void parseXPath() {
+  void parseXPath() {
     assertThat(navigator.parseXPath(null)).isNull();
   }
 

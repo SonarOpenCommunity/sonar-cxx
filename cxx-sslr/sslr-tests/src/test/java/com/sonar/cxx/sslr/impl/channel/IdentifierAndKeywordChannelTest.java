@@ -34,20 +34,20 @@ import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.channel.CodeReader;
 import static org.sonar.cxx.sslr.test.channel.ChannelMatchers.consume;
 
-public class IdentifierAndKeywordChannelTest {
+class IdentifierAndKeywordChannelTest {
 
   private IdentifierAndKeywordChannel channel;
   private final Lexer lexer = Lexer.builder().build();
 
   @Test
-  public void testConsumeWord() {
+  void testConsumeWord() {
     channel = new IdentifierAndKeywordChannel("[a-zA-Z_][a-zA-Z_0-9]*", true, MyKeywords.values());
     AssertionsForClassTypes.assertThat(channel).has(consume("word", lexer));
     AssertionsForClassTypes.assertThat(lexer.getTokens()).has(hasToken("word", GenericTokenType.IDENTIFIER));
   }
 
   @Test
-  public void testConsumeCaseSensitiveKeywords() {
+  void testConsumeCaseSensitiveKeywords() {
     channel = new IdentifierAndKeywordChannel("[a-zA-Z_][a-zA-Z_0-9]*", true, MyKeywords.values());
     AssertionsForClassTypes.assertThat(channel).has(consume("KEYWORD1", lexer));
     AssertionsForClassTypes.assertThat(lexer.getTokens()).has(hasToken("KEYWORD1", MyKeywords.KEYWORD1));
@@ -60,7 +60,7 @@ public class IdentifierAndKeywordChannelTest {
   }
 
   @Test
-  public void testConsumeNotCaseSensitiveKeywords() {
+  void testConsumeNotCaseSensitiveKeywords() {
     channel = new IdentifierAndKeywordChannel("[a-zA-Z_][a-zA-Z_0-9]*", false, MyKeywords.values());
     AssertionsForClassTypes.assertThat(channel).has(consume("keyword1", lexer));
     AssertionsForClassTypes.assertThat(lexer.getTokens()).has(hasToken("KEYWORD1", MyKeywords.KEYWORD1));
@@ -72,7 +72,7 @@ public class IdentifierAndKeywordChannelTest {
   }
 
   @Test
-  public void testColumnAndLineNumbers() {
+  void testColumnAndLineNumbers() {
     channel = new IdentifierAndKeywordChannel("[a-zA-Z_][a-zA-Z_0-9]*", false, MyKeywords.values());
     var reader = new CodeReader("\n\n  keyword1");
     reader.pop();
@@ -86,7 +86,7 @@ public class IdentifierAndKeywordChannelTest {
   }
 
   @Test
-  public void testNotConsumNumber() {
+  void testNotConsumNumber() {
     channel = new IdentifierAndKeywordChannel("[a-zA-Z_][a-zA-Z_0-9]*", false, MyKeywords.values());
     AssertionsForClassTypes.assertThat(channel).isNot(consume("1234", lexer));
   }

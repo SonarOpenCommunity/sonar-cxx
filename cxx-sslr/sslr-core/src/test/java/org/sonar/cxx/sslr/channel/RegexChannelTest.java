@@ -26,19 +26,19 @@ package org.sonar.cxx.sslr.channel;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class RegexChannelTest {
+class RegexChannelTest {
 
   @Test
-  public void shouldMatch() {
+  void shouldMatch() {
     var dispatcher = ChannelDispatcher.builder().addChannel(new MyWordChannel())
       .addChannel(new BlackholeChannel()).build();
     var output = new StringBuilder();
     dispatcher.consume(new CodeReader("my word"), output);
-    assertThat(output.toString()).isEqualTo("<w>my</w> <w>word</w>");
+    assertThat(output).hasToString("<w>my</w> <w>word</w>");
   }
 
   @Test
-  public void shouldMatchTokenLongerThanBuffer() {
+  void shouldMatchTokenLongerThanBuffer() {
     var dispatcher = ChannelDispatcher.builder().addChannel(new MyLiteralChannel()).build();
     var output = new StringBuilder();
 
@@ -49,7 +49,7 @@ public class RegexChannelTest {
 
     assertThat(veryLongLiteral.length()).isEqualTo(100000);
     dispatcher.consume(new CodeReader("\">" + veryLongLiteral + "<\"", codeReaderConfiguration), output);
-    assertThat(output.toString()).isEqualTo("<literal>\">" + veryLongLiteral + "<\"</literal>");
+    assertThat(output).hasToString("<literal>\">" + veryLongLiteral + "<\"</literal>");
   }
 
   private static class MyLiteralChannel extends RegexChannel<StringBuilder> {

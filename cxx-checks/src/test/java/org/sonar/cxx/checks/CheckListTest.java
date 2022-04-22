@@ -22,10 +22,10 @@ package org.sonar.cxx.checks;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class CheckListTest {
+class CheckListTest {
 
   @Test
-  public void count() {
+  void count() {
     assertThat(CheckList.getChecks()).hasSize(27);
   }
 }

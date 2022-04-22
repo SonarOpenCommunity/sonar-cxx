@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class SpecialMemberFunctionsTest extends ParserBaseTestHelper {
 
   @Test
-  public void ctorInitializer_reallife() {
+  void ctorInitializer_reallife() {
     setRootRule(CxxGrammarImpl.ctorInitializer);
 
     assertThatParser()
@@ -32,7 +32,7 @@ public class SpecialMemberFunctionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void memInitializerList() {
+  void memInitializerList() {
     setRootRule(CxxGrammarImpl.memInitializerList);
 
     mockRule(CxxGrammarImpl.memInitializer);
@@ -45,7 +45,7 @@ public class SpecialMemberFunctionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void memInitializer() {
+  void memInitializer() {
     setRootRule(CxxGrammarImpl.memInitializer);
 
     mockRule(CxxGrammarImpl.memInitializerId);
@@ -59,7 +59,7 @@ public class SpecialMemberFunctionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void memInitializer_reallife() {
+  void memInitializer_reallife() {
     setRootRule(CxxGrammarImpl.memInitializer);
 
     assertThatParser()
@@ -67,7 +67,7 @@ public class SpecialMemberFunctionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void memInitializerId_reallife() {
+  void memInitializerId_reallife() {
     setRootRule(CxxGrammarImpl.memInitializerId);
 
     assertThatParser()

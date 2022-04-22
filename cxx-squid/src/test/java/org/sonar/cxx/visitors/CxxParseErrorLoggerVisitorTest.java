@@ -27,13 +27,13 @@ import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 
-public class CxxParseErrorLoggerVisitorTest {
+class CxxParseErrorLoggerVisitorTest {
 
   @RegisterExtension
   public LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   @Test
-  public void handleParseErrorTest() throws Exception {
+  void handleParseErrorTest() throws Exception {
     logTester.setLevel(LoggerLevel.DEBUG);
     var tester = CxxFileTesterHelper.create("src/test/resources/visitors/syntaxerror.cc", ".", "");
     CxxAstScanner.scanSingleInputFile(tester.asInputFile());

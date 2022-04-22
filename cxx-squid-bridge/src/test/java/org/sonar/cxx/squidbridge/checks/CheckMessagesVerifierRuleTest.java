@@ -31,16 +31,16 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import org.sonar.cxx.squidbridge.api.CheckMessage;
 
-public class CheckMessagesVerifierRuleTest {
+class CheckMessagesVerifierRuleTest {
 
   @Test
-  public void shouldNotFailIfNothingToVerify() {
+  void shouldNotFailIfNothingToVerify() {
     var rule = new CheckMessagesVerifierRule();
     rule.verify();
   }
 
   @Test
-  public void shouldNotFailIfVerificationsWereSuccessful() {
+  void shouldNotFailIfVerificationsWereSuccessful() {
     var rule = new CheckMessagesVerifierRule();
     rule.verify(Collections.EMPTY_LIST);
     rule.verify(Collections.EMPTY_LIST);
@@ -48,7 +48,7 @@ public class CheckMessagesVerifierRuleTest {
   }
 
   @Test
-  public void shouldFailIfFirstVerificationFailed() {
+  void shouldFailIfFirstVerificationFailed() {
     AssertionError thrown = catchThrowableOfType(() -> {
       Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
       var rule = new CheckMessagesVerifierRule();
@@ -62,7 +62,7 @@ public class CheckMessagesVerifierRuleTest {
   }
 
   @Test
-  public void shouldFailIfSecondVerificationFailed() {
+  void shouldFailIfSecondVerificationFailed() {
     AssertionError thrown = catchThrowableOfType(() -> {
       Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
       var rule = new CheckMessagesVerifierRule();

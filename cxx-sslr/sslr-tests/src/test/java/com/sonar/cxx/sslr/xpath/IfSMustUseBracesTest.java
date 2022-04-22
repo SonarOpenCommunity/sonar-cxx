@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IfSMustUseBracesTest {
+class IfSMustUseBracesTest {
 
   private AstNode fileNode;
 
@@ -41,24 +41,24 @@ public class IfSMustUseBracesTest {
   }
 
   @Test
-  public void firstValueEqualsOnlyValueTest() {
+  void firstValueEqualsOnlyValueTest() {
     AstNodeXPathQuery<AstNode> xpath = AstNodeXPathQuery.create(
       "//IF_STATEMENT/STATEMENT[not(COMPOUND_STATEMENT)]/..|//ELSE_CLAUSE/STATEMENT[not(COMPOUND_STATEMENT)]/..");
 
     var nodes = xpath.selectNodes(fileNode);
 
-    assertThat(nodes.size()).isEqualTo(2);
+    assertThat(nodes).hasSize(2);
     assertThat(nodes.get(0)).isEqualTo(xpath.selectSingleNode(fileNode));
   }
 
   @Test
-  public void valuesTest() {
+  void valuesTest() {
     AstNodeXPathQuery<AstNode> xpath = AstNodeXPathQuery.create(
       "//IF_STATEMENT/STATEMENT[not(COMPOUND_STATEMENT)]/..|//ELSE_CLAUSE/STATEMENT[not(COMPOUND_STATEMENT)]/..");
 
     var nodes = xpath.selectNodes(fileNode);
 
-    assertThat(nodes.size()).isEqualTo(2);
+    assertThat(nodes).hasSize(2);
     assertThat(nodes.get(0).is(MiniCGrammar.IF_STATEMENT)).isTrue();
     assertThat(nodes.get(0).getTokenLine()).isEqualTo(3);
     assertThat(nodes.get(1).is(MiniCGrammar.ELSE_CLAUSE)).isTrue();

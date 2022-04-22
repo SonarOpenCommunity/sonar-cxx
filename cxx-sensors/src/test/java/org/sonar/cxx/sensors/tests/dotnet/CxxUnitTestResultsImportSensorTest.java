@@ -38,13 +38,13 @@ import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.measures.CoreMetrics;
 
-public class CxxUnitTestResultsImportSensorTest {
+class CxxUnitTestResultsImportSensorTest {
 
   @TempDir
   File tempDir;
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxUnitTestResultsImportSensor(mock(CxxUnitTestResultsAggregator.class));
     sensor.describe(descriptor);
@@ -56,7 +56,7 @@ public class CxxUnitTestResultsImportSensorTest {
   }
 
   @Test
-  public void analyze() throws Exception {
+  void analyze() throws Exception {
     var context = SensorContextTester.create(tempDir);
     UnitTestResults results = mock(UnitTestResults.class);
     when(results.tests()).thenReturn(42);
@@ -90,7 +90,7 @@ public class CxxUnitTestResultsImportSensorTest {
   }
 
   @Test
-  public void should_not_save_metrics_with_empty_results() throws Exception {
+  void should_not_save_metrics_with_empty_results() throws Exception {
     var context = SensorContextTester.create(tempDir);
 
     CxxUnitTestResultsAggregator unitTestResultsAggregator = mock(CxxUnitTestResultsAggregator.class);

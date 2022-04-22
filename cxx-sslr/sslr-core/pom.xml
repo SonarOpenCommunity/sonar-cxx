@@ -11,6 +11,11 @@
   <artifactId>sslr-core</artifactId>
   <name>Cxx :: Language Recognizer :: Core</name>
 
+  <properties>
+    <!-- in addition, a dependency must be set in 'integration-tests/pom.xml' to aggregate the results -->
+    <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>

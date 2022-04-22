@@ -30,10 +30,10 @@ import static org.mockito.Mockito.when;
 import org.sonar.cxx.sslr.grammar.GrammarException;
 import org.sonar.cxx.sslr.internal.matchers.Matcher;
 
-public class MachineTest {
+class MachineTest {
 
   @Test
-  public void subSequence_not_supported() {
+  void subSequence_not_supported() {
     var machine = new Machine("", new Instruction[0]);
     var thrown = catchThrowableOfType(
       () -> machine.subSequence(0, 0),
@@ -42,17 +42,17 @@ public class MachineTest {
   }
 
   @Test
-  public void test_initial_state() {
+  void test_initial_state() {
     var machine = new Machine("", new Instruction[2]);
-    assertThat(machine.getAddress()).isEqualTo(0);
-    assertThat(machine.getIndex()).isEqualTo(0);
+    assertThat(machine.getAddress()).isZero();
+    assertThat(machine.getIndex()).isZero();
     assertThat(machine.peek().isEmpty()).isTrue();
   }
 
   @Test
-  public void should_jump() {
+  void should_jump() {
     var machine = new Machine("", new Instruction[2]);
-    assertThat(machine.getAddress()).isEqualTo(0);
+    assertThat(machine.getAddress()).isZero();
     machine.jump(42);
     assertThat(machine.getAddress()).isEqualTo(42);
     machine.jump(13);
@@ -60,9 +60,9 @@ public class MachineTest {
   }
 
   @Test
-  public void should_advanceIndex() {
+  void should_advanceIndex() {
     var machine = new Machine("foo bar", new Instruction[2]);
-    assertThat(machine.getIndex()).isEqualTo(0);
+    assertThat(machine.getIndex()).isZero();
     assertThat(machine.length()).isEqualTo(7);
     assertThat(machine.charAt(0)).isEqualTo('f');
     assertThat(machine.charAt(1)).isEqualTo('o');
@@ -79,7 +79,7 @@ public class MachineTest {
   }
 
   @Test
-  public void should_pushReturn() {
+  void should_pushReturn() {
     var machine = new Machine("foo", new Instruction[3]);
     var matcher = mock(Matcher.class);
     machine.advanceIndex(1);
@@ -95,7 +95,7 @@ public class MachineTest {
   }
 
   @Test
-  public void should_detect_left_recursion() {
+  void should_detect_left_recursion() {
     var machine = new Machine("foo", new Instruction[2]);
     var matcher = mock(Matcher.class);
 
@@ -118,7 +118,7 @@ public class MachineTest {
   }
 
   @Test
-  public void should_pushBacktrack() {
+  void should_pushBacktrack() {
     var machine = new Machine("foo", new Instruction[2]);
     machine.advanceIndex(1);
     machine.jump(42);
@@ -132,7 +132,7 @@ public class MachineTest {
   }
 
   @Test
-  public void should_pop() {
+  void should_pop() {
     var machine = new Machine("", new Instruction[2]);
     var previousStack = machine.peek();
     machine.pushBacktrack(13);
@@ -142,7 +142,7 @@ public class MachineTest {
   }
 
   @Test
-  public void should_fail() {
+  void should_fail() {
     var machine = new Machine("", new Instruction[3]);
     var matcher = mock(Matcher.class);
     machine.pushReturn(13, matcher, 0);
@@ -153,7 +153,7 @@ public class MachineTest {
   }
 
   @Test
-  public void should_backtrack() {
+  void should_backtrack() {
     var machine = new Machine("", new Instruction[4]);
     var matcher = mock(Matcher.class);
     var previousStack = machine.peek();
@@ -166,7 +166,7 @@ public class MachineTest {
   }
 
   @Test
-  public void should_createLeafNode() {
+  void should_createLeafNode() {
     var machine = new Machine("", new Instruction[2]);
     var matcher = mock(Matcher.class);
     machine.advanceIndex(42);
@@ -179,7 +179,7 @@ public class MachineTest {
   }
 
   @Test
-  public void should_createNode() {
+  void should_createNode() {
     var machine = new Machine(" ", new Instruction[2]);
     var matcher = mock(Matcher.class);
     machine.advanceIndex(1);
@@ -197,7 +197,7 @@ public class MachineTest {
   }
 
   @Test
-  public void should_use_memo() {
+  void should_use_memo() {
     var machine = new Machine("foo", new Instruction[3]);
     var matcher = mock(MemoParsingExpression.class);
     when(matcher.shouldMemoize()).thenReturn(true);
@@ -214,7 +214,7 @@ public class MachineTest {
   }
 
   @Test
-  public void should_not_memorize() {
+  void should_not_memorize() {
     var machine = new Machine("foo", new Instruction[3]);
     var matcher = mock(MemoParsingExpression.class);
     when(matcher.shouldMemoize()).thenReturn(false);
@@ -225,12 +225,12 @@ public class MachineTest {
     machine.backtrack();
     machine.pushReturn(2, matcher, 1);
     assertThat(machine.getAddress()).isEqualTo(1);
-    assertThat(machine.getIndex()).isEqualTo(0);
+    assertThat(machine.getIndex()).isZero();
     assertThat(machine.peek().subNodes()).isEmpty();
   }
 
   @Test
-  public void should_not_use_memo() {
+  void should_not_use_memo() {
     var machine = new Machine("foo", new Instruction[3]);
     var matcher = mock(MemoParsingExpression.class);
     when(matcher.shouldMemoize()).thenReturn(true);
@@ -242,7 +242,7 @@ public class MachineTest {
     var anotherMatcher = mock(Matcher.class);
     machine.pushReturn(2, anotherMatcher, 1);
     assertThat(machine.getAddress()).isEqualTo(1);
-    assertThat(machine.getIndex()).isEqualTo(0);
+    assertThat(machine.getIndex()).isZero();
     assertThat(machine.peek().subNodes()).isEmpty();
   }
 

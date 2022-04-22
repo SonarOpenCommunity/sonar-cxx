@@ -30,19 +30,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-public class EndOfInputExpressionTest {
+class EndOfInputExpressionTest {
 
   private final EndOfInputExpression expression = EndOfInputExpression.INSTANCE;
   private final Machine machine = mock(Machine.class);
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
-    assertThat(expression.toString()).isEqualTo("EndOfInput");
+    assertThat(expression).hasToString("EndOfInput");
   }
 
   @Test
-  public void should_stop() {
+  void should_stop() {
     when(machine.length()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);
@@ -52,7 +52,7 @@ public class EndOfInputExpressionTest {
   }
 
   @Test
-  public void should_backtrack() {
+  void should_backtrack() {
     when(machine.length()).thenReturn(1);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);

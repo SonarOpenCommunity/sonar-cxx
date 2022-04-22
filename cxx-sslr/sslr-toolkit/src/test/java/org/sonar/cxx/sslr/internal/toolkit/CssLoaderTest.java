@@ -26,10 +26,10 @@ package org.sonar.cxx.sslr.internal.toolkit;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class CssLoaderTest {
+class CssLoaderTest {
 
   @Test
-  public void getCss() {
+  void getCss() {
     assertThat(CssLoader.getCss()).contains("/* constants */").contains(".code {");
   }
 

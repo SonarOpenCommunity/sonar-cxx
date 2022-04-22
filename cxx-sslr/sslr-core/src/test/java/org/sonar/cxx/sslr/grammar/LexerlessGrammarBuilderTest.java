@@ -47,10 +47,10 @@ import org.sonar.cxx.sslr.internal.vm.TokenExpression;
 import org.sonar.cxx.sslr.internal.vm.TriviaExpression;
 import org.sonar.cxx.sslr.internal.vm.ZeroOrMoreExpression;
 
-public class LexerlessGrammarBuilderTest {
+class LexerlessGrammarBuilderTest {
 
   @Test
-  public void should_create_expressions() {
+  void should_create_expressions() {
     var b = LexerlessGrammarBuilder.create();
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
@@ -93,7 +93,7 @@ public class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  public void test_token() {
+  void test_token() {
     var tokenType = mock(TokenType.class);
     var e = mock(ParsingExpression.class);
     var result = LexerlessGrammarBuilder.create().token(tokenType, e);
@@ -102,7 +102,7 @@ public class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  public void test_commentTrivia() {
+  void test_commentTrivia() {
     var e = mock(ParsingExpression.class);
     var result = LexerlessGrammarBuilder.create().commentTrivia(e);
     assertThat(result).isInstanceOf(TriviaExpression.class);
@@ -110,7 +110,7 @@ public class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  public void test_skippedTrivia() {
+  void test_skippedTrivia() {
     var e = mock(ParsingExpression.class);
     var result = LexerlessGrammarBuilder.create().skippedTrivia(e);
     assertThat(result).isInstanceOf(TriviaExpression.class);
@@ -118,7 +118,7 @@ public class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  public void should_set_root_rule() {
+  void should_set_root_rule() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is(b.nothing());
@@ -128,7 +128,7 @@ public class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  public void test_undefined_root_rule() {
+  void test_undefined_root_rule() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.setRootRule(ruleKey);
@@ -137,7 +137,7 @@ public class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  public void test_undefined_rule() {
+  void test_undefined_rule() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey);
@@ -146,7 +146,7 @@ public class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  public void test_used_undefined_rule() {
+  void test_used_undefined_rule() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey1 = mock(GrammarRuleKey.class);
     var ruleKey2 = mock(GrammarRuleKey.class);
@@ -156,14 +156,14 @@ public class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  public void test_wrong_regexp() {
+  void test_wrong_regexp() {
     var b = LexerlessGrammarBuilder.create();
     var thrown = catchThrowableOfType(() -> b.regexp("["), PatternSyntaxException.class);
     assertThat(thrown).isExactlyInstanceOf(PatternSyntaxException.class);
   }
 
   @Test
-  public void test_incorrect_type_of_parsing_expression() {
+  void test_incorrect_type_of_parsing_expression() {
     var thrown = catchThrowableOfType(
       () -> LexerlessGrammarBuilder.create().convertToExpression(new Object()),
       IllegalArgumentException.class);
@@ -171,7 +171,7 @@ public class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  public void test_null_parsing_expression() {
+  void test_null_parsing_expression() {
     var thrown = catchThrowableOfType(
       () -> LexerlessGrammarBuilder.create().convertToExpression(null),
       NullPointerException.class);
@@ -179,7 +179,7 @@ public class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  public void should_fail_to_redefine() {
+  void should_fail_to_redefine() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is("foo");
@@ -190,7 +190,7 @@ public class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  public void should_fail_to_redefine2() {
+  void should_fail_to_redefine2() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is("foo", "bar");

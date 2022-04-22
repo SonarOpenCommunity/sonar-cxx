@@ -37,10 +37,10 @@ import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.cxx.utils.TestUtils;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
-public class CxxLexerIncludeTest {
+class CxxLexerIncludeTest {
 
   @Test
-  public void quoted_include_without_IncludeDirectories() {
+  void quoted_include_without_IncludeDirectories() {
     // Quoted form / preprocessor include file search order:
     // 1) In the same directory as the file that contains the #include statement.
 
@@ -49,7 +49,7 @@ public class CxxLexerIncludeTest {
   }
 
   @Test
-  public void quoted_include_with_IncludeDirectories1() {
+  void quoted_include_with_IncludeDirectories1() {
     // Quoted form / preprocessor include file search order:
     // 1) In the same directory as the file that contains the #include statement.
 
@@ -58,7 +58,7 @@ public class CxxLexerIncludeTest {
   }
 
   @Test
-  public void quoted_include_with_IncludeDirectories2() {
+  void quoted_include_with_IncludeDirectories2() {
     // Quoted form / preprocessor include file search order:
     // 2) In the directories of the currently opened include files, in the reverse order in which they were opened.
     // The search begins in the directory of the parent include file and continues upward through the directories of
@@ -69,7 +69,7 @@ public class CxxLexerIncludeTest {
   }
 
   @Test
-  public void quoted_include_with_IncludeDirectories3a() {
+  void quoted_include_with_IncludeDirectories3a() {
     // Quoted form / preprocessor include file search order:
     // 3) Along the path that's specified by each /I compiler option.
 
@@ -78,7 +78,7 @@ public class CxxLexerIncludeTest {
   }
 
   @Test
-  public void quoted_include_with_IncludeDirectories3b() {
+  void quoted_include_with_IncludeDirectories3b() {
     // Quoted form / preprocessor include file search order:
     // 3) Along the path that's specified by each /I compiler option.
 
@@ -87,7 +87,7 @@ public class CxxLexerIncludeTest {
   }
 
   @Test
-  public void bracket_include_without_IncludeDirectories() {
+  void bracket_include_without_IncludeDirectories() {
     // Angle-bracket form / preprocessor include file search order:
     // 1) Along the path that's specified by each /I compiler option (IncludeDirectories).
 
@@ -96,7 +96,7 @@ public class CxxLexerIncludeTest {
   }
 
   @Test
-  public void bracket_include_with_IncludeDirectories1a() {
+  void bracket_include_with_IncludeDirectories1a() {
     // Angle-bracket form / preprocessor include file search order:
     // 1) Along the path that's specified by each /I compiler option (IncludeDirectories).
 
@@ -105,7 +105,7 @@ public class CxxLexerIncludeTest {
   }
 
   @Test
-  public void bracket_include_with_IncludeDirectories1b() {
+  void bracket_include_with_IncludeDirectories1b() {
     // Angle-bracket form / preprocessor include file search order:
     // 1) Along the path that's specified by each /I compiler option (IncludeDirectories).
 
@@ -114,7 +114,7 @@ public class CxxLexerIncludeTest {
   }
 
   @Test
-  public void bracket_include_with_IncludeDirectories1c() {
+  void bracket_include_with_IncludeDirectories1c() {
     // Angle-bracket form / preprocessor include file search order:
     // 1) Along the path that's specified by each /I compiler option (IncludeDirectories).
 
@@ -123,7 +123,7 @@ public class CxxLexerIncludeTest {
   }
 
   @Test
-  public void compilation_database_settings_propagated() {
+  void compilation_database_settings_propagated() {
     // test: are compilation database settings propagated in case of nested includes
 
     List<String> defines = Arrays.asList("GLOBAL 1");
@@ -132,7 +132,7 @@ public class CxxLexerIncludeTest {
   }
 
   @Test
-  public void bracket_import_with_IncludeDirectories() {
+  void bracket_import_with_IncludeDirectories() {
     // Angle-bracket form / preprocessor include file search order:
     // 1) Along the path that's specified by each /I compiler option (IncludeDirectories).
 

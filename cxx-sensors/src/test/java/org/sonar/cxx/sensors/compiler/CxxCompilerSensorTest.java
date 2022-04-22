@@ -34,7 +34,7 @@ import org.sonar.api.utils.log.LogTesterJUnit5;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxCompilerSensorTest {
+class CxxCompilerSensorTest {
 
   @RegisterExtension
   public LogTesterJUnit5 logTester = new LogTesterJUnit5();
@@ -54,7 +54,7 @@ public class CxxCompilerSensorTest {
   }
 
   @Test
-  public void testFileNotFound() {
+  void testFileNotFound() {
     var report = new File("");
     sensor.setRegex("(?<test>.*)");
     sensor.testExecuteReport(report);
@@ -63,7 +63,7 @@ public class CxxCompilerSensorTest {
   }
 
   @Test
-  public void testRegexEmpty() {
+  void testRegexEmpty() {
     var report = new File("");
     sensor.testExecuteReport(report);
     var log = logTester.logs().toString();
@@ -71,7 +71,7 @@ public class CxxCompilerSensorTest {
   }
 
   @Test
-  public void testRegexInvalid() {
+  void testRegexInvalid() {
     var report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
     sensor.setRegex("(?<test>*)");
     sensor.testExecuteReport(report);
@@ -80,7 +80,7 @@ public class CxxCompilerSensorTest {
   }
 
   @Test
-  public void testRegexNamedGroupMissing() {
+  void testRegexNamedGroupMissing() {
     var report = new File(fs.baseDir(), "compiler-reports/VC-report.vclog");
     sensor.setRegex(".*");
     sensor.testExecuteReport(report);

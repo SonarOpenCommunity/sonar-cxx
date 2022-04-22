@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
 import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
 import org.sonar.cxx.sslr.internal.vm.Machine;
 
-public class TokensBridgeExpressionTest {
+class TokensBridgeExpressionTest {
 
   private final TokenType fromType = mock(TokenType.class);
   private final TokenType toType = mock(TokenType.class);
@@ -44,13 +44,13 @@ public class TokensBridgeExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
-    assertThat(expression.toString()).isEqualTo("Bridge[" + fromType + "," + toType + "]");
+    assertThat(expression).hasToString("Bridge[" + fromType + "," + toType + "]");
   }
 
   @Test
-  public void should_match() {
+  void should_match() {
     when(machine.length()).thenReturn(5);
     var token1 = token(fromType);
     var token2 = token(fromType);
@@ -77,7 +77,7 @@ public class TokensBridgeExpressionTest {
   }
 
   @Test
-  public void should_backtrack() {
+  void should_backtrack() {
     when(machine.length()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);
@@ -87,7 +87,7 @@ public class TokensBridgeExpressionTest {
   }
 
   @Test
-  public void should_backtrack2() {
+  void should_backtrack2() {
     when(machine.length()).thenReturn(2);
     var token1 = token(anotherType);
     when(machine.tokenAt(0)).thenReturn(token1);
@@ -100,7 +100,7 @@ public class TokensBridgeExpressionTest {
   }
 
   @Test
-  public void should_backtrack3() {
+  void should_backtrack3() {
     when(machine.length()).thenReturn(2);
     var token1 = token(fromType);
     var token2 = token(fromType);

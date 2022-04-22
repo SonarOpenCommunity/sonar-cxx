@@ -44,10 +44,10 @@ import org.sonar.cxx.sslr.internal.vm.TokenExpression;
 import org.sonar.cxx.sslr.internal.vm.TriviaExpression;
 import org.sonar.cxx.sslr.internal.vm.ZeroOrMoreExpression;
 
-public class GrammarOperatorsTest {
+class GrammarOperatorsTest {
 
   @Test
-  public void test() {
+  void test() {
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
 
@@ -77,7 +77,7 @@ public class GrammarOperatorsTest {
   }
 
   @Test
-  public void test_token() {
+  void test_token() {
     var tokenType = mock(TokenType.class);
     var e = mock(ParsingExpression.class);
     var result = GrammarOperators.token(tokenType, e);
@@ -86,7 +86,7 @@ public class GrammarOperatorsTest {
   }
 
   @Test
-  public void test_commentTrivia() {
+  void test_commentTrivia() {
     var e = mock(ParsingExpression.class);
     var result = GrammarOperators.commentTrivia(e);
     assertThat(result).isInstanceOf(TriviaExpression.class);
@@ -94,7 +94,7 @@ public class GrammarOperatorsTest {
   }
 
   @Test
-  public void test_skippedTrivia() {
+  void test_skippedTrivia() {
     var e = mock(ParsingExpression.class);
     var result = GrammarOperators.skippedTrivia(e);
     assertThat(result).isInstanceOf(TriviaExpression.class);
@@ -102,7 +102,7 @@ public class GrammarOperatorsTest {
   }
 
   @Test
-  public void illegal_argument() {
+  void illegal_argument() {
     var thrown = catchThrowableOfType(
       () -> GrammarOperators.sequence(new Object()),
       IllegalArgumentException.class);
@@ -110,7 +110,7 @@ public class GrammarOperatorsTest {
   }
 
   @Test
-  public void private_constructor() throws Exception {
+  void private_constructor() throws Exception {
     Constructor constructor = GrammarOperators.class.getDeclaredConstructor();
     assertThat(constructor.isAccessible()).isFalse();
     constructor.setAccessible(true);

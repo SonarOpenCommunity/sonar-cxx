@@ -33,10 +33,10 @@ import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import org.sonar.cxx.sslr.internal.vm.ParsingExpression;
 import org.sonar.cxx.sslr.internal.vm.SequenceExpression;
 
-public class MutableParsingRuleTest {
+class MutableParsingRuleTest {
 
   @Test
-  public void should_not_allow_redefinition() {
+  void should_not_allow_redefinition() {
     var ruleKey = mock(GrammarRuleKey.class);
     var rule = new MutableParsingRule(ruleKey);
     rule.is(mock(ParsingExpression.class));
@@ -47,7 +47,7 @@ public class MutableParsingRuleTest {
   }
 
   @Test
-  public void should_override() {
+  void should_override() {
     var ruleKey = mock(GrammarRuleKey.class);
     var rule = new MutableParsingRule(ruleKey);
     var e1 = mock(ParsingExpression.class);
@@ -60,7 +60,7 @@ public class MutableParsingRuleTest {
   }
 
   @Test
-  public void should_not_skip_from_AST() {
+  void should_not_skip_from_AST() {
     var ruleKey = mock(GrammarRuleKey.class);
     var rule = new MutableParsingRule(ruleKey);
     var astNode = mock(AstNode.class);
@@ -68,7 +68,7 @@ public class MutableParsingRuleTest {
   }
 
   @Test
-  public void should_skip_from_AST() {
+  void should_skip_from_AST() {
     var ruleKey = mock(GrammarRuleKey.class);
     var rule = new MutableParsingRule(ruleKey);
     rule.skip();
@@ -77,7 +77,7 @@ public class MutableParsingRuleTest {
   }
 
   @Test
-  public void should_skip_from_AST_if_one_child() {
+  void should_skip_from_AST_if_one_child() {
     var ruleKey = mock(GrammarRuleKey.class);
     var rule = new MutableParsingRule(ruleKey);
     rule.skipIfOneChild();
@@ -87,7 +87,7 @@ public class MutableParsingRuleTest {
   }
 
   @Test
-  public void should_return_real_AstNodeType() {
+  void should_return_real_AstNodeType() {
     var ruleKey = mock(GrammarRuleKey.class);
     var rule = new MutableParsingRule(ruleKey);
     assertThat(rule.getRealAstNodeType()).isSameAs(ruleKey);

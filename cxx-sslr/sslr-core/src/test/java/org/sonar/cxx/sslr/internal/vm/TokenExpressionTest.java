@@ -28,12 +28,12 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 
-public class TokenExpressionTest {
+class TokenExpressionTest {
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     var expression = new TokenExpression(GenericTokenType.IDENTIFIER, new SubExpression(1, 2));
-    assertThat(expression.toString()).isEqualTo("Token IDENTIFIER[SubExpression]");
+    assertThat(expression).hasToString("Token IDENTIFIER[SubExpression]");
     var instructions = expression.compile(new CompilationHandler());
     assertThat(instructions).isEqualTo(new Instruction[]{
       Instruction.call(2, expression),
@@ -46,7 +46,7 @@ public class TokenExpressionTest {
   }
 
   @Test
-  public void should_implement_Matcher() {
+  void should_implement_Matcher() {
     var expression = new TokenExpression(GenericTokenType.IDENTIFIER, mock(ParsingExpression.class));
     // Important for AstCreator
     assertThat(expression.getTokenType()).isSameAs(GenericTokenType.IDENTIFIER);

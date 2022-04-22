@@ -39,10 +39,10 @@ import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 import org.sonar.cxx.sslr.internal.vm.TokenExpression;
 import org.sonar.cxx.sslr.parser.ParsingResult;
 
-public class AstCreatorTest {
+class AstCreatorTest {
 
   @Test
-  public void should_create_tokens_and_trivias() {
+  void should_create_tokens_and_trivias() {
     var input = "foo bar".toCharArray();
 
     var tokenMatcher = mockTokenMatcher(GenericTokenType.IDENTIFIER);
@@ -63,7 +63,7 @@ public class AstCreatorTest {
 
     assertThat(astNode.getType()).isSameAs(realAstNodeType);
     assertThat(astNode.getName()).isEqualTo("rule");
-    assertThat(astNode.getFromIndex()).isEqualTo(0);
+    assertThat(astNode.getFromIndex()).isZero();
     assertThat(astNode.getToIndex()).isEqualTo(7);
     assertThat(astNode.hasChildren()).isTrue();
 
@@ -82,12 +82,12 @@ public class AstCreatorTest {
     assertThat(triviaToken.getValue()).isEqualTo("foo ");
     assertThat(triviaToken.getOriginalValue()).isEqualTo("foo ");
     assertThat(triviaToken.getLine()).isEqualTo(1);
-    assertThat(triviaToken.getColumn()).isEqualTo(0);
+    assertThat(triviaToken.getColumn()).isZero();
     assertThat(triviaToken.getType()).isEqualTo(GenericTokenType.COMMENT);
   }
 
   @Test
-  public void should_create_tokens_without_TokenMatcher() {
+  void should_create_tokens_without_TokenMatcher() {
     var input = "foobar".toCharArray();
 
     var firstTerminal = new ParseNode(0, 3, Collections.<ParseNode>emptyList(), null);
@@ -105,7 +105,7 @@ public class AstCreatorTest {
 
     assertThat(astNode.getType()).isSameAs(realAstNodeType);
     assertThat(astNode.getName()).isEqualTo("rule");
-    assertThat(astNode.getFromIndex()).isEqualTo(0);
+    assertThat(astNode.getFromIndex()).isZero();
     assertThat(astNode.getToIndex()).isEqualTo(6);
     assertThat(astNode.hasChildren()).isTrue();
 
@@ -115,7 +115,7 @@ public class AstCreatorTest {
     assertThat(token.getValue()).isEqualTo("foo");
     assertThat(token.getOriginalValue()).isEqualTo("foo");
     assertThat(token.getLine()).isEqualTo(1);
-    assertThat(token.getColumn()).isEqualTo(0);
+    assertThat(token.getColumn()).isZero();
     assertThat(token.getType()).isSameAs(AstCreator.UNDEFINED_TOKEN_TYPE);
     assertThat(token.getType().getName()).isEqualTo("TOKEN");
 
@@ -128,7 +128,7 @@ public class AstCreatorTest {
   }
 
   @Test
-  public void should_skip_nodes() {
+  void should_skip_nodes() {
     var input = "foo".toCharArray();
 
     var ruleMatcher1 = mockRuleMatcher("rule1");
@@ -148,7 +148,7 @@ public class AstCreatorTest {
 
     assertThat(astNode.getType()).isSameAs(realAstNodeType);
     assertThat(astNode.getName()).isEqualTo("rule2");
-    assertThat(astNode.getFromIndex()).isEqualTo(0);
+    assertThat(astNode.getFromIndex()).isZero();
     assertThat(astNode.getToIndex()).isEqualTo(3);
     assertThat(astNode.hasChildren()).isFalse();
     assertThat(astNode.getToken()).isNull();

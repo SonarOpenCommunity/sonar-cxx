@@ -31,7 +31,7 @@ import static org.mockito.Mockito.mock;
 import org.sonar.api.utils.log.LogTesterJUnit5;
 import org.sonar.api.utils.log.LoggerLevel;
 
-public class NUnitTestResultsFileParserTest {
+class NUnitTestResultsFileParserTest {
 
   private static final String REPORT_PATH
                                 = "src/test/resources/org/sonar/cxx/sensors/reports-project/xunit-reports/nunit/";
@@ -40,7 +40,7 @@ public class NUnitTestResultsFileParserTest {
   public LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   @Test
-  public void no_counters() {
+  void no_counters() {
     ParseErrorException thrown = catchThrowableOfType(() -> {
       new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "no_counters.xml"), mock(UnitTestResults.class));
     }, ParseErrorException.class);
@@ -49,7 +49,7 @@ public class NUnitTestResultsFileParserTest {
   }
 
   @Test
-  public void wrong_passed_number() {
+  void wrong_passed_number() {
     ParseErrorException thrown = catchThrowableOfType(() -> {
       new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "invalid_total.xml"), mock(UnitTestResults.class));
     }, ParseErrorException.class);
@@ -58,7 +58,7 @@ public class NUnitTestResultsFileParserTest {
   }
 
   @Test
-  public void valid() throws Exception {
+  void valid() throws Exception {
     var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid.xml"), results);
 
@@ -71,7 +71,7 @@ public class NUnitTestResultsFileParserTest {
   }
 
   @Test
-  public void valid_comma_in_double() throws Exception {
+  void valid_comma_in_double() throws Exception {
     var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid_comma_in_double.xml"), results);
 
@@ -79,7 +79,7 @@ public class NUnitTestResultsFileParserTest {
   }
 
   @Test
-  public void valid_no_execution_time() throws Exception {
+  void valid_no_execution_time() throws Exception {
     var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid_no_execution_time.xml"), results);
 
@@ -92,7 +92,7 @@ public class NUnitTestResultsFileParserTest {
   }
 
   @Test
-  public void empty() {
+  void empty() {
     var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "empty.xml"), results);
 

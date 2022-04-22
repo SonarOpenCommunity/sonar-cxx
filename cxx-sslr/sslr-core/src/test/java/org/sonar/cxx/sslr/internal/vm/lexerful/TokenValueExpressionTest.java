@@ -33,19 +33,19 @@ import static org.mockito.Mockito.when;
 import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
 import org.sonar.cxx.sslr.internal.vm.Machine;
 
-public class TokenValueExpressionTest {
+class TokenValueExpressionTest {
 
   private final TokenValueExpression expression = new TokenValueExpression("foo");
   private final Machine machine = mock(Machine.class);
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
-    assertThat(expression.toString()).isEqualTo("TokenValue foo");
+    assertThat(expression).hasToString("TokenValue foo");
   }
 
   @Test
-  public void should_match() {
+  void should_match() {
     var token = mock(Token.class);
     when(token.getValue()).thenReturn("foo");
     when(machine.length()).thenReturn(1);
@@ -60,7 +60,7 @@ public class TokenValueExpressionTest {
   }
 
   @Test
-  public void should_backtrack() {
+  void should_backtrack() {
     when(machine.length()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);
@@ -70,7 +70,7 @@ public class TokenValueExpressionTest {
   }
 
   @Test
-  public void should_backtrack2() {
+  void should_backtrack2() {
     var token = mock(Token.class);
     when(token.getValue()).thenReturn("bar");
     when(machine.length()).thenReturn(1);
@@ -84,7 +84,7 @@ public class TokenValueExpressionTest {
   }
 
   @Test
-  public void should_backtrack3() {
+  void should_backtrack3() {
     var token = mock(Token.class);
     when(token.getValue()).thenReturn("h31"/* same hash code as for "foo" */);
     when(machine.length()).thenReturn(1);

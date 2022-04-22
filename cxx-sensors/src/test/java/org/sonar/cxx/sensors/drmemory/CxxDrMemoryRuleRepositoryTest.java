@@ -28,10 +28,10 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.Rule;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
-public class CxxDrMemoryRuleRepositoryTest {
+class CxxDrMemoryRuleRepositoryTest {
 
   @Test
-  public void createRulesTest() {
+  void createRulesTest() {
     var def = new CxxDrMemoryRuleRepository(
       mock(ServerFileSystem.class),
       new RulesDefinitionXmlLoader());
@@ -41,7 +41,7 @@ public class CxxDrMemoryRuleRepositoryTest {
 
     RulesDefinition.Repository repo = context.repository(CxxDrMemoryRuleRepository.KEY);
     List<Rule> rules = repo.rules();
-    assertThat(rules.size()).isEqualTo(9);
+    assertThat(rules).hasSize(9);
   }
 
 }

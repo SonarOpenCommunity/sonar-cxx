@@ -31,7 +31,7 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 
-public class CxxCpdVisitorTest {
+class CxxCpdVisitorTest {
 
   private SourceFile sourceFile;
 
@@ -48,7 +48,7 @@ public class CxxCpdVisitorTest {
   }
 
   @Test
-  public void testCpdTokens() throws Exception {
+  void testCpdTokens() throws Exception {
     List<CxxCpdVisitor.CpdToken> data = (List<CxxCpdVisitor.CpdToken>) sourceFile.getData(CxxMetric.CPD_TOKENS_DATA);
     assertThat(data).hasSize(391);
   }

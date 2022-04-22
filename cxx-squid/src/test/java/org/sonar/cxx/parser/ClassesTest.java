@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class ClassesTest extends ParserBaseTestHelper {
 
   @Test
-  public void className_reallife() {
+  void className_reallife() {
     setRootRule(CxxGrammarImpl.className);
 
     assertThatParser()
@@ -32,7 +32,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void classSpecifier_reallife() {
+  void classSpecifier_reallife() {
     setRootRule(CxxGrammarImpl.classSpecifier);
 
     assertThatParser()
@@ -42,7 +42,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void classHead() {
+  void classHead() {
     setRootRule(CxxGrammarImpl.classHead);
 
     mockRule(CxxGrammarImpl.classKey);
@@ -62,7 +62,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void classHeadName() {
+  void classHeadName() {
     setRootRule(CxxGrammarImpl.classHeadName);
 
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
@@ -74,7 +74,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void memberSpecification() {
+  void memberSpecification() {
     setRootRule(CxxGrammarImpl.memberSpecification);
 
     mockRule(CxxGrammarImpl.memberDeclaration);
@@ -88,7 +88,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void memberSpecification_reallife() {
+  void memberSpecification_reallife() {
     setRootRule(CxxGrammarImpl.memberSpecification);
 
     assertThatParser()
@@ -99,7 +99,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void memberDeclaration() {
+  void memberDeclaration() {
     setRootRule(CxxGrammarImpl.memberDeclaration);
 
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
@@ -144,7 +144,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void memberDeclaration_reallife() {
+  void memberDeclaration_reallife() {
     setRootRule(CxxGrammarImpl.memberDeclaration);
 
     assertThatParser()
@@ -179,7 +179,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   ;
 
   @Test
-  public void memberDeclaratorList() {
+  void memberDeclaratorList() {
     setRootRule(CxxGrammarImpl.memberDeclaratorList);
 
     mockRule(CxxGrammarImpl.memberDeclarator);
@@ -190,7 +190,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void memberDeclaratorList_reallife() {
+  void memberDeclaratorList_reallife() {
     setRootRule(CxxGrammarImpl.memberDeclaratorList);
 
     assertThatParser()
@@ -198,7 +198,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void memberDeclarator() {
+  void memberDeclarator() {
     setRootRule(CxxGrammarImpl.memberDeclarator);
 
     mockRule(CxxGrammarImpl.declarator);
@@ -225,7 +225,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void memberDeclarator_reallife() {
+  void memberDeclarator_reallife() {
     setRootRule(CxxGrammarImpl.memberDeclarator);
 
     assertThatParser()
@@ -234,7 +234,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void virtSpecifierSeq() {
+  void virtSpecifierSeq() {
     setRootRule(CxxGrammarImpl.virtSpecifierSeq);
 
     mockRule(CxxGrammarImpl.virtSpecifier);
@@ -245,7 +245,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void virtSpecifierSeq_reallife() {
+  void virtSpecifierSeq_reallife() {
     setRootRule(CxxGrammarImpl.virtSpecifierSeq);
 
     assertThatParser()
@@ -256,7 +256,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void cliFunctionModifier_reallife() {
+  void cliFunctionModifier_reallife() {
     setRootRule(CxxGrammarImpl.cliFunctionModifier);
 
     assertThatParser()
@@ -266,7 +266,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void virtSpecifier() {
+  void virtSpecifier() {
     setRootRule(CxxGrammarImpl.virtSpecifier);
 
     assertThatParser()
@@ -275,7 +275,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void baseSpecifierList() {
+  void baseSpecifierList() {
     setRootRule(CxxGrammarImpl.baseSpecifierList);
 
     mockRule(CxxGrammarImpl.baseSpecifier);
@@ -289,7 +289,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void baseSpecifier() {
+  void baseSpecifier() {
     setRootRule(CxxGrammarImpl.baseSpecifier);
 
     mockRule(CxxGrammarImpl.classOrDecltype);
@@ -306,7 +306,7 @@ public class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void classOrDecltype() {
+  void classOrDecltype() {
     setRootRule(CxxGrammarImpl.classOrDecltype);
 
     mockRule(CxxGrammarImpl.nestedNameSpecifier);

@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class FileInputTest extends ParserBaseTestHelper {
 
   @Test
-  public void translationUnit() {
+  void translationUnit() {
     setRootRule(CxxGrammarImpl.translationUnit);
 
     mockRule(CxxGrammarImpl.declaration);

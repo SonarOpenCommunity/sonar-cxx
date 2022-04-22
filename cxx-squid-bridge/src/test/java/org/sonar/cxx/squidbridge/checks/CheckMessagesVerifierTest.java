@@ -34,10 +34,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.squidbridge.api.CheckMessage;
 
-public class CheckMessagesVerifierTest {
+class CheckMessagesVerifierTest {
 
   @Test
-  public void next() {
+  void next() {
     AssertionError thrown = catchThrowableOfType(() -> {
       CheckMessagesVerifier.verify(Collections.EMPTY_LIST)
         .next();
@@ -48,7 +48,7 @@ public class CheckMessagesVerifierTest {
   }
 
   @Test
-  public void noMore() {
+  void noMore() {
     AssertionError thrown = catchThrowableOfType(() -> {
       Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
@@ -60,7 +60,7 @@ public class CheckMessagesVerifierTest {
   }
 
   @Test
-  public void line() {
+  void line() {
     AssertionError thrown = catchThrowableOfType(() -> {
       Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
@@ -72,7 +72,7 @@ public class CheckMessagesVerifierTest {
   }
 
   @Test
-  public void line_withoutHasNext() {
+  void line_withoutHasNext() {
     IllegalStateException thrown = catchThrowableOfType(() -> {
       Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
@@ -84,7 +84,7 @@ public class CheckMessagesVerifierTest {
   }
 
   @Test
-  public void withMessage() {
+  void withMessage() {
     AssertionError thrown = catchThrowableOfType(() -> {
       Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
@@ -96,7 +96,7 @@ public class CheckMessagesVerifierTest {
   }
 
   @Test
-  public void withMessage_withoutHasNext() {
+  void withMessage_withoutHasNext() {
     IllegalStateException thrown = catchThrowableOfType(() -> {
       Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
@@ -108,7 +108,7 @@ public class CheckMessagesVerifierTest {
   }
 
   @Test
-  public void withMessageContaining() {
+  void withMessageContaining() {
     AssertionError thrown = catchThrowableOfType(() -> {
       Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
       CheckMessagesVerifier.verify(messages)
@@ -120,7 +120,7 @@ public class CheckMessagesVerifierTest {
   }
 
   @Test
-  public void withCost() {
+  void withCost() {
     AssertionError thrown = catchThrowableOfType(() -> {
       Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo", 0d));
       CheckMessagesVerifier.verify(messages)
@@ -132,7 +132,7 @@ public class CheckMessagesVerifierTest {
   }
 
   @Test
-  public void ok() {
+  void ok() {
     Collection<CheckMessage> messages = Arrays.asList(
       mockCheckMessage(null, "b"),
       mockCheckMessage(2, "a", 1d),

@@ -26,7 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class ValgrindReportParserTest {
+class ValgrindReportParserTest {
 
   private ValgrindReportParser parser;
 
@@ -37,36 +37,36 @@ public class ValgrindReportParserTest {
   }
 
   @Test
-  public void shouldParseCorrectNumberOfErrors() throws javax.xml.stream.XMLStreamException {
+  void shouldParseCorrectNumberOfErrors() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE_1.xml");
     Set<ValgrindError> valgrindErrors = parser.parse(absReportFile);
-    assertThat(valgrindErrors.size()).isEqualTo(13);
+    assertThat(valgrindErrors).hasSize(13);
   }
 
   @Test
-  public void parseAnErrorWithMultipleStacks() throws javax.xml.stream.XMLStreamException {
+  void parseAnErrorWithMultipleStacks() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE_2.xml");
     Set<ValgrindError> valgrindErrors = parser.parse(absReportFile);
     // single <error>
-    assertThat(valgrindErrors.size()).isEqualTo(1);
+    assertThat(valgrindErrors).hasSize(1);
 
     ValgrindError error = valgrindErrors.iterator().next();
     // merge <what> and <auxwhat>
     assertThat(error.getText())
       .isEqualTo("Invalid write of size 4: Address 0xd820468 is 0 bytes after a block of size 40 alloc'd");
     // <error> contains two <stack> entries
-    assertThat(error.getStacks().size()).isEqualTo(2);
+    assertThat(error.getStacks()).hasSize(2);
   }
 
   @Test
-  public void parseAnErrorWithMultipleAuxwhat() throws javax.xml.stream.XMLStreamException {
+  void parseAnErrorWithMultipleAuxwhat() throws javax.xml.stream.XMLStreamException {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE_3.xml");
     Set<ValgrindError> valgrindErrors = parser.parse(absReportFile);
     // single <error>
-    assertThat(valgrindErrors.size()).isEqualTo(1);
+    assertThat(valgrindErrors).hasSize(1);
 
     ValgrindError error = valgrindErrors.iterator().next();
     // merge <what>, <auxwhat> and one more <auxwhat>
@@ -74,11 +74,11 @@ public class ValgrindReportParserTest {
     // https://github.com/pathscale/valgrind-mmt/blob/master/docs/internals/xml-output.txt
     assertThat(error.getText()).isEqualTo("Invalid write of size 4: Details0; Details1");
     // <error> contains one <stack> entry
-    assertThat(error.getStacks().size()).isEqualTo(1);
+    assertThat(error.getStacks()).hasSize(1);
   }
 
   @Test
-  public void shouldThrowWhenGivenAnIncompleteReport_1() {
+  void shouldThrowWhenGivenAnIncompleteReport_1() {
     javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
       File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
       var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_1.xml");
@@ -90,7 +90,7 @@ public class ValgrindReportParserTest {
   }
 
   @Test
-  public void shouldThrowWhenGivenAnIncompleteReport_2() {
+  void shouldThrowWhenGivenAnIncompleteReport_2() {
     javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
       File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
       var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_2.xml");
@@ -102,7 +102,7 @@ public class ValgrindReportParserTest {
   }
 
   @Test
-  public void shouldThrowWhenGivenAnIncompleteReport_3() {
+  void shouldThrowWhenGivenAnIncompleteReport_3() {
     javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
       File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
       var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_3.xml");

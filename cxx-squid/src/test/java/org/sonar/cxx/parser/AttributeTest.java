@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class AttributeTest extends ParserBaseTestHelper {
 
   @Test
-  public void classSpecifier_reallife() {
+  void classSpecifier_reallife() {
     setRootRule(CxxGrammarImpl.attributeSpecifierSeq);
 
     assertThatParser()

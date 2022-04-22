@@ -33,7 +33,7 @@ import org.sonar.api.utils.log.LogTesterJUnit5;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxOtherSensorTest {
+class CxxOtherSensorTest {
 
   @RegisterExtension
   public LogTesterJUnit5 logTester = new LogTesterJUnit5();
@@ -48,7 +48,7 @@ public class CxxOtherSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectViolations() {
+  void shouldReportCorrectViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-ok.xml");
     context.setSettings(settings);
@@ -65,7 +65,7 @@ public class CxxOtherSensorTest {
   }
 
   @Test
-  public void shouldReportFileLevelViolations() {
+  void shouldReportFileLevelViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-filelevelviolation.xml");
@@ -81,7 +81,7 @@ public class CxxOtherSensorTest {
   }
 
   @Test
-  public void shouldReportProjectLevelViolations() {
+  void shouldReportProjectLevelViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-projectlevelviolation.xml");
@@ -94,7 +94,7 @@ public class CxxOtherSensorTest {
   }
 
   @Test
-  public void shouldThrowExceptionWhenReportEmpty() {
+  void shouldThrowExceptionWhenReportEmpty() {
     var context = SensorContextTester.create(fs.baseDir());
 
     IllegalStateException thrown = catchThrowableOfType(() -> {
@@ -110,7 +110,7 @@ public class CxxOtherSensorTest {
   }
 
   @Test
-  public void shouldReportNoViolationsIfNoReportFound() {
+  void shouldReportNoViolationsIfNoReportFound() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/noreport.xml");
     context.setSettings(settings);
@@ -122,7 +122,7 @@ public class CxxOtherSensorTest {
   }
 
   @Test
-  public void shouldThrowInCaseOfATrashyReport() {
+  void shouldThrowInCaseOfATrashyReport() {
     IllegalStateException thrown = catchThrowableOfType(() -> {
       var context = SensorContextTester.create(fs.baseDir());
       settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
@@ -136,7 +136,7 @@ public class CxxOtherSensorTest {
   }
 
   @Test
-  public void shouldReportOnlyOneViolationAndRemoveDuplicates() {
+  void shouldReportOnlyOneViolationAndRemoveDuplicates() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-with-duplicates.xml");
     context.setSettings(settings);
@@ -151,7 +151,7 @@ public class CxxOtherSensorTest {
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     sensor = new CxxOtherSensor();
     sensor.describe(descriptor);

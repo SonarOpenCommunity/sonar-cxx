@@ -26,10 +26,10 @@ import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
-public class CxxInferRuleRepositoryTest {
+class CxxInferRuleRepositoryTest {
 
   @Test
-  public void createRulesTest() {
+  void createRulesTest() {
     var def = new CxxInferRuleRepository(
       mock(ServerFileSystem.class), new RulesDefinitionXmlLoader());
 
@@ -37,7 +37,7 @@ public class CxxInferRuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxInferRuleRepository.KEY);
-    assertThat(repo.rules().size()).isEqualTo(164);
+    assertThat(repo.rules()).hasSize(164);
   }
 
 }

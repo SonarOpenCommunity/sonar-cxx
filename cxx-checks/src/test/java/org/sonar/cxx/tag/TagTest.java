@@ -23,10 +23,10 @@ import java.lang.reflect.Constructor;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class TagTest {
+class TagTest {
 
   @Test
-  public void private_constructor() throws Exception {
+  void private_constructor() throws Exception {
     Constructor<Tag> constructor = Tag.class.getDeclaredConstructor();
     assertThat(constructor.canAccess(null)).isFalse();
     constructor.setAccessible(true);

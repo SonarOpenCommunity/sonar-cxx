@@ -32,19 +32,19 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.sslr.grammar.GrammarException;
 
-public class PatternExpressionTest {
+class PatternExpressionTest {
 
   private final PatternExpression expression = new PatternExpression("foo|bar");
   private final Machine machine = mock(Machine.class);
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
-    assertThat(expression.toString()).isEqualTo("Pattern foo|bar");
+    assertThat(expression).hasToString("Pattern foo|bar");
   }
 
   @Test
-  public void should_match() {
+  void should_match() {
     when(machine.length()).thenReturn(3);
     when(machine.charAt(0)).thenReturn('f');
     when(machine.charAt(1)).thenReturn('o');
@@ -69,7 +69,7 @@ public class PatternExpressionTest {
   }
 
   @Test
-  public void should_backtrack() {
+  void should_backtrack() {
     when(machine.length()).thenReturn(1);
     when(machine.charAt(0)).thenReturn('z');
     expression.execute(machine);
@@ -89,7 +89,7 @@ public class PatternExpressionTest {
   }
 
   @Test
-  public void should_catch_StackOverflowError() {
+  void should_catch_StackOverflowError() {
     when(machine.length()).thenReturn(1);
     when(machine.charAt(0)).thenThrow(StackOverflowError.class);
     var thrown = catchThrowableOfType(

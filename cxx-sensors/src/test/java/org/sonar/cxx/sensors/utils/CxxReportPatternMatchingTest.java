@@ -32,7 +32,7 @@ import org.junit.jupiter.api.io.TempDir;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 
-public class CxxReportPatternMatchingTest {
+class CxxReportPatternMatchingTest {
 
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPaths";
 
@@ -63,7 +63,7 @@ public class CxxReportPatternMatchingTest {
   }
 
   @Test
-  public void getReports_patternMatching() throws java.io.IOException, java.lang.InterruptedException {
+  void getReports_patternMatching() throws java.io.IOException, java.lang.InterruptedException {
     String pattern, expected, allpaths;
     List<File> reports;
     for (var example : examples) {

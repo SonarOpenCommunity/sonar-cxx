@@ -28,21 +28,21 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.channel.CodeReader;
 
-public class BomCharacterChannelTest {
+class BomCharacterChannelTest {
 
   private final Lexer lexer = Lexer.builder().build();
   private final BomCharacterChannel channel = new BomCharacterChannel();
 
   @Test
-  public void shouldConsumeBomCharacter() {
+  void shouldConsumeBomCharacter() {
     assertThat(channel.consume(new CodeReader("\uFEFF"), lexer)).isTrue();
-    assertThat(lexer.getTokens().size()).isEqualTo(0);
+    assertThat(lexer.getTokens()).isEmpty();
   }
 
   @Test
-  public void shouldNotConsumeOtherCharacters() {
+  void shouldNotConsumeOtherCharacters() {
     assertThat(channel.consume(new CodeReader(" "), lexer)).isFalse();
-    assertThat(lexer.getTokens().size()).isEqualTo(0);
+    assertThat(lexer.getTokens()).isEmpty();
   }
 
 }

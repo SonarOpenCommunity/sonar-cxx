@@ -36,13 +36,13 @@ import static org.mockito.Mockito.when;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 
-public class CxxUnitTestResultsAggregatorTest {
+class CxxUnitTestResultsAggregatorTest {
 
   private final String key1 = UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY;
   private final String key3 = UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY;
 
   @Test
-  public void hasUnitTestResultsProperty() {
+  void hasUnitTestResultsProperty() {
 
     Configuration config = mock(Configuration.class);
 
@@ -64,7 +64,7 @@ public class CxxUnitTestResultsAggregatorTest {
   }
 
   @Test
-  public void aggregate() {
+  void aggregate() {
     WildcardPatternFileProvider wildcardPatternFileProvider = mock(WildcardPatternFileProvider.class);
     var config = new MapSettings();
 

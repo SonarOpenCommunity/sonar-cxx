@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ValgrindErrorTest {
+class ValgrindErrorTest {
 
   private ValgrindError error;
   private ValgrindError equalError;
@@ -38,36 +38,36 @@ public class ValgrindErrorTest {
   }
 
   @Test
-  public void errorDoesntEqualsNull() {
+  void errorDoesntEqualsNull() {
     assertThat(error).isNotNull();
   }
 
   @Test
-  public void errorDoesntEqualsMiscObject() {
+  void errorDoesntEqualsMiscObject() {
     assertThat(error).isNotEqualTo("string");
   }
 
   @Test
-  public void errorEqualityIsReflexive() {
+  void errorEqualityIsReflexive() {
     assertThat(error).isEqualTo(error);
     assertThat(otherError).isEqualTo(otherError);
     assertThat(equalError).isEqualTo(equalError);
   }
 
   @Test
-  public void errorEqualityWorksAsExpected() {
+  void errorEqualityWorksAsExpected() {
     assertThat(error).isEqualTo(equalError);
     assertThat(error).isNotEqualTo(otherError);
   }
 
   @Test
-  public void errorHashWorksAsExpected() {
+  void errorHashWorksAsExpected() {
     assertThat(error).hasSameHashCodeAs(equalError);
     assertThat(error.hashCode()).isNotEqualTo(otherError.hashCode());
   }
 
   @Test
-  public void getKindWorks() {
+  void getKindWorks() {
     var KIND = "kind";
     assertThat(KIND).isEqualTo(new ValgrindError(KIND, "", Collections.singletonList(new ValgrindStack())).getKind());
   }

@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
 import org.sonar.cxx.sslr.internal.vm.Machine;
 
-public class TokenTypesExpressionTest {
+class TokenTypesExpressionTest {
 
   private final TokenType type1 = mock(TokenType.class);
   private final TokenType type2 = mock(TokenType.class);
@@ -42,13 +42,13 @@ public class TokenTypesExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression.toString()).startsWith("TokenTypes [Mock for TokenType, ");
   }
 
   @Test
-  public void should_match() {
+  void should_match() {
     var token = mock(Token.class);
     when(token.getType()).thenReturn(type1);
     when(machine.length()).thenReturn(1);
@@ -63,7 +63,7 @@ public class TokenTypesExpressionTest {
   }
 
   @Test
-  public void should_backtrack() {
+  void should_backtrack() {
     when(machine.length()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);
@@ -73,7 +73,7 @@ public class TokenTypesExpressionTest {
   }
 
   @Test
-  public void should_backtrack2() {
+  void should_backtrack2() {
     var token = mock(Token.class);
     when(token.getType()).thenReturn(mock(TokenType.class));
     when(machine.length()).thenReturn(1);

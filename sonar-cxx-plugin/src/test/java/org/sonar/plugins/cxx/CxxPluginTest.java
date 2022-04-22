@@ -28,10 +28,10 @@ import org.sonar.api.SonarRuntime;
 import org.sonar.api.internal.SonarRuntimeImpl;
 import org.sonar.api.utils.Version;
 
-public class CxxPluginTest {
+class CxxPluginTest {
 
   @Test
-  public void testGetExtensions() throws Exception {
+  void testGetExtensions() throws Exception {
     SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(
       Version.create(8, 6),
       SonarQubeSide.SCANNER,

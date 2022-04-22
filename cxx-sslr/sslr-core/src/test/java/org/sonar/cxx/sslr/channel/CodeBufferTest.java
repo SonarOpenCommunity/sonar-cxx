@@ -29,12 +29,12 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
-public class CodeBufferTest {
+class CodeBufferTest {
 
   private final CodeReaderConfiguration defaulConfiguration = new CodeReaderConfiguration();
 
   @Test
-  public void testPop() {
+  void testPop() {
     var code = new CodeBuffer("pa", defaulConfiguration);
     assertThat((char) code.pop()).isEqualTo('p');
     assertThat((char) code.pop()).isEqualTo('a');
@@ -42,7 +42,7 @@ public class CodeBufferTest {
   }
 
   @Test
-  public void testPeek() {
+  void testPeek() {
     var code = new CodeBuffer("pa", defaulConfiguration);
     assertThat((char) code.peek()).isEqualTo('p');
     assertThat((char) code.peek()).isEqualTo('p');
@@ -53,7 +53,7 @@ public class CodeBufferTest {
   }
 
   @Test
-  public void testLastCharacter() {
+  void testLastCharacter() {
     var reader = new CodeBuffer("bar", defaulConfiguration);
     assertThat(reader.lastChar()).isEqualTo(-1);
     reader.pop();
@@ -61,9 +61,9 @@ public class CodeBufferTest {
   }
 
   @Test
-  public void testGetColumnAndLinePosition() {
+  void testGetColumnAndLinePosition() {
     var reader = new CodeBuffer("pa\nc\r\ns\r\n\r\n", defaulConfiguration);
-    assertThat(reader.getColumnPosition()).isEqualTo(0);
+    assertThat(reader.getColumnPosition()).isZero();
     assertThat(reader.getLinePosition()).isEqualTo(1);
     reader.pop(); // p
     reader.pop(); // a
@@ -74,64 +74,64 @@ public class CodeBufferTest {
     assertThat(reader.getColumnPosition()).isEqualTo(2);
     assertThat(reader.getLinePosition()).isEqualTo(1);
     reader.pop(); // \n
-    assertThat(reader.getColumnPosition()).isEqualTo(0);
+    assertThat(reader.getColumnPosition()).isZero();
     assertThat(reader.getLinePosition()).isEqualTo(2);
     reader.pop(); // c
     assertThat(reader.getColumnPosition()).isEqualTo(1);
     assertThat(reader.getLinePosition()).isEqualTo(2);
     reader.pop(); // \r
     reader.pop(); // \n
-    assertThat(reader.getColumnPosition()).isEqualTo(0);
+    assertThat(reader.getColumnPosition()).isZero();
     assertThat(reader.getLinePosition()).isEqualTo(3);
     assertThat((char) reader.pop()).isEqualTo('s');
     reader.pop(); // \r
     assertThat(reader.getColumnPosition()).isEqualTo(2);
     assertThat(reader.getLinePosition()).isEqualTo(3);
     reader.pop(); // \n
-    assertThat(reader.getColumnPosition()).isEqualTo(0);
+    assertThat(reader.getColumnPosition()).isZero();
     assertThat(reader.getLinePosition()).isEqualTo(4);
     reader.pop(); // \r
     reader.pop(); // \n
-    assertThat(reader.getColumnPosition()).isEqualTo(0);
+    assertThat(reader.getColumnPosition()).isZero();
     assertThat(reader.getLinePosition()).isEqualTo(5);
   }
 
   @Test
-  public void testStartAndStopRecording() {
+  void testStartAndStopRecording() {
     var reader = new CodeBuffer("123456", defaulConfiguration);
     reader.pop();
-    assertThat(reader.stopRecording().toString()).isEqualTo("");
+    assertThat(reader.stopRecording()).hasToString("");
 
     reader.startRecording();
     reader.pop();
     reader.pop();
     reader.peek();
-    assertThat(reader.stopRecording().toString()).isEqualTo("23");
-    assertThat(reader.stopRecording().toString()).isEqualTo("");
+    assertThat(reader.stopRecording()).hasToString("23");
+    assertThat(reader.stopRecording()).hasToString("");
   }
 
   @Test
-  public void testCharAt() {
+  void testCharAt() {
     var reader = new CodeBuffer("123456", defaulConfiguration);
     assertThat(reader.charAt(0)).isEqualTo('1');
     assertThat(reader.charAt(5)).isEqualTo('6');
   }
 
   @Test
-  public void testCharAtIndexOutOfBoundsException() {
+  void testCharAtIndexOutOfBoundsException() {
     var reader = new CodeBuffer("12345", defaulConfiguration);
     assertThat(reader.charAt(5)).isEqualTo((char) -1);
   }
 
   @Test
-  public void testReadWithSpecificTabWidth() {
+  void testReadWithSpecificTabWidth() {
     var configuration = new CodeReaderConfiguration();
     configuration.setTabWidth(4);
     var reader = new CodeBuffer("pa\n\tc", configuration);
     assertThat(reader.charAt(2)).isEqualTo('\n');
     assertThat(reader.charAt(3)).isEqualTo('\t');
     assertThat(reader.charAt(4)).isEqualTo('c');
-    assertThat(reader.getColumnPosition()).isEqualTo(0);
+    assertThat(reader.getColumnPosition()).isZero();
     assertThat(reader.getLinePosition()).isEqualTo(1);
     reader.pop(); // p
     reader.pop(); // a
@@ -142,7 +142,7 @@ public class CodeBufferTest {
     assertThat(reader.getColumnPosition()).isEqualTo(2);
     assertThat(reader.getLinePosition()).isEqualTo(1);
     reader.pop(); // \n
-    assertThat(reader.getColumnPosition()).isEqualTo(0);
+    assertThat(reader.getColumnPosition()).isZero();
     assertThat(reader.getLinePosition()).isEqualTo(2);
     reader.pop(); // \t
     assertThat(reader.getColumnPosition()).isEqualTo(4);
@@ -153,7 +153,7 @@ public class CodeBufferTest {
   }
 
   @Test
-  public void testCodeReaderFilter() throws Exception {
+  void testCodeReaderFilter() throws Exception {
     var configuration = new CodeReaderConfiguration();
     configuration.setCodeReaderFilters(new ReplaceNumbersFilter());
     var code = new CodeBuffer("abcd12efgh34", configuration);
@@ -182,13 +182,13 @@ public class CodeBufferTest {
   }
 
   @Test
-  public void theLengthShouldBeTheSameThanTheStringLength() {
+  void theLengthShouldBeTheSameThanTheStringLength() {
     var myCode = "myCode";
     assertThat(new CodeBuffer(myCode, new CodeReaderConfiguration()).length()).isEqualTo(6);
   }
 
   @Test
-  public void theLengthShouldDecreaseEachTimeTheInputStreamIsConsumed() {
+  void theLengthShouldDecreaseEachTimeTheInputStreamIsConsumed() {
     var myCode = "myCode";
     var codeBuffer = new CodeBuffer(myCode, new CodeReaderConfiguration());
     codeBuffer.pop();
@@ -197,7 +197,7 @@ public class CodeBufferTest {
   }
 
   @Test
-  public void testSeveralCodeReaderFilter() throws Exception {
+  void testSeveralCodeReaderFilter() throws Exception {
     var configuration = new CodeReaderConfiguration();
     configuration.setCodeReaderFilters(new ReplaceNumbersFilter(), new ReplaceCharFilter());
     var code = new CodeBuffer("abcd12efgh34", configuration);

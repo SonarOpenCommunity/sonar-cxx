@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RuleMatcherTest {
+class RuleMatcherTest {
 
   private RuleDefinition javaClassDefinition;
   private Matcher opMatcher;
@@ -44,12 +44,12 @@ public class RuleMatcherTest {
   }
 
   @Test
-  public void getName() {
+  void getName() {
     assertThat(javaClassDefinition.getName()).isEqualTo("JavaClassDefinition");
   }
 
   @Test
-  public void getToString() {
+  void getToString() {
     assertThat(javaClassDefinition.getName()).isEqualTo("JavaClassDefinition");
   }
 

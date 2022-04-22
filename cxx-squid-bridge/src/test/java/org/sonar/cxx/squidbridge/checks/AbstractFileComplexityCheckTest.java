@@ -30,7 +30,7 @@ import org.sonar.cxx.squidbridge.measures.MetricDef;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 import org.sonar.cxx.squidbridge.test.miniC.MiniCAstScanner.MiniCMetrics;
 
-public class AbstractFileComplexityCheckTest {
+class AbstractFileComplexityCheckTest {
 
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
@@ -53,14 +53,14 @@ public class AbstractFileComplexityCheckTest {
   private final Check check = new Check();
 
   @Test
-  public void fileComplexityEqualsMaximum() {
+  void fileComplexityEqualsMaximum() {
     check.maximumFileComplexity = 5;
 
     checkMessagesVerifier.verify(scanFile("/checks/complexity5.mc", check).getCheckMessages());
   }
 
   @Test
-  public void fileComplexityGreaterMaximum() {
+  void fileComplexityGreaterMaximum() {
     check.maximumFileComplexity = 4;
 
     checkMessagesVerifier.verify(scanFile("/checks/complexity5.mc", check).getCheckMessages())
@@ -68,7 +68,7 @@ public class AbstractFileComplexityCheckTest {
   }
 
   @Test
-  public void wrong_parameter() {
+  void wrong_parameter() {
     check.maximumFileComplexity = 0;
     IllegalArgumentException thrown = catchThrowableOfType(() -> {
       scanFile("/checks/complexity5.mc", check);

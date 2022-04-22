@@ -28,10 +28,10 @@ import com.sonar.cxx.sslr.api.AstNodeType;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class AstNodeXPathQueryTest {
+class AstNodeXPathQueryTest {
 
   @Test
-  public void selectSingleNodeTest() {
+  void selectSingleNodeTest() {
     var expr = AstNodeXPathQuery.create("branch/leaf");
     var tree = new AstNode(new NodeType(), "tree", null);
     var branch = new AstNode(new NodeType(), "branch", null);
@@ -43,7 +43,7 @@ public class AstNodeXPathQueryTest {
   }
 
   @Test
-  public void selectSingleNodeNoResultTest() {
+  void selectSingleNodeNoResultTest() {
     var expr = AstNodeXPathQuery.create("branch");
     var tree = new AstNode(new NodeType(), "tree", null);
 
@@ -51,7 +51,7 @@ public class AstNodeXPathQueryTest {
   }
 
   @Test
-  public void selectNodesTest() {
+  void selectNodesTest() {
     var expr = AstNodeXPathQuery.create("//leaf");
     var tree = new AstNode(new NodeType(), "tree", null);
     var branch = new AstNode(new NodeType(), "branch", null);
@@ -61,19 +61,19 @@ public class AstNodeXPathQueryTest {
     branch.addChild(leaf1);
     branch.addChild(leaf2);
 
-    assertThat(expr.selectNodes(tree).size()).isEqualTo(2);
+    assertThat(expr.selectNodes(tree)).hasSize(2);
   }
 
   @Test
-  public void selectNodesNoResultTest() {
+  void selectNodesNoResultTest() {
     var expr = AstNodeXPathQuery.create("//branch");
     var tree = new AstNode(new NodeType(), "tree", null);
 
-    assertThat(expr.selectNodes(tree).size()).isEqualTo(0);
+    assertThat(expr.selectNodes(tree)).isEmpty();
   }
 
   @Test
-  public void relativePathTest() {
+  void relativePathTest() {
     var expr = AstNodeXPathQuery.create("leaf");
     var tree = new AstNode(new NodeType(), "tree", null);
     var branch = new AstNode(new NodeType(), "branch", null);
@@ -86,7 +86,7 @@ public class AstNodeXPathQueryTest {
   }
 
   @Test
-  public void parentPathTest() {
+  void parentPathTest() {
     var expr = AstNodeXPathQuery.create("..");
     var tree = new AstNode(new NodeType(), "tree", null);
     var branch = new AstNode(new NodeType(), "branch", null);
@@ -99,7 +99,7 @@ public class AstNodeXPathQueryTest {
   }
 
   @Test
-  public void parentAndDescendingPathTest() {
+  void parentAndDescendingPathTest() {
     var expr = AstNodeXPathQuery.create("../branch2");
     var tree = new AstNode(new NodeType(), "tree", null);
 
@@ -117,7 +117,7 @@ public class AstNodeXPathQueryTest {
   }
 
   @Test
-  public void absolutePathTest() {
+  void absolutePathTest() {
     var expr = AstNodeXPathQuery.create("/tree");
     var tree = new AstNode(new NodeType(), "tree", null);
     var branch = new AstNode(new NodeType(), "branch", null);
@@ -130,7 +130,7 @@ public class AstNodeXPathQueryTest {
   }
 
   @Test
-  public void currentPathTest() {
+  void currentPathTest() {
     var expr = AstNodeXPathQuery.create(".");
     var tree = new AstNode(new NodeType(), "tree", null);
     var branch = new AstNode(new NodeType(), "branch", null);
@@ -143,7 +143,7 @@ public class AstNodeXPathQueryTest {
   }
 
   @Test
-  public void currentPathWithDescendantTest() {
+  void currentPathWithDescendantTest() {
     var expr = AstNodeXPathQuery.create("./leaf");
     var tree = new AstNode(new NodeType(), "tree", null);
     var branch = new AstNode(new NodeType(), "branch", null);
@@ -156,7 +156,7 @@ public class AstNodeXPathQueryTest {
   }
 
   @Test
-  public void singleDocumentRoot() {
+  void singleDocumentRoot() {
     var expr = AstNodeXPathQuery.create("//tree");
     var tree = new AstNode(new NodeType(), "tree", null);
     var branch = new AstNode(new NodeType(), "branch", null);
@@ -165,11 +165,11 @@ public class AstNodeXPathQueryTest {
     tree.addChild(branch);
     branch.addChild(leaf);
 
-    assertThat(expr.selectNodes(tree).size()).isEqualTo(1);
+    assertThat(expr.selectNodes(tree)).hasSize(1);
   }
 
   @Test
-  public void relativeNamePredicate() {
+  void relativeNamePredicate() {
     var expr = AstNodeXPathQuery.create(".[name() = \"tree\"]");
     var tree = new AstNode(new NodeType(), "tree", null);
 
@@ -177,7 +177,7 @@ public class AstNodeXPathQueryTest {
   }
 
   @Test
-  public void relativeCountPredicate() {
+  void relativeCountPredicate() {
     var expr = AstNodeXPathQuery.create(".[count(*) = 3]");
     var tree = new AstNode(new NodeType(), "tree", null);
 
@@ -193,7 +193,7 @@ public class AstNodeXPathQueryTest {
   }
 
   @Test
-  public void noCacheTest() {
+  void noCacheTest() {
     var expr = AstNodeXPathQuery.create("//branch");
 
     var tree1 = new AstNode(new NodeType(), "tree", null);
@@ -204,13 +204,13 @@ public class AstNodeXPathQueryTest {
     tree1.addChild(branch12);
     tree1.addChild(branch13);
 
-    assertThat(expr.selectNodes(tree1).size()).isEqualTo(3);
+    assertThat(expr.selectNodes(tree1)).hasSize(3);
 
     var tree2 = new AstNode(new NodeType(), "tree", null);
     var branch21 = new AstNode(new NodeType(), "branch", null);
     tree2.addChild(branch21);
 
-    assertThat(expr.selectNodes(tree2).size()).isEqualTo(1);
+    assertThat(expr.selectNodes(tree2)).hasSize(1);
   }
 
   static class NodeType implements AstNodeType {

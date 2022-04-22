@@ -28,10 +28,10 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 
-public class ParseRunnerTest {
+class ParseRunnerTest {
 
   @Test
-  public void should_not_accept_null() {
+  void should_not_accept_null() {
     var thrown = catchThrowableOfType(
       () -> new ParseRunner(null),
       NullPointerException.class);
@@ -39,7 +39,7 @@ public class ParseRunnerTest {
   }
 
   @Test
-  public void should_report_error_at_rule_level() {
+  void should_report_error_at_rule_level() {
     var rule = new MutableParsingRule("rule").is("foo", "bar");
     var runner = new ParseRunner(rule);
     var result = runner.parse("foo".toCharArray());
@@ -50,7 +50,7 @@ public class ParseRunnerTest {
   }
 
   @Test
-  public void should_report_error_at_end_of_input() {
+  void should_report_error_at_end_of_input() {
     var endOfInput = new MutableParsingRule("endOfInput").is(GrammarOperators.endOfInput());
     var rule = new MutableParsingRule("rule").is("foo", endOfInput);
     var runner = new ParseRunner(rule);
@@ -62,7 +62,7 @@ public class ParseRunnerTest {
   }
 
   @Test
-  public void should_not_report_error_inside_of_predicate_not() {
+  void should_not_report_error_inside_of_predicate_not() {
     var subRule = new MutableParsingRule("subRule").is("foo");
     var rule = new MutableParsingRule("rule").is(GrammarOperators.nextNot(subRule), "bar");
     var runner = new ParseRunner(rule);
@@ -70,22 +70,22 @@ public class ParseRunnerTest {
     assertThat(result.isMatched()).isFalse();
     var parseError = result.getParseError();
     System.out.println(new ParseErrorFormatter().format(parseError));
-    assertThat(parseError.getErrorIndex()).isEqualTo(0);
+    assertThat(parseError.getErrorIndex()).isZero();
   }
 
   @Test
-  public void should_report_error_at_correct_index() {
+  void should_report_error_at_correct_index() {
     var rule = new MutableParsingRule("rule").is(GrammarOperators.nextNot("foo"));
     var runner = new ParseRunner(rule);
     var result = runner.parse("foo".toCharArray());
     assertThat(result.isMatched()).isFalse();
     var parseError = result.getParseError();
     System.out.println(new ParseErrorFormatter().format(parseError));
-    assertThat(parseError.getErrorIndex()).isEqualTo(0);
+    assertThat(parseError.getErrorIndex()).isZero();
   }
 
   @Test
-  public void should_report_error_inside_of_predicate_next() {
+  void should_report_error_inside_of_predicate_next() {
     var subRule = new MutableParsingRule("subRule").is("foo");
     var rule = new MutableParsingRule("rule").is(GrammarOperators.next(subRule), "bar");
     var runner = new ParseRunner(rule);
@@ -93,11 +93,11 @@ public class ParseRunnerTest {
     assertThat(result.isMatched()).isFalse();
     var parseError = result.getParseError();
     System.out.println(new ParseErrorFormatter().format(parseError));
-    assertThat(parseError.getErrorIndex()).isEqualTo(0);
+    assertThat(parseError.getErrorIndex()).isZero();
   }
 
   @Test
-  public void should_not_report_error_inside_of_token() {
+  void should_not_report_error_inside_of_token() {
     var subRule = new MutableParsingRule("subRule").is("foo");
     var rule = new MutableParsingRule("rule").is(GrammarOperators.token(GenericTokenType.IDENTIFIER, subRule), "bar");
     var runner = new ParseRunner(rule);
@@ -105,11 +105,11 @@ public class ParseRunnerTest {
     assertThat(result.isMatched()).isFalse();
     var parseError = result.getParseError();
     System.out.println(new ParseErrorFormatter().format(parseError));
-    assertThat(parseError.getErrorIndex()).isEqualTo(0);
+    assertThat(parseError.getErrorIndex()).isZero();
   }
 
   @Test
-  public void should_not_report_error_inside_of_trivia() {
+  void should_not_report_error_inside_of_trivia() {
     var subRule = new MutableParsingRule("subRule").is("foo");
     var rule = new MutableParsingRule("rule").is(GrammarOperators.skippedTrivia(subRule), "bar");
     var runner = new ParseRunner(rule);
@@ -117,11 +117,11 @@ public class ParseRunnerTest {
     assertThat(result.isMatched()).isFalse();
     var parseError = result.getParseError();
     System.out.println(new ParseErrorFormatter().format(parseError));
-    assertThat(parseError.getErrorIndex()).isEqualTo(0);
+    assertThat(parseError.getErrorIndex()).isZero();
   }
 
   @Test
-  public void should_report_error_at_several_paths() {
+  void should_report_error_at_several_paths() {
     var subRule1 = new MutableParsingRule("subRule1").is("foo");
     var subRule2 = new MutableParsingRule("subRule2").is("bar");
     var rule = new MutableParsingRule("rule").is(GrammarOperators.firstOf(subRule1, subRule2));
@@ -130,7 +130,7 @@ public class ParseRunnerTest {
     assertThat(result.isMatched()).isFalse();
     var parseError = result.getParseError();
     System.out.println(new ParseErrorFormatter().format(parseError));
-    assertThat(parseError.getErrorIndex()).isEqualTo(0);
+    assertThat(parseError.getErrorIndex()).isZero();
   }
 
 }

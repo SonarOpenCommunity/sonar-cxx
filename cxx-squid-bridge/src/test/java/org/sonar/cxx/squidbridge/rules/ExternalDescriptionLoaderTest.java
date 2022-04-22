@@ -30,7 +30,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
 import org.sonar.api.server.rule.RulesDefinition.Repository;
 
-public class ExternalDescriptionLoaderTest {
+class ExternalDescriptionLoaderTest {
 
   private static final String REPO_KEY = "repoKey";
   private static final String LANGUAGE_KEY = "languageKey";
@@ -39,21 +39,21 @@ public class ExternalDescriptionLoaderTest {
   private final NewRepository repository = context.createRepository(REPO_KEY, LANGUAGE_KEY);
 
   @Test
-  public void existing_rule_description() throws Exception {
+  void existing_rule_description() throws Exception {
     repository.createRule("ruleWithExternalInfo").setName("name1");
     var rule = buildRepository().rule("ruleWithExternalInfo");
     assertThat(rule.htmlDescription()).isEqualTo("description for ruleWithExternalInfo");
   }
 
   @Test
-  public void rule_with_non_external_description() throws Exception {
+  void rule_with_non_external_description() throws Exception {
     repository.createRule("ruleWithoutExternalInfo").setName("name1").setHtmlDescription("my description");
     var rule = buildRepository().rule("ruleWithoutExternalInfo");
     assertThat(rule.htmlDescription()).isEqualTo("my description");
   }
 
   @Test
-  public void rule_without_description() {
+  void rule_without_description() {
     IllegalStateException thrown = catchThrowableOfType(() -> {
       repository.createRule("ruleWithoutExternalInfo").setName("name1");
       buildRepository().rule("ruleWithoutExternalInfo");
@@ -62,7 +62,7 @@ public class ExternalDescriptionLoaderTest {
   }
 
   @Test
-  public void invalid_url() {
+  void invalid_url() {
     IllegalStateException thrown = catchThrowableOfType(() -> {
       var loader = new ExternalDescriptionLoader(repository, LANGUAGE_KEY);
       var rule = repository.createRule("ruleWithoutExternalInfo").setName("name1");

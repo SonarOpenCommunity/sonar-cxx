@@ -26,10 +26,10 @@ import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
-public class CxxCompilerGccRuleRepositoryTest {
+class CxxCompilerGccRuleRepositoryTest {
 
   @Test
-  public void createGccRulesTest() {
+  void createGccRulesTest() {
     var def = new CxxCompilerGccRuleRepository(
       mock(ServerFileSystem.class),
       new RulesDefinitionXmlLoader());

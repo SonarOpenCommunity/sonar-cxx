@@ -24,10 +24,10 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
 
-public class CxxSonarWayProfileTest {
+class CxxSonarWayProfileTest {
 
   @Test
-  public void should_create_sonar_way_profile() {
+  void should_create_sonar_way_profile() {
     var profileDef = new CxxSonarWayProfile();
     var context = new BuiltInQualityProfilesDefinition.Context();
     profileDef.define(context);

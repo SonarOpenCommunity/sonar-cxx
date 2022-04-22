@@ -28,22 +28,22 @@ import java.util.regex.Pattern;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class CodeReaderTest {
+class CodeReaderTest {
 
   @Test
-  public void testPopWithAppendable() {
+  void testPopWithAppendable() {
     var reader = new CodeReader("package org.sonar;");
 
     var sw = new StringBuilder();
     reader.pop(sw);
-    assertThat(sw.toString()).isEqualTo("p");
+    assertThat(sw).hasToString("p");
     reader.pop(sw);
-    assertThat(sw.toString()).isEqualTo("pa");
+    assertThat(sw).hasToString("pa");
 
   }
 
   @Test
-  public void testPeekACharArray() {
+  void testPeekACharArray() {
     var reader = new CodeReader(new StringReader("bar"));
     var chars = reader.peek(2);
     assertThat(chars.length).isEqualTo(2);
@@ -52,31 +52,31 @@ public class CodeReaderTest {
   }
 
   @Test
-  public void testPeekTo() {
+  void testPeekTo() {
     var reader = new CodeReader(new StringReader("package org.sonar;"));
     var result = new StringBuilder();
     reader.peekTo((int endFlag) -> 'r' == (char) endFlag, result);
-    assertThat(result.toString()).isEqualTo("package o");
+    assertThat(result).hasToString("package o");
     assertThat(reader.peek()).isEqualTo((int) 'p'); // never called pop()
   }
 
   @Test
-  public void peekTo_should_stop_at_end_of_input() {
+  void peekTo_should_stop_at_end_of_input() {
     var reader = new CodeReader("foo");
     var result = new StringBuilder();
     reader.peekTo(i -> false, result);
-    assertThat(result.toString()).isEqualTo("foo");
+    assertThat(result).hasToString("foo");
   }
 
   @Test
-  public void testPopToWithRegex() {
+  void testPopToWithRegex() {
     var reader = new CodeReader(new StringReader("123ABC"));
     var token = new StringBuilder();
     assertThat(reader.popTo(Pattern.compile("\\d+").matcher(new String()), token)).isEqualTo(3);
-    assertThat(token.toString()).isEqualTo("123");
+    assertThat(token).hasToString("123");
     assertThat(reader.popTo(Pattern.compile("\\d+").matcher(new String()), token)).isEqualTo(-1);
     assertThat(reader.popTo(Pattern.compile("\\w+").matcher(new String()), token)).isEqualTo(3);
-    assertThat(token.toString()).isEqualTo("123ABC");
+    assertThat(token).hasToString("123ABC");
     assertThat(reader.popTo(Pattern.compile("\\w+").matcher(new String()), token)).isEqualTo(-1);
 
     // Should reset matcher with empty string:
@@ -91,7 +91,7 @@ public class CodeReaderTest {
   }
 
   @Test
-  public void testStackOverflowError() {
+  void testStackOverflowError() {
     var sb = new StringBuilder();
     sb.append("\n");
     for (int i = 0; i < 10000; i++) {
@@ -111,13 +111,13 @@ public class CodeReaderTest {
   }
 
   @Test
-  public void testPopToWithRegexAndFollowingMatcher() {
+  void testPopToWithRegexAndFollowingMatcher() {
     var digitMatcher = Pattern.compile("\\d+").matcher(new String());
     var alphabeticMatcher = Pattern.compile("[a-zA-Z]").matcher(new String());
     var token = new StringBuilder();
     assertThat(new CodeReader(new StringReader("123 ABC")).popTo(digitMatcher, alphabeticMatcher, token)).isEqualTo(-1);
-    assertThat(token.toString()).isEqualTo("");
+    assertThat(token).hasToString("");
     assertThat(new CodeReader(new StringReader("123ABC")).popTo(digitMatcher, alphabeticMatcher, token)).isEqualTo(3);
-    assertThat(token.toString()).isEqualTo("123");
+    assertThat(token).hasToString("123");
   }
 }

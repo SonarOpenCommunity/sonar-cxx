@@ -28,10 +28,10 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 
-public class CxxFunctionComplexityVisitorTest {
+class CxxFunctionComplexityVisitorTest {
 
   @Test
-  public void testPublishMeasuresForFile() throws IOException {
+  void testPublishMeasuresForFile() throws IOException {
 
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.FUNCTION_COMPLEXITY_THRESHOLD,
@@ -47,7 +47,7 @@ public class CxxFunctionComplexityVisitorTest {
   }
 
   @Test
-  public void testPublishMeasuresForEmptyFile() throws IOException {
+  void testPublishMeasuresForEmptyFile() throws IOException {
 
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/EmptyFile.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());

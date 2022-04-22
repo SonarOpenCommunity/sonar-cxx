@@ -31,7 +31,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxCppCheckSensorTest {
+class CxxCppCheckSensorTest {
 
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
@@ -43,7 +43,7 @@ public class CxxCppCheckSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectViolations() {
+  void shouldReportCorrectViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-*.xml");
     context.setSettings(settings);
@@ -60,7 +60,7 @@ public class CxxCppCheckSensorTest {
   }
 
   @Test
-  public void shouldReportProjectLevelViolationsV2() {
+  void shouldReportProjectLevelViolationsV2() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
                          "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
@@ -81,7 +81,7 @@ public class CxxCppCheckSensorTest {
   }
 
   @Test
-  public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
+  void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
     context.setSettings(settings);
@@ -93,7 +93,7 @@ public class CxxCppCheckSensorTest {
   }
 
   @Test
-  public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV2() {
+  void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV2() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
     context.setSettings(settings);
@@ -105,7 +105,7 @@ public class CxxCppCheckSensorTest {
   }
 
   @Test
-  public void shouldThrowExceptionWhenRecoveryIsDisabled() {
+  void shouldThrowExceptionWhenRecoveryIsDisabled() {
     IllegalStateException thrown = catchThrowableOfType(() -> {
       var context = SensorContextTester.create(fs.baseDir());
       settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
@@ -119,7 +119,7 @@ public class CxxCppCheckSensorTest {
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxCppCheckSensor();
     sensor.describe(descriptor);

@@ -26,17 +26,17 @@ import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
-public class CxxClangTidyRuleRepositoryTest {
+class CxxClangTidyRuleRepositoryTest {
 
   @Test
-  public void createRulesTest() {
+  void createRulesTest() {
     var def = new CxxClangTidyRuleRepository(mock(ServerFileSystem.class), new RulesDefinitionXmlLoader());
 
     var context = new RulesDefinition.Context();
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxClangTidyRuleRepository.KEY);
-    assertThat(repo.rules().size()).isEqualTo(1340);
+    assertThat(repo.rules()).hasSize(1340);
   }
 
 }

@@ -23,10 +23,10 @@ import com.google.gson.Gson;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class InferParserTest {
+class InferParserTest {
 
   @Test
-  public void shouldParseImportantInformation() {
+  void shouldParseImportantInformation() {
     var expected = new InferParser.InferIssue();
     expected.setBugType("TotoType");
     expected.setFile("path/to/toto.c");
@@ -38,7 +38,7 @@ public class InferParserTest {
     var gson = new Gson();
     InferParser.InferIssue value = gson.fromJson(json, InferParser.InferIssue.class);
 
-    assertThat(value.toString()).isEqualTo(expected.toString());
+    assertThat(value).hasToString(expected.toString());
   }
 
 }

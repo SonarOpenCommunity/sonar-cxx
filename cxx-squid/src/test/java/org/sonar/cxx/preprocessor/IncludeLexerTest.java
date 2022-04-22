@@ -28,12 +28,12 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.parser.CxxTokenType;
 
-public class IncludeLexerTest {
+class IncludeLexerTest {
 
   private final static Lexer LEXER = IncludeLexer.create();
 
   @Test
-  public void proper_preprocessor_directives_are_created() {
+  void proper_preprocessor_directives_are_created() {
     assertThat(hasToken("#include <iostream>", CxxTokenType.PREPROCESSOR)
       .matches(LEXER.lex("#include <iostream>"))).isTrue();
     assertThat(hasToken("#define lala", CxxTokenType.PREPROCESSOR)
@@ -43,7 +43,7 @@ public class IncludeLexerTest {
   }
 
   @Test
-  public void continued_lines_are_handled_correctly() {
+  void continued_lines_are_handled_correctly() {
     List<Token> tokens = LEXER.lex("#define\\\nname");
     assertThat(hasToken("#define name", CxxTokenType.PREPROCESSOR)
       .matches(tokens)).isTrue();
@@ -51,7 +51,7 @@ public class IncludeLexerTest {
   }
 
   @Test
-  public void multiline_comment_with_Include_is_swallowed() {
+  void multiline_comment_with_Include_is_swallowed() {
     List<Token> tokens = LEXER.lex("/* This is a multiline comment\n   #include should be swallowed\n */");
     assertThat(tokens).hasSize(1);
     assertThat(hasToken("EOF", EOF)
@@ -59,7 +59,7 @@ public class IncludeLexerTest {
   }
 
   @Test
-  public void singleline_comment_with_Include_is_swallowed() {
+  void singleline_comment_with_Include_is_swallowed() {
     List<Token> tokens = LEXER.lex("// #include should be swallowed\n");
     assertThat(tokens).hasSize(1);
     assertThat(hasToken("EOF", EOF)
@@ -67,7 +67,7 @@ public class IncludeLexerTest {
   }
 
   @Test
-  public void all_but_preprocessor_stuff_is_swallowed() {
+  void all_but_preprocessor_stuff_is_swallowed() {
     // all the other stuff should be consumed by the lexer without
     // generating any tokens
     List<Token> tokens = LEXER.lex("void foo();");

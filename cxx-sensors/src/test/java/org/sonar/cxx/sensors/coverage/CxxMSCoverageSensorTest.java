@@ -31,7 +31,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.coverage.vs.CxxCoverageVisualStudioSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxMSCoverageSensorTest {
+class CxxMSCoverageSensorTest {
 
   private DefaultFileSystem fs;
   private SensorContextTester context;
@@ -43,7 +43,7 @@ public class CxxMSCoverageSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectCoverage() {
+  void shouldReportCorrectCoverage() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageVisualStudioSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/MSCoverage.xml");
     context.setSettings(settings);
@@ -72,7 +72,7 @@ public class CxxMSCoverageSensorTest {
   }
 
   @Test
-  public void shouldReportCoverageWhenVisualStudioCase() {
+  void shouldReportCoverageWhenVisualStudioCase() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageVisualStudioSensor.REPORT_PATH_KEY,
                          "coverage-reports/MSCoverage/coverage-result-visual-studio.xml");
@@ -109,7 +109,7 @@ public class CxxMSCoverageSensorTest {
   }
 
   @Test
-  public void shouldReadFaultyReportAndNotCrash() {
+  void shouldReadFaultyReportAndNotCrash() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageVisualStudioSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/faulty.xml");
     context.setSettings(settings);
@@ -128,7 +128,7 @@ public class CxxMSCoverageSensorTest {
   }
 
   @Test
-  public void shouldConsumeEmptyReport() {
+  void shouldConsumeEmptyReport() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageVisualStudioSensor.REPORT_PATH_KEY, "coverage-reports/MSCoverage/empty-report.xml");
     context.setSettings(settings);
@@ -145,7 +145,7 @@ public class CxxMSCoverageSensorTest {
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     context = SensorContextTester.create(fs.baseDir());
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxCoverageVisualStudioSensor();

@@ -40,10 +40,10 @@ import org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder;
 import org.sonar.cxx.sslr.internal.vm.PatternExpression;
 import org.sonar.cxx.sslr.internal.vm.TriviaExpression;
 
-public class ActionParserTest {
+class ActionParserTest {
 
   @Test
-  public void not_matching() throws Exception {
+  void not_matching() throws Exception {
     var thrown = catchThrowableOfType(
       () -> parse(MyGrammarKeys.NUMERIC, "x"),
       RecognitionException.class);
@@ -51,43 +51,43 @@ public class ActionParserTest {
   }
 
   @Test
-  public void basic() throws Exception {
-    assertThat(parse(MyGrammarKeys.NUMERIC, "42", Numeric.class).toString()).isEqualTo("42");
+  void basic() throws Exception {
+    assertThat(parse(MyGrammarKeys.NUMERIC, "42", Numeric.class)).hasToString("42");
   }
 
   @Test
-  public void firstOf() throws Exception {
-    assertThat(parse(MyGrammarKeys.OPERATOR, "+", Operator.class).toString()).isEqualTo("+");
-    assertThat(parse(MyGrammarKeys.OPERATOR, "-", Operator.class).toString()).isEqualTo("-");
+  void firstOf() throws Exception {
+    assertThat(parse(MyGrammarKeys.OPERATOR, "+", Operator.class)).hasToString("+");
+    assertThat(parse(MyGrammarKeys.OPERATOR, "-", Operator.class)).hasToString("-");
     assertNotParse(MyGrammarKeys.OPERATOR, "x");
   }
 
   @Test
-  public void optional() throws Exception {
-    assertThat(parse(MyGrammarKeys.UNARY_EXP, "42", UnaryExp.class).toString()).isEqualTo("42");
-    assertThat(parse(MyGrammarKeys.UNARY_EXP, "+42", UnaryExp.class).toString()).isEqualTo("+ 42");
+  void optional() throws Exception {
+    assertThat(parse(MyGrammarKeys.UNARY_EXP, "42", UnaryExp.class)).hasToString("42");
+    assertThat(parse(MyGrammarKeys.UNARY_EXP, "+42", UnaryExp.class)).hasToString("+ 42");
   }
 
   @Test
-  public void oneOrMore() throws Exception {
-    assertThat(parse(MyGrammarKeys.NUMERIC_LIST, "42 7", NumericList.class).toString()).isEqualTo("[42, 7]");
+  void oneOrMore() throws Exception {
+    assertThat(parse(MyGrammarKeys.NUMERIC_LIST, "42 7", NumericList.class)).hasToString("[42, 7]");
     assertNotParse(MyGrammarKeys.NUMERIC_LIST, "");
   }
 
   @Test
-  public void zeroOrMore() throws Exception {
-    assertThat(parse(MyGrammarKeys.POTENTIALLY_EMPTY_NUMERIC_LIST, "42 7", NumericList.class).toString()).isEqualTo(
+  void zeroOrMore() throws Exception {
+    assertThat(parse(MyGrammarKeys.POTENTIALLY_EMPTY_NUMERIC_LIST, "42 7", NumericList.class)).hasToString(
       "[42, 7]");
-    assertThat(parse(MyGrammarKeys.POTENTIALLY_EMPTY_NUMERIC_LIST, "", NumericList.class).toString()).isEqualTo("[]");
+    assertThat(parse(MyGrammarKeys.POTENTIALLY_EMPTY_NUMERIC_LIST, "", NumericList.class)).hasToString("[]");
   }
 
   @Test
-  public void skipped_astnode() throws Exception {
-    assertThat(parse(MyGrammarKeys.NUMERIC_WITH_EOF, "42", Numeric.class).toString()).isEqualTo("42");
+  void skipped_astnode() throws Exception {
+    assertThat(parse(MyGrammarKeys.NUMERIC_WITH_EOF, "42", Numeric.class)).hasToString("42");
   }
 
   @Test
-  public void undefined_token_type() throws Exception {
+  void undefined_token_type() throws Exception {
     var numeric = parse(MyGrammarKeys.NUMERIC, "42", Numeric.class);
     var type = numeric.getFirstChild().getToken().getType();
     assertThat(type.hasToBeSkippedFromAst(null)).isFalse();
@@ -96,7 +96,7 @@ public class ActionParserTest {
   }
 
   @Test
-  public void comment() throws Exception {
+  void comment() throws Exception {
     var numeric = parse(MyGrammarKeys.NUMERIC, "/* myComment */42", Numeric.class);
     var trivia = numeric.getFirstChild().getToken().getTrivia().get(0);
     assertThat(trivia.isComment()).isTrue();
@@ -104,31 +104,31 @@ public class ActionParserTest {
   }
 
   @Test
-  public void skipped_text() throws Exception {
-    assertThat(parse(MyGrammarKeys.NUMERIC, "  42", Numeric.class).toString()).isEqualTo("42");
+  void skipped_text() throws Exception {
+    assertThat(parse(MyGrammarKeys.NUMERIC, "  42", Numeric.class)).hasToString("42");
   }
 
   @Test
-  public void unknown_trivia() throws Exception {
+  void unknown_trivia() throws Exception {
     var thrown = catchThrowableOfType(() -> parse(MyGrammarKeys.NUMERIC, "#preprocessor 42",
                                               Numeric.class), IllegalStateException.class);
     assertThat(thrown).hasMessage("Unexpected trivia kind: PREPROCESSOR");
   }
 
   @Test
-  public void rootRule() throws Exception {
+  void rootRule() throws Exception {
     assertThat(parser(MyGrammarKeys.OPERATOR).rootRule()).isEqualTo(MyGrammarKeys.OPERATOR);
   }
 
   @Test
-  public void parse_file() throws Exception {
+  void parse_file() throws Exception {
     var parser = parser(MyGrammarKeys.UNARY_EXP);
     var node = parser.parse(new File("src/test/resources/typed/42.txt"));
     assertThat(node).isInstanceOf(UnaryExp.class);
   }
 
   @Test
-  public void unknown_file() throws Exception {
+  void unknown_file() throws Exception {
     var parser = parser(MyGrammarKeys.NUMERIC);
     try {
       parser.parse(new File("unknown"));
@@ -139,9 +139,9 @@ public class ActionParserTest {
   }
 
   @Test
-  public void more_than_one_call_to_the_same_action_method() throws Exception {
-    assertThat(parse(MyGrammarKeys.NUMERIC, "42", Numeric.class).toString()).isEqualTo("42");
-    assertThat(parse(MyGrammarKeys.NUMERIC2, "42", Numeric.class).toString()).isEqualTo("42");
+  void more_than_one_call_to_the_same_action_method() throws Exception {
+    assertThat(parse(MyGrammarKeys.NUMERIC, "42", Numeric.class)).hasToString("42");
+    assertThat(parse(MyGrammarKeys.NUMERIC2, "42", Numeric.class)).hasToString("42");
   }
 
   @SuppressWarnings("unchecked")

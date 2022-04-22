@@ -31,7 +31,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxXunitSensorTest {
+class CxxXunitSensorTest {
 
   private FileSystem fs;
   private final MapSettings settings = new MapSettings();
@@ -43,7 +43,7 @@ public class CxxXunitSensorTest {
   }
 
   @Test
-  public void shouldReportNothingWhenNoReportFound() {
+  void shouldReportNothingWhenNoReportFound() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
     context.setSettings(settings);
@@ -55,7 +55,7 @@ public class CxxXunitSensorTest {
   }
 
   @Test
-  public void shouldReadXunitReport() {
+  void shouldReadXunitReport() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/xunit-result-SAMPLE_with_fileName.xml");
     context.setSettings(settings);
@@ -75,7 +75,7 @@ public class CxxXunitSensorTest {
   }
 
   @Test
-  public void shouldThrowWhenGivenInvalidTime() {
+  void shouldThrowWhenGivenInvalidTime() {
     IllegalStateException thrown = catchThrowableOfType(() -> {
       var context = SensorContextTester.create(fs.baseDir());
       settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
@@ -88,7 +88,7 @@ public class CxxXunitSensorTest {
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxXunitSensor();
     sensor.describe(descriptor);

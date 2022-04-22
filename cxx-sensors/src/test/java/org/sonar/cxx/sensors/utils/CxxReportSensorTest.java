@@ -28,7 +28,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 
-public class CxxReportSensorTest {
+class CxxReportSensorTest {
 
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
   private final String VALID_REPORT_PATH_LIST = "cppcheck-reports/*empty.xml, cppcheck-reports/*V2.xml";
@@ -49,13 +49,13 @@ public class CxxReportSensorTest {
   }
 
   @Test
-  public void shouldntThrowWhenInstantiating() {
+  void shouldntThrowWhenInstantiating() {
     var sensor = new CxxReportSensorImpl(settings);
     assertThat(sensor).isNotNull();
   }
 
   @Test
-  public void getReports_shouldFindNothingIfNoKey() {
+  void getReports_shouldFindNothingIfNoKey() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
 
     var context = SensorContextTester.create(baseDir);
@@ -65,7 +65,7 @@ public class CxxReportSensorTest {
   }
 
   @Test
-  public void getReports_shouldFindNothingIfNoPath() {
+  void getReports_shouldFindNothingIfNoPath() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, "");
     var context = SensorContextTester.create(baseDir);
     context.setSettings(settings);
@@ -74,7 +74,7 @@ public class CxxReportSensorTest {
   }
 
   @Test
-  public void getReports_shouldFindNothingIfInvalidPath() {
+  void getReports_shouldFindNothingIfInvalidPath() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
     var context = SensorContextTester.create(baseDir);
     context.setSettings(settings);
@@ -83,7 +83,7 @@ public class CxxReportSensorTest {
   }
 
   @Test
-  public void getReports_shouldFindSomething() {
+  void getReports_shouldFindSomething() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     var context = SensorContextTester.create(baseDir);
     context.setSettings(settings);
@@ -95,7 +95,7 @@ public class CxxReportSensorTest {
   }
 
   @Test
-  public void getReports_shouldFindSomethingList() {
+  void getReports_shouldFindSomethingList() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH_LIST);
     var context = SensorContextTester.create(baseDir);
     context.setSettings(settings);

@@ -24,10 +24,10 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 
-public class CxxPunctuatorTest {
+class CxxPunctuatorTest {
 
   @Test
-  public void test() {
+  void test() {
     var softly = new SoftAssertions();
     softly.assertThat(CxxPunctuator.values()).hasSize(50);
 

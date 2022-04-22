@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ParserAssertTest {
+class ParserAssertTest {
 
   private Rule rule;
   private Parser parser;
@@ -58,7 +58,7 @@ public class ParserAssertTest {
   }
 
   @Test
-  public void ok() {
+  void ok() {
     new ParserAssert(parser)
       .matches("foo")
       .notMatches("bar")
@@ -66,7 +66,7 @@ public class ParserAssertTest {
   }
 
   @Test
-  public void test_matches_failure() {
+  void test_matches_failure() {
     var thrown = catchThrowableOfType(
       () -> new ParserAssert(parser).matches("bar"),
       ParsingResultComparisonFailure.class
@@ -75,7 +75,7 @@ public class ParserAssertTest {
   }
 
   @Test
-  public void test2_matches_failure() {
+  void test2_matches_failure() {
     var thrown = catchThrowableOfType(
       () -> new ParserAssert(parser).matches("foo bar"),
       ParsingResultComparisonFailure.class);
@@ -83,7 +83,7 @@ public class ParserAssertTest {
   }
 
   @Test
-  public void test_notMatches_failure() {
+  void test_notMatches_failure() {
     var thrown = catchThrowableOfType(
       () -> new ParserAssert(parser).notMatches("foo"),
       AssertionError.class);
@@ -91,7 +91,7 @@ public class ParserAssertTest {
   }
 
   @Test
-  public void test_notMatches_failure2() {
+  void test_notMatches_failure2() {
     rule.override("foo", GenericTokenType.EOF);
     var thrown = catchThrowableOfType(
       () -> new ParserAssert(parser).notMatches("foo"),
@@ -100,7 +100,7 @@ public class ParserAssertTest {
   }
 
   @Test
-  public void should_not_accept_null() {
+  void should_not_accept_null() {
     var thrown = catchThrowableOfType(
       () -> new ParserAssert((Parser) null).matches(""),
       AssertionError.class);
@@ -108,7 +108,7 @@ public class ParserAssertTest {
   }
 
   @Test
-  public void should_not_accept_null_root_rule() {
+  void should_not_accept_null_root_rule() {
     parser.setRootRule(null);
     var thrown = catchThrowableOfType(
       () -> new ParserAssert(parser).matches(""),
@@ -117,7 +117,7 @@ public class ParserAssertTest {
   }
 
   @Test
-  public void test_lexer_failure() {
+  void test_lexer_failure() {
     var thrown = catchThrowableOfType(
       () -> new ParserAssert(parser).matches("_"),
       ParsingResultComparisonFailure.class);

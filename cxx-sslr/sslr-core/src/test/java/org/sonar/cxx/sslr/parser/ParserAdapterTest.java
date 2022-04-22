@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.sonar.cxx.sslr.internal.matchers.ExpressionGrammar;
 
-public class ParserAdapterTest {
+class ParserAdapterTest {
 
   @TempDir
   File tempDir;
@@ -54,17 +54,17 @@ public class ParserAdapterTest {
   }
 
   @Test
-  public void should_return_grammar() {
+  void should_return_grammar() {
     assertThat(parser.getGrammar()).isSameAs(grammar);
   }
 
   @Test
-  public void should_parse_string() {
+  void should_parse_string() {
     parser.parse("1+1");
   }
 
   @Test
-  public void should_not_parse_invalid_string() {
+  void should_not_parse_invalid_string() {
     var thrown = catchThrowableOfType(
       () -> parser.parse(""),
       RecognitionException.class);
@@ -72,7 +72,7 @@ public class ParserAdapterTest {
   }
 
   @Test
-  public void should_parse_file() throws Exception {
+  void should_parse_file() throws Exception {
     var file = new File(tempDir, "file.txt");
     try (
       var fileOutputStream = new FileOutputStream(file);
@@ -83,7 +83,7 @@ public class ParserAdapterTest {
   }
 
   @Test
-  public void should_not_parse_invalid_file() {
+  void should_not_parse_invalid_file() {
     var file = new File("notfound");
     var thrown = catchThrowableOfType(
       () -> parser.parse(file),
@@ -92,12 +92,12 @@ public class ParserAdapterTest {
   }
 
   @Test
-  public void builder_should_not_create_new_instance_from_adapter() {
+  void builder_should_not_create_new_instance_from_adapter() {
     assertThat(Parser.builder(parser).build()).isSameAs(parser);
   }
 
   @Test
-  public void parse_tokens_unsupported() {
+  void parse_tokens_unsupported() {
     List<Token> tokens = Collections.emptyList();
     var thrown = catchThrowableOfType(
       () -> parser.parse(tokens),
@@ -106,7 +106,7 @@ public class ParserAdapterTest {
   }
 
   @Test
-  public void getRootRule_unsupported() {
+  void getRootRule_unsupported() {
     var thrown = catchThrowableOfType(
       () -> parser.getRootRule(),
       UnsupportedOperationException.class);

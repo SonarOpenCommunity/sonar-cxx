@@ -32,7 +32,7 @@ import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxCompilerGccSensorTest {
+class CxxCompilerGccSensorTest {
 
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
@@ -43,7 +43,7 @@ public class CxxCompilerGccSensorTest {
   }
 
   @Test
-  public void sensorDescriptorGcc() {
+  void sensorDescriptorGcc() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxCompilerGccSensor();
     sensor.describe(descriptor);
@@ -56,7 +56,7 @@ public class CxxCompilerGccSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectGccViolations() {
+  void shouldReportCorrectGccViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCompilerGccSensor.REPORT_PATH_KEY, "compiler-reports/build.gcclog");
     context.setSettings(settings);
@@ -71,7 +71,7 @@ public class CxxCompilerGccSensorTest {
   }
 
   @Test
-  public void shouldReportCorrectGccViolationsWithOrWithoutIds() {
+  void shouldReportCorrectGccViolationsWithOrWithoutIds() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCompilerGccSensor.REPORT_PATH_KEY, "compiler-reports/build-warning-without-id.gcclog");
     context.setSettings(settings);

@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 public class LamdaExpressionsTest extends ParserBaseTestHelper {
 
   @Test
-  public void lambdaExpression() {
+  void lambdaExpression() {
     setRootRule(CxxGrammarImpl.lambdaExpression);
 
     mockRule(CxxGrammarImpl.lambdaIntroducer);
@@ -44,7 +44,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void lambdaExpression_reallife() {
+  void lambdaExpression_reallife() {
     setRootRule(CxxGrammarImpl.lambdaExpression);
 
     assertThatParser()
@@ -78,7 +78,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void lambdaIntroducer() {
+  void lambdaIntroducer() {
     setRootRule(CxxGrammarImpl.lambdaIntroducer);
     mockRule(CxxGrammarImpl.lambdaCapture);
 
@@ -88,7 +88,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void lambdaIntroducer_reallife() {
+  void lambdaIntroducer_reallife() {
     setRootRule(CxxGrammarImpl.lambdaIntroducer);
 
     assertThatParser()
@@ -101,7 +101,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void lambdaCapture() {
+  void lambdaCapture() {
     setRootRule(CxxGrammarImpl.lambdaCapture);
 
     mockRule(CxxGrammarImpl.captureDefault);
@@ -114,7 +114,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void captureDefault() {
+  void captureDefault() {
     setRootRule(CxxGrammarImpl.captureDefault);
 
     assertThatParser()
@@ -123,7 +123,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void captureList() {
+  void captureList() {
     setRootRule(CxxGrammarImpl.captureList);
     mockRule(CxxGrammarImpl.capture);
 
@@ -133,7 +133,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void capture() {
+  void capture() {
     setRootRule(CxxGrammarImpl.capture);
 
     mockRule(CxxGrammarImpl.simpleCapture);
@@ -145,7 +145,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void simpleCapture() {
+  void simpleCapture() {
     setRootRule(CxxGrammarImpl.simpleCapture);
 
     assertThatParser()
@@ -158,7 +158,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void initCapture() {
+  void initCapture() {
     setRootRule(CxxGrammarImpl.initCapture);
     mockRule(CxxGrammarImpl.initializer);
 
@@ -170,7 +170,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void initCapture_reallife() {
+  void initCapture_reallife() {
     setRootRule(CxxGrammarImpl.initCapture);
 
     assertThatParser()
@@ -182,7 +182,7 @@ public class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  public void lambdaDeclarator() {
+  void lambdaDeclarator() {
     setRootRule(CxxGrammarImpl.lambdaDeclarator);
 
     mockRule(CxxGrammarImpl.parameterDeclarationClause);

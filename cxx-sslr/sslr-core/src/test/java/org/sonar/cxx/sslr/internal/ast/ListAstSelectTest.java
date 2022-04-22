@@ -37,7 +37,7 @@ import org.sonar.cxx.sslr.internal.ast.select.AstSelectFactory;
 import org.sonar.cxx.sslr.internal.ast.select.ListAstSelect;
 import org.sonar.cxx.sslr.internal.ast.select.SingleAstSelect;
 
-public class ListAstSelectTest {
+class ListAstSelectTest {
 
   private AstNode node1, node2;
   private ListAstSelect select;
@@ -50,7 +50,7 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_children_when_no_children() {
+  void test_children_when_no_children() {
     assertThat((Object) select.children()).isSameAs(AstSelectFactory.empty());
     assertThat((Object) select.children(mock(AstNodeType.class))).isSameAs(AstSelectFactory.empty());
     assertThat((Object) select.children(mock(AstNodeType.class), mock(AstNodeType.class))).isSameAs(AstSelectFactory
@@ -58,7 +58,7 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_children_when_one_child() {
+  void test_children_when_one_child() {
     var type1 = mock(AstNodeType.class);
     var type2 = mock(AstNodeType.class);
     var child = mock(AstNode.class);
@@ -89,7 +89,7 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_chilren_when_more_than_one_child() {
+  void test_chilren_when_more_than_one_child() {
     var type1 = mock(AstNodeType.class);
     var type2 = mock(AstNodeType.class);
     var child1 = mock(AstNode.class);
@@ -129,7 +129,7 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_nextSibling() {
+  void test_nextSibling() {
     assertThat((Object) select.nextSibling()).isSameAs(AstSelectFactory.empty());
 
     var sibling1 = mock(AstNode.class);
@@ -144,7 +144,7 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_previousSibling() {
+  void test_previousSibling() {
     assertThat((Object) select.previousSibling()).isSameAs(AstSelectFactory.empty());
 
     var sibling1 = mock(AstNode.class);
@@ -159,7 +159,7 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_parent() {
+  void test_parent() {
     assertThat((Object) select.parent()).isSameAs(AstSelectFactory.empty());
 
     var parent1 = mock(AstNode.class);
@@ -174,7 +174,7 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_firstAncestor_by_type() {
+  void test_firstAncestor_by_type() {
     var type = mock(AstNodeType.class);
     assertThat((Object) select.firstAncestor(type)).isSameAs(AstSelectFactory.empty());
 
@@ -194,7 +194,7 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_firstAncestor_by_types() {
+  void test_firstAncestor_by_types() {
     var type1 = mock(AstNodeType.class);
     var type2 = mock(AstNodeType.class);
     assertThat((Object) select.firstAncestor(type1, type2)).isSameAs(AstSelectFactory.empty());
@@ -215,24 +215,24 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_descendants() {
+  void test_descendants() {
     assertThat((Object) select.descendants(mock(AstNodeType.class))).isSameAs(AstSelectFactory.empty());
     assertThat((Object) select.descendants(mock(AstNodeType.class), mock(AstNodeType.class))).isSameAs(AstSelectFactory
       .empty());
   }
 
   @Test
-  public void test_isEmpty() {
+  void test_isEmpty() {
     assertThat(select.isEmpty()).isFalse();
   }
 
   @Test
-  public void test_isNotEmpty() {
+  void test_isNotEmpty() {
     assertThat(select.isNotEmpty()).isTrue();
   }
 
   @Test
-  public void test_filter_by_type() {
+  void test_filter_by_type() {
     var type = mock(AstNodeType.class);
     assertThat((Object) select.filter(type)).isSameAs(AstSelectFactory.empty());
 
@@ -246,7 +246,7 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_filter_by_types() {
+  void test_filter_by_types() {
     var type1 = mock(AstNodeType.class);
     var type2 = mock(AstNodeType.class);
     assertThat((Object) select.filter(type1, type2)).isSameAs(AstSelectFactory.empty());
@@ -261,7 +261,7 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_filter() {
+  void test_filter() {
     Predicate<AstNode> predicate = mock(Predicate.class);
     assertThat((Object) select.filter(predicate)).isSameAs(AstSelectFactory.empty());
 
@@ -275,13 +275,13 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_get() {
+  void test_get() {
     assertThat(select.get(0)).isSameAs(node1);
     assertThat(select.get(1)).isSameAs(node2);
   }
 
   @Test
-  public void test_get_non_existing() {
+  void test_get_non_existing() {
     var thrown = catchThrowableOfType(
       () -> select.get(2),
       IndexOutOfBoundsException.class);
@@ -289,12 +289,12 @@ public class ListAstSelectTest {
   }
 
   @Test
-  public void test_size() {
-    assertThat(select.size()).isEqualTo(2);
+  void test_size() {
+    assertThat(select).hasSize(2);
   }
 
   @Test
-  public void test_iterator() {
+  void test_iterator() {
     assertThat(select.iterator()).toIterable().containsOnly(node1, node2);
   }
 

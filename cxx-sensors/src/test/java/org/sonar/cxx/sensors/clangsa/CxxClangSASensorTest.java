@@ -37,7 +37,7 @@ import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxClangSASensorTest {
+class CxxClangSASensorTest {
 
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
@@ -49,7 +49,7 @@ public class CxxClangSASensorTest {
   }
 
   @Test
-  public void shouldIgnoreIssuesIfResourceNotFound() {
+  void shouldIgnoreIssuesIfResourceNotFound() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-empty.plist");
     context.setSettings(settings);
@@ -61,7 +61,7 @@ public class CxxClangSASensorTest {
   }
 
   @Test
-  public void shouldReportCorrectViolations() {
+  void shouldReportCorrectViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-report.plist");
     context.setSettings(settings);
@@ -87,7 +87,7 @@ public class CxxClangSASensorTest {
   }
 
   @Test
-  public void shouldReportCorrectFlows() {
+  void shouldReportCorrectFlows() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY,
                          "clangsa-reports/clangsa-report.plist");
@@ -150,7 +150,7 @@ public class CxxClangSASensorTest {
   }
 
   @Test
-  public void invalidReportReportsNoIssues() {
+  void invalidReportReportsNoIssues() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-reportXYZ.plist");
     context.setSettings(settings);
@@ -165,7 +165,7 @@ public class CxxClangSASensorTest {
   }
 
   @Test
-  public void sensorDescriptor() {
+  void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
     var sensor = new CxxClangSASensor();
     sensor.describe(descriptor);

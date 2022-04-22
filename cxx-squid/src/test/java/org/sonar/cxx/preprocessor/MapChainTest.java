@@ -22,7 +22,7 @@ package org.sonar.cxx.preprocessor;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class MapChainTest {
+class MapChainTest {
 
   private final MapChain<String, String> mc;
 
@@ -31,39 +31,39 @@ public class MapChainTest {
   }
 
   @Test
-  public void getMapping() {
+  void getMapping() {
     mc.put("k", "v");
     assertThat(mc.get("k")).isEqualTo("v");
   }
 
   @Test
-  public void removeMapping() {
+  void removeMapping() {
     mc.put("k", "v");
     mc.remove("k");
     assertThat(mc.get("k")).isNull();
   }
 
   @Test
-  public void noValueMapping() {
+  void noValueMapping() {
     assertThat(mc.get("k")).isNull();
   }
 
   @Test
-  public void clearMapping() {
+  void clearMapping() {
     mc.put("k", "v");
     mc.clear();
     assertThat(mc.get("k")).isNull();
   }
 
   @Test
-  public void disable() {
+  void disable() {
     mc.put("k", "v");
     mc.disable("k");
     assertThat(mc.get("k")).isNull();
   }
 
   @Test
-  public void enable() {
+  void enable() {
     mc.put("k", "v");
     mc.disable("k");
     mc.enable("k");

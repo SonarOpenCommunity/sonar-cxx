@@ -26,13 +26,13 @@ package com.sonar.cxx.sslr.api.typed;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class OptionalTest {
+class OptionalTest {
 
   private final Optional<String> present = Optional.of("foo");
   private final Optional<String> absent = Optional.absent();
 
   @Test
-  public void present() {
+  void present() {
     assertThat(present.isPresent()).isTrue();
 
     assertThat(present.orNull()).isSameAs("foo");
@@ -41,7 +41,7 @@ public class OptionalTest {
 
     assertThat(present.get()).isSameAs("foo");
 
-    assertThat(present.toString()).isEqualTo("Optional.of(foo)");
+    assertThat(present).hasToString("Optional.of(foo)");
 
     assertThat(present.equals(present)).isTrue();
     assertThat(present.equals(Optional.of("foo"))).isTrue();
@@ -52,14 +52,14 @@ public class OptionalTest {
   }
 
   @Test
-  public void absent() {
+  void absent() {
     assertThat(absent.isPresent()).isFalse();
 
     assertThat(absent.orNull()).isNull();
 
     assertThat(absent.or("bar")).isSameAs("bar");
 
-    assertThat(absent.toString()).isEqualTo("Optional.absent()");
+    assertThat(absent).hasToString("Optional.absent()");
 
     assertThat(absent.equals(present)).isFalse();
     assertThat(absent.equals(absent)).isTrue();
@@ -71,13 +71,13 @@ public class OptionalTest {
   }
 
   @Test
-  public void present_or_null() {
+  void present_or_null() {
     var thrown = catchThrowableOfType(() -> present.or(null), NullPointerException.class);
     assertThat(thrown).hasMessage("use orNull() instead of or(null)");
   }
 
   @Test
-  public void absent_or_null() {
+  void absent_or_null() {
     var thrown = catchThrowableOfType(() -> absent.or(null), NullPointerException.class);
     assertThat(thrown).hasMessage("use orNull() instead of or(null)");
   }

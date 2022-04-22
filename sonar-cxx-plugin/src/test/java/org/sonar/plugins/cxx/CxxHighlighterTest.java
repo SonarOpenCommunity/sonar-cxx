@@ -38,7 +38,7 @@ import org.sonar.api.batch.sensor.issue.internal.DefaultNoSonarFilter;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 
-public class CxxHighlighterTest {
+class CxxHighlighterTest {
 
   private CxxSquidSensor sensor;
   private SensorContextTester context;

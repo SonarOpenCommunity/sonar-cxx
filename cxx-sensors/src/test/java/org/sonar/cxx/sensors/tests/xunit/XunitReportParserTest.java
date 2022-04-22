@@ -31,14 +31,14 @@ import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class XunitReportParserTest {
+class XunitReportParserTest {
 
   private XunitReportParser parserHandler = new XunitReportParser("");
   private StaxParser parser = new StaxParser(parserHandler, false);
   private final String pathPrefix = "/org/sonar/cxx/sensors/reports-project/xunit-reports/";
 
   @Test
-  public void testParse() throws javax.xml.stream.XMLStreamException {
+  void testParse() throws javax.xml.stream.XMLStreamException {
 
     var ioMap = new TreeMap<String, Integer>();
 
@@ -66,7 +66,7 @@ public class XunitReportParserTest {
   }
 
   @Test
-  public void shouldThrowWhenGivenInvalidTime() {
+  void shouldThrowWhenGivenInvalidTime() {
     javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
       parserHandler = new XunitReportParser("");
       parser = new StaxParser(parserHandler, false);
@@ -77,7 +77,7 @@ public class XunitReportParserTest {
   }
 
   @Test
-  public void testFilePaths() throws javax.xml.stream.XMLStreamException {
+  void testFilePaths() throws javax.xml.stream.XMLStreamException {
     parserHandler = new XunitReportParser("");
     parser = new StaxParser(parserHandler, false);
     File report = TestUtils.loadResource(pathPrefix + "xunit-result-SAMPLE-inconsistent-case.xml");

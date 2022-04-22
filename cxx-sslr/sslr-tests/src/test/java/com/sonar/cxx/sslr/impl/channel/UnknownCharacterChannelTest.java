@@ -32,18 +32,18 @@ import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.channel.Channel;
 import org.sonar.cxx.sslr.channel.CodeReader;
 
-public class UnknownCharacterChannelTest {
+class UnknownCharacterChannelTest {
 
   private final UnknownCharacterChannel channel = new UnknownCharacterChannel();
 
   @Test
-  public void shouldConsumeAnyCharacter() {
+  void shouldConsumeAnyCharacter() {
     check("'", channel, UNKNOWN_CHAR, "'", Lexer.builder().build());
     check("a", channel, UNKNOWN_CHAR, "a", Lexer.builder().build());
   }
 
   @Test
-  public void shouldConsumeEofCharacter() {
+  void shouldConsumeEofCharacter() {
     assertThat(channel.consume(new CodeReader(""), null)).isFalse();
   }
 
@@ -52,7 +52,7 @@ public class UnknownCharacterChannelTest {
     var code = new CodeReader(new StringReader(input));
 
     assertThat(channel.consume(code, lexer)).isTrue();
-    assertThat(lexer.getTokens().size()).isEqualTo(1);
+    assertThat(lexer.getTokens()).hasSize(1);
     assertThat(lexer.getTokens().get(0).getType()).isEqualTo(expectedTokenType);
     assertThat(lexer.getTokens().get(0).getValue()).isEqualTo(expectedTokenValue);
   }

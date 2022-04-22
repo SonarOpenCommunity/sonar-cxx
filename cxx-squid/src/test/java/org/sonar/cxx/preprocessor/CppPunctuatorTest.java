@@ -25,10 +25,10 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 
-public class CppPunctuatorTest {
+class CppPunctuatorTest {
 
   @Test
-  public void test() {
+  void test() {
     assertThat(CppPunctuator.values()).hasSize(71);
 
     AstNode astNode = mock(AstNode.class);

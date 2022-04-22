@@ -27,7 +27,7 @@ import com.sonar.cxx.sslr.api.Grammar;
 import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
-public class AbstractSingleLineCommentsSyntaxCheckTest {
+class AbstractSingleLineCommentsSyntaxCheckTest {
 
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
@@ -41,7 +41,7 @@ public class AbstractSingleLineCommentsSyntaxCheckTest {
   }
 
   @Test
-  public void singleLineCommentsSyntax() {
+  void singleLineCommentsSyntax() {
     checkMessagesVerifier.verify(scanFile("/checks/single_line_comments_syntax.mc", new Check()).getCheckMessages())
       .next().atLine(1).withMessage("This single line comment should use the single line comment syntax \"//\"")
       .next().atLine(15);

@@ -30,7 +30,7 @@ import org.sonar.cxx.sensors.coverage.ctc.CxxCoverageTestwellCtcTxtSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
-public class CxxTestwellCtcTxtParserTest {
+class CxxTestwellCtcTxtParserTest {
 
   private DefaultFileSystem fs;
   private SensorContextTester context;
@@ -43,7 +43,7 @@ public class CxxTestwellCtcTxtParserTest {
   }
 
   @Test
-  public void shouldReportCoveredLines() {
+  void shouldReportCoveredLines() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
                          "coverage-reports/TestwellCTC/report_small_v8.txt");
@@ -64,7 +64,7 @@ public class CxxTestwellCtcTxtParserTest {
   }
 
   @Test
-  public void shouldReportCoveredConditionsOne() {
+  void shouldReportCoveredConditionsOne() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
                          "coverage-reports/TestwellCTC/report_small_v8.txt");
@@ -85,7 +85,7 @@ public class CxxTestwellCtcTxtParserTest {
   }
 
   @Test
-  public void shouldReportCoveredConditionsTwo() {
+  void shouldReportCoveredConditionsTwo() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
                          "coverage-reports/TestwellCTC/report_small_v8.txt");
@@ -106,7 +106,7 @@ public class CxxTestwellCtcTxtParserTest {
   }
 
   @Test
-  public void shouldConsumeLargeReportCoveredLines() {
+  void shouldConsumeLargeReportCoveredLines() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
                          "coverage-reports/TestwellCTC/report_big.txt");
@@ -131,7 +131,7 @@ public class CxxTestwellCtcTxtParserTest {
   }
 
   @Test
-  public void shouldConsumeLargeReportCoveredConditions() {
+  void shouldConsumeLargeReportCoveredConditions() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
                          "coverage-reports/TestwellCTC/report_big.txt");
@@ -156,7 +156,7 @@ public class CxxTestwellCtcTxtParserTest {
   }
 
   @Test
-  public void shouldConsumeLargeReportConditions() {
+  void shouldConsumeLargeReportConditions() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
                          "coverage-reports/TestwellCTC/report_big.txt");
@@ -181,7 +181,7 @@ public class CxxTestwellCtcTxtParserTest {
   }
 
   @Test
-  public void shouldConsumeEmptyReport() {
+  void shouldConsumeEmptyReport() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
                          "coverage-reports/TestwellCTC/report_empty.txt");

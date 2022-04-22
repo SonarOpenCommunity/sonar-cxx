@@ -29,7 +29,7 @@ import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifier;
 
-public class FileRegularExpressionCheckTest {
+class FileRegularExpressionCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion

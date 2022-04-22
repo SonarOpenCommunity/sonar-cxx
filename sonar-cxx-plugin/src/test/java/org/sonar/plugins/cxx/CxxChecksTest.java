@@ -37,7 +37,7 @@ import org.sonar.check.Rule;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
 
-public class CxxChecksTest {
+class CxxChecksTest {
 
   private static final String DEFAULT_REPOSITORY_KEY = "DefaultRuleRepository";
   private static final String DEFAULT_RULE_KEY = "MyRule";
@@ -66,7 +66,7 @@ public class CxxChecksTest {
 
   @SuppressWarnings("rawtypes")
   @Test
-  public void shouldReturnDefaultChecks() {
+  void shouldReturnDefaultChecks() {
     var checks = CxxChecks.createCxxCheck(checkFactory);
     checks.addChecks(DEFAULT_REPOSITORY_KEY, new ArrayList<>(Collections.singletonList(MyRule.class)));
 
@@ -79,7 +79,7 @@ public class CxxChecksTest {
   }
 
   @Test
-  public void shouldReturnCustomChecks() {
+  void shouldReturnCustomChecks() {
     var checks = CxxChecks.createCxxCheck(checkFactory);
     checks.addCustomChecks(new CustomCxxRulesDefinition[]{customRulesDefinition});
 
@@ -92,7 +92,7 @@ public class CxxChecksTest {
   }
 
   @Test
-  public void shouldWorkWithoutCustomChecks() {
+  void shouldWorkWithoutCustomChecks() {
     var checks = CxxChecks.createCxxCheck(checkFactory);
     checks.addCustomChecks(null);
     assertThat(checks.all()).isEmpty();
@@ -100,7 +100,7 @@ public class CxxChecksTest {
 
   @SuppressWarnings("rawtypes")
   @Test
-  public void shouldNotReturnRuleKeyIfCheckDoesNotExists() {
+  void shouldNotReturnRuleKeyIfCheckDoesNotExists() {
     var checks = CxxChecks.createCxxCheck(checkFactory);
     checks.addChecks(DEFAULT_REPOSITORY_KEY, new ArrayList<>(Collections.singletonList(MyRule.class)));
     assertThat(checks.ruleKey(new MyCustomRule())).isNull();

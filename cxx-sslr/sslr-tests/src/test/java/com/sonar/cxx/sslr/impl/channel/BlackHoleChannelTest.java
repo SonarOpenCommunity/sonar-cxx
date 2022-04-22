@@ -29,13 +29,13 @@ import org.junit.jupiter.api.Test;
 import org.sonar.cxx.sslr.channel.CodeReader;
 import static org.sonar.cxx.sslr.test.channel.ChannelMatchers.*;
 
-public class BlackHoleChannelTest {
+class BlackHoleChannelTest {
 
   private final Lexer lexer = Lexer.builder().build();
   private final BlackHoleChannel channel = new BlackHoleChannel("[ \\t]+");
 
   @Test
-  public void testConsumeOneCharacter() {
+  void testConsumeOneCharacter() {
     AssertionsForClassTypes.assertThat(channel).is(consume(" ", lexer));
     AssertionsForClassTypes.assertThat(channel).is(consume("\t", lexer));
     AssertionsForClassTypes.assertThat(channel).isNot(consume("g", lexer));
@@ -44,7 +44,7 @@ public class BlackHoleChannelTest {
   }
 
   @Test
-  public void consumeSeveralCharacters() {
+  void consumeSeveralCharacters() {
     var reader = new CodeReader("   \t123");
     AssertionsForClassTypes.assertThat(channel).is(consume(reader, lexer));
     AssertionsForClassTypes.assertThat(reader).has(hasNextChar('1'));

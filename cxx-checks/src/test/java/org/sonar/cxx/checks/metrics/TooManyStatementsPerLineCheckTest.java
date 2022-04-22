@@ -28,7 +28,7 @@ import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifier;
 
-public class TooManyStatementsPerLineCheckTest {
+class TooManyStatementsPerLineCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
@@ -51,7 +51,7 @@ public class TooManyStatementsPerLineCheckTest {
   }
 
   @Test
-  public void testDefaultExcludeCaseBreak() {
+  void testDefaultExcludeCaseBreak() {
     var check = new TooManyStatementsPerLineCheck();
     assertThat(check.excludeCaseBreak).isFalse();
   }

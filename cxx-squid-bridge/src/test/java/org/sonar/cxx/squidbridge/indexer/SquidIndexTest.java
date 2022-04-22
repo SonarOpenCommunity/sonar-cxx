@@ -33,7 +33,7 @@ import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.api.SourcePackage;
 import org.sonar.cxx.squidbridge.api.SourceProject;
 
-public class SquidIndexTest {
+class SquidIndexTest {
 
   private SquidIndex indexer;
   private SourceProject project;
@@ -58,7 +58,7 @@ public class SquidIndexTest {
   }
 
   @Test
-  public void searchSingleResource() {
+  void searchSingleResource() {
     SourceCode squidClass = indexer.search("org.sonar.squid.Squid");
     assertThat(squidClass).isEqualTo(new SourceClass("org.sonar.squid.Squid", "Squid"));
     SourceCode javaNCSSClass = indexer.search("org.sonar.squid.JavaNCSS");
@@ -66,32 +66,32 @@ public class SquidIndexTest {
   }
 
   @Test
-  public void searchByType() {
+  void searchByType() {
     Collection<SourceCode> resources = indexer.search(new QueryByType(SourceFile.class));
-    assertThat(resources.size()).isEqualTo(2);
+    assertThat(resources).hasSize(2);
     resources = indexer.search(new QueryByType(SourceClass.class));
-    assertThat(resources.size()).isEqualTo(1);
-    assertThat(resources.contains(classSquid)).isTrue();
+    assertThat(resources).hasSize(1);
+    assertThat(resources).contains(classSquid);
   }
 
   @Test
-  public void searchByName() {
+  void searchByName() {
     Collection<SourceCode> resources = indexer.search(new QueryByName("Squid.java"));
-    assertThat(resources.size()).isEqualTo(1);
-    assertThat(resources.contains(fileSquid)).isTrue();
+    assertThat(resources).hasSize(1);
+    assertThat(resources).contains(fileSquid);
   }
 
   @Test
-  public void searchByParent() {
+  void searchByParent() {
     Collection<SourceCode> resources = indexer.search(new QueryByParent(packSquid));
-    assertThat(resources.size()).isEqualTo(3);
+    assertThat(resources).hasSize(3);
   }
 
   @Test
-  public void searchByParentAndByType() {
+  void searchByParentAndByType() {
     Collection<SourceCode> resources = indexer.search(new QueryByParent(packSquid), new QueryByType(SourceClass.class));
-    assertThat(resources.size()).isEqualTo(1);
-    assertThat(resources.contains(classSquid)).isTrue();
+    assertThat(resources).hasSize(1);
+    assertThat(resources).contains(classSquid);
   }
 
 }

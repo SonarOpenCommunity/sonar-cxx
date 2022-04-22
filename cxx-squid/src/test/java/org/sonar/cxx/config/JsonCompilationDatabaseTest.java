@@ -27,10 +27,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class JsonCompilationDatabaseTest {
+class JsonCompilationDatabaseTest {
 
   @Test
-  public void testGlobalSettings() throws Exception {
+  void testGlobalSettings() throws Exception {
     var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
@@ -52,7 +52,7 @@ public class JsonCompilationDatabaseTest {
   }
 
   @Test
-  public void testExtensionSettings() throws Exception {
+  void testExtensionSettings() throws Exception {
     var squidConfig = new CxxSquidConfiguration();
     var file = new File("src/test/resources/jsondb/compile_commands.json");
     var jsonDb = new JsonCompilationDatabase(squidConfig);
@@ -76,7 +76,7 @@ public class JsonCompilationDatabaseTest {
   }
 
   @Test
-  public void testCommandSettings() throws Exception {
+  void testCommandSettings() throws Exception {
     var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
@@ -105,7 +105,7 @@ public class JsonCompilationDatabaseTest {
   }
 
   @Test
-  public void testArgumentParser() throws Exception {
+  void testArgumentParser() throws Exception {
     var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
@@ -142,7 +142,7 @@ public class JsonCompilationDatabaseTest {
   }
 
   @Test
-  public void testArgumentSettings() throws Exception {
+  void testArgumentSettings() throws Exception {
     var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
@@ -171,7 +171,7 @@ public class JsonCompilationDatabaseTest {
   }
 
   @Test
-  public void testRelativeDirectorySettings() throws Exception {
+  void testRelativeDirectorySettings() throws Exception {
     var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
@@ -194,7 +194,7 @@ public class JsonCompilationDatabaseTest {
   }
 
   @Test
-  public void testArgumentAsListSettings() throws Exception {
+  void testArgumentAsListSettings() throws Exception {
     var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
@@ -223,7 +223,7 @@ public class JsonCompilationDatabaseTest {
   }
 
   @Test
-  public void testUnknownUnitSettings() throws Exception {
+  void testUnknownUnitSettings() throws Exception {
     var squidConfig = new CxxSquidConfiguration();
 
     var file = new File("src/test/resources/jsondb/compile_commands.json");
@@ -247,7 +247,7 @@ public class JsonCompilationDatabaseTest {
   }
 
   @Test
-  public void testInvalidJson() {
+  void testInvalidJson() {
     JsonMappingException thrown = catchThrowableOfType(() -> {
       var squidConfig = new CxxSquidConfiguration();
       var file = new File("src/test/resources/jsondb/invalid.json");
@@ -258,7 +258,7 @@ public class JsonCompilationDatabaseTest {
   }
 
   @Test
-  public void testFileNotFound() {
+  void testFileNotFound() {
     FileNotFoundException thrown = catchThrowableOfType(() -> {
       var squidConfig = new CxxSquidConfiguration();
       var file = new File("src/test/resources/jsondb/not-found.json");

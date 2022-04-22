@@ -27,36 +27,36 @@ import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.*;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class RegexpChannelBuilderTest {
+class RegexpChannelBuilderTest {
 
   @Test
-  public void testOpt() {
+  void testOpt() {
     assertThat(opt("L")).isEqualTo("L?+");
   }
 
   @Test
-  public void testOne2n() {
+  void testOne2n() {
     assertThat(one2n("L")).isEqualTo("L++");
   }
 
   @Test
-  public void testO2n() {
+  void testO2n() {
     assertThat(o2n("L")).isEqualTo("L*+");
   }
 
   @Test
-  public void testg() {
+  void testg() {
     assertThat(g("L")).isEqualTo("(L)");
     assertThat(g("L", "l")).isEqualTo("(Ll)");
   }
 
   @Test
-  public void testOr() {
+  void testOr() {
     assertThat(or("L", "l", "U", "u")).isEqualTo("(L|l|U|u)");
   }
 
   @Test
-  public void testAnyButNot() {
+  void testAnyButNot() {
     assertThat(anyButNot("L", "l")).isEqualTo("[^Ll]");
   }
 

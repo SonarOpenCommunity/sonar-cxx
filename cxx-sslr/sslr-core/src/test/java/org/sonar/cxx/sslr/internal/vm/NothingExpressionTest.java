@@ -29,19 +29,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public class NothingExpressionTest {
+class NothingExpressionTest {
 
   private final NothingExpression expression = NothingExpression.INSTANCE;
   private final Machine machine = mock(Machine.class);
 
   @Test
-  public void should_compile() {
+  void should_compile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
-    assertThat(expression.toString()).isEqualTo("Nothing");
+    assertThat(expression).hasToString("Nothing");
   }
 
   @Test
-  public void should_backtrack() {
+  void should_backtrack() {
     expression.execute(machine);
     verify(machine).backtrack();
     verifyNoMoreInteractions(machine);

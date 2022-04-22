@@ -26,10 +26,10 @@ package org.sonar.cxx.squidbridge.checks;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class SquidCheckTest {
+class SquidCheckTest {
 
   @Test
-  public void test_getKey() {
+  void test_getKey() {
     var squidCheck = new SquidCheck() {
     };
     assertThat(squidCheck.getKey()).isNull();

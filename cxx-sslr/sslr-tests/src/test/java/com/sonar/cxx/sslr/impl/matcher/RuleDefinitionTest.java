@@ -31,17 +31,17 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class RuleDefinitionTest {
+class RuleDefinitionTest {
 
   @Test
-  public void testEmptyIs() {
+  void testEmptyIs() {
     var javaClassDefinition = new RuleDefinition("JavaClassDefinition");
     var thrown = catchThrowableOfType(javaClassDefinition::is, IllegalStateException.class);
     assertThat(thrown.getMessage()).isEqualTo("The rule 'JavaClassDefinition' should at least contains one matcher.");
   }
 
   @Test
-  public void testMoreThanOneDefinitionForASigleRuleWithIs() {
+  void testMoreThanOneDefinitionForASigleRuleWithIs() {
     var javaClassDefinition = new RuleDefinition("JavaClassDefinition");
     javaClassDefinition.is("option1");
     var thrown = catchThrowableOfType(
@@ -53,7 +53,7 @@ public class RuleDefinitionTest {
   }
 
   @Test
-  public void testSkipFromAst() {
+  void testSkipFromAst() {
     var ruleBuilder = new RuleDefinition("MyRule");
     assertThat(ruleBuilder.hasToBeSkippedFromAst(null)).isFalse();
 
@@ -62,7 +62,7 @@ public class RuleDefinitionTest {
   }
 
   @Test
-  public void testSkipFromAstIf() {
+  void testSkipFromAstIf() {
     var ruleBuilder = new RuleDefinition("MyRule");
     ruleBuilder.skipIfOneChild();
 

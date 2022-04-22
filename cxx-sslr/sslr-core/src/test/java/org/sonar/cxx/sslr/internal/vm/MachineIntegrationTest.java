@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Timeout;
 import org.sonar.cxx.sslr.grammar.GrammarException;
 
 // TODO this test should also check state of machine after execution
-public class MachineIntegrationTest {
+class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)

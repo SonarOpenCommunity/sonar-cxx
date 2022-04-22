@@ -31,10 +31,10 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import org.sonar.colorizer.Tokenizer;
 
-public class AbstractConfigurationModelTest {
+class AbstractConfigurationModelTest {
 
   @Test
-  public void getParser_should_return_parser_instance() {
+  void getParser_should_return_parser_instance() {
     var model = new MyConfigurationModel();
     Parser<? extends Grammar> p = mock(Parser.class);
     model.setParser(p);
@@ -42,7 +42,7 @@ public class AbstractConfigurationModelTest {
   }
 
   @Test
-  public void getParser_should_return_same_parser_instance_when_flag_not_set() {
+  void getParser_should_return_same_parser_instance_when_flag_not_set() {
     var model = new MyConfigurationModel();
     Parser<? extends Grammar> p = mock(Parser.class);
     model.setParser(p);
@@ -53,7 +53,7 @@ public class AbstractConfigurationModelTest {
   }
 
   @Test
-  public void getParser_should_return_different_parser_instance_when_flag_set() {
+  void getParser_should_return_different_parser_instance_when_flag_set() {
     var model = new MyConfigurationModel();
     Parser<? extends Grammar> p = mock(Parser.class);
     model.setParser(p);
@@ -67,7 +67,7 @@ public class AbstractConfigurationModelTest {
   }
 
   @Test
-  public void getTokenizers_should_return_parser_instance() {
+  void getTokenizers_should_return_parser_instance() {
     var model = new MyConfigurationModel();
     List<Tokenizer> t = mock(List.class);
     model.setTokenizers(t);
@@ -75,7 +75,7 @@ public class AbstractConfigurationModelTest {
   }
 
   @Test
-  public void getTokenizers_should_return_same_parser_instance_when_flag_not_set() {
+  void getTokenizers_should_return_same_parser_instance_when_flag_not_set() {
     var model = new MyConfigurationModel();
     List<Tokenizer> t = mock(List.class);
     model.setTokenizers(t);
@@ -86,7 +86,7 @@ public class AbstractConfigurationModelTest {
   }
 
   @Test
-  public void getTokenizers_should_return_different_parser_instance_when_flag_set() {
+  void getTokenizers_should_return_different_parser_instance_when_flag_set() {
     var model = new MyConfigurationModel();
     List<Tokenizer> t = mock(List.class);
     model.setTokenizers(t);

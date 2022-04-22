@@ -33,7 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public class WildcardPatternFileProviderTest {
+class WildcardPatternFileProviderTest {
 
   @TempDir
   File tempDir;
@@ -71,7 +71,7 @@ public class WildcardPatternFileProviderTest {
   }
 
   @Test
-  public void absolute_paths() {
+  void absolute_paths() {
     assertThat(listFiles(new File(tempDir, "foo.txt").getAbsolutePath()))
       .containsOnly(new File(tempDir, "foo.txt"));
 
@@ -82,13 +82,13 @@ public class WildcardPatternFileProviderTest {
   }
 
   @Test
-  public void absolute_paths_with_current_and_parent_folder_access() {
+  void absolute_paths_with_current_and_parent_folder_access() {
     assertThat(listFiles(new File(tempDir, path("a", "..", ".", "foo.txt")).getAbsolutePath()))
       .containsOnly(new File(tempDir, path("a", "..", ".", "foo.txt")));
   }
 
   @Test
-  public void absolute_paths_with_wildcards() {
+  void absolute_paths_with_wildcards() {
     assertThat(listFiles(new File(tempDir, "*.txt").getAbsolutePath()))
       .containsOnly(new File(tempDir, "foo.txt"), new File(tempDir, "bar.txt"));
 
@@ -122,7 +122,7 @@ public class WildcardPatternFileProviderTest {
   }
 
   @Test
-  public void relative_paths() {
+  void relative_paths() {
     assertThat(listFiles("foo.txt", tempDir))
       .containsOnly(new File(tempDir, "foo.txt"));
 
@@ -133,7 +133,7 @@ public class WildcardPatternFileProviderTest {
   }
 
   @Test
-  public void relative_paths_with_current_and_parent_folder_access() {
+  void relative_paths_with_current_and_parent_folder_access() {
     assertThat(listFiles(path("..", "foo.txt"), new File(tempDir, "a")))
       .containsOnly(new File(new File(tempDir, "a"), path("..", "foo.txt")));
 
@@ -145,7 +145,7 @@ public class WildcardPatternFileProviderTest {
   }
 
   @Test
-  public void relative_paths_with_wildcards() {
+  void relative_paths_with_wildcards() {
     assertThat(listFiles("*.txt", tempDir))
       .containsOnly(new File(tempDir, "foo.txt"), new File(tempDir, "bar.txt"));
 
@@ -179,7 +179,7 @@ public class WildcardPatternFileProviderTest {
   }
 
   @Test
-  public void should_fail_with_current_folder_access_after_wildcard() {
+  void should_fail_with_current_folder_access_after_wildcard() {
     IllegalArgumentException thrown = catchThrowableOfType(() -> {
       listFiles(new File(tempDir, path("?", ".", "foo.txt")).getAbsolutePath());
     }, IllegalArgumentException.class);
@@ -187,7 +187,7 @@ public class WildcardPatternFileProviderTest {
   }
 
   @Test
-  public void should_fail_with_parent_folder_access_after_wildcard() {
+  void should_fail_with_parent_folder_access_after_wildcard() {
     IllegalArgumentException thrown = catchThrowableOfType(() -> {
       listFiles(path("*", "..", "foo.txt"), tempDir);
     }, IllegalArgumentException.class);

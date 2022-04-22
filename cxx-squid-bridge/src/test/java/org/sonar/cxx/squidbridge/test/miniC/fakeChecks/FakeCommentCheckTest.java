@@ -31,7 +31,7 @@ import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifierRule;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
-public class FakeCommentCheckTest {
+class FakeCommentCheckTest {
 
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
@@ -48,7 +48,7 @@ public class FakeCommentCheckTest {
   }
 
   @Test
-  public void testFakeCommentCheck() {
+  void testFakeCommentCheck() {
     checkMessagesVerifier.verify(scanFile("/fakeChecks/fakeComment.mc", new FakeCommentCheck()).getCheckMessages())
       .next().atLine(6);
   }

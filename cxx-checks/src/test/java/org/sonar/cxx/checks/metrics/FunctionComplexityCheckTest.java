@@ -29,10 +29,10 @@ import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.utils.CxxReportLocation;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 
-public class FunctionComplexityCheckTest {
+class FunctionComplexityCheckTest {
 
   @Test
-  public void check() throws UnsupportedEncodingException, IOException {
+  void check() throws UnsupportedEncodingException, IOException {
     var check = new FunctionComplexityCheck();
     check.setMaxComplexity(5);
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/FunctionComplexity.cc", ".");

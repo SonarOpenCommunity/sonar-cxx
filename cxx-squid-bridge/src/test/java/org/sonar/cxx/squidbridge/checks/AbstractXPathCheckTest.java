@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
-public class AbstractXPathCheckTest {
+class AbstractXPathCheckTest {
 
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
@@ -52,7 +52,7 @@ public class AbstractXPathCheckTest {
   private final Check check = new Check();
 
   @Test
-  public void emptyXPathCheck() {
+  void emptyXPathCheck() {
     check.xpath = "";
     check.message = "Empty XPath check.";
 
@@ -60,7 +60,7 @@ public class AbstractXPathCheckTest {
   }
 
   @Test
-  public void booleanXPathCheckWithResults() {
+  void booleanXPathCheckWithResults() {
     check.xpath = "count(//VARIABLE_DEFINITION) > 0";
     check.message = "Boolean XPath rule with results.";
 
@@ -69,7 +69,7 @@ public class AbstractXPathCheckTest {
   }
 
   @Test
-  public void booleanXPathCheckWithoutResults() {
+  void booleanXPathCheckWithoutResults() {
     check.xpath = "count(//variableDefinition) > 2";
     check.message = "Boolean XPath rule without results.";
 
@@ -77,7 +77,7 @@ public class AbstractXPathCheckTest {
   }
 
   @Test
-  public void astNodesXpathCheck() {
+  void astNodesXpathCheck() {
     check.xpath = "//VARIABLE_DEFINITION";
     check.message = "No variable definitions allowed!";
 
@@ -87,14 +87,14 @@ public class AbstractXPathCheckTest {
   }
 
   @Test
-  public void parse_error() {
+  void parse_error() {
     check.xpath = "//VARIABLE_DEFINITION";
 
     checkMessagesVerifier.verify(scanFile("/checks/parse_error.mc", check).getCheckMessages());
   }
 
   @Test
-  public void wrong_xpath() {
+  void wrong_xpath() {
     check.xpath = "//";
     IllegalStateException thrown = catchThrowableOfType(() -> {
       scanFile("/checks/xpath.mc", check);
