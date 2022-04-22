@@ -28,7 +28,7 @@ import org.sonar.cxx.sslr.internal.matchers.Matcher;
 import org.sonar.cxx.sslr.internal.vm.Machine;
 import org.sonar.cxx.sslr.internal.vm.NativeExpression;
 
-public class TillNewLineExpression extends NativeExpression implements Matcher {
+public final class TillNewLineExpression extends NativeExpression implements Matcher {
 
   public static final TillNewLineExpression INSTANCE = new TillNewLineExpression();
 

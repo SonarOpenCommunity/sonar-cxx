@@ -21,7 +21,7 @@ package org.sonar.cxx.parser;
 
 import org.junit.jupiter.api.Test;
 
-public class OverloadingTest extends ParserBaseTestHelper {
+class OverloadingTest extends ParserBaseTestHelper {
 
   @Test
   void operatorFunctionId_reallife() {

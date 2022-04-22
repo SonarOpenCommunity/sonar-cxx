@@ -75,7 +75,7 @@ class CxxValgrindRuleRepositoryTest {
   }
 
   @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
-  public void containsInvalidFormatInExtensionRulesNewFormat() {
+  void containsInvalidFormatInExtensionRulesNewFormat() {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     var extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesInvalid.xml"));
@@ -91,7 +91,7 @@ class CxxValgrindRuleRepositoryTest {
   }
 
   @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
-  public void containsEmptyExtensionRulesFile() {
+  void containsEmptyExtensionRulesFile() {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     var extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesEmptyFile.xml"));

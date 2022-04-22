@@ -30,7 +30,7 @@ import java.util.Properties;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
 
 @Beta
-public class PropertyFileLoader {
+public final class PropertyFileLoader {
 
   private PropertyFileLoader() {
     // This class should not be instantiated

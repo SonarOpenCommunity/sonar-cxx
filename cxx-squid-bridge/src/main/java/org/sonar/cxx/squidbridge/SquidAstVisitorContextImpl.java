@@ -210,11 +210,14 @@ public class SquidAstVisitorContextImpl<G extends Grammar> extends SquidAstVisit
   public void log(CheckMessage message) {
     if (peekSourceCode() instanceof SourceFile) {
       peekSourceCode().log(message);
-    } else if (peekSourceCode().getParent(SourceFile.class) != null) {
-      peekSourceCode().getParent(SourceFile.class).log(message);
     } else {
-      throw new IllegalStateException("Unable to log a check message on source code '"
-                                        + (peekSourceCode() == null ? "[NULL]" : peekSourceCode().getKey()) + "'");
+      var sourceFile = peekSourceCode().getParent(SourceFile.class);
+      if (sourceFile != null) {
+        sourceFile.log(message);
+      } else {
+        throw new IllegalStateException("Unable to log a check message on source code '"
+                                          + (peekSourceCode() == null ? "[NULL]" : peekSourceCode().getKey()) + "'");
+      }
     }
   }
 

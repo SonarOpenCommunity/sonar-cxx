@@ -26,7 +26,7 @@ package com.sonar.cxx.sslr.impl.ast;
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.AstNodeSkippingPolicy;
 
-public class NeverSkipFromAst implements AstNodeSkippingPolicy {
+public final class NeverSkipFromAst implements AstNodeSkippingPolicy {
 
   public static final NeverSkipFromAst INSTANCE = new NeverSkipFromAst();
 

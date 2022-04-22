@@ -21,7 +21,7 @@ package org.sonar.cxx.parser;
 
 import org.junit.jupiter.api.Test;
 
-public class AttributedAtlTest extends ParserBaseTestHelper {
+class AttributedAtlTest extends ParserBaseTestHelper {
 
   @Test
   void vcAtlDeclaration() {

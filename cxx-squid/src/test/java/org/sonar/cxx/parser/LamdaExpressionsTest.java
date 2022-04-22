@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author jmecosta
  */
-public class LamdaExpressionsTest extends ParserBaseTestHelper {
+class LamdaExpressionsTest extends ParserBaseTestHelper {
 
   @Test
   void lambdaExpression() {

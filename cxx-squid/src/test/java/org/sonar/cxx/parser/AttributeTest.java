@@ -21,7 +21,7 @@ package org.sonar.cxx.parser;
 
 import org.junit.jupiter.api.Test;
 
-public class AttributeTest extends ParserBaseTestHelper {
+class AttributeTest extends ParserBaseTestHelper {
 
   @Test
   void classSpecifier_reallife() {

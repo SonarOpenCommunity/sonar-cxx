@@ -31,7 +31,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 import org.apache.commons.io.FileUtils;
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -92,7 +91,7 @@ class CxxParserTest {
   }
 
   //@Test todo
-  public void testParsingCSourceFiles() {
+  void testParsingCSourceFiles() {
     var map = new HashMap<String, Integer>() {
     };
 

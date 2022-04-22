@@ -264,7 +264,7 @@ class CodeBufferTest {
    */
   @Test
   @Timeout(1000)
-  public void testWrongEndOfStreamFilter() {
+  void testWrongEndOfStreamFilter() {
     var configuration = new CodeReaderConfiguration();
     configuration.setCodeReaderFilters(new WrongEndOfStreamFilter());
     new CodeBuffer("foo", configuration);

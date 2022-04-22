@@ -22,7 +22,7 @@ package org.sonar.cxx.parser;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class PreprocessorDirectivesTest extends ParserBaseTestHelper {
+class PreprocessorDirectivesTest extends ParserBaseTestHelper {
 
   @Test
   void preprocessorDirectives() {

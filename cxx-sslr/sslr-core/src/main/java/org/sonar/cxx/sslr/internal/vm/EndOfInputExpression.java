@@ -23,7 +23,7 @@
  */
 package org.sonar.cxx.sslr.internal.vm;
 
-public class EndOfInputExpression extends NativeExpression {
+public final class EndOfInputExpression extends NativeExpression {
 
   public static final EndOfInputExpression INSTANCE = new EndOfInputExpression();
 

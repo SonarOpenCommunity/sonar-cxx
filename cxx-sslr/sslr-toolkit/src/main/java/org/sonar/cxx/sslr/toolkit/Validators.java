@@ -32,7 +32,7 @@ import java.nio.charset.UnsupportedCharsetException;
  *
  * @since 1.17
  */
-public class Validators {
+public final class Validators {
 
   private static final CharsetValidator CHARSET_VALIDATOR = new CharsetValidator();
   private static final BooleanValidator BOOLEAN_VALIDATOR = new BooleanValidator();
@@ -156,7 +156,7 @@ public class Validators {
     @Override
     public String validate(String newValueCandidate) {
       return !"false".equals(newValueCandidate) && !"true".equals(newValueCandidate)
-             ? ("Must be either \"true\" or \"false\": " + newValueCandidate) : "";
+               ? ("Must be either \"true\" or \"false\": " + newValueCandidate) : "";
     }
 
   }

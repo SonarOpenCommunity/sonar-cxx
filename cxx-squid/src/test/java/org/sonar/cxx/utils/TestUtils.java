@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import javax.annotation.CheckForNull;
 
-public class TestUtils {
+public final class TestUtils {
 
   public static File loadResource(String resourceName) {
     URL resource = TestUtils.class.getResource(resourceName);

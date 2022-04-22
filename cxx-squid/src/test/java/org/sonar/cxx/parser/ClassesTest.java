@@ -21,7 +21,7 @@ package org.sonar.cxx.parser;
 
 import org.junit.jupiter.api.Test;
 
-public class ClassesTest extends ParserBaseTestHelper {
+class ClassesTest extends ParserBaseTestHelper {
 
   @Test
   void className_reallife() {

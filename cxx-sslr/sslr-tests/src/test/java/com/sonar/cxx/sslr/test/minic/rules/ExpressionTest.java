@@ -28,7 +28,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.sslr.tests.Assertions.assertThat;
 
-public class ExpressionTest extends RuleTest {
+class ExpressionTest extends RuleTest {
 
   @Override
   @BeforeEach

@@ -35,7 +35,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void pattern() {
+  void pattern() {
     var instructions = new PatternExpression("foo|bar").compile(new CompilationHandler());
     assertThat(Machine.execute("foo", instructions)).isTrue();
     assertThat(Machine.execute("bar", instructions)).isTrue();
@@ -44,7 +44,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void string() {
+  void string() {
     var instructions = new StringExpression("foo").compile(new CompilationHandler());
     assertThat(Machine.execute("foo", instructions)).isTrue();
     assertThat(Machine.execute("bar", instructions)).isFalse();
@@ -52,7 +52,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void sequence() {
+  void sequence() {
     var instructions = new SequenceExpression(
       new StringExpression("foo"), new StringExpression("bar")).compile(new CompilationHandler());
     assertThat(Machine.execute("foobar", instructions)).isTrue();
@@ -61,7 +61,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void firstOf() {
+  void firstOf() {
     var instructions = new FirstOfExpression(
       new StringExpression("foo"),
       new StringExpression("bar"),
@@ -74,7 +74,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void optional() {
+  void optional() {
     var instructions = new OptionalExpression(new StringExpression("a")).compile(new CompilationHandler());
     assertThat(Machine.execute("", instructions)).isTrue();
     assertThat(Machine.execute("a", instructions)).isTrue();
@@ -82,7 +82,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void next() {
+  void next() {
     var instructions = new NextExpression(new StringExpression("foo")).compile(new CompilationHandler());
     assertThat(Machine.execute("foo", instructions)).isTrue();
     assertThat(Machine.execute("bar", instructions)).isFalse();
@@ -90,7 +90,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void nextNot() {
+  void nextNot() {
     var instructions = new NextNotExpression(new StringExpression("foo")).compile(new CompilationHandler());
     assertThat(Machine.execute("foo", instructions)).isFalse();
     assertThat(Machine.execute("bar", instructions)).isTrue();
@@ -98,7 +98,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void zeroOrMore() {
+  void zeroOrMore() {
     var instructions = new ZeroOrMoreExpression(new StringExpression("a")).compile(new CompilationHandler());
     assertThat(Machine.execute("", instructions)).isTrue();
     assertThat(Machine.execute("a", instructions)).isTrue();
@@ -107,7 +107,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void zeroOrMore_should_not_cause_infinite_loop() {
+  void zeroOrMore_should_not_cause_infinite_loop() {
     var instructions = new ZeroOrMoreExpression(
       new FirstOfExpression(
         new StringExpression("foo"),
@@ -118,7 +118,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void oneOrMore() {
+  void oneOrMore() {
     var instructions = new OneOrMoreExpression(new StringExpression("a")).compile(new CompilationHandler());
     assertThat(Machine.execute("", instructions)).isFalse();
     assertThat(Machine.execute("a", instructions)).isTrue();
@@ -127,7 +127,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void oneOrMore_should_not_cause_infinite_loop() {
+  void oneOrMore_should_not_cause_infinite_loop() {
     var instructions = new OneOrMoreExpression(
       new FirstOfExpression(
         new StringExpression("foo"),
@@ -138,7 +138,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void token() {
+  void token() {
     var instructions = new TokenExpression(GenericTokenType.IDENTIFIER, new StringExpression("foo")).compile(
       new CompilationHandler());
     assertThat(Machine.execute("foo", instructions)).isTrue();
@@ -147,7 +147,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  public void trivia() {
+  void trivia() {
     var instructions = new TriviaExpression(TriviaKind.COMMENT, new StringExpression("foo")).compile(
       new CompilationHandler());
     assertThat(Machine.execute("foo", instructions)).isTrue();
