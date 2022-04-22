@@ -23,7 +23,7 @@
  */
 package org.sonar.cxx.sslr.internal.vm; // cxx: in use
 
-public class NothingExpression extends NativeExpression {
+public final class NothingExpression extends NativeExpression {
 
   public static final NothingExpression INSTANCE = new NothingExpression();
 

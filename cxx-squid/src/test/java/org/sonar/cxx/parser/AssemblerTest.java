@@ -21,7 +21,7 @@ package org.sonar.cxx.parser;
 
 import org.junit.jupiter.api.Test;
 
-public class AssemblerTest extends ParserBaseTestHelper {
+class AssemblerTest extends ParserBaseTestHelper {
 
   @Test
   void asmIsoStandard() {

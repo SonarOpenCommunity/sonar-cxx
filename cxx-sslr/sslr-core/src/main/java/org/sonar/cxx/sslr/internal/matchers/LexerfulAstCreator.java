@@ -35,8 +35,12 @@ public class LexerfulAstCreator {
 
   public static AstNode create(ParseNode node, List<Token> tokens) {
     var astNode = new LexerfulAstCreator(tokens).visit(node);
-    // Unwrap AstNodeType for root node:
-    astNode.hasToBeSkippedFromAst();
+    try {
+      // Unwrap AstNodeType for root node:
+      astNode.hasToBeSkippedFromAst();
+    } catch (NullPointerException e) {
+      throw new IllegalStateException(e);
+    }
     return astNode;
   }
 

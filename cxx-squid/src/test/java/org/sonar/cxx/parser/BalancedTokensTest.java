@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author jmecosta
  */
-public class BalancedTokensTest extends ParserBaseTestHelper {
+class BalancedTokensTest extends ParserBaseTestHelper {
 
   @Test
   void attributeSpecifierSeq() {

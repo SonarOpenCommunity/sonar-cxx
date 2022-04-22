@@ -883,7 +883,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   //@Test @todo
-  public void hashhash_operator_problem() {
+  void hashhash_operator_problem() {
     // Corresponds to the Jira Issue SONARPLUGINS-3055.
     // The problem here is that 0x##n is splitted into
     // [0, x, ##, n] sequence of tokens by the initial parsing routine.

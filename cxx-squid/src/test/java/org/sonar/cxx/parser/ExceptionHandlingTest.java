@@ -21,7 +21,7 @@ package org.sonar.cxx.parser;
 
 import org.junit.jupiter.api.Test;
 
-public class ExceptionHandlingTest extends ParserBaseTestHelper {
+class ExceptionHandlingTest extends ParserBaseTestHelper {
 
   @Test
   void exceptionDeclaration() {

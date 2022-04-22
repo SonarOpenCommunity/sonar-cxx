@@ -27,7 +27,7 @@ import org.sonar.cxx.sslr.internal.matchers.Matcher;
 import org.sonar.cxx.sslr.internal.vm.Machine;
 import org.sonar.cxx.sslr.internal.vm.NativeExpression;
 
-public class AnyTokenExpression extends NativeExpression implements Matcher {
+public final class AnyTokenExpression extends NativeExpression implements Matcher {
 
   public static final AnyTokenExpression INSTANCE = new AnyTokenExpression();
 

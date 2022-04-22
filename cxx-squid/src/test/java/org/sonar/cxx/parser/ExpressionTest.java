@@ -21,7 +21,7 @@ package org.sonar.cxx.parser;
 
 import org.junit.jupiter.api.Test;
 
-public class ExpressionTest extends ParserBaseTestHelper {
+class ExpressionTest extends ParserBaseTestHelper {
 
   @Test
   void primaryExpression() {

@@ -25,12 +25,10 @@ package com.sonar.cxx.sslr.impl.typed;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Token;
-
+import java.lang.reflect.Field;
 import javax.annotation.Nullable;
 
-import java.lang.reflect.Field;
-
-public class AstNodeReflector {
+public final class AstNodeReflector {
 
   private static final Field TOKEN_FIELD = getAstNodeField("token");
   private static final Field CHILD_INDEX_FIELD = getAstNodeField("childIndex");

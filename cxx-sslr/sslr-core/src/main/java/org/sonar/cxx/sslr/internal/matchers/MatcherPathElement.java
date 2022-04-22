@@ -59,6 +59,9 @@ public class MatcherPathElement {
     if (obj == this) {
       return true;
     }
+    if (obj == null) {
+      return false;
+    }
     if (getClass() == obj.getClass()) {
       var other = (MatcherPathElement) obj;
       return this.matcher.equals(other.matcher)

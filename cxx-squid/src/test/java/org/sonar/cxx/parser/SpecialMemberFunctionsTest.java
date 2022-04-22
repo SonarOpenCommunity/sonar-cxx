@@ -21,7 +21,7 @@ package org.sonar.cxx.parser;
 
 import org.junit.jupiter.api.Test;
 
-public class SpecialMemberFunctionsTest extends ParserBaseTestHelper {
+class SpecialMemberFunctionsTest extends ParserBaseTestHelper {
 
   @Test
   void ctorInitializer_reallife() {

@@ -21,7 +21,7 @@ package org.sonar.cxx.parser;
 
 import org.junit.jupiter.api.Test;
 
-public class FileInputTest extends ParserBaseTestHelper {
+class FileInputTest extends ParserBaseTestHelper {
 
   @Test
   void translationUnit() {

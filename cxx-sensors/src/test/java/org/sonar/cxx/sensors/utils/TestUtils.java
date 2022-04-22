@@ -34,7 +34,7 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.resources.Language;
 
-public class TestUtils {
+public final class TestUtils {
 
   private final static String OS = System.getProperty("os.name").toLowerCase();
 

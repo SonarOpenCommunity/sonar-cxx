@@ -28,7 +28,7 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxPunctuator;
 
-public class CheckUtils {
+public final class CheckUtils {
 
   private CheckUtils() {
   }

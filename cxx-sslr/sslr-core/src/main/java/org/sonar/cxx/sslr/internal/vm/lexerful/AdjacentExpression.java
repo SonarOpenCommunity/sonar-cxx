@@ -26,7 +26,7 @@ package org.sonar.cxx.sslr.internal.vm.lexerful; // cxx: in use
 import org.sonar.cxx.sslr.internal.vm.Machine;
 import org.sonar.cxx.sslr.internal.vm.NativeExpression;
 
-public class AdjacentExpression extends NativeExpression {
+public final class AdjacentExpression extends NativeExpression {
 
   public static final AdjacentExpression INSTANCE = new AdjacentExpression();
 
