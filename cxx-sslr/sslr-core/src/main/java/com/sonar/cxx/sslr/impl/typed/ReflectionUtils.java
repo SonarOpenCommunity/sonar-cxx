@@ -26,6 +26,7 @@ package com.sonar.cxx.sslr.impl.typed;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import javax.annotation.Nullable;
 
 public final class ReflectionUtils {
 
@@ -51,7 +52,7 @@ public final class ReflectionUtils {
     }
   }
 
-  public static void setField(Field field, Object instance, Object value) {
+  public static void setField(Field field, Object instance, @Nullable Object value) {
     try {
       field.set(instance, value);
     } catch (IllegalAccessException e) {
