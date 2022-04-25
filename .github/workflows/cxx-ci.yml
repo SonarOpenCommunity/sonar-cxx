@@ -35,7 +35,7 @@ jobs:
     # checkout code
     #
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     # setup Python
     #
@@ -88,7 +88,7 @@ jobs:
     # checkout code
     #
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     # setup Java
     #
@@ -121,9 +121,10 @@ jobs:
 
     # Build and test with with Maven
     # - use phase 'verify' to aggregate coverage results (part of integration-tests)
+    # - use phase 'package' to resolve dependencies (necessary for sonar-scanner)
     #
     - name: Build and test with Maven
-      run: mvn -B -e -V verify --file pom.xml
+      run: mvn -B -e -V package --file pom.xml
 
     # Update SonarCloud results
     # - Secrets are not passed to the runner when a workflow is triggered from a forked repository!
@@ -182,7 +183,7 @@ jobs:
     # checkout code
     #
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     # setup Java
     #
@@ -235,9 +236,13 @@ jobs:
       run: echo '${{ toJSON(matrix) }}'
 
     # checkout code
+    # - to provide complete SCM information to the sonar scanner,
+    #   all historical data for all branches and tags must be retrieved (fetch-depth: 0)
     #
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
     # setup Java
     #
@@ -378,7 +383,7 @@ jobs:
     # checkout code
     #
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     # setup Java
     #
