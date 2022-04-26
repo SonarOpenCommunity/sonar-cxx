@@ -314,55 +314,43 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private static int matchArguments(List<Token> tokens, List<Token> arguments) {
-    List<Token> rest = new ArrayList<>(tokens);
-    try {
-      rest = match(rest, "(");
-    } catch (MismatchException e) {
+    // argument list must start with '('
+    int size = tokens.size();
+    if ((size < 1) || !"(".equals(tokens.get(0).getValue())) {
       return 0;
     }
-
-    try {
-      do {
-        rest = matchArgument(rest, arguments);
-        try {
-          rest = match(rest, ",");
-        } catch (MismatchException e) {
+    // split arguments ','
+    var endOfArgument = false;
+    var nestingLevel = -1;
+    var fromIndex = 0;
+    for (var i = 0; i < size; i++) {
+      var token = tokens.get(i);
+      var tokenValue = token.getValue();
+      switch (tokenValue) {
+        case "(":
+          nestingLevel++;
           break;
-        }
-      } while (true);
-    } catch (MismatchException e) {
-      // ...
-    }
-    try {
-      rest = match(rest, ")");
-    } catch (MismatchException e) {
-      LOG.error("MismatchException : '{}' rest: '{}'", e.getMessage(), rest);
-      return 0;
-    }
-    return tokens.size() - rest.size();
-  }
+        case ",":
+          if (nestingLevel == 0) {
+            endOfArgument = true;
+          }
+          break;
+        case ")":
+          if (nestingLevel == 0) {
+            endOfArgument = true;
+          }
+          nestingLevel--;
+          break;
+        default:
+          break;
+      }
 
-  private static List<Token> match(List<Token> tokens, String str) throws MismatchException {
-    if (!tokens.get(0).getValue().equals(str)) {
-      throw new MismatchException("Mismatch: expected '" + str + "' got: '"
-                                    + tokens.get(0).getValue() + "'" + " [" + tokens.get(0).getURI() + "("
-                                    + tokens.get(0).getLine() + "," + tokens.get(0).getColumn() + ")]");
-    }
-    return tokens.subList(1, tokens.size());
-  }
+      // add argument to list
+      if (endOfArgument) {
+        if ((i - fromIndex) > 1) {
+          var matchedTokens = tokens.subList(fromIndex + 1, i);
+          var firstToken = matchedTokens.get(0);
 
-  private static List<Token> matchArgument(List<Token> tokens, List<Token> arguments) throws MismatchException {
-    var nestingLevel = 0;
-    var tokensConsumed = 0;
-    var noTokens = tokens.size();
-    var firstToken = tokens.get(0);
-    var currToken = firstToken;
-    String curr = currToken.getValue();
-    var matchedTokens = new LinkedList<Token>();
-
-    while (true) {
-      if (nestingLevel == 0 && (",".equals(curr) || ")".equals(curr))) {
-        if (tokensConsumed > 0) {
           arguments.add(Token.builder()
             .setLine(firstToken.getLine())
             .setColumn(firstToken.getColumn())
@@ -371,24 +359,18 @@ public class CxxPreprocessor extends Preprocessor {
             .setType(STRING)
             .build());
         }
-        return tokens.subList(tokensConsumed, noTokens);
-      }
+        // end of parameter list: closing ')'
+        if (nestingLevel < 0) {
+          return i + 1;
+        }
 
-      if ("(".equals(curr)) {
-        nestingLevel++;
-      } else if (")".equals(curr)) {
-        nestingLevel--;
+        endOfArgument = false;
+        fromIndex = i;
       }
-
-      tokensConsumed++;
-      if (tokensConsumed == noTokens) {
-        throw new MismatchException("reached the end of the stream while matching a macro argument");
-      }
-
-      matchedTokens.add(currToken);
-      currToken = tokens.get(tokensConsumed);
-      curr = currToken.getValue();
     }
+
+    LOG.error("preprocessor 'matchArguments' error, missing ')': {}", tokens.toString());
+    return 0;
   }
 
   private static List<Token> evaluateHashhashOperators(List<Token> tokens) {
