@@ -24,6 +24,7 @@
 package org.sonar.cxx.sslr.parser; // cxx: in use
 
 import java.util.Objects;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.internal.matchers.InputBuffer;
 import org.sonar.cxx.sslr.internal.matchers.ParseNode;
@@ -43,7 +44,7 @@ public class ParsingResult {
   private final InputBuffer inputBuffer;
   private final ParseError parseError;
 
-  public ParsingResult(InputBuffer inputBuffer, boolean matched, @Nullable ParseNode parseTreeRoot,
+  public ParsingResult(@Nonnull InputBuffer inputBuffer, boolean matched, @Nullable ParseNode parseTreeRoot,
                        @Nullable ParseError parseError) {
     this.inputBuffer = Objects.requireNonNull(inputBuffer, "inputBuffer");
     this.matched = matched;

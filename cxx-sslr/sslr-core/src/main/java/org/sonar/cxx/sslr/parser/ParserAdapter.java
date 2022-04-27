@@ -28,9 +28,6 @@ import com.sonar.cxx.sslr.api.RecognitionException;
 import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.impl.Parser;
 import com.sonar.cxx.sslr.impl.matcher.RuleDefinition;
-import org.sonar.cxx.sslr.internal.matchers.AstCreator;
-import org.sonar.cxx.sslr.internal.matchers.LocatedText;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -38,6 +35,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Nonnull;
+import org.sonar.cxx.sslr.internal.matchers.AstCreator;
+import org.sonar.cxx.sslr.internal.matchers.LocatedText;
 
 /**
  * Adapts {@link ParseRunner} to be used as {@link Parser}.
@@ -52,7 +52,7 @@ public class ParserAdapter<G extends LexerlessGrammar> extends Parser<G> {
   private final Charset charset;
   private final ParseRunner parseRunner;
 
-  public ParserAdapter(Charset charset, G grammar) {
+  public ParserAdapter(@Nonnull Charset charset, @Nonnull G grammar) {
     super(Objects.requireNonNull(grammar, "grammar"));
     this.charset = Objects.requireNonNull(charset, "charset");
     this.parseRunner = new ParseRunner(grammar.getRootRule());

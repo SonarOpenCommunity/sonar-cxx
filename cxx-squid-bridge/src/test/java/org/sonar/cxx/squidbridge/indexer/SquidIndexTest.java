@@ -75,26 +75,4 @@ class SquidIndexTest {
       .contains(classSquid);
   }
 
-  @Test
-  void searchByName() {
-    Collection<SourceCode> resources = indexer.search(new QueryByName("Squid.java"));
-    assertThat(resources)
-      .hasSize(1)
-      .contains(fileSquid);
-  }
-
-  @Test
-  void searchByParent() {
-    Collection<SourceCode> resources = indexer.search(new QueryByParent(packSquid));
-    assertThat(resources).hasSize(3);
-  }
-
-  @Test
-  void searchByParentAndByType() {
-    Collection<SourceCode> resources = indexer.search(new QueryByParent(packSquid), new QueryByType(SourceClass.class));
-    assertThat(resources)
-      .hasSize(1)
-      .contains(classSquid);
-  }
-
 }

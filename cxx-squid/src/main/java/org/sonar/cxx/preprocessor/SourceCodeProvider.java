@@ -32,6 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
@@ -52,7 +53,7 @@ public class SourceCodeProvider {
   private final File contextFile;
   private String fileUnderAnalysisPath;
 
-  public SourceCodeProvider(File contextFile) {
+  public SourceCodeProvider(@Nonnull File contextFile) {
     // In case "physical" file is preprocessed, SquidAstVisitorContext::getFile() cannot return null.
     // Did you forget to setup the mock properly?
     Objects.requireNonNull(contextFile, "SquidAstVisitorContext::getFile() must be non-null!");
@@ -203,12 +204,12 @@ public class SourceCodeProvider {
   }
 
   public String getSourceCode(File file, Charset defaultCharset) throws IOException {
-    try ( var bomInputStream = new BOMInputStream(new FileInputStream(file),
-                                              ByteOrderMark.UTF_8,
-                                              ByteOrderMark.UTF_16LE,
-                                              ByteOrderMark.UTF_16BE,
-                                              ByteOrderMark.UTF_32LE,
-                                              ByteOrderMark.UTF_32BE)) {
+    try (var bomInputStream = new BOMInputStream(new FileInputStream(file),
+                                             ByteOrderMark.UTF_8,
+                                             ByteOrderMark.UTF_16LE,
+                                             ByteOrderMark.UTF_16BE,
+                                             ByteOrderMark.UTF_32LE,
+                                             ByteOrderMark.UTF_32BE)) {
       ByteOrderMark bom = bomInputStream.getBOM();
       Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
       byte[] bytes = bomInputStream.readAllBytes();

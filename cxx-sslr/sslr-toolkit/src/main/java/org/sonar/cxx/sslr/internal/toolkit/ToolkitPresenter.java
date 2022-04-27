@@ -34,6 +34,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 import org.sonar.cxx.sslr.toolkit.ConfigurationModel;
 import org.sonar.cxx.sslr.toolkit.ConfigurationProperty;
 
@@ -48,7 +49,7 @@ public class ToolkitPresenter {
     this.model = model;
   }
 
-  public void setView(ToolkitView view) {
+  public void setView(@Nonnull ToolkitView view) {
     Objects.requireNonNull(view);
     this.view = view;
   }

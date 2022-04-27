@@ -26,12 +26,14 @@ package org.sonar.cxx.sslr.parser; // cxx: in use
 import org.sonar.cxx.sslr.internal.matchers.InputBuffer;
 
 import java.util.Objects;
+import javax.annotation.Nonnull;
 
 /**
  * Describes an error, which is occurred during parse.
  * Use {@link ParseErrorFormatter} to convert instances of this class to readable format.
  *
- * <p>This class is not intended to be instantiated or subclassed by clients.</p>
+ * <p>
+ * This class is not intended to be instantiated or subclassed by clients.</p>
  *
  * @since 1.16
  */
@@ -40,7 +42,7 @@ public class ParseError {
   private final InputBuffer inputBuffer;
   private final int errorIndex;
 
-  public ParseError(InputBuffer inputBuffer, int errorIndex) {
+  public ParseError(@Nonnull InputBuffer inputBuffer, int errorIndex) {
     this.inputBuffer = Objects.requireNonNull(inputBuffer, "inputBuffer");
     this.errorIndex = errorIndex;
   }

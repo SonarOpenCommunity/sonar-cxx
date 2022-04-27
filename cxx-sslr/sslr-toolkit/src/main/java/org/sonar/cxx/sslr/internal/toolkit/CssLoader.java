@@ -24,6 +24,7 @@
 package org.sonar.cxx.sslr.internal.toolkit;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 
 public final class CssLoader {
@@ -36,7 +37,7 @@ public final class CssLoader {
   public static String getCss() {
     try {
       var inputStream = CssLoader.class.getResourceAsStream(CSS_PATH);
-      return IOUtils.toString(inputStream);
+      return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

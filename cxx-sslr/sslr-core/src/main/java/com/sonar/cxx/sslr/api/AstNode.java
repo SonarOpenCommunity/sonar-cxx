@@ -29,16 +29,12 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
-import org.sonar.cxx.sslr.ast.AstSelect;
-import org.sonar.cxx.sslr.internal.ast.select.AstSelectFactory;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 
 /**
  * the parser is in charge to construct an abstract syntax tree (AST) which is a tree representation of the abstract
- * syntactic structure of
- * source code. Each node of the tree is an AstNode and each node denotes a construct occurring in the source code which
- * starts at a given
- * Token.
+ * syntactic structure of source code. Each node of the tree is an AstNode and each node denotes a construct occurring
+ * in the source code which starts at a given Token.
  *
  * @see Token
  */
@@ -126,14 +122,6 @@ public class AstNode {
   }
 
   /**
-   * @deprecated in 1.17, use {@link #getNextAstNode()} instead
-   */
-  @Deprecated(since = "1.17")
-  public AstNode nextAstNode() {
-    return getNextAstNode();
-  }
-
-  /**
    * Get the next sibling AstNode in the tree and if this node doesn't exist try to get the next AST Node of the parent.
    *
    * @since 1.17
@@ -148,14 +136,6 @@ public class AstNode {
       return parent.getNextAstNode();
     }
     return null;
-  }
-
-  /**
-   * @deprecated in 1.17, use {@link #getPreviousAstNode()} instead
-   */
-  @Deprecated(since = "1.17")
-  public AstNode previousAstNode() {
-    return getPreviousAstNode();
   }
 
   /**
@@ -177,14 +157,6 @@ public class AstNode {
   }
 
   /**
-   * @deprecated in 1.17, use {@link #getNextSibling()} instead
-   */
-  @Deprecated(since = "1.17")
-  public AstNode nextSibling() {
-    return getNextSibling();
-  }
-
-  /**
    * Get the next sibling AstNode if exists in the tree.
    *
    * @return next sibling, or null if not exists
@@ -199,14 +171,6 @@ public class AstNode {
       return parent.children.get(childIndex + 1);
     }
     return null;
-  }
-
-  /**
-   * @deprecated in 1.17, use {@link #getPreviousSibling()}
-   */
-  @Deprecated(since = "1.17")
-  public AstNode previousSibling() {
-    return getPreviousSibling();
   }
 
   /**
@@ -231,12 +195,8 @@ public class AstNode {
    *
    * @return token's value
    */
-  @CheckForNull
   public String getTokenValue() {
-    if (token == null) {
-      return null;
-    }
-    return token.getValue();
+    return token != null ? token.getValue() : "";
   }
 
   /**
@@ -244,12 +204,8 @@ public class AstNode {
    *
    * @return token's original value
    */
-  @CheckForNull
   public String getTokenOriginalValue() {
-    if (token == null) {
-      return null;
-    }
-    return token.getOriginalValue();
+    return token != null ? token.getOriginalValue() : "";
   }
 
   /**
@@ -329,14 +285,6 @@ public class AstNode {
   }
 
   /**
-   * @deprecated in 1.17, use {@link #getFirstChild(AstNodeType...)} instead
-   */
-  @Deprecated(since = "1.17")
-  public AstNode findFirstDirectChild(AstNodeType... nodeTypes) {
-    return getFirstChild(nodeTypes);
-  }
-
-  /**
    * Returns first child of one of specified types.
    * <p>
    * In the following case, {@code getFirstChild("B")} would return "B2":
@@ -361,14 +309,6 @@ public class AstNode {
       }
     }
     return null;
-  }
-
-  /**
-   * @deprecated in 1.17, use {@link #getFirstDescendant(AstNodeType...)} instead
-   */
-  @Deprecated(since = "1.17")
-  public AstNode findFirstChild(AstNodeType... nodeTypes) {
-    return getFirstDescendant(nodeTypes);
   }
 
   /**
@@ -410,14 +350,6 @@ public class AstNode {
   }
 
   /**
-   * @deprecated in 1.17, use {@link #getChildren(AstNodeType...)} instead
-   */
-  @Deprecated(since = "1.17")
-  public List<AstNode> findDirectChildren(AstNodeType... nodeTypes) {
-    return getChildren(nodeTypes);
-  }
-
-  /**
    * Returns children of specified types.
    * In the following case, {@code getChildren("B")} would return "B2" and "B3":
    * <p>
@@ -442,17 +374,6 @@ public class AstNode {
         }
       }
     }
-    return result;
-  }
-
-  /**
-   * @deprecated in 1.17, use {@link #getDescendants(AstNodeType...)} instead, but don't forget that those methods
-   * behave differently due to bug SSLR-249
-   */
-  @Deprecated(since = "1.17")
-  public List<AstNode> findChildren(AstNodeType... nodeTypes) {
-    List<AstNode> result = new ArrayList<>();
-    getDescendants(result, nodeTypes);
     return result;
   }
 
@@ -543,29 +464,11 @@ public class AstNode {
   }
 
   /**
-   * @deprecated in 1.17, use {@link #hasDescendant(AstNodeType...)} instead.
-   * Be careful the name of this method is misleading as the check is done on descendant nodes
-   * and not only on child nodes.
-   */
-  @Deprecated(since = "1.17")
-  public boolean hasChildren(AstNodeType... nodeTypes) {
-    return hasDescendant(nodeTypes);
-  }
-
-  /**
    * @return true if this node has a descendant of one of specified types
    * @since 1.17
    */
   public boolean hasDescendant(AstNodeType... nodeTypes) {
     return getFirstDescendant(nodeTypes) != null;
-  }
-
-  /**
-   * @deprecated in 1.17, use {@link #hasAncestor(AstNodeType)} instead
-   */
-  @Deprecated(since = "1.17")
-  public boolean hasParents(AstNodeType nodeType) {
-    return hasAncestor(nodeType);
   }
 
   /**
@@ -589,14 +492,6 @@ public class AstNode {
    */
   public boolean hasAncestor(AstNodeType... nodeTypes) {
     return getFirstAncestor(nodeTypes) != null;
-  }
-
-  /**
-   * @deprecated in 1.17, use {@link #getFirstAncestor(AstNodeType)} instead
-   */
-  @Deprecated(since = "1.17")
-  public AstNode findFirstParent(AstNodeType nodeType) {
-    return getFirstAncestor(nodeType);
   }
 
   /**
@@ -687,15 +582,6 @@ public class AstNode {
       }
     }
     return currentNode.getToken();
-  }
-
-  /**
-   * @since 1.18
-   * @deprecated in 1.22
-   */
-  @Deprecated(since = "1.22")
-  public AstSelect select() {
-    return AstSelectFactory.select(this);
   }
 
 }

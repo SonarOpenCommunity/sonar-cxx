@@ -24,17 +24,18 @@
 package org.sonar.cxx.sslr.parser; // cxx: in use
 
 import com.sonar.cxx.sslr.api.Rule;
+import java.util.Objects;
+import javax.annotation.Nonnull;
 import org.sonar.cxx.sslr.internal.vm.CompilableGrammarRule;
 import org.sonar.cxx.sslr.internal.vm.CompiledGrammar;
 import org.sonar.cxx.sslr.internal.vm.Machine;
 import org.sonar.cxx.sslr.internal.vm.MutableGrammarCompiler;
 
-import java.util.Objects;
-
 /**
  * Performs parsing of a given grammar rule on a given input text.
  *
- * <p>This class is not intended to be subclassed by clients.</p>
+ * <p>
+ * This class is not intended to be subclassed by clients.</p>
  *
  * @since 1.16
  */
@@ -42,7 +43,7 @@ public class ParseRunner {
 
   private final CompiledGrammar compiledGrammar;
 
-  public ParseRunner(Rule rule) {
+  public ParseRunner(@Nonnull Rule rule) {
     compiledGrammar = MutableGrammarCompiler.compile((CompilableGrammarRule) Objects.requireNonNull(rule, "rule"));
   }
 

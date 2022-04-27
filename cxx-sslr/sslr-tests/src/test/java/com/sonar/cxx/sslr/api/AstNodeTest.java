@@ -152,8 +152,8 @@ class AstNodeTest {
     statement.addChild(expr1);
     statement.addChild(expr2);
 
-    assertThat(expr1.nextSibling()).isSameAs(expr2);
-    assertThat(expr2.nextSibling()).isNull();
+    assertThat(expr1.getNextSibling()).isSameAs(expr2);
+    assertThat(expr2.getNextSibling()).isNull();
   }
 
   @Test
@@ -165,8 +165,8 @@ class AstNodeTest {
     statement.addChild(expr1);
     statement.addChild(expr2);
 
-    assertThat(expr1.previousSibling()).isNull();
-    assertThat(expr2.previousSibling()).isSameAs(expr1);
+    assertThat(expr1.getPreviousSibling()).isNull();
+    assertThat(expr2.getPreviousSibling()).isSameAs(expr1);
   }
 
   @Test
@@ -178,9 +178,9 @@ class AstNodeTest {
     expr.addChild(stat);
     expr.addChild(identifier);
 
-    assertThat(expr.findFirstDirectChild(statRule)).isSameAs(stat);
+    assertThat(expr.getFirstChild(statRule)).isSameAs(stat);
     var anotherRule = new NodeType();
-    assertThat(expr.findFirstDirectChild(anotherRule, statRule)).isSameAs(stat);
+    assertThat(expr.getFirstChild(anotherRule, statRule)).isSameAs(stat);
   }
 
   @Test
@@ -207,34 +207,34 @@ class AstNodeTest {
   void testFindChildren() {
     var fileNode = parseString("int a = 0; int myFunction() { int b = 0; { int c = 0; } }");
 
-    var binVariableDeclarationNodes = fileNode.findChildren(MiniCGrammar.BIN_VARIABLE_DEFINITION);
+    var binVariableDeclarationNodes = fileNode.getDescendants(MiniCGrammar.BIN_VARIABLE_DEFINITION);
     assertThat(binVariableDeclarationNodes).hasSize(3);
     assertThat(binVariableDeclarationNodes.get(0).getTokenValue()).isEqualTo("a");
     assertThat(binVariableDeclarationNodes.get(1).getTokenValue()).isEqualTo("b");
     assertThat(binVariableDeclarationNodes.get(2).getTokenValue()).isEqualTo("c");
 
-    var binVDeclarationNodes = fileNode.findChildren(MiniCGrammar.BIN_VARIABLE_DEFINITION,
-                                                 MiniCGrammar.BIN_FUNCTION_DEFINITION);
+    var binVDeclarationNodes = fileNode.getDescendants(MiniCGrammar.BIN_VARIABLE_DEFINITION,
+                                                   MiniCGrammar.BIN_FUNCTION_DEFINITION);
     assertThat(binVDeclarationNodes).hasSize(4);
     assertThat(binVDeclarationNodes.get(0).getTokenValue()).isEqualTo("a");
     assertThat(binVDeclarationNodes.get(1).getTokenValue()).isEqualTo("myFunction");
     assertThat(binVDeclarationNodes.get(2).getTokenValue()).isEqualTo("b");
     assertThat(binVDeclarationNodes.get(3).getTokenValue()).isEqualTo("c");
 
-    assertThat(fileNode.findChildren(MiniCGrammar.MULTIPLICATIVE_EXPRESSION)).isEmpty();
+    assertThat(fileNode.getDescendants(MiniCGrammar.MULTIPLICATIVE_EXPRESSION)).isEmpty();
   }
 
   @Test
   void testFindDirectChildren() {
     var fileNode = parseString("int a = 0; void myFunction() { int b = 0*3; { int c = 0; } }");
 
-    var declarationNodes = fileNode.findDirectChildren(MiniCGrammar.DEFINITION);
+    var declarationNodes = fileNode.getChildren(MiniCGrammar.DEFINITION);
     assertThat(declarationNodes).hasSize(2);
     assertThat(declarationNodes.get(0).getTokenValue()).isEqualTo("int");
     assertThat(declarationNodes.get(1).getTokenValue()).isEqualTo("void");
 
-    var binVDeclarationNodes = fileNode.findDirectChildren(MiniCGrammar.BIN_VARIABLE_DEFINITION,
-                                                       MiniCGrammar.BIN_FUNCTION_DEFINITION);
+    var binVDeclarationNodes = fileNode.getChildren(MiniCGrammar.BIN_VARIABLE_DEFINITION,
+                                                MiniCGrammar.BIN_FUNCTION_DEFINITION);
     assertThat(binVDeclarationNodes).isEmpty();
   }
 
@@ -247,11 +247,11 @@ class AstNodeTest {
     expr.addChild(stat);
     expr.addChild(identifier);
 
-    assertThat(expr.findFirstChild(indentifierRule)).isSameAs(identifier);
-    assertThat(expr.hasChildren(indentifierRule)).isTrue();
+    assertThat(expr.getFirstDescendant(indentifierRule)).isSameAs(identifier);
+    assertThat(expr.hasDescendant(indentifierRule)).isTrue();
     var anotherRule = new NodeType();
-    assertThat(expr.findFirstChild(anotherRule)).isNull();
-    assertThat(expr.hasChildren(anotherRule)).isFalse();
+    assertThat(expr.getFirstDescendant(anotherRule)).isNull();
+    assertThat(expr.hasDescendant(anotherRule)).isFalse();
   }
 
   @Test
@@ -263,8 +263,8 @@ class AstNodeTest {
     expr.addChild(stat);
     expr.addChild(identifier);
 
-    assertThat(identifier.hasParents(exprRule)).isTrue();
-    assertThat(identifier.hasParents(new NodeType())).isFalse();
+    assertThat(identifier.hasAncestor(exprRule)).isTrue();
+    assertThat(identifier.hasAncestor(new NodeType())).isFalse();
   }
 
   @Test
@@ -307,15 +307,13 @@ class AstNodeTest {
     a1.addChild(d1);
     a1.addChild(b3);
 
-    assertThat(a1.findChildren(b, c)).containsExactly(c1, b1, b2, b3);
-    assertThat(a1.findChildren(b)).containsExactly(b1, b2, b3);
-    assertThat(a1.findChildren(e)).isEmpty();
-    assertThat(a1.findChildren(a)).as("SSLR-249").containsExactly(a1);
+    assertThat(a1.getDescendants(b, c)).containsExactly(c1, b1, b2, b3);
+    assertThat(a1.getDescendants(b)).containsExactly(b1, b2, b3);
+    assertThat(a1.getDescendants(e)).isEmpty();
 
     assertThat(a1.getDescendants(b, c)).containsExactly(c1, b1, b2, b3);
     assertThat(a1.getDescendants(b)).containsExactly(b1, b2, b3);
     assertThat(a1.getDescendants(e)).isEmpty();
-    assertThat(a1.getDescendants(a)).as("SSLR-249").isEmpty();
   }
 
   private class NodeType implements AstNodeSkippingPolicy {

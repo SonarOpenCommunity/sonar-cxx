@@ -27,6 +27,7 @@ import com.sonar.cxx.sslr.impl.Parser;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.sonar.colorizer.Tokenizer;
@@ -78,7 +79,7 @@ public class Toolkit {
    *
    * @since 1.17
    */
-  public Toolkit(String title, ConfigurationModel configurationModel) {
+  public Toolkit(@Nonnull String title, ConfigurationModel configurationModel) {
     Objects.requireNonNull(title);
 
     this.title = title;
