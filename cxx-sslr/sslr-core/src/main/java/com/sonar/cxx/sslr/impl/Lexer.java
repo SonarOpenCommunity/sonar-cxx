@@ -42,6 +42,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 import org.sonar.cxx.sslr.channel.Channel;
 import org.sonar.cxx.sslr.channel.ChannelDispatcher;
 import org.sonar.cxx.sslr.channel.CodeReader;
@@ -72,7 +73,7 @@ public class Lexer {
     }
   }
 
-  public List<Token> lex(File file) {
+  public List<Token> lex(@Nonnull File file) {
     Objects.requireNonNull(file, "file cannot be null");
     if (!file.isFile()) {
       throw new IllegalArgumentException("file \"" + file.getAbsolutePath() + "\" must be a file");
@@ -85,7 +86,7 @@ public class Lexer {
     }
   }
 
-  public List<Token> lex(URL url) {
+  public List<Token> lex(@Nonnull URL url) {
     Objects.requireNonNull(url, "url cannot be null");
 
     try (var reader = new InputStreamReader(url.openStream(), charset)) {
@@ -104,7 +105,7 @@ public class Lexer {
    * @return
    */
   // @VisibleForTesting
-  public List<Token> lex(String sourceCode) {
+  public List<Token> lex(@Nonnull String sourceCode) {
     Objects.requireNonNull(sourceCode, "sourceCode cannot be null");
 
     try {
@@ -185,7 +186,7 @@ public class Lexer {
     addTrivia(Arrays.asList(trivia));
   }
 
-  public void addTrivia(List<Trivia> trivia) {
+  public void addTrivia(@Nonnull List<Trivia> trivia) {
     Objects.requireNonNull(trivia, "trivia cannot be null");
 
     this.trivia.addAll(trivia);

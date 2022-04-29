@@ -24,6 +24,7 @@
 package org.sonar.cxx.sslr.parser; // cxx: in use
 
 import java.util.Objects;
+import javax.annotation.Nonnull;
 import org.sonar.cxx.sslr.internal.matchers.InputBuffer;
 import org.sonar.cxx.sslr.internal.matchers.InputBuffer.Position;
 import org.sonar.cxx.sslr.internal.matchers.TextUtils;
@@ -43,7 +44,7 @@ public class ParseErrorFormatter {
    */
   private static final int SNIPPET_SIZE = 10;
 
-  public String format(ParseError parseError) {
+  public String format(@Nonnull ParseError parseError) {
     Objects.requireNonNull(parseError);
 
     var inputBuffer = parseError.getInputBuffer();

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -186,14 +187,14 @@ public class Token {
       copyBookOriginalFileName = token.copyBookOriginalFileName;
     }
 
-    public Builder setType(TokenType type) {
+    public Builder setType(@Nonnull TokenType type) {
       Objects.requireNonNull(type, "type cannot be null");
 
       this.type = type;
       return this;
     }
 
-    public Builder setValueAndOriginalValue(String valueAndOriginalValue) {
+    public Builder setValueAndOriginalValue(@Nonnull String valueAndOriginalValue) {
       Objects.requireNonNull(valueAndOriginalValue, "valueAndOriginalValue cannot be null");
 
       this.value = valueAndOriginalValue;
@@ -201,7 +202,7 @@ public class Token {
       return this;
     }
 
-    public Builder setValueAndOriginalValue(String value, String originalValue) {
+    public Builder setValueAndOriginalValue(@Nonnull String value, @Nonnull String originalValue) {
       Objects.requireNonNull(value, "value cannot be null");
       Objects.requireNonNull(originalValue, "originalValue cannot be null");
 
@@ -220,7 +221,7 @@ public class Token {
       return this;
     }
 
-    public Builder setURI(URI uri) {
+    public Builder setURI(@Nonnull URI uri) {
       Objects.requireNonNull(uri, "uri cannot be null");
 
       this.uri = uri;
@@ -232,14 +233,14 @@ public class Token {
       return this;
     }
 
-    public Builder setTrivia(List<Trivia> trivia) {
+    public Builder setTrivia(@Nonnull List<Trivia> trivia) {
       Objects.requireNonNull(trivia, "trivia can't be null");
 
       this.trivia = new ArrayList<>(trivia);
       return this;
     }
 
-    public Builder addTrivia(Trivia trivia) {
+    public Builder addTrivia(@Nonnull Trivia trivia) {
       Objects.requireNonNull(trivia, "trivia can't be null");
 
       if (this.trivia.isEmpty()) {
@@ -260,7 +261,7 @@ public class Token {
       return this;
     }
 
-    public Builder setCopyBook(String copyBookOriginalFileName, int copyBookOriginalLine) {
+    public Builder setCopyBook(@Nonnull String copyBookOriginalFileName, int copyBookOriginalLine) {
       Objects.requireNonNull(copyBookOriginalFileName, "copyBookOriginalFileName cannot be null");
 
       this.copyBook = true;

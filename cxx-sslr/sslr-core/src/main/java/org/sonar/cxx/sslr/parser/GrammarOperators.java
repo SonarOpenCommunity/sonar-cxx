@@ -26,6 +26,7 @@ package org.sonar.cxx.sslr.parser;
 import com.sonar.cxx.sslr.api.TokenType;
 import com.sonar.cxx.sslr.api.Trivia.TriviaKind;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 import org.sonar.cxx.sslr.internal.vm.EndOfInputExpression;
 import org.sonar.cxx.sslr.internal.vm.FirstOfExpression;
 import org.sonar.cxx.sslr.internal.vm.NextExpression;
@@ -65,7 +66,7 @@ public final class GrammarOperators {
    * instead.
    */
   @Deprecated(since = "1.19")
-  public static Object firstOf(Object... e) {
+  public static Object firstOf(@Nonnull Object... e) {
     Objects.requireNonNull(e);
 
     if (e.length == 1) {
@@ -165,7 +166,7 @@ public final class GrammarOperators {
     return new TriviaExpression(TriviaKind.SKIPPED_TEXT, convertToExpression(e));
   }
 
-  private static ParsingExpression convertToSingleExpression(Object... elements) {
+  private static ParsingExpression convertToSingleExpression(@Nonnull Object... elements) {
     Objects.requireNonNull(elements);
 
     if (elements.length == 1) {
@@ -174,7 +175,7 @@ public final class GrammarOperators {
     return new SequenceExpression(convertToExpressions(elements));
   }
 
-  private static ParsingExpression[] convertToExpressions(Object... elements) {
+  private static ParsingExpression[] convertToExpressions(@Nonnull Object... elements) {
     Objects.requireNonNull(elements);
     if (elements.length <= 0) {
       throw new IllegalArgumentException();
@@ -187,7 +188,7 @@ public final class GrammarOperators {
     return matchers;
   }
 
-  private static ParsingExpression convertToExpression(Object e) {
+  private static ParsingExpression convertToExpression(@Nonnull Object e) {
     Objects.requireNonNull(e);
 
     if (e instanceof ParsingExpression) {

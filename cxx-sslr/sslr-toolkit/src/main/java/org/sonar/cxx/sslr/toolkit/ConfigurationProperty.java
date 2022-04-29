@@ -24,6 +24,7 @@
 package org.sonar.cxx.sslr.toolkit; // cxx: in use
 
 import java.util.Objects;
+import javax.annotation.Nonnull;
 
 /**
  * This class represents a configuration property, which is made of a name, a description (which may be empty),
@@ -52,8 +53,8 @@ public class ConfigurationProperty {
    * @param validationCallback The validation callback. Note that handy ones are available out-of-the-box by the
    * {@link Validators} class.
    */
-  public ConfigurationProperty(String name, String description, String defaultValue,
-                               ValidationCallback validationCallback) {
+  public ConfigurationProperty(@Nonnull String name, @Nonnull String description, @Nonnull String defaultValue,
+                               @Nonnull ValidationCallback validationCallback) {
     Objects.requireNonNull(name);
     Objects.requireNonNull(description);
     Objects.requireNonNull(defaultValue);

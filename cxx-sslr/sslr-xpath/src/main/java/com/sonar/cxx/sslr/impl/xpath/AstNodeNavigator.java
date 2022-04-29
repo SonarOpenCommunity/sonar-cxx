@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 import org.jaxen.DefaultNavigator;
 import org.jaxen.XPath;
 import org.jaxen.util.SingleObjectIterator;
@@ -178,7 +179,7 @@ public class AstNodeNavigator extends DefaultNavigator {
   }
 
   @Override
-  public Object getDocumentNode(Object contextNode) {
+  public Object getDocumentNode(@Nonnull Object contextNode) {
     computeDocumentNode(contextNode);
     Objects.requireNonNull(documentNode, "Unable to compute the document node from the context node \"" + contextNode
                            .getClass().getSimpleName() + "\": " + contextNode);

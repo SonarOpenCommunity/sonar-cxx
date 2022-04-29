@@ -138,9 +138,8 @@ public final class MiniCAstScanner {
     builder.setFilesMetric(MiniCMetrics.FILES);
 
     /* Functions */
-    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>((SourceCode parentSourceCode, AstNode astNode)
-      -> {
-      String functionName = astNode.findFirstChild(MiniCGrammar.BIN_FUNCTION_DEFINITION).getTokenValue();
+    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>((SourceCode parentSourceCode, AstNode astNode) -> {
+      String functionName = astNode.getFirstDescendant(MiniCGrammar.BIN_FUNCTION_DEFINITION).getTokenValue();
 
       var function = new SourceFunction(astNode.getFromIndex() + "@" + functionName);
       function.setStartAtLine(astNode.getTokenLine());

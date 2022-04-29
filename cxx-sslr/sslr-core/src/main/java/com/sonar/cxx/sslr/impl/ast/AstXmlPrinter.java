@@ -78,7 +78,7 @@ public final class AstXmlPrinter {
 
   private void appendNodecontent(AstNode node) throws IOException {
     writer.append(node.getName());
-    if (node.getTokenValue() != null) {
+    if (!node.getTokenValue().isEmpty()) {
       writer.append(" tokenValue=\"" + node.getTokenValue() + "\"");
     }
     if (node.hasToken()) {

@@ -25,6 +25,7 @@ package com.sonar.cxx.sslr.api.typed;
 
 import java.util.Objects;
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -39,7 +40,7 @@ public abstract class Optional<T> {
     return (Optional<T>) Absent.INSTANCE;
   }
 
-  public static <T> Optional<T> of(T reference) {
+  public static <T> Optional<T> of(@Nonnull T reference) {
     return new Present<>(Objects.requireNonNull(reference));
   }
 
@@ -71,7 +72,7 @@ public abstract class Optional<T> {
     }
 
     @Override
-    public T or(Object defaultValue) {
+    public T or(@Nonnull Object defaultValue) {
       Objects.requireNonNull(defaultValue, "use orNull() instead of or(null)");
       return reference;
     }
@@ -117,7 +118,7 @@ public abstract class Optional<T> {
     }
 
     @Override
-    public Object or(Object defaultValue) {
+    public Object or(@Nonnull Object defaultValue) {
       return Objects.requireNonNull(defaultValue, "use orNull() instead of or(null)");
     }
 

@@ -30,6 +30,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -41,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -122,7 +124,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
   private boolean sourceCodeTextCursorMovedEventDisabled = false;
   private boolean astSelectionEventDisabled = false;
 
-  public ToolkitViewImpl(ToolkitPresenter presenter) {
+  public ToolkitViewImpl(@Nonnull ToolkitPresenter presenter) {
     Objects.requireNonNull(presenter);
     this.presenter = presenter;
 
@@ -288,7 +290,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
   }
 
   @Override
-  public void displayXml(String xml) {
+  public void displayXml(@Nonnull String xml) {
     Objects.requireNonNull(xml);
 
     xmlTextArea.setText(xml);
@@ -375,7 +377,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
   }
 
   @Override
-  public void highlightSourceCode(AstNode astNode) {
+  public void highlightSourceCode(@Nonnull AstNode astNode) {
     Objects.requireNonNull(astNode);
 
     if (!astNode.hasToken()) {
@@ -436,8 +438,13 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
       int line = astNode.getToken().getLine() + visibleLines / 2;
 
       try {
-        sourceCodeEditorPane.scrollRectToVisible(sourceCodeEditorPane.modelToView(0));
-        sourceCodeEditorPane.scrollRectToVisible(sourceCodeEditorPane.modelToView(lineOffsets.getOffset(line, 0)));
+        var rect = sourceCodeEditorPane.modelToView2D(0);
+        sourceCodeEditorPane.scrollRectToVisible(new Rectangle((int) rect.getX(), (int) rect.getY(),
+                                                               (int) rect.getWidth(), (int) rect.getHeight()));
+
+        rect = sourceCodeEditorPane.modelToView2D(lineOffsets.getOffset(line, 0));
+        sourceCodeEditorPane.scrollRectToVisible(new Rectangle((int) rect.getX(), (int) rect.getY(),
+                                                               (int) rect.getWidth(), (int) rect.getHeight()));
       } catch (BadLocationException e) {
         throw new RuntimeException(e);
       }

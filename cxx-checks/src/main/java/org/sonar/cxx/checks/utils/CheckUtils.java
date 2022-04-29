@@ -24,6 +24,7 @@ import com.sonar.cxx.sslr.api.GenericTokenType;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import javax.annotation.Nonnull;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxPunctuator;
@@ -33,7 +34,7 @@ public final class CheckUtils {
   private CheckUtils() {
   }
 
-  public static Pattern compileUserRegexp(String regexp, int flags) {
+  public static Pattern compileUserRegexp(@Nonnull String regexp, int flags) {
     Objects.requireNonNull(regexp, "regular expression has to be non null");
     if (regexp.isEmpty()) {
       throw new IllegalStateException("Empty regular expression");

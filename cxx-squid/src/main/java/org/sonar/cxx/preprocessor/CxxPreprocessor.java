@@ -1221,25 +1221,4 @@ public class CxxPreprocessor extends Preprocessor {
     return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)), Collections.emptyList());
   }
 
-  static class MismatchException extends Exception {
-
-    private static final long serialVersionUID = 1960113363232807009L;
-
-    MismatchException(String message) {
-      super(message);
-    }
-
-    MismatchException(Throwable cause) {
-      super(cause);
-    }
-
-    MismatchException(String message, Throwable cause) {
-      super(message, cause);
-    }
-
-    MismatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-      super(message, cause, enableSuppression, writableStackTrace);
-    }
-  }
-
 }

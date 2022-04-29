@@ -26,6 +26,7 @@ package com.sonar.cxx.sslr.api; // cxx: in use
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class Trivia {
@@ -105,7 +106,7 @@ public class Trivia {
     return new Trivia(TriviaKind.COMMENT, commentToken);
   }
 
-  public static Trivia createSkippedText(List<Token> tokens) {
+  public static Trivia createSkippedText(@Nonnull List<Token> tokens) {
     Objects.requireNonNull(tokens, "tokens cannot be null");
 
     return createSkippedText(tokens.toArray(new Token[tokens.size()]));

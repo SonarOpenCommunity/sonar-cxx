@@ -23,13 +23,8 @@
  */
 package org.sonar.cxx.sslr.internal.toolkit;
 
-import org.sonar.cxx.sslr.toolkit.ConfigurationModel;
-
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.impl.ast.AstXmlPrinter;
-import org.sonar.colorizer.HtmlOptions;
-import org.sonar.colorizer.HtmlRenderer;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -37,6 +32,10 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
+import javax.annotation.Nonnull;
+import org.sonar.colorizer.HtmlOptions;
+import org.sonar.colorizer.HtmlRenderer;
+import org.sonar.cxx.sslr.toolkit.ConfigurationModel;
 
 public class SourceCodeModel {
 
@@ -46,7 +45,7 @@ public class SourceCodeModel {
   private String sourceCode;
   private AstNode astNode;
 
-  public SourceCodeModel(ConfigurationModel configurationModel) {
+  public SourceCodeModel(@Nonnull ConfigurationModel configurationModel) {
     Objects.requireNonNull(configurationModel);
 
     this.configurationModel = configurationModel;

@@ -28,6 +28,7 @@ import com.sonar.cxx.sslr.api.Trivia.TriviaKind;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 import org.sonar.cxx.sslr.internal.grammar.MutableGrammar;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 import org.sonar.cxx.sslr.internal.vm.EndOfInputExpression;
@@ -150,7 +151,7 @@ public class LexerlessGrammarBuilder extends GrammarBuilder {
   }
 
   @Override
-  protected ParsingExpression convertToExpression(Object e) {
+  protected ParsingExpression convertToExpression(@Nonnull Object e) {
     Objects.requireNonNull(e, "Parsing expression can't be null");
     ParsingExpression result;
     if (e instanceof ParsingExpression) {
