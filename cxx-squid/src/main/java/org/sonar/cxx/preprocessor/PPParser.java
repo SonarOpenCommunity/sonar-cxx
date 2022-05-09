@@ -19,55 +19,29 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import static org.assertj.core.api.Assertions.*;
-import org.junit.jupiter.api.Test;
+import com.sonar.cxx.sslr.api.Grammar;
+import com.sonar.cxx.sslr.impl.Parser;
+import java.nio.charset.Charset;
+import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 
-class MapChainTest {
+final class PPParser {
 
-  private final MapChain<String, String> mc;
-
-  public MapChainTest() {
-    mc = new MapChain<>();
+  private PPParser() {
   }
 
-  @Test
-  void getMapping() {
-    mc.put("k", "v");
-    assertThat(mc.get("k")).isEqualTo("v");
+  static Parser<Grammar> create(Charset charset) {
+    return Parser.builder(PPGrammarImpl.create())
+      .withLexer(PPLexer.create(charset))
+      .build();
   }
 
-  @Test
-  void removeMapping() {
-    mc.put("k", "v");
-    mc.remove("k");
-    assertThat(mc.get("k")).isNull();
-  }
-
-  @Test
-  void noValueMapping() {
-    assertThat(mc.get("k")).isNull();
-  }
-
-  @Test
-  void clearMapping() {
-    mc.put("k", "v");
-    mc.clear();
-    assertThat(mc.get("k")).isNull();
-  }
-
-  @Test
-  void disable() {
-    mc.put("k", "v");
-    mc.disable("k");
-    assertThat(mc.get("k")).isNull();
-  }
-
-  @Test
-  void enable() {
-    mc.put("k", "v");
-    mc.disable("k");
-    mc.enable("k");
-    assertThat(mc.get("k")).isEqualTo("v");
+  static Parser<Grammar> create(GrammarRuleKey rootRuleKey, Charset charset) {
+    var grammar = PPGrammarImpl.create();
+    Parser<Grammar> parser = Parser.builder(grammar)
+      .withLexer(PPLexer.create(charset))
+      .build();
+    parser.setRootRule(grammar.rule(rootRuleKey));
+    return parser;
   }
 
 }

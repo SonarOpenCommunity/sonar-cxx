@@ -27,7 +27,6 @@ import com.sonar.cxx.sslr.impl.matcher.RuleDefinition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 
@@ -126,7 +125,7 @@ public class AstNode {
    *
    * @since 1.17
    */
-  @CheckForNull
+  // @CheckForNull -> normally already ensured via grammar
   public AstNode getNextAstNode() {
     var nextSibling = getNextSibling();
     if (nextSibling != null) {
@@ -144,7 +143,7 @@ public class AstNode {
    *
    * @since 1.17
    */
-  @CheckForNull
+  // @CheckForNull -> normally already ensured via grammar
   public AstNode getPreviousAstNode() {
     var previousSibling = getPreviousSibling();
     if (previousSibling != null) {
@@ -162,7 +161,7 @@ public class AstNode {
    * @return next sibling, or null if not exists
    * @since 1.17
    */
-  @CheckForNull
+  // @CheckForNull -> normally already ensured via grammar
   public AstNode getNextSibling() {
     if (parent == null) {
       return null;
@@ -179,7 +178,7 @@ public class AstNode {
    * @return previous sibling, or null if not exists
    * @since 1.17
    */
-  @CheckForNull
+  // @CheckForNull -> normally already ensured via grammar
   public AstNode getPreviousSibling() {
     if (parent == null) {
       return null;
@@ -299,7 +298,7 @@ public class AstNode {
    * @return first child of one of specified types, or null if not found
    * @since 1.17
    */
-  @CheckForNull
+  // @CheckForNull -> normally already ensured via grammar
   public AstNode getFirstChild(AstNodeType... nodeTypes) {
     for (var child : children) {
       for (var nodeType : nodeTypes) {
@@ -326,7 +325,7 @@ public class AstNode {
    * @return first descendant of one of specified types, or null if not found
    * @since 1.17
    */
-  @CheckForNull
+  // @CheckForNull -> normally already ensured via grammar
   public AstNode getFirstDescendant(AstNodeType... nodeTypes) {
     for (var child : children) {
       if (child.is(nodeTypes)) {
@@ -443,7 +442,7 @@ public class AstNode {
    * @return last child of one of specified types, or null if not found
    * @since 1.20
    */
-  @CheckForNull
+  // @CheckForNull -> normally already ensured via grammar
   public AstNode getLastChild(AstNodeType... nodeTypes) {
     for (int i = children.size() - 1; i >= 0; i--) {
       var child = children.get(i);
@@ -498,7 +497,7 @@ public class AstNode {
    * @return first ancestor of the specified type, or null if not found
    * @since 1.17
    */
-  @CheckForNull
+  // @CheckForNull -> normally already ensured via grammar
   public AstNode getFirstAncestor(AstNodeType nodeType) {
     if (parent == null) {
       return null;
@@ -513,7 +512,7 @@ public class AstNode {
    * @return first ancestor of one of specified types, or null if not found
    * @since 1.19.2
    */
-  @CheckForNull
+  // @CheckForNull -> normally already ensured via grammar
   public AstNode getFirstAncestor(AstNodeType... nodeTypes) {
     var result = parent;
     while (result != null) {
@@ -566,7 +565,7 @@ public class AstNode {
     return result.toString();
   }
 
-  @CheckForNull
+  // @CheckForNull -> normally already ensured via grammar
   public Token getLastToken() {
     if (!this.hasToken()) {
       return null;

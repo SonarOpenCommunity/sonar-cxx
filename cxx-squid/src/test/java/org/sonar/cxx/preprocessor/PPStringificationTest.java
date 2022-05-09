@@ -19,47 +19,33 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.cxx.sslr.api.AstNode;
-import com.sonar.cxx.sslr.api.TokenType;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
-/**
- * C++ Standard, Section 16 "Preprocessing directives"
- */
-public enum CppSpecialIdentifier implements TokenType {
+public class PPStringificationTest {
 
-  // special identifiers: import-keyword, module-keyword, export-keyword
-  IMPORT("import"),
-  MODULE("module"),
-  EXPORT("export");
-
-  private final String value;
-
-  CppSpecialIdentifier(String value) {
-    this.value = value;
+  @Test
+  public void testStringify() {
+    String result = PPStringification.stringify("A");
+    assertThat(result).isEqualTo("\"A\"");
   }
 
-  public static String[] keywordValues() {
-    CppSpecialIdentifier[] keywordsEnum = CppSpecialIdentifier.values();
-    var keywords = new String[keywordsEnum.length];
-    for (var i = 0; i < keywords.length; i++) {
-      keywords[i] = keywordsEnum[i].getValue();
-    }
-    return keywords;
+  @Test
+  public void testStringifyDoubleQuotes() {
+    String result = PPStringification.stringify("\"");
+    assertThat(result).isEqualTo("\"\\\"\"");
   }
 
-  @Override
-  public String getName() {
-    return name();
+  @Test
+  public void testStringifyBackslash() {
+    String result = PPStringification.stringify("\\");
+    assertThat(result).isEqualTo("\"\\\\\"");
   }
 
-  @Override
-  public String getValue() {
-    return value;
-  }
-
-  @Override
-  public boolean hasToBeSkippedFromAst(AstNode node) {
-    return false;
+  @Test
+  public void testStringifyComplex() {
+    String result = PPStringification.stringify("A \" \\ B");
+    assertThat(result).isEqualTo("\"A \\\"\\\\B\"");
   }
 
 }

@@ -34,7 +34,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 import org.sonar.cxx.parser.CxxKeyword;
-import org.sonar.cxx.parser.CxxLexer;
+import org.sonar.cxx.parser.CxxLexerPool;
 import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
@@ -52,7 +52,7 @@ class CxxLexerTest {
     when(context.getFile()).thenReturn(file);
 
     var cxxpp = new CxxPreprocessor(context);
-    lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
+    lexer = CxxLexerPool.create(cxxpp, new JoinStringsPreprocessor()).getLexer();
   }
 
   /**

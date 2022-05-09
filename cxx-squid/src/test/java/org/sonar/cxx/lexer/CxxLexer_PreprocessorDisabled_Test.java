@@ -25,7 +25,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.sonar.cxx.lexer.LexerAssert.assertThat;
-import org.sonar.cxx.parser.CxxLexer;
+import org.sonar.cxx.parser.CxxLexerPool;
 import org.sonar.cxx.parser.CxxTokenType;
 
 class CxxLexer_PreprocessorDisabled_Test {
@@ -34,7 +34,7 @@ class CxxLexer_PreprocessorDisabled_Test {
 
   @BeforeEach
   public void init() {
-    lexer = CxxLexer.create();
+    lexer = CxxLexerPool.create().getLexer();
   }
 
   @Test

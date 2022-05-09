@@ -19,28 +19,55 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.cxx.sslr.api.Grammar;
-import com.sonar.cxx.sslr.impl.Parser;
-import java.nio.charset.Charset;
+import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
-public final class CppParser {
+class MacroContainerTest {
 
-  private CppParser() {
+  private final MacroContainer<String, String> mc;
+
+  public MacroContainerTest() {
+    mc = new MacroContainer<>();
   }
 
-  public static Parser<Grammar> create(Charset charset) {
-    return Parser.builder(CppGrammarImpl.create())
-      .withLexer(CppLexer.create(charset))
-      .build();
+  @Test
+  void getMapping() {
+    mc.put("k", "v");
+    assertThat(mc.get("k")).isEqualTo("v");
   }
 
-  public static Parser<Grammar> createConstantExpressionParser(Charset charset) {
-    var grammar = CppGrammarImpl.create();
-    Parser<Grammar> parser = Parser.builder(grammar)
-      .withLexer(CppLexer.create(charset))
-      .build();
-    parser.setRootRule(grammar.rule(CppGrammarImpl.constantExpression));
-    return parser;
+  @Test
+  void removeMapping() {
+    mc.put("k", "v");
+    mc.remove("k");
+    assertThat(mc.get("k")).isNull();
+  }
+
+  @Test
+  void noValueMapping() {
+    assertThat(mc.get("k")).isNull();
+  }
+
+  @Test
+  void clearMapping() {
+    mc.put("k", "v");
+    mc.clear();
+    assertThat(mc.get("k")).isNull();
+  }
+
+  @Test
+  void disable() {
+    mc.put("k", "v");
+    mc.pushDisable("k");
+    assertThat(mc.get("k")).isNull();
+  }
+
+  @Test
+  void enable() {
+    mc.put("k", "v");
+    mc.pushDisable("k");
+    mc.popDisable();
+    assertThat(mc.get("k")).isEqualTo("v");
   }
 
 }

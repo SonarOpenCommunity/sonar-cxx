@@ -81,13 +81,10 @@ class CxxParserTest {
 
     Parser<Grammar> p = createParser(null, false, null);
 
-    long start = System.currentTimeMillis();
     for (var file : listFiles(goodFiles, new String[]{"cc", "cpp", "hpp"})) {
       AstNode root = parse(p, file);
       verify(root, file, map);
     }
-    long finish = System.currentTimeMillis();
-    var duration = (finish - start) / 1000.;
   }
 
   //@Test todo
@@ -97,13 +94,10 @@ class CxxParserTest {
 
     Parser<Grammar> p = createParser(null, false, null);
 
-    long start = System.currentTimeMillis();
     for (var file : listFiles(cCompatibilityFiles, new String[]{"cc", "h"})) { // todo add "c"
       AstNode root = parse(p, file);
       verify(root, file, map);
     }
-    long finish = System.currentTimeMillis();
-    var duration = (finish - start) / 1000.;
   }
 
   @SuppressWarnings("unchecked")
@@ -136,13 +130,10 @@ class CxxParserTest {
     var baseDir = new File("src/test").getAbsolutePath();
     Parser<Grammar> p = createParser(baseDir, false, includes);
 
-    long start = System.currentTimeMillis();
     for (var file : listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"})) {
       AstNode root = parse(p, file);
       verify(root, file, map);
     }
-    long finish = System.currentTimeMillis();
-    var duration = (finish - start) / 1000.;
   }
 
   @Test

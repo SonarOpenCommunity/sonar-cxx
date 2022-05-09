@@ -19,24 +19,27 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Token;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import static org.sonar.cxx.parser.CxxTokenType.STRING;
 
-public final class Macro {
+final class PPMacro {
 
   public final String name;
   public final List<Token> params;
   public final List<Token> body;
   public final boolean isVariadic;
 
-  public Macro(String name, @Nullable List<Token> params, @Nullable List<Token> body, boolean variadic) {
+  private PPMacro(String name, @Nullable List<Token> params, @Nullable List<Token> body, boolean variadic) {
     this.name = name;
     if (params == null) {
       this.params = null;
@@ -57,7 +60,7 @@ public final class Macro {
    * @param name
    * @param body
    */
-  private Macro(String name, String body) {
+  private PPMacro(String name, String body) {
     this.name = name;
     this.params = null;
     this.body = Collections.singletonList(Token.builder()
@@ -70,8 +73,41 @@ public final class Macro {
     this.isVariadic = false;
   }
 
-  private static void add(Map<String, Macro> map, String name, String body) {
-    map.put(name, new Macro(name, body));
+  public static PPMacro create(AstNode defineLineAst) {
+    var ast = defineLineAst.getFirstChild();
+    var nameNode = ast.getFirstDescendant(PPGrammarImpl.ppToken);
+    String macroName = nameNode.getTokenValue();
+
+    var paramList = ast.getFirstDescendant(PPGrammarImpl.parameterList);
+    List<Token> macroParams = paramList == null
+                                ? "objectlikeMacroDefinition".equals(ast.getName()) ? null : new LinkedList<>()
+                                : getChildrenIdentifierTokens(paramList);
+
+    var vaargs = ast.getFirstDescendant(PPGrammarImpl.variadicparameter);
+    if ((vaargs != null) && (macroParams != null)) {
+      var identifier = vaargs.getFirstChild(GenericTokenType.IDENTIFIER);
+      macroParams.add(identifier == null
+                        ? PPGeneratedToken.build(vaargs.getToken(), GenericTokenType.IDENTIFIER, "__VA_ARGS__")
+                        : identifier.getToken());
+    }
+
+    var replList = ast.getFirstDescendant(PPGrammarImpl.replacementList);
+    List<Token> macroBody = replList == null
+                              ? new LinkedList<>()
+                              : replList.getTokens().subList(0, replList.getTokens().size() - 1);
+
+    return new PPMacro(macroName, macroParams, macroBody, vaargs != null);
+  }
+
+  private static void add(Map<String, PPMacro> map, String name, String body) {
+    map.put(name, new PPMacro(name, body));
+  }
+
+  private static List<Token> getChildrenIdentifierTokens(AstNode identListAst) {
+    return identListAst.getChildren(GenericTokenType.IDENTIFIER)
+      .stream()
+      .map(AstNode::getToken)
+      .collect(Collectors.toList());
   }
 
   @Override

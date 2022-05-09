@@ -25,7 +25,7 @@ import com.sonar.cxx.sslr.api.TokenType;
 /**
  * C++ Standard, Section 16 "Preprocessing directives"
  */
-public enum CppKeyword implements TokenType {
+public enum PPKeyword implements TokenType {
 
   IF("#if"),
   IFDEF("#ifdef"),
@@ -45,12 +45,12 @@ public enum CppKeyword implements TokenType {
 
   private final String value;
 
-  CppKeyword(String value) {
+  PPKeyword(String value) {
     this.value = value;
   }
 
   public static String[] keywordValues() {
-    CppKeyword[] keywordsEnum = CppKeyword.values();
+    PPKeyword[] keywordsEnum = PPKeyword.values();
     var keywords = new String[keywordsEnum.length];
     for (var i = 0; i < keywords.length; i++) {
       keywords[i] = keywordsEnum[i].getValue();

@@ -100,10 +100,13 @@ class CxxSquidConfigurationTest {
   @Test
   void fileSingleValue() {
     var db = new CxxSquidConfiguration();
+    var softly = new SoftAssertions();
+
+    softly.assertThat(db.isUnitsEmpty()).isTrue();
     db.add("a/b/c", "key", "value");
+    softly.assertThat(db.isUnitsEmpty()).isFalse();
     Optional<String> value = db.get("a/b/c", "key");
 
-    var softly = new SoftAssertions();
     softly.assertThat(value).isNotEmpty();
     softly.assertThat(value).isEqualTo(Optional.of("value"));
     softly.assertAll();
@@ -233,7 +236,7 @@ class CxxSquidConfigurationTest {
     db.add(CxxSquidConfiguration.GLOBAL, "key", "value4");
     db.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value5");
     db.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value6");
-    List<String> values = db.getChildrenValues(CxxSquidConfiguration.FILES, "key");
+    List<String> values = db.getChildrenValues(CxxSquidConfiguration.UNITS, "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(values).hasSize(6);
@@ -671,7 +674,7 @@ class CxxSquidConfigurationTest {
   static private List<String> getDefines(CxxSquidConfiguration squidConfig) {
     var allDefines = new HashSet<String>();
 
-    for (var elem : squidConfig.getChildrenValues(CxxSquidConfiguration.FILES, CxxSquidConfiguration.DEFINES)) {
+    for (var elem : squidConfig.getChildrenValues(CxxSquidConfiguration.UNITS, CxxSquidConfiguration.DEFINES)) {
       allDefines.add(elem);
     }
 
@@ -681,7 +684,7 @@ class CxxSquidConfigurationTest {
   static private List<Path> getIncludeDirectories(CxxSquidConfiguration squidConfig) {
     var allIncludes = new HashSet<Path>();
 
-    for (var elem : squidConfig.getChildrenValues(CxxSquidConfiguration.FILES, CxxSquidConfiguration.INCLUDE_DIRECTORIES)) {
+    for (var elem : squidConfig.getChildrenValues(CxxSquidConfiguration.UNITS, CxxSquidConfiguration.INCLUDE_DIRECTORIES)) {
       allIncludes.add(Paths.get(elem));
     }
 

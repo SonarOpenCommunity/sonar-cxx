@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static org.sonar.cxx.preprocessor.CppPunctuator.HASH;
+import static org.sonar.cxx.preprocessor.PPPunctuator.HASH;
 import org.sonar.cxx.sslr.channel.Channel;
 import org.sonar.cxx.sslr.channel.CodeReader;
 

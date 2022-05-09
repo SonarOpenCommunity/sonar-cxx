@@ -19,16 +19,23 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.sonar.cxx.sslr.api.AstNode;
+import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.mock;
 
-class CppKeywordTest {
+class PPPunctuatorTest {
 
   @Test
   void test() {
+    assertThat(PPPunctuator.values()).hasSize(71);
+
+    AstNode astNode = mock(AstNode.class);
     var softly = new SoftAssertions();
-    softly.assertThat(CppKeyword.values()).hasSize(14);
-    softly.assertThat(CppKeyword.keywordValues()).hasSize(CppKeyword.values().length);
+    for (var punctuator : PPPunctuator.values()) {
+      softly.assertThat(punctuator.hasToBeSkippedFromAst(astNode)).isFalse();
+    }
     softly.assertAll();
   }
 

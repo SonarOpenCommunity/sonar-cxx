@@ -95,40 +95,28 @@ public class SourceCodeProvider {
     fileUnderAnalysisPath = getFileUnderAnalysis().getAbsolutePath();
   }
 
-  public void skipBlock(boolean state) {
-    ppState.peek().skipBlock = state;
+  public void setSkipTokens(boolean state) {
+    ppState.peek().skipToken = state;
   }
 
-  public boolean doSkipBlock() {
-    return ppState.peek().skipBlock;
+  public boolean skipTokens() {
+    return ppState.peek().skipToken;
   }
 
-  public boolean doNotSkipBlock() {
-    return !ppState.peek().skipBlock;
+  public void setConditionValue(boolean state) {
+    ppState.peek().condition = state;
   }
 
-  public void expressionWas(boolean state) {
-    ppState.peek().expression = state;
+  public boolean ifLastConditionWasFalse() {
+    return !ppState.peek().condition;
   }
 
-  public boolean expressionWasTrue() {
-    return ppState.peek().expression;
+  public void changeNestingDepth(int dir) {
+    ppState.peek().nestingDepth += dir;
   }
 
-  public boolean expressionWasFalse() {
-    return !ppState.peek().expression;
-  }
-
-  public void nestedBlock(int dir) {
-    ppState.peek().nestedBlock += dir;
-  }
-
-  public boolean isNestedBlock() {
-    return ppState.peek().nestedBlock > 0;
-  }
-
-  public boolean isNotNestedBlock() {
-    return ppState.peek().nestedBlock <= 0;
+  public boolean isInsideNestedBlock() {
+    return ppState.peek().nestingDepth > 0;
   }
 
   public File getFileUnderAnalysis() {
@@ -219,15 +207,15 @@ public class SourceCodeProvider {
 
   private static class State {
 
-    private boolean skipBlock;
-    private boolean expression;
-    private int nestedBlock;
+    private boolean skipToken;
+    private boolean condition;
+    private int nestingDepth;
     private File fileUnderAnalysis;
 
     public State(@Nullable File fileUnderAnalysis) {
-      this.skipBlock = false;
-      this.expression = false;
-      this.nestedBlock = 0;
+      this.skipToken = false;
+      this.condition = false;
+      this.nestingDepth = 0;
       this.fileUnderAnalysis = fileUnderAnalysis;
     }
 

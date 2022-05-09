@@ -23,21 +23,6 @@ import static com.sonar.cxx.sslr.api.GenericTokenType.IDENTIFIER;
 import com.sonar.cxx.sslr.api.Grammar;
 import org.sonar.cxx.parser.CxxTokenType;
 import static org.sonar.cxx.parser.CxxTokenType.WS;
-import static org.sonar.cxx.preprocessor.CppKeyword.DEFINE;
-import static org.sonar.cxx.preprocessor.CppKeyword.ELIF;
-import static org.sonar.cxx.preprocessor.CppKeyword.ELSE;
-import static org.sonar.cxx.preprocessor.CppKeyword.ENDIF;
-import static org.sonar.cxx.preprocessor.CppKeyword.ERROR;
-import static org.sonar.cxx.preprocessor.CppKeyword.IF;
-import static org.sonar.cxx.preprocessor.CppKeyword.IFDEF;
-import static org.sonar.cxx.preprocessor.CppKeyword.IFNDEF;
-import static org.sonar.cxx.preprocessor.CppKeyword.INCLUDE;
-import static org.sonar.cxx.preprocessor.CppKeyword.INCLUDE_NEXT;
-import static org.sonar.cxx.preprocessor.CppKeyword.LINE;
-import static org.sonar.cxx.preprocessor.CppKeyword.PRAGMA;
-import static org.sonar.cxx.preprocessor.CppKeyword.UNDEF;
-import static org.sonar.cxx.preprocessor.CppKeyword.WARNING;
-import static org.sonar.cxx.preprocessor.CppPunctuator.HASH;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder;
 
@@ -50,7 +35,7 @@ import org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder;
  * Deviating from the grammar in the standard, whitespaces between the tokens must also be processed here.
  */
 @SuppressWarnings({"squid:S00115", "squid:S00103"})
-public enum CppGrammarImpl implements GrammarRuleKey {
+enum PPGrammarImpl implements GrammarRuleKey {
   preprocessorLine,
   defineLine,
   includeLine,
@@ -110,7 +95,7 @@ public enum CppGrammarImpl implements GrammarRuleKey {
   ppImport,
   ppModule;
 
-  public static Grammar create() {
+  static Grammar create() {
     var b = LexerfulGrammarBuilder.create();
 
     toplevelDefinitionGrammar(b);
@@ -163,13 +148,16 @@ public enum CppGrammarImpl implements GrammarRuleKey {
 
     b.rule(functionlikeMacroDefinition).is(
       b.firstOf(
-        b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), b.optional(parameterList), b.zeroOrMore(WS),
+        b.sequence(PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), b.optional(parameterList), b
+                   .zeroOrMore(WS),
                    ")", b.optional(b.sequence(b.zeroOrMore(WS), replacementList))),
-        b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), variadicparameter, b.zeroOrMore(WS), ")", b
+        b.sequence(PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), variadicparameter, b
+                   .zeroOrMore(WS), ")", b
                    .optional(b.sequence(b.zeroOrMore(WS), replacementList))),
-        b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), parameterList, b.zeroOrMore(WS), ",", b
-                   .zeroOrMore(WS), variadicparameter, b.zeroOrMore(WS), ")", b.optional(b.sequence(b.zeroOrMore(WS),
-                                                                                                    replacementList)))
+        b.sequence(PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), parameterList, b.zeroOrMore(WS),
+                   ",", b
+                     .zeroOrMore(WS), variadicparameter, b.zeroOrMore(WS), ")", b.optional(b.sequence(b.zeroOrMore(WS),
+                                                                                                      replacementList)))
       )
     );
 
@@ -178,7 +166,7 @@ public enum CppGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(objectlikeMacroDefinition).is(
-      DEFINE, b.oneOrMore(WS), ppToken, b.optional(b.sequence(b.oneOrMore(WS), replacementList))
+      PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, b.optional(b.sequence(b.oneOrMore(WS), replacementList))
     );
 
     b.rule(replacementList).is(
@@ -246,8 +234,8 @@ public enum CppGrammarImpl implements GrammarRuleKey {
     // control-line, # include
     b.rule(includeLine).is(
       b.firstOf(
-        INCLUDE,
-        INCLUDE_NEXT
+        PPKeyword.INCLUDE,
+        PPKeyword.INCLUDE_NEXT
       ),
       b.zeroOrMore(WS),
       includeBody,
@@ -301,60 +289,60 @@ public enum CppGrammarImpl implements GrammarRuleKey {
     // if-section, if-group, # ifdef/ifndef
     b.rule(ifdefLine).is(
       b.firstOf(
-        IFDEF,
-        IFNDEF
+        PPKeyword.IFDEF,
+        PPKeyword.IFNDEF
       ), b.oneOrMore(WS), IDENTIFIER, b.zeroOrMore(WS)
     );
 
     // if-section, else-group, #else
     b.rule(elseLine).is(
-      ELSE, b.zeroOrMore(WS)
+      PPKeyword.ELSE, b.zeroOrMore(WS)
     );
 
     // if-section, endif-line, #endif
     b.rule(endifLine).is(
-      ENDIF, b.zeroOrMore(WS)
+      PPKeyword.ENDIF, b.zeroOrMore(WS)
     );
 
     // control-line, # undef
     b.rule(undefLine).is(
-      UNDEF, b.oneOrMore(WS), IDENTIFIER
+      PPKeyword.UNDEF, b.oneOrMore(WS), IDENTIFIER
     );
 
     // control-line, # line
     b.rule(lineLine).is(
-      LINE, b.oneOrMore(WS), b.oneOrMore(ppToken)
+      PPKeyword.LINE, b.oneOrMore(WS), b.oneOrMore(ppToken)
     );
 
     // control-line, # error
     b.rule(errorLine).is(
-      ERROR, b.zeroOrMore(WS), b.zeroOrMore(ppToken)
+      PPKeyword.ERROR, b.zeroOrMore(WS), b.zeroOrMore(ppToken)
     );
 
     // control-line, # pragma
     b.rule(pragmaLine).is(
-      PRAGMA, b.zeroOrMore(WS), b.zeroOrMore(ppToken)
+      PPKeyword.PRAGMA, b.zeroOrMore(WS), b.zeroOrMore(ppToken)
     );
 
     // control-line, # warning
     b.rule(warningLine).is(
-      WARNING, b.zeroOrMore(WS), b.zeroOrMore(ppToken)
+      PPKeyword.WARNING, b.zeroOrMore(WS), b.zeroOrMore(ppToken)
     );
 
     b.rule(miscLine).is(
-      HASH, b.zeroOrMore(ppToken)
+      PPPunctuator.HASH, b.zeroOrMore(ppToken)
     );
   }
 
   private static void ifLineGrammar(LexerfulGrammarBuilder b) {
     // if-section, if-group, # if
     b.rule(ifLine).is(
-      IF, b.zeroOrMore(WS), constantExpression, b.zeroOrMore(WS)
+      PPKeyword.IF, b.zeroOrMore(WS), constantExpression, b.zeroOrMore(WS)
     );
 
     // if-section, elif-group, #elif
     b.rule(elifLine).is(
-      ELIF, b.zeroOrMore(WS), constantExpression, b.zeroOrMore(WS)
+      PPKeyword.ELIF, b.zeroOrMore(WS), constantExpression, b.zeroOrMore(WS)
     );
 
     b.rule(constantExpression).is(
