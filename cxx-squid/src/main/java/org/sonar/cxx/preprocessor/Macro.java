@@ -96,7 +96,10 @@ public final class Macro {
   }
 
   public boolean checkArgumentsCount(int count) {
-    return isVariadic ? count >= params.size() - 1 : count == params.size();
+    if (params != null) {
+      return isVariadic ? count >= params.size() - 1 : count == params.size();
+    }
+    return false;
   }
 
 }

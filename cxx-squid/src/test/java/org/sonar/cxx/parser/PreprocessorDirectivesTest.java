@@ -467,6 +467,16 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
         + "#endif\n"
         + "r = OK;"))
       .isEqualTo("r = 0 ; EOF");
+
+    assertThat(parse(
+      "#define EXISTS __has_include(\"optional\")\n"
+        + "#if EXISTS\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 0 ; EOF");
   }
 
 }
