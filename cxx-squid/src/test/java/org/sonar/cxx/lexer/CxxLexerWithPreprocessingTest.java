@@ -494,7 +494,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void conditional_compilation_ifdef_nested() {
+  void conditional_compilation_ifdef_nested1() {
     List<Token> tokens = lexer.lex("#define B\n"
                                      + "#ifdef A\n"
                                      + "  a\n"
@@ -512,6 +512,24 @@ class CxxLexerWithPreprocessingTest {
     softly.assertThat(tokens).hasSize(2); // nota + EOF
     softly.assertThat(tokens)
       .anySatisfy(token -> assertThat(token).isValue("nota").hasType(GenericTokenType.IDENTIFIER));
+    softly.assertAll();
+  }
+
+  @Test
+  void conditional_compilation_ifdef_nested2() {
+    List<Token> tokens = lexer.lex("#if !defined A\n"
+                                     + "#define A\n"
+                                     + "#ifdef B\n"
+                                     + "  b\n"
+                                     + "#else\n"
+                                     + "  notb\n"
+                                     + "#endif\n"
+                                     + "#endif\n");
+
+    var softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(2); // notb + EOF
+    softly.assertThat(tokens)
+      .anySatisfy(token -> assertThat(token).isValue("notb").hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }
 

@@ -682,13 +682,9 @@ public class CxxPreprocessor extends Preprocessor {
     if (unitCodeProvider.doNotSkipBlock()) {
       Macro macro = getMacro(getMacroName(ast));
       var tokType = ast.getToken().getType();
-      if ((tokType.equals(IFDEF) && macro == null) || (tokType.equals(IFNDEF) && macro != null)) {
-        // evaluated to false
-        unitCodeProvider.skipBlock(true);
-      }
-      if (unitCodeProvider.doNotSkipBlock()) {
-        unitCodeProvider.expressionWas(true);
-      }
+      boolean result = (tokType.equals(IFDEF) && macro != null) || (tokType.equals(IFNDEF) && macro == null);
+      unitCodeProvider.expressionWas(result);
+      unitCodeProvider.skipBlock(!result);
     } else {
       unitCodeProvider.nestedBlock(+1);
     }
