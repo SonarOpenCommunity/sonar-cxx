@@ -31,11 +31,11 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.config.CxxSquidConfiguration;
-import org.sonar.cxx.parser.CxxLexer;
+import org.sonar.cxx.parser.CxxLexerPool;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
-import org.sonar.cxx.utils.TestUtils;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
+import org.sonar.cxx.utils.TestUtils;
 
 class CxxLexerIncludeTest {
 
@@ -184,7 +184,7 @@ class CxxLexerIncludeTest {
     when(context.getFile()).thenReturn(file);
 
     var pp = new CxxPreprocessor(context, squidConfig);
-    var lexer = CxxLexer.create(squidConfig.getCharset(), pp, new JoinStringsPreprocessor());
+    var lexer = CxxLexerPool.create(squidConfig.getCharset(), pp, new JoinStringsPreprocessor()).getLexer();
 
     String fileContent = cmd + " " + include + "\n" + macro;
     List<Token> tokens = lexer.lex(fileContent);

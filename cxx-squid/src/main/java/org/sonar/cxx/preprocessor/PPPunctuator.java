@@ -25,7 +25,7 @@ import com.sonar.cxx.sslr.api.TokenType;
 /**
  * C++ Standard, 2.13 Operators and punctuators
  */
-public enum CppPunctuator implements TokenType {
+public enum PPPunctuator implements TokenType {
 
   // Basic arithmetic operators
   PLUS("+"),
@@ -111,7 +111,7 @@ public enum CppPunctuator implements TokenType {
 
   private final String value;
 
-  CppPunctuator(String word) {
+  PPPunctuator(String word) {
     this.value = word;
   }
 

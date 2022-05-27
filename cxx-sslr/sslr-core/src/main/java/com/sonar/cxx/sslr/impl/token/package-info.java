@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2010-2022 SonarOpenCommunity
+ * Copyright (C) 2022 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -17,26 +17,9 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.preprocessor;
-
-import com.sonar.cxx.sslr.api.AstNode;
-import static org.assertj.core.api.Assertions.*;
-import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.mock;
-
-class CppPunctuatorTest {
-
-  @Test
-  void test() {
-    assertThat(CppPunctuator.values()).hasSize(71);
-
-    AstNode astNode = mock(AstNode.class);
-    var softly = new SoftAssertions();
-    for (var punctuator : CppPunctuator.values()) {
-      softly.assertThat(punctuator.hasToBeSkippedFromAst(astNode)).isFalse();
-    }
-    softly.assertAll();
-  }
-
-}
+/**
+ * fork of SonarSource Language Recognizer: https://github.com/SonarSource/sslr
+ * Copyright (C) 2010-2021 SonarSource SA / mailto:info AT sonarsource DOT com / license: LGPL v3
+ */
+@javax.annotation.ParametersAreNonnullByDefault
+package com.sonar.cxx.sslr.impl.token;

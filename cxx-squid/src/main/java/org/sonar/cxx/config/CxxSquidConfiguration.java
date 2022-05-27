@@ -55,12 +55,12 @@ import org.sonar.cxx.squidbridge.api.SquidConfiguration;
  * information is not found on one level, the next higher level is searched. Additional information can be e.g. on file
  * level (translation unit), global or from sonar-project.properties.
  *
- * Pre-defined hierarchy (levels): PredefinedMacros, SonarProjectProperties, Global, Files
+ * Pre-defined hierarchy (levels): PredefinedMacros, SonarProjectProperties, Global, Units
  *
  * With {@code add} the key/value pairs are added to the database. The level parameter defines the level on which the
  * data should be inserted. For level a predefined name can be used or a new one can be defined. If level is an
  * identifier, the information is created in an element with the level-name directly under root. If level is a path, the
- * information is stored on Files level.
+ * information is stored on Units level.
  *
  * With {@code get} and {@code getValues} the information is read out again afterwards. {@code get} returns the first
  * found value for key, whereby the search starts on level. {@code getValues} collects all found values over all levels.
@@ -72,7 +72,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   public static final String PREDEFINED_MACROS = "PredefinedMacros";
   public static final String SONAR_PROJECT_PROPERTIES = "SonarProjectProperties";
   public static final String GLOBAL = "Global";
-  public static final String FILES = "Files";
+  public static final String UNITS = "Units";
 
   // SonarProjectProperties
   public static final String ERROR_RECOVERY_ENABLED = "ErrorRecoveryEnabled";
@@ -129,10 +129,19 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     root.addContent(element);
     parentList.addFirst(element);
 
-    // <Files> must be first one in the list
-    element = new Element(FILES);
+    // UNITS must be first one in the list
+    element = new Element(UNITS);
     root.addContent(element);
     parentList.addFirst(element);
+  }
+
+  /**
+   * Does items on Units level exist?
+   *
+   * @return false if empty
+   */
+  public boolean isUnitsEmpty() {
+    return parentList.getFirst().getContentSize() == 0;
   }
 
   /**
@@ -141,7 +150,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @param level The level parameter defines the level on which the data should be inserted. For level a predefined
    * name can be used or a new one can be defined. <br>
    * - If level is an identifier, the information is created in an element with the level-name directly under root.<br>
-   * - If level is a path, the information is stored on Files level. In that case the level-string is normalized and
+   * - If level is a path, the information is stored on Units level. In that case the level-string is normalized and
    * converted to lower case letters to simplify the following search.
    * @param key the key to be placed into the database.
    * @param value the value corresponding to key. Several values can be assigned to one key. Internally a value-list for
@@ -239,7 +248,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * The method can return an empty list if the property is not set.
    *
    * @param level level to read
-   * @param property key that is searched for
+   * @param key key that is searched for
    * @return the values with the specified key value
    */
   public List<String> getLevelValues(String level, String key) {
@@ -264,7 +273,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * are added to the end of the list. The method can return an empty list if the property is not set.
    *
    * @param level level at which the search is started
-   * @param property key that is searched for
+   * @param key key that is searched for
    * @return the values with the specified key value
    */
   public List<String> getValues(String level, String key) {
@@ -499,11 +508,11 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     if (Verifier.checkElementName(level) == null) {
       xpath = "/CompilationDatabase/" + level;
     } else {
-      // handle special case 'FILES empty' no need to search in tree
-      if (parentList.getFirst().getContentSize() == 0) {
+      // handle special case 'UNITS empty' no need to search in tree
+      if (isUnitsEmpty()) {
         return defaultElement;
       }
-      xpath = "//Files/File[@path='" + unifyPath(level) + "']";
+      xpath = "//" + UNITS + "/File[@path='" + unifyPath(level) + "']";
     }
     XPathExpression<Element> expr = xFactory.compile(xpath, Filters.element());
     List<Element> elements = expr.evaluate(document);

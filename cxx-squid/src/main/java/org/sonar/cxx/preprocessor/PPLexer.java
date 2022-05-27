@@ -17,11 +17,9 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.parser;
+package org.sonar.cxx.preprocessor;
 
-import com.sonar.cxx.sslr.api.Preprocessor;
 import com.sonar.cxx.sslr.impl.Lexer;
-import com.sonar.cxx.sslr.impl.channel.BlackHoleChannel;
 import com.sonar.cxx.sslr.impl.channel.BomCharacterChannel;
 import com.sonar.cxx.sslr.impl.channel.IdentifierAndKeywordChannel;
 import com.sonar.cxx.sslr.impl.channel.PunctuatorChannel;
@@ -35,20 +33,19 @@ import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.or;
 import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.regexp;
 import com.sonar.cxx.sslr.impl.channel.UnknownCharacterChannel;
 import java.nio.charset.Charset;
-import org.sonar.cxx.channels.BackslashChannel;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
-import org.sonar.cxx.channels.PreprocessorChannel;
-import org.sonar.cxx.channels.RightAngleBracketsChannel;
+import org.sonar.cxx.channels.KeywordChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
-import org.sonar.cxx.preprocessor.CppSpecialIdentifier;
+import org.sonar.cxx.channels.WhitespaceChannel;
+import org.sonar.cxx.parser.CxxTokenType;
 
-public final class CxxLexer {
+final class PPLexer {
 
   private static final String HEX_PREFIX = "0[xX]";
   private static final String BIN_PREFIX = "0[bB]";
-  private static final String EXPONENT = "[Ee][+-]?+[0-9_]([']?+[0-9_]++)*+";
+  private static final String EXPONENT = "[eE][+-]?+[0-9_]([']?+[0-9_]++)*+";
   private static final String BINARY_EXPONENT = "[pP][+-]?+\\d([']?+\\d++)*+"; // since C++17
-  //private static final String INTEGER_SUFFIX = "(((U|u)(i64|LL|ll|L|l)?)|((i64|LL|ll|L|l)(u|U)?))";
+  //private static final String INTEGER_SUFFIX = "(((U|u)(LL|ll|L|l)?)|((LL|ll|L|l)(u|U)?))";
   //private static final String FLOAT_SUFFIX = "(f|l|F|L)";
   // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
   private static final String UD_SUFFIX = "[_a-zA-Z]\\w*+";
@@ -57,34 +54,25 @@ public final class CxxLexer {
   private static final String BINDIGIT_SEQUENCE = "[01]([']?+[01]++)*+";
   private static final String POINT = "\\.";
 
-  private CxxLexer() {
+  private PPLexer() {
   }
 
-  public static Lexer create(Preprocessor... preprocessors) {
-    return create(Charset.defaultCharset(), preprocessors);
+  static Lexer create() {
+    return create(Charset.defaultCharset());
   }
 
-  public static Lexer create(Charset charset, Preprocessor... preprocessors) {
+  static Lexer create(Charset charset) {
 
     //
-    // changes here must be always aligned: CxxLexer.java <=> CppLexer.java
+    // changes here must be always aligned: CxxLexer.java <=> PPLexer.java
     //
     var builder = Lexer.builder()
       .withCharset(charset)
       .withFailIfNoChannelToConsumeOneCharacter(true)
-      .withChannel(new BlackHoleChannel("\\s"))
-      // C++ Standard, Section 2.8 "Comments"
+      .withChannel(new WhitespaceChannel())
       .withChannel(commentRegexp("//[^\\n\\r]*+"))
       .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
-      // backslash at the end of the line: just throw away
-      .withChannel(new BackslashChannel())
-      // detects preprocessor directives:
-      // This channel detects source code lines which should be handled by the preprocessor.
-      // If a line is not marked CxxTokenType.PREPROCESSOR it is not handled by CppLexer and CppGrammar.
-      .withChannel(new PreprocessorChannel(CppSpecialIdentifier.values()))
-      // C++ Standard, Section 2.14.3 "Character literals"
       .withChannel(new CharacterLiteralsChannel())
-      // C++ Standard, Section 2.14.5 "String literals"
       .withChannel(new StringLiteralsChannel())
       // C++ Standard, Section 2.14.2 "Integer literals"
       // C++ Standard, Section 2.14.4 "Floating literals"
@@ -102,20 +90,11 @@ public final class CxxLexer {
                )
         )
       )
-      // C++ Standard, Section 2.14.7 "Pointer literals"
-      .withChannel(regexp(CxxTokenType.NUMBER, CxxKeyword.NULLPTR.getValue() + "\\b"))
-      // C++ Standard, Section 2.12 "Keywords"
-      // C++ Standard, Section 2.11 "Identifiers"
-      .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true, CxxKeyword.values()))
-      // C++ Standard, Section 2.13 "Operators and punctuators"
-      .withChannel(new RightAngleBracketsChannel())
-      .withChannel(new PunctuatorChannel(CxxPunctuator.values()))
+      .withChannel(new KeywordChannel(and("#", o2n("\\s"), "[a-z]", o2n("\\w")), PPKeyword.values()))
+      .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true))
+      .withChannel(new PunctuatorChannel(PPPunctuator.values()))
       .withChannel(new BomCharacterChannel())
       .withChannel(new UnknownCharacterChannel());
-
-    for (var preprocessor : preprocessors) {
-      builder.withPreprocessor(preprocessor);
-    }
 
     return builder.build();
   }

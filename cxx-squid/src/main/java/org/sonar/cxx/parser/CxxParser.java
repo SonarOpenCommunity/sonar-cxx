@@ -54,7 +54,7 @@ public final class CxxParser {
     var cxxpp = new CxxPreprocessor(context, squidConfig);
     currentPreprocessorInstance = new WeakReference<>(cxxpp);
     return Parser.builder(CxxGrammarImpl.create(squidConfig))
-      .withLexer(CxxLexer.create(squidConfig.getCharset(), cxxpp, new JoinStringsPreprocessor()))
+      .withLexer(CxxLexerPool.create(squidConfig.getCharset(), cxxpp, new JoinStringsPreprocessor()).getLexer())
       .build();
   }
 

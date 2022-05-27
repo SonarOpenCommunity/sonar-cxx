@@ -27,9 +27,9 @@ import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.commentRegexp
 import org.sonar.cxx.channels.PreprocessorChannel;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 
-public final class IncludeLexer {
+public final class IncludeDirectiveLexer {
 
-  private IncludeLexer() {
+  private IncludeDirectiveLexer() {
   }
 
   public static Lexer create(Preprocessor... preprocessors) {

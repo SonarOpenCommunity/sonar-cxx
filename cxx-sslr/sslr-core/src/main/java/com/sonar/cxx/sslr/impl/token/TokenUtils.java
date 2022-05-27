@@ -21,7 +21,7 @@
  * fork of SonarSource Language Recognizer: https://github.com/SonarSource/sslr
  * Copyright (C) 2010-2021 SonarSource SA / mailto:info AT sonarsource DOT com / license: LGPL v3
  */
-package com.sonar.cxx.sslr.test.lexer;
+package com.sonar.cxx.sslr.impl.token;
 
 import static com.sonar.cxx.sslr.api.GenericTokenType.EOF;
 import static com.sonar.cxx.sslr.api.GenericTokenType.IDENTIFIER;
@@ -40,19 +40,23 @@ public final class TokenUtils {
   }
 
   public static String merge(List<Token> tokens) {
+    return merge(tokens, " ");
+  }
+
+  public static String merge(List<Token> tokens, String spacer) {
     tokens = removeLastTokenIfEof(tokens);
     var result = new StringBuilder();
     for (int i = 0; i < tokens.size(); i++) {
       var token = tokens.get(i);
       result.append(token.getValue());
       if (i < tokens.size() - 1) {
-        result.append(" ");
+        result.append(spacer);
       }
     }
     return result.toString();
   }
 
-  private static List<Token> removeLastTokenIfEof(List<Token> tokens) {
+  public static List<Token> removeLastTokenIfEof(List<Token> tokens) {
     if (!tokens.isEmpty()) {
       var lastToken = tokens.get(tokens.size() - 1);
       if ("EOF".equals(lastToken.getValue())) {
@@ -90,14 +94,14 @@ public final class TokenUtils {
     return tokens;
   }
 
-  private static Token tokenBuilder(TokenType type, String value, int line, int column) {
+  public static Token tokenBuilder(TokenType type, String value, int line, int column) {
     try {
       return Token.builder()
         .setType(type)
         .setValueAndOriginalValue(value)
         .setURI(new URI("tests://unittest"))
-        .setLine(1)
-        .setColumn(1).
+        .setLine(line)
+        .setColumn(column).
         build();
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);

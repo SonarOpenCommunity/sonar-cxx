@@ -27,33 +27,33 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-class CppLexerTest {
+class PPLexerTest {
 
-  private final static Lexer LEXER = CppLexer.create();
+  private final static Lexer LEXER = PPLexer.create();
 
   @Test
   void cpp_keywords() {
-    assertThat(hasToken("#define", CppKeyword.DEFINE)
+    assertThat(hasToken("#define", PPKeyword.DEFINE)
       .matches(LEXER.lex("#define"))).isTrue();
-    assertThat(hasToken("#define", CppKeyword.DEFINE)
+    assertThat(hasToken("#define", PPKeyword.DEFINE)
       .matches(LEXER.lex("#define"))).isTrue();
-    assertThat(hasToken("#include", CppKeyword.INCLUDE)
+    assertThat(hasToken("#include", PPKeyword.INCLUDE)
       .matches(LEXER.lex("#include"))).isTrue();
   }
 
   @Test
   void cpp_keywords_with_whitespaces() {
-    assertThat(hasToken("#define", CppKeyword.DEFINE)
+    assertThat(hasToken("#define", PPKeyword.DEFINE)
       .matches(LEXER.lex("#  define"))).isTrue();
-    assertThat(hasToken("#include", CppKeyword.INCLUDE)
+    assertThat(hasToken("#include", PPKeyword.INCLUDE)
       .matches(LEXER.lex("#\tinclude"))).isTrue();
   }
 
   @Test
   void cpp_keywords_indented() {
-    assertThat(hasToken("#define", CppKeyword.DEFINE)
+    assertThat(hasToken("#define", PPKeyword.DEFINE)
       .matches(LEXER.lex(" #define"))).isTrue();
-    assertThat(hasToken("#define", CppKeyword.DEFINE)
+    assertThat(hasToken("#define", PPKeyword.DEFINE)
       .matches(LEXER.lex("\t#define"))).isTrue();
   }
 
@@ -65,16 +65,16 @@ class CppLexerTest {
 
   @Test
   void cpp_operators() {
-    assertThat(hasToken("#", CppPunctuator.HASH)
+    assertThat(hasToken("#", PPPunctuator.HASH)
       .matches(LEXER.lex("#"))).isTrue();
-    assertThat(hasToken("##", CppPunctuator.HASHHASH)
+    assertThat(hasToken("##", PPPunctuator.HASHHASH)
       .matches(LEXER.lex("##"))).isTrue();
   }
 
   @Test
   void hashhash_followed_by_word() {
     List<Token> tokens = LEXER.lex("##a");
-    assertThat(hasToken("##", CppPunctuator.HASHHASH)
+    assertThat(hasToken("##", PPPunctuator.HASHHASH)
       .matches(tokens)).isTrue();
     assertThat(hasToken("a", IDENTIFIER)
       .matches(tokens)).isTrue();
@@ -83,7 +83,7 @@ class CppLexerTest {
   @Test
   void hash_followed_by_word() {
     List<Token> tokens = LEXER.lex("#a");
-    assertThat(hasToken("#", CppPunctuator.HASH)
+    assertThat(hasToken("#", PPPunctuator.HASH)
       .matches(tokens)).isTrue();
     assertThat(hasToken("a", IDENTIFIER)
       .matches(tokens)).isTrue();
