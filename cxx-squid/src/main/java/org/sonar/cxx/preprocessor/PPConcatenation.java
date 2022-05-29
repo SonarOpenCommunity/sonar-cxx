@@ -35,7 +35,7 @@ import org.sonar.cxx.parser.CxxTokenType;
  * a longer identifier, digits that form a number, or operators + and = that form a +=. A comment cannot be created by
  * pasting / and * because comments are removed from text before macro substitution is considered.
  */
-class PPConcatenation {
+final class PPConcatenation {
 
   private static final Logger LOG = Loggers.get(PPConcatenation.class);
 

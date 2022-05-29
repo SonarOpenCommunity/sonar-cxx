@@ -27,17 +27,17 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PPMacroTest {
+class PPMacroTest {
 
   private Parser<Grammar> lineParser;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     lineParser = PPParser.create(Charset.defaultCharset());
   }
 
   @Test
-  public void testCreateMacro() {
+  void testCreateMacro() {
     AstNode lineAst = lineParser.parse("#define MACRO(P1, P2) REPLACEMENT_LIST");
     PPMacro result = PPMacro.create(lineAst);
 
@@ -55,7 +55,7 @@ public class PPMacroTest {
   }
 
   @Test
-  public void testCreateVariadicMacro() {
+  void testCreateVariadicMacro() {
     AstNode lineAst = lineParser.parse("#define MACRO(...) REPLACEMENT_LIST");
     PPMacro result = PPMacro.create(lineAst);
 

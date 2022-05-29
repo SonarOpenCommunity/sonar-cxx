@@ -27,16 +27,16 @@ import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.commentRegexp
 import org.sonar.cxx.channels.PreprocessorChannel;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 
-public final class IncludeDirectiveLexer {
+final class IncludeDirectiveLexer {
 
   private IncludeDirectiveLexer() {
   }
 
-  public static Lexer create(Preprocessor... preprocessors) {
+  static Lexer create(Preprocessor... preprocessors) {
     return create(new CxxSquidConfiguration(), preprocessors);
   }
 
-  public static Lexer create(CxxSquidConfiguration squidConfig, Preprocessor... preprocessors) {
+  static Lexer create(CxxSquidConfiguration squidConfig, Preprocessor... preprocessors) {
     var builder = Lexer.builder()
       .withCharset(squidConfig.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)

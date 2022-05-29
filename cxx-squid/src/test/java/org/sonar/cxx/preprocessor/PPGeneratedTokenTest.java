@@ -28,17 +28,17 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class PPGeneratedTokenTest {
+class PPGeneratedTokenTest {
 
   @Test
-  public void testNewGeneratedTokenFromExistingToken() {
+  void testNewGeneratedTokenFromExistingToken() {
     Token token = TokenUtils.tokenBuilder(IDENTIFIER, "Token", 1, 2);
     Token result = PPGeneratedToken.build(token);
     assertThat(result.isGeneratedCode()).isTrue();
   }
 
   @Test
-  public void testNewGeneratedTokenWithNewValueAndType() {
+  void testNewGeneratedTokenWithNewValueAndType() {
     Token token = TokenUtils.tokenBuilder(IDENTIFIER, "Token", 1, 2);
     Token result = PPGeneratedToken.build(token, CONSTANT, "3");
 
@@ -50,7 +50,7 @@ public class PPGeneratedTokenTest {
   }
 
   @Test
-  public void testNewGeneratedTokenWithNewPosition() throws URISyntaxException {
+  void testNewGeneratedTokenWithNewPosition() throws URISyntaxException {
     Token token = TokenUtils.tokenBuilder(IDENTIFIER, "Token", 1, 2);
     var uri = new URI("tests://sample");
     Token result = PPGeneratedToken.build(token, uri, 3, 4);
@@ -64,7 +64,7 @@ public class PPGeneratedTokenTest {
   }
 
   @Test
-  public void testNewGeneratedToken() {
+  void testNewGeneratedToken() {
     Token result = PPGeneratedToken.build(CONSTANT, "3", 1, 2);
 
     assertThat(result.isGeneratedCode()).isTrue();
@@ -75,7 +75,7 @@ public class PPGeneratedTokenTest {
   }
 
   @Test
-  public void testMarkAllAsGenerated() {
+  void testMarkAllAsGenerated() {
     List<Token> tokens = PPLexer.create().lex("A B");
     List<Token> result = PPGeneratedToken.markAllAsGenerated(tokens);
 

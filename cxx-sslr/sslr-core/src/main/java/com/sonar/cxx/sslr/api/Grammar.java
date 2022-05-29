@@ -40,7 +40,7 @@ import org.sonar.cxx.sslr.parser.LexerlessGrammar;
  */
 public abstract class Grammar {
 
-  public Grammar() {
+  protected Grammar() {
     instanciateRuleFields();
   }
 

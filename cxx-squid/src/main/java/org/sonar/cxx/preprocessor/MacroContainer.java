@@ -19,9 +19,10 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
 public class MacroContainer<K, V> {
 
   private final Map<K, V> values = new HashMap<>();
-  private final Stack<K> disabled = new Stack<>();
+  private final Deque<K> disabled = new ArrayDeque<>();
 
   /**
    * get value for key.
@@ -44,11 +45,10 @@ public class MacroContainer<K, V> {
    */
   public V get(K key) {
     V v = values.get(key);
-    if (v != null) {
-      if (disabled.isEmpty() || disabled.search(key) == -1) {
-        return v;
-      }
+    if ((v != null) && (disabled.isEmpty() || !disabled.contains(key))) {
+      return v;
     }
+
     return null;
   }
 
@@ -109,10 +109,9 @@ public class MacroContainer<K, V> {
    */
   @Override
   public String toString() {
-    String mapAsString = values.values().stream()
-      .map(value -> value.toString())
+    return values.values().stream()
+      .map(Object::toString)
       .collect(Collectors.joining(", ", "[", "]"));
-    return mapAsString;
   }
 
 }

@@ -22,29 +22,29 @@ package org.sonar.cxx.preprocessor;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class PPSpecialIdentifierTest {
+class PPSpecialIdentifierTest {
 
   @Test
-  public void testValueOf() {
+  void testValueOf() {
     PPSpecialIdentifier result = PPSpecialIdentifier.valueOf("IMPORT");
     assertThat(result).isEqualTo(PPSpecialIdentifier.IMPORT);
   }
 
   @Test
-  public void testGetter() {
+  void testGetter() {
     PPSpecialIdentifier result = PPSpecialIdentifier.valueOf("IMPORT");
     assertThat(result.getName()).isEqualTo("IMPORT");
     assertThat(result.getValue()).isEqualTo("import");
   }
 
   @Test
-  public void testHasToBeSkippedFromAst() {
+  void testHasToBeSkippedFromAst() {
     PPSpecialIdentifier result = PPSpecialIdentifier.valueOf("IMPORT");
     assertThat(result.hasToBeSkippedFromAst(null /* always false */)).isFalse();
   }
 
   @Test
-  public void testKeywordValues() {
+  void testKeywordValues() {
     String[] result = PPSpecialIdentifier.keywordValues();
     assertThat(result).hasSize(3);
   }

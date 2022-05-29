@@ -26,7 +26,7 @@ class MacroContainerTest {
 
   private final MacroContainer<String, String> mc;
 
-  public MacroContainerTest() {
+  MacroContainerTest() {
     mc = new MacroContainer<>();
   }
 

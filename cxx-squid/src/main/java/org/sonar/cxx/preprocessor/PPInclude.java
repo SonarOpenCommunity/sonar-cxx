@@ -28,7 +28,7 @@ class PPInclude {
 
   private CxxPreprocessor pp;
 
-  public PPInclude(CxxPreprocessor pp) {
+  PPInclude(CxxPreprocessor pp) {
     this.pp = pp;
   }
 

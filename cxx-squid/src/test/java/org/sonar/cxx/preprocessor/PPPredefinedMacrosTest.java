@@ -23,10 +23,10 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class PPPredefinedMacrosTest {
+class PPPredefinedMacrosTest {
 
   @Test
-  public void testPredefinedMacroValues() {
+  void testPredefinedMacroValues() {
     var expResult = Arrays.asList(
       "__FILE__",
       "__LINE__",

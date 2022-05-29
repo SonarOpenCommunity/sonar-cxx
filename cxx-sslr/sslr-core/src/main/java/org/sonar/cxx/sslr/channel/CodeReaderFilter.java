@@ -28,8 +28,10 @@ import java.io.Reader;
 
 /**
  * This class can be extended to provide filtering capabilities for the CodeReader class. <br>
- * The purpose is to filter the character flow before the CodeReader class passes it to the different channels. It is possible to give
- * several filters to a CodeReader: they will be called one after another, following the declaration order in the CodeReader constructor, to
+ * The purpose is to filter the character flow before the CodeReader class passes it to the different channels. It is
+ * possible to give
+ * several filters to a CodeReader: they will be called one after another, following the declaration order in the
+ * CodeReader constructor, to
  * sequentially filter the character flow.
  */
 public abstract class CodeReaderFilter<O> {
@@ -40,10 +42,10 @@ public abstract class CodeReaderFilter<O> {
 
   private CodeReaderConfiguration configuration;
 
-  public CodeReaderFilter() {
+  protected CodeReaderFilter() {
   }
 
-  public CodeReaderFilter(O output) {
+  protected CodeReaderFilter(O output) {
     this.output = output;
   }
 
@@ -60,7 +62,7 @@ public abstract class CodeReaderFilter<O> {
    * Sets the reader from which this class will read the character stream.
    *
    * @param reader
-   *          the reader
+   * the reader
    */
   public void setReader(Reader reader) {
     this.reader = reader;
@@ -79,7 +81,7 @@ public abstract class CodeReaderFilter<O> {
    * Sets the output object
    *
    * @param output
-   *          the output to set
+   * the output to set
    */
   public void setOutput(O output) {
     this.output = output;
@@ -98,7 +100,7 @@ public abstract class CodeReaderFilter<O> {
    * Sets the configuration that must be used by the CodeReader
    *
    * @param configuration
-   *          the configuration to set
+   * the configuration to set
    */
   public void setConfiguration(CodeReaderConfiguration configuration) {
     this.configuration = configuration;
@@ -116,14 +118,14 @@ public abstract class CodeReaderFilter<O> {
    * </ul>
    *
    * @param filteredBuffer
-   *          the output buffer that must contain the filtered data
+   * the output buffer that must contain the filtered data
    * @param offset
-   *          the offset to start reading from the reader
+   * the offset to start reading from the reader
    * @param length
-   *          the number of characters to read from the reader
+   * the number of characters to read from the reader
    * @return The number of characters read, or -1 if the end of the stream has been reached
    * @throws IOException
-   *           If an I/O error occurs
+   * If an I/O error occurs
    */
   public abstract int read(char[] filteredBuffer, int offset, int length) throws IOException;
 

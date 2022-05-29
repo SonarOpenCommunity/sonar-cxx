@@ -27,19 +27,19 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class JoinStringsPreprocessorTest {
+class JoinStringsPreprocessorTest {
 
   private JoinStringsPreprocessor pp;
   private Lexer lexer;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     pp = new JoinStringsPreprocessor();
     lexer = PPLexer.create();
   }
 
   @Test
-  public void testProcess() {
+  void testProcess() {
     List<Token> tokens = lexer.lex("\"A\"\"B\"");
     PreprocessorAction result = pp.process(tokens);
     assertThat(result.getNumberOfConsumedTokens()).isEqualTo(2);

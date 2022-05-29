@@ -24,9 +24,9 @@ package org.sonar.cxx.preprocessor;
  *
  * The macro names of this class are predefined in every translation unit.
  */
-class PPPredefinedMacros {
+final class PPPredefinedMacros {
 
-  static String[] predefinedMacros = {
+  private static final String[] predefinedMacros = {
     "__FILE__ \"file\"",
     "__LINE__ 1",
     // indicates 'date unknown'. should suffice
@@ -40,6 +40,10 @@ class PPPredefinedMacros {
     // __has_include support (C++17)
     "__has_include 1"
   };
+
+  private PPPredefinedMacros() {
+
+  }
 
   static String[] predefinedMacroValues() {
     return predefinedMacros.clone();

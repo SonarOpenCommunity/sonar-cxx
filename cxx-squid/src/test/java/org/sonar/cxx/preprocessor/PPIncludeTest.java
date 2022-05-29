@@ -35,7 +35,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
-public class PPIncludeTest {
+class PPIncludeTest {
 
   private CxxPreprocessor pp;
   private PPInclude include;
@@ -46,7 +46,7 @@ public class PPIncludeTest {
   File tempDir;
 
   @BeforeEach
-  public void setUp() throws IOException {
+  void setUp() throws IOException {
     var context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(new File("dummy")); // necessary for init
     pp = new CxxPreprocessor(context);
@@ -60,14 +60,14 @@ public class PPIncludeTest {
   }
 
   @Test
-  public void testFindIncludedFileQuoted() {
+  void testFindIncludedFileQuoted() {
     AstNode ast = lineParser.parse("#include " + "\"" + foo.toAbsolutePath().toString() + "\"");
     File result = include.findIncludedFile(ast);
     assertThat(result).isEqualTo(foo.toFile());
   }
 
   @Test
-  public void testFindIncludedFileBracketed() {
+  void testFindIncludedFileBracketed() {
     AstNode ast = lineParser.parse("#include " + "<" + foo.toAbsolutePath().toString() + ">");
     File result = include.findIncludedFile(ast);
     assertThat(result).isEqualTo(foo.toFile());

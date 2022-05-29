@@ -45,11 +45,11 @@ public abstract class SourceCode implements Measurable, Comparable<SourceCode> {
   private SourceCodeIndexer indexer;
   private Set<CheckMessage> messages;
 
-  public SourceCode(String key) {
+  protected SourceCode(String key) {
     this(key, null);
   }
 
-  public SourceCode(String key, @Nullable String name) {
+  protected SourceCode(String key, @Nullable String name) {
     this.key = key;
     this.name = name;
   }

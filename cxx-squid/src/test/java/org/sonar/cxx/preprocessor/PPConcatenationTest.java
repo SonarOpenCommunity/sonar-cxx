@@ -26,17 +26,17 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PPConcatenationTest {
+class PPConcatenationTest {
 
   private Lexer lexer;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     lexer = PPLexer.create();
   }
 
   @Test
-  public void testConcatenate() {
+  void testConcatenate() {
     List<Token> tokens = lexer.lex("x ## y");
     List<Token> result = PPConcatenation.concatenate(tokens);
     assertThat(result)

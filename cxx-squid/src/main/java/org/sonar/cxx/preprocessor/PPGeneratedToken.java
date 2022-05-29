@@ -26,7 +26,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-class PPGeneratedToken {
+final class PPGeneratedToken {
 
   private PPGeneratedToken() {
 
