@@ -73,7 +73,7 @@ final class PPMacro {
     this.isVariadic = false;
   }
 
-  public static PPMacro create(AstNode defineLineAst) {
+  static PPMacro create(AstNode defineLineAst) {
     var ast = defineLineAst.getFirstChild();
     var nameNode = ast.getFirstDescendant(PPGrammarImpl.ppToken);
     String macroName = nameNode.getTokenValue();
@@ -131,7 +131,7 @@ final class PPMacro {
     return ab.toString();
   }
 
-  public boolean checkArgumentsCount(int count) {
+  boolean checkArgumentsCount(int count) {
     if (params != null) {
       return isVariadic ? count >= params.size() - 1 : count == params.size();
     }

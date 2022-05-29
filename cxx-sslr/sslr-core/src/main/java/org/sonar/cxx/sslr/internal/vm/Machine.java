@@ -138,8 +138,10 @@ public class Machine implements CharSequence {
     this.tokens = tokens;
     if (input != null) {
       this.inputLength = input.length;
-    } else {
+    } else if (tokens != null) {
       this.inputLength = tokens.length;
+    } else {
+      this.inputLength = 0;
     }
 
     this.handler = handler;

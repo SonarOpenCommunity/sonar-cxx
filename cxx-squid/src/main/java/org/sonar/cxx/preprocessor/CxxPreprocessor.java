@@ -394,12 +394,18 @@ public class CxxPreprocessor extends Preprocessor {
 
   private void parseIncludeLine(String includeLine) {
     AstNode astNode = lineParser(includeLine);
-    handleIncludeLine(astNode, astNode.getFirstDescendant(PPGrammarImpl.includeBodyQuoted).getToken());
+    if (astNode != null) {
+      handleIncludeLine(astNode, astNode.getFirstDescendant(PPGrammarImpl.includeBodyQuoted).getToken());
+    }
   }
 
+  @CheckForNull
   PPMacro parseMacroDefinition(String macroDef) {
     AstNode astNode = lineParser(macroDef);
-    return PPMacro.create(astNode.getFirstDescendant(PPGrammarImpl.defineLine));
+    if (astNode != null) {
+      return PPMacro.create(astNode.getFirstDescendant(PPGrammarImpl.defineLine));
+    }
+    return null;
   }
 
   /**
@@ -573,42 +579,33 @@ public class CxxPreprocessor extends Preprocessor {
     return oneConsumedToken(token);
   }
 
-  private static List<Token> createChildrenTokenList(AstNode ast) {
-    var children = ast.getChildren();
-    var list = new ArrayList<Token>(children.size());
-    for (var child : children) {
-      list.add(child.getToken());
-    }
-    return list;
-  }
-
   private PreprocessorAction mapFromPPToCxx(AstNode ast, Token token) {
-    List<Token> replTokens = new ArrayList<>();
-    for (Token ppToken : TokenUtils.removeLastTokenIfEof(createChildrenTokenList(ast))) { // TODO removeLastTokenIfEof?
-      String value = ppToken.getValue();
-      if (!value.isBlank()) {
-        // call CXX lexer to create a CXX token
-        var lexer = lineLexerwithoutPP.borrowLexer();
-        List<Token> cxxTokens = lexer.lex(value);
-        lineLexerwithoutPP.returnLexer(lexer);
-        var cxxToken = cxxTokens.get(0);
-        var cxxType = cxxToken.getType();
+    var ppTokens = ast.getTokens();
+    List<Token> result = new ArrayList<>(ppTokens.size());
+    var lexer = lineLexerwithoutPP.borrowLexer();
+    try {
+      for (var ppToken : ppTokens) {
+        String value = ppToken.getValue();
+        if (!"EOF".equals(value) && !value.isBlank()) {
 
-        if (!cxxType.equals(GenericTokenType.EOF)) {
-          cxxToken = Token.builder()
+          // call CXX lexer to create a CXX token
+          List<Token> cxxTokens = lexer.lex(value);
+
+          var cxxToken = Token.builder()
             .setLine(token.getLine() + ppToken.getLine() - 1)
             .setColumn(token.getColumn() + ppToken.getColumn())
             .setURI(ppToken.getURI())
             .setValueAndOriginalValue(ppToken.getValue())
-            .setType(cxxType)
+            .setType(cxxTokens.get(0).getType())
             .build();
 
-          replTokens.add(cxxToken);
+          result.add(cxxToken);
         }
       }
+    } finally {
+      lineLexerwithoutPP.returnLexer(lexer);
     }
-
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createPreprocessingToken(token)), replTokens);
+    return new PreprocessorAction(1, Collections.singletonList(Trivia.createPreprocessingToken(token)), result);
   }
 
   static private List<Token> adjustPosition(List<Token> tokens, Token position) {

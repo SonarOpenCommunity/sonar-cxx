@@ -24,10 +24,9 @@
 package org.sonar.cxx.sslr.toolkit; // cxx: in use
 
 import com.sonar.cxx.sslr.impl.Parser;
-import org.sonar.colorizer.Tokenizer;
-
 import java.nio.charset.Charset;
 import java.util.List;
+import org.sonar.colorizer.Tokenizer;
 
 /**
  * This class provides an default optimized implementation of the {@link ConfigurationModel} interface.
@@ -44,7 +43,7 @@ public abstract class AbstractConfigurationModel implements ConfigurationModel {
   private Parser parser;
   private List<Tokenizer> tokenizers;
 
-  public AbstractConfigurationModel() {
+  protected AbstractConfigurationModel() {
     this.updatedFlag = true;
   }
 

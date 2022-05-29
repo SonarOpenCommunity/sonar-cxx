@@ -122,7 +122,7 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
     }
 
     private String keepOnlyMilliseconds(String value) {
-      var sb = new StringBuffer(256);
+      var sb = new StringBuilder(256);
 
       var matcher = millisecondsPattern.matcher(value);
       var trailingZeros = new StringBuilder(128);

@@ -38,7 +38,7 @@ class PPReplace {
   private static final Logger LOG = Loggers.get(PPReplace.class);
   private CxxPreprocessor pp;
 
-  public PPReplace(CxxPreprocessor pp) {
+  PPReplace(CxxPreprocessor pp) {
     this.pp = pp;
   }
 

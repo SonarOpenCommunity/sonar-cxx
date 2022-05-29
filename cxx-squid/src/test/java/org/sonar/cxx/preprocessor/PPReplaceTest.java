@@ -32,14 +32,14 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
-public class PPReplaceTest {
+class PPReplaceTest {
 
   private PPReplace replace;
   private Lexer lexer;
   private CxxPreprocessor pp;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     var context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(new File("dummy")); // necessary for init
     pp = spy(new CxxPreprocessor(context));
@@ -49,7 +49,7 @@ public class PPReplaceTest {
   }
 
   @Test
-  public void testReplaceObjectLikeMacro() {
+  void testReplaceObjectLikeMacro() {
     String macroName = "SAMPLE";
     String macroExpression = "__LINE__";
     List<Token> result = replace.replaceObjectLikeMacro(macroName, macroExpression);
@@ -59,7 +59,7 @@ public class PPReplaceTest {
   }
 
   @Test
-  public void testReplaceFunctionLikeMacro() {
+  void testReplaceFunctionLikeMacro() {
     List<Token> args = lexer.lex("(1, 2)");
     PPMacro macro = pp.parseMacroDefinition("#define TEST(a, b) a+b");
     when(pp.getMacro(macro.name)).thenReturn(macro);

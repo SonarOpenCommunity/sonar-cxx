@@ -26,16 +26,16 @@ import java.nio.charset.Charset;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class PPParserTest {
+class PPParserTest {
 
   @Test
-  public void testCreate() {
+  void testCreate() {
     Parser<Grammar> result = PPParser.create(Charset.defaultCharset());
     assertThat(result.getRootRule().getName()).isEqualTo("preprocessorLine");
   }
 
   @Test
-  public void testParse() {
+  void testParse() {
     Parser<Grammar> result = PPParser.create(Charset.defaultCharset());
     AstNode astNode = result.parse("#define HELLO WORLD")
       .getFirstDescendant(PPGrammarImpl.objectlikeMacroDefinition);

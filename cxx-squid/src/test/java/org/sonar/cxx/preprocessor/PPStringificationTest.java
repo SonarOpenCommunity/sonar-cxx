@@ -22,28 +22,28 @@ package org.sonar.cxx.preprocessor;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class PPStringificationTest {
+class PPStringificationTest {
 
   @Test
-  public void testStringify() {
+  void testStringify() {
     String result = PPStringification.stringify("A");
     assertThat(result).isEqualTo("\"A\"");
   }
 
   @Test
-  public void testStringifyDoubleQuotes() {
+  void testStringifyDoubleQuotes() {
     String result = PPStringification.stringify("\"");
     assertThat(result).isEqualTo("\"\\\"\"");
   }
 
   @Test
-  public void testStringifyBackslash() {
+  void testStringifyBackslash() {
     String result = PPStringification.stringify("\\");
     assertThat(result).isEqualTo("\"\\\\\"");
   }
 
   @Test
-  public void testStringifyComplex() {
+  void testStringifyComplex() {
     String result = PPStringification.stringify("A \" \\ B");
     assertThat(result).isEqualTo("\"A \\\"\\\\B\"");
   }

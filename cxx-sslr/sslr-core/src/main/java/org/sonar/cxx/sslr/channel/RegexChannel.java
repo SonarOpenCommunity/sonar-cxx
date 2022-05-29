@@ -27,7 +27,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The RegexChannel can be used to be called each time the next characters in the character stream match a regular expression
+ * The RegexChannel can be used to be called each time the next characters in the character stream match a regular
+ * expression
  */
 public abstract class RegexChannel<O> extends Channel<O> {
 
@@ -38,9 +39,9 @@ public abstract class RegexChannel<O> extends Channel<O> {
    * Create a RegexChannel object with the required regular expression
    *
    * @param regex
-   *          regular expression to be used to try matching the next characters in the stream
+   * regular expression to be used to try matching the next characters in the stream
    */
-  public RegexChannel(String regex) {
+  protected RegexChannel(String regex) {
     matcher = Pattern.compile(regex).matcher("");
   }
 
@@ -55,13 +56,14 @@ public abstract class RegexChannel<O> extends Channel<O> {
   }
 
   /**
-   * The consume method is called each time the regular expression used to create the RegexChannel object matches the next characters in the
+   * The consume method is called each time the regular expression used to create the RegexChannel object matches the
+   * next characters in the
    * character streams.
    *
    * @param token
-   *          the token consumed in the character stream and matching the regular expression
+   * the token consumed in the character stream and matching the regular expression
    * @param output
-   *          the OUTPUT object which can be optionally fed
+   * the OUTPUT object which can be optionally fed
    */
   protected abstract void consume(CharSequence token, O output);
 

@@ -38,7 +38,7 @@ public enum PPSpecialIdentifier implements TokenType {
     this.value = value;
   }
 
-  public static String[] keywordValues() {
+  static String[] keywordValues() {
     PPSpecialIdentifier[] keywordsEnum = PPSpecialIdentifier.values();
     var keywords = new String[keywordsEnum.length];
     for (var i = 0; i < keywords.length; i++) {

@@ -23,7 +23,7 @@ import java.math.BigInteger;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-public class PPNumberTest {
+class PPNumberTest {
 
   @Test
   void decode_numbers() {
