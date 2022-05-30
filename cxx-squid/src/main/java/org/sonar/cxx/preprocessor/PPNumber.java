@@ -20,40 +20,46 @@
 package org.sonar.cxx.preprocessor;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 
 /**
  * Helper class to evaluate preprocessor numbers.
  */
 final class PPNumber {
 
-  // TODO add HashMap with some default values: 0, 1, ...
+  private static HashMap<String, BigInteger> numberCache = new HashMap<>();
+
   private PPNumber() {
 
   }
 
   static BigInteger decode(String number) {
 
-    // This function is only responsible for providing a string and a radix to BigInteger.
+    // search first in already cached results
+    BigInteger result = numberCache.get(number);
+    if (result != null) {
+      return result;
+    }
+
+    // This part is only responsible for providing a string and a radix to BigInteger.
     // The lexer ensures that the number has a valid format.
     var radix = 10;
     var begin = 0;
-    if (number.length() > 2) {
-      if (number.charAt(0) == '0') {
-        switch (number.charAt(1)) {
-          case 'x':
-          case 'X':
-            radix = 16; // 0x...
-            begin = 2;
-            break;
-          case 'b':
-          case 'B':
-            radix = 2; // 0b...
-            begin = 2;
-            break;
-          default:
-            radix = 8; // 0...
-            break;
-        }
+    if ((number.length() > 2) && (number.charAt(0) == '0')) {
+      switch (number.charAt(1)) {
+        case 'x':
+        case 'X':
+          radix = 16; // 0x...
+          begin = 2;
+          break;
+        case 'b':
+        case 'B':
+          radix = 2; // 0b...
+          begin = 2;
+          break;
+        default:
+          radix = 8; // 0...
+          break;
       }
     }
 
@@ -98,7 +104,12 @@ final class PPNumber {
       }
     }
 
-    return new BigInteger(sb.toString(), radix);
+    // use ctor to convert to BigInteger (expensive)
+    result = new BigInteger(sb.toString(), radix);
+
+    // cache result
+    numberCache.put(number, result);
+    return result;
   }
 
 }

@@ -22,15 +22,11 @@ package org.sonar.cxx.preprocessor;
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Token;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
-import static org.sonar.cxx.parser.CxxTokenType.STRING;
 
 final class PPMacro {
 
@@ -54,34 +50,20 @@ final class PPMacro {
     this.isVariadic = variadic;
   }
 
-  /**
-   * Constructor for standard (predefined) macros
-   *
-   * @param name
-   * @param body
-   */
-  private PPMacro(String name, String body) {
-    this.name = name;
-    this.params = null;
-    this.body = Collections.singletonList(Token.builder()
-      .setLine(1)
-      .setColumn(0)
-      .setURI(URI.create(""))
-      .setValueAndOriginalValue(body)
-      .setType(STRING)
-      .build());
-    this.isVariadic = false;
-  }
-
   static PPMacro create(AstNode defineLineAst) {
     var ast = defineLineAst.getFirstChild();
     var nameNode = ast.getFirstDescendant(PPGrammarImpl.ppToken);
     String macroName = nameNode.getTokenValue();
 
     var paramList = ast.getFirstDescendant(PPGrammarImpl.parameterList);
-    List<Token> macroParams = paramList == null
-                                ? "objectlikeMacroDefinition".equals(ast.getName()) ? null : new LinkedList<>()
-                                : getChildrenIdentifierTokens(paramList);
+    List<Token> macroParams;
+    if (paramList != null) {
+      macroParams = getChildrenIdentifierTokens(paramList);
+    } else if ("objectlikeMacroDefinition".equals(ast.getName())) {
+      macroParams = null;
+    } else {
+      macroParams = new LinkedList<>();
+    }
 
     var vaargs = ast.getFirstDescendant(PPGrammarImpl.variadicparameter);
     if ((vaargs != null) && (macroParams != null)) {
@@ -97,10 +79,6 @@ final class PPMacro {
                               : replList.getTokens().subList(0, replList.getTokens().size() - 1);
 
     return new PPMacro(macroName, macroParams, macroBody, vaargs != null);
-  }
-
-  private static void add(Map<String, PPMacro> map, String name, String body) {
-    map.put(name, new PPMacro(name, body));
   }
 
   private static List<Token> getChildrenIdentifierTokens(AstNode identListAst) {

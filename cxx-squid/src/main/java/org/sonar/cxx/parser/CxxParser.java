@@ -21,7 +21,6 @@ package org.sonar.cxx.parser;
 
 import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.impl.Parser;
-import java.io.File;
 import java.lang.ref.WeakReference;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
@@ -37,8 +36,8 @@ public final class CxxParser {
   private CxxParser() {
   }
 
-  public static void finishedParsing(File path) {
-    currentPreprocessorInstance.get().finishedPreprocessing(path);
+  public static void finishedParsing() {
+    currentPreprocessorInstance.get().finishedPreprocessing();
   }
 
   public static Parser<Grammar> create() {

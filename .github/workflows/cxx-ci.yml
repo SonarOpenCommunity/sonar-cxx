@@ -80,20 +80,24 @@ jobs:
 
     # context information
     #
-    #- name: Dump GitHub context
-    #  run: echo '${{ toJSON(github) }}'
-    - name: Dump Matrix context
-      run: echo '${{ toJSON(matrix) }}'
+    - name: Dump GitHub Context
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: echo "$GITHUB_CONTEXT"
+    - name: Dump Matrix Context
+      env:
+        MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+      run: echo "$MATRIX_CONTEXT"
 
     # checkout code
     # - to provide complete SCM information to the sonar scanner,
-    #   all historical data for all branches and tags must be retrieved (fetch-depth: 0)    
+    #   all historical data for all branches and tags must be retrieved (fetch-depth: 0)
     #
     - name: Checkout repository
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-        
+
     # setup Java
     #
     - name: Set up JDK Java ${{ matrix.java }} | ${{ matrix.distribution }} | ${{ matrix.os }}
@@ -179,10 +183,14 @@ jobs:
 
     # context information
     #
-    #- name: Dump GitHub context
-    #  run: echo '${{ toJSON(github) }}'
-    - name: Dump Matrix context
-      run: echo '${{ toJSON(matrix) }}'
+    - name: Dump GitHub Context
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: echo "$GITHUB_CONTEXT"
+    - name: Dump Matrix Context
+      env:
+        MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+      run: echo "$MATRIX_CONTEXT"
 
     # checkout code
     #

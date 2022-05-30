@@ -218,9 +218,7 @@ public class JsonCompilationDatabase {
   }
 
   private void addDefines(String level, Map<String, String> defines) {
-    defines.forEach((k, v) -> {
-      squidConfig.add(level, CxxSquidConfiguration.DEFINES, k + " " + v);
-    });
+    defines.forEach((String k, String v) -> squidConfig.add(level, CxxSquidConfiguration.DEFINES, k + " " + v));
   }
 
   private void addIncludes(String level, List<Path> includes) {

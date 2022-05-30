@@ -62,14 +62,14 @@ class PPIncludeTest {
   @Test
   void testFindIncludedFileQuoted() {
     AstNode ast = lineParser.parse("#include " + "\"" + foo.toAbsolutePath().toString() + "\"");
-    File result = include.findIncludedFile(ast);
+    File result = include.findFile(ast);
     assertThat(result).isEqualTo(foo.toFile());
   }
 
   @Test
   void testFindIncludedFileBracketed() {
     AstNode ast = lineParser.parse("#include " + "<" + foo.toAbsolutePath().toString() + ">");
-    File result = include.findIncludedFile(ast);
+    File result = include.findFile(ast);
     assertThat(result).isEqualTo(foo.toFile());
   }
 

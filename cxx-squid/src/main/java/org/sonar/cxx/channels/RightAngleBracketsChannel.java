@@ -80,7 +80,7 @@ public class RightAngleBracketsChannel extends Channel<Lexer> {
         if (angleBracketLevel > 0) {
           var consume = parentheseLevel == 0;
           var next = code.charAt(1);
-          consume = consume && !(next == '='); // not >=
+          consume = consume && (next != '='); // not >=
           consume = consume && !((next == '>') && (angleBracketLevel == 1)); // not dangling >>
 
           if (consume) {
@@ -97,6 +97,9 @@ public class RightAngleBracketsChannel extends Channel<Lexer> {
             consumed = true;
           }
         }
+        break;
+
+      default:
         break;
     }
 
