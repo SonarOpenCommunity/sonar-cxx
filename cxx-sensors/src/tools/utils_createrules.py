@@ -286,17 +286,41 @@ def compare_rules(old_path, new_path):
     print("```\n")
 
 
+def merge_rules(clang_tidy_xml, clang_diagnostic_xml):
+    output = "clangtidy_merged.xml"
+    sys.stderr.write("[INFO] Merging rules from {} and {}\n".format(clang_diagnostic_xml, clang_diagnostic_xml))
+    _, clang_tidy_rules = parse_rules_xml(clang_tidy_xml)
+    _, clang_diagnostic_rules = parse_rules_xml(clang_diagnostic_xml)
+    merged_rules = et.Element('rules')
+    for name, clang_tidy_rule in clang_tidy_rules.items():
+        rule_tag = clang_tidy_rule
+        indent(rule_tag)
+        make_rules_description_to_cdata(rule_tag)
+        merged_rules.append(rule_tag)
+    for name, clang_diagnostic_rule in clang_diagnostic_rules.items():
+        rule_tag = clang_diagnostic_rule
+        indent(rule_tag)
+        make_rules_description_to_cdata(rule_tag)
+        merged_rules.append(rule_tag)
+    with open(output, 'w') as f:
+        write_rules_xml(merged_rules, f)
+    sys.stderr.write("[INFO] Merged rules: {}\n".format(output))
+
+
 def print_usage_and_exit():
     script_name = os.path.basename(sys.argv[0])
     print("""%s comparerules <old_rules.xml> <new_rules.xml>
+%s mergerules <clangtidy_new.xml> <diagnostic_new.xml>
 %s check <rules.xml>
 
 comparerules: generates <new_rules.xml.comparable> which re-sorts new rules according to the order of old_rules.xml
               call 'diff <old_rules.xml> <new_rules.xml.comparable>' in order to see how the existing <old_rules.xml> must be updated
               also generates the human-readable summary to STDOUT
 
+mergerules:   create a merged file <clangtidy_merged.xml> from the input <clangtidy_new.xml> and <diagnostic_new.xml> files.
+
 check:        for each rule in <rules.xml> generate a file "/tmp/<rule_key>.ruledump", which contains the HTML code of rules description
-              check each *.ruledump file with tidy in order to validate the HTML description""" % (script_name, script_name))
+              check each *.ruledump file with tidy in order to validate the HTML description""" % (script_name, script_name, script_name))
     sys.exit(1)
 
 if __name__ == "__main__":
@@ -307,6 +331,8 @@ if __name__ == "__main__":
     # transform to an other elementtree
     if sys.argv[1] == "comparerules" and len(sys.argv) == 4:
         compare_rules(sys.argv[2], sys.argv[3])
+    elif sys.argv[1] == "mergerules" and len(sys.argv) == 4:
+        merge_rules(sys.argv[2], sys.argv[3])
     elif sys.argv[1] == "check" and len(sys.argv) == 3:
         rc = check_rules(sys.argv[2])
         sys.exit(rc)
