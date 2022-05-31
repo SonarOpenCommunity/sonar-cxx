@@ -197,7 +197,7 @@ class CxxParserTest {
     AstNode root = null;
     try {
       root = parser.parse(file);
-      CxxParser.finishedParsing(file);
+      CxxParser.finishedParsing();
     } catch (Exception e) {
       throw new IllegalStateException(file.toString(), e);
     }

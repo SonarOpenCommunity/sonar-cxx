@@ -38,46 +38,51 @@ final class PPStringification {
     var result = new StringBuilder(2 * str.length());
     var addBlank = false;
     var ignoreNextBlank = false;
-    result.append("\"");
+    result.append('\"');
     for (var i = 0; i < str.length(); i++) {
       var c = str.charAt(i);
-      if (Character.isLowerCase(c) || Character.isUpperCase(c) || Character.isDigit(c) || c == '_') { // token
+      if (isIdentifierOrNumber(c)) {
         if (addBlank) {
           result.append(' ');
           addBlank = false;
         }
         result.append(c);
-      } else { // special characters
-        switch (c) {
-          case ' ':
-            if (ignoreNextBlank) {
-              ignoreNextBlank = false;
-            } else {
-              addBlank = true;
-            }
-            break;
-          case '\"':
-            if (addBlank) {
-              result.append(' ');
-              addBlank = false;
-            }
-            result.append("\\\"");
-            break;
-          case '\\':
-            result.append("\\\\");
+        continue;
+      }
+      // special characters
+      switch (c) {
+        case ' ':
+          if (ignoreNextBlank) {
+            ignoreNextBlank = false;
+          } else {
+            addBlank = true;
+          }
+          break;
+        case '\"':
+          if (addBlank) {
+            result.append(' ');
             addBlank = false;
-            ignoreNextBlank = true;
-            break;
-          default: // operator
-            result.append(c);
-            addBlank = false;
-            ignoreNextBlank = true;
-            break;
-        }
+          }
+          result.append("\\\"");
+          break;
+        case '\\':
+          result.append("\\\\");
+          addBlank = false;
+          ignoreNextBlank = true;
+          break;
+        default: // operator
+          result.append(c);
+          addBlank = false;
+          ignoreNextBlank = true;
+          break;
       }
     }
-    result.append("\"");
+    result.append('\"');
     return result.toString();
+  }
+
+  private static boolean isIdentifierOrNumber(char c) {
+    return Character.isLowerCase(c) || Character.isUpperCase(c) || Character.isDigit(c) || c == '_';
   }
 
 }

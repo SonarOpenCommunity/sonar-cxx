@@ -155,26 +155,29 @@ public class StringLiteralsChannel extends Channel<Lexer> {
   }
 
   private void readUdSuffix(CodeReader code) {
-    for (int start_index = index, len = 0;; index++) {
+    int len = 0;
+    for (int start_index = index;; index++) {
       var charAt = code.charAt(index);
       if (charAt == EOF) {
         return;
       }
-      if (Character.isLowerCase(charAt) || Character.isUpperCase(charAt) || (charAt == '_')) {
+      if (isSuffix(charAt)) {
         len++;
-      } else {
-        if (Character.isDigit(charAt)) {
-          if (len > 0) {
-            len++;
-          } else {
-            index = start_index;
-            return;
-          }
+      } else if (Character.isDigit(charAt)) {
+        if (len > 0) {
+          len++;
         } else {
+          index = start_index;
           return;
         }
+      } else {
+        return;
       }
     }
+  }
+
+  private static boolean isSuffix(char c) {
+    return Character.isLowerCase(c) || Character.isUpperCase(c) || (c == '_');
   }
 
 }

@@ -26,19 +26,15 @@ import com.sonar.cxx.sslr.api.Preprocessor;
 import com.sonar.cxx.sslr.api.PreprocessorAction;
 import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.api.Trivia;
-import com.sonar.cxx.sslr.impl.Lexer;
 import com.sonar.cxx.sslr.impl.Parser;
 import com.sonar.cxx.sslr.impl.token.TokenUtils;
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import javax.annotation.CheckForNull;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -46,7 +42,6 @@ import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxLexerPool;
 import org.sonar.cxx.parser.CxxTokenType;
-import static org.sonar.cxx.preprocessor.PPGrammarImpl.*;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
 /**
@@ -95,12 +90,9 @@ public class CxxPreprocessor extends Preprocessor {
   private SourceCodeProvider unitCodeProvider;
   private File currentContextFile;
 
-  private final Set<File> analysedFiles = new HashSet<>();
   private final Parser<Grammar> lineParser;
   private final PPExpression constantExpression;
-  private Lexer includeDirectiveLexer = null;
   private CxxLexerPool lineLexerwithPP = null;
-  private CxxLexerPool lineLexerwithoutPP = null;
   private PPReplace replace = null;
   private PPInclude include = null;
 
@@ -108,7 +100,6 @@ public class CxxPreprocessor extends Preprocessor {
                                                       + "This is only relevant if parser creates syntax errors."
                                                       + " The preprocessor searches for include files in the with "
                                                       + "'sonar.cxx.includeDirectories' defined directories and order.";
-  private static int missingIncludeFilesCounter = 0;
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context) {
     this(context, new CxxSquidConfiguration());
@@ -151,9 +142,7 @@ public class CxxPreprocessor extends Preprocessor {
         unitMacros.putAll(globalMacros);
       } else {
         // on project level do this only once for all units
-        includeDirectiveLexer = IncludeDirectiveLexer.create(this);
         lineLexerwithPP = CxxLexerPool.create(this);
-        lineLexerwithoutPP = CxxLexerPool.create();
         replace = new PPReplace(this); // TODO: try to remove dependecies inside PPReplace, lexer, unitMacros
         include = new PPInclude(this); // TODO: try to remove dependecies
         addGlobalIncludeDirectories();
@@ -283,13 +272,14 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   public static void finalReport() {
-    if (missingIncludeFilesCounter != 0) {
-      LOG.warn(MISSING_INCLUDE_MSG, missingIncludeFilesCounter);
+    int missing = PPInclude.getMissingFilesCounter();
+    if (missing != 0) {
+      LOG.warn(MISSING_INCLUDE_MSG, missing);
     }
   }
 
   public static void resetReport() {
-    missingIncludeFilesCounter = 0;
+    PPInclude.resetMissingFilesCounter();
   }
 
   private static String getIdentifierName(AstNode node) {
@@ -298,12 +288,12 @@ public class CxxPreprocessor extends Preprocessor {
       .orElse("");
   }
 
-  public void finishedPreprocessing(File file) {
+  public void finishedPreprocessing() {
     // From 16.3.5 "Scope of macro definitions":
     // A macro definition lasts (independent of block structure) until a corresponding #undef directive is encountered
     // or (if none is encountered) until the end of the translation unit.
 
-    analysedFiles.clear();
+    include.clearAnalyzedFiles();
     unitMacros = null;
     unitCodeProvider = null;
     currentContextFile = null;
@@ -329,7 +319,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   public Boolean expandHasIncludeExpression(AstNode exprAst) {
-    return include.findIncludedFile(exprAst) != null;
+    return include.findFile(exprAst) != null;
   }
 
   private void addPredefinedMacros() {
@@ -527,32 +517,8 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleIncludeLine(AstNode ast, Token token) {
-    //
-    // Included files have to be scanned with the (only) goal of gathering macros. This is done as follows:
-    //
-    // a) pipe the body of the include directive through a lexer to properly expand
-    //    all macros which may be in there.
-    // b) extract the filename out of the include body and try to find it
-    // c) if not done yet, process it using a special lexer, which calls back only
-    //    if it finds relevant preprocessor directives (currently: include's and define's)
     if (!getCodeProvider().skipTokens()) {
-      String rootFilePath = getCodeProvider().getFileUnderAnalysisPath();
-      File includedFile = include.findIncludedFile(ast);
-      if (includedFile == null) {
-        missingIncludeFilesCounter++;
-        LOG.debug("[" + rootFilePath + ":" + token.getLine()
-                    + "]: preprocessor cannot find include file '" + token.getValue() + "'");
-      } else if (analysedFiles.add(includedFile.getAbsoluteFile())) {
-        getCodeProvider().pushFileState(includedFile);
-        try {
-          LOG.debug("process include file '{}'", includedFile.getAbsoluteFile());
-          includeDirectiveLexer.lex(getCodeProvider().getSourceCode(includedFile, squidConfig.getCharset()));
-        } catch (IOException e) {
-          LOG.error("[{}: preprocessor cannot read include file]: {}", includedFile.getAbsoluteFile(), e.getMessage());
-        } finally {
-          getCodeProvider().popFileState();
-        }
-      }
+      include.handleFile(ast, token);
     }
 
     return oneConsumedToken(token);
@@ -566,7 +532,8 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       // forward to parser: ...  import ...
-      return mapFromPPToCxx(ast, token);
+      var result = TokenList.transformToCxx(ast.getTokens(), token);
+      return new PreprocessorAction(1, Collections.singletonList(Trivia.createPreprocessingToken(token)), result);
     }
     return oneConsumedToken(token);
   }
@@ -574,51 +541,10 @@ public class CxxPreprocessor extends Preprocessor {
   private PreprocessorAction handleModuleLine(AstNode ast, Token token) {
     if (!getCodeProvider().skipTokens()) {
       // forward to parser: ...  module ...
-      return mapFromPPToCxx(ast, token);
+      var result = TokenList.transformToCxx(ast.getTokens(), token);
+      return new PreprocessorAction(1, Collections.singletonList(Trivia.createPreprocessingToken(token)), result);
     }
     return oneConsumedToken(token);
-  }
-
-  private PreprocessorAction mapFromPPToCxx(AstNode ast, Token token) {
-    var ppTokens = ast.getTokens();
-    List<Token> result = new ArrayList<>(ppTokens.size());
-    var lexer = lineLexerwithoutPP.borrowLexer();
-    try {
-      for (var ppToken : ppTokens) {
-        String value = ppToken.getValue();
-        if (!"EOF".equals(value) && !value.isBlank()) {
-
-          // call CXX lexer to create a CXX token
-          List<Token> cxxTokens = lexer.lex(value);
-
-          var cxxToken = Token.builder()
-            .setLine(token.getLine() + ppToken.getLine() - 1)
-            .setColumn(token.getColumn() + ppToken.getColumn())
-            .setURI(ppToken.getURI())
-            .setValueAndOriginalValue(ppToken.getValue())
-            .setType(cxxTokens.get(0).getType())
-            .build();
-
-          result.add(cxxToken);
-        }
-      }
-    } finally {
-      lineLexerwithoutPP.returnLexer(lexer);
-    }
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createPreprocessingToken(token)), result);
-  }
-
-  static private List<Token> adjustPosition(List<Token> tokens, Token position) {
-    var result = new ArrayList<Token>(tokens.size());
-    int column = position.getColumn();
-    int line = position.getLine();
-    var uri = position.getURI();
-    for (var token : tokens) {
-      result.add(PPGeneratedToken.build(token, uri, line, column));
-      column += token.getValue().length() + 1;
-    }
-
-    return result;
   }
 
   /**
@@ -678,7 +604,7 @@ public class CxxPreprocessor extends Preprocessor {
         }
         replTokens = outTokens;
         unitMacros.popDisable();
-        replTokens = adjustPosition(replTokens, curr);
+        replTokens = TokenList.adjustPosition(replTokens, curr);
 
         ppaction = new PreprocessorAction(
           tokensConsumed,

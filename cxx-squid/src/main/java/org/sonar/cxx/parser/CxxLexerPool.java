@@ -131,7 +131,7 @@ public final class CxxLexerPool {
     return builder.build();
   }
 
-  public synchronized Lexer borrowLexer() {
+  public Lexer borrowLexer() {
     if (available.isEmpty()) {
       available.add(getLexer());
     }
@@ -141,7 +141,7 @@ public final class CxxLexerPool {
     return instance;
   }
 
-  public synchronized void returnLexer(Lexer instance) {
+  public void returnLexer(Lexer instance) {
     inUse.remove(instance);
     available.add(instance);
   }

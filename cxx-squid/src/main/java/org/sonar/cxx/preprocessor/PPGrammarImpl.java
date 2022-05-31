@@ -464,18 +464,8 @@ enum PPGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(hasIncludeExpression).is(
-      b.firstOf(
-        b.sequence(
-          "__has_include", b.zeroOrMore(WS), "(", b.zeroOrMore(WS), includeBodyBracketed, b.zeroOrMore(WS), ")"
-        ),
-        b.sequence(
-          "__has_include", b.zeroOrMore(WS), "(", b.zeroOrMore(WS), includeBodyQuoted, b.zeroOrMore(WS), ")"
-        )
-      //todo: b.sequence("__has_include", "(", hasIncludeBodyFreeform, )")
-      )
+      "__has_include", b.zeroOrMore(WS), "(", b.zeroOrMore(WS), includeBody, b.zeroOrMore(WS), ")"
     );
-
-    //todo: b.rule(hasIncludeBodyFreeform).is(b.oneOrMore(b.nextNot(")"), ppToken));
   }
 
 }

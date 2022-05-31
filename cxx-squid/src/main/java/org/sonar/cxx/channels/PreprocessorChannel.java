@@ -39,8 +39,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
   private final StringBuilder sb = new StringBuilder(256);
   private final Matcher matcher;
 
-  public PreprocessorChannel(TokenType[]
-    ... keywordSets) {
+  public PreprocessorChannel(TokenType[]... keywordSets) {
     var regexp = new StringBuilder(256);
     regexp.append("#");
     for (var keywords : keywordSets) {
@@ -127,11 +126,11 @@ public class PreprocessorChannel extends Channel<Lexer> {
     while (true) {
       var ch = (char) code.pop();
       if (ch == EOF) {
-        break;
+        return;
       }
       if (ch == '*' && code.charAt(0) == '/') {
         code.pop();
-        break;
+        return;
       }
     }
   }

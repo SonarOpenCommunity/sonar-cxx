@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
@@ -73,6 +74,9 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   public static final String SONAR_PROJECT_PROPERTIES = "SonarProjectProperties";
   public static final String GLOBAL = "Global";
   public static final String UNITS = "Units";
+
+  // name of 'Value' elements
+  public static final String VALUE = "Value";
 
   // SonarProjectProperties
   public static final String ERROR_RECOVERY_ENABLED = "ErrorRecoveryEnabled";
@@ -234,7 +238,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
       if (eLevel != null) {
         Element eKey = eLevel.getChild(key);
         if (eKey != null) {
-          return Optional.of(eKey.getChildText("Value"));
+          return Optional.of(eKey.getChildText(VALUE));
         }
       }
       eLevel = getParentElement(eLevel);
@@ -257,7 +261,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     if (eLevel != null) {
       Element eKey = eLevel.getChild(key);
       if (eKey != null) {
-        for (var value : eKey.getChildren("Value")) {
+        for (var value : eKey.getChildren(VALUE)) {
           result.add(value.getText());
         }
       }
@@ -283,7 +287,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
       if (eLevel != null) {
         Element eKey = eLevel.getChild(key);
         if (eKey != null) {
-          for (var value : eKey.getChildren("Value")) {
+          for (var value : eKey.getChildren(VALUE)) {
             result.add(value.getText());
           }
         }
@@ -310,7 +314,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
       for (var child : eLevel.getChildren()) {
         Element eKey = child.getChild(key);
         if (eKey != null) {
-          for (var value : eKey.getChildren("Value")) {
+          for (var value : eKey.getChildren(VALUE)) {
             result.add(value.getText());
           }
         }
@@ -345,7 +349,9 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     try {
       return get(level, key).map(String::trim).map(Integer::parseInt);
     } catch (NumberFormatException e) {
-      throw new IllegalStateException(String.format("The property '%s' is not an int value: %s", key, e.getMessage()));
+      throw new IllegalStateException(
+        String.format("The property '%s' is not an int value: %s", key, e.getMessage())
+      );
     }
   }
 
@@ -360,7 +366,9 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     try {
       return get(level, key).map(String::trim).map(Long::parseLong);
     } catch (NumberFormatException e) {
-      throw new IllegalStateException(String.format("The property '%s' is not an long value: %s", key, e.getMessage()));
+      throw new IllegalStateException(
+        String.format("The property '%s' is not an long value: %s", key, e.getMessage())
+      );
     }
   }
 
@@ -375,7 +383,9 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     try {
       return get(level, key).map(String::trim).map(Float::valueOf);
     } catch (NumberFormatException e) {
-      throw new IllegalStateException(String.format("The property '%s' is not an float value: %s", key, e.getMessage()));
+      throw new IllegalStateException(
+        String.format("The property '%s' is not an float value: %s", key, e.getMessage())
+      );
     }
   }
 
@@ -390,7 +400,9 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     try {
       return get(level, key).map(String::trim).map(Double::valueOf);
     } catch (NumberFormatException e) {
-      throw new IllegalStateException(String.format("The property '%s' is not an double value: %s", key, e.getMessage()));
+      throw new IllegalStateException(
+        String.format("The property '%s' is not an double value: %s", key, e.getMessage())
+      );
     }
   }
 
@@ -427,7 +439,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   }
 
   public void readMsBuildFiles(List<File> logFiles, String charsetName) {
-    MsBuild msBuild = msBuild = new MsBuild(this);
+    MsBuild msBuild = new MsBuild(this);
     for (var logFile : logFiles) {
       if (logFile.exists()) {
         msBuild.parse(logFile, baseDir, charsetName);
@@ -458,12 +470,12 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @param path to unify
    * @return unified path
    */
-  private String unifyPath(String path) {
+  private static String unifyPath(String path) {
     String result = PathUtils.sanitize(path);
     if (result == null) {
       result = "unknown";
     }
-    return result.toLowerCase();
+    return result.toLowerCase(Locale.getDefault());
   }
 
   /**
@@ -556,7 +568,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @param value to add
    */
   static private void setValue(Element key, String value) {
-    var eValue = new Element("Value");
+    var eValue = new Element(VALUE);
     eValue.setText(value);
     key.addContent(eValue);
   }

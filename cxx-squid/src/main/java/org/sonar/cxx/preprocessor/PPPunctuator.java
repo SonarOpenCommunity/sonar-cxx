@@ -21,6 +21,7 @@ package org.sonar.cxx.preprocessor;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.TokenType;
+import javax.annotation.Nullable;
 
 /**
  * C++ Standard, 2.13 Operators and punctuators
@@ -126,7 +127,7 @@ public enum PPPunctuator implements TokenType {
   }
 
   @Override
-  public boolean hasToBeSkippedFromAst(AstNode node) {
+  public boolean hasToBeSkippedFromAst(@Nullable AstNode node) {
     return false;
   }
 }
