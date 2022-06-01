@@ -24,14 +24,25 @@ import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.impl.Lexer;
 import com.sonar.cxx.sslr.impl.token.TokenUtils;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.input.BOMInputStream;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
-class PPInclude {
+public class PPInclude {
 
   private static final Logger LOG = Loggers.get(PPInclude.class);
   private static int missingFileCounter = 0;
@@ -39,32 +50,63 @@ class PPInclude {
   private final CxxPreprocessor pp;
   private final Lexer fileLexer;
   private final Set<File> analysedFiles = new HashSet<>();
+  private final List<Path> includeRoots = new ArrayList<>();
+  private final PPState state;
 
-  PPInclude(CxxPreprocessor pp) {
+  public PPInclude(CxxPreprocessor pp, @Nonnull File contextFile) {
     this.pp = pp;
     fileLexer = IncludeDirectiveLexer.create(pp);
+    state = PPState.build(contextFile);
+  }
+
+  public PPState State() {
+    return state;
+  }
+
+  public void setIncludeRoots(List<String> roots, String baseDir) {
+    for (var root : roots) {
+      var path = Paths.get(root);
+      try {
+        if (!path.isAbsolute()) {
+          path = Paths.get(baseDir).resolve(path);
+        }
+        path = path.toRealPath(); // IOException if the file does not exist
+
+        if (Files.isDirectory(path)) {
+          includeRoots.add(path);
+        } else {
+          LOG.warn("preprocessor: invalid include file directory '{}'", path.toString());
+        }
+      } catch (IOException | InvalidPathException e) {
+        LOG.error("preprocessor: invalid include file directory '{}'", path.toString());
+      }
+    }
+  }
+
+  public List<Path> getIncludeRoots() {
+    return includeRoots;
   }
 
   /**
    * Included files have to be scanned with the (only) goal of gathering macros. Process include files using a special
    * lexer, which calls back only if it finds relevant preprocessor directives (#...).
    */
-  void handleFile(AstNode ast, Token token) {
+  public void handleFile(AstNode ast, Token token) {
     File includeFile = findFile(ast);
     if (includeFile == null) {
       missingFileCounter++;
-      String rootFilePath = pp.getCodeProvider().getFileUnderAnalysisPath();
+      String rootFilePath = State().getFileUnderAnalysisPath();
       LOG.debug("[" + rootFilePath + ":" + token.getLine() + "]: preprocessor cannot find include file '"
                   + token.getValue() + "'");
     } else if (analysedFiles.add(includeFile.getAbsoluteFile())) {
-      pp.getCodeProvider().pushFileState(includeFile);
+      State().pushFileState(includeFile);
       try {
         LOG.debug("process include file '{}'", includeFile.getAbsoluteFile());
-        fileLexer.lex(pp.getCodeProvider().getSourceCode(includeFile, pp.getCharset()));
+        fileLexer.lex(getSourceCode(includeFile, pp.getCharset()));
       } catch (IOException e) {
         LOG.error("[{}: preprocessor cannot read include file]: {}", includeFile.getAbsoluteFile(), e.getMessage());
       } finally {
-        pp.getCodeProvider().popFileState();
+        State().popFileState();
       }
     }
   }
@@ -73,7 +115,7 @@ class PPInclude {
    * Extract the filename out of the include body and try to open the file.
    */
   @CheckForNull
-  File findFile(AstNode ast) {
+  public File findFile(AstNode ast) {
     AstNode includeBody = ast.getFirstDescendant(
       PPGrammarImpl.includeBody,
       PPGrammarImpl.expandedIncludeBody
@@ -97,22 +139,96 @@ class PPInclude {
       }
 
       if (filename != null) {
-        return pp.getCodeProvider().getSourceCodeFile(filename, quoted);
+        return getSourceCodeFile(filename, quoted);
       }
     }
 
     return null;
   }
 
-  void clearAnalyzedFiles() {
-    analysedFiles.clear();
+  @CheckForNull
+  public File getSourceCodeFile(String filename, boolean quoted) {
+    File result = null;
+    var file = new File(filename);
+
+    // If the file name is fully specified for an include file that has a path that includes a colon
+    // (for example F:\MSVC\SPECIAL\INCL\TEST.H) the preprocessor follows the path.
+    if (file.isAbsolute()) {
+      if (file.isFile()) {
+        result = file;
+      }
+    } else {
+      if (quoted) {
+        // Quoted form: The preprocessor searches for include files in this order:
+        String cwd = State().getFileUnderAnalysis().getParent();
+        if (cwd == null) {
+          cwd = ".";
+        }
+        var abspath = new File(new File(cwd), file.getPath());
+        if (abspath.isFile()) {
+          // 1) In the same directory as the file that contains the #include statement.
+          result = abspath;
+        } else {
+          result = null; // 3) fallback to use include paths instead of local folder
+
+          // 2) In the directories of the currently opened include files, in the reverse order in which they were opened.
+          //    The search begins in the directory of the parent include file and continues upward through the
+          //    directories of any grandparent include files.
+          for (var parent : State().getStack()) {
+            if (parent.getFile() != State().getContextFile()) {
+              abspath = new File(parent.getFile().getParentFile(), file.getPath());
+              if (abspath.exists()) {
+                result = abspath;
+                break;
+              }
+            }
+          }
+        }
+      }
+
+      // Angle-bracket form: lookup relative to to the include roots.
+      // The quoted case falls back to this, if its special handling wasn't successful.
+      if (result == null) {
+        for (var path : includeRoots) {
+          var abspath = path.resolve(filename);
+          if (Files.isRegularFile(abspath)) {
+            result = abspath.toFile();
+            break;
+          }
+        }
+      }
+    }
+
+    if (result != null) {
+      try {
+        result = result.getCanonicalFile();
+      } catch (java.io.IOException e) {
+        LOG.error("preprocessor: cannot get canonical form of: '{}'", result);
+      }
+    }
+
+    return result;
   }
 
-  static int getMissingFilesCounter() {
+  public String getSourceCode(File file, Charset defaultCharset) throws IOException {
+    try (var bomInputStream = new BOMInputStream(new FileInputStream(file),
+                                             ByteOrderMark.UTF_8,
+                                             ByteOrderMark.UTF_16LE,
+                                             ByteOrderMark.UTF_16BE,
+                                             ByteOrderMark.UTF_32LE,
+                                             ByteOrderMark.UTF_32BE)) {
+      ByteOrderMark bom = bomInputStream.getBOM();
+      Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
+      byte[] bytes = bomInputStream.readAllBytes();
+      return new String(bytes, charset);
+    }
+  }
+
+  public static int getMissingFilesCounter() {
     return missingFileCounter;
   }
 
-  static void resetMissingFilesCounter() {
+  public static void resetMissingFilesCounter() {
     missingFileCounter = 0;
   }
 
