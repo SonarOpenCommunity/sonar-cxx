@@ -19,11 +19,11 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Token;
+import com.sonar.cxx.sslr.api.TokenType;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import javax.annotation.CheckForNull;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.parser.CxxTokenType;
@@ -44,56 +44,102 @@ final class PPConcatenation {
   }
 
   static List<Token> concatenate(List<Token> tokens) {
-    var newTokens = new ArrayList<Token>();
+    int firstIndex = 0;
+    while (true) {
+      int operatorPos = searchOperatorPos(firstIndex, tokens); // ... ## ...
 
-    Iterator<Token> it = tokens.iterator();
-    while (it.hasNext()) {
-      var curr = it.next();
-      if ("##".equals(curr.getValue())) {
-        var pred = predConcatToken(newTokens);
-        var succ = succConcatToken(it);
-        if (pred != null && succ != null) {
-          newTokens.add(PPGeneratedToken.build(pred, pred.getType(), pred.getValue() + succ.getValue()));
-        } else {
-          LOG.error("Missing data : succ ='{}' or pred = '{}'", succ, pred);
-        }
-      } else {
-        newTokens.add(curr);
+      if (operatorPos == -1) {
+        // this function is called for every parameter replacement, the case without concatenation should be fast:
+        // return list without any changes
+        return tokens;
       }
-    }
 
-    return newTokens;
+      var result = new ArrayList<Token>(tokens.size());
+      int leftPos = searchLeftPos(operatorPos, tokens); // token ## ...
+      int rightPos = searchRightPos(operatorPos, tokens); // ... ## token
+
+      if (leftPos != -1 && rightPos != -1) {
+        var left = tokens.subList(0, leftPos);
+        var right = tokens.subList(rightPos + 1, tokens.size());
+
+        var leftToken = tokens.get(leftPos);
+        var rightToken = tokens.get(rightPos);
+        var concatenated = PPGeneratedToken.build( // a ## b ==> ab
+          leftToken, leftToken.getType(), leftToken.getValue() + rightToken.getValue()
+        );
+
+        result.addAll(left);
+        result.add(concatenated);
+        result.addAll(right);
+
+        firstIndex = result.size() - right.size();
+
+      } else { // error, remove ## and continue
+        var token = tokens.get(operatorPos);
+        LOG.warn("concatenation error, ignoring ## at {}:{}:{}",
+                 token.getURI().toString(), token.getLine(), token.getColumn());
+
+        var left = tokens.subList(0, operatorPos);
+        var right = tokens.subList(operatorPos + 1, tokens.size());
+
+        result.addAll(left);
+        result.addAll(right);
+
+        firstIndex = result.size() - right.size();
+      }
+
+      tokens = result;
+    }
   }
 
-  @CheckForNull
-  private static Token predConcatToken(List<Token> tokens) {
-    while (!tokens.isEmpty()) {
-      var last = tokens.remove(tokens.size() - 1);
-      if (!last.getType().equals(CxxTokenType.WS)) {
-        if (!tokens.isEmpty()) {
-          var pred = tokens.get(tokens.size() - 1);
-          if (!pred.getType().equals(CxxTokenType.WS) && !pred.hasTrivia()) {
-            // Needed to paste tokens 0 and x back together after #define N(hex) 0x ## hex
-            tokens.remove(tokens.size() - 1);
-            last = PPGeneratedToken.build(pred, pred.getType(), pred.getValue() + last.getValue());
-          }
-        }
-        return last;
-      }
-    }
-    return null;
-  }
-
-  @CheckForNull
-  private static Token succConcatToken(Iterator<Token> it) {
-    Token succ = null;
-    while (it.hasNext()) {
-      succ = it.next();
-      if (!"##".equals(succ.getValue()) && !succ.getType().equals(CxxTokenType.WS)) {
+  /**
+   * search for ## operator
+   */
+  private static int searchOperatorPos(int firstIndex, List<Token> tokens) {
+    int operatorPos = -1;
+    for (int i = firstIndex; i < tokens.size(); i++) {
+      if (PPPunctuator.HASHHASH.equals(tokens.get(i).getType())) {
+        operatorPos = i;
         break;
       }
     }
-    return succ;
+    return operatorPos;
+  }
+
+  /**
+   * search left operand (skipping blanks)
+   */
+  private static int searchLeftPos(int firstIndex, List<Token> tokens) {
+    int leftPos = -1;
+    for (int i = firstIndex - 1; i >= 0; i--) {
+      if (isToken(tokens.get(i))) {
+        leftPos = i;
+        break;
+      }
+    }
+    return leftPos;
+  }
+
+  /**
+   * search right operand (skipping blanks)
+   */
+  private static int searchRightPos(int firstIndex, List<Token> tokens) {
+    int rightPos = -1;
+    for (int i = firstIndex + 1; i < tokens.size(); i++) {
+      if (isToken(tokens.get(i))) {
+        rightPos = i;
+        break;
+      }
+    }
+    return rightPos;
+  }
+
+  private static boolean isToken(Token token) {
+    TokenType type = token.getType();
+    boolean notToken = CxxTokenType.WS.equals(type)
+                         || GenericTokenType.EOF.equals(type)
+                         || PPPunctuator.HASHHASH.equals(type); // a ## ## ## b => ab
+    return !notToken;
   }
 
 }

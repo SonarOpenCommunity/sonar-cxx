@@ -26,6 +26,7 @@ import javax.annotation.Nullable;
 /**
  * C++ Standard, Section 16 "Preprocessing directives"
  */
+@SuppressWarnings({"common-java:DuplicatedBlocks"})
 public enum PPKeyword implements TokenType {
 
   IF("#if"),

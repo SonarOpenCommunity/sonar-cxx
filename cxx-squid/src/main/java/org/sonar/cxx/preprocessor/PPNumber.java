@@ -25,9 +25,10 @@ import java.util.HashMap;
 /**
  * Helper class to evaluate preprocessor numbers.
  */
+@SuppressWarnings({"common-java:DuplicatedBlocks"})
 final class PPNumber {
 
-  private static HashMap<String, BigInteger> numberCache = new HashMap<>();
+  private static final HashMap<String, BigInteger> numberCache = new HashMap<>();
 
   private PPNumber() {
 

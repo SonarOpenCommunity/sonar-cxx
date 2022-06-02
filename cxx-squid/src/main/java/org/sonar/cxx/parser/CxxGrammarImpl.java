@@ -43,7 +43,7 @@ import org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder;
 /**
  * Based on the C++ Standard, Appendix A
  */
-@SuppressWarnings({"squid:S00115", "squid:S00103"})
+@SuppressWarnings({"squid:S00115", "squid:S00103", "java:S138"})
 public enum CxxGrammarImpl implements GrammarRuleKey {
 
   // Misc

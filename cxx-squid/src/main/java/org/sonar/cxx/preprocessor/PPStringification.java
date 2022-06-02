@@ -28,6 +28,7 @@ package org.sonar.cxx.preprocessor;
  * operation is called "stringification". If the result of stringification is not a valid string literal, the behavior
  * is undefined.
  */
+@SuppressWarnings({"java:S1151"})
 final class PPStringification {
 
   private PPStringification() {

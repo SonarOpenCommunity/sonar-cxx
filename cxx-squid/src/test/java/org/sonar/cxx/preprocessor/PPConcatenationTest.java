@@ -36,12 +36,56 @@ class PPConcatenationTest {
   }
 
   @Test
-  void testConcatenate() {
-    List<Token> tokens = lexer.lex("x ## y");
+  void testConcatenateNone() {
+    List<Token> tokens = lexer.lex(" x y z ");
+    List<Token> result = PPConcatenation.concatenate(tokens);
+    assertThat(result)
+      .hasSize(8);
+  }
+
+  @Test
+  void testConcatenateTwo() {
+    List<Token> tokens = lexer.lex("x \t ## \t y");
     List<Token> result = PPConcatenation.concatenate(tokens);
     assertThat(result)
       .hasSize(2)
       .matches(t -> "xy".equals(t.get(0).getValue()));
+  }
+
+  @Test
+  void testConcatenateThree() {
+    List<Token> tokens = lexer.lex("x ## y ## z");
+    List<Token> result = PPConcatenation.concatenate(tokens);
+    assertThat(result)
+      .hasSize(2)
+      .matches(t -> "xyz".equals(t.get(0).getValue()));
+  }
+
+  @Test
+  void testConcatenateHexNumber() {
+    List<Token> tokens = lexer.lex("0x##10");
+    List<Token> result = PPConcatenation.concatenate(tokens);
+    assertThat(result)
+      .hasSize(2)
+      .matches(t -> "0x10".equals(t.get(0).getValue()));
+  }
+
+  @Test
+  void testConcatenateLeftError() {
+    List<Token> tokens = lexer.lex("##B");
+    List<Token> result = PPConcatenation.concatenate(tokens);
+    assertThat(result)
+      .hasSize(2)
+      .matches(t -> "B".equals(t.get(0).getValue()));
+  }
+
+  @Test
+  void testConcatenateRightError() {
+    List<Token> tokens = lexer.lex("A##");
+    List<Token> result = PPConcatenation.concatenate(tokens);
+    assertThat(result)
+      .hasSize(2)
+      .matches(t -> "A".equals(t.get(0).getValue()));
   }
 
 }

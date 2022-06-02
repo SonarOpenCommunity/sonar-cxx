@@ -34,7 +34,7 @@ import org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder;
  *
  * Deviating from the grammar in the standard, whitespaces between the tokens must also be processed here.
  */
-@SuppressWarnings({"squid:S00115", "squid:S00103"})
+@SuppressWarnings({"squid:S00115", "squid:S00103", "java:S138"})
 enum PPGrammarImpl implements GrammarRuleKey {
   preprocessorLine,
   defineLine,
@@ -74,7 +74,6 @@ enum PPGrammarImpl implements GrammarRuleKey {
   definedExpression,
   functionlikeMacro,
   hasIncludeExpression,
-  //hasIncludeBodyFreeform,
   functionlikeMacroDefinition,
   objectlikeMacroDefinition,
   elseLine,

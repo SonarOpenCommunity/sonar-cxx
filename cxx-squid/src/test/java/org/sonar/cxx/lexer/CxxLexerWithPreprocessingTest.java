@@ -920,7 +920,7 @@ class CxxLexerWithPreprocessingTest {
     softly.assertAll();
   }
 
-  //@Test @todo
+  @Test
   void hashhash_operator_problem() {
     // Corresponds to the Jira Issue SONARPLUGINS-3055.
     // The problem here is that 0x##n is splitted into
@@ -932,7 +932,7 @@ class CxxLexerWithPreprocessingTest {
                                      + "A");
     assertThat(tokens).anySatisfy(token -> assertThat(token)
       .isValue("0xcf")
-      .hasType(CxxKeyword.INT));
+      .hasType(CxxTokenType.NUMBER));
   }
 
   @Test
