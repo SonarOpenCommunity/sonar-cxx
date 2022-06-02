@@ -25,20 +25,14 @@ import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.impl.Lexer;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 import org.sonar.cxx.parser.CxxKeyword;
@@ -47,7 +41,7 @@ import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
-import org.sonar.cxx.preprocessor.SourceCodeProvider;
+import org.sonar.cxx.preprocessor.PPInclude;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
 class CxxLexerWithPreprocessingTest {
@@ -101,11 +95,36 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
+  void recursive_objectlike_macros() {
+    List<Token> tokens = lexer.lex("#define RECURSIVE RECURSIVE\nRECURSIVE");
+    var softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(2);
+    softly.assertThat(tokens).anySatisfy(
+      token -> assertThat(token).isValue("RECURSIVE").hasType(GenericTokenType.IDENTIFIER)
+    );
+    softly.assertAll();
+  }
+
+  @Test
   void expanding_functionlike_macros() {
     List<Token> tokens = lexer.lex("#define plus(a, b) a + b\n plus(1, 2)");
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(4);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
+    softly.assertAll();
+  }
+
+  @Test
+  void recursive_functionlike_macros() {
+    List<Token> tokens = lexer.lex("#define RECURSIVE(a) RECURSIVE(a)\nRECURSIVE(1)");
+    var softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(5);
+    softly.assertThat(tokens).anySatisfy(
+      token -> assertThat(token).isValue("RECURSIVE").hasType(GenericTokenType.IDENTIFIER)
+    );
+    softly.assertThat(tokens).anySatisfy(
+      token -> assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER)
+    );
     softly.assertAll();
   }
 
@@ -411,17 +430,16 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void includes_are_working() throws IOException {
-    var scp = mock(SourceCodeProvider.class);
-    when(scp.getSourceCodeFile(anyString(), eq(false))).thenReturn(new File("file"));
-    when(scp.getSourceCode(any(File.class), any(Charset.class))).thenReturn("#define A B\n");
+    context = mock(SquidAstVisitorContext.class);
+    var file = new File("/home/joe/file.cc");
+    when(context.getFile()).thenReturn(file);
+    var pp = spy(new CxxPreprocessor(context, new CxxSquidConfiguration()));
+    var include = spy(new PPInclude(pp, file));
+    when(include.getSourceCodeFile(anyString(), eq(false))).thenReturn(new File("file"));
+    doReturn("#define A B\n").when(include).getSourceCode(any(), any());
+    when(pp.Include()).thenReturn(include);
 
-    SquidAstVisitorContext<Grammar> ctx = mock(SquidAstVisitorContext.class);
-    when(ctx.getFile()).thenReturn(new File("/home/joe/file.cc"));
-
-    var pp = spy(new CxxPreprocessor(ctx, new CxxSquidConfiguration()));
-    when(pp.getCodeProvider()).thenReturn(scp);
     lexer = CxxLexerPool.create(pp, new JoinStringsPreprocessor()).getLexer();
-
     List<Token> tokens = lexer.lex("#include <file>\n"
                                      + "A");
     var softly = new SoftAssertions();
@@ -728,16 +746,13 @@ class CxxLexerWithPreprocessingTest {
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
                     "false");
 
-    var scp = mock(SourceCodeProvider.class);
-    when(scp.getSourceCodeFile(Mockito.eq(forceIncludePath), Mockito.anyBoolean()))
-      .thenReturn(forceIncludeFile);
-    when(scp.getSourceCode(Mockito.eq(forceIncludeFile), Mockito.any(Charset.class)))
-      .thenReturn("#define __LINE__ 345");
-
     var pp = spy(new CxxPreprocessor(context, squidConfig));
-    when(pp.getCodeProvider()).thenReturn(scp);
-    lexer = CxxLexerPool.create(squidConfig.getCharset(), pp).getLexer();
+    var include = spy(new PPInclude(pp, forceIncludeFile));
+    when(include.getSourceCodeFile(anyString(), anyBoolean())).thenReturn(forceIncludeFile);
+    doReturn("#define __LINE__ 345\n").when(include).getSourceCode(any(), any());
+    when(pp.Include()).thenReturn(include);
 
+    lexer = CxxLexerPool.create(squidConfig.getCharset(), pp).getLexer();
     List<Token> tokens = lexer.lex("__LINE__\n");
 
     var softly = new SoftAssertions();

@@ -28,7 +28,7 @@ import static org.sonar.cxx.lexer.LexerAssert.assertThat;
 import org.sonar.cxx.parser.CxxLexerPool;
 import org.sonar.cxx.parser.CxxTokenType;
 
-class CxxLexer_PreprocessorDisabled_Test {
+class CxxLexerWithoutPreprocessorTest {
 
   private Lexer lexer;
 

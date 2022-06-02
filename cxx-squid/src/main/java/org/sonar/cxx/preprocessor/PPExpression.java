@@ -25,8 +25,8 @@ import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.impl.Parser;
 import java.math.BigInteger;
+import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
@@ -42,14 +42,14 @@ final class PPExpression {
   private static final BigInteger UINT64_MAX = new BigInteger("FFFFFFFFFFFFFFFF", 16);
   private static final Logger LOG = Loggers.get(PPExpression.class);
   private final Parser<Grammar> parser;
-  private final CxxPreprocessor preprocessor;
+  private final CxxPreprocessor pp;
   private final Deque<String> macroEvaluationStack;
 
   PPExpression(CxxPreprocessor preprocessor) {
     parser = PPParser.create(PPGrammarImpl.constantExpression, preprocessor.getCharset());
 
-    this.preprocessor = preprocessor;
-    macroEvaluationStack = new LinkedList<>();
+    this.pp = preprocessor;
+    macroEvaluationStack = new ArrayDeque<>();
   }
 
   boolean evaluate(String constantExpression) {
@@ -71,8 +71,8 @@ final class PPExpression {
     try {
       number = PPNumber.decode(intValue);
     } catch (java.lang.NumberFormatException e) {
-      LOG
-        .warn("preprocessor cannot decode the number '{}' falling back to value '{}' instead", intValue, BigInteger.ONE);
+      LOG.warn("preprocessor cannot decode the number '{}' falling back to value '{}' instead",
+               intValue, BigInteger.ONE);
       number = BigInteger.ONE;
     }
 
@@ -102,8 +102,8 @@ final class PPExpression {
       constExprAst = parser.parse(constExpr);
     } catch (com.sonar.cxx.sslr.api.RecognitionException e) {
       if (exprAst != null) {
-        LOG.warn("preprocessor error evaluating expression '{}' for token '{}', assuming 0", constExpr, exprAst
-                 .getToken());
+        LOG.warn("preprocessor error evaluating expression '{}' for token '{}', assuming 0",
+                 constExpr, exprAst.getToken());
       } else {
         LOG.warn("preprocessor error evaluating expression '{}', assuming 0", constExpr);
       }
@@ -150,14 +150,14 @@ final class PPExpression {
                   id, id, String.join(" <- ", macroEvaluationStack));
         return BigInteger.ONE;
       }
-      String value = preprocessor.valueOf(id);
+      String value = pp.valueOf(id);
       if (value == null) {
         return BigInteger.ZERO;
       }
 
-      macroEvaluationStack.addFirst(id);
+      macroEvaluationStack.push(id);
       BigInteger expansion = evalToInt(value, exprAst);
-      macroEvaluationStack.removeFirst();
+      macroEvaluationStack.pop();
       return expansion;
 
     } else {
@@ -470,7 +470,7 @@ final class PPExpression {
     }
 
     String macroName = child.getNextSibling().getTokenValue();
-    String value = preprocessor.valueOf(macroName);
+    String value = pp.valueOf(macroName);
     return value == null ? BigInteger.ZERO : BigInteger.ONE;
   }
 
@@ -478,7 +478,7 @@ final class PPExpression {
     String macroName = exprAst.getFirstChild().getTokenValue();
     List<Token> tokens = exprAst.getTokens();
     List<Token> restTokens = tokens.subList(1, tokens.size());
-    String value = preprocessor.expandFunctionLikeMacro(macroName, restTokens);
+    String value = pp.expandFunctionLikeMacro(macroName, restTokens);
 
     if (value == null || "".equals(value)) {
       LOG.error("preprocessor: undefined function-like macro '{}' assuming 0", macroName);
@@ -489,7 +489,7 @@ final class PPExpression {
   }
 
   private BigInteger evalHasIncludeExpression(AstNode exprAst) {
-    return preprocessor.expandHasIncludeExpression(exprAst) ? BigInteger.ONE : BigInteger.ZERO;
+    return pp.expandHasIncludeExpression(exprAst) ? BigInteger.ONE : BigInteger.ZERO;
   }
 
 }
