@@ -23,62 +23,120 @@ import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Token;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
+/**
+ * The preprocessor supports text and function-like macro replacement.
+ * <code>
+ * #define identifier replacement-list(optional)                      (1)
+ * #define identifier( parameters ) replacement-list(optional)        (2)
+ * #define identifier( parameters, ... ) replacement-list(optional)   (3) since C++11
+ * #define identifier( ... ) replacement-list(optional)               (4) since C++11
+ * </code>
+ */
 final class PPMacro {
 
-  public final String name;
-  public final List<Token> params;
-  public final List<Token> body;
-  public final boolean isVariadic;
+  public final String identifier;
+  public final List<Token> parameterList;
+  public final boolean isVariadic; // (3, 4) => parameters, ...
+  public final List<Token> replacementList;
 
-  private PPMacro(String name, @Nullable List<Token> params, @Nullable List<Token> body, boolean variadic) {
-    this.name = name;
-    if (params == null) {
-      this.params = null;
-    } else {
-      this.params = new ArrayList<>(params);
-    }
-    if (body == null) {
-      this.body = null;
-    } else {
-      this.body = new ArrayList<>(body);
-    }
-    this.isVariadic = variadic;
+  private PPMacro(String identifier,
+                  @Nullable List<Token> parameterList,
+                  @Nullable List<Token> replacementList,
+                  boolean isVariadic) {
+    this.identifier = identifier;
+    this.parameterList = parameterList != null ? new ArrayList<>(parameterList) : null;
+    this.replacementList = replacementList != null ? new ArrayList<>(replacementList) : null;
+    this.isVariadic = isVariadic;
   }
 
   static PPMacro create(AstNode defineLineAst) {
-    var ast = defineLineAst.getFirstChild();
-    var nameNode = ast.getFirstDescendant(PPGrammarImpl.ppToken);
-    String macroName = nameNode.getTokenValue();
+    var root = defineLineAst.getFirstChild();
 
-    var paramList = ast.getFirstDescendant(PPGrammarImpl.parameterList);
-    List<Token> macroParams;
-    if (paramList != null) {
-      macroParams = getChildrenIdentifierTokens(paramList);
-    } else if ("objectlikeMacroDefinition".equals(ast.getName())) {
-      macroParams = null;
-    } else {
-      macroParams = new LinkedList<>();
+    var identifier = getIdentifier(root);
+    var replacementList = getReplacementList(root);
+    List<Token> parameterList;
+    boolean isVariadic;
+    if (PPGrammarImpl.objectlikeMacroDefinition.equals(root.getType())) {
+      parameterList = null;
+      isVariadic = false;
+    } else { // functionlikeMacroDefinition
+      var variadicParameter = root.getFirstDescendant(PPGrammarImpl.variadicParameter);
+      isVariadic = variadicParameter != null;
+      if (isVariadic) {
+        parameterList = getParameterList(root, variadicParameter);
+      } else {
+        parameterList = getParameterList(root);
+      }
     }
 
-    var vaargs = ast.getFirstDescendant(PPGrammarImpl.variadicparameter);
-    if ((vaargs != null) && (macroParams != null)) {
-      var identifier = vaargs.getFirstChild(GenericTokenType.IDENTIFIER);
-      macroParams.add(identifier == null
-                        ? PPGeneratedToken.build(vaargs.getToken(), GenericTokenType.IDENTIFIER, "__VA_ARGS__")
-                        : identifier.getToken());
+    return new PPMacro(identifier, parameterList, replacementList, isVariadic);
+  }
+
+  /**
+   * For version (2), the number of arguments must be the same as the number of parameters in macro definition. For
+   * versions (3,4), the number of arguments must not be less than the number of parameters (not counting
+   * ...). Otherwise the program is ill-formed.
+   */
+  boolean checkArgumentsCount(int count) {
+    if (parameterList != null) {
+      return isVariadic ? count >= parameterList.size() - 1 : count == parameterList.size();
     }
+    return false;
+  }
 
-    var replList = ast.getFirstDescendant(PPGrammarImpl.replacementList);
-    List<Token> macroBody = replList == null
-                              ? new LinkedList<>()
-                              : replList.getTokens().subList(0, replList.getTokens().size() - 1);
+  @Override
+  public String toString() {
+    StringBuilder ab = new StringBuilder(64);
+    ab.append("{");
+    ab.append(identifier);
+    if (parameterList != null) {
+      ab.append("(");
+      ab.append(parameterList.stream().map(Token::getValue).collect(Collectors.joining(", ")));
+      if (isVariadic) {
+        ab.append("...");
+      }
+      ab.append(")");
+    }
+    if (replacementList != null) {
+      ab.append(":");
+      ab.append(replacementList.stream().map(Token::getValue).collect(Collectors.joining()));
+    }
+    ab.append("}");
+    return ab.toString();
+  }
 
-    return new PPMacro(macroName, macroParams, macroBody, vaargs != null);
+  private static String getIdentifier(AstNode root) {
+    var token = root.getFirstDescendant(PPGrammarImpl.ppToken);
+    return token.getTokenValue();
+  }
+
+  private static List<Token> getParameterList(AstNode root) {
+    var token = root.getFirstDescendant(PPGrammarImpl.parameterList);
+    return token != null ? getChildrenIdentifierTokens(token) : Collections.emptyList();
+  }
+
+  private static List<Token> getParameterList(AstNode root, AstNode variadicParameter) {
+    var token = root.getFirstDescendant(PPGrammarImpl.parameterList);
+    List<Token> parameterList = token != null ? getChildrenIdentifierTokens(token) : new ArrayList<>();
+    var optionalIdentifier = variadicParameter.getFirstChild(GenericTokenType.IDENTIFIER);
+    if (optionalIdentifier == null) { // ... only
+      parameterList.add(
+        PPGeneratedToken.build(variadicParameter.getToken(), GenericTokenType.IDENTIFIER, "__VA_ARGS__")
+      );
+    } else { // identifier ...
+      parameterList.add(optionalIdentifier.getToken());
+    }
+    return parameterList;
+  }
+
+  private static List<Token> getReplacementList(AstNode root) {
+    var token = root.getFirstDescendant(PPGrammarImpl.replacementList);
+    return token != null ? token.getTokens().subList(0, token.getTokens().size() - 1) : Collections.emptyList();
   }
 
   private static List<Token> getChildrenIdentifierTokens(AstNode identListAst) {
@@ -86,34 +144,6 @@ final class PPMacro {
       .stream()
       .map(AstNode::getToken)
       .collect(Collectors.toList());
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder ab = new StringBuilder(64);
-    ab.append("{");
-    ab.append(name);
-    if (params != null) {
-      ab.append("(");
-      ab.append(params.stream().map(Token::getValue).collect(Collectors.joining(", ")));
-      if (isVariadic) {
-        ab.append("...");
-      }
-      ab.append(")");
-    }
-    if (body != null) {
-      ab.append(":");
-      ab.append(body.stream().map(Token::getValue).collect(Collectors.joining()));
-    }
-    ab.append("}");
-    return ab.toString();
-  }
-
-  boolean checkArgumentsCount(int count) {
-    if (params != null) {
-      return isVariadic ? count >= params.size() - 1 : count == params.size();
-    }
-    return false;
   }
 
 }

@@ -150,7 +150,7 @@ public class CxxPreprocessor extends Preprocessor {
         globalMacros.putAll(unitMacros);
 
         if (LOG.isDebugEnabled()) {
-          LOG.debug("global include directories: {}", Include().getIncludeRoots());
+          LOG.debug("global include directories: {}", Include().getStandardIncludeDirs());
           LOG.debug("global macros: {}", globalMacros);
         }
       }
@@ -163,7 +163,7 @@ public class CxxPreprocessor extends Preprocessor {
         // add unit specific stuff
         boolean changes = addUnitIncludeDirectories(path);
         if (changes && LOG.isDebugEnabled()) {
-          LOG.debug("unit include directories: {}", Include().getIncludeRoots());
+          LOG.debug("unit include directories: {}", Include().getStandardIncludeDirs());
         }
         changes = addUnitMacros(path);
         changes |= addUnitForcedIncludes(path);
@@ -172,7 +172,7 @@ public class CxxPreprocessor extends Preprocessor {
         }
       } else {
         // use global include directories only
-        Include().setIncludeRoots(globalIncludeDirectories, squidConfig.getBaseDir());
+        Include().setStandardIncludeDirs(globalIncludeDirectories, squidConfig.getBaseDir());
       }
     }
   }
@@ -222,18 +222,28 @@ public class CxxPreprocessor extends Preprocessor {
     return lineAst;
   }
 
-  List<Token> tokenizeMacro(String macroName, String macroExpression) {
+  List<Token> tokenizeMacro(PPMacro macro, String macroExpression) {
     // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further replacement
     List<Token> tokens = null;
-    unitMacros.pushDisable(macroName);
+    unitMacros.pushDisable(macro.identifier);
+    try {
+      tokens = tokenize(macroExpression);
+    } finally {
+      unitMacros.popDisable();
+    }
+    return tokens;
+  }
+
+  List<Token> tokenize(String expression) {
+    // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further replacement
+    List<Token> tokens = null;
     var lexer = lineLexerwithPP.borrowLexer();
     try {
       // macros can be nested, so the expansion of macros can be called recursively.
       // Each level needs its own lexer (use a lexer pool).
-      tokens = TokenUtils.removeLastTokenIfEof(lexer.lex(macroExpression));
+      tokens = TokenUtils.removeLastTokenIfEof(lexer.lex(expression));
     } finally {
       lineLexerwithPP.returnLexer(lexer);
-      unitMacros.popDisable();
     }
     return tokens;
   }
@@ -308,19 +318,23 @@ public class CxxPreprocessor extends Preprocessor {
     String result = null;
     PPMacro macro = getMacro(macroname);
     if (macro != null) {
-      result = TokenUtils.merge(macro.body);
+      result = TokenUtils.merge(macro.replacementList);
     }
     return result;
   }
 
   public String expandFunctionLikeMacro(String macroName, List<Token> restTokens) {
     var expansion = new LinkedList<Token>();
-    replace.replaceFunctionLikeMacro(macroName, restTokens, expansion);
-    return TokenUtils.merge(expansion);
+    PPMacro macro = getMacro(macroName);
+    if (macro != null) {
+      replace.replaceFunctionLikeMacro(macro, restTokens, expansion);
+      return TokenUtils.merge(expansion);
+    }
+    return "";
   }
 
   public Boolean expandHasIncludeExpression(AstNode exprAst) {
-    return Include().findFile(exprAst) != null;
+    return Include().searchFile(exprAst) != null;
   }
 
   private void addPredefinedMacros() {
@@ -349,14 +363,14 @@ public class CxxPreprocessor extends Preprocessor {
   private void addGlobalIncludeDirectories() {
     globalIncludeDirectories = squidConfig.getValues(CxxSquidConfiguration.GLOBAL,
                                                      CxxSquidConfiguration.INCLUDE_DIRECTORIES);
-    Include().setIncludeRoots(globalIncludeDirectories, squidConfig.getBaseDir());
+    Include().setStandardIncludeDirs(globalIncludeDirectories, squidConfig.getBaseDir());
   }
 
   private boolean addUnitIncludeDirectories(String level) {
     List<String> unitIncludeDirectories = squidConfig.getLevelValues(level, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
     boolean hasUnitIncludes = !unitIncludeDirectories.isEmpty();
     unitIncludeDirectories.addAll(globalIncludeDirectories);
-    Include().setIncludeRoots(unitIncludeDirectories, squidConfig.getBaseDir());
+    Include().setStandardIncludeDirs(unitIncludeDirectories, squidConfig.getBaseDir());
     return hasUnitIncludes;
   }
 
@@ -407,7 +421,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (!define.isBlank()) {
         PPMacro macro = parseMacroDefinition("#define " + define);
         if (macro != null) {
-          result.put(macro.name, macro);
+          result.put(macro.identifier, macro);
         }
       }
     }
@@ -503,7 +517,7 @@ public class CxxPreprocessor extends Preprocessor {
     if (!State().skipTokens()) {
       // Here we have a define directive. Parse it and store the macro in a dictionary.
       PPMacro macro = PPMacro.create(ast);
-      unitMacros.put(macro.name, macro);
+      unitMacros.put(macro.identifier, macro);
     }
 
     return oneConsumedToken(token);
@@ -562,14 +576,14 @@ public class CxxPreprocessor extends Preprocessor {
       List<Token> replTokens = new LinkedList<>();
       var tokensConsumed = 0;
 
-      if (macro.params == null) {
+      if (macro.parameterList == null) {
         tokensConsumed = 1;
-        replTokens = new LinkedList<>(replace.replaceObjectLikeMacro(
-          macro.name, TokenUtils.merge(PPConcatenation.concatenate(macro.body)))
+        replTokens = new LinkedList<>(replace.replaceObjectLikeMacro(macro, TokenUtils.merge(PPConcatenation
+                                                                     .concatenate(macro.replacementList)))
         );
       } else {
-        int tokensConsumedMatchingArgs = replace.replaceFunctionLikeMacro(
-          macro.name, tokens.subList(1, tokens.size()), replTokens
+        int tokensConsumedMatchingArgs = replace.replaceFunctionLikeMacro(macro, tokens.subList(1, tokens.size()),
+                                                                          replTokens
         );
         if (tokensConsumedMatchingArgs > 0) {
           tokensConsumed = 1 + tokensConsumedMatchingArgs;
@@ -580,7 +594,7 @@ public class CxxPreprocessor extends Preprocessor {
 
         // Rescanning to expand function like macros, in case it requires consuming more tokens
         List<Token> outTokens = new LinkedList<>();
-        unitMacros.pushDisable(macro.name);
+        unitMacros.pushDisable(macro.identifier);
         while (!replTokens.isEmpty()) {
           var c = replTokens.get(0);
           PreprocessorAction action = PreprocessorAction.NO_OPERATION;

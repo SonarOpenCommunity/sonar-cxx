@@ -69,14 +69,14 @@ class PPIncludeTest {
   @Test
   void testFindIncludedFileQuoted() {
     AstNode ast = lineParser.parse("#include " + "\"" + foo.toAbsolutePath().toString() + "\"");
-    File result = include.findFile(ast);
+    File result = include.searchFile(ast);
     assertThat(result).isEqualTo(foo.toFile());
   }
 
   @Test
   void testFindIncludedFileBracketed() {
     AstNode ast = lineParser.parse("#include " + "<" + foo.toAbsolutePath().toString() + ">");
-    File result = include.findFile(ast);
+    File result = include.searchFile(ast);
     assertThat(result).isEqualTo(foo.toFile());
   }
 
@@ -90,10 +90,10 @@ class PPIncludeTest {
     include = new PPInclude(pp, new File("src/test/resources/codeprovider/dummy.cpp"));
     String path = expected1.getAbsolutePath();
 
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected1);
-    assertThat(include.getSourceCodeFile(path, false)).isEqualTo(expected1);
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected1);
-    assertThat(include.getSourceCodeFile(path, false)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, true)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, false)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, true)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, false)).isEqualTo(expected1);
   }
 
   // ////////////////////////////////////////////////////////////////////////////
@@ -110,11 +110,11 @@ class PPIncludeTest {
 
     var includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
-    include.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
+    include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
     var path = "source.hh";
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected1);
-    assertThat(include.getSourceCodeFile(path, false)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, true)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, false)).isEqualTo(expected1);
   }
 
   @Test
@@ -123,11 +123,11 @@ class PPIncludeTest {
 
     var includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
-    include.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
+    include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
     var path = "source";
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected2);
-    assertThat(include.getSourceCodeFile(path, false)).isEqualTo(expected2);
+    assertThat(include.searchFile(path, true)).isEqualTo(expected2);
+    assertThat(include.searchFile(path, false)).isEqualTo(expected2);
   }
 
   @Test
@@ -136,11 +136,11 @@ class PPIncludeTest {
 
     var includeRoot = Paths.get("resources/codeprovider").toString();
     String baseDir = new File("src/test").getAbsolutePath();
-    include.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
+    include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
     var path = "source.hh";
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected1);
-    assertThat(include.getSourceCodeFile(path, false)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, true)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, false)).isEqualTo(expected1);
   }
 
   @Test
@@ -149,11 +149,11 @@ class PPIncludeTest {
 
     var includeRoot = Paths.get("resources/codeprovider").toString();
     String baseDir = new File("src/test").getAbsolutePath();
-    include.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
+    include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
     var path = "source";
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected2);
-    assertThat(include.getSourceCodeFile(path, false)).isEqualTo(expected2);
+    assertThat(include.searchFile(path, true)).isEqualTo(expected2);
+    assertThat(include.searchFile(path, false)).isEqualTo(expected2);
   }
 
   @Test
@@ -162,11 +162,11 @@ class PPIncludeTest {
 
     var includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
-    include.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
+    include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
     var path = "codeprovider/source.hh";
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected1);
-    assertThat(include.getSourceCodeFile(path, false)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, true)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, false)).isEqualTo(expected1);
   }
 
   @Test
@@ -175,11 +175,11 @@ class PPIncludeTest {
 
     var includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
-    include.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
+    include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
     var path = "codeprovider/source";
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected2);
-    assertThat(include.getSourceCodeFile(path, false)).isEqualTo(expected2);
+    assertThat(include.searchFile(path, true)).isEqualTo(expected2);
+    assertThat(include.searchFile(path, false)).isEqualTo(expected2);
   }
 
   @Test
@@ -188,11 +188,11 @@ class PPIncludeTest {
 
     var includeRoot = Paths.get("resources").toString();
     String baseDir = new File("src/test").getAbsolutePath();
-    include.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
+    include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
     var path = "codeprovider/source.hh";
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected1);
-    assertThat(include.getSourceCodeFile(path, false)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, true)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, false)).isEqualTo(expected1);
   }
 
   @Test
@@ -201,11 +201,11 @@ class PPIncludeTest {
 
     var includeRoot = Paths.get("resources").toString();
     String baseDir = new File("src/test").getAbsolutePath();
-    include.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
+    include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
     var path = "codeprovider/source";
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected2);
-    assertThat(include.getSourceCodeFile(path, false)).isEqualTo(expected2);
+    assertThat(include.searchFile(path, true)).isEqualTo(expected2);
+    assertThat(include.searchFile(path, false)).isEqualTo(expected2);
   }
 
   // ////////////////////////////////////////////////////////////////////////////
@@ -216,8 +216,8 @@ class PPIncludeTest {
     include = new PPInclude(pp, new File("src/test/resources/codeprovider/dummy.cpp"));
 
     var path = "source.hh";
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected1);
-    assertThat(include.getSourceCodeFile(path, false)).isNull();
+    assertThat(include.searchFile(path, true)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, false)).isNull();
   }
 
   @Test
@@ -225,8 +225,8 @@ class PPIncludeTest {
     include = new PPInclude(pp, new File("src/test/resources/dummy.cpp"));
 
     var path = "codeprovider/source.hh";
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected1);
-    assertThat(include.getSourceCodeFile(path, false)).isNull();
+    assertThat(include.searchFile(path, true)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, false)).isNull();
   }
 
   @Test
@@ -234,8 +234,8 @@ class PPIncludeTest {
     include = new PPInclude(pp, new File("src/test/resources/codeprovider/folder/dummy.cpp"));
 
     var path = "../source.hh";
-    assertThat(include.getSourceCodeFile(path, true)).isEqualTo(expected1);
-    assertThat(include.getSourceCodeFile(path, false)).isNull();
+    assertThat(include.searchFile(path, true)).isEqualTo(expected1);
+    assertThat(include.searchFile(path, false)).isNull();
   }
 
   @Test
