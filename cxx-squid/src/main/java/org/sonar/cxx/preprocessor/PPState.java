@@ -26,9 +26,9 @@ import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PPState {
+public final class PPState {
 
-  private Deque<StateItem> ppState = new ArrayDeque<>();
+  private final Deque<StateItem> stack = new ArrayDeque<>();
 
   private PPState() {
 
@@ -42,55 +42,55 @@ public class PPState {
   }
 
   public File getContextFile() {
-    return ppState.peekLast().getFile();
+    return stack.peekLast().getFile();
   }
 
   public Deque<StateItem> getStack() {
-    return ppState;
+    return stack;
   }
 
   public void pushFileState(@Nonnull File currentFile) {
     Objects.requireNonNull(currentFile, "currentFile can' be null");
-    ppState.push(new StateItem(currentFile));
+    stack.push(new StateItem(currentFile));
   }
 
   public void popFileState() {
-    ppState.pop();
+    stack.pop();
   }
 
   public void setSkipTokens(boolean state) {
-    ppState.peek().skipToken = state;
+    stack.peek().skipToken = state;
   }
 
   public boolean skipTokens() {
-    return ppState.peek().skipToken;
+    return stack.peek().skipToken;
   }
 
   public void setConditionValue(boolean state) {
-    ppState.peek().condition = state;
+    stack.peek().condition = state;
   }
 
   public boolean ifLastConditionWasFalse() {
-    return !ppState.peek().condition;
+    return !stack.peek().condition;
   }
 
   public void changeNestingDepth(int dir) {
-    ppState.peek().nestingDepth += dir;
+    stack.peek().nestingDepth += dir;
   }
 
   public boolean isInsideNestedBlock() {
-    return ppState.peek().nestingDepth > 0;
+    return stack.peek().nestingDepth > 0;
   }
 
   public File getFileUnderAnalysis() {
-    return ppState.peek().getFile();
+    return stack.peek().getFile();
   }
 
   public String getFileUnderAnalysisPath() {
-    return ppState.peek().getFile().getAbsolutePath();
+    return stack.peek().getFile().getAbsolutePath();
   }
 
-  public static class StateItem {
+  public final static class StateItem {
 
     private boolean skipToken;
     private boolean condition;
