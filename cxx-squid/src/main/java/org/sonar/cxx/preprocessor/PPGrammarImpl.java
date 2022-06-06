@@ -48,7 +48,7 @@ enum PPGrammarImpl implements GrammarRuleKey {
   replacementList,
   argumentList,
   parameterList,
-  variadicparameter,
+  variadicParameter,
   ppToken,
   ifLine,
   elifLine,
@@ -145,22 +145,20 @@ enum PPGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(functionlikeMacroDefinition).is(
-      b.firstOf(
-        b.sequence(PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), b.optional(parameterList), b
+    b.rule(functionlikeMacroDefinition).is(b.firstOf(b.sequence(PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), b.optional(parameterList), b
                    .zeroOrMore(WS),
                    ")", b.optional(b.sequence(b.zeroOrMore(WS), replacementList))),
-        b.sequence(PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), variadicparameter, b
+        b.sequence(PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), variadicParameter, b
                    .zeroOrMore(WS), ")", b
                    .optional(b.sequence(b.zeroOrMore(WS), replacementList))),
         b.sequence(PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), parameterList, b.zeroOrMore(WS),
                    ",", b
-                     .zeroOrMore(WS), variadicparameter, b.zeroOrMore(WS), ")", b.optional(b.sequence(b.zeroOrMore(WS),
+                     .zeroOrMore(WS), variadicParameter, b.zeroOrMore(WS), ")", b.optional(b.sequence(b.zeroOrMore(WS),
                                                                                                       replacementList)))
       )
     );
 
-    b.rule(variadicparameter).is(
+    b.rule(variadicParameter).is(
       b.optional(IDENTIFIER), b.zeroOrMore(WS), "..."
     );
 

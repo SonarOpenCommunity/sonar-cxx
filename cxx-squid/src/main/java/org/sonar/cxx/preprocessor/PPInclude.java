@@ -42,6 +42,14 @@ import org.apache.commons.io.input.BOMInputStream;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
+/**
+ * Includes other source file into current source file at the line immediately after the directive.
+ * <code>
+ * #include < h-char-sequence > new-line (1)
+ * #include " q-char-sequence " new-line (2)
+ * #include pp-tokens new-line (3)
+ * </code>
+ */
 public class PPInclude {
 
   private static final Logger LOG = Loggers.get(PPInclude.class);
@@ -50,7 +58,7 @@ public class PPInclude {
   private final CxxPreprocessor pp;
   private final Lexer fileLexer;
   private final Set<File> analysedFiles = new HashSet<>();
-  private final List<Path> includeRoots = new ArrayList<>();
+  private final List<Path> standardIncludeDirs = new ArrayList<>();
   private final PPState state;
 
   public PPInclude(CxxPreprocessor pp, @Nonnull File contextFile) {
@@ -63,7 +71,14 @@ public class PPInclude {
     return state;
   }
 
-  public void setIncludeRoots(List<String> roots, String baseDir) {
+  /**
+   * Define the standard include directories for form (1).
+   *
+   * Hints:
+   * - in case directories are relative, they are made absolute to baseDir
+   * - directories that do not exist are not included in the list to optimize the subsequent search
+   */
+  public void setStandardIncludeDirs(List<String> roots, String baseDir) {
     for (var root : roots) {
       var path = Paths.get(root);
       try {
@@ -73,7 +88,7 @@ public class PPInclude {
         path = path.toRealPath(); // IOException if the file does not exist
 
         if (Files.isDirectory(path)) {
-          includeRoots.add(path);
+          standardIncludeDirs.add(path);
         } else {
           LOG.warn("preprocessor: invalid include file directory '{}'", path.toString());
         }
@@ -83,8 +98,8 @@ public class PPInclude {
     }
   }
 
-  public List<Path> getIncludeRoots() {
-    return includeRoots;
+  public List<Path> getStandardIncludeDirs() {
+    return standardIncludeDirs;
   }
 
   /**
@@ -92,7 +107,7 @@ public class PPInclude {
    * lexer, which calls back only if it finds relevant preprocessor directives (#...).
    */
   public void handleFile(AstNode ast, Token token) {
-    File includeFile = findFile(ast);
+    File includeFile = PPInclude.this.searchFile(ast);
     if (includeFile == null) {
       missingFileCounter++;
       String rootFilePath = State().getFileUnderAnalysisPath();
@@ -112,10 +127,10 @@ public class PPInclude {
   }
 
   /**
-   * Extract the filename out of the include body and try to open the file.
+   * Searches for a header and returns the file containing the contents of the header (from AST).
    */
   @CheckForNull
-  public File findFile(AstNode ast) {
+  public File searchFile(AstNode ast) {
     AstNode includeBody = ast.getFirstDescendant(
       PPGrammarImpl.includeBody,
       PPGrammarImpl.expandedIncludeBody
@@ -125,77 +140,57 @@ public class PPInclude {
       var quoted = false;
       includeBody = includeBody.getFirstChild();
       switch ((PPGrammarImpl) includeBody.getType()) {
-        case includeBodyQuoted:
+        case includeBodyBracketed: // (1)
+          filename = includeBodyBracketed(includeBody);
+          break;
+        case includeBodyQuoted: // (2)
           filename = includeBodyQuoted(includeBody);
           quoted = true;
           break;
-        case includeBodyBracketed:
-          filename = includeBodyBracketed(includeBody);
-          break;
-        case includeBodyFreeform:
+        case includeBodyFreeform: // (3)
           return includeBodyFreeform(includeBody);
         default:
           break;
       }
 
       if (filename != null) {
-        return getSourceCodeFile(filename, quoted);
+        return searchFile(filename, quoted);
       }
     }
 
     return null;
   }
 
+  /**
+   * Searches for a header and returns the file containing the contents of the header (from filename).
+   *
+   * Typical implementations search only standard include directories for syntax (1). The standard C++ library and the
+   * standard C library are implicitly included in these standard include directories. The standard include directories
+   * usually can be controlled by the user through compiler options.
+   *
+   * The intent of syntax (2) is to search for the files that are not controlled by the implementation. Typical
+   * implementations first search the directory where the current file resides then falls back to (1).
+   *
+   * search order:
+   * - Absolute path names are used without modification. Only the specified path is searched.
+   * - if quoted, search quoted (fallback bracketed form)
+   * - search bracketed form
+   */
   @CheckForNull
-  public File getSourceCodeFile(String filename, boolean quoted) {
+  public File searchFile(String filename, boolean quoted) {
     File result = null;
     var file = new File(filename);
 
-    // If the file name is fully specified for an include file that has a path that includes a colon
-    // (for example F:\MSVC\SPECIAL\INCL\TEST.H) the preprocessor follows the path.
     if (file.isAbsolute()) {
       if (file.isFile()) {
         result = file;
       }
     } else {
       if (quoted) {
-        // Quoted form: The preprocessor searches for include files in this order:
-        String cwd = State().getFileUnderAnalysis().getParent();
-        if (cwd == null) {
-          cwd = ".";
-        }
-        var abspath = new File(new File(cwd), file.getPath());
-        if (abspath.isFile()) {
-          // 1) In the same directory as the file that contains the #include statement.
-          result = abspath;
-        } else {
-          result = null; // 3) fallback to use include paths instead of local folder
-
-          // 2) In the directories of the currently opened include files, in the reverse order in which they were opened.
-          //    The search begins in the directory of the parent include file and continues upward through the
-          //    directories of any grandparent include files.
-          for (var parent : State().getStack()) {
-            if (parent.getFile() != State().getContextFile()) {
-              abspath = new File(parent.getFile().getParentFile(), file.getPath());
-              if (abspath.exists()) {
-                result = abspath;
-                break;
-              }
-            }
-          }
-        }
+        result = searchQuoted(file);
       }
-
-      // Angle-bracket form: lookup relative to to the include roots.
-      // The quoted case falls back to this, if its special handling wasn't successful.
       if (result == null) {
-        for (var path : includeRoots) {
-          var abspath = path.resolve(filename);
-          if (Files.isRegularFile(abspath)) {
-            result = abspath.toFile();
-            break;
-          }
-        }
+        result = searchBracketed(filename, result);
       }
     }
 
@@ -210,6 +205,64 @@ public class PPInclude {
     return result;
   }
 
+  /**
+   * (1) Search bracketed filename.
+   *
+   * Search The named source file in the standard include directories in the defined order.
+   */
+  private File searchBracketed(String filename, File result) {
+    for (var path : standardIncludeDirs) {
+      var abspath = path.resolve(filename);
+      if (Files.isRegularFile(abspath)) {
+        result = abspath.toFile();
+        break;
+      }
+    }
+    return result;
+  }
+
+  /**
+   * (2) Search quoted filename.
+   *
+   * The named source file is searched for in an implementation-defined manner. If this search is not supported, or if
+   * the search fails, the directive is reprocessed as if it reads syntax (1) with the identical contained sequence
+   * (including > characters, if any) from the original directive.
+   *
+   * Searches for include files in this order:
+   * 1. In the same directory as the file that contains the #include statement.
+   * 2. In the directories of the currently opened include files, in the reverse order in which they were opened. The
+   * search begins in the directory of the parent include file and continues upward through the directories of any
+   * grandparent include files.
+   * 3. Fallback to use standard include directories of bracketed form (1).
+   */
+  private File searchQuoted(File file) {
+    File result;
+    String cwd = State().getFileUnderAnalysis().getParent();
+    if (cwd == null) {
+      cwd = ".";
+    }
+    var abspath = new File(new File(cwd), file.getPath());
+    if (abspath.isFile()) {
+      result = abspath;
+    } else {
+      result = null;
+
+      for (var parent : State().getStack()) {
+        if (parent.getFile() != State().getContextFile()) {
+          abspath = new File(parent.getFile().getParentFile(), file.getPath());
+          if (abspath.exists()) {
+            result = abspath;
+            break;
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Returns the contents of the source file.
+   */
   public String getSourceCode(File file, Charset defaultCharset) throws IOException {
     try (var bomInputStream = new BOMInputStream(new FileInputStream(file),
                                              ByteOrderMark.UTF_8,
@@ -233,15 +286,7 @@ public class PPInclude {
   }
 
   /**
-   * Quoted: Extract the filename out of the include body.
-   */
-  private String includeBodyQuoted(AstNode includeBody) {
-    String value = includeBody.getFirstChild().getTokenValue();
-    return value.substring(1, value.length() - 1);
-  }
-
-  /**
-   * Bracketed: Extract the filename out of the include body.
+   * (1) Bracketed: get filename.
    */
   private String includeBodyBracketed(AstNode includeBody) {
     var next = includeBody.getFirstDescendant(PPPunctuator.LT).getNextSibling();
@@ -259,18 +304,29 @@ public class PPInclude {
   }
 
   /**
-   * Freeform: Pipe the body of the include directive through a lexer to properly expand all macros
-   * which may be in there. Extract the filename out of the resulting include body then.
+   * (2) Quoted: get filename.
+   */
+  private String includeBodyQuoted(AstNode includeBody) {
+    String value = includeBody.getFirstChild().getTokenValue();
+    return value.substring(1, value.length() - 1);
+  }
+
+  /**
+   * (3) Freeform: The preprocessing tokens after include in the directive are processed just as in normal text (i.e.,
+   * each identifier currently defined as a macro name is replaced by its replacement list of preprocessing tokens). If
+   * the directive resulting after all replacements does not match one of the two previous forms, the behavior is
+   * undefined. The method by which a sequence of preprocessing tokens between a < and a > preprocessing token pair or a
+   * pair of " characters is combined into a single header name preprocessing token is implementation-defined.
    */
   @CheckForNull
   private File includeBodyFreeform(AstNode includeBody) {
     String macro = TokenUtils.merge(includeBody.getTokens(), "");
-    String filename = TokenUtils.merge(pp.tokenizeMacro("", macro), "");
+    String filename = TokenUtils.merge(pp.tokenize(macro), "");
     AstNode astNode = pp.lineParser("#include " + filename);
     if ((astNode == null) || (astNode.getFirstDescendant(PPGrammarImpl.includeBodyFreeform) != null)) {
       return null; // stop evaluation if result is again freeform
     }
-    return findFile(astNode);
+    return searchFile(astNode);
   }
 
 }

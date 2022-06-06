@@ -435,7 +435,7 @@ class CxxLexerWithPreprocessingTest {
     when(context.getFile()).thenReturn(file);
     var pp = spy(new CxxPreprocessor(context, new CxxSquidConfiguration()));
     var include = spy(new PPInclude(pp, file));
-    when(include.getSourceCodeFile(anyString(), eq(false))).thenReturn(new File("file"));
+    when(include.searchFile(anyString(), eq(false))).thenReturn(new File("file"));
     doReturn("#define A B\n").when(include).getSourceCode(any(), any());
     when(pp.Include()).thenReturn(include);
 
@@ -748,7 +748,7 @@ class CxxLexerWithPreprocessingTest {
 
     var pp = spy(new CxxPreprocessor(context, squidConfig));
     var include = spy(new PPInclude(pp, forceIncludeFile));
-    when(include.getSourceCodeFile(anyString(), anyBoolean())).thenReturn(forceIncludeFile);
+    when(include.searchFile(anyString(), anyBoolean())).thenReturn(forceIncludeFile);
     doReturn("#define __LINE__ 345\n").when(include).getSourceCode(any(), any());
     when(pp.Include()).thenReturn(include);
 

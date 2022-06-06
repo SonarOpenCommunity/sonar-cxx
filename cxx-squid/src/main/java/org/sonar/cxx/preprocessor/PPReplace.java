@@ -36,7 +36,7 @@ import org.sonar.cxx.parser.CxxTokenType;
 class PPReplace {
 
   private static final Logger LOG = Loggers.get(PPReplace.class);
-  private CxxPreprocessor pp;
+  private final CxxPreprocessor pp;
 
   PPReplace(CxxPreprocessor pp) {
     this.pp = pp;
@@ -48,9 +48,9 @@ class PPReplace {
    * Object-like macros replace every occurrence of defined identifier with replacement-list. Version (1) of the #define
    * directive behaves exactly like that.
    */
-  List<Token> replaceObjectLikeMacro(String macroName, String macroExpression) {
+  List<Token> replaceObjectLikeMacro(PPMacro macro, String macroExpression) {
     // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further replacement
-    List<Token> tokens = pp.tokenizeMacro(macroName, macroExpression);
+    List<Token> tokens = pp.tokenizeMacro(macro, macroExpression);
 
     // make sure that all expanded Tokens are marked as generated it will prevent them from being involved into
     // NCLOC / complexity / highlighting
@@ -64,17 +64,16 @@ class PPReplace {
    * Function-like macros replace each occurrence of defined identifier with replacement-list, additionally taking a
    * number of arguments, which then replace corresponding occurrences of any of the parameters in the replacement-list.
    */
-  int replaceFunctionLikeMacro(String macroName, List<Token> restTokens, List<Token> expansion) {
+  int replaceFunctionLikeMacro(PPMacro macro, List<Token> restTokens, List<Token> expansion) {
     List<Token> arguments = new ArrayList<>();
     int tokensConsumedMatchingArgs = matchArguments(restTokens, arguments);
 
-    PPMacro macro = pp.getMacro(macroName);
-    if (macro != null && macro.checkArgumentsCount(arguments.size())) {
-      if (arguments.size() > macro.params.size()) {
+    if (macro.checkArgumentsCount(arguments.size())) {
+      if (arguments.size() > macro.parameterList.size()) {
         // group all arguments into the last one (__VA_ARGS__)
-        List<Token> vaargs = arguments.subList(macro.params.size() - 1, arguments.size());
+        List<Token> vaargs = arguments.subList(macro.parameterList.size() - 1, arguments.size());
         var firstToken = vaargs.get(0);
-        arguments = arguments.subList(0, macro.params.size() - 1);
+        arguments = arguments.subList(0, macro.parameterList.size() - 1);
         arguments.add(Token.builder()
           .setLine(firstToken.getLine())
           .setColumn(firstToken.getColumn())
@@ -83,9 +82,9 @@ class PPReplace {
           .setType(CxxTokenType.STRING)
           .build());
       }
-      List<Token> replTokens = replaceParams(macro.body, macro.params, arguments);
+      List<Token> replTokens = replaceParams(macro.replacementList, macro.parameterList, arguments);
       replTokens = PPConcatenation.concatenate(replTokens);
-      expansion.addAll(replaceObjectLikeMacro(macro.name, TokenUtils.merge(replTokens)));
+      expansion.addAll(replaceObjectLikeMacro(macro, TokenUtils.merge(replTokens)));
     }
 
     return tokensConsumedMatchingArgs;
@@ -97,14 +96,12 @@ class PPReplace {
     if ((size < 1) || !"(".equals(tokens.get(0).getValue())) {
       return 0;
     }
-    // split arguments ','
+    // split arguments: ( a, b, c ) => a b c
     var endOfArgument = false;
     var nestingLevel = -1;
     var fromIndex = 0;
     for (var i = 0; i < size; i++) {
-      var token = tokens.get(i);
-      var tokenValue = token.getValue();
-      switch (tokenValue) {
+      switch (tokens.get(i).getValue()) {
         case "(":
           nestingLevel++;
           break;
@@ -149,6 +146,11 @@ class PPReplace {
 
     LOG.error("preprocessor 'matchArguments' error, missing ')': {}", tokens.toString());
     return 0;
+  }
+
+  private List<Token> replaceExpresson(String macroExpression) {
+    List<Token> tokens = pp.tokenize(macroExpression);
+    return PPGeneratedToken.markAllAsGenerated(tokens);
   }
 
   private List<Token> replaceParams(List<Token> body, List<Token> parameters, List<Token> arguments) {
@@ -230,8 +232,8 @@ class PPReplace {
               newTokens.remove(newTokens.size() - 1);
               newValue = PPStringification.stringify(replacement.getValue());
             } else {
-              // otherwise the arguments have to be fully expanded before expanding the body of the macro
-              newValue = TokenUtils.merge(replaceObjectLikeMacro("", replacement.getValue()));
+              // otherwise the arguments have to be fully expanded before expanding the replacementList of the macro
+              newValue = TokenUtils.merge(replaceExpresson(replacement.getValue()));
             }
           }
 
@@ -254,7 +256,7 @@ class PPReplace {
       }
     }
 
-    // replace # with "" if sequence HASH BR occurs for body HASH __VA_ARGS__
+    // replace # with "" if sequence HASH BR occurs for replacementList HASH __VA_ARGS__
     if (newTokens.size() > 3 && newTokens.get(newTokens.size() - 2).getType().equals(PPPunctuator.HASH)
           && newTokens.get(newTokens.size() - 1).getType().equals(PPPunctuator.BR_RIGHT)) {
       for (var n = newTokens.size() - 2; n != 0; n--) {
@@ -275,8 +277,11 @@ class PPReplace {
   }
 
   /**
-   * Replacement-list may contain the token sequence __VA_OPT__ ( content ), which is replaced by
-   * content if __VA_ARGS__is non-empty, and expands to nothing otherwise.
+   * Replacement-list may contain the token sequence __VA_OPT__ ( content ). __VA_OPT__ ( content ) macro may only
+   * appear in the definition of a variadic macro. If the variable argument has any tokens, then a __VA_OPT__ invocation
+   * expands to its argument; but if the variable argument does not have any tokens, the __VA_OPT__ expands to nothing.
+   *
+   * @param keep true means expand, false remove
    *
    * <code>
    * va-opt-replacement:
@@ -288,21 +293,16 @@ class PPReplace {
     var lastIndex = -1;
     var brackets = 0;
 
-    for (var i = 0; i < tokens.size(); i++) {
-      switch (tokens.get(i).getValue()) {
-        case "(":
-          brackets++;
-          break;
-        case ")":
-          brackets--;
-          break;
-      }
-      if (brackets > 0) {
+    for (int i = 0; i < tokens.size(); i++) {
+      var value = tokens.get(i).getValue();
+      if ("(".equals(value)) {
+        brackets++;
         if (firstIndex == -1) {
           firstIndex = i;
         }
-      } else {
-        if (firstIndex != -1 && lastIndex == -1) {
+      } else if (")".equals(value)) {
+        brackets--;
+        if (brackets == 0) {
           lastIndex = i;
           break;
         }
@@ -315,7 +315,7 @@ class PPReplace {
         tokens.subList(lastIndex, lastIndex + 1).clear();
         tokens.subList(0, firstIndex).clear();
       } else {
-        // remove from body:  __VA_OPT__ ( pp-tokensopt )
+        // remove from replacementList:  __VA_OPT__ ( pp-tokensopt )
         tokens.subList(firstIndex - 1, lastIndex + 1).clear();
       }
     }

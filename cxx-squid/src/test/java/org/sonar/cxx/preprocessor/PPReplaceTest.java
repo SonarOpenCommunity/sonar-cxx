@@ -41,7 +41,7 @@ class PPReplaceTest {
   @BeforeEach
   void setUp() {
     var context = mock(SquidAstVisitorContext.class);
-    when(context.getFile()).thenReturn(new File("dummy")); // necessary for init
+    when(context.getFile()).thenReturn(new File("dummy")); // necessary for pp init
     pp = spy(new CxxPreprocessor(context));
     pp.init();
     lexer = PPLexer.create();
@@ -50,9 +50,8 @@ class PPReplaceTest {
 
   @Test
   void testReplaceObjectLikeMacro() {
-    String macroName = "SAMPLE";
-    String macroExpression = "__LINE__";
-    List<Token> result = replace.replaceObjectLikeMacro(macroName, macroExpression);
+    PPMacro macro = pp.parseMacroDefinition("#define DUMMY"); // only necessary to call replaceObjectLikeMacro
+    List<Token> result = replace.replaceObjectLikeMacro(macro, "__LINE__");
     assertThat(result)
       .hasSize(1)
       .matches(t -> "1".equals(t.get(0).getValue()));
@@ -62,10 +61,9 @@ class PPReplaceTest {
   void testReplaceFunctionLikeMacro() {
     List<Token> args = lexer.lex("(1, 2)");
     PPMacro macro = pp.parseMacroDefinition("#define TEST(a, b) a+b");
-    when(pp.getMacro(macro.name)).thenReturn(macro);
 
     var result = new ArrayList<Token>();
-    int num = replace.replaceFunctionLikeMacro(macro.name, args, result);
+    int num = replace.replaceFunctionLikeMacro(macro, args, result);
     assertThat(result)
       .hasSize(3)
       .matches(t -> "1".equals(t.get(0).getValue()))

@@ -41,12 +41,12 @@ class PPMacroTest {
     AstNode lineAst = lineParser.parse("#define MACRO(P1, P2) REPLACEMENT_LIST");
     PPMacro result = PPMacro.create(lineAst);
 
-    assertThat(result.name).isEqualTo("MACRO");
-    assertThat(result.params)
+    assertThat(result.identifier).isEqualTo("MACRO");
+    assertThat(result.parameterList)
       .hasSize(2)
       .matches(t -> "P1".equals(t.get(0).getValue()))
       .matches(t -> "P2".equals(t.get(1).getValue()));
-    assertThat(result.body)
+    assertThat(result.replacementList)
       .hasSize(1)
       .matches(t -> "REPLACEMENT_LIST".equals(t.get(0).getValue()));
     assertThat(result.isVariadic).isFalse();
@@ -59,11 +59,11 @@ class PPMacroTest {
     AstNode lineAst = lineParser.parse("#define MACRO(...) REPLACEMENT_LIST");
     PPMacro result = PPMacro.create(lineAst);
 
-    assertThat(result.name).isEqualTo("MACRO");
-    assertThat(result.params)
+    assertThat(result.identifier).isEqualTo("MACRO");
+    assertThat(result.parameterList)
       .hasSize(1)
       .matches(t -> "__VA_ARGS__".equals(t.get(0).getValue()));
-    assertThat(result.body)
+    assertThat(result.replacementList)
       .hasSize(1)
       .matches(t -> "REPLACEMENT_LIST".equals(t.get(0).getValue()));
     assertThat(result.isVariadic).isTrue();
